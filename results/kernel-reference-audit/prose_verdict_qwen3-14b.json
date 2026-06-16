@@ -251,13 +251,35 @@
           "label_frac": 0.2069,
           "top_crystal_op": "K",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.2069,
+            "I": 0.0345,
+            "B": 0.0,
+            "C": 0.0345,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.1034,
           "top_crystal_op": "K",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.1034,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -269,13 +291,35 @@
           "label_frac": 0.0345,
           "top_crystal_op": "I",
           "recall_hit": true,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0345,
+            "I": 0.1034,
+            "B": 0.0,
+            "C": 0.0345,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0345,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": null,
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -287,13 +331,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "Y",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0345,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.1379,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.2414,
+            "WHNF": 0.1379
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0345,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -305,13 +371,35 @@
           "label_frac": 0.1724,
           "top_crystal_op": "K",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.1724,
+            "I": 0.0,
+            "B": 0.069,
+            "C": 0.0,
+            "S": 0.0345,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": null,
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -323,13 +411,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "I",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.1034,
+            "B": 0.0,
+            "C": 0.069,
+            "S": 0.0345,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": null,
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -341,13 +451,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "I",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.2069,
+            "B": 0.0345,
+            "C": 0.1379,
+            "S": 0.0,
+            "D": 0.1034,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": null,
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -359,13 +491,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "I",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0345,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0345,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": null,
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -377,13 +531,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "I",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.1724,
+            "B": 0.0345,
+            "C": 0.0,
+            "S": 0.0345,
+            "D": 0.0345,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "B",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0345,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -395,13 +571,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "I",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.1034,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0345,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "I",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0345,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -413,13 +611,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "I",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.4138,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0345,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0345
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "I",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0345,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -431,13 +651,35 @@
           "label_frac": 0.0345,
           "top_crystal_op": "Y",
           "recall_hit": true,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0345,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.2069,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.2414,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.069,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0345,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -449,13 +691,35 @@
           "label_frac": 0.0345,
           "top_crystal_op": "Y",
           "recall_hit": true,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0345,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.1034,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.7241,
+            "WHNF": 0.0345
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "Y",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.3103,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -467,13 +731,35 @@
           "label_frac": 0.1034,
           "top_crystal_op": "Y",
           "recall_hit": true,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.1034,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0345,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.7931,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "Y",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.5517,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -485,13 +771,35 @@
           "label_frac": 0.3103,
           "top_crystal_op": "I",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.2759,
+            "I": 0.3103,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0345,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0345
+          }
         },
         "z=3.0": {
           "label_frac": 0.1034,
           "top_crystal_op": "I",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.069,
+            "I": 0.1034,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -503,13 +811,35 @@
           "label_frac": 0.5517,
           "top_crystal_op": "I",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.5517,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.069,
+            "D": 0.0345,
+            "W": 0.0,
+            "Y": 0.0345,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.2414,
           "top_crystal_op": "I",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.2414,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0345,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -521,13 +851,35 @@
           "label_frac": 0.4138,
           "top_crystal_op": "I",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.3793,
+            "I": 0.4138,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.1724
+          }
         },
         "z=3.0": {
           "label_frac": 0.2759,
           "top_crystal_op": "K",
           "recall_hit": true,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.3103,
+            "I": 0.2759,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.1724
+          }
         }
       }
     },
@@ -539,13 +891,35 @@
           "label_frac": 0.1034,
           "top_crystal_op": "C",
           "recall_hit": true,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.069,
+            "I": 0.1034,
+            "B": 0.0345,
+            "C": 0.1724,
+            "S": 0.0345,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": null,
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -557,13 +931,35 @@
           "label_frac": 0.0345,
           "top_crystal_op": "S",
           "recall_hit": true,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.069,
+            "I": 0.0345,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.2069,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0345,
+            "WHNF": 0.0345
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0345,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -575,13 +971,35 @@
           "label_frac": 0.0345,
           "top_crystal_op": "S",
           "recall_hit": true,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0345,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.2759,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0345,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": null,
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -593,13 +1011,35 @@
           "label_frac": 0.2069,
           "top_crystal_op": "K",
           "recall_hit": true,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.3793,
+            "I": 0.2069,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.1379,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "K",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.1034,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0345,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -611,13 +1051,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.6207,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.3448,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.4483,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.2069,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -629,13 +1091,35 @@
           "label_frac": 0.0345,
           "top_crystal_op": "D",
           "recall_hit": true,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0345,
+            "B": 0.0345,
+            "C": 0.0,
+            "S": 0.1724,
+            "D": 0.4138,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0345
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "D",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0345,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -647,13 +1131,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.2069,
+            "B": 0.0,
+            "C": 0.0345,
+            "S": 0.2414,
+            "D": 0.0345,
+            "W": 0.0,
+            "Y": 0.069,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "I",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.069,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.069,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -665,13 +1171,35 @@
           "label_frac": 0.0345,
           "top_crystal_op": "I",
           "recall_hit": true,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.1379,
+            "B": 0.0345,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0345,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": null,
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -683,13 +1211,35 @@
           "label_frac": 0.0345,
           "top_crystal_op": "I",
           "recall_hit": true,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.1724,
+            "B": 0.0345,
+            "C": 0.0345,
+            "S": 0.0,
+            "D": 0.069,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": null,
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -701,13 +1251,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "I",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.2414,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": null,
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -719,13 +1291,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.6207,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.2414,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.3448,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.069,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -737,13 +1331,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0345,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.1379,
+            "D": 0.1034,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": null,
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -755,13 +1371,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "I",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.2069,
+            "I": 0.3448,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0345,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0345
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "I",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.069,
+            "I": 0.1034,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -773,13 +1411,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "I",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0345,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0345,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": null,
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -791,13 +1451,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "I",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.1379,
+            "B": 0.069,
+            "C": 0.0,
+            "S": 0.1034,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": null,
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -809,13 +1491,35 @@
           "label_frac": 0.069,
           "top_crystal_op": "I",
           "recall_hit": true,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.069,
+            "B": 0.069,
+            "C": 0.069,
+            "S": 0.0345,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": null,
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -827,13 +1531,35 @@
           "label_frac": 0.069,
           "top_crystal_op": "I",
           "recall_hit": true,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.3103,
+            "B": 0.0,
+            "C": 0.069,
+            "S": 0.0345,
+            "D": 0.1034,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "I",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0345,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -845,13 +1571,35 @@
           "label_frac": 0.069,
           "top_crystal_op": "I",
           "recall_hit": true,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.2069,
+            "B": 0.0,
+            "C": 0.069,
+            "S": 0.0,
+            "D": 0.2069,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": null,
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -863,13 +1611,35 @@
           "label_frac": 0.069,
           "top_crystal_op": "I",
           "recall_hit": true,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.069,
+            "B": 0.0345,
+            "C": 0.069,
+            "S": 0.0345,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": null,
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -881,13 +1651,35 @@
           "label_frac": 0.0345,
           "top_crystal_op": "I",
           "recall_hit": true,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.2759,
+            "B": 0.0345,
+            "C": 0.0345,
+            "S": 0.0,
+            "D": 0.069,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "I",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0345,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -899,13 +1691,35 @@
           "label_frac": 0.0345,
           "top_crystal_op": "I",
           "recall_hit": true,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.1379,
+            "B": 0.0,
+            "C": 0.0345,
+            "S": 0.1379,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0345,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "I",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0345,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -917,13 +1731,35 @@
           "label_frac": 0.0345,
           "top_crystal_op": "I",
           "recall_hit": true,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.1724,
+            "B": 0.069,
+            "C": 0.0345,
+            "S": 0.0,
+            "D": 0.1034,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "I",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.069,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -935,13 +1771,35 @@
           "label_frac": 0.1724,
           "top_crystal_op": "I",
           "recall_hit": true,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.2414,
+            "B": 0.0,
+            "C": 0.1724,
+            "S": 0.0,
+            "D": 0.0345,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "I",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.069,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -953,13 +1811,35 @@
           "label_frac": 0.069,
           "top_crystal_op": "D",
           "recall_hit": true,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.2414,
+            "B": 0.0345,
+            "C": 0.069,
+            "S": 0.0,
+            "D": 0.3103,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "D",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.069,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -971,13 +1851,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "Y",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.1034,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.3793,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.4483,
+            "WHNF": 0.069
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "Y",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.1034,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.3448,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.4138,
+            "WHNF": 0.069
+          }
         }
       }
     },
@@ -989,13 +1891,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.9655,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.7931,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -1007,13 +1931,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.1724,
+            "C": 0.0,
+            "S": 0.6207,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.069,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.1034,
+            "C": 0.0,
+            "S": 0.5517,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0345,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -1025,13 +1971,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.931,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.069,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.8966,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.069,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -1043,13 +2011,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0345,
+            "C": 0.0,
+            "S": 0.6552,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.2414,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.6207,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.2414,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -1061,13 +2051,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.8966,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.1034,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.8966,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.1034,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -1079,13 +2091,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "K",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.4138,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0345,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "K",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0345,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -1097,13 +2131,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "Y",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0345,
+            "C": 0.0,
+            "S": 0.0345,
+            "D": 0.1034,
+            "W": 0.0,
+            "Y": 0.3793,
+            "WHNF": 0.069
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "Y",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0345,
+            "W": 0.0,
+            "Y": 0.1034,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -1115,13 +2171,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.6552,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.3103,
+            "WHNF": 0.0345
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.5862,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.3103,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -1133,13 +2211,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0345,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.7586,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.1724
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.6207,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.1034
+          }
         }
       }
     },
@@ -1151,13 +2251,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 1.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 1.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -1169,13 +2291,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 1.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 1.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -1187,13 +2331,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0345,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.9655,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0345,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.9655,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -1205,13 +2371,35 @@
           "label_frac": 0.0345,
           "top_crystal_op": "S",
           "recall_hit": true,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.069,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.7586,
+            "D": 0.0345,
+            "W": 0.0,
+            "Y": 0.0345,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.4828,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -1223,13 +2411,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0345,
+            "C": 0.0,
+            "S": 0.6897,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0345,
+            "WHNF": 0.069
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.4483,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -1241,13 +2451,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0345,
+            "C": 0.0,
+            "S": 0.4828,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0345,
+            "WHNF": 0.3103
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.4138,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.2069
+          }
         }
       }
     },
@@ -1259,13 +2491,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.8621,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.1034,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.8276,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.1034,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -1277,13 +2531,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.1724,
+            "C": 0.0,
+            "S": 0.3793,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.3103
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0345,
+            "C": 0.0,
+            "S": 0.3103,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.1724
+          }
         }
       }
     },
@@ -1295,13 +2571,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "Y",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.2414,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.5517,
+            "WHNF": 0.1724
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "Y",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.1379,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.3793,
+            "WHNF": 0.1379
+          }
         }
       }
     },
@@ -1313,13 +2611,35 @@
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.3793,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.2759
+          }
         },
         "z=3.0": {
           "label_frac": 0.0,
           "top_crystal_op": "S",
           "recall_hit": false,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.1724,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -1331,13 +2651,35 @@
           "label_frac": 0.4483,
           "top_crystal_op": "Y",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.2069,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.4483,
+            "WHNF": 0.2759
+          }
         },
         "z=3.0": {
           "label_frac": 0.4138,
           "top_crystal_op": "Y",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.2069,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.4138,
+            "WHNF": 0.2414
+          }
         }
       }
     },
@@ -1349,13 +2691,35 @@
           "label_frac": 0.3793,
           "top_crystal_op": "Y",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.2414,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.3793,
+            "WHNF": 0.2759
+          }
         },
         "z=3.0": {
           "label_frac": 0.3448,
           "top_crystal_op": "Y",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.1724,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.3448,
+            "WHNF": 0.2414
+          }
         }
       }
     },
@@ -1367,13 +2731,35 @@
           "label_frac": 0.5517,
           "top_crystal_op": "Y",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.4483,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.5517,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.5517,
           "top_crystal_op": "Y",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.4483,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.5517,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -1385,13 +2771,35 @@
           "label_frac": 0.6552,
           "top_crystal_op": "Y",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.069,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.6552,
+            "WHNF": 0.2414
+          }
         },
         "z=3.0": {
           "label_frac": 0.5517,
           "top_crystal_op": "Y",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0345,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.5517,
+            "WHNF": 0.2414
+          }
         }
       }
     },
@@ -1403,13 +2811,35 @@
           "label_frac": 0.4483,
           "top_crystal_op": "Y",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0345,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.2069,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.4483,
+            "WHNF": 0.2759
+          }
         },
         "z=3.0": {
           "label_frac": 0.4138,
           "top_crystal_op": "Y",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.1379,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.4138,
+            "WHNF": 0.2069
+          }
         }
       }
     },
@@ -1421,13 +2851,35 @@
           "label_frac": 0.8276,
           "top_crystal_op": "Y",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.1379,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.8276,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.7931,
           "top_crystal_op": "Y",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0345,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.7931,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -1439,13 +2891,35 @@
           "label_frac": 0.7931,
           "top_crystal_op": "Y",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0345,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.7931,
+            "WHNF": 0.0345
+          }
         },
         "z=3.0": {
           "label_frac": 0.7586,
           "top_crystal_op": "Y",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.0,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.7586,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -1457,13 +2931,35 @@
           "label_frac": 0.5862,
           "top_crystal_op": "Y",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.2069,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.5862,
+            "WHNF": 0.1034
+          }
         },
         "z=3.0": {
           "label_frac": 0.5517,
           "top_crystal_op": "Y",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.2069,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.5517,
+            "WHNF": 0.069
+          }
         }
       }
     },
@@ -1475,13 +2971,35 @@
           "label_frac": 0.1379,
           "top_crystal_op": "S",
           "recall_hit": true,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0345,
+            "C": 0.0,
+            "S": 0.5172,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.1379,
+            "WHNF": 0.1724
+          }
         },
         "z=3.0": {
           "label_frac": 0.1034,
           "top_crystal_op": "S",
           "recall_hit": true,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.3793,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.1034,
+            "WHNF": 0.1379
+          }
         }
       }
     },
@@ -1493,13 +3011,35 @@
           "label_frac": 0.3793,
           "top_crystal_op": "Y",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0345,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.069,
+            "S": 0.2414,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.3793,
+            "WHNF": 0.2759
+          }
         },
         "z=3.0": {
           "label_frac": 0.3103,
           "top_crystal_op": "Y",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0345,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0345,
+            "S": 0.1379,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.3103,
+            "WHNF": 0.2414
+          }
         }
       }
     },
@@ -1511,13 +3051,35 @@
           "label_frac": 0.8276,
           "top_crystal_op": "S",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.8276,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0345,
+            "WHNF": 0.0345
+          }
         },
         "z=3.0": {
           "label_frac": 0.7586,
           "top_crystal_op": "S",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.7586,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0345
+          }
         }
       }
     },
@@ -1529,13 +3091,35 @@
           "label_frac": 0.7931,
           "top_crystal_op": "S",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.7931,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.1034,
+            "WHNF": 0.0345
+          }
         },
         "z=3.0": {
           "label_frac": 0.7241,
           "top_crystal_op": "S",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.7241,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.069,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -1547,13 +3131,35 @@
           "label_frac": 0.8966,
           "top_crystal_op": "S",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.8966,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.7586,
           "top_crystal_op": "S",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.7586,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -1565,13 +3171,35 @@
           "label_frac": 0.3103,
           "top_crystal_op": "Y",
           "recall_hit": true,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.3103,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.6207,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.2414,
           "top_crystal_op": "Y",
           "recall_hit": true,
-          "specific_hit": false
+          "specific_hit": false,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.2414,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.5517,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -1583,13 +3211,35 @@
           "label_frac": 0.8276,
           "top_crystal_op": "S",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.069,
+            "S": 0.8276,
+            "D": 0.1034,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.6552,
           "top_crystal_op": "S",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0345,
+            "S": 0.6552,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -1601,13 +3251,35 @@
           "label_frac": 0.4828,
           "top_crystal_op": "S",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.4828,
+            "D": 0.0,
+            "W": 0.0345,
+            "Y": 0.3103,
+            "WHNF": 0.1379
+          }
         },
         "z=3.0": {
           "label_frac": 0.2759,
           "top_crystal_op": "S",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.2759,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.1034,
+            "WHNF": 0.1034
+          }
         }
       }
     },
@@ -1619,13 +3291,35 @@
           "label_frac": 0.8276,
           "top_crystal_op": "S",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0345,
+            "C": 0.0,
+            "S": 0.8276,
+            "D": 0.069,
+            "W": 0.0,
+            "Y": 0.0345,
+            "WHNF": 0.0
+          }
         },
         "z=3.0": {
           "label_frac": 0.7586,
           "top_crystal_op": "S",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.7586,
+            "D": 0.0345,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -1637,13 +3331,35 @@
           "label_frac": 0.8621,
           "top_crystal_op": "S",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.8621,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0345,
+            "WHNF": 0.0345
+          }
         },
         "z=3.0": {
           "label_frac": 0.8276,
           "top_crystal_op": "S",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.8276,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0
+          }
         }
       }
     },
@@ -1655,13 +3371,35 @@
           "label_frac": 0.5517,
           "top_crystal_op": "S",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0345,
+            "C": 0.0,
+            "S": 0.5517,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.3793
+          }
         },
         "z=3.0": {
           "label_frac": 0.4483,
           "top_crystal_op": "S",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.4483,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.3793
+          }
         }
       }
     },
@@ -1673,13 +3411,35 @@
           "label_frac": 0.7586,
           "top_crystal_op": "S",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.7586,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0345
+          }
         },
         "z=3.0": {
           "label_frac": 0.5172,
           "top_crystal_op": "S",
           "recall_hit": true,
-          "specific_hit": true
+          "specific_hit": true,
+          "route_fracs": {
+            "K": 0.0,
+            "I": 0.0,
+            "B": 0.0,
+            "C": 0.0,
+            "S": 0.5172,
+            "D": 0.0,
+            "W": 0.0,
+            "Y": 0.0,
+            "WHNF": 0.0345
+          }
         }
       }
     }
@@ -1739,7 +3499,67 @@
           "mean_label_frac": 0.5207
         }
       },
-      "bridge_viable": true
+      "bridge_viable": true,
+      "discriminability": {
+        "K": {
+          "on_prose": 0.0414,
+          "off_prose": 0.0281,
+          "discr": 0.0133,
+          "specific_by_discr": false,
+          "n_on": 10
+        },
+        "I": {
+          "on_prose": 0.1828,
+          "off_prose": 0.0631,
+          "discr": 0.1197,
+          "specific_by_discr": true,
+          "n_on": 10
+        },
+        "B": {
+          "on_prose": 0.0104,
+          "off_prose": 0.0153,
+          "discr": -0.0049,
+          "specific_by_discr": false,
+          "n_on": 10
+        },
+        "C": {
+          "on_prose": 0.0621,
+          "off_prose": 0.0094,
+          "discr": 0.0527,
+          "specific_by_discr": true,
+          "n_on": 10
+        },
+        "S": {
+          "on_prose": 0.7138,
+          "off_prose": 0.2655,
+          "discr": 0.4483,
+          "specific_by_discr": true,
+          "n_on": 10
+        },
+        "D": {
+          "on_prose": 0.0035,
+          "off_prose": 0.0281,
+          "discr": -0.0246,
+          "specific_by_discr": false,
+          "n_on": 10
+        },
+        "W": {
+          "on_prose": 0.0,
+          "off_prose": 0.0005,
+          "discr": -0.0005,
+          "specific_by_discr": false,
+          "n_on": 10
+        },
+        "Y": {
+          "on_prose": 0.5207,
+          "off_prose": 0.0911,
+          "discr": 0.4296,
+          "specific_by_discr": true,
+          "n_on": 10
+        }
+      },
+      "n_discr_specific": 4,
+      "composition_discriminable": true
     },
     "z=3.0": {
       "n_test": 80,
@@ -1795,7 +3615,67 @@
           "mean_label_frac": 0.4793
         }
       },
-      "bridge_viable": false
+      "bridge_viable": false,
+      "discriminability": {
+        "K": {
+          "on_prose": 0.0103,
+          "off_prose": 0.0089,
+          "discr": 0.0015,
+          "specific_by_discr": false,
+          "n_on": 10
+        },
+        "I": {
+          "on_prose": 0.0621,
+          "off_prose": 0.0089,
+          "discr": 0.0532,
+          "specific_by_discr": true,
+          "n_on": 10
+        },
+        "B": {
+          "on_prose": 0.0,
+          "off_prose": 0.0025,
+          "discr": -0.0025,
+          "specific_by_discr": false,
+          "n_on": 10
+        },
+        "C": {
+          "on_prose": 0.0,
+          "off_prose": 0.001,
+          "discr": -0.001,
+          "specific_by_discr": false,
+          "n_on": 10
+        },
+        "S": {
+          "on_prose": 0.5965,
+          "off_prose": 0.1985,
+          "discr": 0.398,
+          "specific_by_discr": true,
+          "n_on": 10
+        },
+        "D": {
+          "on_prose": 0.0,
+          "off_prose": 0.0025,
+          "discr": -0.0025,
+          "specific_by_discr": false,
+          "n_on": 10
+        },
+        "W": {
+          "on_prose": 0.0,
+          "off_prose": 0.0,
+          "discr": 0.0,
+          "specific_by_discr": false,
+          "n_on": 10
+        },
+        "Y": {
+          "on_prose": 0.4793,
+          "off_prose": 0.0522,
+          "discr": 0.4271,
+          "specific_by_discr": true,
+          "n_on": 10
+        }
+      },
+      "n_discr_specific": 3,
+      "composition_discriminable": true
     }
   },
   "crystal_layers": [

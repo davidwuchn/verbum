@@ -1,8 +1,8 @@
 {
   "model": "Qwen/Qwen3-14B",
   "smoke": false,
-  "git_sha": "7e1f331dd354b1f107ec05dfff1ff0157e3561d9",
-  "timestamp_utc": "2026-06-16T13:31:31.535624+00:00",
+  "git_sha": "30900c2bbbcfe1ef5b2d761b8744a3672adcc660",
+  "timestamp_utc": "2026-06-16T13:48:07.680549+00:00",
   "transformers_version": "5.5.4",
   "n_layers": 40,
   "n_perm": 300,

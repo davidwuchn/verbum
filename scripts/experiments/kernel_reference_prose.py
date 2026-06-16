@@ -149,6 +149,8 @@ def main() -> None:
                 "recall_hit": bool(fr.get(p.combinator, 0.0) > 0),
                 "specific_hit": bool(
                     top == p.combinator and fr.get(p.combinator, 0) > 0),
+                # full per-op routing (s233 lead 2c: enables gauge-subtracted discr)
+                "route_fracs": {op: round(crystal_fr[op], 4) for op in CRYSTAL},
             }
         per_probe.append(rec)
 
@@ -172,6 +174,30 @@ def main() -> None:
                 "mean_label_frac": round(
                     float(np.mean([r["by_z"][key]["label_frac"] for r in rows])), 4),
             }
+        # ── DISCRIMINABILITY (gauge-subtracted specificity, s233 lead 2c) ──────────
+        # discr(c) = mean route_frac(c | c-prose) - mean route_frac(c | other-prose).
+        # Gauge ops (S/Y) route high regardless of label -> on≈off -> discr≈0 (demoted);
+        # genuine combinators route their own prose more -> discr>0. This replaces the
+        # argmax-winner "specific_hit" (which S/Y dominate) with a per-op contrast.
+        discr: dict[str, dict] = {}
+        for c in CRYSTAL:
+            on = [r["by_z"][key]["route_fracs"].get(c, 0.0)
+                  for r in per_probe if r["combinator"] == c]
+            off = [r["by_z"][key]["route_fracs"].get(c, 0.0)
+                   for r in per_probe if r["combinator"] != c]
+            if not on:
+                continue
+            on_m = float(np.mean(on))
+            off_m = float(np.mean(off)) if off else 0.0
+            discr[c] = {
+                "on_prose": round(on_m, 4),
+                "off_prose": round(off_m, 4),
+                "discr": round(on_m - off_m, 4),
+                "specific_by_discr": bool(on_m - off_m > 0.05),
+                "n_on": len(on),
+            }
+        n_discr_specific = sum(d["specific_by_discr"] for d in discr.values()
+                               if d is not None)
         verdict[key] = {
             "n_test": len(per_probe),
             "recall_rate": round(float(np.mean(recall)), 3) if recall else 0.0,
@@ -179,6 +205,12 @@ def main() -> None:
             "per_combinator": per_comb,
             # vs bare-symbolic baseline (s233 lead 2): target_recall 1/7, all-S gauge
             "bridge_viable": bool(np.mean(recall) > 0.5 and np.mean(spec) > 0.25),
+            # gauge-subtracted (lead 2c): which combinators are discriminable?
+            "discriminability": discr,
+            "n_discr_specific": n_discr_specific,
+            "composition_discriminable": bool(
+                any(discr.get(c, {}).get("specific_by_discr")
+                    for c in ("B", "C", "K", "I", "W", "D"))),
         }
 
     print("\n" + "═" * 72)
@@ -187,10 +219,18 @@ def main() -> None:
     for z in Z_SWEEP:
         d = verdict[f"z={z}"]
         print(f"\n[z={z}]  n_test={d['n_test']}  recall={d['recall_rate']} "
-              f"specificity={d['specificity_rate']}  VIABLE={d['bridge_viable']}")
-        for c, cd in d["per_combinator"].items():
-            print(f"    {c}: recall={cd['recall']} spec={cd['specificity']} "
-                  f"label_frac={cd['mean_label_frac']} (n={cd['n']})")
+              f"argmax_spec={d['specificity_rate']}  VIABLE={d['bridge_viable']}")
+        print(f"  ★ DISCRIMINABILITY (gauge-subtracted): "
+              f"n_specific={d['n_discr_specific']}  "
+              f"composition_discriminable={d['composition_discriminable']}")
+        for c in CRYSTAL:
+            cd = d["per_combinator"].get(c)
+            dd = d["discriminability"].get(c)
+            if cd is None or dd is None:
+                continue
+            print(f"    {c}: recall={cd['recall']} argmax_spec={cd['specificity']} "
+                  f"| on={dd['on_prose']} off={dd['off_prose']} "
+                  f"DISCR={dd['discr']} spec*={dd['specific_by_discr']}")
     print("═" * 72 + "\n")
 
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
