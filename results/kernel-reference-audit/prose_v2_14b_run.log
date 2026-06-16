@@ -1,0 +1,39 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[prose-v2] calib=355 test=160 (heldout_per=20)
+[v2] Loading tokenizer: Qwen/Qwen3-14B
+[v2] Loading model: Qwen/Qwen3-14B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<06:52,  1.07it/s]Loading weights:   4%|▍         | 17/443 [00:01<00:19, 22.12it/s]Loading weights:   9%|▉         | 39/443 [00:01<00:07, 52.90it/s]Loading weights:  14%|█▍        | 61/443 [00:01<00:04, 81.96it/s]Loading weights:  19%|█▊        | 83/443 [00:01<00:03, 107.66it/s]Loading weights:  23%|██▎       | 104/443 [00:01<00:02, 130.23it/s]Loading weights:  28%|██▊       | 126/443 [00:01<00:02, 147.78it/s]Loading weights:  33%|███▎      | 148/443 [00:01<00:01, 161.24it/s]Loading weights:  38%|███▊      | 170/443 [00:01<00:01, 170.11it/s]Loading weights:  43%|████▎     | 192/443 [00:01<00:01, 178.80it/s]Loading weights:  48%|████▊     | 214/443 [00:02<00:01, 183.69it/s]Loading weights:  53%|█████▎    | 236/443 [00:02<00:01, 188.99it/s]Loading weights:  58%|█████▊    | 258/443 [00:02<00:00, 192.89it/s]Loading weights:  63%|██████▎   | 280/443 [00:02<00:00, 195.33it/s]Loading weights:  68%|██████▊   | 302/443 [00:02<00:00, 196.81it/s]Loading weights:  73%|███████▎  | 324/443 [00:02<00:00, 198.49it/s]Loading weights:  78%|███████▊  | 346/443 [00:02<00:00, 199.77it/s]Loading weights:  83%|████████▎ | 368/443 [00:02<00:00, 200.88it/s]Loading weights:  88%|████████▊ | 390/443 [00:02<00:00, 198.84it/s]Loading weights:  93%|█████████▎| 411/443 [00:03<00:00, 199.00it/s]Loading weights:  97%|█████████▋| 431/443 [00:03<00:00, 197.60it/s]Loading weights: 100%|██████████| 443/443 [00:03<00:00, 139.96it/s]
+[v2] Model loaded in 3.6s
+[v2] Crystal probes (last-token centroids): 355
+[v2]   centroid forward 0/355 ...
+[v2]   centroid forward 50/355 ...
+[v2]   centroid forward 100/355 ...
+[v2]   centroid forward 150/355 ...
+[v2]   centroid forward 200/355 ...
+[v2]   centroid forward 250/355 ...
+[v2]   centroid forward 300/355 ...
+[v2]   centroid forward 350/355 ...
+[v2] Building cross-task null from 12 bare natural-text prompts ...
+[v2] Null tokens pooled: 84  (null_mode=crosstask)
+[prose-v2] crystal layers: 28/40
+
+══════════════════════════════════════════════════════════════════════════════
+KERNEL-REFERENCE PROSE BRIDGE v2 — raw-z contrast (NO argmax) vs argmax
+══════════════════════════════════════════════════════════════════════════════
+  n_test=160  heldout_per=20  crystal_layers=28
+
+  op     discr_z       t  sig   (argmax z=2)  peak_L   peakΔ
+  K       1.0088   2.121    ✓         0.0686      12   2.006
+  I       1.8924   3.834    ✓         0.1365      13   2.989
+  B      -0.0193  -0.046    ·         0.0793       1   0.891
+  C       1.7339   5.713    ✓         0.0931      13   3.697
+  S      -0.2654  -1.107    ·         0.0903      11    1.09
+  D       -0.666  -4.605    ·         -0.013       3   0.476
+  W       -0.627  -2.272    ·        -0.0005       0   0.184
+  Y       2.0091   6.857    ✓         0.2888      14   4.139
+
+  ★ B/D/W recovered under raw-z contrast: {'B': False, 'D': False, 'W': False}
+  ★ n_discr_z_significant (on>off, |t|>2): 4
+══════════════════════════════════════════════════════════════════════════════
+
+[prose-v2] wrote /Users/mwhitford/src/verbum/results/kernel-reference-audit/prose_v2_verdict_qwen3-14b.json
