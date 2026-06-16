@@ -1,0 +1,39 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[perhead] calib=180 test=160 ppc=20
+[v2] Loading tokenizer: Qwen/Qwen3-14B
+[v2] Loading model: Qwen/Qwen3-14B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<07:16,  1.01it/s]Loading weights:   6%|▌         | 26/443 [00:01<00:13, 32.02it/s]Loading weights:  11%|█         | 48/443 [00:01<00:06, 59.46it/s]Loading weights:  16%|█▌        | 70/443 [00:01<00:04, 85.95it/s]Loading weights:  21%|██        | 92/443 [00:01<00:03, 110.06it/s]Loading weights:  26%|██▌       | 114/443 [00:01<00:02, 131.52it/s]Loading weights:  31%|███       | 136/443 [00:01<00:02, 148.64it/s]Loading weights:  36%|███▌      | 158/443 [00:01<00:01, 162.80it/s]Loading weights:  41%|████      | 180/443 [00:01<00:01, 173.12it/s]Loading weights:  46%|████▌     | 202/443 [00:01<00:01, 180.55it/s]Loading weights:  51%|█████     | 224/443 [00:02<00:01, 185.44it/s]Loading weights:  56%|█████▌    | 246/443 [00:02<00:01, 189.89it/s]Loading weights:  60%|██████    | 268/443 [00:02<00:00, 193.13it/s]Loading weights:  65%|██████▌   | 290/443 [00:02<00:00, 195.45it/s]Loading weights:  70%|███████   | 312/443 [00:02<00:00, 195.95it/s]Loading weights:  75%|███████▌  | 334/443 [00:02<00:00, 194.93it/s]Loading weights:  80%|████████  | 356/443 [00:02<00:00, 194.17it/s]Loading weights:  85%|████████▌ | 378/443 [00:02<00:00, 194.78it/s]Loading weights:  90%|█████████ | 400/443 [00:02<00:00, 197.16it/s]Loading weights:  95%|█████████▌| 422/443 [00:03<00:00, 198.36it/s]Loading weights: 100%|██████████| 443/443 [00:03<00:00, 139.22it/s]
+[v2] Model loaded in 3.7s
+[perhead] layers=40 heads=40 head_dim=128 cells=1600
+[perhead]   calib forward 0/180 ...
+[perhead]   calib forward 40/180 ...
+[perhead]   calib forward 80/180 ...
+[perhead]   calib forward 120/180 ...
+[perhead]   calib forward 160/180 ...
+[perhead] building crosstask null (12 prompts)
+[perhead] crystal-bearing cells: 1431/1600
+[perhead]   test forward 0/160 ...
+[perhead]   test forward 40/160 ...
+[perhead]   test forward 80/160 ...
+[perhead]   test forward 120/160 ...
+
+══════════════════════════════════════════════════════════════════════════════
+KERNEL-REFERENCE PER-HEAD OV SCAN — B head-dilution test
+══════════════════════════════════════════════════════════════════════════════
+  n_test=160  cells=1600  crystal_cells=1431  MC_t>4.0
+
+  op     max_t    n_sig     best(L,H)  discr_z
+  K      6.124          56       [23, 8]    1.696
+  I      7.827          19      [27, 33]   1.4019
+  B      5.309           7      [17, 23]   0.8219
+  C      7.523         155      [21, 36]    2.526
+  S      6.961          22       [4, 20]   1.3083
+  D      7.579           8       [5, 34]   1.0984
+  W      6.562          24       [23, 7]   2.0452
+  Y     15.164         526      [21, 31]   2.8482
+
+  ★ B localized in a head (t>4.0): True
+  ★ B best: cell [17, 23] max_t=5.309 n_sig=7
+══════════════════════════════════════════════════════════════════════════════
+
+[perhead] wrote /Users/mwhitford/src/verbum/results/kernel-reference-audit/perhead_v5_verdict_qwen3-14b.json

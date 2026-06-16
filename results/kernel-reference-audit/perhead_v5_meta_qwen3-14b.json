@@ -1,0 +1,18 @@
+{
+  "model": "Qwen/Qwen3-14B",
+  "smoke": false,
+  "git_sha": "ecdab6c46a2234444de3eacaf9821617c9270ac4",
+  "timestamp_utc": "2026-06-16T15:27:19.975106+00:00",
+  "transformers_version": "5.5.4",
+  "n_layers": 40,
+  "num_heads": 40,
+  "head_dim": 128,
+  "n_perm": 30,
+  "ppc": 20,
+  "heldout_per": 20,
+  "null_cap": 300,
+  "n_calib": 180,
+  "n_test": 160,
+  "mc_t": 4.0,
+  "register": "per-head OV (o_proj input split by head)"
+}
