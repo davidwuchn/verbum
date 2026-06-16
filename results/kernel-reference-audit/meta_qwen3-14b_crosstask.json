@@ -1,0 +1,17 @@
+{
+  "model": "Qwen/Qwen3-14B",
+  "smoke": false,
+  "git_sha": "e3b578d98eb6c3f39eb929726784cd019cead13e",
+  "timestamp_utc": "2026-06-16T13:07:49.758736+00:00",
+  "transformers_version": "5.5.4",
+  "n_layers": 40,
+  "n_perm": 300,
+  "probes_per_combinator": null,
+  "z_sweep": [
+    2.0,
+    3.0
+  ],
+  "null_mode": "crosstask",
+  "n_crystal_layers": 31,
+  "reference": "lambda_ast certified fired_sequence (model-invariant)"
+}

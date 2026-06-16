@@ -8,10 +8,12 @@ from verbum.lambda_ast import (
     CAtom,
     Comb,
     Status,
+    fired_sequence,
     normal_form,
     parse,
     pretty,
     reduce,
+    step_fired,
     trace_record,
     typecheck,
     verify,
@@ -154,3 +156,38 @@ def test_trace_record_marks_ill_typed():
     assert rec["well_typed"] is False
     assert rec["type_error"] is not None
     assert rec["normal_form"] == "x x"  # still reduces
+
+
+# --------------------------------------------------------------------------- #
+# certified fired-combinator trace (step_fired / fired_sequence)              #
+# --------------------------------------------------------------------------- #
+def test_step_fired_reports_combinator():
+    nxt, fired = step_fired(parse("B f g x"))
+    assert fired == "B"
+    assert pretty(nxt) == "f (g x)"
+
+
+def test_step_fired_normal_form_is_none():
+    nxt, fired = step_fired(parse("f (g x)"))
+    assert nxt is None and fired is None
+
+
+def test_fired_sequence_single():
+    # K a b -> a (one K fire)
+    assert fired_sequence(parse("K a b")) == ["K"]
+
+
+def test_fired_sequence_multi_order():
+    # B K I x y -> K (I x) y -> I x -> x : fires B, then K, then I
+    assert fired_sequence(parse("B K I x y")) == ["B", "K", "I"]
+
+
+def test_fired_sequence_inert_under_applied():
+    # B f g : under-applied (B needs 3 args) -> normal form -> no fire
+    assert fired_sequence(parse("B f g")) == []
+    assert fired_sequence(parse("C f x")) == []  # C needs 3
+
+
+def test_fired_sequence_matches_reduce_steps():
+    for s in ["S K K x", "C f x y", "D f g h x", "W f x", "B K I x y"]:
+        assert len(fired_sequence(parse(s))) == reduce(parse(s)).steps

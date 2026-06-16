@@ -279,6 +279,42 @@ def step(t: Term) -> Term | None:
     return None
 
 
+def step_fired(t: Term) -> tuple[Term | None, str | None]:
+    """One leftmost-outermost reduction, ALSO reporting which combinator fired.
+
+    Returns (next_term, fired_name). (None, None) iff t is a normal form. This is
+    `step` instrumented to expose the certified OPCODE contracted at each step — the
+    data the kernel-as-reference audit anchors a model's routing trajectory against."""
+    head, args = spine(t)
+    if isinstance(head, Comb) and head.name in REDUCTIONS:
+        arity, rule = REDUCTIONS[head.name]
+        if len(args) >= arity:
+            return rebuild(rule(args[:arity]), args[arity:]), head.name
+    for i, a in enumerate(args):
+        s, fired = step_fired(a)
+        if s is not None:
+            return rebuild(head, [*args[:i], s, *args[i + 1:]]), fired
+    return None, None
+
+
+def fired_sequence(t: Term, max_steps: int = MAX_STEPS) -> list[str]:
+    """The certified per-step opcode trace: combinator names fired, in reduction order.
+
+    Normal form -> []. Under-applied (inert) combinators never appear (they never
+    saturate -> never fire). The multiset/order is exactly what `reduce` walks."""
+    seq: list[str] = []
+    cur = t
+    for _ in range(max_steps):
+        nxt, fired = step_fired(cur)
+        if nxt is None:
+            break
+        seq.append(fired)  # type: ignore[arg-type]
+        cur = nxt
+        if size(cur) > MAX_SIZE:
+            break
+    return seq
+
+
 def is_whnf(t: Term) -> bool:
     """Weak head normal form: the spine root is not a saturated combinator."""
     return _root_redex(t) is None
