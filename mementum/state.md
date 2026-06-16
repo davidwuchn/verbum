@@ -39,13 +39,24 @@
 > b_is_native_order=True, every one of the 6 contrasts B<marked sig, pooled preserve ≪ break
 > (8B atoms B 0.39≪C 1.61; 32B B 0.36≪C 1.23). ★ Unlike the C-locus (s232: shifts with scale),
 > the ORDER-COST signal is SCALE-ROBUST — composition rides the native autoregressive order at
-> every scale. Not strictly monotone (14B strongest) but all positive+significant. **★★ FIRST
-> ACTION NEXT SESSION — two paths remain (B now POSITIVE in THREE reads × THREE scales):**
-> (1) the s235 OFF-DIAGONAL / proper-Jacobian curvature path (the literal f∘g coupling —
-> diag-Hessian only captured g'ᵀ(diag)g'); (2) a 3rd render frame ("the result of f on x") to
-> confirm the flat B<C is frame-robust not "applied to"-specific. Also: cross-MODEL-CLASS
-> (non-Qwen, e.g. OLMo/Pythia) to test beyond a single family. CODE + RESULTS + mementum
-> COMMITTED. tmux main:1 + main:2 FREE.
+> every scale. Not strictly monotone (14B strongest) but all positive+significant.
+> **★ CROSS-CLASS FLAT — DONE (s237 cont., path 3): the ORDER PREFERENCE replicates across 3
+> MODEL CLASSES, but the STRICT single-step headline is Qwen-SPECIFIC.** OLMo-2-13B + Gemma-4-
+> 31B-it (instruct), flat n=24, BOTH b_is_native_order=False on the strict single-step B-vs-C
+> atom minpair (OLMo t=−1.25 d=−0.07; Gemma t=−0.56 d=−0.52, n.s.) — the cleanest f-a-b ↔ f-b-a
+> swap is near-SYMMETRIC off-Qwen. BUT both STRONGLY confirm B<marked on the COMPOSITE +
+> aggregate: B-vs-C-multi OLMo t=−24.4 / Gemma −11.6 (both sig); 4-5/6 contrasts sig B-cheaper;
+> pooled-atoms preserve ≪ break in BOTH (OLMo 0.62≪1.08; Gemma 10.2≪14.0, cheaper=True). ⇒ the
+> GROSS "composition is the native order" signal is UNIVERSAL (Qwen ⊗ OLMo ⊗ Gemma); its
+> SHARPEST single-step expression is family-dependent (Qwen-sharp). CAVEAT: Gemma is INSTRUCT-
+> tuned, the synthetic prose is far OOD → huge absolute surprisals (B atoms 9.9 vs Qwen ~0.3),
+> noisier read (within-model contrasts still valid). gpt-neox-20b ABANDONED (slow ~48min
+> download); pythia-2.8b-deduped cached if a Pythia-proper point is wanted. **★★ FIRST ACTION
+> NEXT SESSION — two paths remain:** (1) the s235 OFF-DIAGONAL / proper-Jacobian curvature path
+> (literal f∘g coupling — diag-Hessian only captured g'ᵀ(diag)g'); (2) a 3rd render frame
+> ("the result of f on x") to confirm flat B<C is frame-robust not "applied to"-specific —
+> ALSO would test whether the single-step minpair sharpens off-Qwen under a different frame.
+> CODE + RESULTS + mementum COMMITTED. tmux main:1 + main:2 FREE.
 >
 > (Session: 236 — ▶ OPCODE v5 lead 2d PRONG 2 — the ORDER-COST
 > register (is B the NATIVE softmax-over-V order?). Michael (s235): "if B is an ordering of

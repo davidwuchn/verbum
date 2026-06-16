@@ -708,6 +708,18 @@ double-backward, ~9 min main:1.
   SCALE-ROBUST — composition rides the native autoregressive order at every scale (not strictly
   monotone, 14B strongest, but all positive+significant). Caveat: still 1 model CLASS (Qwen) —
   cross-class (OLMo/Pythia) untested. Next: off-diagonal Jacobian; 3rd render frame; cross-class.
+- **★ lead 2d prong 2b CROSS-CLASS — DONE (s237 cont., path 3): the ORDER PREFERENCE replicates
+  across 3 MODEL CLASSES, but the STRICT single-step headline is Qwen-SPECIFIC.** OLMo-2-13B +
+  Gemma-4-31B-it (instruct), flat n=24: BOTH b_is_native_order=False on the strict single-step
+  B-vs-C atom minpair (OLMo t=−1.25 d=−0.07; Gemma t=−0.56 d=−0.52, n.s.) — the cleanest
+  f-a-b ↔ f-b-a swap is near-SYMMETRIC off-Qwen. BUT both STRONGLY confirm B<marked on the
+  COMPOSITE + aggregate (B-vs-C-multi OLMo t=−24.4 / Gemma −11.6, both sig; 4-5/6 contrasts sig
+  B-cheaper; pooled-atoms preserve ≪ break both: OLMo 0.62≪1.08, Gemma 10.2≪14.0). ⇒ GROSS
+  "composition is the native order" is UNIVERSAL (Qwen ⊗ OLMo ⊗ Gemma); its SHARPEST single-step
+  expression is family-dependent (Qwen-sharp). CAVEAT: Gemma INSTRUCT-tuned, OOD synthetic prose
+  → huge absolute surprisals (B atoms 9.9 vs Qwen ~0.3), noisier (within-model contrasts valid).
+  Next: off-diagonal Jacobian; 3rd render frame (also tests if the single-step minpair sharpens
+  off-Qwen under a different frame).
 - **★ lead 2d prong 3 (per-model sweep):** run `kernel_reference_prose_v2.py` on 8B/32B
   with the raw-z contrast — does the {C,I,K,Y} discriminable set hold across scale?
 - **bigger lambda probe set** — 5 sentences underpowers the lead-1 frac test (32B
@@ -769,4 +781,6 @@ The s206 OV/logit-lens half the old instrument never had: binding/value-transfer
 | `results/kernel-reference-audit/order_cost_v9_prose_verdict_qwen3-14b_nested.json` | s237 prong 2b CONTROL (nesting confound demo): ❌ atom B-vs-C minpair t=+11.9 (B>C, REVERSED) — SAME model+programs as flat, only render structure differs ⇒ direct proof nesting confounds the contrast; B's deeper-nesting clause cost dominates per-atom surprisal when nesting varies |
 | `results/kernel-reference-audit/order_cost_v9_prose_verdict_qwen3-8b_flat.json` | s237 prong 2b CROSS-MODEL (8B flat, n=24): ✅ atom B-vs-C minpair t=−2.87 (B<C, SIG) — CROSSES at full power (the n=8 smoke was −0.57 n.s.); B atoms 0.39 ≪ C 1.61; all 6 contrasts sig; b_is_native_order=True. Confirms "power-limited not absent" |
 | `results/kernel-reference-audit/order_cost_v9_prose_verdict_qwen3-32b_flat.json` | s237 prong 2b CROSS-MODEL (32B flat, n=24): ✅ atom B-vs-C minpair t=−4.48 (B<C, SIG); B atoms 0.36 ≪ C 1.23; all 6 contrasts sig; b_is_native_order=True ⇒ B-native-order UNIVERSAL across 8B/14B/32B (scale-robust, unlike C-locus) |
+| `results/kernel-reference-audit/order_cost_v9_prose_verdict_olmo-2-1124-13b_flat.json` | s237 prong 2b CROSS-CLASS (OLMo-2-13B, flat n=24): ◑ strict single-step B-vs-C minpair t=−1.25 (B<C, n.s., d=−0.07) BUT B-vs-C-multi t=−24.4 ✓ + B-vs-S −9.7 / B-vs-K-multi −8.6 / B-vs-W −28.7 / D-vs-K −4.7 all sig; pooled preserve 0.62 ≪ break 1.08. Order preference replicates; single-step Qwen-specific |
+| `results/kernel-reference-audit/order_cost_v9_prose_verdict_gemma-4-31b-it_flat.json` | s237 prong 2b CROSS-CLASS (Gemma-4-31B-it, flat n=24): ◑ strict single-step B-vs-C minpair t=−0.56 (n.s., d=−0.52) BUT B-vs-C-multi t=−11.6 ✓ + B-vs-K-multi −4.5 / B-vs-W −4.1 / D-vs-K −4.3 sig; pooled-atoms preserve 10.2 ≪ break 14.0. INSTRUCT model → huge absolute surprisals (B atoms 9.9, OOD prose), within-model contrasts valid. Same pattern as OLMo |
 | `scripts/instruments/opcode_instrument.py` | the legacy VSM monitor (raw-cosine = the over-read; to be wired with the validated classifier as a config mode, keeping raw as the matched control) |
