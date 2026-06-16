@@ -699,6 +699,15 @@ double-backward, ~9 min main:1.
   deterministic "applied to" frame; flat deliberately discards faithful structure to isolate
   order (nested = its complement). Next: cross-model flat (8B full-n=24 / 32B), off-diagonal
   Jacobian (prong 1c-ii path).
+- **★ lead 2d prong 2b CROSS-MODEL — DONE (s237 cont.): B-NATIVE-ORDER IS UNIVERSAL across the
+  Qwen3 scale ladder (8B/14B/32B, all flat n=24).** B-vs-C atom minpair: **8B t=−2.87 ✓**
+  (CROSSES at full power — was −0.57 n.s. at the n=8 smoke, confirming "power-limited not
+  absent"), **14B t=−8.05 ✓** (strongest), **32B t=−4.48 ✓**. ALL three: b_is_native_order=True,
+  every one of the 6 contrasts B<marked sig, pooled preserve ≪ break (8B atoms B 0.39≪C 1.61;
+  32B B 0.36≪C 1.23). ★ Unlike the C-locus (s232 shifts with scale), the ORDER-COST signal is
+  SCALE-ROBUST — composition rides the native autoregressive order at every scale (not strictly
+  monotone, 14B strongest, but all positive+significant). Caveat: still 1 model CLASS (Qwen) —
+  cross-class (OLMo/Pythia) untested. Next: off-diagonal Jacobian; 3rd render frame; cross-class.
 - **★ lead 2d prong 3 (per-model sweep):** run `kernel_reference_prose_v2.py` on 8B/32B
   with the raw-z contrast — does the {C,I,K,Y} discriminable set hold across scale?
 - **bigger lambda probe set** — 5 sentences underpowers the lead-1 frac test (32B
@@ -758,5 +767,6 @@ The s206 OV/logit-lens half the old instrument never had: binding/value-transfer
 | `scripts/experiments/kernel_reference_order_cost_v9_prose.py` | s237 v5 lead 2d prong 2b: PROSE BRIDGE for order-cost — reuses v8 spine (certified `step_fired` trace, teacher-force, per-step surprisal, ATOM-only de-confound) but renders each term as PROSE via a DETERMINISTIC order-faithful renderer (`App(f,x)`→"`<f> applied to <x>`", atoms→fixed content words; content de-confound by char-span OVERLAP for leading-space tokens). `--render-mode {flat,nested}` (flat=nesting held constant=pure order test; default), `--smoke` (8B), `--model`, `--n-each` |
 | `results/kernel-reference-audit/order_cost_v9_prose_verdict_qwen3-14b_flat.json` | s237 prong 2b DECISIVE: ✅ **b_is_native_order=True in PROSE** (nesting held constant) — atom B-vs-C minpair t=−8.05 ≈ symbolic v8 −7.02; B atom-surprisal 0.23 ≪ C 1.22/K 0.73/W 1.18/S 1.64; all 6 contrasts B<marked sig (−8 to −38); pooled preserve 0.24 ≪ break 1.12. The s236 bare-symbol caveat KILLED — composition-order real in the semantic register |
 | `results/kernel-reference-audit/order_cost_v9_prose_verdict_qwen3-14b_nested.json` | s237 prong 2b CONTROL (nesting confound demo): ❌ atom B-vs-C minpair t=+11.9 (B>C, REVERSED) — SAME model+programs as flat, only render structure differs ⇒ direct proof nesting confounds the contrast; B's deeper-nesting clause cost dominates per-atom surprisal when nesting varies |
-| `results/kernel-reference-audit/order_cost_v9_prose_verdict_qwen3-8b_flat.json` | s237 prong 2b control (8B flat): ⚠️ atom B-vs-C minpair −0.57 n.s. (dir B<C) ≈ symbolic 8B −0.55; multi-step already sig (B<C-multi −10.6, B<K −7.5, B<W −7.6). Flat rescues the direction vs the 8B nested smoke (+3.17 reversed) — same power-limited 14B-decisive pattern as v8 |
+| `results/kernel-reference-audit/order_cost_v9_prose_verdict_qwen3-8b_flat.json` | s237 prong 2b CROSS-MODEL (8B flat, n=24): ✅ atom B-vs-C minpair t=−2.87 (B<C, SIG) — CROSSES at full power (the n=8 smoke was −0.57 n.s.); B atoms 0.39 ≪ C 1.61; all 6 contrasts sig; b_is_native_order=True. Confirms "power-limited not absent" |
+| `results/kernel-reference-audit/order_cost_v9_prose_verdict_qwen3-32b_flat.json` | s237 prong 2b CROSS-MODEL (32B flat, n=24): ✅ atom B-vs-C minpair t=−4.48 (B<C, SIG); B atoms 0.36 ≪ C 1.23; all 6 contrasts sig; b_is_native_order=True ⇒ B-native-order UNIVERSAL across 8B/14B/32B (scale-robust, unlike C-locus) |
 | `scripts/instruments/opcode_instrument.py` | the legacy VSM monitor (raw-cosine = the over-read; to be wired with the validated classifier as a config mode, keeping raw as the matched control) |

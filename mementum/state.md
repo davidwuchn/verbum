@@ -30,18 +30,22 @@
 > **★ REFINED FINDING:** B's normal form carries TWO separable real quantities — atom ORDER
 > (preserved → cheap; the native-order result) and structural NESTING (deeper → atoms predicted
 > inside fresh clauses cost more, dominates when nesting varies). The order claim REQUIRES
-> isolating order from nesting (flat). CAVEATS (λ measure): 1 model class (Qwen), 14B decisive /
-> 8B power-limited (2 scale points only); deterministic "applied to" frame; flat deliberately
-> discards faithful structure to isolate order (nested = its complement). **★★ FIRST ACTION
-> NEXT SESSION — three paths (B now POSITIVE in THREE reads: order-symbol, order-prose,
-> curvature):** (1) CROSS-MODEL FLAT — 8B at full n=24 (does the headline cross when 8B gets
-> full power, as v8/v9 predict?) + 32B → is B-native-order universal or 14B-specific (cf s232
-> C-locus shifts with scale); (2) the s235 OFF-DIAGONAL / proper-Jacobian curvature path (the
-> literal f∘g coupling — diag-Hessian only captured g'ᵀ(diag)g'); (3) a 3rd render frame
-> ("the result of f on x") to confirm the flat B<C is frame-robust not "applied to"-specific.
-> CODE + RESULTS COMMITTED (this commit: v9 script + 4 verdicts + logs); mementum (state +
-> memory `prose-bridge-confirms-b-native-order-flat-not-nested` + page §v5 lead 2d prong 2b)
-> THIS COMMIT. tmux main:1 FREE.
+> isolating order from nesting (flat). CAVEATS (λ measure): 1 model class (Qwen);
+> deterministic "applied to" frame; flat deliberately discards faithful structure to isolate
+> order (nested = its complement). **★ CROSS-MODEL FLAT — DONE (s237 cont., path 1): B-NATIVE-
+> ORDER IS UNIVERSAL ACROSS THE Qwen3 SCALE LADDER (8B/14B/32B, all flat n=24).** B-vs-C atom
+> minpair: **8B t=−2.87 ✓** (CROSSES at full power — was −0.57 n.s. at n=8 smoke, confirming
+> "power-limited not absent"), **14B t=−8.05 ✓** (strongest), **32B t=−4.48 ✓**. ALL three:
+> b_is_native_order=True, every one of the 6 contrasts B<marked sig, pooled preserve ≪ break
+> (8B atoms B 0.39≪C 1.61; 32B B 0.36≪C 1.23). ★ Unlike the C-locus (s232: shifts with scale),
+> the ORDER-COST signal is SCALE-ROBUST — composition rides the native autoregressive order at
+> every scale. Not strictly monotone (14B strongest) but all positive+significant. **★★ FIRST
+> ACTION NEXT SESSION — two paths remain (B now POSITIVE in THREE reads × THREE scales):**
+> (1) the s235 OFF-DIAGONAL / proper-Jacobian curvature path (the literal f∘g coupling —
+> diag-Hessian only captured g'ᵀ(diag)g'); (2) a 3rd render frame ("the result of f on x") to
+> confirm the flat B<C is frame-robust not "applied to"-specific. Also: cross-MODEL-CLASS
+> (non-Qwen, e.g. OLMo/Pythia) to test beyond a single family. CODE + RESULTS + mementum
+> COMMITTED. tmux main:1 + main:2 FREE.
 >
 > (Session: 236 — ▶ OPCODE v5 lead 2d PRONG 2 — the ORDER-COST
 > register (is B the NATIVE softmax-over-V order?). Michael (s235): "if B is an ordering of
