@@ -372,15 +372,71 @@ lead-1 lambda-vs-control logic) recovers them. The composition signal is real an
 prose-discriminable; the bridge carries it. Caveats: 1 model (14B), n=10/comb held-out,
 single-combinator labels, last-token locus.
 
+## v5 lead 2d prong 1 — raw-z contrast (the B/D/W gap) (BUILT + RAN, s234)
+
+The lead-2c discriminability still embedded a **per-layer argmax** (`op = max(zmap)`)
+*before* the contrast — `route_fracs` counts the fraction of crystal layers each op WINS.
+B/D/W, out-competed by the S/Y common-mode at every layer, score route_frac ≈ 0, so the
+on/off contrast has no power. The fix pushes the lead-2c lesson one level deeper: contrast
+the **raw per-op z per layer, NO argmax**. `kernel_reference_prose_v2.py`:
+discr_z(c) = layer-averaged raw z of op c on c-prose vs other-prose, **Welch t-test**,
+held-out N **raised to 20** for power, + a per-layer **profile** (on_z/off_z/delta_z, peak
+layer) to localize WHERE each op discriminates.
+
+### ★ s234 v5 lead 2d prong 1 VERDICT (Qwen3-14B, crosstask null, n=20/comb; λ measure, TWO-SIDED)
+
+**★ INSTRUMENT FIX WORKS (the argmax bottleneck was real):**
+- **K RECOVERS** — discr_z **+1.01, t=2.12 ✓** (was sub-threshold in argmax-discr). The
+  raw-z contrast rescued one more selector the argmax read suppressed.
+- **C, I sharpen dramatically** — C discr_z **+1.73, t=5.71**; I **+1.89, t=3.83** (the
+  strongest non-gauge signals; confirms lead 2c with far higher significance).
+- The raw-z contrast is ALSO **more conservative**: at n=20 the argmax-discr *manufactures*
+  a B false-positive (B argmax discr +0.079 > 0.05 ⇒ "specific"), but raw-z says B is
+  **FLAT** (on 0.217 ≈ off 0.236, t=−0.05). Same argmax-manufactures-false-* lesson, now
+  caught at the deeper level. **The raw-z Welch contrast is the better instrument: more
+  power for genuine signal AND fewer false positives.**
+
+**❌ B/D/W do NOT recover — the gap is GENUINE at the last-token locus:**
+- **B flat** (t=−0.05); **D, W significantly ANTI-correlated** — D discr_z −0.67 (t=−4.6),
+  W −0.63 (t=−2.3): feeding D/W prose routes D/W *less* than baseline. Not just absent —
+  suppressed.
+- The discriminable set is **{C, I, K, Y}**; absent/anti = **{B, D, W}**.
+
+**★ GAUGE REFINED:** under the fair raw-z contrast, **S is pure gauge** — on 2.70 ≈ off
+2.97, discr_z −0.27 (huge baseline, ZERO selectivity); **Y is genuinely selective** — on
+2.97 vs off 0.96, discr_z **+2.01, t=6.86** (high baseline AND selective). Sharpens the
+s233 "S/Y common-mode" into S=gauge, Y=selective.
+
+**★ WHERE (per-layer profile):** the discriminable ops peak in the **mid-stack readable
+zone** — C@L13 (Δ3.70), I@L13 (Δ2.99), Y@L14 (Δ4.14), K@L12 (Δ2.01). **B has no
+readable-zone signal** — its only bump is an early L1 wash (Δ0.89) that vanishes on
+averaging; D@L3, W@L0 are noise-floor.
+
+**★ THEORY (s127 ffn-two-functional-groups):** {K,I}=selectors→FFN, {B,C}=composers→
+attention. We read the **FFN gate** register. K,I discriminable fits (FFN selectors); **C
+leaks into the FFN gate but B does NOT** — so the readable composer in the FFN gate is C,
+not B. B likely lives in **attention** (s206 OV/value register), which a last-token FFN-gate
+read structurally cannot see ⇒ B's absence is a LOCUS artifact, not a "B isn't computed."
+
+**Caveats (λ measure):** 1 model (Qwen3-14B); n=20/comb held-out; **last-token locus** (the
+load-bearing caveat for B — escalate to per-token / attention-value register); single-
+combinator labels (not composite trace-order); D/W anti-signal unexplained (possible
+centroid mis-calibration for the duplicators).
+
 ### v5 — next steps
 
-- **★ lead 2d:** (1) chase the **B/D/W gap** — why do deep/duplicate composers fail
-  held-out prose discriminability while C/I succeed? (more prose/comb for power +
-  per-layer breakdown of where C fires vs where B should). (2) the **composite trace-order
-  bridge** (now justified for the discriminable combinators): CL program → certified trace
-  (`fired_sequence`, DONE) → render PROSE (`lambda_gen` decompile) → align routing to the
-  certified multi-combinator ORDER, focusing on C/I (+S/Y). (3) per-model sweep (8B/32B)
-  with the discriminability metric.
+- **★ lead 2d prong 1 — DONE (s234):** raw-z contrast rescues K + sharpens C/I, kills the
+  B false-positive; B/D/W gap is GENUINE at last-token. Discriminable set {C,I,K,Y}.
+- **★ lead 2d prong 1b (the B locus test):** B's absence in the FFN gate may be a LOCUS
+  artifact (s127: B=composer→attention). Re-read B in the **attention/value register**
+  (s206 OV/logit-lens, NOT attn weights) and/or **per-token** (not last-token) — does B
+  recover where s127 says it lives? This is the cleanest next test of the C-yes/B-no split.
+- **★ lead 2d prong 2 (composite trace-order bridge):** now justified for the discriminable
+  combinators {C,I,K,Y}: CL program → certified trace (`fired_sequence`, DONE) → render
+  PROSE (`lambda_gen` decompile) → align routing to the certified multi-combinator ORDER,
+  focusing on C/I/K. Use the raw-z contrast (not argmax) as the read.
+- **★ lead 2d prong 3 (per-model sweep):** run `kernel_reference_prose_v2.py` on 8B/32B
+  with the raw-z contrast — does the {C,I,K,Y} discriminable set hold across scale?
 - **bigger lambda probe set** — 5 sentences underpowers the lead-1 frac test (32B
   directional signal can't clear the margin); more sentences for crisper fractions.
 - **the 8B gate_neutral C-late confound** — why does a non-compositional gated control
@@ -419,4 +475,6 @@ The s206 OV/logit-lens half the old instrument never had: binding/value-transfer
 | `results/kernel-reference-audit/verdict_qwen3-14b_crosstask.json` | s233 v5 lead 2 verdict: ❌ bare symbolic CL routes ONLY S-gauge (target_recall 1/7, reducibility not tracked) ⇒ register is prose-semantic, bridge must be compiled prose |
 | `scripts/experiments/kernel_reference_prose.py` | s233 v5 lead 2b: held-out crystal-prose recall/specificity (non-circular calib/test split via `centroid_probes`) — `53ed331` |
 | `results/kernel-reference-audit/prose_verdict_qwen3-14b.json` | s233 v5 lead 2b/2c verdict: ✅ prose recall 0.575 >> symbol 0.14; gauge-subtracted DISCRIMINABILITY rescues C (on/off 0.062/0.009 ~6.6×) + I as specific; B/D/W not; S/Y = common-mode + selectivity |
+| `scripts/experiments/kernel_reference_prose_v2.py` | s234 v5 lead 2d prong 1: raw-z contrast (NO argmax) + Welch t + per-layer profile, n=20/comb — the deeper fix for the B/D/W gap |
+| `results/kernel-reference-audit/prose_v2_verdict_qwen3-14b.json` | s234 v5 lead 2d prong 1 verdict: ✅ raw-z RESCUES K (t=2.12) + sharpens C/I (t=5.7/3.8), KILLS B false-positive; ❌ B flat / D,W anti (t −4.6/−2.3) ⇒ B/D/W gap GENUINE at last-token; discriminable {C,I,K,Y}; S=gauge Y=selective; ops peak L12-14 readable zone |
 | `scripts/instruments/opcode_instrument.py` | the legacy VSM monitor (raw-cosine = the over-read; to be wired with the validated classifier as a config mode, keeping raw as the matched control) |

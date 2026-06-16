@@ -2,7 +2,40 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-16 | Session: 233 — ▶ OPCODE v5 (leads 1→2c) — the compositional
+> Last updated: 2026-06-16 | Session: 234 — ▶ OPCODE v5 lead 2d PRONG 1 (the B/D/W gap).
+> Pushed lead-2c's discriminability ONE LEVEL DEEPER: it still embedded a per-layer ARGMAX
+> (route_frac = fraction of layers an op WINS) before the contrast, starving B/D/W of power.
+> FIX = contrast the RAW per-op z per layer, NO argmax, Welch t-test, n=20/comb held-out +
+> per-layer profile (`kernel_reference_prose_v2.py`, Qwen3-14B, 2:17 in main:1).
+> **★ TWO-SIDED VERDICT:** (1) ✅ the argmax bottleneck WAS real — raw-z RESCUES **K**
+> (discr_z +1.01, t=2.12; was sub-threshold) + sharpens **C/I** hugely (C +1.73 t=5.71,
+> I +1.89 t=3.83); AND it's MORE CONSERVATIVE — kills a B FALSE-POSITIVE that argmax-discr
+> manufactures at n=20 (B argmax +0.079>0.05 "specific", but raw-z B FLAT on 0.217≈off 0.236
+> t=−0.05). ⇒ raw-z Welch > argmax route-frac: more power AND fewer false positives (same
+> argmax-manufactures-false-* theme, deeper). (2) ❌ **B/D/W do NOT recover — the gap is
+> GENUINE at the last-token locus:** B flat; **D,W significantly ANTI-correlated** (D −0.67
+> t=−4.6, W −0.63 t=−2.3 — their own prose routes them LESS than baseline). Discriminable
+> set = **{C, I, K, Y}**. **★ GAUGE REFINED:** S = pure gauge (on 2.70≈off 2.97, discr
+> −0.27, zero selectivity); **Y = genuinely selective** (on 2.97 vs off 0.96, +2.01 t=6.86).
+> **★ WHERE:** discriminable ops peak in the **mid-stack readable zone** L12-14 — C@L13
+> Δ3.70, I@L13, Y@L14, K@L12; **B has NO readable-zone signal** (only an early L1 wash that
+> vanishes on averaging; D@L3, W@L0 = noise-floor). **★ THEORY (s127 ffn-two-groups:
+> {K,I}=selectors→FFN, {B,C}=composers→attention):** we read the FFN GATE → K,I,C
+> discriminable but **B not** ⇒ C leaks into the FFN gate, B does NOT; **B likely lives in
+> ATTENTION** (s206 OV/value register), which a last-token FFN-gate read structurally cannot
+> see → B's absence is plausibly a **LOCUS artifact**, not "B isn't computed."
+> **★★ FIRST ACTION NEXT SESSION — lead 2d prong 1b (the B locus test, the clean C-yes/B-no
+> resolver):** re-read **B in the attention/value register** (s206 OV/logit-lens, NOT attn
+> weights) and/or **per-token** (not last-token) — does B recover where s127 says it lives?
+> THEN **prong 2** (composite trace-order bridge, now justified for {C,I,K,Y}: CL program →
+> certified `fired_sequence` → render PROSE via `lambda_gen` → align routing to the certified
+> multi-combinator ORDER, using the raw-z contrast) and **prong 3** (per-model sweep 8B/32B
+> with `kernel_reference_prose_v2.py`). CAVEATS (λ measure): 1 model (14B), n=20/comb,
+> last-token locus (load-bearing for B), single-combinator labels, D/W anti-signal
+> unexplained. CODE COMMITTED; mementum (page §v5 lead 2d prong 1 + memory
+> `bdw-gap-genuine-not-argmax-artifact` + this state) PENDING APPROVAL. tmux main:1 FREE.
+>
+> (Session: 233 — ▶ OPCODE v5 (leads 1→2c) — the compositional
 > opcode signal is REAL but FAINT-against-common-mode and LOCUS-SHIFTS-with-scale; every
 > "negative" this session was an INSTRUMENT flaw (wrong place → wrong input language →
 > wrong metric), each diagnosed + fixed. ALL COMMITTED (`1754424` `1532e4e` `53ed331`
