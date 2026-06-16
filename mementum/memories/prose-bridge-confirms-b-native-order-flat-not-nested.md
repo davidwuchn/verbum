@@ -50,9 +50,20 @@ was −0.57 n.s. at the n=8 smoke = "power-limited not absent"), 14B t=−8.05 �
 Unlike the C-locus (s232 shifts with scale), the order-cost signal is SCALE-ROBUST (not
 strictly monotone — 14B strongest — but all positive+significant).
 
+★ CROSS-CLASS (s237 cont., path 3 DONE): the ORDER PREFERENCE replicates across 3 MODEL
+CLASSES, but the STRICT single-step headline is Qwen-SPECIFIC. OLMo-2-13B + Gemma-4-31B-it
+(instruct), flat n=24: BOTH b_is_native_order=False on the strict single-step B-vs-C atom
+minpair (OLMo t=−1.25 d=−0.07; Gemma t=−0.56 d=−0.52, n.s.) — cleanest f-a-b↔f-b-a swap is
+near-SYMMETRIC off-Qwen. BUT both STRONGLY confirm B<marked on COMPOSITE+aggregate (B-vs-C-multi
+OLMo −24.4 / Gemma −11.6 sig; pooled-atoms preserve ≪ break: OLMo 0.62≪1.08, Gemma 10.2≪14.0).
+⇒ GROSS composition-is-native-order is UNIVERSAL (Qwen ⊗ OLMo ⊗ Gemma); its SHARPEST single-step
+expression is family-dependent (Qwen-sharp). Gemma caveat: INSTRUCT model, OOD prose → huge
+absolute surprisals (B atoms 9.9 vs Qwen ~0.3), noisier (within-model contrasts valid).
+
 ★ NEXT: (1) off-diagonal/proper-Jacobian curvature (s235 path); (2) a 3rd render frame
-("the result of f on x") to confirm flat B<C is frame-robust not "applied to"-specific;
-(3) cross-MODEL-CLASS (OLMo/Pythia) — still 1 family (Qwen).
-CAVEATS (λ measure): 1 model CLASS (Qwen), now 3 scale points (8B/14B/32B all confirm);
-deterministic "applied to" frame; flat deliberately discards faithful structure (nested = its
-complement). Code: kernel_reference_order_cost_v9_prose.py.
+("the result of f on x") — frame-robustness AND whether the single-step minpair sharpens
+off-Qwen under a different frame.
+CAVEATS (λ measure): 3 scale points Qwen (8B/14B/32B all confirm strict) + 2 cross-class
+(OLMo/Gemma confirm gross, not strict single-step); deterministic "applied to" frame; flat
+deliberately discards faithful structure (nested = its complement). Code:
+kernel_reference_order_cost_v9_prose.py.
