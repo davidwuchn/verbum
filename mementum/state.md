@@ -2,7 +2,36 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-16 | Session: 233 — ▶ OPCODE v5 LEAD 2 — KERNEL-AS-REFERENCE
+> Last updated: 2026-06-16 | Session: 233 — ▶ OPCODE v5 LEAD 2b — PROSE BRIDGE
+> BUILT + RAN on Qwen3-14B (code `53ed331`). ★ THE BRIDGE DIRECTION IS RIGHT (two-sided):
+> held-out PROSE recalls its combinator where bare symbols routed only gauge — but
+> specificity is still gauge-dominated. Built: `calibrate_v2` gained a `centroid_probes`
+> param (held-out calib/test split); `kernel_reference_prose.py` splits crystal_probes
+> per-combinator into CALIB (most) + held-out TEST (last 10/comb, NON-circular), calibrates
+> on CALIB, reads each held-out prose probe's LAST-token per-layer routing, scores RECALL
+> (label routed at z>thresh) + SPECIFICITY (label is top crystal op). **★ Qwen3-14B VERDICT
+> (z=2):** held-out PROSE recall **0.575** vs the bare-symbol baseline **~0.14** (S-gauge
+> only, lead 2) ⇒ **the register IS prose-semantic; feed prose not symbols.** I recall 1.0,
+> C 0.9, S 1.0, Y 1.0. **⚠️ BUT specificity (0.287) is carried by S/Y — the gauge/common-
+> mode ops (label_frac 0.71/0.52, spec 0.9 each); the genuine composition combinators
+> RECALL but are SUB-DOMINANT: C 0.9 recall / 0.0 spec (present but always out-competed),
+> B 0.3/0.0, K 0.3/0.2, D 0.1/0.0, W 0/0.** z=3 leaves only S/Y. ⇒ composition signal is
+> PRESENT in prose but out-competed by the S/Y common-mode (the lead-1 "above chance not
+> crisp" + over-read common-mode story, same theme). **The full kernel-as-reference prose
+> bridge is VIABLE and worth building, but raw last-token route_frac is gauge-dominated for
+> the weak combinators — it needs S/Y common-mode subtraction** (the relational/CMR or
+> locus-agnostic machinery from lead 1, or a gauge-matched null). Caveats (λ measure): 1
+> model (14B), single-combinator labels (not composite trace-order yet), last-token locus,
+> crosstask null. **★★ FIRST ACTION NEXT SESSION — v5 lead 2c: (1) add S/Y common-mode
+> SUBTRACTION to the prose read (relational CMR / gauge-matched null) and re-score
+> composition-combinator specificity — does C/B/K become specific once gauge is removed?;
+> (2) THEN the composite trace-order bridge: CL program → certified trace (fired_sequence,
+> DONE) → render as PROSE (lambda_gen decompile via the model's decompile gate) → feed
+> prose → align routing to the certified multi-combinator ORDER; (3) per-model sweep
+> (8B/32B) once the gauge-subtracted prose read works.** PENDING APPROVAL (mementum: page
+> §s233 v5 lead 2b + memory + this state). Code committed `53ed331`. tmux main:1 FREE.
+>
+> (Session: 233 — ▶ OPCODE v5 LEAD 2 — KERNEL-AS-REFERENCE
 > BUILT + RAN on Qwen3-14B (code `1532e4e`). ★ DECISIVE NEGATIVE (two-sided): the
 > model-invariant reference works as an INSTRUMENT but bare symbolic CL programs route
 > ONLY GAUGE. Built: (1) `lambda_ast.step_fired`/`fired_sequence` = certified per-step

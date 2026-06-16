@@ -292,14 +292,45 @@ mode). The kernel-as-reference IDEA is sound and the INSTRUMENT is built; the **
 wrong** — bare symbols are out-of-distribution. Caveats: 1 model (14B), 7 targets + 8
 composites, crosstask null.
 
+## v5 lead 2b — the prose bridge (BUILT + RAN, s233; `53ed331`)
+
+The lead-2 negative (bare symbols → gauge) implied the register is prose-semantic. Before
+investing in a CL→decompiled-prose renderer, de-risk: does PROSE route its combinator at
+all (held-out, non-circular)? `calibrate_v2` gained a `centroid_probes` param;
+`kernel_reference_prose.py` splits crystal_probes per-combinator into CALIB (most) +
+held-out TEST (last 10/comb), calibrates on CALIB (the TEST prose is UNSEEN by the
+centroids), reads each held-out prose probe's LAST-token routing, scores RECALL (label
+routed at z>thresh) + SPECIFICITY (label is the top crystal op).
+
+### ★ s233 v5 lead 2b VERDICT (Qwen3-14B, crosstask null; λ measure, TWO-SIDED)
+
+**★ THE BRIDGE DIRECTION IS RIGHT.** Held-out PROSE recall **0.575** (z=2) vs the
+bare-symbol baseline **~0.14** (S-gauge only, lead 2) ⇒ **the register IS prose-semantic;
+feed prose, not symbols.** Per-combinator recall: I 1.0, C 0.9, S 1.0, Y 1.0, K 0.3,
+B 0.3, D 0.1, W 0.0.
+
+**⚠️ BUT specificity (0.287) is GAUGE-DOMINATED.** It is carried by **S and Y** — this
+model's common-mode ops (label_frac 0.71 / 0.52, specificity 0.9 each). The genuine
+composition combinators RECALL but are SUB-DOMINANT: **C 0.9 recall / 0.0 specificity**
+(present but always out-competed), B 0.3/0.0, K 0.3/0.2, D 0.1/0.0, W 0/0. At z=3 only
+S/Y survive. ⇒ the composition signal IS present in prose but out-competed by the S/Y
+common-mode — the same "above chance not crisp" + over-read common-mode theme as lead 1.
+
+**★ CONCLUSION:** the full kernel-as-reference prose bridge is VIABLE and worth building,
+but **raw last-token route_frac is gauge-dominated for the weak combinators** — it needs
+S/Y common-mode SUBTRACTION (the relational CMR / locus-agnostic machinery from lead 1, or
+a gauge-matched null) before composition-combinator specificity is readable. Caveats: 1
+model (14B), single-combinator labels (not composite trace-order yet), last-token locus.
+
 ### v5 — next steps
 
-- **★ lead 2b — the PROSE bridge (immediate next):** CL program → certified trace
-  (`fired_sequence`, DONE) → **render as PROSE** (`lambda_gen` Montague decompile, or the
-  s226 compile front-end) → feed the PROSE → compare routing to the certified CL trace.
-  Add `--input prose` to `kernel_reference_audit` reusing the certified trace; re-run the
-  SAT/INERT + trace-recall agreement on prose (the prose register IS where the substrate
-  is real, s231). Then per-model sweep (8B/32B) on the working bridge.
+- **★ lead 2c — gauge-subtract the prose read, then composite trace-order:** (1) add S/Y
+  common-mode subtraction (relational CMR / gauge-matched null) to the prose read and
+  re-score composition-combinator specificity — does C/B/K become specific once gauge is
+  removed? (2) THEN the composite bridge: CL program → certified trace (`fired_sequence`,
+  DONE) → render PROSE (`lambda_gen` decompile via the model's decompile gate) → align
+  routing to the certified multi-combinator ORDER. (3) per-model sweep (8B/32B) once the
+  gauge-subtracted prose read works.
 - **bigger lambda probe set** — 5 sentences underpowers the lead-1 frac test (32B
   directional signal can't clear the margin); more sentences for crisper fractions.
 - **the 8B gate_neutral C-late confound** — why does a non-compositional gated control
@@ -336,4 +367,6 @@ The s206 OV/logit-lens half the old instrument never had: binding/value-transfer
 | `src/verbum/probes/kernel_reference.py` | s233 v5 lead 2: symbolic combinator programs + kernel-certified traces; SATURATED⊗INERT pairs + COMPOSITE multi-fire — `1532e4e` |
 | `scripts/experiments/kernel_reference_audit.py` | s233 v5 lead 2: anchor model routing vs the certified trace (reducibility / recall / specificity / trace-recall) — `1532e4e` |
 | `results/kernel-reference-audit/verdict_qwen3-14b_crosstask.json` | s233 v5 lead 2 verdict: ❌ bare symbolic CL routes ONLY S-gauge (target_recall 1/7, reducibility not tracked) ⇒ register is prose-semantic, bridge must be compiled prose |
+| `scripts/experiments/kernel_reference_prose.py` | s233 v5 lead 2b: held-out crystal-prose recall/specificity (non-circular calib/test split via `centroid_probes`) — `53ed331` |
+| `results/kernel-reference-audit/prose_verdict_qwen3-14b.json` | s233 v5 lead 2b verdict: ✅ prose recall 0.575 >> symbol 0.14 (register is prose-semantic) but ⚠️ specificity gauge-dominated (S/Y win; C 0.9 recall/0.0 spec) ⇒ needs gauge subtraction |
 | `scripts/instruments/opcode_instrument.py` | the legacy VSM monitor (raw-cosine = the over-read; to be wired with the validated classifier as a config mode, keeping raw as the matched control) |
