@@ -1,0 +1,12 @@
+{
+  "model": "allenai/OLMo-2-1124-13B",
+  "smoke": false,
+  "git_sha": "f843300157f292407647ce0357745c073ba60c93",
+  "timestamp_utc": "2026-06-16T20:27:42.556777+00:00",
+  "transformers_version": "5.5.4",
+  "n_each": 24,
+  "n_programs": 216,
+  "seed": 0,
+  "render_mode": "flat",
+  "register": "ORDER-COST PROSE bridge softmax-over-V surprisal"
+}

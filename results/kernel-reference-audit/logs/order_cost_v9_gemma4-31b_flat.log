@@ -1,0 +1,54 @@
+[order-prose] 216 programs (from n_each=24) render_mode=flat
+[order-prose]   sample 'B n v m': 'crane applied to deer applied to seal'
+[order-prose]   sample 'C n v m': 'crane applied to seal applied to deer'
+[v2] Loading tokenizer: google/gemma-4-31B-it
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[v2] Loading model: google/gemma-4-31B-it  (dtype=auto, device_map=auto)
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files:  50%|█████     | 1/2 [08:02<08:02, 482.66s/it]Fetching 2 files: 100%|██████████| 2/2 [08:02<00:00, 241.33s/it]
+Loading weights:   0%|          | 0/1188 [00:00<?, ?it/s]Loading weights:   0%|          | 1/1188 [00:01<36:26,  1.84s/it]Loading weights:   2%|▏         | 19/1188 [00:01<01:27, 13.35it/s]Loading weights:   3%|▎         | 34/1188 [00:02<00:44, 25.85it/s]Loading weights:   4%|▍         | 49/1188 [00:02<00:28, 40.00it/s]Loading weights:   6%|▌         | 71/1188 [00:02<00:17, 64.96it/s]Loading weights:   7%|▋         | 88/1188 [00:02<00:13, 80.41it/s]Loading weights:   9%|▉         | 104/1188 [00:02<00:11, 91.56it/s]Loading weights:  10%|█         | 124/1188 [00:02<00:09, 112.74it/s]Loading weights:  12%|█▏        | 144/1188 [00:02<00:08, 127.34it/s]Loading weights:  14%|█▎        | 161/1188 [00:02<00:07, 129.33it/s]Loading weights:  15%|█▌        | 179/1188 [00:02<00:07, 139.53it/s]Loading weights:  17%|█▋        | 197/1188 [00:03<00:06, 149.58it/s]Loading weights:  18%|█▊        | 214/1188 [00:03<00:06, 146.08it/s]Loading weights:  19%|█▉        | 230/1188 [00:03<00:06, 146.31it/s]Loading weights:  21%|██        | 249/1188 [00:03<00:06, 155.94it/s]Loading weights:  22%|██▏       | 266/1188 [00:03<00:05, 158.22it/s]Loading weights:  24%|██▍       | 283/1188 [00:03<00:05, 151.42it/s]Loading weights:  25%|██▌       | 299/1188 [00:03<00:05, 152.31it/s]Loading weights:  27%|██▋       | 320/1188 [00:03<00:05, 167.04it/s]Loading weights:  28%|██▊       | 337/1188 [00:03<00:05, 158.55it/s]Loading weights:  30%|██▉       | 354/1188 [00:04<00:05, 150.32it/s]Loading weights:  31%|███▏      | 374/1188 [00:04<00:04, 163.33it/s]Loading weights:  33%|███▎      | 393/1188 [00:04<00:04, 163.90it/s]Loading weights:  35%|███▍      | 410/1188 [00:04<00:05, 155.00it/s]Loading weights:  36%|███▌      | 427/1188 [00:04<00:04, 158.73it/s]Loading weights:  37%|███▋      | 444/1188 [00:04<00:04, 161.11it/s]Loading weights:  39%|███▉      | 462/1188 [00:04<00:04, 162.84it/s]Loading weights:  40%|████      | 479/1188 [00:04<00:04, 155.79it/s]Loading weights:  42%|████▏     | 498/1188 [00:04<00:04, 164.52it/s]Loading weights:  43%|████▎     | 515/1188 [00:05<00:04, 165.99it/s]Loading weights:  45%|████▍     | 532/1188 [00:05<00:04, 152.53it/s]Loading weights:  46%|████▌     | 548/1188 [00:05<00:04, 152.67it/s]Loading weights:  48%|████▊     | 567/1188 [00:05<00:03, 162.56it/s]Loading weights:  49%|████▉     | 584/1188 [00:05<00:03, 161.63it/s]Loading weights:  51%|█████     | 601/1188 [00:05<00:03, 151.10it/s]Loading weights:  52%|█████▏    | 617/1188 [00:05<00:03, 150.66it/s]Loading weights:  54%|█████▎    | 638/1188 [00:05<00:03, 163.78it/s]Loading weights:  55%|█████▌    | 656/1188 [00:05<00:03, 164.08it/s]Loading weights:  57%|█████▋    | 673/1188 [00:06<00:03, 148.77it/s]Loading weights:  58%|█████▊    | 691/1188 [00:06<00:03, 156.95it/s]Loading weights:  60%|█████▉    | 708/1188 [00:06<00:02, 160.38it/s]Loading weights:  61%|██████    | 725/1188 [00:06<00:02, 161.68it/s]Loading weights:  62%|██████▏   | 742/1188 [00:06<00:02, 152.04it/s]Loading weights:  64%|██████▍   | 760/1188 [00:06<00:02, 156.36it/s]Loading weights:  66%|██████▌   | 780/1188 [00:06<00:02, 160.41it/s]Loading weights:  67%|██████▋   | 797/1188 [00:06<00:02, 152.32it/s]Loading weights:  69%|██████▉   | 818/1188 [00:06<00:02, 165.20it/s]Loading weights:  70%|███████   | 837/1188 [00:07<00:02, 171.76it/s]Loading weights:  88%|████████▊ | 1043/1188 [00:07<00:00, 700.73it/s]Loading weights: 100%|██████████| 1188/1188 [00:07<00:00, 163.73it/s]
+[v2] Model loaded in 490.8s
+[order-prose]   scoring 0/216 ...
+[order-prose]   scoring 25/216 ...
+[order-prose]   scoring 50/216 ...
+[order-prose]   scoring 75/216 ...
+[order-prose]   scoring 100/216 ...
+[order-prose]   scoring 125/216 ...
+[order-prose]   scoring 150/216 ...
+[order-prose]   scoring 175/216 ...
+[order-prose]   scoring 200/216 ...
+
+══════════════════════════════════════════════════════════════════════════
+KERNEL-REF ORDER-COST [PROSE] — is B the NATIVE softmax-over-V order?
+══════════════════════════════════════════════════════════════════════════
+  programs=216   surprisal=mean -log p ; atoms=content-words only
+
+  op        full     atoms     n   role
+  B       4.1014    9.8553   120   preserve
+  C       7.6252   14.6599    48   BREAK
+  D       5.3109     12.18    24   preserve
+  K       6.4986   14.8735    48   BREAK
+  S        6.794   11.6312    24   BREAK
+  W       6.2463   13.2354    24   BREAK
+  [ full] preserve 4.303 vs break 6.8813  (Δ=-2.5784, cheaper=True)
+  [ATOMS] preserve 10.2427 vs break 13.9889  (Δ=-3.7462, cheaper=True)
+
+  FULL contrasts (confounded by parens/length) (a-b; a<b means a cheaper / more native):
+    B_vs_C_minpair     d= -2.0791  t= -4.503  n= 24  a<b  ✓
+    B_vs_S_minpair     d= -0.8358  t= -1.528  n= 24  a<b   
+    D_vs_K_minpair     d= -2.2122  t= -4.856  n= 24  a<b  ✓
+    B_vs_C_multi       d= -5.2213  t=-17.505  n= 24  a<b  ✓
+    B_vs_K_multi       d= -2.5881  t=  -5.87  n= 24  a<b  ✓
+    B_vs_W_multi       d= -2.5336  t= -5.975  n= 24  a<b  ✓
+
+  ATOM-ONLY contrasts (DE-CONFOUNDED — the headline) (a-b; a<b means a cheaper / more native):
+    B_vs_C_minpair     d= -0.5246  t=  -0.56  n= 24  a<b   
+    B_vs_S_minpair     d=  1.7126  t=  1.568  n= 24  a>b   
+    D_vs_K_minpair     d= -4.8887  t= -4.345  n= 24  a<b  ✓
+    B_vs_C_multi       d= -9.8563  t= -11.63  n= 24  a<b  ✓
+    B_vs_K_multi       d= -5.0587  t= -4.523  n= 24  a<b  ✓
+    B_vs_W_multi       d= -3.8614  t= -4.101  n= 24  a<b  ✓
+
+  * B native order [PROSE, B<C atom minpair]: False
+══════════════════════════════════════════════════════════════════════════
+
+[order-prose] wrote /Users/mwhitford/src/verbum/results/kernel-reference-audit/order_cost_v9_prose_verdict_gemma-4-31b-it_flat.json
