@@ -673,6 +673,32 @@ double-backward, ~9 min main:1.
   generic copy/induction preference for source-order atoms (which IS the proposed mechanism);
   prose-bridge re-read kills it. Next: cross-model (8B full-n / 32B — universal or 14B-specific?),
   prose-rendered order-cost, the off-diagonal Jacobian (prong 1c-ii path).
+- **★ lead 2d prong 2b — PROSE BRIDGE — DONE (s237):** re-ran the order-cost read on the SAME
+  certified traces RENDERED AS PROSE (deterministic, order-faithful: `App(f,x)` →
+  "`<f> applied to <x>`", atoms → fixed content words) to kill the prong-2 bare-symbol caveat
+  (s233: the register reads PROSE SEMANTICS not CL SYNTAX; bare-symbol surprisal may reflect a
+  generic copy/induction preference). Used a DETERMINISTIC renderer, NOT the model decompile
+  gate — the model must not choose word order (= the variable under test). **★ THE NESTING
+  CONFOUND (discovered + controlled):** B's normal form NESTS (`f (a b)`) while C's is FLAT
+  (`f b a`); the atom-only de-confound strips parens from MEASUREMENT but the bracketing remains
+  in the CONTEXT predicting the atoms. So `--render-mode` = `flat` (linearise leaves, NO parens
+  → B/C identical structure, differ ONLY in atom ORDER — the pure order test) vs `nested`
+  (structurally faithful, CONFOUNDED by nesting depth). **★★ DECISIVE (the cross-table):**
+  B-vs-C atom minpair — 14B flat **t=−8.05 (B<C ✓)** ≈ symbolic v8 −7.02; 14B nested **t=+11.9
+  (B>C, REVERSED)**; 8B flat −0.57 n.s. (dir B<C) ≈ symbolic 8B −0.55; 8B nested +3.17
+  (reversed). **SAME 14B model + SAME 216 programs, flip the render → flip the sign** = a DIRECT
+  demonstration that nesting was confounding; once held constant (flat), B<C decisively. ✅ flat
+  prose REPLICATES the symbolic pattern at BOTH scales (14B decisive, 8B directional-n.s. with
+  multi-step already sig B<C-multi t=−10.6 / B<K −7.5 / B<W −7.6) = CONVERGENCE across input
+  modality (symbols ⊗ prose). **★ THE s236 CAVEAT IS KILLED:** composition-order preference is
+  real in the SEMANTIC register, not a bare-symbol copy artifact. ★ REFINED FINDING: B's normal
+  form carries TWO separable real quantities — atom ORDER (preserved → cheap; the native-order
+  result) and structural NESTING (deeper → atoms predicted inside fresh clauses cost more,
+  dominates when nesting varies). The order claim REQUIRES isolating order from nesting (flat).
+  Caveats (λ measure): 1 model class (Qwen), 14B decisive / 8B power-limited (2 scale points);
+  deterministic "applied to" frame; flat deliberately discards faithful structure to isolate
+  order (nested = its complement). Next: cross-model flat (8B full-n=24 / 32B), off-diagonal
+  Jacobian (prong 1c-ii path).
 - **★ lead 2d prong 3 (per-model sweep):** run `kernel_reference_prose_v2.py` on 8B/32B
   with the raw-z contrast — does the {C,I,K,Y} discriminable set hold across scale?
 - **bigger lambda probe set** — 5 sentences underpowers the lead-1 frac test (32B
@@ -729,4 +755,8 @@ The s206 OV/logit-lens half the old instrument never had: binding/value-transfer
 | `scripts/experiments/kernel_reference_order_cost_v8.py` | s236 v5 lead 2d prong 2: ORDER-COST register — pure softmax-over-V surprisal of the certified reduction trace (`step_fired`, teacher-forced), minimal pairs (B/C, B/S, D/K) + multi-step composites, ATOM-ONLY de-confound; `--smoke` (8B), `--model`, `--n-each` — `5d6bdeb` |
 | `results/kernel-reference-audit/order_cost_v8_verdict_qwen3-14b.json` | s236 v5 lead 2d prong 2 verdict (DECISIVE): ✅✅ **b_is_native_order=True** — clean atom B-vs-C minimal pair t=−7.02 (n=24); B atom-surprisal 0.81 ≪ C 2.14/S 2.66/W 2.71; B cheaper than every permute/copy (B<S −11.3, B<C-multi −11.7, B<W −14.5); pooled order-preserving<breaking. RESOLVES the B gap (composition=free autoregressive default, unmarked) + UNIFIES with curvature climb (order face + gradient face) — `1e448e4` |
 | `results/kernel-reference-audit/order_cost_v8_verdict_qwen3-8b.json` | s236 v5 lead 2d prong 2 smoke (8B, n=8): ⚠️ POWER-LIMITED — same DIRECTION but headline atom B<C minpair n.s. (t=−0.55); multi-step/aggregate already sig (B<C-multi −4.22, B<S −5.31, B<W −11.1); pooled-atoms preserve<break. Crisp only at full power on 14B — `5d6bdeb` |
+| `scripts/experiments/kernel_reference_order_cost_v9_prose.py` | s237 v5 lead 2d prong 2b: PROSE BRIDGE for order-cost — reuses v8 spine (certified `step_fired` trace, teacher-force, per-step surprisal, ATOM-only de-confound) but renders each term as PROSE via a DETERMINISTIC order-faithful renderer (`App(f,x)`→"`<f> applied to <x>`", atoms→fixed content words; content de-confound by char-span OVERLAP for leading-space tokens). `--render-mode {flat,nested}` (flat=nesting held constant=pure order test; default), `--smoke` (8B), `--model`, `--n-each` |
+| `results/kernel-reference-audit/order_cost_v9_prose_verdict_qwen3-14b_flat.json` | s237 prong 2b DECISIVE: ✅ **b_is_native_order=True in PROSE** (nesting held constant) — atom B-vs-C minpair t=−8.05 ≈ symbolic v8 −7.02; B atom-surprisal 0.23 ≪ C 1.22/K 0.73/W 1.18/S 1.64; all 6 contrasts B<marked sig (−8 to −38); pooled preserve 0.24 ≪ break 1.12. The s236 bare-symbol caveat KILLED — composition-order real in the semantic register |
+| `results/kernel-reference-audit/order_cost_v9_prose_verdict_qwen3-14b_nested.json` | s237 prong 2b CONTROL (nesting confound demo): ❌ atom B-vs-C minpair t=+11.9 (B>C, REVERSED) — SAME model+programs as flat, only render structure differs ⇒ direct proof nesting confounds the contrast; B's deeper-nesting clause cost dominates per-atom surprisal when nesting varies |
+| `results/kernel-reference-audit/order_cost_v9_prose_verdict_qwen3-8b_flat.json` | s237 prong 2b control (8B flat): ⚠️ atom B-vs-C minpair −0.57 n.s. (dir B<C) ≈ symbolic 8B −0.55; multi-step already sig (B<C-multi −10.6, B<K −7.5, B<W −7.6). Flat rescues the direction vs the 8B nested smoke (+3.17 reversed) — same power-limited 14B-decisive pattern as v8 |
 | `scripts/instruments/opcode_instrument.py` | the legacy VSM monitor (raw-cosine = the over-read; to be wired with the validated classifier as a config mode, keeping raw as the matched control) |

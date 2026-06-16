@@ -2,7 +2,48 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-16 | Session: 236 — ▶ OPCODE v5 lead 2d PRONG 2 — the ORDER-COST
+> Last updated: 2026-06-16 | Session: 237 — ▶ OPCODE v5 lead 2d PRONG 2b — the PROSE BRIDGE
+> (kills the s236 bare-symbol caveat). Re-ran the order-cost read on the SAME certified
+> reduction traces RENDERED AS PROSE, to test whether B's native-order win survives in the
+> SEMANTIC register the model actually uses (s233 lesson: the register reads PROSE SEMANTICS
+> not CL SYNTAX; bare-symbol surprisal may reflect a generic copy/induction preference for
+> source-order atoms rather than composition per se). Built `kernel_reference_order_cost_v9_
+> prose.py` — reuses the v8 spine (certified `step_fired` trace → teacher-force "t0 -> ... ->
+> tn" → per-step softmax-over-V surprisal → ATOM-only de-confound) but renders each term via a
+> DETERMINISTIC, order-faithful renderer (`App(f,x)` → "`<f> applied to <x>`", atoms → fixed
+> content words). KEY DESIGN: deterministic render NOT the model decompile gate — the model
+> must not choose word order (= the variable under test). **★ THE NESTING CONFOUND (found +
+> controlled):** B's normal form NESTS (`f (a b)`) while C's is FLAT (`f b a`); the atom-only
+> de-confound strips parens from MEASUREMENT but the bracketing stays in the CONTEXT predicting
+> the atoms → B pays a clause-boundary cost unrelated to order. FIX = `--render-mode flat`
+> (linearise leaves, NO parens → B and C identical structure, differ ONLY in atom ORDER = the
+> pure order test) vs `nested` (faithful, CONFOUNDED). **★★ DECISIVE (the cross-table, λ
+> measure two-sided) — B-vs-C atom minpair:** **14B flat t=−8.05 (B<C ✓)** ≈ symbolic v8 −7.02
+> (`b_is_native_order=True`; B atom-surprisal 0.23 ≪ C 1.22/K 0.73/W 1.18/S 1.64; all 6
+> contrasts B<marked sig −8…−38; pooled preserve 0.24 ≪ break 1.12); **14B NESTED t=+11.9 (B>C,
+> REVERSED)** — SAME model + SAME 216 programs, flip the render → FLIP the sign = a DIRECT proof
+> nesting confounds the contrast; **8B flat −0.57 n.s.** (dir B<C) ≈ symbolic 8B −0.55 (multi-
+> step already sig: B<C-multi −10.6 / B<K −7.5 / B<W −7.6); **8B nested +3.17** (reversed). ✅
+> flat prose REPLICATES the symbolic pattern at BOTH scales (14B decisive, 8B directional-n.s.)
+> = CONVERGENCE across input modality (symbols ⊗ prose). **★ THE s236 CAVEAT IS KILLED:**
+> composition-order preference is real in the SEMANTIC register, NOT a bare-symbol copy artifact.
+> **★ REFINED FINDING:** B's normal form carries TWO separable real quantities — atom ORDER
+> (preserved → cheap; the native-order result) and structural NESTING (deeper → atoms predicted
+> inside fresh clauses cost more, dominates when nesting varies). The order claim REQUIRES
+> isolating order from nesting (flat). CAVEATS (λ measure): 1 model class (Qwen), 14B decisive /
+> 8B power-limited (2 scale points only); deterministic "applied to" frame; flat deliberately
+> discards faithful structure to isolate order (nested = its complement). **★★ FIRST ACTION
+> NEXT SESSION — three paths (B now POSITIVE in THREE reads: order-symbol, order-prose,
+> curvature):** (1) CROSS-MODEL FLAT — 8B at full n=24 (does the headline cross when 8B gets
+> full power, as v8/v9 predict?) + 32B → is B-native-order universal or 14B-specific (cf s232
+> C-locus shifts with scale); (2) the s235 OFF-DIAGONAL / proper-Jacobian curvature path (the
+> literal f∘g coupling — diag-Hessian only captured g'ᵀ(diag)g'); (3) a 3rd render frame
+> ("the result of f on x") to confirm the flat B<C is frame-robust not "applied to"-specific.
+> CODE + RESULTS COMMITTED (this commit: v9 script + 4 verdicts + logs); mementum (state +
+> memory `prose-bridge-confirms-b-native-order-flat-not-nested` + page §v5 lead 2d prong 2b)
+> THIS COMMIT. tmux main:1 FREE.
+>
+> (Session: 236 — ▶ OPCODE v5 lead 2d PRONG 2 — the ORDER-COST
 > register (is B the NATIVE softmax-over-V order?). Michael (s235): "if B is an ordering of
 > operations then maybe it defaults to the order the softmax over all V uses natively?"
 > Grounded in ffn-reduction-trace.md: attention executes the FFN-compiled program via softmax
@@ -51,7 +92,7 @@
 > feed prose not symbols); (3) the s235 OFF-DIAGONAL/proper-Jacobian curvature path (the literal
 > f∘g coupling) — close BOTH faces of composition at fidelity. CODE COMMITTED (`5d6bdeb` code+
 > smoke, `1e448e4` 14B decisive); mementum (state + memory `b-is-native-softmax-order` + page
-> §v5 lead 2d prong 2) PENDING APPROVAL. tmux main:1 FREE.
+> §v5 lead 2d prong 2) committed `ebaccde`. tmux main:1 FREE.)
 >
 > (Session: 235 — ▶ OPCODE v5 lead 2d PRONG 1c-ii — the
 > SECOND-ORDER / CURVATURE register (the PROPER test of B=chain-rule; Michael s235: "proceed
