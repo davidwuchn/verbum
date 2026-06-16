@@ -1,0 +1,11 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "smoke": true,
+  "git_sha": "974080e90de22e90cdb6689d8e34cf6e608a243b",
+  "timestamp_utc": "2026-06-16T17:24:00.072018+00:00",
+  "transformers_version": "5.5.4",
+  "n_each": 8,
+  "n_programs": 72,
+  "seed": 0,
+  "register": "ORDER-COST softmax-over-V surprisal of certified trace"
+}

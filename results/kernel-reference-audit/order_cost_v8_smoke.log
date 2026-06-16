@@ -1,0 +1,37 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[order] SMOKE MODE
+[order] 36 programs (from n_each=4)
+[v2] Loading tokenizer: Qwen/Qwen3-0.6B
+[v2] Loading model: Qwen/Qwen3-0.6B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:  15%|█▌        | 47/311 [00:00<00:00, 469.54it/s]Loading weights:  82%|████████▏ | 254/311 [00:00<00:00, 1408.75it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 1357.40it/s]
+[v2] Model loaded in 0.7s
+[order]   scoring 0/36 ...
+[order]   scoring 25/36 ...
+
+══════════════════════════════════════════════════════════════════════════
+KERNEL-REF ORDER-COST — is B the NATIVE softmax-over-V order?
+══════════════════════════════════════════════════════════════════════════
+  programs=36  (surprisal = mean -log p over contractum tokens)
+
+  op    surprisal       sd     n   role
+  B        2.1776   0.4189    20   preserve
+  C         1.985   0.4153     8   BREAK
+  D        2.6354    0.326     4   preserve
+  K        0.5893   0.1678     8   BREAK
+  S        2.5992    0.302     4   BREAK
+  W        1.4668   0.1999     4   BREAK
+
+  order-PRESERVING 2.2539 vs order-BREAKING 1.5358  (delta=0.7182, cheaper=False)
+
+  minimal-pair / within-program contrasts (a-b; a<b means a cheaper):
+    B_vs_C_minpair     Δ=  0.1945  t=  0.711  n=  4  a>b   
+    B_vs_S_minpair     Δ=  -0.158  t= -0.703  n=  4  a<b   
+    D_vs_K_minpair     Δ=  2.0244  t=  7.735  n=  4  a>b  ✓
+    B_vs_C_multi       Δ=  0.4112  t=  3.463  n=  4  a>b  ✓
+    B_vs_K_multi       Δ=  1.3915  t=  5.922  n=  4  a>b  ✓
+    B_vs_W_multi       Δ=  0.4453  t=  2.991  n=  4  a>b  ✓
+
+  * B = native softmax-over-V order (B<C minpair, sig): False
+══════════════════════════════════════════════════════════════════════════
+
+[order] wrote /Users/mwhitford/src/verbum/results/kernel-reference-audit/order_cost_v8_verdict_qwen3-0-6b.json
