@@ -1,0 +1,51 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[order] 216 programs (from n_each=24)
+[v2] Loading tokenizer: Qwen/Qwen3-14B
+[v2] Loading model: Qwen/Qwen3-14B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:01<07:23,  1.00s/it]Loading weights:   5%|▌         | 24/443 [00:01<00:14, 29.53it/s]Loading weights:   9%|▉         | 39/443 [00:01<00:08, 46.86it/s]Loading weights:  14%|█▍        | 61/443 [00:01<00:05, 75.63it/s]Loading weights:  19%|█▊        | 83/443 [00:01<00:03, 102.32it/s]Loading weights:  24%|██▎       | 105/443 [00:01<00:02, 125.12it/s]Loading weights:  29%|██▊       | 127/443 [00:01<00:02, 144.33it/s]Loading weights:  34%|███▎      | 149/443 [00:01<00:01, 159.60it/s]Loading weights:  39%|███▊      | 171/443 [00:01<00:01, 170.95it/s]Loading weights:  44%|████▎     | 193/443 [00:01<00:01, 177.19it/s]Loading weights:  49%|████▊     | 215/443 [00:02<00:01, 182.25it/s]Loading weights:  53%|█████▎    | 236/443 [00:02<00:01, 189.65it/s]Loading weights:  58%|█████▊    | 258/443 [00:02<00:00, 192.94it/s]Loading weights:  63%|██████▎   | 280/443 [00:02<00:00, 189.58it/s]Loading weights:  68%|██████▊   | 301/443 [00:02<00:00, 190.45it/s]Loading weights:  72%|███████▏  | 321/443 [00:02<00:00, 191.05it/s]Loading weights:  77%|███████▋  | 341/443 [00:02<00:00, 184.14it/s]Loading weights:  81%|████████▏ | 360/443 [00:02<00:00, 180.78it/s]Loading weights:  86%|████████▌ | 379/443 [00:02<00:00, 183.04it/s]Loading weights:  90%|█████████ | 400/443 [00:03<00:00, 189.88it/s]Loading weights:  95%|█████████▍| 420/443 [00:03<00:00, 188.53it/s]Loading weights:  99%|█████████▉| 439/443 [00:03<00:00, 180.31it/s]Loading weights: 100%|██████████| 443/443 [00:03<00:00, 134.01it/s]
+[v2] Model loaded in 3.9s
+[order]   scoring 0/216 ...
+[order]   scoring 25/216 ...
+[order]   scoring 50/216 ...
+[order]   scoring 75/216 ...
+[order]   scoring 100/216 ...
+[order]   scoring 125/216 ...
+[order]   scoring 150/216 ...
+[order]   scoring 175/216 ...
+[order]   scoring 200/216 ...
+
+══════════════════════════════════════════════════════════════════════════
+KERNEL-REF ORDER-COST — is B the NATIVE softmax-over-V order?
+══════════════════════════════════════════════════════════════════════════
+  programs=216   surprisal=mean -log p ; atoms=order-bearing only
+
+  op        full     atoms     n   role
+  B       1.2128    0.8145   120   preserve
+  C       2.1373    2.1373    48   BREAK
+  D       1.5538    0.5985    24   preserve
+  K       0.7021    0.7021    48   BREAK
+  S       2.3448    2.6636    24   BREAK
+  W        2.705     2.705    24   BREAK
+  [ full] preserve 1.2696 vs break 1.7881  (Δ=-0.5185, cheaper=True)
+  [ATOMS] preserve 0.7785 vs break 1.8412  (Δ=-1.0627, cheaper=True)
+
+  FULL contrasts (confounded by parens/length) (a-b; a<b means a cheaper / more native):
+    B_vs_C_minpair     d=   -0.77  t= -4.291  n= 24  a<b  ✓
+    B_vs_S_minpair     d= -1.0972  t=-11.837  n= 24  a<b  ✓
+    D_vs_K_minpair     d=  0.8247  t=   7.08  n= 24  a>b  ✓
+    B_vs_C_multi       d= -1.0614  t= -9.368  n= 24  a<b  ✓
+    B_vs_K_multi       d=  0.5826  t=  7.537  n= 24  a>b  ✓
+    B_vs_W_multi       d= -1.5896  t=-12.862  n= 24  a<b  ✓
+
+  ATOM-ONLY contrasts (DE-CONFOUNDED — the headline) (a-b; a<b means a cheaper / more native):
+    B_vs_C_minpair     d= -1.2565  t= -7.024  n= 24  a<b  ✓
+    B_vs_S_minpair     d= -1.9026  t=-11.306  n= 24  a<b  ✓
+    D_vs_K_minpair     d= -0.1306  t=  -1.22  n= 24  a<b   
+    B_vs_C_multi       d= -1.4856  t=-11.706  n= 24  a<b  ✓
+    B_vs_K_multi       d=  0.3251  t=  2.697  n= 24  a>b  ✓
+    B_vs_W_multi       d=  -1.926  t= -14.51  n= 24  a<b  ✓
+
+  * B native order [DE-CONFOUNDED B<C atom minpair, sig]: True
+══════════════════════════════════════════════════════════════════════════
+
+[order] wrote /Users/mwhitford/src/verbum/results/kernel-reference-audit/order_cost_v8_verdict_qwen3-14b.json
