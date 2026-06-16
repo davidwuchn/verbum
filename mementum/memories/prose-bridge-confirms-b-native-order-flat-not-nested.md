@@ -43,9 +43,16 @@ inside fresh clauses cost more; dominates when nesting varies). An order claim R
 isolating order from nesting (flat). B now positive in THREE reads: order-symbol (v8),
 order-prose-flat (v9), curvature (v7).
 
-★ NEXT: (1) cross-model flat — 8B at full n=24 + 32B (universal or 14B-specific?);
-(2) off-diagonal/proper-Jacobian curvature (s235 path); (3) a 3rd render frame
-("the result of f on x") to confirm flat B<C is frame-robust not "applied to"-specific.
-CAVEATS (λ measure): 1 model class (Qwen), 14B decisive / 8B power-limited (2 scale points);
+★ CROSS-MODEL (s237 cont., path 1 DONE): B-NATIVE-ORDER IS UNIVERSAL across the Qwen3 scale
+ladder (8B/14B/32B, all flat n=24). B-vs-C atom minpair: 8B t=−2.87 ✓ (CROSSES at full power —
+was −0.57 n.s. at the n=8 smoke = "power-limited not absent"), 14B t=−8.05 ✓ (strongest),
+32B t=−4.48 ✓. All three b_is_native_order=True, all 6 contrasts sig, pooled preserve ≪ break.
+Unlike the C-locus (s232 shifts with scale), the order-cost signal is SCALE-ROBUST (not
+strictly monotone — 14B strongest — but all positive+significant).
+
+★ NEXT: (1) off-diagonal/proper-Jacobian curvature (s235 path); (2) a 3rd render frame
+("the result of f on x") to confirm flat B<C is frame-robust not "applied to"-specific;
+(3) cross-MODEL-CLASS (OLMo/Pythia) — still 1 family (Qwen).
+CAVEATS (λ measure): 1 model CLASS (Qwen), now 3 scale points (8B/14B/32B all confirm);
 deterministic "applied to" frame; flat deliberately discards faithful structure (nested = its
 complement). Code: kernel_reference_order_cost_v9_prose.py.
