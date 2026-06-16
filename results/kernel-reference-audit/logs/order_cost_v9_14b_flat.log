@@ -1,0 +1,53 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[order-prose] 216 programs (from n_each=24) render_mode=flat
+[order-prose]   sample 'B n v m': 'crane applied to deer applied to seal'
+[order-prose]   sample 'C n v m': 'crane applied to seal applied to deer'
+[v2] Loading tokenizer: Qwen/Qwen3-14B
+[v2] Loading model: Qwen/Qwen3-14B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<05:57,  1.24it/s]Loading weights:   0%|          | 2/443 [00:00<03:04,  2.38it/s]Loading weights:   5%|▍         | 22/443 [00:01<00:11, 35.37it/s]Loading weights:   9%|▉         | 39/443 [00:01<00:06, 60.81it/s]Loading weights:  14%|█▍        | 61/443 [00:01<00:04, 93.08it/s]Loading weights:  19%|█▊        | 82/443 [00:01<00:03, 118.40it/s]Loading weights:  23%|██▎       | 103/443 [00:01<00:02, 138.85it/s]Loading weights:  28%|██▊       | 125/443 [00:01<00:02, 153.95it/s]Loading weights:  33%|███▎      | 145/443 [00:01<00:01, 165.51it/s]Loading weights:  37%|███▋      | 164/443 [00:01<00:01, 169.36it/s]Loading weights:  41%|████▏     | 183/443 [00:01<00:01, 172.81it/s]Loading weights:  46%|████▌     | 204/443 [00:02<00:01, 178.25it/s]Loading weights:  51%|█████     | 226/443 [00:02<00:01, 184.98it/s]Loading weights:  56%|█████▌    | 248/443 [00:02<00:01, 191.08it/s]Loading weights:  61%|██████    | 270/443 [00:02<00:00, 194.33it/s]Loading weights:  66%|██████▌   | 292/443 [00:02<00:00, 196.67it/s]Loading weights:  71%|███████   | 314/443 [00:02<00:00, 196.99it/s]Loading weights:  76%|███████▌  | 336/443 [00:02<00:00, 197.31it/s]Loading weights:  81%|████████  | 358/443 [00:02<00:00, 196.98it/s]Loading weights:  86%|████████▌ | 379/443 [00:02<00:00, 200.13it/s]Loading weights:  91%|█████████ | 401/443 [00:02<00:00, 201.13it/s]Loading weights:  95%|█████████▌| 423/443 [00:03<00:00, 201.14it/s]Loading weights: 100%|██████████| 443/443 [00:03<00:00, 139.03it/s]
+[v2] Model loaded in 3.7s
+[order-prose]   scoring 0/216 ...
+[order-prose]   scoring 25/216 ...
+[order-prose]   scoring 50/216 ...
+[order-prose]   scoring 75/216 ...
+[order-prose]   scoring 100/216 ...
+[order-prose]   scoring 125/216 ...
+[order-prose]   scoring 150/216 ...
+[order-prose]   scoring 175/216 ...
+[order-prose]   scoring 200/216 ...
+
+══════════════════════════════════════════════════════════════════════════
+KERNEL-REF ORDER-COST [PROSE] — is B the NATIVE softmax-over-V order?
+══════════════════════════════════════════════════════════════════════════
+  programs=216   surprisal=mean -log p ; atoms=content-words only
+
+  op        full     atoms     n   role
+  B       0.2922    0.2285   120   preserve
+  C       0.8889    1.2185    48   BREAK
+  D       0.4604     0.287    24   preserve
+  K       0.7859    0.7337    48   BREAK
+  S       1.4369    1.6432    24   BREAK
+  W       0.7606     1.175    24   BREAK
+  [ full] preserve 0.3203 vs break 0.9245  (Δ=-0.6042, cheaper=True)
+  [ATOMS] preserve 0.2383 vs break 1.1204  (Δ=-0.8822, cheaper=True)
+
+  FULL contrasts (confounded by parens/length) (a-b; a<b means a cheaper / more native):
+    B_vs_C_minpair     d= -0.5713  t=-12.807  n= 24  a<b  ✓
+    B_vs_S_minpair     d= -0.9179  t=-22.456  n= 24  a<b  ✓
+    D_vs_K_minpair     d=  -0.452  t=-15.545  n= 24  a<b  ✓
+    B_vs_C_multi       d=  -0.575  t=-25.626  n= 24  a<b  ✓
+    B_vs_K_multi       d= -0.5729  t=-38.216  n= 24  a<b  ✓
+    B_vs_W_multi       d= -0.5363  t=-30.921  n= 24  a<b  ✓
+
+  ATOM-ONLY contrasts (DE-CONFOUNDED — the headline) (a-b; a<b means a cheaper / more native):
+    B_vs_C_minpair     d= -0.6547  t= -8.052  n= 24  a<b  ✓
+    B_vs_S_minpair     d= -1.3295  t=-27.498  n= 24  a<b  ✓
+    D_vs_K_minpair     d= -0.2597  t= -5.856  n= 24  a<b  ✓
+    B_vs_C_multi       d= -1.2425  t=-22.254  n= 24  a<b  ✓
+    B_vs_K_multi       d=   -0.84  t=-19.442  n= 24  a<b  ✓
+    B_vs_W_multi       d= -0.9666  t= -19.05  n= 24  a<b  ✓
+
+  * B native order [PROSE, B<C atom minpair]: True
+══════════════════════════════════════════════════════════════════════════
+
+[order-prose] wrote /Users/mwhitford/src/verbum/results/kernel-reference-audit/order_cost_v9_prose_verdict_qwen3-14b_flat.json

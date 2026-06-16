@@ -1,0 +1,12 @@
+{
+  "model": "Qwen/Qwen3-14B",
+  "smoke": false,
+  "git_sha": "ebaccdeef96744ae22fe6527783296142d6d7df9",
+  "timestamp_utc": "2026-06-16T20:04:14.655079+00:00",
+  "transformers_version": "5.5.4",
+  "n_each": 24,
+  "n_programs": 216,
+  "seed": 0,
+  "render_mode": "flat",
+  "register": "ORDER-COST PROSE bridge softmax-over-V surprisal"
+}
