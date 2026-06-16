@@ -2,7 +2,30 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-16 | Session: 234 — ▶ OPCODE v5 lead 2d PRONG 1 (the B/D/W gap).
+> Last updated: 2026-06-16 | Session: 234 — ▶ OPCODE v5 lead 2d PRONGS 1 + 1b (the B/D/W
+> gap). PRONG 1b (per-token B LOCUS test, `kernel_reference_prose_v3.py`, Qwen3-14B, 2:24
+> main:1): reads ALL token positions (free — forward_all_positions already returns [T,d]),
+> contrasts last/max/mean over tokens (Welch t) + relative-position profile, to decide
+> between (i) TOKEN-LOCUS (B fires mid-sentence) vs (ii) REGISTER (B in attention/value per
+> s127, invisible to the FFN gate). **★ VERDICT: ❌ TOKEN-LOCUS FALSIFIED — B does NOT
+> recover at ANY position** (last t=−0.05, max t=0.68 n.s. [most lenient], mean t=−0.08);
+> position profile B on−off delta ~0 across all 10 bins (max +0.33), never the clean C
+> separation; D/W anti everywhere (D max t=−2.66, W max t=−3.40). ⇒ **B/D/W absence is a
+> REGISTER property of the FFN gate, not token-locus.** ✅ {C,I,K,Y} ROBUST to the read
+> (last/max/mean all sig) with characteristic position signatures (peak_rel: I early 0.30,
+> K mid 0.48, C mid-late 0.57, Y late 0.79); C's on−off delta +0.8…+2.0 across the whole
+> back half. ⚠️ S "discriminates" ONLY under mean-over-tokens (gauge integrated over the
+> sentence). **★★ FIRST ACTION NEXT SESSION — lead 2d prong 1b-ii (the value-register read,
+> the decisive C-yes/B-no resolver):** B is absent from the FFN gate at every token, so per
+> s127 ({B,C}=composers→attention) hook `o_proj` / attention output, build per-layer crystal
+> centroids in THAT register, run the raw-z contrast — does B appear in attention where the
+> FFN gate cannot see it? THEN prong 2 (composite trace-order bridge for {C,I,K,Y}) +
+> prong 3 (8B/32B sweep). CAVEATS (λ measure): 1 model (14B), n=20/comb, last/max/mean over
+> tokens (register untested), single-combinator labels, D/W anti unexplained. CODE COMMITTED;
+> mementum (page §v5 lead 2d prong 1b + memory `bdw-absence-is-register-not-token-locus` +
+> this state) PENDING APPROVAL. tmux main:1 FREE.
+>
+> (Session: 234 — ▶ OPCODE v5 lead 2d PRONG 1 (the B/D/W gap).
 > Pushed lead-2c's discriminability ONE LEVEL DEEPER: it still embedded a per-layer ARGMAX
 > (route_frac = fraction of layers an op WINS) before the contrast, starving B/D/W of power.
 > FIX = contrast the RAW per-op z per layer, NO argmax, Welch t-test, n=20/comb held-out +

@@ -423,14 +423,55 @@ load-bearing caveat for B — escalate to per-token / attention-value register);
 combinator labels (not composite trace-order); D/W anti-signal unexplained (possible
 centroid mis-calibration for the duplicators).
 
+## v5 lead 2d prong 1b — per-token B locus test (BUILT + RAN, s234)
+
+Prong 1 left the B/D/W gap genuine but only at the LAST-TOKEN locus. Two explanations:
+(i) TOKEN-LOCUS — B resolves at a non-last token; (ii) REGISTER — B lives in attention/
+value (s127: {B,C}=composers→attention), invisible to the FFN gate at ANY token.
+`kernel_reference_prose_v3.py` falsifies (i) cheaply: `forward_all_positions` already
+returns [T,d], so reading ALL tokens costs the same forwards. Per probe per op:
+tokscore(c,t) = mean over crystal layers of raw z_c at token t; contrast **last/max/mean
+over tokens** on-prose vs off-prose (Welch t) + a relative-position profile (10 bins).
+
+### ★ s234 v5 lead 2d prong 1b VERDICT (Qwen3-14B, crosstask null, n=20/comb; λ measure)
+
+**❌ TOKEN-LOCUS FALSIFIED — B does NOT recover at ANY position.** B last_d −0.02 (t=−0.05),
+**max_d +0.32 (t=0.68, n.s.)**, mean_d −0.02 (t=−0.08). Even the most lenient max-over-tokens
+read fails. The position profile confirms it: B's on−off delta hovers at ~0 across all 10
+bins (max bin +0.33), never the clean separation C shows. D/W stay significantly ANTI at
+every read (D max t=−2.66, W max t=−3.40). ⇒ **B/D/W absence is a REGISTER property, not a
+token-locus artifact — the FFN gate simply does not carry the deep/duplicate composers.**
+
+**✅ The discriminable set {C,I,K,Y} is ROBUST to the read** (last/max/mean all significant)
+with **characteristic position signatures** (peak_rel): I early (0.30), K mid (0.48), C
+mid-late (0.57), Y late (0.79). C's on−off delta is +0.8…+2.0 across the whole back half
+of the sentence (on ~+0.6 while off stays ~−1.2) — crystal-clear at every position. ⚠️ S
+becomes "discriminable" ONLY under mean-over-tokens (t=4.11, n.s. at last/max) = the gauge
+common-mode integrated over the sentence, not a combinator signal.
+
+**★ CONSEQUENCE (the s127 prediction sharpened):** we read the FFN GATE → {C,I,K} present,
+**B absent at every token**. If s127 is right that B is an attention composer, the
+value/attention register should find B where the FFN gate cannot. This MOTIVATES prong
+1b-ii (the value-register read) and is the cleanest test of the C-yes/B-no split: C leaks
+into the FFN gate, B should appear only in attention.
+
+**Caveats (λ measure):** 1 model (14B); n=20/comb; last/max/mean over tokens (locus
+explanation falsified, register untested); single-combinator labels; D/W anti-signal
+unexplained (possible duplicator centroid mis-calibration).
+
 ### v5 — next steps
 
 - **★ lead 2d prong 1 — DONE (s234):** raw-z contrast rescues K + sharpens C/I, kills the
   B false-positive; B/D/W gap is GENUINE at last-token. Discriminable set {C,I,K,Y}.
-- **★ lead 2d prong 1b (the B locus test):** B's absence in the FFN gate may be a LOCUS
-  artifact (s127: B=composer→attention). Re-read B in the **attention/value register**
-  (s206 OV/logit-lens, NOT attn weights) and/or **per-token** (not last-token) — does B
-  recover where s127 says it lives? This is the cleanest next test of the C-yes/B-no split.
+- **★ lead 2d prong 1b — DONE (s234):** per-token read FALSIFIES the token-locus
+  explanation — B flat at ALL positions (max t=0.68 n.s.); D/W anti everywhere. B/D/W
+  absence is a REGISTER property of the FFN gate, not token-locus. {C,I,K,Y} robust.
+- **★ lead 2d prong 1b-ii (the value-register read — NEXT):** B is absent from the FFN
+  gate at every token, so per s127 ({B,C}=composers→attention) re-read B in the
+  **attention/value register** (s206 OV/logit-lens, NOT attn weights): hook `o_proj` /
+  attention output, build per-layer crystal centroids in THAT register, run the raw-z
+  contrast. Does B appear in attention where the FFN gate cannot see it? The decisive
+  C-yes/B-no resolver.
 - **★ lead 2d prong 2 (composite trace-order bridge):** now justified for the discriminable
   combinators {C,I,K,Y}: CL program → certified trace (`fired_sequence`, DONE) → render
   PROSE (`lambda_gen` decompile) → align routing to the certified multi-combinator ORDER,
@@ -477,4 +518,6 @@ The s206 OV/logit-lens half the old instrument never had: binding/value-transfer
 | `results/kernel-reference-audit/prose_verdict_qwen3-14b.json` | s233 v5 lead 2b/2c verdict: ✅ prose recall 0.575 >> symbol 0.14; gauge-subtracted DISCRIMINABILITY rescues C (on/off 0.062/0.009 ~6.6×) + I as specific; B/D/W not; S/Y = common-mode + selectivity |
 | `scripts/experiments/kernel_reference_prose_v2.py` | s234 v5 lead 2d prong 1: raw-z contrast (NO argmax) + Welch t + per-layer profile, n=20/comb — the deeper fix for the B/D/W gap |
 | `results/kernel-reference-audit/prose_v2_verdict_qwen3-14b.json` | s234 v5 lead 2d prong 1 verdict: ✅ raw-z RESCUES K (t=2.12) + sharpens C/I (t=5.7/3.8), KILLS B false-positive; ❌ B flat / D,W anti (t −4.6/−2.3) ⇒ B/D/W gap GENUINE at last-token; discriminable {C,I,K,Y}; S=gauge Y=selective; ops peak L12-14 readable zone |
+| `scripts/experiments/kernel_reference_prose_v3.py` | s234 v5 lead 2d prong 1b: per-token read (last/max/mean over tokens, Welch t) + relative-position profile — the B LOCUS test (reuses split_probes/welch_t from v2) |
+| `results/kernel-reference-audit/prose_v3_verdict_qwen3-14b.json` | s234 v5 lead 2d prong 1b verdict: ❌ TOKEN-LOCUS FALSIFIED — B does not recover at ANY position (max t=0.68 n.s.); D/W anti everywhere ⇒ B/D/W absence is a REGISTER property of the FFN gate, not token-locus. {C,I,K,Y} robust w/ position signatures (I early, K mid, C mid-late, Y late) ⇒ build the value-register read (1b-ii) |
 | `scripts/instruments/opcode_instrument.py` | the legacy VSM monitor (raw-cosine = the over-read; to be wired with the validated classifier as a config mode, keeping raw as the matched control) |
