@@ -1,0 +1,23 @@
+{
+  "model": "Qwen/Qwen3-14B",
+  "smoke": false,
+  "git_sha": "8603edb4b72e425d671ed93b7aa294bc9740ca2a",
+  "timestamp_utc": "2026-06-17T18:13:59.029896+00:00",
+  "transformers_version": "5.5.4",
+  "n_layers": 40,
+  "n_perm": 200,
+  "ppc": 25,
+  "heldout_per": 20,
+  "split_frac": 0.5,
+  "early_layers": [
+    0,
+    19
+  ],
+  "late_layers": [
+    20,
+    39
+  ],
+  "n_calib": 225,
+  "n_test": 160,
+  "register": "OFF-DIAGONAL interlayer curvature H_{late,early}\u00b7g_early, pooled supervised, deterministic gradient direction, one HVP"
+}

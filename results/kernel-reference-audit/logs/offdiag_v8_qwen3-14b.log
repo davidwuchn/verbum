@@ -1,0 +1,47 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[offdiag] calib=225 test=160 ppc=25 split_frac=0.5
+[v2] Loading tokenizer: Qwen/Qwen3-14B
+[v2] Loading model: Qwen/Qwen3-14B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<06:11,  1.19it/s]Loading weights:   0%|          | 2/443 [00:00<03:04,  2.38it/s]Loading weights:   4%|▍         | 17/443 [00:01<00:16, 26.56it/s]Loading weights:   9%|▉         | 39/443 [00:01<00:06, 61.62it/s]Loading weights:  14%|█▎        | 60/443 [00:01<00:04, 92.59it/s]Loading weights:  18%|█▊        | 81/443 [00:01<00:03, 118.00it/s]Loading weights:  22%|██▏       | 98/443 [00:01<00:02, 127.82it/s]Loading weights:  26%|██▌       | 115/443 [00:01<00:02, 138.41it/s]Loading weights:  31%|███       | 136/443 [00:01<00:01, 156.04it/s]Loading weights:  35%|███▍      | 155/443 [00:01<00:01, 163.88it/s]Loading weights:  39%|███▉      | 173/443 [00:01<00:01, 164.12it/s]Loading weights:  44%|████▎     | 193/443 [00:02<00:01, 167.51it/s]Loading weights:  48%|████▊     | 214/443 [00:02<00:01, 178.95it/s]Loading weights:  53%|█████▎    | 235/443 [00:02<00:01, 186.66it/s]Loading weights:  58%|█████▊    | 255/443 [00:02<00:01, 185.31it/s]Loading weights:  62%|██████▏   | 274/443 [00:02<00:00, 180.73it/s]Loading weights:  66%|██████▌   | 293/443 [00:02<00:00, 179.74it/s]Loading weights:  71%|███████   | 314/443 [00:02<00:00, 181.35it/s]Loading weights:  76%|███████▌  | 336/443 [00:02<00:00, 185.78it/s]Loading weights:  81%|████████  | 358/443 [00:02<00:00, 187.94it/s]Loading weights:  86%|████████▌ | 379/443 [00:03<00:00, 193.20it/s]Loading weights:  90%|█████████ | 400/443 [00:03<00:00, 194.91it/s]Loading weights:  95%|█████████▍| 420/443 [00:03<00:00, 193.54it/s]Loading weights:  99%|█████████▉| 440/443 [00:03<00:00, 190.27it/s]Loading weights: 100%|██████████| 443/443 [00:03<00:00, 132.84it/s]
+[v2] Model loaded in 3.9s
+[offdiag] EARLY=0..19 (20 layers, ≈g)  LATE=20..39 (20 layers, ≈f) — feature read on LATE
+[offdiag]   calib fwd+2bwd 0/225 ...
+[offdiag]   calib fwd+2bwd 25/225 ...
+[offdiag]   calib fwd+2bwd 50/225 ...
+[offdiag]   calib fwd+2bwd 75/225 ...
+[offdiag]   calib fwd+2bwd 100/225 ...
+[offdiag]   calib fwd+2bwd 125/225 ...
+[offdiag]   calib fwd+2bwd 150/225 ...
+[offdiag]   calib fwd+2bwd 175/225 ...
+[offdiag]   calib fwd+2bwd 200/225 ...
+[offdiag] building null (12 prompts)
+[offdiag] crystal layers (off-diag curvature): 19/20 late
+[offdiag]   test fwd+2bwd 0/160 ...
+[offdiag]   test fwd+2bwd 25/160 ...
+[offdiag]   test fwd+2bwd 50/160 ...
+[offdiag]   test fwd+2bwd 75/160 ...
+[offdiag]   test fwd+2bwd 100/160 ...
+[offdiag]   test fwd+2bwd 125/160 ...
+[offdiag]   test fwd+2bwd 150/160 ...
+
+══════════════════════════════════════════════════════════════════════════
+KERNEL-REF OFF-DIAGONAL CURVATURE — is B in the f∘g chain-rule cross term?
+══════════════════════════════════════════════════════════════════════════
+  n_test=160  crystal_layers=19  EARLY=0..19  LATE=20..39
+
+  op       on_z    off_z  discr_z       t  sig  peakL
+  K       0.154   -0.087    0.241   1.807          22
+  I     -0.2234   -0.321   0.0976   0.937          24
+  B      0.2115   0.1656   0.0459   0.263          21
+  C      1.0585  -0.5191   1.5775   2.319    ✓     36
+  S      0.9246   1.3033  -0.3787  -1.271          22
+  D     -0.1979   0.1219  -0.3197  -1.637          22
+  W     -0.5519  -0.3829   -0.169  -1.074          29
+  Y       0.149  -0.2934   0.4424   4.085    ✓     37
+
+  instrument check (C/Y/K discriminate off-diagonal): {'C': True, 'Y': True, 'K': False}
+  ★ B discriminates in the OFF-DIAGONAL register: False  (B discr_z=0.0459, t=0.263)
+  (compare v7 DIAGONAL: B discr_z +0.118, t=1.90; the monotone climb was act -0.05 -> grad +1.07 -> diag-curv +1.90)
+══════════════════════════════════════════════════════════════════════════
+
+[offdiag] wrote /Users/mwhitford/src/verbum/results/kernel-reference-audit/offdiag_v8_verdict_qwen3-14b.json
