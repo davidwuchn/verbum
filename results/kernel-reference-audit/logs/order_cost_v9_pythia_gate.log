@@ -1,0 +1,45 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[order-prose] 18 programs (from n_each=2) render_mode=flat
+[order-prose]   sample 'B n v m': 'crane applied to deer applied to seal'
+[order-prose]   sample 'C n v m': 'crane applied to seal applied to deer'
+[v2] Loading tokenizer: EleutherAI/pythia-2.8b-deduped
+[v2] Loading model: EleutherAI/pythia-2.8b-deduped  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights:   0%|          | 1/388 [00:00<02:03,  3.15it/s]Loading weights:   7%|▋         | 26/388 [00:00<00:04, 75.55it/s]Loading weights:  12%|█▏        | 48/388 [00:00<00:02, 114.74it/s]Loading weights:  19%|█▊        | 72/388 [00:00<00:02, 144.30it/s]Loading weights:  25%|██▍       | 96/388 [00:00<00:01, 159.44it/s]Loading weights:  30%|██▉       | 116/388 [00:00<00:01, 168.16it/s]Loading weights:  35%|███▍      | 135/388 [00:00<00:01, 174.24it/s]Loading weights:  41%|████      | 158/388 [00:01<00:01, 179.70it/s]Loading weights:  47%|████▋     | 182/388 [00:01<00:01, 186.80it/s]Loading weights:  53%|█████▎    | 204/388 [00:01<00:00, 189.43it/s]Loading weights:  59%|█████▊    | 227/388 [00:01<00:00, 200.49it/s]Loading weights:  64%|██████▍   | 248/388 [00:01<00:00, 193.85it/s]Loading weights:  70%|██████▉   | 270/388 [00:01<00:00, 198.55it/s]Loading weights:  75%|███████▌  | 291/388 [00:01<00:00, 194.23it/s]Loading weights:  81%|████████  | 314/388 [00:01<00:00, 195.12it/s]Loading weights:  87%|████████▋ | 337/388 [00:01<00:00, 204.66it/s]Loading weights:  92%|█████████▏| 358/388 [00:02<00:00, 205.42it/s]Loading weights:  98%|█████████▊| 379/388 [00:02<00:00, 201.01it/s]Loading weights: 100%|██████████| 388/388 [00:02<00:00, 171.55it/s]
+[v2] Model loaded in 2.7s
+[order-prose]   scoring 0/18 ...
+
+══════════════════════════════════════════════════════════════════════════
+KERNEL-REF ORDER-COST [PROSE] — is B the NATIVE softmax-over-V order?
+══════════════════════════════════════════════════════════════════════════
+  programs=18   surprisal=mean -log p ; atoms=content-words only
+
+  op        full     atoms     n   role
+  B       1.1219     1.735    10   preserve
+  C       1.6043    2.1789     4   BREAK
+  D       1.0807     1.713     2   preserve
+  K       1.4199    1.8167     4   BREAK
+  S       1.4783    2.0568     2   BREAK
+  W       1.5042    1.8816     2   BREAK
+  [ full] preserve 1.115 vs break 1.5052  (Δ=-0.3901, cheaper=True)
+  [ATOMS] preserve 1.7313 vs break 1.9883  (Δ=-0.2569, cheaper=True)
+
+  FULL contrasts (confounded by parens/length) (a-b; a<b means a cheaper / more native):
+    B_vs_C_minpair     d= -0.1463  t= -3.243  n=  2  a<b  ✓
+    B_vs_S_minpair     d=  0.0997  t=  2.868  n=  2  a>b  ✓
+    D_vs_K_minpair     d= -0.1874  t= -9.578  n=  2  a<b  ✓
+    B_vs_C_multi       d= -0.7769  t= -22.43  n=  2  a<b  ✓
+    B_vs_K_multi       d= -0.5449  t= -2.126  n=  2  a<b  ✓
+    B_vs_W_multi       d=  -0.785  t= -5.044  n=  2  a<b  ✓
+
+  ATOM-ONLY contrasts (DE-CONFOUNDED — the headline) (a-b; a<b means a cheaper / more native):
+    B_vs_C_minpair     d= -0.0503  t= -0.902  n=  2  a<b   
+    B_vs_S_minpair     d=  0.2717  t=  1.691  n=  2  a>b   
+    D_vs_K_minpair     d= -0.2504  t= -1.277  n=  2  a<b   
+    B_vs_C_multi       d= -0.8878  t= -7.231  n=  2  a<b  ✓
+    B_vs_K_multi       d= -0.0115  t= -0.031  n=  2  a<b   
+    B_vs_W_multi       d= -0.6134  t= -2.546  n=  2  a<b  ✓
+
+  * B native order [PROSE, B<C atom minpair]: False
+══════════════════════════════════════════════════════════════════════════
+
+[order-prose] wrote /Users/mwhitford/src/verbum/results/kernel-reference-audit/order_cost_v9_prose_verdict_pythia-2-8b-deduped_flat.json

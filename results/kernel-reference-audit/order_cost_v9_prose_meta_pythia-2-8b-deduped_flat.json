@@ -1,0 +1,12 @@
+{
+  "model": "EleutherAI/pythia-2.8b-deduped",
+  "smoke": false,
+  "git_sha": "740bd9bd378c11f65599e05f572be6fafefca749",
+  "timestamp_utc": "2026-06-17T20:43:32.647201+00:00",
+  "transformers_version": "5.5.4",
+  "n_each": 24,
+  "n_programs": 216,
+  "seed": 0,
+  "render_mode": "flat",
+  "register": "ORDER-COST PROSE bridge softmax-over-V surprisal"
+}

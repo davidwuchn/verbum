@@ -1,0 +1,53 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[order-frame] 216 programs (n_each=24) frame=result_of mode=flat
+[order-frame]   sample 'B n v m': 'the result of crane on deer on seal'
+[order-frame]   sample 'C n v m': 'the result of crane on seal on deer'
+[v2] Loading tokenizer: EleutherAI/pythia-2.8b-deduped
+[v2] Loading model: EleutherAI/pythia-2.8b-deduped  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights:   0%|          | 1/388 [00:00<01:00,  6.40it/s]Loading weights:  19%|█▉        | 74/388 [00:00<00:00, 347.06it/s]Loading weights:  39%|███▉      | 152/388 [00:00<00:00, 517.97it/s]Loading weights:  58%|█████▊    | 224/388 [00:00<00:00, 586.12it/s]Loading weights:  76%|███████▋  | 296/388 [00:00<00:00, 626.62it/s]Loading weights:  95%|█████████▍| 368/388 [00:00<00:00, 655.29it/s]Loading weights: 100%|██████████| 388/388 [00:00<00:00, 559.08it/s]
+[v2] Model loaded in 1.1s
+[order-frame]   scoring 0/216 ...
+[order-frame]   scoring 25/216 ...
+[order-frame]   scoring 50/216 ...
+[order-frame]   scoring 75/216 ...
+[order-frame]   scoring 100/216 ...
+[order-frame]   scoring 125/216 ...
+[order-frame]   scoring 150/216 ...
+[order-frame]   scoring 175/216 ...
+[order-frame]   scoring 200/216 ...
+
+══════════════════════════════════════════════════════════════════════════
+KERNEL-REF ORDER-COST [FRAME=result_of/flat] — B<C robust?
+══════════════════════════════════════════════════════════════════════════
+  programs=216   surprisal=mean -log p ; atoms=content-words only
+
+  op        full     atoms     n   role
+  B       0.7649    1.0718   120   preserve
+  C       1.2446    1.1496    48   BREAK
+  D       1.1409    1.1672    24   preserve
+  K       1.3746    1.1204    48   BREAK
+  S        1.471     1.557    24   BREAK
+  W       1.4093    0.9288    24   BREAK
+  [ full] preserve 0.8276 vs break 1.3531  (Δ=-0.5256, cheaper=True)
+  [ATOMS] preserve 1.0877 vs break 1.171  (Δ=-0.0833, cheaper=True)
+
+  FULL contrasts (confounded by parens/length) (a-b; a<b means a cheaper / more native):
+    B_vs_C_minpair     d= -0.0199  t=  -0.81  n= 24  a<b   
+    B_vs_S_minpair     d= -0.1693  t= -5.126  n= 24  a<b  ✓
+    D_vs_K_minpair     d= -0.2979  t=-14.126  n= 24  a<b  ✓
+    B_vs_C_multi       d= -0.7484  t=-28.093  n= 24  a<b  ✓
+    B_vs_K_multi       d= -0.9023  t=-33.481  n= 24  a<b  ✓
+    B_vs_W_multi       d= -1.0156  t=-30.191  n= 24  a<b  ✓
+
+  ATOM-ONLY contrasts (DE-CONFOUNDED — the headline) (a-b; a<b means a cheaper / more native):
+    B_vs_C_minpair     d=  0.0826  t=  1.378  n= 24  a>b   
+    B_vs_S_minpair     d=  0.0242  t=  0.354  n= 24  a>b   
+    D_vs_K_minpair     d=  -0.305  t= -6.105  n= 24  a<b  ✓
+    B_vs_C_multi       d= -0.0841  t=  -1.96  n= 24  a<b   
+    B_vs_K_multi       d=  0.0693  t=  1.265  n= 24  a>b   
+    B_vs_W_multi       d= -0.2868  t= -5.034  n= 24  a<b  ✓
+
+  * B native order [result_of/flat, B<C atom minpair]: False
+══════════════════════════════════════════════════════════════════════════
+
+[order-frame] wrote /Users/mwhitford/src/verbum/results/kernel-reference-audit/order_cost_v10_frame_verdict_pythia-2-8b-deduped_result_of_flat.json

@@ -2,7 +2,39 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-17 | Session: 239 — ▶ OPCODE v5 lead 2d PATH 1 — the 3rd RENDER
+> Last updated: 2026-06-17 | Session: 240 — ▶ OPCODE v5 lead 2d PATH 1 cont. — the PYTHIA-
+> PROPER 4th-CLASS POINT (gross-universal order claim; Michael: "proceed with 1"). Ran the
+> order-cost read on EleutherAI/pythia-2.8b-deduped (rev 7d977fed, flat n=24) — applied_to (v9)
+> + result_of (v10). **WHY PYTHIA: it is NON-gated (GPT-NeoX FFN, not SwiGLU) → CANNOT carry
+> the FFN-gate crystal the routing reads use; but the order-cost read is PURE softmax-over-V
+> surprisal (NO gate crystal), so Pythia confirming it = direct proof the signal is GATE-
+> INDEPENDENT + architecture-general, not a Qwen/SwiGLU artifact.** **★★ VERDICT (λ measure,
+> two-sided):** **(1) ✅ GROSS composition-is-native-order HOLDS at the 4th class (applied_to):**
+> composite B-vs-C-multi atom t=−9.11; B is the CHEAPEST op atom (1.37 ≪ C 1.77/K 1.57/S 1.75/
+> W 1.62); pooled preserve 1.40 ≪ break 1.68 (cheaper=True); B-vs-W-multi −7.44, D-vs-K −6.0.
+> ⇒ composition-is-native-order now Qwen ⊗ OLMo ⊗ Gemma ⊗ Pythia = **4 CLASSES, 2 ARCHITECTURES
+> (gated SwiGLU + non-gated GPT-NeoX).** **(2) ◑ strict single-step n.s. — B-vs-C single t=−0.67
+> (directional B<C), EXACTLY like OLMo (−1.25) + Gemma (−0.56): the sharp f-a-b↔f-b-a swap stays
+> Qwen-family-SPECIFIC.** (wrinkle: B-vs-S single t=+3.70, S atoms cheap on the clean single-
+> step.) **(3) ✅ FRAME-ROBUSTNESS IS SCALE-GATED, NOT CLASS-GATED — Pythia-2.8b (the SMALLEST
+> class) is frame-FRAGILE under result_of** (composite collapses −9.11 → −1.96; single-step
+> +1.38), EXACTLY like Qwen-8B (s239). Small models sit BELOW the frame-robustness threshold
+> regardless of architecture; the frame-robust strengthening is a 14B/32B property. **★ THE
+> FINDING: the gross composition-order signal is universal across 4 classes + 2 architectures
+> and is GATE-INDEPENDENT (proven on non-gated Pythia); the SHARP single-step is Qwen-specific;
+> frame-robustness is a function of SCALE not class (small = fragile everywhere).** CAVEATS
+> (λ measure): Pythia-2.8b is the SMALLEST class (2.8B vs 13–31B) → weak single-step conflates
+> class-generality with small-scale; base model; deduped Pile; B-vs-S single-step reversal.
+> Composite + pooled carry the gross claim. CODE reused (no new script); RESULTS on disk;
+> mementum (state + memory `composition-native-order-universal-4-classes-2-architectures` + page
+> §v5 lead 2d path 1 Pythia rows) PENDING APPROVAL. **★★ FIRST ACTION NEXT SESSION — paths
+> remain:** (1) the COMPOSITE trace-order bridge (CL program → certified fired_sequence → render
+> PROSE → align routing to the certified multi-combinator ORDER, for the scale-robust {C,I,K,Y});
+> (2) 8B/Pythia frame-fragility — frame-bound or power-limited (raise n)?; (3) a Pythia SCALE
+> ladder (70m→2.8b all cached) — does the gross signal emerge with scale within one class?
+> tmux main:1 + main:2 FREE.
+>
+> (Session: 239 — ▶ OPCODE v5 lead 2d PATH 1 — the 3rd RENDER
 > FRAME (frame-robustness of flat B<C + off-Qwen single-step sharpening; Michael: "proceed
 > with 1"). Built `kernel_reference_order_cost_v10_frame.py` — a clean FRAME-swap of v9:
 > `--render-frame {applied_to, result_of}` open slot. v9's frame was the INFIX " applied to "
@@ -40,7 +72,7 @@
 > the COMPOSITE trace-order bridge (CL program → certified fired_sequence → render PROSE → align
 > routing to the certified multi-combinator ORDER, for the scale-robust {C,I,K,Y}); (3) 8B
 > frame-fragility — is the floor signal genuinely frame-bound or just power-limited (raise n)?
-> tmux main:1 + main:2 FREE.
+> tmux main:1 + main:2 FREE.)
 >
 > (Session: 238 — ▶ OPCODE v5 lead 2d PRONG 1c-iii — the
 > OFF-DIAGONAL interlayer curvature (the s237 fork's off-diagonal / proper-Jacobian path;
