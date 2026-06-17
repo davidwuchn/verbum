@@ -36,16 +36,27 @@
 > hunting B in amplitude — its home is order/surprisal.** CAVEATS (λ measure): 1 model (14B);
 > n=20/comb; single fixed split (0.5, EARLY→LATE direction only — late→early untested);
 > deterministic gradient direction (one direction, not the full Hessian-block norm); single-
-> combinator labels; pooled-supervised locus. **★★ FIRST ACTION NEXT SESSION — the amplitude
-> register is now EXHAUSTED for B (activation⊗gradient⊗diag-curv⊗off-diag-curv all flat-or-on-
-> bar); B's positive home is FORWARD ORDER. Live paths: (1) the 3rd RENDER FRAME ("the result
-> of f on x") — frame-robustness of flat B<C AND whether the single-step minpair sharpens
-> off-Qwen under a different frame (s237 fork path 2, the cheap one); (2) a TRUE Pythia-proper
-> cross-class order-cost point (pythia-2.8b-deduped cached) to round out the gross-universal
-> claim with a 4th class; (3) prong 3 per-model sweep (kernel_reference_prose_v2 on 8B/32B —
-> does {C,I,K,Y} hold across scale?).** CODE + RESULTS COMMITTED; mementum (state + memory
-> `b-not-in-offdiagonal-curvature` + opcode page §v5 lead 2d prong 1c-iii) PENDING APPROVAL.
-> tmux main:1 + main:2 FREE.
+> combinator labels; pooled-supervised locus. (CODE + RESULTS COMMITTED `d94d78f`; mementum
+> `800bfb8`.) **▶ s238 cont. — PRONG 3 PER-MODEL SWEEP DONE (kernel_reference_prose_v2.py,
+> raw-z contrast, 8B/14B/32B; Michael: "proceed on 3").** ★★ the discriminable set {C,I,K,Y}
+> is SCALE-INVARIANT — all three n_sig=4, exactly those four; B flat (8B −0.06/14B −0.05/32B
+> +0.64 n.s.), D anti (−5.98/−4.61/−5.55 @shallow L3), W anti/n.s. at EVERY scale ⇒
+> discriminability-is-a-combinator-property (s234) is SCALE-ROBUST, not 14B-specific. ✅
+> composers/recursion STRENGTHEN with scale (Y t 5.83→6.86→9.37; C 5.33→5.71→6.28). ⚠️ the
+> LOCUS migrates DEEPER in fractional depth (C 0.25→0.33→0.39, Y 0.25→0.35→0.58, K 0.31→0.30→
+> 0.77) — RECONCILES s232 "C-locus shifts with scale" (the WHERE migrates, the WHICH is
+> invariant; the s232 fixed-depth detector read a migrating WHERE as a changing WHICH). LESSON:
+> the discriminable SET is the scale-robust observable; calibrate locus per-model. RESULTS +
+> mementum (memory `discriminable-set-scale-invariant-locus-migrates` + page §v5 lead 2d
+> prong 3) PENDING APPROVAL. **★★ FIRST ACTION NEXT SESSION — amplitude register EXHAUSTED for
+> B (act⊗grad⊗diag-curv⊗off-diag-curv flat-or-on-bar), B's home is FORWARD ORDER; discriminable
+> SET {C,I,K,Y} now scale-confirmed. Live paths: (1) the 3rd RENDER FRAME ("the result of f on
+> x") — frame-robustness of flat B<C AND whether the single-step minpair sharpens off-Qwen
+> (s237 fork path 2, cheap); (2) a TRUE Pythia-proper cross-class order-cost point (pythia-2.8b-
+> deduped cached) — 4th class for the gross-universal claim; (3) the COMPOSITE trace-order
+> bridge (now justified for the scale-robust {C,I,K,Y}: CL program → certified fired_sequence →
+> render PROSE → align routing to the certified multi-combinator ORDER).** tmux main:1 +
+> main:2 FREE.
 >
 > (Session: 237 — ▶ OPCODE v5 lead 2d PRONG 2b — the PROSE BRIDGE
 > (kills the s236 bare-symbol caveat). Re-ran the order-cost read on the SAME certified

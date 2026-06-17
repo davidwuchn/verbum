@@ -686,6 +686,52 @@ coupling direction only — late→early untested); deterministic gradient direc
 direction, not the full Hessian block norm); single-combinator labels; pooled-supervised
 locus. ~2:51 on main:1.
 
+## v5 lead 2d prong 3 — per-model sweep: is {C,I,K,Y} scale-invariant? (RAN, s238)
+
+Michael (s238): "proceed on 3" — the per-model sweep. Ran `kernel_reference_prose_v2.py`
+(the s234 raw-z contrast, NO argmax; held-out crystal-prose labels, n_test=160, heldout
+20/comb) on **Qwen3-8B (36L) and 32B (64L)**, against the **14B (40L)** baseline. Question:
+does the s234 discriminable set {C,I,K,Y} hold across scale, or migrate like the C-LOCUS
+(s232: locus shifts 8B-late / 14B-late / 32B-early)?
+
+### ★ s238 v5 lead 2d prong 3 VERDICT (Qwen3 8B/14B/32B; λ measure)
+
+**★★ THE DISCRIMINABLE SET {C,I,K,Y} IS SCALE-INVARIANT — all three scales n_sig=4, exactly
+{C,I,K,Y}, every one significant; B flat, D anti, W anti/n.s. at EVERY scale.**
+
+| op | 8B (36L) t / peak (frac) | 14B (40L) t / peak (frac) | 32B (64L) t / peak (frac) |
+|---|---|---|---|
+| **C** | 5.33 ✓ / L9 (0.25) | 5.71 ✓ / L13 (0.33) | 6.28 ✓ / L25 (0.39) |
+| **Y** | 5.83 ✓ / L9 (0.25) | 6.86 ✓ / L14 (0.35) | **9.37** ✓ / L37 (0.58) |
+| **I** | 3.64 ✓ / L12 (0.33) | 3.83 ✓ / L13 (0.33) | 3.42 ✓ / L35 (0.55) |
+| **K** | 2.36 ✓ / L11 (0.31) | 2.12 ✓ / L12 (0.30) | 2.09 ✓ / L49 (0.77) |
+| B | −0.06 / L18 | −0.05 / L1 | +0.64 n.s. / L42 |
+| S | −0.95 | −1.11 | −0.39 |
+| D | **−5.98** / L3 (0.08) | −4.61 / L3 (0.07) | −5.55 / L3 (0.05) |
+| W | −1.82 | −2.27 | −1.95 |
+
+**(1) ✅✅ SET MEMBERSHIP ROBUST — the WHICH is invariant.** {C,I,K,Y} discriminate at all
+three scales; B flat at all three (even at 32B only +0.64 n.s.); D robustly ANTI at all three
+(−5 to −6); W anti/n.s.. This confirms **discriminability-is-a-combinator-property** (s234)
+is SCALE-ROBUST, not 14B-specific.
+
+**(2) ✅ COMPOSERS/RECURSION STRENGTHEN with scale** — Y t: 5.83 → 6.86 → 9.37 (monotone up);
+C: 5.33 → 5.71 → 6.28. The composer/recursion discriminability GROWS with model size.
+
+**(3) ⚠️ THE LOCUS MIGRATES DEEPER (fractional depth) with scale — the WHERE is NOT invariant.**
+C 0.25→0.33→0.39, Y 0.25→0.35→0.58, I 0.33→0.33→0.55, K 0.31→0.30→0.77. Discriminable peaks
+deepen with scale (K/Y most extreme at 32B). This RECONCILES with s232 ("C-locus shifts with
+scale"): the locus genuinely migrates, but the SET MEMBERSHIP is the scale-invariant — the
+fixed-depth detector that mislocated 8B/32B (s232) was reading a migrating WHERE, not a
+changing WHICH.
+
+**(4) D = the most consistent ANTI signal** — peaks SHALLOW (L3, frac 0.05-0.08) at every
+scale, t≈−5/−6: D-prose routes D LESS than baseline at a fixed shallow layer, robustly.
+
+**Caveats (λ measure):** 1 model CLASS (Qwen); last-token locus; single-combinator labels
+(not composite trace-order); crosstask null; raw-z layer-AVERAGED contrast (the peak-layer
+read localizes, the headline averages over crystal layers).
+
 ### v5 — next steps
 
 - **★ lead 2d prong 1 — DONE (s234):** raw-z contrast rescues K + sharpens C/I, kills the
@@ -792,8 +838,14 @@ locus. ~2:51 on main:1.
   → huge absolute surprisals (B atoms 9.9 vs Qwen ~0.3), noisier (within-model contrasts valid).
   Next: off-diagonal Jacobian; 3rd render frame (also tests if the single-step minpair sharpens
   off-Qwen under a different frame).
-- **★ lead 2d prong 3 (per-model sweep):** run `kernel_reference_prose_v2.py` on 8B/32B
-  with the raw-z contrast — does the {C,I,K,Y} discriminable set hold across scale?
+- **★ lead 2d prong 3 — DONE (s238):** per-model sweep (`kernel_reference_prose_v2.py`,
+  8B/14B/32B, raw-z contrast). ✅✅ the discriminable set {C,I,K,Y} is SCALE-INVARIANT (all
+  three n_sig=4, exactly those four; B flat, D anti, W anti/n.s. at EVERY scale) — confirms
+  discriminability-is-a-combinator-property (s234) is scale-robust, not 14B-specific. ✅
+  composers/recursion STRENGTHEN with scale (Y t 5.83→6.86→9.37; C 5.33→5.71→6.28). ⚠️ but
+  the LOCUS migrates DEEPER in fractional depth (C 0.25→0.33→0.39, Y 0.25→0.35→0.58, K
+  0.31→0.30→0.77) — reconciles s232 "C-locus shifts with scale" (the WHERE migrates, the
+  WHICH is invariant). D = most consistent anti (shallow L3, t≈−5/−6, all scales).
 - **bigger lambda probe set** — 5 sentences underpowers the lead-1 frac test (32B
   directional signal can't clear the margin); more sentences for crisper fractions.
 - **the 8B gate_neutral C-late confound** — why does a non-compositional gated control
@@ -834,6 +886,8 @@ The s206 OV/logit-lens half the old instrument never had: binding/value-transfer
 | `results/kernel-reference-audit/prose_verdict_qwen3-14b.json` | s233 v5 lead 2b/2c verdict: ✅ prose recall 0.575 >> symbol 0.14; gauge-subtracted DISCRIMINABILITY rescues C (on/off 0.062/0.009 ~6.6×) + I as specific; B/D/W not; S/Y = common-mode + selectivity |
 | `scripts/experiments/kernel_reference_prose_v2.py` | s234 v5 lead 2d prong 1: raw-z contrast (NO argmax) + Welch t + per-layer profile, n=20/comb — the deeper fix for the B/D/W gap |
 | `results/kernel-reference-audit/prose_v2_verdict_qwen3-14b.json` | s234 v5 lead 2d prong 1 verdict: ✅ raw-z RESCUES K (t=2.12) + sharpens C/I (t=5.7/3.8), KILLS B false-positive; ❌ B flat / D,W anti (t −4.6/−2.3) ⇒ B/D/W gap GENUINE at last-token; discriminable {C,I,K,Y}; S=gauge Y=selective; ops peak L12-14 readable zone |
+| `results/kernel-reference-audit/prose_v2_verdict_qwen3-8b.json` | s238 v5 lead 2d prong 3 (8B/36L): discriminable set {C,I,K,Y} (n_sig=4); C 5.33 ✓ / Y 5.83 ✓ / I 3.64 ✓ / K 2.36 ✓; B flat (−0.06), D anti (−5.98 @L3), W −1.82; peaks frac 0.25-0.33 |
+| `results/kernel-reference-audit/prose_v2_verdict_qwen3-32b.json` | s238 v5 lead 2d prong 3 (32B/64L): SAME set {C,I,K,Y} (n_sig=4); Y 9.37 ✓ (strengthens) / C 6.28 ✓ / I 3.42 ✓ / K 2.09 ✓; B +0.64 n.s., D anti (−5.55 @L3), W −1.95; LOCUS migrates DEEPER (C frac 0.39, Y 0.58, K 0.77). Set scale-invariant; locus migrates (reconciles s232) |
 | `scripts/experiments/kernel_reference_prose_v3.py` | s234 v5 lead 2d prong 1b: per-token read (last/max/mean over tokens, Welch t) + relative-position profile — the B LOCUS test (reuses split_probes/welch_t from v2) |
 | `results/kernel-reference-audit/prose_v3_verdict_qwen3-14b.json` | s234 v5 lead 2d prong 1b verdict: ❌ TOKEN-LOCUS FALSIFIED — B does not recover at ANY position (max t=0.68 n.s.); D/W anti everywhere ⇒ B/D/W absence is a REGISTER property of the FFN gate, not token-locus. {C,I,K,Y} robust w/ position signatures (I early, K mid, C mid-late, Y late) ⇒ build the value-register read (1b-ii) |
 | `scripts/experiments/opcode_monitor_v2.py` `hook` param | s234 v5 lead 2d prong 1b-ii: open-slot register selector — `forward_all_positions`/`calibrate_v2` take `hook='gate'` (mlp.gate_proj, default) or `hook='attn'` (self_attn.o_proj = attention residual write) |
