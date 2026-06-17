@@ -1,0 +1,43 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[type-dir3] SMOKE MODE (Qwen3-8B)
+[type-dir3] 768 items (n_each=3, 16 nonce)
+[type-dir3]   example: 'They often wug. John wug'
+[type-dir3]   example: 'Wugs are common objects. The wug'
+[v2] Loading tokenizer: Qwen/Qwen3-8B
+[v2] Loading model: Qwen/Qwen3-8B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:46,  1.76it/s]Loading weights:   8%|▊         | 30/399 [00:00<00:06, 59.57it/s]Loading weights:  15%|█▌        | 61/399 [00:00<00:02, 113.63it/s]Loading weights:  24%|██▎       | 94/399 [00:00<00:01, 163.24it/s]Loading weights:  32%|███▏      | 127/399 [00:00<00:01, 204.99it/s]Loading weights:  40%|████      | 160/399 [00:01<00:01, 235.53it/s]Loading weights:  48%|████▊     | 193/399 [00:01<00:00, 257.55it/s]Loading weights:  57%|█████▋    | 226/399 [00:01<00:00, 272.04it/s]Loading weights:  65%|██████▍   | 259/399 [00:01<00:00, 285.45it/s]Loading weights:  73%|███████▎  | 292/399 [00:01<00:00, 294.83it/s]Loading weights:  81%|████████▏ | 325/399 [00:01<00:00, 301.52it/s]Loading weights:  90%|████████▉ | 358/399 [00:01<00:00, 307.00it/s]Loading weights:  98%|█████████▊| 391/399 [00:01<00:00, 310.86it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 218.65it/s]
+[v2] Model loaded in 2.3s
+[type-dir3]   nonce 'wug' -> 2 token(s)
+[type-dir3]   nonce 'blicket' -> 3 token(s)
+[type-dir3]   nonce 'dax' -> 2 token(s)
+[type-dir3]   nonce 'fep' -> 2 token(s)
+[type-dir3]   nonce 'gorp' -> 2 token(s)
+[type-dir3]   nonce 'zorp' -> 2 token(s)
+[type-dir3]   scoring 0/768 ...
+[type-dir3]   scoring 80/768 ...
+[type-dir3]   scoring 160/768 ...
+[type-dir3]   scoring 240/768 ...
+[type-dir3]   scoring 320/768 ...
+[type-dir3]   scoring 400/768 ...
+[type-dir3]   scoring 480/768 ...
+[type-dir3]   scoring 560/768 ...
+[type-dir3]   scoring 640/768 ...
+[type-dir3]   scoring 720/768 ...
+
+======================================================================
+TYPE-DIRECTEDNESS v3 (nonce, frequency-free) — TYPE or POSITION?
+======================================================================
+  condition       mean surprisal   (lower = better fit)
+  det_noun                2.9573
+  det_verb                2.6446
+  name_noun                5.843
+  name_verb               3.3454
+
+  det_pen  (verb-noun | The {w}):   -0.3127  t= -1.542  (>0 => det wants NOUN, verb-taught dear)
+  name_pen (verb-noun | John {w}):  -2.4975  t= -6.986  (<0 => name wants PRED, verb-taught cheap)
+
+  * CROSSOVER = det_pen - name_pen = 2.1848  t=10.196  n=16  consist=1.0  OK
+  * type_directed (frequency-free) = False
+======================================================================
+
+[type-dir3] wrote /Users/mwhitford/src/verbum/results/type-directed/type_directed_v3_nonce_verdict_qwen3-8b.json

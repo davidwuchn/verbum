@@ -1,0 +1,45 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[type-dir3] 1024 items (n_each=4, 16 nonce)
+[type-dir3]   example: 'They often wug. John wug'
+[type-dir3]   example: 'Wugs are common objects. The wug'
+[v2] Loading tokenizer: Qwen/Qwen3-14B
+[v2] Loading model: Qwen/Qwen3-14B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<06:00,  1.22it/s]Loading weights:   0%|          | 2/443 [00:00<03:00,  2.44it/s]Loading weights:   4%|▍         | 17/443 [00:01<00:15, 27.23it/s]Loading weights:   9%|▉         | 39/443 [00:01<00:06, 63.35it/s]Loading weights:  14%|█▍        | 61/443 [00:01<00:04, 94.51it/s]Loading weights:  19%|█▊        | 83/443 [00:01<00:02, 120.15it/s]Loading weights:  23%|██▎       | 104/443 [00:01<00:02, 141.66it/s]Loading weights:  28%|██▊       | 126/443 [00:01<00:02, 157.48it/s]Loading weights:  33%|███▎      | 148/443 [00:01<00:01, 169.11it/s]Loading weights:  38%|███▊      | 170/443 [00:01<00:01, 177.59it/s]Loading weights:  43%|████▎     | 192/443 [00:01<00:01, 182.90it/s]Loading weights:  48%|████▊     | 214/443 [00:02<00:01, 186.12it/s]Loading weights:  53%|█████▎    | 236/443 [00:02<00:01, 189.78it/s]Loading weights:  58%|█████▊    | 258/443 [00:02<00:00, 192.99it/s]Loading weights:  63%|██████▎   | 279/443 [00:02<00:00, 197.22it/s]Loading weights:  68%|██████▊   | 300/443 [00:02<00:00, 200.62it/s]Loading weights:  72%|███████▏  | 321/443 [00:02<00:00, 197.98it/s]Loading weights:  77%|███████▋  | 341/443 [00:02<00:00, 194.90it/s]Loading weights:  81%|████████▏ | 361/443 [00:02<00:00, 191.32it/s]Loading weights:  86%|████████▌ | 381/443 [00:02<00:00, 185.13it/s]Loading weights:  91%|█████████ | 402/443 [00:03<00:00, 186.63it/s]Loading weights:  96%|█████████▌| 424/443 [00:03<00:00, 190.39it/s]Loading weights: 100%|██████████| 443/443 [00:03<00:00, 138.67it/s]
+[v2] Model loaded in 3.7s
+[type-dir3]   nonce 'wug' -> 2 token(s)
+[type-dir3]   nonce 'blicket' -> 3 token(s)
+[type-dir3]   nonce 'dax' -> 2 token(s)
+[type-dir3]   nonce 'fep' -> 2 token(s)
+[type-dir3]   nonce 'gorp' -> 2 token(s)
+[type-dir3]   nonce 'zorp' -> 2 token(s)
+[type-dir3]   scoring 0/1024 ...
+[type-dir3]   scoring 80/1024 ...
+[type-dir3]   scoring 160/1024 ...
+[type-dir3]   scoring 240/1024 ...
+[type-dir3]   scoring 320/1024 ...
+[type-dir3]   scoring 400/1024 ...
+[type-dir3]   scoring 480/1024 ...
+[type-dir3]   scoring 560/1024 ...
+[type-dir3]   scoring 640/1024 ...
+[type-dir3]   scoring 720/1024 ...
+[type-dir3]   scoring 800/1024 ...
+[type-dir3]   scoring 880/1024 ...
+[type-dir3]   scoring 960/1024 ...
+
+======================================================================
+TYPE-DIRECTEDNESS v3 (nonce, frequency-free) — TYPE or POSITION?
+======================================================================
+  condition       mean surprisal   (lower = better fit)
+  det_noun                2.6241
+  det_verb                2.6501
+  name_noun               5.0993
+  name_verb               3.0873
+
+  det_pen  (verb-noun | The {w}):     0.026  t=  0.125  (>0 => det wants NOUN, verb-taught dear)
+  name_pen (verb-noun | John {w}):   -2.012  t=-10.142  (<0 => name wants PRED, verb-taught cheap)
+
+  * CROSSOVER = det_pen - name_pen = 2.038  t=9.329  n=16  consist=1.0  OK
+  * type_directed (frequency-free) = True
+======================================================================
+
+[type-dir3] wrote /Users/mwhitford/src/verbum/results/type-directed/type_directed_v3_nonce_verdict_qwen3-14b.json

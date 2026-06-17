@@ -1,0 +1,28 @@
+{
+  "register": "type-vs-position dissociation (target surprisal | left word)",
+  "condition_mean_surprisal": {
+    "bwd_match": 12.0836,
+    "bwd_violate": 13.1884,
+    "fwd_match": 10.2976,
+    "fwd_violate": 11.5543
+  },
+  "forward_type_penalty": {
+    "penalty": 1.2566,
+    "t": 3.604,
+    "n_targets": 8,
+    "significant": true
+  },
+  "backward_type_penalty": {
+    "penalty": 1.1048,
+    "t": 6.879,
+    "n_targets": 8,
+    "significant": true
+  },
+  "dissociation": {
+    "fwd_penalty": 1.2566,
+    "bwd_penalty": 1.1048,
+    "both_type_directed": true,
+    "bwd_over_fwd_ratio": 0.879
+  },
+  "n_items": 128
+}

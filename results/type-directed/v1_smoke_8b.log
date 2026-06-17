@@ -1,0 +1,32 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[type-dir] SMOKE MODE (Qwen3-8B)
+[type-dir] 128 items (n_each=4)
+[type-dir]   fwd_violate  'fell dog'  typed=False (kernel licensed=False rule=None)
+[type-dir]   bwd_match    'Peter sleeps'  typed=True (kernel licensed=True rule=bwd)
+[type-dir]   bwd_violate  'the laughed'  typed=False (kernel licensed=False rule=None)
+[type-dir]   fwd_match    'small book'  typed=True (kernel licensed=True rule=fwd)
+[v2] Loading tokenizer: Qwen/Qwen3-8B
+[v2] Loading model: Qwen/Qwen3-8B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<04:02,  1.64it/s]Loading weights:   7%|▋         | 28/399 [00:00<00:07, 52.52it/s]Loading weights:  15%|█▌        | 61/399 [00:00<00:03, 109.63it/s]Loading weights:  24%|██▎       | 94/399 [00:00<00:01, 159.32it/s]Loading weights:  32%|███▏      | 127/399 [00:01<00:01, 199.87it/s]Loading weights:  40%|████      | 160/399 [00:01<00:01, 232.56it/s]Loading weights:  48%|████▊     | 193/399 [00:01<00:00, 256.42it/s]Loading weights:  57%|█████▋    | 227/399 [00:01<00:00, 279.08it/s]Loading weights:  65%|██████▍   | 259/399 [00:01<00:00, 290.41it/s]Loading weights:  73%|███████▎  | 292/399 [00:01<00:00, 299.88it/s]Loading weights:  81%|████████▏ | 325/399 [00:01<00:00, 303.99it/s]Loading weights:  90%|████████▉ | 358/399 [00:01<00:00, 306.36it/s]Loading weights:  98%|█████████▊| 390/399 [00:01<00:00, 308.52it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 214.09it/s]
+[v2] Model loaded in 2.3s
+[type-dir]   scoring 0/128 ...
+[type-dir]   scoring 50/128 ...
+[type-dir]   scoring 100/128 ...
+
+======================================================================
+TYPE-DIRECTEDNESS v1 — does composition follow TYPE or POSITION?
+======================================================================
+  condition       mean surprisal
+  fwd_match              10.2976
+  fwd_violate            11.5543
+  bwd_match              12.0836
+  bwd_violate            13.1884
+
+  type-violation penalty (violate - match; >0 = model uses type):
+    FORWARD (det/adj->N)   penalty=  1.2566  t=  3.604  n= 8  OK
+    BACKWARD (NP->verb)    penalty=  1.1048  t=  6.879  n= 8  OK
+
+  * both_type_directed=True  (bwd/fwd ratio=0.879)
+======================================================================
+
+[type-dir] wrote /Users/mwhitford/src/verbum/results/type-directed/type_directed_v1_verdict_qwen3-8b.json

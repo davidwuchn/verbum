@@ -1,0 +1,36 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[type-dir2] 480 items (n_each=10)
+[type-dir2]   fwd_violate  'vanished another'  typed=False
+[type-dir2]   bwd_violate  'each waited'  typed=False
+[type-dir2]   fwd_match    'made this'  typed=True
+[type-dir2]   bwd_match    'David arrived'  typed=True
+[v2] Loading tokenizer: Qwen/Qwen3-14B
+[v2] Loading model: Qwen/Qwen3-14B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:01<07:31,  1.02s/it]Loading weights:   5%|▌         | 23/443 [00:01<00:15, 27.76it/s]Loading weights:   9%|▉         | 39/443 [00:01<00:08, 46.94it/s]Loading weights:  14%|█▎        | 60/443 [00:01<00:05, 75.04it/s]Loading weights:  18%|█▊        | 81/443 [00:01<00:03, 100.88it/s]Loading weights:  22%|██▏       | 99/443 [00:01<00:02, 117.40it/s]Loading weights:  26%|██▋       | 117/443 [00:01<00:02, 128.90it/s]Loading weights:  31%|███       | 137/443 [00:01<00:02, 146.25it/s]Loading weights:  36%|███▌      | 159/443 [00:01<00:01, 159.40it/s]Loading weights:  41%|████      | 180/443 [00:01<00:01, 171.26it/s]Loading weights:  45%|████▍     | 199/443 [00:02<00:01, 173.85it/s]Loading weights:  49%|████▉     | 218/443 [00:02<00:01, 173.56it/s]Loading weights:  53%|█████▎    | 237/443 [00:02<00:01, 170.15it/s]Loading weights:  58%|█████▊    | 259/443 [00:02<00:01, 176.92it/s]Loading weights:  63%|██████▎   | 280/443 [00:02<00:00, 185.82it/s]Loading weights:  68%|██████▊   | 301/443 [00:02<00:00, 192.08it/s]Loading weights:  72%|███████▏  | 321/443 [00:02<00:00, 193.96it/s]Loading weights:  77%|███████▋  | 341/443 [00:02<00:00, 190.48it/s]Loading weights:  81%|████████▏ | 361/443 [00:02<00:00, 186.57it/s]Loading weights:  86%|████████▌ | 380/443 [00:03<00:00, 178.79it/s]Loading weights:  91%|█████████ | 401/443 [00:03<00:00, 185.02it/s]Loading weights:  95%|█████████▌| 422/443 [00:03<00:00, 188.88it/s]Loading weights: 100%|█████████▉| 441/443 [00:03<00:00, 187.58it/s]Loading weights: 100%|██████████| 443/443 [00:03<00:00, 131.32it/s]
+[v2] Model loaded in 3.9s
+[type-dir2]   scoring 0/480 ...
+[type-dir2]   scoring 60/480 ...
+[type-dir2]   scoring 120/480 ...
+[type-dir2]   scoring 180/480 ...
+[type-dir2]   scoring 240/480 ...
+[type-dir2]   scoring 300/480 ...
+[type-dir2]   scoring 360/480 ...
+[type-dir2]   scoring 420/480 ...
+
+======================================================================
+TYPE-DIRECTEDNESS v2 (clean) — TYPE or POSITION?
+======================================================================
+  condition       mean surprisal
+  fwd_match               8.9276
+  fwd_violate             8.3735
+  bwd_match              11.4687
+  bwd_violate             12.346
+
+  type-violation penalty (violate - match; >0 = model uses type):
+    FORWARD (TV->det slot) penalty= -0.5541  t= -2.903  n=12  consist=0.25  OK
+    BACKWARD (NP->verb)    penalty=  0.8772  t=  5.221  n=12  consist=1.0   OK
+
+  * both_type_directed=False
+======================================================================
+
+[type-dir2] wrote /Users/mwhitford/src/verbum/results/type-directed/type_directed_v2_verdict_qwen3-14b.json

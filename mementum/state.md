@@ -2,7 +2,51 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-17 | Session: 240 — ▶ OPCODE v5 lead 2d PATH 1 cont. — the PYTHIA-
+> Last updated: 2026-06-17 | Session: 239 (arc 3/3: frame → Pythia → TYPES) — ▶ TYPES — is
+> composition TYPE-directed or just POSITIONAL? (Michael: "the system can't do combinator
+> composition without some typing —
+> what would direct the composition?"). The VERBUM thesis is TYPE-directed composition; the
+> s236-s240 order-cost work showed composition rides the native autoregressive order but left
+> OPEN whether that order is type-directed or L-to-R positional (the s236 caveat). RECALL
+> first surfaced heavy prior type work: s139 type-probe-qwen3-32b (types DECODABLE 88-96%,
+> LEXICAL, GEOMETRIC, CO-LOCATED with dispatch at L0-L2 — but CORRELATION not DIRECTION), s151
+> (Montague=K+I=predicate(argument), the floor), the kernel's REAL CCG type system
+> (lambda_ast.typecheck, CSlash '/'fwd '\\'bwd, _unify=S2 check, IllTyped). The GAP: does the
+> model USE the type to DIRECT composition? Built a 3-experiment arc (control: the AUTOREGRESSIVE-
+> CAUSALITY trap — measure the RIGHT token | left, never the pre-functor arg). **★★ THE ARC:**
+> **v1** (kernel-CCG real words, type_directed_v1.py): robust BACKWARD type-licensing (verb
+> cheap after subject-NP, dear after determiner; 8B t=6.9, 14B t=7.1) but LEAKY forward (a noun
+> after a verb reads as the verb's OBJECT — nouns="universal donors"). **v2** (clean symmetric,
+> type_directed_v2.py): backward replicates CONSISTENCY 1.0 (8B t=10.3, 14B t=5.2); forward
+> UNMEASURABLE (determiners ALSO universal donors, `slept the night`); real words → bigram-
+> FREQUENCY confound unkilled. **v3 NONCE crossover (DECISIVE, frequency-free,
+> type_directed_v3_nonce.py):** teach a NONCE word noun-vs-verb in-context, test in det-frame
+> "The {w}" vs name-frame "John {w}". CROSSOVER=(det:verb−noun)−(name:verb−noun), paired by
+> nonce, subtracts EVERY main effect (priming/teaching/frame). **8B +2.18 (t=10.2), 14B +2.04
+> (t=9.3), consistency 1.0 (all 16 nonce) at BOTH scales; type_directed=True @14B.** A nonce
+> taught as VERB composes ~2 nats CHEAPER with a preceding subject-name than the SAME nonce
+> taught as NOUN — with ZERO frequency support. **★ VERDICT (λ measure): composition is TYPE-
+> DIRECTED, not merely positional — the model uses an IN-CONTEXT-TAUGHT type (no frequency) to
+> DIRECT composition. The s236 positional caveat is KILLED; the order signal has a TYPE basis.
+> Answers Michael's question: YES, types direct the composition.** **★ THE ASYMMETRY (a finding):
+> type-directedness is STRONG in the predicate-argument (subject→verb) frame, ~NULL in the
+> determiner→noun frame, across ALL THREE experiments — maps onto s151 (Montague typed
+> application = predicate(argument) = K+I core is the sharpest locus; universal-donor function
+> words are weak).** CAVEATS (λ measure): this is typed APPLICATION (K+I), NOT yet typed
+> COMPOSITION (B / func∘func — connecting to the order-cost B signal is OPEN); in-context teaching
+> tests CAPACITY (v1/v2 real-word effect shows the intrinsic system); BEHAVIOURAL not causal-
+> circuit; 2 scales (8B/14B), 1 family (Qwen), 16 nonce. CONFIRMS s139 (decodable/co-located →
+> now USED). CODE (v1/v2/v3) + RESULTS on disk; mementum (state + memory
+> `composition-is-type-directed-nonce-frequency-free` + NEW page
+> `knowledge/explore/type-directed-composition.md`) PENDING APPROVAL. **★★ FIRST ACTION NEXT
+> SESSION — three paths:** (1) v4 CAUSAL ABLATION — decode the type direction (s139 linear probe)
+> at L0-L2, patch/corrupt it, watch the v3 crossover collapse (correlation→causation, the
+> decisive upgrade); (2) typed COMPOSITION — extend predicate(argument) to func∘func cases to
+> connect type-directedness to the B/order-cost signal directly; (3) cross-class — does the nonce
+> crossover hold on OLMo/Gemma/Pythia (gate-independent, per order-cost universality)?
+> tmux main:1 + main:2 FREE.
+>
+> (Session: 239 arc 2/3 — ▶ OPCODE v5 lead 2d PATH 1 cont. — the PYTHIA-
 > PROPER 4th-CLASS POINT (gross-universal order claim; Michael: "proceed with 1"). Ran the
 > order-cost read on EleutherAI/pythia-2.8b-deduped (rev 7d977fed, flat n=24) — applied_to (v9)
 > + result_of (v10). **WHY PYTHIA: it is NON-gated (GPT-NeoX FFN, not SwiGLU) → CANNOT carry
@@ -32,9 +76,9 @@
 > PROSE → align routing to the certified multi-combinator ORDER, for the scale-robust {C,I,K,Y});
 > (2) 8B/Pythia frame-fragility — frame-bound or power-limited (raise n)?; (3) a Pythia SCALE
 > ladder (70m→2.8b all cached) — does the gross signal emerge with scale within one class?
-> tmux main:1 + main:2 FREE.
+> tmux main:1 + main:2 FREE.)
 >
-> (Session: 239 — ▶ OPCODE v5 lead 2d PATH 1 — the 3rd RENDER
+> (Session: 239 arc 1/3 — ▶ OPCODE v5 lead 2d PATH 1 — the 3rd RENDER
 > FRAME (frame-robustness of flat B<C + off-Qwen single-step sharpening; Michael: "proceed
 > with 1"). Built `kernel_reference_order_cost_v10_frame.py` — a clean FRAME-swap of v9:
 > `--render-frame {applied_to, result_of}` open slot. v9's frame was the INFIX " applied to "
