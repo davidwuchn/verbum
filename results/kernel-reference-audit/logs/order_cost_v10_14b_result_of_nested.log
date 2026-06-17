@@ -1,0 +1,53 @@
+[order-frame] 216 programs (n_each=24) frame=result_of mode=nested
+[order-frame]   sample 'B n v m': 'the result of crane on the result of deer on seal'
+[order-frame]   sample 'C n v m': 'the result of the result of crane on seal on deer'
+[v2] Loading tokenizer: Qwen/Qwen3-14B
+[v2] Loading model: Qwen/Qwen3-14B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<04:58,  1.48it/s]Loading weights:   4%|▍         | 17/443 [00:00<00:14, 29.04it/s]Loading weights:   9%|▊         | 38/443 [00:00<00:06, 64.07it/s]Loading weights:  13%|█▎        | 59/443 [00:00<00:04, 94.21it/s]Loading weights:  18%|█▊        | 78/443 [00:01<00:03, 115.92it/s]Loading weights:  21%|██▏       | 95/443 [00:01<00:02, 128.93it/s]Loading weights:  26%|██▌       | 116/443 [00:01<00:02, 144.52it/s]Loading weights:  31%|███       | 137/443 [00:01<00:01, 161.10it/s]Loading weights:  36%|███▌      | 159/443 [00:01<00:01, 172.29it/s]Loading weights:  41%|████      | 181/443 [00:01<00:01, 181.18it/s]Loading weights:  46%|████▌     | 203/443 [00:01<00:01, 186.60it/s]Loading weights:  51%|█████     | 225/443 [00:01<00:01, 190.32it/s]Loading weights:  56%|█████▌    | 246/443 [00:01<00:01, 194.82it/s]Loading weights:  60%|██████    | 266/443 [00:02<00:00, 195.61it/s]Loading weights:  65%|██████▍   | 286/443 [00:02<00:00, 194.01it/s]Loading weights:  69%|██████▉   | 306/443 [00:02<00:00, 190.90it/s]Loading weights:  74%|███████▎  | 326/443 [00:02<00:00, 185.24it/s]Loading weights:  78%|███████▊  | 346/443 [00:02<00:00, 188.80it/s]Loading weights:  83%|████████▎ | 367/443 [00:02<00:00, 193.45it/s]Loading weights:  87%|████████▋ | 387/443 [00:02<00:00, 193.55it/s]Loading weights:  92%|█████████▏| 407/443 [00:02<00:00, 189.20it/s]Loading weights:  96%|█████████▌| 426/443 [00:02<00:00, 186.50it/s]Loading weights: 100%|██████████| 443/443 [00:02<00:00, 148.81it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[v2] Model loaded in 3.9s
+[order-frame]   scoring 0/216 ...
+[order-frame]   scoring 25/216 ...
+[order-frame]   scoring 50/216 ...
+[order-frame]   scoring 75/216 ...
+[order-frame]   scoring 100/216 ...
+[order-frame]   scoring 125/216 ...
+[order-frame]   scoring 150/216 ...
+[order-frame]   scoring 175/216 ...
+[order-frame]   scoring 200/216 ...
+
+══════════════════════════════════════════════════════════════════════════
+KERNEL-REF ORDER-COST [FRAME=result_of/nested] — B<C robust?
+══════════════════════════════════════════════════════════════════════════
+  programs=216   surprisal=mean -log p ; atoms=content-words only
+
+  op        full     atoms     n   role
+  B       1.0511    2.5533   120   preserve
+  C       0.7625     1.986    48   BREAK
+  D       0.8301    1.2927    24   preserve
+  K       0.4064    0.7133    48   BREAK
+  S       1.1131    2.2464    24   BREAK
+  W       0.5399    0.9943    24   BREAK
+  [ full] preserve 1.0143 vs break 0.6651  (Δ=0.3492, cheaper=False)
+  [ATOMS] preserve 2.3432 vs break 1.4399  (Δ=0.9033, cheaper=False)
+
+  FULL contrasts (confounded by parens/length) (a-b; a<b means a cheaper / more native):
+    B_vs_C_minpair     d=  0.0068  t=  0.276  n= 24  a>b   
+    B_vs_S_minpair     d= -0.1098  t=  -6.67  n= 24  a<b  ✓
+    D_vs_K_minpair     d=  0.3594  t= 23.673  n= 24  a>b  ✓
+    B_vs_C_multi       d=  0.5301  t= 24.022  n= 24  a>b  ✓
+    B_vs_K_multi       d=  0.8292  t= 22.909  n= 24  a>b  ✓
+    B_vs_W_multi       d=  0.4793  t= 20.827  n= 24  a>b  ✓
+
+  ATOM-ONLY contrasts (DE-CONFOUNDED — the headline) (a-b; a<b means a cheaper / more native):
+    B_vs_C_minpair     d=  -1.095  t=-15.452  n= 24  a<b  ✓
+    B_vs_S_minpair     d= -0.6262  t=-12.695  n= 24  a<b  ✓
+    D_vs_K_minpair     d=  0.2711  t=   5.89  n= 24  a>b  ✓
+    B_vs_C_multi       d=  1.9157  t= 22.691  n= 24  a>b  ✓
+    B_vs_K_multi       d=  2.9914  t= 24.237  n= 24  a>b  ✓
+    B_vs_W_multi       d=  1.9631  t= 23.814  n= 24  a>b  ✓
+
+  * B native order [result_of/nested, B<C atom minpair]: True
+══════════════════════════════════════════════════════════════════════════
+
+[order-frame] wrote /Users/mwhitford/src/verbum/results/kernel-reference-audit/order_cost_v10_frame_verdict_qwen3-14b_result_of_nested.json

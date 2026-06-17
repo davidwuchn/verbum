@@ -1,0 +1,53 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[order-frame] 216 programs (n_each=24) frame=result_of mode=flat
+[order-frame]   sample 'B n v m': 'the result of crane on deer on seal'
+[order-frame]   sample 'C n v m': 'the result of crane on seal on deer'
+[v2] Loading tokenizer: allenai/OLMo-2-1124-13B
+[v2] Loading model: allenai/OLMo-2-1124-13B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:01<13:41,  1.86s/it]Loading weights:   3%|▎         | 14/443 [00:01<00:44,  9.65it/s]Loading weights:   6%|▌         | 25/443 [00:02<00:22, 18.51it/s]Loading weights:   8%|▊         | 36/443 [00:02<00:14, 28.14it/s]Loading weights:  11%|█         | 47/443 [00:02<00:10, 38.35it/s]Loading weights:  13%|█▎        | 58/443 [00:02<00:07, 48.22it/s]Loading weights:  15%|█▌        | 68/443 [00:02<00:06, 57.44it/s]Loading weights:  18%|█▊        | 78/443 [00:02<00:05, 64.27it/s]Loading weights:  20%|█▉        | 88/443 [00:02<00:05, 70.82it/s]Loading weights:  22%|██▏       | 98/443 [00:02<00:04, 75.46it/s]Loading weights:  24%|██▍       | 108/443 [00:03<00:04, 79.87it/s]Loading weights:  27%|██▋       | 118/443 [00:03<00:03, 82.31it/s]Loading weights:  29%|██▉       | 128/443 [00:03<00:03, 83.02it/s]Loading weights:  31%|███       | 137/443 [00:03<00:03, 82.90it/s]Loading weights:  33%|███▎      | 148/443 [00:03<00:03, 87.34it/s]Loading weights:  36%|███▌      | 159/443 [00:03<00:03, 90.66it/s]Loading weights:  38%|███▊      | 170/443 [00:03<00:02, 92.47it/s]Loading weights:  41%|████      | 181/443 [00:03<00:02, 94.58it/s]Loading weights:  43%|████▎     | 192/443 [00:03<00:02, 96.11it/s]Loading weights:  46%|████▌     | 203/443 [00:04<00:02, 93.47it/s]Loading weights:  48%|████▊     | 214/443 [00:04<00:02, 93.23it/s]Loading weights:  51%|█████     | 225/443 [00:04<00:02, 93.31it/s]Loading weights:  53%|█████▎    | 236/443 [00:04<00:02, 93.78it/s]Loading weights:  56%|█████▌    | 247/443 [00:04<00:02, 94.28it/s]Loading weights:  58%|█████▊    | 258/443 [00:04<00:01, 93.86it/s]Loading weights:  61%|██████    | 269/443 [00:04<00:01, 94.74it/s]Loading weights:  63%|██████▎   | 280/443 [00:04<00:01, 93.24it/s]Loading weights:  66%|██████▌   | 291/443 [00:04<00:01, 91.72it/s]Loading weights:  68%|██████▊   | 302/443 [00:05<00:01, 91.48it/s]Loading weights:  71%|███████   | 313/443 [00:05<00:01, 92.77it/s]Loading weights:  73%|███████▎  | 324/443 [00:05<00:01, 93.27it/s]Loading weights:  76%|███████▌  | 335/443 [00:05<00:01, 93.97it/s]Loading weights:  78%|███████▊  | 346/443 [00:05<00:01, 95.38it/s]Loading weights:  81%|████████  | 357/443 [00:05<00:00, 95.89it/s]Loading weights:  83%|████████▎ | 368/443 [00:05<00:00, 95.17it/s]Loading weights:  86%|████████▌ | 379/443 [00:05<00:00, 95.11it/s]Loading weights:  88%|████████▊ | 390/443 [00:06<00:00, 95.11it/s]Loading weights:  91%|█████████ | 401/443 [00:06<00:00, 94.95it/s]Loading weights:  93%|█████████▎| 412/443 [00:06<00:00, 94.10it/s]Loading weights:  95%|█████████▌| 423/443 [00:06<00:00, 92.90it/s]Loading weights:  98%|█████████▊| 434/443 [00:06<00:00, 91.25it/s]Loading weights: 100%|██████████| 443/443 [00:06<00:00, 67.74it/s]
+[v2] Model loaded in 7.4s
+[order-frame]   scoring 0/216 ...
+[order-frame]   scoring 25/216 ...
+[order-frame]   scoring 50/216 ...
+[order-frame]   scoring 75/216 ...
+[order-frame]   scoring 100/216 ...
+[order-frame]   scoring 125/216 ...
+[order-frame]   scoring 150/216 ...
+[order-frame]   scoring 175/216 ...
+[order-frame]   scoring 200/216 ...
+
+══════════════════════════════════════════════════════════════════════════
+KERNEL-REF ORDER-COST [FRAME=result_of/flat] — B<C robust?
+══════════════════════════════════════════════════════════════════════════
+  programs=216   surprisal=mean -log p ; atoms=content-words only
+
+  op        full     atoms     n   role
+  B       0.7259    1.2968   120   preserve
+  C       1.0773    1.4288    48   BREAK
+  D       0.9804    1.1638    24   preserve
+  K       1.0624    1.0366    48   BREAK
+  S       1.5828    2.1692    24   BREAK
+  W       1.1842    1.4686    24   BREAK
+  [ full] preserve 0.7683 vs break 1.1744  (Δ=-0.4061, cheaper=True)
+  [ATOMS] preserve 1.2747 vs break 1.4281  (Δ=-0.1535, cheaper=True)
+
+  FULL contrasts (confounded by parens/length) (a-b; a<b means a cheaper / more native):
+    B_vs_C_minpair     d= -0.0461  t= -1.635  n= 24  a<b   
+    B_vs_S_minpair     d= -0.5442  t=-12.406  n= 24  a<b  ✓
+    D_vs_K_minpair     d= -0.2807  t=-13.033  n= 24  a<b  ✓
+    B_vs_C_multi       d=  -0.614  t=-15.844  n= 24  a<b  ✓
+    B_vs_K_multi       d= -0.2429  t= -5.548  n= 24  a<b  ✓
+    B_vs_W_multi       d= -0.7088  t=-29.167  n= 24  a<b  ✓
+
+  ATOM-ONLY contrasts (DE-CONFOUNDED — the headline) (a-b; a<b means a cheaper / more native):
+    B_vs_C_minpair     d=  0.0382  t=  0.731  n= 24  a>b   
+    B_vs_S_minpair     d= -0.5829  t= -5.482  n= 24  a<b  ✓
+    D_vs_K_minpair     d= -0.0997  t=  -2.37  n= 24  a<b  ✓
+    B_vs_C_multi       d= -0.3472  t= -5.466  n= 24  a<b  ✓
+    B_vs_K_multi       d=  0.5644  t=  6.792  n= 24  a>b  ✓
+    B_vs_W_multi       d= -0.4936  t= -9.462  n= 24  a<b  ✓
+
+  * B native order [result_of/flat, B<C atom minpair]: False
+══════════════════════════════════════════════════════════════════════════
+
+[order-frame] wrote /Users/mwhitford/src/verbum/results/kernel-reference-audit/order_cost_v10_frame_verdict_olmo-2-1124-13b_result_of_flat.json

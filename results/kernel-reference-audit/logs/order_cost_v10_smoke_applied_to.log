@@ -1,0 +1,48 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[order-frame] SMOKE MODE (Qwen3-8B = smallest meaningful)
+[order-frame] 72 programs (n_each=8) frame=applied_to mode=flat
+[order-frame]   sample 'B n v m': 'crane applied to deer applied to seal'
+[order-frame]   sample 'C n v m': 'crane applied to seal applied to deer'
+[v2] Loading tokenizer: Qwen/Qwen3-8B
+[v2] Loading model: Qwen/Qwen3-8B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:54,  1.70it/s]Loading weights:   9%|▉         | 37/399 [00:00<00:05, 71.26it/s]Loading weights:  18%|█▊        | 70/399 [00:00<00:02, 127.12it/s]Loading weights:  26%|██▌       | 103/399 [00:00<00:01, 174.70it/s]Loading weights:  34%|███▍      | 136/399 [00:00<00:01, 213.68it/s]Loading weights:  43%|████▎     | 170/399 [00:01<00:00, 242.12it/s]Loading weights:  51%|█████     | 204/399 [00:01<00:00, 262.59it/s]Loading weights:  60%|█████▉    | 238/399 [00:01<00:00, 283.56it/s]Loading weights:  68%|██████▊   | 271/399 [00:01<00:00, 296.15it/s]Loading weights:  76%|███████▌  | 304/399 [00:01<00:00, 304.32it/s]Loading weights:  84%|████████▍ | 337/399 [00:01<00:00, 309.65it/s]Loading weights:  93%|█████████▎| 370/399 [00:01<00:00, 313.81it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 222.47it/s]
+[v2] Model loaded in 2.5s
+[order-frame]   scoring 0/72 ...
+[order-frame]   scoring 25/72 ...
+[order-frame]   scoring 50/72 ...
+
+══════════════════════════════════════════════════════════════════════════
+KERNEL-REF ORDER-COST [FRAME=applied_to/flat] — B<C robust?
+══════════════════════════════════════════════════════════════════════════
+  programs=72   surprisal=mean -log p ; atoms=content-words only
+
+  op        full     atoms     n   role
+  B       0.3422    0.4897    40   preserve
+  C       0.9174    1.5233    16   BREAK
+  D       0.4468    0.5561     8   preserve
+  K       0.6091    0.7264    16   BREAK
+  S       1.0339    1.0356     8   BREAK
+  W       0.7793    1.4354     8   BREAK
+  [ full] preserve 0.3597 vs break 0.811  (Δ=-0.4514, cheaper=True)
+  [ATOMS] preserve 0.5008 vs break 1.1617  (Δ=-0.661, cheaper=True)
+
+  FULL contrasts (confounded by parens/length) (a-b; a<b means a cheaper / more native):
+    B_vs_C_minpair     d= -0.4409  t= -7.098  n=  8  a<b  ✓
+    B_vs_S_minpair     d= -0.5027  t= -7.908  n=  8  a<b  ✓
+    D_vs_K_minpair     d= -0.3622  t= -7.506  n=  8  a<b  ✓
+    B_vs_C_multi       d= -0.6496  t=-12.136  n=  8  a<b  ✓
+    B_vs_K_multi       d= -0.2835  t= -9.709  n=  8  a<b  ✓
+    B_vs_W_multi       d= -0.4693  t= -9.841  n=  8  a<b  ✓
+
+  ATOM-ONLY contrasts (DE-CONFOUNDED — the headline) (a-b; a<b means a cheaper / more native):
+    B_vs_C_minpair     d= -0.0863  t= -0.567  n=  8  a<b   
+    B_vs_S_minpair     d= -0.3432  t= -1.969  n=  8  a<b   
+    D_vs_K_minpair     d= -0.0465  t= -0.522  n=  8  a<b   
+    B_vs_C_multi       d= -1.7216  t=-10.601  n=  8  a<b  ✓
+    B_vs_K_multi       d= -0.6628  t= -7.519  n=  8  a<b  ✓
+    B_vs_W_multi       d= -1.1055  t=  -7.56  n=  8  a<b  ✓
+
+  * B native order [applied_to/flat, B<C atom minpair]: False
+══════════════════════════════════════════════════════════════════════════
+
+[order-frame] wrote /Users/mwhitford/src/verbum/results/kernel-reference-audit/order_cost_v10_frame_verdict_qwen3-8b_applied_to_flat.json

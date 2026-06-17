@@ -2,7 +2,47 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-17 | Session: 238 — ▶ OPCODE v5 lead 2d PRONG 1c-iii — the
+> Last updated: 2026-06-17 | Session: 239 — ▶ OPCODE v5 lead 2d PATH 1 — the 3rd RENDER
+> FRAME (frame-robustness of flat B<C + off-Qwen single-step sharpening; Michael: "proceed
+> with 1"). Built `kernel_reference_order_cost_v10_frame.py` — a clean FRAME-swap of v9:
+> `--render-frame {applied_to, result_of}` open slot. v9's frame was the INFIX " applied to "
+> (string-associative → flat mode collapses B `f a b` and C `f b a` to a flat chain differing
+> ONLY in atom order). The 3rd frame is the CIRCUMFIX "the result of <f> on <x>"; flat = one
+> "the result of" prefix + leaves chained by " on " → B "the result of f on a on b" vs C
+> "...f on b on a" = pure atom-order under a NEW lexicon+syntax. Imports v9's frame-independent
+> machinery verbatim (reduce_trace, gen_programs, paired_contrast, _content_spans, _leaf) — DRY,
+> v9 immutable; applied_to+flat reproduces v9 BYTE-FOR-BYTE (8B smoke t=−0.567 ≡ v9 smoke; render
+> strings exact-match offline). **★★ VERDICT (λ measure, multi-sided):**
+> **(1) ✅ FRAME-ROBUST WHERE STRONG, FRAGILE AT THE 8B FLOOR** — B-vs-C atom minpair (n=24):
+> Qwen 14B applied_to −8.05 → result_of −9.24 ✓ (STRONGER); 32B −4.48 → −11.7 ✓ (STRONGER);
+> **8B −2.87 → +0.70 ✗ (frame-FRAGILE — the floor signal does NOT survive the frame change).**
+> ⇒ frame-robustness is itself SCALE-GATED: the order preference is a property of COMPOSITION
+> (not the "applied to" infix) at 14B/32B where it's strong, but the weakest 8B read is
+> frame-sensitive. **(2) ✅✅ THE s237 NESTED SIGN-FLIP WAS A PURE DEPTH CONFOUND** — result_of
+> NESTED 14B B<C atom t=−15.45 ✓ (EQUAL depth: B and C each have ONE nest; full surface washes
+> out t=+0.28 n.s. but atoms decisive) vs s237 applied_to nested +11.9 ✗ (UNEQUAL depth: B
+> nested, C flat). Equalize nest-depth → B<C survives nesting (even strengthens); the s237 flip
+> was the depth confound, NOT order. **(3) ◑ OFF-QWEN SINGLE-STEP SHARPENING is frame×model-
+> dependent** — Gemma-31B-it applied_to −0.56 n.s. → result_of −9.35 ✓ (the natural-English
+> circumfix UNLOCKS the sharp single-step for the instruct model; caveat: OOD huge surprisals,
+> B atoms 9.3); OLMo-13B −1.25 → +0.73, both n.s. (NO sharpen). The GROSS composition signal
+> (composite B-vs-C-multi, B-vs-S) holds across ALL models + BOTH frames. **★ THE FINDING: B's
+> native-order preference is FRAME-ROBUST and STRENGTHENS with scale (14B/32B), is frame-fragile
+> only at the 8B floor, and its sharp single-step expression off-Qwen is unlocked by a more
+> natural frame for one instruct model (Gemma) but not OLMo — composition-is-native-order is a
+> property of composition, not of the "applied to" infix.** CAVEATS (λ measure): result_of flat
+> = clean order test; nested conflates order with nest-POSITION (equal-depth, cleaner than
+> s237); 8B = frame-fragile floor; Gemma instruct OOD; single-combinator labels; within-program
+> paired contrasts. CODE + RESULTS on disk; mementum (state + memory
+> `b-native-order-frame-robust-at-scale-fragile-at-floor` + page §v5 lead 2d path 1) PENDING
+> APPROVAL. **★★ FIRST ACTION NEXT SESSION — paths remain:** (1) a TRUE Pythia-proper cross-class
+> order-cost point (pythia-2.8b-deduped cached) — 4th class for the gross-universal claim; (2)
+> the COMPOSITE trace-order bridge (CL program → certified fired_sequence → render PROSE → align
+> routing to the certified multi-combinator ORDER, for the scale-robust {C,I,K,Y}); (3) 8B
+> frame-fragility — is the floor signal genuinely frame-bound or just power-limited (raise n)?
+> tmux main:1 + main:2 FREE.
+>
+> (Session: 238 — ▶ OPCODE v5 lead 2d PRONG 1c-iii — the
 > OFF-DIAGONAL interlayer curvature (the s237 fork's off-diagonal / proper-Jacobian path;
 > Michael: "let's work on 1"). The v7 DIAGONAL Hessian (b-climbs-with-derivative-order)
 > used a Rademacher Hutchinson estimator that CANCELS every cross-coord AND cross-layer term
@@ -56,7 +96,7 @@
 > deduped cached) — 4th class for the gross-universal claim; (3) the COMPOSITE trace-order
 > bridge (now justified for the scale-robust {C,I,K,Y}: CL program → certified fired_sequence →
 > render PROSE → align routing to the certified multi-combinator ORDER).** tmux main:1 +
-> main:2 FREE.
+> main:2 FREE.)
 >
 > (Session: 237 — ▶ OPCODE v5 lead 2d PRONG 2b — the PROSE BRIDGE
 > (kills the s236 bare-symbol caveat). Re-ran the order-cost read on the SAME certified

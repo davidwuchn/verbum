@@ -1,0 +1,53 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[order-frame] 216 programs (n_each=24) frame=result_of mode=flat
+[order-frame]   sample 'B n v m': 'the result of crane on deer on seal'
+[order-frame]   sample 'C n v m': 'the result of crane on seal on deer'
+[v2] Loading tokenizer: Qwen/Qwen3-32B
+[v2] Loading model: Qwen/Qwen3-32B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/707 [00:00<?, ?it/s]Loading weights:   0%|          | 1/707 [00:01<19:52,  1.69s/it]Loading weights:   2%|▏         | 15/707 [00:01<01:01, 11.34it/s]Loading weights:   4%|▍         | 27/707 [00:01<00:31, 21.84it/s]Loading weights:   6%|▌         | 39/707 [00:02<00:19, 33.57it/s]Loading weights:   8%|▊         | 56/707 [00:02<00:12, 53.26it/s]Loading weights:  10%|▉         | 70/707 [00:02<00:09, 67.81it/s]Loading weights:  12%|█▏        | 83/707 [00:02<00:08, 76.42it/s]Loading weights:  14%|█▍        | 100/707 [00:02<00:06, 96.24it/s]Loading weights:  16%|█▌        | 114/707 [00:02<00:05, 104.79it/s]Loading weights:  18%|█▊        | 128/707 [00:02<00:05, 107.19it/s]Loading weights:  21%|██        | 147/707 [00:02<00:04, 121.94it/s]Loading weights:  23%|██▎       | 161/707 [00:02<00:04, 118.48it/s]Loading weights:  25%|██▌       | 177/707 [00:03<00:04, 128.08it/s]Loading weights:  27%|██▋       | 191/707 [00:03<00:04, 128.43it/s]Loading weights:  29%|██▉       | 205/707 [00:03<00:04, 121.50it/s]Loading weights:  32%|███▏      | 224/707 [00:03<00:03, 132.35it/s]Loading weights:  34%|███▎      | 238/707 [00:03<00:03, 123.72it/s]Loading weights:  36%|███▌      | 254/707 [00:03<00:03, 132.82it/s]Loading weights:  38%|███▊      | 268/707 [00:03<00:03, 131.72it/s]Loading weights:  40%|███▉      | 282/707 [00:03<00:03, 123.91it/s]Loading weights:  42%|████▏     | 298/707 [00:03<00:03, 131.97it/s]Loading weights:  44%|████▍     | 312/707 [00:04<00:03, 129.82it/s]Loading weights:  46%|████▌     | 326/707 [00:04<00:03, 123.34it/s]Loading weights:  49%|████▉     | 345/707 [00:04<00:02, 133.94it/s]Loading weights:  51%|█████     | 359/707 [00:04<00:02, 126.20it/s]Loading weights:  53%|█████▎    | 376/707 [00:04<00:02, 137.50it/s]Loading weights:  55%|█████▌    | 390/707 [00:04<00:02, 128.25it/s]Loading weights:  57%|█████▋    | 404/707 [00:04<00:02, 127.87it/s]Loading weights:  59%|█████▉    | 420/707 [00:04<00:02, 136.27it/s]Loading weights:  61%|██████▏   | 434/707 [00:05<00:02, 125.14it/s]Loading weights:  63%|██████▎   | 447/707 [00:05<00:02, 123.93it/s]Loading weights:  66%|██████▌   | 466/707 [00:05<00:01, 134.31it/s]Loading weights:  68%|██████▊   | 480/707 [00:05<00:01, 125.91it/s]Loading weights:  70%|███████   | 496/707 [00:05<00:01, 133.49it/s]Loading weights:  72%|███████▏  | 510/707 [00:05<00:01, 131.49it/s]Loading weights:  74%|███████▍  | 524/707 [00:05<00:01, 124.49it/s]Loading weights:  76%|███████▋  | 540/707 [00:05<00:01, 132.87it/s]Loading weights:  78%|███████▊  | 554/707 [00:05<00:01, 131.33it/s]Loading weights:  80%|████████  | 568/707 [00:06<00:01, 122.54it/s]Loading weights:  83%|████████▎ | 584/707 [00:06<00:00, 132.00it/s]Loading weights:  85%|████████▍ | 598/707 [00:06<00:00, 131.34it/s]Loading weights:  87%|████████▋ | 612/707 [00:06<00:00, 123.70it/s]Loading weights:  89%|████████▉ | 628/707 [00:06<00:00, 132.21it/s]Loading weights:  91%|█████████ | 642/707 [00:06<00:00, 131.50it/s]Loading weights:  93%|█████████▎| 656/707 [00:06<00:00, 123.33it/s]Loading weights:  95%|█████████▌| 675/707 [00:06<00:00, 134.43it/s]Loading weights:  97%|█████████▋| 689/707 [00:07<00:00, 126.28it/s]Loading weights: 100%|█████████▉| 705/707 [00:07<00:00, 134.50it/s]Loading weights: 100%|██████████| 707/707 [00:07<00:00, 99.40it/s] 
+[v2] Model loaded in 8.3s
+[order-frame]   scoring 0/216 ...
+[order-frame]   scoring 25/216 ...
+[order-frame]   scoring 50/216 ...
+[order-frame]   scoring 75/216 ...
+[order-frame]   scoring 100/216 ...
+[order-frame]   scoring 125/216 ...
+[order-frame]   scoring 150/216 ...
+[order-frame]   scoring 175/216 ...
+[order-frame]   scoring 200/216 ...
+
+══════════════════════════════════════════════════════════════════════════
+KERNEL-REF ORDER-COST [FRAME=result_of/flat] — B<C robust?
+══════════════════════════════════════════════════════════════════════════
+  programs=216   surprisal=mean -log p ; atoms=content-words only
+
+  op        full     atoms     n   role
+  B         0.92    1.6389   120   preserve
+  C        1.297    2.0949    48   BREAK
+  D       0.8738    1.1893    24   preserve
+  K       1.0031    0.9522    48   BREAK
+  S       1.6412     2.597    24   BREAK
+  W        1.427    1.7645    24   BREAK
+  [ full] preserve 0.9123 vs break 1.2781  (Δ=-0.3658, cheaper=True)
+  [ATOMS] preserve 1.564 vs break 1.7426  (Δ=-0.1787, cheaper=True)
+
+  FULL contrasts (confounded by parens/length) (a-b; a<b means a cheaper / more native):
+    B_vs_C_minpair     d= -0.4209  t=-12.864  n= 24  a<b  ✓
+    B_vs_S_minpair     d= -0.5825  t=-12.852  n= 24  a<b  ✓
+    D_vs_K_minpair     d= -0.2275  t= -4.669  n= 24  a<b  ✓
+    B_vs_C_multi       d= -0.5078  t=-13.301  n= 24  a<b  ✓
+    B_vs_K_multi       d=  0.5334  t=  7.347  n= 24  a>b  ✓
+    B_vs_W_multi       d= -0.9893  t=-24.616  n= 24  a<b  ✓
+
+  ATOM-ONLY contrasts (DE-CONFOUNDED — the headline) (a-b; a<b means a cheaper / more native):
+    B_vs_C_minpair     d= -0.8869  t=  -11.7  n= 24  a<b  ✓
+    B_vs_S_minpair     d= -0.9948  t= -7.252  n= 24  a<b  ✓
+    D_vs_K_minpair     d=  0.0864  t=  1.371  n= 24  a>b   
+    B_vs_C_multi       d= -0.4351  t= -5.752  n= 24  a<b  ✓
+    B_vs_K_multi       d=  2.0164  t= 15.204  n= 24  a>b  ✓
+    B_vs_W_multi       d= -0.8581  t=-10.413  n= 24  a<b  ✓
+
+  * B native order [result_of/flat, B<C atom minpair]: True
+══════════════════════════════════════════════════════════════════════════
+
+[order-frame] wrote /Users/mwhitford/src/verbum/results/kernel-reference-audit/order_cost_v10_frame_verdict_qwen3-32b_result_of_flat.json

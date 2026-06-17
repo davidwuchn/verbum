@@ -1,0 +1,4308 @@
+{
+  "verdict": {
+    "register": "order-cost FRAME robustness (softmax-over-V surprisal, rendered)",
+    "render_frame": "result_of",
+    "render_mode": "flat",
+    "frame_template": "App(f,x) -> 'the result of <f> on <x>'",
+    "op_surprisal": {
+      "B": {
+        "mean": 0.8541,
+        "sd": 0.4002,
+        "n": 120
+      },
+      "C": {
+        "mean": 1.2589,
+        "sd": 0.186,
+        "n": 48
+      },
+      "D": {
+        "mean": 1.0482,
+        "sd": 0.2128,
+        "n": 24
+      },
+      "K": {
+        "mean": 1.0296,
+        "sd": 0.1425,
+        "n": 48
+      },
+      "S": {
+        "mean": 1.2041,
+        "sd": 0.2765,
+        "n": 24
+      },
+      "W": {
+        "mean": 1.0985,
+        "sd": 0.1045,
+        "n": 24
+      }
+    },
+    "op_surprisal_atoms": {
+      "B": {
+        "mean": 1.7478,
+        "sd": 0.7841,
+        "n": 120
+      },
+      "C": {
+        "mean": 2.0964,
+        "sd": 0.4676,
+        "n": 48
+      },
+      "D": {
+        "mean": 1.8251,
+        "sd": 0.4499,
+        "n": 24
+      },
+      "K": {
+        "mean": 1.1362,
+        "sd": 0.4551,
+        "n": 48
+      },
+      "S": {
+        "mean": 2.1433,
+        "sd": 0.6278,
+        "n": 24
+      },
+      "W": {
+        "mean": 1.3708,
+        "sd": 0.2869,
+        "n": 24
+      }
+    },
+    "minimal_pair_contrasts": {
+      "B_vs_C_minpair": {
+        "op_a": "B",
+        "op_b": "C",
+        "n_pairs": 24,
+        "mean_delta": -0.0026,
+        "t": -0.06,
+        "significant": false,
+        "direction": "a<b"
+      },
+      "B_vs_S_minpair": {
+        "op_a": "B",
+        "op_b": "S",
+        "n_pairs": 24,
+        "mean_delta": 0.0045,
+        "t": 0.058,
+        "significant": false,
+        "direction": "a>b"
+      },
+      "D_vs_K_minpair": {
+        "op_a": "D",
+        "op_b": "K",
+        "n_pairs": 24,
+        "mean_delta": 0.0238,
+        "t": 0.821,
+        "significant": false,
+        "direction": "a>b"
+      },
+      "B_vs_C_multi": {
+        "op_a": "B",
+        "op_b": "C",
+        "n_pairs": 24,
+        "mean_delta": -0.4394,
+        "t": -8.499,
+        "significant": true,
+        "direction": "a<b"
+      },
+      "B_vs_K_multi": {
+        "op_a": "B",
+        "op_b": "K",
+        "n_pairs": 24,
+        "mean_delta": -0.4183,
+        "t": -8.123,
+        "significant": true,
+        "direction": "a<b"
+      },
+      "B_vs_W_multi": {
+        "op_a": "B",
+        "op_b": "W",
+        "n_pairs": 24,
+        "mean_delta": -0.729,
+        "t": -19.616,
+        "significant": true,
+        "direction": "a<b"
+      }
+    },
+    "minimal_pair_contrasts_atoms": {
+      "B_vs_C_minpair": {
+        "op_a": "B",
+        "op_b": "C",
+        "n_pairs": 24,
+        "mean_delta": 0.071,
+        "t": 0.697,
+        "significant": false,
+        "direction": "a>b"
+      },
+      "B_vs_S_minpair": {
+        "op_a": "B",
+        "op_b": "S",
+        "n_pairs": 24,
+        "mean_delta": 0.1597,
+        "t": 0.887,
+        "significant": false,
+        "direction": "a>b"
+      },
+      "D_vs_K_minpair": {
+        "op_a": "D",
+        "op_b": "K",
+        "n_pairs": 24,
+        "mean_delta": 0.4043,
+        "t": 6.996,
+        "significant": true,
+        "direction": "a>b"
+      },
+      "B_vs_C_multi": {
+        "op_a": "B",
+        "op_b": "C",
+        "n_pairs": 24,
+        "mean_delta": -0.0414,
+        "t": -0.415,
+        "significant": false,
+        "direction": "a<b"
+      },
+      "B_vs_K_multi": {
+        "op_a": "B",
+        "op_b": "K",
+        "n_pairs": 24,
+        "mean_delta": 0.5551,
+        "t": 5.377,
+        "significant": true,
+        "direction": "a>b"
+      },
+      "B_vs_W_multi": {
+        "op_a": "B",
+        "op_b": "W",
+        "n_pairs": 24,
+        "mean_delta": -0.564,
+        "t": -6.427,
+        "significant": true,
+        "direction": "a<b"
+      }
+    },
+    "order_preserving_vs_breaking": {
+      "order_preserving_mean": 0.8864,
+      "n_preserving": 144,
+      "order_breaking_mean": 1.1466,
+      "n_breaking": 144,
+      "delta": -0.2602,
+      "preserving_cheaper": true
+    },
+    "order_preserving_vs_breaking_atoms": {
+      "order_preserving_mean": 1.7607,
+      "n_preserving": 144,
+      "order_breaking_mean": 1.6632,
+      "n_breaking": 144,
+      "delta": 0.0975,
+      "preserving_cheaper": false
+    },
+    "b_is_native_order": false,
+    "n_programs": 216
+  },
+  "per_program": [
+    {
+      "id": "p0",
+      "src": "B n v m",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.581187881263239,
+          "n_tok": 7,
+          "surprisal_atoms": 3.2560887752721706,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p1",
+      "src": "C n v m",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.4507645315357618,
+          "n_tok": 7,
+          "surprisal_atoms": 2.8482318768898645,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p2",
+      "src": "B n v m",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.581187881263239,
+          "n_tok": 7,
+          "surprisal_atoms": 3.2560887752721706,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p3",
+      "src": "S n v m",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "S",
+          "surprisal": 1.2261133221909404,
+          "n_tok": 9,
+          "surprisal_atoms": 2.3383114994503558,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p4",
+      "src": "D n v m f",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "D",
+          "surprisal": 1.5045795468096104,
+          "n_tok": 9,
+          "surprisal_atoms": 2.924045004765503,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 11
+        }
+      ]
+    },
+    {
+      "id": "p5",
+      "src": "K (n v m) q",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.1855529038501638,
+          "n_tok": 7,
+          "surprisal_atoms": 1.8548993052293856,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p6",
+      "src": "C (B n v) m q",
+      "kind": "multi_CB",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.6918420175259763,
+          "n_tok": 11,
+          "surprisal_atoms": 2.8831354966387153,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.7160586474152902,
+          "n_tok": 9,
+          "surprisal_atoms": 1.5917143769329414,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p7",
+      "src": "K (B n v m) q",
+      "kind": "multi_KB",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.106840900818093,
+          "n_tok": 9,
+          "surprisal_atoms": 1.1928934071523447,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        },
+        {
+          "op": "B",
+          "surprisal": 0.4302172506743643,
+          "n_tok": 7,
+          "surprisal_atoms": 0.995516569489458,
+          "n_atoms": 3,
+          "term_idx": 2,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p8",
+      "src": "W (B n v) m",
+      "kind": "multi_WB",
+      "rows": [
+        {
+          "op": "W",
+          "surprisal": 1.0937186763198539,
+          "n_tok": 11,
+          "surprisal_atoms": 1.4898374958429486,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.39005573582835495,
+          "n_tok": 9,
+          "surprisal_atoms": 0.8673643631918821,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p9",
+      "src": "B b a v",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.4000654598431928,
+          "n_tok": 7,
+          "surprisal_atoms": 2.894060409317414,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p10",
+      "src": "C b a v",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.1289114781788416,
+          "n_tok": 7,
+          "surprisal_atoms": 2.068465679883957,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p11",
+      "src": "B b a v",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.4000654598431928,
+          "n_tok": 7,
+          "surprisal_atoms": 2.894060409317414,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p12",
+      "src": "S b a v",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "S",
+          "surprisal": 0.9661152929895453,
+          "n_tok": 9,
+          "surprisal_atoms": 1.6233755387365818,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p13",
+      "src": "D b a v q",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "D",
+          "surprisal": 1.3114466884483893,
+          "n_tok": 9,
+          "surprisal_atoms": 2.2739261109381914,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 11
+        }
+      ]
+    },
+    {
+      "id": "p14",
+      "src": "K (b a v) m",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.1407918616064958,
+          "n_tok": 7,
+          "surprisal_atoms": 1.7571705679098766,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p15",
+      "src": "C (B b a) v m",
+      "kind": "multi_CB",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.1440072845328937,
+          "n_tok": 11,
+          "surprisal_atoms": 1.5388614144176245,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.9587928678633438,
+          "n_tok": 9,
+          "surprisal_atoms": 2.1167077012360096,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p16",
+      "src": "K (B b a v) m",
+      "kind": "multi_KB",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.0175438105232186,
+          "n_tok": 9,
+          "surprisal_atoms": 0.735304931178689,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        },
+        {
+          "op": "B",
+          "surprisal": 0.6451303696459425,
+          "n_tok": 7,
+          "surprisal_atoms": 1.4684925071584682,
+          "n_atoms": 3,
+          "term_idx": 2,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p17",
+      "src": "W (B b a) v",
+      "kind": "multi_WB",
+      "rows": [
+        {
+          "op": "W",
+          "surprisal": 0.9047454041005536,
+          "n_tok": 11,
+          "surprisal_atoms": 0.8479591049253941,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.6210509759774949,
+          "n_tok": 9,
+          "surprisal_atoms": 1.3730565020814538,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p18",
+      "src": "B u c p",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 0.7958933476890836,
+          "n_tok": 7,
+          "surprisal_atoms": 1.1947023918231328,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p19",
+      "src": "C u c p",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.0982475812946046,
+          "n_tok": 7,
+          "surprisal_atoms": 1.8992062558730443,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p20",
+      "src": "B u c p",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 0.7958933476890836,
+          "n_tok": 7,
+          "surprisal_atoms": 1.1947023918231328,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p21",
+      "src": "S u c p",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "S",
+          "surprisal": 1.1590242674574256,
+          "n_tok": 9,
+          "surprisal_atoms": 1.9701290880329907,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p22",
+      "src": "D u c p b",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "D",
+          "surprisal": 0.7813237323943112,
+          "n_tok": 9,
+          "surprisal_atoms": 1.1945817745290697,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 11
+        }
+      ]
+    },
+    {
+      "id": "p23",
+      "src": "K (u c p) h",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 0.8509913815983704,
+          "n_tok": 7,
+          "surprisal_atoms": 0.9794119397799174,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p24",
+      "src": "C (B u c) p h",
+      "kind": "multi_CB",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.198647960935804,
+          "n_tok": 11,
+          "surprisal_atoms": 1.6856586856301874,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.5638604938156075,
+          "n_tok": 9,
+          "surprisal_atoms": 1.2450783937238157,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p25",
+      "src": "K (B u c p) h",
+      "kind": "multi_KB",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 0.9794399620344242,
+          "n_tok": 9,
+          "surprisal_atoms": 0.3869891753420234,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        },
+        {
+          "op": "B",
+          "surprisal": 0.08825051498466305,
+          "n_tok": 7,
+          "surprisal_atoms": 0.19404320046305656,
+          "n_atoms": 3,
+          "term_idx": 2,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p26",
+      "src": "W (B u c) p",
+      "kind": "multi_WB",
+      "rows": [
+        {
+          "op": "W",
+          "surprisal": 1.105075909163464,
+          "n_tok": 11,
+          "surprisal_atoms": 1.4915500001516193,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.14831391000188887,
+          "n_tok": 9,
+          "surprisal_atoms": 0.3102779467590153,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p27",
+      "src": "B q h g",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.1730309064899171,
+          "n_tok": 7,
+          "surprisal_atoms": 2.223633666833242,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p28",
+      "src": "C q h g",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.2148649051253284,
+          "n_tok": 7,
+          "surprisal_atoms": 2.2794220441331468,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p29",
+      "src": "B q h g",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.1730309064899171,
+          "n_tok": 7,
+          "surprisal_atoms": 2.223633666833242,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p30",
+      "src": "S q h g",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "S",
+          "surprisal": 1.0339813455939293,
+          "n_tok": 9,
+          "surprisal_atoms": 1.8348971107043326,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p31",
+      "src": "D q h g c",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "D",
+          "surprisal": 1.017526517311732,
+          "n_tok": 9,
+          "surprisal_atoms": 1.8519302057102323,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 11
+        }
+      ]
+    },
+    {
+      "id": "p32",
+      "src": "K (q h g) n",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.0255614053457975,
+          "n_tok": 7,
+          "surprisal_atoms": 1.4644637561092775,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p33",
+      "src": "C (B q h) g n",
+      "kind": "multi_CB",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.54525903459977,
+          "n_tok": 11,
+          "surprisal_atoms": 2.7722853957675397,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 1.1618355300484433,
+          "n_tok": 9,
+          "surprisal_atoms": 2.5893106628209352,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p34",
+      "src": "K (B q h g) n",
+      "kind": "multi_KB",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.1123230694275763,
+          "n_tok": 9,
+          "surprisal_atoms": 1.0886789519960682,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        },
+        {
+          "op": "B",
+          "surprisal": 0.73282507361312,
+          "n_tok": 7,
+          "surprisal_atoms": 1.6699181976728141,
+          "n_atoms": 3,
+          "term_idx": 2,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p35",
+      "src": "W (B q h) g",
+      "kind": "multi_WB",
+      "rows": [
+        {
+          "op": "W",
+          "surprisal": 1.192467558790337,
+          "n_tok": 11,
+          "surprisal_atoms": 1.5657885242253542,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.4870592721013559,
+          "n_tok": 9,
+          "surprisal_atoms": 1.0603344570845366,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p36",
+      "src": "B b e c",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.3580397692109858,
+          "n_tok": 7,
+          "surprisal_atoms": 2.7399375351766744,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p37",
+      "src": "C b e c",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.058275739263211,
+          "n_tok": 7,
+          "surprisal_atoms": 1.8949142626176279,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p38",
+      "src": "B b e c",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.3580397692109858,
+          "n_tok": 7,
+          "surprisal_atoms": 2.7399375351766744,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p39",
+      "src": "S b e c",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "S",
+          "surprisal": 0.9989686736630069,
+          "n_tok": 9,
+          "surprisal_atoms": 1.6107853334397078,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p40",
+      "src": "D b e c h",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "D",
+          "surprisal": 1.1822279238452513,
+          "n_tok": 9,
+          "surprisal_atoms": 1.8749923803843558,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 11
+        }
+      ]
+    },
+    {
+      "id": "p41",
+      "src": "K (b e c) q",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.0292852643345083,
+          "n_tok": 7,
+          "surprisal_atoms": 1.1864143398900826,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p42",
+      "src": "C (B b e) c q",
+      "kind": "multi_CB",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.4275574413212864,
+          "n_tok": 11,
+          "surprisal_atoms": 2.4601746411062777,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 1.3294678836957448,
+          "n_tok": 9,
+          "surprisal_atoms": 2.9474660244304687,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p43",
+      "src": "K (B b e c) q",
+      "kind": "multi_KB",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 0.8364407191725655,
+          "n_tok": 9,
+          "surprisal_atoms": 0.5019462565736225,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        },
+        {
+          "op": "B",
+          "surprisal": 0.847734946691032,
+          "n_tok": 7,
+          "surprisal_atoms": 1.9293217537924647,
+          "n_atoms": 3,
+          "term_idx": 2,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p44",
+      "src": "W (B b e) c",
+      "kind": "multi_WB",
+      "rows": [
+        {
+          "op": "W",
+          "surprisal": 1.0610685903071002,
+          "n_tok": 11,
+          "surprisal_atoms": 1.4199629488866776,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.6354485707642097,
+          "n_tok": 9,
+          "surprisal_atoms": 1.4045507127884775,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p45",
+      "src": "B g e n",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.19411176815629,
+          "n_tok": 7,
+          "surprisal_atoms": 2.3452486159900823,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p46",
+      "src": "C g e n",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.155675767521773,
+          "n_tok": 7,
+          "surprisal_atoms": 2.139325004691879,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p47",
+      "src": "B g e n",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.19411176815629,
+          "n_tok": 7,
+          "surprisal_atoms": 2.3452486159900823,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p48",
+      "src": "S g e n",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "S",
+          "surprisal": 1.6728456397023466,
+          "n_tok": 9,
+          "surprisal_atoms": 3.266157042235136,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p49",
+      "src": "D g e n d",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "D",
+          "surprisal": 0.7523705350855986,
+          "n_tok": 9,
+          "surprisal_atoms": 1.2193537410348654,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 11
+        }
+      ]
+    },
+    {
+      "id": "p50",
+      "src": "K (g e n) u",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 0.8364860096148082,
+          "n_tok": 7,
+          "surprisal_atoms": 1.1509498891731103,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p51",
+      "src": "C (B g e) n u",
+      "kind": "multi_CB",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.1783862538974395,
+          "n_tok": 11,
+          "surprisal_atoms": 1.5455145221203566,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.6775575777412288,
+          "n_tok": 9,
+          "surprisal_atoms": 1.499883092707023,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p52",
+      "src": "K (B g e n) u",
+      "kind": "multi_KB",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 0.9425532158671154,
+          "n_tok": 9,
+          "surprisal_atoms": 0.7404265174021324,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        },
+        {
+          "op": "B",
+          "surprisal": 0.6518946326770154,
+          "n_tok": 7,
+          "surprisal_atoms": 1.5028435422185187,
+          "n_atoms": 3,
+          "term_idx": 2,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p53",
+      "src": "W (B g e) n",
+      "kind": "multi_WB",
+      "rows": [
+        {
+          "op": "W",
+          "surprisal": 1.1571842054413124,
+          "n_tok": 11,
+          "surprisal_atoms": 1.5437955670058727,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.47981212528732914,
+          "n_tok": 9,
+          "surprisal_atoms": 1.0631476119160652,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p54",
+      "src": "B a b g",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.5258687955460377,
+          "n_tok": 7,
+          "surprisal_atoms": 2.889804250871142,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p55",
+      "src": "C a b g",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.5992966704070568,
+          "n_tok": 7,
+          "surprisal_atoms": 3.069937409212192,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p56",
+      "src": "B a b g",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.5258687955460377,
+          "n_tok": 7,
+          "surprisal_atoms": 2.889804250871142,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p57",
+      "src": "S a b g",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "S",
+          "surprisal": 1.5526594306445785,
+          "n_tok": 9,
+          "surprisal_atoms": 2.855617235880345,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p58",
+      "src": "D a b g u",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "D",
+          "surprisal": 1.2100621967369483,
+          "n_tok": 9,
+          "surprisal_atoms": 2.1071252637775615,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 11
+        }
+      ]
+    },
+    {
+      "id": "p59",
+      "src": "K (a b g) v",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.257245766797236,
+          "n_tok": 7,
+          "surprisal_atoms": 1.7280543508629005,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p60",
+      "src": "C (B a b) g v",
+      "kind": "multi_CB",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.4530996030027217,
+          "n_tok": 11,
+          "surprisal_atoms": 2.370483706705272,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 1.1414932400867757,
+          "n_tok": 9,
+          "surprisal_atoms": 2.508124499581754,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p61",
+      "src": "K (B a b g) v",
+      "kind": "multi_KB",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.274895395566192,
+          "n_tok": 9,
+          "surprisal_atoms": 1.4058572137728333,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        },
+        {
+          "op": "B",
+          "surprisal": 1.0737341366808064,
+          "n_tok": 7,
+          "surprisal_atoms": 2.4475724051008,
+          "n_atoms": 3,
+          "term_idx": 2,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p62",
+      "src": "W (B a b) g",
+      "kind": "multi_WB",
+      "rows": [
+        {
+          "op": "W",
+          "surprisal": 1.3647862503474408,
+          "n_tok": 11,
+          "surprisal_atoms": 1.7161138486117125,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.49520562516732347,
+          "n_tok": 9,
+          "surprisal_atoms": 1.0690585025586188,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p63",
+      "src": "B u c d",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 0.779514092952013,
+          "n_tok": 7,
+          "surprisal_atoms": 1.1635051531096299,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p64",
+      "src": "C u c d",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.1701979404315352,
+          "n_tok": 7,
+          "surprisal_atoms": 2.049963559024036,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p65",
+      "src": "B u c d",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 0.779514092952013,
+          "n_tok": 7,
+          "surprisal_atoms": 1.1635051531096299,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p66",
+      "src": "S u c d",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "S",
+          "surprisal": 1.2615159662026498,
+          "n_tok": 9,
+          "surprisal_atoms": 2.153215718222782,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p67",
+      "src": "D u c d p",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "D",
+          "surprisal": 0.7994669640643729,
+          "n_tok": 9,
+          "surprisal_atoms": 1.2348980056121945,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 11
+        }
+      ]
+    },
+    {
+      "id": "p68",
+      "src": "K (u c d) b",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 0.6973950604775122,
+          "n_tok": 7,
+          "surprisal_atoms": 0.7501658896605173,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p69",
+      "src": "C (B u c) d b",
+      "kind": "multi_CB",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.1552105418999086,
+          "n_tok": 11,
+          "surprisal_atoms": 1.5588574768044055,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.4786861178775628,
+          "n_tok": 9,
+          "surprisal_atoms": 1.0473653707886115,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p70",
+      "src": "K (B u c d) b",
+      "kind": "multi_KB",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 0.9776683206566505,
+          "n_tok": 9,
+          "surprisal_atoms": 0.5757164275273681,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        },
+        {
+          "op": "B",
+          "surprisal": 0.12677990452253393,
+          "n_tok": 7,
+          "surprisal_atoms": 0.2814111520225803,
+          "n_atoms": 3,
+          "term_idx": 2,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p71",
+      "src": "W (B u c) d",
+      "kind": "multi_WB",
+      "rows": [
+        {
+          "op": "W",
+          "surprisal": 1.0156800803643735,
+          "n_tok": 11,
+          "surprisal_atoms": 1.3500617027748376,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.14696000842377543,
+          "n_tok": 9,
+          "surprisal_atoms": 0.311680166516453,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p72",
+      "src": "B a n b",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.5711456345660346,
+          "n_tok": 7,
+          "surprisal_atoms": 3.114595480263233,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p73",
+      "src": "C a n b",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.3964185257043158,
+          "n_tok": 7,
+          "surprisal_atoms": 2.3968109289805093,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p74",
+      "src": "B a n b",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.5711456345660346,
+          "n_tok": 7,
+          "surprisal_atoms": 3.114595480263233,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p75",
+      "src": "S a n b",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "S",
+          "surprisal": 0.8991996327208148,
+          "n_tok": 9,
+          "surprisal_atoms": 1.3605577684938908,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p76",
+      "src": "D a n b q",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "D",
+          "surprisal": 1.404596434492204,
+          "n_tok": 9,
+          "surprisal_atoms": 2.6198032670654356,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 11
+        }
+      ]
+    },
+    {
+      "id": "p77",
+      "src": "K (a n b) f",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.4590815736779146,
+          "n_tok": 7,
+          "surprisal_atoms": 2.604235598196586,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p78",
+      "src": "C (B a n) b f",
+      "kind": "multi_CB",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.2665601765567607,
+          "n_tok": 11,
+          "surprisal_atoms": 1.7329594902694225,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 1.0811755864156618,
+          "n_tok": 9,
+          "surprisal_atoms": 2.3631723830476403,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p79",
+      "src": "K (B a n b) f",
+      "kind": "multi_KB",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.1034785612589784,
+          "n_tok": 9,
+          "surprisal_atoms": 1.0240708651642005,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        },
+        {
+          "op": "B",
+          "surprisal": 1.0143400876383697,
+          "n_tok": 7,
+          "surprisal_atoms": 2.2672736222545304,
+          "n_atoms": 3,
+          "term_idx": 2,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p80",
+      "src": "W (B a n) b",
+      "kind": "multi_WB",
+      "rows": [
+        {
+          "op": "W",
+          "surprisal": 1.0871096559884874,
+          "n_tok": 11,
+          "surprisal_atoms": 1.1691265683621168,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.43748456204452346,
+          "n_tok": 9,
+          "surprisal_atoms": 0.9425609959289432,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p81",
+      "src": "B m b f",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 0.984828881919384,
+          "n_tok": 7,
+          "surprisal_atoms": 1.6343616942564647,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p82",
+      "src": "C m b f",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 0.992049972393683,
+          "n_tok": 7,
+          "surprisal_atoms": 1.6795484597484271,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p83",
+      "src": "B m b f",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 0.984828881919384,
+          "n_tok": 7,
+          "surprisal_atoms": 1.6343616942564647,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p84",
+      "src": "S m b f",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "S",
+          "surprisal": 1.5907340264982648,
+          "n_tok": 9,
+          "surprisal_atoms": 3.0398511830717325,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p85",
+      "src": "D m b f g",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "D",
+          "surprisal": 1.0765459761023521,
+          "n_tok": 9,
+          "surprisal_atoms": 1.8279377268627286,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 11
+        }
+      ]
+    },
+    {
+      "id": "p86",
+      "src": "K (m b f) v",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 0.9032475586448397,
+          "n_tok": 7,
+          "surprisal_atoms": 1.0828872273365657,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p87",
+      "src": "C (B m b) f v",
+      "kind": "multi_CB",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.241773790679872,
+          "n_tok": 11,
+          "surprisal_atoms": 1.5810370936524123,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.6274106234777719,
+          "n_tok": 9,
+          "surprisal_atoms": 1.4003248058143072,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p88",
+      "src": "K (B m b f) v",
+      "kind": "multi_KB",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 0.9424222233808703,
+          "n_tok": 9,
+          "surprisal_atoms": 0.30346480881174404,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        },
+        {
+          "op": "B",
+          "surprisal": 0.1038033254111984,
+          "n_tok": 7,
+          "surprisal_atoms": 0.2332405971828848,
+          "n_atoms": 3,
+          "term_idx": 2,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p89",
+      "src": "W (B m b) f",
+      "kind": "multi_WB",
+      "rows": [
+        {
+          "op": "W",
+          "surprisal": 1.1475645454431123,
+          "n_tok": 11,
+          "surprisal_atoms": 1.3213429860770702,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.16130762782672214,
+          "n_tok": 9,
+          "surprisal_atoms": 0.3338592271320522,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p90",
+      "src": "B e m d",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.2052597983607225,
+          "n_tok": 7,
+          "surprisal_atoms": 2.34834265584747,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p91",
+      "src": "C e m d",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.488607847797019,
+          "n_tok": 7,
+          "surprisal_atoms": 2.8346415075163045,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p92",
+      "src": "B e m d",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.2052597983607225,
+          "n_tok": 7,
+          "surprisal_atoms": 2.34834265584747,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p93",
+      "src": "S e m d",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "S",
+          "surprisal": 1.4084890093654394,
+          "n_tok": 9,
+          "surprisal_atoms": 2.670787855051458,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p94",
+      "src": "D e m d n",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "D",
+          "surprisal": 1.044302263400621,
+          "n_tok": 9,
+          "surprisal_atoms": 1.7225316590629518,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 11
+        }
+      ]
+    },
+    {
+      "id": "p95",
+      "src": "K (e m d) f",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.0557205434888601,
+          "n_tok": 7,
+          "surprisal_atoms": 1.5997193846851587,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p96",
+      "src": "C (B e m) d f",
+      "kind": "multi_CB",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.3439178697087548,
+          "n_tok": 11,
+          "surprisal_atoms": 1.9725247770547867,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.8882599122718804,
+          "n_tok": 9,
+          "surprisal_atoms": 1.9721633731387556,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p97",
+      "src": "K (B e m d) f",
+      "kind": "multi_KB",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 0.9938676651670701,
+          "n_tok": 9,
+          "surprisal_atoms": 0.9168479264092942,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        },
+        {
+          "op": "B",
+          "surprisal": 0.6169941616577229,
+          "n_tok": 7,
+          "surprisal_atoms": 1.4226984177560855,
+          "n_atoms": 3,
+          "term_idx": 2,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p98",
+      "src": "W (B e m) d",
+      "kind": "multi_WB",
+      "rows": [
+        {
+          "op": "W",
+          "surprisal": 0.9857699806717309,
+          "n_tok": 11,
+          "surprisal_atoms": 1.1261670142412186,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.3466583411726687,
+          "n_tok": 9,
+          "surprisal_atoms": 0.7527924664318562,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p99",
+      "src": "B c a u",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.3207955971759344,
+          "n_tok": 7,
+          "surprisal_atoms": 2.6226187905607126,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p100",
+      "src": "C c a u",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.0478486168597425,
+          "n_tok": 7,
+          "surprisal_atoms": 1.9958321042358875,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p101",
+      "src": "B c a u",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.3207955971759344,
+          "n_tok": 7,
+          "surprisal_atoms": 2.6226187905607126,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p102",
+      "src": "S c a u",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "S",
+          "surprisal": 0.7007189850426383,
+          "n_tok": 9,
+          "surprisal_atoms": 1.0739986659027636,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p103",
+      "src": "D c a u p",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "D",
+          "surprisal": 1.0837576300319698,
+          "n_tok": 9,
+          "surprisal_atoms": 1.9407738875597715,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 11
+        }
+      ]
+    },
+    {
+      "id": "p104",
+      "src": "K (c a u) e",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.0663258506683633,
+          "n_tok": 7,
+          "surprisal_atoms": 1.7487601957982406,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p105",
+      "src": "C (B c a) u e",
+      "kind": "multi_CB",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.4614423372867433,
+          "n_tok": 11,
+          "surprisal_atoms": 2.546079643536359,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 1.0561099368561473,
+          "n_tok": 9,
+          "surprisal_atoms": 2.3362319512525573,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p106",
+      "src": "K (B c a u) e",
+      "kind": "multi_KB",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.1356159522612062,
+          "n_tok": 9,
+          "surprisal_atoms": 1.2215190540688734,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        },
+        {
+          "op": "B",
+          "surprisal": 0.7495584093932328,
+          "n_tok": 7,
+          "surprisal_atoms": 1.707547795609571,
+          "n_atoms": 3,
+          "term_idx": 2,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p107",
+      "src": "W (B c a) u",
+      "kind": "multi_WB",
+      "rows": [
+        {
+          "op": "W",
+          "surprisal": 1.2186237356561997,
+          "n_tok": 11,
+          "surprisal_atoms": 1.84535154295736,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.3015070209253786,
+          "n_tok": 9,
+          "surprisal_atoms": 0.6617660095216706,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p108",
+      "src": "B e g p",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.4103191937985164,
+          "n_tok": 7,
+          "surprisal_atoms": 2.7711434330170355,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p109",
+      "src": "C e g p",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.4867350275495224,
+          "n_tok": 7,
+          "surprisal_atoms": 2.711527910704414,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p110",
+      "src": "B e g p",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.4103191937985164,
+          "n_tok": 7,
+          "surprisal_atoms": 2.7711434330170355,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p111",
+      "src": "S e g p",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "S",
+          "surprisal": 1.0930075641307566,
+          "n_tok": 9,
+          "surprisal_atoms": 1.8549024621024728,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p112",
+      "src": "D e g p c",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "D",
+          "surprisal": 1.042800053436723,
+          "n_tok": 9,
+          "surprisal_atoms": 1.9182988859247416,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 11
+        }
+      ]
+    },
+    {
+      "id": "p113",
+      "src": "K (e g p) n",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.1081696940319878,
+          "n_tok": 7,
+          "surprisal_atoms": 1.7132322589556377,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p114",
+      "src": "C (B e g) p n",
+      "kind": "multi_CB",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.5399883836507797,
+          "n_tok": 11,
+          "surprisal_atoms": 2.713283638469875,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 1.1749120576100216,
+          "n_tok": 9,
+          "surprisal_atoms": 2.6125239157117903,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p115",
+      "src": "K (B e g p) n",
+      "kind": "multi_KB",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.0221614078101184,
+          "n_tok": 9,
+          "surprisal_atoms": 0.981969157854716,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        },
+        {
+          "op": "B",
+          "surprisal": 0.753758130877811,
+          "n_tok": 7,
+          "surprisal_atoms": 1.736637224171621,
+          "n_atoms": 3,
+          "term_idx": 2,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p116",
+      "src": "W (B e g) p",
+      "kind": "multi_WB",
+      "rows": [
+        {
+          "op": "W",
+          "surprisal": 1.162381218322976,
+          "n_tok": 11,
+          "surprisal_atoms": 1.6963300944771618,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.491694646085509,
+          "n_tok": 9,
+          "surprisal_atoms": 1.0725144024472684,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p117",
+      "src": "B p m h",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.007399826443621,
+          "n_tok": 7,
+          "surprisal_atoms": 1.6560404406239588,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p118",
+      "src": "C p m h",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.0786834912640708,
+          "n_tok": 7,
+          "surprisal_atoms": 1.7946790605783463,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p119",
+      "src": "B p m h",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.007399826443621,
+          "n_tok": 7,
+          "surprisal_atoms": 1.6560404406239588,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p120",
+      "src": "S p m h",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "S",
+          "surprisal": 1.3157476482705937,
+          "n_tok": 9,
+          "surprisal_atoms": 2.1884128116071224,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p121",
+      "src": "D p m h b",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "D",
+          "surprisal": 0.8869537817728188,
+          "n_tok": 9,
+          "surprisal_atoms": 1.4266300657764077,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 11
+        }
+      ]
+    },
+    {
+      "id": "p122",
+      "src": "K (p m h) a",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.1841927200688847,
+          "n_tok": 7,
+          "surprisal_atoms": 1.1980508486740291,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p123",
+      "src": "C (B p m) h a",
+      "kind": "multi_CB",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.3530443690039895,
+          "n_tok": 11,
+          "surprisal_atoms": 1.8825678573921323,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.6393263992956943,
+          "n_tok": 9,
+          "surprisal_atoms": 1.4186632412020117,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p124",
+      "src": "K (B p m h) a",
+      "kind": "multi_KB",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.0309826045348827,
+          "n_tok": 9,
+          "surprisal_atoms": 0.6085317872930318,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        },
+        {
+          "op": "B",
+          "surprisal": 0.5263016659134466,
+          "n_tok": 7,
+          "surprisal_atoms": 1.2108228228753433,
+          "n_atoms": 3,
+          "term_idx": 2,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p125",
+      "src": "W (B p m) h",
+      "kind": "multi_WB",
+      "rows": [
+        {
+          "op": "W",
+          "surprisal": 1.0836048984730786,
+          "n_tok": 11,
+          "surprisal_atoms": 1.0772417047992349,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.18573758762148726,
+          "n_tok": 9,
+          "surprisal_atoms": 0.40037759370170534,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p126",
+      "src": "B g n u",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.319613788543003,
+          "n_tok": 7,
+          "surprisal_atoms": 2.5721561952183642,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p127",
+      "src": "C g n u",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 0.9200982643025262,
+          "n_tok": 7,
+          "surprisal_atoms": 1.6100690066814423,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p128",
+      "src": "B g n u",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.319613788543003,
+          "n_tok": 7,
+          "surprisal_atoms": 2.5721561952183642,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p129",
+      "src": "S g n u",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "S",
+          "surprisal": 0.8541356970866522,
+          "n_tok": 9,
+          "surprisal_atoms": 1.4357270523905754,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p130",
+      "src": "D g n u b",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "D",
+          "surprisal": 0.8465632746616999,
+          "n_tok": 9,
+          "surprisal_atoms": 1.5044717444106936,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 11
+        }
+      ]
+    },
+    {
+      "id": "p131",
+      "src": "K (g n u) a",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.026857687559511,
+          "n_tok": 7,
+          "surprisal_atoms": 1.6235453837240736,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p132",
+      "src": "C (B g n) u a",
+      "kind": "multi_CB",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.2765201140533795,
+          "n_tok": 11,
+          "surprisal_atoms": 1.7141306675039232,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.5535870808978669,
+          "n_tok": 9,
+          "surprisal_atoms": 1.2260475047805812,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p133",
+      "src": "K (B g n u) a",
+      "kind": "multi_KB",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.0580339752551582,
+          "n_tok": 9,
+          "surprisal_atoms": 0.9199508201951782,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        },
+        {
+          "op": "B",
+          "surprisal": 0.6195824074093252,
+          "n_tok": 7,
+          "surprisal_atoms": 1.4210960564669222,
+          "n_atoms": 3,
+          "term_idx": 2,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p134",
+      "src": "W (B g n) u",
+      "kind": "multi_WB",
+      "rows": [
+        {
+          "op": "W",
+          "surprisal": 1.0645444379611448,
+          "n_tok": 11,
+          "surprisal_atoms": 1.1420789146795869,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.31406890145606464,
+          "n_tok": 9,
+          "surprisal_atoms": 0.6888106460683048,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p135",
+      "src": "B g q b",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 0.9933668956426638,
+          "n_tok": 7,
+          "surprisal_atoms": 1.8268190613016486,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p136",
+      "src": "C g q b",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 0.8648729579789298,
+          "n_tok": 7,
+          "surprisal_atoms": 1.5814454182982445,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p137",
+      "src": "B g q b",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 0.9933668956426638,
+          "n_tok": 7,
+          "surprisal_atoms": 1.8268190613016486,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p138",
+      "src": "S g q b",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "S",
+          "surprisal": 0.7858938119477696,
+          "n_tok": 9,
+          "surprisal_atoms": 1.171590344980359,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p139",
+      "src": "D g q b m",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "D",
+          "surprisal": 0.8040247735981312,
+          "n_tok": 9,
+          "surprisal_atoms": 1.426336384494789,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 11
+        }
+      ]
+    },
+    {
+      "id": "p140",
+      "src": "K (g q b) n",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 0.9287564536290509,
+          "n_tok": 7,
+          "surprisal_atoms": 1.1448801358540852,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p141",
+      "src": "C (B g q) b n",
+      "kind": "multi_CB",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.2936089638281951,
+          "n_tok": 11,
+          "surprisal_atoms": 1.919866609852761,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.7044299018258849,
+          "n_tok": 9,
+          "surprisal_atoms": 1.5685736616142094,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p142",
+      "src": "K (B g q b) n",
+      "kind": "multi_KB",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.1012450826043885,
+          "n_tok": 9,
+          "surprisal_atoms": 1.1525651753569643,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        },
+        {
+          "op": "B",
+          "surprisal": 0.5283452776992428,
+          "n_tok": 7,
+          "surprisal_atoms": 1.2168815908953547,
+          "n_atoms": 3,
+          "term_idx": 2,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p143",
+      "src": "W (B g q) b",
+      "kind": "multi_WB",
+      "rows": [
+        {
+          "op": "W",
+          "surprisal": 1.0103961748325012,
+          "n_tok": 11,
+          "surprisal_atoms": 1.1212146901525557,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.31250888128933085,
+          "n_tok": 9,
+          "surprisal_atoms": 0.681179151404649,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p144",
+      "src": "B b u n",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.371153216542942,
+          "n_tok": 7,
+          "surprisal_atoms": 2.7529747566829124,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p145",
+      "src": "C b u n",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.4720835396022136,
+          "n_tok": 7,
+          "surprisal_atoms": 2.7939548660845808,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p146",
+      "src": "B b u n",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.371153216542942,
+          "n_tok": 7,
+          "surprisal_atoms": 2.7529747566829124,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p147",
+      "src": "S b u n",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "S",
+          "surprisal": 1.570707872716917,
+          "n_tok": 9,
+          "surprisal_atoms": 2.9084753007628024,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p148",
+      "src": "D b u n p",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "D",
+          "surprisal": 1.073956026074787,
+          "n_tok": 9,
+          "surprisal_atoms": 1.89602711959742,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 11
+        }
+      ]
+    },
+    {
+      "id": "p149",
+      "src": "K (b u n) c",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.0133371246712548,
+          "n_tok": 7,
+          "surprisal_atoms": 1.3038441017270088,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p150",
+      "src": "C (B b u) n c",
+      "kind": "multi_CB",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.1174221306361936,
+          "n_tok": 11,
+          "surprisal_atoms": 1.519910030066967,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.9984820673190471,
+          "n_tok": 9,
+          "surprisal_atoms": 2.216690830187872,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p151",
+      "src": "K (B b u n) c",
+      "kind": "multi_KB",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.0108916107565165,
+          "n_tok": 9,
+          "surprisal_atoms": 0.8402932652582725,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        },
+        {
+          "op": "B",
+          "surprisal": 0.728272676434634,
+          "n_tok": 7,
+          "surprisal_atoms": 1.6560827084661771,
+          "n_atoms": 3,
+          "term_idx": 2,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p152",
+      "src": "W (B b u) n",
+      "kind": "multi_WB",
+      "rows": [
+        {
+          "op": "W",
+          "surprisal": 1.1391531726006756,
+          "n_tok": 11,
+          "surprisal_atoms": 1.4921950935386121,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.5864102042202527,
+          "n_tok": 9,
+          "surprisal_atoms": 1.3033749870955944,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p153",
+      "src": "B b c q",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.2678495245054364,
+          "n_tok": 7,
+          "surprisal_atoms": 2.4386947362994156,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p154",
+      "src": "C b c q",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.2515496973480498,
+          "n_tok": 7,
+          "surprisal_atoms": 2.3426231319705644,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p155",
+      "src": "B b c q",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.2678495245054364,
+          "n_tok": 7,
+          "surprisal_atoms": 2.4386947362994156,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p156",
+      "src": "S b c q",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "S",
+          "surprisal": 1.2556748541278973,
+          "n_tok": 9,
+          "surprisal_atoms": 2.32575597288087,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p157",
+      "src": "D b c q a",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "D",
+          "surprisal": 1.077728140581813,
+          "n_tok": 9,
+          "surprisal_atoms": 1.7346183932386339,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 11
+        }
+      ]
+    },
+    {
+      "id": "p158",
+      "src": "K (b c q) g",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.1579445259911674,
+          "n_tok": 7,
+          "surprisal_atoms": 1.378945251305898,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p159",
+      "src": "C (B b c) q g",
+      "kind": "multi_CB",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.210172631185163,
+          "n_tok": 11,
+          "surprisal_atoms": 1.937538187019527,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 1.2350525398635201,
+          "n_tok": 9,
+          "surprisal_atoms": 2.7420985780190676,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p160",
+      "src": "K (B b c q) g",
+      "kind": "multi_KB",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 0.9758881956545843,
+          "n_tok": 9,
+          "surprisal_atoms": 0.6709112043802937,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        },
+        {
+          "op": "B",
+          "surprisal": 0.7666804174493466,
+          "n_tok": 7,
+          "surprisal_atoms": 1.744673525293668,
+          "n_atoms": 3,
+          "term_idx": 2,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p161",
+      "src": "W (B b c) q",
+      "kind": "multi_WB",
+      "rows": [
+        {
+          "op": "W",
+          "surprisal": 0.9772133793766525,
+          "n_tok": 11,
+          "surprisal_atoms": 1.137171360780485,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.5531063868353764,
+          "n_tok": 9,
+          "surprisal_atoms": 1.2157789710909128,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p162",
+      "src": "B c m v",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 0.9748155054237161,
+          "n_tok": 7,
+          "surprisal_atoms": 1.7792928703129292,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p163",
+      "src": "C c m v",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.284353721354689,
+          "n_tok": 7,
+          "surprisal_atoms": 2.3932797287901244,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p164",
+      "src": "B c m v",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 0.9748155054237161,
+          "n_tok": 7,
+          "surprisal_atoms": 1.7792928703129292,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p165",
+      "src": "S c m v",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "S",
+          "surprisal": 1.0150834787636995,
+          "n_tok": 9,
+          "surprisal_atoms": 1.7550056017935276,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p166",
+      "src": "D c m v u",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "D",
+          "surprisal": 0.9000326453501152,
+          "n_tok": 9,
+          "surprisal_atoms": 1.5109209186630324,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 11
+        }
+      ]
+    },
+    {
+      "id": "p167",
+      "src": "K (c m v) n",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 0.7741700876504183,
+          "n_tok": 7,
+          "surprisal_atoms": 0.9300197927902142,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p168",
+      "src": "C (B c m) v n",
+      "kind": "multi_CB",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.173027334057472,
+          "n_tok": 11,
+          "surprisal_atoms": 1.4238093309104443,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.6090895755009519,
+          "n_tok": 9,
+          "surprisal_atoms": 1.35197276994586,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p169",
+      "src": "K (B c m v) n",
+      "kind": "multi_KB",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.005997101828042,
+          "n_tok": 9,
+          "surprisal_atoms": 0.5559016408709189,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        },
+        {
+          "op": "B",
+          "surprisal": 0.2191161472749497,
+          "n_tok": 7,
+          "surprisal_atoms": 0.4969882550649345,
+          "n_atoms": 3,
+          "term_idx": 2,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p170",
+      "src": "W (B c m) v",
+      "kind": "multi_WB",
+      "rows": [
+        {
+          "op": "W",
+          "surprisal": 0.9180577901954,
+          "n_tok": 11,
+          "surprisal_atoms": 0.8428010204806924,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.3061745980942053,
+          "n_tok": 9,
+          "surprisal_atoms": 0.6666950024664402,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p171",
+      "src": "B p q h",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.0311015799109424,
+          "n_tok": 7,
+          "surprisal_atoms": 1.824375502144297,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p172",
+      "src": "C p q h",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 0.8751381433435849,
+          "n_tok": 7,
+          "surprisal_atoms": 1.5250207856297493,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p173",
+      "src": "B p q h",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.0311015799109424,
+          "n_tok": 7,
+          "surprisal_atoms": 1.824375502144297,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p174",
+      "src": "S p q h",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "S",
+          "surprisal": 0.9599347242878543,
+          "n_tok": 9,
+          "surprisal_atoms": 1.5423817560076714,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p175",
+      "src": "D p q h n",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "D",
+          "surprisal": 1.1960529980974064,
+          "n_tok": 9,
+          "surprisal_atoms": 2.0598178589716554,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 11
+        }
+      ]
+    },
+    {
+      "id": "p176",
+      "src": "K (p q h) e",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.1735766745571579,
+          "n_tok": 7,
+          "surprisal_atoms": 1.5670145358890295,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p177",
+      "src": "C (B p q) h e",
+      "kind": "multi_CB",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.2272596531970934,
+          "n_tok": 11,
+          "surprisal_atoms": 1.8911850079894066,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.9152943708856279,
+          "n_tok": 9,
+          "surprisal_atoms": 2.0355455487733707,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p178",
+      "src": "K (B p q h) e",
+      "kind": "multi_KB",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.154003730819871,
+          "n_tok": 9,
+          "surprisal_atoms": 1.189625832407425,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        },
+        {
+          "op": "B",
+          "surprisal": 0.7213479985948652,
+          "n_tok": 7,
+          "surprisal_atoms": 1.6474801450191687,
+          "n_atoms": 3,
+          "term_idx": 2,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p179",
+      "src": "W (B p q) h",
+      "kind": "multi_WB",
+      "rows": [
+        {
+          "op": "W",
+          "surprisal": 1.1834905161945657,
+          "n_tok": 11,
+          "surprisal_atoms": 1.494691550033167,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.21724477622451055,
+          "n_tok": 9,
+          "surprisal_atoms": 0.47331298410426825,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p180",
+      "src": "B f c d",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.1034197067575795,
+          "n_tok": 7,
+          "surprisal_atoms": 2.1103809090952077,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p181",
+      "src": "C f c d",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.2478008958111917,
+          "n_tok": 7,
+          "surprisal_atoms": 2.420845927360157,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p182",
+      "src": "B f c d",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.1034197067575795,
+          "n_tok": 7,
+          "surprisal_atoms": 2.1103809090952077,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p183",
+      "src": "S f c d",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "S",
+          "surprisal": 1.311398418413268,
+          "n_tok": 9,
+          "surprisal_atoms": 2.450859338976443,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p184",
+      "src": "D f c d q",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "D",
+          "surprisal": 0.9270878721856408,
+          "n_tok": 9,
+          "surprisal_atoms": 1.6679584849625826,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 11
+        }
+      ]
+    },
+    {
+      "id": "p185",
+      "src": "K (f c d) a",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 0.8451532275149864,
+          "n_tok": 7,
+          "surprisal_atoms": 1.1050922872188191,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p186",
+      "src": "C (B f c) d a",
+      "kind": "multi_CB",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.319161813028834,
+          "n_tok": 11,
+          "surprisal_atoms": 2.1373242856934667,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 1.1584151540882885,
+          "n_tok": 9,
+          "surprisal_atoms": 2.5396205740980804,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p187",
+      "src": "K (B f c d) a",
+      "kind": "multi_KB",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.0367442472941346,
+          "n_tok": 9,
+          "surprisal_atoms": 0.9929009824991226,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        },
+        {
+          "op": "B",
+          "surprisal": 0.8322686162511153,
+          "n_tok": 7,
+          "surprisal_atoms": 1.8887534240881603,
+          "n_atoms": 3,
+          "term_idx": 2,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p188",
+      "src": "W (B f c) d",
+      "kind": "multi_WB",
+      "rows": [
+        {
+          "op": "W",
+          "surprisal": 1.248548205518587,
+          "n_tok": 11,
+          "surprisal_atoms": 1.9301810206379741,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.39679380594235325,
+          "n_tok": 9,
+          "surprisal_atoms": 0.8620775183662772,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p189",
+      "src": "B g n d",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.1959817308400358,
+          "n_tok": 7,
+          "surprisal_atoms": 2.266323463370403,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p190",
+      "src": "C g n d",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.1043276275907243,
+          "n_tok": 7,
+          "surprisal_atoms": 1.9617940684159596,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p191",
+      "src": "B g n d",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.1959817308400358,
+          "n_tok": 7,
+          "surprisal_atoms": 2.266323463370403,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p192",
+      "src": "S g n d",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "S",
+          "surprisal": 1.3780361120071676,
+          "n_tok": 9,
+          "surprisal_atoms": 2.583829700946808,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p193",
+      "src": "D g n d h",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "D",
+          "surprisal": 0.9204840800828404,
+          "n_tok": 9,
+          "surprisal_atoms": 1.5662881443277001,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 11
+        }
+      ]
+    },
+    {
+      "id": "p194",
+      "src": "K (g n d) e",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 0.9391265532800129,
+          "n_tok": 7,
+          "surprisal_atoms": 1.3925458664695423,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p195",
+      "src": "C (B g n) d e",
+      "kind": "multi_CB",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.176614485681057,
+          "n_tok": 11,
+          "surprisal_atoms": 1.4608516730368137,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.4326286216576894,
+          "n_tok": 9,
+          "surprisal_atoms": 0.9532620920799673,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p196",
+      "src": "K (B g n d) e",
+      "kind": "multi_KB",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 0.89680735528883,
+          "n_tok": 9,
+          "surprisal_atoms": 0.5307865046585599,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        },
+        {
+          "op": "B",
+          "surprisal": 0.7158975252282939,
+          "n_tok": 7,
+          "surprisal_atoms": 1.6467512825814385,
+          "n_atoms": 3,
+          "term_idx": 2,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p197",
+      "src": "W (B g n) d",
+      "kind": "multi_WB",
+      "rows": [
+        {
+          "op": "W",
+          "surprisal": 1.0659446838227185,
+          "n_tok": 11,
+          "surprisal_atoms": 1.1187310572713614,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.2968853784388759,
+          "n_tok": 9,
+          "surprisal_atoms": 0.6483431588858366,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p198",
+      "src": "B f g e",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.0698436269802707,
+          "n_tok": 7,
+          "surprisal_atoms": 2.1416203938424587,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p199",
+      "src": "C f g e",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.146705505438149,
+          "n_tok": 7,
+          "surprisal_atoms": 2.2381698871031404,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p200",
+      "src": "B f g e",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.0698436269802707,
+          "n_tok": 7,
+          "surprisal_atoms": 2.1416203938424587,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p201",
+      "src": "S f g e",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "S",
+          "surprisal": 1.6790727550784748,
+          "n_tok": 9,
+          "surprisal_atoms": 3.231967435218394,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p202",
+      "src": "D f g e b",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "D",
+          "surprisal": 0.8498985769434108,
+          "n_tok": 9,
+          "surprisal_atoms": 1.5585511256940663,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 11
+        }
+      ]
+    },
+    {
+      "id": "p203",
+      "src": "K (f g e) v",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 0.7454963220017297,
+          "n_tok": 7,
+          "surprisal_atoms": 0.9511035171647867,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p204",
+      "src": "C (B f g) e v",
+      "kind": "multi_CB",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.3419219014996833,
+          "n_tok": 11,
+          "surprisal_atoms": 2.2059705201536417,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 1.1252950998799254,
+          "n_tok": 9,
+          "surprisal_atoms": 2.479351664893329,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p205",
+      "src": "K (B f g e) v",
+      "kind": "multi_KB",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 0.9568954673078325,
+          "n_tok": 9,
+          "surprisal_atoms": 0.6167365709940592,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        },
+        {
+          "op": "B",
+          "surprisal": 0.7636726666907114,
+          "n_tok": 7,
+          "surprisal_atoms": 1.7225591049840052,
+          "n_atoms": 3,
+          "term_idx": 2,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p206",
+      "src": "W (B f g) e",
+      "kind": "multi_WB",
+      "rows": [
+        {
+          "op": "W",
+          "surprisal": 1.159667843952775,
+          "n_tok": 11,
+          "surprisal_atoms": 1.6860930100083351,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.3932215421098388,
+          "n_tok": 9,
+          "surprisal_atoms": 0.8519880794920027,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p207",
+      "src": "B n e b",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.3704226426780224,
+          "n_tok": 7,
+          "surprisal_atoms": 2.705002199858427,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p208",
+      "src": "C n e b",
+      "kind": "minpair_BC",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.5328905970922537,
+          "n_tok": 7,
+          "surprisal_atoms": 3.036910599718491,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p209",
+      "src": "B n e b",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "B",
+          "surprisal": 1.3704226426780224,
+          "n_tok": 7,
+          "surprisal_atoms": 2.705002199858427,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p210",
+      "src": "S n e b",
+      "kind": "minpair_BS",
+      "rows": [
+        {
+          "op": "S",
+          "surprisal": 1.2090351283550262,
+          "n_tok": 9,
+          "surprisal_atoms": 2.191760417073965,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p211",
+      "src": "D n e b q",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "D",
+          "surprisal": 1.4634723723348644,
+          "n_tok": 9,
+          "surprisal_atoms": 2.740783819463104,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 11
+        }
+      ]
+    },
+    {
+      "id": "p212",
+      "src": "K (n e b) m",
+      "kind": "minpair_DK",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.182099416319813,
+          "n_tok": 7,
+          "surprisal_atoms": 1.8842857579390209,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 5
+        }
+      ]
+    },
+    {
+      "id": "p213",
+      "src": "C (B n e) b m",
+      "kind": "multi_CB",
+      "rows": [
+        {
+          "op": "C",
+          "surprisal": 1.2229796468534253,
+          "n_tok": 11,
+          "surprisal_atoms": 1.604314748197794,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.5862856063888304,
+          "n_tok": 9,
+          "surprisal_atoms": 1.3016535266069695,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    },
+    {
+      "id": "p214",
+      "src": "K (B n e b) m",
+      "kind": "multi_KB",
+      "rows": [
+        {
+          "op": "K",
+          "surprisal": 1.1629342063226633,
+          "n_tok": 9,
+          "surprisal_atoms": 1.2847275439028938,
+          "n_atoms": 3,
+          "term_idx": 1,
+          "term_size": 7
+        },
+        {
+          "op": "B",
+          "surprisal": 0.541119357072083,
+          "n_tok": 7,
+          "surprisal_atoms": 1.2513646420557052,
+          "n_atoms": 3,
+          "term_idx": 2,
+          "term_size": 7
+        }
+      ]
+    },
+    {
+      "id": "p215",
+      "src": "W (B n e) b",
+      "kind": "multi_WB",
+      "rows": [
+        {
+          "op": "W",
+          "surprisal": 1.017118591053242,
+          "n_tok": 11,
+          "surprisal_atoms": 1.2732887188903987,
+          "n_atoms": 4,
+          "term_idx": 1,
+          "term_size": 9
+        },
+        {
+          "op": "B",
+          "surprisal": 0.16303585537469997,
+          "n_tok": 9,
+          "surprisal_atoms": 0.3493128770496696,
+          "n_atoms": 4,
+          "term_idx": 2,
+          "term_size": 9
+        }
+      ]
+    }
+  ]
+}

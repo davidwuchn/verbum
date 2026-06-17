@@ -1,0 +1,13 @@
+{
+  "model": "allenai/OLMo-2-1124-13B",
+  "smoke": false,
+  "git_sha": "af1b60f932261c0cea91529c34dffcf93292a789",
+  "timestamp_utc": "2026-06-17T20:16:13.575095+00:00",
+  "transformers_version": "5.5.4",
+  "n_each": 24,
+  "n_programs": 216,
+  "seed": 0,
+  "render_frame": "result_of",
+  "render_mode": "flat",
+  "register": "ORDER-COST FRAME robustness softmax-over-V surprisal"
+}

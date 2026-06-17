@@ -1,0 +1,53 @@
+[order-frame] 216 programs (n_each=24) frame=result_of mode=flat
+[order-frame]   sample 'B n v m': 'the result of crane on deer on seal'
+[order-frame]   sample 'C n v m': 'the result of crane on seal on deer'
+[v2] Loading tokenizer: google/gemma-4-31B-it
+[v2] Loading model: google/gemma-4-31B-it  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/1188 [00:00<?, ?it/s]Loading weights:   0%|          | 1/1188 [00:01<38:08,  1.93s/it]Loading weights:   2%|▏         | 19/1188 [00:02<01:30, 12.86it/s]Loading weights:   3%|▎         | 34/1188 [00:02<00:46, 24.86it/s]Loading weights:   4%|▍         | 49/1188 [00:02<00:29, 38.65it/s]Loading weights:   6%|▌         | 71/1188 [00:02<00:17, 63.04it/s]Loading weights:   7%|▋         | 88/1188 [00:02<00:14, 78.00it/s]Loading weights:   9%|▉         | 104/1188 [00:02<00:12, 86.84it/s]Loading weights:  10%|█         | 124/1188 [00:02<00:09, 108.38it/s]Loading weights:  12%|█▏        | 143/1188 [00:02<00:08, 126.20it/s]Loading weights:  13%|█▎        | 160/1188 [00:02<00:08, 123.26it/s]Loading weights:  15%|█▌        | 179/1188 [00:03<00:07, 137.12it/s]Loading weights:  16%|█▋        | 196/1188 [00:03<00:06, 144.23it/s]Loading weights:  18%|█▊        | 213/1188 [00:03<00:06, 148.87it/s]Loading weights:  19%|█▉        | 230/1188 [00:03<00:06, 144.53it/s]Loading weights:  21%|██        | 249/1188 [00:03<00:06, 155.66it/s]Loading weights:  22%|██▏       | 266/1188 [00:03<00:05, 158.50it/s]Loading weights:  24%|██▍       | 283/1188 [00:03<00:05, 150.89it/s]Loading weights:  25%|██▌       | 299/1188 [00:03<00:05, 150.26it/s]Loading weights:  27%|██▋       | 319/1188 [00:03<00:05, 163.80it/s]Loading weights:  28%|██▊       | 336/1188 [00:04<00:05, 161.72it/s]Loading weights:  30%|██▉       | 353/1188 [00:04<00:05, 145.71it/s]Loading weights:  31%|███▏      | 374/1188 [00:04<00:05, 162.66it/s]Loading weights:  33%|███▎      | 393/1188 [00:04<00:04, 162.72it/s]Loading weights:  35%|███▍      | 410/1188 [00:04<00:05, 152.51it/s]Loading weights:  36%|███▌      | 427/1188 [00:04<00:04, 156.43it/s]Loading weights:  37%|███▋      | 445/1188 [00:04<00:04, 161.34it/s]Loading weights:  39%|███▉      | 462/1188 [00:04<00:04, 160.75it/s]Loading weights:  40%|████      | 479/1188 [00:04<00:04, 151.94it/s]Loading weights:  42%|████▏     | 498/1188 [00:05<00:04, 159.74it/s]Loading weights:  44%|████▎     | 517/1188 [00:05<00:04, 159.71it/s]Loading weights:  45%|████▍     | 534/1188 [00:05<00:04, 152.36it/s]Loading weights:  47%|████▋     | 555/1188 [00:05<00:03, 165.59it/s]Loading weights:  48%|████▊     | 573/1188 [00:05<00:03, 163.38it/s]Loading weights:  50%|████▉     | 590/1188 [00:05<00:03, 151.23it/s]Loading weights:  51%|█████     | 608/1188 [00:05<00:03, 158.64it/s]Loading weights:  53%|█████▎    | 625/1188 [00:05<00:03, 161.60it/s]Loading weights:  54%|█████▍    | 642/1188 [00:05<00:03, 158.00it/s]Loading weights:  55%|█████▌    | 658/1188 [00:06<00:03, 149.19it/s]Loading weights:  57%|█████▋    | 674/1188 [00:06<00:03, 152.09it/s]Loading weights:  58%|█████▊    | 693/1188 [00:06<00:03, 160.78it/s]Loading weights:  60%|█████▉    | 711/1188 [00:06<00:03, 158.72it/s]Loading weights:  61%|██████    | 727/1188 [00:06<00:03, 146.93it/s]Loading weights:  63%|██████▎   | 747/1188 [00:06<00:02, 158.38it/s]Loading weights:  64%|██████▍   | 764/1188 [00:06<00:02, 160.67it/s]Loading weights:  66%|██████▌   | 781/1188 [00:06<00:02, 150.84it/s]Loading weights:  67%|██████▋   | 797/1188 [00:07<00:02, 146.98it/s]Loading weights:  69%|██████▊   | 815/1188 [00:07<00:02, 155.10it/s]Loading weights:  70%|██████▉   | 831/1188 [00:07<00:02, 155.33it/s]Loading weights:  83%|████████▎ | 991/1188 [00:07<00:00, 562.43it/s]Loading weights: 100%|██████████| 1188/1188 [00:07<00:00, 159.99it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[v2] Model loaded in 8.4s
+[order-frame]   scoring 0/216 ...
+[order-frame]   scoring 25/216 ...
+[order-frame]   scoring 50/216 ...
+[order-frame]   scoring 75/216 ...
+[order-frame]   scoring 100/216 ...
+[order-frame]   scoring 125/216 ...
+[order-frame]   scoring 150/216 ...
+[order-frame]   scoring 175/216 ...
+[order-frame]   scoring 200/216 ...
+
+══════════════════════════════════════════════════════════════════════════
+KERNEL-REF ORDER-COST [FRAME=result_of/flat] — B<C robust?
+══════════════════════════════════════════════════════════════════════════
+  programs=216   surprisal=mean -log p ; atoms=content-words only
+
+  op        full     atoms     n   role
+  B        4.418    9.2938   120   preserve
+  C       8.2256   14.7059    48   BREAK
+  D       8.7685   16.2232    24   preserve
+  K       8.7068   15.3629    48   BREAK
+  S       7.1676   12.6619    24   BREAK
+  W       7.6539    8.9865    24   BREAK
+  [ full] preserve 5.1431 vs break 8.1144  (Δ=-2.9713, cheaper=True)
+  [ATOMS] preserve 10.4487 vs break 13.631  (Δ=-3.1823, cheaper=True)
+
+  FULL contrasts (confounded by parens/length) (a-b; a<b means a cheaper / more native):
+    B_vs_C_minpair     d= -3.5469  t= -9.506  n= 24  a<b  ✓
+    B_vs_S_minpair     d= -2.2949  t=  -5.92  n= 24  a<b  ✓
+    D_vs_K_minpair     d= -0.7392  t= -2.097  n= 24  a<b  ✓
+    B_vs_C_multi       d= -3.9784  t= -9.642  n= 24  a<b  ✓
+    B_vs_K_multi       d= -4.3864  t= -7.859  n= 24  a<b  ✓
+    B_vs_W_multi       d= -2.8819  t= -4.901  n= 24  a<b  ✓
+
+  ATOM-ONLY contrasts (DE-CONFOUNDED — the headline) (a-b; a<b means a cheaper / more native):
+    B_vs_C_minpair     d= -6.5216  t= -9.351  n= 24  a<b  ✓
+    B_vs_S_minpair     d= -3.4558  t= -5.891  n= 24  a<b  ✓
+    D_vs_K_minpair     d= -1.5052  t= -2.287  n= 24  a<b  ✓
+    B_vs_C_multi       d=  -4.567  t= -5.371  n= 24  a<b  ✓
+    B_vs_K_multi       d= -4.7931  t= -3.636  n= 24  a<b  ✓
+    B_vs_W_multi       d=  1.7486  t=  1.438  n= 24  a>b   
+
+  * B native order [result_of/flat, B<C atom minpair]: True
+══════════════════════════════════════════════════════════════════════════
+
+[order-frame] wrote /Users/mwhitford/src/verbum/results/kernel-reference-audit/order_cost_v10_frame_verdict_gemma-4-31b-it_result_of_flat.json
