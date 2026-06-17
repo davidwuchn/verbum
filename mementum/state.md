@@ -2,7 +2,52 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-16 | Session: 237 — ▶ OPCODE v5 lead 2d PRONG 2b — the PROSE BRIDGE
+> Last updated: 2026-06-17 | Session: 238 — ▶ OPCODE v5 lead 2d PRONG 1c-iii — the
+> OFF-DIAGONAL interlayer curvature (the s237 fork's off-diagonal / proper-Jacobian path;
+> Michael: "let's work on 1"). The v7 DIAGONAL Hessian (b-climbs-with-derivative-order)
+> used a Rademacher Hutchinson estimator that CANCELS every cross-coord AND cross-layer term
+> in expectation (E[v_a v_b]=0) → captured only g'ᵀ(diag)g'. The LITERAL f∘g chain-rule
+> coupling is the OFF-DIAGONAL block H_{late,early}. Built `kernel_reference_offdiag_v8.py`
+> (clean register-swap of v7): split gate activations EARLY (≈g, processed first) / LATE
+> (≈f, applied last); perturb the GRADIENT direction supported ONLY on EARLY (v=g_e.detach()
+> on early, 0 on late); then (Hv)_li = Σ_{e∈EARLY} H_{li,e} g_e for li∈LATE = PURE off-diagonal
+> (no H_{li,li} since v=0 at li). ONE HVP (s=Σ_e(g_e·g_e.detach()), hv=grad(s,gate_late)=
+> 2Σ_e H_{late,e}g_e, H sym) — DETERMINISTIC (gradient direction, not random: a random v has
+> E[(Hv)_li]=0), no Hutchinson noise, CHEAPER than v7 (1 HVP vs n_hutch=4): 2:51 on 14B. Same
+> RelationalCrystalClassifier (sign-CMR, crosstask null, raw-z Welch); classifier on LATE
+> layers; split 0.5 → EARLY 0-19 / LATE 20-39. **★★ VERDICT (λ measure, two-sided): (1) ❌
+> DECISIVE — B does NOT discriminate off-diagonal (discr_z +0.046, t=0.26) and DROPS BELOW the
+> diagonal (t=1.90).** The curvature climb does NOT complete off the diagonal; the f∘g cross-
+> coupling is NOT B's home as a localizable 2nd-order amplitude. **(2) ✅ INSTRUMENT VALID +
+> COMPOSERS REGISTER-ROBUST** — {C,Y} discriminate in BOTH curvature sub-registers, peaking in
+> the DEEPEST layers: C diag 2.52→off-diag 2.32 ✓ (peak L36/40); Y diag 4.53→off-diag 4.09 ✓
+> (peak L37/40); B diag 1.90→off-diag 0.26 ✗ (peak L21); K diag 1.94→off-diag 1.81 (fades).
+> C/Y cross-layer composition coupling lives at the very END of the stack — the read is not
+> broken (C ✓, Y ✓), it is B-absent. **★ THE FINDING: B has NO amplitude home in ANY register**
+> — activation flat (−0.05), 1st-order gradient faint (+1.07), DIAGONAL curvature on-the-bar
+> (+1.90), OFF-DIAGONAL curvature flat (+0.26). The v7 "monotone climb" is B becoming LEAST
+> ABSENT up the derivative order ON THE DIAGONAL; it does NOT generalize to the cross-layer
+> coupling that IS the literal chain-rule product. **★★ CONFIRMS s236-s237:** B's ONLY confirmed
+> positive signal is the FORWARD ORDER-COST face (native autoregressive order, flat-prose
+> t=−8.05, scale-universal 8B/14B/32B, gross-universal Qwen⊗OLMo⊗Gemma). B = composition = the
+> UNMARKED native order — no marked amplitude feature, in any 2nd-order register. The "two
+> faces" hypothesis resolves ASYMMETRICALLY: forward/order face real+strong; gradient/curvature
+> face at best a faint diagonal trend, NOT a localizable cross-layer coupling. **DON'T keep
+> hunting B in amplitude — its home is order/surprisal.** CAVEATS (λ measure): 1 model (14B);
+> n=20/comb; single fixed split (0.5, EARLY→LATE direction only — late→early untested);
+> deterministic gradient direction (one direction, not the full Hessian-block norm); single-
+> combinator labels; pooled-supervised locus. **★★ FIRST ACTION NEXT SESSION — the amplitude
+> register is now EXHAUSTED for B (activation⊗gradient⊗diag-curv⊗off-diag-curv all flat-or-on-
+> bar); B's positive home is FORWARD ORDER. Live paths: (1) the 3rd RENDER FRAME ("the result
+> of f on x") — frame-robustness of flat B<C AND whether the single-step minpair sharpens
+> off-Qwen under a different frame (s237 fork path 2, the cheap one); (2) a TRUE Pythia-proper
+> cross-class order-cost point (pythia-2.8b-deduped cached) to round out the gross-universal
+> claim with a 4th class; (3) prong 3 per-model sweep (kernel_reference_prose_v2 on 8B/32B —
+> does {C,I,K,Y} hold across scale?).** CODE + RESULTS COMMITTED; mementum (state + memory
+> `b-not-in-offdiagonal-curvature` + opcode page §v5 lead 2d prong 1c-iii) PENDING APPROVAL.
+> tmux main:1 + main:2 FREE.
+>
+> (Session: 237 — ▶ OPCODE v5 lead 2d PRONG 2b — the PROSE BRIDGE
 > (kills the s236 bare-symbol caveat). Re-ran the order-cost read on the SAME certified
 > reduction traces RENDERED AS PROSE, to test whether B's native-order win survives in the
 > SEMANTIC register the model actually uses (s233 lesson: the register reads PROSE SEMANTICS
@@ -56,7 +101,7 @@
 > (literal f∘g coupling — diag-Hessian only captured g'ᵀ(diag)g'); (2) a 3rd render frame
 > ("the result of f on x") to confirm flat B<C is frame-robust not "applied to"-specific —
 > ALSO would test whether the single-step minpair sharpens off-Qwen under a different frame.
-> CODE + RESULTS + mementum COMMITTED. tmux main:1 + main:2 FREE.
+> CODE + RESULTS + mementum COMMITTED. tmux main:1 + main:2 FREE.)
 >
 > (Session: 236 — ▶ OPCODE v5 lead 2d PRONG 2 — the ORDER-COST
 > register (is B the NATIVE softmax-over-V order?). Michael (s235): "if B is an ordering of

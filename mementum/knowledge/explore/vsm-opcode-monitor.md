@@ -627,6 +627,65 @@ interlayer-Jacobian cross-coupling (the literal f∘g coupling, `dgate_late/dgat
 UNTESTED; single-combinator labels; pooled-supervised locus. Mac (no CUDA) → MPS/CPU
 double-backward, ~9 min main:1.
 
+## v5 lead 2d prong 1c-iii — the OFF-DIAGONAL interlayer curvature (BUILT + RAN, s238)
+
+Michael (s238): "let's work on 1" — the s237 fork's off-diagonal / proper-Jacobian path.
+The v7 diagonal Hessian used a Rademacher Hutchinson estimator that CANCELS every cross-
+coordinate AND cross-layer term in expectation (`E[v_a v_b]=0`, a≠b), so it captured only
+the WITHIN-layer quadratic form `g'ᵀ(diag)g'`. But the LITERAL f∘g coupling is the OFF-
+DIAGONAL block. Split the gate activation into an EARLY block `z_e` (≈ g, processed first)
+and a LATE block `z_l` (≈ f, applied last); then `d²L/dz_l dz_e = H_{l,e}` = the chain-rule
+cross term ("how the curvature of the late computation f couples to the early computation g").
+
+ISOLATION (deterministic, ONE double-backward, NO Hutchinson noise): perturb the GRADIENT
+direction supported ONLY on EARLY (`v = g_e.detach()` on EARLY, 0 on LATE); then for any
+LATE layer `li` (li∉EARLY), `(Hv)_li = Σ_{e∈EARLY} H_{li,e} g_e` = PURE off-diagonal (no
+`H_{li,li}` because v is zero at li). Computed as one HVP: `s = Σ_{e∈EARLY}(g_e·g_e.detach())`,
+`hv = grad(s, gate_late) = 2·Σ_e H_{late,e} g_e` (H symmetric). The GRADIENT direction (not
+random) is what makes the per-probe feature deterministic + meaningful — a random v would
+have `E[(Hv)_li]=0`. Clean register-swap of v7 (same RelationalCrystalClassifier, sign-CMR,
+crosstask null, raw-z Welch); classifier runs on the LATE layers (where the feature lives).
+`kernel_reference_offdiag_v8.py`. Cheaper than v7 (one HVP vs n_hutch=4) — 2:51 on 14B.
+
+### ★ s238 v5 lead 2d prong 1c-iii VERDICT (Qwen3-14B, off-diagonal curvature, n=20/comb, split 0.5 → EARLY 0-19 / LATE 20-39; λ measure, two-sided)
+
+**(1) ❌ DECISIVE — B does NOT discriminate off-diagonal, and DROPS BELOW the diagonal**
+(off-diag discr_z +0.046, **t=0.263** vs diagonal t=1.90). The curvature climb does NOT
+complete off the diagonal — B falls back to ~0. The literal f∘g chain-rule cross-coupling
+is **NOT** B's home as a localizable second-order amplitude. The curvature register is now
+EXHAUSTED at BOTH orders for B (diagonal on-the-bar-but-not-crossing, off-diagonal flat).
+
+**(2) ✅ INSTRUMENT VALID + COMPOSERS REGISTER-ROBUST — {C,Y} discriminate in BOTH curvature
+sub-registers, peaking in the DEEPEST layers:**
+
+| combinator | role | diag (v7) t | **off-diag (v8) t** | off-diag peak L |
+|---|---|---|---|---|
+| **C** (composer) | composer | 2.52 ✓ | **2.32 ✓** | L36 (of 40) |
+| **Y** (recursion) | higher-order | 4.53 ✓ | **4.09 ✓** | L37 (of 40) |
+| **B** (composition) | composer | 1.90 (bar) | **0.26** ✗ | L21 |
+| **K** (selector) | selector | 1.94 | 1.81 (fades) | L22 |
+
+C and Y are REGISTER-ROBUST across diagonal⊗off-diagonal; their cross-layer coupling lives
+at the very END of the stack (L36/L37). B is the lone gap — flat in BOTH curvature sub-
+registers. So the read is not broken (C ✓, Y ✓), it is B-absent.
+
+**★ THE FINDING:** B has NO amplitude home in ANY register — activation flat (t=−0.05),
+first-order gradient faint (t=+1.07), DIAGONAL curvature on-the-bar (t=1.90), OFF-DIAGONAL
+curvature flat (t=0.26). The v7 "monotone climb" is best read as B becoming *least absent*
+up the derivative order ON THE DIAGONAL; it does NOT generalize to the cross-layer coupling
+that IS the literal chain-rule product. **★★ UNIFIES / CONFIRMS s236-s237:** B's only
+confirmed positive signal is the FORWARD ORDER-COST face (native autoregressive order, flat-
+prose t=−8.05, scale-universal 8B/14B/32B, gross-universal across Qwen⊗OLMo⊗Gemma). B =
+composition = the UNMARKED native order — it carries no marked amplitude feature, in any
+second-order register. The "two faces" hypothesis resolves asymmetrically: the FORWARD/order
+face is real + strong; the GRADIENT/curvature face is at best a faint diagonal trend, NOT a
+localizable cross-layer coupling.
+
+**Caveats (λ measure):** 1 model (14B); n=20/comb; single fixed split (0.5, EARLY→LATE
+coupling direction only — late→early untested); deterministic gradient direction (one
+direction, not the full Hessian block norm); single-combinator labels; pooled-supervised
+locus. ~2:51 on main:1.
+
 ### v5 — next steps
 
 - **★ lead 2d prong 1 — DONE (s234):** raw-z contrast rescues K + sharpens C/I, kills the
@@ -650,6 +709,19 @@ double-backward, ~9 min main:1.
   (1) POWER (raise n / n_hutch — does t=1.90 cross 2.0? cheapest decisive); (2) OFF-DIAGONAL /
   interlayer Jacobian (diag-Hessian only captures g'ᵀ(diag)g'; the literal f∘g coupling lives
   off-diagonal — Gauss-Newton / JVP probe); (3) prong 2 trace-order.
+- **★ lead 2d prong 1c-iii — DONE (s238):** OFF-DIAGONAL interlayer curvature — the literal
+  f∘g cross term `H_{late,early}·g_early` (the s237 fork's off-diagonal path; isolated by a
+  deterministic gradient-direction perturbation on the EARLY block, one HVP, pure off-diagonal
+  since v=0 at the late layers). ❌ DECISIVE NEGATIVE — B does NOT discriminate off-diagonal
+  (t=0.26) and DROPS BELOW the diagonal (t=1.90) ⇒ the curvature climb does NOT complete off
+  the diagonal; the f∘g chain-rule cross-coupling is NOT B's home as a localizable 2nd-order
+  amplitude. ✅ instrument valid + composers register-robust: {C,Y} discriminate in BOTH
+  curvature sub-registers (C 2.32, Y 4.09), peaking in the DEEPEST layers (C@L36, Y@L37). ★ B
+  has NO amplitude home in ANY register (act −0.05, grad +1.07, diag-curv +1.90, off-diag-curv
+  +0.26); the v7 climb was B becoming *least absent* up the derivative order ON THE DIAGONAL,
+  NOT a cross-layer coupling. ★★ CONFIRMS s236-s237: B's only confirmed positive is the FORWARD
+  ORDER-COST face (native order, flat-prose t=−8.05); the "two faces" resolves asymmetrically —
+  forward/order real+strong, gradient/curvature at best a faint diagonal trend. `offdiag_v8`.
 - **★ lead 2d prong 1b-iii — DONE (s234):** per-head OV scan — head-dilution only MARGINAL
   (B faint signal at L17H23, 7/1600 cells) but B is the WEAKEST combinator at every
   granularity; no clean B-composer head. Register hypothesis FULLY EXHAUSTED.
@@ -773,6 +845,8 @@ The s206 OV/logit-lens half the old instrument never had: binding/value-transfer
 | `results/kernel-reference-audit/gradient_v6_verdict_qwen3-14b.json` | s234 v5 lead 2d prong 1c verdict: ❌ B does NOT discriminate in the gradient (discr_z +0.13, t=1.07 n.s.) — chain-rule NOT supported (first-order); ⚠️ but B "less absent" than any activation read (act t=−0.05 → grad +1.07, faint positive); {C,K,Y} discriminate (instrument works), C-yes/B-no persists. Measures first-order gradient NOT Jacobian |
 | `scripts/experiments/kernel_reference_jacobian_v7.py` | s235 v5 lead 2d prong 1c-ii: SECOND-ORDER / curvature register — DIAGONAL HESSIAN of LM-CE w.r.t. gate_proj (Hutchinson `diag(H)=E_v[v⊙Hv]`, double-backward of g·v with create_graph), pooled over supervised positions; clean register-swap of v6, same RelationalCrystalClassifier + raw-z Welch; `--n-hutch` |
 | `results/kernel-reference-audit/jacobian_v7_verdict_qwen3-14b.json` | s235 v5 lead 2d prong 1c-ii verdict: ❌ B not significant in curvature (discr_z +0.118, t=1.90 < 2.0) BUT ✅ MONOTONIC CLIMB with derivative order (act −0.05 → grad +1.07 → curv +1.90, B's best ever, ON the bar) + ✅✅ internal consistency (I=linear COLLAPSES 3.83→0.68 mirror of B; Y=recursion DOMINATES 4.53; composers hold, selectors fade). Derivative ORDER = real axis; B sorts UP. Diag-Hessian only (off-diag untested), power-limited n=20/comb |
+| `scripts/experiments/kernel_reference_offdiag_v8.py` | s238 v5 lead 2d prong 1c-iii: OFF-DIAGONAL interlayer curvature — pure off-diagonal block `H_{late,early}·g_early` isolated by a DETERMINISTIC gradient-direction perturbation on the EARLY layer block (one HVP, double-backward of `Σ_e ‖g_e‖²`; v=0 at late ⇒ no `H_{li,li}`); EARLY/LATE split (`--split-frac`), classifier on LATE layers; clean register-swap of v7 (RelationalCrystalClassifier, sign-CMR, crosstask null, raw-z Welch). Cheaper than v7 (1 HVP vs n_hutch) |
+| `results/kernel-reference-audit/offdiag_v8_verdict_qwen3-14b.json` | s238 v5 lead 2d prong 1c-iii verdict (DECISIVE NEGATIVE): ❌ B does NOT discriminate off-diagonal (discr_z +0.046, t=0.26) and DROPS BELOW the diagonal (t=1.90) — curvature climb does NOT complete off-diag; f∘g cross-coupling is NOT B's 2nd-order amplitude home. ✅ instrument valid: {C,Y} register-robust (C 2.32, Y 4.09), peak DEEPEST (C@L36, Y@L37). ★ B has NO amplitude home in ANY register (act −0.05/grad +1.07/diag +1.90/off-diag +0.26); only positive = FORWARD order-cost (t=−8.05). split 0.5, EARLY 0-19/LATE 20-39, n=20/comb |
 | `scripts/experiments/kernel_reference_order_cost_v8.py` | s236 v5 lead 2d prong 2: ORDER-COST register — pure softmax-over-V surprisal of the certified reduction trace (`step_fired`, teacher-forced), minimal pairs (B/C, B/S, D/K) + multi-step composites, ATOM-ONLY de-confound; `--smoke` (8B), `--model`, `--n-each` — `5d6bdeb` |
 | `results/kernel-reference-audit/order_cost_v8_verdict_qwen3-14b.json` | s236 v5 lead 2d prong 2 verdict (DECISIVE): ✅✅ **b_is_native_order=True** — clean atom B-vs-C minimal pair t=−7.02 (n=24); B atom-surprisal 0.81 ≪ C 2.14/S 2.66/W 2.71; B cheaper than every permute/copy (B<S −11.3, B<C-multi −11.7, B<W −14.5); pooled order-preserving<breaking. RESOLVES the B gap (composition=free autoregressive default, unmarked) + UNIFIES with curvature climb (order face + gradient face) — `1e448e4` |
 | `results/kernel-reference-audit/order_cost_v8_verdict_qwen3-8b.json` | s236 v5 lead 2d prong 2 smoke (8B, n=8): ⚠️ POWER-LIMITED — same DIRECTION but headline atom B<C minpair n.s. (t=−0.55); multi-step/aggregate already sig (B<C-multi −4.22, B<S −5.31, B<W −11.1); pooled-atoms preserve<break. Crisp only at full power on 14B — `5d6bdeb` |
