@@ -1,0 +1,39 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[prose-v2] calib=355 test=160 (heldout_per=20)
+[v2] Loading tokenizer: Qwen/Qwen3-32B
+[v2] Loading model: Qwen/Qwen3-32B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/707 [00:00<?, ?it/s]Loading weights:   0%|          | 1/707 [00:02<25:46,  2.19s/it]Loading weights:   2%|▏         | 15/707 [00:02<01:17,  8.88it/s]Loading weights:   4%|▎         | 26/707 [00:02<00:40, 16.90it/s]Loading weights:   5%|▌         | 38/707 [00:02<00:24, 26.86it/s]Loading weights:   7%|▋         | 50/707 [00:02<00:17, 37.88it/s]Loading weights:   9%|▉         | 65/707 [00:02<00:11, 54.34it/s]Loading weights:  11%|█▏        | 81/707 [00:02<00:08, 69.98it/s]Loading weights:  13%|█▎        | 93/707 [00:02<00:07, 76.93it/s]Loading weights:  15%|█▍        | 105/707 [00:03<00:07, 83.01it/s]Loading weights:  17%|█▋        | 122/707 [00:03<00:05, 101.01it/s]Loading weights:  19%|█▉        | 136/707 [00:03<00:05, 104.85it/s]Loading weights:  21%|██        | 149/707 [00:03<00:05, 101.96it/s]Loading weights:  23%|██▎       | 161/707 [00:03<00:05, 105.96it/s]Loading weights:  25%|██▍       | 175/707 [00:03<00:04, 112.38it/s]Loading weights:  27%|██▋       | 189/707 [00:03<00:04, 119.36it/s]Loading weights:  29%|██▊       | 202/707 [00:03<00:04, 115.04it/s]Loading weights:  30%|███       | 214/707 [00:04<00:04, 109.89it/s]Loading weights:  32%|███▏      | 226/707 [00:04<00:04, 107.44it/s]Loading weights:  34%|███▍      | 243/707 [00:04<00:03, 121.49it/s]Loading weights:  36%|███▋      | 257/707 [00:04<00:03, 120.37it/s]Loading weights:  38%|███▊      | 270/707 [00:04<00:03, 111.76it/s]Loading weights:  40%|████      | 285/707 [00:04<00:03, 119.93it/s]Loading weights:  42%|████▏     | 298/707 [00:04<00:03, 118.32it/s]Loading weights:  44%|████▍     | 312/707 [00:04<00:03, 117.30it/s]Loading weights:  46%|████▌     | 324/707 [00:04<00:03, 111.57it/s]Loading weights:  48%|████▊     | 336/707 [00:05<00:03, 106.70it/s]Loading weights:  50%|████▉     | 351/707 [00:05<00:03, 116.24it/s]Loading weights:  51%|█████▏    | 363/707 [00:05<00:02, 117.00it/s]Loading weights:  53%|█████▎    | 375/707 [00:05<00:02, 116.43it/s]Loading weights:  55%|█████▍    | 387/707 [00:05<00:02, 115.45it/s]Loading weights:  56%|█████▋    | 399/707 [00:05<00:02, 115.55it/s]Loading weights:  58%|█████▊    | 411/707 [00:05<00:02, 108.57it/s]Loading weights:  60%|█████▉    | 423/707 [00:05<00:02, 105.78it/s]Loading weights:  62%|██████▏   | 435/707 [00:05<00:02, 102.22it/s]Loading weights:  63%|██████▎   | 446/707 [00:06<00:02, 103.22it/s]Loading weights:  65%|██████▍   | 457/707 [00:06<00:02, 104.72it/s]Loading weights:  66%|██████▌   | 468/707 [00:06<00:02, 105.70it/s]Loading weights:  68%|██████▊   | 479/707 [00:06<00:02, 105.73it/s]Loading weights:  69%|██████▉   | 490/707 [00:06<00:02, 103.67it/s]Loading weights:  71%|███████▏  | 504/707 [00:06<00:01, 113.75it/s]Loading weights:  73%|███████▎  | 516/707 [00:06<00:01, 113.57it/s]Loading weights:  75%|███████▍  | 530/707 [00:06<00:01, 120.27it/s]Loading weights:  77%|███████▋  | 543/707 [00:06<00:01, 118.51it/s]Loading weights:  79%|███████▊  | 555/707 [00:07<00:01, 114.93it/s]Loading weights:  80%|████████  | 567/707 [00:07<00:01, 109.46it/s]Loading weights:  82%|████████▏ | 582/707 [00:07<00:01, 117.93it/s]Loading weights:  84%|████████▍ | 594/707 [00:07<00:00, 116.63it/s]Loading weights:  86%|████████▌ | 606/707 [00:07<00:00, 116.53it/s]Loading weights:  88%|████████▊ | 620/707 [00:07<00:00, 115.56it/s]Loading weights:  89%|████████▉ | 632/707 [00:07<00:00, 108.45it/s]Loading weights:  91%|█████████ | 643/707 [00:07<00:00, 108.51it/s]Loading weights:  93%|█████████▎| 655/707 [00:07<00:00, 106.93it/s]Loading weights:  95%|█████████▍| 670/707 [00:08<00:00, 116.43it/s]Loading weights:  97%|█████████▋| 684/707 [00:08<00:00, 122.83it/s]Loading weights:  99%|█████████▊| 697/707 [00:08<00:00, 117.56it/s]Loading weights: 100%|██████████| 707/707 [00:08<00:00, 84.53it/s] 
+[v2] Model loaded in 9.2s
+[v2] Crystal probes (last-token centroids): 355
+[v2]   centroid forward 0/355 ...
+[v2]   centroid forward 50/355 ...
+[v2]   centroid forward 100/355 ...
+[v2]   centroid forward 150/355 ...
+[v2]   centroid forward 200/355 ...
+[v2]   centroid forward 250/355 ...
+[v2]   centroid forward 300/355 ...
+[v2]   centroid forward 350/355 ...
+[v2] Building cross-task null from 12 bare natural-text prompts ...
+[v2] Null tokens pooled: 84  (null_mode=crosstask)
+[prose-v2] crystal layers: 49/64
+
+══════════════════════════════════════════════════════════════════════════════
+KERNEL-REFERENCE PROSE BRIDGE v2 — raw-z contrast (NO argmax) vs argmax
+══════════════════════════════════════════════════════════════════════════════
+  n_test=160  heldout_per=20  crystal_layers=49
+
+  op     discr_z       t  sig   (argmax z=2)  peak_L   peakΔ
+  K       0.9581    2.09    ✓         0.0819      49   2.165
+  I         1.94   3.424    ✓          0.126      35   3.716
+  B       0.2619   0.638    ·         0.0746      42   1.177
+  C        2.016   6.281    ✓         0.1118      25   3.422
+  S      -0.1029  -0.388    ·         0.1232      22    1.06
+  D      -0.9117  -5.546    ·        -0.0523       3  -0.156
+  W      -0.6404  -1.951    ·            0.0       1   0.302
+  Y       2.9915   9.374    ✓         0.4066      37   5.643
+
+  ★ B/D/W recovered under raw-z contrast: {'B': False, 'D': False, 'W': False}
+  ★ n_discr_z_significant (on>off, |t|>2): 4
+══════════════════════════════════════════════════════════════════════════════
+
+[prose-v2] wrote /Users/mwhitford/src/verbum/results/kernel-reference-audit/prose_v2_verdict_qwen3-32b.json

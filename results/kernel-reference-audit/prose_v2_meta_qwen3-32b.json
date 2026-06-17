@@ -1,0 +1,18 @@
+{
+  "model": "Qwen/Qwen3-32B",
+  "smoke": false,
+  "git_sha": "800bfb87a5952b256530f08dcba50b8eca2d744d",
+  "timestamp_utc": "2026-06-17T18:41:52.612108+00:00",
+  "transformers_version": "5.5.4",
+  "n_layers": 64,
+  "n_perm": 300,
+  "heldout_per": 20,
+  "n_calib": 355,
+  "n_test": 160,
+  "z_sweep": [
+    2.0,
+    3.0
+  ],
+  "metric": "raw-z layer-avg contrast (Welch t) + per-layer profile, NO argmax",
+  "reference": "held-out crystal-prose combinator labels (non-circular split)"
+}

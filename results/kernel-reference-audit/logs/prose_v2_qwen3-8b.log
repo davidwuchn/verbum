@@ -1,0 +1,38 @@
+[prose-v2] calib=355 test=160 (heldout_per=20)
+[v2] Loading tokenizer: Qwen/Qwen3-8B
+[v2] Loading model: Qwen/Qwen3-8B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<03:32,  1.87it/s]Loading weights:   1%|          | 2/399 [00:00<01:55,  3.43it/s]Loading weights:   7%|▋         | 27/399 [00:00<00:06, 57.59it/s]Loading weights:  15%|█▍        | 58/399 [00:00<00:02, 117.87it/s]Loading weights:  21%|██        | 83/399 [00:00<00:02, 147.84it/s]Loading weights:  29%|██▊       | 114/399 [00:01<00:01, 190.22it/s]Loading weights:  36%|███▌      | 142/399 [00:01<00:01, 213.67it/s]Loading weights:  43%|████▎     | 171/399 [00:01<00:00, 229.88it/s]Loading weights:  51%|█████     | 204/399 [00:01<00:00, 254.42it/s]Loading weights:  59%|█████▉    | 237/399 [00:01<00:00, 269.93it/s]Loading weights:  68%|██████▊   | 270/399 [00:01<00:00, 281.15it/s]Loading weights:  76%|███████▌  | 303/399 [00:01<00:00, 290.03it/s]Loading weights:  84%|████████▍ | 336/399 [00:01<00:00, 295.73it/s]Loading weights:  92%|█████████▏| 369/399 [00:01<00:00, 299.81it/s]Loading weights: 100%|██████████| 399/399 [00:02<00:00, 197.83it/s]
+[v2] Model loaded in 2.5s
+[v2] Crystal probes (last-token centroids): 355
+[v2]   centroid forward 0/355 ...
+[v2]   centroid forward 50/355 ...
+[v2]   centroid forward 100/355 ...
+[v2]   centroid forward 150/355 ...
+[v2]   centroid forward 200/355 ...
+[v2]   centroid forward 250/355 ...
+[v2]   centroid forward 300/355 ...
+[v2]   centroid forward 350/355 ...
+[v2] Building cross-task null from 12 bare natural-text prompts ...
+[v2] Null tokens pooled: 84  (null_mode=crosstask)
+[prose-v2] crystal layers: 23/36
+
+══════════════════════════════════════════════════════════════════════════════
+KERNEL-REFERENCE PROSE BRIDGE v2 — raw-z contrast (NO argmax) vs argmax
+══════════════════════════════════════════════════════════════════════════════
+  n_test=160  heldout_per=20  crystal_layers=23
+
+  op     discr_z       t  sig   (argmax z=2)  peak_L   peakΔ
+  K       0.9634    2.36    ✓         0.0714      11   1.937
+  I       1.3103   3.642    ✓         0.0674      12   2.284
+  B      -0.0243  -0.064    ·         0.0683      18   0.868
+  C       1.6615   5.325    ✓         0.0981       9   2.494
+  S      -0.2137  -0.951    ·         0.0127      11    0.48
+  D      -0.7973  -5.983    ·        -0.0199       3   0.014
+  W      -0.3982  -1.821    ·        -0.0006       1   0.043
+  Y       1.7328   5.832    ✓         0.3416       9   3.687
+
+  ★ B/D/W recovered under raw-z contrast: {'B': False, 'D': False, 'W': False}
+  ★ n_discr_z_significant (on>off, |t|>2): 4
+══════════════════════════════════════════════════════════════════════════════
+
+[prose-v2] wrote /Users/mwhitford/src/verbum/results/kernel-reference-audit/prose_v2_verdict_qwen3-8b.json
