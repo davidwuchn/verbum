@@ -27,6 +27,7 @@ __all__ = [
     "build_prompt",
     "clean_output",
     "load_corpus_rows",
+    "to_chat",
 ]
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -57,6 +58,25 @@ def build_prompt(sentence: str) -> str:
         lines += [f"Sentence: {d}", f"Logical form: {e}", ""]
     lines += [f"Sentence: {sentence}", "Logical form:"]
     return "\n".join(lines)
+
+
+def to_chat(tok, sentence: str) -> str:
+    """`build_prompt(sentence)` as a user turn, with the model's chat template applied.
+
+    THE SINGLE chat-formatted-prompt source. Qwen3 (and most policies here) are chat
+    models, so the prompt the model actually sees is the user turn wrapped by the chat
+    template + the generation-prompt header. The density probe, the SFT seed, and the
+    GRPO loop ALL route through here so they train/measure on the byte-identical prompt
+    (a mismatch would mean RL/SFT optimise a different distribution than was measured).
+    `tok` is a HuggingFace tokenizer (passed in — no transformers import here).
+    """
+    msgs = [{"role": "user", "content": build_prompt(sentence)}]
+    try:
+        return tok.apply_chat_template(
+            msgs, tokenize=False, add_generation_prompt=True, enable_thinking=False)
+    except (TypeError, ValueError):
+        return tok.apply_chat_template(
+            msgs, tokenize=False, add_generation_prompt=True)
 
 
 def clean_output(text: str) -> str:

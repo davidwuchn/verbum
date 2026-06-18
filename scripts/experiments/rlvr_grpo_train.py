@@ -46,6 +46,7 @@ from verbum.compile_prompt import (  # noqa: E402
     build_prompt,
     clean_output,
     load_corpus_rows,
+    to_chat,
 )
 from verbum.reward import RewardConfig, verifiable_reward  # noqa: E402
 
@@ -79,17 +80,27 @@ def kernel_reward(completions, normal_form, **kwargs):
     ]
 
 
-def build_records(split: str, limit: int | None) -> list[dict]:
+def build_records(tok, split: str, limit: int | None) -> list[dict]:
+    """Dataset records: prompt = chat-formatted (to_chat), gold NF carried as a column.
+
+    `tok` may be None in --dry-run, falling back to the raw build_prompt; the real run
+    routes through to_chat so the policy trains on the SAME prompt the density probe
+    measured and the SFT seed taught (single source, no distribution mismatch).
+    """
     rows = load_corpus_rows(split, limit)
     return [
-        {"prompt": build_prompt(r["input"]), "normal_form": r["normal_form"]}
+        {
+            "prompt": to_chat(tok, r["input"]) if tok is not None
+            else build_prompt(r["input"]),
+            "normal_form": r["normal_form"],
+        }
         for r in rows
     ]
 
 
 def run_dry(args) -> None:
     """CPU wiring check: build the dataset + score GOLD completions (must be 1.0)."""
-    recs = build_records(args.split, args.limit or 6)
+    recs = build_records(None, args.split, args.limit or 6)
     rows = load_corpus_rows(args.split, args.limit or 6)
     golds = [r["output"] for r in rows]
     rewards = kernel_reward(
@@ -109,12 +120,14 @@ def run_train(args) -> None:
     import transformers
     import trl
     from datasets import Dataset
+    from transformers import AutoTokenizer
     from trl import GRPOConfig, GRPOTrainer
 
     ckpt = Path(args.checkpoint_dir)
     ckpt.mkdir(parents=True, exist_ok=True)
 
-    records = build_records(args.split, args.limit)
+    tok = AutoTokenizer.from_pretrained(args.model)
+    records = build_records(tok, args.split, args.limit)
     dataset = Dataset.from_list(records)
     log(f"[{args.model}] GRPO on {len(records)} prompts, G={args.k}, "
         f"temp={args.temp}, lr={args.lr}")

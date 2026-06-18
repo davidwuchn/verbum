@@ -45,6 +45,7 @@ from verbum.compile_prompt import (  # noqa: E402
     build_prompt,
     clean_output,
     load_corpus_rows,
+    to_chat,
 )
 from verbum.reward import RewardConfig, reward  # noqa: E402
 
@@ -103,19 +104,16 @@ def summarise(records: list[dict], k: int) -> dict:
     }
 
 
-def generate_samples(model, tok, prompt: str, k: int, temp: float,
+def generate_samples(model, tok, sentence: str, k: int, temp: float,
                      top_p: float, device: str, max_new_tokens: int = 40) -> list[str]:
-    """Sample k completions for one prompt at the given temperature."""
+    """Sample k completions for one sentence at the given temperature.
+
+    The prompt is the shared chat-formatted `to_chat` — identical to the SFT seed and
+    the GRPO loop (single source; no train/measure distribution mismatch).
+    """
     import torch
 
-    try:
-        text = tok.apply_chat_template(
-            [{"role": "user", "content": prompt}],
-            tokenize=False, add_generation_prompt=True, enable_thinking=False)
-    except (TypeError, ValueError):
-        text = tok.apply_chat_template(
-            [{"role": "user", "content": prompt}],
-            tokenize=False, add_generation_prompt=True)
+    text = to_chat(tok, sentence)
     enc = tok(text, return_tensors="pt").to(device)
     with torch.no_grad():
         out = model.generate(
@@ -194,7 +192,7 @@ def run_model(args) -> None:
         records = []
         for i, r in enumerate(rows):
             gen = generate_samples(
-                model, tok, build_prompt(r["input"]),
+                model, tok, r["input"],
                 args.k, temp, args.top_p, args.device)
             graded = grade_samples(gen, r["normal_form"])
             records.append({
