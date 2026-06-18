@@ -86,7 +86,13 @@ select = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/*" = ["B011"]  # allow assert False / etc. in tests
+"tests/*" = ["B011", "RUF001", "RUF002", "RUF003"]  # asserts + surface symbols in data
+# Surface logical-form / reward modules: λ ∀ ∃ ι → ∧ ∨ ¬ Φ γ ⊗ ∈ Σ ARE the domain
+# alphabet (CCG / λ-calculus / reward-shaping notation), not typos.
+"src/verbum/lambda_surface.py" = ["RUF001", "RUF002", "RUF003"]
+"src/verbum/reward.py" = ["RUF001", "RUF002", "RUF003"]
+"scripts/experiments/audit_compile_corpus.py" = ["RUF001", "RUF002", "RUF003"]
+"scripts/experiments/rlvr_coldstart_density.py" = ["RUF001", "RUF002", "RUF003"]
 
 # ─────────────────────────── ty ─────────────────────────────
 # ty is alpha; config schema is moving. Empty stanza pins the table so

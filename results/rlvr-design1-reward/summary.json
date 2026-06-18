@@ -1,0 +1,26 @@
+{
+  "split": "compile-train.canonical.jsonl",
+  "n": 509,
+  "reward_density_at_coldstart": 1.0,
+  "gold_dense_mean": 1.0,
+  "channel_means": {
+    "parsed": 1.0,
+    "well_typed": 1.0,
+    "halts_in_budget": 1.0,
+    "size_ok": 1.0,
+    "reduces_correct": 1.0,
+    "trace_prefix_frac": 1.0
+  },
+  "n_failures": 0,
+  "discrimination": {
+    "n_perturbed": 450,
+    "kinds": {
+      "swap-args": 183,
+      "rename-pred": 267
+    },
+    "gold_mean_reward": 1.0,
+    "perturbed_mean_reward": 0.0,
+    "drop": 1.0
+  },
+  "failures": []
+}
