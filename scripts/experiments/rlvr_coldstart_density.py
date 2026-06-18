@@ -41,27 +41,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
+from verbum.compile_prompt import (  # noqa: E402
+    build_prompt,
+    clean_output,
+    load_corpus_rows,
+)
 from verbum.reward import RewardConfig, reward  # noqa: E402
 
 CFG = RewardConfig(parse="surface")
-
-INSTRUCTION = (
-    "You translate an English sentence into a logical form.\n"
-    "Use this notation: predicate application p(a, b); connectives → ∧ ∨ ¬; "
-    "quantifiers ∀x. and ∃x. binding a variable x; lowercase tokens for predicates "
-    "and named entities.\n"
-    "Output ONLY the logical form on a single line, nothing else."
-)
-
-# Held-out few-shot demonstrating the notation across categories. These prompts are
-# EXCLUDED from the scored set (their inputs are skipped) so density is not inflated.
-FEWSHOT: list[tuple[str, str]] = [
-    ("Grace writes helen.", "writes(grace, helen)"),
-    ("Kate falls and waits.", "falls(kate) ∧ waits(kate)"),
-    ("Every artist knows a baker.", "∀x. artist(x) → knows(x, baker)"),
-    ("The dog does not sleep.", "¬sleeps(dog)"),
-]
-FEWSHOT_INPUTS = {d for d, _ in FEWSHOT}
 
 
 def log(msg: str = "") -> None:
@@ -79,37 +66,6 @@ def git_sha() -> str:
 
 def file_hash(p: Path) -> str:
     return hashlib.sha256(p.read_bytes()).hexdigest()[:16]
-
-
-def build_prompt(sentence: str) -> str:
-    lines = [INSTRUCTION, ""]
-    for d, e in FEWSHOT:
-        lines += [f"Sentence: {d}", f"Logical form: {e}", ""]
-    lines += [f"Sentence: {sentence}", "Logical form:"]
-    return "\n".join(lines)
-
-
-def clean_output(text: str) -> str:
-    t = text.strip()
-    if "Logical form:" in t:
-        t = t.split("Logical form:")[-1]
-    t = t.replace("`", "")
-    for line in t.splitlines():
-        line = line.strip()
-        if line:
-            return line.rstrip(".").strip()
-    return ""
-
-
-def load_rows(split: str, limit: int | None) -> list[dict]:
-    path = ROOT / "data" / split
-    rows = [
-        json.loads(line)
-        for line in path.read_text().splitlines()
-        if line.strip()
-    ]
-    rows = [r for r in rows if r["input"] not in FEWSHOT_INPUTS]
-    return rows[:limit] if limit else rows
 
 
 def summarise(records: list[dict], k: int) -> dict:
@@ -144,7 +100,7 @@ def grade_samples(samples: list[str], gold_nf: str) -> dict:
 
 def run_dry(args) -> None:
     """CPU wiring check: build prompts, grade the GOLD output (density must be 1.0)."""
-    rows = load_rows(args.split, args.limit or 5)
+    rows = load_corpus_rows(args.split, args.limit or 5)
     log(f"[dry-run] {len(rows)} prompts (few-shot excluded); model NOT loaded\n")
     log("[dry-run] example built prompt (first row):")
     log(build_prompt(rows[0]["input"]))
@@ -169,7 +125,7 @@ def run_model(args) -> None:
 
     t0 = time.time()
     run_id = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
-    rows = load_rows(args.split, args.limit)
+    rows = load_corpus_rows(args.split, args.limit)
     log(f"[{args.model}] {len(rows)} prompts × k={args.k} @ temp={args.temp}")
 
     dtype = {"float32": torch.float32, "float16": torch.float16,

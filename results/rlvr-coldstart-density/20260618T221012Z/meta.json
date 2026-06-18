@@ -1,0 +1,30 @@
+{
+  "run_id": "20260618T221012Z",
+  "timestamp": "2026-06-18T22:12:13.352885+00:00",
+  "model": "Qwen/Qwen3-8B",
+  "quant": "bfloat16",
+  "model_revision": null,
+  "device": "mps",
+  "git_sha": "d31f07ee62f8297d78f71363d322089cb31befd2",
+  "python": "3.12.10",
+  "torch": "2.11.0",
+  "transformers": "5.5.4",
+  "probe_set": "compile-train.canonical.jsonl",
+  "probe_set_hash": "92007c3f719b2977",
+  "sampling": {
+    "k": 8,
+    "temperature": 0.8,
+    "top_p": 0.95,
+    "seed": 0,
+    "max_new_tokens": 40
+  },
+  "summary": {
+    "n_prompts": 48,
+    "k": 8,
+    "foothold_rate": 0.6667,
+    "mean_sample_reward": 0.6667,
+    "any_parse_rate": 1.0,
+    "n_all_zero": 16
+  },
+  "elapsed_s": 120.5
+}

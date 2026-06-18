@@ -55,6 +55,16 @@ level1 = [
     "safetensors>=0.4",
     "scikit-learn>=1.4",
 ]
+# RL: GRPO fine-tuning the compile front-end against the kernel verifiable reward
+# (spliced-reward-vsm-kernel.md). Self-contained like level1 — the policy-gradient
+# loop that consumes verbum.reward. GPU.
+rl = [
+    "torch>=2.2",
+    "transformers>=4.45",
+    "accelerate>=0.30",
+    "trl>=0.14",
+    "peft>=0.13",
+]
 
 [build-system]
 requires = ["hatchling"]
@@ -91,8 +101,10 @@ select = [
 # alphabet (CCG / λ-calculus / reward-shaping notation), not typos.
 "src/verbum/lambda_surface.py" = ["RUF001", "RUF002", "RUF003"]
 "src/verbum/reward.py" = ["RUF001", "RUF002", "RUF003"]
+"src/verbum/compile_prompt.py" = ["RUF001", "RUF002", "RUF003"]
 "scripts/experiments/audit_compile_corpus.py" = ["RUF001", "RUF002", "RUF003"]
 "scripts/experiments/rlvr_coldstart_density.py" = ["RUF001", "RUF002", "RUF003"]
+"scripts/experiments/rlvr_grpo_train.py" = ["RUF001", "RUF002", "RUF003"]
 
 # ─────────────────────────── ty ─────────────────────────────
 # ty is alpha; config schema is moving. Empty stanza pins the table so
