@@ -2,7 +2,52 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-17 | Session: 239 (frame → Pythia → TYPES v1-v4) — ▶ TYPES — is
+> Last updated: 2026-06-18 | Session: 240 (TRAINING design — SPLICED REWARD) — ▶ DESIGN
+> THREAD, no GPU. Michael: "explore an idea about training — structured data needs changes to
+> fit our kernel; relevant ideas in the reward-training space for training the system to use
+> the kernel for prose." RECALL surfaced the whole compiler-as-loss thread already converged on
+> the bridge: s225 (compiler = perfect VERIFIER not capability teacher, Church-Rosser → unique
+> NF, exactly checkable), s226 (lambda_ast IN the kernel = CONSTRUCTED VSM tensor; reduce/compile
+> cut: reduce=attn=constructed=22%-ternary, compile=FFN=learned=78%-4bit; prose→LF LEARNED ∘
+> abstract EXACT ∘ reduce EXACT; round-trip 1.0000 n=5000), s230 (variety from INPUTS, correctness
+> from OUTPUTS). **THE ARC THIS SESSION (all design, captured to knowledge):**
+> **(1) DATA (Part 1):** `data/compile-*.jsonl` (509 train, 13 cat) is prose→surface-FOL/λ
+> (452 λ, 41 ∀, 11 ∃; vacuous-λ smells like `λx. follows(frank,oscar)`) — NOT the kernel's
+> language. `lambda_ast.parse()` reads COMBINATOR terms (Comb/Atom/App), typechecks CCG, reduces.
+> "Changes to fit the kernel" = run data through kernel pipeline (normalise → lambda_compile
+> bracket-abstract → typecheck → reduce) and KEEP ONLY WHAT CERTIFIES — kernel = the data's GATE
+> not source. **(2) REWARD = RLVR (Part 2):** compiler=verifier IS a verifiable reward. KEY
+> INSIGHT: constructed kernel is DISCRETE → RLVR (scores rollouts, no backprop through reward)
+> SIDESTEPS the v12-v15 gradient-death (softmax-routing-kills-gradient) that killed differentiable
+> compiler-as-loss; discreteness is a FEATURE for RL, liability for CE. Reward channels ARE VSM
+> layer states (S2 typed / S4 halt / S5 NF / S1 trace / S3 size). Reduction-equality reward is
+> representation-invariant (s226 grader = the reward fn, already exists). **(3) ★★ THE SPLICE
+> (Michael's headline, s240): splice R_parent (OUTCOME, exact/terminal verifier pass) ⊗ R_inline
+> (PROCESS, cheap/dense/per-step forward-pass read).** Makes the cheap-but-over-readable inline
+> read SAFE: cast Φ_inline as a POTENTIAL (Ng-Harada-Russell 1999 potential-based shaping:
+> R += γΦ(s')−Φ(s) leaves optimum UNCHANGED) → over-read at worst slows search, NEVER corrupts
+> "correct"; parent (constructed, exact) owns the destination. TRAP: raw additive bonus has NO
+> invariance — safety is ENTIRELY in the potential-difference form. Three readings: (a) timescale
+> (actor-critic: inline=V_φ(s) critic, parent=exact return G, TD δ=G−V_φ calibrates → subsample
+> the expensive parent as critic calibrates); (b) source (s225 dyad: capability-teacher parent ⊗
+> kernel-correctness inline); (c) ★ verbum-native: the kernel emits the WHOLE certified reduction
+> TREE (fired_sequence) → tree-structured credit assignment, root=parent outcome + each node=inline
+> process; ground-truth PRM (learned PRMs can't, no oracle; we have it). Per-channel anchor/potential
+> split: constructed→anchor-eligible, learned-probe→potential-only (reduce/compile cut decides).
+> Splice resolves the Design-2-vs-3 fork (external constructed tensor vs intrinsic probe) — don't
+> pick, splice; parent anchors + calibrates the inline. **CAPTURED:
+> knowledge/explore/spliced-reward-vsm-kernel.md** (NEW, designing; supersedes nothing, extends
+> compiler-as-loss.md into the reward register). **★★ FIRST ACTION NEXT SESSION — build path:**
+> (1) ★ THE AUDIT (cheap, grounds reward density) — run all 559 examples output→normalise→
+> lambda_compile→typecheck→reduce, report certify-rate + failure taxonomy (vacuous-λ / mixed-
+> notation / not-simply-typable / blow-up); (2) RLVR Design-1 loop (symbolic kernel external
+> reward = s226 grader, works TODAY) + reward spec (channel weights, potential-based shaping);
+> (3) splice in Φ_inline + actor-critic critic; (4) Design-2 kernel-as-VSM-tensor (s226 stage 3,
+> = the level-4 artifact). OPEN: which "parent" (timescale vs source); cold-start (SFT-seed→RLVR
+> vs RLVR-from-base — s226 says base already emits parseable terms on easy prompts). Working tree:
+> page written, this state updated, committing. tmux main:1 + main:2 FREE.
+>
+> (Session: 239 (frame → Pythia → TYPES v1-v4) — ▶ TYPES — is
 > composition TYPE-directed or just POSITIONAL? (Michael: "the system can't do combinator
 > composition without some typing —
 > what would direct the composition?"). The VERBUM thesis is TYPE-directed composition; the
