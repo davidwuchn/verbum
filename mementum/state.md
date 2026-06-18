@@ -2,7 +2,50 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-18 | Session: 240 (TRAINING design — SPLICED REWARD ⊕ CORPUS CANONICALISED
+> Last updated: 2026-06-18 | Session: 241 (RLVR Design-1 — REWARD SPEC BUILT ⊕ CPU, no GPU)
+> — ▶ BUILD. Michael: "ok let's work on the RLVR Design." Built the decision-independent,
+> works-TODAY foundation of the spliced-reward thread: the canonical VERIFIABLE REWARD as an
+> importable, CPU-only, tested package module. **THE ARC (all code, no GPU, all committed-ready):**
+> **(1) `src/verbum/lambda_surface.py` (NEW):** extracted the surface FOL/λ parser + lowering
+> (SExpr AST, parse_surface, lower via bracket-abstraction, `to_kernel`) OUT of the s240 audit
+> script INTO the package — single source of truth shared by the audit AND the reward. Audit
+> refactored to import it; reproduces s240 numbers EXACTLY (559/559 certify, 19.9% clean).
+> `to_kernel('∀x. artist(x) → knows(x, baker)')` → `forall (S (B implies artist) (C knows baker))`
+> = the corpus `kernel_term` verbatim. **(2) `src/verbum/reward.py` (NEW) — the canonical reward
+> spec (spliced-reward §2/§4/§5):** generalises the s226 reduction-equality grader (was buried in
+> `scripts/experiments/compile_frontend.py`) into the package. **R_parent** = OUTCOME reward =
+> reduction-equality (NF(candidate) ≡ gold_nf), representation-INVARIANT (`f (g x)` and `B f g x`
+> both 1.0), reuses kernel `_alpha_eq`. **Multi-channel** (§2 table = VSM layer states):
+> {parsed, well_typed(S2), halts_in_budget(S4/S3), size_ok(S3), reduces_correct(S5,ANCHOR),
+> trace_prefix_frac(S1)} as `RewardChannels` + `RewardConfig` weights; `dense_reward` ∈ [0,1].
+> TWO registers via open-slot `parse`: `applicative`(lambda_ast.parse) | `surface`(to_kernel) |
+> any callable. **THE SPLICE (§4):** `potential(Φ_inline)` ∈ [0,1] over a state (typed + nf-prox
+> + trace); `shaping` = γΦ(s')−Φ(s) (the potential-DIFFERENCE form — safety ENTIRELY in the
+> difference, NOT a raw bonus = the §4a TRAP); `shaped_return` over a rollout PROVED to telescope
+> to γ^T·Φ(s_T)−Φ(s_0) (path-independent → over-read cancels → optimum owned by anchor alone).
+> **§4c tree process reward:** `tree_process_reward` walks `lambda_ast.fired_sequence` → one
+> ground-truth process reward per certified rewrite node, root=outcome (the PRM learned PRMs only
+> approximate — we have the oracle). **(3) `scripts/experiments/rlvr_design1_reward_smoke.py`
+> (NEW) + `results/rlvr-design1-reward/summary.json`:** Design-1 reward on the REAL canonical
+> corpus, no GPU. **REWARD DENSITY @ cold-start = 100% (509/509 gold reduce_correct)** — grounds
+> §1; all channels 1.000. **DISCRIMINATION: perturbed 450 rows (swap-args ×183, rename-pred ×267)
+> → mean reward 0.000 vs gold 1.000, drop 1.000.** The verifiable reward WORKS TODAY on real data.
+> **(4) tests:** `tests/test_lambda_surface.py` + `tests/test_reward.py` (32 tests; the
+> telescoping-invariance asserted across γ∈{1.0,0.99,0.9,0.5,0.0} = the load-bearing guarantee);
+> FULL suite 318 pass, 0 regressions; all files ruff-clean (per-file-ignore added for the domain
+> alphabet λ∀∃ι→∧∨Φγ⊗ in pyproject). **★★ FIRST ACTION NEXT SESSION — the GPU loop (gated on
+> Michael's OPEN decisions):** (1) pick the OPEN forks before wiring GRPO — §7 PARENT axis
+> (timescale vs source) + §8 COLD-START (SFT-seed→RLVR vs RLVR-from-base; s226 says base already
+> emits parseable terms on easy prompts → density nonzero); (2) wire GRPO (need trl/peft — NOT yet
+> in deps) using `verbum.reward.verifiable_reward` as the external reward fn over the canonical
+> corpus prompts; (3) the 45 semantic-residue relative_clause mis-compiles (s240) — re-compile via
+> prose→LF; (4) Design-2 kernel-as-VSM-tensor (s226 stage 3 = level-4 artifact). NOTE: reward is
+> parser-agnostic — RL policy emits SURFACE FOL (matches SFT target); reward lowers via to_kernel.
+> tmux main:1 + main:2 FREE; no GPU used this session. mementum (memory `verifiable-reward-spec-
+> built-cpu-design1` + spliced-reward page §build-path-step-2 update) PENDING APPROVAL; CODE ready
+> to commit.
+>
+> (Session: 240 (TRAINING design — SPLICED REWARD ⊕ CORPUS CANONICALISED
 > ⊕ STATECHART=CRYSTAL-LATTICE) — ▶ DESIGN
 > THREAD, no GPU. Michael: "explore an idea about training — structured data needs changes to
 > fit our kernel; relevant ideas in the reward-training space for training the system to use

@@ -298,6 +298,12 @@ compiler-output SFT). (b) re-imports a teacher; keep it optional / as a separate
 capability-shaping channel if naturalistic-prose coverage (the s226 compile
 boundary) needs it.
 
+> **DECISION (s241, Michael): (a) timescale splice.** The parent is the kernel's
+> own exact forward pass — single correctness source, two timescales (exact/terminal
+> anchor + cheap/online inline). The level-4 MIT path: reward generated entirely by
+> our own constructed kernel, no teacher model re-imported. (b) source-splice stays
+> optional, deferred to a capability-shaping channel iff prose coverage demands it.
+
 ---
 
 ## 8. Cold-start: SFT-seed then RLVR, or RLVR from base?
@@ -310,20 +316,43 @@ boundary) needs it.
   scale helps).
 
 Likely: SFT seed for cheap density at the easy end, RLVR to push the hard end.
-Open — decide after the §1 audit fixes the reward density number. **(OPEN —
-Michael to pick.)**
+
+> **GATED ON A MEASUREMENT (s241), not a guess.** RL learns from CONTRAST between
+> rollouts; the cold-start failure is ZERO density — if every sample for a prompt
+> scores 0, the batch is all-zeros, no gradient, no foothold (RL amplifies success
+> it stumbles into, it cannot manufacture the first one). So §8 reduces to ONE
+> measured number: when the BASE MODEL samples on the corpus prompts, what fraction
+> of prompts get ≥1 kernel-certified sample (the FOOTHOLD rate)?
+>
+> - high density (most prompts have a foothold) → **RLVR from base** (cleaner, full
+>   diversity, representation-invariant reward never pins the corpus's exact notation)
+> - sparse / many all-zero prompts → **SFT-seed first** (lift density, then RL)
+>
+> ⚠️ NOTE: the s241 reward-smoke "100% density" graded the GOLD outputs (confirms the
+> reward fn + corpus are sound) — it is NOT the base-model density. s226's parseable-
+> terms evidence is a PROXY (easy hand-built tasks, few-shot accuracy ≠ sampled
+> reduce-correct on the full corpus). Probe: `scripts/experiments/rlvr_coldstart_
+> density.py` (base-model sampling pass, grades via `verbum.reward`, GPU). **(OPEN —
+> decide from the probe's foothold rate.)**
 
 ---
 
 ## Build path (each stage a deliverable)
 
-1. **Audit the corpus** (§1) — certify-rate + failure taxonomy. Cheap, grounds
-   reward density. **NEXT.**
-2. **RLVR with Design 1** (symbolic kernel as external verifiable reward) — works
-   *today*; the s226 reduction-equality grader is the reward fn. Prove the loop +
-   the reward spec (channel weights, potential-based shaping).
-3. **Splice in the inline potential** (§4) — add `Φ_inline` as the potential-based
-   shaping term + actor-critic critic; calibrate against the parent (TD).
+1. **Audit the corpus** (§1) — certify-rate + failure taxonomy. **DONE (s240,**
+   **`655f249`):** 559/559 certify, 19.9% clean, canonicaliser → `*.canonical.jsonl`.
+2. **RLVR with Design 1** (symbolic kernel as external verifiable reward) —
+   **REWARD SIDE DONE (s241):** the s226 grader is now the canonical package module
+   `verbum.reward` (R_parent reduction-equality + 6 VSM channels + the §4 splice;
+   surface parser extracted to `verbum.lambda_surface`). CPU, tested (318 pass).
+   Results (`results/rlvr-design1-reward/`): GOLD reward density **100%** (509/509),
+   perturbation drop **1.0**, telescoping invariance exact across γ. The reward
+   *works today*. **LEFT:** the GRPO policy-gradient loop (GPU; needs `trl`/`peft`,
+   not yet in deps) wired on `verifiable_reward` — gated on the §8 probe.
+3. **Splice in the inline potential** (§4) — `potential`/`shaping`/`shaped_return`/
+   `tree_process_reward` are BUILT + tested in `verbum.reward` (s241); LEFT = the
+   actor-critic critic reading the policy's live VSM registers, calibrated by TD
+   against the exact parent.
 4. **Design 2 — kernel-as-VSM-tensor in the forward pass** (s226 stage 3) — makes
    the parent reward batched/fast and the inline channels constructed (anchor-
    eligible). *Also IS the level-4 artifact* — not a detour.
