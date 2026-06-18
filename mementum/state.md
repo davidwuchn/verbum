@@ -100,9 +100,30 @@
 > regime?); (2) THEN GRPO (rlvr_grpo_train.py, ready) from the SFT seed; (3) optional: a full
 > 509-prompt density baseline for the committed number. NOTE: the GRPO loop is built + tested; the
 > blocker was never the loop, it is COLD-START — and the answer is SFT-seed (measured, not
-> guessed).** tmux main:1 + main:2 FREE. mementum (memory `coldstart-density-bimodal-no-grpo-
-> frontier` updated with the sweep resolution + state) PENDING APPROVAL; code (probe sweep
-> extension + results) ready to commit.
+> guessed).** Committed: sweep `4521c2d`, mementum `7f054c9`.
+>
+> **★ s241 cont.3 — SFT-SEED SCAFFOLDED + PROMPT ALIGNED (Michael: "scaffold it").**
+> **(A) `scripts/experiments/rlvr_sft_seed.py` (NEW):** trl SFTTrainer (API read from .venv),
+> completion-only token-CE on the certified canonical corpus (prompt MASKED, loss only on the
+> gold surface-FOL form). Output `<ckpt>/final` = the GRPO `--model` input (the seed→RLVR
+> linkage). --lora optional; run-provenance sidecar; `--dry-run` builds the prompt-completion
+> dataset on CPU. **(B) ★ PROMPT CONSISTENCY FIX (load-bearing):** added `to_chat(tok, sentence)`
+> to `verbum.compile_prompt` = the SINGLE chat-formatted-prompt source (applies the model's chat
+> template to build_prompt). Routed ALL THREE through it — density probe (generate_samples),
+> SFT seed, GRPO trainer (now loads tokenizer, builds dataset via to_chat) — so SFT/GRPO train on
+> the BYTE-IDENTICAL prompt the §8 density was measured on (a mismatch would mean optimising a
+> different distribution than measured). Refactor is byte-identical → committed density results
+> stay valid. 318 tests pass, all 3 dry-runs green, ruff-clean. **★★ THE FULL PIPELINE IS NOW
+> SCAFFOLDED END-TO-END (CPU-verified, GPU-ready):** SFT-seed → GRPO, reward = verifiable_reward,
+> prompts unified, §7=(a) decided, §8=SFT-seed measured. **★★ FIRST ACTION NEXT SESSION — RUN IT:
+> (1) SFT-seed Qwen3-8B (`rlvr_sft_seed.py --epochs 2`, GPU/tmux, ~lora for speed) → `<ckpt>/final`;
+> (2) RE-MEASURE density/frontier on the SFT'd model (`rlvr_coldstart_density.py --model <ckpt>/
+> final --temps ... --categories adverb,relative_clause,quantified`) — did SFT lift the dead
+> categories into a learnable frontier? THIS is the validation gate before GRPO; (3) if frontier
+> opens → GRPO from the seed (`rlvr_grpo_train.py --model <ckpt>/final`); (4) splice in Φ-shaping
+> (build-step 3) once the anchor loop runs.** tmux main:1 + main:2 FREE. mementum (state only;
+> memory optional — the cont.2 memory already covers the SFT-seed verdict) ¬approval-gated for
+> state; code (to_chat + sft_seed + grpo/density alignment) ready to commit.
 >
 > (Session: 240 (TRAINING design — SPLICED REWARD ⊕ CORPUS CANONICALISED
 > ⊕ STATECHART=CRYSTAL-LATTICE) — ▶ DESIGN
