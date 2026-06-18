@@ -2,7 +2,8 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-18 | Session: 240 (TRAINING design — SPLICED REWARD) — ▶ DESIGN
+> Last updated: 2026-06-18 | Session: 240 (TRAINING design — SPLICED REWARD ⊕ CORPUS CANONICALISED
+> ⊕ STATECHART=CRYSTAL-LATTICE) — ▶ DESIGN
 > THREAD, no GPU. Michael: "explore an idea about training — structured data needs changes to
 > fit our kernel; relevant ideas in the reward-training space for training the system to use
 > the kernel for prose." RECALL surfaced the whole compiler-as-loss thread already converged on
@@ -44,8 +45,39 @@
 > reward = s226 grader, works TODAY) + reward spec (channel weights, potential-based shaping);
 > (3) splice in Φ_inline + actor-critic critic; (4) Design-2 kernel-as-VSM-tensor (s226 stage 3,
 > = the level-4 artifact). OPEN: which "parent" (timescale vs source); cold-start (SFT-seed→RLVR
-> vs RLVR-from-base — s226 says base already emits parseable terms on easy prompts). Working tree:
-> page written, this state updated, committing. tmux main:1 + main:2 FREE.
+> vs RLVR-from-base — s226 says base already emits parseable terms on easy prompts).
+> **★ s240 cont. — AUDIT DONE + CORPUS CANONICALISED + STATECHART PAGE UPDATED.**
+> **(A) Corpus audit (`655f249`, scripts/experiments/audit_compile_corpus.py + results/compile-
+> corpus-audit/):** all 559 examples CERTIFY through the kernel (surface FOL/λ → normalise →
+> lambda_compile bracket-abstract → typecheck → reduce==NF); 0 not-typable, 0 blow-up, 0 diverged.
+> But only 19.9% CLEAN: 80% carry a VACUOUS λx wrapper (grammar-convention artifact —
+> lambda_montague.gbnf documents `λx. runs(dog)` as "simple predication"; GBNF gates SYNTAX, only
+> the kernel gates SEMANTIC CANONICALITY = confluence). Michael's "bad generator run?" → NOT a bad
+> run, a systematic grammar-convention artifact (already iteration #2). **(B) Canonicaliser
+> (`655f249`, canonicalize_compile_corpus.py → data/compile-*.canonical.jsonl):** mechanical
+> kernel-safe — strip-vacuous-λ ×462, if→→ ×25, not→¬ ×18; 490/559 (87.7%) improved, 559/559
+> (100%) RE-CERTIFY, 0 silent semantic rewrites; inner λy + non-vacuous λ preserved. Residual tail
+> = a finding: 45/509 (8.8%) keep a λ wrapper (26 relative_clause) = genuine binders OR deeper
+> semantic mis-compiles (bound x where a named subject belongs) — LEFT for the learned prose→LF
+> step, not the kernel's to invent. Originals untouched. **(C) STATECHART = CRYSTAL LATTICE
+> (mementum, this commit): s240 amendment on explore/vsm-statechart-tensor.md + memory
+> `statechart-is-crystal-lattice-boot-from-c`.** The model-INVARIANT statechart IS the crystal
+> lattice (consensus combinator routing for NORMAL FORMS; PCA-Q 0.91-0.94, reverse-harvest +0.782);
+> states={C,B,K,I,W,D,S,Y,WHNF}, transitions=firings, ground truth=lambda_ast.fired_sequence.
+> INVARIANT=graph; VARIANT=embedding (locus migrates w/ scale s232/s238). "Same ops, varying locus,
+> same results" = one statechart, many embeddings; the WHY = Church-Rosser CONFLUENCE (theorem, not
+> analogy). BOOT: L0=BIOS (lexer/dictionary s195 + 90° rotation s126 + sentence-initial RESET s194 =
+> "reset Q=0"); C=GROUND STATE/rotational origin (any Q rotation → C-dominated basin; C=argument
+> routing=Montague function application; "every model converges to C because language converges to
+> C" s120/s126); then C→B/K→I→WHNF up the Q-rotation spiral (~1.018×/layer s068/s079). Guards=
+> type-directed (s240 CCG typecheck, partially causal @14B). λ measure: agreement is largely ONE
+> COMMON MODE (s211, η²=0.05 for ops); PROVEN=skeleton (C-origin, boot order, {C,I,K,Y}, confluence),
+> fine-grained geometry OVER-READS. Transitions ARE reduction-tree nodes ARE process-reward. **★★
+> FIRST ACTION NEXT SESSION (unchanged target, audit now DONE):** (1) RLVR Design-1 loop on the
+> CANONICAL corpus (symbolic kernel external reward = s226 grader, works TODAY) + reward spec
+> (channel weights, potential-based shaping); (2) the 45 semantic-residue relative_clause mis-
+> compiles — re-compile via prose→LF or human review; (3) splice in Φ_inline + actor-critic;
+> (4) Design-2 kernel-as-VSM-tensor (s226 stage 3 = level-4 artifact). tmux main:1 + main:2 FREE.
 >
 > (Session: 239 (frame → Pythia → TYPES v1-v4) — ▶ TYPES — is
 > composition TYPE-directed or just POSITIONAL? (Michael: "the system can't do combinator

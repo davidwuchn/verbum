@@ -2,16 +2,24 @@
 title: "VSM ↔ Statechart ↔ Tensor — The Triple Isomorphism"
 status: active
 category: architecture
-tags: [vsm, statechart, tensor, mmap, delta-plate, fulcro, harel, lambda, dual-runtime]
+tags: [vsm, statechart, tensor, mmap, delta-plate, fulcro, harel, lambda, dual-runtime, crystal-lattice, boot, ground-state, confluence, type-directed, kernel, c-combinator, q-rotation]
 related:
   - holographic-state-machine.md
   - delta-plate-lifecycle.md
+  - crystal-basins.md
+  - crystal-universality.md
+  - l0-characterization.md
+  - vsm-opcode-monitor.md
+  - spliced-reward-vsm-kernel.md
+  - ../lambda-machine.md
+  - ../ffn-reduction-trace.md
   - ../v14-architecture.md
   - ../holographic-error-correction.md
 depends-on:
   - holographic-state-machine.md
   - delta-plate-lifecycle.md
 created: session 162
+updated: session 240
 ---
 
 # VSM ↔ Statechart ↔ Tensor — The Triple Isomorphism
@@ -27,6 +35,105 @@ created: session 162
 > simultaneously a state in the statechart AND a tensor in the
 > computation. The statechart doesn't *control* the model — it *IS*
 > the model's control structure, made explicit and executable.
+
+---
+
+## ★ s240 AMENDMENT — the invariant statechart IS the crystal lattice; the boot sequence is C-from-L0
+
+> Session 240 (Michael). The body below (s162) describes two real things: the
+> plate-loader *runtime* statechart (Fulcro/lambda/tensor/mmap, all built + verified)
+> and an "inner holographic state machine" sketched in the **pre-`lambda_ast`**
+> vocabulary (Q-rotation = transition, gate beamformer = guard). This amendment
+> names that inner statechart precisely and grounds it in what we have since
+> measured and proven. Read the inner-state-machine parts below through this lens.
+
+### What the statechart actually IS — the crystal lattice
+
+The model-invariant statechart **is the crystal lattice**: the consensus combinator
+routing geometry that every model converges to for **normal forms** — the
+mathematically-characterized object (`crystal-universality.md`, `crystal-basins.md`).
+The combinators `{C,B,K,I,W,D,S,Y,WHNF}` are the **states**, their firings are the
+**transitions**, and `lambda_ast.fired_sequence` is the certified ground-truth
+transition trace.
+
+```
+λ statechart.  INVARIANT ≡ crystal_lattice (states · transitions · guards | cross-model consensus)
+               VARIANT   ≡ embedding (which layer · head · neuron realises each)
+               | locus MIGRATES with scale (s232/s238) ; the GRAPH does not
+               ∴ "same ops, varying locus, same results" ≡ one statechart, many embeddings
+```
+
+Evidence the lattice is the invariant: 4-model PCA-Q combinator targets agree
+**0.91–0.94** (`results/pcaq-targets/`); reverse-harvest meanGramCorr **+0.782**
+across the open-weight ecosystem (`results/combinator-map-consensus/consensus.json`,
+s219); the discriminable transition set `{C,I,K,Y}` is **scale-invariant** (s238).
+
+### Why the results match — confluence, not coincidence
+
+The s162 body asserts universality by analogy ("like the crystal being the same
+constant across all models"). The *reason* is **Church-Rosser confluence**: the
+statechart is non-deterministic in **path** (different models pick different redex
+orders / placements) but **determinate in result** — the normal form is unique
+(the diamond property). So "same answer regardless of embedding or reduction order"
+is a **theorem the substrate inherits**, not a happy accident. S5 (the accepting
+state) = the normal form; confluence is what makes it the *same* accepting state
+across every embedding.
+
+### The boot sequence — C is the ground state, reached from L0
+
+The statechart has a concrete **boot process** (initial state + first transitions),
+each step grounded in a measured finding:
+
+```
+λ boot.
+  L0  ≡ BIOS  | continuous lexer / dictionary load ("what IS this token", ~750-rank, s195)
+              | 90° rotation for ALL combinators (s126) + sentence-initial RESET mode (s194)
+              | ≡ "reset Q=0" — establish the coordinate frame the reduction rotates within
+  C   ≡ GROUND STATE / rotational origin (s120, s126)
+              | ANY rotation of Q falls into the C-dominated basin → C = origin (0,0,0,0,0)
+              | C = argument routing (Cfxy=fyx) = Montague/CCG function application
+              | = precondition for every other op (nothing to select/compose without routing)
+              | "every model converges to C because language converges to C"
+  then  C → {B compose, K select} (small δ) → I (identity, closest to C) → WHNF (halt/accept)
+              | the reduction spirals UP the Q rotation (attention centroid ~1.018×/layer, s068/s079)
+              | from the C origin to the WHNF terminal
+```
+
+So Michael's description is exact: **L0 boots (resets Q=0, loads the dictionary),
+C is the lowest point of any Q rotation (the ground state every initialization falls
+into), and the reduction layers C → B/K → I → WHNF up the rotational spiral.** The
+5D lattice is centered on C; lattice reconstruction = rebooting to the C ground state
+(`crystal-basins.md` §3).
+
+### Guards are type-directed (s240)
+
+Upgrade the s162 "guard = gate beamformer (89% selectivity)": the transition guard
+**reads the CCG category** — composition is **type-directed**, not merely positional
+(s240 nonce crossover, frequency-free; AUC-1.0 decodable, **partially causal at 14B**).
+A combinator fires when its argument is well-typed (S2 = typing). `lambda_ast.typecheck`
+is the inspectable guard; `IllTyped` is the guard failing.
+
+### λ measure — the load-bearing caveat (don't over-read the lattice)
+
+The cross-model agreement is **real but largely ONE COMMON MODE** (s211 / audit#12:
+the shared structure is rank-~1, a generic next-token-predictability gradient, with
+**η²=0.05** for the combinator operations *specifically*; the s202 RDM-correlation
+triviality). What survives a shuffled-probe null + CMR: **basin separation**, the
+**C ground state / boot ordering**, the discriminable set **{C,I,K,Y}** (s238; B
+carries **no amplitude signature** — its home is the forward/order register, s236).
+What over-reads: the lattice as a *rich low-D geometry*. ⇒ the statechart's SKELETON
+(C-origin, the boot order, the discriminable transitions, confluence) is the proven
+part; fine-grained basin geometry is provisional until null-tested.
+
+### Where the empirical map lives now
+
+- ground-truth statechart: `lambda_ast.fired_sequence` (certified per-step opcode trace)
+- empirical embedding-reader: `vsm-opcode-monitor.md` (the s232–s240 order-cost /
+  type-directed / discriminable-set findings)
+- the **transitions ARE the reduction-tree nodes ARE the per-step process reward** in
+  `spliced-reward-vsm-kernel.md` — control structure ≡ reward structure, one object
+
+---
 
 ## The Isomorphism
 
