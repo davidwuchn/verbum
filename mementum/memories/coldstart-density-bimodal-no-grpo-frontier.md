@@ -4,4 +4,6 @@
 
 ★ The real lever is not SFT-vs-not — it is CREATE A FRONTIER: (i) raise sampling temperature so hard prompts produce occasional hits (0/8→1/8 = learnable); (ii) SFT-seed to lift dead categories into partial success; (iii) curriculum. Dead categories are systematic (adverb 0/5, relative_clause 0/2 = the s240 45-residue, quantified 3/6); all-correct are trivial (transitive, simple).
 
-★ §8 REFINED: not "is density nonzero?" but "is there a mixed-success frontier?" CAVEAT: temp-0.8 / 48-prompt directional read; bimodality may be partly a temperature artifact — a temperature sweep is the decisive next probe. Measure-don't-guess paid off; the naive foothold read would have missed this.
+★ §8 REFINED: not "is density nonzero?" but "is there a mixed-success frontier?" Measure-don't-guess paid off; the naive foothold read would have missed this.
+
+★ RESOLVED — TEMPERATURE IS NOT THE LEVER (sweep `20260618T222736Z`, dead categories adverb/quantified/relative_clause, 36 prompts, k=8, temp 0.8→1.5): frontier stays 1→2/36 (negligible), all-0 25→24, all-8 flat 10. relative_clause 0/11→1/11 (the s240 residue), quantified PERFECTLY bimodal 6/12 with frontier 0 at EVERY temp. ⇒ the dead prompts are ZERO-probability (the base model doesn't know the target form), not low-probability temperature could surface. §8 VERDICT: SFT-seed first (teach the dead categories → create footholds), THEN RLVR refines; pure RLVR-from-base cannot learn the dead tail.

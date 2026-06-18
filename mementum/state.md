@@ -77,9 +77,32 @@
 > categories — does a frontier emerge? this decides RLVR-from-base(+high-temp) vs SFT-seed; (2) full
 > 509-prompt density run for the committed number; (3) then either kick GRPO (if a frontier exists)
 > or SFT-seed first. NOTE: GRPO needs gradient VARIANCE not just nonzero density — the §8 question
-> refined from "is density nonzero?" to "is there a mixed-success frontier?".** tmux main:1 +
-> main:2 FREE. mementum (memory `coldstart-density-bimodal-no-grpo-frontier` + state) PENDING
-> APPROVAL; code (compile_prompt + grpo_train + density refactor + rl deps) ready to commit.
+> refined from "is density nonzero?" to "is there a mixed-success frontier?".** Committed: code
+> `2800f1d`, mementum `b0e29db`.
+>
+> **★ s241 cont.2 — TEMPERATURE SWEEP DONE: temperature is NOT the lever (Michael: "let's try the
+> next probe").** Extended the density probe with `--temps`/`--categories` sweep (one model-load,
+> loops temps) + a FRONTIER metric (prompts with 0<correct<k = the GRPO-learnable band) + per-
+> category breakdown + honest verdict (frontier-fraction <0.15 = negligible). Ran on the DEAD
+> categories (adverb/quantified/relative_clause, 36 prompts, k=8, temps 0.8/1.0/1.2/1.5,
+> `results/rlvr-coldstart-density/20260618T222736Z/`, 430s mps). **★★ DECISIVE: frontier stays
+> 1→1→2→2/36 (negligible) across the whole sweep; all-0 25→24, all-8 flat 10; density 0.281→0.299.**
+> Per-category: relative_clause 0/11→1/11 (the s240 45-residue — DEAD at every temp), quantified
+> PERFECTLY bimodal 6/12 frontier 0 at EVERY temp, adverb ~5/13 frontier ~1. **★ THE FINDING: the
+> dead prompts are ZERO-probability (the base model doesn't know the target logical form), NOT
+> low-probability that temperature could surface — bimodality is temperature-ROBUST. ⇒ §8 VERDICT:
+> SFT-seed first** (teach the dead categories → create footholds), THEN RLVR refines/diversifies;
+> pure RLVR-from-base cannot learn the dead tail no matter the temperature. The split is clean:
+> easy categories (transitive/simple) already solved (all-8, no RL needed); hard categories
+> (relative_clause, half of quantified, ~half of adverb) need SFT. **★★ FIRST ACTION NEXT SESSION:
+> (1) SFT-seed: token-CE fine-tune Qwen3-8B on the certified canonical corpus (prose→surface-FOL),
+> then RE-MEASURE the density/frontier (does SFT lift the dead categories into a learnable
+> regime?); (2) THEN GRPO (rlvr_grpo_train.py, ready) from the SFT seed; (3) optional: a full
+> 509-prompt density baseline for the committed number. NOTE: the GRPO loop is built + tested; the
+> blocker was never the loop, it is COLD-START — and the answer is SFT-seed (measured, not
+> guessed).** tmux main:1 + main:2 FREE. mementum (memory `coldstart-density-bimodal-no-grpo-
+> frontier` updated with the sweep resolution + state) PENDING APPROVAL; code (probe sweep
+> extension + results) ready to commit.
 >
 > (Session: 240 (TRAINING design — SPLICED REWARD ⊕ CORPUS CANONICALISED
 > ⊕ STATECHART=CRYSTAL-LATTICE) — ▶ DESIGN
