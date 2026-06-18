@@ -1,0 +1,13 @@
+{
+  "model": "Qwen/Qwen3-14B",
+  "smoke": false,
+  "git_sha": "cb9c0f0f8e7b04ecf467becfa1e3e6ce364a32ee",
+  "timestamp_utc": "2026-06-17T23:37:54.629837+00:00",
+  "transformers_version": "5.5.4",
+  "n_each": 3,
+  "n_teach": 2,
+  "n_items": 384,
+  "seed": 0,
+  "hidden_dim": 5120,
+  "n_hidden_states": 41
+}

@@ -1,0 +1,28 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[type-dir4] SMOKE MODE (Qwen3-8B)
+[type-dir4] 256 items (n_each=2, n_teach=2)
+[v2] Loading tokenizer: Qwen/Qwen3-8B
+[v2] Loading model: Qwen/Qwen3-8B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights:   0%|          | 1/399 [00:00<02:46,  2.39it/s]Loading weights:   1%|          | 2/399 [00:00<01:34,  4.19it/s]Loading weights:   8%|▊         | 33/399 [00:00<00:04, 83.83it/s]Loading weights:  15%|█▌        | 61/399 [00:00<00:02, 135.27it/s]Loading weights:  24%|██▎       | 94/399 [00:00<00:01, 185.40it/s]Loading weights:  32%|███▏      | 127/399 [00:00<00:01, 220.86it/s]Loading weights:  40%|████      | 160/399 [00:01<00:00, 245.74it/s]Loading weights:  48%|████▊     | 193/399 [00:01<00:00, 264.27it/s]Loading weights:  56%|█████▋    | 225/399 [00:01<00:00, 279.80it/s]Loading weights:  65%|██████▍   | 258/399 [00:01<00:00, 288.56it/s]Loading weights:  73%|███████▎  | 291/399 [00:01<00:00, 297.81it/s]Loading weights:  81%|████████  | 324/399 [00:01<00:00, 300.73it/s]Loading weights:  89%|████████▉ | 357/399 [00:01<00:00, 303.12it/s]Loading weights:  97%|█████████▋| 389/399 [00:01<00:00, 304.42it/s]Loading weights: 100%|██████████| 399/399 [00:01<00:00, 218.96it/s]
+[v2] Model loaded in 2.4s
+[type-dir4] pass 1: collecting residuals + baseline ...
+[type-dir4] type-direction decodability AUC by layer: max=1.0 @ hidden-state 10 (of 37)
+[type-dir4]   AUC profile (every 4): [0.5923, 0.9935, 0.9983, 0.9998, 0.999, 1.0, 1.0, 0.9998, 0.983, 0.927]
+[type-dir4] BASELINE crossover={'mean': 2.3135, 't': 6.497, 'n': 16} name_pen={'mean': -3.1428, 't': -7.149, 'n': 16}
+[type-dir4] filler-stack ablation, hidden states 10..36 (27 layers)
+[type-dir4] pass 2: TYPE-direction ablation ...
+[type-dir4] pass 3: RANDOM-direction ablation (control) ...
+
+========================================================================
+TYPE-DIRECTEDNESS v4 — is the type direction CAUSAL?
+========================================================================
+  type-direction decodability AUC @ L*=10: 1.0
+  BASELINE         crossover=2.3135 (t=6.497)       name_pen=-3.1428 (t=-7.149)
+  TYPE-ablated     crossover=3.3131 (t=6.562)       name_pen=-5.2761 (t=-10.228)
+  RANDOM-ablated   crossover=2.134 (t=5.608)        name_pen=-2.8588 (t=-7.102)
+
+  crossover retained: TYPE-ablation=1.432  RANDOM-ablation=0.922
+  * type_direction_is_causal = False
+========================================================================
+
+[type-dir4] wrote v4 verdict for qwen3-8b

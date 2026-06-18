@@ -97,6 +97,40 @@ not a bug — it maps onto **s151** (Montague = typed function application =
 the predicate-argument composition, and weak where the target is a universal-donor
 function word (determiner/object).
 
+## v4 — the causal test (partial, scale-dependent)
+
+`type_directed_v4_ablation.py`. v3 is behavioural; v4 asks whether the type
+*representation* is **causal**. DECODE the type direction (difference-of-means
+verb−noun of the filler-position residual, per layer; the filler = the token before
+the nonce = the next-token bottleneck), then ABLATE it (project it out during the
+forward pass) and re-measure the v3 crossover. Control: a RANDOM unit direction.
+
+```
+            type decodability         type-ablation        random-ablation
+  8B        AUC 1.0 @ hs10            crossover x1.43       x0.92   (amplifies)
+  14B       AUC 1.0 @ hs28            crossover x0.64       x0.95   (-36%)
+```
+
+- **Type is perfectly decodable at both scales** (AUC 1.0), at a DEEPER layer with
+  scale (8B L10 → 14B L28) — re-confirms s139 for the *contextual* nonce type.
+- **At 14B the type direction is PARTIALLY CAUSAL**: ablating it cuts the crossover by
+  36% (×0.64) while random removes 5% (×0.95) — a clear, type-specific causal
+  contribution. First evidence *beyond decodability* that the type representation
+  DIRECTS composition. **Partial** → the rest is distributed/redundant (a single linear
+  direction is not the whole carrier).
+- **At 8B directional ablation is NON-causal** (it *amplifies*, ×1.43) — the decodable
+  direction is not the causal lever; the type signal is fully distributed / at a
+  different locus.
+- ⇒ the causal **localisability** of the type direction STRENGTHENS with scale (8B
+  distributed → 14B partially-localised-causal at L28). It took three ablation scopes
+  (one-layer → filler-stack → all-positions) to surface it; one-locus single-direction
+  ablation is weak because the model re-reads type from the TEACHING tokens.
+
+**Decodability ≠ (full) causality** — a perfectly decodable AUC-1.0 direction is only
+*partially* the causal lever (this project's own s202/s204 over-read discipline,
+confirmed in the type register). The decisive remainder is **activation PATCHING**
+(swap the type-carrying residual content between verb/noun runs) — v5.
+
 ## Caveats (λ measure, load-bearing)
 
 - **Typed APPLICATION, not yet typed COMPOSITION.** This shows `predicate(argument)`
@@ -115,12 +149,15 @@ function word (determiner/object).
 - `scripts/experiments/type_directed_v1.py` — kernel-CCG real-word probe
 - `scripts/experiments/type_directed_v2.py` — clean symmetric design
 - `scripts/experiments/type_directed_v3_nonce.py` — nonce frequency-free crossover
+- `scripts/experiments/type_directed_v4_ablation.py` — causal type-direction ablation
 - `results/type-directed/` — verdicts + logs (8B, 14B)
 
 ## Next
 
-1. **v4 causal ablation** — decode the type direction (s139 linear probe), patch/corrupt
-   it at L0–L2, measure whether the v3 crossover collapses (correlation → causation).
+1. **v5 activation PATCHING** (the decisive causal test) — directional ablation showed
+   only a PARTIAL (×0.64 @14B) causal effect because the type is distributed; patch the
+   type-carrying residual content between verb/noun runs (sufficiency + necessity of the
+   representation, not just one linear direction).
 2. **Typed COMPOSITION** — extend from `predicate(argument)` to function∘function cases to
    connect type-directedness to the B/order-cost signal directly.
 3. **Cross-class** — does the nonce crossover hold on OLMo/Gemma/Pythia (gate-independent,

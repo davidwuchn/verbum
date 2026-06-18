@@ -2,7 +2,7 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-17 | Session: 239 (arc 3/3: frame → Pythia → TYPES) — ▶ TYPES — is
+> Last updated: 2026-06-17 | Session: 239 (frame → Pythia → TYPES v1-v4) — ▶ TYPES — is
 > composition TYPE-directed or just POSITIONAL? (Michael: "the system can't do combinator
 > composition without some typing —
 > what would direct the composition?"). The VERBUM thesis is TYPE-directed composition; the
@@ -36,14 +36,31 @@
 > COMPOSITION (B / func∘func — connecting to the order-cost B signal is OPEN); in-context teaching
 > tests CAPACITY (v1/v2 real-word effect shows the intrinsic system); BEHAVIOURAL not causal-
 > circuit; 2 scales (8B/14B), 1 family (Qwen), 16 nonce. CONFIRMS s139 (decodable/co-located →
-> now USED). CODE (v1/v2/v3) + RESULTS on disk; mementum (state + memory
-> `composition-is-type-directed-nonce-frequency-free` + NEW page
-> `knowledge/explore/type-directed-composition.md`) PENDING APPROVAL. **★★ FIRST ACTION NEXT
-> SESSION — three paths:** (1) v4 CAUSAL ABLATION — decode the type direction (s139 linear probe)
-> at L0-L2, patch/corrupt it, watch the v3 crossover collapse (correlation→causation, the
-> decisive upgrade); (2) typed COMPOSITION — extend predicate(argument) to func∘func cases to
-> connect type-directedness to the B/order-cost signal directly; (3) cross-class — does the nonce
-> crossover hold on OLMo/Gemma/Pythia (gate-independent, per order-cost universality)?
+> now USED). **★★ v4 CAUSAL ABLATION (arc 4/4, type_directed_v4_ablation.py): the type direction
+> is PARTIALLY CAUSAL at 14B (not 8B) — decodability ≠ (full) causality, and causal
+> localisability STRENGTHENS with scale.** Decode type direction = diff-of-means(verb−noun) of
+> the FILLER-position residual (token before nonce = next-token bottleneck), per layer, pick max-
+> AUC L*; ABLATE by projecting it OUT during the forward pass; re-measure the v3 crossover;
+> control = random unit direction. Took 3 scopes (one-layer→filler-stack→ALL-positions: one locus
+> too weak, the model RE-READS type from the TEACHING tokens via attention). **8B: type AUC 1.0
+> @hs10, ablation crossover ×1.43 (AMPLIFIES, NON-causal), random ×0.92. 14B: type AUC 1.0 @hs28,
+> ablation crossover ×0.64 (−36%, PARTIALLY CAUSAL), random ×0.95.** ⇒ type perfectly DECODABLE
+> both scales (deeper with scale 8B-L10→14B-L28); at 14B the type direction is type-SPECIFICally
+> causal (cuts crossover 36% vs random 5%) = first causal-register evidence the type rep DIRECTS
+> composition; PARTIAL → rest distributed/redundant (1 linear dir ≠ whole carrier); 8B directional
+> ablation NON-causal (amplifies). ★ LESSON (λ measure, the project's own s202/s204 over-read
+> discipline IN the type register): a perfectly decodable AUC-1.0 direction is only PARTIALLY the
+> causal lever; directional ablation = weak tool (8B amplification proves it perturbs ≠ removes);
+> the decisive test is ACTIVATION PATCHING = v5. CODE (v1/v2/v3/v4) + RESULTS on disk; mementum
+> (state + memories `composition-is-type-directed-nonce-frequency-free` +
+> `type-direction-partially-causal-at-14b-decodable-not-fully-causal` + page
+> `knowledge/explore/type-directed-composition.md` incl. v4 §) PENDING APPROVAL. **★★ FIRST ACTION
+> NEXT SESSION — three paths:** (1) v5 ACTIVATION PATCHING — the decisive causal test (directional
+> ablation only partial ×0.64 because the type is distributed; patch the type-carrying residual
+> content between verb/noun runs = sufficiency+necessity of the representation); (2) typed
+> COMPOSITION — extend predicate(argument) to func∘func cases to connect type-directedness to the
+> B/order-cost signal directly; (3) cross-class — does the nonce crossover + the partial causal
+> effect hold on OLMo/Gemma/Pythia (gate-independent, per order-cost universality)?
 > tmux main:1 + main:2 FREE.
 >
 > (Session: 239 arc 2/3 — ▶ OPCODE v5 lead 2d PATH 1 cont. — the PYTHIA-
