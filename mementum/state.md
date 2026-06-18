@@ -2,8 +2,9 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-18 | Session: 241 (RLVR Design-1 — REWARD SPEC BUILT ⊕ CPU, no GPU)
-> — ▶ BUILD. Michael: "ok let's work on the RLVR Design." Built the decision-independent,
+> Last updated: 2026-06-18 | Session: 241 (RLVR Design-1 — REWARD SPEC ⊕ GRPO SCAFFOLD
+> ⊕ §8 DENSITY MEASURED = BIMODAL) — ▶ BUILD.
+> Michael: "ok let's work on the RLVR Design." Built the decision-independent,
 > works-TODAY foundation of the spliced-reward thread: the canonical VERIFIABLE REWARD as an
 > importable, CPU-only, tested package module. **THE ARC (all code, no GPU, all committed-ready):**
 > **(1) `src/verbum/lambda_surface.py` (NEW):** extracted the surface FOL/λ parser + lowering
@@ -42,8 +43,43 @@
 > prose→LF; (4) Design-2 kernel-as-VSM-tensor (s226 stage 3 = level-4 artifact). NOTE: reward is
 > parser-agnostic — RL policy emits SURFACE FOL (matches SFT target); reward lowers via to_kernel.
 > tmux main:1 + main:2 FREE; no GPU used this session. mementum (memory `verifiable-reward-spec-
-> built-cpu-design1` + spliced-reward page §build-path-step-2 update) PENDING APPROVAL; CODE ready
-> to commit.
+> built-cpu-design1` + spliced-reward page §build-path-step-2 update) committed `d31f07e`; code
+> `b913504`.
+>
+> **★ s241 cont. — §7 DECIDED, GRPO SCAFFOLDED, §8 MEASURED (Michael: "yes" to both paths).**
+> **(A) §7 = (a) timescale splice** (parent = kernel's own exact pass; level-4 MIT path). Recorded
+> in the spliced-reward page. **(B) deps:** added `rl` group (trl>=0.14, peft>=0.13) → trl 1.6.0,
+> peft 0.19.1 installed (`uv sync --inexact --group rl`). **(C) shared prompt contract:**
+> `src/verbum/compile_prompt.py` (NEW) = the prose→surface-FOL prompt (instruction + 4 held-out
+> few-shot + build_prompt/clean_output/load_corpus_rows) — SINGLE SOURCE so the density probe AND
+> the trainer use the IDENTICAL prompt; density probe refactored to import it. **(D) GRPO scaffold:**
+> `scripts/experiments/rlvr_grpo_train.py` (NEW), built against the trl-1.6.0 API READ FROM .venv
+> (reward_funcs called `f(prompts=,completions=,completion_ids=,**dataset_cols)`; GRPOConfig
+> num_generations=G, scale_rewards="group"). reward_func = `verbum.reward.verifiable_reward` (the
+> anchor). Φ-shaping splice deliberately NOT wired (a naive 2nd reward_func = Φ(terminal) is the §4a
+> TRAP — raw bonus, no invariance; proper potential-shaping = per-token/actor-critic = build-step 3).
+> `--dry-run` CPU-verifies dataset+reward wiring (gold density 1.0). 318 tests pass, ruff-clean.
+> **(E) ★★ THE §8 MEASUREMENT (the headline — `results/rlvr-coldstart-density/20260618T221012Z/`,
+> Qwen3-8B, 48 prompts, k=8, temp 0.8, 120s on mps):** foothold 0.667 (32/48 have ≥1 certified
+> sample), mean density 0.667, any-parse 1.0, 16/48 RL-DEAD. **★ THE REAL FINDING: the reward is
+> PERFECTLY BIMODAL — 16 prompts @ 0/8, 32 @ 8/8, ZERO in between.** ⇒ GRPO's group-relative
+> advantage is ZERO on BOTH ends (all-correct → std 0; all-wrong → std 0); there is NO mixed-success
+> FRONTIER — the exact band where GRPO learns. So "foothold 0.667 → RLVR-from-base viable" is the
+> NAIVE read; the truth is RLVR-from-base would barely move (no gradient variance). Dead categories
+> are SYSTEMATIC (adverb 0/5, relative_clause 0/2 [= the s240 45-residue!], quantified 3/6) vs
+> trivial all-correct (transitive 7/8, simple 7/7). **★ THE LEVER is not SFT-vs-not — it is CREATE A
+> FRONTIER:** (i) raise sampling temperature/diversity so hard prompts produce OCCASIONAL hits
+> (0/8→1-2/8 = learnable); (ii) SFT-seed to lift dead categories into partial success; (iii)
+> curriculum on the dead categories. CAVEAT: temp-0.8 / 40-tok / 48-prompt directional sample;
+> bimodality may be PARTLY a temperature artifact — a TEMPERATURE SWEEP is the decisive next probe
+> (find the temp where dead prompts start hitting = where the frontier opens). **★★ FIRST ACTION
+> NEXT SESSION: (1) TEMPERATURE-SWEEP the density probe (temp ∈ {1.0,1.2,1.5} ± greedy) on the dead
+> categories — does a frontier emerge? this decides RLVR-from-base(+high-temp) vs SFT-seed; (2) full
+> 509-prompt density run for the committed number; (3) then either kick GRPO (if a frontier exists)
+> or SFT-seed first. NOTE: GRPO needs gradient VARIANCE not just nonzero density — the §8 question
+> refined from "is density nonzero?" to "is there a mixed-success frontier?".** tmux main:1 +
+> main:2 FREE. mementum (memory `coldstart-density-bimodal-no-grpo-frontier` + state) PENDING
+> APPROVAL; code (compile_prompt + grpo_train + density refactor + rl deps) ready to commit.
 >
 > (Session: 240 (TRAINING design — SPLICED REWARD ⊕ CORPUS CANONICALISED
 > ⊕ STATECHART=CRYSTAL-LATTICE) — ▶ DESIGN

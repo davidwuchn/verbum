@@ -1,0 +1,7 @@
+💡 The §8 cold-start density measurement (Qwen3-8B, 48 canonical prompts, k=8, temp 0.8) revealed the base-model reward is PERFECTLY BIMODAL: 16 prompts at 0/8 correct, 32 at 8/8, ZERO in between. Foothold 0.667, any-parse 1.0.
+
+★ Why this matters more than the foothold number: GRPO's advantage = (r−mean)/std, so a group with ZERO variance gives ZERO gradient. Both ends are dead — all-correct prompts (std 0, "solved") AND all-wrong prompts (std 0, "RL-dead"). There is NO mixed-success FRONTIER, which is the only band where GRPO learns. So "foothold 0.667 → RLVR-from-base viable" is the NAIVE read; the policy would barely move (no gradient variance), not because density is zero but because density is bimodal.
+
+★ The real lever is not SFT-vs-not — it is CREATE A FRONTIER: (i) raise sampling temperature so hard prompts produce occasional hits (0/8→1/8 = learnable); (ii) SFT-seed to lift dead categories into partial success; (iii) curriculum. Dead categories are systematic (adverb 0/5, relative_clause 0/2 = the s240 45-residue, quantified 3/6); all-correct are trivial (transitive, simple).
+
+★ §8 REFINED: not "is density nonzero?" but "is there a mixed-success frontier?" CAVEAT: temp-0.8 / 48-prompt directional read; bimodality may be partly a temperature artifact — a temperature sweep is the decisive next probe. Measure-don't-guess paid off; the naive foothold read would have missed this.
