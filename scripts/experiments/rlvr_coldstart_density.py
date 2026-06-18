@@ -71,10 +71,24 @@ def file_hash(p: Path) -> str:
 def summarise(records: list[dict], k: int) -> dict:
     n = len(records)
     n_foothold = sum(1 for r in records if r["n_correct"] >= 1)
+    n_all_correct = sum(1 for r in records if r["n_correct"] >= k)
+    # the FRONTIER: prompts with mixed success (0 < correct < k) — the ONLY band
+    # where GRPO's group-relative advantage is non-zero (variance > 0).
+    n_frontier = sum(1 for r in records if 0 < r["n_correct"] < k)
     mean_reward = (
         sum(s for r in records for s in r["rewards"]) / max(n * k, 1)
     )
     any_parse = sum(1 for r in records if r["n_parsed"] >= 1)
+    distribution = [0] * (k + 1)  # histogram over n_correct (0..k)
+    for r in records:
+        distribution[min(r["n_correct"], k)] += 1
+    by_category: dict[str, dict] = {}
+    for r in records:
+        c = r.get("category") or "?"
+        d = by_category.setdefault(c, {"n": 0, "foothold": 0, "frontier": 0})
+        d["n"] += 1
+        d["foothold"] += int(r["n_correct"] >= 1)
+        d["frontier"] += int(0 < r["n_correct"] < k)
     return {
         "n_prompts": n,
         "k": k,
@@ -82,7 +96,37 @@ def summarise(records: list[dict], k: int) -> dict:
         "mean_sample_reward": round(mean_reward, 4),        # reward density
         "any_parse_rate": round(any_parse / max(n, 1), 4),
         "n_all_zero": n - n_foothold,                       # the RL dead prompts
+        "n_all_correct": n_all_correct,                     # solved (also zero grad)
+        "n_frontier": n_frontier,                           # the learnable band
+        "distribution": distribution,
+        "by_category": by_category,
     }
+
+
+def generate_samples(model, tok, prompt: str, k: int, temp: float,
+                     top_p: float, device: str, max_new_tokens: int = 40) -> list[str]:
+    """Sample k completions for one prompt at the given temperature."""
+    import torch
+
+    try:
+        text = tok.apply_chat_template(
+            [{"role": "user", "content": prompt}],
+            tokenize=False, add_generation_prompt=True, enable_thinking=False)
+    except (TypeError, ValueError):
+        text = tok.apply_chat_template(
+            [{"role": "user", "content": prompt}],
+            tokenize=False, add_generation_prompt=True)
+    enc = tok(text, return_tensors="pt").to(device)
+    with torch.no_grad():
+        out = model.generate(
+            **enc, max_new_tokens=max_new_tokens, do_sample=True,
+            temperature=temp, top_p=top_p, num_return_sequences=k,
+            pad_token_id=tok.pad_token_id or tok.eos_token_id)
+    return [
+        clean_output(tok.decode(
+            out[j][enc["input_ids"].shape[1]:], skip_special_tokens=True))
+        for j in range(k)
+    ]
 
 
 def grade_samples(samples: list[str], gold_nf: str) -> dict:
@@ -125,91 +169,93 @@ def run_model(args) -> None:
 
     t0 = time.time()
     run_id = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
-    rows = load_corpus_rows(args.split, args.limit)
-    log(f"[{args.model}] {len(rows)} prompts × k={args.k} @ temp={args.temp}")
+    rows = load_corpus_rows(args.split, None)
+    if args.categories:
+        cats = {c.strip() for c in args.categories.split(",")}
+        rows = [r for r in rows if r.get("category") in cats]
+    if args.limit:
+        rows = rows[:args.limit]
+    temps = (
+        [float(t) for t in args.temps.split(",")] if args.temps else [args.temp]
+    )
+    log(f"[{args.model}] {len(rows)} prompts × k={args.k}, temps={temps}"
+        + (f", categories={sorted(cats)}" if args.categories else ""))
 
     dtype = {"float32": torch.float32, "float16": torch.float16,
              "bfloat16": torch.bfloat16}[args.dtype]
     tok = AutoTokenizer.from_pretrained(args.model)
     model = AutoModelForCausalLM.from_pretrained(args.model, torch_dtype=dtype)
-    model.to(args.device).eval()
+    model.to(args.device).eval()  # loaded ONCE; the temp sweep reuses it
 
-    records = []
-    with torch.no_grad():
+    out_dir = ROOT / "results" / "rlvr-coldstart-density" / run_id
+    out_dir.mkdir(parents=True, exist_ok=True)
+    sweep: list[dict] = []
+    for temp in temps:
+        records = []
         for i, r in enumerate(rows):
-            prompt = build_prompt(r["input"])
-            try:
-                text = tok.apply_chat_template(
-                    [{"role": "user", "content": prompt}],
-                    tokenize=False, add_generation_prompt=True,
-                    enable_thinking=False)
-            except (TypeError, ValueError):
-                text = tok.apply_chat_template(
-                    [{"role": "user", "content": prompt}],
-                    tokenize=False, add_generation_prompt=True)
-            enc = tok(text, return_tensors="pt").to(args.device)
-            out = model.generate(
-                **enc, max_new_tokens=40, do_sample=True,
-                temperature=args.temp, top_p=args.top_p,
-                num_return_sequences=args.k,
-                pad_token_id=tok.pad_token_id or tok.eos_token_id)
-            gen = [
-                clean_output(tok.decode(
-                    out[j][enc["input_ids"].shape[1]:], skip_special_tokens=True))
-                for j in range(args.k)
-            ]
+            gen = generate_samples(
+                model, tok, build_prompt(r["input"]),
+                args.k, temp, args.top_p, args.device)
             graded = grade_samples(gen, r["normal_form"])
             records.append({
                 "input": r["input"], "gold": r["output"],
                 "gold_nf": r["normal_form"], "category": r.get("category"),
-                "samples": gen, **graded,
+                "temperature": temp, "samples": gen, **graded,
             })
             if (i + 1) % 25 == 0:
-                log(f"    {i + 1}/{len(rows)}")
+                log(f"    temp={temp} {i + 1}/{len(rows)}")
+        summ = summarise(records, args.k)
+        summ["temperature"] = temp
+        sweep.append(summ)
+        (out_dir / f"results_t{temp}.jsonl").write_text(
+            "\n".join(json.dumps(r, ensure_ascii=False) for r in records) + "\n"
+        )
+        log(f"  temp={temp}: foothold={summ['foothold_rate']:.1%} "
+            f"density={summ['mean_sample_reward']:.3f} "
+            f"FRONTIER={summ['n_frontier']} all0={summ['n_all_zero']} "
+            f"all{args.k}={summ['n_all_correct']}")
 
-    summ = summarise(records, args.k)
-
-    out_dir = ROOT / "results" / "rlvr-coldstart-density" / run_id
-    out_dir.mkdir(parents=True, exist_ok=True)
     meta = {
         "run_id": run_id,
         "timestamp": datetime.now(UTC).isoformat(),
-        "model": args.model,
-        "quant": args.dtype,
-        "model_revision": args.revision,
-        "device": args.device,
-        "git_sha": git_sha(),
-        "python": platform.python_version(),
-        "torch": torch.__version__,
+        "model": args.model, "quant": args.dtype, "model_revision": args.revision,
+        "device": args.device, "git_sha": git_sha(),
+        "python": platform.python_version(), "torch": torch.__version__,
         "transformers": __import__("transformers").__version__,
         "probe_set": args.split,
         "probe_set_hash": file_hash(ROOT / "data" / args.split),
-        "sampling": {
-            "k": args.k, "temperature": args.temp, "top_p": args.top_p,
-            "seed": args.seed, "max_new_tokens": 40,
-        },
-        "summary": summ,
+        "categories": args.categories,
+        "sampling": {"k": args.k, "temperatures": temps, "top_p": args.top_p,
+                     "seed": args.seed, "max_new_tokens": 40},
+        "sweep": sweep,
         "elapsed_s": round(time.time() - t0, 1),
     }
     (out_dir / "meta.json").write_text(json.dumps(meta, indent=2, ensure_ascii=False))
-    (out_dir / "results.jsonl").write_text(
-        "\n".join(json.dumps(r, ensure_ascii=False) for r in records) + "\n"
-    )
 
     log("")
-    log(f"  === COLD-START DENSITY — {args.model} ({summ['n_prompts']} prompts, "
-        f"k={args.k}, temp={args.temp}) ===")
-    log(f"  FOOTHOLD rate (>=1 correct sample): {summ['foothold_rate']:.1%}  "
-        f"({summ['n_prompts'] - summ['n_all_zero']}/{summ['n_prompts']})")
-    log(f"  mean sample reward (density):        {summ['mean_sample_reward']:.3f}")
-    log(f"  any-parse rate:                      {summ['any_parse_rate']:.1%}")
-    log(f"  all-zero (RL-dead) prompts:          {summ['n_all_zero']}")
-    verdict = (
-        "high → RLVR-from-base viable" if summ["foothold_rate"] >= 0.5
-        else "sparse → SFT-seed first"
-    )
-    log(f"\n  VERDICT: {verdict}")
-    log(f"  wrote {out_dir}/meta.json + results.jsonl  ({meta['elapsed_s']}s)")
+    log(f"  === COLD-START DENSITY SWEEP — {args.model} "
+        f"({len(rows)} prompts, k={args.k}) ===")
+    log(f"  {'temp':>5} {'foothold':>9} {'density':>8} {'FRONTIER':>9} "
+        f"{'all-0':>6} {'all-' + str(args.k):>6}")
+    for s in sweep:
+        log(f"  {s['temperature']:>5} {s['foothold_rate']:>8.1%} "
+            f"{s['mean_sample_reward']:>8.3f} {s['n_frontier']:>9} "
+            f"{s['n_all_zero']:>6} {s['n_all_correct']:>6}")
+    best = max(sweep, key=lambda s: s["n_frontier"])
+    frac = best["n_frontier"] / max(len(rows), 1)
+    log(f"\n  FRONTIER (mixed-success, the GRPO learnable band) peaks at "
+        f"temp={best['temperature']} with {best['n_frontier']}/{len(rows)} "
+        f"prompts ({frac:.0%}).")
+    # A usable frontier needs a non-trivial fraction of prompts with mixed success;
+    # a handful is still effectively bimodal (zero-probability dead prompts that
+    # temperature cannot surface).
+    if frac < 0.15:
+        log("  → frontier stays negligible across temps: bimodal is temperature-"
+            "robust; the dead prompts are zero-probability → SFT-seed / curriculum, "
+            "not temperature.")
+    else:
+        log("  → a usable frontier opens: RLVR-from-base gets gradient at this temp.")
+    log(f"  wrote {out_dir}/meta.json + results_t*.jsonl  ({meta['elapsed_s']}s)")
 
 
 def main() -> None:
@@ -219,6 +265,10 @@ def main() -> None:
     ap.add_argument("--revision", default=None)
     ap.add_argument("--k", type=int, default=8)
     ap.add_argument("--temp", type=float, default=0.8)
+    ap.add_argument("--temps", default=None,
+                    help="comma-separated temperature sweep, e.g. 0.8,1.0,1.2,1.5")
+    ap.add_argument("--categories", default=None,
+                    help="comma-separated category filter, e.g. adverb,relative_clause")
     ap.add_argument("--top-p", type=float, default=0.95)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--limit", type=int, default=None)
