@@ -1,0 +1,51 @@
+{
+  "n": 559,
+  "stage_counts": {
+    "certified": 559
+  },
+  "certified": 559,
+  "certified_rate": 1.0,
+  "clean_certified": 111,
+  "clean_certified_rate": 0.1986,
+  "smell_counts": {
+    "vacuous_binder:λ": 434,
+    "vacuous_binder:λ+λ": 14
+  },
+  "mixed_notation_categories": {
+    "quantified": [
+      "bind:λ",
+      "bind:∀",
+      "bind:∃"
+    ],
+    "attitude": [
+      "app",
+      "bin:→",
+      "bind:λ",
+      "bind:∃"
+    ],
+    "conditional": [
+      "bin:→",
+      "bind:λ"
+    ],
+    "negation": [
+      "bind:λ",
+      "bind:∀",
+      "not"
+    ],
+    "relative_clause": [
+      "app",
+      "bind:λ"
+    ],
+    "copular": [
+      "app",
+      "bind:λ"
+    ]
+  },
+  "well_typed": 559,
+  "reduce_status": {
+    "normal_form": 559
+  },
+  "vacuous_lambda_top": 442,
+  "clean_after_strip_vacuous": 559,
+  "clean_after_strip_rate": 1.0
+}
