@@ -1,0 +1,23 @@
+[Qwen/Qwen3-8B] 36 prompts × k=8, temps=[0.8, 1.0, 1.2, 1.5], categories=['adverb', 'quantified', 'relative_clause']
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights: 100%|██████████| 399/399 [00:00<00:00, 21101.09it/s]
+  applied adapter: results/rlvr-sft/run1/final
+    temp=0.8 25/36
+  temp=0.8: foothold=36.1% density=0.309 FRONTIER=5 all0=23 all8=8
+    temp=1.0 25/36
+  temp=1.0: foothold=41.7% density=0.281 FRONTIER=8 all0=21 all8=7
+    temp=1.2 25/36
+  temp=1.2: foothold=38.9% density=0.292 FRONTIER=7 all0=22 all8=7
+    temp=1.5 25/36
+  temp=1.5: foothold=50.0% density=0.326 FRONTIER=13 all0=18 all8=5
+
+  === COLD-START DENSITY SWEEP — Qwen/Qwen3-8B (36 prompts, k=8) ===
+   temp  foothold  density  FRONTIER  all-0  all-8
+    0.8    36.1%    0.309         5     23      8
+    1.0    41.7%    0.281         8     21      7
+    1.2    38.9%    0.292         7     22      7
+    1.5    50.0%    0.326        13     18      5
+
+  FRONTIER (mixed-success, the GRPO learnable band) peaks at temp=1.5 with 13/36 prompts (36%).
+  → a usable frontier opens: RLVR-from-base gets gradient at this temp.
+  wrote /Users/mwhitford/src/verbum/results/rlvr-coldstart-density/20260619T002327Z/meta.json + results_t*.jsonl  (424.0s)

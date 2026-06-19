@@ -47,4 +47,7 @@ lattice/*/lattice_relational_target.json
 models/
 checkpoints/
 **/*.pt
+# training weights/optimizer states (reproducible from the run; keep run_meta.json + logs)
+results/**/checkpoint-*/
+results/rlvr-sft/**/final/
 ideas.txt

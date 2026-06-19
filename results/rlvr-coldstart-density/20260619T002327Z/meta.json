@@ -1,0 +1,187 @@
+{
+  "run_id": "20260619T002327Z",
+  "timestamp": "2026-06-19T00:30:31.653542+00:00",
+  "model": "Qwen/Qwen3-8B",
+  "adapter": "results/rlvr-sft/run1/final",
+  "quant": "bfloat16",
+  "model_revision": null,
+  "device": "mps",
+  "git_sha": "207eed9ef500e724e43e65fac20bc5ede4f39fbd",
+  "python": "3.12.10",
+  "torch": "2.11.0",
+  "transformers": "5.5.4",
+  "probe_set": "compile-train.canonical.jsonl",
+  "probe_set_hash": "92007c3f719b2977",
+  "categories": "adverb,relative_clause,quantified",
+  "sampling": {
+    "k": 8,
+    "temperatures": [
+      0.8,
+      1.0,
+      1.2,
+      1.5
+    ],
+    "top_p": 0.95,
+    "seed": 0,
+    "max_new_tokens": 40
+  },
+  "sweep": [
+    {
+      "n_prompts": 36,
+      "k": 8,
+      "foothold_rate": 0.3611,
+      "mean_sample_reward": 0.309,
+      "any_parse_rate": 1.0,
+      "n_all_zero": 23,
+      "n_all_correct": 8,
+      "n_frontier": 5,
+      "distribution": [
+        23,
+        0,
+        1,
+        1,
+        0,
+        0,
+        1,
+        2,
+        8
+      ],
+      "by_category": {
+        "quantified": {
+          "n": 12,
+          "foothold": 6,
+          "frontier": 2
+        },
+        "adverb": {
+          "n": 13,
+          "foothold": 5,
+          "frontier": 1
+        },
+        "relative_clause": {
+          "n": 11,
+          "foothold": 2,
+          "frontier": 2
+        }
+      },
+      "temperature": 0.8
+    },
+    {
+      "n_prompts": 36,
+      "k": 8,
+      "foothold_rate": 0.4167,
+      "mean_sample_reward": 0.2812,
+      "any_parse_rate": 1.0,
+      "n_all_zero": 21,
+      "n_all_correct": 7,
+      "n_frontier": 8,
+      "distribution": [
+        21,
+        3,
+        1,
+        0,
+        1,
+        2,
+        1,
+        0,
+        7
+      ],
+      "by_category": {
+        "quantified": {
+          "n": 12,
+          "foothold": 6,
+          "frontier": 2
+        },
+        "adverb": {
+          "n": 13,
+          "foothold": 7,
+          "frontier": 4
+        },
+        "relative_clause": {
+          "n": 11,
+          "foothold": 2,
+          "frontier": 2
+        }
+      },
+      "temperature": 1.0
+    },
+    {
+      "n_prompts": 36,
+      "k": 8,
+      "foothold_rate": 0.3889,
+      "mean_sample_reward": 0.2917,
+      "any_parse_rate": 1.0,
+      "n_all_zero": 22,
+      "n_all_correct": 7,
+      "n_frontier": 7,
+      "distribution": [
+        22,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        7
+      ],
+      "by_category": {
+        "quantified": {
+          "n": 12,
+          "foothold": 6,
+          "frontier": 2
+        },
+        "adverb": {
+          "n": 13,
+          "foothold": 6,
+          "frontier": 3
+        },
+        "relative_clause": {
+          "n": 11,
+          "foothold": 2,
+          "frontier": 2
+        }
+      },
+      "temperature": 1.2
+    },
+    {
+      "n_prompts": 36,
+      "k": 8,
+      "foothold_rate": 0.5,
+      "mean_sample_reward": 0.3264,
+      "any_parse_rate": 1.0,
+      "n_all_zero": 18,
+      "n_all_correct": 5,
+      "n_frontier": 13,
+      "distribution": [
+        18,
+        3,
+        2,
+        2,
+        0,
+        0,
+        1,
+        5,
+        5
+      ],
+      "by_category": {
+        "quantified": {
+          "n": 12,
+          "foothold": 7,
+          "frontier": 4
+        },
+        "adverb": {
+          "n": 13,
+          "foothold": 8,
+          "frontier": 7
+        },
+        "relative_clause": {
+          "n": 11,
+          "foothold": 3,
+          "frontier": 2
+        }
+      },
+      "temperature": 1.5
+    }
+  ],
+  "elapsed_s": 424.0
+}

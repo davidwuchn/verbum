@@ -183,6 +183,10 @@ def run_model(args) -> None:
              "bfloat16": torch.bfloat16}[args.dtype]
     tok = AutoTokenizer.from_pretrained(args.model)
     model = AutoModelForCausalLM.from_pretrained(args.model, torch_dtype=dtype)
+    if args.adapter:  # apply a LoRA/PEFT adapter (e.g. the SFT seed) on top of base
+        from peft import PeftModel
+        model = PeftModel.from_pretrained(model, args.adapter)
+        log(f"  applied adapter: {args.adapter}")
     model.to(args.device).eval()  # loaded ONCE; the temp sweep reuses it
 
     out_dir = ROOT / "results" / "rlvr-coldstart-density" / run_id
@@ -216,7 +220,8 @@ def run_model(args) -> None:
     meta = {
         "run_id": run_id,
         "timestamp": datetime.now(UTC).isoformat(),
-        "model": args.model, "quant": args.dtype, "model_revision": args.revision,
+        "model": args.model, "adapter": args.adapter,
+        "quant": args.dtype, "model_revision": args.revision,
         "device": args.device, "git_sha": git_sha(),
         "python": platform.python_version(), "torch": torch.__version__,
         "transformers": __import__("transformers").__version__,
@@ -260,6 +265,8 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--split", default="compile-train.canonical.jsonl")
     ap.add_argument("--model", default="Qwen/Qwen3-8B")
+    ap.add_argument("--adapter", default=None,
+                    help="optional PEFT/LoRA adapter dir (an SFT seed) over --model")
     ap.add_argument("--revision", default=None)
     ap.add_argument("--k", type=int, default=8)
     ap.add_argument("--temp", type=float, default=0.8)

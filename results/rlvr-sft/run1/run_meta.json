@@ -1,0 +1,22 @@
+{
+  "timestamp": "2026-06-19T00:09:54.970225+00:00",
+  "stage": "sft-seed",
+  "model": "Qwen/Qwen3-8B",
+  "git_sha": "207eed9ef500e724e43e65fac20bc5ede4f39fbd",
+  "torch": "2.11.0",
+  "transformers": "5.5.4",
+  "trl": "1.6.0",
+  "split": "compile-train.canonical.jsonl",
+  "n_pairs": 506,
+  "loss": "completion-only token-CE (prompt masked)",
+  "sft": {
+    "max_length": 1024,
+    "lr": 2e-05,
+    "epochs": 2.0,
+    "per_device_train_batch_size": 4,
+    "grad_accum": 4,
+    "lora": true,
+    "seed": 0
+  },
+  "next": "rlvr_grpo_train.py --model results/rlvr-sft/run1/final"
+}
