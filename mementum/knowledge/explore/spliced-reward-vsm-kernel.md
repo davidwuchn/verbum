@@ -332,8 +332,33 @@ Likely: SFT seed for cheap density at the easy end, RLVR to push the hard end.
 > reward fn + corpus are sound) — it is NOT the base-model density. s226's parseable-
 > terms evidence is a PROXY (easy hand-built tasks, few-shot accuracy ≠ sampled
 > reduce-correct on the full corpus). Probe: `scripts/experiments/rlvr_coldstart_
-> density.py` (base-model sampling pass, grades via `verbum.reward`, GPU). **(OPEN —
-> decide from the probe's foothold rate.)**
+> density.py` (base-model sampling pass, grades via `verbum.reward`, GPU).
+
+> **★★ RESOLVED BY MEASUREMENT (s241) — SFT-seed, then higher-temp GRPO.** Three runs
+> closed it:
+> 1. **Base-model density (Qwen3-8B, 48 prompts, k=8, temp 0.8):** foothold 0.667, but
+>    the reward is **PERFECTLY BIMODAL** — 16 prompts 0/8, 32 8/8, ZERO between. The
+>    naive "foothold 0.667 → RLVR-from-base" is WRONG: GRPO's advantage is
+>    `(r−mean)/std`, so a zero-variance group gives zero gradient. The real question is
+>    not "is density nonzero?" but **"is there a mixed-success FRONTIER?"** — and there
+>    was none.
+> 2. **Temperature sweep (dead categories, temp 0.8→1.5):** the frontier stays 1–2/36 at
+>    every temperature; relative_clause 0→1/11, quantified frontier 0 at every temp. The
+>    dead prompts are **zero-probability** (the base doesn't know the target form), not
+>    low-probability temperature could surface. **Temperature is NOT the lever.**
+> 3. **SFT-seed + re-measure (the validation gate):** `rlvr_sft_seed.py` (LoRA, 2 epochs,
+>    completion-only token-CE, loss 3.71→1.42) then re-ran the sweep with the adapter.
+>    **The bimodal wall breaks:** frontier (base→SFT) temp1.5 **2→13/36 (36%)**, foothold
+>    33%→50%, dead 24→18; **quantified frontier 0→4** (the perfectly-bimodal one now has
+>    variance — cleanest proof), adverb 1→7, relative_clause 1→2 (still hardest = the
+>    s240 deep residue). Now temperature-RESPONSIVE where the base was flat.
+>
+> ⇒ **VERDICT: SFT-seed (create footholds) → GRPO at temp ~1.5 (max frontier).** Not
+> SFT-vs-not, not temperature alone. The lesson for RLVR-from-a-frozen-verifier: nonzero
+> reward density is necessary but NOT sufficient — GRPO needs gradient VARIANCE (a
+> mixed-success frontier), and a bimodal base has none until SFT spreads the mass.
+> (results: `rlvr-coldstart-density/20260618T221012Z` base, `…222736Z` temp-sweep,
+> `20260619T002327Z` SFT.)
 
 ---
 
@@ -347,8 +372,14 @@ Likely: SFT seed for cheap density at the easy end, RLVR to push the hard end.
    surface parser extracted to `verbum.lambda_surface`). CPU, tested (318 pass).
    Results (`results/rlvr-design1-reward/`): GOLD reward density **100%** (509/509),
    perturbation drop **1.0**, telescoping invariance exact across γ. The reward
-   *works today*. **LEFT:** the GRPO policy-gradient loop (GPU; needs `trl`/`peft`,
-   not yet in deps) wired on `verifiable_reward` — gated on the §8 probe.
+   *works today*.
+   - **GRPO scaffold DONE (s241):** `rlvr_grpo_train.py` on the real trl-1.6.0 API
+     (`rl` dep group added: trl, peft); reward = `verifiable_reward`; prompts unified
+     across measure/SFT/GRPO via `verbum.compile_prompt.to_chat`.
+   - **SFT-seed DONE + VALIDATED (s241):** `rlvr_sft_seed.py` run on Qwen3-8B (LoRA,
+     loss 3.71→1.42) — re-measured density shows the bimodal wall breaks (§8 above).
+   - **LEFT:** run GRPO from the SFT seed at temp ~1.5 — needs `--adapter`/PeftModel
+     loading in the GRPO trainer (or a merged model), then post-GRPO re-measure.
 3. **Splice in the inline potential** (§4) — `potential`/`shaping`/`shaped_return`/
    `tree_process_reward` are BUILT + tested in `verbum.reward` (s241); LEFT = the
    actor-critic critic reading the policy's live VSM registers, calibrated by TD
@@ -356,6 +387,11 @@ Likely: SFT seed for cheap density at the easy end, RLVR to push the hard end.
 4. **Design 2 — kernel-as-VSM-tensor in the forward pass** (s226 stage 3) — makes
    the parent reward batched/fast and the inline channels constructed (anchor-
    eligible). *Also IS the level-4 artifact* — not a detour.
+
+> **Session 241 status:** the pipeline is RUN + VALIDATED end-to-end on CPU+GPU —
+> reward (tested) → GRPO (scaffolded) → SFT-seed (run, loss↓) → cold-start frontier
+> (reopened, measured). §7=(a) timescale splice, §8=SFT-seed→high-temp GRPO, both
+> settled by measurement. Next: run GRPO from the seed (§8 resolution).
 
 ---
 
