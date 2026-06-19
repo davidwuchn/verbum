@@ -102,6 +102,29 @@
 > blocker was never the loop, it is COLD-START — and the answer is SFT-seed (measured, not
 > guessed).** Committed: sweep `4521c2d`, mementum `7f054c9`.
 >
+> **★★ s241 cont.4 — SFT-SEED RUN + VALIDATED: it OPENS the GRPO frontier (Michael: "run the
+> job").** Ran `rlvr_sft_seed.py --model Qwen/Qwen3-8B --lora --epochs 2` (mps, 9 min, 64 steps,
+> 506 pairs): loss 3.71→1.42, token-acc 0.80; LoRA adapter → `results/rlvr-sft/run1/final/`
+> (weights gitignored, run_meta.json+log kept). Added `--adapter` (PEFT) loading to the density
+> probe. **RE-MEASURED on the dead categories (adverb/quantified/relative_clause, 36 prompts, k=8,
+> `results/rlvr-coldstart-density/20260619T002327Z/`) — DECISIVE: the bimodal wall BREAKS.**
+> Frontier (base→SFT): temp0.8 1→5, temp1.0 1→8, temp1.2 2→7, **temp1.5 2→13 (36%)**; foothold
+> temp1.5 33%→50%; dead 24→18. Per-category @temp1.5: **quantified frontier 0→4** (the PERFECTLY-
+> bimodal one now has variance — cleanest proof), **adverb 1→7** (biggest gain, foothold 8/13),
+> relative_clause 1→2 (improved, still hardest = the s240 deep residue). And now TEMPERATURE-
+> RESPONSIVE (frontier grows with temp) where the base was flat. **★ VALIDATED: SFT-seed lifts the
+> dead categories into a learnable regime → GRPO is UNBLOCKED. §8 fully closed by measurement: not
+> SFT-vs-not, not temperature — SFT-seed THEN higher-temp GRPO.** The full pipeline is now
+> RUN+VALIDATED end-to-end: reward(tested) → SFT-seed(run, loss↓) → density-reopens(measured) →
+> GRPO(scaffold ready). **★★ FIRST ACTION NEXT SESSION — RUN GRPO from the seed: (1) the GRPO
+> trainer can't take a bare adapter dir as --model (AutoModelForCausalLM won't apply it) → either
+> add --adapter/PeftModel loading to rlvr_grpo_train.py OR merge the SFT adapter to a full model;
+> add a --temperature ~1.5 to GRPOConfig (max frontier); (2) run GRPO from the seed on the dead+
+> mixed categories; (3) re-measure post-GRPO reduce-correct (did RL close the frontier?); (4)
+> splice in Φ-shaping (build-step 3); (5) more SFT epochs / prose→LF for the relative_clause tail.**
+> tmux main:1 + main:2 FREE. mementum (memory `sft-seed-opens-grpo-frontier` + state) PENDING
+> APPROVAL; code (density --adapter) + SFT/validation artifacts ready to commit.
+>
 > **★ s241 cont.3 — SFT-SEED SCAFFOLDED + PROMPT ALIGNED (Michael: "scaffold it").**
 > **(A) `scripts/experiments/rlvr_sft_seed.py` (NEW):** trl SFTTrainer (API read from .venv),
 > completion-only token-CE on the certified canonical corpus (prompt MASKED, loss only on the
