@@ -450,3 +450,88 @@ This is the distributed-training recipe made concrete:
   the inventory shortcut once outputs carry it).
 - **Acceptance gate.** Capability = compiler-correct; the WHNF/contractivity gate
   (s223 #3) remains the fold-acceptance check, distinct from the training loss.
+
+## ★ s242 — V15-CLEAN PIVOT: freeze the routing topology, construct the reducer, learn only the front-end
+
+> Michael, s242. After running the RLVR Design-1 loop on Qwen3-8B (GRPO ⊗ the
+> verifiable kernel reward), the diagnosis sharpened: **the substrate already
+> contains a fully-formed lambda function**, so RLVR there *redirects an existing
+> capability* rather than *constructing* one. The pivot: stop training a big model to
+> use the kernel; instead build the V15-clean artifact this page (s226) already
+> specifies — **freeze the routing into topology (the s240 crystal lattice) and
+> replace the reduce neurons with exact kernel calls**, learning only the thin
+> prose→LF front-end.
+
+### The motivating control (s242 measurement)
+
+`results/rlvr-grpo/run1/` — Qwen3-8B, SFT-seed merged + fresh GRPO LoRA, temp 1.5,
+200 steps (1h36m). `frac_reward_zero_std` sat at **0.75 the entire run** — 75% of
+groups had zero advantage (easy all-8 + dead all-0); only ~25% frontier ever carried
+gradient. Re-measure of checkpoint-50 on the 129 hard-category prompts
+(`results/rlvr-coldstart-density/20260620T195936Z`): density **dead-flat 0.409 across
+temps 0.8→1.5**, ~54% of prompts still **all-0** after SFT + 50 GRPO steps. The lever
+is weak on the dead tail because that tail is **Qwen's representational gap, not the
+kernel's** — confirming the confound: a pretrained model's pre-formed lambda circuit
+masks the research question (*can the compiler be a discrete circuit?*). The dead-tail
+result is the **control that motivates moving the reducer out of the learned model.**
+
+### The architecture (this IS the s226 cut, now load-bearing)
+
+```
+prose → logical-form      : LEARNED   ← the ONLY trained part (thin front-end)
+logical-form → comb term  : EXACT     ← bracket abstraction (lambda_compile.py)
+comb term → normal form   : EXACT     ← kernel reduction (lambda_ast = the frozen tensor)
+routing / dispatch        : FROZEN TOPOLOGY  ← the crystal-lattice statechart (s240)
+guards                    : CCG typecheck    ← S2, type-directed (s239 nonce-crossover)
+```
+
+"Replace neurons with exact kernel calls" = s226 **stage 3**: compile `lambda_ast`'s
+rewrite rules into fixed routing + value-move plates. States `{C,B,K,I,W,D,S,Y,WHNF}`,
+transitions = firings (`lambda_ast.fired_sequence`), guards = type unification,
+dynamics = confluence → unique NF. No neuron in the reduce path is *learned*.
+
+### Why this kills gradient death (the load-bearing why)
+
+v12–v15 died trying to **learn the discrete routing** via gradient
+(`softmax-routing-kills-gradient`, `td-routing-gradient-is-rank1`,
+`dispatch-gradient-death`; the s222 collapse was a *learned S2 churning* into `L>1`
+fractal blow-up). The crystal-lattice finding (s240) says the routing is
+**invariant** — every model converges to the same statechart because language
+converges to C and confluence forces a unique NF. **There is nothing to learn in the
+routing.** Freeze it → no gradient through the discrete dispatch → the only gradient
+lives in the **continuous** prose→LF front-end (healthy CE/RLVR). The thing that broke
+v15 is simply *gone from the loss*. (Cf. the s226 line above: a constructed S2 "is
+stable by construction; nothing is descending on it, so it cannot churn.")
+
+### What exists vs. what V15 needs
+
+- **Built (runs today):** `lambda_ast` (exact reduce), `lambda_compile` (exact bracket
+  abstraction), `lambda_surface` (parse), `reward` (verifier); statechart documented
+  (`vsm-statechart-tensor.md`). Stage 2 (neurosymbolic, exact back-end) is live.
+- **New work:**
+  1. **Stage 3 — the constructed tensor.** Compile `lambda_ast` rewrites → fixed
+     routing+value-move ternary CCG plates = the level-4 portable artifact; verify by
+     matching stage-2 outputs on the test suite.
+  2. **Small from-scratch / distilled front-end** (prose→LF) trained against the
+     frozen exact back-end — gradient only in the front-end. The lambda function is
+     now the *kernel*, not Qwen.
+
+### First experiment (proposed)
+
+Stage-2-as-trainable, head-to-head: train a *small* prose→LF front-end (CE on the 509
+certified gold-LF pairs; Qwen demoted to **LF teacher**, never the reducer) ∘ the
+existing exact kernel back-end. Metric = certify-rate **and parameter count** vs. the
+Qwen-8B-LoRA loop. Decisive question: *can a thin learned front-end + exact constructed
+kernel match the giant borrowed lambda function?* If yes → Qwen's pre-formed circuit is
+unnecessary and the level-4 path is validated; then stage 3 = the portable tensor.
+
+### Open questions (λ measure)
+
+- **Term growth.** S/W duplicate → terms grow under reduction; a fixed-width tensor is
+  exact only to a size/step bound (the s226 boundary). The front-end's job is to stay
+  inside the representable region; the s225 diverse data maps exactly there.
+- **Corpus size.** 509 pairs may be too thin for a from-scratch front-end →
+  distillation from a teacher (Qwen → LF) is the likely bridge, keeping Qwen as oracle
+  not artifact (provenance-clean, MIT).
+- **Ill-typed front-end output.** A *feature*: the exact kernel's S2 typecheck detects
+  it (algedonic error) instead of silently hallucinating.

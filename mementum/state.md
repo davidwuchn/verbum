@@ -2,7 +2,52 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-18 | Session: 241 (RLVR Design-1 — REWARD SPEC ⊕ GRPO SCAFFOLD
+> Last updated: 2026-06-20 | Session: 242 (RAN GRPO ⊕ QWEN-CONFOUND DIAGNOSED ⊕
+> V15-CLEAN PIVOT DECIDED) — ▶ PIVOT to the constructed reducer.
+>
+> **★ s242 — RAN GRPO from the SFT seed, RE-MEASURED, then PIVOTED (Michael: the model we
+> use already has a fully-formed lambda function; pivot to V15 with frozen routing + exact
+> kernel calls).** **(A) GRPO trainer plumbed (`scripts/experiments/rlvr_grpo_train.py`):**
+> added `--adapter` = MERGE the SFT seed into base (PeftModel.merge_and_unload) before GRPO
+> trains a FRESH LoRA on top (a bare adapter dir won't be applied by AutoModelForCausalLM);
+> quieted the trainer (`--log-completions`/`--progress` opt-in, logging_steps 1→10,
+> disable_tqdm). Density probe (`rlvr_coldstart_density.py`) gained `--sft-adapter` = merge
+> SFT first THEN apply the GRPO adapter (re-measure a GRPO LoRA trained on the merged seed,
+> apples-to-apples). CPU dry-run gold density 1.0, ruff-clean. **(B) RAN GRPO**
+> (`results/rlvr-grpo/run1/`, Qwen3-8B, SFT-seed merged + LoRA, temp 1.5, G=8, lr 1e-6, 200
+> steps, 1h36m): train_loss 0.008; **`frac_reward_zero_std`=0.75 the WHOLE run** — 75% of
+> groups zero-advantage (easy all-8 + dead all-0), only ~25% frontier ever carried gradient.
+> **(C) RE-MEASURED checkpoint-50** (129 hard-category prompts adverb/quantified/relative_clause,
+> `results/rlvr-coldstart-density/20260620T195936Z`): density **dead-FLAT 0.409 across temps
+> 0.8→1.5**, ~54% still all-0 after SFT+50 GRPO steps; frontier count grows w/ temp 8→13 but
+> total certified mass UNCHANGED. **★ THE DIAGNOSIS: the lever is weak on the dead tail because
+> that tail is QWEN'S representational gap, not the kernel's — a pretrained model's pre-formed
+> lambda circuit MASKS the research question (can the compiler be a discrete circuit?). RLVR on
+> Qwen REDIRECTS an existing capability, it does not CONSTRUCT one. The dead-tail result is the
+> CONTROL that motivates the pivot.** **(D) ★★ THE PIVOT (Michael, = the s226 cut now
+> load-bearing): freeze the routing into TOPOLOGY (the s240 crystal lattice — routing is
+> INVARIANT, nothing to learn → no gradient through dispatch → KILLS the v12–v15 gradient-death)
+> + replace the reduce NEURONS with EXACT KERNEL CALLS (lambda_ast stage 3 = ternary CCG plates =
+> the level-4 portable artifact); learn ONLY the thin prose→LF front-end (CE on 509 gold pairs;
+> Qwen demoted to LF TEACHER, never the reducer).** Architecture:
+> prose→LF (LEARNED) ∘ LF→comb (EXACT bracket-abstraction) ∘ comb→NF (EXACT kernel) | routing=
+> frozen statechart {C,B,K,I,W,D,S,Y,WHNF} | guards=CCG typecheck (s239 type-directed). BUILT
+> already: lambda_ast, lambda_compile, lambda_surface, reward (stage 2 runs today). NEW WORK:
+> stage 3 (compile lambda_ast→plates = the artifact) + a small from-scratch/distilled front-end.
+> **★★ FIRST EXPERIMENT (proposed): stage-2-as-trainable head-to-head — a SMALL prose→LF
+> front-end (CE on 509 certified pairs) ∘ the EXACT kernel back-end; metric = certify-rate AND
+> param-count vs the 8B-LoRA loop; decisive q: can a thin learned front-end + exact constructed
+> kernel match the giant borrowed lambda function? If yes → Qwen's pre-formed circuit is
+> unnecessary, level-4 validated; then stage 3 = the portable tensor.** OPEN (λ measure): term
+> growth (S/W duplicate → fixed-width exact only to a size/step bound, the s226 boundary); 509
+> pairs may be too thin for from-scratch → distill from a teacher; ill-typed front-end output is
+> a FEATURE (kernel S2 typecheck detects it). Captured: knowledge `compiler-as-loss.md §s242` +
+> memory `qwen-preformed-lambda-pivot-to-constructed-reducer`. NEXT SESSION: discuss the design,
+> then build the first experiment. tmux main:1 + main:2 FREE; no GPU job running.
+>
+> ---
+>
+> (Session: 241 (RLVR Design-1 — REWARD SPEC ⊕ GRPO SCAFFOLD
 > ⊕ §8 DENSITY MEASURED = BIMODAL) — ▶ BUILD.
 > Michael: "ok let's work on the RLVR Design." Built the decision-independent,
 > works-TODAY foundation of the spliced-reward thread: the canonical VERIFIABLE REWARD as an
