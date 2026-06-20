@@ -132,6 +132,22 @@ def run_train(args) -> None:
     log(f"[{args.model}] GRPO on {len(records)} prompts, G={args.k}, "
         f"temp={args.temp}, lr={args.lr}")
 
+    # SFT-seed linkage (s241 §8: pure RLVR-from-base can't learn the dead tail; the
+    # seed lifts the dead categories into a learnable frontier). GRPOTrainer's --model
+    # takes a str OR a PreTrainedModel; a bare adapter dir would NOT be applied by the
+    # internal AutoModelForCausalLM.from_pretrained, so we MERGE the SFT LoRA into the
+    # base weights HERE → a plain model, then GRPO trains a FRESH LoRA on top of the
+    # seeded weights (SFT knowledge baked in, RL explores from there).
+    model_arg: object = args.model
+    if args.adapter:
+        from peft import PeftModel
+        from transformers import AutoModelForCausalLM
+        dtype = getattr(torch, args.dtype)
+        base = AutoModelForCausalLM.from_pretrained(args.model, torch_dtype=dtype)
+        merged = PeftModel.from_pretrained(base, args.adapter).merge_and_unload()
+        log(f"  merged SFT seed adapter: {args.adapter}")
+        model_arg = merged
+
     peft_config = None
     if args.lora:
         from peft import LoraConfig
@@ -151,8 +167,9 @@ def run_train(args) -> None:
         learning_rate=args.lr,
         num_train_epochs=args.epochs,
         max_steps=args.max_steps,
-        log_completions=True,
+        log_completions=args.log_completions,
         logging_steps=args.logging_steps,
+        disable_tqdm=not args.progress,
         save_steps=args.save_steps,
         report_to="none",
         bf16=(args.dtype == "bfloat16"),
@@ -162,7 +179,7 @@ def run_train(args) -> None:
     # run-provenance sidecar (AGENTS.md λ run_provenance)
     (ckpt / "run_meta.json").write_text(json.dumps({
         "timestamp": datetime.now(UTC).isoformat(),
-        "model": args.model, "git_sha": git_sha(),
+        "model": args.model, "adapter": args.adapter, "git_sha": git_sha(),
         "torch": torch.__version__, "transformers": transformers.__version__,
         "trl": trl.__version__,
         "split": args.split, "n_prompts": len(records),
@@ -176,7 +193,7 @@ def run_train(args) -> None:
     }, indent=2), encoding="utf-8")
 
     trainer = GRPOTrainer(
-        model=args.model,
+        model=model_arg,
         reward_funcs=[kernel_reward],
         args=cfg,
         train_dataset=dataset,
@@ -201,10 +218,16 @@ def main() -> None:
     ap.add_argument("--lr", type=float, default=1e-6)
     ap.add_argument("--epochs", type=float, default=1.0)
     ap.add_argument("--max-steps", type=int, default=-1)
-    ap.add_argument("--logging-steps", type=int, default=1)
+    ap.add_argument("--logging-steps", type=int, default=10)
+    ap.add_argument("--log-completions", action="store_true",
+                    help="print the per-step sampled-completions table (verbose)")
+    ap.add_argument("--progress", action="store_true",
+                    help="show the tqdm progress bar")
     ap.add_argument("--save-steps", type=int, default=100)
     ap.add_argument("--limit", type=int, default=None)
     ap.add_argument("--lora", action="store_true", help="parameter-efficient (LoRA)")
+    ap.add_argument("--adapter", default=None,
+                    help="SFT-seed PEFT/LoRA adapter dir; merged into base before GRPO")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--dtype", default="bfloat16",
                     choices=["float32", "float16", "bfloat16"])

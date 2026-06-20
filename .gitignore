@@ -50,4 +50,7 @@ checkpoints/
 # training weights/optimizer states (reproducible from the run; keep run_meta.json + logs)
 results/**/checkpoint-*/
 results/rlvr-sft/**/final/
+results/rlvr-grpo/**/final/
+results/rlvr-grpo/**/completions/
+results/rlvr-grpo/**/run.log
 ideas.txt

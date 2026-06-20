@@ -183,7 +183,11 @@ def run_model(args) -> None:
              "bfloat16": torch.bfloat16}[args.dtype]
     tok = AutoTokenizer.from_pretrained(args.model)
     model = AutoModelForCausalLM.from_pretrained(args.model, torch_dtype=dtype)
-    if args.adapter:  # apply a LoRA/PEFT adapter (e.g. the SFT seed) on top of base
+    if args.sft_adapter:  # SFT seed MERGED into base first (GRPO trained on top of it)
+        from peft import PeftModel
+        model = PeftModel.from_pretrained(model, args.sft_adapter).merge_and_unload()
+        log(f"  merged SFT seed: {args.sft_adapter}")
+    if args.adapter:  # apply a LoRA/PEFT adapter (SFT seed, OR GRPO over a merged SFT)
         from peft import PeftModel
         model = PeftModel.from_pretrained(model, args.adapter)
         log(f"  applied adapter: {args.adapter}")
@@ -221,6 +225,7 @@ def run_model(args) -> None:
         "run_id": run_id,
         "timestamp": datetime.now(UTC).isoformat(),
         "model": args.model, "adapter": args.adapter,
+        "sft_adapter": args.sft_adapter,
         "quant": args.dtype, "model_revision": args.revision,
         "device": args.device, "git_sha": git_sha(),
         "python": platform.python_version(), "torch": torch.__version__,
@@ -266,7 +271,11 @@ def main() -> None:
     ap.add_argument("--split", default="compile-train.canonical.jsonl")
     ap.add_argument("--model", default="Qwen/Qwen3-8B")
     ap.add_argument("--adapter", default=None,
-                    help="optional PEFT/LoRA adapter dir (an SFT seed) over --model")
+                    help="PEFT/LoRA adapter dir over --model (the SFT seed, or a GRPO "
+                         "adapter when paired with --sft-adapter)")
+    ap.add_argument("--sft-adapter", default=None,
+                    help="SFT seed adapter MERGED into base before --adapter; use to "
+                         "re-measure a GRPO adapter trained on the merged seed")
     ap.add_argument("--revision", default=None)
     ap.add_argument("--k", type=int, default=8)
     ap.add_argument("--temp", type=float, default=0.8)
