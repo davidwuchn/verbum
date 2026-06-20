@@ -63,9 +63,27 @@
 > invariant op; replace local computation with exact kernel K-move; output preserved/improved vs
 > random-direction control = s239 protocol); **Exp 2 = sequence / kernel-in-the-loop** (= s226
 > stage 3 as an in-stream patch). Captured: knowledge `kernel-splice-geometry-detector.md` (NEW,
-> designing). **★★ FIRST ACTION NEXT SESSION: build Exp 0 — the detectability map on Qwen3-14B
-> (detection+causality strongest), reading the lattice classifier against certified
-> fired_sequence, per combinator/layer; output = which {C,I,K,Y} loci are splice-ready.**
+> designing). **★★ s242 cont.2 — Exp 0 BUILT + RAN (Qwen3-14B): precision-gated, not high-recall.**
+> `kernel_splice_exp0_detectability.py` (reuses prose_v2/opcode_monitor_v2 calibration +
+> last-token per-layer z; top-1 argmax-over-CRYSTAL per crystal layer vs certified
+> single-combinator label; precision/recall/F1 + peak layer; 160 test probes 20/comb,
+> n_perm=300, 2:29 on 14B). **Strict bar (prec≥0.8 ∧ rec≥0.5): splice-ready set = ∅** —
+> top-1 detection is common-mode contaminated (obstacle 1 quantified; s211 η²=0.05);
+> discriminability (prose_v2 contrast) ≠ top-1 splice-readiness. **★ BUT max-PRECISION
+> operating points are STRONG: C prec 1.0 @L10 (depth 0.26, rec 0.10), I prec 1.0 @L21
+> (0.54, rec 0.20), K prec 0.80 @L11 (0.28, rec 0.20), Y 0.67 @L20 (0.51, rec 0.40).** Loci
+> track s234 depth signatures (C/K early-mid, I mid, Y late). ⇒ "detect every K and splice"
+> FAILS (recall-limited), but **PRECISION-GATED splice (act only when confident, accept low
+> recall) IS viable — and is the SAFE first causal test.** CAVEAT (λ measure): prec 1.0 from
+> tp=2 = noisy small-n → needs a z-threshold sweep. Captured: memory
+> `kernel-splice-exp0-precision-gated-not-high-recall` + knowledge `kernel-splice-geometry-
+> detector.md §s242 Exp 0`. results/kernel-splice-exp0/exp0_verdict_qwen3-14b.json.
+> **★★ FIRST ACTION NEXT SESSION — two paths: (1) Exp 0.5 = z-THRESHOLD sweep (raise the
+> argmax-z gate → precision↑ recall↓; map the tradeoff curve, firm the splice locus +
+> kill the tp=2 small-n caveat) — cheap; (2) Exp 1 = precision-FIRST K-splice at L11
+> (deliver the exact kernel K-move only on high-confidence detections; validate output
+> preserved vs random-direction control, s239 protocol; sufficiency test).** Also OPEN:
+> Exp 2 position-resolved detection vs `lambda_ast.fired_sequence` (multi-step reductions).
 > tmux main:1 + main:2 FREE; no GPU job running.
 >
 > ---

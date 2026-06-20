@@ -107,6 +107,42 @@ Build from one splice toward decoding the program at a CUT → exact reduce → 
 (connects to compiler-as-loss §s242 stage 3: the constructed kernel, now as an in-stream
 patch rather than a standalone tensor).
 
+## ★ s242 — Exp 0 RESULTS (Qwen3-14B): precision-gated, not high-recall
+
+`scripts/experiments/kernel_splice_exp0_detectability.py` (reuses the prose_v2 /
+opcode_monitor_v2 calibration + last-token per-layer z read; top-1 argmax-over-CRYSTAL
+per crystal layer vs the certified single-combinator label; precision/recall/F1 + peak
+layer; 160 test probes, 20/comb, n_perm=300). `results/kernel-splice-exp0/exp0_verdict_qwen3-14b.json`.
+
+**Verdict @ the strict joint bar (precision≥0.8 ∧ recall≥0.5): splice-ready set = ∅.**
+Top-1 argmax detection is common-mode contaminated (obstacle 1 made quantitative; s211
+η²=0.05). Discriminability (the prose_v2 Welch contrast) is **necessary but not
+sufficient** for a top-1 splice — a contrast can separate on/off while argmax stays
+recall-poor.
+
+**But the max-precision operating points are strong (the real finding):**
+
+| op | max-prec layer | depth | precision | recall | tp/(tp+fp) |
+|----|---------------|-------|-----------|--------|-----------|
+| C  | L10 | 0.26 | **1.00** | 0.10 | 2/2 |
+| I  | L21 | 0.54 | **1.00** | 0.20 | 4/4 |
+| K  | L11 | 0.28 | **0.80** | 0.20 | 4/5 |
+| Y  | L20 | 0.51 | 0.67 | 0.40 | 8/12 |
+
+So **precision-gated splicing is viable**: at specific layers a *confident* top-1 read is
+highly reliable (C/I = 1.0, K = 0.80), just **sparse** (recall 0.10–0.20). "Detect every
+K and splice" fails; **"splice only when confident, accept low recall"** is supported —
+and that is exactly the **safe** design for a first causal test (never corrupt; act only
+when sure). Loci track the s234 depth signatures (C/K early-mid, I mid, Y late).
+
+**Caveat (λ measure):** precision 1.0 is from tp=2 (noisy small-n). The operating point
+needs a **z-threshold sweep** (raise the argmax-z gate → precision↑ recall↓) to map the
+tradeoff curve and firm the splice locus — Exp 0.5, cheap.
+
+**⇒ Exp 1 refined: a precision-FIRST K-splice at L11** — deliver the exact kernel K-move
+only on high-confidence detections, validate output preserved vs a random-direction
+control (s239). The low-recall cost is acceptable for establishing sufficiency.
+
 ## Either outcome is a result
 
 - **Splice holds** → the thesis is proven causally; a hybrid **exact + inspectable**
