@@ -1,0 +1,24 @@
+{
+  "timestamp": "2026-06-20T19:39:11.512885+00:00",
+  "model": "Qwen/Qwen3-8B",
+  "adapter": "results/rlvr-sft/run1/final",
+  "git_sha": "0698d8762fb36205ac2e812b0a793b14f6077308",
+  "torch": "2.11.0",
+  "transformers": "5.5.4",
+  "trl": "1.6.0",
+  "split": "compile-train.canonical.jsonl",
+  "n_prompts": 506,
+  "reward": "verbum.reward.verifiable_reward (R_parent, surface register)",
+  "grpo": {
+    "num_generations": 8,
+    "per_device_train_batch_size": 8,
+    "grad_accum": 4,
+    "temperature": 1.5,
+    "beta": 0.0,
+    "lr": 1e-06,
+    "max_steps": 200,
+    "epochs": 1.0,
+    "lora": true,
+    "seed": 0
+  }
+}

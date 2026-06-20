@@ -1,0 +1,36 @@
+{
+  "run_id": "rlvr-grpo/run1",
+  "session": 242,
+  "what": "RLVR Design-1 loop validation: GRPO fine-tune Qwen3-8B (SFT-seed merged + fresh LoRA) against the verifiable kernel reward, temp 1.5, on the canonical compile corpus.",
+  "config": {
+    "model": "Qwen/Qwen3-8B",
+    "sft_seed_adapter": "results/rlvr-sft/run1/final (merged into base before GRPO)",
+    "grpo_lora": true,
+    "num_generations": 8,
+    "temperature": 1.5,
+    "lr": 1e-06,
+    "max_steps": 200,
+    "reward": "verbum.reward.verifiable_reward (R_parent, surface register)"
+  },
+  "training": {
+    "steps": 200,
+    "train_runtime_s": 5787,
+    "train_loss": 0.008005,
+    "frac_reward_zero_std": "0.75 (flat across the whole run)",
+    "note": "75% of GRPO groups had zero advantage every step (easy all-8 + dead all-0); only ~25% frontier carried gradient. Most of the corpus gave GRPO nothing to learn, by construction."
+  },
+  "checkpoint50_remeasure": {
+    "result_dir": "results/rlvr-coldstart-density/20260620T195936Z",
+    "model": "Qwen3-8B + SFT-seed(merged) + GRPO checkpoint-50",
+    "categories": ["adverb", "quantified", "relative_clause"],
+    "n_prompts": 129,
+    "table": {
+      "temp_0.8": {"foothold": 0.450, "density": 0.409, "frontier": 8,  "all0": 71, "all8": 50},
+      "temp_1.0": {"foothold": 0.450, "density": 0.409, "frontier": 10, "all0": 71, "all8": 48},
+      "temp_1.2": {"foothold": 0.465, "density": 0.409, "frontier": 12, "all0": 69, "all8": 48},
+      "temp_1.5": {"foothold": 0.465, "density": 0.409, "frontier": 13, "all0": 69, "all8": 47}
+    },
+    "read": "Density dead-flat at 0.409 across all temps; ~54% of hard prompts still all-0 after SFT + 50 GRPO steps. Frontier count grows with temp (8->13) but total certified mass unchanged. 50 steps of LoRA-GRPO is a weak lever on the zero-probability dead tail."
+  },
+  "verdict": "Design-1 loop CLOSES and is measurable, but the lever is weak on the dead tail because Qwen3-8B already carries a fully-formed lambda function -- RLVR there redirects an existing capability rather than constructing one. This is the motivating CONTROL for the V15-clean pivot: move the reducer OUT of the learned model (freeze the routing topology = crystal lattice; replace reduce neurons with exact kernel calls; learn only the thin prose->LF front-end). See knowledge/explore/compiler-as-loss.md (s242 amendment)."
+}

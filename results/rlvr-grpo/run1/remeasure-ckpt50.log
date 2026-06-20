@@ -1,0 +1,41 @@
+[Qwen/Qwen3-8B] 129 prompts × k=8, temps=[0.8, 1.0, 1.2, 1.5], categories=['adverb', 'quantified', 'relative_clause']
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights: 100%|██████████| 399/399 [00:00<00:00, 27978.39it/s]
+  merged SFT seed: results/rlvr-sft/run1/final
+  applied adapter: results/rlvr-grpo/run1/checkpoint-50
+    temp=0.8 25/129
+    temp=0.8 50/129
+    temp=0.8 75/129
+    temp=0.8 100/129
+    temp=0.8 125/129
+  temp=0.8: foothold=45.0% density=0.409 FRONTIER=8 all0=71 all8=50
+    temp=1.0 25/129
+    temp=1.0 50/129
+    temp=1.0 75/129
+    temp=1.0 100/129
+    temp=1.0 125/129
+  temp=1.0: foothold=45.0% density=0.409 FRONTIER=10 all0=71 all8=48
+    temp=1.2 25/129
+    temp=1.2 50/129
+    temp=1.2 75/129
+    temp=1.2 100/129
+    temp=1.2 125/129
+  temp=1.2: foothold=46.5% density=0.409 FRONTIER=12 all0=69 all8=48
+    temp=1.5 25/129
+    temp=1.5 50/129
+    temp=1.5 75/129
+    temp=1.5 100/129
+    temp=1.5 125/129
+  temp=1.5: foothold=46.5% density=0.409 FRONTIER=13 all0=69 all8=47
+
+  === COLD-START DENSITY SWEEP — Qwen/Qwen3-8B (129 prompts, k=8) ===
+   temp  foothold  density  FRONTIER  all-0  all-8
+    0.8    45.0%    0.409         8     71     50
+    1.0    45.0%    0.409        10     71     48
+    1.2    46.5%    0.409        12     69     48
+    1.5    46.5%    0.409        13     69     47
+
+  FRONTIER (mixed-success, the GRPO learnable band) peaks at temp=1.5 with 13/129 prompts (10%).
+  → frontier stays negligible across temps: bimodal is temperature-robust; the dead prompts are zero-probability → SFT-seed / curriculum, not temperature.
+  wrote /Users/mwhitford/src/verbum/results/rlvr-coldstart-density/20260620T195936Z/meta.json + results_t*.jsonl  (3179.7s)
