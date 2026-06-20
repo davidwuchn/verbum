@@ -1,0 +1,14 @@
+{
+  "model": "Qwen/Qwen3-14B",
+  "smoke": false,
+  "git_sha": "ecbc3a410cdc8b0fb1b3c9a6c31fe2f498398ad3",
+  "timestamp_utc": "2026-06-20T22:02:07.029573+00:00",
+  "transformers_version": "5.5.4",
+  "n_layers": 40,
+  "n_perm": 300,
+  "heldout_per": 20,
+  "n_calib": 355,
+  "n_test": 160,
+  "metric": "top-1 argmax-over-CRYSTAL per crystal layer vs certified single-combinator label; precision/recall/F1 + peak layer",
+  "reference": "held-out crystal-prose combinator labels (non-circular split)"
+}

@@ -1,0 +1,34 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[exp0] calib=355 test=160 (heldout_per=20)
+[v2] Loading tokenizer: Qwen/Qwen3-14B
+[v2] Loading model: Qwen/Qwen3-14B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:01<08:50,  1.20s/it]Loading weights:   0%|          | 2/443 [00:01<05:58,  1.23it/s]Loading weights:   1%|          | 5/443 [00:01<01:54,  3.82it/s]Loading weights:   3%|▎         | 12/443 [00:01<00:37, 11.42it/s]Loading weights:   4%|▎         | 16/443 [00:02<00:28, 14.85it/s]Loading weights:   5%|▍         | 22/443 [00:02<00:19, 21.91it/s]Loading weights:   6%|▌         | 27/443 [00:02<00:16, 25.56it/s]Loading weights:   8%|▊         | 34/443 [00:02<00:12, 33.98it/s]Loading weights:   9%|▉         | 39/443 [00:02<00:13, 30.90it/s]Loading weights:  11%|█         | 48/443 [00:02<00:09, 42.42it/s]Loading weights:  12%|█▏        | 54/443 [00:02<00:09, 41.47it/s]Loading weights:  14%|█▎        | 60/443 [00:03<00:09, 41.42it/s]Loading weights:  15%|█▌        | 67/443 [00:03<00:07, 47.49it/s]Loading weights:  16%|█▋        | 73/443 [00:03<00:08, 41.84it/s]Loading weights:  18%|█▊        | 81/443 [00:03<00:07, 49.76it/s]Loading weights:  20%|█▉        | 87/443 [00:03<00:07, 47.23it/s]Loading weights:  21%|██        | 93/443 [00:03<00:07, 45.53it/s]Loading weights:  23%|██▎       | 100/443 [00:03<00:06, 50.91it/s]Loading weights:  24%|██▍       | 106/443 [00:04<00:07, 43.80it/s]Loading weights:  26%|██▌       | 114/443 [00:04<00:06, 51.47it/s]Loading weights:  27%|██▋       | 120/443 [00:04<00:06, 48.33it/s]Loading weights:  28%|██▊       | 126/443 [00:04<00:06, 46.36it/s]Loading weights:  30%|██▉       | 132/443 [00:04<00:06, 49.02it/s]Loading weights:  31%|███       | 138/443 [00:04<00:07, 42.57it/s]Loading weights:  33%|███▎      | 147/443 [00:04<00:05, 52.36it/s]Loading weights:  35%|███▍      | 153/443 [00:04<00:05, 48.47it/s]Loading weights:  36%|███▌      | 159/443 [00:05<00:06, 46.35it/s]Loading weights:  37%|███▋      | 166/443 [00:05<00:05, 50.73it/s]Loading weights:  39%|███▉      | 172/443 [00:05<00:06, 43.23it/s]Loading weights:  41%|████      | 180/443 [00:05<00:05, 50.95it/s]Loading weights:  42%|████▏     | 186/443 [00:05<00:05, 48.08it/s]Loading weights:  43%|████▎     | 192/443 [00:05<00:05, 46.13it/s]Loading weights:  45%|████▍     | 199/443 [00:05<00:04, 51.54it/s]Loading weights:  46%|████▋     | 205/443 [00:06<00:05, 44.19it/s]Loading weights:  48%|████▊     | 213/443 [00:06<00:04, 51.87it/s]Loading weights:  49%|████▉     | 219/443 [00:06<00:04, 48.45it/s]Loading weights:  51%|█████     | 225/443 [00:06<00:04, 46.33it/s]Loading weights:  52%|█████▏    | 232/443 [00:06<00:04, 51.69it/s]Loading weights:  54%|█████▎    | 238/443 [00:06<00:04, 44.26it/s]Loading weights:  56%|█████▌    | 246/443 [00:06<00:03, 51.82it/s]Loading weights:  57%|█████▋    | 252/443 [00:07<00:03, 48.40it/s]Loading weights:  58%|█████▊    | 258/443 [00:07<00:03, 46.38it/s]Loading weights:  60%|█████▉    | 265/443 [00:07<00:03, 51.77it/s]Loading weights:  61%|██████    | 271/443 [00:07<00:03, 43.51it/s]Loading weights:  63%|██████▎   | 279/443 [00:07<00:03, 51.26it/s]Loading weights:  64%|██████▍   | 285/443 [00:07<00:03, 48.15it/s]Loading weights:  66%|██████▌   | 291/443 [00:07<00:03, 46.14it/s]Loading weights:  67%|██████▋   | 297/443 [00:07<00:02, 49.20it/s]Loading weights:  68%|██████▊   | 303/443 [00:08<00:03, 42.78it/s]Loading weights:  70%|███████   | 312/443 [00:08<00:02, 52.88it/s]Loading weights:  72%|███████▏  | 318/443 [00:08<00:02, 49.13it/s]Loading weights:  73%|███████▎  | 324/443 [00:08<00:02, 46.34it/s]Loading weights:  74%|███████▍  | 330/443 [00:08<00:02, 49.15it/s]Loading weights:  76%|███████▌  | 336/443 [00:08<00:02, 42.55it/s]Loading weights:  78%|███████▊  | 345/443 [00:08<00:01, 52.54it/s]Loading weights:  79%|███████▉  | 351/443 [00:09<00:01, 49.04it/s]Loading weights:  81%|████████  | 357/443 [00:09<00:01, 46.64it/s]Loading weights:  82%|████████▏ | 363/443 [00:09<00:01, 49.30it/s]Loading weights:  83%|████████▎ | 369/443 [00:09<00:01, 42.76it/s]Loading weights:  85%|████████▌ | 378/443 [00:09<00:01, 52.95it/s]Loading weights:  87%|████████▋ | 384/443 [00:09<00:01, 49.44it/s]Loading weights:  88%|████████▊ | 390/443 [00:09<00:01, 47.08it/s]Loading weights:  90%|████████▉ | 397/443 [00:10<00:00, 52.04it/s]Loading weights:  91%|█████████ | 403/443 [00:10<00:00, 44.49it/s]Loading weights:  93%|█████████▎| 411/443 [00:10<00:00, 51.55it/s]Loading weights:  94%|█████████▍| 417/443 [00:10<00:00, 48.47it/s]Loading weights:  95%|█████████▌| 423/443 [00:10<00:00, 46.51it/s]Loading weights:  97%|█████████▋| 430/443 [00:10<00:00, 51.76it/s]Loading weights:  98%|█████████▊| 436/443 [00:10<00:00, 44.35it/s]Loading weights: 100%|██████████| 443/443 [00:10<00:00, 40.55it/s]
+[v2] Model loaded in 11.6s
+[v2] Crystal probes (last-token centroids): 355
+[v2]   centroid forward 0/355 ...
+[v2]   centroid forward 50/355 ...
+[v2]   centroid forward 100/355 ...
+[v2]   centroid forward 150/355 ...
+[v2]   centroid forward 200/355 ...
+[v2]   centroid forward 250/355 ...
+[v2]   centroid forward 300/355 ...
+[v2]   centroid forward 350/355 ...
+[v2] Building cross-task null from 12 bare natural-text prompts ...
+[v2] Null tokens pooled: 84  (null_mode=crosstask)
+[exp0] crystal layers: 28/40
+
+══════════════════════════════════════════════════════════════════════════════
+KERNEL-SPLICE EXP 0 — DETECTABILITY MAP — Qwen/Qwen3-14B
+══════════════════════════════════════════════════════════════════════════════
+  n_test=160  crystal_layers=28/40  floors: prec>=0.8 rec>=0.5
+
+  op   support  peakL  depth    prec  recall     f1  splice?
+  C         20      6  0.154  0.5833    0.35 0.4375        ·
+  I         20     10  0.256  0.3889    0.35 0.3684        ·
+  K         20     11  0.282     0.8     0.2   0.32        ·
+  Y         20     16   0.41   0.619    0.65 0.6341        ·
+
+  ★ splice-ready set: ∅
+══════════════════════════════════════════════════════════════════════════════
+
+[exp0] wrote /Users/mwhitford/src/verbum/results/kernel-splice-exp0/exp0_verdict_qwen3-14b.json
