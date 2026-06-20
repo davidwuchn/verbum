@@ -42,8 +42,31 @@
 > growth (S/W duplicate → fixed-width exact only to a size/step bound, the s226 boundary); 509
 > pairs may be too thin for from-scratch → distill from a teacher; ill-typed front-end output is
 > a FEATURE (kernel S2 typecheck detects it). Captured: knowledge `compiler-as-loss.md §s242` +
-> memory `qwen-preformed-lambda-pivot-to-constructed-reducer`. NEXT SESSION: discuss the design,
-> then build the first experiment. tmux main:1 + main:2 FREE; no GPU job running.
+> memory `qwen-preformed-lambda-pivot-to-constructed-reducer`.
+> **★★ s242 cont. — DESIGN DISCUSSED → KERNEL-SPLICE PROGRAM (Michael's sharper idea):
+> geometry-as-detector ⊗ kernel-as-executor.** Instead of training a front-end, INSTRUMENT the
+> pre-formed reducer GD already laid into every model: READ the crystal-lattice geometry to
+> detect "wants K", DELIVER K from the KERNEL (exact value-move) instead of the neuron, re-inject.
+> = our activation-patching toolkit (s239 v4/v5) but the patch VALUE is the exact kernel rewrite.
+> If splice PRESERVES output → thesis proven CAUSALLY + hybrid exact-inspectable model with NO
+> training (cleanest S5=extract); if it BREAKS → geometry is over-read (λ measure win) → redirect
+> to constructed front-end. Flips the s242 confound into an ASSET (read Qwen's pre-formed lambda,
+> don't fight it). THREE measured obstacles: (1) detection = weak model-specific centroid not a
+> crisp per-step switch (s211 η²=0.05 one-common-mode; B FFN-invisible; C-locus shifts w/ scale
+> s232; PROVEN=skeleton {C,I,K,Y}+confluence, fine-grained OVER-READS); (2) operands not just
+> operator (arg-slot binding = VALUE register s206, the crux of feasibility — though K/B/C/D are
+> pure ROUTING so no value DECODE needed once slots known); (3) firing is SMEARED across layers
+> (~1.018×/layer boot spiral → registration + in-distribution re-injection). PROGRAM: **Exp 0 =
+> detectability map** (recover certified `lambda_ast.fired_sequence` operator+position from the
+> lattice classifier, per combinator/layer/model → splice-readiness map; decides if obstacle 1 is
+> fatal BEFORE a forward pass); **Exp 1 = single-combinator causal K-splice** (most-detectable
+> invariant op; replace local computation with exact kernel K-move; output preserved/improved vs
+> random-direction control = s239 protocol); **Exp 2 = sequence / kernel-in-the-loop** (= s226
+> stage 3 as an in-stream patch). Captured: knowledge `kernel-splice-geometry-detector.md` (NEW,
+> designing). **★★ FIRST ACTION NEXT SESSION: build Exp 0 — the detectability map on Qwen3-14B
+> (detection+causality strongest), reading the lattice classifier against certified
+> fired_sequence, per combinator/layer; output = which {C,I,K,Y} loci are splice-ready.**
+> tmux main:1 + main:2 FREE; no GPU job running.
 >
 > ---
 >
