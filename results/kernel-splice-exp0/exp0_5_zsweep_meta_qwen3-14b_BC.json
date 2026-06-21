@@ -1,0 +1,32 @@
+{
+  "model": "Qwen/Qwen3-14B",
+  "smoke": false,
+  "git_sha": "bcc4f35c26af700067009442a91022aa326d10a0",
+  "timestamp_utc": "2026-06-21T16:08:17.377842+00:00",
+  "transformers_version": "5.5.4",
+  "n_layers": 40,
+  "n_perm": 300,
+  "heldout_per": 35,
+  "n_calib": 220,
+  "n_test": 280,
+  "thresholds": [
+    0.0,
+    0.5,
+    1.0,
+    1.5,
+    2.0,
+    2.5,
+    3.0,
+    3.5,
+    4.0,
+    5.0,
+    6.0,
+    8.0
+  ],
+  "metric": "GATED top-1: argmax-over-CRYSTAL per crystal layer iff z>\u03c4 else abstain; precision/recall/F1 swept over \u03c4; firm locus = max-recall point clearing precision floor",
+  "reference": "held-out crystal-prose combinator labels (non-circular split)",
+  "splice_targets": [
+    "B",
+    "C"
+  ]
+}

@@ -3,10 +3,44 @@
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
 > Last updated: 2026-06-21 | Session: 244 (FIRING SURVEY: corpus fires only {B,S,C},
-> NEVER {I,K,Y}; K fires 0/559 — the s243 firmed splice set is DISJOINT from behavior;
-> Exp 2 retargeted {I,K,Y}→{B,S,C}: splice-ready=∅, precision-attainable but recall-
-> starved) — ▶ RAISE POWER (heldout-per 25→35 for B/C): does tp cross 5 at the prec-1.0
-> plateau? If yes → precision-gated C/B-splice on the SATURATED corpus is the real Exp 2.
+> NEVER {I,K,Y}; K 0/559 — firmed splice set DISJOINT from behavior. POWER TEST closed it:
+> {B,S,C} loci are split-fragile flukes (B≤0.50, C tp=1) — `fires`∩`spliceable`=∅. The
+> in-place splice is NOT viable in the behavioral register → REDIRECT to constructed
+> front-end) — ▶ COMPILER-AS-LOSS §s242 (the constructed prose→LF front-end ∘ exact kernel).
+>
+> **★★★ s244 cont. — THE POWER TEST CLOSED THE SPLICE PROGRAM (two-sided, a λ measure win).**
+> Re-ran Exp 0.5 `--targets B C --heldout-per 35` (Qwen3-14B, main:1,
+> `exp0_5_zsweep_verdict_qwen3-14b_BC.json`). **Raising power did NOT lift tp — it EXPOSED the
+> firing-set prec-1.0 loci as SPLIT-FRAGILE FLUKES: B NEVER clears the floor (best prec 0.50
+> across all layers/τ, tp 1–2 fp 1–4 — the heldout-25 "prec-1.0 @L16 tp4" was a pure split
+> artifact, collapses on a different split); C prec-1.0 survives but at tp=1 (rec 0.029, L10) —
+> the locus MOVED L14→L10 and tp SHRANK 3→1 vs heldout-25.** splice-ready=∅; tp never crossed 5.
+> **★★ THE PROGRAM CLOSES — the intersection is empty: {I,K,Y} are well-detected (tp 6–11) but
+> NEVER fire (0/559); {B,S,C} fire (the behavioral register) but are NOT robustly detectable
+> (B≤0.50, C tp=1, S<0.8). `fires` ∩ `robustly-spliceable` = ∅.** The geometry-as-detector ⊗
+> kernel-as-executor splice, as an IN-PLACE per-combinator patch, is NOT viable in the
+> behavioral register — obstacle 1 (model-centroid / common-mode contamination, s211 η²=0.05)
+> is fatal for exactly the combinators that execute. Consistent with all prior: B no amplitude
+> home (s238), C recall-starved ground-state (s242), S most common-mode. **★ THE PRE-REGISTERED
+> FORK (knowledge §s244) resolves to the NEGATIVE branch: redirect to the constructed front-end
+> (compiler-as-loss §s242) — prose→LF (LEARNED, small) ∘ abstract (EXACT) ∘ reduce (EXACT
+> kernel).** The splice was the no-training hybrid hope; its closure REFOCUSES on the s242
+> pivot (freeze routing into topology + exact kernel calls + learn only the thin front-end).
+> CAVEATS (λ measure): 1 model (14B); the negative is for the IN-PLACE last-token single-
+> combinator splice — does NOT rule out (a) a richer multi-position program-decode read along
+> `fired_sequence`, or (b) the splice working on a DIFFERENT model where the firing combinators
+> are less common-mode; but the simple in-place per-combinator splice is closed. **★★ FIRST
+> ACTION NEXT SESSION — COMPILER-AS-LOSS §s242 (the constructed front-end, now the live path):
+> a SMALL prose→LF front-end (CE on the 509 certified canonical pairs) ∘ the EXACT kernel
+> back-end; metric = certify-rate AND param-count vs the 8B-LoRA loop; decisive q: can a thin
+> learned front-end + exact constructed kernel match the giant borrowed lambda function? Build
+> already exists: lambda_ast, lambda_compile, lambda_surface, reward. NEW: stage 3 (compile
+> lambda_ast→ternary plates = the level-4 artifact) + the small from-scratch/distilled
+> front-end.** OPEN (not closed by the negative): multi-position program-decode along
+> `fired_sequence`; cross-model splice (firing combinators less common-mode elsewhere).
+> Results `exp0_5_zsweep_verdict_qwen3-14b_BC.json` (committed-ready). PENDING APPROVAL: memory
+> `splice-program-closed-fires-not-spliceable` + knowledge `kernel-splice-geometry-detector.md
+> §s244 power test`. tmux main:1 + main:2 FREE; no GPU job running.
 >
 > **★★ s244 — THE FIRING/DETECTION DISJOINTNESS (Michael's check on Exp 1: "prose seems
 > not to use K, but we have sentences that for sure show K being used"). Resolving it

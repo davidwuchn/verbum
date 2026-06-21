@@ -11,6 +11,7 @@ related:
 depends-on:
   - vsm-statechart-tensor.md
 created: session 242
+updated: session 244
 ---
 
 # Kernel Splice — read the lattice, deliver the combinator from the kernel
@@ -310,10 +311,37 @@ common-mode-contaminated (never clears the floor here).
 
 **⇒ A behavioral splice is feasible *in principle* (B/C have prec-1.0 fp-0 loci) but would
 act on only 12–16% of firings.** Decisive next test: **raise power** — heldout-per 25→35 for
-B/C (crystal probes available: B 69, C 61) to see if tp crosses 5 at the prec-1.0 plateau. If
-it does → a precision-gated behavioral C-splice (or B-splice) on the saturated corpus is the
-real Exp 2. If tp stays <5 → obstacle 1 (model centroid) is fatal for the firing set →
-redirect to the constructed front-end (compiler-as-loss §s242).
+B/C (crystal probes available: B 69, C 61) to see if tp crosses 5 at the prec-1.0 plateau.
+
+### s244 power test — the program closes (negative branch)
+
+Re-ran `--targets B C --heldout-per 35` (Qwen3-14B,
+`exp0_5_zsweep_verdict_qwen3-14b_BC.json`). **Raising power did NOT lift tp — it exposed the
+firing-set prec-1.0 loci as SPLIT-FRAGILE FLUKES:**
+
+- **B never clears the floor at all** — best precision across every layer/τ is **0.50** (tp
+  1–2, fp 1–4). The heldout-25 "prec-1.0 @L16 tp4" was a pure split artifact; a different/
+  larger split collapses it to ≤0.50. (Consistent with s238: B has no amplitude home.)
+- **C prec-1.0 survives but at tp=1** (rec 0.029, L10) — the locus **moved** (L14→L10) and tp
+  **shrank** (3→1) vs heldout-25. One clean detection, not a usable well-powered locus.
+- **splice-ready = ∅; tp never crossed 5.**
+
+**⇒ The intersection is empty.** {I, K, Y} are well-detected (tp 6–11) but **never fire**
+(0/559); {B, S, C} **fire** (the behavioral register) but are **not robustly detectable**
+(B≤0.50, C tp=1, S<0.8). **`fires` ∩ `robustly-spliceable` = ∅.** The geometry-as-detector ⊗
+kernel-as-executor splice, **as an in-place per-combinator patch, is not viable in the
+behavioral register** — obstacle 1 (model-centroid / common-mode contamination, s211 η²=0.05)
+is fatal for exactly the combinators that execute.
+
+**The pre-registered fork resolves to the negative branch → redirect to the constructed
+front-end (compiler-as-loss §s242):** prose→LF (LEARNED, small) ∘ abstract (EXACT) ∘ reduce
+(EXACT kernel). The splice was the no-training hybrid hope; its closure refocuses on the s242
+pivot.
+
+**Caveats (λ measure):** 1 model (14B); the negative is for the **in-place last-token
+single-combinator** splice — it does NOT rule out (a) a richer multi-position program-decode
+read along `fired_sequence`, or (b) the splice working on a model where the firing combinators
+are less common-mode. But the simple in-place per-combinator splice is **closed**.
 
 ## Open questions / IOUs
 
