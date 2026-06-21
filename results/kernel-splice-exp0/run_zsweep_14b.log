@@ -1,0 +1,102 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[exp0.5] calib=310 test=200 (heldout_per=25)
+[v2] Loading tokenizer: Qwen/Qwen3-14B
+[v2] Loading model: Qwen/Qwen3-14B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<03:59,  1.84it/s]Loading weights:   4%|▍         | 17/443 [00:00<00:12, 34.51it/s]Loading weights:   9%|▉         | 39/443 [00:00<00:05, 75.23it/s]Loading weights:  14%|█▍        | 61/443 [00:00<00:03, 107.14it/s]Loading weights:  19%|█▊        | 82/443 [00:00<00:02, 132.85it/s]Loading weights:  23%|██▎       | 104/443 [00:01<00:02, 152.35it/s]Loading weights:  28%|██▊       | 126/443 [00:01<00:01, 166.94it/s]Loading weights:  33%|███▎      | 148/443 [00:01<00:01, 176.95it/s]Loading weights:  38%|███▊      | 169/443 [00:01<00:01, 185.19it/s]Loading weights:  43%|████▎     | 189/443 [00:01<00:01, 189.20it/s]Loading weights:  47%|████▋     | 209/443 [00:01<00:01, 187.03it/s]Loading weights:  52%|█████▏    | 229/443 [00:01<00:01, 184.49it/s]Loading weights:  56%|█████▌    | 248/443 [00:01<00:01, 180.73it/s]Loading weights:  61%|██████    | 270/443 [00:01<00:00, 187.01it/s]Loading weights:  66%|██████▌   | 291/443 [00:02<00:00, 187.56it/s]Loading weights:  70%|███████   | 312/443 [00:02<00:00, 193.30it/s]Loading weights:  75%|███████▌  | 334/443 [00:02<00:00, 193.94it/s]Loading weights:  80%|████████  | 356/443 [00:02<00:00, 197.09it/s]Loading weights:  85%|████████▌ | 378/443 [00:02<00:00, 197.44it/s]Loading weights:  90%|█████████ | 400/443 [00:02<00:00, 199.48it/s]Loading weights:  95%|█████████▌| 422/443 [00:02<00:00, 200.11it/s]Loading weights: 100%|██████████| 443/443 [00:02<00:00, 158.67it/s]
+[v2] Model loaded in 3.8s
+[v2] Crystal probes (last-token centroids): 310
+[v2]   centroid forward 0/310 ...
+[v2]   centroid forward 50/310 ...
+[v2]   centroid forward 100/310 ...
+[v2]   centroid forward 150/310 ...
+[v2]   centroid forward 200/310 ...
+[v2]   centroid forward 250/310 ...
+[v2]   centroid forward 300/310 ...
+[v2] Building cross-task null from 12 bare natural-text prompts ...
+[v2] Null tokens pooled: 84  (null_mode=crosstask)
+[exp0.5] crystal layers: 25/40
+[exp0.5] forward 20/200
+[exp0.5] forward 40/200
+[exp0.5] forward 60/200
+[exp0.5] forward 80/200
+[exp0.5] forward 100/200
+[exp0.5] forward 120/200
+[exp0.5] forward 140/200
+[exp0.5] forward 160/200
+[exp0.5] forward 180/200
+[exp0.5] forward 200/200
+
+══════════════════════════════════════════════════════════════════════════════════
+KERNEL-SPLICE EXP 0.5 — Z-THRESHOLD SWEEP — Qwen/Qwen3-14B
+══════════════════════════════════════════════════════════════════════════════════
+  n_test=200  crystal_layers=25/40  prec_floor=0.8
+  argmax-z dist: median=3.017 p75=4.551 p90=6.46 max=23.693
+
+  ── C  (support=25) ─ precision/recall vs τ (best layer @τ) ──
+         τ  layer   prec  recall   tp   fp
+       0.0      0   1.00    0.04    1    0
+       0.5      0   1.00    0.04    1    0
+       1.0      0   1.00    0.04    1    0
+       1.5      0   1.00    0.04    1    0
+       2.0     14   1.00    0.12    3    0
+       2.5     14   1.00    0.12    3    0
+       3.0      9   1.00    0.04    1    0
+       3.5      9   1.00    0.04    1    0
+       4.0      9   1.00    0.04    1    0
+       5.0      0   0.00    0.00    0    0
+       6.0      0   0.00    0.00    0    0
+       8.0      0   0.00    0.00    0    0
+     ★ FIRM locus: L14 (d=0.359) τ=2.0 prec=1.0 rec=0.12 tp=3 | plateau τ∈[2.0, 2.5, 3.0, 3.5, 4.0] | small-n killed=False
+
+  ── I  (support=25) ─ precision/recall vs τ (best layer @τ) ──
+         τ  layer   prec  recall   tp   fp
+       0.0     21   1.00    0.32    8    0
+       0.5     21   1.00    0.32    8    0
+       1.0     21   1.00    0.32    8    0
+       1.5     21   1.00    0.32    8    0
+       2.0     16   1.00    0.36    9    0
+       2.5     13   1.00    0.36    9    0
+       3.0     13   1.00    0.36    9    0
+       3.5     12   1.00    0.32    8    0
+       4.0     12   1.00    0.32    8    0
+       5.0     13   1.00    0.32    8    0
+       6.0     13   1.00    0.24    6    0
+       8.0      9   1.00    0.12    3    0
+     ★ FIRM locus: L10 (d=0.256) τ=2.5 prec=0.9167 rec=0.44 tp=11 | plateau τ∈[2.5, 3.0, 3.5, 4.0, 5.0, 6.0] | small-n killed=True
+
+  ── K  (support=25) ─ precision/recall vs τ (best layer @τ) ──
+         τ  layer   prec  recall   tp   fp
+       0.0      9   0.67    0.16    4    2
+       0.5      9   0.67    0.16    4    2
+       1.0      9   0.67    0.16    4    2
+       1.5      9   0.67    0.16    4    2
+       2.0      9   0.67    0.16    4    2
+       2.5      6   1.00    0.04    1    0
+       3.0      9   1.00    0.12    3    0
+       3.5     10   1.00    0.16    4    0
+       4.0     10   1.00    0.16    4    0
+       5.0     22   1.00    0.16    4    0
+       6.0     18   1.00    0.12    3    0
+       8.0     25   1.00    0.08    2    0
+     ★ FIRM locus: L18 (d=0.462) τ=3.0 prec=0.8571 rec=0.24 tp=6 | plateau τ∈[3.0, 3.5, 4.0, 5.0, 6.0] | small-n killed=True
+
+  ── Y  (support=25) ─ precision/recall vs τ (best layer @τ) ──
+         τ  layer   prec  recall   tp   fp
+       0.0     20   0.47    0.28    7    8
+       0.5     20   0.47    0.28    7    8
+       1.0     20   0.47    0.28    7    8
+       1.5     20   0.50    0.28    7    7
+       2.0     20   0.58    0.28    7    5
+       2.5     20   0.55    0.24    6    5
+       3.0     20   0.62    0.20    5    3
+       3.5     16   1.00    0.20    5    0
+       4.0     17   1.00    0.20    5    0
+       5.0     13   1.00    0.16    4    0
+       6.0     14   1.00    0.16    4    0
+       8.0     11   0.67    0.08    2    1
+     ★ FIRM locus: L14 (d=0.359) τ=5.0 prec=0.8889 rec=0.32 tp=8 | plateau τ∈[5.0, 6.0] | small-n killed=True
+
+  ★ splice-ready (clears floor ∧ tp>=5): ['I', 'K', 'Y']
+══════════════════════════════════════════════════════════════════════════════════
+
+[exp0.5] wrote /Users/mwhitford/src/verbum/results/kernel-splice-exp0/exp0_5_zsweep_verdict_qwen3-14b.json
