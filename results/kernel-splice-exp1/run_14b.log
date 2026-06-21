@@ -1,0 +1,54 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[exp1] calib=310 test=200 patch_layer=18
+[v2] Loading tokenizer: Qwen/Qwen3-14B
+[v2] Loading model: Qwen/Qwen3-14B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<06:43,  1.09it/s]Loading weights:   6%|▌         | 26/443 [00:01<00:12, 34.23it/s]Loading weights:  11%|█         | 48/443 [00:01<00:06, 63.10it/s]Loading weights:  16%|█▌        | 70/443 [00:01<00:04, 89.84it/s]Loading weights:  21%|██        | 92/443 [00:01<00:03, 114.87it/s]Loading weights:  26%|██▌       | 114/443 [00:01<00:02, 134.28it/s]Loading weights:  31%|███       | 136/443 [00:01<00:02, 151.79it/s]Loading weights:  36%|███▌      | 158/443 [00:01<00:01, 165.99it/s]Loading weights:  41%|████      | 180/443 [00:01<00:01, 177.22it/s]Loading weights:  46%|████▌     | 202/443 [00:01<00:01, 185.44it/s]Loading weights:  51%|█████     | 224/443 [00:02<00:01, 189.30it/s]Loading weights:  56%|█████▌    | 246/443 [00:02<00:01, 192.01it/s]Loading weights:  60%|██████    | 268/443 [00:02<00:00, 195.47it/s]Loading weights:  65%|██████▌   | 290/443 [00:02<00:00, 196.98it/s]Loading weights:  70%|███████   | 312/443 [00:02<00:00, 199.03it/s]Loading weights:  75%|███████▌  | 334/443 [00:02<00:00, 198.29it/s]Loading weights:  80%|████████  | 355/443 [00:02<00:00, 201.27it/s]Loading weights:  85%|████████▍ | 376/443 [00:02<00:00, 195.37it/s]Loading weights:  89%|████████▉ | 396/443 [00:02<00:00, 195.22it/s]Loading weights:  94%|█████████▍| 416/443 [00:02<00:00, 193.37it/s]Loading weights:  98%|█████████▊| 436/443 [00:03<00:00, 187.84it/s]Loading weights: 100%|██████████| 443/443 [00:03<00:00, 142.80it/s]
+[v2] Model loaded in 3.7s
+[v2] Crystal probes (last-token centroids): 310
+[v2]   centroid forward 0/310 ...
+[v2]   centroid forward 50/310 ...
+[v2]   centroid forward 100/310 ...
+[v2]   centroid forward 150/310 ...
+[v2]   centroid forward 200/310 ...
+[v2]   centroid forward 250/310 ...
+[v2]   centroid forward 300/310 ...
+[v2] Building cross-task null from 12 bare natural-text prompts ...
+[v2] Null tokens pooled: 84  (null_mode=crosstask)
+[exp1] crystal 25/40; patch L18
+[exp1] baseline 25/200
+[exp1] baseline 50/200
+[exp1] baseline 75/200
+[exp1] baseline 100/200
+[exp1] baseline 125/200
+[exp1] baseline 150/200
+[exp1] baseline 175/200
+[exp1] baseline 200/200
+[exp1] d_K built: |d_raw|=26.181 canonical_mag=33.152
+[exp1] detected-K (z(K)@L18>3.0): 6/25  nonK=175
+[exp1] arm 1: NECESSITY (ablate on detected-K) ...
+[exp1] arm 2: PRESERVE (set canonical on detected-K) ...
+[exp1] arm 3: DELIVERY (inject canonical on non-K) ...
+
+══════════════════════════════════════════════════════════════════════════════════
+KERNEL-SPLICE EXP 1 — CAUSAL K-SPLICE — Qwen/Qwen3-14B  L18
+══════════════════════════════════════════════════════════════════════════════════
+  detected-K=6  nonK=175  canonical_mag=33.152  tau=3.0
+
+  -- NECESSITY (ablate d_K on detected-K; expect K perturbs MORE) --
+     KL_out  K=0.0044 rand=0.0005 d=0.0039 t=3.065
+     zKds  d_K=-0.3652 d_rand=-0.0069  after K=4.819 r=5.1773
+     => necessity_ok = True
+
+  -- PRESERVE (set d_K->canon on detected-K; K perturbs LESS) --
+     KL_out  K=0.0022 rand=0.009 d=-0.0069 t=-1.758
+     => preserve_ok = False
+
+  -- DELIVERY (inject d_K->canon on non-K; drives downstream K) --
+     zKds  K=0.0971 rand=-0.2692 d=0.3662 t=16.274
+     frac zKds>tau  K=0.023 rand=0.011  KL_out d=-0.0017
+     => delivery_ok = True
+
+  * SPLICE CAUSAL (necessity AND delivery) = True   [preserve=False]
+══════════════════════════════════════════════════════════════════════════════════
+
+[exp1] wrote /Users/mwhitford/src/verbum/results/kernel-splice-exp1/exp1_verdict_qwen3-14b.json
