@@ -1,0 +1,9 @@
+{
+  "timestamp_utc": "2026-06-21T15:57:27.986486+00:00",
+  "corpus": {
+    "train": "data/compile-train.canonical.jsonl",
+    "test": "data/compile-test.canonical.jsonl",
+    "eval": "data/compile-eval.canonical.jsonl"
+  },
+  "method": "saturate quantifier predicates with fresh witnesses, reduce, collect fired_sequence (the certified per-step opcode trace)"
+}

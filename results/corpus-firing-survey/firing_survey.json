@@ -1,0 +1,155 @@
+{
+  "corpus_items": 559,
+  "non_normal_form_after_saturation": 0,
+  "saturation": "quantifier predicate applied to fresh witness, then reduced",
+  "present_inert": {
+    "B": 135,
+    "S": 76,
+    "C": 42,
+    "I": 1
+  },
+  "fired_total": {
+    "B": 68,
+    "S": 55,
+    "C": 15
+  },
+  "items_firing_per_combinator": {
+    "B": 55,
+    "S": 54,
+    "C": 15
+  },
+  "fired_by_category": {
+    "quantified": {
+      "B": 62,
+      "S": 50,
+      "C": 13
+    },
+    "negation": {
+      "B": 3,
+      "S": 2
+    },
+    "relative_clause": {
+      "S": 2,
+      "B": 2,
+      "C": 1
+    },
+    "attitude": {
+      "S": 1,
+      "B": 1,
+      "C": 1
+    }
+  },
+  "fires_set": [
+    "B",
+    "C",
+    "S"
+  ],
+  "never_fires_set": [
+    "D",
+    "I",
+    "K",
+    "M",
+    "W",
+    "Y"
+  ],
+  "exp0_5_firmed_splice_set": [
+    "I",
+    "K",
+    "Y"
+  ],
+  "disjoint_from_firing_set": true,
+  "K_fires_in_items": 0,
+  "examples": {
+    "B": [
+      {
+        "input": "Every artist knows a baker.",
+        "kernel_term": "forall (S (B implies artist) (C knows baker))",
+        "fired_sequence": [
+          "S",
+          "B",
+          "C"
+        ]
+      },
+      {
+        "input": "Every cat fears a dog.",
+        "kernel_term": "forall (S (B implies cat) (B exists (B (S (B and dog)) fears)))",
+        "fired_sequence": [
+          "S",
+          "B",
+          "B",
+          "B"
+        ]
+      },
+      {
+        "input": "Every judge finds a writer.",
+        "kernel_term": "forall (S (B implies judge) (B exists (B (S (B and writer)) finds)))",
+        "fired_sequence": [
+          "S",
+          "B",
+          "B",
+          "B"
+        ]
+      }
+    ],
+    "C": [
+      {
+        "input": "Every artist knows a baker.",
+        "kernel_term": "forall (S (B implies artist) (C knows baker))",
+        "fired_sequence": [
+          "S",
+          "B",
+          "C"
+        ]
+      },
+      {
+        "input": "Every farmer likes a woman.",
+        "kernel_term": "forall (S (B implies farmer) (C likes woman))",
+        "fired_sequence": [
+          "S",
+          "B",
+          "C"
+        ]
+      },
+      {
+        "input": "Every man fears a king.",
+        "kernel_term": "forall (S (B implies man) (C fears king))",
+        "fired_sequence": [
+          "S",
+          "B",
+          "C"
+        ]
+      }
+    ],
+    "S": [
+      {
+        "input": "Every artist knows a baker.",
+        "kernel_term": "forall (S (B implies artist) (C knows baker))",
+        "fired_sequence": [
+          "S",
+          "B",
+          "C"
+        ]
+      },
+      {
+        "input": "Every cat fears a dog.",
+        "kernel_term": "forall (S (B implies cat) (B exists (B (S (B and dog)) fears)))",
+        "fired_sequence": [
+          "S",
+          "B",
+          "B",
+          "B"
+        ]
+      },
+      {
+        "input": "Every judge finds a writer.",
+        "kernel_term": "forall (S (B implies judge) (B exists (B (S (B and writer)) finds)))",
+        "fired_sequence": [
+          "S",
+          "B",
+          "B",
+          "B"
+        ]
+      }
+    ]
+  }
+}

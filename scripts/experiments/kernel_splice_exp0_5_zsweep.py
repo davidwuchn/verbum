@@ -69,7 +69,10 @@ from relational_opcode import CRYSTAL  # noqa: E402
 RESULTS_DIR = _ROOT / "results" / "kernel-splice-exp0"
 
 # the invariant discriminable set we care about for splicing (s234/s238).
-SPLICE_TARGETS = ["C", "I", "K", "Y"]
+# s244: the certified corpus only ever FIRES {B, S, C} (corpus_firing_survey.py);
+# {I, K, Y} (the s243 firmed set) fire in 0 items — disjoint from behavior. Use
+# --targets B S C to sweep the combinators that actually execute a reduction.
+DEFAULT_SPLICE_TARGETS = ["C", "I", "K", "Y"]
 
 # default z-gate grid (argmax-z is a sign-CMR raw-z; magnitudes ~0 to 10).
 DEFAULT_THRESHOLDS = [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 5.0, 6.0, 8.0]
@@ -101,9 +104,13 @@ def main() -> None:
                     help="min precision to count a (layer,tau) operating point")
     ap.add_argument("--thresholds", type=float, nargs="+", default=None,
                     help="z-gate grid (default: 0..8 ladder)")
+    ap.add_argument("--targets", nargs="+", default=None,
+                    help="splice-target combinators to sweep (default: C I K Y; "
+                         "s244: use B S C = the set that actually fires in the corpus)")
     ap.add_argument("--smoke", action="store_true")
     args = ap.parse_args()
 
+    splice_targets = args.targets if args.targets else DEFAULT_SPLICE_TARGETS
     thresholds = sorted(args.thresholds if args.thresholds else DEFAULT_THRESHOLDS)
     model_name = args.model
     if args.smoke:
@@ -144,9 +151,9 @@ def main() -> None:
 
     # ── SWEEP: per (combinator, layer, τ) precision/recall/F1 with abstention ───────
     # curve[c] = list over τ of the best-layer operating point at that τ.
-    curve: dict[str, list] = {c: [] for c in SPLICE_TARGETS}
+    curve: dict[str, list] = {c: [] for c in splice_targets}
     # grid[c] = every (layer, τ) point clearing prec floor, for operating-point search.
-    grid_points: dict[str, list] = {c: [] for c in SPLICE_TARGETS}
+    grid_points: dict[str, list] = {c: [] for c in splice_targets}
 
     for tau in thresholds:
         # confusion[li][true][pred] for this τ
@@ -158,7 +165,7 @@ def main() -> None:
                 pred = gated_pred(zc.get(li, {}), tau)
                 if pred is not None:
                     conf[li][true_c][pred] += 1
-        for c in SPLICE_TARGETS:
+        for c in splice_targets:
             best = None
             for li in crystal_layers:
                 tp = conf[li][c][c]
@@ -178,7 +185,7 @@ def main() -> None:
     # ── operating points + plateau check ───────────────────────────────────────────
     n_layers_minus = max(1, n_layers - 1)
     operating: dict[str, dict] = {}
-    for c in SPLICE_TARGETS:
+    for c in splice_targets:
         pts = grid_points[c]
         if not pts:
             operating[c] = {
@@ -221,12 +228,13 @@ def main() -> None:
 
     verdict = {
         "model": model_name, "n_test": len(cached),
+        "splice_targets": splice_targets,
         "n_layers": n_layers, "crystal_layers": crystal_layers,
         "support": dict(support), "thresholds": thresholds,
         "precision_floor": args.precision_floor,
         "argmax_z_distribution": z_dist,
         "operating_points": operating,
-        "splice_ready_set": [c for c in SPLICE_TARGETS
+        "splice_ready_set": [c for c in splice_targets
                              if operating.get(c, {}).get("clears_floor")
                              and operating[c].get("small_n_caveat_killed")],
     }
@@ -239,7 +247,7 @@ def main() -> None:
           f"  prec_floor={args.precision_floor}")
     print(f"  argmax-z dist: median={z_dist['median']} p75={z_dist['p75']} "
           f"p90={z_dist['p90']} max={z_dist['max']}")
-    for c in SPLICE_TARGETS:
+    for c in splice_targets:
         print(f"\n  ── {c}  (support={support.get(c, 0)}) ─ precision/recall vs τ "
               f"(best layer @τ) ──")
         print(f"     {'τ':>5}{'layer':>7}{'prec':>7}{'recall':>8}{'tp':>5}{'fp':>5}")
@@ -262,8 +270,11 @@ def main() -> None:
 
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     slug = model_name.split("/")[-1].lower().replace(".", "-")
+    # tag the file with the target set so non-default sweeps don't clobber {C,I,K,Y}.
+    tgt = "".join(splice_targets)
+    tag = "" if splice_targets == DEFAULT_SPLICE_TARGETS else f"_{tgt}"
     out = {"verdict": verdict, "pr_curve": curve, "calibration_summary": cal}
-    (RESULTS_DIR / f"exp0_5_zsweep_verdict_{slug}.json").write_text(
+    (RESULTS_DIR / f"exp0_5_zsweep_verdict_{slug}{tag}.json").write_text(
         json.dumps(_json_safe(out), indent=2), encoding="utf-8")
     meta = {
         "model": model_name, "smoke": args.smoke, "git_sha": _git_sha(),
@@ -276,9 +287,10 @@ def main() -> None:
                   "point clearing precision floor",
         "reference": "held-out crystal-prose combinator labels (non-circular split)",
     }
-    (RESULTS_DIR / f"exp0_5_zsweep_meta_{slug}.json").write_text(
+    meta["splice_targets"] = splice_targets
+    (RESULTS_DIR / f"exp0_5_zsweep_meta_{slug}{tag}.json").write_text(
         json.dumps(meta, indent=2), encoding="utf-8")
-    print(f"[exp0.5] wrote {RESULTS_DIR}/exp0_5_zsweep_verdict_{slug}.json")
+    print(f"[exp0.5] wrote {RESULTS_DIR}/exp0_5_zsweep_verdict_{slug}{tag}.json")
 
 
 if __name__ == "__main__":
