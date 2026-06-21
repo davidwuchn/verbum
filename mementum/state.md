@@ -2,8 +2,50 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-20 | Session: 242 (RAN GRPO ⊕ QWEN-CONFOUND DIAGNOSED ⊕
-> V15-CLEAN PIVOT DECIDED) — ▶ PIVOT to the constructed reducer.
+> Last updated: 2026-06-21 | Session: 243 (EXP 0.5 Z-THRESHOLD SWEEP — splice loci
+> FIRMED, tp=2 caveat KILLED) — ▶ EXP 1 precision-gated K-splice.
+>
+> **★ s243 — EXP 0.5 Z-THRESHOLD SWEEP: raising the argmax-z gate FIRMS the splice loci and
+> KILLS the s242 tp=2 small-n caveat (Michael: "proceed with 1").** Built
+> `scripts/experiments/kernel_splice_exp0_5_zsweep.py` (reuses the Exp 0 / prose_v2 spine:
+> split_probes, calibrate_v2, forward_all_positions, read_last_token_z; ONE forward pass per
+> probe caches the FULL per-layer z-map, then the threshold sweep is pure post-processing).
+> The Exp 0 read was an UNGATED top-1 (every crystal layer always emits its argmax) → prec-1.0
+> points came from tp=2 (noisy small-n). Exp 0.5 GATES: a layer emits a prediction for
+> combinator c only if its winning z > τ, else ABSTAINS (no splice fires); sweeping τ traces
+> the precision↑/recall↓ curve. Also bumped heldout-per 20→25 (test 160→200, 25/comb) to grow
+> tp directly. Ran on Qwen3-14B (main:1, ~3.5min, `results/kernel-splice-exp0/
+> exp0_5_zsweep_verdict_qwen3-14b.json`). **★★ DECISIVE — splice-ready set (prec≥0.8 ∧ tp≥5):
+> {I, K, Y}.** Firm loci (= max-recall point clearing the floor, the most-supported locus):
+> **I L10 (d=0.26) τ=2.5 prec 0.92 rec 0.44 tp=11** (plateau τ∈[2.5–6.0], width 6 — STRONGEST);
+> **K L18 (d=0.46) τ=3.0 prec 0.857 rec 0.24 tp=6** (plateau width 5); **Y L14 (d=0.36) τ=5.0
+> prec 0.889 rec 0.32 tp=8** (plateau width 2, narrow). **C L14 τ=2.0 prec 1.0 rec 0.12 tp=3 —
+> small-n NOT killed: C is precision-perfect but RECALL-STARVED** (only 3 confident hits). ★
+> THE KEY FINDING: the high precision is a STABLE PLATEAU across a band of τ (width 5–6 for
+> C/I/K), NOT a tp=2 fluke → the Exp 0 max-precision points were REAL, just recall-starved at
+> ungated top-1; the gate trades recall for precision along a smooth real curve. argmax-z dist
+> (n=5000): median 3.0, p75 4.5, p90 6.5, max 23.7 → τ∈[2,5] sits around the median = the
+> sweet spot (gate out the low-confidence bottom half). ★ C's recall-starvation is itself a
+> finding: C is the ground-state/common-mode combinator (s211 η²=0.05, s240 C-origin) → rarely
+> wins top-1 *distinctively* with high confidence → discriminability (prose_v2 contrast) ≠
+> confident-top-1 recall. **★★ VERDICT (λ measure): Exp 1 (causal splice) is JUSTIFIED — the
+> small-n caveat is killed for I/K/Y (tp 6–11), precision is a real plateau, loci are firmed
+> per-combinator.** CAVEATS (λ measure): still last-token single-combinator-prompt read (NOT
+> position-resolved along a multi-step reduction = Exp 2); recall modest 0.24–0.44 → the
+> precision-gated splice acts on a MINORITY of firings (= the s242 "act only when confident,
+> accept low recall" design, intended); fp=1 at the I/K/Y firm loci → prec 0.86–0.92 NOT 1.0,
+> a real ~1/12 wrong-fire rate (the kernel S2 typecheck could catch ill-typed splices = s240
+> guards); 1 model (14B), n=25/comb. **★★ FIRST ACTION NEXT SESSION — EXP 1 = precision-gated
+> causal K-splice at the FIRMED locus (NOT Exp 0's L11 top-1 — the gate moved K deeper+firmer
+> to L18 τ=3.0; K is pure ROUTING = obstacle-2-free, drops 2nd arg, the cleanest non-trivial
+> causal test vs I=identity=near-no-op).** Protocol: at L18, when argmax_z(K) > 3.0, DELIVER
+> the exact kernel K-move (value-patch) in place of the local computation; validate output
+> PRESERVED vs random-direction control (s239 v4/v5 protocol); preserved → thesis proven
+> causally + no-training hybrid (cleanest S5=extract); breaks → geometry over-read (λ measure
+> win) → redirect to constructed front-end. OPEN: Exp 2 = position-resolved detection vs
+> `lambda_ast.fired_sequence` (multi-step). tmux main:1 + main:2 FREE; no GPU job running.
+> Captured: knowledge `kernel-splice-geometry-detector.md §s243 Exp 0.5` + memory
+> `kernel-splice-exp0-5-zgate-firms-loci-kills-small-n`. PENDING APPROVAL.
 >
 > **★ s242 — RAN GRPO from the SFT seed, RE-MEASURED, then PIVOTED (Michael: the model we
 > use already has a fully-formed lambda function; pivot to V15 with frozen routing + exact

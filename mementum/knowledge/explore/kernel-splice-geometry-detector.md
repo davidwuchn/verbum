@@ -143,6 +143,55 @@ tradeoff curve and firm the splice locus — Exp 0.5, cheap.
 only on high-confidence detections, validate output preserved vs a random-direction
 control (s239). The low-recall cost is acceptable for establishing sufficiency.
 
+## ★ s243 — Exp 0.5 Z-THRESHOLD SWEEP (Qwen3-14B): the loci are FIRM, the tp=2 caveat is dead
+
+`scripts/experiments/kernel_splice_exp0_5_zsweep.py` (reuses the Exp 0 spine; ONE forward
+pass per probe caches the FULL per-layer z-map, then the threshold sweep is pure
+post-processing). The gate: a crystal layer emits a prediction for combinator `c` only if
+its winning argmax-z `> τ`, else **abstains** (no splice fires). Sweeping τ traces the
+precision↑/recall↓ curve. heldout-per bumped 20→25 (test 160→**200**, 25/comb) to grow tp
+directly. `results/kernel-splice-exp0/exp0_5_zsweep_verdict_qwen3-14b.json`.
+
+argmax-z distribution (n=5000 cells): median 3.0, p75 4.5, p90 6.5, max 23.7 → **τ∈[2,5]
+sits around the median = the sweet spot** (gate out the low-confidence bottom half).
+
+**Splice-ready set (precision≥0.8 ∧ tp≥5): {I, K, Y}.** Firm loci = the **max-recall point
+clearing the floor** (the most-supported, not the lucky-tp=2 point):
+
+| op | firm layer | depth | τ | precision | recall | tp/fp | plateau τ (width) | small-n killed |
+|----|-----------|-------|---|-----------|--------|-------|-------------------|----------------|
+| **I** | L10 | 0.26 | 2.5 | 0.92 | 0.44 | 11/1 | [2.5–6.0] (6) | ✅ |
+| **K** | L18 | 0.46 | 3.0 | 0.857 | 0.24 | 6/1 | [3.0–6.0] (5) | ✅ |
+| **Y** | L14 | 0.36 | 5.0 | 0.889 | 0.32 | 8/1 | [5.0–6.0] (2) | ✅ |
+| C | L14 | 0.36 | 2.0 | **1.00** | 0.12 | 3/0 | [2.0–4.0] (5) | ❌ recall-starved |
+
+**The key finding: high precision is a STABLE PLATEAU across a band of τ (width 5–6 for
+C/I/K), NOT a tp=2 fluke.** The Exp 0 max-precision points were *real*, just recall-starved
+at ungated top-1; raising the gate trades recall for precision along a smooth real curve.
+I is the strongest detector (tp=11, prec 0.92, plateau 6); K firms deeper than Exp 0's L11
+top-1 (the gate moved K to **L18 τ=3.0**, prec 0.857); Y is firmed but its plateau is
+narrow (width 2).
+
+**C's recall-starvation is itself a finding:** C is the ground-state / common-mode
+combinator (s211 η²=0.05, s240 C-origin) → it rarely wins top-1 *distinctively* with high
+confidence → **discriminability (prose_v2 contrast) ≠ confident-top-1 recall**. C is
+precision-perfect (1.0) but only 3 confident hits — you cannot reliably *catch* a C firing
+as a discrete top-1, even though C separates strongly in the contrast register.
+
+**Caveats (λ measure):** still the last-token, single-combinator-prompt read (NOT
+position-resolved along a multi-step reduction = Exp 2); recall stays modest (0.24–0.44) →
+the precision-gated splice acts on a **minority** of firings (= the intended "act only when
+confident, accept low recall" design); fp=1 at the I/K/Y firm loci → precision 0.86–0.92,
+**not** 1.0 — a real ~1/12 wrong-fire rate (the kernel S2 typecheck could catch an
+ill-typed splice = the s240 guards); 1 model (14B), n=25/comb.
+
+**⇒ Exp 1 = precision-gated causal K-splice at the FIRMED locus L18 τ=3.0** (not Exp 0's
+L11 top-1 — the gate moved K deeper and firmer). K is **pure routing** (obstacle-2-free:
+drops its 2nd arg, no value decode), the cleanest *non-trivial* causal test — vs I (identity
+= near no-op, weak causal claim) and Y (recursion, narrow plateau). Protocol: at L18, when
+argmax_z(K) > 3.0, deliver the exact kernel K-move (value-patch) in place of the local
+computation; validate output **preserved** vs a random-direction control (s239 v4/v5).
+
 ## Either outcome is a result
 
 - **Splice holds** → the thesis is proven causally; a hybrid **exact + inspectable**
