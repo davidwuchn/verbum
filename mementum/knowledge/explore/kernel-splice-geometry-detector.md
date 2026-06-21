@@ -255,6 +255,66 @@ exact kernel K-move at the firmed locus, measure **reduction-correctness preserv
 - **Splice breaks** → the decodable geometry is decorative / over-read (another λ measure
   win) → redirect to the constructed-front-end path (compiler-as-loss §s242).
 
+## s244 — the firing/detection disjointness (Exp 2 retargeted before it ran)
+
+Michael's check on Exp 1: "prose seems not to use K, but we have sentences that for sure
+show K being used." Resolving it overturned the Exp 2 plan **before a forward pass** — a
+λ measure win (cheap CPU survey caught a wrong target).
+
+**`fired_sequence` is empty on every stored term — by construction.** The canonical corpus
+(`data/compile-*.canonical.jsonl`) stores `kernel_term` = the **point-free / already-normal**
+logical form. Bracket abstraction (Turner 1979) is the *inverse* of reduction: it emits
+**under-applied (inert)** combinators that fire nothing until applied to arguments. So
+`fired_sequence(parse(kernel_term)) == []` for all 559. To see firing you must **saturate**:
+a quantifier `forall P` applies the one-place predicate `P` to a witness.
+
+**The firing survey** (`scripts/experiments/corpus_firing_survey.py`,
+`results/corpus-firing-survey/`) saturates every quantifier with a fresh witness, reduces,
+collects the certified opcode trace:
+
+| comb | present (inert) | **fires** | items | where |
+|---|---|---|---|---|
+| **B** (compose) | 135 | **68** | 55 | quantified |
+| **S** (distribute) | 76 | **55** | 54 | quantified |
+| **C** (swap) | 42 | **15** | 15 | quantified |
+| I / K / W / D / Y / M | ≤1 | **0** | 0 | — |
+
+**The corpus fires only {B, S, C}. K fires in 0/559.** The s243 firmed splice set **{I, K, Y}
+is disjoint from the firing set** — which *fully explains* Exp 1: K is routing-causal but
+behaviorally null **because K never executes a reduction in this corpus**. There was nothing
+behavioral to preserve.
+
+**Ties to the Qwen3-4B `λx.` probe artifact (the distilled probes).** A vacuous binder `λx.`
+compiles (bracket abstraction) to **K** (the const). But the real compiler emits **S/B/C** for
+"Every X verbs a Y", **never K**. So Qwen's inserted `λx.` was manufacturing spurious
+K-structure the kernel never produces — **the splice mismatch and the bad-probe artifact are
+the same bug, two sides.** K is a Qwen surface-string ghost, not a kernel reduction step.
+
+**Exp 2 retargeted {I,K,Y} → {B,S,C} (Exp 0.5 z-sweep, Qwen3-14B,
+`exp0_5_zsweep_verdict_qwen3-14b_BSC.json`, `--targets B S C`, heldout-per 25):**
+
+| comb | firm locus | prec | recall | tp | fp | plateau | small-n killed |
+|---|---|---|---|---|---|---|---|
+| **C** | L14 (d=0.36) τ=2.0 | 1.0 | 0.12 | 3 | 0 | τ∈[2.0–4.0] w=5 | ✗ |
+| **B** | L16 (d=0.41) τ=5.0 | 1.0 | 0.16 | 4 | 0 | τ∈[5.0–6.0] w=2 | ✗ |
+| **S** | — | <0.8 | — | — | — | — | ✗ (never clears floor) |
+
+**splice-ready set = ∅.** The honest two-sided read (λ measure): the firing combinators are
+**precision-attainable but recall-starved** — B and C reach prec 1.0 with fp=0 at stable
+plateaux (C width 5 reproduces s243 exactly), but tp 3–4 (recall 0.12–0.16) **does not clear
+the tp≥5 small-n bar**; S never reaches precision 0.8 at all. Mirror image of {I,K,Y} (tp
+6–11, well-powered, but never fire). **The combinators that fire are exactly the hardest to
+detect — the real splice obstacle, now quantified.** Consistent with prior characterization:
+B has no amplitude home (s238), C is the recall-starved ground-state (s242), S is the most
+common-mode-contaminated (never clears the floor here).
+
+**⇒ A behavioral splice is feasible *in principle* (B/C have prec-1.0 fp-0 loci) but would
+act on only 12–16% of firings.** Decisive next test: **raise power** — heldout-per 25→35 for
+B/C (crystal probes available: B 69, C 61) to see if tp crosses 5 at the prec-1.0 plateau. If
+it does → a precision-gated behavioral C-splice (or B-splice) on the saturated corpus is the
+real Exp 2. If tp stays <5 → obstacle 1 (model centroid) is fatal for the firing set →
+redirect to the constructed front-end (compiler-as-loss §s242).
+
 ## Open questions / IOUs
 
 - **Locus calibration.** The readable zone migrates with scale (s232) — Exp 0 must

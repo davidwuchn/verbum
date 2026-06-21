@@ -2,9 +2,56 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-21 | Session: 243 (EXP 0.5 SWEEP firms loci ⊕ EXP 1 CAUSAL
-> K-SPLICE: geometry is causal in the ROUTING register, weak in the BEHAVIORAL) —
-> ▶ EXP 2 operand-bound splice on the certified corpus.
+> Last updated: 2026-06-21 | Session: 244 (FIRING SURVEY: corpus fires only {B,S,C},
+> NEVER {I,K,Y}; K fires 0/559 — the s243 firmed splice set is DISJOINT from behavior;
+> Exp 2 retargeted {I,K,Y}→{B,S,C}: splice-ready=∅, precision-attainable but recall-
+> starved) — ▶ RAISE POWER (heldout-per 25→35 for B/C): does tp cross 5 at the prec-1.0
+> plateau? If yes → precision-gated C/B-splice on the SATURATED corpus is the real Exp 2.
+>
+> **★★ s244 — THE FIRING/DETECTION DISJOINTNESS (Michael's check on Exp 1: "prose seems
+> not to use K, but we have sentences that for sure show K being used"). Resolving it
+> OVERTURNED the Exp 2 plan BEFORE a forward pass (a λ measure win — cheap CPU survey
+> caught a wrong target).** **(1) WHY `fired_sequence(parse(kernel_term))`==[] for all 559:**
+> the canonical corpus stores `kernel_term` = the POINT-FREE / already-NORMAL form. Bracket
+> abstraction (Turner 1979) is the INVERSE of reduction → it emits UNDER-APPLIED (inert)
+> combinators that fire nothing until applied to arguments. To see firing you must SATURATE:
+> a quantifier `forall P` applies the one-place predicate P to a witness. **(2) THE FIRING
+> SURVEY** (`scripts/experiments/corpus_firing_survey.py`, `results/corpus-firing-survey/`,
+> CPU, ruff-clean): saturate every quantifier with a fresh witness, reduce, collect the
+> certified opcode trace. **★★ THE CORPUS FIRES ONLY {B,S,C}** (B 68× in 55 items, S 55×/54,
+> C 15×/15, all in `quantified`); **NEVER {I,K,W,D,Y,M}; K fires 0/559.** **(3) ★ THE CRUX —
+> the s243 firmed splice set {I,K,Y} is DISJOINT from the firing set {B,S,C}** → FULLY
+> EXPLAINS Exp 1 (K routing-causal but behaviorally NULL): K never executes a reduction in
+> this corpus, so there was nothing behavioral to preserve. The detector found K-shaped
+> const-STRUCTURE; the corpus never RUNS it. **(4) ★ TIES TO THE Qwen3-4B `λx.` PROBE ARTIFACT
+> (the distilled probes): a vacuous binder `λx.` compiles (bracket abstraction) to K (const),
+> but the real compiler emits S/B/C for "Every X verbs a Y", NEVER K. Qwen's inserted `λx.`
+> was manufacturing spurious K-structure the kernel never produces — the splice mismatch and
+> the bad-probe artifact are the SAME bug, two sides.** **(5) EXP 2 RETARGETED {I,K,Y}→{B,S,C}
+> (Exp 0.5 z-sweep, added `--targets` open-slot, Qwen3-14B, heldout-per 25, ~main:1,
+> `exp0_5_zsweep_verdict_qwen3-14b_BSC.json`): splice-ready=∅. C FIRM L14 (d=0.36) τ=2.0 prec
+> 1.0 fp=0 rec 0.12 tp=3 (plateau τ∈[2.0–4.0] w=5, REPRODUCES s243 C exactly); B FIRM L16
+> (d=0.41) τ=5.0 prec 1.0 fp=0 rec 0.16 tp=4 (plateau w=2); S NEVER clears prec 0.8.** **★★
+> VERDICT (λ measure, two-sided): the firing combinators are PRECISION-ATTAINABLE but
+> RECALL-STARVED — B/C reach prec 1.0 with fp=0 at stable plateaux, but tp 3–4 (rec 0.12–0.16)
+> does NOT clear the tp≥5 small-n bar; S never reaches prec 0.8. MIRROR IMAGE of {I,K,Y} (tp
+> 6–11 well-powered but never fire). The combinators that FIRE are exactly the hardest to
+> DETECT — the real splice obstacle, now quantified.** Consistent with prior: B no amplitude
+> home (s238), C recall-starved ground-state (s242), S most common-mode. ⇒ a behavioral splice
+> is feasible IN PRINCIPLE (B/C prec-1.0 fp-0 loci) but would act on only 12–16% of firings.
+> CAVEATS (λ measure): 1 model (14B), heldout-per=25 (support 25/comb → tp 3–4); raising
+> probe count is the untested lever (B 69, C 61 crystal probes available). **★★ FIRST ACTION
+> NEXT SESSION — RAISE POWER: re-run Exp 0.5 `--targets B C --heldout-per 35` (or higher) —
+> does tp cross 5 at the prec-1.0 plateau (kill the small-n caveat for a FIRING combinator)?
+> If yes → a precision-gated C-splice (or B-splice) on the SATURATED corpus is the real Exp 2
+> (saturate quantifiers with witnesses → operand-bound execution → splice the exact kernel
+> C/B-move → measure reduction-correctness via reward.py). If tp stays <5 → obstacle 1 (model
+> centroid) is fatal for the firing set → redirect to the constructed front-end (compiler-as-
+> loss §s242).** Also OPEN: position-resolved detection along multi-step `fired_sequence`.
+> tmux main:1 + main:2 FREE; no GPU job running. Captured: NEW script `corpus_firing_survey.py`
+> + `--targets` open-slot on exp0.5 (code, ready to commit); knowledge
+> `kernel-splice-geometry-detector.md §s244` + memory
+> `corpus-fires-bsc-not-kiy-splice-mismatch`. PENDING APPROVAL.
 >
 > **★★ s243 cont. — EXP 1 CAUSAL K-SPLICE RAN (Qwen3-14B, L18 τ3.0): the K-geometry is a
 > GENUINE causal carrier in the ROUTING register, but its BEHAVIORAL reach on prose is weak
