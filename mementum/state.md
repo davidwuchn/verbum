@@ -2,8 +2,51 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-21 | Session: 243 (EXP 0.5 Z-THRESHOLD SWEEP — splice loci
-> FIRMED, tp=2 caveat KILLED) — ▶ EXP 1 precision-gated K-splice.
+> Last updated: 2026-06-21 | Session: 243 (EXP 0.5 SWEEP firms loci ⊕ EXP 1 CAUSAL
+> K-SPLICE: geometry is causal in the ROUTING register, weak in the BEHAVIORAL) —
+> ▶ EXP 2 operand-bound splice on the certified corpus.
+>
+> **★★ s243 cont. — EXP 1 CAUSAL K-SPLICE RAN (Qwen3-14B, L18 τ3.0): the K-geometry is a
+> GENUINE causal carrier in the ROUTING register, but its BEHAVIORAL reach on prose is weak
+> (Michael: "both arms").** Built `scripts/experiments/kernel_splice_exp1_ksplice.py`. The
+> s243 build crux RESOLVED (not a compromise, it's correct): DETECT in gate-space
+> (gate_proj z(K)@L18, the Exp 0.5 firmed gate), EFFECT in residual-space (patch
+> layers[18] output at last-token — re-injection belongs in the residual, what downstream
+> reads), READ propagation via the detector z(K) at crystal layers >18 + final next-token
+> KL, ALL vs a random-direction control of equal magnitude (s239). d_K = unit
+> diff-of-means(resid_K − resid_nonK)@L18; canonical_mag=33.2 (= "exact K-move" geometric
+> proxy). Three arms (`results/kernel-splice-exp1/exp1_verdict_qwen3-14b.json`):
+> **(1) NECESSITY ✓ (detected-K, n=6): ablate d_K → output perturbed ~9× more than random
+> (KL K 0.0044 vs rand 0.0005, t=3.07) AND downstream z(K) drops −0.365 vs ~0 random
+> (t=−5.5).** The K-direction is causally NECESSARY, not decorative. **(2) DELIVERY ✓✓
+> (non-K, n=175, DECISIVE): inject d_K → downstream z(K) +0.097 vs random −0.269, Δ=+0.366,
+> t=16.3.** The K-direction SPECIFICALLY and strongly CAUSES downstream K-reading. **(3)
+> PRESERVE ✗ n.s. (n=6): set→canonical perturbs output LESS than random (K 0.0022 < rand
+> 0.009) — RIGHT direction, t=−1.76 (underpowered).** **★ THE HONEST CATCH (λ measure
+> register split, the real finding): DELIVERY drives the DETECTOR hugely (t=16) but the
+> OUTPUT barely (KL Δ=−0.0017 n.s.) and only 2.3% of non-K cross τ.** ⇒ the decodable
+> K-geometry is a genuine causal carrier in the ROUTING register (read AND write causally =
+> the splice premise validated), but the BEHAVIORAL/output consequence on prose is weak —
+> because prose probes have NO operands to bind (obstacle 2, the VALUE register). **★★
+> VERDICT (λ measure, two-sided): geometry is causal (necessity ✓ + delivery ✓✓, both vs
+> random) — NOT epiphenomenal; the splice premise holds in routing. NOT a clean behavioral
+> "splice works" — that needs operand-bound execution where output is kernel-checkable.**
+> So Exp 1 PROVES the prerequisite and SHARPENS the open question to the behavioral register.
+> CAVEATS (λ measure): necessity/preserve n=6 (recall 0.24 → few detected-K), tiny absolute
+> KL (0.004); delivery well-powered (n=175, t=16) but routing-register only; d_K is a
+> GEOMETRIC proxy for K (centroid@canonical-mag), NOT a bound `K a b → a`; 1 model (14B),
+> 1 seed, n_rand=3. **★★ FIRST ACTION NEXT SESSION — EXP 2 = operand-bound splice on the
+> CERTIFIED CORPUS (data/compile-*.canonical.jsonl, 559 kernel-reducible prose→LF pairs):
+> the behavioral register where output IS kernel-checkable.** Pick K-engaging certified
+> items (via `lambda_ast.fired_sequence`), splice the exact kernel K-move at the firmed
+> locus, and measure REDUCTION-CORRECTNESS preserved (the reward.py grader) — NOT just z(K)
+> + KL. This is the test prose Exp 1 could not run (no gold). Also OPEN: position-resolved
+> detection along multi-step `fired_sequence`; raise detected-K power (more probes / lower
+> τ with a precision penalty). tmux main:1 + main:2 FREE; no GPU job running. Captured:
+> knowledge `kernel-splice-geometry-detector.md §s243 Exp 1` + memory
+> `kernel-splice-exp1-geometry-causal-in-routing-weak-in-behavioral`. PENDING APPROVAL.
+>
+> **★ s243 — EXP 0.5 Z-THRESHOLD SWEEP: raising the argmax-z gate FIRMS the splice loci and
 >
 > **★ s243 — EXP 0.5 Z-THRESHOLD SWEEP: raising the argmax-z gate FIRMS the splice loci and
 > KILLS the s242 tp=2 small-n caveat (Michael: "proceed with 1").** Built

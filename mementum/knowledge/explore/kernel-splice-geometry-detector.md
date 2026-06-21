@@ -192,6 +192,62 @@ drops its 2nd arg, no value decode), the cleanest *non-trivial* causal test — 
 argmax_z(K) > 3.0, deliver the exact kernel K-move (value-patch) in place of the local
 computation; validate output **preserved** vs a random-direction control (s239 v4/v5).
 
+## ★ s243 — Exp 1 RESULTS (Qwen3-14B, L18): the geometry is CAUSAL in routing, weak in behavior
+
+`scripts/experiments/kernel_splice_exp1_ksplice.py`. **The build crux resolved (correct, not
+a compromise): DETECT in gate-space, EFFECT in residual-space, READ downstream.** The
+classifier reads the FFN gate (`gate_proj`, sign-CMR), so gate-z(K)@L18 is the detector. But
+re-injection belongs in the **residual** (what downstream layers read), so we patch the
+output of `layers[18]` at the last-token position. The K residual direction
+`d_K = unit diff-of-means(resid_K − resid_nonK)@L18`; the "exact K-move" geometric proxy =
+d_K at the canonical magnitude (mean K projection = 33.2). Everything vs a random-direction
+control of equal magnitude (s239). `results/kernel-splice-exp1/exp1_verdict_qwen3-14b.json`.
+
+| arm | n | metric | K-dir | random | t | verdict |
+|-----|---|--------|-------|--------|---|---------|
+| **NECESSITY** (ablate d_K) | 6 | output KL | 0.0044 | 0.0005 | **3.07** | ✓ |
+| | 6 | downstream Δz(K) | −0.365 | −0.007 | −5.5 | ✓ K-reading drops |
+| **DELIVERY** (inject d_K, non-K) | 175 | downstream Δz(K) | +0.097 | −0.269 | **16.3** | ✓✓ decisive |
+| | 175 | output KL | 0.016 | 0.018 | −1.2 | ✗ output barely moves |
+| | 175 | frac z(K)>τ | 0.023 | 0.011 | — | tiny |
+| **PRESERVE** (set→canonical) | 6 | output KL | 0.0022 | 0.009 | −1.76 | ✗ n.s. (right dir) |
+
+**Necessity ✓** — ablating d_K perturbs the output ~9× more than a random direction of equal
+magnitude (KL t=3.07) AND specifically drops downstream K-reading (Δz(K) −0.365 vs ~0 random,
+t=−5.5). The K-direction is causally **necessary**, not decorative.
+
+**Delivery ✓✓ (decisive)** — injecting d_K into non-K probes drives downstream z(K) UP (+0.097)
+where random drives it DOWN (−0.269), Δ=+0.366, **t=16.3** (n=175). The K-direction
+**specifically causes** downstream K-reading.
+
+**★ THE HONEST CATCH (λ measure register split — the real finding):** delivery moves the
+**detector** hugely (t=16) but the **output** barely (KL Δ=−0.0017, n.s.) and only 2.3% of
+non-K probes cross τ. ⇒ the decodable K-geometry is a **genuine causal carrier in the ROUTING
+register** (we can read it AND write it causally = the splice premise validated), but its
+**behavioral/output consequence on prose is weak** — because the prose crystal_probes have
+**no operands to bind** (obstacle 2, the value register). The geometry drives the *routing*,
+not yet the *computation*.
+
+**Preserve ✗ (n.s., right direction)** — setting d_K to the canonical value perturbs the
+output LESS than a random set (K 0.0022 < rand 0.009), consistent with "the exact value
+replaces the neuron", but t=−1.76 at n=6 (underpowered, recall 0.24 → few detected-K).
+
+**⇒ Two-sided verdict (λ measure):** the geometry is **causal, not epiphenomenal** (necessity
+✓ + delivery ✓✓, both vs random) — the splice premise holds in the routing register. It is
+**not** a clean *behavioral* "splice works" — that needs operand-bound execution where the
+output is kernel-checkable. Exp 1 **proves the prerequisite and sharpens the open question to
+the behavioral register.**
+
+**Caveats (λ measure):** necessity/preserve n=6 (low power, tiny absolute KL ~0.004); delivery
+well-powered (n=175, t=16) but routing-register only; d_K is a **geometric proxy** for K
+(centroid@canonical-mag), NOT a bound `K a b → a`; 1 model (14B), 1 seed, n_rand=3.
+
+**⇒ Exp 2 = operand-bound splice on the CERTIFIED CORPUS** (`data/compile-*.canonical.jsonl`,
+559 kernel-reducible prose→LF pairs) — the behavioral register where the output IS
+kernel-checkable. Pick K-engaging certified items via `lambda_ast.fired_sequence`, splice the
+exact kernel K-move at the firmed locus, measure **reduction-correctness preserved**
+(`reward.py` grader), not just z(K)+KL. The test prose Exp 1 could not run (no gold).
+
 ## Either outcome is a result
 
 - **Splice holds** → the thesis is proven causally; a hybrid **exact + inspectable**
