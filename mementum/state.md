@@ -60,9 +60,13 @@
 > (2) chase the det-frame sign inconsistency (name→pred universal, determiner→noun is not — why?);
 > (3) add gemma-4-31B-it for a 5th independent lineage; (4) caveat crystal-multi-tree.md φ claim.**
 > Artifacts: `results/type-directed/type_directed_v4_ablation_verdict_*` + `crossfamily_v4_ablation.log`;
-> code `scripts/experiments/run_v4_crossfamily.sh` + `decoder_layers` patch. PENDING APPROVAL:
-> memory `type-direction-causal-cross-family-partial` (DRAFTED) + this cont. + the v4 artifacts +
-> v4 code patch. tmux main:1 FREE; no job running.
+> code `scripts/experiments/run_v4_crossfamily.sh` + `decoder_layers` patch. COMMITTED: v4 code+data
+> `adc29bc`, state `1a2e088`, memory `type-direction-causal-cross-family-partial` `4d7e1de`.
+> **★ s247 SYNTHESIS — knowledge page `explore/forcing-vs-discovering.md` (NEW, active): the
+> describability≠discovery frame + the two results (φ-ladder FORCED, type-direction DISCOVERED/
+> behavioral-universal + causal-partial-not-Qwen-forced) + the 4 IOUs. Added an s247 CAVEAT to
+> `crystal-multi-tree.md` retracting the φ^(p/q) SIGNIFICANCE (tree topology unaffected).**
+> tmux main:1 FREE; no job running.
 >
 > **★★ s246 — CONSENSUS-BASED TEACHING DATA: cross-model output-agreement as a fitness
 > function, calibrated on FOL where ground truth exists (Michael: "build teaching data only

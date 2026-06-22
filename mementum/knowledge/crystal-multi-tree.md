@@ -24,6 +24,15 @@ created: session 197
 > phenomenon explains 27 correlation points of crystal variance
 > and resolves the YW sign ambiguity observed across models.
 
+> ⚠️ **s247 CAVEAT (λ measure) — the φ^(p/q) significance is an OVER-READ.** The section
+> "All 8 Eigenvalues Follow φ^(p/q)" (and the φ^(4/5) ratio claims) does NOT survive a
+> matched-range null: random spectra of the same dynamic range fit the φ^(p/q)/Fibonacci
+> ladder (q≤34) AT LEAST AS WELL as the crystal — P(random ≥)=0.92, z=−1.52
+> (`scripts/explore/fractal_collapse_screen.py`; see `explore/forcing-vs-discovering.md`).
+> The <0.5% fit is BASIS FLEXIBILITY, not a discovered self-similar law. The TREE
+> TOPOLOGY / eigenvector-sign structure / bridge-node findings are unaffected; only the
+> φ-power *significance* is retracted. Read the φ sections as descriptive, not evidential.
+
 ## The Three Trees
 
 The 8×8 crystal cosine matrix decomposes as:
