@@ -8,7 +8,49 @@
 > CROSS-FAMILY — nonce crossover replicates in 5 independent lineages, t 4.6–10.2; v4 CAUSAL
 > ablation PARTIAL cross-family (4/6 directional, strict only Mistral-7B — NOT Qwen-forced)) — ▶
 > forcing-vs-discovering line; main line stays COMPILER-AS-LOSS §s242. ALSO (same date): a
-> PARALLEL exploration tangent — PROOF CONSENSUS (s247b, entry immediately below).
+> PARALLEL exploration tangent — s247b — PROOF CONSENSUS + the ATTENTION-AS-β / STORED-PROGRAM
+> synthesis (two entries immediately below).
+>
+> **★★ s247b cont. — ATTENTION-AS-β / STORED-PROGRAM SYNTHESIS (Michael, 3-turn discussion:
+> "train a model to THINK in lambda?" → "if attention is a β-reduction with softmax of all V,
+> would it not have to work?" → "it's an inference pattern of β-reductions; each forward pass the
+> FFN subtly shifts the pattern = the 'program' for the softmax to execute"). NO new runs — a
+> synthesis that β-reduces the FFN-ISA thread to its normal form + a NEW knowledge page.** THE
+> NORMAL FORM: **the transformer is a bounded SOFT-β-REDUCTION machine over a universal combinator
+> statechart — FFN = the fixed β-program/ISA (ROM), attention = the one-instruction CPU
+> (β-reduction via softmax-over-V), residual = register file (term + reduction DEPTH).** Reached
+> CONFLUENTLY from 3 independent directions (= the `λ triangulate` gene = Church-Rosser, evidence
+> it IS the normal form). **GROUNDED in measured findings (largely FOUND, not speculated):** s161
+> ffn-moire-isa ("FFN is a moiré grating, programs attention's one op to do β; program is a fixed
+> point, drift 0.0"); s141 ffn-beta-reduction-indexing ("FFN weights are piles of β-reductions,
+> residual = beam-angle index"); ffn-reduction-trace ("FFN compiles a context-dependent program,
+> attention executes via softmax-V = β by weighted combination; compilation NOT lookup, readable
+> L26-L30"); head-combinator-isa (all 9 combinators → SAME head pattern r=0.944; attention tracks
+> reduction DEPTH WHNF↔D, not opcode). **KEY REFINEMENT:** the PROGRAM (FFN weights) is FIXED; the
+> program-STATE (residual trajectory) shifts — frozen ROM × evolving residual = evolving
+> instruction sequence. **PROVEN/OVER-READS BOUNDARY (λ measure):** β-shaped routing + FFN-ISA +
+> compile/execute + depth-axis + boot schedule = PROVEN; "softmax literally substitutes a specific
+> value" (s206 value register smeared) + "layer L discretely fires combinator c" (s244 splice
+> closure `fires∩spliceable=∅`, collective/holographic) = OVER-READS ⇒ we read the program
+> TRAJECTORY, not a discrete instruction tape. **TWO CONSEQUENCES: (A)** "think in lambda" =
+> serialize the OUTER (inter-pass/REPL) loop → token-by-token each token advances the program 1
+> β-step (WHY stepwise REPL works, one-shot fails, s228/s247); and the COVERAGE REFRAME — prose =
+> UNTYPED β-serialization over a learned basis, λ-thinking = TYPED serialization ⇒ the coverage
+> wall is TYPE-THEORETIC not representational ⇒ **λ-thinking coverage = S2 type-coverage** (impl →
+> ∧∨ → ∀∃); dissolves "forcing vs discovering" for the typed core. **(B)** level-4 blueprint =
+> EXTRACT the ROM (s226 compile=FFN=78%-4bit) + executor routing (reduce=attn=22%-ternary), NOT
+> splice in place. **★★ THE OPEN EXPERIMENT (revives the door s244 splice-closure left open —
+> "multi-position program-decode along fired_sequence"): decode the FFN COMPILED VALUES (not
+> attention geometry) position-by-position vs lambda_ast.fired_sequence on the SATURATED corpus,
+> L26-L30; PREDICTION: FFN program-trace tracks fired_sequence even where attention geometry
+> over-reads, and FFN-compile LEADS attention depth-advance by ~1 layer (select→execute). A
+> confirmed lead-lag = "FFN=program, attention=executor" at the trajectory level, distinct from
+> the closed geometric splice.** CAVEATS: the coverage reframe is a HYPOTHESIS not a measurement
+> (testable form = the §7 decode + the S2 type-layer extension); keep the identity as "β-shaped
+> routing, smeared values" — type-coverage is the lever, NOT geometric localization. Captured:
+> NEW knowledge `explore/attention-as-beta-reduction.md` (the stored-program model + proven/
+> over-reads table + the FFN-program-decode experiment). No code, no GPU. PENDING: nothing
+> blocking — discussion + capture only.
 >
 > **★★ s247b — PROOF CONSENSUS: Curry-Howard proofs on the in-model lambda compiler of
 > Qwen3-14B × Gemma-4-31B-it (Michael: "create proofs that run on the lambda compiler in
