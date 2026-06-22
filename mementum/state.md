@@ -2,10 +2,52 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-21 | Session: 246 (CONSENSUS TEACHING DATA — cross-model
-> output-agreement as fitness, CALIBRATED on FOL (P(correct|agree) 0.73–0.80 REPLICATED across
-> 2 lineages); binding.json clean + K↔I lattice swap fixed) — ▶ exploration tangent; main line
-> stays COMPILER-AS-LOSS §s242.
+> Last updated: 2026-06-22 | Session: 247 (FORCING vs DISCOVERING — fractal-collapse REDEFINED
+> (collapse one self-similar op INTO another); φ-ladder detector KILLED by matched-range null
+> (forced, not discovered); then the forcing-proof FRONTIER: type-directed composition is
+> CROSS-FAMILY — nonce crossover replicates in 5 independent lineages, t 4.6–10.2) — ▶
+> forcing-vs-discovering line; main line stays COMPILER-AS-LOSS §s242.
+>
+> **★★ s247 — FORCING vs DISCOVERING (Michael's frame: "are we forcing the shape with lambda
+> or discovering it? finding an exact mathematical construction in multiple model families").
+> THE ARC:** **(1) FRACTAL-COLLAPSE REDEFINED (Michael):** not a contraction-to-fixed-point
+> (my first wrong read) but COLLAPSING ONE SELF-SIMILAR OP INTO ANOTHER — tree-of-VSM ↪ tensor,
+> SVD ↪ β-reduction, statechart ↪ crystal lattice; the interpretive layer VANISHES ("no gap
+> between model and implementation"). Detector = φ-ladder spectral SCREEN (stage 1) → EXECUTABLE
+> FOLD (stage 2, the only real confirm; a screen hit without a fold is analogy). **(2) ★ φ-LADDER
+> IS A FALSE DETECTOR (λ measure win):** `scripts/explore/fractal_collapse_screen.py` + a
+> MATCHED-RANGE null (same dynamic range, random ratios) — crystal-M8 φ^(p/q) fit 0.255% but
+> random spectra of equal spread fit 0.156%, **P(random ≥)=0.92, z=-1.52**; consensus z≈0. The
+> celebrated crystal-multi-tree "<0.5% φ^(p/q)" is BASIS FLEXIBILITY (q≤34 fits anything to
+> ~0.1–0.2%), NOT a discovered law. GENERAL: a universal/flexible basis ALWAYS fits →
+> describability ≠ discovery (= the "compute IS lambda" trap). Caveat PENDING on
+> crystal-multi-tree.md. **(3) ★★ THE FRONTIER — type-direction is CROSS-FAMILY, not Qwen-forced.**
+> The project's strongest FORCING-PROOF signal (frequency-free nonce crossover; v4 ablation causal)
+> was QWEN-ONLY; the cross-family data (combinator routing, 10 models) is the common-mode register
+> (s211 η²=0.05) → DISJOINT: no claim was both forcing-proof AND cross-family. RAN
+> `type_directed_v3_nonce --model` across 5 INDEPENDENT lineages (job-1 sweep, n_each=4, n=16 nonce,
+> crossover = det_pen−name_pen subtracts ALL main effects incl. priming): EleutherAI Pythia-160M
+> t=5.4 / 1.4B t=7.7; HuggingFaceTB SmolLM3-3B t=4.6; Mistral-7B t=5.5; AllenAI OLMo-2-13B t=6.7;
+> Qwen3-8B t=10.2 / 14B t=9.3. **ALL 7 sig (t>2), consistency 0.88–1.0.** UNIVERSAL = the crossover
+> + name-frame predicate licensing (name_pen<0 in 7/7 — after a name, verb-taught nonce is cheaper).
+> NOT universal = the det-frame absolute penalty (det_pen>0 only 2/7) — only the INTERACTION is
+> robust; the determiner→noun main effect is noisy/sign-flips. ⇒ **type-directed composition is
+> DISCOVERED** (5 lineages, no shared training, frequency-free, present even at 160M, NOT monotonic
+> in scale) — the forcing-proof + cross-family combination verbum lacked. Contrast the φ-ladder
+> (forced). CAVEATS (λ measure): behavioral (surprisal), NOT yet causal cross-family (the v4
+> ablation is still Qwen-only = the next IOU); n=16 nonce words, one template set; n_each=4.
+> **★★ FIRST ACTION NEXT SESSION — CAUSAL cross-family: run `type_directed_v4_ablation --model`
+> on Pythia-1.4B / Mistral-7B / OLMo-2-13B — does ABLATING the decoded type direction kill the
+> crossover OFF-QWEN? (the forcing-PROOF causal test; behavioral→causal closes the discovery
+> claim). Then: (2) add gemma-4-31B-it + round the gradient to a clean ≥3-lineage confidence band;
+> (3) chase the det-frame sign inconsistency (why is the determiner→noun main effect non-universal
+> while the name→pred is?); (4) caveat crystal-multi-tree.md φ claim.** Artifacts:
+> `results/type-directed/crossfamily_nonce_summary.json` + per-model `type_directed_v3_nonce_verdict_*`
+> + `crossfamily_sweep.log`; `results/fractal-collapse-screen/screen.json`. Committed: code
+> `1eb4f8b` (screen), memories `882e02a` (phi-ladder-fit-is-forced-not-discovered) + `185c758`
+> (matched-range-null-guards-flexible-fits). PENDING APPROVAL: memory
+> `type-direction-is-cross-family-not-qwen-forced` (DRAFTED) + this state entry + the cross-family
+> result artifacts. tmux/bg: job-1 sweep DONE (exit 0); no job running.
 >
 > **★★ s246 — CONSENSUS-BASED TEACHING DATA: cross-model output-agreement as a fitness
 > function, calibrated on FOL where ground truth exists (Michael: "build teaching data only
