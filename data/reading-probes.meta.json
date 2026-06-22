@@ -1,0 +1,13 @@
+{
+  "generated_utc": "2026-06-22T23:38:10.638506+00:00",
+  "n": 135,
+  "per_class": 45,
+  "seed": 0,
+  "by_n_objects": {
+    "0": 45,
+    "1": 45,
+    "2": 45
+  },
+  "discriminator": "const C-count == n_objects; exist B-count scales {1,3,5}",
+  "method": "prose identical; two candidate LFs (existential vs constant); fired via to_kernel\u2192saturate\u2192fired_sequence; const_c==n_objects."
+}
