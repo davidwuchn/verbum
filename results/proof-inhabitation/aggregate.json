@@ -4,12 +4,13 @@
     "Qwen/Qwen3-32B",
     "Qwen/Qwen3-8B",
     "allenai/OLMo-2-1124-13B",
+    "google/gemma-4-31B-it",
     "mistralai/Mistral-7B-v0.3"
   ],
   "rows": [
     {
       "model": "Qwen/Qwen3-14B",
-      "sensitivity": 0.5833,
+      "sensitivity": 0.2,
       "specificity": 1.0,
       "false_proofs": 0,
       "by_complexity": {
@@ -19,29 +20,39 @@
           "rate": 1.0
         },
         "2": {
-          "n": 2,
-          "proved": 1,
-          "rate": 0.5
-        },
-        "3": {
           "n": 3,
           "proved": 1,
           "rate": 0.333
         },
-        "4": {
-          "n": 1,
+        "3": {
+          "n": 8,
           "proved": 1,
-          "rate": 1.0
+          "rate": 0.125
+        },
+        "4": {
+          "n": 8,
+          "proved": 1,
+          "rate": 0.125
         },
         "5": {
-          "n": 4,
+          "n": 7,
           "proved": 2,
-          "rate": 0.5
+          "rate": 0.286
         },
         "6": {
-          "n": 1,
+          "n": 2,
           "proved": 1,
-          "rate": 1.0
+          "rate": 0.5
+        },
+        "7": {
+          "n": 5,
+          "proved": 0,
+          "rate": 0.0
+        },
+        "8": {
+          "n": 1,
+          "proved": 0,
+          "rate": 0.0
         }
       }
     },
@@ -160,6 +171,54 @@
       }
     },
     {
+      "model": "google/gemma-4-31B-it",
+      "sensitivity": 0.3143,
+      "specificity": 1.0,
+      "false_proofs": 0,
+      "by_complexity": {
+        "1": {
+          "n": 1,
+          "proved": 1,
+          "rate": 1.0
+        },
+        "2": {
+          "n": 3,
+          "proved": 1,
+          "rate": 0.333
+        },
+        "3": {
+          "n": 8,
+          "proved": 3,
+          "rate": 0.375
+        },
+        "4": {
+          "n": 8,
+          "proved": 2,
+          "rate": 0.25
+        },
+        "5": {
+          "n": 7,
+          "proved": 3,
+          "rate": 0.429
+        },
+        "6": {
+          "n": 2,
+          "proved": 1,
+          "rate": 0.5
+        },
+        "7": {
+          "n": 5,
+          "proved": 0,
+          "rate": 0.0
+        },
+        "8": {
+          "n": 1,
+          "proved": 0,
+          "rate": 0.0
+        }
+      }
+    },
+    {
       "model": "mistralai/Mistral-7B-v0.3",
       "sensitivity": 0.25,
       "specificity": 1.0,
@@ -198,6 +257,6 @@
       }
     }
   ],
-  "git_sha": "ec7e0c72e19a37b0a354e01dc2c9692a461781f0",
-  "timestamp": "2026-06-14T21:21:13.139352+00:00"
+  "git_sha": "05b1a5adf8a051c3c6c92c83edb59fbc5763ceb1",
+  "timestamp": "2026-06-22T17:57:57.583528+00:00"
 }

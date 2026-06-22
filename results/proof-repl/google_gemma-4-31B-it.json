@@ -1,16 +1,16 @@
 {
-  "model": "Qwen/Qwen3-14B",
+  "model": "google/gemma-4-31B-it",
   "dtype": "bfloat16",
   "prompt_mode": "chat",
   "register": "functional (continuation-driven prover, kernel-verified)",
-  "timestamp": "2026-06-22T18:09:23.247264+00:00",
+  "timestamp": "2026-06-22T18:17:52.849418+00:00",
   "max_turns": 20,
   "n": 48,
   "n_positive": 35,
   "n_negative": 13,
-  "sensitivity": 0.7714,
+  "sensitivity": 1.0,
   "specificity": 1.0,
-  "avg_turns_positive": 4.4,
+  "avg_turns_positive": 5.09,
   "false_proofs": [],
   "by_complexity": {
     "1": {
@@ -35,23 +35,23 @@
     },
     "5": {
       "n": 7,
-      "proved": 3,
-      "rate": 0.429
+      "proved": 7,
+      "rate": 1.0
     },
     "6": {
       "n": 2,
-      "proved": 1,
-      "rate": 0.5
+      "proved": 2,
+      "rate": 1.0
     },
     "7": {
       "n": 5,
-      "proved": 3,
-      "rate": 0.6
+      "proved": 5,
+      "rate": 1.0
     },
     "8": {
       "n": 1,
-      "proved": 0,
-      "rate": 0.0
+      "proved": 1,
+      "rate": 1.0
     }
   },
   "records": [
@@ -110,54 +110,61 @@
       "prop": "(B -> C) -> (A -> B) -> A -> C",
       "provable": true,
       "complexity": 5,
-      "status": "illegal",
-      "proved": false,
-      "turns": 4,
+      "status": "qed",
+      "proved": true,
+      "turns": 6,
       "moves": [
         "intro",
         "intro",
         "intro",
-        "?'apply h2\\nMove: apply'"
+        "apply h1",
+        "apply h2",
+        "exact h3"
       ],
-      "term": null,
-      "verdict": null,
-      "correct": false
+      "term": "B",
+      "verdict": "valid",
+      "correct": true
     },
     {
       "id": "pos_compose",
       "prop": "(A -> B) -> (C -> A) -> C -> B",
       "provable": true,
       "complexity": 5,
-      "status": "illegal",
-      "proved": false,
-      "turns": 4,
+      "status": "qed",
+      "proved": true,
+      "turns": 6,
       "moves": [
         "intro",
         "intro",
         "intro",
-        "?'apply h2'"
+        "apply h1",
+        "apply h2",
+        "exact h3"
       ],
-      "term": null,
-      "verdict": null,
-      "correct": false
+      "term": "B",
+      "verdict": "valid",
+      "correct": true
     },
     {
       "id": "pos_S",
       "prop": "(A -> B -> C) -> (A -> B) -> A -> C",
       "provable": true,
       "complexity": 6,
-      "status": "illegal",
-      "proved": false,
-      "turns": 4,
+      "status": "qed",
+      "proved": true,
+      "turns": 7,
       "moves": [
         "intro",
         "intro",
         "intro",
-        "?'apply h2\\nMove: apply'"
+        "apply h1",
+        "exact h3",
+        "apply h2",
+        "exact h3"
       ],
-      "term": null,
-      "verdict": null,
-      "correct": false
+      "term": "S",
+      "verdict": "valid",
+      "correct": true
     },
     {
       "id": "pos_C",
@@ -184,18 +191,20 @@
       "prop": "(A -> B) -> (B -> C) -> A -> C",
       "provable": true,
       "complexity": 5,
-      "status": "illegal",
-      "proved": false,
-      "turns": 4,
+      "status": "qed",
+      "proved": true,
+      "turns": 6,
       "moves": [
         "intro",
         "intro",
         "intro",
-        "?'apply h1'"
+        "apply h2",
+        "apply h1",
+        "exact h3"
       ],
-      "term": null,
-      "verdict": null,
-      "correct": false
+      "term": "C B",
+      "verdict": "valid",
+      "correct": true
     },
     {
       "id": "pos_W",
@@ -241,10 +250,12 @@
       "complexity": 3,
       "status": "qed",
       "proved": true,
-      "turns": 2,
+      "turns": 4,
       "moves": [
         "intro",
-        "exact h1"
+        "intro",
+        "apply h1",
+        "exact h2"
       ],
       "term": "I",
       "verdict": "valid",
@@ -345,10 +356,14 @@
       "complexity": 5,
       "status": "qed",
       "proved": true,
-      "turns": 2,
+      "turns": 6,
       "moves": [
         "intro",
-        "exact h1"
+        "intro",
+        "intro",
+        "apply h1",
+        "exact h2",
+        "exact h3"
       ],
       "term": "I",
       "verdict": "valid",
@@ -381,15 +396,13 @@
       "complexity": 4,
       "status": "qed",
       "proved": true,
-      "turns": 5,
+      "turns": 3,
       "moves": [
         "intro",
         "intro",
-        "intro",
-        "apply h1",
-        "exact h2"
+        "exact h1"
       ],
-      "term": "B K",
+      "term": "K",
       "verdict": "valid",
       "correct": true
     },
@@ -461,19 +474,22 @@
       "prop": "(A -> B) -> (B -> C) -> (C -> D) -> A -> D",
       "provable": true,
       "complexity": 7,
-      "status": "illegal",
-      "proved": false,
-      "turns": 5,
+      "status": "qed",
+      "proved": true,
+      "turns": 8,
       "moves": [
         "intro",
         "intro",
         "intro",
         "intro",
-        "?'apply h3  (now prove'"
+        "apply h3",
+        "apply h2",
+        "apply h1",
+        "exact h4"
       ],
-      "term": null,
-      "verdict": null,
-      "correct": false
+      "term": "B (B (C B)) (C B)",
+      "verdict": "valid",
+      "correct": true
     },
     {
       "id": "pos_dropfirst",
@@ -515,18 +531,20 @@
       "prop": "A -> ((A -> B) -> (A -> C)) -> ((A -> B) -> C)",
       "provable": true,
       "complexity": 7,
-      "status": "illegal",
-      "proved": false,
-      "turns": 4,
+      "status": "qed",
+      "proved": true,
+      "turns": 6,
       "moves": [
         "intro",
         "intro",
         "intro",
-        "?'apply h3'"
+        "apply h2",
+        "exact h3",
+        "exact h1"
       ],
-      "term": null,
-      "verdict": null,
-      "correct": false
+      "term": "C C",
+      "verdict": "valid",
+      "correct": true
     },
     {
       "id": "pos_applyweak",
@@ -592,17 +610,19 @@
       "prop": "((A -> B) -> A) -> (A -> B) -> B",
       "provable": true,
       "complexity": 5,
-      "status": "illegal",
-      "proved": false,
-      "turns": 3,
+      "status": "qed",
+      "proved": true,
+      "turns": 5,
       "moves": [
         "intro",
         "intro",
-        "?'apply h1'"
+        "apply h2",
+        "apply h1",
+        "exact h2"
       ],
-      "term": null,
-      "verdict": null,
-      "correct": false
+      "term": "S I",
+      "verdict": "valid",
+      "correct": true
     },
     {
       "id": "pos_sprime",
@@ -630,19 +650,23 @@
       "prop": "(A -> B -> C) -> (A -> C -> D) -> A -> B -> D",
       "provable": true,
       "complexity": 8,
-      "status": "illegal",
-      "proved": false,
-      "turns": 5,
+      "status": "qed",
+      "proved": true,
+      "turns": 9,
       "moves": [
         "intro",
         "intro",
         "intro",
         "intro",
-        "?'apply h2  (now prove'"
+        "apply h2",
+        "exact h3",
+        "apply h1",
+        "exact h3",
+        "exact h4"
       ],
-      "term": null,
-      "verdict": null,
-      "correct": false
+      "term": "C (B S (B B))",
+      "verdict": "valid",
+      "correct": true
     },
     {
       "id": "pos_first4",
@@ -811,9 +835,9 @@
       "prop": "(A -> A) -> A",
       "provable": false,
       "complexity": 2,
-      "status": "illegal",
+      "status": "open",
       "proved": false,
-      "turns": 13,
+      "turns": 20,
       "moves": [
         "intro",
         "apply h1",
@@ -827,7 +851,14 @@
         "apply h1",
         "apply h1",
         "apply h1",
-        "?'exact h1'"
+        "apply h1",
+        "apply h1",
+        "apply h1",
+        "apply h1",
+        "apply h1",
+        "apply h1",
+        "apply h1",
+        "apply h1"
       ],
       "term": null,
       "verdict": null,
@@ -838,9 +869,9 @@
       "prop": "((A -> B) -> B) -> ((B -> A) -> A)",
       "provable": false,
       "complexity": 5,
-      "status": "illegal",
+      "status": "open",
       "proved": false,
-      "turns": 13,
+      "turns": 20,
       "moves": [
         "intro",
         "intro",
@@ -854,7 +885,14 @@
         "apply h1",
         "intro",
         "apply h1",
-        "?'intro\\nMove: apply h2'"
+        "intro",
+        "apply h1",
+        "intro",
+        "apply h1",
+        "intro",
+        "apply h1",
+        "intro",
+        "apply h1"
       ],
       "term": null,
       "verdict": null,
@@ -927,5 +965,5 @@
     }
   ],
   "git_sha": "05b1a5adf8a051c3c6c92c83edb59fbc5763ceb1",
-  "elapsed_s": 178.2
+  "elapsed_s": 506.8
 }

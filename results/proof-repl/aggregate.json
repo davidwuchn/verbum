@@ -4,17 +4,18 @@
     "Qwen/Qwen3-32B",
     "Qwen/Qwen3-8B",
     "allenai/OLMo-2-1124-13B",
+    "google/gemma-4-31B-it",
     "mistralai/Mistral-7B-v0.3"
   ],
   "rows": [
     {
       "model": "Qwen/Qwen3-14B",
-      "sensitivity": 0.6667,
+      "sensitivity": 0.7714,
       "specificity": 1.0,
-      "avg_turns": 3.75,
+      "avg_turns": 4.4,
       "false_proofs": 0,
-      "single_shot_sensitivity": 0.5833,
-      "delta": 0.083
+      "single_shot_sensitivity": 0.2,
+      "delta": 0.571
     },
     {
       "model": "Qwen/Qwen3-32B",
@@ -44,6 +45,15 @@
       "delta": 0.417
     },
     {
+      "model": "google/gemma-4-31B-it",
+      "sensitivity": 1.0,
+      "specificity": 1.0,
+      "avg_turns": 5.09,
+      "false_proofs": 0,
+      "single_shot_sensitivity": 0.3143,
+      "delta": 0.686
+    },
+    {
       "model": "mistralai/Mistral-7B-v0.3",
       "sensitivity": 0.5833,
       "specificity": 1.0,
@@ -53,6 +63,6 @@
       "delta": 0.333
     }
   ],
-  "git_sha": "ecc06e574941ac799f3d0d9852b0a6f5a6278323",
-  "timestamp": "2026-06-14T21:42:00.376777+00:00"
+  "git_sha": "05b1a5adf8a051c3c6c92c83edb59fbc5763ceb1",
+  "timestamp": "2026-06-22T18:17:54.073528+00:00"
 }

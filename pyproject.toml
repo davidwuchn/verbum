@@ -105,6 +105,7 @@ select = [
 "scripts/experiments/audit_compile_corpus.py" = ["RUF001", "RUF002", "RUF003"]
 "scripts/experiments/rlvr_coldstart_density.py" = ["RUF001", "RUF002", "RUF003"]
 "scripts/experiments/rlvr_grpo_train.py" = ["RUF001", "RUF002", "RUF003"]
+"scripts/experiments/proof_consensus.py" = ["RUF001", "RUF002", "RUF003"]
 
 # ─────────────────────────── ty ─────────────────────────────
 # ty is alpha; config schema is moving. Empty stanza pins the table so
