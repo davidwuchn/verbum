@@ -80,7 +80,11 @@
 > (2) decide the sortal-restriction convention for teaching data + demo it in the gate; (3)
 > scale beyond binding → the lambda-compile sets (decompile/extract/compile-gradient = the
 > kernel's own language); (4) deliberately MINE the agreed-error/agreed-abstain sets (the
-> failure-mode test suite — deep nesting, scope, capture-avoid, self-application).** CAVEATS
+> failure-mode test suite — deep nesting, scope, capture-avoid, self-application).** RESUME CMD:
+> `uv run python scripts/experiments/consensus_output_agreement.py --chat --force --models
+> Qwen/Qwen3-14B google/gemma-4-31B-it` (tmux main:1; `--analyze-only` re-scores saved
+> raw_completion, no regen; script DEFAULT is Qwen×OLMo completion-mode — pass --chat + --models
+> for the Qwen×Gemma instruct pair). CAVEATS
 > (λ measure): 1 probe set (binding, 25 scored), pairs of 2 (binary agreement), greedy/temp-0,
 > light Porter-step-1 stemmer (consistency not linguistics); the calibration LIFT + REPLICATION
 > are the real signal. PENDING APPROVAL: knowledge page + this state entry; code (harness + K↔I
