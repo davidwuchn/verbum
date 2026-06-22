@@ -181,6 +181,58 @@ engine gives the model NO BACKTRACKING (greedy single-sample, one wrong move dea
 the branch) ⇒ sensitivity is bounded by greedy move selection (IOU: backtracking /
 stuck→retry). Small n (12 positives), greedy decode, single few-shot.
 
+## s247 — Cross-lineage proof consensus: the REPL removes the agreed-error ceiling
+
+Session 247 (Michael: "create proofs that run on the lambda compiler in qwen3-14B
+and gemma"). Two moves: (1) ran Gemma-4-31B-it on the s228 harness (a fourth, Google,
+instruct lineage); (2) grew the probe set and applied cross-model output consensus
+(`cross-model-output-consensus.md`) to the proof domain.
+
+**Gemma on the s228 set (12+8).** Single-shot sensitivity **0.75** (the strongest
+single-shot prover yet, > Qwen3-32B 0.67); REPL **1.00** (Δ +0.25). Specificity 1.0,
+ZERO false proofs — including the Y-trap and Peirce. The composition-failure
+signature reproduces exactly: the three single-shot misses (`K I`, `C B`, `B K K`) are
+all multi-combinator terms, all composed one move at a time by the REPL. The
+consistency firewall now holds across Qwen (3 sizes), Mistral, OLMo, AND Gemma.
+
+**Expanded probe set (35 theorems + 13 non-theorems).** `proof_tasks.py` grew via
+`scripts/experiments/_gen_proof_tasks.py`: candidate props are auto-solved
+(`proof_search.solve`), the term reconstructed (bracket abstraction), and
+kernel-certified (`check_proof == VALID`) — zero hand-derivation. Adds deep
+compositional theorems (triple-compose `B (B (C B)) (C B)`, S-prime `C S`, the
+intuitionistic self-apply `((A→B)→A)→(A→B)→B` = `S I`, the provable cousin of Peirce)
+and harder non-theorems. On this set single-shot collapses (Qwen 0.20, Gemma 0.31 —
+composition-bound), REPL recovers (Qwen 0.77, Gemma 1.00).
+
+**Consensus result (Qwen3-14B × Gemma, `proof_consensus.py`).** The cross-model
+agreement, kernel-verified:
+
+| metric | single-shot | REPL |
+|---|---|---|
+| term-agreement | 0.375 | **0.812** |
+| P(both-correct \| agree) | 0.944 | **1.000** |
+| both-valid SAME proof | 6 | **26** |
+| composition gap (both-invalid DIFF) | 23 | **0** |
+| agreed-error (both-invalid SAME) | **1** (`W I` for `A→A→A`) | **0** |
+
+- **The single-shot agreed-error is real and is the whole ceiling.** Both lineages
+  emit the IDENTICAL ill-typed `W I` for `A → A → A` (reaching for contraction; the
+  answer is weakening `K`). It is the sole reason P(correct|agree) ≠ 1.0 single-shot —
+  consensus's blind spot, made visible by the oracle (cf. cross-model page §"agreed
+  error = the ceiling").
+- **The continuation dissolves it.** The goal-directed engine only takes legal,
+  type-correct moves ⇒ an ill-typed shared misconception cannot be committed ⇒
+  agreed-error → 0, P(correct|agree) → 1.000. The continuation is not just the
+  composition fix (s228); it is also the **consensus immune system** — it removes the
+  s246 agreed-error ceiling on the proof domain.
+- **Portability core = the basis.** The 6 terms both lineages agree on single-shot are
+  exactly `I,K,B,S,C,W` — the Hilbert axiom schemes. "The part all architectures agree
+  on" IS the combinator basis.
+
+Caveats (λ measure): one pair (binary); n=35; greedy; the 8 REPL `one-valid` frontier
+cases are ALL Qwen misses (Gemma 35/35), incl. axioms B/S — the s228 greedy-dead-end
+(no backtracking), a search limit, correctly excluded as disagreements not blind spots.
+
 ## Next (declare register)
 1. **Backtracking + menu ablation** (register: functional) — let the model see a dead
    end and retry (the engine already exposes `legal_moves`); and run a menu-less variant
@@ -201,3 +253,6 @@ stuck→retry). Small n (12 positives), greedy decode, single few-shot.
 | `scripts/experiments/proof_repl.py` | s228 continuation-driven prover: engine / model / aggregate (vs single-shot Δ) |
 | `tests/test_proof_search.py` | 7 tests: engine floor, structural soundness, apply-chain composition, move legality |
 | `results/proof-repl/` | s228 REPL: `engine.json`, 5 model jsons, `aggregate.json` (+Δ) |
+| `scripts/experiments/_gen_proof_tasks.py` | s247 authoring aid: auto-solve + kernel-certify candidate theorems → ready-to-paste ProofTasks |
+| `scripts/experiments/proof_consensus.py` | s247 cross-lineage proof consensus (post-processor; `--source inhabitation\|repl`; s246 grid + calibration) |
+| `results/proof-consensus/` | s247: `consensus.json` (single-shot), `consensus-repl.json` (REPL) |

@@ -7,7 +7,53 @@
 > (forced, not discovered); then the forcing-proof FRONTIER: type-directed composition is
 > CROSS-FAMILY — nonce crossover replicates in 5 independent lineages, t 4.6–10.2; v4 CAUSAL
 > ablation PARTIAL cross-family (4/6 directional, strict only Mistral-7B — NOT Qwen-forced)) — ▶
-> forcing-vs-discovering line; main line stays COMPILER-AS-LOSS §s242.
+> forcing-vs-discovering line; main line stays COMPILER-AS-LOSS §s242. ALSO (same date): a
+> PARALLEL exploration tangent — PROOF CONSENSUS (s247b, entry immediately below).
+>
+> **★★ s247b — PROOF CONSENSUS: Curry-Howard proofs on the in-model lambda compiler of
+> Qwen3-14B × Gemma-4-31B-it (Michael: "create proofs that run on the lambda compiler in
+> qwen3-14B and gemma"). EXPLORATION TANGENT off cross-model-output-consensus §s246 — applied
+> consensus-as-fitness to the PROOF domain (proofs-as-continuations §s228), where the kernel
+> VERIFIES every term ⇒ the s246 agreed-error blind-spot ceiling is DEFUSED by construction (two
+> models cannot agree on a kernel-PASSING false proof). THE ARC:** **(1) GEMMA on the s228 set
+> (12+8, 4th — Google instruct — lineage): single-shot sens 0.75 (STRONGEST single-shot prover
+> yet, > Qwen3-32B 0.67), REPL 1.00 (Δ+0.25); spec 1.0, ZERO false proofs incl Y-trap+Peirce;
+> composition-failure signature reproduces (the 3 misses K I/C B/B K K all composed by the REPL).
+> Consistency firewall now holds across Qwen×3, Mistral, OLMo, Gemma.** **(2) PROBE SET GROWN
+> 12→35 theorems + 8→13 non-theorems** (`scripts/experiments/_gen_proof_tasks.py` auto-solves via
+> proof_search.solve → reconstructs term → kernel-certifies check_proof==VALID, zero hand-
+> derivation; adds deep compositional theorems triple-compose `B (B (C B)) (C B)`, S-prime `C S`,
+> the intuitionistic self-apply `((A→B)→A)→(A→B)→B`=`S I` = the PROVABLE cousin of Peirce). On the
+> hard set single-shot COLLAPSES (Qwen 0.20, Gemma 0.31 — composition-bound), REPL RECOVERS (Qwen
+> 0.77, Gemma 1.00). **(3) `scripts/experiments/proof_consensus.py` (NEW, post-processor over the
+> two model JSONs, re-normalises each term through the kernel = exact α/reduction equality, NO
+> token-Jaccard; `--source inhabitation|repl`; s246 grid + calibration).** **★★ RESULT (Qwen3-14B
+> × Gemma): single-shot term-agree 0.375, P(both-correct|AGREE) 0.944, |DISAGREE 0.10; REPL
+> term-agree 0.812, P(AGREE) 1.000, |DISAGREE 0.111. both-valid-SAME 6→26; composition gap
+> (both-invalid-DIFF) 23→0; agreed-error (both-invalid-SAME) 1→0.** **★★ THE FINDING (connects
+> the two threads): single-shot has a REAL cross-lineage AGREED-ERROR — both emit the IDENTICAL
+> ill-typed `W I` for `A→A→A` (they reach for contraction; the answer is weakening `K`) = the SOLE
+> reason P(agree)≠1.0 = the s246 ceiling MADE VISIBLE by the oracle (consensus-distillation would
+> teach `W I`). The CONTINUATION DISSOLVES it: the goal-directed engine takes only legal,
+> type-correct moves ⇒ an ill-typed shared misconception CANNOT be committed ⇒ agreed-error→0,
+> P(correct|agree)→1.000. ⇒ the continuation REMOVES the s246 agreed-error ceiling on the proof
+> domain — it is the consensus IMMUNE SYSTEM, not just the composition fix (s228). PORTABILITY
+> CORE = THE BASIS: the 6 single-shot agreed terms are exactly I,K,B,S,C,W (the Hilbert axiom
+> schemes) — "the part all architectures agree on" IS the combinator basis.** CAVEATS (λ measure):
+> 1 pair (binary, not a gradient); n=35; greedy; the 8 REPL `one-valid` frontier cases are ALL
+> Qwen misses (Gemma 35/35) incl axioms B/S = the s228 greedy-single-move dead-end (no
+> backtracking) = a SEARCH limit, correctly excluded as disagreements not blind spots; spec 1.0 /
+> 0 false proofs throughout (structural). **★★ NEXT: (1) 3rd lineage on the proof consensus
+> (Qwen3-32B / Mistral) for a confidence GRADIENT — does the `W I` agreed-error survive a 3rd
+> independent prover single-shot (universal bias) or is it Qwen×Gemma-shared? (2) backtracking in
+> proof_search — close the 8 Qwen frontier dead-ends to perfect cross-lineage agreement; (3) mine
+> the agreed-error set deliberately (contraction/permutation trap theorems) to characterise the
+> structural triggers of single-shot consensus blind spots.** Artifacts:
+> results/proof-consensus/{consensus,consensus-repl}.json,
+> results/proof-{inhabitation,repl}/{Qwen_Qwen3-14B,google_gemma-4-31B-it}.json; probe set
+> src/verbum/probes/proof_tasks.py (35+13); scripts/experiments/{proof_consensus.py,
+> _gen_proof_tasks.py}. Knowledge: explore/cross-model-output-consensus.md §"Proof domain (s247)"
+> + explore/proofs-as-continuations.md §s247. tmux main:1 used; no GPU job running.
 >
 > **★★ s247 — FORCING vs DISCOVERING (Michael's frame: "are we forcing the shape with lambda
 > or discovering it? finding an exact mathematical construction in multiple model families").

@@ -162,6 +162,74 @@ dedup-protected (fixedpoint source outranks basin → crystal K/I pools clean
 → no past run invalidated), but direct readers got K/I backwards = latent
 landmine, now fixed. `fixedpoint_probes.json` was already correct.
 
+## Proof domain (s247) — the oracle removes the blind spot, the continuation removes the ceiling
+
+> Session 247 (Michael: "create proofs that run on the lambda compiler in
+> qwen3-14B and gemma"). Applied this page's consensus-as-fitness idea to the
+> Curry-Howard PROOF domain (`proofs-as-continuations.md`), where the kernel
+> verifies every term. Two registers compared on the SAME expanded probe set
+> (35 implicational theorems + 13 non-theorems): SINGLE-SHOT (proof_inhabitation)
+> vs REPL (proof_repl, the continuation-driven prover). Pair: Qwen3-14B × Gemma-4-31B-it.
+
+Why proofs are the cleanest possible instrument for this page: lambda reduction
+gives ground truth, AND the kernel makes the **agreed-error cell structurally
+near-empty** — two models cannot agree on a kernel-PASSING false proof (a wrong
+term does not type-check). So the s246 ceiling ("only an oracle breaks the
+agreed-error blind spot, and consensus-distillation inherits it") is **defused by
+construction** on this domain. No token-Jaccard / stemming needed — α/reduction
+equality is exact (the kernel normal form).
+
+`scripts/experiments/proof_consensus.py` is a POST-PROCESSOR over the two model
+JSONs (re-normalises each term through the kernel, partitions into the s246 grid +
+calibration). `--source {inhabitation,repl}` selects the register.
+
+| metric | single-shot | REPL | Δ |
+|---|---|---|---|
+| term-agreement rate | 0.375 | **0.812** | +0.44 |
+| **P(both-correct \| AGREE)** | 0.944 | **1.000** | +0.06 |
+| P(both-correct \| DISAGREE) | 0.10 | 0.111 | — |
+| both-valid SAME term (portability) | 6 | **26** | +20 |
+| both-invalid DIFF (composition gap) | 23 | **0** | −23 |
+| both-invalid SAME (agreed-error) | **1** | **0** | −1 |
+| non-theorem both-abstain (⊥) | 11 | 13 | +2 |
+| false proofs | 0 | 0 | — |
+
+Per-model sensitivity (continuation lift): Qwen3-14B 0.20→0.77, Gemma 0.31→1.00.
+
+**Three findings:**
+
+1. **A real cross-lineage agreed-error exists single-shot — and it is the ENTIRE
+   ceiling.** On `A → A → A` BOTH models emit the identical term `W I` (contraction
+   — the proposition *looks* like it duplicates an A), which the kernel rejects as
+   ill-typed. The correct proof is just `K` (weakening). This single shared
+   misconception is the *only* reason single-shot P(correct|agree) is 0.944 and not
+   1.0 — exactly the s246 prediction operationalised: **consensus's ceiling = the
+   agreed-error set**, and consensus-distillation would teach the student `W I`.
+   The oracle catches it (lands in `both-invalid SAME`, never the teaching set).
+
+2. **The continuation engine dissolves the agreed-error → P(correct|agree)=1.000.**
+   In REPL the goal-directed prover can only take *legal, type-correct moves*, so an
+   ill-typed shared misconception like `W I` **cannot be committed**. The agreed-error
+   vanishes, agreement on the proof term jumps 0.375→0.812, and consensus becomes a
+   PERFECT fitness signal. ⇒ **the continuation removes the s246 ceiling**: single-shot
+   consensus has a residual blind spot; REPL consensus has none. (Connects this page to
+   `proofs-as-continuations.md` §s228 — the continuation rescues composition AND, here,
+   removes the consensus blind spot.)
+
+3. **Portability core = the proof basis.** The 6 single-shot `both-valid SAME` terms
+   are exactly `I,K,B,S,C,W` (the Hilbert axiom schemes) — "the part both architectures
+   agree on" *is* the combinator basis. REPL grows this to 26/35 (the deep
+   compositional theorems now reached the same way by both lineages).
+
+Caveats (λ measure): one pair (binary, not a gradient); n=35 theorems; greedy decode;
+the 8 REPL `one-valid` frontier cases are ALL Qwen misses (Gemma 35/35) — the s228
+greedy-single-move dead-end (no backtracking), a SEARCH limit not a consensus blind
+spot (correctly excluded as disagreements). Specificity 1.0 / zero false proofs
+throughout (structural). Artifacts: `results/proof-consensus/{consensus,consensus-repl}.json`,
+`results/proof-{inhabitation,repl}/{Qwen_Qwen3-14B,google_gemma-4-31B-it}.json`;
+expanded probe set `src/verbum/probes/proof_tasks.py` (35+13, every ref auto-solved +
+kernel-certified via `_gen_proof_tasks.py`).
+
 ## Open / next
 
 - ✅ DONE (s246): scoring fix (predicate stemming + lowercasing); OLMo→Gemma
@@ -179,3 +247,14 @@ landmine, now fixed. `fixedpoint_probes.json` was already correct.
 - Relation to the main line: consensus is a candidate source for the
   prose→LF front-end teaching data (compiler-as-loss §s242) and for the
   RLVR frontier (spliced-reward) — ground-truth-corrected on lambda.
+- ✅ DONE (s247): proof-domain consensus (Qwen3-14B × Gemma), single-shot vs
+  REPL — the continuation removes the agreed-error ceiling (P 0.944→1.000).
+- NEXT (s247): add a 3rd lineage to the proof consensus (Qwen3-32B / Mistral)
+  for a confidence GRADIENT — does the `W I` agreed-error survive a third
+  independent prover single-shot (universal bias) or is it Qwen×Gemma-shared?
+- NEXT: backtracking in proof_search (the 8 REPL frontier cases are Qwen
+  greedy dead-ends, incl. axioms B/S) — does it close the frontier to perfect
+  cross-lineage agreement?
+- NEXT: mine the agreed-error set deliberately — generate theorems whose
+  "obvious" wrong term is shared (contraction/permutation traps) to characterise
+  the structural triggers of single-shot consensus blind spots.
