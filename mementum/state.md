@@ -2,7 +2,93 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-21 | Session: 244 (FIRING SURVEY: corpus fires only {B,S,C},
+> Last updated: 2026-06-21 | Session: 246 (CONSENSUS TEACHING DATA — cross-model
+> output-agreement as fitness, CALIBRATED on FOL (P(correct|agree) 0.73–0.80 REPLICATED across
+> 2 lineages); binding.json clean + K↔I lattice swap fixed) — ▶ exploration tangent; main line
+> stays COMPILER-AS-LOSS §s242.
+>
+> **★★ s246 — CONSENSUS-BASED TEACHING DATA: cross-model output-agreement as a fitness
+> function, calibrated on FOL where ground truth exists (Michael: "build teaching data only
+> from where independent model ARCHITECTURES agree; consensus = fitness; same for prose";
+> and the mirror: "a set of failure-mode tests where they all agree something is a failure").
+> EXPLORATION TANGENT off the compiler-as-loss main line — a candidate SOURCE for the prose→LF
+> front-end teaching data and the RLVR frontier, ground-truth-corrected on lambda.** THE FRAME:
+> the portable artifact verbum wants IS "the part all architectures agree on" → consensus =
+> portability BY CONSTRUCTION (operationalizes the s240 universality: "all models agreed on the
+> soft routing topology" → a data-generation engine). Lambda/FOL has GROUND TRUTH → CALIBRATE
+> consensus-as-truth (agreement→P(correct)) here, THEN transfer the estimator to prose where no
+> oracle exists (lambda = the calibration anchor, λ measure). Output consensus needs NO
+> frame-alignment (cf combinator_map_consensus.py Gram machinery) — generated strings share the
+> vocabulary = the cheap register. THE FAILURE MIRROR (the high-leverage half): "agreed failure"
+> decomposes into {correct-abstention(⊥-targets), shared-incapacity, AGREED-ERROR=blind-spot,
+> agreed-disagreement}; agreed-error is the false-positive region of the fitness function, ONLY
+> visible with ground truth, and consensus-distillation CANNOT fix it (student learns the
+> teachers' shared mistakes) → it defines the CEILING; only an oracle breaks it ⇒
+> ground-truth-corrected consensus on lambda, consensus+blind-spot-flagging on prose.
+> **DATA AUDIT (Michael flagged Qwen3-4B `λx.`-wrapping bad data): binding.json CLEAN (26
+> hand-authored FOL, no λ); the `λx.`-wrapping is in the COMPILE sets where λ is the target
+> (legit). FOUND+FIXED a DIFFERENT bug — K↔I label SWAP in lattice/basin_probes.json +
+> lattice/binding_chain_probes.json (`λx.x` labeled pure/K, `λx.λy.x` labeled pure/I — backwards;
+> K=λx.λy.x, I=λx.x). Library was DEDUP-PROTECTED (fixedpoint source outranks basin → crystal K/I
+> pools clean → NO past relationship-map/consensus run invalidated); direct readers got K/I
+> backwards = latent landmine, now fixed. fixedpoint_probes.json already correct.** THE HARNESS
+> (scripts/experiments/consensus_output_agreement.py, NEW): resolve gated probe set (gate+prompt
+> few-shot completion) → generate per-model (transformers, MPS bf16, greedy) → per-model JSONL
+> (stores raw_completion for re-parse) → analyzer: agreement (norm-exact + jaccard-threshold) +
+> CALIBRATION P(correct|agree) vs P(correct|disagree) + FAILURE-MODE partition {agreed_correct,
+> agreed_error, agreed_abstain, disagree}. Resumable. **RAN Qwen3-14B × OLMo-2-13B on
+> binding.json (25 scored; gate's 2nd exemplar leaks bind-scope-01a, excluded): ★ CORE
+> HYPOTHESIS SUPPORTED — P(correct|AGREE)=0.44 (n=9) vs P(correct|DISAGREE)=0.00 (n=16);
+> agreement predicts correctness, disagreement perfectly predicts ≥1-wrong. agreement rate exact
+> 0.12/jac 0.36, mean cross-jac 0.743. Qwen3-14B ≫ OLMo-2-13B (0.16/0.48 vs 0.08/0.20 — OLMo is
+> BASE, weak at few-shot NL→FOL). 2 genuine agreed-errors (bind-ana-01 reflexive, bind-ana-03
+> negation+relative) = a real SHARED anaphora blind spot (failure-set idea validated in
+> miniature).** ★★ DOMINANT FINDING (λ measure): token-Jaccard scoring is the BOTTLENECK —
+> predicate-naming variation (fly/can_fly, love/loves, pass/passed) both suppresses correctness
+> AND when shared masquerades as agreed-error (2 of 4 agreed-errors are scoring artifacts) ⇒ NEED
+> α/semantic-equivalence canonicalization (predicate lemmatization + variable renaming), NOT
+> token Jaccard — prerequisite for BOTH the teaching set and the failure set. **★★ SCORING FIX
+> RAN (predicate stemming `fly/can_fly,love/loves,pass/passed` + lowercasing `John/john`,
+> re-analyze, no regen): Qwen×OLMo P(correct|AGREE) 0.44→0.73 (n=11), agreed-error set PURIFIED
+> 4→2 (the 2 artifacts moved to agreed_correct; left exactly the 2 genuine anaphora errors).
+> token-Jaccard alone IS the bottleneck; canonicalization is the prerequisite.** **★★ GEMMA SWAP
+> RAN (OLMo-base → google/gemma-4-31B-it, the cross-lineage Google×Alibaba INSTRUCT pair; added
+> `--chat` to the harness — Gemma ECHOES a raw few-shot completion, needs the chat template;
+> Qwen+Gemma re-run chat-mode for apples-to-apples): Qwen3-14B × Gemma-4-31B-it — mean cross-jac
+> 0.862, P(correct|AGREE)=0.80 (n=15) vs P(correct|DISAGREE)=0.10 (n=10). Gemma-31B-it is the
+> STRONGER model (mean jac_gt 0.906 > Qwen 0.843 > OLMo-base 0.77).** **★ CORE HYPOTHESIS
+> REPLICATED across 2 second-lineages: P(correct|agree) 0.73 (OLMo) / 0.80 (Gemma) vs disagree
+> 0.00/0.10 — consensus-as-fitness is real and pair-robust.** **★★ THE KEY METHODOLOGICAL
+> FINDING — the agreed-error set is PAIR-DEPENDENT: swapping OLMo→Gemma MOVED the shared blind
+> spot. Anaphora (bind-ana-01/03) left agreed-error → DISAGREE (Gemma handles the negated
+> relative; the anaphora blind spot was OLMo-shared, NOT universal). The new Qwen×Gemma shared
+> error is SORTAL OMISSION ON BARE QUANTIFIERS, the strongest kind (cross_jac=1.0, IDENTICAL
+> output): "Someone loves everyone"→both `∃x.∀y.loves(x,y)`, "Everyone loves someone"→both
+> `∀x.∃y.loves(x,y)`, BOTH dropping `person()` sortal restriction — even though the gate
+> demonstrates it for explicit nouns. Pattern: sortal kept for explicit nouns (student/book),
+> dropped for bare pronouns (someone/everyone).** ⇒ TWO LESSONS: (1) consensus surfaces
+> annotation-CONVENTION gaps (the sortal "error" is arguably GT being stricter than models
+> emit) — a teaching-data spec decision, not a model failure; (2) agreed-error is pair-relative
+> → a stronger/independent partner dissolves shallow shared errors (anaphora) and exposes deeper
+> systematic ones (sortal typing) = empirical support for the ≥3-lineage confidence-GRADIENT
+> recommendation (2 models = binary only). The durable result is the CALIBRATION (0.73/0.80
+> replicated); failure CONTENT is diagnostic and pair-specific. Artifacts:
+> results/consensus-output/{Qwen_Qwen3-14B,google_gemma-4-31B-it,allenai_OLMo-2-1124-13B}.jsonl
+> (Gemma/Qwen chat-mode, OLMo completion-mode preserved) + consensus.json (=Qwen×Gemma); harness
+> (+`--chat`, +stemming scorer) + K↔I lattice fix. Knowledge: explore/cross-model-output-
+> consensus.md (NEW). tmux main:1 used. **★★ NEXT: (1) add a 3rd lineage (confidence gradient);
+> (2) decide the sortal-restriction convention for teaching data + demo it in the gate; (3)
+> scale beyond binding → the lambda-compile sets (decompile/extract/compile-gradient = the
+> kernel's own language); (4) deliberately MINE the agreed-error/agreed-abstain sets (the
+> failure-mode test suite — deep nesting, scope, capture-avoid, self-application).** CAVEATS
+> (λ measure): 1 probe set (binding, 25 scored), pairs of 2 (binary agreement), greedy/temp-0,
+> light Porter-step-1 stemmer (consistency not linguistics); the calibration LIFT + REPLICATION
+> are the real signal. PENDING APPROVAL: knowledge page + this state entry; code (harness + K↔I
+> lattice fix) ready to commit.
+>
+> ---
+>
+> Session: 244 (FIRING SURVEY: corpus fires only {B,S,C},
 > NEVER {I,K,Y}; K 0/559 — firmed splice set DISJOINT from behavior. POWER TEST closed it:
 > {B,S,C} loci are split-fragile flukes (B≤0.50, C tp=1) — `fires`∩`spliceable`=∅. The
 > in-place splice is NOT viable in the behavioral register → REDIRECT to constructed
