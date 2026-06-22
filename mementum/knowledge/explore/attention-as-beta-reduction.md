@@ -240,6 +240,53 @@ the lever, not geometric/opcode localization. Artifacts:
 `results/ffn-program-decode/{verdict,per_item,meta}_qwen3-8b_balanced.json`,
 `data/firing-probes.balanced.jsonl`.
 
+### s248 cont.2 — the weak B-signal was a LABELING MISMATCH: the model reads objects as constants (C), not existentials (B)
+
+A sharper question dissolved much of the §7 puzzle. Our ground truth labelled "Every cat fears
+a dog" by the **Montague existential** reading (`a dog` = ∃y.dog(y)∧…) → B-heavy (B-count
+1→3→5 as objects are added). But the model may take the **constant/applicative** reading
+(`fears(x, dog)` → `C fears dog`, C-count == #objects). These make *opposite* predictions along
+an object-count ladder:
+
+| reading | predicts as #objects rises {0,1,2} |
+|---|---|
+| existential (Montague) | **z(B) rises** (B-count 1→3→5), C flat |
+| constant (applicative) | **z(C) rises** (C-count 0→1→2), B flat |
+
+Built `gen_reading_probes.py` → `data/reading-probes.jsonl` (135 probes, object-count ladder
+0/1/2 × 45, intrans/trans/ditrans, both candidate labelings; const C-count==#objects enforced).
+`ffn_reading_preference.py` decodes gate+attn, mean z per combinator over L25-30, Spearman vs
+object count. **Qwen3-8B:**
+
+| register | raw z(C) vs #obj | raw z(B) vs #obj |
+|---|---|---|
+| FFN gate | **r=+0.49, p<0.001 ↑** | **r=−0.27, p=0.0015 ↓** |
+| attention | **r=+0.62, p<0.001 ↑** | r=−0.04, p=0.66 (flat) |
+
+C and B move in **opposite** directions (so it is not uniform length/common-mode growth). **The
+existential reading is refuted** (B must rise — it falls); **the model routes added objects
+through C (argument application) = the constant/applicative reading.** A free post-hoc on the
+balanced run agreed (C-share trans 0.583 > intrans 0.460, p<1e-4).
+
+**⇒ This reframes the whole §7 result:** the weak B-tracking was **not** "the FFN cannot read the
+program" — it was *"we gave it the wrong program."* We labelled by existential-B; the model
+computes applicative-C. Labelled the way the model actually computes (object → C), the gate
+register tracks the structure **cleanly** (z(C) rises p<0.001, both registers, robust). So the
+gate register *does* carry the combinator structure the model computes — the earlier negative was
+a **measurement-target error** (λ measure: wrong label ≡ coherence violation, representation ≢
+reality). It also answers "B is inherent from the ordering": that ordering assumes existential
+objects; the model does not do them, so these sentences are C-applicative in the model, and the
+expected B was an artifact of our Montague labelling.
+
+**Caveats (λ measure):** C-*share* is common-mode-saturated (~0.6) so its slope is flat — the
+positive evidence is raw z(C)↑ (p<0.001) **plus** z(B)↓ (refuting existential), not C-share↑; the
+C−B-share contrast is significant in attention (p=0.008) but only directional in FFN (p=0.25) due
+to that saturation. z(C)↑ could partly be argument-application common-mode, but the B/C divergence
+(opposite signs) rules out uniform growth. **IOU:** force the existential reading with scope-marked
+prose ("there is a dog that every cat fears") — does z(B) then rise? = the clean exist-vs-const
+causal test. Artifacts: `results/ffn-reading-preference/{verdict,per_item,meta}_qwen3-8b.json`,
+`data/reading-probes.jsonl`.
+
 ## Caveats (λ measure)
 
 - The strong identity ("attention = β-reduction") is a *type-of-operation* claim (proven)

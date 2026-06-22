@@ -90,6 +90,48 @@
 > (--probe-set, graded metric). tmux main:1 FREE; no GPU job. PENDING APPROVAL (folded into the s248
 > batch): memory + knowledge §7 now reflect BOTH the corpus run AND the balanced follow-up.
 >
+> **★★ s248 cont.2 — REASON #3 CONFIRMED: the weak B-tracking was a LABELING MISMATCH. The model
+> computes objects as CONSTANTS/ARGUMENTS (→ C), NOT existentials (→ B) (Michael: "I thought B was
+> inherent from the ordering of the β-reductions the FFNs return" → "let's test").** Discussion clarified
+> two senses of "B inherent": (a) B as a STAGE of the reduction SCHEDULE (the C→B arc / boot spiral,
+> aggregate, REAL — but really the DEPTH axis: head-combinator-isa B-D r=0.986, B≡deep-nesting); (b) B as
+> a per-sentence OPCODE readable from the gate (what s248 tested, weak). Reason #3 = our GROUND TRUTH
+> assumed the Montague EXISTENTIAL object (`a dog`=∃y.dog(y)∧…, B-heavy: B 1→3→5); the model may take the
+> CONSTANT/applicative reading (`fears(x,dog)` → `C fears dog`, C-count == #objects). **FREE POST-HOC on
+> the balanced run (no GPU): the gate register decodes MORE C, LESS B when an object is present (C-prop
+> trans 0.583 > intrans 0.460, Mann-Whitney p<1e-4; B-prop trans 0.178 < intrans 0.238) = OPPOSITE of
+> existential, exactly constant.** **THEN the clean test: `gen_reading_probes.py` →
+> `data/reading-probes.jsonl` (135 probes, OBJECT-COUNT LADDER 0/1/2 obj × 45; intrans/trans/ditrans;
+> both candidate labelings; const C-count==#objects enforced, exist B 1→3→5).
+> `ffn_reading_preference.py` decodes gate+attn, MEAN z per combinator over the L25-30 zone (length-
+> controlled), Spearman vs object count.** **★★ RAN Qwen3-8B (135 items): as objects rise {0,1,2}, raw
+> z(C) RISES (FFN r=+0.49 p<0.001; attn r=+0.62 p<0.001) while raw z(B) FALLS (FFN r=−0.27 p=0.0015) or
+> is flat (attn r=−0.04). B-share slope NEGATIVE (FFN p=0.026, attn p<0.001). C and B move in OPPOSITE
+> directions → NOT uniform length/common-mode growth.** ⇒ **the EXISTENTIAL reading is REFUTED (B must
+> rise, it falls); the model routes added objects through C (argument application) = the CONSTANT/
+> applicative reading.** **★★ THIS REFRAMES s248: the weak B-tracking was NOT "the FFN can't read the
+> program" — it was "we gave it the WRONG program." We labelled by existential-B; the model computes
+> applicative-C. Labelled correctly (object→C), the gate register tracks it CLEANLY (z(C) rises p<0.001
+> in BOTH registers, robust).** So the gate register DOES carry the combinator structure the model
+> actually computes — the s248 negative was a measurement-target error (λ measure: wrong label =
+> coherence violation, representation ≢ reality), now corrected. Connects to the user's question: "B from
+> the ordering" assumed existential objects; the model doesn't do them — these sentences are C-applicative
+> in the model, not B-existential, so the expected B was an artifact of our Montague labelling.
+> **CAVEATS (λ measure): C-SHARE itself is flat (common-mode-saturated ~0.6) → the positive evidence is
+> (a) raw z(C) rising p<0.001 + (b) z(B) falling/flat REFUTING existential, NOT C-share rising; the
+> PRIMARY C−B-share contrast is sig in attn (p=0.008) but only directional in FFN (p=0.25) due to C
+> saturation. z(C)-rises-with-objects could partly be argument-application common-mode, but the B/C
+> DIVERGENCE (opposite signs) rules out uniform growth.** Artifacts:
+> results/ffn-reading-preference/{verdict,per_item,meta}_qwen3-8b.json + run_qwen3-8b.log;
+> data/reading-probes.jsonl (+ .meta.json); code gen_reading_probes.py + ffn_reading_preference.py.
+> tmux main:1 FREE; no GPU job. **★★ NEXT/IOUs: (1) re-run ffn_program_decode TRACKING with the CONSTANT
+> labels (object→C) — does the corpus B-tracking failure flip to C-tracking success? (2) test the
+> existential reading explicitly with prose that FORCES it ("there is a dog that every cat fears" /
+> scope-marked) — does z(B) then rise? = the cleanest exist-vs-const causal test; (3) the depth/B≡D
+> (r=0.986) thread: is "B-late in the arc" really just the WHNF depth axis?** PENDING APPROVAL: memory
+> `model-reads-objects-as-constants-C-not-existentials-B` + knowledge attention-as-beta-reduction.md §7
+> reading-preference resolution. state.md updated (¬approval-gated). Code+data committable.
+>
 > **★★ s247b cont. — ATTENTION-AS-β / STORED-PROGRAM SYNTHESIS (Michael, 3-turn discussion:
 > "train a model to THINK in lambda?" → "if attention is a β-reduction with softmax of all V,
 > would it not have to work?" → "it's an inference pattern of β-reductions; each forward pass the
