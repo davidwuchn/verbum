@@ -5,7 +5,8 @@
 > Last updated: 2026-06-22 | Session: 247 (FORCING vs DISCOVERING — fractal-collapse REDEFINED
 > (collapse one self-similar op INTO another); φ-ladder detector KILLED by matched-range null
 > (forced, not discovered); then the forcing-proof FRONTIER: type-directed composition is
-> CROSS-FAMILY — nonce crossover replicates in 5 independent lineages, t 4.6–10.2) — ▶
+> CROSS-FAMILY — nonce crossover replicates in 5 independent lineages, t 4.6–10.2; v4 CAUSAL
+> ablation PARTIAL cross-family (4/6 directional, strict only Mistral-7B — NOT Qwen-forced)) — ▶
 > forcing-vs-discovering line; main line stays COMPILER-AS-LOSS §s242.
 >
 > **★★ s247 — FORCING vs DISCOVERING (Michael's frame: "are we forcing the shape with lambda
@@ -36,18 +37,32 @@
 > in scale) — the forcing-proof + cross-family combination verbum lacked. Contrast the φ-ladder
 > (forced). CAVEATS (λ measure): behavioral (surprisal), NOT yet causal cross-family (the v4
 > ablation is still Qwen-only = the next IOU); n=16 nonce words, one template set; n_each=4.
-> **★★ FIRST ACTION NEXT SESSION — CAUSAL cross-family: run `type_directed_v4_ablation --model`
-> on Pythia-1.4B / Mistral-7B / OLMo-2-13B — does ABLATING the decoded type direction kill the
-> crossover OFF-QWEN? (the forcing-PROOF causal test; behavioral→causal closes the discovery
-> claim). Then: (2) add gemma-4-31B-it + round the gradient to a clean ≥3-lineage confidence band;
-> (3) chase the det-frame sign inconsistency (why is the determiner→noun main effect non-universal
-> while the name→pred is?); (4) caveat crystal-multi-tree.md φ claim.** Artifacts:
-> `results/type-directed/crossfamily_nonce_summary.json` + per-model `type_directed_v3_nonce_verdict_*`
-> + `crossfamily_sweep.log`; `results/fractal-collapse-screen/screen.json`. Committed: code
-> `1eb4f8b` (screen), memories `882e02a` (phi-ladder-fit-is-forced-not-discovered) + `185c758`
-> (matched-range-null-guards-flexible-fits). PENDING APPROVAL: memory
-> `type-direction-is-cross-family-not-qwen-forced` (DRAFTED) + this state entry + the cross-family
-> result artifacts. tmux/bg: job-1 sweep DONE (exit 0); no job running.
+> v3 cross-family result + memories committed: data `bed660d`, memory `a21c96f`
+> (type-direction-is-cross-family-not-qwen-forced), state `3574e80`. Earlier this session:
+> φ-screen code `1eb4f8b`, memories `882e02a` + `185c758`.
+>
+> **★ s247 cont. — v4 CAUSAL CROSS-FAMILY RAN (tmux main:1): decodability UNIVERSAL, causality
+> PARTIAL, NOT Qwen-forced.** Made v4 architecture-agnostic (`decoder_layers` → GPTNeoX/Pythia +
+> Llama-likes; was hard-coded `model.model.layers`) and ran `type_directed_v4_ablation --model`
+> (n_each=4, n_teach=2; project the decoded type direction OUT of the filler-stack residual;
+> control = random dir same magnitude; retained = ablated/baseline crossover): **Mistral-7B
+> type_ret 0.29 / rand 0.91 = STRICT causal (the ONLY one)**; Pythia-1.4B 0.63/1.00, OLMo-2-13B
+> 0.63/1.00, Qwen3-14B 0.64/0.95 = DIRECTIONAL; SmolLM3-3B 1.04/1.12, Qwen3-8B 1.43/0.92 = NULL.
+> **AUC 1.0 in 6/6 (decodable everywhere); causal directional in 4/6 across 3 INDEPENDENT lineages
+> (Mistral/Pythia/OLMo) + Qwen-14B; strict only Mistral-7B; null in SmolLM3 + Qwen-8B.** ⇒ NOT
+> Qwen-forced — Mistral has the STRONGEST causal grip and Qwen-8B NONE (opposite of a Qwen
+> artifact) → the construction is DISCOVERED + cross-family, but its causal localization via a
+> single-direction linear ablation is PARTIAL/method-sensitive (decodability ≠ full causality,
+> db5d4eb). Even Qwen-14B is sub-strict (0.64). CAVEATS (λ measure): single-direction filler-stack
+> ablation → a NULL is not decisive (type may be distributed); n=16 nonce, one template set.
+> **★★ FIRST ACTION NEXT SESSION: (1) RICHER intervention — multi-direction / distributed-subspace
+> ablation (does the SmolLM3 / Qwen-8B null survive? = the only way to call them true negatives);
+> (2) chase the det-frame sign inconsistency (name→pred universal, determiner→noun is not — why?);
+> (3) add gemma-4-31B-it for a 5th independent lineage; (4) caveat crystal-multi-tree.md φ claim.**
+> Artifacts: `results/type-directed/type_directed_v4_ablation_verdict_*` + `crossfamily_v4_ablation.log`;
+> code `scripts/experiments/run_v4_crossfamily.sh` + `decoder_layers` patch. PENDING APPROVAL:
+> memory `type-direction-causal-cross-family-partial` (DRAFTED) + this cont. + the v4 artifacts +
+> v4 code patch. tmux main:1 FREE; no job running.
 >
 > **★★ s246 — CONSENSUS-BASED TEACHING DATA: cross-model output-agreement as a fitness
 > function, calibrated on FOL where ground truth exists (Michael: "build teaching data only
