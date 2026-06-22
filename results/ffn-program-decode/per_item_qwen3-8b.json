@@ -1,0 +1,1526 @@
+[
+  {
+    "input": "Every artist knows a baker.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1,
+      "C": 1
+    },
+    "reduction_len": 3,
+    "ffn_dominant": "B",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": -1,
+    "lead_xcorr": 3,
+    "xcorr": 0.9406784444073512,
+    "ffn_score": {
+      "B": 11.216,
+      "C": 10.081,
+      "S": 10.616
+    },
+    "attn_score": {
+      "B": 20.962,
+      "C": 33.264,
+      "S": 15.566
+    }
+  },
+  {
+    "input": "Every cat fears a dog.",
+    "category": "quantified",
+    "dominant_fired": "B",
+    "fired_multiset": {
+      "S": 1,
+      "B": 3
+    },
+    "reduction_len": 4,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": 0,
+    "lead_xcorr": 2,
+    "xcorr": 0.5359218742008176,
+    "ffn_score": {
+      "B": 6.247,
+      "C": 21.303,
+      "S": 11.204
+    },
+    "attn_score": {
+      "B": 10.053,
+      "C": 29.079,
+      "S": 16.461
+    }
+  },
+  {
+    "input": "Every judge finds a writer.",
+    "category": "quantified",
+    "dominant_fired": "B",
+    "fired_multiset": {
+      "S": 1,
+      "B": 3
+    },
+    "reduction_len": 4,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": 0,
+    "lead_xcorr": -1,
+    "xcorr": 0.8528960822290494,
+    "ffn_score": {
+      "B": 6.618,
+      "C": 21.764,
+      "S": 11.86
+    },
+    "attn_score": {
+      "B": 12.741,
+      "C": 34.691,
+      "S": 20.024
+    }
+  },
+  {
+    "input": "Every teacher likes a artist.",
+    "category": "quantified",
+    "dominant_fired": "B",
+    "fired_multiset": {
+      "S": 1,
+      "B": 3
+    },
+    "reduction_len": 4,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": -5,
+    "lead_xcorr": 2,
+    "xcorr": 0.29596174701972144,
+    "ffn_score": {
+      "B": 7.973,
+      "C": 31.498,
+      "S": 12.787
+    },
+    "attn_score": {
+      "B": 18.025,
+      "C": 58.742,
+      "S": 11.887
+    }
+  },
+  {
+    "input": "Every farmer likes a woman.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1,
+      "C": 1
+    },
+    "reduction_len": 3,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": -3,
+    "lead_xcorr": -3,
+    "xcorr": 0.5620252154695494,
+    "ffn_score": {
+      "B": 6.415,
+      "C": 15.75,
+      "S": 9.588
+    },
+    "attn_score": {
+      "B": 19.306,
+      "C": 41.877,
+      "S": 15.182
+    }
+  },
+  {
+    "input": "Every farmer sleeps.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "S",
+    "attn_dominant": "B",
+    "ffn_correct": true,
+    "attn_correct": false,
+    "lead_peak": -1,
+    "lead_xcorr": 2,
+    "xcorr": 0.4233136160973134,
+    "ffn_score": {
+      "B": 6.854,
+      "C": 5.652,
+      "S": 7.643
+    },
+    "attn_score": {
+      "B": 14.073,
+      "C": 9.552,
+      "S": 7.262
+    }
+  },
+  {
+    "input": "Every man fears a king.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1,
+      "C": 1
+    },
+    "reduction_len": 3,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": 0,
+    "lead_xcorr": 3,
+    "xcorr": 0.5628068717517342,
+    "ffn_score": {
+      "B": 6.715,
+      "C": 23.746,
+      "S": 8.767
+    },
+    "attn_score": {
+      "B": 11.754,
+      "C": 38.05,
+      "S": 11.955
+    }
+  },
+  {
+    "input": "Some cat swims.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "B",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": 1,
+    "lead_xcorr": 1,
+    "xcorr": 0.8554382863571597,
+    "ffn_score": {
+      "B": 7.074,
+      "C": 13.252,
+      "S": 8.104
+    },
+    "attn_score": {
+      "B": 12.029,
+      "C": 11.636,
+      "S": 9.907
+    }
+  },
+  {
+    "input": "Every woman walks.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": 3,
+    "lead_xcorr": 3,
+    "xcorr": 0.9809388879004916,
+    "ffn_score": {
+      "B": 5.687,
+      "C": 16.199,
+      "S": 8.553
+    },
+    "attn_score": {
+      "B": 9.214,
+      "C": 14.032,
+      "S": 7.712
+    }
+  },
+  {
+    "input": "Every knight sings.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "B",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": 1,
+    "lead_xcorr": -3,
+    "xcorr": 0.6725465751378279,
+    "ffn_score": {
+      "B": 6.7,
+      "C": 5.142,
+      "S": 6.673
+    },
+    "attn_score": {
+      "B": 8.724,
+      "C": 11.06,
+      "S": 9.276
+    }
+  },
+  {
+    "input": "Every knight writes a scientist.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1,
+      "C": 1
+    },
+    "reduction_len": 3,
+    "ffn_dominant": "S",
+    "attn_dominant": "C",
+    "ffn_correct": true,
+    "attn_correct": false,
+    "lead_peak": -3,
+    "lead_xcorr": 3,
+    "xcorr": 0.8758294338240211,
+    "ffn_score": {
+      "B": 7.643,
+      "C": 7.962,
+      "S": 12.872
+    },
+    "attn_score": {
+      "B": 15.174,
+      "C": 36.399,
+      "S": 23.079
+    }
+  },
+  {
+    "input": "Every writer serves a fish.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": -1,
+    "lead_xcorr": -2,
+    "xcorr": 0.7297900326130901,
+    "ffn_score": {
+      "B": 9.317,
+      "C": 29.697,
+      "S": 8.829
+    },
+    "attn_score": {
+      "B": 18.979,
+      "C": 33.74,
+      "S": 16.916
+    }
+  },
+  {
+    "input": "Some baker cries.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": 0,
+    "lead_xcorr": 3,
+    "xcorr": 0.9437389799629713,
+    "ffn_score": {
+      "B": 8.902,
+      "C": 21.024,
+      "S": 6.912
+    },
+    "attn_score": {
+      "B": 16.789,
+      "C": 23.266,
+      "S": 8.969
+    }
+  },
+  {
+    "input": "Every fish flies.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "S",
+    "attn_dominant": "B",
+    "ffn_correct": true,
+    "attn_correct": false,
+    "lead_peak": 3,
+    "lead_xcorr": 1,
+    "xcorr": 0.7375892642513586,
+    "ffn_score": {
+      "B": 5.01,
+      "C": 0.458,
+      "S": 6.722
+    },
+    "attn_score": {
+      "B": 10.611,
+      "C": 7.89,
+      "S": 7.29
+    }
+  },
+  {
+    "input": "Some teacher runs.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": -2,
+    "lead_xcorr": 3,
+    "xcorr": 0.8971992108844509,
+    "ffn_score": {
+      "B": 6.647,
+      "C": 23.2,
+      "S": 8.628
+    },
+    "attn_score": {
+      "B": 14.957,
+      "C": 23.007,
+      "S": 8.558
+    }
+  },
+  {
+    "input": "Every child runs.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": 1,
+    "lead_xcorr": 1,
+    "xcorr": 0.7260266616272655,
+    "ffn_score": {
+      "B": 5.792,
+      "C": 18.308,
+      "S": 8.713
+    },
+    "attn_score": {
+      "B": 7.25,
+      "C": 26.017,
+      "S": 7.277
+    }
+  },
+  {
+    "input": "Some poet runs.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": 1,
+    "lead_xcorr": 1,
+    "xcorr": 0.9849948006150839,
+    "ffn_score": {
+      "B": 5.799,
+      "C": 19.516,
+      "S": 8.572
+    },
+    "attn_score": {
+      "B": 12.193,
+      "C": 16.575,
+      "S": 7.197
+    }
+  },
+  {
+    "input": "Every pilot loves a man.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1,
+      "C": 1
+    },
+    "reduction_len": 3,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": -3,
+    "lead_xcorr": 0,
+    "xcorr": 0.5745237524098805,
+    "ffn_score": {
+      "B": 6.577,
+      "C": 29.607,
+      "S": 8.6
+    },
+    "attn_score": {
+      "B": 13.922,
+      "C": 38.717,
+      "S": 12.159
+    }
+  },
+  {
+    "input": "Every dancer swims.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "S",
+    "ffn_correct": false,
+    "attn_correct": true,
+    "lead_peak": -1,
+    "lead_xcorr": 3,
+    "xcorr": 0.8617771485327401,
+    "ffn_score": {
+      "B": 6.622,
+      "C": 10.523,
+      "S": 8.922
+    },
+    "attn_score": {
+      "B": 10.447,
+      "C": 9.474,
+      "S": 12.787
+    }
+  },
+  {
+    "input": "Every farmer falls.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "S",
+    "attn_dominant": "B",
+    "ffn_correct": true,
+    "attn_correct": false,
+    "lead_peak": -3,
+    "lead_xcorr": -3,
+    "xcorr": 0.9877872959537798,
+    "ffn_score": {
+      "B": 6.873,
+      "C": 6.46,
+      "S": 7.575
+    },
+    "attn_score": {
+      "B": 13.061,
+      "C": 11.788,
+      "S": 7.008
+    }
+  },
+  {
+    "input": "Every man likes a artist.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1,
+      "C": 1
+    },
+    "reduction_len": 3,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": -3,
+    "lead_xcorr": 3,
+    "xcorr": 0.8607598758645432,
+    "ffn_score": {
+      "B": 6.571,
+      "C": 21.539,
+      "S": 8.451
+    },
+    "attn_score": {
+      "B": 13.961,
+      "C": 51.539,
+      "S": 10.804
+    }
+  },
+  {
+    "input": "Every guard reads a chef.",
+    "category": "quantified",
+    "dominant_fired": "C",
+    "fired_multiset": {
+      "C": 1
+    },
+    "reduction_len": 1,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": true,
+    "attn_correct": true,
+    "lead_peak": -5,
+    "lead_xcorr": 2,
+    "xcorr": 0.7510336452700755,
+    "ffn_score": {
+      "B": 9.355,
+      "C": 30.083,
+      "S": 16.676
+    },
+    "attn_score": {
+      "B": 15.109,
+      "C": 37.146,
+      "S": 28.005
+    }
+  },
+  {
+    "input": "Every judge likes a queen.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1,
+      "C": 1
+    },
+    "reduction_len": 3,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": 1,
+    "lead_xcorr": 3,
+    "xcorr": 0.8697332769513217,
+    "ffn_score": {
+      "B": 6.373,
+      "C": 25.25,
+      "S": 10.867
+    },
+    "attn_score": {
+      "B": 9.334,
+      "C": 42.259,
+      "S": 15.231
+    }
+  },
+  {
+    "input": "Every farmer works.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "S",
+    "attn_dominant": "B",
+    "ffn_correct": true,
+    "attn_correct": false,
+    "lead_peak": -3,
+    "lead_xcorr": 2,
+    "xcorr": 0.5919528968553174,
+    "ffn_score": {
+      "B": 6.475,
+      "C": 4.89,
+      "S": 9.059
+    },
+    "attn_score": {
+      "B": 12.715,
+      "C": 11.981,
+      "S": 8.342
+    }
+  },
+  {
+    "input": "Every hunter smiles.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": 4,
+    "lead_xcorr": -2,
+    "xcorr": 0.765391850512494,
+    "ffn_score": {
+      "B": 6.627,
+      "C": 19.25,
+      "S": 7.908
+    },
+    "attn_score": {
+      "B": 7.933,
+      "C": 12.816,
+      "S": 8.591
+    }
+  },
+  {
+    "input": "Every singer reads a farmer.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1,
+      "C": 1
+    },
+    "reduction_len": 3,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": -3,
+    "lead_xcorr": -3,
+    "xcorr": 0.8834813295084731,
+    "ffn_score": {
+      "B": 8.818,
+      "C": 31.077,
+      "S": 12.511
+    },
+    "attn_score": {
+      "B": 17.87,
+      "C": 39.332,
+      "S": 25.981
+    }
+  },
+  {
+    "input": "Every clerk writes a writer.",
+    "category": "quantified",
+    "dominant_fired": "B",
+    "fired_multiset": {
+      "S": 1,
+      "B": 2
+    },
+    "reduction_len": 3,
+    "ffn_dominant": "S",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": 1,
+    "lead_xcorr": -1,
+    "xcorr": 0.8419944085083373,
+    "ffn_score": {
+      "B": 7.305,
+      "C": 17.688,
+      "S": 19.331
+    },
+    "attn_score": {
+      "B": 19.006,
+      "C": 44.052,
+      "S": 26.88
+    }
+  },
+  {
+    "input": "Every writer fears a queen.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1,
+      "C": 1
+    },
+    "reduction_len": 3,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": 0,
+    "lead_xcorr": -3,
+    "xcorr": 0.9110665809291236,
+    "ffn_score": {
+      "B": 8.435,
+      "C": 34.679,
+      "S": 7.832
+    },
+    "attn_score": {
+      "B": 13.047,
+      "C": 36.346,
+      "S": 12.895
+    }
+  },
+  {
+    "input": "Every woman laughs.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": -1,
+    "lead_xcorr": 3,
+    "xcorr": 0.8302150402079177,
+    "ffn_score": {
+      "B": 6.046,
+      "C": 18.001,
+      "S": 7.626
+    },
+    "attn_score": {
+      "B": 7.778,
+      "C": 15.513,
+      "S": 7.329
+    }
+  },
+  {
+    "input": "Every child cries.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": 1,
+    "lead_xcorr": 1,
+    "xcorr": 0.45253826148749643,
+    "ffn_score": {
+      "B": 6.032,
+      "C": 20.531,
+      "S": 7.115
+    },
+    "attn_score": {
+      "B": 3.988,
+      "C": 26.652,
+      "S": 6.987
+    }
+  },
+  {
+    "input": "Every student flies.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": 1,
+    "lead_xcorr": 3,
+    "xcorr": 0.3382936710173556,
+    "ffn_score": {
+      "B": 5.726,
+      "C": 15.093,
+      "S": 7.825
+    },
+    "attn_score": {
+      "B": 8.341,
+      "C": 22.386,
+      "S": 8.134
+    }
+  },
+  {
+    "input": "Every baker cries.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": -1,
+    "lead_xcorr": 3,
+    "xcorr": 0.8933225951482143,
+    "ffn_score": {
+      "B": 7.721,
+      "C": 14.359,
+      "S": 6.434
+    },
+    "attn_score": {
+      "B": 10.037,
+      "C": 18.532,
+      "S": 9.178
+    }
+  },
+  {
+    "input": "Every chef greets a baker.",
+    "category": "quantified",
+    "dominant_fired": "B",
+    "fired_multiset": {
+      "S": 1,
+      "B": 3
+    },
+    "reduction_len": 4,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": 1,
+    "lead_xcorr": 2,
+    "xcorr": 0.7325751882297362,
+    "ffn_score": {
+      "B": 9.157,
+      "C": 38.247,
+      "S": 17.498
+    },
+    "attn_score": {
+      "B": 28.425,
+      "C": 56.082,
+      "S": 21.426
+    }
+  },
+  {
+    "input": "Some bird swims.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "S",
+    "attn_dominant": "B",
+    "ffn_correct": true,
+    "attn_correct": false,
+    "lead_peak": 4,
+    "lead_xcorr": -1,
+    "xcorr": 0.7970848558255877,
+    "ffn_score": {
+      "B": 7.522,
+      "C": 7.583,
+      "S": 8.685
+    },
+    "attn_score": {
+      "B": 11.024,
+      "C": 8.401,
+      "S": 9.503
+    }
+  },
+  {
+    "input": "Every knight swims.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "S",
+    "attn_dominant": "C",
+    "ffn_correct": true,
+    "attn_correct": false,
+    "lead_peak": -1,
+    "lead_xcorr": 1,
+    "xcorr": 0.5002417267759215,
+    "ffn_score": {
+      "B": 6.88,
+      "C": 4.523,
+      "S": 7.157
+    },
+    "attn_score": {
+      "B": 9.529,
+      "C": 9.874,
+      "S": 8.495
+    }
+  },
+  {
+    "input": "Every judge writes a artist.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1,
+      "C": 1
+    },
+    "reduction_len": 3,
+    "ffn_dominant": "S",
+    "attn_dominant": "S",
+    "ffn_correct": true,
+    "attn_correct": true,
+    "lead_peak": 2,
+    "lead_xcorr": -3,
+    "xcorr": 0.7948879684915765,
+    "ffn_score": {
+      "B": 8.38,
+      "C": 12.904,
+      "S": 17.083
+    },
+    "attn_score": {
+      "B": 18.09,
+      "C": 28.84,
+      "S": 30.009
+    }
+  },
+  {
+    "input": "Every baker trusts a baker.",
+    "category": "quantified",
+    "dominant_fired": "B",
+    "fired_multiset": {
+      "B": 1
+    },
+    "reduction_len": 1,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": 0,
+    "lead_xcorr": 2,
+    "xcorr": 0.8258288181648769,
+    "ffn_score": {
+      "B": 6.837,
+      "C": 26.923,
+      "S": 12.002
+    },
+    "attn_score": {
+      "B": 23.154,
+      "C": 45.614,
+      "S": 19.297
+    }
+  },
+  {
+    "input": "Every queen jumps.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "S",
+    "attn_dominant": "C",
+    "ffn_correct": true,
+    "attn_correct": false,
+    "lead_peak": -3,
+    "lead_xcorr": 1,
+    "xcorr": 0.7801655170066373,
+    "ffn_score": {
+      "B": 6.271,
+      "C": 5.102,
+      "S": 8.058
+    },
+    "attn_score": {
+      "B": 6.717,
+      "C": 10.69,
+      "S": 6.489
+    }
+  },
+  {
+    "input": "Every king runs.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "S",
+    "attn_dominant": "C",
+    "ffn_correct": true,
+    "attn_correct": false,
+    "lead_peak": -1,
+    "lead_xcorr": 3,
+    "xcorr": 0.5686256241822543,
+    "ffn_score": {
+      "B": 5.635,
+      "C": 3.849,
+      "S": 8.523
+    },
+    "attn_score": {
+      "B": 9.157,
+      "C": 16.341,
+      "S": 7.142
+    }
+  },
+  {
+    "input": "Some child dances.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": 3,
+    "lead_xcorr": 3,
+    "xcorr": 0.9318144926156565,
+    "ffn_score": {
+      "B": 6.067,
+      "C": 27.997,
+      "S": 7.92
+    },
+    "attn_score": {
+      "B": 8.778,
+      "C": 25.612,
+      "S": 7.152
+    }
+  },
+  {
+    "input": "Every dancer dreams.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": 1,
+    "lead_xcorr": 3,
+    "xcorr": 0.894298912285194,
+    "ffn_score": {
+      "B": 7.223,
+      "C": 14.855,
+      "S": 8.167
+    },
+    "attn_score": {
+      "B": 10.698,
+      "C": 11.102,
+      "S": 10.96
+    }
+  },
+  {
+    "input": "Every king helps a judge.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1,
+      "C": 1
+    },
+    "reduction_len": 3,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": 2,
+    "lead_xcorr": 1,
+    "xcorr": 0.8679038565873529,
+    "ffn_score": {
+      "B": 6.909,
+      "C": 28.068,
+      "S": 10.47
+    },
+    "attn_score": {
+      "B": 11.488,
+      "C": 47.784,
+      "S": 18.802
+    }
+  },
+  {
+    "input": "Every queen shouts.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": 1,
+    "lead_xcorr": 1,
+    "xcorr": 0.7760108407799212,
+    "ffn_score": {
+      "B": 6.191,
+      "C": 12.18,
+      "S": 7.052
+    },
+    "attn_score": {
+      "B": 5.291,
+      "C": 16.807,
+      "S": 6.925
+    }
+  },
+  {
+    "input": "Some guard cries.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": 0,
+    "lead_xcorr": 3,
+    "xcorr": 0.7411822961018925,
+    "ffn_score": {
+      "B": 7.604,
+      "C": 23.698,
+      "S": 7.675
+    },
+    "attn_score": {
+      "B": 10.626,
+      "C": 17.53,
+      "S": 7.698
+    }
+  },
+  {
+    "input": "Every farmer reads a pilot.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1,
+      "C": 1
+    },
+    "reduction_len": 3,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": -3,
+    "lead_xcorr": -3,
+    "xcorr": 0.9927513533943818,
+    "ffn_score": {
+      "B": 11.014,
+      "C": 15.012,
+      "S": 10.74
+    },
+    "attn_score": {
+      "B": 29.24,
+      "C": 37.114,
+      "S": 22.756
+    }
+  },
+  {
+    "input": "Every cat sings.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "S",
+    "attn_dominant": "S",
+    "ffn_correct": true,
+    "attn_correct": true,
+    "lead_peak": -3,
+    "lead_xcorr": 3,
+    "xcorr": 0.979006061273004,
+    "ffn_score": {
+      "B": 5.451,
+      "C": 6.237,
+      "S": 7.703
+    },
+    "attn_score": {
+      "B": 6.853,
+      "C": 9.338,
+      "S": 9.629
+    }
+  },
+  {
+    "input": "Every monk flies.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": -1,
+    "lead_xcorr": 1,
+    "xcorr": 0.5669714456405558,
+    "ffn_score": {
+      "B": 5.984,
+      "C": 8.375,
+      "S": 6.725
+    },
+    "attn_score": {
+      "B": 7.194,
+      "C": 12.514,
+      "S": 8.01
+    }
+  },
+  {
+    "input": "No dancer runs.",
+    "category": "negation",
+    "dominant_fired": "B",
+    "fired_multiset": {
+      "S": 1,
+      "B": 2
+    },
+    "reduction_len": 3,
+    "ffn_dominant": "C",
+    "attn_dominant": "S",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": -2,
+    "lead_xcorr": 2,
+    "xcorr": 0.47730422232815595,
+    "ffn_score": {
+      "B": 5.341,
+      "C": 14.533,
+      "S": 6.91
+    },
+    "attn_score": {
+      "B": 4.645,
+      "C": 9.098,
+      "S": 9.589
+    }
+  },
+  {
+    "input": "Some nurse whistles.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": 3,
+    "lead_xcorr": 3,
+    "xcorr": 0.9998063299823059,
+    "ffn_score": {
+      "B": 8.191,
+      "C": 29.522,
+      "S": 9.409
+    },
+    "attn_score": {
+      "B": 21.76,
+      "C": 31.133,
+      "S": 11.88
+    }
+  },
+  {
+    "input": "Every wizard carries a wizard.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 2,
+      "B": 2
+    },
+    "reduction_len": 4,
+    "ffn_dominant": "C",
+    "attn_dominant": "S",
+    "ffn_correct": false,
+    "attn_correct": true,
+    "lead_peak": 2,
+    "lead_xcorr": 3,
+    "xcorr": 0.9990027885407574,
+    "ffn_score": {
+      "B": 5.842,
+      "C": 11.745,
+      "S": 11.709
+    },
+    "attn_score": {
+      "B": 18.883,
+      "C": 18.518,
+      "S": 22.436
+    }
+  },
+  {
+    "input": "Every nurse climbs.",
+    "category": "quantified",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "B",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": 1,
+    "lead_xcorr": -3,
+    "xcorr": 0.8186268698558771,
+    "ffn_score": {
+      "B": 7.368,
+      "C": 14.689,
+      "S": 8.712
+    },
+    "attn_score": {
+      "B": 16.245,
+      "C": 10.172,
+      "S": 8.412
+    }
+  },
+  {
+    "input": "Every student reads a book.",
+    "category": "quantified",
+    "dominant_fired": "B",
+    "fired_multiset": {
+      "S": 1,
+      "B": 3
+    },
+    "reduction_len": 4,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": 0,
+    "lead_xcorr": -1,
+    "xcorr": 0.7421031535291838,
+    "ffn_score": {
+      "B": 7.175,
+      "C": 16.958,
+      "S": 16.56
+    },
+    "attn_score": {
+      "B": 14.54,
+      "C": 53.991,
+      "S": 18.226
+    }
+  },
+  {
+    "input": "The cat that sat on the mat is black.",
+    "category": "relative_clause",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1,
+      "C": 1
+    },
+    "reduction_len": 3,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": 4,
+    "lead_xcorr": -1,
+    "xcorr": 0.7955848870682651,
+    "ffn_score": {
+      "B": 8.411,
+      "C": 59.901,
+      "S": 12.226
+    },
+    "attn_score": {
+      "B": 23.889,
+      "C": 60.076,
+      "S": 15.876
+    }
+  },
+  {
+    "input": "Someone believes that the earth is flat.",
+    "category": "attitude",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1,
+      "C": 1
+    },
+    "reduction_len": 3,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": -2,
+    "lead_xcorr": 1,
+    "xcorr": 0.40831926968728344,
+    "ffn_score": {
+      "B": 8.478,
+      "C": 21.947,
+      "S": 8.529
+    },
+    "attn_score": {
+      "B": 25.256,
+      "C": 63.847,
+      "S": 9.265
+    }
+  },
+  {
+    "input": "No fish swims.",
+    "category": "negation",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "S",
+    "attn_dominant": "S",
+    "ffn_correct": true,
+    "attn_correct": true,
+    "lead_peak": 0,
+    "lead_xcorr": 3,
+    "xcorr": 0.8662799325760178,
+    "ffn_score": {
+      "B": 5.761,
+      "C": 2.637,
+      "S": 6.903
+    },
+    "attn_score": {
+      "B": 4.757,
+      "C": 3.654,
+      "S": 7.959
+    }
+  },
+  {
+    "input": "The teacher who the child sees laughs.",
+    "category": "relative_clause",
+    "dominant_fired": "S",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1
+    },
+    "reduction_len": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": 3,
+    "lead_xcorr": -2,
+    "xcorr": 0.42184584627865435,
+    "ffn_score": {
+      "B": 10.098,
+      "C": 99.445,
+      "S": 9.908
+    },
+    "attn_score": {
+      "B": 41.495,
+      "C": 96.537,
+      "S": 10.982
+    }
+  }
+]

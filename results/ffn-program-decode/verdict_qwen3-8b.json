@@ -1,0 +1,632 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "n_layers": 36,
+  "n_firing_items": 56,
+  "n_nonfiring_control": 40,
+  "zone_depth": [
+    0.7,
+    0.86
+  ],
+  "ffn_zone_layers": [
+    25,
+    26,
+    27,
+    28,
+    30
+  ],
+  "attn_zone_layers": [
+    25,
+    26,
+    27,
+    28,
+    29,
+    30
+  ],
+  "ffn_crystal_layers": [
+    0,
+    1,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    30
+  ],
+  "attn_crystal_layers": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35
+  ],
+  "truth_distribution": {
+    "S": 47,
+    "B": 8,
+    "C": 1
+  },
+  "A_tracking": {
+    "ffn_acc": 0.2321,
+    "ffn_null_mean": 0.2121,
+    "ffn_perm_p": 0.3613,
+    "attn_acc": 0.1071,
+    "attn_null_mean": 0.1211,
+    "attn_perm_p": 0.8086,
+    "majority_baseline_acc": 0.8393,
+    "majority_label": "S",
+    "ffn_beats_attn": true,
+    "ffn_beats_majority": false
+  },
+  "A_bs_discrimination": {
+    "n": 55,
+    "bs_truth": {
+      "S": 47,
+      "B": 8
+    },
+    "ffn_acc": 0.7091,
+    "ffn_null_mean": 0.7526,
+    "ffn_perm_p": 1.0,
+    "attn_acc": 0.3636,
+    "attn_null_mean": 0.4287,
+    "attn_perm_p": 0.962,
+    "majority_baseline_acc": 0.8545,
+    "majority_label": "S",
+    "ffn_beats_attn": true,
+    "ffn_beats_majority": false
+  },
+  "B_lead_lag": {
+    "peak_diff": {
+      "n": 56,
+      "n_pos": 23,
+      "n_neg": 24,
+      "n_zero": 9,
+      "median": 0.0,
+      "mean": -0.17857142857142858,
+      "frac_positive": 0.48936170212765956,
+      "sign_test_p": 1.0
+    },
+    "xcorr_lag": {
+      "n": 56,
+      "n_pos": 39,
+      "n_neg": 16,
+      "n_zero": 1,
+      "median": 1.5,
+      "mean": 0.9285714285714286,
+      "frac_positive": 0.7090909090909091,
+      "sign_test_p": 0.002667262382859803
+    },
+    "xcorr_lag_hist": {
+      "3": 20,
+      "2": 8,
+      "-1": 5,
+      "-3": 8,
+      "1": 11,
+      "-2": 3,
+      "0": 1
+    },
+    "peak_diff_hist": {
+      "-1": 9,
+      "0": 9,
+      "-5": 2,
+      "-3": 10,
+      "1": 12,
+      "3": 5,
+      "-2": 3,
+      "4": 3,
+      "2": 3
+    }
+  },
+  "C_rescue": {
+    "rescue": 9,
+    "anti_rescue": 2,
+    "rescue_gt_anti": true
+  },
+  "specificity": {
+    "firing_mean_maxz_BSC": 20.2603,
+    "nonfiring_mean_maxz_BSC": 46.8178
+  },
+  "calib_ffn": {
+    "n_layers": 36,
+    "crystal_layers": [
+      0,
+      1,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      30
+    ],
+    "per_layer": {
+      "0": {
+        "sil_z": 2.157,
+        "gc_consensus": 0.858,
+        "crystal_bearing": true
+      },
+      "1": {
+        "sil_z": 3.056,
+        "gc_consensus": 0.803,
+        "crystal_bearing": true
+      },
+      "2": {
+        "sil_z": 1.46,
+        "gc_consensus": 0.466,
+        "crystal_bearing": false
+      },
+      "3": {
+        "sil_z": 1.466,
+        "gc_consensus": 0.708,
+        "crystal_bearing": false
+      },
+      "4": {
+        "sil_z": 2.888,
+        "gc_consensus": 0.892,
+        "crystal_bearing": true
+      },
+      "5": {
+        "sil_z": 3.276,
+        "gc_consensus": 0.918,
+        "crystal_bearing": true
+      },
+      "6": {
+        "sil_z": 5.86,
+        "gc_consensus": 0.951,
+        "crystal_bearing": true
+      },
+      "7": {
+        "sil_z": 5.73,
+        "gc_consensus": 0.965,
+        "crystal_bearing": true
+      },
+      "8": {
+        "sil_z": 6.4,
+        "gc_consensus": 0.961,
+        "crystal_bearing": true
+      },
+      "9": {
+        "sil_z": 5.782,
+        "gc_consensus": 0.962,
+        "crystal_bearing": true
+      },
+      "10": {
+        "sil_z": 5.12,
+        "gc_consensus": 0.957,
+        "crystal_bearing": true
+      },
+      "11": {
+        "sil_z": 5.89,
+        "gc_consensus": 0.955,
+        "crystal_bearing": true
+      },
+      "12": {
+        "sil_z": 6.052,
+        "gc_consensus": 0.955,
+        "crystal_bearing": true
+      },
+      "13": {
+        "sil_z": 6.652,
+        "gc_consensus": 0.958,
+        "crystal_bearing": true
+      },
+      "14": {
+        "sil_z": 6.634,
+        "gc_consensus": 0.975,
+        "crystal_bearing": true
+      },
+      "15": {
+        "sil_z": 7.656,
+        "gc_consensus": 0.957,
+        "crystal_bearing": true
+      },
+      "16": {
+        "sil_z": 6.335,
+        "gc_consensus": 0.953,
+        "crystal_bearing": true
+      },
+      "17": {
+        "sil_z": 6.824,
+        "gc_consensus": 0.969,
+        "crystal_bearing": true
+      },
+      "18": {
+        "sil_z": 5.732,
+        "gc_consensus": 0.968,
+        "crystal_bearing": true
+      },
+      "19": {
+        "sil_z": 6.497,
+        "gc_consensus": 0.97,
+        "crystal_bearing": true
+      },
+      "20": {
+        "sil_z": 5.344,
+        "gc_consensus": 0.973,
+        "crystal_bearing": true
+      },
+      "21": {
+        "sil_z": 5.351,
+        "gc_consensus": 0.97,
+        "crystal_bearing": true
+      },
+      "22": {
+        "sil_z": 4.269,
+        "gc_consensus": 0.948,
+        "crystal_bearing": true
+      },
+      "23": {
+        "sil_z": 4.146,
+        "gc_consensus": 0.929,
+        "crystal_bearing": true
+      },
+      "24": {
+        "sil_z": 3.299,
+        "gc_consensus": 0.904,
+        "crystal_bearing": true
+      },
+      "25": {
+        "sil_z": 3.263,
+        "gc_consensus": 0.898,
+        "crystal_bearing": true
+      },
+      "26": {
+        "sil_z": 2.501,
+        "gc_consensus": 0.879,
+        "crystal_bearing": true
+      },
+      "27": {
+        "sil_z": 2.304,
+        "gc_consensus": 0.866,
+        "crystal_bearing": true
+      },
+      "28": {
+        "sil_z": 2.243,
+        "gc_consensus": 0.868,
+        "crystal_bearing": true
+      },
+      "29": {
+        "sil_z": 1.869,
+        "gc_consensus": 0.844,
+        "crystal_bearing": false
+      },
+      "30": {
+        "sil_z": 2.024,
+        "gc_consensus": 0.825,
+        "crystal_bearing": true
+      },
+      "31": {
+        "sil_z": 1.533,
+        "gc_consensus": 0.821,
+        "crystal_bearing": false
+      },
+      "32": {
+        "sil_z": 1.933,
+        "gc_consensus": 0.815,
+        "crystal_bearing": false
+      },
+      "33": {
+        "sil_z": 1.58,
+        "gc_consensus": 0.797,
+        "crystal_bearing": false
+      },
+      "34": {
+        "sil_z": 1.32,
+        "gc_consensus": 0.785,
+        "crystal_bearing": false
+      },
+      "35": {
+        "sil_z": 1.881,
+        "gc_consensus": 0.739,
+        "crystal_bearing": false
+      }
+    },
+    "z_thresh": 2.0,
+    "sil_z_thresh": 2.0,
+    "has_consensus": true,
+    "null_kind": "crosstask",
+    "n_null_tokens": 56,
+    "n_centroid_probes": 535,
+    "null_mode": "gateneutral",
+    "hook": "gate"
+  },
+  "calib_attn": {
+    "n_layers": 36,
+    "crystal_layers": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35
+    ],
+    "per_layer": {
+      "0": {
+        "sil_z": 2.54,
+        "gc_consensus": 0.865,
+        "crystal_bearing": true
+      },
+      "1": {
+        "sil_z": 5.251,
+        "gc_consensus": 0.929,
+        "crystal_bearing": true
+      },
+      "2": {
+        "sil_z": 4.991,
+        "gc_consensus": 0.88,
+        "crystal_bearing": true
+      },
+      "3": {
+        "sil_z": 4.146,
+        "gc_consensus": 0.938,
+        "crystal_bearing": true
+      },
+      "4": {
+        "sil_z": 6.52,
+        "gc_consensus": 0.905,
+        "crystal_bearing": true
+      },
+      "5": {
+        "sil_z": 5.397,
+        "gc_consensus": 0.928,
+        "crystal_bearing": true
+      },
+      "6": {
+        "sil_z": 9.187,
+        "gc_consensus": 0.922,
+        "crystal_bearing": true
+      },
+      "7": {
+        "sil_z": 13.334,
+        "gc_consensus": 0.879,
+        "crystal_bearing": true
+      },
+      "8": {
+        "sil_z": 10.828,
+        "gc_consensus": 0.909,
+        "crystal_bearing": true
+      },
+      "9": {
+        "sil_z": 8.921,
+        "gc_consensus": 0.922,
+        "crystal_bearing": true
+      },
+      "10": {
+        "sil_z": 7.78,
+        "gc_consensus": 0.936,
+        "crystal_bearing": true
+      },
+      "11": {
+        "sil_z": 8.736,
+        "gc_consensus": 0.894,
+        "crystal_bearing": true
+      },
+      "12": {
+        "sil_z": 6.223,
+        "gc_consensus": 0.905,
+        "crystal_bearing": true
+      },
+      "13": {
+        "sil_z": 7.712,
+        "gc_consensus": 0.799,
+        "crystal_bearing": true
+      },
+      "14": {
+        "sil_z": 8.558,
+        "gc_consensus": 0.867,
+        "crystal_bearing": true
+      },
+      "15": {
+        "sil_z": 6.023,
+        "gc_consensus": 0.9,
+        "crystal_bearing": true
+      },
+      "16": {
+        "sil_z": 5.582,
+        "gc_consensus": 0.848,
+        "crystal_bearing": true
+      },
+      "17": {
+        "sil_z": 5.987,
+        "gc_consensus": 0.944,
+        "crystal_bearing": true
+      },
+      "18": {
+        "sil_z": 5.232,
+        "gc_consensus": 0.867,
+        "crystal_bearing": true
+      },
+      "19": {
+        "sil_z": 7.598,
+        "gc_consensus": 0.883,
+        "crystal_bearing": true
+      },
+      "20": {
+        "sil_z": 8.64,
+        "gc_consensus": 0.882,
+        "crystal_bearing": true
+      },
+      "21": {
+        "sil_z": 6.603,
+        "gc_consensus": 0.907,
+        "crystal_bearing": true
+      },
+      "22": {
+        "sil_z": 7.186,
+        "gc_consensus": 0.943,
+        "crystal_bearing": true
+      },
+      "23": {
+        "sil_z": 8.336,
+        "gc_consensus": 0.945,
+        "crystal_bearing": true
+      },
+      "24": {
+        "sil_z": 5.355,
+        "gc_consensus": 0.886,
+        "crystal_bearing": true
+      },
+      "25": {
+        "sil_z": 6.568,
+        "gc_consensus": 0.87,
+        "crystal_bearing": true
+      },
+      "26": {
+        "sil_z": 5.099,
+        "gc_consensus": 0.948,
+        "crystal_bearing": true
+      },
+      "27": {
+        "sil_z": 6.013,
+        "gc_consensus": 0.953,
+        "crystal_bearing": true
+      },
+      "28": {
+        "sil_z": 5.07,
+        "gc_consensus": 0.883,
+        "crystal_bearing": true
+      },
+      "29": {
+        "sil_z": 4.501,
+        "gc_consensus": 0.858,
+        "crystal_bearing": true
+      },
+      "30": {
+        "sil_z": 3.715,
+        "gc_consensus": 0.904,
+        "crystal_bearing": true
+      },
+      "31": {
+        "sil_z": 5.877,
+        "gc_consensus": 0.875,
+        "crystal_bearing": true
+      },
+      "32": {
+        "sil_z": 2.353,
+        "gc_consensus": 0.764,
+        "crystal_bearing": true
+      },
+      "33": {
+        "sil_z": 3.195,
+        "gc_consensus": 0.874,
+        "crystal_bearing": true
+      },
+      "34": {
+        "sil_z": 2.225,
+        "gc_consensus": 0.878,
+        "crystal_bearing": true
+      },
+      "35": {
+        "sil_z": 3.966,
+        "gc_consensus": 0.828,
+        "crystal_bearing": true
+      }
+    },
+    "z_thresh": 2.0,
+    "sil_z_thresh": 2.0,
+    "has_consensus": true,
+    "null_kind": "crosstask",
+    "n_null_tokens": 56,
+    "n_centroid_probes": 535,
+    "null_mode": "gateneutral",
+    "hook": "attn"
+  }
+}
