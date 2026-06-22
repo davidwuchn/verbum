@@ -72,6 +72,26 @@ from type_directed_v3_nonce import (  # noqa: E402
 RESULTS_DIR = _ROOT / "results" / "type-directed"
 
 
+def decoder_layers(model):
+    """Architecture-agnostic decoder-layer list (cross-family ablation).
+
+    Llama/Mistral/OLMo/Qwen/SmolLM -> model.model.layers ; GPTNeoX/Pythia ->
+    model.gpt_neox.layers ; GPT-2 -> transformer.h ; OPT -> model.decoder.layers.
+    """
+    for path in ("model.layers", "gpt_neox.layers", "transformer.h",
+                 "model.decoder.layers"):
+        obj = model
+        ok = True
+        for attr in path.split("."):
+            if not hasattr(obj, attr):
+                ok = False
+                break
+            obj = getattr(obj, attr)
+        if ok:
+            return obj
+    raise AttributeError("could not locate decoder layers for this architecture")
+
+
 def gen_items(n_each: int, seed: int, n_teach: int):
     """v3-style items, subsampled teach templates (causal passes are 3x forwards)."""
     rng = np.random.default_rng(seed)
@@ -288,9 +308,10 @@ def main() -> None:
         print("[type-dir4] WARN: best AUC at embeddings; starting ablation at layer 0")
         lstar = 1
     rng = np.random.default_rng(args.seed + 7)
+    layers = decoder_layers(model)
     type_ablations, rand_ablations = [], []
     for h in range(lstar, n_layers_p1):
-        mod = model.model.layers[h - 1]
+        mod = layers[h - 1]
         type_ablations.append((mod, layer_dir[h].astype(np.float32)))
         r = rng.standard_normal(hdim).astype(np.float32)
         rand_ablations.append((mod, r / np.linalg.norm(r)))

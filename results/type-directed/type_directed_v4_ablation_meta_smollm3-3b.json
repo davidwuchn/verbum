@@ -1,0 +1,13 @@
+{
+  "model": "HuggingFaceTB/SmolLM3-3B",
+  "smoke": false,
+  "git_sha": "3574e8066a66bb82b7d362202a5898c50ef9d4ad",
+  "timestamp_utc": "2026-06-22T16:53:20.869942+00:00",
+  "transformers_version": "5.5.4",
+  "n_each": 4,
+  "n_teach": 2,
+  "n_items": 512,
+  "seed": 0,
+  "hidden_dim": 2048,
+  "n_hidden_states": 37
+}

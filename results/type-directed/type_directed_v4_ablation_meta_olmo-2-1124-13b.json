@@ -1,0 +1,13 @@
+{
+  "model": "allenai/OLMo-2-1124-13B",
+  "smoke": false,
+  "git_sha": "3574e8066a66bb82b7d362202a5898c50ef9d4ad",
+  "timestamp_utc": "2026-06-22T16:58:32.718411+00:00",
+  "transformers_version": "5.5.4",
+  "n_each": 4,
+  "n_teach": 2,
+  "n_items": 512,
+  "seed": 0,
+  "hidden_dim": 5120,
+  "n_hidden_states": 41
+}

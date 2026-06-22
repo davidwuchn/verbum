@@ -1,0 +1,13 @@
+{
+  "model": "EleutherAI/pythia-160m-deduped",
+  "smoke": false,
+  "git_sha": "3574e8066a66bb82b7d362202a5898c50ef9d4ad",
+  "timestamp_utc": "2026-06-22T16:49:41.280513+00:00",
+  "transformers_version": "5.5.4",
+  "n_each": 1,
+  "n_teach": 1,
+  "n_items": 64,
+  "seed": 0,
+  "hidden_dim": 768,
+  "n_hidden_states": 13
+}

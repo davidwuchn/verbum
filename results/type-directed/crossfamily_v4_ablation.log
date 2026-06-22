@@ -1,0 +1,112 @@
+===MODEL EleutherAI/pythia-1.4b-deduped ===
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[type-dir4] 512 items (n_each=4, n_teach=2)
+[v2] Loading tokenizer: EleutherAI/pythia-1.4b-deduped
+[v2] Loading model: EleutherAI/pythia-1.4b-deduped  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:   3%|▎         | 8/292 [00:00<00:03, 76.39it/s]Loading weights:  25%|██▍       | 72/292 [00:00<00:00, 400.15it/s]Loading weights:  48%|████▊     | 140/292 [00:00<00:00, 513.91it/s]Loading weights:  71%|███████   | 206/292 [00:00<00:00, 550.45it/s]Loading weights:  95%|█████████▍| 276/292 [00:00<00:00, 601.34it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 544.13it/s]
+[v2] Model loaded in 1.3s
+[type-dir4] pass 1: collecting residuals + baseline ...
+[type-dir4] type-direction decodability AUC by layer: max=1.0 @ hidden-state 7 (of 25)
+[type-dir4]   AUC profile (every 4): [0.555, 0.9737, 1.0, 0.9997, 0.9994, 0.9919, 0.9906]
+[type-dir4] BASELINE crossover={'mean': 1.3833, 't': 6.854, 'n': 16} name_pen={'mean': -2.5798, 't': -6.268, 'n': 16}
+[type-dir4] filler-stack ablation, hidden states 7..24 (18 layers)
+[type-dir4] pass 2: TYPE-direction ablation ...
+[type-dir4] pass 3: RANDOM-direction ablation (control) ...
+
+========================================================================
+TYPE-DIRECTEDNESS v4 — is the type direction CAUSAL?
+========================================================================
+  type-direction decodability AUC @ L*=7: 1.0
+  BASELINE         crossover=1.3833 (t=6.854)       name_pen=-2.5798 (t=-6.268)
+  TYPE-ablated     crossover=0.8763 (t=4.756)       name_pen=-2.1194 (t=-5.908)
+  RANDOM-ablated   crossover=1.3817 (t=7.872)       name_pen=-2.4304 (t=-6.227)
+
+  crossover retained: TYPE-ablation=0.633  RANDOM-ablation=0.999
+  * type_direction_is_causal = False
+========================================================================
+
+[type-dir4] wrote v4 verdict for pythia-1-4b-deduped
+===MODEL HuggingFaceTB/SmolLM3-3B ===
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[type-dir4] 512 items (n_each=4, n_teach=2)
+[v2] Loading tokenizer: HuggingFaceTB/SmolLM3-3B
+[v2] Loading model: HuggingFaceTB/SmolLM3-3B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/326 [00:00<?, ?it/s]Loading weights:   0%|          | 1/326 [00:00<00:55,  5.89it/s]Loading weights:  18%|█▊        | 58/326 [00:00<00:01, 260.57it/s]Loading weights:  33%|███▎      | 109/326 [00:00<00:00, 358.27it/s]Loading weights:  51%|█████     | 167/326 [00:00<00:00, 434.92it/s]Loading weights:  70%|██████▉   | 228/326 [00:00<00:00, 493.18it/s]Loading weights:  89%|████████▉ | 291/326 [00:00<00:00, 535.55it/s]Loading weights: 100%|██████████| 326/326 [00:00<00:00, 446.62it/s]
+[v2] Model loaded in 1.3s
+[type-dir4] pass 1: collecting residuals + baseline ...
+[type-dir4] type-direction decodability AUC by layer: max=1.0 @ hidden-state 6 (of 37)
+[type-dir4]   AUC profile (every 4): [0.549, 0.9999, 1.0, 1.0, 1.0, 1.0, 1.0, 0.9988, 0.9978, 0.9927]
+[type-dir4] BASELINE crossover={'mean': 1.6961, 't': 7.141, 'n': 16} name_pen={'mean': -1.7939, 't': -4.622, 'n': 16}
+[type-dir4] filler-stack ablation, hidden states 6..36 (31 layers)
+[type-dir4] pass 2: TYPE-direction ablation ...
+[type-dir4] pass 3: RANDOM-direction ablation (control) ...
+
+========================================================================
+TYPE-DIRECTEDNESS v4 — is the type direction CAUSAL?
+========================================================================
+  type-direction decodability AUC @ L*=6: 1.0
+  BASELINE         crossover=1.6961 (t=7.141)       name_pen=-1.7939 (t=-4.622)
+  TYPE-ablated     crossover=1.7713 (t=5.922)       name_pen=-2.9079 (t=-6.975)
+  RANDOM-ablated   crossover=1.9012 (t=7.53)        name_pen=-2.0053 (t=-5.113)
+
+  crossover retained: TYPE-ablation=1.044  RANDOM-ablation=1.121
+  * type_direction_is_causal = False
+========================================================================
+
+[type-dir4] wrote v4 verdict for smollm3-3b
+===MODEL mistralai/Mistral-7B-v0.3 ===
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[type-dir4] 512 items (n_each=4, n_teach=2)
+[v2] Loading tokenizer: mistralai/Mistral-7B-v0.3
+[v2] Loading model: mistralai/Mistral-7B-v0.3  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:00<01:55,  2.51it/s]Loading weights:   9%|▉         | 26/291 [00:00<00:03, 67.63it/s]Loading weights:  17%|█▋        | 49/291 [00:00<00:02, 111.78it/s]Loading weights:  24%|██▍       | 71/291 [00:00<00:01, 142.11it/s]Loading weights:  33%|███▎      | 95/291 [00:00<00:01, 167.02it/s]Loading weights:  42%|████▏     | 121/291 [00:00<00:00, 191.19it/s]Loading weights:  49%|████▉     | 144/291 [00:01<00:00, 202.18it/s]Loading weights:  58%|█████▊    | 168/291 [00:01<00:00, 207.67it/s]Loading weights:  67%|██████▋   | 194/291 [00:01<00:00, 221.07it/s]Loading weights:  76%|███████▌  | 220/291 [00:01<00:00, 229.28it/s]Loading weights:  84%|████████▍ | 244/291 [00:01<00:00, 228.28it/s]Loading weights:  92%|█████████▏| 268/291 [00:01<00:00, 225.33it/s]Loading weights: 100%|██████████| 291/291 [00:01<00:00, 178.69it/s]
+[v2] Model loaded in 2.3s
+[type-dir4] pass 1: collecting residuals + baseline ...
+[type-dir4] type-direction decodability AUC by layer: max=1.0 @ hidden-state 4 (of 33)
+[type-dir4]   AUC profile (every 4): [0.5581, 1.0, 1.0, 1.0, 1.0, 0.9992, 0.9917, 0.9911, 0.9769]
+[type-dir4] BASELINE crossover={'mean': 1.1221, 't': 6.675, 'n': 16} name_pen={'mean': -1.0811, 't': -6.685, 'n': 16}
+[type-dir4] filler-stack ablation, hidden states 4..32 (29 layers)
+[type-dir4] pass 2: TYPE-direction ablation ...
+[type-dir4] pass 3: RANDOM-direction ablation (control) ...
+
+========================================================================
+TYPE-DIRECTEDNESS v4 — is the type direction CAUSAL?
+========================================================================
+  type-direction decodability AUC @ L*=4: 1.0
+  BASELINE         crossover=1.1221 (t=6.675)       name_pen=-1.0811 (t=-6.685)
+  TYPE-ablated     crossover=0.3257 (t=2.962)       name_pen=-1.1558 (t=-7.974)
+  RANDOM-ablated   crossover=1.021 (t=6.141)        name_pen=-0.9951 (t=-6.24)
+
+  crossover retained: TYPE-ablation=0.29  RANDOM-ablation=0.91
+  * type_direction_is_causal = True
+========================================================================
+
+[type-dir4] wrote v4 verdict for mistral-7b-v0-3
+===MODEL allenai/OLMo-2-1124-13B ===
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[type-dir4] 512 items (n_each=4, n_teach=2)
+[v2] Loading tokenizer: allenai/OLMo-2-1124-13B
+[v2] Loading model: allenai/OLMo-2-1124-13B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:01<13:42,  1.86s/it]Loading weights:   3%|▎         | 15/443 [00:01<00:41, 10.36it/s]Loading weights:   6%|▌         | 26/443 [00:02<00:21, 19.24it/s]Loading weights:   8%|▊         | 37/443 [00:02<00:13, 29.20it/s]Loading weights:  11%|█         | 48/443 [00:02<00:09, 39.64it/s]Loading weights:  13%|█▎        | 59/443 [00:02<00:07, 49.17it/s]Loading weights:  16%|█▌        | 70/443 [00:02<00:06, 58.94it/s]Loading weights:  18%|█▊        | 81/443 [00:02<00:05, 67.37it/s]Loading weights:  21%|██        | 92/443 [00:02<00:04, 74.24it/s]Loading weights:  23%|██▎       | 103/443 [00:02<00:04, 79.39it/s]Loading weights:  26%|██▌       | 114/443 [00:03<00:03, 83.36it/s]Loading weights:  28%|██▊       | 125/443 [00:03<00:03, 87.20it/s]Loading weights:  31%|███       | 136/443 [00:03<00:03, 89.84it/s]Loading weights:  33%|███▎      | 147/443 [00:03<00:03, 92.11it/s]Loading weights:  36%|███▌      | 158/443 [00:03<00:03, 93.73it/s]Loading weights:  38%|███▊      | 169/443 [00:03<00:02, 94.84it/s]Loading weights:  41%|████      | 180/443 [00:03<00:02, 95.95it/s]Loading weights:  43%|████▎     | 191/443 [00:03<00:02, 96.57it/s]Loading weights:  46%|████▌     | 202/443 [00:03<00:02, 96.63it/s]Loading weights:  48%|████▊     | 213/443 [00:04<00:02, 96.46it/s]Loading weights:  51%|█████     | 224/443 [00:04<00:02, 95.74it/s]Loading weights:  53%|█████▎    | 235/443 [00:04<00:02, 94.95it/s]Loading weights:  56%|█████▌    | 246/443 [00:04<00:02, 94.58it/s]Loading weights:  58%|█████▊    | 257/443 [00:04<00:01, 95.07it/s]Loading weights:  60%|██████    | 268/443 [00:04<00:01, 95.48it/s]Loading weights:  63%|██████▎   | 279/443 [00:04<00:01, 94.14it/s]Loading weights:  65%|██████▌   | 290/443 [00:04<00:01, 94.06it/s]Loading weights:  68%|██████▊   | 301/443 [00:04<00:01, 92.86it/s]Loading weights:  70%|███████   | 311/443 [00:05<00:01, 94.05it/s]Loading weights:  73%|███████▎  | 322/443 [00:05<00:01, 90.89it/s]Loading weights:  75%|███████▍  | 332/443 [00:05<00:01, 92.85it/s]Loading weights:  77%|███████▋  | 342/443 [00:05<00:01, 89.65it/s]Loading weights:  79%|███████▉  | 352/443 [00:05<00:01, 89.81it/s]Loading weights:  82%|████████▏ | 362/443 [00:05<00:00, 87.75it/s]Loading weights:  84%|████████▎ | 371/443 [00:05<00:00, 86.01it/s]Loading weights:  86%|████████▌ | 380/443 [00:05<00:00, 82.85it/s]Loading weights:  88%|████████▊ | 390/443 [00:06<00:00, 83.31it/s]Loading weights:  91%|█████████ | 401/443 [00:06<00:00, 86.29it/s]Loading weights:  93%|█████████▎| 412/443 [00:06<00:00, 88.34it/s]Loading weights:  95%|█████████▌| 423/443 [00:06<00:00, 90.49it/s]Loading weights:  98%|█████████▊| 434/443 [00:06<00:00, 92.05it/s]Loading weights: 100%|██████████| 443/443 [00:06<00:00, 67.98it/s]
+[v2] Model loaded in 7.5s
+[type-dir4] pass 1: collecting residuals + baseline ...
+[type-dir4] type-direction decodability AUC by layer: max=1.0 @ hidden-state 19 (of 41)
+[type-dir4]   AUC profile (every 4): [0.5543, 0.998, 0.8564, 0.8543, 0.8621, 1.0, 1.0, 1.0, 1.0, 1.0, 0.999]
+[type-dir4] BASELINE crossover={'mean': 2.0111, 't': 7.704, 'n': 16} name_pen={'mean': -2.2266, 't': -9.329, 'n': 16}
+[type-dir4] filler-stack ablation, hidden states 19..40 (22 layers)
+[type-dir4] pass 2: TYPE-direction ablation ...
+[type-dir4] pass 3: RANDOM-direction ablation (control) ...
+
+========================================================================
+TYPE-DIRECTEDNESS v4 — is the type direction CAUSAL?
+========================================================================
+  type-direction decodability AUC @ L*=19: 1.0
+  BASELINE         crossover=2.0111 (t=7.704)       name_pen=-2.2266 (t=-9.329)
+  TYPE-ablated     crossover=1.2629 (t=5.166)       name_pen=-1.5456 (t=-6.928)
+  RANDOM-ablated   crossover=2.0155 (t=7.72)        name_pen=-2.2259 (t=-9.353)
+
+  crossover retained: TYPE-ablation=0.628  RANDOM-ablation=1.002
+  * type_direction_is_causal = False
+========================================================================
+
+[type-dir4] wrote v4 verdict for olmo-2-1124-13b

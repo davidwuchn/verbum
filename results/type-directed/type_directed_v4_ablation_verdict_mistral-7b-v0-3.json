@@ -1,0 +1,95 @@
+{
+  "register": "causal ablation of the type direction (v4)",
+  "ablation_layer_hidden_state": 4,
+  "type_direction_auc": 1.0,
+  "auc_by_layer": [
+    0.5581,
+    0.8109,
+    0.9634,
+    0.9759,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    0.9992,
+    0.9968,
+    0.9953,
+    0.9925,
+    0.9917,
+    0.9895,
+    0.986,
+    0.9867,
+    0.9911,
+    0.9949,
+    0.9982,
+    0.9987,
+    0.9769
+  ],
+  "baseline": {
+    "det_pen": {
+      "mean": 0.041,
+      "t": 0.323,
+      "n": 16
+    },
+    "name_pen": {
+      "mean": -1.0811,
+      "t": -6.685,
+      "n": 16
+    },
+    "crossover": {
+      "mean": 1.1221,
+      "t": 6.675,
+      "n": 16
+    }
+  },
+  "type_ablated": {
+    "det_pen": {
+      "mean": -0.83,
+      "t": -5.363,
+      "n": 16
+    },
+    "name_pen": {
+      "mean": -1.1558,
+      "t": -7.974,
+      "n": 16
+    },
+    "crossover": {
+      "mean": 0.3257,
+      "t": 2.962,
+      "n": 16
+    }
+  },
+  "random_ablated": {
+    "det_pen": {
+      "mean": 0.0259,
+      "t": 0.207,
+      "n": 16
+    },
+    "name_pen": {
+      "mean": -0.9951,
+      "t": -6.24,
+      "n": 16
+    },
+    "crossover": {
+      "mean": 1.021,
+      "t": 6.141,
+      "n": 16
+    }
+  },
+  "crossover_retained_type": 0.29,
+  "crossover_retained_random": 0.91,
+  "type_direction_is_causal": true,
+  "n_items": 512
+}
