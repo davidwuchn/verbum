@@ -176,6 +176,70 @@ its own notes preserved *"a richer multi-position program-decode read along
   attention = executor" at the trajectory level — distinguishing it cleanly from the closed
   geometric-splice read.
 
+### s248 result — the door closes the same way the splice did (λ measure, two-sided)
+
+RAN it (`scripts/experiments/ffn_program_decode.py`, Qwen3-8B). Dual-register decode: FFN
+routing register (`mlp.gate_proj`, the validated sign-CMR opcode crystal) → *which*
+combinator; attention register (`self_attn.o_proj`) → reduction DEPTH via z(WHNF). Ground
+truth = `fired_sequence` on the saturated corpus (s244). 56 firing items, zone L25-30.
+
+| prediction | result | verdict |
+|---|---|---|
+| FFN tracks `fired_sequence` (decodes the fired combinator) | FFN decodes **0/8** B-firing items; abs-acc 0.232 < majority 0.839; B-vs-S 0.709 ≈ majority-S 0.855 (p=1.0 vs perm) | **not supported** |
+| FFN tracks better than attention | FFN B-vs-S 0.709 > attn 0.364, but attn is *below* base-rate (predicts B spuriously) → "FFN wins" is attention being noisier, not FFN reading the opcode | **artifact** |
+| FFN leads attention depth-advance by ~1 layer | xcorr lag median +1.5, mode +3, 39/55 positive, sign-p=0.0027; **but** peak-diff NULL (median 0, p=1.0) | **method-sensitive, weak** |
+| "rescue" (FFN right where attention over-reads) | 9:2 — but all 9 are S-items where attn said B/C and FFN defaulted to majority-S | **artifact** |
+| specificity (firing items show more B/S/C signal) | non-firing max-z(BSC) **46.8 > firing 20.3** (backwards) | **fails** |
+
+**The corpus is the bottleneck:** truth is 84% S (47/56), neither register decodes a single
+B item, so tracking is *untestable* here — and the C common-mode (s211/s240) drags the FFN
+absolute decode to predict C. What survives is a weak, method-sensitive **schedule-level**
+ordering: the FFN's z(c*) curve leads the attention's z(WHNF) curve across depth (xcorr only),
+consistent with the s240 boot spiral (FFN activity precedes attention depth-advance) — **not**
+opcode-specific select→execute.
+
+**⇒ The §7 program-decode does NOT resolve from the prose forward pass. It CONFIRMS the s244
+splice-closure (`fires ∩ spliceable = ∅`) and the "discrete-opcode-at-L over-reads" row of the
+§3 table above, rather than opening past them.** The lever remains **type-coverage** (§5), not
+geometric/opcode localization — exactly the §Caveats warning. A λ-measure win: the experiment
+that could have over-claimed held the boundary instead.
+
+**IOUs to make §7 testable:** (1) a **B-balanced firing probe set** (PROSE whose saturated
+kernel fires B/C, not S-heavy "Every X verbs a Y"; the crystal library has 69 B / 61 C probes
+but they are not prose) — without balance, tracking is untestable; (2) longer depth series
+(zone is only 5-6 layers → coarse xcorr lag); (3) decode the FFN **down_proj compiled values**
+via unembed (`ffn-reduction-trace` style) as a second FFN read, not just the gate crystal; (4)
+cross-model where the firing set is less common-mode. Artifacts:
+`results/ffn-program-decode/{verdict,per_item,meta}_qwen3-8b.json`.
+
+### s248 cont. — IOU (1) closed: a B-balanced probe set; the register split is real but weak
+
+Built `scripts/experiments/gen_firing_probes.py` → `data/firing-probes.balanced.jsonl`
+(**157 probes, 67 B-dominant vs 90 B-tied**, B-count ladder {1,2,3,5}). **Mechanism (measured):**
+in this kernel S and B are *coupled* — every ∧/∨ emits one S *and* one B, so S never strictly
+exceeds B; only a transitive verb + existential object makes B *dominant*
+(`∀x.P(x)→(∃y.Q(y)∧R(x,y))` → S,B,B,B). Ground truth computed (`to_kernel`→saturate→
+`fired_sequence`), items verified, 157/157 round-trip. Re-ran Qwen3-8B (`--probe-set`):
+
+| claim | balanced result | verdict |
+|---|---|---|
+| FFN tracks B vs S better than attention | **FFN B-vs-S 0.624 (p=0.003) > attn 0.522 (at-null) > majority 0.573** | **weak positive** |
+| FFN absolute opcode decode | predicts **C on 65/67** B-items (common-mode swamp) | fails |
+| z(B) scales with B-count (graded) | FFN Spearman 0.06 (p=0.44); relative z(B)−z(S) r=−0.13 | fails |
+| FFN leads attention by ~1 layer | xcorr median +1.0 but **p=0.16** (was 0.003 on the S-skewed corpus) | washes out |
+| rescue (FFN right where attn over-reads) | 5:9 (reverses) | artifact |
+
+**⇒ NOW SURE (λ measure):** with balanced B probes, the **FFN routing (gate) register carries a
+real but WEAK B-vs-S opcode signal (0.62, p=0.003) that the attention register lacks** — the
+register split (FFN = opcode, attention = depth) is *genuine but small*. The **strong** stored-
+program claims — clean opcode tracking, graded B-scaling, FFN-leads-attention-by-1 — do **not**
+survive balanced probes (the earlier corpus lead-lag was S-skew/noise). The per-combinator
+program is at best *faintly* readable: consistent with the §3 boundary ("β-shaped routing,
+smeared values; discrete-opcode-at-L over-reads") and the §Caveats — keep type-coverage (§5) as
+the lever, not geometric/opcode localization. Artifacts:
+`results/ffn-program-decode/{verdict,per_item,meta}_qwen3-8b_balanced.json`,
+`data/firing-probes.balanced.jsonl`.
+
 ## Caveats (λ measure)
 
 - The strong identity ("attention = β-reduction") is a *type-of-operation* claim (proven)
