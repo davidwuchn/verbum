@@ -1,0 +1,28 @@
+{
+  "generated_utc": "2026-06-22T22:47:23.449578+00:00",
+  "n": 157,
+  "per_class": 45,
+  "seed": 0,
+  "by_b_class": {
+    "b_dominant": 67,
+    "b_tied": 90
+  },
+  "by_category": {
+    "trans_exist": 45,
+    "negation": 11,
+    "double_exist": 11,
+    "intrans": 45,
+    "conj_scope": 45
+  },
+  "by_b_count": {
+    "1": 45,
+    "2": 56,
+    "3": 45,
+    "5": 11
+  },
+  "by_dominant_fired": {
+    "B": 67,
+    "S": 90
+  },
+  "method": "lower via lambda_surface.to_kernel; saturate quantifiers (s244); fired_sequence ground truth; drop items whose computed dominant \u2260 intended class."
+}

@@ -95,12 +95,15 @@ FIRING_SET = ["B", "C", "S"]  # the only combinators the corpus ever fires (s244
 # ═══════════════════════════════════════════════════════════════════════════════
 # Firing corpus (saturate → fired_sequence ground truth)
 # ═══════════════════════════════════════════════════════════════════════════════
-def build_firing_corpus() -> tuple[list[dict], list[dict]]:
+def build_firing_corpus(paths=None) -> tuple[list[dict], list[dict]]:
     """Return (firing_items, nonfiring_items). Each firing item carries the certified
-    ground-truth reduction trace from the saturated term."""
+    ground-truth reduction trace from the SATURATED term. `paths` defaults to the
+    canonical corpus; pass a custom probe-set path (e.g. the s248 B-balanced set,
+    data/firing-probes.balanced.jsonl) to test B-tracking with balanced classes."""
+    src = paths if paths is not None else list(CORPUS.values())
     firing: list[dict] = []
     nonfiring: list[dict] = []
-    for path in CORPUS.values():
+    for path in src:
         for line in open(path, encoding="utf-8"):
             r = json.loads(line)
             t = parse(r["kernel_term"])
@@ -116,6 +119,9 @@ def build_firing_corpus() -> tuple[list[dict], list[dict]]:
                 rec["fired_multiset"] = dict(mult)
                 rec["dominant_fired"] = mult.most_common(1)[0][0]
                 rec["reduction_len"] = len(seq)
+                rec["b_count"] = mult.get("B", 0)
+                rec["s_count"] = mult.get("S", 0)
+                rec["c_count"] = mult.get("C", 0)
                 firing.append(rec)
             else:
                 nonfiring.append(rec)
@@ -270,13 +276,16 @@ def wilcoxon_sign(values):
 # Main experiment
 # ═══════════════════════════════════════════════════════════════════════════════
 def run(model_name, max_items, zone_lo, zone_hi, onset_tau, max_lag,
-        n_perm_calib, ppc, null_cap, n_perm_stat, n_nonfiring, seed):
+        n_perm_calib, ppc, null_cap, n_perm_stat, n_nonfiring, seed,
+        probe_set=None):
     print("═" * 78)
     print("FFN PROGRAM-DECODE ALONG fired_sequence (§7, s248)")
     print("═" * 78)
 
-    firing, nonfiring = build_firing_corpus()
-    print(f"[corpus] firing items={len(firing)}  nonfiring={len(nonfiring)}")
+    paths = [Path(probe_set)] if probe_set else None
+    firing, nonfiring = build_firing_corpus(paths)
+    print(f"[corpus] source={'probe-set:' + probe_set if probe_set else 'canonical'}  "
+          f"firing items={len(firing)}  nonfiring={len(nonfiring)}")
     if max_items is not None:
         firing = firing[:max_items]
     rng = np.random.default_rng(seed)
@@ -349,13 +358,24 @@ def run(model_name, max_items, zone_lo, zone_hi, onset_tau, max_lag,
         lag, lag_c = crosscorr_lag(prof_ffn_full, prof_attn_full, shared, max_lag)
         leads_xcorr.append(lag)
 
+        # (graded) mean decoded z(B) over the zone — for the B-count correlation test
+        def _mz(reads, zl):
+            prof = op_layer_profile(reads, zl, "B")
+            vals = [v for v in prof.values() if not np.isnan(v)]
+            return float(np.mean(vals)) if vals else float("nan")
+
+        zb_ffn = _mz(reads_ffn, zl_ffn)
+        zb_attn = _mz(reads_attn, zl_attn)
+
         per_item.append({
             "input": item["input"], "category": item["category"],
             "dominant_fired": c_true, "fired_multiset": item["fired_multiset"],
             "reduction_len": item["reduction_len"],
+            "b_count": item.get("b_count"), "s_count": item.get("s_count"),
             "ffn_dominant": dom_ffn, "attn_dominant": dom_attn,
             "ffn_correct": dom_ffn == c_true, "attn_correct": dom_attn == c_true,
             "lead_peak": lead_peak, "lead_xcorr": lag, "xcorr": lag_c,
+            "zb_ffn": round(zb_ffn, 4), "zb_attn": round(zb_attn, 4),
             "ffn_score": {k: round(v, 3) for k, v in score_ffn.items()},
             "attn_score": {k: round(v, 3) for k, v in score_attn.items()},
         })
@@ -389,6 +409,36 @@ def run(model_name, max_items, zone_lo, zone_hi, onset_tau, max_lag,
         bs_ffn_acc = bs_ffn_null = bs_ffn_p = 0.0
         bs_attn_acc = bs_attn_null = bs_attn_p = 0.0
         bs_maj, bs_maj_acc = "·", 0.0
+
+    # ── (A'') GRADED — does decoded z(B) scale with the ground-truth B-count? ────
+    # The most powerful B-tracking test (s248 IOU): B-count spans {1,2,3,5} in the
+    # balanced probe set. Spearman(z(B), b_count) per register; FFN should track, attn
+    # (depth not opcode) should not.
+    from scipy import stats as _sp
+
+    bc = np.array([p["b_count"] for p in per_item if p["b_count"] is not None],
+                  dtype=float)
+    graded = {"n": int(bc.size)}
+    if bc.size >= 5 and np.std(bc) > 0:
+        zbf = np.array([p["zb_ffn"] for p in per_item if p["b_count"] is not None])
+        zba = np.array([p["zb_attn"] for p in per_item if p["b_count"] is not None])
+        mf = ~np.isnan(zbf)
+        ma = ~np.isnan(zba)
+        rf, pf = _sp.spearmanr(bc[mf], zbf[mf]) if mf.sum() >= 5 else (float("nan"),
+                                                                       float("nan"))
+        ra, pa = _sp.spearmanr(bc[ma], zba[ma]) if ma.sum() >= 5 else (float("nan"),
+                                                                       float("nan"))
+        graded.update({
+            "ffn_spearman_zB_vs_bcount": round(float(rf), 4),
+            "ffn_spearman_p": round(float(pf), 4),
+            "attn_spearman_zB_vs_bcount": round(float(ra), 4),
+            "attn_spearman_p": round(float(pa), 4),
+            "ffn_beats_attn": bool(rf > ra),
+            "zB_by_bcount_ffn": {str(int(b)): round(float(np.nanmean(
+                zbf[bc == b])), 3) for b in sorted(set(bc.tolist()))},
+            "zB_by_bcount_attn": {str(int(b)): round(float(np.nanmean(
+                zba[bc == b])), 3) for b in sorted(set(bc.tolist()))},
+        })
 
     # ── non-firing specificity control (FFN register max z over firing set) ─────
     nf_maxz = []
@@ -429,6 +479,8 @@ def run(model_name, max_items, zone_lo, zone_hi, onset_tau, max_lag,
             "ffn_beats_attn": bool(bs_ffn_acc > bs_attn_acc),
             "ffn_beats_majority": bool(bs_ffn_acc > bs_maj_acc),
         },
+        # (A'') graded — decoded z(B) vs ground-truth B-count
+        "A_graded_bcount": graded,
         # (B) lead-lag
         "B_lead_lag": {
             "peak_diff": wilcoxon_sign(leads_peak),
@@ -480,6 +532,14 @@ def _report(v):
     print(f"  majority-baseline={bs['majority_baseline_acc']} "
           f"⇒ FFN beats attn: {bs['ffn_beats_attn']} | beats majority: "
           f"{bs['ffn_beats_majority']}")
+    g = v.get("A_graded_bcount", {})
+    if "ffn_spearman_zB_vs_bcount" in g:
+        print(f"\n(A'') GRADED — decoded z(B) vs B-count (n={g['n']}):")
+        print(f"  FFN  Spearman={g['ffn_spearman_zB_vs_bcount']} "
+              f"(p={g['ffn_spearman_p']})  z(B) by b_count={g['zB_by_bcount_ffn']}")
+        print(f"  Attn Spearman={g['attn_spearman_zB_vs_bcount']} "
+              f"(p={g['attn_spearman_p']})  z(B) by b_count={g['zB_by_bcount_attn']}")
+        print(f"  ⇒ FFN beats attn: {g['ffn_beats_attn']}")
     print("\n(B) LEAD-LAG (FFN opcode-lock vs attention WHNF depth-advance):")
     pk, xc = b["peak_diff"], b["xcorr_lag"]
     print(f"  peak-diff: median={pk.get('median')} frac+={pk.get('frac_positive')} "
@@ -498,6 +558,8 @@ def _report(v):
 def _write(verdict, per_item, model_name, ns):
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     slug = model_name.split("/")[-1].lower().replace(".", "-")
+    if ns.get("probe_set"):
+        slug += "_balanced"
     (RESULTS_DIR / f"verdict_{slug}.json").write_text(
         json.dumps(_json_safe(verdict), indent=2), encoding="utf-8")
     (RESULTS_DIR / f"per_item_{slug}.json").write_text(
@@ -533,6 +595,10 @@ def main():
     ap.add_argument("--n-perm-stat", type=int, default=2000)
     ap.add_argument("--n-nonfiring", type=int, default=40)
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--probe-set", default=None,
+                    help="custom prose probe jsonl (input+kernel_term) instead of the "
+                         "canonical corpus, e.g. data/firing-probes.balanced.jsonl "
+                         "(s248 B-balanced set); enables the graded B-count test.")
     ap.add_argument("--smoke", action="store_true",
                     help="Qwen3-0.6B, few probes/items, fast wiring check")
     args = ap.parse_args()
@@ -549,7 +615,7 @@ def main():
 
     run(model_name, max_items, args.zone_lo, args.zone_hi, args.onset_tau,
         args.max_lag, n_perm_calib, ppc, null_cap, args.n_perm_stat,
-        n_nonfiring, args.seed)
+        n_nonfiring, args.seed, probe_set=args.probe_set)
 
 
 if __name__ == "__main__":
