@@ -1,0 +1,793 @@
+{
+  "register": "behavioral/output",
+  "git_sha": "08ba01c",
+  "models": [
+    "Qwen/Qwen3-14B",
+    "google/gemma-4-31B-it"
+  ],
+  "thresholds": {
+    "agree_jac": 0.85,
+    "correct_jac": 0.85
+  },
+  "n_probes_total": 26,
+  "n_probes_scored": 25,
+  "n_leaked_in_gate_excluded": 1,
+  "agreement_rate_exact": 0.36,
+  "agreement_rate_jac": 0.6,
+  "mean_cross_model_jaccard": 0.862,
+  "calibration_exact": {
+    "n_agree": 9,
+    "P_correct_given_agree": 0.556,
+    "n_disagree": 16,
+    "P_correct_given_disagree": 0.0
+  },
+  "calibration_jac": {
+    "n_agree": 15,
+    "P_correct_given_agree": 0.8,
+    "n_disagree": 10,
+    "P_correct_given_disagree": 0.1
+  },
+  "failure_modes": {
+    "agreed_correct": {
+      "n": 12,
+      "probe_ids": [
+        "bind-ctrl-02",
+        "bind-embed-01",
+        "bind-embed-02",
+        "bind-neg-02",
+        "bind-rel-01",
+        "bind-rel-02",
+        "bind-rel-04",
+        "bind-scope-01b",
+        "bind-scope-02a",
+        "bind-scope-02b",
+        "bind-var-01a",
+        "bind-var-01b"
+      ]
+    },
+    "agreed_error": {
+      "n": 2,
+      "probe_ids": [
+        "bind-var-03",
+        "bind-var-04"
+      ]
+    },
+    "agreed_abstain": {
+      "n": 0,
+      "probe_ids": []
+    },
+    "disagree": {
+      "n": 10,
+      "probe_ids": [
+        "bind-ana-01",
+        "bind-ana-02a",
+        "bind-ana-02b",
+        "bind-ana-03",
+        "bind-ctrl-01",
+        "bind-ctrl-03",
+        "bind-neg-01",
+        "bind-scope-03",
+        "bind-scope-04",
+        "bind-var-02"
+      ]
+    }
+  },
+  "per_model_correctness": {
+    "Qwen/Qwen3-14B": {
+      "exact": 0.24,
+      "jac": 0.6
+    },
+    "google/gemma-4-31B-it": {
+      "exact": 0.4,
+      "jac": 0.72
+    }
+  },
+  "mean_jaccard_vs_gt": {
+    "Qwen/Qwen3-14B": 0.843,
+    "google/gemma-4-31B-it": 0.906
+  },
+  "rows": [
+    {
+      "probe_id": "bind-ana-01",
+      "category": "anaphora",
+      "in_gate": false,
+      "prompt": "John saw himself in the mirror.",
+      "ground_truth": "∃x. mirror(x) ∧ saw(john, john, in(x))",
+      "generations": {
+        "Qwen/Qwen3-14B": "saw(john, john) ∧ mirror(ιx. x)",
+        "google/gemma-4-31B-it": "saw(john, john, mirror)"
+      },
+      "agree_exact": false,
+      "agree_jac": false,
+      "mean_pair_jaccard": 0.6,
+      "correct_exact": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": false
+      },
+      "correct_jac": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": false
+      },
+      "jaccard_vs_gt": {
+        "Qwen/Qwen3-14B": 0.75,
+        "google/gemma-4-31B-it": 0.545
+      },
+      "all_empty": false
+    },
+    {
+      "probe_id": "bind-ana-02a",
+      "category": "anaphora",
+      "in_gate": false,
+      "prompt": "Every boy thinks he is smart.",
+      "ground_truth": "∀x. boy(x) → thinks(x, smart(x))",
+      "generations": {
+        "Qwen/Qwen3-14B": "∀x. boy(x) → thinks(x, ιy. isSmart(y))",
+        "google/gemma-4-31B-it": "∀x. boy(x) → thinks(x, smart(x))"
+      },
+      "agree_exact": false,
+      "agree_jac": false,
+      "mean_pair_jaccard": 0.692,
+      "correct_exact": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": true
+      },
+      "correct_jac": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": true
+      },
+      "jaccard_vs_gt": {
+        "Qwen/Qwen3-14B": 0.692,
+        "google/gemma-4-31B-it": 1.0
+      },
+      "all_empty": false
+    },
+    {
+      "probe_id": "bind-ana-02b",
+      "category": "anaphora",
+      "in_gate": false,
+      "prompt": "John thinks he is smart.",
+      "ground_truth": "thinks(john, smart(john))",
+      "generations": {
+        "Qwen/Qwen3-14B": "thinks(john, ιx. x = john ∧ smart(x))",
+        "google/gemma-4-31B-it": "thinks(john, smart(john))"
+      },
+      "agree_exact": false,
+      "agree_jac": false,
+      "mean_pair_jaccard": 0.545,
+      "correct_exact": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": true
+      },
+      "correct_jac": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": true
+      },
+      "jaccard_vs_gt": {
+        "Qwen/Qwen3-14B": 0.545,
+        "google/gemma-4-31B-it": 1.0
+      },
+      "all_empty": false
+    },
+    {
+      "probe_id": "bind-ana-03",
+      "category": "anaphora",
+      "in_gate": false,
+      "prompt": "No student who failed the exam thinks he deserved to pass.",
+      "ground_truth": "¬∃x. student(x) ∧ failed(x, ιy. exam(y)) ∧ thinks(x, deserved(x, pass))",
+      "generations": {
+        "Qwen/Qwen3-14B": "∀x. (student(x) ∧ failed_exam(x)) → ¬∃y. think(x, y, deserved_to_pass(y))",
+        "google/gemma-4-31B-it": "¬∃x. (student(x) ∧ failed(x, exam)) ∧ thinks(x, deserved_to_pass(x))"
+      },
+      "agree_exact": false,
+      "agree_jac": false,
+      "mean_pair_jaccard": 0.647,
+      "correct_exact": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": false
+      },
+      "correct_jac": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": false
+      },
+      "jaccard_vs_gt": {
+        "Qwen/Qwen3-14B": 0.55,
+        "google/gemma-4-31B-it": 0.706
+      },
+      "all_empty": false
+    },
+    {
+      "probe_id": "bind-ctrl-01",
+      "category": "control",
+      "in_gate": false,
+      "prompt": "She told him to leave.",
+      "ground_truth": "told(she, him, leave(him))",
+      "generations": {
+        "Qwen/Qwen3-14B": "told(ιx. she(x), ιy. him(y), λz. leave(z))",
+        "google/gemma-4-31B-it": "told(she, him, leave)"
+      },
+      "agree_exact": false,
+      "agree_jac": false,
+      "mean_pair_jaccard": 0.538,
+      "correct_exact": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": false
+      },
+      "correct_jac": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": true
+      },
+      "jaccard_vs_gt": {
+        "Qwen/Qwen3-14B": 0.538,
+        "google/gemma-4-31B-it": 1.0
+      },
+      "all_empty": false
+    },
+    {
+      "probe_id": "bind-ctrl-02",
+      "category": "control",
+      "in_gate": false,
+      "prompt": "She promised him to leave.",
+      "ground_truth": "promised(she, him, leave(she))",
+      "generations": {
+        "Qwen/Qwen3-14B": "promised(she, him, leave)",
+        "google/gemma-4-31B-it": "promised(she, him, leave(she))"
+      },
+      "agree_exact": false,
+      "agree_jac": true,
+      "mean_pair_jaccard": 1.0,
+      "correct_exact": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": true
+      },
+      "correct_jac": {
+        "Qwen/Qwen3-14B": true,
+        "google/gemma-4-31B-it": true
+      },
+      "jaccard_vs_gt": {
+        "Qwen/Qwen3-14B": 1.0,
+        "google/gemma-4-31B-it": 1.0
+      },
+      "all_empty": false
+    },
+    {
+      "probe_id": "bind-ctrl-03",
+      "category": "control",
+      "in_gate": false,
+      "prompt": "She persuaded him to believe that she was right.",
+      "ground_truth": "persuaded(she, him, believe(him, right(she)))",
+      "generations": {
+        "Qwen/Qwen3-14B": "persuaded(she, him, believe(he, right))",
+        "google/gemma-4-31B-it": "persuade(she, him, believe(him, right(she)))"
+      },
+      "agree_exact": false,
+      "agree_jac": false,
+      "mean_pair_jaccard": 0.7,
+      "correct_exact": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": false
+      },
+      "correct_jac": {
+        "Qwen/Qwen3-14B": true,
+        "google/gemma-4-31B-it": false
+      },
+      "jaccard_vs_gt": {
+        "Qwen/Qwen3-14B": 0.889,
+        "google/gemma-4-31B-it": 0.778
+      },
+      "all_empty": false
+    },
+    {
+      "probe_id": "bind-embed-01",
+      "category": "variable_binding",
+      "in_gate": false,
+      "prompt": "John believes that every student passed.",
+      "ground_truth": "believes(john, ∀x. student(x) → passed(x))",
+      "generations": {
+        "Qwen/Qwen3-14B": "believes(john, ∀x. student(x) → passed(x))",
+        "google/gemma-4-31B-it": "believes(John, ∀x. student(x) → passed(x))"
+      },
+      "agree_exact": true,
+      "agree_jac": true,
+      "mean_pair_jaccard": 1.0,
+      "correct_exact": {
+        "Qwen/Qwen3-14B": true,
+        "google/gemma-4-31B-it": true
+      },
+      "correct_jac": {
+        "Qwen/Qwen3-14B": true,
+        "google/gemma-4-31B-it": true
+      },
+      "jaccard_vs_gt": {
+        "Qwen/Qwen3-14B": 1.0,
+        "google/gemma-4-31B-it": 1.0
+      },
+      "all_empty": false
+    },
+    {
+      "probe_id": "bind-embed-02",
+      "category": "variable_binding",
+      "in_gate": false,
+      "prompt": "Every professor thinks that some student cheated.",
+      "ground_truth": "∀x. professor(x) → thinks(x, ∃y. student(y) ∧ cheated(y))",
+      "generations": {
+        "Qwen/Qwen3-14B": "∀x. professor(x) → ∃y. student(y) ∧ thinks(x, y, cheated(y))",
+        "google/gemma-4-31B-it": "∀x. professor(x) → ∃y. student(y) ∧ thinks(x, cheated(y))"
+      },
+      "agree_exact": false,
+      "agree_jac": true,
+      "mean_pair_jaccard": 1.0,
+      "correct_exact": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": false
+      },
+      "correct_jac": {
+        "Qwen/Qwen3-14B": true,
+        "google/gemma-4-31B-it": true
+      },
+      "jaccard_vs_gt": {
+        "Qwen/Qwen3-14B": 1.0,
+        "google/gemma-4-31B-it": 1.0
+      },
+      "all_empty": false
+    },
+    {
+      "probe_id": "bind-neg-01",
+      "category": "quantifier_scope",
+      "in_gate": false,
+      "prompt": "Nobody saw anything.",
+      "ground_truth": "¬∃x. person(x) ∧ ∃y. thing(y) ∧ saw(x, y)",
+      "generations": {
+        "Qwen/Qwen3-14B": "¬∃x. person(x) ∧ ∃y. saw(x, y)",
+        "google/gemma-4-31B-it": "¬∃x. ∃y. saw(x, y)"
+      },
+      "agree_exact": false,
+      "agree_jac": false,
+      "mean_pair_jaccard": 0.818,
+      "correct_exact": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": false
+      },
+      "correct_jac": {
+        "Qwen/Qwen3-14B": true,
+        "google/gemma-4-31B-it": false
+      },
+      "jaccard_vs_gt": {
+        "Qwen/Qwen3-14B": 0.917,
+        "google/gemma-4-31B-it": 0.75
+      },
+      "all_empty": false
+    },
+    {
+      "probe_id": "bind-neg-02",
+      "category": "quantifier_scope",
+      "in_gate": false,
+      "prompt": "Not every bird can fly.",
+      "ground_truth": "¬∀x. bird(x) → can_fly(x)",
+      "generations": {
+        "Qwen/Qwen3-14B": "¬∀x. bird(x) → fly(x)",
+        "google/gemma-4-31B-it": "¬∀x. bird(x) → fly(x)"
+      },
+      "agree_exact": true,
+      "agree_jac": true,
+      "mean_pair_jaccard": 1.0,
+      "correct_exact": {
+        "Qwen/Qwen3-14B": true,
+        "google/gemma-4-31B-it": true
+      },
+      "correct_jac": {
+        "Qwen/Qwen3-14B": true,
+        "google/gemma-4-31B-it": true
+      },
+      "jaccard_vs_gt": {
+        "Qwen/Qwen3-14B": 1.0,
+        "google/gemma-4-31B-it": 1.0
+      },
+      "all_empty": false
+    },
+    {
+      "probe_id": "bind-rel-01",
+      "category": "relative_clause",
+      "in_gate": false,
+      "prompt": "The cat that chased the dog is black.",
+      "ground_truth": "black(ιx. cat(x) ∧ chased(x, ιy. dog(y)))",
+      "generations": {
+        "Qwen/Qwen3-14B": "black(ιx. cat(x) ∧ ∃y. dog(y) ∧ chased(x, y))",
+        "google/gemma-4-31B-it": "black(ιx. cat(x) ∧ ∃y. dog(y) ∧ chased(x, y))"
+      },
+      "agree_exact": true,
+      "agree_jac": true,
+      "mean_pair_jaccard": 1.0,
+      "correct_exact": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": false
+      },
+      "correct_jac": {
+        "Qwen/Qwen3-14B": true,
+        "google/gemma-4-31B-it": true
+      },
+      "jaccard_vs_gt": {
+        "Qwen/Qwen3-14B": 0.923,
+        "google/gemma-4-31B-it": 0.923
+      },
+      "all_empty": false
+    },
+    {
+      "probe_id": "bind-rel-02",
+      "category": "relative_clause",
+      "in_gate": false,
+      "prompt": "The cat that the dog chased is black.",
+      "ground_truth": "black(ιx. cat(x) ∧ chased(ιy. dog(y), x))",
+      "generations": {
+        "Qwen/Qwen3-14B": "black(ιx. cat(x) ∧ ∃y. dog(y) ∧ chased(y, x))",
+        "google/gemma-4-31B-it": "black(ιx. cat(x) ∧ ∃y. dog(y) ∧ chased(y, x))"
+      },
+      "agree_exact": true,
+      "agree_jac": true,
+      "mean_pair_jaccard": 1.0,
+      "correct_exact": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": false
+      },
+      "correct_jac": {
+        "Qwen/Qwen3-14B": true,
+        "google/gemma-4-31B-it": true
+      },
+      "jaccard_vs_gt": {
+        "Qwen/Qwen3-14B": 0.923,
+        "google/gemma-4-31B-it": 0.923
+      },
+      "all_empty": false
+    },
+    {
+      "probe_id": "bind-rel-03",
+      "category": "relative_clause",
+      "in_gate": false,
+      "prompt": "Every student who read a book passed the exam.",
+      "ground_truth": "∀x. (student(x) ∧ ∃y. book(y) ∧ read(x, y)) → passed(x, ιz. exam(z))",
+      "generations": {
+        "Qwen/Qwen3-14B": "∀x. (student(x) ∧ ∃y. book(y) ∧ read(x, y)) → passed(x)",
+        "google/gemma-4-31B-it": "∀x. (student(x) ∧ ∃y. (book(y) ∧ read(x, y))) → passed(x, exam)"
+      },
+      "agree_exact": false,
+      "agree_jac": true,
+      "mean_pair_jaccard": 0.933,
+      "correct_exact": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": false
+      },
+      "correct_jac": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": true
+      },
+      "jaccard_vs_gt": {
+        "Qwen/Qwen3-14B": 0.824,
+        "google/gemma-4-31B-it": 0.882
+      },
+      "all_empty": false
+    },
+    {
+      "probe_id": "bind-rel-04",
+      "category": "relative_clause",
+      "in_gate": false,
+      "prompt": "The book that every student read was boring.",
+      "ground_truth": "boring(ιx. book(x) ∧ ∀y. student(y) → read(y, x))",
+      "generations": {
+        "Qwen/Qwen3-14B": "∃y. book(y) ∧ ∀x. student(x) → read(x, y) ∧ boring(y)",
+        "google/gemma-4-31B-it": "boring(ιx. book(x) ∧ ∀y. student(y) → read(y, x))"
+      },
+      "agree_exact": false,
+      "agree_jac": true,
+      "mean_pair_jaccard": 0.867,
+      "correct_exact": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": true
+      },
+      "correct_jac": {
+        "Qwen/Qwen3-14B": true,
+        "google/gemma-4-31B-it": true
+      },
+      "jaccard_vs_gt": {
+        "Qwen/Qwen3-14B": 0.867,
+        "google/gemma-4-31B-it": 1.0
+      },
+      "all_empty": false
+    },
+    {
+      "probe_id": "bind-scope-01a",
+      "category": "quantifier_scope",
+      "in_gate": true,
+      "prompt": "Every student read a book.",
+      "ground_truth": "∀x. student(x) → ∃y. book(y) ∧ read(x, y)",
+      "generations": {
+        "Qwen/Qwen3-14B": "∀x. student(x) → ∃y. book(y) ∧ read(x, y)",
+        "google/gemma-4-31B-it": "∀x. student(x) → ∃y. book(y) ∧ read(x, y)"
+      },
+      "agree_exact": true,
+      "agree_jac": true,
+      "mean_pair_jaccard": 1.0,
+      "correct_exact": {
+        "Qwen/Qwen3-14B": true,
+        "google/gemma-4-31B-it": true
+      },
+      "correct_jac": {
+        "Qwen/Qwen3-14B": true,
+        "google/gemma-4-31B-it": true
+      },
+      "jaccard_vs_gt": {
+        "Qwen/Qwen3-14B": 1.0,
+        "google/gemma-4-31B-it": 1.0
+      },
+      "all_empty": false
+    },
+    {
+      "probe_id": "bind-scope-01b",
+      "category": "quantifier_scope",
+      "in_gate": false,
+      "prompt": "A student read every book.",
+      "ground_truth": "∃x. student(x) ∧ ∀y. book(y) → read(x, y)",
+      "generations": {
+        "Qwen/Qwen3-14B": "∀x. book(x) → ∃y. student(y) ∧ read(y, x)",
+        "google/gemma-4-31B-it": "∃x. student(x) ∧ ∀y. book(y) → read(x, y)"
+      },
+      "agree_exact": false,
+      "agree_jac": true,
+      "mean_pair_jaccard": 1.0,
+      "correct_exact": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": true
+      },
+      "correct_jac": {
+        "Qwen/Qwen3-14B": true,
+        "google/gemma-4-31B-it": true
+      },
+      "jaccard_vs_gt": {
+        "Qwen/Qwen3-14B": 1.0,
+        "google/gemma-4-31B-it": 1.0
+      },
+      "all_empty": false
+    },
+    {
+      "probe_id": "bind-scope-02a",
+      "category": "quantifier_scope",
+      "in_gate": false,
+      "prompt": "No student passed every exam.",
+      "ground_truth": "¬∃x. student(x) ∧ ∀y. exam(y) → passed(x, y)",
+      "generations": {
+        "Qwen/Qwen3-14B": "¬∃x. student(x) ∧ ∀y. exam(y) → passed(x, y)",
+        "google/gemma-4-31B-it": "¬∃x. student(x) ∧ ∀y. (exam(y) → passed(x, y))"
+      },
+      "agree_exact": false,
+      "agree_jac": true,
+      "mean_pair_jaccard": 1.0,
+      "correct_exact": {
+        "Qwen/Qwen3-14B": true,
+        "google/gemma-4-31B-it": false
+      },
+      "correct_jac": {
+        "Qwen/Qwen3-14B": true,
+        "google/gemma-4-31B-it": true
+      },
+      "jaccard_vs_gt": {
+        "Qwen/Qwen3-14B": 1.0,
+        "google/gemma-4-31B-it": 1.0
+      },
+      "all_empty": false
+    },
+    {
+      "probe_id": "bind-scope-02b",
+      "category": "quantifier_scope",
+      "in_gate": false,
+      "prompt": "Every student passed no exam.",
+      "ground_truth": "∀x. student(x) → ¬∃y. exam(y) ∧ passed(x, y)",
+      "generations": {
+        "Qwen/Qwen3-14B": "∀x. student(x) → ¬∃y. exam(y) ∧ passed(x, y)",
+        "google/gemma-4-31B-it": "∀x. student(x) → ¬∃y. exam(y) ∧ passed(x, y)"
+      },
+      "agree_exact": true,
+      "agree_jac": true,
+      "mean_pair_jaccard": 1.0,
+      "correct_exact": {
+        "Qwen/Qwen3-14B": true,
+        "google/gemma-4-31B-it": true
+      },
+      "correct_jac": {
+        "Qwen/Qwen3-14B": true,
+        "google/gemma-4-31B-it": true
+      },
+      "jaccard_vs_gt": {
+        "Qwen/Qwen3-14B": 1.0,
+        "google/gemma-4-31B-it": 1.0
+      },
+      "all_empty": false
+    },
+    {
+      "probe_id": "bind-scope-03",
+      "category": "quantifier_scope",
+      "in_gate": false,
+      "prompt": "Most students read some book.",
+      "ground_truth": "MOST(x, student(x), ∃y. book(y) ∧ read(x, y))",
+      "generations": {
+        "Qwen/Qwen3-14B": "Most students read some book. → ∃x. student(x) ∧ ∃y. book(y) ∧ read(x, y) ∧ ∃z. student(z) ∧ ¬(z = x) ∧ ∃w. book(w) ∧ read(z, w) ∧ ¬(w = y) ∧ ∃u. student(u) ∧ ∃v. book(v)",
+        "google/gemma-4-31B-it": "Most x. student(x) ∧ ∃y. book(y) ∧ read(x, y)"
+      },
+      "agree_exact": false,
+      "agree_jac": false,
+      "mean_pair_jaccard": 0.6,
+      "correct_exact": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": false
+      },
+      "correct_jac": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": true
+      },
+      "jaccard_vs_gt": {
+        "Qwen/Qwen3-14B": 0.6,
+        "google/gemma-4-31B-it": 1.0
+      },
+      "all_empty": false
+    },
+    {
+      "probe_id": "bind-scope-04",
+      "category": "quantifier_scope",
+      "in_gate": false,
+      "prompt": "Exactly two students answered every question.",
+      "ground_truth": "∃!2 x. student(x) ∧ ∀y. question(y) → answered(x, y)",
+      "generations": {
+        "Qwen/Qwen3-14B": "∃x∃y. (student(x) ∧ student(y) ∧ x ≠ y ∧ ∀z. question(z) → answered(x, z) ∧ answered(y, z)) ∧ ∀u∀v. (student(u) ∧ student(v) ∧ u ≠ v ∧ ∀w. question(w) → answered(u, w) ∧ answered(v, w)) → (u = x ∨",
+        "google/gemma-4-31B-it": "∃x. ∃y. (student(x) ∧ student(y) ∧ x ≠ y ∧ ∀z. question(z) → answer(x, z) ∧ ∀z. question(z) → answer(y, z) ∧ ∀w. (student(w) ∧ ∀z. question(z) → answer(w, z"
+      },
+      "agree_exact": false,
+      "agree_jac": false,
+      "mean_pair_jaccard": 0.789,
+      "correct_exact": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": false
+      },
+      "correct_jac": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": false
+      },
+      "jaccard_vs_gt": {
+        "Qwen/Qwen3-14B": 0.619,
+        "google/gemma-4-31B-it": 0.765
+      },
+      "all_empty": false
+    },
+    {
+      "probe_id": "bind-var-01a",
+      "category": "variable_binding",
+      "in_gate": false,
+      "prompt": "The cat chased the dog.",
+      "ground_truth": "chased(ιx. cat(x), ιy. dog(y))",
+      "generations": {
+        "Qwen/Qwen3-14B": "chased(ιx. cat(x), ιy. dog(y))",
+        "google/gemma-4-31B-it": "chased(ιx. cat(x), ιy. dog(y))"
+      },
+      "agree_exact": true,
+      "agree_jac": true,
+      "mean_pair_jaccard": 1.0,
+      "correct_exact": {
+        "Qwen/Qwen3-14B": true,
+        "google/gemma-4-31B-it": true
+      },
+      "correct_jac": {
+        "Qwen/Qwen3-14B": true,
+        "google/gemma-4-31B-it": true
+      },
+      "jaccard_vs_gt": {
+        "Qwen/Qwen3-14B": 1.0,
+        "google/gemma-4-31B-it": 1.0
+      },
+      "all_empty": false
+    },
+    {
+      "probe_id": "bind-var-01b",
+      "category": "variable_binding",
+      "in_gate": false,
+      "prompt": "The dog chased the cat.",
+      "ground_truth": "chased(ιx. dog(x), ιy. cat(y))",
+      "generations": {
+        "Qwen/Qwen3-14B": "chased(ιx. dog(x), ιy. cat(y))",
+        "google/gemma-4-31B-it": "chased(ιx. dog(x), ιy. cat(y))"
+      },
+      "agree_exact": true,
+      "agree_jac": true,
+      "mean_pair_jaccard": 1.0,
+      "correct_exact": {
+        "Qwen/Qwen3-14B": true,
+        "google/gemma-4-31B-it": true
+      },
+      "correct_jac": {
+        "Qwen/Qwen3-14B": true,
+        "google/gemma-4-31B-it": true
+      },
+      "jaccard_vs_gt": {
+        "Qwen/Qwen3-14B": 1.0,
+        "google/gemma-4-31B-it": 1.0
+      },
+      "all_empty": false
+    },
+    {
+      "probe_id": "bind-var-02",
+      "category": "variable_binding",
+      "in_gate": false,
+      "prompt": "The teacher gave every student a grade.",
+      "ground_truth": "∀x. student(x) → ∃y. grade(y) ∧ gave(ιz. teacher(z), x, y)",
+      "generations": {
+        "Qwen/Qwen3-14B": "∀x. student(x) → ∃y. grade(y) ∧ gave(ιx. teacher(x), x, y)",
+        "google/gemma-4-31B-it": "gave(ιx. teacher(x), ∀y. student(y), ∃z. grade(z))"
+      },
+      "agree_exact": false,
+      "agree_jac": false,
+      "mean_pair_jaccard": 0.812,
+      "correct_exact": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": false
+      },
+      "correct_jac": {
+        "Qwen/Qwen3-14B": true,
+        "google/gemma-4-31B-it": true
+      },
+      "jaccard_vs_gt": {
+        "Qwen/Qwen3-14B": 0.938,
+        "google/gemma-4-31B-it": 0.875
+      },
+      "all_empty": false
+    },
+    {
+      "probe_id": "bind-var-03",
+      "category": "variable_binding",
+      "in_gate": false,
+      "prompt": "Someone loves everyone.",
+      "ground_truth": "∃x. person(x) ∧ ∀y. person(y) → loves(x, y)",
+      "generations": {
+        "Qwen/Qwen3-14B": "∃x. ∀y. loves(x, y)",
+        "google/gemma-4-31B-it": "∃x. ∀y. love(x, y)"
+      },
+      "agree_exact": true,
+      "agree_jac": true,
+      "mean_pair_jaccard": 1.0,
+      "correct_exact": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": false
+      },
+      "correct_jac": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": false
+      },
+      "jaccard_vs_gt": {
+        "Qwen/Qwen3-14B": 0.75,
+        "google/gemma-4-31B-it": 0.75
+      },
+      "all_empty": false
+    },
+    {
+      "probe_id": "bind-var-04",
+      "category": "variable_binding",
+      "in_gate": false,
+      "prompt": "Everyone loves someone.",
+      "ground_truth": "∀x. person(x) → ∃y. person(y) ∧ loves(x, y)",
+      "generations": {
+        "Qwen/Qwen3-14B": "∀x. ∃y. loves(x, y)",
+        "google/gemma-4-31B-it": "∀x. ∃y. love(x, y)"
+      },
+      "agree_exact": true,
+      "agree_jac": true,
+      "mean_pair_jaccard": 1.0,
+      "correct_exact": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": false
+      },
+      "correct_jac": {
+        "Qwen/Qwen3-14B": false,
+        "google/gemma-4-31B-it": false
+      },
+      "jaccard_vs_gt": {
+        "Qwen/Qwen3-14B": 0.75,
+        "google/gemma-4-31B-it": 0.75
+      },
+      "all_empty": false
+    }
+  ]
+}
