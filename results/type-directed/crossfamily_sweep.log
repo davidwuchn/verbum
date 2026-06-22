@@ -1,0 +1,230 @@
+===MODEL EleutherAI/pythia-160m-deduped ===
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[type-dir3] 1024 items (n_each=4, 16 nonce)
+[type-dir3]   example: 'They often wug. John wug'
+[type-dir3]   example: 'Wugs are common objects. The wug'
+[v2] Loading tokenizer: EleutherAI/pythia-160m-deduped
+[v2] Loading model: EleutherAI/pythia-160m-deduped  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights:  99%|█████████▉| 147/148 [00:00<00:00, 1467.42it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 1474.18it/s]
+[v2] Model loaded in 0.6s
+[type-dir3]   nonce 'wug' -> 2 token(s)
+[type-dir3]   nonce 'blicket' -> 3 token(s)
+[type-dir3]   nonce 'dax' -> 2 token(s)
+[type-dir3]   nonce 'fep' -> 2 token(s)
+[type-dir3]   nonce 'gorp' -> 2 token(s)
+[type-dir3]   nonce 'zorp' -> 2 token(s)
+[type-dir3]   scoring 0/1024 ...
+[type-dir3]   scoring 80/1024 ...
+[type-dir3]   scoring 160/1024 ...
+[type-dir3]   scoring 240/1024 ...
+[type-dir3]   scoring 320/1024 ...
+[type-dir3]   scoring 400/1024 ...
+[type-dir3]   scoring 480/1024 ...
+[type-dir3]   scoring 560/1024 ...
+[type-dir3]   scoring 640/1024 ...
+[type-dir3]   scoring 720/1024 ...
+[type-dir3]   scoring 800/1024 ...
+[type-dir3]   scoring 880/1024 ...
+[type-dir3]   scoring 960/1024 ...
+
+======================================================================
+TYPE-DIRECTEDNESS v3 (nonce, frequency-free) — TYPE or POSITION?
+======================================================================
+  condition       mean surprisal   (lower = better fit)
+  det_noun                5.1075
+  det_verb                3.9389
+  name_noun               7.1818
+  name_verb               4.9965
+
+  det_pen  (verb-noun | The {w}):   -1.1686  t= -2.376  (>0 => det wants NOUN, verb-taught dear)
+  name_pen (verb-noun | John {w}):  -2.1852  t= -5.113  (<0 => name wants PRED, verb-taught cheap)
+
+  * CROSSOVER = det_pen - name_pen = 1.0166  t=5.365  n=16  consist=0.875  OK
+  * type_directed (frequency-free) = False
+======================================================================
+
+[type-dir3] wrote /Users/mwhitford/src/verbum/results/type-directed/type_directed_v3_nonce_verdict_pythia-160m-deduped.json
+===MODEL EleutherAI/pythia-1.4b-deduped ===
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[type-dir3] 1024 items (n_each=4, 16 nonce)
+[type-dir3]   example: 'They often wug. John wug'
+[type-dir3]   example: 'Wugs are common objects. The wug'
+[v2] Loading tokenizer: EleutherAI/pythia-1.4b-deduped
+[v2] Loading model: EleutherAI/pythia-1.4b-deduped  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:   0%|          | 1/292 [00:01<05:21,  1.11s/it]Loading weights:   1%|          | 2/292 [00:01<02:30,  1.92it/s]Loading weights:  16%|█▋        | 48/292 [00:01<00:03, 61.03it/s]Loading weights:  21%|██        | 62/292 [00:01<00:03, 61.88it/s]Loading weights:  25%|██▌       | 73/292 [00:01<00:03, 61.43it/s]Loading weights:  29%|██▉       | 84/292 [00:01<00:03, 67.67it/s]Loading weights:  32%|███▏      | 94/292 [00:02<00:02, 71.68it/s]Loading weights:  36%|███▌      | 104/292 [00:02<00:02, 66.99it/s]Loading weights:  38%|███▊      | 112/292 [00:02<00:02, 64.90it/s]Loading weights:  41%|████      | 120/292 [00:02<00:02, 64.83it/s]Loading weights:  45%|████▌     | 132/292 [00:02<00:02, 64.11it/s]Loading weights:  49%|████▉     | 144/292 [00:02<00:02, 62.99it/s]Loading weights:  53%|█████▎    | 156/292 [00:02<00:01, 68.19it/s]Loading weights:  58%|█████▊    | 168/292 [00:03<00:01, 68.32it/s]Loading weights:  62%|██████▏   | 180/292 [00:03<00:01, 62.85it/s]Loading weights:  66%|██████▌   | 192/292 [00:03<00:01, 72.87it/s]Loading weights:  68%|██████▊   | 200/292 [00:03<00:01, 72.15it/s]Loading weights:  71%|███████   | 208/292 [00:03<00:01, 72.25it/s]Loading weights:  74%|███████▍  | 216/292 [00:03<00:01, 59.56it/s]Loading weights:  78%|███████▊  | 228/292 [00:04<00:00, 70.04it/s]Loading weights:  81%|████████  | 236/292 [00:04<00:00, 67.45it/s]Loading weights:  85%|████████▍ | 248/292 [00:04<00:00, 74.22it/s]Loading weights:  89%|████████▉ | 260/292 [00:04<00:00, 67.17it/s]Loading weights:  95%|█████████▍| 276/292 [00:04<00:00, 70.86it/s]Loading weights:  99%|█████████▉| 290/292 [00:04<00:00, 84.23it/s]Loading weights: 100%|██████████| 292/292 [00:04<00:00, 60.75it/s]
+[v2] Model loaded in 5.5s
+[type-dir3]   nonce 'wug' -> 2 token(s)
+[type-dir3]   nonce 'blicket' -> 3 token(s)
+[type-dir3]   nonce 'dax' -> 2 token(s)
+[type-dir3]   nonce 'fep' -> 2 token(s)
+[type-dir3]   nonce 'gorp' -> 2 token(s)
+[type-dir3]   nonce 'zorp' -> 2 token(s)
+[type-dir3]   scoring 0/1024 ...
+[type-dir3]   scoring 80/1024 ...
+[type-dir3]   scoring 160/1024 ...
+[type-dir3]   scoring 240/1024 ...
+[type-dir3]   scoring 320/1024 ...
+[type-dir3]   scoring 400/1024 ...
+[type-dir3]   scoring 480/1024 ...
+[type-dir3]   scoring 560/1024 ...
+[type-dir3]   scoring 640/1024 ...
+[type-dir3]   scoring 720/1024 ...
+[type-dir3]   scoring 800/1024 ...
+[type-dir3]   scoring 880/1024 ...
+[type-dir3]   scoring 960/1024 ...
+
+======================================================================
+TYPE-DIRECTEDNESS v3 (nonce, frequency-free) — TYPE or POSITION?
+======================================================================
+  condition       mean surprisal   (lower = better fit)
+  det_noun                3.7258
+  det_verb                2.7013
+  name_noun               6.0984
+  name_verb               3.6457
+
+  det_pen  (verb-noun | The {w}):   -1.0245  t= -2.764  (>0 => det wants NOUN, verb-taught dear)
+  name_pen (verb-noun | John {w}):  -2.4526  t= -5.628  (<0 => name wants PRED, verb-taught cheap)
+
+  * CROSSOVER = det_pen - name_pen = 1.4282  t=7.707  n=16  consist=0.938  OK
+  * type_directed (frequency-free) = False
+======================================================================
+
+[type-dir3] wrote /Users/mwhitford/src/verbum/results/type-directed/type_directed_v3_nonce_verdict_pythia-1-4b-deduped.json
+===MODEL HuggingFaceTB/SmolLM3-3B ===
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[type-dir3] 1024 items (n_each=4, 16 nonce)
+[type-dir3]   example: 'They often wug. John wug'
+[type-dir3]   example: 'Wugs are common objects. The wug'
+[v2] Loading tokenizer: HuggingFaceTB/SmolLM3-3B
+[v2] Loading model: HuggingFaceTB/SmolLM3-3B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/326 [00:00<?, ?it/s]Loading weights:   0%|          | 1/326 [00:00<01:47,  3.01it/s]Loading weights:   6%|▌         | 18/326 [00:00<00:05, 53.01it/s]Loading weights:  10%|▉         | 32/326 [00:00<00:03, 76.66it/s]Loading weights:  15%|█▌        | 50/326 [00:00<00:02, 102.43it/s]Loading weights:  21%|██        | 68/326 [00:00<00:02, 119.60it/s]Loading weights:  26%|██▋       | 86/326 [00:00<00:01, 131.36it/s]Loading weights:  32%|███▏      | 104/326 [00:01<00:01, 139.73it/s]Loading weights:  37%|███▋      | 121/326 [00:01<00:01, 147.77it/s]Loading weights:  43%|████▎     | 139/326 [00:01<00:01, 150.68it/s]Loading weights:  48%|████▊     | 157/326 [00:01<00:01, 153.39it/s]Loading weights:  54%|█████▎    | 175/326 [00:01<00:00, 155.17it/s]Loading weights:  59%|█████▉    | 193/326 [00:01<00:00, 156.29it/s]Loading weights:  65%|██████▍   | 211/326 [00:01<00:00, 156.49it/s]Loading weights:  70%|██████▉   | 228/326 [00:01<00:00, 159.65it/s]Loading weights:  75%|███████▌  | 246/326 [00:01<00:00, 158.53it/s]Loading weights:  80%|████████  | 262/326 [00:01<00:00, 158.89it/s]Loading weights:  85%|████████▌ | 278/326 [00:02<00:00, 154.15it/s]Loading weights:  90%|█████████ | 294/326 [00:02<00:00, 150.39it/s]Loading weights:  95%|█████████▌| 310/326 [00:02<00:00, 151.15it/s]Loading weights: 100%|██████████| 326/326 [00:02<00:00, 135.83it/s]
+[v2] Model loaded in 2.9s
+[type-dir3]   nonce 'wug' -> 2 token(s)
+[type-dir3]   nonce 'blicket' -> 3 token(s)
+[type-dir3]   nonce 'dax' -> 2 token(s)
+[type-dir3]   nonce 'fep' -> 2 token(s)
+[type-dir3]   nonce 'gorp' -> 2 token(s)
+[type-dir3]   nonce 'zorp' -> 2 token(s)
+[type-dir3]   scoring 0/1024 ...
+[type-dir3]   scoring 80/1024 ...
+[type-dir3]   scoring 160/1024 ...
+[type-dir3]   scoring 240/1024 ...
+[type-dir3]   scoring 320/1024 ...
+[type-dir3]   scoring 400/1024 ...
+[type-dir3]   scoring 480/1024 ...
+[type-dir3]   scoring 560/1024 ...
+[type-dir3]   scoring 640/1024 ...
+[type-dir3]   scoring 720/1024 ...
+[type-dir3]   scoring 800/1024 ...
+[type-dir3]   scoring 880/1024 ...
+[type-dir3]   scoring 960/1024 ...
+
+======================================================================
+TYPE-DIRECTEDNESS v3 (nonce, frequency-free) — TYPE or POSITION?
+======================================================================
+  condition       mean surprisal   (lower = better fit)
+  det_noun                3.1939
+  det_verb                2.9246
+  name_noun               5.8246
+  name_verb               4.2075
+
+  det_pen  (verb-noun | The {w}):   -0.2693  t= -1.183  (>0 => det wants NOUN, verb-taught dear)
+  name_pen (verb-noun | John {w}):  -1.6171  t= -3.949  (<0 => name wants PRED, verb-taught cheap)
+
+  * CROSSOVER = det_pen - name_pen = 1.3478  t=4.622  n=16  consist=0.875  OK
+  * type_directed (frequency-free) = False
+======================================================================
+
+[type-dir3] wrote /Users/mwhitford/src/verbum/results/type-directed/type_directed_v3_nonce_verdict_smollm3-3b.json
+===MODEL mistralai/Mistral-7B-v0.3 ===
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[type-dir3] 1024 items (n_each=4, 16 nonce)
+[type-dir3]   example: 'They often wug. John wug'
+[type-dir3]   example: 'Wugs are common objects. The wug'
+[v2] Loading tokenizer: mistralai/Mistral-7B-v0.3
+[v2] Loading model: mistralai/Mistral-7B-v0.3  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/291 [00:00<?, ?it/s]Loading weights:   0%|          | 1/291 [00:00<02:09,  2.25it/s]Loading weights:   1%|          | 2/291 [00:00<01:16,  3.79it/s]Loading weights:   3%|▎         | 10/291 [00:00<00:13, 21.54it/s]Loading weights:   5%|▌         | 15/291 [00:00<00:10, 26.93it/s]Loading weights:   8%|▊         | 23/291 [00:00<00:06, 38.95it/s]Loading weights:  11%|█         | 31/291 [00:01<00:05, 47.44it/s]Loading weights:  13%|█▎        | 37/291 [00:01<00:05, 49.60it/s]Loading weights:  15%|█▍        | 43/291 [00:01<00:05, 48.98it/s]Loading weights:  17%|█▋        | 50/291 [00:01<00:04, 53.01it/s]Loading weights:  20%|█▉        | 58/291 [00:01<00:03, 58.51it/s]Loading weights:  22%|██▏       | 65/291 [00:01<00:03, 59.84it/s]Loading weights:  25%|██▍       | 72/291 [00:01<00:03, 57.07it/s]Loading weights:  27%|██▋       | 78/291 [00:01<00:04, 52.74it/s]Loading weights:  30%|██▉       | 86/291 [00:02<00:03, 58.11it/s]Loading weights:  32%|███▏      | 94/291 [00:02<00:03, 61.88it/s]Loading weights:  35%|███▍      | 101/291 [00:02<00:03, 62.25it/s]Loading weights:  37%|███▋      | 108/291 [00:02<00:03, 58.36it/s]Loading weights:  39%|███▉      | 114/291 [00:02<00:03, 53.50it/s]Loading weights:  42%|████▏     | 122/291 [00:02<00:02, 58.22it/s]Loading weights:  45%|████▍     | 130/291 [00:02<00:02, 61.86it/s]Loading weights:  47%|████▋     | 137/291 [00:02<00:02, 61.82it/s]Loading weights:  49%|████▉     | 144/291 [00:02<00:02, 58.03it/s]Loading weights:  52%|█████▏    | 150/291 [00:03<00:02, 53.05it/s]Loading weights:  54%|█████▍    | 158/291 [00:03<00:02, 57.75it/s]Loading weights:  57%|█████▋    | 166/291 [00:03<00:02, 61.60it/s]Loading weights:  59%|█████▉    | 173/291 [00:03<00:01, 61.73it/s]Loading weights:  62%|██████▏   | 180/291 [00:03<00:01, 58.05it/s]Loading weights:  64%|██████▍   | 186/291 [00:03<00:01, 53.48it/s]Loading weights:  67%|██████▋   | 194/291 [00:03<00:01, 58.54it/s]Loading weights:  69%|██████▉   | 202/291 [00:03<00:01, 62.20it/s]Loading weights:  72%|███████▏  | 209/291 [00:04<00:01, 62.36it/s]Loading weights:  74%|███████▍  | 216/291 [00:04<00:01, 58.94it/s]Loading weights:  76%|███████▋  | 222/291 [00:04<00:01, 53.55it/s]Loading weights:  79%|███████▉  | 230/291 [00:04<00:01, 58.25it/s]Loading weights:  82%|████████▏ | 238/291 [00:04<00:00, 61.95it/s]Loading weights:  84%|████████▍ | 245/291 [00:04<00:00, 61.99it/s]Loading weights:  87%|████████▋ | 252/291 [00:04<00:00, 58.10it/s]Loading weights:  89%|████████▊ | 258/291 [00:04<00:00, 53.17it/s]Loading weights:  91%|█████████▏| 266/291 [00:05<00:00, 57.92it/s]Loading weights:  94%|█████████▍| 274/291 [00:05<00:00, 61.83it/s]Loading weights:  97%|█████████▋| 281/291 [00:05<00:00, 61.83it/s]Loading weights:  99%|█████████▉| 288/291 [00:05<00:00, 57.76it/s]Loading weights: 100%|██████████| 291/291 [00:05<00:00, 53.36it/s]
+[v2] Model loaded in 6.2s
+[type-dir3]   nonce 'wug' -> 2 token(s)
+[type-dir3]   nonce 'blicket' -> 3 token(s)
+[type-dir3]   nonce 'dax' -> 2 token(s)
+[type-dir3]   nonce 'fep' -> 2 token(s)
+[type-dir3]   nonce 'gorp' -> 2 token(s)
+[type-dir3]   nonce 'zorp' -> 2 token(s)
+[type-dir3]   scoring 0/1024 ...
+[type-dir3]   scoring 80/1024 ...
+[type-dir3]   scoring 160/1024 ...
+[type-dir3]   scoring 240/1024 ...
+[type-dir3]   scoring 320/1024 ...
+[type-dir3]   scoring 400/1024 ...
+[type-dir3]   scoring 480/1024 ...
+[type-dir3]   scoring 560/1024 ...
+[type-dir3]   scoring 640/1024 ...
+[type-dir3]   scoring 720/1024 ...
+[type-dir3]   scoring 800/1024 ...
+[type-dir3]   scoring 880/1024 ...
+[type-dir3]   scoring 960/1024 ...
+
+======================================================================
+TYPE-DIRECTEDNESS v3 (nonce, frequency-free) — TYPE or POSITION?
+======================================================================
+  condition       mean surprisal   (lower = better fit)
+  det_noun                2.5021
+  det_verb                2.5534
+  name_noun               4.0325
+  name_verb               3.2664
+
+  det_pen  (verb-noun | The {w}):    0.0512  t=  0.497  (>0 => det wants NOUN, verb-taught dear)
+  name_pen (verb-noun | John {w}):  -0.7661  t= -4.785  (<0 => name wants PRED, verb-taught cheap)
+
+  * CROSSOVER = det_pen - name_pen = 0.8174  t=5.531  n=16  consist=0.875  OK
+  * type_directed (frequency-free) = True
+======================================================================
+
+[type-dir3] wrote /Users/mwhitford/src/verbum/results/type-directed/type_directed_v3_nonce_verdict_mistral-7b-v0-3.json
+===MODEL allenai/OLMo-2-1124-13B ===
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[type-dir3] 1024 items (n_each=4, 16 nonce)
+[type-dir3]   example: 'They often wug. John wug'
+[type-dir3]   example: 'Wugs are common objects. The wug'
+[v2] Loading tokenizer: allenai/OLMo-2-1124-13B
+[v2] Loading model: allenai/OLMo-2-1124-13B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:01<13:23,  1.82s/it]Loading weights:   3%|▎         | 15/443 [00:01<00:40, 10.58it/s]Loading weights:   6%|▌         | 26/443 [00:02<00:21, 19.58it/s]Loading weights:   8%|▊         | 37/443 [00:02<00:13, 29.59it/s]Loading weights:  11%|█         | 48/443 [00:02<00:09, 40.01it/s]Loading weights:  13%|█▎        | 59/443 [00:02<00:07, 50.38it/s]Loading weights:  16%|█▌        | 70/443 [00:02<00:06, 60.11it/s]Loading weights:  18%|█▊        | 81/443 [00:02<00:05, 68.48it/s]Loading weights:  21%|██        | 92/443 [00:02<00:04, 74.91it/s]Loading weights:  23%|██▎       | 103/443 [00:02<00:04, 79.45it/s]Loading weights:  26%|██▌       | 113/443 [00:02<00:03, 84.06it/s]Loading weights:  28%|██▊       | 124/443 [00:03<00:03, 85.52it/s]Loading weights:  30%|███       | 135/443 [00:03<00:03, 87.87it/s]Loading weights:  33%|███▎      | 146/443 [00:03<00:03, 88.28it/s]Loading weights:  35%|███▌      | 156/443 [00:03<00:03, 90.76it/s]Loading weights:  37%|███▋      | 166/443 [00:03<00:03, 90.68it/s]Loading weights:  40%|███▉      | 176/443 [00:03<00:02, 90.59it/s]Loading weights:  42%|████▏     | 186/443 [00:03<00:02, 88.80it/s]Loading weights:  44%|████▍     | 196/443 [00:03<00:02, 90.90it/s]Loading weights:  47%|████▋     | 206/443 [00:03<00:02, 91.85it/s]Loading weights:  49%|████▉     | 216/443 [00:04<00:02, 90.06it/s]Loading weights:  51%|█████     | 226/443 [00:04<00:02, 89.36it/s]Loading weights:  53%|█████▎    | 236/443 [00:04<00:02, 88.91it/s]Loading weights:  56%|█████▌    | 247/443 [00:04<00:02, 91.52it/s]Loading weights:  58%|█████▊    | 258/443 [00:04<00:02, 92.46it/s]Loading weights:  61%|██████    | 269/443 [00:04<00:01, 93.67it/s]Loading weights:  63%|██████▎   | 280/443 [00:04<00:01, 95.24it/s]Loading weights:  66%|██████▌   | 291/443 [00:04<00:01, 95.72it/s]Loading weights:  68%|██████▊   | 302/443 [00:04<00:01, 96.25it/s]Loading weights:  71%|███████   | 313/443 [00:05<00:01, 96.66it/s]Loading weights:  73%|███████▎  | 324/443 [00:05<00:01, 96.88it/s]Loading weights:  76%|███████▌  | 335/443 [00:05<00:01, 96.69it/s]Loading weights:  78%|███████▊  | 346/443 [00:05<00:01, 96.46it/s]Loading weights:  81%|████████  | 357/443 [00:05<00:00, 95.33it/s]Loading weights:  83%|████████▎ | 368/443 [00:05<00:00, 95.32it/s]Loading weights:  86%|████████▌ | 379/443 [00:05<00:00, 95.64it/s]Loading weights:  88%|████████▊ | 390/443 [00:05<00:00, 95.09it/s]Loading weights:  91%|█████████ | 401/443 [00:06<00:00, 94.93it/s]Loading weights:  93%|█████████▎| 412/443 [00:06<00:00, 94.28it/s]Loading weights:  95%|█████████▌| 423/443 [00:06<00:00, 94.18it/s]Loading weights:  98%|█████████▊| 434/443 [00:06<00:00, 94.64it/s]Loading weights: 100%|██████████| 443/443 [00:06<00:00, 68.93it/s]
+[v2] Model loaded in 7.2s
+[type-dir3]   nonce 'wug' -> 2 token(s)
+[type-dir3]   nonce 'blicket' -> 3 token(s)
+[type-dir3]   nonce 'dax' -> 2 token(s)
+[type-dir3]   nonce 'fep' -> 2 token(s)
+[type-dir3]   nonce 'gorp' -> 2 token(s)
+[type-dir3]   nonce 'zorp' -> 2 token(s)
+[type-dir3]   scoring 0/1024 ...
+[type-dir3]   scoring 80/1024 ...
+[type-dir3]   scoring 160/1024 ...
+[type-dir3]   scoring 240/1024 ...
+[type-dir3]   scoring 320/1024 ...
+[type-dir3]   scoring 400/1024 ...
+[type-dir3]   scoring 480/1024 ...
+[type-dir3]   scoring 560/1024 ...
+[type-dir3]   scoring 640/1024 ...
+[type-dir3]   scoring 720/1024 ...
+[type-dir3]   scoring 800/1024 ...
+[type-dir3]   scoring 880/1024 ...
+[type-dir3]   scoring 960/1024 ...
+
+======================================================================
+TYPE-DIRECTEDNESS v3 (nonce, frequency-free) — TYPE or POSITION?
+======================================================================
+  condition       mean surprisal   (lower = better fit)
+  det_noun                2.3926
+  det_verb                2.3375
+  name_noun               4.2947
+  name_verb               2.6025
+
+  det_pen  (verb-noun | The {w}):   -0.0552  t= -0.333  (>0 => det wants NOUN, verb-taught dear)
+  name_pen (verb-noun | John {w}):  -1.6922  t= -7.383  (<0 => name wants PRED, verb-taught cheap)
+
+  * CROSSOVER = det_pen - name_pen = 1.637  t=6.734  n=16  consist=0.938  OK
+  * type_directed (frequency-free) = False
+======================================================================
+
+[type-dir3] wrote /Users/mwhitford/src/verbum/results/type-directed/type_directed_v3_nonce_verdict_olmo-2-1124-13b.json

@@ -1,0 +1,10 @@
+{
+  "model": "HuggingFaceTB/SmolLM3-3B",
+  "smoke": false,
+  "git_sha": "185c758817289765806fa29810f7c329d2bc1390",
+  "timestamp_utc": "2026-06-22T05:03:11.140778+00:00",
+  "transformers_version": "5.5.4",
+  "n_each": 4,
+  "n_items": 1024,
+  "seed": 0
+}

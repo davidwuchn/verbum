@@ -1,0 +1,66 @@
+{
+  "register": "type-directedness nonce crossover (frequency-free)",
+  "condition_mean_surprisal": {
+    "det_noun": 5.1075,
+    "det_verb": 3.9389,
+    "name_noun": 7.1818,
+    "name_verb": 4.9965
+  },
+  "det_penalty_verb_minus_noun": {
+    "mean": -1.1686,
+    "t": -2.376,
+    "n": 16,
+    "consistency": 0.188,
+    "per_w": {
+      "fep": -0.069,
+      "wug": 0.34,
+      "narp": -3.615,
+      "gorp": -1.815,
+      "blicket": -0.286,
+      "plong": -0.027,
+      "zorp": -1.181,
+      "dorf": -1.793,
+      "fendle": 0.834,
+      "queel": -0.444,
+      "vimp": -0.326,
+      "florp": -5.724,
+      "trisk": -0.191,
+      "snarl": -0.505,
+      "dax": 0.975,
+      "glorp": -4.868
+    }
+  },
+  "name_penalty_verb_minus_noun": {
+    "mean": -2.1852,
+    "t": -5.113,
+    "n": 16,
+    "consistency": 0.0,
+    "per_w": {
+      "glorp": -4.966,
+      "fendle": -0.679,
+      "queel": -0.269,
+      "plong": -1.303,
+      "fep": -1.011,
+      "vimp": -2.29,
+      "blicket": -0.688,
+      "dorf": -3.051,
+      "dax": -0.017,
+      "gorp": -3.51,
+      "wug": -1.931,
+      "snarl": -1.677,
+      "zorp": -3.041,
+      "florp": -5.471,
+      "narp": -4.328,
+      "trisk": -0.731
+    }
+  },
+  "crossover_interaction": {
+    "mean": 1.0166,
+    "t": 5.365,
+    "n": 16,
+    "consistency": 0.875,
+    "significant": true
+  },
+  "type_directed": false,
+  "n_items": 1024
+}
