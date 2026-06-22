@@ -1,12 +1,12 @@
 [
   {
     "prompt": "\u03bbx.x",
-    "axis": "pure/K",
+    "axis": "pure/I",
     "note": "anchor"
   },
   {
     "prompt": "\u03bbx.\u03bby.x",
-    "axis": "pure/I",
+    "axis": "pure/K",
     "note": "anchor"
   },
   {

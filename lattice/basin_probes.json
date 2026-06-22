@@ -1,6 +1,6 @@
 [
-  {"prompt": "λx.x", "axis": "pure/K", "note": "combinator anchor"},
-  {"prompt": "λx.λy.x", "axis": "pure/I", "note": "combinator anchor"},
+  {"prompt": "λx.x", "axis": "pure/I", "note": "combinator anchor"},
+  {"prompt": "λx.λy.x", "axis": "pure/K", "note": "combinator anchor"},
   {"prompt": "λf.λg.λx.f(g(x))", "axis": "pure/B", "note": "combinator anchor"},
   {"prompt": "λf.λx.λy.f(y)(x)", "axis": "pure/C", "note": "combinator anchor"},
   {"prompt": "λf.λg.λx.f(x)(g(x))", "axis": "pure/S", "note": "combinator anchor"},
