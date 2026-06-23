@@ -1,0 +1,18 @@
+{
+  "model": "Qwen/Qwen3-14B",
+  "smoke": false,
+  "git_sha": "86d9a44078986ea66e70bd874d6114308871d89a",
+  "timestamp_utc": "2026-06-23T16:38:26.408773+00:00",
+  "transformers_version": "5.5.4",
+  "patch_layers": [
+    30,
+    31
+  ],
+  "n_perm": 300,
+  "n_rand": 3,
+  "seed": 0,
+  "null_mode": "gateneutral",
+  "probe_set": "data/reading-probes.jsonl",
+  "method": "DETECT/READ gate-z(C) (sign-CMR); EFFECT residual d_C = diff-of-means(C-present - C-absent) patched over CONTENT positions at L30/L31; READ downstream z(C) + next-token KL; vs random direction of equal magnitude; load-bearing = necessity AND c2>c0 differential.",
+  "scope": "Tests whether the s249 decodable applicative-C field is causally load-bearing or a readable common-mode correlate."
+}

@@ -1,0 +1,56 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[v2] Loading tokenizer: Qwen/Qwen3-14B
+[v2] Loading model: Qwen/Qwen3-14B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<06:48,  1.08it/s]Loading weights:   6%|▌         | 26/443 [00:01<00:12, 33.95it/s]Loading weights:  11%|█         | 48/443 [00:01<00:06, 62.74it/s]Loading weights:  16%|█▌        | 70/443 [00:01<00:04, 89.92it/s]Loading weights:  21%|██        | 92/443 [00:01<00:03, 113.92it/s]Loading weights:  26%|██▌       | 114/443 [00:01<00:02, 133.92it/s]Loading weights:  31%|███       | 136/443 [00:01<00:02, 151.42it/s]Loading weights:  36%|███▌      | 158/443 [00:01<00:01, 165.18it/s]Loading weights:  41%|████      | 180/443 [00:01<00:01, 176.38it/s]Loading weights:  45%|████▌     | 201/443 [00:01<00:01, 183.39it/s]Loading weights:  50%|█████     | 222/443 [00:02<00:01, 182.60it/s]Loading weights:  55%|█████▍    | 242/443 [00:02<00:01, 182.48it/s]Loading weights:  59%|█████▉    | 262/443 [00:02<00:01, 179.97it/s]Loading weights:  63%|██████▎   | 281/443 [00:02<00:00, 172.65it/s]Loading weights:  68%|██████▊   | 302/443 [00:02<00:00, 180.74it/s]Loading weights:  73%|███████▎  | 323/443 [00:02<00:00, 186.82it/s]Loading weights:  77%|███████▋  | 342/443 [00:02<00:00, 181.88it/s]Loading weights:  81%|████████▏ | 361/443 [00:02<00:00, 179.78it/s]Loading weights:  86%|████████▌ | 380/443 [00:02<00:00, 175.25it/s]Loading weights:  91%|█████████ | 402/443 [00:03<00:00, 180.91it/s]Loading weights:  96%|█████████▌| 424/443 [00:03<00:00, 187.52it/s]Loading weights: 100%|██████████| 443/443 [00:03<00:00, 138.63it/s]
+[v2] Model loaded in 3.8s
+[cfield] model=Qwen/Qwen3-14B layers=40 patch=[30, 31]
+[v2] Crystal probes (last-token centroids): 535
+[v2]   centroid forward 0/535 ...
+[v2]   centroid forward 50/535 ...
+[v2]   centroid forward 100/535 ...
+[v2]   centroid forward 150/535 ...
+[v2]   centroid forward 200/535 ...
+[v2]   centroid forward 250/535 ...
+[v2]   centroid forward 300/535 ...
+[v2]   centroid forward 350/535 ...
+[v2]   centroid forward 400/535 ...
+[v2]   centroid forward 450/535 ...
+[v2]   centroid forward 500/535 ...
+[v2] Building MATCHED-PREFIX null from 14 gate+non-compositional prompts (content positions) ...
+[v2] Null tokens pooled: 56  (null_mode=gateneutral)
+[cfield] crystal 31/40; downstream layers > L31
+[cfield] c0(intrans)=45 c1(trans)=45 c2(ditrans)=45
+[cfield] Pass A: baseline (C-present=trans+ditrans, C-absent=intrans) ...
+[cfield]   baseline 20/45
+[cfield]   baseline 40/45
+[cfield]   baseline 20/45
+[cfield]   baseline 40/45
+[cfield]   baseline 20/45
+[cfield]   baseline 40/45
+[cfield] d_C: |d_raw|=112.803 canonical_mag=9.110
+[cfield] arm 1: NECESSITY (ablate d_C on c=2 ditransitive) ...
+[cfield] arm 2: SPECIFICITY (ablate d_C on c=0 intransitive) ...
+[cfield] arm 3: DELIVERY (inject d_C→canonical on c=0 intransitive) ...
+
+══════════════════════════════════════════════════════════════════════════════════
+PROGRAM C-FIELD ABLATION — Qwen/Qwen3-14B  L[30, 31]
+══════════════════════════════════════════════════════════════════════════════════
+  c0(intrans)=45 c1(trans)=45 c2(ditrans)=45  canonical_mag=9.110
+
+  -- NECESSITY (ablate d_C on c=2; expect d_C perturbs MORE) --
+     KL_out  dC=0.1321 rand=0.00117  d=0.13093 t=41.819
+     zCds Δ  dC=0.855 rand=0.01307
+     => necessity_ok = False
+
+  -- DIFFERENTIAL (net KL = d_C-rand; expect c2 > c0) --
+     net_KL c2=0.13093 c0=0.15508  diff=-0.02416 t=-2.539
+     => differential_ok = False
+
+  -- DELIVERY (inject d_C→canon on c=0; drives downstream z(C)) --
+     zCds  dC=0.92767 rand=0.05579 d=0.87188 t=37.201
+     => delivery_ok = True
+
+  * LOAD-BEARING (necessity AND differential) = False   [delivery=True]
+══════════════════════════════════════════════════════════════════════════════════
+
+[cfield] wrote /Users/mwhitford/src/verbum/results/program-cfield-ablation/verdict_qwen3-14b.json (+ meta)

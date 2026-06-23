@@ -117,6 +117,7 @@ true *collectively* but not *crisply per-step*:
 | boot schedule C→B/K→I→WHNF, ~1.018×/layer, cross-model | **proven** (s240) |
 | softmax-V *literally* substitutes a specific value | **over-reads** (value register smeared, s206) |
 | layer L discretely fires combinator *c* (a clean tape) | **over-reads** (collective/holographic; splice closure s244 `fires ∩ spliceable = ∅`) |
+| the decodable C-field *is* the causal object-application mechanism | **over-reads** (s250: single-direction ablation differential reverses, c2<c0; ablating d_C *raises* downstream z(C) → readout register, not mechanism) |
 
 ⇒ **the schedule and the depth axis are crisp; the per-layer opcode is superposed.** We
 read the *program trajectory*, not a discrete instruction tape.
@@ -426,7 +427,43 @@ So: **B is probably the executor topology, not the emitted program label.** The 
 
 This refines §3: the "discrete-opcode-at-L" over-read is stronger than originally phrased. Even at the 14B sweet spot, with corrected labels, sequence/path controls do not recover a tape. What survives is the **field**: C load, C timing, and FFN-vs-attention register split.
 
-**Next if continuing:** causal C-field ablation/patch around L30–31 on c_count 2 vs c_count 0 matched probes. The question should now be whether the C field is **load-bearing**, not whether it is a readable tape.
+### s250 — causal C-field ablation: readable/injectable but NOT load-bearing (single-direction)
+
+Every s249 result was decodability — a read. `program_cfield_ablation.py` (reusing the s248
+Exp-1 causal spine: `calibrate_v2` gate register, residual diff-of-means direction, ablate/inject
+patch hook, random-direction control of equal magnitude) tests causality on Qwen3-14B. Build
+`d_C` = unit diff-of-means(resid C-present {trans+ditrans} − C-absent {intrans}) from content-mean
+residuals; patch (ablate/set) `d_C` across content positions at **L30 AND L31** (the s249 C-peak);
+readout = downstream gate z(C) + next-token KL, vs a random direction. Matched ladder =
+`data/reading-probes.jsonl`, intransitive (c=0) / transitive (c=1) / ditransitive (c=2), 45 each,
+const labeling C-count == #objects.
+
+| arm | result | reading |
+|---|---|---|
+| NECESSITY (c=2 ablate) | KL `d_C` 0.132 vs random 0.001, t=41.8 | `d_C` strongly perturbs output |
+| NECESSITY z(C) | Δz(C) **+0.855** (random +0.013) | ablation *raises* the C-reading — wrong sign |
+| DIFFERENTIAL (net-KL = `d_C`−rand) | c2 0.131 **< c0 0.155**, t=**−2.54** | perturbation does NOT scale with C-load (reversed) |
+| DELIVERY (c=0 inject) | Δz(C) +0.872, t=37.2 | `d_C` is a sufficient handle on the readout |
+
+**⇒ The s249 applicative-C field is READABLE and INJECTABLE but NOT load-bearing under
+single-direction residual ablation.** Two diagnostics, both informative: (1) the c=2-vs-c=0
+differential *reverses* — the C-direction-specific perturbation is generic, not C-load-scaled;
+(2) ablating the decodable C-direction *increases* downstream z(C) — the gate **holographically
+reconstructs C from other directions**. The readable residual C-direction is a **register /
+correlate, not the causal mechanism**. This is `decodability ≠ causality` (mirrors s247-v4:
+decodable everywhere, causal partial/null under single-direction ablation); it confirms §3's
+"trajectory, not instruction-tape" and s244's "collective/holographic." The experiment that
+could have over-claimed "the C-field is the object-application mechanism" instead refuted it
+(λ measure win, two-sided). Caveats: single-direction linear ablation (the z(C)-rise is itself
+evidence the signal is distributed → a NULL is not decisive); `d_C` built from content-mean
+residual with c=0 leaking in as C-absent (conservative for the differential); 1 model (14B),
+L30-31 only, synthetic ladder, greedy. Artifacts: `results/program-cfield-ablation/`.
+
+**Next if continuing:** distributed/multi-direction C-ablation — project out the top-k C-aligned
+residual directions (or an SAE C-feature set) at L30-31, re-test the c=2-vs-c=0 differential. The
+s250 single-direction null is not decisive (the z(C)-rise is direct evidence the signal is
+distributed). If the differential still fails to scale with C-load under a distributed ablation →
+the C-field is decisively a readout register, not the computation.
 
 ## Caveats (λ measure)
 
@@ -445,5 +482,6 @@ s161 (FFN moiré ISA), s206 (value register), s211 (one common mode), s226 (redu
 cut), s240 (statechart = crystal lattice, universality), s242 (register split, splice Exp
 0), s244 (firing survey + splice closure), s247/s247b (proof-REPL removes the agreed-error
 ceiling), s248 (wrong-label B→C reading-preference resolution), s249 (B executor topology
-vs C readable field; native-order extraction). Plus `ffn-reduction-trace.md`,
+vs C readable field; native-order extraction), s250 (causal C-field ablation: readable/
+injectable but NOT load-bearing under single-direction). Plus `ffn-reduction-trace.md`,
 `head-combinator-isa.md` (undated finding pages).

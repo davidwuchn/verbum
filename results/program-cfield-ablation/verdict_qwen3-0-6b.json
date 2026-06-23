@@ -1,0 +1,296 @@
+{
+  "verdict": {
+    "model": "Qwen/Qwen3-0.6B",
+    "n_layers": 28,
+    "patch_layers": [
+      20,
+      21
+    ],
+    "crystal_layers": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27
+    ],
+    "null_mode": "gateneutral",
+    "n_c0": 5,
+    "n_c1": 5,
+    "n_c2": 5,
+    "canonical_mag": 3.0804,
+    "d_raw_norm": 46.0649,
+    "n_rand": 3,
+    "seed": 0,
+    "arms": {
+      "necessity_c2": {
+        "n": 5,
+        "kl_out": {
+          "n": 5,
+          "k_mean": 0.31661,
+          "rand_mean": 0.00498,
+          "delta": 0.31163,
+          "t": 13.855
+        },
+        "zC_ds_delta_dC": 0.50213,
+        "zC_ds_delta_rand": 0.02819,
+        "zC_ds_after": {
+          "n": 5,
+          "k_mean": -0.86023,
+          "rand_mean": -1.33418,
+          "delta": 0.47394,
+          "t": 18.299
+        }
+      },
+      "specificity_c0": {
+        "n": 5,
+        "kl_out": {
+          "n": 5,
+          "k_mean": 0.24947,
+          "rand_mean": 0.00202,
+          "delta": 0.24745,
+          "t": 7.162
+        },
+        "zC_ds_delta_dC": 0.38343,
+        "zC_ds_delta_rand": 0.01863,
+        "zC_ds_after": {
+          "n": 5,
+          "k_mean": -1.08597,
+          "rand_mean": -1.45077,
+          "delta": 0.3648,
+          "t": 13.64
+        }
+      },
+      "delivery_c0": {
+        "n": 5,
+        "zC_ds_after": {
+          "n": 5,
+          "k_mean": -1.05247,
+          "rand_mean": -1.45497,
+          "delta": 0.4025,
+          "t": 14.373
+        },
+        "zC_ds_delta_dC": 0.41693,
+        "zC_ds_delta_rand": 0.01443,
+        "kl_out": {
+          "n": 5,
+          "k_mean": 0.29786,
+          "rand_mean": 0.00203,
+          "delta": 0.29583,
+          "t": 5.957
+        }
+      }
+    },
+    "differential_net_kl_c2_vs_c0": {
+      "na": 5,
+      "nb": 5,
+      "mean_a": 0.31163,
+      "mean_b": 0.24745,
+      "diff": 0.06418,
+      "t": 1.557
+    },
+    "necessity_ok": false,
+    "differential_ok": false,
+    "delivery_ok": true,
+    "load_bearing": false
+  },
+  "calibration_summary": {
+    "n_layers": 28,
+    "crystal_layers": [
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27
+    ],
+    "per_layer": {
+      "0": {
+        "sil_z": 6.58,
+        "gc_consensus": -0.065,
+        "crystal_bearing": false
+      },
+      "1": {
+        "sil_z": 6.403,
+        "gc_consensus": -0.067,
+        "crystal_bearing": false
+      },
+      "2": {
+        "sil_z": 5.809,
+        "gc_consensus": -0.031,
+        "crystal_bearing": false
+      },
+      "3": {
+        "sil_z": 5.732,
+        "gc_consensus": 0.038,
+        "crystal_bearing": true
+      },
+      "4": {
+        "sil_z": 6.644,
+        "gc_consensus": 0.07,
+        "crystal_bearing": true
+      },
+      "5": {
+        "sil_z": 9.219,
+        "gc_consensus": 0.078,
+        "crystal_bearing": true
+      },
+      "6": {
+        "sil_z": 7.811,
+        "gc_consensus": 0.162,
+        "crystal_bearing": true
+      },
+      "7": {
+        "sil_z": 8.749,
+        "gc_consensus": 0.125,
+        "crystal_bearing": true
+      },
+      "8": {
+        "sil_z": 7.887,
+        "gc_consensus": 0.15,
+        "crystal_bearing": true
+      },
+      "9": {
+        "sil_z": 9.169,
+        "gc_consensus": 0.202,
+        "crystal_bearing": true
+      },
+      "10": {
+        "sil_z": 7.334,
+        "gc_consensus": 0.227,
+        "crystal_bearing": true
+      },
+      "11": {
+        "sil_z": 6.368,
+        "gc_consensus": 0.174,
+        "crystal_bearing": true
+      },
+      "12": {
+        "sil_z": 8.206,
+        "gc_consensus": 0.197,
+        "crystal_bearing": true
+      },
+      "13": {
+        "sil_z": 7.66,
+        "gc_consensus": 0.21,
+        "crystal_bearing": true
+      },
+      "14": {
+        "sil_z": 7.659,
+        "gc_consensus": 0.262,
+        "crystal_bearing": true
+      },
+      "15": {
+        "sil_z": 9.151,
+        "gc_consensus": 0.222,
+        "crystal_bearing": true
+      },
+      "16": {
+        "sil_z": 8.244,
+        "gc_consensus": 0.323,
+        "crystal_bearing": true
+      },
+      "17": {
+        "sil_z": 7.608,
+        "gc_consensus": 0.238,
+        "crystal_bearing": true
+      },
+      "18": {
+        "sil_z": 8.704,
+        "gc_consensus": 0.127,
+        "crystal_bearing": true
+      },
+      "19": {
+        "sil_z": 7.8,
+        "gc_consensus": 0.073,
+        "crystal_bearing": true
+      },
+      "20": {
+        "sil_z": 7.505,
+        "gc_consensus": 0.112,
+        "crystal_bearing": true
+      },
+      "21": {
+        "sil_z": 9.359,
+        "gc_consensus": 0.108,
+        "crystal_bearing": true
+      },
+      "22": {
+        "sil_z": 6.461,
+        "gc_consensus": 0.11,
+        "crystal_bearing": true
+      },
+      "23": {
+        "sil_z": 8.413,
+        "gc_consensus": 0.119,
+        "crystal_bearing": true
+      },
+      "24": {
+        "sil_z": 6.736,
+        "gc_consensus": 0.016,
+        "crystal_bearing": true
+      },
+      "25": {
+        "sil_z": 6.438,
+        "gc_consensus": 0.108,
+        "crystal_bearing": true
+      },
+      "26": {
+        "sil_z": 5.368,
+        "gc_consensus": 0.059,
+        "crystal_bearing": true
+      },
+      "27": {
+        "sil_z": 5.043,
+        "gc_consensus": 0.004,
+        "crystal_bearing": true
+      }
+    },
+    "z_thresh": 2.0,
+    "sil_z_thresh": 2.0,
+    "has_consensus": true,
+    "null_kind": "crosstask",
+    "n_null_tokens": 56,
+    "n_centroid_probes": 27,
+    "null_mode": "gateneutral",
+    "hook": "gate"
+  }
+}
