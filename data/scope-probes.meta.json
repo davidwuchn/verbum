@@ -1,0 +1,12 @@
+{
+  "generated_utc": "2026-06-22T23:57:48.006792+00:00",
+  "n": 135,
+  "n_triples": 45,
+  "seed": 0,
+  "by_condition": {
+    "plain": 45,
+    "cleft": 45,
+    "relcl": 45
+  },
+  "contract": "plain c_count>=1 (applicative); cleft/relcl b_count>s_count (existential forced, B-heavy no C)."
+}

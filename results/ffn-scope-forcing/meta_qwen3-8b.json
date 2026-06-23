@@ -1,0 +1,15 @@
+{
+  "model": "Qwen/Qwen3-8B",
+  "git_sha": "79130666f00817855c419243fc14beaf6233f6c6",
+  "timestamp_utc": "2026-06-23T00:03:35.058578+00:00",
+  "transformers_version": "5.5.4",
+  "probes": "data/scope-probes.jsonl",
+  "params": {
+    "n_perm_calib": 300,
+    "ppc": null,
+    "null_cap": null,
+    "zone_lo": 0.7,
+    "zone_hi": 0.86,
+    "max_triples": null
+  }
+}

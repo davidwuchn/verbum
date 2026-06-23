@@ -110,6 +110,8 @@ select = [
 "scripts/experiments/gen_firing_probes.py" = ["RUF001", "RUF002", "RUF003"]
 "scripts/experiments/gen_reading_probes.py" = ["RUF001", "RUF002", "RUF003"]
 "scripts/experiments/ffn_reading_preference.py" = ["RUF001", "RUF002", "RUF003"]
+"scripts/experiments/gen_scope_probes.py" = ["RUF001", "RUF002", "RUF003"]
+"scripts/experiments/ffn_scope_forcing.py" = ["RUF001", "RUF002", "RUF003"]
 
 # ─────────────────────────── ty ─────────────────────────────
 # ty is alpha; config schema is moving. Empty stanza pins the table so
