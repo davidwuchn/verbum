@@ -1,0 +1,19 @@
+{
+  "model": "Qwen/Qwen3-0.6B",
+  "smoke": true,
+  "git_sha": "1efa7c22e90ab58537824642c77b1dd381de00e3",
+  "timestamp_utc": "2026-06-23T16:51:27.950425+00:00",
+  "transformers_version": "5.5.4",
+  "patch_layers": [
+    20,
+    21
+  ],
+  "k": 6,
+  "n_perm": 80,
+  "n_rand": 3,
+  "seed": 0,
+  "null_mode": "gateneutral",
+  "probe_set": "data/reading-probes.jsonl",
+  "method": "INLP (Ravfogel 2020) builds a k-dim C-discriminative subspace on L30 content-mean residuals (C-present vs C-absent); erasure check = cross-val logistic decodability before/after; ablate span(W) over content positions at L30/L31; readout downstream gate z(C) + next-token KL vs random k-dim subspace; load-bearing = erasure AND necessity AND c2>c0 differential.",
+  "scope": "Closes the s250 single-direction caveat - tests whether the C-field is load-bearing as a DISTRIBUTED subspace."
+}

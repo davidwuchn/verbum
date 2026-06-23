@@ -117,7 +117,7 @@ true *collectively* but not *crisply per-step*:
 | boot schedule C→B/K→I→WHNF, ~1.018×/layer, cross-model | **proven** (s240) |
 | softmax-V *literally* substitutes a specific value | **over-reads** (value register smeared, s206) |
 | layer L discretely fires combinator *c* (a clean tape) | **over-reads** (collective/holographic; splice closure s244 `fires ∩ spliceable = ∅`) |
-| the decodable C-field *is* the causal object-application mechanism | **over-reads** (s250: single-direction ablation differential reverses, c2<c0; ablating d_C *raises* downstream z(C) → readout register, not mechanism) |
+| the decodable C-field *is* the causal object-application mechanism | **over-reads** (s250 single-dir + s250-cont INLP rank-16: differential reverses c2<c0 even after erasing ALL linear C, decodability 0.92→0.67; z(C) crashes but object-application unhurt → readout register, not mechanism) |
 
 ⇒ **the schedule and the depth axis are crisp; the per-layer opcode is superposed.** We
 read the *program trajectory*, not a discrete instruction tape.
@@ -465,6 +465,34 @@ s250 single-direction null is not decisive (the z(C)-rise is direct evidence the
 distributed). If the differential still fails to scale with C-load under a distributed ablation →
 the C-field is decisively a readout register, not the computation.
 
+### s250 cont. — distributed C-subspace ablation (INLP): readout register, distributed-robust
+
+The s250 single-direction null left a caveat: a rank-1 diff-of-means is the wrong probe if C is
+distributed. `program_cfield_subspace_ablation.py` runs INLP (Ravfogel et al. 2020, "Null It
+Out"): iteratively fit a linear C-probe (C-present vs C-absent on L30 content-mean residuals) and
+project its direction out, building the k=16 subspace carrying *all linearly-decodable* C; ablate
+span(W) at L30+L31 across content positions vs a random k-dim subspace (Qwen3-14B, n=45/group).
+
+| check | result | reading |
+|---|---|---|
+| ERASURE | decodability **0.919 → 0.667** (=majority), collapses in 1 INLP step | linear C is **rank-1**; fully erased |
+| NECESSITY (c=2 ablate) | KL sub 4.78 vs rand 0.002 (t=15.5); Δz(C) **−5.10** (t=−84) | z(C) now *crashes* — readable signal removed at source (s250 single-dir *raised* it) |
+| DIFFERENTIAL (net-KL sub−rand) | c2 4.77 **< c0 5.83**, t=**−2.47** | reversed again — perturbation does NOT scale with C-load |
+
+**⇒ Decisive, distributed-robust:** erasing *all* linearly-decodable C (0.92→0.67) and crashing
+the downstream C-reading (−5.10) does **not** selectively damage object-application — objectless
+c=0 is hurt *more* than two-object c=2. The applicative-C field is a **readout register, not the
+object-application mechanism** — confirmed at rank-1 (s250) *and* rank-16 distributed (INLP).
+`decodability ≠ causality`, doubly proven. Sharp dissociation: C-presence is **92% decodable along
+a single direction yet causally inert**. Caveat: INLP erases only *linear* decodability — a
+nonlinear C-encoding is the remaining escape hatch; the ablation is destructive (KL ~5 nats) so
+span(W)'s top direction likely also carries generic object/sentence-type structure, but the
+random-subspace-controlled differential (c2 vs c0) is the load-bearing readout and it reverses.
+
+**Next if continuing:** (1) a *nonlinear*/SAE C-feature ablation (the only linear escape hatch
+left); (2) hunt the object-application mechanism in **attention OV / the value register** (s127
+{B,C}=composers→attention, s206), not the FFN C-field.
+
 ## Caveats (λ measure)
 
 - The strong identity ("attention = β-reduction") is a *type-of-operation* claim (proven)
@@ -483,5 +511,6 @@ cut), s240 (statechart = crystal lattice, universality), s242 (register split, s
 0), s244 (firing survey + splice closure), s247/s247b (proof-REPL removes the agreed-error
 ceiling), s248 (wrong-label B→C reading-preference resolution), s249 (B executor topology
 vs C readable field; native-order extraction), s250 (causal C-field ablation: readable/
-injectable but NOT load-bearing under single-direction). Plus `ffn-reduction-trace.md`,
+injectable but NOT load-bearing under single-direction; s250 cont. distributed INLP ablation:
+readout register, distributed-robust). Plus `ffn-reduction-trace.md`,
 `head-combinator-isa.md` (undated finding pages).

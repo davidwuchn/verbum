@@ -1,0 +1,53 @@
+[v2] Loading tokenizer: Qwen/Qwen3-14B
+[v2] Loading model: Qwen/Qwen3-14B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<05:53,  1.25it/s]Loading weights:   0%|          | 2/443 [00:00<02:57,  2.48it/s]Loading weights:   4%|▍         | 17/443 [00:01<00:15, 27.75it/s]Loading weights:   9%|▉         | 39/443 [00:01<00:06, 64.55it/s]Loading weights:  14%|█▍        | 61/443 [00:01<00:03, 96.32it/s]Loading weights:  19%|█▊        | 83/443 [00:01<00:02, 122.88it/s]Loading weights:  24%|██▎       | 105/443 [00:01<00:02, 144.50it/s]Loading weights:  29%|██▊       | 127/443 [00:01<00:01, 161.06it/s]Loading weights:  34%|███▎      | 149/443 [00:01<00:01, 172.93it/s]Loading weights:  39%|███▊      | 171/443 [00:01<00:01, 181.01it/s]Loading weights:  44%|████▎     | 193/443 [00:01<00:01, 186.93it/s]Loading weights:  48%|████▊     | 214/443 [00:01<00:01, 192.11it/s]Loading weights:  53%|█████▎    | 235/443 [00:02<00:01, 193.21it/s]Loading weights:  58%|█████▊    | 255/443 [00:02<00:00, 194.08it/s]Loading weights:  62%|██████▏   | 275/443 [00:02<00:00, 193.51it/s]Loading weights:  67%|██████▋   | 295/443 [00:02<00:00, 191.93it/s]Loading weights:  71%|███████   | 315/443 [00:02<00:00, 185.51it/s]Loading weights:  76%|███████▌  | 336/443 [00:02<00:00, 185.00it/s]Loading weights:  81%|████████  | 358/443 [00:02<00:00, 188.76it/s]Loading weights:  86%|████████▌ | 380/443 [00:02<00:00, 192.07it/s]Loading weights:  91%|█████████ | 402/443 [00:02<00:00, 195.86it/s]Loading weights:  96%|█████████▌| 424/443 [00:03<00:00, 198.07it/s]Loading weights: 100%|██████████| 443/443 [00:03<00:00, 140.65it/s]
+[v2] Model loaded in 3.8s
+[subspace] model=Qwen/Qwen3-14B layers=40 patch=[30, 31] k=16
+[v2] Crystal probes (last-token centroids): 535
+[v2]   centroid forward 0/535 ...
+[v2]   centroid forward 50/535 ...
+[v2]   centroid forward 100/535 ...
+[v2]   centroid forward 150/535 ...
+[v2]   centroid forward 200/535 ...
+[v2]   centroid forward 250/535 ...
+[v2]   centroid forward 300/535 ...
+[v2]   centroid forward 350/535 ...
+[v2]   centroid forward 400/535 ...
+[v2]   centroid forward 450/535 ...
+[v2]   centroid forward 500/535 ...
+[v2] Building MATCHED-PREFIX null from 14 gate+non-compositional prompts (content positions) ...
+[v2] Null tokens pooled: 56  (null_mode=gateneutral)
+[subspace] crystal 31/40; ds > L31
+[subspace] c0=45 c1=45 c2=45
+[subspace] Pass A: baseline ...
+[subspace]   baseline 20/45
+[subspace]   baseline 40/45
+[subspace]   baseline 20/45
+[subspace]   baseline 40/45
+[subspace]   baseline 20/45
+[subspace]   baseline 40/45
+[subspace] INLP building k=16-dim C-subspace ...
+[subspace] decodability before=0.919 after=0.667 majority=0.667 (k_eff=16)
+[subspace] arm 1: NECESSITY (ablate span(W) on c=2) ...
+[subspace] arm 2: SPECIFICITY (ablate span(W) on c=0) ...
+
+══════════════════════════════════════════════════════════════════════════════════
+PROGRAM C-FIELD SUBSPACE ABLATION (INLP k=16) — Qwen/Qwen3-14B  L[30, 31]
+══════════════════════════════════════════════════════════════════════════════════
+  decodability before=0.919 after=0.667 majority=0.667  erasure_ok=True
+  curve=[0.9185, 0.6667, 0.6667, 0.6667, 0.6667, 0.6667, 0.6667, 0.6667, 0.6667, 0.6667, 0.6667, 0.6667, 0.6667, 0.6667, 0.6667, 0.6667]
+
+  -- NECESSITY (ablate span(W) on c=2) --
+     KL_out  sub=4.77631 rand=0.0017  d=4.77461 t=15.466
+     zCds Δ  sub=-5.09978 rand=0.08936
+     => necessity_ok = True
+
+  -- DIFFERENTIAL (net KL = sub-rand; expect c2 > c0) --
+     net_KL c2=4.77461 c0=5.82583  diff=-1.05122 t=-2.468
+     => differential_ok = False
+
+  * LOAD-BEARING (DISTRIBUTED) = False
+  >> C-field is DECISIVELY a readout register, not the computation - even after erasing ALL linearly-decodable C, the object-application output is not selectively hurt (c2 net-KL not > c0). Distributed-robust confirmation of s250.
+══════════════════════════════════════════════════════════════════════════════════
+
+[subspace] wrote /Users/mwhitford/src/verbum/results/program-cfield-ablation/subspace_verdict_qwen3-14b.json (+ meta)
