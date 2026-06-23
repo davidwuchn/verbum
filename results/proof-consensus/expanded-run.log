@@ -1,0 +1,128 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights: 100%|██████████| 443/443 [00:00<00:00, 26811.30it/s]
+[Qwen/Qwen3-14B] 48 proof tasks (chat prompt)
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+    5/48
+    10/48
+    15/48
+    20/48
+    25/48
+    30/48
+    35/48
+    40/48
+    45/48
+
+  === Qwen/Qwen3-14B proof-as-inhabitation ===
+  sensitivity (positives proved) 0.200 (7/35);  specificity (negatives held) 1.000 (13/13)
+  by complexity (positives): d1:1/1  d2:1/3  d3:1/8  d4:1/8  d5:2/7  d6:1/2  d7:0/5  d8:0/1
+  verdicts: valid=7  type_mismatch=20  open_term=2  ill_typed=1  parse_error=7  none=11
+  failures (positives not proved):
+    pos_KI           A -> B -> B                    got='K' -> type_mismatch (ref=K I)
+    pos_compose      (A -> B) -> (C -> A) -> C -> B got='B B C A B C A B C A B C A B C A B C A B C A B C' -> open_term (ref=B)
+    pos_flipcompose  (A -> B) -> (B -> C) -> A -> C got='B' -> type_mismatch (ref=C B)
+    pos_apply        A -> (A -> B) -> B             got='B' -> type_mismatch (ref=C I)
+    pos_const_chain  A -> B -> C -> A               got='C' -> type_mismatch (ref=B K K)
+    pos_idem_K       A -> A -> A                    got='W I' -> ill_typed (ref=K)
+    pos_mid3         A -> B -> C -> B               got='C' -> type_mismatch (ref=K K)
+    pos_last3        A -> B -> C -> C               got='K' -> type_mismatch (ref=K (K I))
+    pos_ignfun       (A -> B) -> A -> A             got='K' -> type_mismatch (ref=K I)
+    pos_id2ary       (A -> B -> C) -> A -> B -> C   got='C' -> type_mismatch (ref=I)
+    pos_apply2       A -> B -> (A -> B -> C) -> C   got='B (B (K (A -> B -> C)) (A -> B)) (A -> B -> C)' -> parse_error (ref=B C (C I))
+    pos_weakdup      (A -> B) -> (A -> A -> B)      got='B' -> type_mismatch (ref=K)
+    pos_constfun     ((A -> B) -> C) -> B -> C      got='C' -> type_mismatch (ref=C B K)
+    pos_compose2     (A -> B) -> (C -> D -> A) -> C -> D -> B got='B (B (B (B (B (B (B (B (B (B (B (B (' -> parse_error (ref=B B B)
+    pos_precompose   (A -> B -> C) -> (D -> B) -> A -> D -> C got='B B C B A B A D B A D C' -> open_term (ref=B C (B B))
+    pos_compose3     (A -> B) -> (B -> C) -> (C -> D) -> A -> D got='B (B (B (A -> B) -> (B -> C) -> (A -> B -> C))' -> parse_error (ref=B (B (C B)) (C B))
+    pos_dropfirst    A -> (B -> C) -> B -> C        got='B' -> type_mismatch (ref=K I)
+    pos_weak24       A -> B -> A -> B               got='S (K) I' -> type_mismatch (ref=K K)
+    pos_deepS        A -> ((A -> B) -> (A -> C)) -> ((A -> B) -> C) got='B (B (K (A -> B)) (A -> C)) (A -> B)' -> parse_error (ref=C C)
+    pos_applyweak    (A -> B) -> A -> (C -> B)      got='C' -> type_mismatch (ref=B K)
+    pos_thread       (A -> B -> C) -> A -> (D -> B) -> D -> C got='B (B (B (B (B (B (B (B (B (B (B (B (' -> parse_error (ref=B B)
+    pos_first3       A -> A -> B -> A               got='C (K) I' -> type_mismatch (ref=B K K)
+    pos_selfapply    ((A -> B) -> A) -> (A -> B) -> B got='B' -> type_mismatch (ref=S I)
+    pos_sprime       (A -> B) -> (A -> B -> C) -> A -> C got='B C B' -> type_mismatch (ref=C S)
+    pos_threadfwd    (A -> B -> C) -> (A -> C -> D) -> A -> B -> D got='B (B (C (A -> B -> C) (A -> C -> D)) (A -> B)' -> parse_error (ref=C (B S (B B)))
+    pos_first4       A -> B -> C -> D -> A          got='K (K (K (K I)))' -> type_mismatch (ref=B K (B K K))
+    pos_diag         A -> (A -> A -> B) -> B        got='B (I) (W)' -> type_mismatch (ref=S (B C (C I)) I)
+    pos_midweak      (A -> B) -> C -> A -> B        got='C' -> type_mismatch (ref=K)
+  wrote Qwen_Qwen3-14B.json  (44.1s)
+  11.13s user 4.76s system 33% cpu 46.722 total
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/1188 [00:00<?, ?it/s]Loading weights: 100%|██████████| 1188/1188 [00:00<00:00, 26575.96it/s]
+[google/gemma-4-31B-it] 48 proof tasks (chat prompt)
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+    5/48
+    10/48
+    15/48
+    20/48
+    25/48
+    30/48
+    35/48
+    40/48
+    45/48
+
+  === google/gemma-4-31B-it proof-as-inhabitation ===
+  sensitivity (positives proved) 0.314 (11/35);  specificity (negatives held) 1.000 (13/13)
+  by complexity (positives): d1:1/1  d2:1/3  d3:3/8  d4:2/8  d5:3/7  d6:1/2  d7:0/5  d8:0/1
+  verdicts: valid=11  type_mismatch=17  ill_typed=2  parse_error=5  none=13
+  failures (positives not proved):
+    pos_KI           A -> B -> B                    got='C K I' -> type_mismatch (ref=K I)
+    pos_flipcompose  (A -> B) -> (B -> C) -> A -> C got='B B' -> type_mismatch (ref=C B)
+    pos_const_chain  A -> B -> C -> A               got='K I' -> type_mismatch (ref=B K K)
+    pos_idem_K       A -> A -> A                    got='W I' -> ill_typed (ref=K)
+    pos_mid3         A -> B -> C -> B               got='K I' -> type_mismatch (ref=K K)
+    pos_last3        A -> B -> C -> C               got='K K' -> type_mismatch (ref=K (K I))
+    pos_id2ary       (A -> B -> C) -> A -> B -> C   got='C S I' -> type_mismatch (ref=I)
+    pos_apply2       A -> B -> (A -> B -> C) -> C   got='C(C(K I))' -> type_mismatch (ref=B C (C I))
+    pos_constfun     ((A -> B) -> C) -> B -> C      got='C(K C) (K I) (K I) (K I) (K I) (K I' -> parse_error (ref=C B K)
+    pos_compose2     (A -> B) -> (C -> D -> A) -> C -> D -> B got='B B B K' -> type_mismatch (ref=B B B)
+    pos_precompose   (A -> B -> C) -> (D -> B) -> A -> D -> C got='C(C(S(K I) (K I)) (K I)) (K I)' -> type_mismatch (ref=B C (B B))
+    pos_compose3     (A -> B) -> (B -> C) -> (C -> D) -> A -> D got='B B B K' -> type_mismatch (ref=B (B (C B)) (C B))
+    pos_dropfirst    A -> (B -> C) -> B -> C        got='C K I' -> type_mismatch (ref=K I)
+    pos_weak24       A -> B -> A -> B               got='C(K(I))' -> type_mismatch (ref=K K)
+    pos_deepS        A -> ((A -> B) -> (A -> C)) -> ((A -> B) -> C) got='none' -> none (ref=C C)
+    pos_applyweak    (A -> B) -> A -> (C -> B)      got='S(S(K I) K) (K I) (C (K I)) (C (K I' -> parse_error (ref=B K)
+    pos_thread       (A -> B -> C) -> A -> (D -> B) -> D -> C got="C(C(B(S(K I)I))I) (Wait, let's re-evaluate" -> parse_error (ref=B B)
+    pos_first3       A -> A -> B -> A               got='K I' -> type_mismatch (ref=B K K)
+    pos_selfapply    ((A -> B) -> A) -> (A -> B) -> B got='S (S (K S) (K K)) (K I) (K I) (K I) (' -> parse_error (ref=S I)
+    pos_sprime       (A -> B) -> (A -> B -> C) -> A -> C got='C S (K I)' -> type_mismatch (ref=C S)
+    pos_threadfwd    (A -> B -> C) -> (A -> C -> D) -> A -> B -> D got='S(S(C(S(S(K I) K) I)) (S(K I) K' -> parse_error (ref=C (B S (B B)))
+    pos_first4       A -> B -> C -> D -> A          got='K K' -> type_mismatch (ref=B K (B K K))
+    pos_diag         A -> (A -> A -> B) -> B        got='C(C(K I))' -> type_mismatch (ref=S (B C (C I)) I)
+    pos_midweak      (A -> B) -> C -> A -> B        got='C K I' -> type_mismatch (ref=K)
+  wrote google_gemma-4-31B-it.json  (95.9s)
+  28.09s user 10.13s system 38% cpu 1:38.49 total
+
+  === PROOF-AS-INHABITATION (kernel-verified) ===
+                     model  sens  spec falseP
+            Qwen/Qwen3-14B  0.20  1.00      0
+            Qwen/Qwen3-32B  0.67  1.00      0
+             Qwen/Qwen3-8B  0.58  1.00      0
+   allenai/OLMo-2-1124-13B  0.00  1.00      0
+     google/gemma-4-31B-it  0.31  1.00      0
+  mistralai/Mistral-7B-v0.3  0.25  1.00      0
+  wrote aggregate.json
+
+  === PROOF CONSENSUS : Qwen/Qwen3-14B  ×  google/gemma-4-31B-it ===
+  n=48 (35 theorems, 13 non-theorems)
+  term-agreement rate           0.375
+  P(both-correct | AGREE)       0.944  (n=18)
+  P(both-correct | DISAGREE)    0.100  (n=30)
+
+  --- theorems ---
+  ★ both-valid SAME proof    6  (portability: the proof both lineages agree on)
+    both-valid DIFF proof    1  (proof-irrelevance: distinct valid inhabitants) ['pos_funcid']
+    one-valid (frontier)     4  ['pos_compose', 'pos_apply', 'pos_ignfun', 'pos_weakdup']
+    both-invalid SAME        1  (shared misconception) ['pos_idem_K']
+    both-invalid DIFF       23  ['pos_KI', 'pos_flipcompose', 'pos_const_chain', 'pos_mid3', 'pos_last3', 'pos_id2ary', 'pos_apply2', 'pos_constfun', 'pos_compose2', 'pos_precompose', 'pos_compose3', 'pos_dropfirst', 'pos_weak24', 'pos_deepS', 'pos_applyweak', 'pos_thread', 'pos_first3', 'pos_selfapply', 'pos_sprime', 'pos_threadfwd', 'pos_first4', 'pos_diag', 'pos_midweak']
+  --- non-theorems ---
+  ★ both-abstain (⊥)        11  (correct shared 'unprovable')
+    agreed wrong attempt     0  (same kernel-rejected term) []
+    disagree                 2  ['neg_nodbneg', 'neg_conjB']
+    FALSE PROOF (must be 0)  0  []
+
+  agreed-error set (agree but ≥1 wrong): ['pos_idem_K']
+  wrote /Users/mwhitford/src/verbum/results/proof-consensus/consensus.json
+PROOF_CONSENSUS_ALLDONE

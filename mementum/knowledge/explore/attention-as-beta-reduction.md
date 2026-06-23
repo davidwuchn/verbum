@@ -282,10 +282,52 @@ expected B was an artifact of our Montague labelling.
 positive evidence is raw z(C)↑ (p<0.001) **plus** z(B)↓ (refuting existential), not C-share↑; the
 C−B-share contrast is significant in attention (p=0.008) but only directional in FFN (p=0.25) due
 to that saturation. z(C)↑ could partly be argument-application common-mode, but the B/C divergence
-(opposite signs) rules out uniform growth. **IOU:** force the existential reading with scope-marked
-prose ("there is a dog that every cat fears") — does z(B) then rise? = the clean exist-vs-const
-causal test. Artifacts: `results/ffn-reading-preference/{verdict,per_item,meta}_qwen3-8b.json`,
-`data/reading-probes.jsonl`.
+(opposite signs) rules out uniform growth. Artifacts:
+`results/ffn-reading-preference/{verdict,per_item,meta}_qwen3-8b.json`, `data/reading-probes.jsonl`.
+
+### s248 cont.3 — the causal test: the model is ROBUSTLY APPLICATIVE; forcing ∃ does NOT recruit B
+
+The clean follow-up: is the constant-object reading a representational *limit* or just the
+*default*? Force the wide-scope existential **syntactically** and see whether z(B) rises.
+`gen_scope_probes.py` → `data/scope-probes.jsonl` (45 matched subj/verb/obj triples × 3 paired
+conditions): **PLAIN** "Every cat fears a dog." (applicative GT S,B,C) / **CLEFT** "There is a dog
+that every cat fears." (∃ fronted, GT S,B,B,B no C) / **RELCL** "Every cat fears a dog that runs."
+(∃ object, GT S,B,B,B). `ffn_scope_forcing.py` decodes gate+attn, mean z over L25-30, **paired
+Wilcoxon within triple** (predict ΔB>0 if the model can do existential-B when forced).
+
+**Qwen3-8B (45 triples) — z(B) does NOT rise; it FALLS:**
+
+| register | plain z(B) | cleft z(B) | relcl z(B) | ΔB cleft (rise?) |
+|---|---|---|---|---|
+| FFN gate | −0.104 | **−0.301** | −0.227 | med −0.19, frac+ 0.18, **p=1.0** |
+| attention | +0.305 | **−0.112** | +0.242 | med −0.43, frac+ 0.09, **p=1.0** |
+
+C-share stays high / rises (cleft Cprop 0.722→0.988 FFN). **The prediction is robustly refuted in
+both registers and both forcing constructions: forcing the ∃ wide-scope does *not* summon B-routing
+— the model stays applicative-C (the cleft is routed *even more* through C).**
+
+**⇒ The thread closes:** the model does **not** use existential-B composition even when the syntax
+demands it; it computes quantified sentences **applicatively** (objects/witnesses as arguments → C),
+regardless of scope marking. *Interpretation* (marked as such, not measurement): the model's
+compositional **primitive is application (C)**, not B-composition; **B is an artifact of our
+bracket-abstraction kernel** (Turner emits B to thread quantifiers), not a necessary feature of how
+a system composes. This answers "B is inherent from the ordering" end-to-end: that ordering is
+*ours*; the model's actual β-program for these sentences is C-applicative — and it won't produce B
+even when asked.
+
+**Caveats (λ measure):** cleft/relcl differ in surface form from plain (not perfect minimal pairs),
+but the direction (B falls, opposite the prediction) is robust across two distinct forcings and both
+registers, and relcl (closest to plain) also falls; we measure B-crystal routing as the composition
+proxy, so a non-B-shaped ∃ composition would be missed (but that *is* the finding); the model may
+compose ∃ applicatively under the hood (apply predicate to a skolem witness → C) — one applicative
+strategy for both readings. Artifacts:
+`results/ffn-scope-forcing/{verdict,per_item,meta}_qwen3-8b.json`, `data/scope-probes.jsonl`.
+
+> **s248 thread summary.** FFN program-decode (corpus → untestable) → balanced probes (weak FFN>attn
+> B-vs-S) → reading-preference (model reads objects as C, not B; weak-B was a labelling mismatch) →
+> scope-forcing (model is robustly applicative-C, won't do existential-B even when forced). **Net: the
+> gate register tracks what the model actually computes — applicative C — and the expected B was an
+> artifact of our bracket-abstraction kernel, not the model's program.**
 
 ## Caveats (λ measure)
 

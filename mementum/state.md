@@ -132,6 +132,44 @@
 > `model-reads-objects-as-constants-C-not-existentials-B` + knowledge attention-as-beta-reduction.md §7
 > reading-preference resolution. state.md updated (¬approval-gated). Code+data committable.
 >
+> **★★ s248 cont.3 — THE CAUSAL TEST: forcing the existential wide-scope does NOT recruit B —
+> the model is ROBUSTLY APPLICATIVE (C), never existential-B, even when syntax demands it (Michael:
+> "let's do that final test").** Tests whether the s248-cont.2 constant-reading is a representational
+> LIMIT or just the DEFAULT. **PROBES `gen_scope_probes.py` → `data/scope-probes.jsonl` (45 matched
+> subj/verb/obj triples × 3 conditions, paired): PLAIN "Every cat fears a dog." (applicative GT S,B,C) /
+> CLEFT "There is a dog that every cat fears." (∃ FRONTED, GT S,B,B,B no C) / RELCL "Every cat fears a
+> dog that runs." (∃ object via predication, GT S,B,B,B).** `ffn_scope_forcing.py` decodes gate+attn,
+> mean z per combinator over L25-30, PAIRED Wilcoxon within triple (ΔB = z(B)_forced − z(B)_plain;
+> predict ΔB>0 if model CAN do existential-B). **★★ RAN Qwen3-8B (45 triples): z(B) does NOT rise — it
+> FALLS. FFN: plain z(B)=−0.104 → cleft −0.301 → relcl −0.227; ΔB cleft med −0.19 (frac+ 0.18, p=1.0
+> for "rise"), relcl med −0.12 (frac+ 0.02, p=1.0); ΔBprop p≈1.0 (B-share FALLS). attn: plain z(B)=+0.31
+> → cleft −0.11 (ΔB med −0.43, p=1.0); C-share stays high (cleft Cprop 0.988 FFN / 0.94 attn).** ⇒ **the
+> prediction is ROBUSTLY REFUTED in BOTH registers and BOTH forcing constructions: forcing the ∃
+> wide-scope does NOT summon B-routing; the model stays applicative-C (cleft is routed EVEN MORE through
+> C, Cprop 0.722→0.988).** **★★ THE VERDICT (closes the thread, λ measure): the model does NOT use
+> existential-B composition even when the syntax forces it — it computes quantified sentences
+> APPLICATIVELY (objects/witnesses as arguments → C), regardless of scope marking. INTERPRETATION (marked
+> as such, not measurement): the model's compositional PRIMITIVE is APPLICATION (C), not B-composition;
+> B is an artifact of OUR bracket-abstraction kernel (Turner emits B to thread quantifiers), not a
+> necessary feature of how a system composes. So "B inherent from the ordering" was about OUR kernel's
+> ordering; the model uses a different, applicative compilation that reads as C — and won't produce B even
+> when asked.** This answers the user's original question end-to-end: B was our compilation's artifact;
+> the model's actual β-program for these sentences is C-applicative. **CAVEATS (λ measure): (1) cleft/relcl
+> are different/longer SURFACE forms than plain — not perfect minimal pairs; but the DIRECTION (B falls,
+> opposite the prediction) is robust across two distinct forcings + both registers, and relcl (closest to
+> plain) also falls. (2) We measure B-CRYSTAL routing as the proxy for composition; a non-B-shaped
+> existential composition would be missed — but that IS the finding (no B-shaped routing appears). (3) The
+> model may compose ∃ applicatively under the hood (apply predicate to a skolem witness → C), i.e. ONE
+> applicative strategy for both readings.** Artifacts: results/ffn-scope-forcing/{verdict,per_item,meta}
+> _qwen3-8b.json + run_qwen3-8b.log; data/scope-probes.jsonl (+ .meta.json); code gen_scope_probes.py +
+> ffn_scope_forcing.py. tmux main:1 FREE; no GPU job. PENDING APPROVAL: memory
+> `model-applicative-not-existential-B-even-when-forced` + knowledge attention-as-beta-reduction.md
+> §s248 cont.3. state.md updated (¬approval-gated). Code+data committable. **s248 THREAD COMPLETE:
+> FFN program-decode (corpus, untestable) → balanced probes (weak FFN>attn B-vs-S) → reading-preference
+> (model reads objects as C not B; weak-B was a labeling mismatch) → scope-forcing (model is robustly
+> applicative-C, won't do existential-B even when forced). Net: the gate register tracks what the model
+> ACTUALLY computes (applicative-C); the expected B was our kernel's artifact.**
+>
 > **★★ s247b cont. — ATTENTION-AS-β / STORED-PROGRAM SYNTHESIS (Michael, 3-turn discussion:
 > "train a model to THINK in lambda?" → "if attention is a β-reduction with softmax of all V,
 > would it not have to work?" → "it's an inference pattern of β-reductions; each forward pass the

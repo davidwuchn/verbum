@@ -1,0 +1,64 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights: 100%|██████████| 443/443 [00:00<00:00, 21824.81it/s]
+[Qwen/Qwen3-14B] 48 tasks (chat)
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+
+  === Qwen/Qwen3-14B continuation-driven prover ===
+  sensitivity 0.771 (27/35); specificity 1.000 (13/13); avg turns 4.4
+  by complexity (pos): d1:1/1  d2:3/3  d3:8/8  d4:8/8  d5:3/7  d6:1/2  d7:3/5  d8:0/1
+  positives not proved:
+    pos_B            (B -> C) -> (A -> B) -> A -> C status=illegal turns=4 moves=['intro', 'intro', 'intro', "?'apply h2\\nMove: apply'"]
+    pos_compose      (A -> B) -> (C -> A) -> C -> B status=illegal turns=4 moves=['intro', 'intro', 'intro', "?'apply h2'"]
+    pos_S            (A -> B -> C) -> (A -> B) -> A -> C status=illegal turns=4 moves=['intro', 'intro', 'intro', "?'apply h2\\nMove: apply'"]
+    pos_flipcompose  (A -> B) -> (B -> C) -> A -> C status=illegal turns=4 moves=['intro', 'intro', 'intro', "?'apply h1'"]
+    pos_compose3     (A -> B) -> (B -> C) -> (C -> D) -> A -> D status=illegal turns=5 moves=['intro', 'intro', 'intro', 'intro', "?'apply h3  (now prove'"]
+    pos_deepS        A -> ((A -> B) -> (A -> C)) -> ((A -> B) -> C) status=illegal turns=4 moves=['intro', 'intro', 'intro', "?'apply h3'"]
+    pos_selfapply    ((A -> B) -> A) -> (A -> B) -> B status=illegal turns=3 moves=['intro', 'intro', "?'apply h1'"]
+    pos_threadfwd    (A -> B -> C) -> (A -> C -> D) -> A -> B -> D status=illegal turns=5 moves=['intro', 'intro', 'intro', 'intro', "?'apply h2  (now prove'"]
+  wrote Qwen_Qwen3-14B.json  (178.2s)
+  40.46s user 9.09s system 27% cpu 3:01.04 total
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/1188 [00:00<?, ?it/s]Loading weights: 100%|██████████| 1188/1188 [00:00<00:00, 25247.56it/s]
+[google/gemma-4-31B-it] 48 tasks (chat)
+The following generation flags are not valid and may be ignored: ['top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+
+  === google/gemma-4-31B-it continuation-driven prover ===
+  sensitivity 1.000 (35/35); specificity 1.000 (13/13); avg turns 5.09
+  by complexity (pos): d1:1/1  d2:3/3  d3:8/8  d4:8/8  d5:7/7  d6:2/2  d7:5/5  d8:1/1
+  positives not proved:
+  wrote google_gemma-4-31B-it.json  (506.8s)
+  67.13s user 84.55s system 29% cpu 8:30.03 total
+
+  === CONTINUATION-DRIVEN PROVER (kernel-verified) ===
+                     model  sens  spec turns  1shot      Δ falseP
+            Qwen/Qwen3-14B  0.77  1.00   4.4   0.20  +0.57      0
+            Qwen/Qwen3-32B  0.67  1.00   4.1   0.67  +0.00      0
+             Qwen/Qwen3-8B  1.00  1.00   4.7   0.58  +0.42      0
+   allenai/OLMo-2-1124-13B  0.42  1.00   3.2   0.00  +0.42      0
+     google/gemma-4-31B-it  1.00  1.00   5.1   0.31  +0.69      0
+  mistralai/Mistral-7B-v0.3  0.58  1.00   4.2   0.25  +0.33      0
+  wrote aggregate.json
+
+  === PROOF CONSENSUS [repl] : Qwen/Qwen3-14B  ×  google/gemma-4-31B-it ===
+  n=48 (35 theorems, 13 non-theorems)
+  term-agreement rate           0.812
+  P(both-correct | AGREE)       1.000  (n=39)
+  P(both-correct | DISAGREE)    0.111  (n=9)
+
+  --- theorems ---
+  ★ both-valid SAME proof   26  (portability: the proof both lineages agree on)
+    both-valid DIFF proof    1  (proof-irrelevance: distinct valid inhabitants) ['pos_weakdup']
+    one-valid (frontier)     8  ['pos_B', 'pos_compose', 'pos_S', 'pos_flipcompose', 'pos_compose3', 'pos_deepS', 'pos_selfapply', 'pos_threadfwd']
+    both-invalid SAME        0  (shared misconception) []
+    both-invalid DIFF        0  []
+  --- non-theorems ---
+  ★ both-abstain (⊥)        13  (correct shared 'unprovable')
+    agreed wrong attempt     0  (same kernel-rejected term) []
+    disagree                 0  []
+    FALSE PROOF (must be 0)  0  []
+
+  agreed-error set (agree but ≥1 wrong): []
+  wrote /Users/mwhitford/src/verbum/results/proof-consensus/consensus-repl.json
+REPL_CONSENSUS_ALLDONE
