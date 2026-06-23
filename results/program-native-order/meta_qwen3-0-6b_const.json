@@ -1,0 +1,17 @@
+{
+  "model": "Qwen/Qwen3-0.6B",
+  "git_sha": "893ddcec940684c06a2919387d4103d08b4e98cc",
+  "timestamp_utc": "2026-06-23T15:42:41.826459+00:00",
+  "transformers_version": "5.5.4",
+  "params": {
+    "probe_set": "data/firing-probes.const.jsonl",
+    "max_items": 2,
+    "null_mode": "gateneutral",
+    "zone_lo": 0.7,
+    "zone_hi": 0.86,
+    "n_perm_calib": 80,
+    "ppc": 3,
+    "null_cap": 200
+  },
+  "method": "Infer native FFN gate opcode order via peak/centroid layer of matched-null relational z(op) profiles over content tokens."
+}

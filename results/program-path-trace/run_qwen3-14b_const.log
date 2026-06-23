@@ -1,0 +1,63 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+══════════════════════════════════════════════════════════════════════════════
+PROGRAM PATH TRACE — monotonic FFN gate path vs fired_sequence
+══════════════════════════════════════════════════════════════════════════════
+[corpus] source=data/firing-probes.const.jsonl firing=133 nonfiring=0
+[v2] Loading tokenizer: Qwen/Qwen3-14B
+[v2] Loading model: Qwen/Qwen3-14B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<07:05,  1.04it/s]Loading weights:   4%|▍         | 17/443 [00:01<00:19, 21.47it/s]Loading weights:   9%|▉         | 39/443 [00:01<00:07, 51.11it/s]Loading weights:  14%|█▎        | 60/443 [00:01<00:04, 79.28it/s]Loading weights:  18%|█▊        | 81/443 [00:01<00:03, 105.20it/s]Loading weights:  23%|██▎       | 101/443 [00:01<00:02, 126.19it/s]Loading weights:  27%|██▋       | 120/443 [00:01<00:02, 138.54it/s]Loading weights:  31%|███▏      | 139/443 [00:01<00:02, 147.63it/s]Loading weights:  36%|███▌      | 160/443 [00:01<00:01, 157.93it/s]Loading weights:  41%|████      | 181/443 [00:01<00:01, 169.30it/s]Loading weights:  46%|████▌     | 202/443 [00:02<00:01, 178.13it/s]Loading weights:  50%|█████     | 222/443 [00:02<00:01, 181.62it/s]Loading weights:  55%|█████▍    | 242/443 [00:02<00:01, 179.60it/s]Loading weights:  59%|█████▉    | 261/443 [00:02<00:01, 176.99it/s]Loading weights:  63%|██████▎   | 280/443 [00:02<00:00, 179.73it/s]Loading weights:  68%|██████▊   | 301/443 [00:02<00:00, 185.61it/s]Loading weights:  72%|███████▏  | 320/443 [00:02<00:00, 185.92it/s]Loading weights:  77%|███████▋  | 339/443 [00:02<00:00, 183.26it/s]Loading weights:  81%|████████  | 358/443 [00:02<00:00, 178.62it/s]Loading weights:  86%|████████▌ | 379/443 [00:02<00:00, 186.62it/s]Loading weights:  90%|█████████ | 400/443 [00:03<00:00, 192.14it/s]Loading weights:  95%|█████████▍| 420/443 [00:03<00:00, 192.38it/s]Loading weights:  99%|█████████▉| 440/443 [00:03<00:00, 188.02it/s]Loading weights: 100%|██████████| 443/443 [00:03<00:00, 133.65it/s]
+[v2] Model loaded in 3.9s
+[model] Qwen/Qwen3-14B layers=40
+
+[calib] FFN gate register null_mode=gateneutral ...
+[v2] Crystal probes (last-token centroids): 535
+[v2]   centroid forward 0/535 ...
+[v2]   centroid forward 50/535 ...
+[v2]   centroid forward 100/535 ...
+[v2]   centroid forward 150/535 ...
+[v2]   centroid forward 200/535 ...
+[v2]   centroid forward 250/535 ...
+[v2]   centroid forward 300/535 ...
+[v2]   centroid forward 350/535 ...
+[v2]   centroid forward 400/535 ...
+[v2]   centroid forward 450/535 ...
+[v2]   centroid forward 500/535 ...
+[v2] Building MATCHED-PREFIX null from 14 gate+non-compositional prompts (content positions) ...
+[v2] Null tokens pooled: 56  (null_mode=gateneutral)
+[calib] crystal_layers=31/40 zone=[28, 29, 30, 31, 32]
+
+[decode] 133 items strict_layers=False ...
+[decode]   item 0/133 ...
+[decode]   item 20/133 ...
+[decode]   item 40/133 ...
+[decode]   item 60/133 ...
+[decode]   item 80/133 ...
+[decode]   item 100/133 ...
+[decode]   item 120/133 ...
+
+══════════════════════════════════════════════════════════════════════════════
+PROGRAM PATH TRACE — VERDICT
+══════════════════════════════════════════════════════════════════════════════
+items=133 truth={'C': 67, 'S': 66}
+crystal_layers=31/40 zone=[28, 29, 30, 31, 32] strict=False
+
+Zone monotonic path vs same-multiset controls:
+  truth score mean:          2.1287
+  reverse score mean:        2.0843
+  truth - reverse mean:      0.0444
+  margin vs best perm mean:  -0.0315
+  rank frac mean:            0.523
+  beats all perms:           3/133 (p=1.0)
+
+All-crystal path control:
+  margin vs best perm mean:  -0.1407
+  rank frac mean:            0.6135
+  beats all perms:           45/133 (p=1.0)
+
+By category:
+  ditrans_const: n=67 score=2.366 margin=-0.0302 rank=0.7219 beats=0/67
+  intrans: n=33 score=1.6892 margin=-0.0237 rank=0.0606 beats=2/33
+  trans_const: n=33 score=2.0865 margin=-0.0422 rank=0.5818 beats=1/33
+══════════════════════════════════════════════════════════════════════════════
+
+[write] /Users/mwhitford/src/verbum/results/program-path-trace/verdict_qwen3-14b_const.json (+ per_item, meta)

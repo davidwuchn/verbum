@@ -1,0 +1,70 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+══════════════════════════════════════════════════════════════════════════════
+PROGRAM NATIVE ORDER — infer FFN gate opcode schedule
+══════════════════════════════════════════════════════════════════════════════
+[corpus] source=data/firing-probes.const.jsonl firing=133 nonfiring=0
+[v2] Loading tokenizer: Qwen/Qwen3-14B
+[v2] Loading model: Qwen/Qwen3-14B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<06:16,  1.17it/s]Loading weights:   0%|          | 2/443 [00:00<03:07,  2.35it/s]Loading weights:   4%|▍         | 17/443 [00:01<00:16, 26.40it/s]Loading weights:   9%|▉         | 39/443 [00:01<00:06, 61.31it/s]Loading weights:  14%|█▍        | 61/443 [00:01<00:04, 91.63it/s]Loading weights:  19%|█▊        | 83/443 [00:01<00:03, 116.49it/s]Loading weights:  24%|██▎       | 105/443 [00:01<00:02, 136.45it/s]Loading weights:  28%|██▊       | 126/443 [00:01<00:02, 154.36it/s]Loading weights:  33%|███▎      | 148/443 [00:01<00:01, 165.82it/s]Loading weights:  38%|███▊      | 170/443 [00:01<00:01, 174.13it/s]Loading weights:  43%|████▎     | 191/443 [00:01<00:01, 181.48it/s]Loading weights:  48%|████▊     | 211/443 [00:02<00:01, 183.01it/s]Loading weights:  52%|█████▏    | 231/443 [00:02<00:01, 179.07it/s]Loading weights:  56%|█████▋    | 250/443 [00:02<00:01, 173.67it/s]Loading weights:  61%|██████    | 269/443 [00:02<00:00, 176.50it/s]Loading weights:  65%|██████▌   | 290/443 [00:02<00:00, 184.01it/s]Loading weights:  70%|██████▉   | 309/443 [00:02<00:00, 185.15it/s]Loading weights:  74%|███████▍  | 328/443 [00:02<00:00, 183.52it/s]Loading weights:  78%|███████▊  | 347/443 [00:02<00:00, 178.23it/s]Loading weights:  83%|████████▎ | 369/443 [00:02<00:00, 182.46it/s]Loading weights:  88%|████████▊ | 391/443 [00:03<00:00, 185.68it/s]Loading weights:  93%|█████████▎| 413/443 [00:03<00:00, 187.97it/s]Loading weights:  98%|█████████▊| 434/443 [00:03<00:00, 193.80it/s]Loading weights: 100%|██████████| 443/443 [00:03<00:00, 133.65it/s]
+[v2] Model loaded in 3.9s
+[model] Qwen/Qwen3-14B layers=40
+
+[calib] FFN gate register null_mode=gateneutral ...
+[v2] Crystal probes (last-token centroids): 535
+[v2]   centroid forward 0/535 ...
+[v2]   centroid forward 50/535 ...
+[v2]   centroid forward 100/535 ...
+[v2]   centroid forward 150/535 ...
+[v2]   centroid forward 200/535 ...
+[v2]   centroid forward 250/535 ...
+[v2]   centroid forward 300/535 ...
+[v2]   centroid forward 350/535 ...
+[v2]   centroid forward 400/535 ...
+[v2]   centroid forward 450/535 ...
+[v2]   centroid forward 500/535 ...
+[v2] Building MATCHED-PREFIX null from 14 gate+non-compositional prompts (content positions) ...
+[v2] Null tokens pooled: 56  (null_mode=gateneutral)
+[calib] crystal_layers=31/40 zone=[28, 29, 30, 31, 32]
+
+[decode] 133 items ...
+[decode]   item 0/133 ...
+[decode]   item 20/133 ...
+[decode]   item 40/133 ...
+[decode]   item 60/133 ...
+[decode]   item 80/133 ...
+[decode]   item 100/133 ...
+[decode]   item 120/133 ...
+
+══════════════════════════════════════════════════════════════════════════════
+PROGRAM NATIVE ORDER — VERDICT
+══════════════════════════════════════════════════════════════════════════════
+items=133 truth={'C': 67, 'S': 66}
+crystal_layers=31/40 zone=[28, 29, 30, 31, 32]
+
+Native order probabilities (zone):
+  peak P(S<B)=0.3158  centroid P(S<B)=0.3115
+  peak P(B<C)=0.7293  centroid P(B<C)=0.8525
+  peak P(S<C)=0.9474  centroid P(S<C)=0.9925
+
+Mean peak/centroid layers by op:
+  B: peak=29.0451 centroid=29.0828 mass=0.1488
+  C: peak=30.812 centroid=30.3758 mass=5.0718
+  S: peak=28.5865 centroid=29.3798 mass=1.5517
+
+C-count correlations:
+{
+  "spearman_C_positive_mass_vs_c_count": 0.5357,
+  "p_mass": 0.0,
+  "spearman_C_peak_z_vs_c_count": 0.3778,
+  "p_peak_z": 0.0,
+  "spearman_C_centroid_layer_vs_c_count": -0.7719,
+  "p_centroid_layer": 0.0
+}
+
+By category:
+  ditrans_const: n=67 C_mass=6.2245 P(B<C)=0.8507 P(S<C)=0.9104
+  intrans: n=33 C_mass=2.8769 P(B<C)=0.4242 P(S<C)=1.0
+  trans_const: n=33 C_mass=4.9264 P(B<C)=0.7879 P(S<C)=0.9697
+══════════════════════════════════════════════════════════════════════════════
+
+[write] /Users/mwhitford/src/verbum/results/program-native-order/verdict_qwen3-14b_const.json (+ per_item, meta)

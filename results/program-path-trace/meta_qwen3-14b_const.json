@@ -1,0 +1,20 @@
+{
+  "model": "Qwen/Qwen3-14B",
+  "git_sha": "893ddcec940684c06a2919387d4103d08b4e98cc",
+  "timestamp_utc": "2026-06-23T15:33:53.262885+00:00",
+  "transformers_version": "5.5.4",
+  "params": {
+    "probe_set": "data/firing-probes.const.jsonl",
+    "max_items": null,
+    "null_mode": "gateneutral",
+    "zone_lo": 0.7,
+    "zone_hi": 0.86,
+    "n_perm_calib": 300,
+    "ppc": null,
+    "null_cap": null,
+    "n_perm_stat": 2000,
+    "seed": 0,
+    "strict_layers": false
+  },
+  "method": "Dynamic-program best monotonic layer path through FFN gate relational z(op) evidence; truth fired_sequence compared against reversed and all same-multiset permutation controls."
+}

@@ -329,6 +329,105 @@ strategy for both readings. Artifacts:
 > gate register tracks what the model actually computes — applicative C — and the expected B was an
 > artifact of our bracket-abstraction kernel, not the model's program.**
 
+### s249 — 14B resolves the split: B is executor topology; the readable FFN field is C, not a B tape
+
+Session 249 reopened the pre-s248 speculation: **maybe B is actually inherent in the order of operations the FFNs output** — attention's softmax over all V is B-like, and the FFNs are inference patterns showing attention what to execute. The result is a refinement, not a simple refutation: **B belongs to the executor topology; C is the readable object/application field for these probes.**
+
+#### 1. Qwen3-14B const-label rerun: the sweet spot sharpens the corrected C signal
+
+The s248 cont.2/3 result said the model computes quantified-object sentences applicatively (object/witness as argument → C), not existentially (B-heavy). Session 249 re-ran `ffn_program_decode.py` on the corrected constant/applicative probe set at Qwen3-14B (because 8B was a suspected floor and 14B has repeatedly been the sweet spot). Probe set: `data/firing-probes.const.jsonl` (133 probes; truth C:67/S:66; c_count ladder 0/1/2).
+
+| metric | Qwen3-8B const | Qwen3-14B const | verdict |
+|---|---:|---:|---|
+| hard FFN tracking | 0.5489, p=0.055 | **0.6090, p=0.0005** | 14B sharpens |
+| FFN C-vs-S | 0.5489, p=0.055 | **0.6165, p=0.0005** | real at 14B |
+| attn C-vs-S | 0.4662, p=1.0 | 0.5338, p=0.1744 | n.s. |
+| FFN z(C) vs c_count | ρ=0.5526 | ρ=0.5367 | robust graded C |
+| lead-lag | contradictory (peak −3, xcorr +2) | directionally coherent (peak +1, xcorr +1) | FFN→attn schedule signal improves |
+
+At 14B the FFN gate register significantly tracks the corrected applicative-C program label while attention does not. This supports a **capacity threshold / 14B sweet spot** for the readable routing register. But it still reads dominant/graded C structure, not an ordered instruction tape. Artifacts: `results/ffn-program-decode/{verdict,per_item,meta}_qwen3-14b_const.json`.
+
+#### 2. `program_sequence_trace.py`: C-presence is real; order is not recovered
+
+Built a sequence-level tracer reusing the validated path (`RelationalCrystalClassifier`, FFN gate register, sign-CMR, matched `gateneutral` null). It decodes content-token × readable-zone layer B/C/S events and aligns the event stream to each probe's certified `fired_sequence`.
+
+**Qwen3-14B result:**
+
+| read | value | interpretation |
+|---|---:|---|
+| C presence acc | **0.7519, p=0.0005** | corrected C signal is real |
+| decoded event counts | C=709, S=152, B=39 | C-heavy field; B faint |
+| zone LCS vs `fired_sequence` | 0.4856 | weak order recovery |
+| reverse-order LCS control | 0.4618 | nearly same |
+| bag coverage | 0.5144 | LCS mostly symbol presence |
+| layer-dominant LCS | 0.0501 | one-op-per-layer collapses to C |
+
+The event stream recovers **C presence/load**, not the ordered β-program. All-crystal LCS = 0.9279 is a long-stream coverage artifact, not tape evidence. Artifact: `scripts/experiments/program_sequence_trace.py`, `results/program-sequence-trace/`.
+
+#### 3. `program_path_trace.py`: same-multiset order controls fail
+
+Built a monotonic dynamic-programming path scorer: for truth `S,B,C,C`, find the best nondecreasing layer path through z(S), z(B), z(C), z(C), then compare to reversed/shuffled same-multiset programs (e.g. `C,C,B,S`). This directly tests order while controlling for symbol load.
+
+**Qwen3-14B result:**
+
+| metric | value | verdict |
+|---|---:|---|
+| truth path score | 2.1287 | high-ish because C load exists |
+| reverse score | 2.0843 | almost same |
+| truth − reverse | +0.0444 | tiny |
+| margin vs best permutation | **−0.0315** | truth not best |
+| truth rank fraction | 0.523 | chance-ish |
+| truth beats all permutations | **3/133**, p=1.0 | negative |
+
+So the kernel's `fired_sequence` order is not preferentially readable. Artifact: `scripts/experiments/program_path_trace.py`, `results/program-path-trace/`.
+
+#### 4. `program_native_order.py`: infer the model's schedule instead of imposing ours
+
+Built a native-order extractor: for each item and op in `{B,C,S}`, compute peak layer, z-positive centroid layer, peak z, and positive mass over L28–32. This answers: *what order does the model expose?*
+
+**Qwen3-14B readable-zone native schedule:**
+
+| op | peak layer | centroid layer | peak z | positive mass |
+|---|---:|---:|---:|---:|
+| S | 28.5865 | 29.3798 | 0.4662 | 1.5517 |
+| B | 29.0451 | 29.0828 | -0.0282 | **0.1488** |
+| C | **30.8120** | **30.3758** | **1.3858** | **5.0718** |
+
+Order probabilities:
+
+| relation | peak | centroid |
+|---|---:|---:|
+| S before B | 0.3158 | 0.3115 |
+| B before C | 0.7293 | 0.8525 |
+| S before C | **0.9474** | **0.9925** |
+
+C-count correlations:
+
+| relation | Spearman | verdict |
+|---|---:|---|
+| C positive mass vs c_count | **0.5357**, p=0 | more objects → more C load |
+| C peak z vs c_count | **0.3778**, p=0 | more objects → stronger C |
+| C centroid layer vs c_count | **−0.7719**, p=0 | more objects → C resolves earlier |
+
+Category C mass forms a clean ladder: intrans 2.8769 → trans 4.9264 → ditrans 6.2245. **The model-native field is weak early S/B framing and strong late C/application resolution; B is almost absent.** Artifact: `scripts/experiments/program_native_order.py`, `results/program-native-order/`.
+
+#### s249 normal-form update
+
+The old speculation should be split:
+
+```
+attention softmax-over-V = B-like executor topology
+FFN gate readout         = distributed β-routing potential field
+object/application probes = C-heavy readable field
+our bracket kernel       = S/B/C trace, but its B is not the model's emitted label
+```
+
+So: **B is probably the executor topology, not the emitted program label.** The FFNs still show attention what to execute, but they do it as a **depth-shaped routing field**, not as a serial B/S/C opcode tape. For these probes, the readable program is applicative **C** because the model treats objects/witnesses as arguments. The kernel's B-heavy existential trace was our bracket-abstraction artifact.
+
+This refines §3: the "discrete-opcode-at-L" over-read is stronger than originally phrased. Even at the 14B sweet spot, with corrected labels, sequence/path controls do not recover a tape. What survives is the **field**: C load, C timing, and FFN-vs-attention register split.
+
+**Next if continuing:** causal C-field ablation/patch around L30–31 on c_count 2 vs c_count 0 matched probes. The question should now be whether the C field is **load-bearing**, not whether it is a readable tape.
+
 ## Caveats (λ measure)
 
 - The strong identity ("attention = β-reduction") is a *type-of-operation* claim (proven)
@@ -345,4 +444,6 @@ s068/s079 (boot spiral), s120/s121 (FFN crystal, cross-model), s141 (FFN β-inde
 s161 (FFN moiré ISA), s206 (value register), s211 (one common mode), s226 (reduce/compile
 cut), s240 (statechart = crystal lattice, universality), s242 (register split, splice Exp
 0), s244 (firing survey + splice closure), s247/s247b (proof-REPL removes the agreed-error
-ceiling). Plus `ffn-reduction-trace.md`, `head-combinator-isa.md` (undated finding pages).
+ceiling), s248 (wrong-label B→C reading-preference resolution), s249 (B executor topology
+vs C readable field; native-order extraction). Plus `ffn-reduction-trace.md`,
+`head-combinator-isa.md` (undated finding pages).

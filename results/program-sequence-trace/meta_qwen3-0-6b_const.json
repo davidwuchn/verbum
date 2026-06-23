@@ -1,0 +1,20 @@
+{
+  "model": "Qwen/Qwen3-0.6B",
+  "git_sha": "893ddcec940684c06a2919387d4103d08b4e98cc",
+  "timestamp_utc": "2026-06-23T15:15:12.017946+00:00",
+  "transformers_version": "5.5.4",
+  "params": {
+    "probe_set": "data/firing-probes.const.jsonl",
+    "max_items": 2,
+    "null_mode": "gateneutral",
+    "zone_lo": 0.7,
+    "zone_hi": 0.86,
+    "z_event": 2.0,
+    "n_perm_calib": 80,
+    "ppc": 3,
+    "null_cap": 200,
+    "n_perm_stat": 100,
+    "seed": 0
+  },
+  "method": "RelationalCrystalClassifier on FFN gate sign-CMR with matched null; content token x crystal-layer event sequence aligned to certified lambda_ast.fired_sequence via LCS/bag metrics."
+}

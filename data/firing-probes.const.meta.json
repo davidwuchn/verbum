@@ -1,0 +1,26 @@
+{
+  "generated_utc": "2026-06-23T14:05:14.863640+00:00",
+  "n": 133,
+  "per_class": 67,
+  "seed": 0,
+  "by_c_class": {
+    "c_dominant": 67,
+    "c_light": 66
+  },
+  "by_category": {
+    "ditrans_const": 67,
+    "trans_const": 33,
+    "intrans": 33
+  },
+  "by_c_count": {
+    "0": 33,
+    "1": 33,
+    "2": 67
+  },
+  "by_dominant_fired": {
+    "C": 67,
+    "S": 66
+  },
+  "reading": "constant/applicative (object \u2192 C); the s248 corrected labeling",
+  "method": "lower via lambda_surface.to_kernel; saturate quantifiers (s244); fired_sequence ground truth; drop items whose computed dominant / c_count \u2260 intended class."
+}

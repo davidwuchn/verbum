@@ -277,7 +277,7 @@ def wilcoxon_sign(values):
 # ═══════════════════════════════════════════════════════════════════════════════
 def run(model_name, max_items, zone_lo, zone_hi, onset_tau, max_lag,
         n_perm_calib, ppc, null_cap, n_perm_stat, n_nonfiring, seed,
-        probe_set=None):
+        probe_set=None, track="B"):
     print("═" * 78)
     print("FFN PROGRAM-DECODE ALONG fired_sequence (§7, s248)")
     print("═" * 78)
@@ -358,24 +358,26 @@ def run(model_name, max_items, zone_lo, zone_hi, onset_tau, max_lag,
         lag, lag_c = crosscorr_lag(prof_ffn_full, prof_attn_full, shared, max_lag)
         leads_xcorr.append(lag)
 
-        # (graded) mean decoded z(B) over the zone — for the B-count correlation test
-        def _mz(reads, zl):
-            prof = op_layer_profile(reads, zl, "B")
+        # (graded) mean decoded z(track) over the zone — for the count-correlation test
+        def _mz(reads, zl, op):
+            prof = op_layer_profile(reads, zl, op)
             vals = [v for v in prof.values() if not np.isnan(v)]
             return float(np.mean(vals)) if vals else float("nan")
 
-        zb_ffn = _mz(reads_ffn, zl_ffn)
-        zb_attn = _mz(reads_attn, zl_attn)
+        zt_ffn = _mz(reads_ffn, zl_ffn, track)
+        zt_attn = _mz(reads_attn, zl_attn, track)
 
         per_item.append({
             "input": item["input"], "category": item["category"],
             "dominant_fired": c_true, "fired_multiset": item["fired_multiset"],
             "reduction_len": item["reduction_len"],
             "b_count": item.get("b_count"), "s_count": item.get("s_count"),
+            "c_count": item.get("c_count"),
+            "track_count": item.get(f"{track.lower()}_count"),
             "ffn_dominant": dom_ffn, "attn_dominant": dom_attn,
             "ffn_correct": dom_ffn == c_true, "attn_correct": dom_attn == c_true,
             "lead_peak": lead_peak, "lead_xcorr": lag, "xcorr": lag_c,
-            "zb_ffn": round(zb_ffn, 4), "zb_attn": round(zb_attn, 4),
+            "zt_ffn": round(zt_ffn, 4), "zt_attn": round(zt_attn, 4),
             "ffn_score": {k: round(v, 3) for k, v in score_ffn.items()},
             "attn_score": {k: round(v, 3) for k, v in score_attn.items()},
         })
@@ -387,17 +389,20 @@ def run(model_name, max_items, zone_lo, zone_hi, onset_tau, max_lag,
     maj = Counter(truth).most_common(1)[0][0]
     maj_acc = float(np.mean(np.array(truth) == maj))
 
-    # B-vs-S discrimination — the contamination-resistant tracking metric. B and S are
-    # the two dominant fired combinators (s244: 55 vs 54 items); C is the common-mode
-    # ground state (s211/s240) and swamps the summed-z dominant. Restricting to the B/S
-    # contrast removes the C common-mode and asks the sharp question: when the corpus
-    # fires B vs S, does the register's z(B)−z(S) sign track it?
-    bs_idx = [i for i, c in enumerate(truth) if c in ("B", "S")]
+    # track-vs-S discrimination — the contamination-resistant tracking metric. When
+    # track="B" (s248 existential set): B and S are the two dominant fired combinators
+    # and C is the common-mode ground state (s211/s240) that swamps the summed-z
+    # dominant. When track="C" (s249 constant/applicative set): C is the object-marking
+    # opcode the model actually computes and S is the implication ground state.
+    # Restricting to the {track, S} contrast removes the third-combinator common-mode
+    # and asks the sharp question: when the corpus fires `track` vs S, does the
+    # register's z(track)−z(S) sign track it?
+    bs_idx = [i for i, c in enumerate(truth) if c in (track, "S")]
     bs_truth = [truth[i] for i in bs_idx]
-    bs_ffn = [("B" if per_item[i]["ffn_score"]["B"] > per_item[i]["ffn_score"]["S"]
+    bs_ffn = [(track if per_item[i]["ffn_score"][track] > per_item[i]["ffn_score"]["S"]
                else "S") for i in bs_idx]
-    bs_attn = [("B" if per_item[i]["attn_score"]["B"] > per_item[i]["attn_score"]["S"]
-                else "S") for i in bs_idx]
+    bs_attn = [(track if per_item[i]["attn_score"][track]
+                > per_item[i]["attn_score"]["S"] else "S") for i in bs_idx]
     if bs_truth:
         bs_ffn_acc, bs_ffn_null, bs_ffn_p = perm_null_accuracy(
             bs_ffn, bs_truth, n_perm_stat, seed)
@@ -410,18 +415,19 @@ def run(model_name, max_items, zone_lo, zone_hi, onset_tau, max_lag,
         bs_attn_acc = bs_attn_null = bs_attn_p = 0.0
         bs_maj, bs_maj_acc = "·", 0.0
 
-    # ── (A'') GRADED — does decoded z(B) scale with the ground-truth B-count? ────
-    # The most powerful B-tracking test (s248 IOU): B-count spans {1,2,3,5} in the
-    # balanced probe set. Spearman(z(B), b_count) per register; FFN should track, attn
-    # (depth not opcode) should not.
+    # ── (A'') GRADED — does decoded z(track) scale with the ground-truth count? ──
+    # The most powerful tracking test (s248 IOU). For track="B" the B-count spans
+    # {1,2,3,5} in the existential balanced set; for track="C" the C-count spans {0,1,2}
+    # in the constant set (== #objects). Spearman(z(track), track_count) per register;
+    # FFN (opcode register) should track, attn (depth not opcode) should not.
     from scipy import stats as _sp
 
-    bc = np.array([p["b_count"] for p in per_item if p["b_count"] is not None],
+    bc = np.array([p["track_count"] for p in per_item if p["track_count"] is not None],
                   dtype=float)
-    graded = {"n": int(bc.size)}
+    graded = {"n": int(bc.size), "track": track}
     if bc.size >= 5 and np.std(bc) > 0:
-        zbf = np.array([p["zb_ffn"] for p in per_item if p["b_count"] is not None])
-        zba = np.array([p["zb_attn"] for p in per_item if p["b_count"] is not None])
+        zbf = np.array([p["zt_ffn"] for p in per_item if p["track_count"] is not None])
+        zba = np.array([p["zt_attn"] for p in per_item if p["track_count"] is not None])
         mf = ~np.isnan(zbf)
         ma = ~np.isnan(zba)
         rf, pf = _sp.spearmanr(bc[mf], zbf[mf]) if mf.sum() >= 5 else (float("nan"),
@@ -429,14 +435,14 @@ def run(model_name, max_items, zone_lo, zone_hi, onset_tau, max_lag,
         ra, pa = _sp.spearmanr(bc[ma], zba[ma]) if ma.sum() >= 5 else (float("nan"),
                                                                        float("nan"))
         graded.update({
-            "ffn_spearman_zB_vs_bcount": round(float(rf), 4),
+            "ffn_spearman_zTrack_vs_count": round(float(rf), 4),
             "ffn_spearman_p": round(float(pf), 4),
-            "attn_spearman_zB_vs_bcount": round(float(ra), 4),
+            "attn_spearman_zTrack_vs_count": round(float(ra), 4),
             "attn_spearman_p": round(float(pa), 4),
             "ffn_beats_attn": bool(rf > ra),
-            "zB_by_bcount_ffn": {str(int(b)): round(float(np.nanmean(
+            "zTrack_by_count_ffn": {str(int(b)): round(float(np.nanmean(
                 zbf[bc == b])), 3) for b in sorted(set(bc.tolist()))},
-            "zB_by_bcount_attn": {str(int(b)): round(float(np.nanmean(
+            "zTrack_by_count_attn": {str(int(b)): round(float(np.nanmean(
                 zba[bc == b])), 3) for b in sorted(set(bc.tolist()))},
         })
 
@@ -452,7 +458,7 @@ def run(model_name, max_items, zone_lo, zone_hi, onset_tau, max_lag,
     fire_maxz = [max(p["ffn_score"].values()) for p in per_item]
 
     verdict = {
-        "model": model_name, "n_layers": n_layers,
+        "model": model_name, "n_layers": n_layers, "track": track,
         "n_firing_items": len(firing), "n_nonfiring_control": len(nf_items),
         "zone_depth": [zone_lo, zone_hi],
         "ffn_zone_layers": zl_ffn, "attn_zone_layers": zl_attn,
@@ -468,8 +474,9 @@ def run(model_name, max_items, zone_lo, zone_hi, onset_tau, max_lag,
             "ffn_beats_attn": bool(ffn_acc > attn_acc),
             "ffn_beats_majority": bool(ffn_acc > maj_acc),
         },
-        # (A') B-vs-S discrimination — the C-common-mode-resistant tracking metric
+        # (A') track-vs-S discrimination — the common-mode-resistant tracking metric
         "A_bs_discrimination": {
+            "tracked_combinator": track,
             "n": len(bs_truth), "bs_truth": dict(Counter(bs_truth)),
             "ffn_acc": round(bs_ffn_acc, 4), "ffn_null_mean": round(bs_ffn_null, 4),
             "ffn_perm_p": round(bs_ffn_p, 4),
@@ -523,7 +530,8 @@ def _report(v):
     print(f"  ⇒ FFN beats attn: {a['ffn_beats_attn']}  | FFN beats majority: "
           f"{a['ffn_beats_majority']}")
     bs = v["A_bs_discrimination"]
-    print(f"\n(A') B-vs-S discrimination (C-common-mode-resistant; n={bs['n']} "
+    trk = bs.get("tracked_combinator", "B")
+    print(f"\n(A') {trk}-vs-S discrimination (common-mode-resistant; n={bs['n']} "
           f"{bs['bs_truth']}):")
     print(f"  FFN_acc ={bs['ffn_acc']}  (null {bs['ffn_null_mean']}, "
           f"p={bs['ffn_perm_p']})")
@@ -533,12 +541,13 @@ def _report(v):
           f"⇒ FFN beats attn: {bs['ffn_beats_attn']} | beats majority: "
           f"{bs['ffn_beats_majority']}")
     g = v.get("A_graded_bcount", {})
-    if "ffn_spearman_zB_vs_bcount" in g:
-        print(f"\n(A'') GRADED — decoded z(B) vs B-count (n={g['n']}):")
-        print(f"  FFN  Spearman={g['ffn_spearman_zB_vs_bcount']} "
-              f"(p={g['ffn_spearman_p']})  z(B) by b_count={g['zB_by_bcount_ffn']}")
-        print(f"  Attn Spearman={g['attn_spearman_zB_vs_bcount']} "
-              f"(p={g['attn_spearman_p']})  z(B) by b_count={g['zB_by_bcount_attn']}")
+    if "ffn_spearman_zTrack_vs_count" in g:
+        tg = g.get("track", "B")
+        print(f"\n(A'') GRADED — decoded z({tg}) vs {tg}-count (n={g['n']}):")
+        print(f"  FFN  Spearman={g['ffn_spearman_zTrack_vs_count']} "
+              f"(p={g['ffn_spearman_p']})  z({tg})/count={g['zTrack_by_count_ffn']}")
+        print(f"  Attn Spearman={g['attn_spearman_zTrack_vs_count']} "
+              f"(p={g['attn_spearman_p']})  z({tg})/count={g['zTrack_by_count_attn']}")
         print(f"  ⇒ FFN beats attn: {g['ffn_beats_attn']}")
     print("\n(B) LEAD-LAG (FFN opcode-lock vs attention WHNF depth-advance):")
     pk, xc = b["peak_diff"], b["xcorr_lag"]
@@ -559,7 +568,8 @@ def _write(verdict, per_item, model_name, ns):
     RESULTS_DIR.mkdir(parents=True, exist_ok=True)
     slug = model_name.split("/")[-1].lower().replace(".", "-")
     if ns.get("probe_set"):
-        slug += "_balanced"
+        ps = Path(ns["probe_set"]).stem  # e.g. firing-probes.const → "const"
+        slug += "_" + (ps.split(".")[-1] if "." in ps else ps)
     (RESULTS_DIR / f"verdict_{slug}.json").write_text(
         json.dumps(_json_safe(verdict), indent=2), encoding="utf-8")
     (RESULTS_DIR / f"per_item_{slug}.json").write_text(
@@ -572,7 +582,8 @@ def _write(verdict, per_item, model_name, ns):
         "corpus": {k: str(p.relative_to(_ROOT)) for k, p in CORPUS.items()},
         "params": {k: ns[k] for k in (
             "max_items", "zone_lo", "zone_hi", "onset_tau", "max_lag",
-            "n_perm_calib", "ppc", "null_cap", "n_perm_stat", "n_nonfiring", "seed")},
+            "n_perm_calib", "ppc", "null_cap", "n_perm_stat", "n_nonfiring", "seed",
+            "track", "probe_set")},
         "method": "saturate quantifiers → fired_sequence ground truth; dual-register "
                   "decode (gate=opcode, attn o_proj=WHNF depth); A track + B lead-lag "
                   "+ C rescue, matched-prefix null calibration.",
@@ -598,7 +609,12 @@ def main():
     ap.add_argument("--probe-set", default=None,
                     help="custom prose probe jsonl (input+kernel_term) instead of the "
                          "canonical corpus, e.g. data/firing-probes.balanced.jsonl "
-                         "(s248 B-balanced set); enables the graded B-count test.")
+                         "(s248 B-balanced set) or data/firing-probes.const.jsonl "
+                         "(s249 constant/applicative set); enables the graded test.")
+    ap.add_argument("--track", default="B", choices=["B", "C", "S"],
+                    help="combinator for the (A') discrimination and (A'') graded "
+                         "tests. B=s248 existential labeling; C=s249 constant/"
+                         "applicative labeling (object→C). Default B (s248 behavior).")
     ap.add_argument("--smoke", action="store_true",
                     help="Qwen3-0.6B, few probes/items, fast wiring check")
     args = ap.parse_args()
@@ -615,7 +631,7 @@ def main():
 
     run(model_name, max_items, args.zone_lo, args.zone_hi, args.onset_tau,
         args.max_lag, n_perm_calib, ppc, null_cap, args.n_perm_stat,
-        n_nonfiring, args.seed, probe_set=args.probe_set)
+        n_nonfiring, args.seed, probe_set=args.probe_set, track=args.track)
 
 
 if __name__ == "__main__":

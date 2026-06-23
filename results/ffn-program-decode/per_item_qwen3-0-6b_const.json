@@ -1,0 +1,410 @@
+[
+  {
+    "input": "Every king lends a guest a song.",
+    "category": "ditrans_const",
+    "dominant_fired": "C",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1,
+      "C": 2
+    },
+    "reduction_len": 4,
+    "b_count": 1,
+    "s_count": 1,
+    "c_count": 2,
+    "track_count": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": true,
+    "attn_correct": true,
+    "lead_peak": -3,
+    "lead_xcorr": 2,
+    "xcorr": 0.9578090335712297,
+    "zt_ffn": 0.8041,
+    "zt_attn": 0.3545,
+    "ffn_score": {
+      "B": 32.685,
+      "C": 34.371,
+      "S": 7.753
+    },
+    "attn_score": {
+      "B": 17.678,
+      "C": 19.581,
+      "S": 8.184
+    }
+  },
+  {
+    "input": "Every painter sells a neighbor a song.",
+    "category": "ditrans_const",
+    "dominant_fired": "C",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1,
+      "C": 2
+    },
+    "reduction_len": 4,
+    "b_count": 1,
+    "s_count": 1,
+    "c_count": 2,
+    "track_count": 2,
+    "ffn_dominant": "B",
+    "attn_dominant": "B",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": -3,
+    "lead_xcorr": 2,
+    "xcorr": 0.99313447638552,
+    "zt_ffn": 0.7417,
+    "zt_attn": 0.7263,
+    "ffn_score": {
+      "B": 37.082,
+      "C": 33.1,
+      "S": 8.207
+    },
+    "attn_score": {
+      "B": 29.764,
+      "C": 28.66,
+      "S": 6.955
+    }
+  },
+  {
+    "input": "Every sailor hands a king a rose.",
+    "category": "ditrans_const",
+    "dominant_fired": "C",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1,
+      "C": 2
+    },
+    "reduction_len": 4,
+    "b_count": 1,
+    "s_count": 1,
+    "c_count": 2,
+    "track_count": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": true,
+    "attn_correct": true,
+    "lead_peak": 0,
+    "lead_xcorr": 2,
+    "xcorr": 0.9083351453049825,
+    "zt_ffn": 1.0373,
+    "zt_attn": 0.7478,
+    "ffn_score": {
+      "B": 37.011,
+      "C": 42.374,
+      "S": 7.276
+    },
+    "attn_score": {
+      "B": 16.402,
+      "C": 23.745,
+      "S": 8.986
+    }
+  },
+  {
+    "input": "Every student shows a child a book.",
+    "category": "ditrans_const",
+    "dominant_fired": "C",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1,
+      "C": 2
+    },
+    "reduction_len": 4,
+    "b_count": 1,
+    "s_count": 1,
+    "c_count": 2,
+    "track_count": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": true,
+    "attn_correct": true,
+    "lead_peak": -1,
+    "lead_xcorr": 2,
+    "xcorr": 0.32224158317184737,
+    "zt_ffn": 0.9323,
+    "zt_attn": 0.7454,
+    "ffn_score": {
+      "B": 29.689,
+      "C": 38.805,
+      "S": 7.611
+    },
+    "attn_score": {
+      "B": 11.477,
+      "C": 28.135,
+      "S": 6.948
+    }
+  },
+  {
+    "input": "Every hunter shows a child a song.",
+    "category": "ditrans_const",
+    "dominant_fired": "C",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1,
+      "C": 2
+    },
+    "reduction_len": 4,
+    "b_count": 1,
+    "s_count": 1,
+    "c_count": 2,
+    "track_count": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": true,
+    "attn_correct": true,
+    "lead_peak": -1,
+    "lead_xcorr": 2,
+    "xcorr": 0.9780195527879505,
+    "zt_ffn": 1.1815,
+    "zt_attn": 0.8832,
+    "ffn_score": {
+      "B": 29.418,
+      "C": 47.475,
+      "S": 7.324
+    },
+    "attn_score": {
+      "B": 10.502,
+      "C": 31.063,
+      "S": 7.093
+    }
+  },
+  {
+    "input": "Every artist sends a stranger a coin.",
+    "category": "ditrans_const",
+    "dominant_fired": "C",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1,
+      "C": 2
+    },
+    "reduction_len": 4,
+    "b_count": 1,
+    "s_count": 1,
+    "c_count": 2,
+    "track_count": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": true,
+    "attn_correct": true,
+    "lead_peak": -1,
+    "lead_xcorr": 2,
+    "xcorr": 0.9913907833936411,
+    "zt_ffn": 1.0958,
+    "zt_attn": 0.7449,
+    "ffn_score": {
+      "B": 30.458,
+      "C": 45.943,
+      "S": 7.998
+    },
+    "attn_score": {
+      "B": 20.991,
+      "C": 32.119,
+      "S": 7.635
+    }
+  },
+  {
+    "input": "Every soldier sends a stranger a key.",
+    "category": "ditrans_const",
+    "dominant_fired": "C",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1,
+      "C": 2
+    },
+    "reduction_len": 4,
+    "b_count": 1,
+    "s_count": 1,
+    "c_count": 2,
+    "track_count": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": true,
+    "attn_correct": true,
+    "lead_peak": -1,
+    "lead_xcorr": 2,
+    "xcorr": 0.9518687711624948,
+    "zt_ffn": 1.1921,
+    "zt_attn": 0.7111,
+    "ffn_score": {
+      "B": 31.433,
+      "C": 48.294,
+      "S": 7.752
+    },
+    "attn_score": {
+      "B": 18.808,
+      "C": 30.814,
+      "S": 8.049
+    }
+  },
+  {
+    "input": "Every knight brings a rival a coin.",
+    "category": "ditrans_const",
+    "dominant_fired": "C",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1,
+      "C": 2
+    },
+    "reduction_len": 4,
+    "b_count": 1,
+    "s_count": 1,
+    "c_count": 2,
+    "track_count": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": true,
+    "attn_correct": true,
+    "lead_peak": -1,
+    "lead_xcorr": -2,
+    "xcorr": 0.6412891022839221,
+    "zt_ffn": 0.9362,
+    "zt_attn": 0.3364,
+    "ffn_score": {
+      "B": 33.203,
+      "C": 39.181,
+      "S": 7.325
+    },
+    "attn_score": {
+      "B": 8.878,
+      "C": 25.434,
+      "S": 14.706
+    }
+  },
+  {
+    "input": "Every painter shows a guest a rose.",
+    "category": "ditrans_const",
+    "dominant_fired": "C",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1,
+      "C": 2
+    },
+    "reduction_len": 4,
+    "b_count": 1,
+    "s_count": 1,
+    "c_count": 2,
+    "track_count": 2,
+    "ffn_dominant": "B",
+    "attn_dominant": "B",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": -1,
+    "lead_xcorr": 2,
+    "xcorr": 0.8084497406384158,
+    "zt_ffn": 0.9034,
+    "zt_attn": 0.5426,
+    "ffn_score": {
+      "B": 38.714,
+      "C": 38.419,
+      "S": 7.834
+    },
+    "attn_score": {
+      "B": 28.68,
+      "C": 24.991,
+      "S": 5.904
+    }
+  },
+  {
+    "input": "Every cat sends a neighbor a cake.",
+    "category": "ditrans_const",
+    "dominant_fired": "C",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1,
+      "C": 2
+    },
+    "reduction_len": 4,
+    "b_count": 1,
+    "s_count": 1,
+    "c_count": 2,
+    "track_count": 2,
+    "ffn_dominant": "B",
+    "attn_dominant": "B",
+    "ffn_correct": false,
+    "attn_correct": false,
+    "lead_peak": -1,
+    "lead_xcorr": 0,
+    "xcorr": 0.8836614261545456,
+    "zt_ffn": 0.7115,
+    "zt_attn": 0.1521,
+    "ffn_score": {
+      "B": 36.015,
+      "C": 32.086,
+      "S": 8.332
+    },
+    "attn_score": {
+      "B": 24.695,
+      "C": 21.569,
+      "S": 8.476
+    }
+  },
+  {
+    "input": "Every hunter sells a stranger a gift.",
+    "category": "ditrans_const",
+    "dominant_fired": "C",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1,
+      "C": 2
+    },
+    "reduction_len": 4,
+    "b_count": 1,
+    "s_count": 1,
+    "c_count": 2,
+    "track_count": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "B",
+    "ffn_correct": true,
+    "attn_correct": false,
+    "lead_peak": -1,
+    "lead_xcorr": 2,
+    "xcorr": 0.9656750516961304,
+    "zt_ffn": 0.9753,
+    "zt_attn": 0.3068,
+    "ffn_score": {
+      "B": 33.237,
+      "C": 40.234,
+      "S": 7.17
+    },
+    "attn_score": {
+      "B": 28.501,
+      "C": 21.077,
+      "S": 10.912
+    }
+  },
+  {
+    "input": "Every guard hands a friend a gift.",
+    "category": "ditrans_const",
+    "dominant_fired": "C",
+    "fired_multiset": {
+      "S": 1,
+      "B": 1,
+      "C": 2
+    },
+    "reduction_len": 4,
+    "b_count": 1,
+    "s_count": 1,
+    "c_count": 2,
+    "track_count": 2,
+    "ffn_dominant": "C",
+    "attn_dominant": "C",
+    "ffn_correct": true,
+    "attn_correct": true,
+    "lead_peak": 0,
+    "lead_xcorr": 2,
+    "xcorr": 0.9881142474203306,
+    "zt_ffn": 1.1748,
+    "zt_attn": 0.9097,
+    "ffn_score": {
+      "B": 35.284,
+      "C": 48.081,
+      "S": 7.644
+    },
+    "attn_score": {
+      "B": 12.898,
+      "C": 29.054,
+      "S": 23.213
+    }
+  }
+]

@@ -2,16 +2,28 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-22 | Session: 248 (FFN PROGRAM-DECODE along fired_sequence — the s247b §7
-> open door, RAN on Qwen3-8B. λ-measure verdict: the per-combinator program does NOT cleanly
-> decode from the prose forward pass — CONFIRMS the s244 splice-closure + the page's own
-> "discrete-opcode-at-L over-reads" boundary; only a weak, method-sensitive SCHEDULE-level
-> FFN-leads-attention ordering survives. Entry immediately below.) — ▶ s247 FORCING vs DISCOVERING
-> (fractal-collapse REDEFINED; φ-ladder detector KILLED by matched-range null (forced); type-directed
-> composition is CROSS-FAMILY — nonce crossover in 5 lineages t 4.6–10.2; v4 CAUSAL ablation PARTIAL
-> (4/6 directional, strict only Mistral-7B — NOT Qwen-forced)) — main line stays COMPILER-AS-LOSS
-> §s242. ALSO (2026-06-22): PARALLEL tangent s247b — PROOF CONSENSUS + the ATTENTION-AS-β /
-> STORED-PROGRAM synthesis (entries below).
+> Last updated: 2026-06-23 | Session: 249 (B-as-executor-topology vs C-as-readable-field
+> RESOLVED. Qwen3-14B const-label rerun confirms the sweet-spot: FFN gate significantly tracks
+> corrected applicative-C structure (C-vs-S 0.6165, p=0.0005; attn n.s.) and lead-lag becomes
+> directionally coherent. But three sequence/order probes close the discrete-tape door: event-LCS
+> reads C-presence not order; monotonic path truth-vs-same-multiset controls fail; native-order
+> extraction shows weak/early S+B framing and strong late C field (C mass 5.07 vs S 1.55 vs B 0.15;
+> S<C ~0.95-0.99, B<C ~0.73-0.85, S<B unstable). Normal form: attention softmax-over-V is
+> B-like executor topology, while FFNs emit a distributed β-routing potential field; for object
+> probes the readable program is applicative-C, not a serial B/S/C tape. NEXT: causal C-field
+> ablation/patch around L30-31 if continuing this thread. Entries below.)
+>
+> **★★ s249 — B-AS-EXECUTOR TOPOLOGY vs C-AS-READABLE FIELD; Qwen3-14B sweet spot resolves the s248/s247b open door.** Starting question: before this session we speculated that **B was inherent in the order of operations the FFNs output** — attention's softmax over all V is B-like, and FFNs are inference patterns telling attention what to execute. Session result: **split that into two claims.** (1) **B as executor topology remains the right abstraction:** attention's softmax-over-V is a soft-B / composition executor (one operation: content-addressed weighted composition over values). (2) **B as a readable per-sentence FFN opcode tape is NOT what these quantified/object probes show.** The emitted/readable FFN field is applicative **C**, not existential **B**.
+>
+> **RUN 1 — Qwen3-14B const-label rerun of `ffn_program_decode.py`:** using `data/firing-probes.const.jsonl` (133 probes, truth C:67/S:66; object→C corrected labels) on Qwen3-14B. **Hard tracking sharpens vs 8B:** FFN acc 0.609 (p=0.0005) vs 8B 0.5489 (p=0.055); common-mode-resistant C-vs-S FFN 0.6165 (p=0.0005) while attn 0.5338 (p=0.1744). Graded z(C) vs C-count remains strong (FFN Spearman 0.5367, attn 0.5672, p≈0), and FFN raw C amplitude now exceeds attn (FFN zC 0/1/2 = 0.540/0.968/1.245; attn 0.309/0.563/0.677). Lead-lag becomes directionally coherent: peak-diff median +1 (p=7e-13), xcorr median +1 (p=0.067). **Verdict:** 14B is the sweet spot; FFN gate carries corrected C-program structure. Artifacts: `results/ffn-program-decode/*_qwen3-14b_const.json`, `run_qwen3-14b_const.log`.
+>
+> **RUN 2 — `program_sequence_trace.py` (new):** event-stream/LCS against `fired_sequence`. Built validated relational tracer over FFN gate (sign-CMR, matched `gateneutral` null) and decoded content-token × layer B/C/S events. **C presence is real** (presence acc 0.7519, p=0.0005; decoded events C=709/S=152/B=39), but **order is not recovered**: zone LCS 0.4856 vs reverse control 0.4618 and bag coverage 0.5144; layer-dominant collapses to C (0.0501). All-crystal LCS 0.9279 is a long-stream coverage artifact. Artifact: `scripts/experiments/program_sequence_trace.py`, `results/program-sequence-trace/*qwen3-14b_const*`.
+>
+> **RUN 3 — `program_path_trace.py` (new):** monotonic DP path scorer asks whether truth order beats reversed/shuffled same-multiset controls (e.g. S,B,C,C vs C,C,B,S etc.). **Negative for ordered β-tape:** zone truth score 2.1287 vs reverse 2.0843 (tiny +0.0444); margin vs best permutation −0.0315; rank frac 0.523; truth beats all permutations only 3/133 (p=1.0). Ditransitives rank higher (0.7219) but still 0/67 beat all controls. Artifact: `scripts/experiments/program_path_trace.py`, `results/program-path-trace/*qwen3-14b_const*`.
+>
+> **RUN 4 — `program_native_order.py` (new):** stop forcing our kernel order; infer model-native op schedule by peak/centroid layer and positive mass. **The model-native readable field is:** weak early S/B framing → strong late C/application resolution; S/B relation unstable. Overall zone: C mass 5.0718, S mass 1.5517, B mass 0.1488; C peak layer 30.812, S 28.5865, B 29.0451. Ordering: P(S<C)=0.947 peak / 0.993 centroid; P(B<C)=0.729 / 0.853; P(S<B)=0.316 / 0.312 (unstable/opposite kernel order). C-count effects: C mass rises with object count (Spearman 0.5357, p=0), C peak-z rises (0.3778, p=0), C centroid moves earlier as object load increases (r=-0.7719, p=0). Category C masses: intrans 2.8769, trans 4.9264, ditrans 6.2245. **Verdict:** program = depth-shaped routing potential field, not discrete instruction tape. Artifact: `scripts/experiments/program_native_order.py`, `results/program-native-order/*qwen3-14b_const*`.
+>
+> **NORMAL FORM UPDATE (s249):** Preserve the deep insight but correct the measurement target. **Attention = soft-B executor topology** (softmax over V is composition-like); **FFN = compiler of a β-routing field** (distributed potential, not a serial opcode tape); **residual = program state/register file.** For these probes the readable FFN program is applicative **C** because the model treats objects/witnesses as arguments, not existential-B bracket abstractions. The previous "B inherent from ordering" applied to OUR symbolic kernel ordering, not the model's emitted field. **NEXT if continuing:** causal C-field ablation/patch around L30–31 on c_count 2 vs 0 matched probes to test whether the C field is load-bearing, not just readable. PENDING APPROVAL: memory/knowledge commit for s249.
 >
 > **★★ s248 — FFN PROGRAM-DECODE ALONG `fired_sequence` (the s247b §7 open door: "decode the FFN
 > compiled values position-by-position vs lambda_ast.fired_sequence on the saturated corpus, L26-30;

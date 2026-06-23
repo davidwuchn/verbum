@@ -1,0 +1,60 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+══════════════════════════════════════════════════════════════════════════════
+PROGRAM SEQUENCE TRACE — FFN gate β-program vs fired_sequence
+══════════════════════════════════════════════════════════════════════════════
+[corpus] source=data/firing-probes.const.jsonl firing=133 nonfiring=0
+[v2] Loading tokenizer: Qwen/Qwen3-14B
+[v2] Loading model: Qwen/Qwen3-14B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<04:20,  1.70it/s]Loading weights:   0%|          | 2/443 [00:00<02:18,  3.18it/s]Loading weights:   4%|▍         | 17/443 [00:00<00:12, 34.02it/s]Loading weights:   9%|▉         | 39/443 [00:00<00:05, 75.13it/s]Loading weights:  14%|█▍        | 61/443 [00:01<00:03, 107.75it/s]Loading weights:  19%|█▊        | 83/443 [00:01<00:02, 132.61it/s]Loading weights:  24%|██▎       | 105/443 [00:01<00:02, 152.11it/s]Loading weights:  29%|██▊       | 127/443 [00:01<00:01, 166.57it/s]Loading weights:  34%|███▎      | 149/443 [00:01<00:01, 176.92it/s]Loading weights:  39%|███▊      | 171/443 [00:01<00:01, 185.06it/s]Loading weights:  44%|████▎     | 193/443 [00:01<00:01, 190.81it/s]Loading weights:  49%|████▊     | 215/443 [00:01<00:01, 194.11it/s]Loading weights:  53%|█████▎    | 237/443 [00:01<00:01, 194.90it/s]Loading weights:  58%|█████▊    | 259/443 [00:02<00:00, 196.24it/s]Loading weights:  63%|██████▎   | 281/443 [00:02<00:00, 198.29it/s]Loading weights:  68%|██████▊   | 303/443 [00:02<00:00, 198.17it/s]Loading weights:  73%|███████▎  | 324/443 [00:02<00:00, 198.68it/s]Loading weights:  78%|███████▊  | 345/443 [00:02<00:00, 196.11it/s]Loading weights:  82%|████████▏ | 365/443 [00:02<00:00, 192.12it/s]Loading weights:  87%|████████▋ | 385/443 [00:02<00:00, 185.96it/s]Loading weights:  91%|█████████ | 404/443 [00:02<00:00, 178.78it/s]Loading weights:  95%|█████████▌| 423/443 [00:02<00:00, 181.32it/s]Loading weights: 100%|██████████| 443/443 [00:02<00:00, 148.65it/s]
+[v2] Model loaded in 3.8s
+[model] Qwen/Qwen3-14B layers=40
+
+[calib] FFN gate register null_mode=gateneutral ...
+[v2] Crystal probes (last-token centroids): 535
+[v2]   centroid forward 0/535 ...
+[v2]   centroid forward 50/535 ...
+[v2]   centroid forward 100/535 ...
+[v2]   centroid forward 150/535 ...
+[v2]   centroid forward 200/535 ...
+[v2]   centroid forward 250/535 ...
+[v2]   centroid forward 300/535 ...
+[v2]   centroid forward 350/535 ...
+[v2]   centroid forward 400/535 ...
+[v2]   centroid forward 450/535 ...
+[v2]   centroid forward 500/535 ...
+[v2] Building MATCHED-PREFIX null from 14 gate+non-compositional prompts (content positions) ...
+[v2] Null tokens pooled: 56  (null_mode=gateneutral)
+[calib] crystal_layers=31/40 zone=[28, 29, 30, 31, 32]
+
+[decode] 133 items z_event=2.0 ...
+[decode]   item 0/133 ...
+[decode]   item 20/133 ...
+[decode]   item 40/133 ...
+[decode]   item 60/133 ...
+[decode]   item 80/133 ...
+[decode]   item 100/133 ...
+[decode]   item 120/133 ...
+
+══════════════════════════════════════════════════════════════════════════════
+PROGRAM SEQUENCE TRACE — VERDICT
+══════════════════════════════════════════════════════════════════════════════
+items=133 truth={'C': 67, 'S': 66}
+crystal_layers=31/40 zone=[28, 29, 30, 31, 32] z_event=2.0
+
+Sequence alignment vs fired_sequence:
+  zone token-layer events mean LCS:   0.4856
+  zone layer-dominant mean LCS:      0.0501
+  all-crystal events mean LCS:       0.9279
+  zone events bag coverage:          0.5144
+  reverse-order control LCS:         0.4618
+  half recovered: zone_events=88 zone_layers=5 all_crystal=133
+
+Op presence (decoded event contains op vs truth contains op):
+  B: acc=0.2707 null=0.2707 p=1.0 truth={'B': 133} decoded={'not_B': 97, 'B': 36}
+  C: acc=0.7519 null=0.6233 p=0.0005 truth={'C': 100, 'not_C': 33} decoded={'C': 99, 'not_C': 34}
+  S: acc=0.5414 null=0.5414 p=1.0 truth={'S': 133} decoded={'not_S': 61, 'S': 72}
+
+Decoded event counts: {'C': 709, 'B': 39, 'S': 152}
+══════════════════════════════════════════════════════════════════════════════
+
+[write] /Users/mwhitford/src/verbum/results/program-sequence-trace/verdict_qwen3-14b_const.json (+ per_item, meta)

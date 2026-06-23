@@ -1,0 +1,27 @@
+{
+  "model": "Qwen/Qwen3-0.6B",
+  "git_sha": "893ddcec940684c06a2919387d4103d08b4e98cc",
+  "timestamp_utc": "2026-06-23T14:11:03.898626+00:00",
+  "transformers_version": "5.5.4",
+  "corpus": {
+    "train": "data/compile-train.canonical.jsonl",
+    "test": "data/compile-test.canonical.jsonl",
+    "eval": "data/compile-eval.canonical.jsonl"
+  },
+  "params": {
+    "max_items": 12,
+    "zone_lo": 0.7,
+    "zone_hi": 0.86,
+    "onset_tau": 2.0,
+    "max_lag": 4,
+    "n_perm_calib": 80,
+    "ppc": 4,
+    "null_cap": 200,
+    "n_perm_stat": 2000,
+    "n_nonfiring": 6,
+    "seed": 0,
+    "track": "C",
+    "probe_set": "data/firing-probes.const.jsonl"
+  },
+  "method": "saturate quantifiers \u2192 fired_sequence ground truth; dual-register decode (gate=opcode, attn o_proj=WHNF depth); A track + B lead-lag + C rescue, matched-prefix null calibration."
+}
