@@ -117,7 +117,7 @@ true *collectively* but not *crisply per-step*:
 | boot schedule C→B/K→I→WHNF, ~1.018×/layer, cross-model | **proven** (s240) |
 | softmax-V *literally* substitutes a specific value | **over-reads** (value register smeared, s206) |
 | layer L discretely fires combinator *c* (a clean tape) | **over-reads** (collective/holographic; splice closure s244 `fires ∩ spliceable = ∅`) |
-| the decodable C-field *is* the causal object-application mechanism | **over-reads** (s250 single-dir + s250-cont INLP rank-16: differential reverses c2<c0 even after erasing ALL linear C, decodability 0.92→0.67; z(C) crashes but object-application unhurt → readout register; + s250-cont.2 nonlinear gap: no nonlinear C survives INLP → readout register linearly AND nonlinearly) |
+| the decodable C-field *is* the causal object-application mechanism | **over-reads** (s250 single-dir + s250-cont INLP rank-16: differential reverses c2<c0 even after erasing ALL linear C, decodability 0.92→0.67; z(C) crashes but object-application unhurt → readout register; + s250-cont.2 nonlinear gap: no nonlinear C survives INLP → readout register linearly AND nonlinearly; + s250-cont.3: object-application localizes to no single component last-token write either (distributed, no discrete circuit)) |
 
 ⇒ **the schedule and the depth axis are crisp; the per-layer opcode is superposed.** We
 read the *program trajectory*, not a discrete instruction tape.
@@ -519,6 +519,31 @@ value register** (s127 {B,C}=composers→attention, s206). Candidate: a causal O
 ablation on the same c=2-vs-c=0 matched ladder — does ablating the {B,C}-composer attention
 pathway selectively hurt object-application where the FFN C-field did not?
 
+### s250 cont.3 — mechanism hunt: object-application is distributed, no single locus
+
+`program_object_mechanism_sweep.py` ran that hunt: sweep every layer × {attention-write
+`o_proj`, MLP-write}, mean-ablate only the **last-token** output (a single, position-matched
+knockout — removes the length confound of content-position ablation), read next-token KL across
+the object-count gradient (c=0/1/2). Result (Qwen3-14B, 40L × 2 comp × 60 items): **inconclusive**.
+
+1. Effects are tiny — mean KL ~**0.0025 nats**; no single component's last-token write is
+   individually load-bearing (the skip connection dominates).
+2. The c0/c1/c2 Spearman localization is **confounded** by last-token POS: intransitives (c0)
+   end in a verb ("speaks"), transitives/ditransitives (c1/c2) end in a noun object
+   ("owl"/"rose"). The POS-matched **c1→c2** contrast still shows a c2>c1 increase but tiny
+   (KL ~0.005-0.03), late-layer, and **mixed** (top10 by Δ: 6 MLP / 4 attn; largest L39 MLP =
+   final layer = lexical/next-token).
+3. The attention-OV hypothesis is **not** confirmed (MLP-leaning if anything, but weak).
+
+⇒ object-application localizes to **nothing** — not a direction (s250), a 16-dim subspace
+(cont.), a nonlinear feature (cont.2), or a single-component last-token write (here). It is a
+**distributed/holographic** computation, consistent with s211 common-mode, s240/s244
+collective-holographic, and §3's "trajectory, not instruction-tape." This bears directly on
+VERBUM's central question (S5 `λ types`: *can this resolve as a discrete circuit?*) — trending
+**no** for object-application via these probes. **Next:** pattern-level, not component-write —
+an attention-**edge** knockout (predicate→object routing) or activation patching on POS-matched
+c1-vs-c2 minimal pairs.
+
 ## Caveats (λ measure)
 
 - The strong identity ("attention = β-reduction") is a *type-of-operation* claim (proven)
@@ -539,5 +564,6 @@ ceiling), s248 (wrong-label B→C reading-preference resolution), s249 (B execut
 vs C readable field; native-order extraction), s250 (causal C-field ablation: readable/
 injectable but NOT load-bearing under single-direction; s250 cont. distributed INLP ablation:
 readout register, distributed-robust; s250 cont.2 no nonlinear escape hatch: readout register
-linearly AND nonlinearly). Plus `ffn-reduction-trace.md`,
+linearly AND nonlinearly; s250 cont.3 mechanism hunt: object-application distributed, no single
+locus). Plus `ffn-reduction-trace.md`,
 `head-combinator-isa.md` (undated finding pages).
