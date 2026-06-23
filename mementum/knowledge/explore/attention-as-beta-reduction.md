@@ -117,7 +117,7 @@ true *collectively* but not *crisply per-step*:
 | boot schedule C→B/K→I→WHNF, ~1.018×/layer, cross-model | **proven** (s240) |
 | softmax-V *literally* substitutes a specific value | **over-reads** (value register smeared, s206) |
 | layer L discretely fires combinator *c* (a clean tape) | **over-reads** (collective/holographic; splice closure s244 `fires ∩ spliceable = ∅`) |
-| the decodable C-field *is* the causal object-application mechanism | **over-reads** (s250 single-dir + s250-cont INLP rank-16: differential reverses c2<c0 even after erasing ALL linear C, decodability 0.92→0.67; z(C) crashes but object-application unhurt → readout register, not mechanism) |
+| the decodable C-field *is* the causal object-application mechanism | **over-reads** (s250 single-dir + s250-cont INLP rank-16: differential reverses c2<c0 even after erasing ALL linear C, decodability 0.92→0.67; z(C) crashes but object-application unhurt → readout register; + s250-cont.2 nonlinear gap: no nonlinear C survives INLP → readout register linearly AND nonlinearly) |
 
 ⇒ **the schedule and the depth axis are crisp; the per-layer opcode is superposed.** We
 read the *program trajectory*, not a discrete instruction tape.
@@ -493,6 +493,32 @@ random-subspace-controlled differential (c2 vs c0) is the load-bearing readout a
 left); (2) hunt the object-application mechanism in **attention OV / the value register** (s127
 {B,C}=composers→attention, s206), not the FFN C-field.
 
+### s250 cont.2 — no nonlinear escape hatch: readout register linearly AND nonlinearly
+
+s250-cont erased only *linear* C; the last caveat was a nonlinear C-encoding INLP would miss.
+`program_cfield_nonlinear_probe.py` runs the decodability gap (a full SAE needs ~1e6 activations,
+infeasible at n=135): linear (logistic) vs nonlinear (MLP, RBF-SVM) C-present probes, 5-fold
+stratified CV in a StandardScaler pipeline, on raw vs post-INLP L27/29/30/31 residuals, with a
+label-shuffled control and a PCA-50 overfit-controlled view (Qwen3-14B, 135 items).
+
+| condition | linear | MLP | RBF-SVM |
+|---|---|---|---|
+| RAW (PCA-50) | **0.98-0.99** | 0.83-0.91 | 0.95-0.97 |
+| POST-INLP | 0.30-0.36 | 0.59-0.65 | 0.67 |
+| shuffle / majority ceiling | ~0.66 / 0.667; escape threshold 0.767 | | |
+
+On raw features the nonlinear probes are **no better than linear** (RBF 0.95 < logistic 0.99) so C
+is linearly separable; after INLP erases the linear C, **no nonlinear probe recovers C above the
+shuffle/majority ceiling** (best 0.67 < threshold 0.77) at any layer. ⇒ **no nonlinear C survived
+— the linear erasure was complete.** The applicative-C field is a **readout register linearly AND
+nonlinearly**; `decodability ≠ causality` is proven three ways: rank-1 (s250), rank-16 distributed
+INLP (s250-cont), and linear-vs-nonlinear (here). The C-field question is **closed**.
+
+**Next:** hunt the object-application *mechanism* where the C-field is not — **attention OV / the
+value register** (s127 {B,C}=composers→attention, s206). Candidate: a causal OV / attention-head
+ablation on the same c=2-vs-c=0 matched ladder — does ablating the {B,C}-composer attention
+pathway selectively hurt object-application where the FFN C-field did not?
+
 ## Caveats (λ measure)
 
 - The strong identity ("attention = β-reduction") is a *type-of-operation* claim (proven)
@@ -512,5 +538,6 @@ cut), s240 (statechart = crystal lattice, universality), s242 (register split, s
 ceiling), s248 (wrong-label B→C reading-preference resolution), s249 (B executor topology
 vs C readable field; native-order extraction), s250 (causal C-field ablation: readable/
 injectable but NOT load-bearing under single-direction; s250 cont. distributed INLP ablation:
-readout register, distributed-robust). Plus `ffn-reduction-trace.md`,
+readout register, distributed-robust; s250 cont.2 no nonlinear escape hatch: readout register
+linearly AND nonlinearly). Plus `ffn-reduction-trace.md`,
 `head-combinator-isa.md` (undated finding pages).

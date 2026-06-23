@@ -1,0 +1,27 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[v2] Loading tokenizer: Qwen/Qwen3-14B
+[v2] Loading model: Qwen/Qwen3-14B  (dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<06:06,  1.20it/s]Loading weights:   0%|          | 2/443 [00:00<03:06,  2.36it/s]Loading weights:   5%|▌         | 23/443 [00:01<00:11, 36.70it/s]Loading weights:   9%|▉         | 39/443 [00:01<00:06, 59.98it/s]Loading weights:  14%|█▎        | 60/443 [00:01<00:04, 91.66it/s]Loading weights:  18%|█▊        | 81/443 [00:01<00:03, 117.21it/s]Loading weights:  22%|██▏       | 98/443 [00:01<00:02, 129.16it/s]Loading weights:  26%|██▌       | 116/443 [00:01<00:02, 139.51it/s]Loading weights:  31%|███       | 137/443 [00:01<00:01, 157.99it/s]Loading weights:  36%|███▌      | 159/443 [00:01<00:01, 168.64it/s]Loading weights:  41%|████      | 181/443 [00:01<00:01, 176.26it/s]Loading weights:  46%|████▌     | 202/443 [00:02<00:01, 185.40it/s]Loading weights:  51%|█████     | 224/443 [00:02<00:01, 187.66it/s]Loading weights:  55%|█████▌    | 244/443 [00:02<00:01, 189.90it/s]Loading weights:  60%|█████▉    | 264/443 [00:02<00:00, 186.58it/s]Loading weights:  64%|██████▍   | 283/443 [00:02<00:00, 181.95it/s]Loading weights:  68%|██████▊   | 302/443 [00:02<00:00, 184.17it/s]Loading weights:  73%|███████▎  | 323/443 [00:02<00:00, 190.84it/s]Loading weights:  77%|███████▋  | 343/443 [00:02<00:00, 192.88it/s]Loading weights:  82%|████████▏ | 363/443 [00:02<00:00, 189.42it/s]Loading weights:  86%|████████▋ | 383/443 [00:02<00:00, 187.74it/s]Loading weights:  91%|█████████ | 402/443 [00:03<00:00, 182.22it/s]Loading weights:  96%|█████████▌| 424/443 [00:03<00:00, 185.38it/s]Loading weights: 100%|██████████| 443/443 [00:03<00:00, 135.23it/s]
+[v2] Model loaded in 4.0s
+[nonlin] model=Qwen/Qwen3-14B layers=[27, 29, 30, 31] k_inlp=16 pca=50
+[nonlin] items=135 (C-present 90/135) majority=0.667
+[nonlin]   collect 20/135
+[nonlin]   collect 40/135
+[nonlin]   collect 60/135
+[nonlin]   collect 80/135
+[nonlin]   collect 100/135
+[nonlin]   collect 120/135
+[nonlin] L27: RAW lin=0.9778 mlp=0.8296 rbf=0.9704 | POST-INLP lin=0.3259 mlp=0.5926 rbf=0.6667 (shuffle~0.6593) escape=False
+[nonlin] L29: RAW lin=0.9852 mlp=0.8667 rbf=0.9481 | POST-INLP lin=0.2963 mlp=0.5852 rbf=0.6741 (shuffle~0.6593) escape=False
+[nonlin] L30: RAW lin=0.9926 mlp=0.8593 rbf=0.9481 | POST-INLP lin=0.3556 mlp=0.6 rbf=0.6741 (shuffle~0.6593) escape=False
+[nonlin] L31: RAW lin=0.9926 mlp=0.9111 rbf=0.9481 | POST-INLP lin=0.363 mlp=0.6519 rbf=0.6667 (shuffle~0.6741) escape=False
+
+══════════════════════════════════════════════════════════════════════════════════
+NONLINEAR C DECODABILITY-GAP — Qwen/Qwen3-14B
+══════════════════════════════════════════════════════════════════════════════════
+  items=135 majority=0.667 k=16 pca=50
+  nonlinear_escape (any layer) = False
+  >> NO escape hatch: C is essentially LINEAR and already fully erased by INLP -> s250 cont. is airtight; the applicative-C field is a readout register linearly AND nonlinearly.
+══════════════════════════════════════════════════════════════════════════════════
+
+[nonlin] wrote /Users/mwhitford/src/verbum/results/program-cfield-ablation/nonlinear_verdict_qwen3-14b.json (+ meta)

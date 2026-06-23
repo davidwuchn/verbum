@@ -1,0 +1,356 @@
+{
+  "model": "Qwen/Qwen3-14B",
+  "n_layers": 40,
+  "layers": [
+    27,
+    29,
+    30,
+    31
+  ],
+  "n_items": 135,
+  "majority_baseline": 0.6667,
+  "k_inlp": 16,
+  "pca": 50,
+  "margin": 0.1,
+  "seed": 0,
+  "per_layer": {
+    "27": {
+      "raw_full": {
+        "logistic": {
+          "acc": 1.0,
+          "shuffle": 0.5185
+        },
+        "mlp": {
+          "acc": 1.0,
+          "shuffle": 0.5259
+        },
+        "rbf_svm": {
+          "acc": 1.0,
+          "shuffle": 0.6444
+        }
+      },
+      "inlp_full": {
+        "logistic": {
+          "acc": 0.1407,
+          "shuffle": 0.5185
+        },
+        "mlp": {
+          "acc": 0.4593,
+          "shuffle": 0.5333
+        },
+        "rbf_svm": {
+          "acc": 0.6667,
+          "shuffle": 0.6667
+        }
+      },
+      "decodability_curve": [
+        0.9407,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667
+      ],
+      "raw_pca": {
+        "logistic": {
+          "acc": 0.9778,
+          "shuffle": 0.4889
+        },
+        "mlp": {
+          "acc": 0.8296,
+          "shuffle": 0.5481
+        },
+        "rbf_svm": {
+          "acc": 0.9704,
+          "shuffle": 0.6519
+        }
+      },
+      "inlp_pca": {
+        "logistic": {
+          "acc": 0.3259,
+          "shuffle": 0.5185
+        },
+        "mlp": {
+          "acc": 0.5926,
+          "shuffle": 0.6
+        },
+        "rbf_svm": {
+          "acc": 0.6667,
+          "shuffle": 0.6593
+        }
+      },
+      "escape": false,
+      "escape_detail": {
+        "nl_best_post_inlp": 0.6667,
+        "nl_shuffle": 0.6593,
+        "majority": 0.6667,
+        "threshold": 0.7667,
+        "view": "pca"
+      }
+    },
+    "29": {
+      "raw_full": {
+        "logistic": {
+          "acc": 1.0,
+          "shuffle": 0.5111
+        },
+        "mlp": {
+          "acc": 1.0,
+          "shuffle": 0.5037
+        },
+        "rbf_svm": {
+          "acc": 1.0,
+          "shuffle": 0.6519
+        }
+      },
+      "inlp_full": {
+        "logistic": {
+          "acc": 0.1481,
+          "shuffle": 0.5481
+        },
+        "mlp": {
+          "acc": 0.4889,
+          "shuffle": 0.5111
+        },
+        "rbf_svm": {
+          "acc": 0.6741,
+          "shuffle": 0.6593
+        }
+      },
+      "decodability_curve": [
+        0.9333,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667
+      ],
+      "raw_pca": {
+        "logistic": {
+          "acc": 0.9852,
+          "shuffle": 0.5037
+        },
+        "mlp": {
+          "acc": 0.8667,
+          "shuffle": 0.5037
+        },
+        "rbf_svm": {
+          "acc": 0.9481,
+          "shuffle": 0.6593
+        }
+      },
+      "inlp_pca": {
+        "logistic": {
+          "acc": 0.2963,
+          "shuffle": 0.5556
+        },
+        "mlp": {
+          "acc": 0.5852,
+          "shuffle": 0.5556
+        },
+        "rbf_svm": {
+          "acc": 0.6741,
+          "shuffle": 0.6593
+        }
+      },
+      "escape": false,
+      "escape_detail": {
+        "nl_best_post_inlp": 0.6741,
+        "nl_shuffle": 0.6593,
+        "majority": 0.6667,
+        "threshold": 0.7667,
+        "view": "pca"
+      }
+    },
+    "30": {
+      "raw_full": {
+        "logistic": {
+          "acc": 1.0,
+          "shuffle": 0.5259
+        },
+        "mlp": {
+          "acc": 1.0,
+          "shuffle": 0.5259
+        },
+        "rbf_svm": {
+          "acc": 1.0,
+          "shuffle": 0.6444
+        }
+      },
+      "inlp_full": {
+        "logistic": {
+          "acc": 0.163,
+          "shuffle": 0.563
+        },
+        "mlp": {
+          "acc": 0.5259,
+          "shuffle": 0.6
+        },
+        "rbf_svm": {
+          "acc": 0.6741,
+          "shuffle": 0.6667
+        }
+      },
+      "decodability_curve": [
+        0.9185,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667
+      ],
+      "raw_pca": {
+        "logistic": {
+          "acc": 0.9926,
+          "shuffle": 0.5185
+        },
+        "mlp": {
+          "acc": 0.8593,
+          "shuffle": 0.5333
+        },
+        "rbf_svm": {
+          "acc": 0.9481,
+          "shuffle": 0.6519
+        }
+      },
+      "inlp_pca": {
+        "logistic": {
+          "acc": 0.3556,
+          "shuffle": 0.5778
+        },
+        "mlp": {
+          "acc": 0.6,
+          "shuffle": 0.5704
+        },
+        "rbf_svm": {
+          "acc": 0.6741,
+          "shuffle": 0.6593
+        }
+      },
+      "escape": false,
+      "escape_detail": {
+        "nl_best_post_inlp": 0.6741,
+        "nl_shuffle": 0.6593,
+        "majority": 0.6667,
+        "threshold": 0.7667,
+        "view": "pca"
+      }
+    },
+    "31": {
+      "raw_full": {
+        "logistic": {
+          "acc": 1.0,
+          "shuffle": 0.5185
+        },
+        "mlp": {
+          "acc": 0.9852,
+          "shuffle": 0.5037
+        },
+        "rbf_svm": {
+          "acc": 1.0,
+          "shuffle": 0.6444
+        }
+      },
+      "inlp_full": {
+        "logistic": {
+          "acc": 0.1037,
+          "shuffle": 0.5481
+        },
+        "mlp": {
+          "acc": 0.5111,
+          "shuffle": 0.563
+        },
+        "rbf_svm": {
+          "acc": 0.6741,
+          "shuffle": 0.6593
+        }
+      },
+      "decodability_curve": [
+        0.8963,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667
+      ],
+      "raw_pca": {
+        "logistic": {
+          "acc": 0.9926,
+          "shuffle": 0.5333
+        },
+        "mlp": {
+          "acc": 0.9111,
+          "shuffle": 0.6
+        },
+        "rbf_svm": {
+          "acc": 0.9481,
+          "shuffle": 0.6519
+        }
+      },
+      "inlp_pca": {
+        "logistic": {
+          "acc": 0.363,
+          "shuffle": 0.5778
+        },
+        "mlp": {
+          "acc": 0.6519,
+          "shuffle": 0.5407
+        },
+        "rbf_svm": {
+          "acc": 0.6667,
+          "shuffle": 0.6741
+        }
+      },
+      "escape": false,
+      "escape_detail": {
+        "nl_best_post_inlp": 0.6667,
+        "nl_shuffle": 0.6741,
+        "majority": 0.6667,
+        "threshold": 0.7741,
+        "view": "pca"
+      }
+    }
+  },
+  "nonlinear_escape": false,
+  "interpretation": "NO escape hatch: C is essentially LINEAR and already fully erased by INLP -> s250 cont. is airtight; the applicative-C field is a readout register linearly AND nonlinearly."
+}

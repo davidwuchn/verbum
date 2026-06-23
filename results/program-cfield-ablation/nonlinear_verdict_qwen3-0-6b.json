@@ -1,0 +1,91 @@
+{
+  "model": "Qwen/Qwen3-0.6B",
+  "n_layers": 28,
+  "layers": [
+    27
+  ],
+  "n_items": 45,
+  "majority_baseline": 0.6667,
+  "k_inlp": 6,
+  "pca": 50,
+  "margin": 0.1,
+  "seed": 0,
+  "per_layer": {
+    "27": {
+      "raw_full": {
+        "logistic": {
+          "acc": 1.0,
+          "shuffle": 0.5556
+        },
+        "mlp": {
+          "acc": 0.9556,
+          "shuffle": 0.6222
+        },
+        "rbf_svm": {
+          "acc": 1.0,
+          "shuffle": 0.7111
+        }
+      },
+      "inlp_full": {
+        "logistic": {
+          "acc": 0.2444,
+          "shuffle": 0.6444
+        },
+        "mlp": {
+          "acc": 0.3111,
+          "shuffle": 0.6444
+        },
+        "rbf_svm": {
+          "acc": 0.6667,
+          "shuffle": 0.7111
+        }
+      },
+      "decodability_curve": [
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667,
+        0.6667
+      ],
+      "raw_pca": {
+        "logistic": {
+          "acc": 0.6667,
+          "shuffle": 0.6889
+        },
+        "mlp": {
+          "acc": 0.4889,
+          "shuffle": 0.6667
+        },
+        "rbf_svm": {
+          "acc": 0.6667,
+          "shuffle": 0.6667
+        }
+      },
+      "inlp_pca": {
+        "logistic": {
+          "acc": 0.6667,
+          "shuffle": 0.6889
+        },
+        "mlp": {
+          "acc": 0.3111,
+          "shuffle": 0.5778
+        },
+        "rbf_svm": {
+          "acc": 0.6667,
+          "shuffle": 0.6667
+        }
+      },
+      "escape": false,
+      "escape_detail": {
+        "nl_best_post_inlp": 0.6667,
+        "nl_shuffle": 0.6667,
+        "majority": 0.6667,
+        "threshold": 0.7667,
+        "view": "pca"
+      }
+    }
+  },
+  "nonlinear_escape": false,
+  "interpretation": "NO escape hatch: C is essentially LINEAR and already fully erased by INLP -> s250 cont. is airtight; the applicative-C field is a readout register linearly AND nonlinearly."
+}

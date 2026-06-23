@@ -1,0 +1,20 @@
+{
+  "model": "Qwen/Qwen3-14B",
+  "smoke": false,
+  "git_sha": "73c133c73187ec0a7ab0a4dd6554768bb65edfc6",
+  "timestamp_utc": "2026-06-23T18:06:06.137122+00:00",
+  "transformers_version": "5.5.4",
+  "layers": [
+    27,
+    29,
+    30,
+    31
+  ],
+  "k_inlp": 16,
+  "pca": 50,
+  "margin": 0.1,
+  "seed": 0,
+  "probe_set": "data/reading-probes.jsonl",
+  "method": "Linear (logistic) vs nonlinear (MLP, RBF-SVM) C-present probes, 5-fold stratified CV in a StandardScaler pipeline, on RAW and POST-INLP (linear C erased) L-residuals; label-shuffled control + PCA-k overfit-controlled view; escape = nonlinear post-INLP beats max(shuffle, majority) by margin.",
+  "scope": "Tests the last s250 caveat \u2014 whether a NONLINEAR C survived linear INLP erasure (would warrant a nonlinear/SAE causal ablation)."
+}
