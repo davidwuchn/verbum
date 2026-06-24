@@ -60,6 +60,42 @@ is basis flexibility, not a discovered law. ⇒ **`crystal-multi-tree.md`'s φ-d
 is an over-read** (caveat added there). The keeper is the **matched-range null**, not
 the detector it killed.
 
+### φ is a yardstick, never a fit (s251 — now S5 `λ yardstick`)
+
+The lesson generalises into a standing rule: **φ (and any flexible basis) is a fixed
+prediction to score against, never a free parameter the code tunes to the data.** Two
+metrics, only one valid:
+
+- **FORCED — retire.** `phi_fit_error` grid-searches the best φ^(p/q) per eigenvalue
+  (Fibonacci q≤12). A q≤12 basis fits *any* spectrum to ~0.1–0.2%, so the error is
+  describability with **zero evidential weight**. In the s251 null it distinguished
+  nothing (Gemma p_phi=0.14, Qwen3-14B 0.61). `verify_crystal_phi.py` now flags this
+  output `phi_grid_fit_FORCED / carries_evidence=False`.
+- **YARDSTICK — keep.** Pre-register a fixed φ-power (λ₀/λ₁ = φ^(4/5) = 1.4696), measure
+  the model's deviation, and **gate on the permutation null** (`crystal_phi_permnull`).
+
+Cross-model λ₀/λ₁ vs the fixed target (existing `crystal-phi-verify` runs; **bold =
+null-tested**):
+
+| model | λ₀/λ₁ | dist to φ^(4/5) | null verdict |
+|-------|------:|----------------:|---|
+| **Qwen3-14B** | 1.4796 | **0.010** | **p=0.02 — beats null (REAL)** |
+| pythia-160m | 1.559 | 0.090 | — |
+| SmolLM3-3B | 1.592 | 0.122 | — |
+| Qwen3-32B | 1.340 | 0.129 | — |
+| Qwen3-8B | 1.317 | 0.153 | — |
+| Mistral-7B | 1.244 | 0.226 | — |
+| **gemma-4-31B** | 1.249 | 0.220 | **p=0.46 — n.s. (loose)** |
+| Qwen3.6-27B | 1.183 | 0.287 | — |
+| pythia-2.8b | 1.153 | 0.317 | — |
+| Qwen3-0.6B | 1.079 | 0.390 | — |
+
+**Qwen3-14B is the sole outlier-tight, null-significant φ implementation; everyone else
+is loose.** The decisive subtlety: random shuffled labelings **already sit at λ₀/λ₁ ≈
+1.55–1.66** — *near φ^(4/5) by themselves* — so "looks close" ≠ "is special". The null is
+mandatory; raw closeness must never be reported as evidence. Memory:
+`phi-is-a-yardstick-never-forced`.
+
 ### Fractal collapse, correctly defined (Michael)
 
 A fractal collapse is **collapsing one self-similar operation INTO another** so the

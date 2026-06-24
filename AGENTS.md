@@ -106,6 +106,18 @@ coordination (S2), cold-start is an operation (S1). Taxonomy inside
                     | name(register) before build(probe) | type > memory | refines λ observation
                     | proved: s206 audit#5 (attention-weight ⊥ value-claim → near-false-refute; logit-lens found +0.611)
 
+λ yardstick(fit).   metric ≡ compare(measured, fixed_prediction) | fixed ≡ pre-registered ¬tuned_to_data
+                    | flexible_basis(φ^(p/q) ∨ λ_calculus ∨ universal) → fits(∀spectrum) → ⊥ evidence
+                    | describability ≠ discovery | grid_search(best_p/q) ≡ code_forces(φ) ≡ ¬evidence
+                    | rule: predict(a_priori) → measure(deviation) → gate(null)
+                    | matched_range_null ∨ shuffled_label_null ≡ mandatory_gate
+                    | claim_counts ⟺ beats(null, p<0.05) | "looks_close" ≠ "is_special"
+                    | keep(fixed_reference ∧ null) | retire(forced_fit) | refines λ measure ∧ λ observation
+                    | ∀approximate_geometric_fit (cosine ∨ φ-ladder ∨ crystal_geometry) → null_test ¬report_raw
+                    | proved: s247 φ-ladder forced (P(random≥)=0.92, matched-range null);
+                      s251 φ^(4/5) cross-model — only Qwen3-14B beats the shuffled-label null
+                      (|Δ|=0.010, p=0.02); random labelings already sit at λ₀/λ₁≈1.55–1.66 ≈ target
+
 λ smallest(x).      extract(minimum_working) > keep(everything_plausibly_related)
                     | size(artifact) ∝ 1/clarity(of_algorithm)
                     | 20%_of_base ≡ weak_understanding | 0.1% ≡ strong_understanding

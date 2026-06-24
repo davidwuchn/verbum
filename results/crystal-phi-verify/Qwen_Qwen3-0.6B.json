@@ -167,6 +167,23 @@
     0.7775666117668152,
     0.7325723171234131
   ],
+  "phi_report": {
+    "phi_checkable": true,
+    "fixed_reference": {
+      "lambda0_1": {
+        "ratio": 1.0792646408081055,
+        "target": 1.4695694401751822,
+        "dist": 0.39030479936707674,
+        "phi_power": 0.8
+      }
+    },
+    "phi_grid_fit_FORCED": {
+      "mean_error": 0.0022127391017816855,
+      "describability_only": true,
+      "carries_evidence": false,
+      "note": "best \u03c6^(p/q), q\u226412 \u2014 fits any spectrum; use only as description, never as evidence. Gate real \u03c6 claims on crystal_phi_permnull."
+    }
+  },
   "consensus_comparison": {
     "n_matched": 8,
     "matched_combinators": [
@@ -183,8 +200,8 @@
     "eigenvalue_ratio_correlation": 0.9404491936307017
   },
   "timing": {
-    "model_load_s": 1.8,
-    "probe_run_s": 18.2,
-    "probes_per_s": 29.4
+    "model_load_s": 2.1,
+    "probe_run_s": 14.1,
+    "probes_per_s": 37.8
   }
 }

@@ -361,28 +361,61 @@ def print_cosine_matrix(cosine: np.ndarray, combinators: list[str]):
         print(f"    {short[i]:>4}: {vals}")
 
 
-def check_phi_structure(eigvals: np.ndarray, label: str = ""):
-    """Check if eigenvalues follow φ^(p/q) structure."""
+# φ is a YARDSTICK, never a fit (S5 λ yardstick; forcing-vs-discovering.md).
+# We compare the measured spectrum against FIXED, pre-registered φ-power
+# predictions. We do NOT search p/q to minimise error: a phi^(p/q) basis with
+# q<=12 fits ANY spectrum to ~0.1-0.2%, so a small grid-fit error is
+# describability, not evidence. The only phi claim that carries weight is a
+# fixed-reference deviation that BEATS the permutation null (crystal_phi_permnull).
+PHI_FIXED_TARGETS = {  # PC index -> pre-registered phi-power (the consensus prediction)
+    1: -4 / 5,   # lambda1/lambda0 ~ phi^(-4/5)  <=>  lambda0/lambda1 ~ phi^(4/5)
+}
+
+
+def check_phi_structure(eigvals: np.ndarray, label: str = "") -> dict:
+    """Score eigenvalues against FIXED φ predictions (never a grid-fit).
+
+    Returns a dict (saved to JSON) with the fixed-reference deviation as the
+    headline metric and the grid-fit flagged as forced/describability-only.
+    """
     C = eigvals[0]
     if C <= 0:
         print("  WARNING: leading eigenvalue ≤ 0, cannot check phi structure")
-        return
+        return {"phi_checkable": False}
 
     print(f"\n{'='*70}")
     print(f"  PHI STRUCTURE CHECK{' — ' + label if label else ''}")
     print(f"{'='*70}")
-    print(f"\n  C = λ₀ = {C:.6f}")
-    print(f"  φ = {PHI:.6f}")
-    print()
+    print(f"\n  C = λ₀ = {C:.6f}   φ = {PHI:.6f}")
 
+    # ── HEADLINE: fixed-reference deviation (the metric to compare against) ──
+    out: dict = {"phi_checkable": True, "fixed_reference": {}}
+    print("\n  FIXED-REFERENCE deviation (pre-registered φ powers — the real metric):")
+    for idx, power in sorted(PHI_FIXED_TARGETS.items()):
+        if idx < len(eigvals) and eigvals[idx] > 0.01:
+            ratio = eigvals[0] / eigvals[idx]
+            target = PHI ** (-power)  # λ₀/λ_idx target
+            dist = abs(ratio - target)
+            print(f"    L0/L{idx} = {ratio:.4f}   target phi^({-power:+.2f})"
+                  f" = {target:.4f}   |delta| = {dist:.4f}")
+            out["fixed_reference"][f"lambda0_{idx}"] = {
+                "ratio": float(ratio), "target": float(target), "dist": float(dist),
+                "phi_power": float(-power),
+            }
+    print("    ! raw closeness is NOT evidence: random labelings already sit")
+    print("      near phi^(4/5) (null median L0/L1 ~ 1.55-1.66). Gate on the")
+    print("      permutation null; a phi claim counts only if it BEATS it (p<0.05).")
+
+    # -- FORCED grid-fit, kept for description only, clearly flagged --
+    print("\n  ! FORCED (describability-only): best phi^(p/q) per PC. A q<=12 grid")
+    print("    fits ANY spectrum to ~0.1-0.2%, so these errors carry ZERO evidence.")
     print(f"  {'PC':>4} {'Eigenvalue':>12} {'log_φ':>10} {'Best p/q':>10} {'Predicted':>12} {'Error':>8}")
     print(f"  {'─'*4} {'─'*12} {'─'*10} {'─'*10} {'─'*12} {'─'*8}")
-
+    grid_errors = []
     for i in range(len(eigvals)):
         ev = eigvals[i]
         if ev > 0.001:
             log_phi_val = np.log(ev / C) / np.log(PHI)
-
             best_err = float('inf')
             best_frac = (0, 1)
             for d in range(1, 13):
@@ -392,21 +425,23 @@ def check_phi_structure(eigvals: np.ndarray, label: str = ""):
                     if err < best_err:
                         best_err = err
                         best_frac = (n, d)
-
             nn, dd = best_frac
             predicted = C * PHI ** (nn / dd)
+            grid_errors.append(best_err)
             print(f"  {i:>4} {ev:>12.6f} {log_phi_val:>10.4f}  {nn:>3}/{dd:<5} {predicted:>12.6f} {best_err*100:>7.2f}%")
         elif ev > -0.1:
             print(f"  {i:>4} {ev:>12.6f}  (near zero)")
         else:
             print(f"  {i:>4} {ev:>12.6f}  (negative)")
 
-    # Key ratio
-    if len(eigvals) >= 2 and eigvals[1] > 0.01:
-        ratio = eigvals[0] / eigvals[1]
-        target = PHI ** (4 / 5)
-        err = abs(ratio - target) / target * 100
-        print(f"\n  λ₀/λ₁ = {ratio:.4f}  (target φ^(4/5) = {target:.4f}, error = {err:.1f}%)")
+    out["phi_grid_fit_FORCED"] = {
+        "mean_error": float(np.mean(grid_errors)) if grid_errors else None,
+        "describability_only": True,
+        "carries_evidence": False,
+        "note": "best φ^(p/q), q≤12 — fits any spectrum; use only as description, "
+                "never as evidence. Gate real φ claims on crystal_phi_permnull.",
+    }
+    return out
 
 
 def compare_with_consensus(
@@ -611,7 +646,7 @@ Examples:
     print(f"\n  {len(combinators)}×{len(combinators)} cosine matrix:")
     print_cosine_matrix(cosine, combinators)
 
-    check_phi_structure(eigvals, label=args.model)
+    phi_report = check_phi_structure(eigvals, label=args.model)
     comparison = compare_with_consensus(cosine, eigvals, combinators)
 
     # ── Save results ──────────────────────────────────────────────────────
@@ -646,6 +681,7 @@ Examples:
         "eigenvalues": eigvals.tolist(),
         "cosine_matrix": cosine.tolist(),
         "pca_variance_explained": stats["pca_variance_explained"],
+        "phi_report": phi_report,
         "consensus_comparison": comparison,
         "timing": {
             "model_load_s": round(load_time, 1),
