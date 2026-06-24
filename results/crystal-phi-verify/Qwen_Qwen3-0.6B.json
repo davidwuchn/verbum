@@ -183,8 +183,8 @@
     "eigenvalue_ratio_correlation": 0.9404491936307017
   },
   "timing": {
-    "model_load_s": 1.6,
-    "probe_run_s": 19.9,
-    "probes_per_s": 26.9
+    "model_load_s": 1.8,
+    "probe_run_s": 18.2,
+    "probes_per_s": 29.4
   }
 }

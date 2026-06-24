@@ -1,0 +1,1637 @@
+[
+  {
+    "domain": "tool",
+    "subdomain": "tool/weather",
+    "messages": [
+      {
+        "role": "user",
+        "content": "What's the weather in Tokyo?"
+      }
+    ],
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get weather for a city",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "city": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "city"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "search",
+          "description": "Search the web",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "run_code",
+          "description": "Execute Python code",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code"
+            ]
+          }
+        }
+      }
+    ],
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "tool",
+    "subdomain": "tool/search",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Search for recent papers on attention mechanisms."
+      }
+    ],
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get weather for a city",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "city": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "city"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "search",
+          "description": "Search the web",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "run_code",
+          "description": "Execute Python code",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code"
+            ]
+          }
+        }
+      }
+    ],
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "tool",
+    "subdomain": "tool/math",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Calculate 15% of 847."
+      }
+    ],
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get weather for a city",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "city": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "city"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "search",
+          "description": "Search the web",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "run_code",
+          "description": "Execute Python code",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code"
+            ]
+          }
+        }
+      }
+    ],
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "tool",
+    "subdomain": "tool/code",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Run: print(sorted([3,1,4,1,5,9]))"
+      }
+    ],
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get weather for a city",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "city": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "city"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "search",
+          "description": "Search the web",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "run_code",
+          "description": "Execute Python code",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code"
+            ]
+          }
+        }
+      }
+    ],
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "tool",
+    "subdomain": "tool/time",
+    "messages": [
+      {
+        "role": "user",
+        "content": "What time is it in London?"
+      }
+    ],
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get weather for a city",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "city": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "city"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "search",
+          "description": "Search the web",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "run_code",
+          "description": "Execute Python code",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code"
+            ]
+          }
+        }
+      }
+    ],
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "tool",
+    "subdomain": "tool/files",
+    "messages": [
+      {
+        "role": "user",
+        "content": "List files in /home/user/docs"
+      }
+    ],
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get weather for a city",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "city": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "city"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "search",
+          "description": "Search the web",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "run_code",
+          "description": "Execute Python code",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code"
+            ]
+          }
+        }
+      }
+    ],
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "tool",
+    "subdomain": "tool/travel",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Find flights from NYC to Paris"
+      }
+    ],
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get weather for a city",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "city": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "city"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "search",
+          "description": "Search the web",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "run_code",
+          "description": "Execute Python code",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code"
+            ]
+          }
+        }
+      }
+    ],
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "tool",
+    "subdomain": "tool/finance",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Look up Apple stock price"
+      }
+    ],
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get weather for a city",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "city": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "city"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "search",
+          "description": "Search the web",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "run_code",
+          "description": "Execute Python code",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code"
+            ]
+          }
+        }
+      }
+    ],
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "tool",
+    "subdomain": "tool/action",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Send email to team@co.com"
+      }
+    ],
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get weather for a city",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "city": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "city"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "search",
+          "description": "Search the web",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "run_code",
+          "description": "Execute Python code",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code"
+            ]
+          }
+        }
+      }
+    ],
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "tool",
+    "subdomain": "tool/db",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Query database for active users"
+      }
+    ],
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get weather for a city",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "city": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "city"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "search",
+          "description": "Search the web",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "run_code",
+          "description": "Execute Python code",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code"
+            ]
+          }
+        }
+      }
+    ],
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "output",
+    "subdomain": "output/json",
+    "messages": [
+      {
+        "role": "user",
+        "content": "What's the weather?"
+      }
+    ],
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get weather for a city",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "city": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "city"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "search",
+          "description": "Search the web",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "run_code",
+          "description": "Execute Python code",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code"
+            ]
+          }
+        }
+      }
+    ],
+    "assistant_prefix": "{\"name\": \"get_weather\", \"arguments\": {\"city\": \"",
+    "raw": null
+  },
+  {
+    "domain": "output",
+    "subdomain": "output/json",
+    "messages": [
+      {
+        "role": "user",
+        "content": "What's the weather?"
+      }
+    ],
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get weather for a city",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "city": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "city"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "search",
+          "description": "Search the web",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "run_code",
+          "description": "Execute Python code",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code"
+            ]
+          }
+        }
+      }
+    ],
+    "assistant_prefix": "{\"name\": \"search\", \"arguments\": {\"query\": \"attention",
+    "raw": null
+  },
+  {
+    "domain": "output",
+    "subdomain": "output/prose",
+    "messages": [
+      {
+        "role": "user",
+        "content": "What's the weather?"
+      }
+    ],
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get weather for a city",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "city": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "city"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "search",
+          "description": "Search the web",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "run_code",
+          "description": "Execute Python code",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code"
+            ]
+          }
+        }
+      }
+    ],
+    "assistant_prefix": "The weather in Tokyo is currently",
+    "raw": null
+  },
+  {
+    "domain": "output",
+    "subdomain": "output/tool_start",
+    "messages": [
+      {
+        "role": "user",
+        "content": "What's the weather?"
+      }
+    ],
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get weather for a city",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "city": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "city"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "search",
+          "description": "Search the web",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "run_code",
+          "description": "Execute Python code",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code"
+            ]
+          }
+        }
+      }
+    ],
+    "assistant_prefix": "I'll help you calculate that.\n\n",
+    "raw": null
+  },
+  {
+    "domain": "output",
+    "subdomain": "output/raw_json",
+    "messages": [
+      {
+        "role": "user",
+        "content": "What's the weather?"
+      }
+    ],
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get weather for a city",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "city": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "city"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "search",
+          "description": "Search the web",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "run_code",
+          "description": "Execute Python code",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code"
+            ]
+          }
+        }
+      }
+    ],
+    "assistant_prefix": "{\"name\": \"run_code\", \"arguments\": {\"code\": \"import",
+    "raw": null
+  },
+  {
+    "domain": "control",
+    "subdomain": "control/prose",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Describe a rainy day in Tokyo."
+      }
+    ],
+    "tools": null,
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "control",
+    "subdomain": "control/explain",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Explain how percentages work."
+      }
+    ],
+    "tools": null,
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "control",
+    "subdomain": "control/creative",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Write a haiku about mountains."
+      }
+    ],
+    "tools": null,
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "control",
+    "subdomain": "control/factual",
+    "messages": [
+      {
+        "role": "user",
+        "content": "What is the capital of France?"
+      }
+    ],
+    "tools": null,
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "control",
+    "subdomain": "control/academic",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Summarize the theory of relativity."
+      }
+    ],
+    "tools": null,
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "control",
+    "subdomain": "control/humor",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Tell me a joke about programming."
+      }
+    ],
+    "tools": null,
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "control",
+    "subdomain": "control/health",
+    "messages": [
+      {
+        "role": "user",
+        "content": "What are the benefits of exercise?"
+      }
+    ],
+    "tools": null,
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "control",
+    "subdomain": "control/technical",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Explain the difference between TCP and UDP."
+      }
+    ],
+    "tools": null,
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "control",
+    "subdomain": "control/code",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Write a Python function for fibonacci."
+      }
+    ],
+    "tools": null,
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "control",
+    "subdomain": "control/math",
+    "messages": [
+      {
+        "role": "user",
+        "content": "What is the derivative of x^3?"
+      }
+    ],
+    "tools": null,
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "control",
+    "subdomain": "control/proof",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Prove that sqrt(2) is irrational."
+      }
+    ],
+    "tools": null,
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "control",
+    "subdomain": "control/lambda",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Express the S combinator in lambda calculus."
+      }
+    ],
+    "tools": null,
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "control",
+    "subdomain": "control/lambda",
+    "messages": [
+      {
+        "role": "user",
+        "content": "What is the Y combinator?"
+      }
+    ],
+    "tools": null,
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "control",
+    "subdomain": "control/lambda",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Explain Church encoding of natural numbers."
+      }
+    ],
+    "tools": null,
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "control",
+    "subdomain": "control/code",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Write a recursive descent parser in Python."
+      }
+    ],
+    "tools": null,
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "schema",
+    "subdomain": "schema/1arg",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Weather in S\u00e3o Paulo?"
+      }
+    ],
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get weather for a city",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "city": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "city"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "search",
+          "description": "Search the web",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "run_code",
+          "description": "Execute Python code",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code"
+            ]
+          }
+        }
+      }
+    ],
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "schema",
+    "subdomain": "schema/path",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Show me /etc/hosts."
+      }
+    ],
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get weather for a city",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "city": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "city"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "search",
+          "description": "Search the web",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "run_code",
+          "description": "Execute Python code",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code"
+            ]
+          }
+        }
+      }
+    ],
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "schema",
+    "subdomain": "schema/2arg",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Search for 'transformer architecture' with limit 10"
+      }
+    ],
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get weather for a city",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "city": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "city"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "search",
+          "description": "Search the web",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "run_code",
+          "description": "Execute Python code",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code"
+            ]
+          }
+        }
+      }
+    ],
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "schema",
+    "subdomain": "schema/complex",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Create event 'Design Review' Friday 10am"
+      }
+    ],
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get weather for a city",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "city": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "city"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "search",
+          "description": "Search the web",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "run_code",
+          "description": "Execute Python code",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code"
+            ]
+          }
+        }
+      }
+    ],
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "schema",
+    "subdomain": "schema/sql",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Run SELECT * FROM users WHERE active = true"
+      }
+    ],
+    "tools": [
+      {
+        "type": "function",
+        "function": {
+          "name": "get_weather",
+          "description": "Get weather for a city",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "city": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "city"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "search",
+          "description": "Search the web",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "query"
+            ]
+          }
+        }
+      },
+      {
+        "type": "function",
+        "function": {
+          "name": "run_code",
+          "description": "Execute Python code",
+          "parameters": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code"
+            ]
+          }
+        }
+      }
+    ],
+    "assistant_prefix": null,
+    "raw": null
+  },
+  {
+    "domain": "raw",
+    "subdomain": "raw/pangram",
+    "messages": null,
+    "tools": null,
+    "assistant_prefix": null,
+    "raw": "The quick brown fox jumps over the lazy dog."
+  },
+  {
+    "domain": "raw",
+    "subdomain": "raw/history",
+    "messages": null,
+    "tools": null,
+    "assistant_prefix": null,
+    "raw": "In 1969, Neil Armstrong became the first person to walk on the Moon."
+  },
+  {
+    "domain": "raw",
+    "subdomain": "raw/code",
+    "messages": null,
+    "tools": null,
+    "assistant_prefix": null,
+    "raw": "def fibonacci(n):\n    if n <= 1:\n        return n\n    return fibonacci(n-1) + fibonacci(n-2)"
+  },
+  {
+    "domain": "raw",
+    "subdomain": "raw/lambda",
+    "messages": null,
+    "tools": null,
+    "assistant_prefix": null,
+    "raw": "\u03bbx.\u03bby.x y (y x)"
+  },
+  {
+    "domain": "raw",
+    "subdomain": "raw/sql",
+    "messages": null,
+    "tools": null,
+    "assistant_prefix": null,
+    "raw": "SELECT name, age FROM users WHERE age > 30 ORDER BY name;"
+  },
+  {
+    "domain": "raw",
+    "subdomain": "raw/json",
+    "messages": null,
+    "tools": null,
+    "assistant_prefix": null,
+    "raw": "{\"name\": \"Alice\", \"age\": 30, \"city\": \"Portland\"}"
+  },
+  {
+    "domain": "raw",
+    "subdomain": "raw/html",
+    "messages": null,
+    "tools": null,
+    "assistant_prefix": null,
+    "raw": "<html><body><h1>Hello World</h1></body></html>"
+  },
+  {
+    "domain": "raw",
+    "subdomain": "raw/math_symbol",
+    "messages": null,
+    "tools": null,
+    "assistant_prefix": null,
+    "raw": "\u2200x\u2208\u211d: x\u00b2 \u2265 0"
+  },
+  {
+    "domain": "raw",
+    "subdomain": "raw/narrative",
+    "messages": null,
+    "tools": null,
+    "assistant_prefix": null,
+    "raw": "Once upon a time in a land far away, there lived a"
+  },
+  {
+    "domain": "raw",
+    "subdomain": "raw/news",
+    "messages": null,
+    "tools": null,
+    "assistant_prefix": null,
+    "raw": "BREAKING: Scientists discover New species in deep ocean"
+  }
+]

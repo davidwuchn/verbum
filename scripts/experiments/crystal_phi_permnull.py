@@ -192,7 +192,10 @@ def run_model(model_id, n_perm, device, n_layers_sample, n_per, seed):
     if device == "mps":
         model = model.to(device)
     model.eval()
-    nL = model.config.num_hidden_layers
+    nL = getattr(model.config, "num_hidden_layers", None)
+    if nL is None:  # nested multimodal config (e.g. Gemma4)
+        nL = getattr(getattr(model.config, "text_config", None),
+                     "num_hidden_layers", None)
     layers = get_zone_b_layers(nL, n_layers_sample)
     log(f"  {nL} layers, Zone B = {layers}")
 

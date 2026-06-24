@@ -125,6 +125,37 @@ def get_zone_b_layers(n_layers: int, n_sample: int = 4) -> list[int]:
 # ══════════════════════════════════════════════════════════════════════════════
 
 
+def find_layers_container(model):
+    """Locate the decoder-layer ModuleList across architectures.
+
+    Standard paths first (Qwen/LLaMA/Mistral, GPTNeoX/Pythia, GPT-2), then
+    nested multimodal / ForConditionalGeneration paths (Gemma4 wraps the text
+    decoder under model.model.language_model.layers), then a generic
+    longest-ModuleList fallback. Returns the container or None.
+    """
+    candidates = [
+        lambda m: m.model.layers,
+        lambda m: m.gpt_neox.layers,
+        lambda m: m.transformer.h,
+        lambda m: m.model.language_model.layers,
+        lambda m: m.language_model.model.layers,
+        lambda m: m.language_model.layers,
+    ]
+    for getter in candidates:
+        try:
+            c = getter(model)
+        except AttributeError:
+            continue
+        if c is not None and len(c) > 0:
+            return c
+    import torch.nn as nn
+    best = None
+    for _name, mod in model.named_modules():
+        if isinstance(mod, nn.ModuleList) and (best is None or len(mod) > len(best)):
+            best = mod
+    return best
+
+
 def find_gate_proj(layer_module):
     """Find the gate_proj (or equivalent) in a transformer layer.
 
@@ -165,6 +196,9 @@ def extract_gate_activations(
     hooks = []
 
     intermediate_size = getattr(model.config, 'intermediate_size', None)
+    if intermediate_size is None:  # nested multimodal config (e.g. Gemma4)
+        tc = getattr(model.config, 'text_config', None)
+        intermediate_size = getattr(tc, 'intermediate_size', None)
 
     def make_hook(layer_idx):
         def hook_fn(module, input, output):
@@ -172,13 +206,8 @@ def extract_gate_activations(
         return hook_fn
 
     # Find the layers container (architecture-agnostic)
-    if hasattr(model, 'model') and hasattr(model.model, 'layers'):
-        layers_container = model.model.layers  # Qwen, LLaMA, Mistral
-    elif hasattr(model, 'gpt_neox') and hasattr(model.gpt_neox, 'layers'):
-        layers_container = model.gpt_neox.layers  # GPTNeoX, Pythia
-    elif hasattr(model, 'transformer') and hasattr(model.transformer, 'h'):
-        layers_container = model.transformer.h  # GPT-2 style
-    else:
+    layers_container = find_layers_container(model)
+    if layers_container is None:
         raise RuntimeError(f"Cannot find layers in model {type(model).__name__}")
 
     # Register hooks
@@ -550,9 +579,18 @@ Examples:
         model = model.to(device)
     model.eval()
 
-    n_layers = model.config.num_hidden_layers
-    d_model = model.config.hidden_size
-    d_ff = getattr(model.config, 'intermediate_size', d_model * 4)
+    cfg = model.config
+    tcfg = getattr(cfg, 'text_config', None)  # nested multimodal (Gemma4)
+
+    def _cfg(name, default=None):
+        v = getattr(cfg, name, None)
+        if v is None and tcfg is not None:
+            v = getattr(tcfg, name, None)
+        return default if v is None else v
+
+    n_layers = _cfg('num_hidden_layers')
+    d_model = _cfg('hidden_size')
+    d_ff = _cfg('intermediate_size', d_model * 4)
     load_time = time.time() - t0
     print(f"  Loaded in {load_time:.1f}s: {n_layers} layers, d={d_model}, d_ff={d_ff}")
 

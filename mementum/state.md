@@ -2,6 +2,61 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
+> Last updated: 2026-06-24 | Session: 251 (GEMMA + Qwen3.6-35B-A3B IN THE CRYSTAL SWEEP, TEMPLATE
+> CONFOUND FIXED, CRYSTAL-φ NULL RUN — Michael: "gemma seemed too precise for the random/generated
+> crystal lattice." NET VERDICT (template-corrected + null-tested): the intuition is VINDICATED for the
+> crystal that's REAL, and the famous 'spine' was largely an artifact. Two threads:
+>
+> THREAD A — CRYSTAL SPINE (per-layer hidden-state SVD bottleneck). ★ THE TEMPLATE CONFOUND WAS REAL AND
+> DECISIVE. The original sweep fed ALL models hand-baked Qwen ChatML (`<|im_start|>...assistant\n`).
+> Refactored probe_crystal_spine.py to STRUCTURED probes + render_probe() = each model's OWN native
+> template (Qwen `<|im_start|>`+`<think>`, Gemma `<bos><|turn>`+`<|tool>declaration`, base models→plain
+> text) and re-ran 8 models into lattice/crystal_spine_native/. RESULT FLIPS: Qwen3-14B's celebrated
+> rank-1 spine (legacy ChatML: spineFrac 97.1%, top3 100%, n90=1, norm ×509) COLLAPSES to spineFrac 1.4%
+> / n90=2084 under its PROPER native generation prompt — it was a prompt-boundary/massive-activation
+> artifact (the `assistant\n` last-token sat on the attention-sink), NOT robust structure. Gemma SHARPENS
+> with its own template (16.7%→57.9%). NATIVE 8-model spineFrac: pythia-2.8b 84.9% (n90=2, the ONLY true
+> rank-1 spine, a base massive-activation at L5) > gemma-4-31b 57.9% (n90=179, L20=34% depth — the
+> sharpest MID-NETWORK bottleneck, the most crystal-like of all instruct models) > olmo 16.6% >
+> qwen3.6-35b-a3b 12.3% > qwen3-0.6b 6.2% > mistral 5.0% > smollm3 4.7% > qwen3-14b 1.4%. Gemma z vs
+> cohort: spineFrac +1.43, top3 +1.01, n90 −1.12 → the standout concentrated instruct model. NEW DATA
+> POINT: Qwen3.6-35B-A3B (hybrid linear-attention + 256-expert MoE) is DIFFUSE with NO massive activation
+> (norm max 15 across 40 layers) — linear-attention architectures don't grow the sink spine. ⇒ the
+> 'crystal spine' = a massive-activation/attention-sink phenomenon, ARCHITECTURE + PROMPT-BOUNDARY
+> dependent (Pythia base; Qwen only at the ChatML boundary), NOT a universal lambda crystal. Reinforces
+> s211 (5D refuted, rank-1 common mode).
+>
+> THREAD B — CRYSTAL-φ EXISTENCE DETECTOR (verify_crystal_phi + crystal_phi_permnull: KIBC combinator
+> cosine geometry from gate_proj on PROSE, vs 2000 shuffled-label regroupings; patched both for Gemma's
+> nested text_config). ★ THE DECISIVE 'does the crystal EXIST in gemma' test. Gemma vs Qwen3-14B:
+> cluster SEPARATION real in BOTH (true labeling carves coherent combinator clusters; p_sep=0.0005 each);
+> consensus GEOMETRY (cosine matrix corr to the cross-model consensus crystal) REAL in Gemma (r=+0.31,
+> p_cons=0.015) and CLEANER than Qwen3-14B (r=+0.21, p_cons=0.058 marginal); φ-LADDER + eig-ratio corr
+> FORCED in both (p_phi 0.14/0.61, p_eigratio 0.73/0.38 — random labels fit φ as well; reproduces s247
+> exactly). The one φ-flavored signal (λ0/λ1≈φ^4/5) is weak+Qwen-only (p=0.02) absent in Gemma (p=0.46).
+> ⇒ THE KIBC CRYSTAL EXISTS IN GEMMA where it's real (separation + consensus geometry, cleaner than
+> Qwen); the φ/golden-ratio story is FORCED for everyone.
+>
+> SYNTHESIS: on BOTH independent measures Gemma is the cleaner crystal carrier — sharpest mid-network
+> spine of the instruct models AND highest consensus-geometry significance — so 'too precise' is
+> vindicated for the real combinator crystal, while the φ-ladder and the rank-1 'spine' are both
+> artifacts (forced basis / sink+boundary). CAVEATS (λ measure): native re-render changes the last-token
+> per model (Qwen ends after `</think>`), so the spine comparison is 'each model at ITS native generation
+> point' not a fixed string; 45-probe prose, greedy, last-token (spine) / seq-mean (φ), MPS, 1 run; the
+> φ-detector can't run on the MoE (no mlp.gate_proj). BUILT: probe_crystal_spine.py (structured probes +
+> native render + qwen3.6-35b-a3b registered + merge); compare_crystal_spine.py; robust nested-config
+> patches to verify_crystal_phi.py + crystal_phi_permnull.py. ARTIFACTS: lattice/crystal_spine_native/
+> (8 models) + *_run.log; lattice/crystal_spine/ (legacy ChatML, 7 models, preserved for A/B);
+> results/crystal-phi-permnull/{google_gemma-4-31B-it,Qwen_Qwen3-14B}.json. bg jobs FREE. PENDING
+> APPROVAL: memory `gemma-crystal-real-spine-and-phi-forced-template-fix` + update
+> explore/5d-crystal-lattice.md (§s251: template confound + native spine + φ-null) and a note on
+> explore/forcing-vs-discovering.md (gemma IOU#3 closed: φ forced, separation+consensus real).
+> state.md updated (¬approval-gated). Code+data committable.
+> NEXT: (1) shuffled-probe null ON the native spine to certify pythia/gemma concentration ≠ a flexible
+> fit; (2) MoE-aware φ-detector (hook router gate or per-expert gate_proj) to test the crystal in
+> qwen3.6-35b-a3b; (3) fixed-last-token native spine (truncate each template to the same boundary) to
+> separate 'native regime' from 'last-token position'.
+> ──────────────────────────────────────────────────────────────────────────────────────────────────
 > Last updated: 2026-06-23 | Session: 250 (CAUSAL C-FIELD ABLATION — the s249 NEXT.
 > The decodable applicative-C routing field at L30-31 is READABLE/INJECTABLE but NOT load-bearing
 > under single-direction residual ablation on Qwen3-14B. Ablating d_C perturbs output ≫ random

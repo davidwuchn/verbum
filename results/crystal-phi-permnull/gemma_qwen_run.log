@@ -1,0 +1,39 @@
+════════════════════════════════════════════════════════════════
+  CRYSTAL-φ PERMUTATION NULL — google/gemma-4-31B-it
+════════════════════════════════════════════════════════════════
+  Loading google/gemma-4-31B-it ...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/1188 [00:00<?, ?it/s]Loading weights:   0%|          | 2/1188 [00:00<04:48,  4.11it/s]Loading weights:   4%|▍         | 47/1188 [00:00<00:10, 104.09it/s]Loading weights:   6%|▌         | 73/1188 [00:00<00:09, 120.31it/s]Loading weights:   8%|▊         | 94/1188 [00:00<00:09, 113.37it/s]Loading weights:   9%|▉         | 111/1188 [00:01<00:09, 117.80it/s]Loading weights:  11%|█         | 127/1188 [00:01<00:09, 116.47it/s]Loading weights:  12%|█▏        | 141/1188 [00:01<00:09, 111.55it/s]Loading weights:  13%|█▎        | 158/1188 [00:01<00:09, 108.66it/s]Loading weights:  14%|█▍        | 170/1188 [00:01<00:09, 107.61it/s]Loading weights:  16%|█▌        | 185/1188 [00:01<00:09, 107.14it/s]Loading weights:  17%|█▋        | 199/1188 [00:01<00:08, 111.94it/s]Loading weights:  18%|█▊        | 213/1188 [00:02<00:08, 115.53it/s]Loading weights:  19%|█▉        | 227/1188 [00:02<00:08, 114.71it/s]Loading weights:  20%|██        | 241/1188 [00:02<00:07, 119.53it/s]Loading weights:  21%|██▏       | 254/1188 [00:02<00:08, 115.59it/s]Loading weights:  23%|██▎       | 268/1188 [00:02<00:08, 113.31it/s]Loading weights:  24%|██▎       | 282/1188 [00:02<00:07, 117.46it/s]Loading weights:  25%|██▍       | 296/1188 [00:02<00:07, 121.06it/s]Loading weights:  26%|██▌       | 310/1188 [00:02<00:07, 117.85it/s]Loading weights:  27%|██▋       | 324/1188 [00:02<00:07, 121.79it/s]Loading weights:  28%|██▊       | 337/1188 [00:03<00:07, 115.39it/s]Loading weights:  30%|██▉       | 351/1188 [00:03<00:07, 115.34it/s]Loading weights:  31%|███       | 365/1188 [00:03<00:07, 112.56it/s]Loading weights:  32%|███▏      | 381/1188 [00:03<00:07, 111.40it/s]Loading weights:  34%|███▍      | 403/1188 [00:03<00:06, 124.18it/s]Loading weights:  35%|███▌      | 416/1188 [00:03<00:06, 122.45it/s]Loading weights:  36%|███▌      | 429/1188 [00:03<00:06, 122.10it/s]Loading weights:  37%|███▋      | 442/1188 [00:03<00:06, 119.37it/s]Loading weights:  38%|███▊      | 456/1188 [00:04<00:06, 114.05it/s]Loading weights:  39%|███▉      | 468/1188 [00:04<00:06, 113.26it/s]Loading weights:  41%|████      | 484/1188 [00:04<00:06, 115.47it/s]Loading weights:  42%|████▏     | 496/1188 [00:04<00:06, 111.42it/s]Loading weights:  43%|████▎     | 508/1188 [00:04<00:06, 107.26it/s]Loading weights:  44%|████▍     | 525/1188 [00:04<00:05, 116.44it/s]Loading weights:  45%|████▌     | 539/1188 [00:04<00:05, 111.74it/s]Loading weights:  47%|████▋     | 556/1188 [00:05<00:05, 109.61it/s]Loading weights:  48%|████▊     | 573/1188 [00:05<00:05, 122.04it/s]Loading weights:  49%|████▉     | 586/1188 [00:05<00:05, 109.72it/s]Loading weights:  51%|█████     | 600/1188 [00:05<00:05, 110.47it/s]Loading weights:  52%|█████▏    | 614/1188 [00:05<00:05, 114.55it/s]Loading weights:  53%|█████▎    | 628/1188 [00:05<00:04, 116.02it/s]Loading weights:  54%|█████▍    | 642/1188 [00:05<00:04, 120.45it/s]Loading weights:  55%|█████▌    | 656/1188 [00:05<00:04, 112.92it/s]Loading weights:  56%|█████▋    | 669/1188 [00:05<00:04, 115.77it/s]Loading weights:  57%|█████▋    | 683/1188 [00:06<00:04, 112.74it/s]Loading weights:  59%|█████▊    | 697/1188 [00:06<00:04, 116.85it/s]Loading weights:  60%|█████▉    | 711/1188 [00:06<00:03, 119.55it/s]Loading weights:  61%|██████    | 725/1188 [00:06<00:03, 121.44it/s]Loading weights:  62%|██████▏   | 739/1188 [00:06<00:03, 113.34it/s]Loading weights:  63%|██████▎   | 751/1188 [00:06<00:03, 111.49it/s]Loading weights:  64%|██████▍   | 766/1188 [00:06<00:03, 112.54it/s]Loading weights:  66%|██████▌   | 780/1188 [00:06<00:03, 116.33it/s]Loading weights:  67%|██████▋   | 794/1188 [00:07<00:03, 117.65it/s]Loading weights:  68%|██████▊   | 808/1188 [00:07<00:03, 121.09it/s]Loading weights:  69%|██████▉   | 822/1188 [00:07<00:03, 112.01it/s]Loading weights:  87%|████████▋ | 1030/1188 [00:07<00:00, 612.87it/s]Loading weights: 100%|██████████| 1188/1188 [00:07<00:00, 158.96it/s]
+  60 layers, Zone B = [18, 26, 34, 42]
+  TRUE: phi_fit=0.0021  consensus_r=+0.3091  sep=+0.1168
+        λ0/λ1=1.2492 (φ^(4/5)=1.4696, dist=0.2204)  eig_ratio_corr=+0.9173
+    perm 500/2000 (28s)
+    perm 1000/2000 (56s)
+    perm 1500/2000 (84s)
+    perm 2000/2000 (112s)
+  NULL phi_fit=0.0054±0.0121 (min 0.0007)  →  p_phi=0.1389
+  NULL consensus_r=-0.0133±0.1333 (max +0.5307)  →  p_cons=0.0150
+  NULL separation=-0.0000±0.0027 →  p_sep=0.0005
+  NULL λ0/λ1=1.664±0.419 (median 1.591)  →  p(dist→φ^4/5)=0.4593
+  NULL eig_ratio_corr=+0.9394±0.0443 (max +0.9995)  →  p_eigratio=0.7256
+  saved → /Users/mwhitford/src/verbum/results/crystal-phi-permnull/google_gemma-4-31B-it.json
+════════════════════════════════════════════════════════════════
+  CRYSTAL-φ PERMUTATION NULL — Qwen/Qwen3-14B
+════════════════════════════════════════════════════════════════
+  Loading Qwen/Qwen3-14B ...
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<03:59,  1.84it/s]Loading weights:   6%|▌         | 26/443 [00:00<00:07, 53.06it/s]Loading weights:  11%|█         | 48/443 [00:00<00:04, 79.32it/s]Loading weights:  15%|█▍        | 66/443 [00:00<00:03, 101.38it/s]Loading weights:  19%|█▊        | 82/443 [00:01<00:03, 106.53it/s]Loading weights:  23%|██▎       | 100/443 [00:01<00:03, 112.50it/s]Loading weights:  26%|██▌       | 116/443 [00:01<00:02, 117.22it/s]Loading weights:  31%|███       | 136/443 [00:01<00:02, 132.00it/s]Loading weights:  35%|███▍      | 153/443 [00:01<00:02, 133.57it/s]Loading weights:  38%|███▊      | 169/443 [00:01<00:02, 135.48it/s]Loading weights:  43%|████▎     | 191/443 [00:01<00:01, 136.13it/s]Loading weights:  47%|████▋     | 206/443 [00:01<00:01, 137.95it/s]Loading weights:  50%|████▉     | 221/443 [00:02<00:01, 135.49it/s]Loading weights:  53%|█████▎    | 237/443 [00:02<00:01, 130.43it/s]Loading weights:  57%|█████▋    | 254/443 [00:02<00:01, 135.47it/s]Loading weights:  61%|██████    | 269/443 [00:02<00:01, 138.43it/s]Loading weights:  65%|██████▍   | 287/443 [00:02<00:01, 141.20it/s]Loading weights:  68%|██████▊   | 302/443 [00:02<00:01, 140.21it/s]Loading weights:  72%|███████▏  | 320/443 [00:02<00:00, 131.34it/s]Loading weights:  76%|███████▌  | 335/443 [00:02<00:00, 135.87it/s]Loading weights:  80%|███████▉  | 353/443 [00:02<00:00, 147.15it/s]Loading weights:  83%|████████▎ | 369/443 [00:03<00:00, 133.04it/s]Loading weights:  87%|████████▋ | 386/443 [00:03<00:00, 131.28it/s]Loading weights:  92%|█████████▏| 406/443 [00:03<00:00, 144.41it/s]Loading weights:  95%|█████████▌| 421/443 [00:03<00:00, 144.73it/s]Loading weights:  98%|█████████▊| 436/443 [00:03<00:00, 135.37it/s]Loading weights: 100%|██████████| 443/443 [00:03<00:00, 122.55it/s]
+  40 layers, Zone B = [12, 17, 22, 28]
+  TRUE: phi_fit=0.0039  consensus_r=+0.2078  sep=+0.1268
+        λ0/λ1=1.4796 (φ^(4/5)=1.4696, dist=0.0100)  eig_ratio_corr=+0.9598
+    perm 500/2000 (26s)
+    perm 1000/2000 (52s)
+    perm 1500/2000 (79s)
+    perm 2000/2000 (105s)
+  NULL phi_fit=0.0058±0.0159 (min 0.0008)  →  p_phi=0.6107
+  NULL consensus_r=-0.0149±0.1285 (max +0.5095)  →  p_cons=0.0580
+  NULL separation=+0.0000±0.0028 →  p_sep=0.0005
+  NULL λ0/λ1=1.628±0.414 (median 1.546)  →  p(dist→φ^4/5)=0.0200
+  NULL eig_ratio_corr=+0.9373±0.0450 (max +0.9993)  →  p_eigratio=0.3803
+  saved → /Users/mwhitford/src/verbum/results/crystal-phi-permnull/Qwen_Qwen3-14B.json
+
+DONE.

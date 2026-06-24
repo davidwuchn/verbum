@@ -141,7 +141,15 @@ Qwen.
    confirms them as real nulls or flips them causal.
 2. **The det-frame puzzle.** name→pred licensing is universal (7/7), determiner→noun is
    not (2/7). Why is one half of the type system universal and the other lineage-specific?
-3. **5th independent lineage** — gemma-4-31B-it — for a clean ≥3-lineage causal band.
+3. ~~**5th independent lineage** — gemma-4-31B-it — for a clean ≥3-lineage causal band.~~
+   **(s251 — partially closed on the crystal-φ axis.)** Ran the crystal-φ permutation
+   null (`crystal_phi_permnull`, 2000 shuffles) on gemma-4-31B-it vs Qwen3-14B: the
+   **φ-ladder + eig-ratio fits are FORCED in Gemma too** (p_phi=0.14, p_eigratio=0.73 —
+   n.s.), confirming describability≠discovery in a 4th family. What IS real and beats the
+   null is **combinator cluster separation** (p_sep=0.0005) and **consensus cosine
+   geometry** (p_cons=0.015, *cleaner* than Qwen's 0.058) — i.e. the discovered core is the
+   *separation/topology*, not the golden ratio. (The type-directed v4 causal-ablation band
+   across lineages is still the open behavioral IOU.)
 4. **Caveat `crystal-multi-tree.md`** φ^(p/q) claim (done — see that page's s247 note).
 
 ## Artifacts & commits

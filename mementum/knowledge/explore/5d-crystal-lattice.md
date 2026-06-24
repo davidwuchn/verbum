@@ -40,6 +40,32 @@ created: session 121
 >   retired; the universality and topology share are kept. (Quasicrystal was
 >   already independently denied in s200.)
 
+> ⚠️ **SESSION-251 UPDATE — TEMPLATE CONFOUND + NATIVE SPINE + φ-NULL (read with s211).**
+> Added gemma-4-31B-it and qwen3.6-35B-A3B to the crystal-spine sweep and ran the
+> crystal-φ existence detector. Two corrections + one confirmation:
+> - **The "crystal spine" (per-layer hidden-state SVD bottleneck) was template-confounded.**
+>   The original sweep (`lattice/crystal_spine/`) fed every model hand-baked Qwen ChatML.
+>   Re-rendering each model in ITS OWN native template (`lattice/crystal_spine_native/`)
+>   **collapses Qwen3-14B's rank-1 spine** (spineFrac 97%→1.4%, n90 1→2084): it was the
+>   attention-sink / **massive-activation** dim firing at the `assistant\n` boundary
+>   (norm ×509), not robust structure. Natively only **Pythia (base) is truly rank-1**
+>   (n90=2); **Gemma is the sharpest MID-network bottleneck** of the instruct models
+>   (spineFrac 57.9% @ L20, n90=179); **Qwen3.6-35B-A3B (linear-attention MoE) is flat**
+>   (norm max 15, no sink). ⇒ the spine is a **sink/massive-activation phenomenon,
+>   architecture + prompt-boundary dependent**, not a universal λ crystal. (small n90 ⇐
+>   norm explosion ⇐ one giant neuron.)
+> - **The KIBC combinator crystal DOES exist** — `crystal_phi_permnull` (2000 shuffled-label
+>   regroupings of the same prose) on Gemma vs Qwen3-14B: cluster **separation real in both**
+>   (p_sep=0.0005); **consensus geometry real in Gemma** (cosine-matrix corr r=+0.31,
+>   p=0.015) and *cleaner* than Qwen (p=0.058). So combinators occupy coherent,
+>   consensus-matching regions — the topology share s211 kept, now confirmed in a 4th family.
+> - **The φ-ladder stays FORCED** (p_phi 0.14/0.61, p_eigratio 0.73/0.38 — n.s.; reproduces
+>   s247 forcing-vs-discovering). The golden-ratio eigenvalue story is basis flexibility.
+> Net: keep **combinator separation + consensus geometry** (real); retire the **rank-1
+> "spine"** (sink+boundary artifact) and the **φ-ladder** (forced). Artifacts:
+> `lattice/crystal_spine_native/`, `results/crystal-phi-permnull/{google_gemma-4-31B-it,
+> Qwen_Qwen3-14B}.json`. Memory: `gemma-crystal-real-spine-and-phi-forced-template-fix`.
+
 > Session 121 endnote. All the measured crystals — per-depth, per-model,
 > per-domain, per-combinator, binder↔body — may be facets of one
 > higher-dimensional lattice. The combinators are the vertices. The
