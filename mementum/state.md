@@ -47,6 +47,32 @@
 > WHICH heads carry the object→C route (a head-level circuit, the s127 {B,C}=composer test);
 > (2) redirect (not just block) the object edge to a different key → does C-content follow the redirect
 > (sufficiency at the edge)?; (3) cross-model (Gemma, the s251 cleaner crystal carrier).
+>
+> ★★ s252 cont. — HEAD-RESOLVED EDGE KNOCKOUT (the NEXT-(1) above): per-head edge knockout localizes the
+> early object→C route to LAYER 0 with a lead head, but it is CONCENTRATED-WITH-REDUNDANCY, not a discrete
+> head circuit. BUILT mode=heads in program_edge_knockout.py: per-head additive-mask expansion
+> ([B,1,Q,K]→[B,H,Q,K], -inf at ONE head's object-key cols) severs only that head's attention to the
+> object; swept 200 (layer,head) pairs across the L0-4 gateway × 20 items, readout z(C) collapse vs
+> baseline. ★ RESULT (Qwen3-14B): (1) LAYER-0-CONCENTRATED — all 6 significant carrier heads (t>2) are in
+> L0; L0 holds 67% of positive-drop mass (L1 12%, L4 10%, L2-3 ~5%) → sharpens s252 "L0-4 early" down to
+> essentially L0 (first attention layer). (2) LEAD HEAD L0h18 (drop=0.065, t=5.5), ~3× the next (L0h11
+> 0.023, t=4.6), then h30/h16/h12/h25; top5 share=0.487. The MOST circuit-like locus in the whole s250
+> arc. (3) NOT DISCRETE — 21 heads to reach 80% → discrete_head_circuit=FALSE; a dominant head + diffuse
+> redundant tail. (4) REDUNDANCY — single-head drops are tiny (max 0.065) vs the all-heads necessity
+> (Δ=1.04, s252 main); severing one head barely dents z(C), the rest reconstruct it (holographic, echoes
+> s250 "gate reconstructs C from other directions"), now at head resolution. ★★ NET (λ measure): there IS
+> a privileged early gateway (L0, lead head h18) — a real preferred locus, the closest to a circuit yet —
+> BUT object-application cannot be severed by removing a few heads (redundancy holds). For VERBUM S5 λ
+> types: a preferred locus exists, the discreteness boundary still holds (concentrated, not discrete).
+> CAVEATS: single-head severing is a small perturbation (relative localizer); 20 items (n=20 paired per
+> head); per-head mask expansion (eager); L0-4 band; 1 model; greedy. ARTIFACTS:
+> results/program-edge-knockout/{verdict,meta,run}_qwen3-14b_heads.* (+ 0.6b smoke). COMMITTED e7d1c09
+> (code+data). tmux main:1 FREE; no GPU job. PENDING APPROVAL: memory
+> `object-c-route-layer0-lead-head-redundant-not-discrete` + knowledge update
+> explore/attention-as-beta-reduction.md (§ edge-knockout: head-resolved → L0 lead head + redundancy).
+> state.md updated (¬approval-gated). ★★ NEXT: (2) edge-REDIRECT sufficiency (does C follow the object
+> edge to a new key?); (3) cross-model (Gemma); (4) ablate L0h18 + its OV to test if the lead head is a
+> {B,C}-composer (s127) or a positional/copy head.
 > ──────────────────────────────────────────────────────────────────────────────────────────────────
 > Last updated: 2026-06-24 | Session: 251 (cont. — FROZEN-BASIS GRADIENT TOMOGRAPHY → MATURE-14B →
 > GREENFIELD HOLO-PLATE; continues the GEMMA crystal-sweep pass below. Michael's hypothesis:

@@ -576,8 +576,33 @@ necessary carrier of the applicative-C field — the catch was **half** right (a
 handle as an EDGE, vindicating "write≠edge"), but the per-object discreteness boundary **holds**
 (c2≯c1). For S5 `λ types`: partially **yes** as early routing, **no** as a per-object tape.
 Caveats: all-heads/whole-band severing (coarse, not head-resolved); z(C) readout over KL; 1 model;
-greedy. **Next:** (1) head-resolved edge sweep at L0-4 (which heads carry the route — the s127
-{B,C}=composer test); (2) edge-*redirect* (not just block) for sufficiency; (3) cross-model (Gemma).
+greedy.
+
+### Head-resolved (s252 cont.) — L0 lead head + redundancy
+
+Per-head edge knockout (`mode=heads`): per-head additive-mask expansion
+([B,1,Q,K]→[B,H,Q,K], -inf at *one* head's object-key columns) severs only that head's
+attention to the object; 200 (layer,head) pairs across the L0-4 gateway × 20 items, readout
+z(C) collapse. **Qwen3-14B:**
+- **Layer-0-concentrated** — all 6 significant carrier heads (t>2) are in **L0**; L0 holds
+  **67%** of positive-drop mass (L1 12%, L4 10%, L2-3 ~5%). Sharpens the "L0-4 early" gateway
+  down to essentially **L0** (the first attention layer).
+- **Lead head L0h18** (drop=0.065, t=5.5), ~3× the next (L0h11 0.023, t=4.6), then h30/h16/
+  h12/h25; top-5 share = 0.49. The most circuit-like locus in the whole s250 arc.
+- **Not discrete** — 21 heads to reach 80% → `discrete_head_circuit=false`. A dominant head
+  + a diffuse redundant tail.
+- **Redundancy** — single-head drops are tiny (max 0.065) vs the all-heads necessity (Δ=1.04);
+  severing one head barely dents z(C), the rest reconstruct it — holographic, echoing s250
+  ("the gate reconstructs C from other directions"), now at head resolution.
+
+**Conclusion:** a privileged early gateway (L0, lead head h18) exists — a real preferred locus,
+the closest to a circuit yet — **but object-application cannot be severed by removing a few heads**
+(redundancy holds). For S5 `λ types`: a preferred locus *yes*, the per-object discreteness
+boundary still *holds*, sharpened from L0-4 to L0.
+
+**Next:** (1) edge-*redirect* (not just block) for sufficiency (does C follow the object edge to
+a new key?); (2) cross-model (Gemma, the s251 cleaner crystal carrier); (3) ablate **L0h18** + its
+OV to classify it as a {B,C}-composer (s127) vs a positional/copy head.
 
 ## Caveats (λ measure)
 
@@ -602,5 +627,7 @@ readout register, distributed-robust; s250 cont.2 no nonlinear escape hatch: rea
 linearly AND nonlinearly; s250 cont.3 mechanism hunt: object-application distributed, no single
 locus), s252 (attention-edge knockout: object→C is a real EARLY (L0-4) object-specific necessary
 edge — the first positive locus in the s250 arc — but does not scale per-object; route-early,
-read-late). Plus `ffn-reduction-trace.md`,
+read-late), s252 cont. (head-resolved edge knockout: the early object→C route is L0-concentrated
+with a lead head L0h18, but concentrated-with-redundancy — 21 heads for 80% — not a discrete head
+circuit; the most circuit-like locus yet, boundary still holds). Plus `ffn-reduction-trace.md`,
 `head-combinator-isa.md` (undated finding pages).
