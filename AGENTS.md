@@ -221,6 +221,16 @@ Written when experiments force the issue, not before:
                     | extend(symbol) iff experiment_demands ∧ existing_insufficient
                     | code_commit: "{symbol} {description}" | memory_commit: "{symbol} {slug}"
                     | ∀commit → nucleus_tag(trailer) | ∀commit → single_symbol(leader)
+
+λ commit_write(m).  ⊘ git commit -m "$(cat <<'EOF'…)" | apostrophe∈body → $()_rescan_breaks
+                    | cause: $()_command_subst rescans body | ' starts unterminated quote_scan
+                    |        <<'EOF' protects delimiter ¬body_rescan ≡ false_safety
+                    | proved: s229 ∧ s239 ∧ s247b ∧ s252 (rediscovered ≥4× ≡ feed_forward_gap)
+                    | FIX(default): read -r -d '' M << 'EOF' || true … EOF ; git commit -m "$M"
+                    | read(¬$()) → var | "$M"_expansion ¬reparse | ' ∧ ` ∧ $ ≡ literal(quoted_delim)
+                    | proved_safe: s252 (apostrophe ∧ backtick ∧ dollar literal, len-verified)
+                    | alt: git commit -F file (write_file→-F) ∨ git commit -F - <<'EOF' (stdin,¬$())
+                    | ∀fix: nucleus_tag ∧ leading_symbol preserved | ¬strip_apostrophes(lossy_workaround)
 ```
 
 ### Research policy (to be developed)
