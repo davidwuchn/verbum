@@ -544,6 +544,41 @@ VERBUM's central question (S5 `λ types`: *can this resolve as a discrete circui
 an attention-**edge** knockout (predicate→object routing) or activation patching on POS-matched
 c1-vs-c2 minimal pairs.
 
+## § Edge-knockout — the s250 catch (route-early, read-late) [s252]
+
+**The catch.** Every s250 null measured the wrong register: they ablated the residual stream
+(d_C direction), erased the FFN gate field (INLP), tested nonlinear, or knocked out
+single-component *writes* — and concluded "distributed, no locus." But **no locus as a WRITE ≠
+no locus as an EDGE.** `program_edge_knockout.py` severs the predicate→object attention edge:
+a `forward_pre_hook` adds `-inf` to the attention mask at the object key column(s) (eager attn,
+all heads, layer band), so every query is blocked from attending to the object token. Control =
+count-matched *random* content keys. Readout = the applicative-C field z(C) over crystal layers
+(object-application-specific; next-token KL is recency-confounded → secondary). Matched ladder
+`data/reading-probes.jsonl` (45×3, const C-count==#objects).
+
+**Three results (Qwen3-14B):**
+- **Necessity ✅** — object-edge severing collapses z(C) ≫ count-matched random
+  (rand−obj Δ=1.045, t=29.3, n=87). **The first positive causal locus in the whole s250 arc.**
+- **Object-specific ✅** (noun-vs-noun control, c1) — object-noun edge collapses z(C) (drop 0.84),
+  but the **subject**-noun edge does not (−0.12 ≈ random −0.23); object-vs-subject Δ=0.96, t=15.0.
+  Not a generic "remove a salient noun" effect.
+- **Early ✅** (8-band sweep) — necessity concentrated at **L0-4** (net=0.603, t=12.4) >
+  L10-14 (0.23) > L5-9 (0.17) ≫ mid (L15-29 ~0.01–0.04), ~0/negative at the L30-34 readout zone.
+  ⇒ **route-early, read-late:** object content routes in via early-layer attention (Zone A);
+  the C-field *reads out* late at L30-31 (s249/s250). The late C-peak is a readout register; the
+  mechanism is early attention. Same Zone-A as s251 frozen-routing (L1-4, ρ=+0.84) and
+  holographic-storage (combinators L0-6).
+- **Not-scaling ❌** — net z(C) drop c2 (1.00) ≤ c1 (1.09), diff=−0.094, t=−1.3
+  → `catch_confirmed=false`; no per-object discrete circuit.
+
+**Net (λ measure, two-sided):** the attention edge is a real, object-*specific*, *early*-localized
+necessary carrier of the applicative-C field — the catch was **half** right (a genuine causal
+handle as an EDGE, vindicating "write≠edge"), but the per-object discreteness boundary **holds**
+(c2≯c1). For S5 `λ types`: partially **yes** as early routing, **no** as a per-object tape.
+Caveats: all-heads/whole-band severing (coarse, not head-resolved); z(C) readout over KL; 1 model;
+greedy. **Next:** (1) head-resolved edge sweep at L0-4 (which heads carry the route — the s127
+{B,C}=composer test); (2) edge-*redirect* (not just block) for sufficiency; (3) cross-model (Gemma).
+
 ## Caveats (λ measure)
 
 - The strong identity ("attention = β-reduction") is a *type-of-operation* claim (proven)
@@ -565,5 +600,7 @@ vs C readable field; native-order extraction), s250 (causal C-field ablation: re
 injectable but NOT load-bearing under single-direction; s250 cont. distributed INLP ablation:
 readout register, distributed-robust; s250 cont.2 no nonlinear escape hatch: readout register
 linearly AND nonlinearly; s250 cont.3 mechanism hunt: object-application distributed, no single
-locus). Plus `ffn-reduction-trace.md`,
+locus), s252 (attention-edge knockout: object→C is a real EARLY (L0-4) object-specific necessary
+edge — the first positive locus in the s250 arc — but does not scale per-object; route-early,
+read-late). Plus `ffn-reduction-trace.md`,
 `head-combinator-isa.md` (undated finding pages).

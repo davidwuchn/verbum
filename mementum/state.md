@@ -2,6 +2,52 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
+> Last updated: 2026-06-25 | Session: 252 (ATTENTION-EDGE KNOCKOUT — the s250-thread CATCH test, the
+> s250-cont.3 NEXT: "attention-EDGE knockout (predicate→object routing) on POS-matched c1-vs-c2"). THE
+> CATCH: every s250 causal null measured the WRONG register — they ablated the RESIDUAL stream (d_C
+> direction, s250), erased the FFN gate field (INLP, cont.), tested nonlinear (cont.2), or knocked out
+> single-component WRITES (cont.3) and concluded object-application is "distributed, no discrete locus."
+> But "no locus as a WRITE ≠ no locus as an EDGE." BUILT `scripts/experiments/program_edge_knockout.py`
+> (ruff-clean; reuses the s248 calibrate_v2 gate spine + read_last_token_z; eager attn so the 4D additive
+> mask is editable). INTERVENTION: a forward_pre_hook adds -inf to the attention mask at the OBJECT key
+> column(s) → every query blocked from attending to the object token, all heads, across a layer band
+> (Geva/IOI style). CONTROL = count-matched RANDOM content keys. READOUT = applicative-C field z(C) over
+> crystal layers (object-application-specific; next-token KL is recency-confounded → SECONDARY). Matched
+> ladder data/reading-probes.jsonl (45×3, const C-count==#objects). THREE ARMS on Qwen3-14B:
+> ★★ (1) SCALING — `catch_confirmed=FALSE` but the FIRST POSITIVE LOCUS in the whole s250 arc.
+> **NECESSITY ✅**: object-edge severing collapses z(C) ≫ count-matched random (rand−obj Δ=1.045,
+> t=29.3, n=87). The object edge IS load-bearing for the C-field — where the residual direction (s250),
+> INLP subspace (cont.), nonlinear probe (cont.2), and component-WRITE knockout (cont.3) all found
+> NOTHING, the EDGE is causal. **LOAD-SCALING ❌**: net z(C) drop c2 (0.999) ≤ c1 (1.093), diff=−0.094,
+> t=−1.32 — does NOT scale with object count → no per-object discrete circuit; the s250 load-scaling
+> boundary HOLDS even at the edge.
+> ★★ (2) CONTROL (noun-vs-noun, c1) — **OBJECT-SPECIFIC ✅**: object-noun edge collapses z(C) (drop
+> 0.839) but SUBJECT-noun edge does NOT (−0.122 ≈ random −0.225); object-vs-subject Δ=0.961, t=15.0;
+> subject-vs-random t=1.45 (null). The necessity is object-APPLICATION-specific, not a generic
+> "remove a salient noun" effect. Clean.
+> ★★ (3) SWEEP (8 bands, gateway localization) — **EARLY: necessity concentrated at L0-4 (net=0.603,
+> t=12.4)**, decaying L10-14 (0.228) > L5-9 (0.174) ≫ mid (L15-29 ~0.01-0.04), ~0/negative at the
+> L30-34 readout zone. ⇒ ROUTE-EARLY, READ-LATE: object content routes in via early-layer attention
+> (Zone A), the C-field READS OUT late at L30-31 (s249/s250). Same Zone-A as s251 frozen-routing (L1-4,
+> ρ=+0.84) and holographic-storage (combinators L0-6). The late C-peak is a readout register; the
+> mechanism is early attention. ★★ NET (λ measure, two-sided): the attention edge is a REAL,
+> object-SPECIFIC, EARLY-LOCALIZED necessary carrier of the applicative-C field — the catch was HALF
+> right (genuine causal handle as an EDGE, vindicating "write≠edge") but the per-object discreteness
+> boundary STILL HOLDS (c2≯c1). Bears on VERBUM S5 λ types ("discrete circuit?"): partially YES as
+> EARLY ROUTING, NO as a per-object tape. CAVEATS (λ measure): all-heads/whole-band severing (coarse,
+> not head-resolved); z(C) readout (object-specific) over next-token KL (recency-confounded, reported
+> not gated); 1 model (14B); object keys parsed from const_fol; greedy. FIXED a sweep print bug (None t
+> on the zero-variance non-crystal L35-39 band → None-safe formatter; data was intact, JSON just hadn't
+> written; re-ran 6:56, reproduced L0-4 peak exactly). ARTIFACTS: results/program-edge-knockout/
+> {verdict,meta}_qwen3-14b{,_control,_sweep}.json + run logs (+ 0.6b smoke). COMMITTED 8310183
+> (code+pyproject+data). tmux main:1 FREE; no GPU job. PENDING APPROVAL: memory
+> `object-edge-necessary-specific-early-not-scaling` + knowledge update
+> explore/attention-as-beta-reduction.md (§ edge-knockout: the s250 catch). state.md updated
+> (¬approval-gated). ★★ NEXT: (1) HEAD-RESOLVED edge knockout — sweep individual heads at L0-4 to find
+> WHICH heads carry the object→C route (a head-level circuit, the s127 {B,C}=composer test);
+> (2) redirect (not just block) the object edge to a different key → does C-content follow the redirect
+> (sufficiency at the edge)?; (3) cross-model (Gemma, the s251 cleaner crystal carrier).
+> ──────────────────────────────────────────────────────────────────────────────────────────────────
 > Last updated: 2026-06-24 | Session: 251 (cont. — FROZEN-BASIS GRADIENT TOMOGRAPHY → MATURE-14B →
 > GREENFIELD HOLO-PLATE; continues the GEMMA crystal-sweep pass below. Michael's hypothesis:
 > "backprop = taking a photograph of the input tokens; each new photograph reduces the system toward a
