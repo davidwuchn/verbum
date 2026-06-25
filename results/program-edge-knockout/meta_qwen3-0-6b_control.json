@@ -1,0 +1,16 @@
+{
+  "model": "Qwen/Qwen3-0.6B",
+  "smoke": true,
+  "git_sha": "ec75d0561c09195f41eec03173d2ac5074a58fb6",
+  "timestamp_utc": "2026-06-25T16:06:40.809537+00:00",
+  "transformers_version": "5.5.4",
+  "mode": "control",
+  "edge_band": "all",
+  "n_edge_layers": 28,
+  "n_rand": 3,
+  "seed": 0,
+  "null_mode": "gateneutral",
+  "probe_set": "data/reading-probes.jsonl",
+  "method": "Noun-vs-noun control on c1 (transitive): z(C) collapse under object-noun edge vs SUBJECT-noun edge vs count-matched random. object_specific = object drop > subject drop (paired t>2).",
+  "scope": "Tests whether the edge necessity is object-application-specific or a generic salient-noun effect (the s-edge-knockout #1 IOU)."
+}

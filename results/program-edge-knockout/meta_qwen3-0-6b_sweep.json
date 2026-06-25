@@ -1,0 +1,16 @@
+{
+  "model": "Qwen/Qwen3-0.6B",
+  "smoke": true,
+  "git_sha": "ec75d0561c09195f41eec03173d2ac5074a58fb6",
+  "timestamp_utc": "2026-06-25T16:06:52.186667+00:00",
+  "transformers_version": "5.5.4",
+  "mode": "sweep",
+  "edge_band": "all",
+  "n_edge_layers": 28,
+  "n_rand": 3,
+  "seed": 0,
+  "null_mode": "gateneutral",
+  "probe_set": "data/reading-probes.jsonl",
+  "method": "Layer-band sweep (4 contiguous bands): per band, z(C) collapse under object-edge knockout vs count-matched random edge. Localizes the gateway depth = band with max net(object\u2212random) drop.",
+  "scope": "Localizes WHERE severing the predicate\u2192object edge collapses the applicative-C field (necessity \u2192 depth-resolved circuit)."
+}

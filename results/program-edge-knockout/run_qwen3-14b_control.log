@@ -1,0 +1,38 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[edge] tokenizer: Qwen/Qwen3-14B
+[edge] model: Qwen/Qwen3-14B (eager attn, dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<05:57,  1.24it/s]Loading weights:   0%|          | 2/443 [00:00<02:56,  2.50it/s]Loading weights:   6%|▌         | 26/443 [00:01<00:09, 42.85it/s]Loading weights:  11%|█         | 48/443 [00:01<00:05, 75.67it/s]Loading weights:  16%|█▌        | 70/443 [00:01<00:03, 104.92it/s]Loading weights:  21%|██        | 92/443 [00:01<00:02, 130.00it/s]Loading weights:  26%|██▌       | 114/443 [00:01<00:02, 150.27it/s]Loading weights:  31%|███       | 136/443 [00:01<00:01, 165.68it/s]Loading weights:  36%|███▌      | 158/443 [00:01<00:01, 177.71it/s]Loading weights:  41%|████      | 180/443 [00:01<00:01, 186.72it/s]Loading weights:  46%|████▌     | 202/443 [00:01<00:01, 192.38it/s]Loading weights:  50%|█████     | 223/443 [00:01<00:01, 194.87it/s]Loading weights:  55%|█████▌    | 244/443 [00:02<00:01, 193.66it/s]Loading weights:  60%|█████▉    | 264/443 [00:02<00:00, 187.54it/s]Loading weights:  64%|██████▍   | 284/443 [00:02<00:00, 181.77it/s]Loading weights:  68%|██████▊   | 303/443 [00:02<00:00, 177.55it/s]Loading weights:  73%|███████▎  | 325/443 [00:02<00:00, 184.05it/s]Loading weights:  78%|███████▊  | 347/443 [00:02<00:00, 189.70it/s]Loading weights:  83%|████████▎ | 369/443 [00:02<00:00, 192.14it/s]Loading weights:  88%|████████▊ | 391/443 [00:02<00:00, 194.91it/s]Loading weights:  93%|█████████▎| 413/443 [00:02<00:00, 196.40it/s]Loading weights:  98%|█████████▊| 435/443 [00:03<00:00, 198.65it/s]Loading weights: 100%|██████████| 443/443 [00:03<00:00, 142.14it/s]
+[v2] Crystal probes (last-token centroids): 535
+[v2]   centroid forward 0/535 ...
+[v2]   centroid forward 50/535 ...
+[v2]   centroid forward 100/535 ...
+[v2]   centroid forward 150/535 ...
+[v2]   centroid forward 200/535 ...
+[v2]   centroid forward 250/535 ...
+[v2]   centroid forward 300/535 ...
+[v2]   centroid forward 350/535 ...
+[v2]   centroid forward 400/535 ...
+[v2]   centroid forward 450/535 ...
+[v2]   centroid forward 500/535 ...
+[v2] Building MATCHED-PREFIX null from 14 gate+non-compositional prompts (content positions) ...
+[v2] Null tokens pooled: 56  (null_mode=gateneutral)
+[edge] model=Qwen/Qwen3-14B layers=40 edge_band=all(40L) crystal=31 (z(C) field readout)
+[edge] c0=45 c1=45 c2=45
+[edge] MODE=control (object-noun vs subject-noun vs random, c1) ...
+[edge]   control 10/45
+[edge]   control 20/45
+[edge]   control 30/45
+[edge]   control 40/45
+
+══════════════════════════════════════════════════════════════════════════════════
+EDGE CONTROL (noun-vs-noun) — Qwen/Qwen3-14B  n=40
+══════════════════════════════════════════════════════════════════════════════════
+  z(C) drop: object=0.83923 subject=-0.1216 random=-0.22532
+  object vs subject : Δ=0.96083 t=14.964
+  object vs random  : Δ=1.06455 t=18.543
+  subject vs random : Δ=0.10372 t=1.453
+
+  * OBJECT-SPECIFIC (object collapse > subject) = True
+══════════════════════════════════════════════════════════════════════════════════
+
+[edge] wrote verdict_qwen3-14b_control.json (+ meta)

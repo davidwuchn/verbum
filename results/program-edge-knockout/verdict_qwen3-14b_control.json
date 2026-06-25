@@ -1,0 +1,283 @@
+{
+  "verdict": {
+    "model": "Qwen/Qwen3-14B",
+    "n_layers": 40,
+    "mode": "control",
+    "edge_band": "all",
+    "n_c1": 40,
+    "n_rand": 3,
+    "seed": 0,
+    "readout": "z(C) field over crystal layers",
+    "mean_drop_obj": 0.83923,
+    "mean_drop_subj": -0.1216,
+    "mean_drop_rand": -0.22532,
+    "object_vs_subject": {
+      "n": 40,
+      "a_mean": 0.83923,
+      "b_mean": -0.1216,
+      "delta": 0.96083,
+      "t": 14.964
+    },
+    "object_vs_random": {
+      "n": 40,
+      "a_mean": 0.83923,
+      "b_mean": -0.22532,
+      "delta": 1.06455,
+      "t": 18.543
+    },
+    "subject_vs_random": {
+      "n": 40,
+      "a_mean": -0.1216,
+      "b_mean": -0.22532,
+      "delta": 0.10372,
+      "t": 1.453
+    },
+    "object_specific": true
+  },
+  "calibration_summary": {
+    "n_layers": 40,
+    "crystal_layers": [
+      0,
+      1,
+      3,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32
+    ],
+    "per_layer": {
+      "0": {
+        "sil_z": 2.647,
+        "gc_consensus": 0.909,
+        "crystal_bearing": true
+      },
+      "1": {
+        "sil_z": 3.155,
+        "gc_consensus": 0.792,
+        "crystal_bearing": true
+      },
+      "2": {
+        "sil_z": 1.076,
+        "gc_consensus": 0.562,
+        "crystal_bearing": false
+      },
+      "3": {
+        "sil_z": 2.135,
+        "gc_consensus": 0.678,
+        "crystal_bearing": true
+      },
+      "4": {
+        "sil_z": 0.481,
+        "gc_consensus": 0.651,
+        "crystal_bearing": false
+      },
+      "5": {
+        "sil_z": 3.47,
+        "gc_consensus": 0.906,
+        "crystal_bearing": true
+      },
+      "6": {
+        "sil_z": 6.164,
+        "gc_consensus": 0.91,
+        "crystal_bearing": true
+      },
+      "7": {
+        "sil_z": 3.787,
+        "gc_consensus": 0.916,
+        "crystal_bearing": true
+      },
+      "8": {
+        "sil_z": 3.59,
+        "gc_consensus": 0.929,
+        "crystal_bearing": true
+      },
+      "9": {
+        "sil_z": 5.264,
+        "gc_consensus": 0.961,
+        "crystal_bearing": true
+      },
+      "10": {
+        "sil_z": 6.788,
+        "gc_consensus": 0.961,
+        "crystal_bearing": true
+      },
+      "11": {
+        "sil_z": 7.213,
+        "gc_consensus": 0.966,
+        "crystal_bearing": true
+      },
+      "12": {
+        "sil_z": 8.294,
+        "gc_consensus": 0.949,
+        "crystal_bearing": true
+      },
+      "13": {
+        "sil_z": 5.995,
+        "gc_consensus": 0.952,
+        "crystal_bearing": true
+      },
+      "14": {
+        "sil_z": 6.776,
+        "gc_consensus": 0.948,
+        "crystal_bearing": true
+      },
+      "15": {
+        "sil_z": 7.526,
+        "gc_consensus": 0.962,
+        "crystal_bearing": true
+      },
+      "16": {
+        "sil_z": 7.383,
+        "gc_consensus": 0.958,
+        "crystal_bearing": true
+      },
+      "17": {
+        "sil_z": 6.423,
+        "gc_consensus": 0.969,
+        "crystal_bearing": true
+      },
+      "18": {
+        "sil_z": 5.723,
+        "gc_consensus": 0.964,
+        "crystal_bearing": true
+      },
+      "19": {
+        "sil_z": 6.961,
+        "gc_consensus": 0.964,
+        "crystal_bearing": true
+      },
+      "20": {
+        "sil_z": 6.106,
+        "gc_consensus": 0.958,
+        "crystal_bearing": true
+      },
+      "21": {
+        "sil_z": 7.437,
+        "gc_consensus": 0.956,
+        "crystal_bearing": true
+      },
+      "22": {
+        "sil_z": 7.367,
+        "gc_consensus": 0.964,
+        "crystal_bearing": true
+      },
+      "23": {
+        "sil_z": 6.213,
+        "gc_consensus": 0.977,
+        "crystal_bearing": true
+      },
+      "24": {
+        "sil_z": 5.992,
+        "gc_consensus": 0.957,
+        "crystal_bearing": true
+      },
+      "25": {
+        "sil_z": 5.456,
+        "gc_consensus": 0.956,
+        "crystal_bearing": true
+      },
+      "26": {
+        "sil_z": 4.897,
+        "gc_consensus": 0.942,
+        "crystal_bearing": true
+      },
+      "27": {
+        "sil_z": 4.724,
+        "gc_consensus": 0.938,
+        "crystal_bearing": true
+      },
+      "28": {
+        "sil_z": 3.764,
+        "gc_consensus": 0.904,
+        "crystal_bearing": true
+      },
+      "29": {
+        "sil_z": 3.851,
+        "gc_consensus": 0.898,
+        "crystal_bearing": true
+      },
+      "30": {
+        "sil_z": 3.24,
+        "gc_consensus": 0.854,
+        "crystal_bearing": true
+      },
+      "31": {
+        "sil_z": 2.236,
+        "gc_consensus": 0.846,
+        "crystal_bearing": true
+      },
+      "32": {
+        "sil_z": 2.338,
+        "gc_consensus": 0.833,
+        "crystal_bearing": true
+      },
+      "33": {
+        "sil_z": 1.606,
+        "gc_consensus": 0.823,
+        "crystal_bearing": false
+      },
+      "34": {
+        "sil_z": 1.445,
+        "gc_consensus": 0.813,
+        "crystal_bearing": false
+      },
+      "35": {
+        "sil_z": 1.157,
+        "gc_consensus": 0.801,
+        "crystal_bearing": false
+      },
+      "36": {
+        "sil_z": 1.722,
+        "gc_consensus": 0.818,
+        "crystal_bearing": false
+      },
+      "37": {
+        "sil_z": 1.48,
+        "gc_consensus": 0.806,
+        "crystal_bearing": false
+      },
+      "38": {
+        "sil_z": 1.861,
+        "gc_consensus": 0.798,
+        "crystal_bearing": false
+      },
+      "39": {
+        "sil_z": 1.923,
+        "gc_consensus": 0.726,
+        "crystal_bearing": false
+      }
+    },
+    "z_thresh": 2.0,
+    "sil_z_thresh": 2.0,
+    "has_consensus": true,
+    "null_kind": "crosstask",
+    "n_null_tokens": 56,
+    "n_centroid_probes": 535,
+    "null_mode": "gateneutral",
+    "hook": "gate"
+  }
+}

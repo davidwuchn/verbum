@@ -1,0 +1,15 @@
+{
+  "model": "Qwen/Qwen3-14B",
+  "smoke": false,
+  "git_sha": "ec75d0561c09195f41eec03173d2ac5074a58fb6",
+  "timestamp_utc": "2026-06-25T06:21:45.633620+00:00",
+  "transformers_version": "5.5.4",
+  "edge_band": "all",
+  "n_edge_layers": 40,
+  "n_rand": 3,
+  "seed": 0,
+  "null_mode": "gateneutral",
+  "probe_set": "data/reading-probes.jsonl",
+  "method": "EDGE knockout: block all queries from attending to OBJECT key token(s) (eager additive mask, all heads, across edge band) vs count-matched RANDOM content-key control. PRIMARY readout = applicative-C field z(C) (last-token, crystal layers) \u2014 object-application-specific; next-token KL is SECONDARY (recency-confounded). catch = z(C) necessity (object collapses C-field more than random) AND scaling (net z(C) drop c2>c1, count-controlled).",
+  "scope": "Tests whether object-application is carried by the predicate\u2192object attention EDGE \u2014 the register the s250 residual/FFN nulls could not probe (no locus as a WRITE != no locus as an EDGE)."
+}

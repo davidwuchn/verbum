@@ -1,0 +1,48 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[edge] tokenizer: Qwen/Qwen3-14B
+[edge] model: Qwen/Qwen3-14B (eager attn, dtype=auto, device_map=auto)
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:00<06:26,  1.15it/s]Loading weights:   5%|▍         | 20/443 [00:00<00:15, 27.65it/s]Loading weights:   9%|▉         | 39/443 [00:01<00:07, 53.79it/s]Loading weights:  14%|█▍        | 61/443 [00:01<00:04, 83.96it/s]Loading weights:  19%|█▊        | 83/443 [00:01<00:03, 110.66it/s]Loading weights:  24%|██▎       | 105/443 [00:01<00:02, 133.56it/s]Loading weights:  29%|██▊       | 127/443 [00:01<00:02, 152.28it/s]Loading weights:  34%|███▎      | 149/443 [00:01<00:01, 166.51it/s]Loading weights:  39%|███▊      | 171/443 [00:01<00:01, 177.95it/s]Loading weights:  44%|████▎     | 193/443 [00:01<00:01, 186.86it/s]Loading weights:  49%|████▊     | 215/443 [00:01<00:01, 193.58it/s]Loading weights:  53%|█████▎    | 237/443 [00:02<00:01, 197.41it/s]Loading weights:  58%|█████▊    | 259/443 [00:02<00:00, 201.25it/s]Loading weights:  63%|██████▎   | 281/443 [00:02<00:00, 203.40it/s]Loading weights:  68%|██████▊   | 303/443 [00:02<00:00, 204.52it/s]Loading weights:  73%|███████▎  | 325/443 [00:02<00:00, 205.52it/s]Loading weights:  78%|███████▊  | 347/443 [00:02<00:00, 205.72it/s]Loading weights:  83%|████████▎ | 369/443 [00:02<00:00, 206.07it/s]Loading weights:  88%|████████▊ | 391/443 [00:02<00:00, 206.59it/s]Loading weights:  93%|█████████▎| 413/443 [00:02<00:00, 206.33it/s]Loading weights:  98%|█████████▊| 435/443 [00:02<00:00, 206.27it/s]Loading weights: 100%|██████████| 443/443 [00:03<00:00, 147.16it/s]
+[v2] Crystal probes (last-token centroids): 535
+[v2]   centroid forward 0/535 ...
+[v2]   centroid forward 50/535 ...
+[v2]   centroid forward 100/535 ...
+[v2]   centroid forward 150/535 ...
+[v2]   centroid forward 200/535 ...
+[v2]   centroid forward 250/535 ...
+[v2]   centroid forward 300/535 ...
+[v2]   centroid forward 350/535 ...
+[v2]   centroid forward 400/535 ...
+[v2]   centroid forward 450/535 ...
+[v2]   centroid forward 500/535 ...
+[v2] Building MATCHED-PREFIX null from 14 gate+non-compositional prompts (content positions) ...
+[v2] Null tokens pooled: 56  (null_mode=gateneutral)
+[edge] model=Qwen/Qwen3-14B layers=40 edge_band=all(40L) crystal=31 (z(C) field readout)
+[edge] c0=45 c1=45 c2=45
+[edge] MODE=sweep 8 bands: [(np.int64(0), np.int64(4)), (np.int64(5), np.int64(9)), (np.int64(10), np.int64(14)), (np.int64(15), np.int64(19)), (np.int64(20), np.int64(24)), (np.int64(25), np.int64(29)), (np.int64(30), np.int64(34)), (np.int64(35), np.int64(39))]
+[edge]   sweep 10/90
+[edge]   sweep 20/90
+[edge]   sweep 30/90
+[edge]   sweep 40/90
+[edge]   sweep 50/90
+[edge]   sweep 60/90
+[edge]   sweep 70/90
+[edge]   sweep 80/90
+[edge]   sweep 90/90
+
+══════════════════════════════════════════════════════════════════════════════════
+EDGE SWEEP (gateway localization) — Qwen/Qwen3-14B  8 bands
+══════════════════════════════════════════════════════════════════════════════════
+        band       obj      rand       net       t
+  L 0-4       0.51276  -0.09043   0.60319  12.386
+  L 5-9       0.10226  -0.07157   0.17383  10.899
+  L10-14      0.17664  -0.05184   0.22848  11.894
+  L15-19     -0.00858  -0.04625   0.03766   3.074
+  L20-24      0.03117  -0.00388   0.03505   3.357
+  L25-29      0.00963  -0.00146   0.01109   5.188
+  L30-34      0.00217   0.00504  -0.00287  -3.121
+  L35-39          0.0       0.0       0.0     n/a
+
+  * PEAK gateway band = L0-4  net=0.60319 t=12.386
+══════════════════════════════════════════════════════════════════════════════════
+
+[edge] wrote verdict_qwen3-14b_sweep.json (+ meta)
