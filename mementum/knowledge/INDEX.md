@@ -69,6 +69,7 @@ Comprehensive pages on specific topics. Read as needed, not sequentially.
 |------|--------|----------|
 | [explore/VERBUM.md](explore/VERBUM.md) | ✅ | Founding research program: hypothesis chain, 4-level plan (historical) |
 | [explore/holographic-state-machine.md](explore/holographic-state-machine.md) | ✅ | Unified computational model: FFN=plates, crystal=states, Q=beam, gate=beamformer |
+| [explore/holographic-substrate-prototype.md](explore/holographic-substrate-prototype.md) | ✅ | **NEW (s251).** Greenfield ternary holographic plate: program spec = sparse foldable delta against a CONSTRUCTED basis. Capacity N*≈2d/plate (graceful, 75%-sparse survives), delta K=1 flips 2.4% vs 50% random (20× null gate), fold exact+lossless. The delta-plate substrate, constructed not trained |
 | [explore/ternary-descent.md](explore/ternary-descent.md) | ✅ | TernaryDescent algorithm: delta plates, gradient decomposition, reduction |
 | [explore/exact-ternary-fitting.md](explore/exact-ternary-fitting.md) | ✅ | **NEW (s213) exploration target.** Exact 3-way ΔL acceptance > gradient proxy: curvature term decisive, monotone (dissolves s191 oscillation) when coordinate-wise + compensation (GPTQ/OBQ), "0" self-places. 3–7× below sign(W) baseline on micro. |
 | [explore/ffn-beta-reduction-indexing.md](explore/ffn-beta-reduction-indexing.md) | ✅ | Holographic FFN indexing: lens profile, ρ=0.83, universal neurons |

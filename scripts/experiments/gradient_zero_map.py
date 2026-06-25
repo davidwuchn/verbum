@@ -127,6 +127,22 @@ def log(msg: str):
     print(msg, file=sys.stderr, flush=True)
 
 
+def bimodality_coeff(x: np.ndarray) -> float:
+    """Sarle's bimodality coefficient: (skew^2 + 1) / kurtosis_full.
+    b > 0.555 (uniform) suggests bimodality. Matches gd_frozen_basis.py."""
+    n = x.size
+    if n < 4:
+        return 0.0
+    d = x - x.mean()
+    s2 = (d * d).mean()
+    if s2 <= 0:
+        return 0.0
+    g1 = (d ** 3).mean() / (s2 ** 1.5)
+    g2 = (d ** 4).mean() / (s2 ** 2) - 3.0
+    corr = 3.0 * (n - 1) ** 2 / ((n - 2) * (n - 3))
+    return float((g1 * g1 + 1.0) / (g2 + corr))
+
+
 def load_all_texts() -> list[str]:
     """Gather texts from all available sources: hardcoded + data files + probes."""
     texts = list(HARDCODED_PROMPTS)
@@ -186,13 +202,17 @@ def collect_gradient_stats(
 
     Tracks per-element: sum|∇w|, sum(∇w²), sum(sign(∇w)), count.
     """
-    if target_modules is None:
-        target_modules = ["gate_proj", "up_proj", "down_proj"]
-
-    target_params: dict[str, torch.nn.Parameter] = {}
-    for name, param in model.named_parameters():
-        if any(m in name for m in target_modules) and "weight" in name:
-            target_params[name] = param
+    # Select exactly the params we flagged requires_grad (respects --target-modules
+    # and --layer-stride set in main); falls back to name-match if none flagged.
+    target_params: dict[str, torch.nn.Parameter] = {
+        name: param for name, param in model.named_parameters()
+        if param.requires_grad and "weight" in name and param.ndim == 2}
+    if not target_params:
+        if target_modules is None:
+            target_modules = ["gate_proj", "up_proj", "down_proj"]
+        for name, param in model.named_parameters():
+            if any(m in name for m in target_modules) and "weight" in name:
+                target_params[name] = param
 
     log(f"  Tracking {len(target_params)} tensors across {len(batches)} batches")
 
@@ -311,9 +331,13 @@ def analyze(stats: dict) -> dict:
         zero_candidate = (g_flat <= g_lo) & (w_flat <= w_lo)
         converged = (g_flat <= g_lo) & (w_flat >= w_hi)
 
+        # Bimodality of the gradient field (does it split high|near-zero?)
+        bimod = bimodality_coeff(np.log(g_flat + 1e-30))
+
         results[name] = {
             # Correlations
             "rho_grad_weight": float(rho_gw),
+            "bimod_log_grad": float(bimod),
             "rho_signcons_weight": float(rho_sw),
             "rho_signcons_grad": float(rho_sg),
             # Means
@@ -471,6 +495,12 @@ def print_results(results: dict):
         bar = "█" * int(abs(avg) * 150) if avg > 0 else "░" * int(abs(avg) * 150)
         log(f"    L{li:>2}: {avg:+.4f} {bar}")
 
+    log("\n  bimodality coeff of log|grad| (>0.555 = bimodal high|near-zero field):")
+    for li in sorted(by_layer.keys()):
+        avg = np.mean([r["bimod_log_grad"] for _, r in by_layer[li]])
+        bar = "█" * int(avg * 100)
+        log(f"    L{li:>2}: {avg:.4f} {bar}")
+
     log("\n  % oscillators by layer:")
     for li in sorted(by_layer.keys()):
         avg = np.mean([r["oscillator_pct"] for _, r in by_layer[li]])
@@ -525,6 +555,12 @@ def print_results(results: dict):
     log("\n" + "=" * 80)
     log("GLOBAL SUMMARY")
     log("=" * 80)
+    all_rho_gw = [r["rho_grad_weight"] for r in results.values()]
+    all_bimod = [r["bimod_log_grad"] for r in results.values()]
+    log(f"  ρ(grad,weight) [s171 Zone-A bimodality]: {np.mean(all_rho_gw):+.4f} "
+        f"± {np.std(all_rho_gw):.4f}  (micro≈0.06, s171-8B Zone-A≈+0.77)")
+    log(f"  bimodality coeff log|grad|:              {np.mean(all_bimod):.4f} "
+        f"± {np.std(all_bimod):.4f}  (>0.555 = bimodal; micro≈0.33 unimodal)")
     all_osc = [r["oscillator_pct"] for r in results.values()]
     all_jaccard = [r["overlap_jaccard"] for r in results.values()]
     all_both = [r["both_zero_pct"] for r in results.values()]
@@ -552,6 +588,10 @@ def main():
     parser.add_argument("--batch-size", type=int, default=4, help="Sequences per batch")
     parser.add_argument("--max-length", type=int, default=256, help="Max token length")
     parser.add_argument("--max-batches", type=int, default=None, help="Cap number of batches")
+    parser.add_argument("--target-modules", default="gate_proj,up_proj,down_proj",
+                        help="Comma-separated FFN submodules to track (memory control)")
+    parser.add_argument("--layer-stride", type=int, default=1,
+                        help="Track every Nth layer (memory control for large models)")
     args = parser.parse_args()
 
     dtype_map = {"float16": torch.float16, "bfloat16": torch.bfloat16, "float32": torch.float32}
@@ -574,9 +614,17 @@ def main():
     )
     model.eval()
 
-    # Only compute gradients for FFN weights
+    # Only compute gradients for the targeted FFN weights (module + layer-stride).
+    target_modules = [m.strip() for m in args.target_modules.split(",") if m.strip()]
+
+    def _match(name: str) -> bool:
+        if "weight" not in name or not any(m in name for m in target_modules):
+            return False
+        li, _ = parse_layer_module(name)
+        return li is not None and (li % args.layer_stride == 0)
+
     for name, param in model.named_parameters():
-        param.requires_grad_(any(m in name for m in ["gate_proj", "up_proj", "down_proj"]) and "weight" in name)
+        param.requires_grad_(_match(name))
 
     n_layers = model.config.num_hidden_layers
     d_ffn = model.config.intermediate_size

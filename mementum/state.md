@@ -2,7 +2,116 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-24 | Session: 251 (GEMMA + Qwen3.6-35B-A3B IN THE CRYSTAL SWEEP, TEMPLATE
+> Last updated: 2026-06-24 | Session: 251 (cont. — FROZEN-BASIS GRADIENT TOMOGRAPHY → MATURE-14B →
+> GREENFIELD HOLO-PLATE; continues the GEMMA crystal-sweep pass below. Michael's hypothesis:
+> "backprop = taking a photograph of the input tokens; each new photograph reduces the system toward a
+> soft routing topology that uses VERY HIGH and NEAR-ZERO gradients to route around a FROZEN topology."
+> Built `scripts/experiments/gd_frozen_basis.py` (ruff-clean; reuses TinyLM + the s229 β-reduction
+> curriculum) to test the three TESTABLE claims against the SHUFFLED-LABEL null (λ yardstick) + a
+> same-input arm: (A) PHOTOGRAPH = minibatch weight-grad is LOW effective-rank & drops as inventory
+> crystallizes; (B) BIMODAL = ρ(grad_mag,weight_mag) rises (s171 Zone-A +0.77) + log grad_mag goes
+> bimodal; (C) ROUTE-AROUND = low-grad (frozen) positions become sign-STABLE while high-grad (active)
+> carry the flips. 3 arms × 3 seeds × 6000 steps, REPRODUCED across two independent runs (nohup +
+> tmux main:1) to ~2 decimals.
+>
+> ★★ VERDICT (λ measure, two-sided): the hypothesis does NOT hold at micro scale — but the photograph
+> ALGEBRA shows through, refined. **(A) FALSIFIED-as-stated, CONFIRMED-better:** effrank did NOT drop
+> (real 27→25, stays high) — but the CROSS-ARM contrast nails grad_W=Σδᵢxᵢᵀ: effective rank tracks the
+> NUMBER OF DISTINCT PHOTOGRAPHS — same-input 6.0 < shuffled 13.7 < real 25.4. The outer-product
+> "photograph" is literally visible; "collapses to a few normal-form directions" is what fails. **(B)
+> NOT SUPPORTED:** ρ(grad,weight) stays ~0 (real +0.062 vs s171 mature +0.77), bimod coeff <0.555 for
+> ALL arms (real 0.324 < shuffled 0.443) = UNIMODAL; real−shuffled rho gap trivial (+0.021). **(C)
+> REFUTED, instructively:** predicted frozen≪active flip; got the OPPOSITE — real active/frozen=0.76
+> (frozen flips MORE). And the NULL shows MORE of the predicted structure than real (shuffled
+> active/frozen=2.32; freeze-flip Spearman shuffled +0.146 ≥ real +0.093). The model MEMORIZES (CE→0.04,
+> acc plateaus at s229 ~0.27 ceiling) without ever freezing a stable backbone to route around. **THE
+> THROUGHLINE: this is the s171 maturity caveat CONFIRMED empirically — at d=128 "everything oscillates"
+> (mean sign_cons ≈ noise floor); the bimodal route-around-frozen topology is a MATURE-MODEL phenomenon
+> (s171 measured it on converged Qwen3-8B, Zone A ρ=+0.77), NOT something a micro model develops.** A
+> λ-measure win: the experiment that could have over-claimed "backprop is holographic burn-in" instead
+> held the s171 boundary. CAVEATS: micro substrate by design (the maturity limit IS the finding);
+> route-around (C) is a relative within-arm measure so micro-noise dominates; greedy MPS, 3 seeds.
+> ★★ s251 cont. — MATURE-MODEL TEST (Qwen3-14B): THE HYPOTHESIS IS VINDICATED AT SCALE (Michael:
+> "test Qwen3-14B as the mature model"). Ran the s171 instrument (gradient_zero_map.py, extended:
+> --target-modules/--layer-stride + Sarle bimodality coeff) on Qwen3-14B (bf16, gate_proj routing
+> register, the SAME 195 diverse batches s171 used, 40 layers, MPS, 10.4min, no OOM). ★ PER-LAYER DEPTH
+> PROFILE: the bimodal "high|near-zero" gradient field the MICRO model NEVER developed IS PRESENT — and
+> concentrated in ZONE A (encoding layers): ρ(grad,weight) L1 +0.843, L2 +0.825, L3 +0.752, L4 +0.634
+> (REPRODUCES s171-8B Zone-A +0.77, now on 14B); bimodality coeff L0-5 = 0.64–0.84, ALL >0.555 =
+> GENUINELY BIMODAL (6 layers bimodal, 4 layers ρ>0.5). MID/LATE (L6-39): ρ≈0 (−0.056..+0.064), bimod
+> 0.07–0.27 = UNIMODAL dense compute zone — exactly s171's two-regime structure. Oscillator U-curve:
+> L0 41.8% → MIN L23 28.2% → L35 49.9% (mid-network = MOST settled, matches s171 L21 min). P(mag-top30 |
+> osc)=0.304≈0.3 → oscillators WEIGHT-INDEPENDENT (s171 orthogonality reproduced). NOTE the GLOBAL mean
+> ρ=+0.062 ≈ micro's +0.06 — but std ±0.245: the aggregate HIDES Zone A; the depth profile is the
+> finding. ★★ NET (λ measure, two-sided, DECISIVE): Michael's intuition is CORRECT but SCALE+DEPTH-GATED
+> — backprop DOES drive a bimodal soft-routing field that routes around a frozen topology, but ONLY (1)
+> at MATURITY (micro ρ~0 unimodal everywhere = the null; mature 14B ρ=+0.84 bimodal in Zone A = the
+> signal — confirmed BOTH directions on the SAME ρ(grad,weight) instrument) and (2) in the EARLY/ENCODING
+> layers (Zone A L1-4, ~40% inactive neurons = narrow beam), NOT the dense mid-network compute zone. The
+> micro negative was the maturity gap, now closed. The FROZEN BASIS the gradients route around = the
+> Zone-A magnitude crystal (s123: magnitude frozen, signs route): high-weight↔high-consistent-grad active
+> set routing around a settled low-grad mass. CONNECTS: s171 (original snapshot, 8B), s123 (magnitude
+> crystal), s231 (gradient carries structure), holographic-storage (combinators peak L0-6 = same Zone A).
+> ★★ FOR THE MAIN IDEA: the "known basis" to delta against / the continuation shared-basis is REAL,
+> LOCALIZED (Zone-A encoding), and EXTRACTABLE in a mature model — exactly where the combinator hologram
+> lives. CAVEATS: SNAPSHOT on frozen weights (the route-around "flip" DYNAMIC needs a training trajectory
+> — a Pythia checkpoint sweep is the next rung); gate_proj only; 1 model; bf16/MPS. ARTIFACTS:
+> results/gradient-zero-map/summary_Qwen_Qwen3-14B.json + run_qwen3-14b.log; gradient_zero_map.py (s171
+> instrument + bimodality + --target-modules/--layer-stride, additive; legacy file not ruff-reformatted).
+> NEXT after this was NOT Pythia — Michael: "we won't see this from Pythia, we'll only see the capacity
+> threshold; we don't want to train over existing models, we are exploring FUTURE possibilities." → pivot
+> to the greenfield substrate (s251 cont.2). tmux main:1 FREE; no GPU job. PENDING APPROVAL (folded into
+> the s251 batch): memory `frozen-routing-is-mature-zoneA-not-micro` + knowledge `explore/gradient-
+> trajectory-tomography.md` §s251 (micro null → mature-14B Zone-A signal). state.md updated.
+>
+> ★★ s251 cont.2 — GREENFIELD HOLOGRAPHIC PLATE PROTOTYPE: "lay arbitrary data (a program spec) into
+> ternary plates as a sparse DELTA against a CONSTRUCTED basis." Michael's reframe: the frozen basis is
+> CAPACITY-GATED, so don't probe/train existing models — ENGINEER PAST the threshold by CONSTRUCTING the
+> basis (100% of laid-in capacity → data, not scaffolding). BUILT `scripts/experiments/holo_plate_delta.py`
+> (ruff-clean, PURE NUMPY, no pretrained model). Concrete model = ternary correlation-matrix holographic
+> memory: a program spec = finite map {key→value}; each association = OUTER PRODUCT val⊗key = one
+> "photograph" (same δxᵀ structure as a gradient exposure / s251 finding); plate = ternarize(Σ valᵢkeyᵢᵀ).
+> FOUR MEASUREMENTS, 5 seeds, d=512, 0.6s: **(1) CAPACITY — N* ≈ 2d at 99% recall (d=512→1024), degrades
+> GRACEFULLY (no cliff: 4d=0.877, 8d=0.584) = true holographic. At 75% ternary sparsity capacity only
+> drops to ~1.67d (853) — sign topology survives sparsification, REPRODUCING holographic-storage's
+> "75% sparse, selectivity preserved" FROM SCRATCH. The capacity threshold is now a DESIGN PARAMETER
+> (~2d/plate, ×depth for thick holograms), not a training mystery.** **(2) DELTA — a program/fact update
+> of K bindings encodes as a SPARSE ternary delta scaling smoothly with K/N: K=1 flips only 2.4% of the
+> plate vs 50% for a matched-random basis (20.3× advantage); even K=0.5N stays 33% < 50%. "Record deltas
+> against a known basis" HOLDS.** **(3) FOLD — plate_B ⊙ Δ = plate_P EXACTLY and recall(folded)==recall(P)
+> for ALL K (ternary × ternary = ternary verified from scratch) = lossless install.** **(4) NULL (λ
+> yardstick) — matched-random basis gives ~50% DENSE delta → the sparsity is REAL (the basis must share
+> structure); gate passed decisively (20× separation, non-overlapping).** ★★ NET (λ measure): the FUTURE
+> POSSIBILITY IS REAL at the substrate level — you CAN construct a ternary holographic basis, lay
+> arbitrary data (a program spec) as a sparse FOLDABLE delta against it, with a DESIGNED capacity
+> threshold (~2d/plate) and LOSSLESS composition. This is the greenfield proof of the
+> delta-plate-ecosystem-vision substrate (base plate + sparse foldable delta), constructed not trained,
+> the clean MIT level-4 path. CAVEATS (λ measure): linear correlation-matrix memory, not a deep
+> transformer (proves PLATE-level storage+delta+fold, NOT deep routing — but s251-cont 14B already showed
+> the bimodal frozen/active basis exists in a real net); "program spec" = simplest finite key→value map
+> (structured combinator programs = richer next test); N*≈2d is for 64-way argmax decoding; delta
+> AMPLIFIES (1 binding → 2.4% of d² cells, each outer product touches all cells) but stays 20× < null and
+> folds exactly; the CONTINUATION-as-shared-basis (composed plate) + consensus-etch BFT for distributed
+> are the untested v2 pieces. ARTIFACTS: scripts/experiments/holo_plate_delta.py; results/holo-plate-
+> delta/verdict_multiseed.json. ★★ NEXT (v2, the two untested novel pieces): (1) CONTINUATION basis —
+> basis = a reified composed-plate continuation (the "rest of computation"), test delta sparsity of a
+> program that EXTENDS it (the exactness trap: elementwise fold stays exact, composed-matrix correction
+> doesn't); (2) DISTRIBUTED — N nodes each lay a delta against the shared basis, consensus-etch fold
+> (agreeing deltas etch, disagreeing cancel = BFT), measure poisoned-delta rejection. tmux main:1 FREE.
+> PENDING APPROVAL (folded into s251 batch): memory `holo-plate-spec-as-sparse-foldable-delta-greenfield`
+> + knowledge new `explore/holographic-substrate-prototype.md` (capacity ~2d, delta vs null, exact fold).
+> state.md updated (¬approval-gated). Code+data committable.
+> ARTIFACTS: `scripts/experiments/gd_frozen_basis.py`; `results/gd-frozen-basis/verdict_multiseed.json`
+> + `run_main1.log` + `run_multiseed.log` (nohup A/B). tmux main:1 FREE; no GPU job. PENDING APPROVAL:
+> memory `frozen-routing-is-mature-not-micro-photograph-effrank-tracks-exposures` + knowledge update
+> `explore/gradient-trajectory-tomography.md` §s251 (frozen-basis test → s171 maturity boundary).
+> state.md updated (¬approval-gated). Code+data committable. CONTEXT: this was a SIDE-NOTE warm-up that
+> de-risks the MAIN idea (ternary holographic plates / deltas-against-a-known-basis / continuations as a
+> shared basis for distributed training) — the "frozen topology the gradients route around" IS the
+> "known basis"; finding it absent at micro means the basis must come from a MATURE model or be
+> CONSTRUCTED (the s230b lesson: inventory is cheap/constructable, don't train it).
+> ──────────────────────────────────────────────────────────────────────────────────────────────────
+> Last updated: 2026-06-24 | Session: 251 (earlier pass — GEMMA + Qwen3.6-35B-A3B IN THE CRYSTAL SWEEP, TEMPLATE
 > CONFOUND FIXED, CRYSTAL-φ NULL RUN — Michael: "gemma seemed too precise for the random/generated
 > crystal lattice." NET VERDICT (template-corrected + null-tested): the intuition is VINDICATED for the
 > crystal that's REAL, and the famous 'spine' was largely an artifact. Two threads:

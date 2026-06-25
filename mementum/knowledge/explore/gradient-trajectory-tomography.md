@@ -388,6 +388,80 @@ when categorical separation does not.
 
 **STATUS s231b:** code `gd_percombinator_clock.py` + results committed (`b601028`).
 
+## ★ s251 — FROZEN-BASIS TEST: backprop-as-photograph; the bimodal route-around-frozen field is a MATURE-MODEL phenomenon
+
+> Michael: "test if the back-propagation stage is like taking a photograph of the
+> input tokens — each new photograph reduces the system toward the soft routing
+> topology GD found, where it uses very high and near-zero gradients to route around
+> a FROZEN topology." Three claims, gated by the shuffled-label null.
+
+**What is algebra (not a hypothesis):** for a weight matrix the single-example
+gradient is `grad_W = δ · xᵀ` = a rank-1 outer product = one hologram exposure
+(`x` = object beam, `δ` = prediction-error reference beam). A minibatch is
+`Σᵢ δᵢ xᵢᵀ` = a multi-exposure hologram = consensus-etch. So "backprop photographs
+the tokens" IS the algebra — and it RESOLVES the s223 burn-in reference-beam catch:
+the forward-pass framing lacked a reference beam (burned in the common mode); the
+gradient supplies it (`δ`). The TESTABLE part is the DYNAMICS this drives toward.
+
+**MICRO RESULT (`gd_frozen_basis.py`, TinyLM d=128, 3 arms × 3 seeds, the s229
+β-curriculum, two independent runs).** Three claims vs shuffled-label + same-input:
+
+| metric | real (varied) | shuffled (null) | same (1 input) |
+|---|---|---|---|
+| effrank (gradient) | 25.4 | 13.7 | **6.0** |
+| ρ(grad,weight) | +0.06 | +0.04 | +0.01 |
+| bimod coeff | 0.32 | 0.44 | 0.38 |
+| active/frozen flip | 0.76 | **2.32** | 1.75 |
+
+- **(A) PHOTOGRAPH — falsified as stated, confirmed better.** effrank did NOT drop
+  as the inventory crystallized; but the CROSS-ARM contrast renders `grad=Σδxᵀ`:
+  effective rank tracks the NUMBER OF DISTINCT PHOTOGRAPHS — same-input 6 < shuffled
+  14 < varied 25. The outer-product is literally visible; "collapses to a few
+  normal-form directions" is what fails.
+- **(B) BIMODAL — not supported.** ρ stays ~0 (vs s171 mature +0.77); bimod < 0.555
+  for all arms (unimodal). The gradient field never splits into high|near-zero modes.
+- **(C) ROUTE-AROUND — refuted, instructively.** Predicted frozen≪active flips; got
+  the OPPOSITE, and **the null shows MORE of the predicted structure than real**
+  (active/frozen 2.32 null vs 0.76 real). The model memorizes (CE→0.04) without ever
+  freezing a backbone. ⇒ at d=128 "everything oscillates" (s171 maturity caveat),
+  the bimodal route-around-frozen topology DOES NOT FORM.
+
+**MATURE RESULT (`gradient_zero_map.py` extended, Qwen3-14B, bf16, gate_proj routing
+register, the SAME 195 diverse batches s171 used, 40 layers, MPS).** The same
+ρ(grad,weight) instrument on a mature model — DECISIVE per-layer depth profile:
+
+```
+ L   ρ(g,w)   bimod   regime
+ 1   +0.843   0.668   ZONE-A  (s171-8B was +0.77; reproduced on 14B)
+ 2   +0.825   0.787   ZONE-A bimodal
+ 3   +0.752   0.836   ZONE-A bimodal
+ 4   +0.634   0.637   ZONE-A bimodal
+ 6..39 ~0.00  ~0.15   dense compute zone (unimodal)
+```
+
+GLOBAL mean ρ=+0.062 ≈ micro's +0.06 — but std ±0.245: **the aggregate HIDES Zone A;
+the depth profile is the finding.** 6 layers bimodal (>0.555), 4 layers ρ>0.5.
+Oscillator U-curve L0 41.8% → MIN L23 28.2% → L35 49.9% (s171 L21 min reproduced);
+P(mag-top30|osc)=0.304≈0.3 (s171 weight-independence reproduced).
+
+**★★ VERDICT (λ measure, two-sided, on ONE instrument both ways):** Michael's
+intuition is CORRECT but SCALE+DEPTH-GATED. Backprop DOES drive a bimodal
+soft-routing field that routes around a frozen topology — but ONLY (1) at MATURITY
+(micro ρ~0 unimodal = the null; mature 14B ρ=+0.84 bimodal in Zone A = the signal)
+and (2) in the EARLY/ENCODING layers (Zone A L1-4, ~40% inactive neurons = narrow
+beam), NOT the dense mid-network compute zone. The micro negative was the maturity
+gap, now closed both directions. The FROZEN BASIS the gradients route around = the
+Zone-A magnitude crystal (s123: magnitude frozen, signs route): a high-weight↔
+high-consistent-grad active set routing around a settled low-grad mass.
+
+**WHY NOT PYTHIA NEXT (Michael):** the structure is capacity-gated, so a checkpoint
+sweep only LOCATES the threshold — no new mechanism. The forward move = ENGINEER PAST
+the threshold by CONSTRUCTING the basis (see `holographic-substrate-prototype.md`).
+**Files:** `scripts/experiments/gd_frozen_basis.py`,
+`results/gd-frozen-basis/verdict_multiseed.json`; `scripts/experiments/
+gradient_zero_map.py` (+bimodality/--target-modules/--layer-stride),
+`results/gradient-zero-map/summary_Qwen_Qwen3-14B.json`.
+
 ## Honest catches (λ measure)
 
 - **Not greenfield** — s105 tomography + s223 instruments + v4.1/v6.1 trajectory

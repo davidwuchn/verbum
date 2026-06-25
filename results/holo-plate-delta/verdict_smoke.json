@@ -1,0 +1,220 @@
+{
+  "experiment": "holo-plate-delta",
+  "register": "functional + topological/routing",
+  "idea": "lay a program spec into ternary holographic plates as a sparse delta against a constructed basis; capacity / delta / fold / null.",
+  "timestamp_utc": "2026-06-25T01:40:35.748893+00:00",
+  "git_sha": "82787c3255c3614475098a96be3d3be6067f0e3d",
+  "config": {
+    "d": 128,
+    "n_keys": 512,
+    "n_vals": 64,
+    "cap_n": "16,32,64,128",
+    "cap_sparsity": "0.0,0.5",
+    "delta_n": 64,
+    "delta_k": "1,4,16,32",
+    "acc_thresh": 0.99,
+    "seeds": "0,1",
+    "smoke": true
+  },
+  "seeds": [
+    0,
+    1
+  ],
+  "elapsed_s": 0.0,
+  "verdict": {
+    "capacity_threshold_N_star_over_d_sign": [
+      1.0,
+      0.0
+    ],
+    "delta_sparse_at_smallK_real_vs_null": [
+      [
+        0.045,
+        0.0074
+      ],
+      [
+        0.5016,
+        0.0058
+      ]
+    ],
+    "delta_advantage_smallK": [
+      11.44,
+      1.75
+    ],
+    "fold_exact_all_K": true,
+    "fold_lossless_all_K": true,
+    "ternary_capacity_survives": {
+      "sparsity_0.0": [
+        128.0,
+        0.0
+      ],
+      "sparsity_0.5": [
+        128.0,
+        0.0
+      ]
+    }
+  },
+  "capacity": {
+    "sparsity_0.0": {
+      "acc_by_N": {
+        "16": [
+          1.0,
+          0.0
+        ],
+        "32": [
+          1.0,
+          0.0
+        ],
+        "64": [
+          1.0,
+          0.0
+        ],
+        "128": [
+          0.9961,
+          0.0039
+        ]
+      },
+      "N_star": [
+        128.0,
+        0.0
+      ],
+      "N_star_over_d": [
+        1.0,
+        0.0
+      ]
+    },
+    "sparsity_0.5": {
+      "acc_by_N": {
+        "16": [
+          1.0,
+          0.0
+        ],
+        "32": [
+          1.0,
+          0.0
+        ],
+        "64": [
+          1.0,
+          0.0
+        ],
+        "128": [
+          1.0,
+          0.0
+        ]
+      },
+      "N_star": [
+        128.0,
+        0.0
+      ],
+      "N_star_over_d": [
+        1.0,
+        0.0
+      ]
+    }
+  },
+  "delta": [
+    {
+      "K": 1,
+      "K_over_N": 0.0156,
+      "flip_frac_real": [
+        0.045,
+        0.0074
+      ],
+      "flip_frac_null": [
+        0.5016,
+        0.0058
+      ],
+      "delta_advantage": [
+        11.44,
+        1.75
+      ],
+      "fold_exact_all": true,
+      "fold_lossless_all": true,
+      "recall_P": [
+        1.0,
+        0.0
+      ],
+      "recall_folded": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "K": 4,
+      "K_over_N": 0.0625,
+      "flip_frac_real": [
+        0.1084,
+        0.0056
+      ],
+      "flip_frac_null": [
+        0.5028,
+        0.0075
+      ],
+      "delta_advantage": [
+        4.65,
+        0.17
+      ],
+      "fold_exact_all": true,
+      "fold_lossless_all": true,
+      "recall_P": [
+        1.0,
+        0.0
+      ],
+      "recall_folded": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "K": 16,
+      "K_over_N": 0.25,
+      "flip_frac_real": [
+        0.2202,
+        0.0062
+      ],
+      "flip_frac_null": [
+        0.5009,
+        0.0009
+      ],
+      "delta_advantage": [
+        2.28,
+        0.07
+      ],
+      "fold_exact_all": true,
+      "fold_lossless_all": true,
+      "recall_P": [
+        1.0,
+        0.0
+      ],
+      "recall_folded": [
+        1.0,
+        0.0
+      ]
+    },
+    {
+      "K": 32,
+      "K_over_N": 0.5,
+      "flip_frac_real": [
+        0.3171,
+        0.01
+      ],
+      "flip_frac_null": [
+        0.5019,
+        0.0004
+      ],
+      "delta_advantage": [
+        1.585,
+        0.045
+      ],
+      "fold_exact_all": true,
+      "fold_lossless_all": true,
+      "recall_P": [
+        1.0,
+        0.0
+      ],
+      "recall_folded": [
+        1.0,
+        0.0
+      ]
+    }
+  ]
+}
