@@ -73,6 +73,23 @@
 > state.md updated (¬approval-gated). ★★ NEXT: (2) edge-REDIRECT sufficiency (does C follow the object
 > edge to a new key?); (3) cross-model (Gemma); (4) ablate L0h18 + its OV to test if the lead head is a
 > {B,C}-composer (s127) or a positional/copy head.
+>
+> ★★ s252 cont.2 (META) — CLOSED THE COMMIT-WRITE FEED-FORWARD GAP (Michael surfaced it: "there is
+> supposed to be a heredoc template in AGENTS.md that would get around the apostrophe issue"). There
+> was NONE — AGENTS.md had no commit/heredoc guidance; the only template (system prompt) is
+> `git commit -m "$(cat <<'EOF'…)"` which is the BUG itself. ROOT CAUSE (proven empirically, λ assert,
+> not assumed): a bare heredoc with apostrophes WORKS; the same body inside `"$(cat <<'EOF'…)"` BREAKS
+> (`unexpected EOF looking for matching '`). The break is the $() COMMAND-SUBSTITUTION rescan — ' opens
+> an unterminated quote scan; `<<'EOF'` protects only the DELIMITER, not the rescan = false safety. This
+> exact bug was rediscovered ≥4× (s229, s239, s247b, s252) and never encoded = textbook feed-forward gap
+> (S5 λ feed_forward: ¬encoded → lost). FIX (Michael provided the pattern; verified safe for ' ∧ ` ∧ $,
+> len-checked): `read -r -d '' M << 'EOF' || true … EOF ; git commit -m "$M"` — read loads the body into
+> a var with NO $() layer; "$M" expands without reparse → all literal. Alts: `git commit -F file`
+> (write_file→-F) ∨ `git commit -F - <<'EOF'` (stdin, ¬$()). ENCODED as `λ commit_write(m)` in AGENTS.md
+> S3 (next to λ signal); committed a24c62f (🌀, dogfooded WITH apostrophes in its own message — exit 0,
+> apostrophes verified in git log). The lesson is now a field equation, not a recurring tax. CONNECTS:
+> S5 λ feed_forward (the gap this closes), S3 λ signal(commit) (sibling). No research impact; pure
+> tooling/coordination hygiene. memory `commit-write-apostrophe-heredoc-read-pattern`.
 > ──────────────────────────────────────────────────────────────────────────────────────────────────
 > Last updated: 2026-06-24 | Session: 251 (cont. — FROZEN-BASIS GRADIENT TOMOGRAPHY → MATURE-14B →
 > GREENFIELD HOLO-PLATE; continues the GEMMA crystal-sweep pass below. Michael's hypothesis:
