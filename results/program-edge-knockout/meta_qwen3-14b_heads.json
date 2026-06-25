@@ -1,0 +1,16 @@
+{
+  "model": "Qwen/Qwen3-14B",
+  "smoke": false,
+  "git_sha": "809c57d9edeb39019df246efc8ae71bca9cea621",
+  "timestamp_utc": "2026-06-25T17:09:29.194348+00:00",
+  "transformers_version": "5.5.4",
+  "mode": "heads",
+  "edge_band": "all",
+  "n_edge_layers": 40,
+  "n_rand": 3,
+  "seed": 0,
+  "null_mode": "gateneutral",
+  "probe_set": "data/reading-probes.jsonl",
+  "method": "Per-head object-edge knockout across L0-4 (sweep gateway): each (layer,head) severs ONLY that head's attention to the object key (per-head additive mask) \u2192 z(C) collapse vs baseline; concentration (heads-to-80%, top5 share) = discrete vs distributed.",
+  "scope": "Localizes WHICH heads carry the early object\u2192C route (s127 {B,C}=composer test) \u2014 head-resolved circuit vs distributed."
+}

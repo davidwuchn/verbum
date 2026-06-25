@@ -160,9 +160,15 @@ def object_key_positions(prompt: str, objects: list[str], tok) -> list[int]:
 # ═══════════════════════════════════════════════════════════════════════════════
 # Edge-knockout hook — block attention TO `blocked_keys` (all queries, all heads)
 # ═══════════════════════════════════════════════════════════════════════════════
-def make_edge_hook(blocked_keys: list[int], torch_mod):
+def make_edge_hook(blocked_keys: list[int], torch_mod, head=None, n_heads=None):
     """forward_pre_hook(with_kwargs) on a self_attn module. Adds -inf to the additive
-    attention mask at the blocked KEY columns → no query position can attend to them."""
+    attention mask at the blocked KEY columns → no query position can attend to them.
+
+    head=None  → block ALL heads (broadcast mask edit; the original behavior).
+    head=h     → block ONLY query-head h's edge to the object key(s). The additive mask
+                 is usually [B,1,Q,K] (broadcast over heads); we expand dim-1 to n_heads
+                 and write -inf at [:, h, :, cols] so a SINGLE head loses the edge while
+                 every other head keeps it. The head-resolved edge intervention."""
     bk = list(blocked_keys)
 
     def pre_hook(_module, args, kwargs):
@@ -180,7 +186,14 @@ def make_edge_hook(blocked_keys: list[int], torch_mod):
         kv = mask.shape[-1]
         cols = [k for k in bk if 0 <= k < kv]
         if cols:
-            mask[:, :, :, cols] = neg
+            if head is None:
+                mask[:, :, :, cols] = neg
+            else:
+                if mask.shape[1] == 1 and n_heads and n_heads > 1:
+                    mask = mask.expand(mask.shape[0], n_heads, mask.shape[2],
+                                       mask.shape[3]).clone()
+                h = head if head < mask.shape[1] else mask.shape[1] - 1
+                mask[:, h, :, cols] = neg
         if idx_in_args is not None:
             args = tuple(mask if i == idx_in_args else a for i, a in enumerate(args))
         else:
@@ -190,7 +203,8 @@ def make_edge_hook(blocked_keys: list[int], torch_mod):
     return pre_hook
 
 
-def forward_edge(prompt, model, tok, torch_mod, gate_layers, blocked_keys, edge_layers):
+def forward_edge(prompt, model, tok, torch_mod, gate_layers, blocked_keys, edge_layers,
+                 head=None, n_heads=None):
     """ONE forward with gate-capture hooks (for z(C)) + optional edge pre-hooks.
     Returns (gate_store, next_token_logits)."""
     store: dict[int, np.ndarray] = {}
@@ -199,7 +213,7 @@ def forward_edge(prompt, model, tok, torch_mod, gate_layers, blocked_keys, edge_
         handles.append(_hook_module(model, li, "gate").register_forward_hook(
             _make_hook(store, li)))
     if blocked_keys:
-        hook = make_edge_hook(blocked_keys, torch_mod)
+        hook = make_edge_hook(blocked_keys, torch_mod, head=head, n_heads=n_heads)
         for li in edge_layers:
             handles.append(model.model.layers[li].self_attn.register_forward_pre_hook(
                 hook, with_kwargs=True))
@@ -273,10 +287,14 @@ def main() -> None:
     ap = argparse.ArgumentParser(description="Attention-edge knockout (s250 catch)")
     ap.add_argument("--model", default="Qwen/Qwen3-14B")
     ap.add_argument("--mode", default="scaling",
-                    choices=["scaling", "control", "sweep"],
+                    choices=["scaling", "control", "sweep", "heads"],
                     help="scaling=object vs random + c2/c1; control=object vs subject "
-                         "noun (specificity); sweep=layer-band gateway localization")
+                         "noun (specificity); sweep=layer-band gateway localization; "
+                         "heads=per-head edge knockout in --head-band (which route)")
     ap.add_argument("--bands", type=int, default=8, help="sweep: # contiguous bands")
+    ap.add_argument("--head-band", default="0-4",
+                    help="heads mode: layer band 'lo-hi' to per-head sweep (the sweep "
+                         "gateway; default L0-4)")
     ap.add_argument("--layers", default="all", choices=["all", "crystal"],
                     help="layer band to sever the object edge across")
     ap.add_argument("--n-rand", type=int, default=3)
@@ -481,6 +499,88 @@ def main() -> None:
                   "the gateway depth = band with max net(object−random) drop.",
                   "Localizes WHERE severing the predicate→object edge collapses the "
                   "applicative-C field (necessity → depth-resolved circuit).")
+        return
+
+    # ═══════════════════════════════════════════════════════════════════════════
+    # MODE: heads — per-head edge knockout inside the gateway band (L0-4 from the
+    # sweep). For each (layer, head) sever ONLY that head's object edge → z(C) drop.
+    # Does the early necessity concentrate in a FEW heads (a discrete head circuit,
+    # the s127 {B,C}=composer test) or spread across all heads (distributed)?
+    # ═══════════════════════════════════════════════════════════════════════════
+    if args.mode == "heads":
+        n_heads = model.config.num_attention_heads
+        lo, hi = (int(x) for x in args.head_band.split("-"))
+        band = [li for li in range(lo, hi + 1) if 0 <= li < n_layers]
+        cap = max_per_group or 10
+        items = grp(1)[:cap] + grp(2)[:cap]
+        print(f"[edge] MODE=heads band=L{lo}-{hi} ({len(band)}L) × {n_heads} heads, "
+              f"n_items={len(items)} (per-head object-edge knockout)")
+        agg: dict[tuple[int, int], list[float]] = {}
+        floor: list[float] = []
+        for i, r in enumerate(items):
+            prompt = COMPILE_GATE + r["input"]
+            n_tok, content = content_keys(prompt)
+            ok = keys_for(prompt, r["objects"], n_tok)
+            if not ok:
+                continue
+            store0, _ = forward_edge(prompt, model, tok, torch_mod, layers, [], [])
+            zc0 = zC_field(rcc, store0, layers, crystal_layers)
+            for li in band:
+                for h in range(n_heads):
+                    store_h, _ = forward_edge(prompt, model, tok, torch_mod, layers,
+                                              ok, [li], head=h, n_heads=n_heads)
+                    agg.setdefault((li, h), []).append(
+                        zc0 - zC_field(rcc, store_h, layers, crystal_layers))
+            pool = [k for k in content if k not in set(ok)]
+            rk = (list(rng.choice(pool, size=len(ok), replace=False))
+                  if len(pool) >= len(ok) else list(pool))
+            store_r, _ = forward_edge(prompt, model, tok, torch_mod, layers, rk, band)
+            floor.append(zc0 - zC_field(rcc, store_r, layers, crystal_layers))
+            if (i + 1) % 5 == 0:
+                print(f"[edge]   heads {i + 1}/{len(items)}")
+        head_rows = []
+        for (li, h), drops in agg.items():
+            st = paired(drops, [0.0] * len(drops))   # mean drop + t vs 0
+            head_rows.append({"layer": li, "head": h, "n": st["n"],
+                              "mean_drop": st["a_mean"], "t": st["t"]})
+        head_rows.sort(key=lambda x: -(x["mean_drop"] or -1e9))
+        pos = [max(0.0, hr["mean_drop"] or 0.0) for hr in head_rows]
+        total = float(sum(pos)) or 1.0
+        shares = (np.cumsum(pos) / total).tolist()
+        n_for_80 = int(np.searchsorted(shares, 0.8) + 1) if pos else 0
+        top5_share = round(float(sum(pos[:5]) / total), 4)
+        carriers = [hr for hr in head_rows
+                    if (hr["mean_drop"] or 0) > 0 and (hr["t"] or 0) > 2.0]
+        # discrete head circuit = a handful of heads carry most of the early route
+        discrete = bool(0 < n_for_80 <= 5)
+        floor_mean = round(float(np.mean(floor)), 5) if floor else None
+        vdict = {"model": model_name, "n_layers": n_layers, "mode": "heads",
+                 "head_band": [lo, hi], "n_heads": n_heads, "n_items": len(items),
+                 "readout": "z(C) field over crystal layers",
+                 "random_key_floor_mean": floor_mean,
+                 "n_carriers_t2": len(carriers), "n_heads_for_80pct": n_for_80,
+                 "top5_share": top5_share, "discrete_head_circuit": discrete,
+                 "top_heads": head_rows[:15], "all_heads": head_rows}
+        print("\n" + "═" * 82)
+        print(f"EDGE HEAD-KNOCKOUT (which heads route object→C) — {model_name}  "
+              f"L{lo}-{hi} × {n_heads} heads")
+        print("═" * 82)
+        print(f"  random-key floor (all heads, band) z(C) drop = {floor_mean}")
+        print(f"  {'rank':>4} {'layer':>6} {'head':>5} {'mean_drop':>10} {'t':>7}")
+        for k, hr in enumerate(head_rows[:15]):
+            print(f"  {k + 1:>4} {hr['layer']:>6} {hr['head']:>5} "
+                  f"{hr['mean_drop']:>10} {(hr['t'] if hr['t'] is not None else 0):>7}")
+        print(f"\n  carriers (mean_drop>0, t>2) = {len(carriers)}  |  "
+              f"heads for 80% = {n_for_80}  |  top5 share = {top5_share}")
+        print(f"  * DISCRETE HEAD CIRCUIT (\u22645 heads carry 80%) = {discrete}")
+        print("═" * 82 + "\n")
+        write_out("heads", vdict,
+                  f"Per-head object-edge knockout across L{lo}-{hi} (sweep gateway): "
+                  "each (layer,head) severs ONLY that head's attention to the object "
+                  "key (per-head additive mask) → z(C) collapse vs baseline; "
+                  "concentration (heads-to-80%, top5 share) = discrete vs distributed.",
+                  "Localizes WHICH heads carry the early object→C route (s127 "
+                  "{B,C}=composer test) — head-resolved circuit vs distributed.")
         return
 
     # ── per-item run: object-edge KL, count-matched random-edge KL, z(C) ──────────
