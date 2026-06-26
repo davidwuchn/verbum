@@ -294,6 +294,16 @@ field is **0.875** — citing 0.925 as "lenient" would false-flag a regression.
   stays a public dataclass; inline construction allowed for one-off models.
 - **D3 — Archival:** `git rm` (history preserved, `λ store` resurrectable).
   No `scripts/_archive/` dir.
+- **D4 — Verify gate runs on a LOCAL model, not a frontier call (s254 proof).**
+  This very doc was fact-checked by ornith-35b-a3b (~3B active) which found 7
+  real errors in a frontier model's output. The result is the *topology*, not
+  the errors: **verify ≪ generate** (checking a claim against source is bounded
+  and local; synthesis is not), so the `λ self_improve` VERIFY gate does **not**
+  need parity with the generator. Implication for the harness: wire a
+  local-model verify pass over migrated docs/code using the `models.py` fleet
+  (already on `:5100`) → verification becomes **ambient** (gate *every* update),
+  not a budgeted event that biases toward skipping. On-thesis for verbum: a
+  small artifact doing real compositional work (here, auditing reasoning).
 
 **Still open:**
 4. **Calibration register typing (S5 λ measure / λ yardstick).** Should
