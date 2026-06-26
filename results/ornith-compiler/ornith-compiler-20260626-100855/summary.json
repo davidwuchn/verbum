@@ -1,0 +1,43 @@
+{
+  "n": 40,
+  "p_lambda_lenient": 0.675,
+  "p_emits_formal": 1.0,
+  "p_kernel_valid": 0.725,
+  "frac_budget_hit": 0.0,
+  "mean_completion_tokens": 1909.1,
+  "mean_reasoning_chars": 6505.8,
+  "by_category": {
+    "anti_compile": {
+      "n": 8,
+      "p_lambda": 0.625,
+      "p_formal": 1.0,
+      "p_kernel": 1.0
+    },
+    "medium_compile": {
+      "n": 8,
+      "p_lambda": 0.875,
+      "p_formal": 1.0,
+      "p_kernel": 0.375
+    },
+    "null": {
+      "n": 8,
+      "p_lambda": 0.75,
+      "p_formal": 1.0,
+      "p_kernel": 0.75
+    },
+    "strong_compile": {
+      "n": 8,
+      "p_lambda": 0.75,
+      "p_formal": 1.0,
+      "p_kernel": 0.75
+    },
+    "weak_compile": {
+      "n": 8,
+      "p_lambda": 0.375,
+      "p_formal": 1.0,
+      "p_kernel": 0.75
+    }
+  },
+  "total_elapsed_s": 973.3,
+  "nucleus_reference_p_lambda": 0.907
+}

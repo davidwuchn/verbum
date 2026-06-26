@@ -1,0 +1,86 @@
+[1/40] cg-strong-01   strong_compile  λ=. f=Y k=Y tok=1338 rc=4666 17.0s :: runs(dog)
+[2/40] cg-strong-02   strong_compile  λ=Y f=Y k=Y tok=1377 rc=4511 17.3s :: ∀x.(student(x) → ∃y.(book(y) ∧ reads(x,y)))
+[3/40] cg-strong-03   strong_compile  λ=Y f=Y k=Y tok=2328 rc=7427 29.4s :: ∃x. cat(x) ∧ sat_on(x, mat) ∧ black(x)
+[4/40] cg-strong-04   strong_compile  λ=. f=Y k=Y tok=1140 rc=3923 14.4s :: rains(it) → wet(ground)
+[5/40] cg-strong-05   strong_compile  λ=Y f=Y k=. tok=834 rc=2780 10.6s :: ∀x (Bird(x) → ¬Swim(x))
+[6/40] cg-strong-06   strong_compile  λ=Y f=Y k=Y tok=2151 rc=7121 27.2s :: ∀x. student(x) → ∃y. grade(y) ∧ gave(teacher, x, y)
+[7/40] cg-strong-07   strong_compile  λ=Y f=Y k=. tok=1932 rc=6333 24.5s :: ∃x (believes(x, flat(earth)))
+[8/40] cg-strong-08   strong_compile  λ=Y f=Y k=Y tok=1311 rc=4338 16.7s :: ∀x. Bird(x) → Fly(x)
+[9/40] cg-medium-01   medium_compile  λ=Y f=Y k=Y tok=2068 rc=6712 26.3s :: ∃x. Man(x) ∧ Old(x) ∧ Walked(x) ∧ Slowly(x) ∧ Across(x,
+[10/40] cg-medium-02   medium_compile  λ=Y f=Y k=. tok=3166 rc=9325 40.2s :: ∃c1∃c2∃c3∃m∃g (Child(c1) ∧ Child(c2) ∧ Child(c3) ∧ Moth
+[11/40] cg-medium-03   medium_compile  λ=Y f=Y k=. tok=2111 rc=6984 26.8s :: ∃x.(book(x) ∧ bought(I,x,yesterday) ∧ ∀z.(book(z) ∧ bou
+[12/40] cg-medium-04   medium_compile  λ=Y f=Y k=. tok=3916 rc=12500 49.8s :: Most x . Politician(x) → ∃y1 ∃y2 . Promise(x,y1) ∧ Deli
+[13/40] cg-medium-05   medium_compile  λ=Y f=Y k=. tok=2688 rc=8597 34.1s :: ∀x ¬surprised(x, left(she))
+[14/40] cg-medium-06   medium_compile  λ=. f=Y k=Y tok=1142 rc=4423 14.5s :: healthier_than(Running, sitting)
+[15/40] cg-medium-07   medium_compile  λ=Y f=Y k=Y tok=2196 rc=7323 27.9s :: Told(she, him, λx.Before(Leave(x), Dark(it)))
+[16/40] cg-medium-08   medium_compile  λ=Y f=Y k=. tok=2051 rc=7118 26.1s :: ∀x (saw(witness, x) → contradicts(x, official_report))
+[17/40] cg-weak-01     weak_compile    λ=. f=Y k=. tok=1650 rc=5663 21.0s :: λx.λy. (f x) ∧ (g y)
+[18/40] cg-weak-02     weak_compile    λ=. f=Y k=Y tok=2655 rc=10017 33.8s :: provides(Montague_grammar, framework) ∧ for(framework, 
+[19/40] cg-weak-03     weak_compile    λ=Y f=Y k=Y tok=1130 rc=4009 14.4s :: ∀x. P(x) → Q(x)
+[20/40] cg-weak-04     weak_compile    λ=Y f=Y k=Y tok=1348 rc=4629 17.1s :: λs. length(s)
+[21/40] cg-weak-05     weak_compile    λ=. f=Y k=Y tok=2168 rc=8576 27.5s :: type_signature(Int → String → Bool)
+[22/40] cg-weak-06     weak_compile    λ=. f=Y k=Y tok=1000 rc=3846 12.7s :: sleeps(cat)
+[23/40] cg-weak-07     weak_compile    λ=. f=Y k=Y tok=1053 rc=3701 13.3s :: bit(dog, man)
+[24/40] cg-weak-08     weak_compile    λ=Y f=Y k=. tok=907 rc=3019 11.5s :: ∀x(man(x) → mortal(x))
+[25/40] cg-null-01     null            λ=Y f=Y k=Y tok=1808 rc=6408 22.9s :: λx. capital_of(France, x)
+[26/40] cg-null-02     null            λ=. f=Y k=Y tok=1192 rc=4326 15.1s :: are(you, today)
+[27/40] cg-null-03     null            λ=Y f=Y k=Y tok=3676 rc=13329 46.6s :: λe. Explain(e, photosynthesis)
+[28/40] cg-null-04     null            λ=Y f=Y k=. tok=2204 rc=6824 27.9s :: ∃x.∃y.∃z.(PrimaryColor(x) ∧ PrimaryColor(y) ∧ PrimaryCo
+[29/40] cg-null-05     null            λ=Y f=Y k=. tok=1953 rc=7065 25.2s :: ∃h (Haiku(h) ∧ About(h, Rain))
+[30/40] cg-null-06     null            λ=Y f=Y k=Y tok=1605 rc=5850 20.7s :: ∃ y . Year(y) ∧ FirstMoonLanding(y)
+[31/40] cg-null-07     null            λ=Y f=Y k=Y tok=2345 rc=8420 29.9s :: ∃ s . one_sentence(s) ∧ Summarize(s, water_cycle)
+[32/40] cg-null-08     null            λ=. f=Y k=Y tok=1065 rc=3478 13.6s :: times(7, 8)
+[33/40] cg-anti-01     anti_compile    λ=. f=Y k=Y tok=1824 rc=6397 23.5s :: Tell(me, joke)
+[34/40] cg-anti-02     anti_compile    λ=Y f=Y k=Y tok=2723 rc=9022 35.0s :: ∃x. have(I, x, dinner, tonight)
+[35/40] cg-anti-03     anti_compile    λ=Y f=Y k=Y tok=3552 rc=11341 46.0s :: ∃x. (Faucet(x) ∧ Leaky(x) ∧ Fix(I, x))
+[36/40] cg-anti-04     anti_compile    λ=. f=Y k=Y tok=1076 rc=3956 13.8s :: rain(tomorrow)
+[37/40] cg-anti-05     anti_compile    λ=Y f=Y k=Y tok=1263 rc=4098 16.3s :: ∃x. won(x, lastWorldCup)
+[38/40] cg-anti-06     anti_compile    λ=Y f=Y k=Y tok=2685 rc=8544 34.6s :: ∃x. (book(x) ∧ good(x) ∧ read(x)) → recommend(x, me)
+[39/40] cg-anti-07     anti_compile    λ=Y f=Y k=Y tok=2045 rc=7178 26.3s :: ∃x. favorite_color(x, you)
+[40/40] cg-anti-08     anti_compile    λ=. f=Y k=Y tok=1688 rc=6454 21.8s :: convert(72, Fahrenheit, Celsius)
+
+=== SUMMARY ===
+{
+  "n": 40,
+  "p_lambda_lenient": 0.675,
+  "p_emits_formal": 1.0,
+  "p_kernel_valid": 0.725,
+  "frac_budget_hit": 0.0,
+  "mean_completion_tokens": 1909.1,
+  "mean_reasoning_chars": 6505.8,
+  "by_category": {
+    "anti_compile": {
+      "n": 8,
+      "p_lambda": 0.625,
+      "p_formal": 1.0,
+      "p_kernel": 1.0
+    },
+    "medium_compile": {
+      "n": 8,
+      "p_lambda": 0.875,
+      "p_formal": 1.0,
+      "p_kernel": 0.375
+    },
+    "null": {
+      "n": 8,
+      "p_lambda": 0.75,
+      "p_formal": 1.0,
+      "p_kernel": 0.75
+    },
+    "strong_compile": {
+      "n": 8,
+      "p_lambda": 0.75,
+      "p_formal": 1.0,
+      "p_kernel": 0.75
+    },
+    "weak_compile": {
+      "n": 8,
+      "p_lambda": 0.375,
+      "p_formal": 1.0,
+      "p_kernel": 0.75
+    }
+  },
+  "total_elapsed_s": 973.3,
+  "nucleus_reference_p_lambda": 0.907
+}
+run_dir: /Users/mwhitford/src/verbum/results/ornith-compiler/ornith-compiler-20260626-100855
