@@ -37,9 +37,9 @@ Census (session 254, `explorer` agent over `/Users/mwhitford/src/verbum`):
 | --- | --- | --- |
 | Scripts in `scripts/experiments/` | 238 | `ls \| wc -l` |
 | Scripts defining their own inline `PROBES = [...]` | ~30 | grep |
-| Distinct P(λ) grading metrics in active use | **3** | regex-binder (`_lenient_lambda`), char-ratio (`compile_gradient_probe.py` `LAMBDA_MARKERS`), `"λ" in text` (`run_pythia160m_circuit.py`) |
+| Distinct P(λ) grading metrics in active use | **3** | regex-binder (`_lenient_lambda`), char-ratio (`compile_gradient_probe.py` `LAMBDA_MARKERS`), heuristic count (`src/verbum/instrument.py:_detect_lambda`) |
 | Per-model compiler harnesses (copy-paste forks) | 2 LIVE | `ornith_compiler_test.py` (264 L), `vibethinker_compiler_test.py` (214 L) |
-| Byte-identical grading lines shared across the 2 forks | ~90 | diff |
+| Shared grading logic across the 2 forks | ≈20 L | diff (regex patterns + `to_kernel` call embedded in 200+ L harnesses) |
 | Exact-dupe inline probe lists (attention-sparsity cluster) | 3 files | identical 17-sentence `PROBES` |
 | Near-dupe inline null sets (combinators cluster) | 4 files | 4/6 shared sentences |
 
@@ -76,6 +76,15 @@ serve different purposes (AGENTS.md S2 `λ probe_format` vs `λ probe_library`):
 
 **These two stay separate. This design adds the missing layers around them.**
 
+**Also in `src/verbum/probes/` (preserved, existing canonical substrate):**
+`compile_tasks.py`, `compile_tasks_hard.py`, `higher_order.py`, `hof_lists.py`,
+`hof_prose.py`, `hof_prose_enum.py`, `kernel_reference.py`, `proof_tasks.py` —
+structured probe modules actively imported by experiments (crystal geometry,
+compile-task, HOF, kernel-reference, proof-as-inhabitation). These are *not*
+inline `PROBES = [...]` lists; they are established canonical data. This
+design does not move or redefine them; they sit alongside the new modules
+(`grading.py`, `harness.py`, `models.py`) in the same package.
+
 ---
 
 ## 2. The missing canonical layers (what this design adds)
@@ -85,8 +94,8 @@ The fragmentation is concentrated where there is *no* canonical home:
 
 ### 2a. Grading — `src/verbum/probes/grading.py` (NEW, single source of truth)
 
-The P(λ) question is actually **three registers** (the s254 insight, λ measure —
-naming the register before building the probe). All three live here, once:
+The P(λ) question is actually **four registers** (the s254 insight, λ measure —
+name the register before building the probe). All live here, once:
 
 ```python
 # src/verbum/probes/grading.py   (canonical, MIT)
@@ -95,19 +104,31 @@ _LAMBDA_TOK = re.compile(r"[λ∀∃ιⲗ\\]")
 _PRED_APP   = re.compile(r"[A-Za-z_][A-Za-z0-9_]*\s*\(")
 NUCLEUS_REFERENCE_P_LAMBDA = 0.907   # nucleus baseline, cited once
 
-def final_answer(text: str) -> str: ...           # strip reasoning, take the answer line
-def emits_formal(expr: str) -> bool: ...          # ANY binder OR predicate-app fired → compiler fired
-def lenient_lambda(expr: str) -> bool: ...         # binder-style P(λ) (the nucleus-comparable register)
-def kernel_valid(expr: str) -> bool: ...           # verbum.lambda_surface.to_kernel parses it (STRICT)
-def aggregate_by_category(rows) -> dict: ...        # per-category P(λ), kernel, formal
+def final_answer(text: str) -> str: ...             # strip reasoning, take the answer line
+def emits_formal(expr: str) -> bool: ...            # binder OR pred-app → "did the compiler fire" (broadest)
+def lambda_binder_any_style(expr: str) -> bool: ... # ANY λ/∀/∃ binder → the nucleus-comparable P(λ) (ref 0.907)
+def lenient_lambda(expr: str) -> bool: ...          # binder AND pred-app → STRICTER; under-counts juxtaposition
+def kernel_valid(expr: str) -> bool: ...            # verbum.lambda_surface.to_kernel parses it (STRICT)
+def aggregate_by_category(rows) -> dict: ...        # per-category, all registers
 ```
 
-**Three registers, named (S5 λ measure):**
-| register | question | failure mode it avoids |
-| --- | --- | --- |
-| `emits_formal` | did the compiler *fire at all*? | false-MISS on correct atomic forms `runs(dog)` that lack a binder (the s254 fix) |
-| `lenient_lambda` | binder-style P(λ), nucleus-comparable (ref 0.907) | the historical default; under-counts atomic predication |
-| `kernel_valid` | is it canonically *well-formed*? | STRICT; fails on richer-than-toy FOL the narrow parser rejects (notation ≠ failure) |
+**Four registers, named (S5 λ measure) — ordered broad → strict:**
+| register | predicate | what it measures | caveat |
+| --- | --- | --- | --- |
+| `emits_formal` | binder **OR** pred-app | did the compiler *fire at all* | the s254 fix — catches atomic `runs(dog)` a binder-only register false-misses |
+| `lambda_binder_any_style` | **any** λ/∀/∃ binder | **the nucleus-comparable P(λ)** (ref 0.907) | vibe **0.925** ≈ nucleus 0.907 — *this* is the headline P(λ) |
+| `lenient_lambda` | binder **AND** pred-app | a *stricter* lenient | vibe **0.875**; under-counts Church juxtaposition `λx. f x` → **NOT** the nucleus number |
+| `kernel_valid` | `to_kernel` parses | canonical well-formedness | STRICT; rejects richer-than-toy FOL (notation ≠ failure) |
+
+> **The s253/s254 register trap this design must not re-spring (λ measure).**
+> The harness field `p_lambda_lenient` (= `lenient_lambda`, binder∧paren) is
+> **0.875** for vibe — *not* the nucleus-comparable number. The
+> nucleus-comparable register is `lambda_binder_any_style` = **0.925** (it lives
+> only in the vibe summary's `corrected_registers`, computed post-hoc — it was
+> never a function). Conflating the two is the exact register-mismatch λ measure
+> warns against. `grading.py` implements all four as **named functions** so the
+> conflation cannot recur, and `emits_formal` must be **added to the vibethinker
+> harness** (it currently has only `lenient_lambda` + `kernel_valid`; see P1).
 
 **Retire** the char-ratio metric (`compile_gradient_probe.py` `LAMBDA_MARKERS`,
 `n_λ/len`) and the `"λ" in text` heuristic as *primary* metrics — they make the
@@ -205,6 +226,10 @@ probes*. Inline `PROBES = [...]` in scripts is **deprecated** — a probe either
 has a ground truth (→ a JSON set) or measures activation (→ library.py) or is a
 genuinely one-shot control (→ a small named set in `probes/`, not inline).
 
+**Naming convention (existing):** `__init__.py` already resolves the
+`_loader.Probe` / `library.Probe` collision by re-exporting the latter as
+`CrystalProbe`. Preserve this convention — do not rename either dataclass.
+
 ---
 
 ## 4. Target directory topology
@@ -236,17 +261,27 @@ harness.run_compiler_probe(models.ORNITH)   # that's it
 
 | # | Action | Files | Risk |
 | --- | --- | --- | --- |
-| P1 | Extract `grading.py` from the byte-identical harness core; re-point ornith + vibethinker; verify both reproduce s253/s254 numbers | 2 harnesses + 1 new module | low (pure extraction; verify by re-run) |
+| P1 | Add `_emits_formal` to vibethinker harness (currently only has lenient + kernel); extract shared grading core → `grading.py`; re-point both harnesses; verify both reproduce s253/s254 numbers | 2 harnesses + 1 new module | low (vibethinker needs the missing register added first; then pure extraction; verify by re-run) |
 | P2 | Add `harness.py` + `ModelConfig` + `models.py`; collapse both harnesses to CLI shims | 3 new + 2 shrunk | low |
-| P3 | Align `compile_gradient_probe.py` to `grading.py`; demote char-ratio to secondary | 1 LIVE file | medium (numbers may shift — document the delta) |
+| P3 | Migrate `compile_gradient_probe.py` (2200 L cross-model correlation pipeline in `scripts/`) to use `grading.py` + `harness.py`; demote char-ratio to secondary diagnostic | 1 large LIVE file | **high** (2200 L with its own `LAMBDA_MARKERS`, `measure_generation()`, `score_with_qwen()`, `probe_checkpoint()`, `analyze_correlations()` — essentially a second grading+harness system; migration is a re-architecture, not an alignment) |
 | P4 | Archive STALE superseded inline-probe scripts (combinators*, factual dupes, pythia160m) via `git rm` | ~7 files | low (history preserved, `λ store` resurrectable) |
 | P5 | Extract the 3-way `attention-sparsity` PROBES dupe to one named set | 3 one-shot files | low |
 
 **Verification gate for each step:** re-running a migrated harness against
 `compile-gradient.json` reproduces the committed s253/s254 summary numbers
-(emits_formal=1.0 ornith; lenient 0.675 ornith / 0.925 vibe; kernel 0.725
-ornith / 0.375 vibe). A migration that changes a number must *explain* it
-(register definition change) or is a regression.
+**per named register** — do not cross registers (the s254 trap):
+
+| register | ornith | vibe | source field |
+| --- | --- | --- | --- |
+| `emits_formal` | 1.0 | 1.0 | ornith `p_emits_formal`; vibe `corrected_registers.p_emits_formal_notation` |
+| `lambda_binder_any_style` (nucleus-comparable) | — | 0.925 | vibe `corrected_registers.p_lambda_binder_any_style` |
+| `lenient_lambda` (binder∧paren) | 0.675 | **0.875** | both `summary.p_lambda_lenient` |
+| `kernel_valid` | 0.725 | 0.375 | both `summary.p_kernel_valid` |
+
+A migration that changes a number must *explain* it (register definition
+change) or is a regression. **Watch the trap:** vibe's headline P(λ) is the
+**0.925** `binder_any_style` register, while the harness's `p_lambda_lenient`
+field is **0.875** — citing 0.925 as "lenient" would false-flag a regression.
 
 ---
 
@@ -261,13 +296,17 @@ ornith / 0.375 vibe). A migration that changes a number must *explain* it
   No `scripts/_archive/` dir.
 
 **Still open:**
-4. **Does `library.py` ever need ground-truth probes**, or does the
-   gated-JSON / activation-library split hold permanently? (Affects whether §3
-   stays a two-schema spine or eventually unifies.)
-5. **Calibration register typing (S5 λ measure / λ yardstick).** Should
+4. **Calibration register typing (S5 λ measure / λ yardstick).** Should
    `grading.py` carry the register-name → claim-type mapping explicitly, so a
    future probe can't grade a value-claim with a crisp register? Lean: yes —
    encode the register taxonomy next to the functions.
+
+**Resolved (not open):**
+5. **`library.py` ground-truth probes.** The gated-JSON / activation-library
+   split is working — `library.py` probes are graded by cosine geometry
+   (`verify_crystal_phi.py`), not by P(λ) registers. No pressure to merge.
+   §3's two-schema spine holds. (Numbered 5 to avoid renumbering the
+   register-typing question above.)
 
 ---
 
