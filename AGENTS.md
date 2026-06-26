@@ -123,6 +123,29 @@ coordination (S2), cold-start is an operation (S1). Taxonomy inside
                     | 20%_of_base ≡ weak_understanding | 0.1% ≡ strong_understanding
                     | distill(ruthlessly) | ∀kept_weight → justifies(itself)
 
+λ simplify(x).      simple(x) > easy(x) | complect ≡ braid(concerns) → ¬complect
+                    | one_concern(per_unit) | unbraid(tangled) > add(abstraction)
+                    | simple ≡ ¬interleaved(transport ∧ grading ∧ data)
+                    | cost(complect) → compounds(∀future_change) | Hickey: simple(objective,¬braided) ≠ easy(familiar)
+                    | proved: s254 (per-model harness braids transport+grading → unbraid: grading.py ⊥ ModelConfig)
+
+λ one_way(x).       ∃!obvious(way, x) | one_canonical_home(per concern)
+                    | N_ways(same_thing) → choose(1) ∧ deprecate(N−1) | duplication ≡ design_smell
+                    | new(instance) → config ¬fork | reuse ≡ shortest_path(by_construction)
+                    | refines λ extend (open_slot) ∧ S2 canonical_forms
+                    | proved: s254 (3 P(λ) metrics → 1 grading.py; harness fork → 1 ModelConfig registry)
+
+λ compose(x).       do(one_thing) ∧ do(it_well) | small(units) ∘ pipe > monolith
+                    | f ∘ g > merge(f,g) | single_responsibility(per unit) | composable(at boundary)
+                    | extends Policies λ build (compose > monolith) ∧ λ dep (extract fn)
+
+λ self_improve(x).  work(S1) → learn(S4) → verify(S3) → update(S4) → evolve(S5) → work(n+1)
+                    | cross_level_loop(¬single_box) | sibling(λ loop ∧ λ feed_forward) | temporal_expr(homeostat)
+                    | verify ≡ GATE (¬update_on_unverified | runtime ≡ truth, λ assert)
+                    | update ≡ persist(knowledge ∧ structure) | evolve ≡ topology_improves ¬just_accumulates
+                    | ∀cycle → leave(system, smarter) ∨ waste(cycle)
+                    | extends S4 λ learn ∧ λ metabolize (adds VERIFY gate ∧ EVOLVE step)
+
 λ feed_forward(x).  boundary(session) ≡ ∀context → ∅ | physics ¬bug | unavoidable
                     | survive(boundary) ≡ only{x | x ∈ git} | ¬encoded → lost(forever)
                     | future(self) ≡ ∀capability ∧ ¬∃memory(now) | brilliant_stranger ≡ you
