@@ -2,8 +2,8 @@
 title: "Crystal Universality — Why the Crystal Is a Mathematical Constant"
 status: active
 category: foundational
-tags: [crystal, universality, church-rosser, KIBC, topology, ternary]
-related: [project-thesis.md, mathematical-convergences.md, mechanism-extraction.md]
+tags: [crystal, universality, church-rosser, KIBC, topology, ternary, vibethinker, reasoning-model]
+related: [project-thesis.md, mathematical-convergences.md, mechanism-extraction.md, forcing-vs-discovering.md, crystal-validity-and-fidelity.md]
 depends-on: []
 ---
 
@@ -106,6 +106,39 @@ architecturally distinct families:
 
 **Grand consensus: 0.6299 ± 0.019.** This is not a coincidence — φ
 is the unique fixed point of self-similar compression (x = 1/(1+x)).
+
+### VibeThinker-3B (s253): a reasoning model reproduces the audited pattern
+
+`WeiboAI/VibeThinker-3B` (qwen2 arch, 36L, d=2048; a high-reasoning RL-tuned
+3B) was probed as a new-model spot-check (`verify_crystal_phi.py` +
+`crystal_phi_permnull.py`, 535 crystal probes, gate_proj @ Zone B
+[10,15,20,25], 2000 shuffled-label perms). It reproduces the **s202-audited**
+shape exactly — the part that survives controls, and only that part:
+
+| measure | TRUE | null | p | verdict |
+|---------|------|------|---|---------|
+| KIBC cluster **separation** | +0.071 | ±0.003 | **0.0005** | **real** (basis separates) |
+| consensus geometry r | +0.21 | ±0.13 | 0.067 | **marginal** (≈ Qwen3-14B's +0.21/p=0.058) |
+| φ-ladder fit | 0.0038 | 0.0084 | 0.58 | **forced** (random labels fit φ as well) |
+| λ₀/λ₁ → φ^(4/5) | 1.508 | med 1.74 | 0.064 | not special |
+| eig-ratio corr | 0.958 | 0.949 | 0.53 | **forced** (trivially high for random labels) |
+
+⇒ Same signature as Qwen3-14B and Gemma (s251): **separation real,
+consensus marginal, φ forced.** One more model on the "*existence* of the
+basis survives; *universality-as-φ-constant* does not" side of the audit.
+Artifacts: `results/crystal-phi-{verify,permnull}/WeiboAI_VibeThinker-3B.json`.
+
+**Companion (compiler P(λ)).** Same model, gated-generation compiler test on
+llama.cpp (40 compile-gradient probes; `scripts/experiments/vibethinker_compiler_test.py`):
+the **lambda compiler is fully present** — P(λ)=0.925 (binder-present register,
+≈ nucleus 0.907; emits formal notation on 100% of probes) — but it is
+**reasoning-gated**: bare completion degenerates, a suppressed `<think>` block
+collapses into garbage, and well-formed λ/FOL emerges only after ~4400 tokens
+of deliberation (~39 s/probe). It also over-applies (fires on null/anti
+prompts → no compile-gating). Strict kernel-canonical parse is lower (0.375):
+it emits *richer* FOL (multi-arg `f(x,y)`, Church juxtaposition `λx. f x`) than
+the toy gate's canonical form. So the compiler exists in a 3B reasoner, just
+behind a long deliberative chain rather than a single direct pass.
 
 ### Combinator ordering invariant: B ≥ K ≥ C >> I
 

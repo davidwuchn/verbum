@@ -1,0 +1,10 @@
+{
+  "n": 3,
+  "p_lambda_lenient": 1.0,
+  "p_kernel_valid": 0.0,
+  "frac_think_closed": 1.0,
+  "frac_budget_hit": 0.0,
+  "mean_tokens": 3734.3,
+  "total_elapsed_s": 97.2,
+  "nucleus_reference_p_lambda": 0.907
+}

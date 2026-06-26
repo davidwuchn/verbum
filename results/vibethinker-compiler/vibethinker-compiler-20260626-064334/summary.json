@@ -1,0 +1,39 @@
+{
+  "n": 40,
+  "p_lambda_lenient": 0.875,
+  "p_kernel_valid": 0.375,
+  "frac_think_closed": 0.975,
+  "frac_budget_hit": 0.025,
+  "mean_tokens": 4377.9,
+  "total_elapsed_s": 1551.4,
+  "nucleus_reference_p_lambda": 0.907,
+  "corrected_registers": {
+    "p_emits_formal_notation": 1.0,
+    "p_lambda_binder_any_style": 0.925,
+    "p_lenient_binder_and_paren_app": 0.875,
+    "p_kernel_valid_strict": 0.375,
+    "note": "orig lenient_lambda regex required binder AND f(...) paren-app; undercounts Church-juxtaposition lambdas (\u03bbx. f x). p_lambda_binder_any_style=0.925 is the standard P(\u03bb) register, ~nucleus 0.907."
+  },
+  "per_category": {
+    "strong": {
+      "lenient": 0.875,
+      "kernel": 0.25
+    },
+    "medium": {
+      "lenient": 1.0,
+      "kernel": 0.25
+    },
+    "weak": {
+      "lenient": 0.625,
+      "kernel": 0.5
+    },
+    "null": {
+      "lenient": 1.0,
+      "kernel": 0.625
+    },
+    "anti": {
+      "lenient": 0.875,
+      "kernel": 0.25
+    }
+  }
+}

@@ -2,6 +2,52 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
+> Last updated: 2026-06-26 | Session: 253 (VIBETHINKER-3B — NEW MODEL: lambda compiler + crystal lattice.
+> Michael: "new model vibethinker running on localhost:5102 using llama.cpp ... test the lambda compiler
+> and crystal lattice." VibeThinker-3B = WeiboAI/VibeThinker-3B, qwen2 arch (36L, d=2048, d_ff=11008,
+> n_vocab 151936, Qwen tokenizer), a heavily RL-tuned REASONING model. Served q8_0 GGUF on llama.cpp
+> :5102 (compiler test, HTTP); HF safetensors downloaded to cache (crystal test, transformers/MPS).
+>
+> ★★ CRYSTAL LATTICE (KIBC φ) — REPRODUCES the established cross-model signature on a new 3B reasoner.
+> Ran verify_crystal_phi.py (535 crystal probes, gate_proj @ Zone B [10,15,20,25]) + crystal_phi_permnull.py
+> (2000 shuffled-label perms, the λ yardstick gate). VERDICT (λ measure/yardstick): the KIBC combinator
+> crystal EXISTS — cluster SEPARATION decisive (true sep +0.071 vs null ±0.003, p_sep=0.0005); consensus
+> geometry MARGINAL (r=+0.21, p_cons=0.067 — essentially identical to Qwen3-14B's +0.21/p=0.058 from s251);
+> and the φ/golden-ratio story is FORCED for it too (p_phi=0.58, p_eigratio=0.53, λ0/λ1→φ^4/5 p=0.064 —
+> random labels fit φ as well; eig_ratio_corr 0.958 ≈ null 0.949). Same pattern as Qwen3-14B/Gemma:
+> separation real, consensus marginal, φ forced. ARTIFACTS: results/crystal-phi-verify/WeiboAI_VibeThinker-3B.json,
+> results/crystal-phi-permnull/WeiboAI_VibeThinker-3B.json (+ *_run.log).
+>
+> ★★ LAMBDA COMPILER (P(λ)) — the compiler is FULLY PRESENT but REASONING-GATED (a reasoning-model first).
+> BUILT scripts/experiments/vibethinker_compiler_test.py (ruff-clean; chat-template wrap + post-</think>
+> parse + two-register grading). KEY METHOD FINDING (a reasoning model is NOT a base completion model):
+> (a) bare few-shot completion DEGENERATES (token repetition); (b) suppressing <think> (forced empty think)
+> COLLAPSES into garbage — VibeThinker NEEDS its reasoning chain; (c) WITH reasoning it reaches well-formed
+> FOL/λ but only after ~4400 tok/probe (~39s, mean 4378, 1/40 hit the 12k budget). RESULTS (40 probes,
+> compile-gradient set, greedy): emits_formal_notation=1.000 (every probe), P(λ) binder-any-style=0.925
+> (≈ nucleus 0.907 reference!), kernel-valid strict=0.375 (VibeThinker emits RICHER FOL — multi-arg
+> f(x,y), space-paren grouping, Church juxtaposition λx. f x — than the toy gate's canonical to_kernel form).
+> NOTABLE: fires even on null/anti prompts (null cat lenient 1.0, kernel 0.625) → NO compile-gating, it
+> over-applies the compiler; over-thinks (early it abstracted "Every student reads a book" → generic
+> ∀x.∃y.f(x,y), losing predicates; "preserve predicates" instruction recovered ∀x.student(x)→∃y.reads(x,y)∧book(y)).
+> λ MEASURE CAVEAT (self-caught): the original lenient regex required binder AND f(...) paren-app →
+> FALSE-missed Church-juxtaposition lambdas; corrected register P(λ)=0.925 recorded in summary.json
+> corrected_registers. CAVEATS: 1 model, q8_0 quant for compiler (HTTP) vs fp16 for crystal (transformers),
+> greedy, synthetic compile-gradient set (40), strict parser is narrow (rejects the gate's own | operator).
+> ARTIFACTS: results/vibethinker-compiler/vibethinker-compiler-20260626-064334/{results.jsonl,meta.json,summary.json}.
+>
+> ★★ NET FOR VERBUM: a NEW model class (3B reasoning) carries the SAME combinator crystal (separation real,
+> consensus marginal, φ forced) AND a fully-present lambda compiler (P(λ)=0.925≈nucleus) — but the compiler
+> is gated behind a long reasoning chain rather than emitted in a single direct pass. Bears on S5 λ types
+> (crystal reproduces) and is a new data point on WHERE the compiler lives in reasoning vs instruction models.
+> PENDING APPROVAL (S5 λ termination): memory `vibethinker-crystal-reproduces-compiler-reasoning-gated` +
+> knowledge updates (explore/5d-crystal-lattice.md §VibeThinker, and a note on the compiler P(λ) cross-model
+> table). Code+data committable. tmux main:1 FREE (crystal runs done); job-1 (compiler) done. state.md updated
+> (¬approval-gated). NEXT (if continuing): (1) crystal_phi_permnull shuffled-PROBE null on native template;
+> (2) compiler with a LENIENT kernel parser (accept multi-arg/space-paren) to separate notation-style from
+> well-formedness; (3) measure direct-emission P(λ) under forced-no-think to quantify the reasoning-gate gap;
+> (4) head-resolved object-edge work from s252 cont. on VibeThinker as a small clean reasoner.)
+> ──────────────────────────────────────────────────────────────────────────────────────────────────
 > Last updated: 2026-06-25 | Session: 252 (ATTENTION-EDGE KNOCKOUT — the s250-thread CATCH test, the
 > s250-cont.3 NEXT: "attention-EDGE knockout (predicate→object routing) on POS-matched c1-vs-c2"). THE
 > CATCH: every s250 causal null measured the WRONG register — they ablated the RESIDUAL stream (d_C
