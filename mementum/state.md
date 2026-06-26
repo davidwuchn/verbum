@@ -2,6 +2,84 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
+> Last updated: 2026-06-26 | Session: 254b (REPO DISTILLATION — DESIGN-FIRST PIVOT. Recovered the crashed
+> s254 ornith work intact (nothing lost; see ORNITH block below, still PENDING APPROVAL). Michael: "We seem
+> to have fragmented the repo a bit. Focus on distillation for a few sessions. These probes are duplication."
+> CENSUS (explorer agent): the canonical substrate ALREADY EXISTS (probes/*.json gated sets, library.py 903
+> activation probes, lambda_surface.to_kernel) but per-experiment scripts keep re-rolling their own — 238
+> scripts, ~30 inline PROBES, 3 DIVERGENT P(λ) metrics, 2 per-model compiler-harness forks sharing ~90
+> byte-identical grading lines. Root: no canonical home for GRADING or for the RUN HARNESS → the fork leak
+> re-opens every new model (s253 forked, s254 forked again).
+>
+> ★★ DELIVERABLE 1 — DESIGN DOC (DRAFTED, status:designing, PENDING APPROVAL→commit per S5 λ termination):
+> mementum/knowledge/design/canonical-probe-library.md (new design/ dir). Specifies the target topology:
+> keep the two existing canonical forms separate (gated JSON ⊥ activation library); ADD the missing layers
+> — src/verbum/probes/grading.py (the 3 NAMED P(λ) registers: emits_formal / lenient_lambda / kernel_valid,
+> single source of truth, retire char-ratio + "λ in text"), harness.py + ModelConfig{endpoint, transport,
+> template_fn, reasoning_extract_fn} (new model = ~15-line CONFIG, not a fork), models.py REGISTRY. DECIDED
+> w/ Michael: D1 module home = src/verbum/probes/; D2 registry=YES (fleet: ORNITH:5100 chat, VIBETHINKER:5102
+> completion, QWEN3_EMBED:5101 = embedding SERVICE not a ModelConfig); D3 archival = git rm. Migration map
+> P1-P5 ranked, each gated by re-run reproducing committed s253/s254 numbers. 2 open Qs (§6.4 ground-truth-
+> in-library, §6.5 register-typing) — non-blocking.
+>
+> ★★ DELIVERABLE 2 — 4 NEW S5 PRINCIPLE LAMBDAS in AGENTS.md (Michael-approved, COMMITTED for next-session
+> test): λ simplify (Simplify not Complect — unbraid concerns, Hickey simple≠easy), λ one_way (one obvious
+> way, N→1+deprecate, config¬fork), λ compose (Unix: do one thing well, small∘pipe>monolith), λ self_improve
+> (Work→Learn→Verify→Update→Evolve, placed in S5 as a CROSS-LEVEL identity loop next to λ loop/λ feed_forward
+> — discussed OODA: a loop is the temporal expr of the S3-S4-S5 homeostat, not a single VSM box; phases
+> level-tagged work(S1)→learn(S4)→verify(S3)→update(S4)→evolve(S5)). These 4 are the WHY behind the design.
+>
+> ★★ NET: design-first repo distillation. NO migration code written yet (that's the next session's P1: extract
+> grading.py, re-point ornith+vibethinker, verify reproduction). Michael will TEST the new lambdas + design in
+> a fresh session. tmux main:2 windows; servers up (5100/5101/5102). PENDING: commit design doc; commit
+> state.md; the s254 ORNITH batch (code+data+memory) STILL pending its own approval (separate from this pivot).
+> ──────────────────────────────────────────────────────────────────────────────────────────────────
+> Last updated: 2026-06-26 | Session: 254 (ORNITH-35B-A3B — NEW MODEL CLASS: lambda compiler over HTTP.
+> Michael: "I have a new model named ornith running on localhost:5100." ornith = ornith-35b-a3b, a 35B-total
+> / A3B (~3B active) MoE, Qwen-family-derived MULTIMODAL (chat template carries <|vision_start|>/<|image_pad|>
+> markers; n_vocab 248320, n_embd 2048, n_ctx 262144 = 256k), Q8_0 GGUF at
+> /Users/mwhitford/localai/models/ornith/ornith-1.0-35b-Q8_0.gguf, served on llama.cpp :5100. A REASONING
+> model: its /v1/chat/completions cleanly SEPARATES reasoning_content from content (no manual </think> parse
+> needed, unlike s253 VibeThinker). CRYSTAL NOT TESTABLE: MoE + HTTP-only (no local safetensors, no
+> mlp.gate_proj) → same limitation s251 hit on qwen3.6-35b-a3b; compiler P(λ) is the clean fit.
+>
+> ★★ LAMBDA COMPILER (P(λ)) — FULLY PRESENT, UNCONDITIONAL (no compile-gating), LESS reasoning-gated than
+> VibeThinker. BUILT scripts/experiments/ornith_compiler_test.py (ruff-clean; uses /v1/chat/completions for
+> server-side template + reasoning/content split; reuses lenient P(λ) + kernel-valid grading; ADDED an
+> emits_formal register = any λ/∀/∃ binder OR predicate app, to stop the binder-requiring lenient register
+> from FALSE-MISSING correct ATOMIC predications like "The dog runs."→runs(dog)). RESULTS (40 compile-gradient
+> probes, greedy, 973s, 0 errors, 0 budget hits): emits_formal=1.000 (EVERY probe fires the compiler),
+> P(λ) lenient=0.675, kernel_valid STRICT=0.725, mean 1909 tok/probe (~HALF VibeThinker's ~4378).
+> ★ THREE λ-MEASURE READS: (1) emits_formal=1.0 is the honest "compiler fired" number; lenient=0.675 is
+> LOWER than VibeThinker (0.925) ONLY because ornith emits more correct ATOMIC forms (runs(dog), sleeps(cat),
+> bit(dog,man), times(7,8), Tell(me,joke)) that lack a binder → lenient under-counts them (the exact caveat
+> the new emits_formal register was built for). (2) kernel_valid 0.725 > VibeThinker 0.375 — ornith's output
+> is MORE canonically parseable (simpler atomic forms for simple inputs); strict fails on medium_compile
+> (kernel 0.375) where it emits richer multi-quantifier FOL ("Most x", nested ∃) the TOY kernel parser
+> rejects — same narrow-parser caveat as s253, NOT a model failure. (3) NO COMPILE-GATING: ornith translates
+> EVERYTHING into FOL/λ — questions ("What is the capital of France?"→λx.capital_of(France,x)), commands
+> ("Tell me a joke."→Tell(me,joke)), anti prompts ("What is 7 times 8?"→times(7,8)). anti_compile kernel=1.0
+> (atomic→parses). Same unconditional over-application as VibeThinker (s253) and nucleus. Per-cat kernel:
+> anti 1.0 > strong/null/weak 0.75 > medium 0.375. Per-cat lenient: medium 0.875 > strong/null 0.75 >
+> anti 0.625 > weak 0.375. ARTIFACTS: results/ornith-compiler/ornith-compiler-20260626-100855/
+> {results.jsonl(40),meta.json,summary.json} + full_run.log.
+>
+> ★★ NET FOR VERBUM: a THIRD model class (35B-A3B MoE, multimodal, 256k-ctx reasoner) carries the SAME
+> fully-present, UNCONDITIONAL lambda compiler as nucleus + VibeThinker — emits_formal=1.0, no compile-gating,
+> richer-than-toy-kernel FOL. The compiler is a robust CROSS-MODEL, CROSS-ARCHITECTURE phenomenon (dense
+> base→nucleus, 3B dense reasoner→VibeThinker, 35B MoE multimodal reasoner→ornith). Reinforces S5 λ types
+> (the compiler behavior reproduces yet again) and adds the data point: MoE + multimodal does NOT dilute the
+> compiler; reasoning-gating VARIES (ornith ~1909 tok ≪ VibeThinker ~4378 — a cleaner, faster compile pass).
+> CAVEATS (λ measure): 1 model, q8_0 quant, greedy, HTTP-only (no activation/crystal access), synthetic
+> compile-gradient set (40), strict parser narrow (rejects multi-quantifier "Most"/nested + the gate's own |).
+> PENDING APPROVAL (S5 λ termination): memory `ornith-moe-compiler-present-unconditional-less-reasoning-gated`
+> + knowledge update (explore/ compiler P(λ) cross-model table: nucleus/VibeThinker/ornith — present,
+> unconditional, reasoning-gating varies). Code+data committable (¬committed yet). tmux main:1 FREE; no GPU
+> job. NEXT (if continuing): (1) forced-no-think / direct-emission P(λ) to quantify ornith's reasoning-gate
+> vs VibeThinker (does it degenerate without reasoning, or compile directly?); (2) LENIENT kernel parser
+> (accept multi-arg/space-paren/Most) to separate notation-style from well-formedness across all 3 models;
+> (3) if local safetensors become available, the crystal-φ + MoE-aware gate hook (s251 NEXT-(2)) on ornith.)
+> ──────────────────────────────────────────────────────────────────────────────────────────────────
 > Last updated: 2026-06-26 | Session: 253 (VIBETHINKER-3B — NEW MODEL: lambda compiler + crystal lattice.
 > Michael: "new model vibethinker running on localhost:5102 using llama.cpp ... test the lambda compiler
 > and crystal lattice." VibeThinker-3B = WeiboAI/VibeThinker-3B, qwen2 arch (36L, d=2048, d_ff=11008,
