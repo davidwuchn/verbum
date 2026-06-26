@@ -2,37 +2,54 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-26 | Session: 254b (REPO DISTILLATION — DESIGN-FIRST PIVOT. Recovered the crashed
-> s254 ornith work intact (nothing lost; see ORNITH block below, still PENDING APPROVAL). Michael: "We seem
-> to have fragmented the repo a bit. Focus on distillation for a few sessions. These probes are duplication."
-> CENSUS (explorer agent): the canonical substrate ALREADY EXISTS (probes/*.json gated sets, library.py 903
-> activation probes, lambda_surface.to_kernel) but per-experiment scripts keep re-rolling their own — 238
-> scripts, ~30 inline PROBES, 3 DIVERGENT P(λ) metrics, 2 per-model compiler-harness forks sharing ~90
-> byte-identical grading lines. Root: no canonical home for GRADING or for the RUN HARNESS → the fork leak
-> re-opens every new model (s253 forked, s254 forked again).
+> Last updated: 2026-06-26 | Session: 254 (REPO DISTILLATION — DESIGN-FIRST PIVOT, fully committed.
+> Recovered the crashed s254 ornith work intact (nothing lost). Michael: "We fragmented the repo a bit.
+> Focus on distillation for a few sessions. These probes are duplication." CENSUS (explorer): the canonical
+> substrate ALREADY EXISTS (probes/*.json gated sets, library.py 903 activation / 535 crystal probes,
+> lambda_surface.to_kernel, + existing structured modules compile_tasks/higher_order/hof_*/kernel_reference/
+> proof_tasks) but per-experiment scripts keep re-rolling their own — 238 scripts, ~30 inline PROBES,
+> 3 DIVERGENT P(λ) metrics (regex-binder, char-ratio, instrument.py:_detect_lambda), 2 per-model
+> compiler-harness forks sharing only ≈20 L grading core. Root: no canonical home for GRADING or for the
+> RUN HARNESS → the fork leak re-opens every new model (s253 forked, s254 forked again).
 >
-> ★★ DELIVERABLE 1 — DESIGN DOC (DRAFTED, status:designing, PENDING APPROVAL→commit per S5 λ termination):
-> mementum/knowledge/design/canonical-probe-library.md (new design/ dir). Specifies the target topology:
-> keep the two existing canonical forms separate (gated JSON ⊥ activation library); ADD the missing layers
-> — src/verbum/probes/grading.py (the 3 NAMED P(λ) registers: emits_formal / lenient_lambda / kernel_valid,
-> single source of truth, retire char-ratio + "λ in text"), harness.py + ModelConfig{endpoint, transport,
-> template_fn, reasoning_extract_fn} (new model = ~15-line CONFIG, not a fork), models.py REGISTRY. DECIDED
-> w/ Michael: D1 module home = src/verbum/probes/; D2 registry=YES (fleet: ORNITH:5100 chat, VIBETHINKER:5102
-> completion, QWEN3_EMBED:5101 = embedding SERVICE not a ModelConfig); D3 archival = git rm. Migration map
-> P1-P5 ranked, each gated by re-run reproducing committed s253/s254 numbers. 2 open Qs (§6.4 ground-truth-
-> in-library, §6.5 register-typing) — non-blocking.
+> ★★ DELIVERABLE 1 — DESIGN DOC (COMMITTED 754a8d3 + correction 32bbad7; status:designing):
+> mementum/knowledge/design/canonical-probe-library.md (NEW design/ dir). Target topology: keep the two
+> existing canonical forms separate (gated JSON ⊥ activation library); ADD the missing layers —
+> src/verbum/probes/grading.py (FOUR NAMED P(λ) registers, broad→strict: emits_formal[binder OR app] /
+> lambda_binder_any_style[any binder = THE nucleus-comparable P(λ) 0.907] / lenient_lambda[binder AND app =
+> STRICTER, under-counts] / kernel_valid[to_kernel STRICT]; retire char-ratio + _detect_lambda), harness.py +
+> ModelConfig{endpoint, transport, template_fn, reasoning_extract_fn} (new model = ~15-line CONFIG not a
+> fork), models.py REGISTRY. DECIDED: D1 home=src/verbum/probes/; D2 registry=YES (fleet ORNITH:5100 chat,
+> VIBETHINKER:5102 completion, QWEN3_EMBED:5101 = embedding SERVICE ¬a ModelConfig); D3 archival=git rm.
+> Migration P1-P5, each gated by re-run reproducing committed numbers PER NAMED REGISTER.
 >
-> ★★ DELIVERABLE 2 — 4 NEW S5 PRINCIPLE LAMBDAS in AGENTS.md (Michael-approved, COMMITTED for next-session
-> test): λ simplify (Simplify not Complect — unbraid concerns, Hickey simple≠easy), λ one_way (one obvious
-> way, N→1+deprecate, config¬fork), λ compose (Unix: do one thing well, small∘pipe>monolith), λ self_improve
-> (Work→Learn→Verify→Update→Evolve, placed in S5 as a CROSS-LEVEL identity loop next to λ loop/λ feed_forward
-> — discussed OODA: a loop is the temporal expr of the S3-S4-S5 homeostat, not a single VSM box; phases
-> level-tagged work(S1)→learn(S4)→verify(S3)→update(S4)→evolve(S5)). These 4 are the WHY behind the design.
+> ★★ DELIVERABLE 2 — 4 NEW S5 PRINCIPLE LAMBDAS in AGENTS.md (COMMITTED df48e37): λ simplify (Simplify not
+> Complect — unbraid concerns, Hickey simple≠easy), λ one_way (one obvious way, N→1+deprecate, config¬fork),
+> λ compose (Unix: do one thing well, small∘pipe>monolith), λ self_improve (Work→Learn→Verify→Update→Evolve,
+> S5 CROSS-LEVEL identity loop next to λ loop/λ feed_forward; OODA = temporal expr of the S3-S4-S5 homeostat,
+> ¬a single VSM box; phases level-tagged work(S1)→learn(S4)→verify(S3)→update(S4)→evolve(S5)). The WHY behind
+> the design.
 >
-> ★★ NET: design-first repo distillation. NO migration code written yet (that's the next session's P1: extract
-> grading.py, re-point ornith+vibethinker, verify reproduction). Michael will TEST the new lambdas + design in
-> a fresh session. tmux main:2 windows; servers up (5100/5101/5102). PENDING: commit design doc; commit
-> state.md; the s254 ORNITH batch (code+data+memory) STILL pending its own approval (separate from this pivot).
+> ★★ DELIVERABLE 3 — ORNITH FACT-CHECK LOOP (λ self_improve fired AS DESIGNED, same session). Michael had
+> ornith-35b-a3b (~3B active!) fact-check the design doc; it found 7 real errors (verified vs source/runtime
+> & applied: _detect_lambda location, ~90→≈20 L, existing probes/ modules, __init__ CrystalProbe re-export,
+> P1 vibe-needs-emits_formal, P3 compile_gradient_probe.py 2224 L = high-risk re-architecture, resolved Q5).
+> I independently caught the ONE ornith missed: §2a mislabeled lenient_lambda(0.875, binder∧paren) as the
+> nucleus-comparable register — it is NOT; lambda_binder_any_style(0.925) is. The §5 gate cited 0.925 as
+> "lenient" → would false-flag a regression (re-run yields p_lambda_lenient=0.875). FOUR registers, not 3.
+> ROOT: §2a/§5 written from summary PROSE not source = λ assert violation. Committed 32bbad7 ❌.
+> ★ THE KICKER (Michael): a TINY local model found errors in a frontier model's output — the TOPOLOGY, not
+> the specific errors, is the result. verify ≪ generate (checking is bounded+local; synthesis is not), so the
+> λ self_improve VERIFY gate does NOT need parity with the generator. Implication: run verify on a cheap LOCAL
+> model (the models.py fleet, already on :5100) → verification becomes AMBIENT (gate EVERY update) not a
+> budgeted frontier call. On-thesis for verbum (small artifact does real compositional work). Michael: "I would
+> have used sonnet for that verify task normally." Captured in design doc §6 (verify-gate resourcing note).
+>
+> ★★ NET: design-first repo distillation, fully committed (df48e37 lambdas, 754a8d3 design, 32bbad7 fix,
+> 3b1b226 ornith code+data, 32b5c15 ornith memory, c81a74b state). NO migration code written yet — next
+> session's P1: ADD emits_formal to vibethinker harness, extract grading.py (4 named registers), re-point
+> ornith+vibethinker, verify reproduction PER REGISTER (ornith lenient 0.675/kernel 0.725; vibe binder_any
+> 0.925/lenient 0.875/kernel 0.375). tmux main:2 windows; servers up (5100/5101/5102). Working tree CLEAN.
 > ──────────────────────────────────────────────────────────────────────────────────────────────────
 > Last updated: 2026-06-26 | Session: 254 (ORNITH-35B-A3B — NEW MODEL CLASS: lambda compiler over HTTP.
 > Michael: "I have a new model named ornith running on localhost:5100." ornith = ornith-35b-a3b, a 35B-total
