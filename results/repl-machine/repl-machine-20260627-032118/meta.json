@@ -1,0 +1,38 @@
+{
+  "run_id": "repl-machine-20260627-032118",
+  "timestamp": "2026-06-27T03:21:19.016422+00:00",
+  "model": "ornith-35b-a3b",
+  "quant": "q8_0",
+  "model_revision": null,
+  "lib_versions": {
+    "verbum": "0.0.0",
+    "httpx": "0.28.1",
+    "httpx-sse": "0.4.3",
+    "pydantic": "2.13.1",
+    "numpy": "2.4.4",
+    "structlog": "25.5.0",
+    "polars": "1.39.3"
+  },
+  "lockfile_hash": "sha256:5bc2ee2e297f67744e2dc1fcf2bd15a9c303b25c8ee5c82c528a05de04ca2435",
+  "git_sha": "2bdee5977b92f5863e215d6ef415f6b8d64df63e",
+  "probe_set_id": "combinator-reduction",
+  "probe_set_hash": "sha256:d97904c7ae36307ef70f5130f3ba269097b2e4718e2226f5902dc2b6069e1e8f",
+  "sampling": {
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "top_k": -1,
+    "seed": null,
+    "grammar": null
+  },
+  "completed_at": "2026-06-27T08:06:12.857578+00:00",
+  "total_probes": 240,
+  "failed_probes": 0,
+  "system_prompt_hash": "sha256:6d9b9089951db651aa88c1a0c96559261e867a5ec2de32a4d9850c699607ee31",
+  "endpoint": "/v1/chat/completions",
+  "oracle": "verbum.lambda_ast.reduce (normal-order)",
+  "modes": [
+    "run",
+    "step"
+  ],
+  "n_predict": 8000
+}

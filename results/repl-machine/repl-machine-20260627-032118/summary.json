@@ -1,0 +1,156 @@
+{
+  "run": {
+    "ALL": {
+      "n": 120,
+      "nf_correct": 0.45,
+      "premature_halt": 0.016666666666666666,
+      "step_validity": 0.8974867724867726,
+      "opcode_accuracy": 0.9811320754716981
+    },
+    "already_nf": {
+      "n": 18,
+      "nf_correct": 0.6666666666666666,
+      "premature_halt": 0.0,
+      "step_validity": 0.0,
+      "opcode_accuracy": null
+    },
+    "depth1": {
+      "n": 29,
+      "nf_correct": 0.7586206896551724,
+      "premature_halt": 0.034482758620689655,
+      "step_validity": 1.0,
+      "opcode_accuracy": 1.0
+    },
+    "multi2": {
+      "n": 12,
+      "nf_correct": 0.3333333333333333,
+      "premature_halt": 0.0,
+      "step_validity": 1.0,
+      "opcode_accuracy": 1.0
+    },
+    "multi3": {
+      "n": 12,
+      "nf_correct": 0.25,
+      "premature_halt": 0.08333333333333333,
+      "step_validity": 0.7333333333333333,
+      "opcode_accuracy": 0.8
+    },
+    "multi4": {
+      "n": 12,
+      "nf_correct": 0.4166666666666667,
+      "premature_halt": 0.0,
+      "step_validity": 0.9166666666666666,
+      "opcode_accuracy": 1.0
+    },
+    "multi5": {
+      "n": 12,
+      "nf_correct": 0.16666666666666666,
+      "premature_halt": 0.0,
+      "step_validity": 0.9333333333333332,
+      "opcode_accuracy": 1.0
+    },
+    "multi6": {
+      "n": 12,
+      "nf_correct": 0.25,
+      "premature_halt": 0.0,
+      "step_validity": 0.7729166666666667,
+      "opcode_accuracy": 1.0
+    },
+    "multi7": {
+      "n": 12,
+      "nf_correct": 0.25,
+      "premature_halt": 0.0,
+      "step_validity": 0.8628571428571428,
+      "opcode_accuracy": 1.0
+    },
+    "multi8": {
+      "n": 1,
+      "nf_correct": 0.0,
+      "premature_halt": 0.0,
+      "step_validity": null,
+      "opcode_accuracy": null
+    }
+  },
+  "step": {
+    "ALL": {
+      "n": 120,
+      "reached_correct_nf": 0.49166666666666664,
+      "per_step_accuracy": 0.670327380952381,
+      "all_steps_correct": 0.49166666666666664,
+      "over_reduce": 0.008333333333333333,
+      "mean_steps_to_first_error": 0.8852459016393442
+    },
+    "already_nf": {
+      "n": 18,
+      "reached_correct_nf": 0.8333333333333334,
+      "per_step_accuracy": 0.8333333333333334,
+      "all_steps_correct": 0.8333333333333334,
+      "over_reduce": 0.0,
+      "mean_steps_to_first_error": 0.0
+    },
+    "depth1": {
+      "n": 29,
+      "reached_correct_nf": 0.9655172413793104,
+      "per_step_accuracy": 0.9885057471264368,
+      "all_steps_correct": 0.9655172413793104,
+      "over_reduce": 0.0,
+      "mean_steps_to_first_error": 0.0
+    },
+    "multi2": {
+      "n": 12,
+      "reached_correct_nf": 0.5,
+      "per_step_accuracy": 0.638888888888889,
+      "all_steps_correct": 0.5,
+      "over_reduce": 0.08333333333333333,
+      "mean_steps_to_first_error": 0.6666666666666666
+    },
+    "multi3": {
+      "n": 12,
+      "reached_correct_nf": 0.25,
+      "per_step_accuracy": 0.5277777777777778,
+      "all_steps_correct": 0.25,
+      "over_reduce": 0.0,
+      "mean_steps_to_first_error": 0.8888888888888888
+    },
+    "multi4": {
+      "n": 12,
+      "reached_correct_nf": 0.3333333333333333,
+      "per_step_accuracy": 0.5902777777777778,
+      "all_steps_correct": 0.3333333333333333,
+      "over_reduce": 0.0,
+      "mean_steps_to_first_error": 1.125
+    },
+    "multi5": {
+      "n": 12,
+      "reached_correct_nf": 0.16666666666666666,
+      "per_step_accuracy": 0.5277777777777778,
+      "all_steps_correct": 0.16666666666666666,
+      "over_reduce": 0.0,
+      "mean_steps_to_first_error": 0.9
+    },
+    "multi6": {
+      "n": 12,
+      "reached_correct_nf": 0.0,
+      "per_step_accuracy": 0.3416666666666666,
+      "all_steps_correct": 0.0,
+      "over_reduce": 0.0,
+      "mean_steps_to_first_error": 1.25
+    },
+    "multi7": {
+      "n": 12,
+      "reached_correct_nf": 0.08333333333333333,
+      "per_step_accuracy": 0.36855158730158727,
+      "all_steps_correct": 0.08333333333333333,
+      "over_reduce": 0.0,
+      "mean_steps_to_first_error": 0.36363636363636365
+    },
+    "multi8": {
+      "n": 1,
+      "reached_correct_nf": 0.0,
+      "per_step_accuracy": 0.8333333333333334,
+      "all_steps_correct": 0.0,
+      "over_reduce": 0.0,
+      "mean_steps_to_first_error": 5.0
+    }
+  }
+}

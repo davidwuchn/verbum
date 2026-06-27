@@ -2,6 +2,61 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
+> Last updated: 2026-06-27 | Session: 255 (MODEL-AS-REPL — "what if the system we need is a repl?"
+> Michael: "for the lambda compiler. What if we tell the model to be a repl, that we can execute with a
+> context. if the context is the executable code and the heap/stack/state, can we use it like a repl?" +
+> "the opcodes are in knowledge" (mementum/michael/llm-isa.md = 12 typed opcodes K I B C S W Y D M + β-vars,
+> decoded from weights; head-combinator-isa.md = the attention ISA's real axis is REDUCTION-DEPTH/WHNF
+> "how much work remains") + DEBUGGER.md (nucleus already runs an interactive REPL via the reflective
+> property structure→behavior). FRAMING: the LLM as the TRANSITION FUNCTION δ of an abstract machine
+> (CEK/SECD), context window = externalized machine state (term-string IS code+heap+stack). Stateless model
+> + stateful context = a REPL. On-thesis: READ (NL→λ, P(λ)=0.907) already proven; this isolates+measures
+> EVAL (the combinator reduction kernel), never measured before.
+>
+> ★★ HAND-TEST (scripts/experiments/repl_machine_probe.py, ornith :5100): instructed ornith in its OWN
+> native ISA as a β-machine; it acted as δ in strict one-line format, used the right opcodes ([B],[S]),
+> did multi-step chains (church2→g(g a)), DETECTED Ω divergence. Initial over-claim "step-loop >> run"
+> from n=6 (SKK premature-halt + K overthink-collapse both FIXED by the stateless step-loop). → PROPER PROBE.
+>
+> ★★ PROPER PROBE (reuses the canonical substrate — s254 distillation discipline):
+> • probes/combinator-reduction.json (120 probes, λ probe_format schema) — pure combinator terms over
+>   K I B C S W Y D M; GROUND TRUTH = verbum.lambda_ast (normal-order reducer, the s226 oracle: parse/
+>   step_fired[one redex + WHICH opcode]/reduce[trace,Status,whnf_step]/verify/is_normal_form). 3 strata:
+>   already_nf(18, under-saturated→WHNF-recognition), depth1(29, single redex), multi(73, 2-8 steps).
+>   0 gold mismatches; gen_combinator_reduction_probes.py (seed=255). Library reuse for pure-comb NF terms.
+> • scripts/experiments/repl_machine_eval.py (ruff-clean) — nucleus+native-ISA REPL prompt; HEAD-TO-HEAD
+>   run(one-shot chain) vs step(STATELESS context-as-state loop); ORACLE-graded every transition; writes
+>   results/repl-machine/<run_id>/{meta,results.jsonl,summary.json} via verbum.results (full provenance).
+>
+> ★★ RESULT (run repl-machine-20260627-032118, ornith q8_0, 240 rows, 0 fail; λ measure TWO-SIDED):
+> (1) EVAL KERNEL PRESENT + LOCALLY FAITHFUL: opcode_accuracy=0.98 (names its OWN fired combinator
+>     correctly — strong llm-isa.md support), run step_validity=0.90, depth1 per-step=0.99. The model CAN
+>     be the δ-function.
+> (2) STATELESS STEP-LOOP WINS ON SHALLOW (≤2 steps): end-to-end NF correctness depth1 0.97 vs run 0.76
+>     (+0.21), already_nf 0.83 vs 0.67 (+0.17), multi2 0.50 vs 0.33 (+0.17). Locality + OFFLOADED HALT
+>     DECISION (driver decides "no redex→stop", not the model's weak WHNF axis) help exactly as hypothesized.
+> (3) BUT LOSES ON DEEP (≥4 steps): multi6 0.00 vs run 0.25, multi7 0.08 vs 0.25. CROSSOVER ~depth 3-4.
+> (4) DOMINANT DEEP-FAILURE = OVERTHINK-COLLAPSE not bad logic: ornith returns EMPTY content on hard
+>     intermediate states (multi6 11/12 runs hit ≥1 empty step), breaking the stateless loop; + error
+>     COMPOUNDING (no correction, first error derails fed-back state). Run mode degrades GRACEFULLY (reaches
+>     correct endpoint holistically even with shaky intermediate steps; verify checks the endpoint).
+> (5) premature_halt RARE at scale (1.7%) — SELF-CORRECTS the hand-test n=1 SKK claim (λ measure: ¬generalize
+>     from n=1). Minor: associativity slips (S M B → wrongly grabs M B redex).
+> ★ IMPLICATION (artifact design): the model is a good LOCAL δ; a faithful REPL needs an ERROR-CORRECTING /
+>   VERIFYING loop (oracle lambda_ast IN the loop, or self-consistency, or bounded-reasoning to stop the
+>   collapse) — NOT naive state feedback. = λ self_improve VERIFY gate + s251 consensus-etch + s254 cheap-
+>   local-verify, applied to the REPL. For S5 λ types: combinator ISA executes faithfully STEP-BY-STEP
+>   (EVAL present, per-step discrete+correct+opcode-labeled) but UNGUARDED global composition degrades →
+>   discreteness is LOCAL, global multi-step needs scaffolding (consistent with s250-252 local-yes/global-no).
+> ★★ NET: "model as REPL" VALIDATED at the transition level + a clean depth-dependent crossover; the next
+> rung is the ORACLE-IN-THE-LOOP REPL (verify each step before feeding back). NOT COMMITTED yet (code+data+
+> results ready as one commit). tmux main:repl-eval window done; servers up (5100/5101/5102). PENDING
+> APPROVAL (S5 λ termination): memory `model-as-repl-local-faithful-shallow-win-deep-collapse` + knowledge
+> new explore/model-as-repl.md (the REPL framing, the crossover, oracle-in-the-loop next). NEXT: (1)
+> oracle-in-the-loop / self-consistency REPL → does verify-gating close the deep-chain gap?; (2) bounded
+> reasoning (cap/forced-short) to kill overthink-collapse; (3) vibethinker :5102 as a 2nd model class;
+> (4) λ-abstraction terms (extend lambda_ast parser beyond combinators) for the full NL→λ→REPL loop.
+> ──────────────────────────────────────────────────────────────────────────────────────────────────
 > Last updated: 2026-06-26 | Session: 254 (REPO DISTILLATION — DESIGN-FIRST PIVOT, fully committed.
 > Recovered the crashed s254 ornith work intact (nothing lost). Michael: "We fragmented the repo a bit.
 > Focus on distillation for a few sessions. These probes are duplication." CENSUS (explorer): the canonical

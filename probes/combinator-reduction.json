@@ -1,0 +1,2190 @@
+{
+  "id": "combinator-reduction",
+  "version": 1,
+  "description": "Oracle-certified combinator-reduction probes for the REPL-machine eval (s255). Pure combinator terms over K I B C S W Y D M; ground truth = verbum.lambda_ast normal-order reducer. depth1 stratum reused from verbum.probes.library; multi stratum seed-generated and filtered to 2..8 reduction steps. Gold re-derivable from each term via the oracle.",
+  "created": "2026-06-27T03:14:50.336291+00:00",
+  "author": "verbum",
+  "oracle": "verbum.lambda_ast.reduce (normal-order, MAX_STEPS=512)",
+  "seed": 255,
+  "probes": [
+    {
+      "id": "cr-nf-000",
+      "category": "already_nf",
+      "prompt": "B S D",
+      "ground_truth": "B S D",
+      "metadata": {
+        "combinator": null,
+        "source": "generated",
+        "lib_source": null,
+        "lib_id": null,
+        "n_steps": 0,
+        "fired": [],
+        "status": "normal_form",
+        "whnf_step": 0
+      }
+    },
+    {
+      "id": "cr-nf-001",
+      "category": "already_nf",
+      "prompt": "S M B",
+      "ground_truth": "S M B",
+      "metadata": {
+        "combinator": null,
+        "source": "generated",
+        "lib_source": null,
+        "lib_id": null,
+        "n_steps": 0,
+        "fired": [],
+        "status": "normal_form",
+        "whnf_step": 0
+      }
+    },
+    {
+      "id": "cr-nf-002",
+      "category": "already_nf",
+      "prompt": "B S",
+      "ground_truth": "B S",
+      "metadata": {
+        "combinator": null,
+        "source": "generated",
+        "lib_source": null,
+        "lib_id": null,
+        "n_steps": 0,
+        "fired": [],
+        "status": "normal_form",
+        "whnf_step": 0
+      }
+    },
+    {
+      "id": "cr-nf-003",
+      "category": "already_nf",
+      "prompt": "C W",
+      "ground_truth": "C W",
+      "metadata": {
+        "combinator": null,
+        "source": "generated",
+        "lib_source": null,
+        "lib_id": null,
+        "n_steps": 0,
+        "fired": [],
+        "status": "normal_form",
+        "whnf_step": 0
+      }
+    },
+    {
+      "id": "cr-nf-004",
+      "category": "already_nf",
+      "prompt": "S W C",
+      "ground_truth": "S W C",
+      "metadata": {
+        "combinator": null,
+        "source": "generated",
+        "lib_source": null,
+        "lib_id": null,
+        "n_steps": 0,
+        "fired": [],
+        "status": "normal_form",
+        "whnf_step": 0
+      }
+    },
+    {
+      "id": "cr-nf-005",
+      "category": "already_nf",
+      "prompt": "D C K D",
+      "ground_truth": "D C K D",
+      "metadata": {
+        "combinator": null,
+        "source": "generated",
+        "lib_source": null,
+        "lib_id": null,
+        "n_steps": 0,
+        "fired": [],
+        "status": "normal_form",
+        "whnf_step": 0
+      }
+    },
+    {
+      "id": "cr-nf-006",
+      "category": "already_nf",
+      "prompt": "K S",
+      "ground_truth": "K S",
+      "metadata": {
+        "combinator": null,
+        "source": "generated",
+        "lib_source": null,
+        "lib_id": null,
+        "n_steps": 0,
+        "fired": [],
+        "status": "normal_form",
+        "whnf_step": 0
+      }
+    },
+    {
+      "id": "cr-nf-007",
+      "category": "already_nf",
+      "prompt": "C C",
+      "ground_truth": "C C",
+      "metadata": {
+        "combinator": null,
+        "source": "generated",
+        "lib_source": null,
+        "lib_id": null,
+        "n_steps": 0,
+        "fired": [],
+        "status": "normal_form",
+        "whnf_step": 0
+      }
+    },
+    {
+      "id": "cr-nf-008",
+      "category": "already_nf",
+      "prompt": "S D D",
+      "ground_truth": "S D D",
+      "metadata": {
+        "combinator": null,
+        "source": "generated",
+        "lib_source": null,
+        "lib_id": null,
+        "n_steps": 0,
+        "fired": [],
+        "status": "normal_form",
+        "whnf_step": 0
+      }
+    },
+    {
+      "id": "cr-nf-009",
+      "category": "already_nf",
+      "prompt": "W I",
+      "ground_truth": "W I",
+      "metadata": {
+        "combinator": null,
+        "source": "generated",
+        "lib_source": null,
+        "lib_id": null,
+        "n_steps": 0,
+        "fired": [],
+        "status": "normal_form",
+        "whnf_step": 0
+      }
+    },
+    {
+      "id": "cr-nf-010",
+      "category": "already_nf",
+      "prompt": "D M C S",
+      "ground_truth": "D M C S",
+      "metadata": {
+        "combinator": null,
+        "source": "generated",
+        "lib_source": null,
+        "lib_id": null,
+        "n_steps": 0,
+        "fired": [],
+        "status": "normal_form",
+        "whnf_step": 0
+      }
+    },
+    {
+      "id": "cr-nf-011",
+      "category": "already_nf",
+      "prompt": "C M I",
+      "ground_truth": "C M I",
+      "metadata": {
+        "combinator": null,
+        "source": "generated",
+        "lib_source": null,
+        "lib_id": null,
+        "n_steps": 0,
+        "fired": [],
+        "status": "normal_form",
+        "whnf_step": 0
+      }
+    },
+    {
+      "id": "cr-nf-012",
+      "category": "already_nf",
+      "prompt": "D B",
+      "ground_truth": "D B",
+      "metadata": {
+        "combinator": null,
+        "source": "generated",
+        "lib_source": null,
+        "lib_id": null,
+        "n_steps": 0,
+        "fired": [],
+        "status": "normal_form",
+        "whnf_step": 0
+      }
+    },
+    {
+      "id": "cr-nf-013",
+      "category": "already_nf",
+      "prompt": "C B I",
+      "ground_truth": "C B I",
+      "metadata": {
+        "combinator": null,
+        "source": "generated",
+        "lib_source": null,
+        "lib_id": null,
+        "n_steps": 0,
+        "fired": [],
+        "status": "normal_form",
+        "whnf_step": 0
+      }
+    },
+    {
+      "id": "cr-nf-014",
+      "category": "already_nf",
+      "prompt": "C B",
+      "ground_truth": "C B",
+      "metadata": {
+        "combinator": null,
+        "source": "generated",
+        "lib_source": null,
+        "lib_id": null,
+        "n_steps": 0,
+        "fired": [],
+        "status": "normal_form",
+        "whnf_step": 0
+      }
+    },
+    {
+      "id": "cr-nf-015",
+      "category": "already_nf",
+      "prompt": "S D",
+      "ground_truth": "S D",
+      "metadata": {
+        "combinator": null,
+        "source": "generated",
+        "lib_source": null,
+        "lib_id": null,
+        "n_steps": 0,
+        "fired": [],
+        "status": "normal_form",
+        "whnf_step": 0
+      }
+    },
+    {
+      "id": "cr-nf-016",
+      "category": "already_nf",
+      "prompt": "B C",
+      "ground_truth": "B C",
+      "metadata": {
+        "combinator": null,
+        "source": "generated",
+        "lib_source": null,
+        "lib_id": null,
+        "n_steps": 0,
+        "fired": [],
+        "status": "normal_form",
+        "whnf_step": 0
+      }
+    },
+    {
+      "id": "cr-nf-017",
+      "category": "already_nf",
+      "prompt": "B W M",
+      "ground_truth": "B W M",
+      "metadata": {
+        "combinator": null,
+        "source": "generated",
+        "lib_source": null,
+        "lib_id": null,
+        "n_steps": 0,
+        "fired": [],
+        "status": "normal_form",
+        "whnf_step": 0
+      }
+    },
+    {
+      "id": "cr-d1-000",
+      "category": "depth1",
+      "prompt": "I a",
+      "ground_truth": "a",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-d1-001",
+      "category": "depth1",
+      "prompt": "I b",
+      "ground_truth": "b",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-d1-002",
+      "category": "depth1",
+      "prompt": "I (K p)",
+      "ground_truth": "K p",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-d1-003",
+      "category": "depth1",
+      "prompt": "K a b",
+      "ground_truth": "a",
+      "metadata": {
+        "combinator": "K",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "K"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-d1-004",
+      "category": "depth1",
+      "prompt": "K b c",
+      "ground_truth": "b",
+      "metadata": {
+        "combinator": "K",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "K"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-d1-005",
+      "category": "depth1",
+      "prompt": "K a I",
+      "ground_truth": "a",
+      "metadata": {
+        "combinator": "K",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "K"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-d1-006",
+      "category": "depth1",
+      "prompt": "K a (K p)",
+      "ground_truth": "a",
+      "metadata": {
+        "combinator": "K",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "K"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-d1-007",
+      "category": "depth1",
+      "prompt": "B a b c",
+      "ground_truth": "a (b c)",
+      "metadata": {
+        "combinator": "B",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "B"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-d1-008",
+      "category": "depth1",
+      "prompt": "B b c d",
+      "ground_truth": "b (c d)",
+      "metadata": {
+        "combinator": "B",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "B"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-d1-009",
+      "category": "depth1",
+      "prompt": "B a b I",
+      "ground_truth": "a (b I)",
+      "metadata": {
+        "combinator": "B",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "B"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-d1-010",
+      "category": "depth1",
+      "prompt": "B a b (K p)",
+      "ground_truth": "a (b (K p))",
+      "metadata": {
+        "combinator": "B",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "B"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-d1-011",
+      "category": "depth1",
+      "prompt": "C a b c",
+      "ground_truth": "a c b",
+      "metadata": {
+        "combinator": "C",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "C"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-d1-012",
+      "category": "depth1",
+      "prompt": "C b c d",
+      "ground_truth": "b d c",
+      "metadata": {
+        "combinator": "C",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "C"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-d1-013",
+      "category": "depth1",
+      "prompt": "C a b I",
+      "ground_truth": "a I b",
+      "metadata": {
+        "combinator": "C",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "C"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-d1-014",
+      "category": "depth1",
+      "prompt": "C a b (K p)",
+      "ground_truth": "a (K p) b",
+      "metadata": {
+        "combinator": "C",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "C"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-d1-015",
+      "category": "depth1",
+      "prompt": "S a b c",
+      "ground_truth": "a c (b c)",
+      "metadata": {
+        "combinator": "S",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "S"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-d1-016",
+      "category": "depth1",
+      "prompt": "S b c d",
+      "ground_truth": "b d (c d)",
+      "metadata": {
+        "combinator": "S",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "S"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-d1-017",
+      "category": "depth1",
+      "prompt": "S a b I",
+      "ground_truth": "a I (b I)",
+      "metadata": {
+        "combinator": "S",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "S"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-d1-018",
+      "category": "depth1",
+      "prompt": "S a b (K p)",
+      "ground_truth": "a (K p) (b (K p))",
+      "metadata": {
+        "combinator": "S",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "S"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-d1-019",
+      "category": "depth1",
+      "prompt": "W a b",
+      "ground_truth": "a b b",
+      "metadata": {
+        "combinator": "W",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "W"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-d1-020",
+      "category": "depth1",
+      "prompt": "W b c",
+      "ground_truth": "b c c",
+      "metadata": {
+        "combinator": "W",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "W"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-d1-021",
+      "category": "depth1",
+      "prompt": "W a I",
+      "ground_truth": "a I I",
+      "metadata": {
+        "combinator": "W",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "W"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-d1-022",
+      "category": "depth1",
+      "prompt": "W a (K p)",
+      "ground_truth": "a (K p) (K p)",
+      "metadata": {
+        "combinator": "W",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "W"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-d1-023",
+      "category": "depth1",
+      "prompt": "D a b c d",
+      "ground_truth": "a (b (c d))",
+      "metadata": {
+        "combinator": "D",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "D"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-d1-024",
+      "category": "depth1",
+      "prompt": "D b c d e",
+      "ground_truth": "b (c (d e))",
+      "metadata": {
+        "combinator": "D",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "D"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-d1-025",
+      "category": "depth1",
+      "prompt": "D a b c I",
+      "ground_truth": "a (b (c I))",
+      "metadata": {
+        "combinator": "D",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "D"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-d1-026",
+      "category": "depth1",
+      "prompt": "D a b c (K p)",
+      "ground_truth": "a (b (c (K p)))",
+      "metadata": {
+        "combinator": "D",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "D"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-d1-027",
+      "category": "depth1",
+      "prompt": "M a",
+      "ground_truth": "a a",
+      "metadata": {
+        "combinator": "M",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "M"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-d1-028",
+      "category": "depth1",
+      "prompt": "M b",
+      "ground_truth": "b b",
+      "metadata": {
+        "combinator": "M",
+        "source": "generated",
+        "n_steps": 1,
+        "fired": [
+          "M"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-000",
+      "category": "multi2",
+      "prompt": "S (B b g h) h g",
+      "ground_truth": "b (g h) g (h g)",
+      "metadata": {
+        "combinator": "S",
+        "source": "generated",
+        "n_steps": 2,
+        "fired": [
+          "S",
+          "B"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    },
+    {
+      "id": "cr-mx-001",
+      "category": "multi2",
+      "prompt": "B (C d a c) d d",
+      "ground_truth": "d c a (d d)",
+      "metadata": {
+        "combinator": "C",
+        "source": "generated",
+        "n_steps": 2,
+        "fired": [
+          "B",
+          "C"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    },
+    {
+      "id": "cr-mx-002",
+      "category": "multi2",
+      "prompt": "S g (K a f b) e",
+      "ground_truth": "g e (a b e)",
+      "metadata": {
+        "combinator": "K",
+        "source": "generated",
+        "n_steps": 2,
+        "fired": [
+          "S",
+          "K"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-003",
+      "category": "multi2",
+      "prompt": "S (W d a) b b c",
+      "ground_truth": "d a a b (b b) c",
+      "metadata": {
+        "combinator": "S",
+        "source": "generated",
+        "n_steps": 2,
+        "fired": [
+          "S",
+          "W"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    },
+    {
+      "id": "cr-mx-004",
+      "category": "multi2",
+      "prompt": "B b h (W h b)",
+      "ground_truth": "b (h (h b b))",
+      "metadata": {
+        "combinator": "W",
+        "source": "generated",
+        "n_steps": 2,
+        "fired": [
+          "B",
+          "W"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-005",
+      "category": "multi2",
+      "prompt": "I (I d) b",
+      "ground_truth": "d b",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 2,
+        "fired": [
+          "I",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    },
+    {
+      "id": "cr-mx-006",
+      "category": "multi2",
+      "prompt": "I (S h d a)",
+      "ground_truth": "h a (d a)",
+      "metadata": {
+        "combinator": "S",
+        "source": "generated",
+        "n_steps": 2,
+        "fired": [
+          "I",
+          "S"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    },
+    {
+      "id": "cr-mx-007",
+      "category": "multi2",
+      "prompt": "B (S a d b) b h",
+      "ground_truth": "a b (d b) (b h)",
+      "metadata": {
+        "combinator": "S",
+        "source": "generated",
+        "n_steps": 2,
+        "fired": [
+          "B",
+          "S"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    },
+    {
+      "id": "cr-mx-008",
+      "category": "multi2",
+      "prompt": "I e (B a b e b)",
+      "ground_truth": "e (a (b e) b)",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 2,
+        "fired": [
+          "I",
+          "B"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-009",
+      "category": "multi2",
+      "prompt": "W (S h e f) f",
+      "ground_truth": "h f (e f) f f",
+      "metadata": {
+        "combinator": "W",
+        "source": "generated",
+        "n_steps": 2,
+        "fired": [
+          "W",
+          "S"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    },
+    {
+      "id": "cr-mx-010",
+      "category": "multi2",
+      "prompt": "K (S h c b) c",
+      "ground_truth": "h b (c b)",
+      "metadata": {
+        "combinator": "K",
+        "source": "generated",
+        "n_steps": 2,
+        "fired": [
+          "K",
+          "S"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    },
+    {
+      "id": "cr-mx-011",
+      "category": "multi2",
+      "prompt": "B a (I f) h",
+      "ground_truth": "a (f h)",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 2,
+        "fired": [
+          "B",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-012",
+      "category": "multi3",
+      "prompt": "K (K e b) e (I c)",
+      "ground_truth": "e c",
+      "metadata": {
+        "combinator": "K",
+        "source": "generated",
+        "n_steps": 3,
+        "fired": [
+          "K",
+          "K",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    },
+    {
+      "id": "cr-mx-013",
+      "category": "multi3",
+      "prompt": "B (K (I c) b) b e",
+      "ground_truth": "c (b e)",
+      "metadata": {
+        "combinator": "K",
+        "source": "generated",
+        "n_steps": 3,
+        "fired": [
+          "B",
+          "K",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 3
+      }
+    },
+    {
+      "id": "cr-mx-014",
+      "category": "multi3",
+      "prompt": "W h (C h b h)",
+      "ground_truth": "h (h h b) (h h b)",
+      "metadata": {
+        "combinator": "C",
+        "source": "generated",
+        "n_steps": 3,
+        "fired": [
+          "W",
+          "C",
+          "C"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-015",
+      "category": "multi3",
+      "prompt": "I c (S c (I c) e)",
+      "ground_truth": "c (c e (c e))",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 3,
+        "fired": [
+          "I",
+          "S",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-016",
+      "category": "multi3",
+      "prompt": "C (I (K d b)) b d",
+      "ground_truth": "d d b",
+      "metadata": {
+        "combinator": "K",
+        "source": "generated",
+        "n_steps": 3,
+        "fired": [
+          "C",
+          "I",
+          "K"
+        ],
+        "status": "normal_form",
+        "whnf_step": 3
+      }
+    },
+    {
+      "id": "cr-mx-017",
+      "category": "multi3",
+      "prompt": "I (K (I e e) a)",
+      "ground_truth": "e e",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 3,
+        "fired": [
+          "I",
+          "K",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 3
+      }
+    },
+    {
+      "id": "cr-mx-018",
+      "category": "multi3",
+      "prompt": "S e b (C c e a)",
+      "ground_truth": "e (c a e) (b (c a e))",
+      "metadata": {
+        "combinator": "C",
+        "source": "generated",
+        "n_steps": 3,
+        "fired": [
+          "S",
+          "C",
+          "C"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-019",
+      "category": "multi3",
+      "prompt": "W h (K g c)",
+      "ground_truth": "h g g",
+      "metadata": {
+        "combinator": "K",
+        "source": "generated",
+        "n_steps": 3,
+        "fired": [
+          "W",
+          "K",
+          "K"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-020",
+      "category": "multi3",
+      "prompt": "C (I (I g)) d h e",
+      "ground_truth": "g h d e",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 3,
+        "fired": [
+          "C",
+          "I",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 3
+      }
+    },
+    {
+      "id": "cr-mx-021",
+      "category": "multi3",
+      "prompt": "K (K (I e g) a) g",
+      "ground_truth": "e g",
+      "metadata": {
+        "combinator": "K",
+        "source": "generated",
+        "n_steps": 3,
+        "fired": [
+          "K",
+          "K",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 3
+      }
+    },
+    {
+      "id": "cr-mx-022",
+      "category": "multi3",
+      "prompt": "W h (K a f)",
+      "ground_truth": "h a a",
+      "metadata": {
+        "combinator": "K",
+        "source": "generated",
+        "n_steps": 3,
+        "fired": [
+          "W",
+          "K",
+          "K"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-023",
+      "category": "multi3",
+      "prompt": "S f a (B d a c)",
+      "ground_truth": "f (d (a c)) (a (d (a c)))",
+      "metadata": {
+        "combinator": "B",
+        "source": "generated",
+        "n_steps": 3,
+        "fired": [
+          "S",
+          "B",
+          "B"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-024",
+      "category": "multi4",
+      "prompt": "W (I g) (C d d d)",
+      "ground_truth": "g (d d d) (d d d)",
+      "metadata": {
+        "combinator": "C",
+        "source": "generated",
+        "n_steps": 4,
+        "fired": [
+          "W",
+          "I",
+          "C",
+          "C"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    },
+    {
+      "id": "cr-mx-025",
+      "category": "multi4",
+      "prompt": "S f (I a) (W g f)",
+      "ground_truth": "f (g f f) (a (g f f))",
+      "metadata": {
+        "combinator": "W",
+        "source": "generated",
+        "n_steps": 4,
+        "fired": [
+          "S",
+          "W",
+          "I",
+          "W"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-026",
+      "category": "multi4",
+      "prompt": "W (I g c) (I f)",
+      "ground_truth": "g c f f",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 4,
+        "fired": [
+          "W",
+          "I",
+          "I",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    },
+    {
+      "id": "cr-mx-027",
+      "category": "multi4",
+      "prompt": "I (W h (I b) e)",
+      "ground_truth": "h b b e",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 4,
+        "fired": [
+          "I",
+          "W",
+          "I",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    },
+    {
+      "id": "cr-mx-028",
+      "category": "multi4",
+      "prompt": "W (W h h) (I d) c",
+      "ground_truth": "h h h d d c",
+      "metadata": {
+        "combinator": "W",
+        "source": "generated",
+        "n_steps": 4,
+        "fired": [
+          "W",
+          "W",
+          "I",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    },
+    {
+      "id": "cr-mx-029",
+      "category": "multi4",
+      "prompt": "W f (K b f) (I f)",
+      "ground_truth": "f b b f",
+      "metadata": {
+        "combinator": "K",
+        "source": "generated",
+        "n_steps": 4,
+        "fired": [
+          "W",
+          "K",
+          "K",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-030",
+      "category": "multi4",
+      "prompt": "I (W d (I g))",
+      "ground_truth": "d g g",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 4,
+        "fired": [
+          "I",
+          "W",
+          "I",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    },
+    {
+      "id": "cr-mx-031",
+      "category": "multi4",
+      "prompt": "I (I (W (I e) b) e)",
+      "ground_truth": "e b b e",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 4,
+        "fired": [
+          "I",
+          "I",
+          "W",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 4
+      }
+    },
+    {
+      "id": "cr-mx-032",
+      "category": "multi4",
+      "prompt": "W (I c) (C c f c)",
+      "ground_truth": "c (c c f) (c c f)",
+      "metadata": {
+        "combinator": "C",
+        "source": "generated",
+        "n_steps": 4,
+        "fired": [
+          "W",
+          "I",
+          "C",
+          "C"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    },
+    {
+      "id": "cr-mx-033",
+      "category": "multi4",
+      "prompt": "I a (W f (K e e))",
+      "ground_truth": "a (f e e)",
+      "metadata": {
+        "combinator": "K",
+        "source": "generated",
+        "n_steps": 4,
+        "fired": [
+          "I",
+          "W",
+          "K",
+          "K"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-034",
+      "category": "multi4",
+      "prompt": "C d (W c (I b)) a",
+      "ground_truth": "d a (c b b)",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 4,
+        "fired": [
+          "C",
+          "W",
+          "I",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-035",
+      "category": "multi4",
+      "prompt": "W (K c a) (W c d)",
+      "ground_truth": "c (c d d) (c d d)",
+      "metadata": {
+        "combinator": "W",
+        "source": "generated",
+        "n_steps": 4,
+        "fired": [
+          "W",
+          "K",
+          "W",
+          "W"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    },
+    {
+      "id": "cr-mx-036",
+      "category": "multi5",
+      "prompt": "W h (K (I g) b)",
+      "ground_truth": "h g g",
+      "metadata": {
+        "combinator": "K",
+        "source": "generated",
+        "n_steps": 5,
+        "fired": [
+          "W",
+          "K",
+          "I",
+          "K",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-037",
+      "category": "multi5",
+      "prompt": "W g (K (W f c) c)",
+      "ground_truth": "g (f c c) (f c c)",
+      "metadata": {
+        "combinator": "W",
+        "source": "generated",
+        "n_steps": 5,
+        "fired": [
+          "W",
+          "K",
+          "W",
+          "K",
+          "W"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-038",
+      "category": "multi5",
+      "prompt": "W g (I h (I b a))",
+      "ground_truth": "g (h (b a)) (h (b a))",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 5,
+        "fired": [
+          "W",
+          "I",
+          "I",
+          "I",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-039",
+      "category": "multi5",
+      "prompt": "W h (I (C d c g))",
+      "ground_truth": "h (d g c) (d g c)",
+      "metadata": {
+        "combinator": "C",
+        "source": "generated",
+        "n_steps": 5,
+        "fired": [
+          "W",
+          "I",
+          "C",
+          "I",
+          "C"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-040",
+      "category": "multi5",
+      "prompt": "W h (I (S c b b))",
+      "ground_truth": "h (c b (b b)) (c b (b b))",
+      "metadata": {
+        "combinator": "S",
+        "source": "generated",
+        "n_steps": 5,
+        "fired": [
+          "W",
+          "I",
+          "S",
+          "I",
+          "S"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-041",
+      "category": "multi5",
+      "prompt": "W b (K (K e d) a)",
+      "ground_truth": "b e e",
+      "metadata": {
+        "combinator": "K",
+        "source": "generated",
+        "n_steps": 5,
+        "fired": [
+          "W",
+          "K",
+          "K",
+          "K",
+          "K"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-042",
+      "category": "multi5",
+      "prompt": "W b (I h (I d b))",
+      "ground_truth": "b (h (d b)) (h (d b))",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 5,
+        "fired": [
+          "W",
+          "I",
+          "I",
+          "I",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-043",
+      "category": "multi5",
+      "prompt": "W f (I (I a))",
+      "ground_truth": "f a a",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 5,
+        "fired": [
+          "W",
+          "I",
+          "I",
+          "I",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-044",
+      "category": "multi5",
+      "prompt": "S c g (I (I h))",
+      "ground_truth": "c h (g h)",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 5,
+        "fired": [
+          "S",
+          "I",
+          "I",
+          "I",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-045",
+      "category": "multi5",
+      "prompt": "W d (B c e (I a))",
+      "ground_truth": "d (c (e a)) (c (e a))",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 5,
+        "fired": [
+          "W",
+          "B",
+          "I",
+          "B",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-046",
+      "category": "multi5",
+      "prompt": "I (W (I c) (I h))",
+      "ground_truth": "c h h",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 5,
+        "fired": [
+          "I",
+          "W",
+          "I",
+          "I",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 3
+      }
+    },
+    {
+      "id": "cr-mx-047",
+      "category": "multi5",
+      "prompt": "W d (I (S h b f))",
+      "ground_truth": "d (h f (b f)) (h f (b f))",
+      "metadata": {
+        "combinator": "S",
+        "source": "generated",
+        "n_steps": 5,
+        "fired": [
+          "W",
+          "I",
+          "S",
+          "I",
+          "S"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-048",
+      "category": "multi6",
+      "prompt": "W (I g) (I (K d h))",
+      "ground_truth": "g d d",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 6,
+        "fired": [
+          "W",
+          "I",
+          "I",
+          "K",
+          "I",
+          "K"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    },
+    {
+      "id": "cr-mx-049",
+      "category": "multi6",
+      "prompt": "W (K e h) (I (I c))",
+      "ground_truth": "e c c",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 6,
+        "fired": [
+          "W",
+          "K",
+          "I",
+          "I",
+          "I",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    },
+    {
+      "id": "cr-mx-050",
+      "category": "multi6",
+      "prompt": "I (W h (W (I e) b))",
+      "ground_truth": "h (e b b) (e b b)",
+      "metadata": {
+        "combinator": "W",
+        "source": "generated",
+        "n_steps": 6,
+        "fired": [
+          "I",
+          "W",
+          "W",
+          "I",
+          "W",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    },
+    {
+      "id": "cr-mx-051",
+      "category": "multi6",
+      "prompt": "W (K e b) (I (I f))",
+      "ground_truth": "e f f",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 6,
+        "fired": [
+          "W",
+          "K",
+          "I",
+          "I",
+          "I",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    },
+    {
+      "id": "cr-mx-052",
+      "category": "multi6",
+      "prompt": "I (W e (W (I e) f))",
+      "ground_truth": "e (e f f) (e f f)",
+      "metadata": {
+        "combinator": "W",
+        "source": "generated",
+        "n_steps": 6,
+        "fired": [
+          "I",
+          "W",
+          "W",
+          "I",
+          "W",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    },
+    {
+      "id": "cr-mx-053",
+      "category": "multi6",
+      "prompt": "I (W h (K (I d) g))",
+      "ground_truth": "h d d",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 6,
+        "fired": [
+          "I",
+          "W",
+          "K",
+          "I",
+          "K",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    },
+    {
+      "id": "cr-mx-054",
+      "category": "multi6",
+      "prompt": "W (I g) (W (I h) e)",
+      "ground_truth": "g (h e e) (h e e)",
+      "metadata": {
+        "combinator": "W",
+        "source": "generated",
+        "n_steps": 6,
+        "fired": [
+          "W",
+          "I",
+          "W",
+          "I",
+          "W",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    },
+    {
+      "id": "cr-mx-055",
+      "category": "multi6",
+      "prompt": "W (I e) (I (K a a))",
+      "ground_truth": "e a a",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 6,
+        "fired": [
+          "W",
+          "I",
+          "I",
+          "K",
+          "I",
+          "K"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    },
+    {
+      "id": "cr-mx-056",
+      "category": "multi6",
+      "prompt": "I (W d (I g (I g)))",
+      "ground_truth": "d (g g) (g g)",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 6,
+        "fired": [
+          "I",
+          "W",
+          "I",
+          "I",
+          "I",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    },
+    {
+      "id": "cr-mx-057",
+      "category": "multi6",
+      "prompt": "W (I e) (I (K a g))",
+      "ground_truth": "e a a",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 6,
+        "fired": [
+          "W",
+          "I",
+          "I",
+          "K",
+          "I",
+          "K"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    },
+    {
+      "id": "cr-mx-058",
+      "category": "multi6",
+      "prompt": "W (I d) (I (W g h))",
+      "ground_truth": "d (g h h) (g h h)",
+      "metadata": {
+        "combinator": "W",
+        "source": "generated",
+        "n_steps": 6,
+        "fired": [
+          "W",
+          "I",
+          "I",
+          "W",
+          "I",
+          "W"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    },
+    {
+      "id": "cr-mx-059",
+      "category": "multi6",
+      "prompt": "W (I e) (W (I c) a)",
+      "ground_truth": "e (c a a) (c a a)",
+      "metadata": {
+        "combinator": "W",
+        "source": "generated",
+        "n_steps": 6,
+        "fired": [
+          "W",
+          "I",
+          "W",
+          "I",
+          "W",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    },
+    {
+      "id": "cr-mx-060",
+      "category": "multi7",
+      "prompt": "W g (W h (K g f))",
+      "ground_truth": "g (h g g) (h g g)",
+      "metadata": {
+        "combinator": "K",
+        "source": "generated",
+        "n_steps": 7,
+        "fired": [
+          "W",
+          "W",
+          "K",
+          "K",
+          "W",
+          "K",
+          "K"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-061",
+      "category": "multi7",
+      "prompt": "W b (W b (K a e))",
+      "ground_truth": "b (b a a) (b a a)",
+      "metadata": {
+        "combinator": "K",
+        "source": "generated",
+        "n_steps": 7,
+        "fired": [
+          "W",
+          "W",
+          "K",
+          "K",
+          "W",
+          "K",
+          "K"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-062",
+      "category": "multi7",
+      "prompt": "W h (W f (I g))",
+      "ground_truth": "h (f g g) (f g g)",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 7,
+        "fired": [
+          "W",
+          "W",
+          "I",
+          "I",
+          "W",
+          "I",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-063",
+      "category": "multi7",
+      "prompt": "W c (W a (I e) h)",
+      "ground_truth": "c (a e e h) (a e e h)",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 7,
+        "fired": [
+          "W",
+          "W",
+          "I",
+          "I",
+          "W",
+          "I",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-064",
+      "category": "multi7",
+      "prompt": "W b (W g (K f b))",
+      "ground_truth": "b (g f f) (g f f)",
+      "metadata": {
+        "combinator": "K",
+        "source": "generated",
+        "n_steps": 7,
+        "fired": [
+          "W",
+          "W",
+          "K",
+          "K",
+          "W",
+          "K",
+          "K"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-065",
+      "category": "multi7",
+      "prompt": "W d (W c (I f) d)",
+      "ground_truth": "d (c f f d) (c f f d)",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 7,
+        "fired": [
+          "W",
+          "W",
+          "I",
+          "I",
+          "W",
+          "I",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-066",
+      "category": "multi7",
+      "prompt": "W d (W a (I f))",
+      "ground_truth": "d (a f f) (a f f)",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 7,
+        "fired": [
+          "W",
+          "W",
+          "I",
+          "I",
+          "W",
+          "I",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-067",
+      "category": "multi7",
+      "prompt": "W h (W e (I e) a)",
+      "ground_truth": "h (e e e a) (e e e a)",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 7,
+        "fired": [
+          "W",
+          "W",
+          "I",
+          "I",
+          "W",
+          "I",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-068",
+      "category": "multi7",
+      "prompt": "S c c (W h (I h))",
+      "ground_truth": "c (h h h) (c (h h h))",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 7,
+        "fired": [
+          "S",
+          "W",
+          "I",
+          "I",
+          "W",
+          "I",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-069",
+      "category": "multi7",
+      "prompt": "W g (I (I (I b)) b)",
+      "ground_truth": "g (b b) (b b)",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 7,
+        "fired": [
+          "W",
+          "I",
+          "I",
+          "I",
+          "I",
+          "I",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-070",
+      "category": "multi7",
+      "prompt": "W g (W d (I c))",
+      "ground_truth": "g (d c c) (d c c)",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 7,
+        "fired": [
+          "W",
+          "W",
+          "I",
+          "I",
+          "W",
+          "I",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-071",
+      "category": "multi7",
+      "prompt": "S b a (W d (I h))",
+      "ground_truth": "b (d h h) (a (d h h))",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 7,
+        "fired": [
+          "S",
+          "W",
+          "I",
+          "I",
+          "W",
+          "I",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 1
+      }
+    },
+    {
+      "id": "cr-mx-072",
+      "category": "multi8",
+      "prompt": "I (W b (W d (I d)))",
+      "ground_truth": "b (d d d) (d d d)",
+      "metadata": {
+        "combinator": "I",
+        "source": "generated",
+        "n_steps": 8,
+        "fired": [
+          "I",
+          "W",
+          "W",
+          "I",
+          "I",
+          "W",
+          "I",
+          "I"
+        ],
+        "status": "normal_form",
+        "whnf_step": 2
+      }
+    }
+  ]
+}
