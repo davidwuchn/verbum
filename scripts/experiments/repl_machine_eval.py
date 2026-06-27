@@ -108,6 +108,11 @@ SYSTEM = NUCLEUS + MACHINE
 
 _ARROWS = ("⇒β", "⟶β", "→β", "⇒", "⟶", "→", "=>", "->")
 
+# Extra request body (e.g. {"chat_template_kwargs": {"enable_thinking": False}} to
+# disable the reasoning chain — s255 cont., Michael: "the thinking is maybe just
+# interference; the lambda function is in the model"). Set in main().
+_EXTRA_BODY: dict = {}
+
 
 def call(
     client: httpx.Client, model: str, user: str, n_predict: int
@@ -120,6 +125,7 @@ def call(
         ],
         "temperature": 0.0,
         "max_tokens": n_predict,
+        **_EXTRA_BODY,
     }
     r = client.post("/v1/chat/completions", json=body)
     r.raise_for_status()
@@ -370,7 +376,11 @@ def main() -> None:
     ap.add_argument("--limit", type=int, default=0, help="first N probes (0=all)")
     ap.add_argument("--mode", choices=["run", "step", "both"], default="both")
     ap.add_argument("--step-cap-slack", type=int, default=3, help="cap-slack")
+    ap.add_argument("--no-think", action="store_true", help="disable reasoning chain")
     args = ap.parse_args()
+
+    if args.no_think:
+        _EXTRA_BODY["chat_template_kwargs"] = {"enable_thinking": False}
 
     doc = json.loads(PROBES_PATH.read_text("utf-8"))
     probes = doc["probes"]
@@ -378,7 +388,8 @@ def main() -> None:
         probes = probes[: args.limit]
     modes = ["run", "step"] if args.mode == "both" else [args.mode]
 
-    run_id = f"repl-machine-{datetime.now(UTC):%Y%m%d-%H%M%S}"
+    think_tag = "nothink" if args.no_think else "think"
+    run_id = f"repl-machine-{think_tag}-{datetime.now(UTC):%Y%m%d-%H%M%S}"
     prov = collect_provenance(project_root=_ROOT)
     meta = RunMeta(
         run_id=run_id,
@@ -392,6 +403,8 @@ def main() -> None:
         oracle="verbum.lambda_ast.reduce (normal-order)",
         modes=modes,
         n_predict=args.n_predict,
+        thinking=not args.no_think,
+        extra_body=_EXTRA_BODY,
         **prov,
     )
 

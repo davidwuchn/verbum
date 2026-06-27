@@ -56,6 +56,33 @@
 > oracle-in-the-loop / self-consistency REPL → does verify-gating close the deep-chain gap?; (2) bounded
 > reasoning (cap/forced-short) to kill overthink-collapse; (3) vibethinker :5102 as a 2nd model class;
 > (4) λ-abstraction terms (extend lambda_ast parser beyond combinators) for the full NL→λ→REPL loop.
+>
+> ★★ s255 cont. — NO-THINK TEST (Michael: "for this lambda repl we should turn off thinking, the lambda
+> function is in the model, the thinking is maybe just interference"). Added --no-think to repl_machine_eval
+> (chat_template_kwargs:{enable_thinking:false} = the WORKING switch on ornith's llama.cpp; reasoning_budget=0
+> and /no_think do NOT disable it). Re-ran the full 120-probe head-to-head (run repl-machine-nothink-
+> 20260627-145338) vs the s255 thinking baseline (repl-machine-20260627-032118).
+> ★ HYPOTHESIS REFUTED on end-to-end correctness: nothink WORSE — RUN nf 0.45→0.31, STEP reached_nf
+> 0.49→0.33. Thinking nets POSITIVE despite its collapse cost. BUT Michael was HALF-RIGHT and the
+> DECOMPOSITION is the prize (λ measure, two-sided):
+> (1) THE REDUCTION CIRCUIT IS IN THE MODEL, survives no-think ("the lambda function is in the model" ✓ for
+>     the STEP): opcode_accuracy 0.981→0.925 (still names its own fired combinator with ZERO reasoning),
+>     per_step 0.670→0.579, AND 72× FASTER (step 79.1s→1.1s; run 63.4s→3.5s) AND ZERO COLLAPSE (empty
+>     output 53/120=44% WITH thinking → 0/120 WITHOUT). The overthink-collapse is ENTIRELY a thinking
+>     artifact — removing thinking removes it completely, exactly as Michael predicted.
+> (2) WHAT THINKING ACTUALLY BUYS = THE HALT/WHNF ADJUDICATION, not the reduction: premature_halt
+>     0.017→0.208 (12×), over_reduce 0.008→0.175 (22×). These are the "am I done?" boundary decisions —
+>     the EXACT axis head-combinator-isa.md flagged as the attention hardware's WEAKEST (WHNF↔D, "how much
+>     work remains"). Thinking is SCAFFOLDING for the boundary, NOT interference on the reduction.
+> ★★ SYNTHESIS (unifies Michael's no-think hyp + s255 "offload the halt" + oracle-in-the-loop): the winning
+> REPL = NO-THINK model + ORACLE-SUPPLIED HALT. Model does the cheap/fast/collapse-free reduction steps
+> (its circuit, 0.925 opcode-faithful); the external loop (lambda_ast.is_normal_form, trivial) makes the
+> halt decision the model is weak at. no-think makes oracle-in-the-loop AFFORDABLE (72×) and REMOVES the
+> collapse; the oracle covers no-think's ONLY real weakness (halt). THAT is the next build: no-think + step
+> + oracle validates each contraction & decides NF (model never adjudicates "done", never spins a chain).
+> CAVEATS: 1 model (ornith q8_0), greedy, combinator-only terms, n=12/bucket. ARTIFACT:
+> results/repl-machine/repl-machine-nothink-20260627-145338/{meta,results.jsonl,summary.json}. Memory still
+> HELD (premature, Michael s255). NOT yet committed: --no-think harness change + no-think run + this update.
 > ──────────────────────────────────────────────────────────────────────────────────────────────────
 > Last updated: 2026-06-26 | Session: 254 (REPO DISTILLATION — DESIGN-FIRST PIVOT, fully committed.
 > Recovered the crashed s254 ornith work intact (nothing lost). Michael: "We fragmented the repo a bit.
