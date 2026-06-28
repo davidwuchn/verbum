@@ -1,0 +1,27 @@
+{
+  "n": 24,
+  "mode": "direct",
+  "accuracy": 0.875,
+  "by_category": {
+    "arithmetic": {
+      "n": 8,
+      "accuracy": 0.75
+    },
+    "ordering": {
+      "n": 4,
+      "accuracy": 1.0
+    },
+    "set": {
+      "n": 4,
+      "accuracy": 0.75
+    },
+    "syllogism": {
+      "n": 8,
+      "accuracy": 1.0
+    }
+  },
+  "frac_collapsed": 0.0,
+  "frac_budget_hit": 0.0,
+  "mean_completion_tokens": 5.9,
+  "total_elapsed_s": 5.6
+}

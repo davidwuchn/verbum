@@ -128,6 +128,75 @@ def grade(expr: str) -> dict[str, bool]:
     }
 
 
+# ── reasoning-answer grading (lambda-as-pre-thinking experiment) ─────────────
+
+_ANSWER_MARKER = re.compile(r"answer\s*[:=]\s*(.+)", re.IGNORECASE)
+_NUMBER = re.compile(r"-?\d[\d,]*(?:\.\d+)?(?:\s*/\s*\d+)?")
+_WORD = re.compile(r"[A-Za-z]+")
+_TRUE = {"yes", "true", "valid", "correct", "y"}
+_FALSE = {"no", "false", "invalid", "incorrect", "n"}
+
+
+def extract_final(text: str) -> str:
+    """The answer to grade: text after the last ``ANSWER:`` marker if present,
+    else the last non-empty, de-fenced line."""
+    if not text:
+        return ""
+    markers = _ANSWER_MARKER.findall(text)
+    if markers:
+        return markers[-1].strip().strip("`*. ").strip()
+    for line in reversed(text.splitlines()):
+        s = line.strip().strip("`*").strip()
+        if s:
+            return s
+    return text.strip()
+
+
+def _to_number(s: str) -> float | None:
+    # Last number in the string — the answer usually trails the working
+    # ("8 * 5 = 40" → 40; "9/12 = 75 percent" → 75).
+    matches = _NUMBER.findall(s.replace("$", ""))
+    if not matches:
+        return None
+    tok = matches[-1].replace(",", "").replace(" ", "")
+    try:
+        if "/" in tok:
+            num, den = tok.split("/")
+            return float(num) / float(den)
+        return float(tok)
+    except (ValueError, ZeroDivisionError):
+        return None
+
+
+def check_answer(final: str, ground_truth: str, answer_type: str) -> bool:
+    """Objectively grade a reasoning answer against ground truth.
+
+    ``numeric`` — last number in the answer == gt (tolerance 1e-6; handles
+    ``$``, commas, simple ``a/b`` fractions).
+    ``boolean`` — yes/true/valid family vs no/false/invalid family.
+    ``token``   — the gt word appears among the answer's words (case-insensitive).
+    """
+    final = (final or "").strip()
+    if not final:
+        return False
+    if answer_type == "numeric":
+        a, b = _to_number(final), _to_number(ground_truth)
+        return a is not None and b is not None and abs(a - b) < 1e-6
+    if answer_type == "boolean":
+        words = {w.lower() for w in _WORD.findall(final)}
+        gt = ground_truth.strip().lower()
+        want_true = gt in _TRUE
+        has_true = bool(words & _TRUE)
+        has_false = bool(words & _FALSE)
+        if has_true == has_false:  # neither or both → ambiguous → wrong
+            return False
+        return has_true if want_true else has_false
+    if answer_type == "token":
+        words = {w.lower() for w in _WORD.findall(final)}
+        return ground_truth.strip().lower() in words
+    return False
+
+
 def aggregate_by_category(rows: list[dict[str, Any]]) -> dict[str, Any]:
     """Aggregate graded rows into overall + per-category P(λ) per register.
 

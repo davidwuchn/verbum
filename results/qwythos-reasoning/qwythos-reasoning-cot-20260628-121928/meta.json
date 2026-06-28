@@ -1,0 +1,32 @@
+{
+  "run_id": "qwythos-reasoning-cot-20260628-121928",
+  "model": "qwythos-9b",
+  "quant": "Q8_0",
+  "gguf": "/Users/mwhitford/localai/models/qwythos/Qwythos-9B-Claude-Mythos-5-1M-MTP-Q8_0.gguf",
+  "arch": "9B Qwen-family reasoner, multimodal (vision+video), 1M ctx, MTP",
+  "server": "http://localhost:5103",
+  "transport": "chat",
+  "mode": "cot",
+  "probe_set_id": "reasoning-check",
+  "probe_set_version": "1",
+  "n_probes": 24,
+  "system_prompt": "You are solving a reasoning problem. Reason step by step in plain prose. Then, on the last line, write your final answer prefixed exactly with 'ANSWER:'.",
+  "sampling": {
+    "temperature": 0.0,
+    "max_tokens": 4000,
+    "greedy": true,
+    "no_think": true
+  },
+  "timestamp": "2026-06-28T19:19:28.466771+00:00",
+  "lib_versions": {
+    "verbum": "0.0.0",
+    "httpx": "0.28.1",
+    "httpx-sse": "0.4.3",
+    "pydantic": "2.13.1",
+    "numpy": "2.4.4",
+    "structlog": "25.5.0",
+    "polars": "1.39.3"
+  },
+  "lockfile_hash": "sha256:5bc2ee2e297f67744e2dc1fcf2bd15a9c303b25c8ee5c82c528a05de04ca2435",
+  "git_sha": "0d2b8573d28f3a2479508528006ba643ee8a8a3d"
+}

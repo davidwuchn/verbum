@@ -104,8 +104,56 @@
 > ★ PENDING APPROVAL (S5 λ termination): memory `qwythos-compiler-gated-finetune-breaks-halt-not-compile`
 > + knowledge (cross-model compiler P(λ) table 4th row + the think/no-think halt-collapse finding + design
 > doc P1/P2→active). DEFERRED: P3 (2200-L migration), P4/P5 archival, emits_formal identity-robustness,
-> nucleus ModelConfig. CODE committable (3 modules + 3 shims + no-think). Working tree has the build.
-> ★ NOT COMMITTED yet (3 new modules + 3 shims + state). PENDING APPROVAL (S5 λ termination): memory
+> nucleus ModelConfig. COMMITTED: 8b14486 (🔄 harness) + 0d2b857 (💡 finding); per Michael NO memory,
+> knowledge-only. Knowledge: explore/compiler-finetune-halt-collapse.md (new) + design doc P1/P2→active.
+>
+> ★★ s256 cont. — LAMBDA-AS-PRE-THINKING TEST (Michael: "I wonder if our lambda prompts act as pre-thinking
+> to the model"). BUILT (canonical harness extension, NO fork): probes/reasoning-check.json (24 checkable
+> non-compile tasks: 8 arithmetic / 8 syllogism / 4 ordering / 4 set; answer_type numeric|boolean|token),
+> grading.check_answer + extract_final (numeric last-number/fraction/$, boolean yes-no family, token),
+> harness.run_reasoning_probe + ReasoningMode {direct, cot, lambda} (3 system prompts, no-think so the
+> reasoning FORMAT is the only varying factor), scripts/experiments/reasoning_mode_test.py shim. Ran all
+> 3 modes on qwythos no-think (results/qwythos-reasoning/*-{direct,cot,lambda}-122002).
+> ★ RESULT (two-sided λ measure): HYPOTHESIS NOT SUPPORTED as a prompting strategy — but instructively:
+>   mode     acc        mean_tok   λ-emitted   fails
+>   direct   0.875(21)  5.9        —           ar-04 ar-06 se-04 (multi-step arith)
+>   cot      1.000(24)  81.5       —           none  ← PROSE CoT fixes the hard arithmetic
+>   lambda   0.875(21)  126.2      1/24        ar-04 ar-06 se-04  ← SAME fails as direct
+> (1) lambda-prethink ≈ direct: on the hard items the model IGNORED "translate to lambda first" and answered
+>     directly (ANSWER: 70% in 8 tok), same wrong answers as direct. Only 1/24 lambda-mode answers actually
+>     contained λ/∀/∃. → LAMBDA IS A TARGET (produced on request = the compile task) NOT A TOOL (it won't
+>     adopt λ as a reasoning substrate for other problems). Consistent with s256: the compiler is a circuit
+>     that fires on COMPILE-prompts, not the model's general reasoning mode.
+> (2) What actually helped = PROSE CoT (explicit step-by-step arithmetic), 24/24. The 3 failures are all
+>     multi-step arithmetic (percent, change, inclusion-exclusion) where FOL structure ≠ numeric evaluation
+>     anyway.
+> ★ CAVEATS (this is NOT a clean refutation of the deeper idea): the model IGNORING the instruction is the
+>   confound — we tested "does INSTRUCTING lambda-prethink help" (no, ¬compliance), NOT "does the model's
+>   INTERNAL lambda representation help" (interp B, needs activation work). 24 items, 1 model, no-think;
+>   logic tasks CEILINGED (all modes 1.0 on syllogism/ordering/set-logic → no headroom to show a lambda
+>   benefit where logical structure is the bottleneck). Sharper next test: FORCE lambda emission (few-shot)
+>   + logic-bottleneck tasks with direct<1.0 headroom + ornith contrast (unconditional compiler — does it
+>   actually USE λ in lambda-mode?). EXP CODE committable (probe set + grader + reasoning harness + shim).
+>
+> ★★ STRATEGIC PIVOT (Michael, 🎯 — end of s256): "these fine-tunes are probably not good for us to use
+> just yet. ornith and qwythos are both only days old and are fine-tunes of qwen3.5 models. We would be
+> better served to go back to the BASE models and use DFlash MTP that just dropped in llama.cpp today."
+> RATIONALE (on-thesis, = the s256 finding): the compiler lives in the BASE; fine-tunes add halt-layer
+> interference (overthink-collapse) → extract from the base, treat the fine-tune as noise. We HAVE the
+> base locally: /Users/mwhitford/localai/models/qwen3.5-35b-a3b/Qwen_Qwen3.5-35B-A3B-Q8_0.gguf (34G, +mmproj)
+> = THE EXACT BASE ornith fine-tuned from → clean BASE-vs-FINE-TUNE controlled comparison (run compile-
+> gradient + reasoning-check on base, compare to ornith/qwythos; predict less collapse, cleaner compiler).
+> Also Qwen3.5-397B-A17B (Q6_K, 8-part). DFlash/MTP = speculative decoding (LOSSLESS decode-speed, 2-3.5×;
+> strongest on STRUCTURED/low-entropy output = our λ/FOL → big win) — verify lossless via greedy A/B before
+> trusting numbers. INFRA STATUS (s256): local llama.cpp = homebrew 9780; HAS --spec-type draft-mtp +
+> --spec-draft-p-min + --reasoning-budget (caps overthink-collapse), but NO `dflash` spec-type yet (dropped
+> upstream TODAY, homebrew not updated; possibly CUDA-only — we're Metal/Apple Silicon — UNCONFIRMED). →
+> WAIT on DFlash server; nothing to set up today. NEXT SESSION: (1) Michael stands up base Qwen3.5-35B-A3B
+> on llama.cpp (port? MTP draft model + flags?) → register a base ModelConfig in models.py (new model =
+> ~15-line config) → run base-vs-finetune comparison; (2) knowledge update for the s256 lambda-as-pre-
+> thinking finding + this pivot (Michael: "I will follow up on that in a later session" — NOT yet written).
+> ──────────────────────────────────────────────────────────────────────────────────────────────────
+> ★ (superseded note below — s256 main finding, now COMMITTED) PENDING APPROVAL (S5 λ termination): memory
 > (qwythos compiler finding) + knowledge (cross-model P(λ) table 4th row; design doc P1/P2 → status active)
 > + DEFERRED follow-ups: P3 (2200-L compile_gradient_probe.py migration, high-risk), P4/P5 archival,
 > nucleus ModelConfig when a server runs.
