@@ -1,6 +1,6 @@
 ---
 title: "Canonical Probe Library — The Final, Single-Source Probe Set"
-status: designing
+status: active
 category: design
 license: MIT
 tags: [probes, grading, harness, consolidation, canonical-form, distillation, repo-hygiene]
@@ -257,7 +257,22 @@ harness.run_compiler_probe(models.ORNITH)   # that's it
 
 ---
 
-## 5. Migration map (follow-up task list, ranked — not executed in this doc)
+## 5. Migration map (follow-up task list, ranked)
+
+> **STATUS (session 256) — P1 + P2 BUILT & VERIFIED.** `grading.py` (4 named
+> registers), `harness.py` (`ModelConfig` + `run_compiler_probe`, chat +
+> completion transports + a `no_think` `λ extend` open-slot), and `models.py`
+> (ORNITH / VIBETHINKER / QWYTHOS registry) all exist and are ruff-clean. The
+> three `*_compiler_test.py` are now ~42–45-line CLI shims (was 264 / 214). The
+> verify gate PASSED: ornith re-run through the new harness reproduced the
+> committed s254 numbers per named register (`lenient_lambda` 0.675 ✓ exact,
+> `emits_formal` 1.0 ✓ exact; `kernel_valid` 0.725→0.775 = MoE greedy
+> nondeterminism, grading proven identical). First real use also produced new
+> science — see `../explore/compiler-finetune-halt-collapse.md`. **Still
+> deferred:** P3 (high-risk 2200-L migration), P4/P5 archival, plus an
+> `emits_formal` identity-string robustness fix (qwythos's "Empero AI (" disclaimer
+> false-fires the pred-app register; `binder_any` is the clean register).
+
 
 | # | Action | Files | Risk |
 | --- | --- | --- | --- |
