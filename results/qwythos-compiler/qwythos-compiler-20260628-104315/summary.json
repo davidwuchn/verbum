@@ -1,0 +1,55 @@
+{
+  "n": 40,
+  "registers": {
+    "emits_formal": 0.4,
+    "lambda_binder_any_style": 0.325,
+    "lenient_lambda": 0.325,
+    "kernel_valid": 0.075
+  },
+  "p_emits_formal": 0.4,
+  "p_lambda_binder_any_style": 0.325,
+  "p_lambda_lenient": 0.325,
+  "p_kernel_valid": 0.075,
+  "by_category": {
+    "anti_compile": {
+      "n": 8,
+      "emits_formal": 0.25,
+      "lambda_binder_any_style": 0.125,
+      "lenient_lambda": 0.125,
+      "kernel_valid": 0.0
+    },
+    "medium_compile": {
+      "n": 8,
+      "emits_formal": 0.5,
+      "lambda_binder_any_style": 0.5,
+      "lenient_lambda": 0.5,
+      "kernel_valid": 0.0
+    },
+    "null": {
+      "n": 8,
+      "emits_formal": 0.125,
+      "lambda_binder_any_style": 0.0,
+      "lenient_lambda": 0.0,
+      "kernel_valid": 0.125
+    },
+    "strong_compile": {
+      "n": 8,
+      "emits_formal": 0.625,
+      "lambda_binder_any_style": 0.5,
+      "lenient_lambda": 0.5,
+      "kernel_valid": 0.125
+    },
+    "weak_compile": {
+      "n": 8,
+      "emits_formal": 0.5,
+      "lambda_binder_any_style": 0.5,
+      "lenient_lambda": 0.5,
+      "kernel_valid": 0.125
+    }
+  },
+  "frac_budget_hit": 0.375,
+  "mean_completion_tokens": 5029.7,
+  "mean_reasoning_chars": 21166.7,
+  "total_elapsed_s": 3274.8,
+  "nucleus_reference_p_lambda": 0.907
+}

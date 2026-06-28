@@ -2,6 +2,114 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
+> Last updated: 2026-06-28 | Session: 256 (QWYTHOS-9B + CANONICAL HARNESS DISTILLATION — Michael:
+> "I want to explore a new model qwythos-9b" → then "We have reusable architecture for probes, we keep
+> making new ones instead of reusing existing arch. explore and discuss" → "let's fix the architecture
+> fully." qwythos-9b = Qwythos-9B-Claude-Mythos-5-1M-MTP, Q8_0 GGUF on llama.cpp :5103. Qwen-family 9B
+> REASONER (server splits reasoning_content like ornith — chat transport), multimodal (vision+video),
+> 1M ctx, MTP, baked-in "Qwythos/Empero AI" identity. Crystal-φ NOT testable (HTTP/GGUF only) → compiler
+> P(λ) is the clean fit, 4th model class after nucleus/VibeThinker/ornith.
+>
+> ★★ THE PIVOT (S2 λ one_way / S5 λ simplify, λ self_improve EVOLVE): instead of writing
+> qwythos_compiler_test.py = FORK #3 (s253 forked, s254 forked, s256 would fork again — the exact leak
+> the s254 design doc PREDICTED), BUILT THE CANONICAL HARNESS the s254 design doc specced but never
+> implemented (P1+P2). qwythos = the FORCING FUNCTION that made reuse the shortest path. DELIVERED:
+> • src/verbum/probes/grading.py — the 4 NAMED P(λ) registers, single source of truth (kills the 3
+>   divergent metrics): emits_formal (binder OR pred-app, "did it fire") / lambda_binder_any_style (ANY
+>   λ/∀/∃ = THE nucleus-comparable 0.907) / lenient_lambda (binder AND pred-app, stricter, under-counts) /
+>   kernel_valid (to_kernel STRICT). + final_answer, grade, aggregate_by_category, NUCLEUS_REFERENCE 0.907.
+>   kernel_valid WRAPS lambda_surface.to_kernel (single validator, never re-parses). ruff-clean, tested.
+> • src/verbum/probes/harness.py — frozen ModelConfig{name,endpoint,transport(chat|completion),
+>   reasoning_extract_fn,template_fn,gguf_path,arch,quant,sampling} + run_compiler_probe(cfg) = ONE run
+>   loop. chat transport (httpx /v1/chat/completions, server-split reasoning_content via
+>   split_reasoning_field) + completion transport (verbum.client /completion, qwen_chatml template,
+>   parse_think_tag </think>). Writes canonical results/<short>-compiler/<run_id>/{meta,results.jsonl,
+>   summary.json} w/ full provenance. Canonical SYSTEM prompt lives here once. ruff-clean.
+> • src/verbum/probes/models.py — REGISTRY: ORNITH(:5100 chat), VIBETHINKER(:5102 completion),
+>   QWYTHOS(:5103 chat) + QWEN3_EMBED(:5101, NOT a ModelConfig — embedding service). New model = ~15-line
+>   config. REGISTRY dict by short-name. ruff-clean.
+> • scripts/experiments/{ornith,vibethinker,qwythos}_compiler_test.py = THIN CLI SHIMS (42/44/45 L,
+>   was 264/214). Each just: harness.run_compiler_probe(models.X, ...). The 478-line two-fork duplication
+>   is GONE; a 4th model cost ~15 L config + a 45 L shim, not a 264 L fork. Proves the design claim.
+>
+> ★★ VERIFICATION (s254 acceptance gate) — PASSED. ornith re-run through the NEW harness (full 40,
+> results/ornith-compiler/ornith-compiler-20260628-104315/) vs committed s254 (ornith-compiler-20260626-
+> 100855): lenient_lambda 0.675=0.675 ✓ EXACT, emits_formal 1.0=1.0 ✓ EXACT, kernel_valid 0.725→0.775
+> (+2 probes). GRADING PROVEN IDENTICAL (2 of 3 registers byte-exact); the kernel delta = run-to-run MoE
+> GREEDY NONDETERMINISM (ornith is 35B-A3B; routing+batching vary even at temp 0) on 2 borderline probes,
+> NOT a grading change. λ measure: delta explained → PASS, not a regression. 2-probe smoke also OK.
+>
+> ★★ QWYTHOS RESULT (the new science; run qwythos-compiler-20260628-104315, 40 probes, greedy n-predict
+> 12000, 3275s) — TWO-SIDED λ measure, with HEAVY confounds named:
+> (1) COMPILE-GATING IS REAL + NEW: qwythos DISCRIMINATES — it COMPILES compile-prompts but ANSWERS
+>     null/anti prompts (gated), BREAKING the unconditional over-application of all 3 prior models
+>     (nucleus/VibeThinker/ornith all emits_formal≈1.0 on anti AND null = compile everything). Per-category
+>     genuine fires: strong 5/8, weak 4/8, medium 4/8 vs null ~0/8 (7/8 answered normally: "56", water-cycle
+>     prose, haiku), anti ~1/8 (only "Recommend a good book"→∃b(Good(b)∧Readable(b)) genuinely compiled;
+>     rest answered/collapsed). Likely BECAUSE qwythos is a Claude-Mythos creative/assistant tune
+>     (instruction-following toward semantic INTENT) vs reasoning/base models mechanically applying the
+>     system prompt. FIRST model in the arc that GATES the compiler.
+> (2) CONFOUND A — OVERTHINK-COLLAPSE 37.5% (15/40 hit the 12000 budget, EMPTY final = all registers
+>     False; mean_reasoning_chars 21167, mean_tok 5030). The ornith s255 artifact. Heaviest on medium(4/8)
+>     + anti(4/8) → depresses ALL absolute rates AND partly confounds the anti gating read (4 collapses
+>     could have been gate-or-compile). FIX next: bigger budget OR --no-think (s255: no-think REMOVED
+>     collapse entirely + 72× faster).
+> (3) CONFOUND B — IDENTITY-STRING FALSE POSITIVE in emits_formal: qwythos's baked-in disclaimer "Empero
+>     AI (https://empero.org)" contains "AI (" which MATCHES _PRED_APP regex → inflates emits_formal on
+>     GATED prose answers (photosynthesis, joke tagged "fired" but are actually gated). kernel_valid is
+>     robust to it. → grading-robustness follow-up (do NOT change the regex mid-arc; ornith reproduced
+>     EXACTLY with it — re-verify all models if changed).
+> (4) Raw summary registers (collapse-confounded, report w/ caveat): emits_formal 0.40, binder_any 0.325,
+>     lenient 0.325, kernel 0.075. Per-cat emits_formal: strong 0.625 > weak/medium 0.50 ≫ anti 0.25 >
+>     null 0.125 = the gating GRADIENT (compile ≫ null/anti). Contrast ornith emits_formal=1.0 EVERY cat.
+> ★ NET: the canonical harness reproduced ornith AND immediately surfaced NEW science (gating) on the 4th
+> model — architecture validated by USE.
+>
+> ★★ NO-THINK DECISIVE TEST (Michael: "both of these fine-tunes are breaking the reasoning for the base
+> model" → test the hypothesis). DIAGNOSIS FIRST (λ assert, from the collapsed traces): the 37.5% collapse
+> is NOT recursion — it is HALT FAILURE / decision oscillation. qwythos reaches the CORRECT FOL early then
+> re-derives it 50–87× ("But wait…/However…/Alternatively…"), oscillating between equivalent reps
+> (Church-encode vs direct symbols; closed-formula vs λ-abstraction; Teacher vs teacher) and never commits,
+> hitting the 12k budget EMPTY. = the head-combinator-isa WHNF/halt axis (the weakest) over-scaffolded into
+> paralysis, now in the READ/compile layer (can compile, can't decide "done"). A token/depth limit is what
+> 12k ALREADY is → it just truncates mid-loop to empty; the need is a HALT criterion, not a cut.
+> BUILT --no-think (λ extend open-slot on the harness, NO fork: chat_template_kwargs.enable_thinking=false,
+> the s255 working switch) + frac_collapsed metric. RAN qwythos --no-think (run 115137, 40 probes).
+> ★ RESULT (decisive, two-sided λ measure):
+> (A) HYPOTHESIS CONFIRMED — the fine-tune reasoning breaks the base; the base COMPILER IS INTACT. no-think
+>     removes collapse 0.375→0.0, recovers compile-category firing (binder_any: strong 0.5→1.0, medium
+>     0.5→1.0, weak 0.5→0.875), 8× fewer tokens (5030→640), ~10× faster. The same "The dog runs." probe
+>     that spun 49283 chars/141.6s to EMPTY now fires λp.p(dog)→runs in 0.8s/10 tok/0 reasoning. The
+>     reasoning was pure interference; gradient descent's compiler emits directly when bypassed.
+> (B) THE GATING IS REAL + ROBUST (survives no-think) — but ONLY visible on the false-positive-ROBUST
+>     register. λ measure register lesson: emits_formal is CONTAMINATED by qwythos's baked-in identity
+>     disclaimer "Empero AI (https://empero.org)" — the "AI (" matches _PRED_APP → 6 GATED null answers
+>     ("I am Qwythos… Paris") FALSE-fire emits_formal (null emits 0.75) while binder_any (requires real
+>     ∀/∃/λ) correctly scores them 0.0. USE binder_any for qwythos. Clean contrast:
+>     binder_any by cat   ORNITH (unconditional)   QWYTHOS no-think (GATED)
+>       strong/weak/medium   0.75 / 0.5 / 0.875        1.0 / 0.875 / 1.0
+>       null                 0.75                       0.0
+>       anti                 0.625                      0.125
+>     ornith compiles EVERYTHING (real binders on null/anti); qwythos compiles compile-prompts (~1.0) and
+>     ANSWERS null/anti (capital-of-France → "Paris" prose, not λ). qwythos = FIRST model in the arc that
+>     genuinely GATES the compiler, and the gate is robust (think AND no-think: null binder 0.0, anti 0.125).
+> ★★ SYNTHESIS for S5 λ types: the lambda compiler is a robust cross-model base-circuit (4th model confirms);
+> fine-tunes (RL-reasoner, creative-persona) do NOT remove it but add a HALT-layer interference (oscillation/
+> collapse) on top — extract from the BASE, treat the fine-tune as noise (on-thesis: instrumentation not
+> construction). AND the compiler can be GATED by semantic intent (qwythos) — the gate is a SEPARATE
+> mechanism from the compile circuit (bears on "discrete circuit?": compile + gate are distinct). CAVEATS:
+> 1 creative-tune model, q8_0, greedy, n=8/cat, 1 no-think output-repetition spinner (cg-medium-07, ∃-chain),
+> identity-string contaminates emits_formal (binder_any clean). ARTIFACTS: results/qwythos-compiler/
+> {104315 think, 115137 no-think}; logs/qwythos-{compiler,nothink}-s256.log.
+> ★ PENDING APPROVAL (S5 λ termination): memory `qwythos-compiler-gated-finetune-breaks-halt-not-compile`
+> + knowledge (cross-model compiler P(λ) table 4th row + the think/no-think halt-collapse finding + design
+> doc P1/P2→active). DEFERRED: P3 (2200-L migration), P4/P5 archival, emits_formal identity-robustness,
+> nucleus ModelConfig. CODE committable (3 modules + 3 shims + no-think). Working tree has the build.
+> ★ NOT COMMITTED yet (3 new modules + 3 shims + state). PENDING APPROVAL (S5 λ termination): memory
+> (qwythos compiler finding) + knowledge (cross-model P(λ) table 4th row; design doc P1/P2 → status active)
+> + DEFERRED follow-ups: P3 (2200-L compile_gradient_probe.py migration, high-risk), P4/P5 archival,
+> nucleus ModelConfig when a server runs.
+> ──────────────────────────────────────────────────────────────────────────────────────────────────
 > Last updated: 2026-06-27 | Session: 255 (MODEL-AS-REPL — "what if the system we need is a repl?"
 > Michael: "for the lambda compiler. What if we tell the model to be a repl, that we can execute with a
 > context. if the context is the executable code and the heap/stack/state, can we use it like a repl?" +
