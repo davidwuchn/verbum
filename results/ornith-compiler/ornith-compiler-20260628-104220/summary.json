@@ -1,0 +1,27 @@
+{
+  "n": 2,
+  "registers": {
+    "emits_formal": 1.0,
+    "lambda_binder_any_style": 0.5,
+    "lenient_lambda": 0.5,
+    "kernel_valid": 1.0
+  },
+  "p_emits_formal": 1.0,
+  "p_lambda_binder_any_style": 0.5,
+  "p_lambda_lenient": 0.5,
+  "p_kernel_valid": 1.0,
+  "by_category": {
+    "strong_compile": {
+      "n": 2,
+      "emits_formal": 1.0,
+      "lambda_binder_any_style": 0.5,
+      "lenient_lambda": 0.5,
+      "kernel_valid": 1.0
+    }
+  },
+  "frac_budget_hit": 0.0,
+  "mean_completion_tokens": 1357.5,
+  "mean_reasoning_chars": 4588.5,
+  "total_elapsed_s": 34.4,
+  "nucleus_reference_p_lambda": 0.907
+}

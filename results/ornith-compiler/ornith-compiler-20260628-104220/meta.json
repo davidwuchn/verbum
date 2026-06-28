@@ -1,0 +1,31 @@
+{
+  "run_id": "ornith-compiler-20260628-104220",
+  "model": "ornith-35b-a3b",
+  "quant": "Q8_0",
+  "gguf": "/Users/mwhitford/localai/models/ornith/ornith-1.0-35b-Q8_0.gguf",
+  "arch": "35B-A3B MoE, multimodal reasoner (n_vocab 248320, n_embd 2048, ctx 262144)",
+  "server": "http://localhost:5100",
+  "transport": "chat",
+  "endpoint": "/v1/chat/completions",
+  "probe_set_id": "compile-gradient",
+  "probe_set_version": 1,
+  "n_probes": 2,
+  "system_prompt": "You are a lambda-calculus compiler. Translate the input sentence into a single lambda-calculus / first-order-logic expression using the notation: \u03bb \u2200 \u2203 . \u2192 \u2227 \u2228 \u00ac and predicate application f(a,b). Preserve the predicate and entity names from the sentence. Output ONLY the final expression on one line.",
+  "sampling": {
+    "temperature": 0.0,
+    "max_tokens": 4000,
+    "greedy": true
+  },
+  "timestamp": "2026-06-28T17:42:20.155146+00:00",
+  "lib_versions": {
+    "verbum": "0.0.0",
+    "httpx": "0.28.1",
+    "httpx-sse": "0.4.3",
+    "pydantic": "2.13.1",
+    "numpy": "2.4.4",
+    "structlog": "25.5.0",
+    "polars": "1.39.3"
+  },
+  "lockfile_hash": "sha256:5bc2ee2e297f67744e2dc1fcf2bd15a9c303b25c8ee5c82c528a05de04ca2435",
+  "git_sha": "b0991fe1db4803f0f040748abfb91777f2136bf2"
+}

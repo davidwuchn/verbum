@@ -1,0 +1,15 @@
+{
+  "n": 2,
+  "mode": "lambda",
+  "accuracy": 1.0,
+  "by_category": {
+    "arithmetic": {
+      "n": 2,
+      "accuracy": 1.0
+    }
+  },
+  "frac_collapsed": 0.0,
+  "frac_budget_hit": 0.0,
+  "mean_completion_tokens": 7.5,
+  "total_elapsed_s": 0.6
+}

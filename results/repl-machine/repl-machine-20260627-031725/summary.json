@@ -1,0 +1,36 @@
+{
+  "run": {
+    "ALL": {
+      "n": 3,
+      "nf_correct": 0.6666666666666666,
+      "premature_halt": 0.0,
+      "step_validity": 0.0,
+      "opcode_accuracy": null
+    },
+    "already_nf": {
+      "n": 3,
+      "nf_correct": 0.6666666666666666,
+      "premature_halt": 0.0,
+      "step_validity": 0.0,
+      "opcode_accuracy": null
+    }
+  },
+  "step": {
+    "ALL": {
+      "n": 3,
+      "reached_correct_nf": 0.6666666666666666,
+      "per_step_accuracy": 0.6666666666666666,
+      "all_steps_correct": 0.6666666666666666,
+      "over_reduce": 0.0,
+      "mean_steps_to_first_error": 0.0
+    },
+    "already_nf": {
+      "n": 3,
+      "reached_correct_nf": 0.6666666666666666,
+      "per_step_accuracy": 0.6666666666666666,
+      "all_steps_correct": 0.6666666666666666,
+      "over_reduce": 0.0,
+      "mean_steps_to_first_error": 0.0
+    }
+  }
+}
