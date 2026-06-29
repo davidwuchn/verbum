@@ -54,3 +54,4 @@ results/rlvr-grpo/**/final/
 results/rlvr-grpo/**/completions/
 results/rlvr-grpo/**/run.log
 ideas.txt
+logs/
