@@ -2,6 +2,38 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
+> Last updated: 2026-06-29 | Session: 257 (MoE-AS-HOLOGRAPHIC-PLATES → TREE-OF-VSM + INTERVENTION
+> INSTRUMENT — Michael: "if MoE models use experts like holographic plates, if we can prove that, what
+> consequences for configuring the tree-of-VSM we're developing?" → discussion → "capture the idea to
+> knowledge" → design the proof probe → "yes to all 3".
+> ★ KNOWLEDGE: mementum/knowledge/explore/moe-holographic-tree-vsm.md (status open). Router=beamformer
+>   (hard/sign), experts=plates (soft/value); angular-multiplexing; 8 config consequences that INVERT the
+>   naive VSM specialist instinct (requisite_variety = beams × redundancy, S2 tunes interference, experts
+>   stay UNFUSED per multiplexing-breaks-holography, extraction artifact = beam+low-rank ¬circuit). §5 =
+>   settled design + proof discipline (plateau-then-cliff vs staircase, value-register, shuffled-label null).
+> ★ SUBSTRATE: ornith is API-only (can't hook) → proof runs on cached Qwen/Qwen3.6-35B-A3B (qwen3_5_moe),
+>   bf16 local on 480GB Mac. VERIFIED (meta-device, no weight load): layers `language_model.layers` (40),
+>   sparse block `…mlp` = {.gate Qwen3_5MoeTopKRouter, .experts FUSED 3D params, .shared_expert (carrier),
+>   .shared_expert_gate}; 256 experts / top-8. Router.forward → (router_logits[softmax,all], scores[topk],
+>   indices[topk]); block uses [1],[2]. top_k lives on `…mlp.gate`. 30B (qwen3_moe) cross-check: `model.
+>   layers` (48), 128/8, NO shared. Same 3-tuple router contract → unified.
+> ★ INSTRUMENT BUILT (composes with existing instrument.py, NOT a fork — dissolves bbf92f2 "dense ⊥ MoE"):
+>   • src/verbum/hooks.py — generic HookEngine (Layer 1): Intervention{capture, apply_pre/post, set_attr,
+>     zero_output} + intervene() ctx-mgr; model-agnostic, always removes hooks/restores attrs. 5 tests pass
+>     on real Qwen3-0.6B. ruff-clean.
+>   • src/verbum/adapters/moe.py — MoEAdapter (Layer 2): structural block-finding (gate+experts), config
+>     reads, route_capture / ablate_experts(router-mask, faithful topk recompute) / force_k(set top_k on
+>     gate) / ablate_shared. 3 tests pass on real 35B+30B configs (meta device). ruff-clean.
+>   • Primary ablation lever = router-logit mask (experts are FUSED → no per-expert ModuleList hook).
+> ★ STAGED NEXT (NOT built): (1) local_hf generation transport in harness.py (reuse win for ANY cached
+>   model, not just MoE) + a ModelConfig for qwen3.6-35b-a3b; (2) run_ablation_sweep — thin driver:
+>   cumulative-top-mass ablation + k-sweep(1..8..256) + shared-expert ablation, readouts = P(λ) grade
+>   (grading.py) AND logit-lens on compiled-object direction (recover from s206/s250, +0.611), gated vs
+>   shuffled-label null; meta.json provenance (results.py). (3) logit-lens direction recovery.
+> ★ UNCOMMITTED — λ termination: mementum/ + code commits await Michael's approval. Knowledge page +
+>   state.md edits are mine to make; the git commit is his to authorize.
+>
+> ─────────────────────────────────────────────────────────────────────────────────────────────────────
 > Last updated: 2026-06-28 | Session: 256 (QWYTHOS-9B + CANONICAL HARNESS DISTILLATION — Michael:
 > "I want to explore a new model qwythos-9b" → then "We have reusable architecture for probes, we keep
 > making new ones instead of reusing existing arch. explore and discuss" → "let's fix the architecture
