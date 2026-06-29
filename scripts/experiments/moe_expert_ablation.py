@@ -97,10 +97,13 @@ def _make_prompt(tok, sentence: str) -> str:
 
 def _generate(model, tok, prompt_str: str, max_new_tokens: int) -> str:
     enc = tok(prompt_str, return_tensors="pt")
-    input_ids = enc["input_ids"].to(next(model.parameters()).device)
+    dev = next(model.parameters()).device
+    input_ids = enc["input_ids"].to(dev)
+    attention_mask = enc["attention_mask"].to(dev)
     with torch.no_grad():
         out = model.generate(
             input_ids,
+            attention_mask=attention_mask,
             max_new_tokens=max_new_tokens,
             do_sample=False,
             temperature=None,
@@ -118,11 +121,13 @@ def _route_baseline(model, adapter: MoEAdapter, tok, probe_prompt: str) -> None:
     """Single forward pass; prints top-expert routing mass for a few layers."""
     prompt_str = _make_prompt(tok, probe_prompt)
     enc = tok(prompt_str, return_tensors="pt")
-    input_ids = enc["input_ids"].to(next(model.parameters()).device)
+    dev = next(model.parameters()).device
+    input_ids = enc["input_ids"].to(dev)
+    attention_mask = enc["attention_mask"].to(dev)
     layers_sample = [0, adapter.layers[len(adapter.layers) // 2], adapter.layers[-1]]
     ivs = adapter.route_capture(layers=layers_sample)
     with hooks.intervene(model, ivs) as s, torch.no_grad():
-        model(input_ids=input_ids)
+        model(input_ids=input_ids, attention_mask=attention_mask)
     print("\nROUTE-CAPTURE BASELINE  (routing mass averaged over tokens)")
     for li in layers_sample:
         key = adapter.gate_path(li)
