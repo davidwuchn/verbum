@@ -1,0 +1,70 @@
+{
+  "mode": "both",
+  "k_sweep": [
+    {
+      "k": 1,
+      "n": 16,
+      "p_lambda": 0.0625,
+      "p_kernel": 0.0625
+    },
+    {
+      "k": 2,
+      "n": 16,
+      "p_lambda": 0.0,
+      "p_kernel": 0.0
+    },
+    {
+      "k": 4,
+      "n": 16,
+      "p_lambda": 0.75,
+      "p_kernel": 0.375
+    },
+    {
+      "k": 6,
+      "n": 16,
+      "p_lambda": 0.6875,
+      "p_kernel": 0.375
+    },
+    {
+      "k": 8,
+      "n": 16,
+      "p_lambda": 0.75,
+      "p_kernel": 0.75
+    }
+  ],
+  "nucleus_reference_p_lambda": 0.907,
+  "total_elapsed_s": 445.7,
+  "run_dir": "/Users/mwhitford/src/verbum/results/moe-ablation/moe-ablation-20260629-144548",
+  "null_k_sweep": [
+    {
+      "k": 1,
+      "n_trials": 3,
+      "p_lambda_mean": 0.0,
+      "p_lambda_std": 0.0
+    },
+    {
+      "k": 2,
+      "n_trials": 3,
+      "p_lambda_mean": 0.0,
+      "p_lambda_std": 0.0
+    },
+    {
+      "k": 4,
+      "n_trials": 3,
+      "p_lambda_mean": 0.0,
+      "p_lambda_std": 0.0
+    },
+    {
+      "k": 6,
+      "n_trials": 3,
+      "p_lambda_mean": 0.0833,
+      "p_lambda_std": 0.0589
+    },
+    {
+      "k": 8,
+      "n_trials": 3,
+      "p_lambda_mean": 0.0417,
+      "p_lambda_std": 0.0295
+    }
+  ]
+}

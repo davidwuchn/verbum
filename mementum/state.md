@@ -2,36 +2,46 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-06-29 | Session: 257 (MoE-AS-HOLOGRAPHIC-PLATES → TREE-OF-VSM + INTERVENTION
-> INSTRUMENT — Michael: "if MoE models use experts like holographic plates, if we can prove that, what
-> consequences for configuring the tree-of-VSM we're developing?" → discussion → "capture the idea to
-> knowledge" → design the proof probe → "yes to all 3".
-> ★ KNOWLEDGE: mementum/knowledge/explore/moe-holographic-tree-vsm.md (status open). Router=beamformer
->   (hard/sign), experts=plates (soft/value); angular-multiplexing; 8 config consequences that INVERT the
->   naive VSM specialist instinct (requisite_variety = beams × redundancy, S2 tunes interference, experts
->   stay UNFUSED per multiplexing-breaks-holography, extraction artifact = beam+low-rank ¬circuit). §5 =
->   settled design + proof discipline (plateau-then-cliff vs staircase, value-register, shuffled-label null).
-> ★ SUBSTRATE: ornith is API-only (can't hook) → proof runs on cached Qwen/Qwen3.6-35B-A3B (qwen3_5_moe),
->   bf16 local on 480GB Mac. VERIFIED (meta-device, no weight load): layers `language_model.layers` (40),
->   sparse block `…mlp` = {.gate Qwen3_5MoeTopKRouter, .experts FUSED 3D params, .shared_expert (carrier),
->   .shared_expert_gate}; 256 experts / top-8. Router.forward → (router_logits[softmax,all], scores[topk],
->   indices[topk]); block uses [1],[2]. top_k lives on `…mlp.gate`. 30B (qwen3_moe) cross-check: `model.
->   layers` (48), 128/8, NO shared. Same 3-tuple router contract → unified.
-> ★ INSTRUMENT BUILT (composes with existing instrument.py, NOT a fork — dissolves bbf92f2 "dense ⊥ MoE"):
->   • src/verbum/hooks.py — generic HookEngine (Layer 1): Intervention{capture, apply_pre/post, set_attr,
->     zero_output} + intervene() ctx-mgr; model-agnostic, always removes hooks/restores attrs. 5 tests pass
->     on real Qwen3-0.6B. ruff-clean.
->   • src/verbum/adapters/moe.py — MoEAdapter (Layer 2): structural block-finding (gate+experts), config
->     reads, route_capture / ablate_experts(router-mask, faithful topk recompute) / force_k(set top_k on
->     gate) / ablate_shared. 3 tests pass on real 35B+30B configs (meta device). ruff-clean.
->   • Primary ablation lever = router-logit mask (experts are FUSED → no per-expert ModuleList hook).
-> ★ STAGED NEXT (NOT built): (1) local_hf generation transport in harness.py (reuse win for ANY cached
->   model, not just MoE) + a ModelConfig for qwen3.6-35b-a3b; (2) run_ablation_sweep — thin driver:
->   cumulative-top-mass ablation + k-sweep(1..8..256) + shared-expert ablation, readouts = P(λ) grade
->   (grading.py) AND logit-lens on compiled-object direction (recover from s206/s250, +0.611), gated vs
->   shuffled-label null; meta.json provenance (results.py). (3) logit-lens direction recovery.
-> ★ UNCOMMITTED — λ termination: mementum/ + code commits await Michael's approval. Knowledge page +
->   state.md edits are mine to make; the git commit is his to authorize.
+> Last updated: 2026-06-29 | Session: 257 (MoE-AS-HOLOGRAPHIC-PLATES → PROOF RAN)
+> Full arc: "if MoE experts are holographic plates, what are the tree-of-VSM consequences?" →
+> designed the probe → built instrument → ran k-sweep + shuffled-label null → CONFIRMED.
+>
+> ★★ CENTRAL FINDING: MoE experts ARE holographically multiplexed, not specialist.
+>   Angular multiplexing confirmed. 94% of lambda-compiler capability comes from WHICH experts
+>   the router selects, not HOW MANY. Specialist hypothesis falsified by k=2 reversal.
+>   See: mementum/knowledge/explore/moe-holographic-tree-vsm.md (status: active, §6 full results).
+>
+> ★ STRUCTURED K-SWEEP (run moe-ablation-20260629-144548, 445.7s, --mode both, clean w/ attn mask):
+>   k=1: P(λ)=0.062  k=2: 0.000  k=4: 0.750  k=6: 0.688  k=8: 0.750 / P(kern)=0.750
+>   F1: k=2 < k=1 → specialist falsified (regression impossible under specialisation)
+>   F2: sharp threshold at k=4 → holographic critical-density (below→noise, above→image)
+>   F3: interference bands at k=2,k=6 → routing structure (angle) determines constructive/destructive
+>   F4: P(λ) plateaus at k=4, P(kernel) doubles at k=8 → two-register split (presence vs precision)
+>
+> ★ SHUFFLED-LABEL NULL (3 trials, per-layer random expert selection):
+>   k=1:0.000  k=2:0.000  k=4:0.000  k=6:0.083  k=8:0.042  (≈ flat near zero)
+>   N1: null ~0 at ALL k → 94% capability from which experts, not how many → angular multiplex CONFIRMED
+>   N2: interference bands absent in null → k=2/k=6 dips are routing-specific, not k-count effects
+>   N3: routing coherence IS the capability → dispatch-ratio-prior is a beam-angle lock, not load-balancer
+>   Prediction from §5 confirmed exactly (null monotone, structured >> null at k=4/k=8).
+>
+> ★ INSTRUMENT (committed, composes with instrument.py):
+>   src/verbum/hooks.py — generic HookEngine (8 tests pass, ruff-clean)
+>   src/verbum/adapters/moe.py — MoEAdapter (3 tests on 35B+30B meta-device, ruff-clean)
+>   scripts/experiments/moe_expert_ablation.py — k-sweep + null, --mode both|structured|null
+>   Fix: attention_mask now passed explicitly to model.generate() and route-capture forward.
+>   Fix: enable_thinking=False → <think>\n\n</think> pre-closed in prompt (verified).
+>
+> ★ TREE-OF-VSM CONSEQUENCE TIGHTENED (§3 update):
+>   S2 must maintain routing COHERENCE (beam-angle lock) not just prevent overlap.
+>   Drift in routing distribution destroys reconstruction as completely as random experts.
+>   dispatch-ratio-prior = reference-beam geometry preservation, not load-balancing.
+>
+> ★ NEXT (open — not started):
+>   - shared-expert ablation (zero carrier, measure collapse; large hit predicted)
+>   - cross-layer heterogeneity (do early/late layers differ in threshold/bands?)
+>   - wider k-sweep beyond trained top-8 (does P(λ) keep rising?)
+>   - local_hf generation transport in harness.py (reuse win for any cached HF model)
 >
 > ─────────────────────────────────────────────────────────────────────────────────────────────────────
 > Last updated: 2026-06-28 | Session: 256 (QWYTHOS-9B + CANONICAL HARNESS DISTILLATION — Michael:

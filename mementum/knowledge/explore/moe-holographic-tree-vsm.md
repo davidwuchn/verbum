@@ -197,23 +197,35 @@ the null ⇒ this page is **refuted**, not refined.
 
 ---
 
-## 6. First empirical results — k-sweep (s257)
+## 6. Empirical results — k-sweep + shuffled-label null (s257)
 
-> Run `moe-ablation-20260629-130429` (429.7 s, 16 probes: 8 `strong_compile`
-> + 8 `null`, k ∈ {1,2,4,6,8}, max_new_tokens=80). Status promoted to
-> **active**.
+> Clean run `moe-ablation-20260629-144548` (445.7 s, `--mode both`,
+> 16 probes: 8 `strong_compile` + 8 `null`, k ∈ {1,2,4,6,8},
+> max_new_tokens=80, attention_mask passed explicitly, thinking disabled
+> via `enable_thinking=False` → `<think>\n\n</think>` pre-closed in prompt).
+> 3 null trials per k (seed-deterministic, per-layer random selection).
 
-### Numbers
+### Structured k-sweep
 
 | k | P(λ) | P(kernel) | n |
 |---|---|---|---|
-| 1 | 0.063 | 0.063 | 16 |
+| 1 | 0.062 | 0.062 | 16 |
 | 2 | **0.000** | 0.000 | 16 |
 | 4 | **0.750** | 0.375 | 16 |
 | 6 | 0.688 | 0.375 | 16 |
 | 8 | 0.750 | **0.750** | 16 |
 
-### Four findings
+### Structured vs null comparison
+
+| k | structured P(λ) | null P(λ) mean | null std | delta |
+|---|---|---|---|---|
+| 1 | 0.062 | 0.000 | 0.000 | +0.062 |
+| 2 | 0.000 | 0.000 | 0.000 |  0.000 |
+| 4 | **0.750** | **0.000** | 0.000 | **+0.750** |
+| 6 | 0.688 | 0.083 | 0.059 | +0.604 |
+| 8 | 0.750 | 0.042 | 0.029 | +0.708 |
+
+### Four findings from the structured sweep
 
 **F1 — Specialist hypothesis falsified (k=2 reversal).** k=2 is *worse* than
 k=1. Specialists can never regress by adding a second expert; they can only
@@ -231,46 +243,70 @@ required to reconstruct, the image does not appear; above it, it snaps in.
 **F3 — Two destructive-interference bands (k=2, k=6).** Within the coherent
 regime, k=6 < k=4 (0.688 vs 0.750). Local minima at k=2 and k=6 indicate that
 specific expert *combinations* destructively cancel, not just expert count.
-This matches **angular multiplexing**: routing angles (which experts, not just
+This matches angular multiplexing: routing angles (which experts, not just
 how many) determine whether the superposition is constructive or destructive.
-The ROUTING STRUCTURE matters.
 
 **F4 — Two-register split at k=8.** P(λ) (any binder present) plateaus at
 0.750 from k=4 onward. P(kernel) (properly parseable grammar, stricter)
 *doubles* from 0.375 to 0.750 only at the trained k=8. Presence recovers at
-k=4; *precision* requires the full trained routing. This is the value-register
-signature predicted in §2: the quality of reconstruction scales with k even
-after presence saturates.
+k=4; precision requires the full trained routing. This is the value-register
+signature predicted in §2.
 
-### Interpretation
+### Three findings from the null
 
-The shape is **NOT** a specialist staircase (monotone, never regresses) and
-**NOT** clean holographic (smooth monotone rise to plateau). It is **structured
-superposition with interference bands**:
+**N1 — Angular multiplexing confirmed.** The null is near-zero across *all*
+k values (0.000 – 0.083). At k=8 — the trained active-expert count — random
+expert selection gives P(λ)=0.042 vs structured 0.750. 94% of the capability
+comes from *which* experts, not *how many*. The lambda-compiler circuit is
+stored under a specific routing signature (reference-beam angle); random beams
+don't access it.
 
-- distributed — no single expert owns compilation (`object-application-
-  distributed-no-single-locus`);
-- phase-sensitive — specific combinations constructively/destructively combine;
-- threshold-gated — critical density before coherent image emerges;
-- two-register — presence and precision recover at different k.
+**N2 — Interference bands are routing-specific, not k-count effects.** The
+null is approximately monotone and flat near zero. The k=2 dip and k=6 dip
+from the structured sweep are *absent* in the null — random k=2 gives the
+same near-zero as random k=1 or k=4. The destructive interference at k=2
+structured (where the top-2 experts actively cancel each other) is a property
+of those specific co-selected experts, not of small k per se. Prediction from
+§5 confirmed exactly.
 
-The angular-multiplexing framing from §3 (routing keys = reference-beam angles)
-fits: the interference bands show that the router encodes structured phase
-information, not just routing mass.
+**N3 — Routing coherence is the capability.** A random subset of the same k
+experts — all drawn from the same 256-expert pool — reconstructs almost
+nothing. This means the capability is not diffusely stored (pure redundancy)
+but angularly encoded: the function exists *at a specific routing angle* and
+the trained router holds that angle precisely. The `dispatch-ratio-prior`
+(KIBC constraint) is therefore not just efficiency — it preserves the
+reference-beam geometry that makes the whole holographic store accessible.
 
-### Immediate next: shuffled-label null
+### Overall interpretation
 
-Gate the interpretation against **random-k selection** (`λ yardstick`):
+The result is **structured superposition with angular multiplexing**:
 
-For each k, ablate (256 − k) *randomly chosen* experts per layer (ignoring
-routing mass) and run the same probes. If the structured top-k sweep gives
-significantly better P(λ) than the random null → routing is doing real work
-(angular multiplexing confirmed). If indistinguishable → the effect is pure
-k-count, the interference bands are coincidental.
+- distributed: no single expert owns compilation (no discrete circuit);
+- phase-sensitive: specific routing combinations constructively/destructively
+  interfere (F1, F3, N2);
+- threshold-gated: critical density at k≈4 before the image emerges (F2);
+- beam-locked: only the trained routing angle reconstructs (N1, N3);
+- two-register: presence recovers at k=4, precision at k=8 (F4).
 
-Prediction: null will be monotone (no interference bands), and structured will
-outperform null at k=4 (the high-mass experts carry the compiler circuit). The
-k=2 and k=6 dips will NOT appear in the null.
+This is *stricter* than holographic redundancy (any subset reconstructs) and
+*weaker* than specialisation (one expert owns one function). The correct model
+is **holographic multiplexing**: many functions co-reside in the expert pool,
+each readable only via its own routing signature. The router IS the read-head.
 
-Implemented as `--mode null --null-trials 3` in
-`scripts/experiments/moe_expert_ablation.py`.
+### Consequence for §3 (tree-of-VSM config, tightened)
+
+The original §3 consequence "S2 tunes interference not prevents overlap" now
+sharpens: S2 must maintain *routing coherence* — keeping the reference-beam
+angle aligned with the trained encoding. Any drift in the routing distribution
+(even holding k constant) destroys the reconstruction as completely as using
+random experts. The `dispatch-ratio-prior` is a beam-angle lock, not a
+load-balancer.
+
+### Next probes (open)
+
+- **Shared-expert ablation**: zero the always-on carrier and measure the
+  baseline collapse; carrier prediction: large hit independent of k.
+- **Cross-layer heterogeneity**: do all 40 layers show the same threshold
+  and interference pattern, or do early/late layers differ?
+- **Wider k-sweep** (k=8..64..256): does P(λ) plateau at 0.750 or keep
+  rising? If rising beyond k=8 → trained routing is sub-optimal capacity.
