@@ -302,6 +302,88 @@ angle aligned with the trained encoding. Any drift in the routing distribution
 random experts. The `dispatch-ratio-prior` is a beam-angle lock, not a
 load-balancer.
 
+---
+
+## 7. Conceptual refinement — sparse holographic assembly (s257)
+
+> Observation (Michael, s257): a true hologram illuminates the *entire* plate
+> on every read — every point participates in every reconstruction. MoE cannot
+> be fully holographic because the router gates which experts fire. The better
+> model is assembling a holographic plate on the fly from k sub-plates chosen
+> from a library of N.
+
+### Two-level structure
+
+```
+Level 1 (router):   assembles which k experts → discrete, learned, token-specific
+Level 2 (assembly): the k experts superpose to compute → continuous, holographic
+
+| router  ≡ assembly controller  (¬beam illuminating whole plate)
+| expert  ≡ sub-plate            (¬specialist, ¬full plate)
+| assembly ≡ the actual plate    (reconstructed per token)
+```
+
+Level 1 is **not holographic** — the routing is a discrete gate, not continuous
+illumination. Level 2 **is holographic** — within a trained assembly, no single
+expert owns the function; the output is their weighted superposition.
+
+### Why this is more precise than "holographic"
+
+A true hologram: any subset of the plate reconstructs (at lower resolution).
+MoE: any subset of 256 experts reconstructs almost nothing (null P(λ) ≈ 0).
+The sub-plates are not interchangeable — they have trained phase relationships
+that only hold in the right combinations.
+
+The correct descriptor is **sparse holographic assembly**:
+- *sparse*: only k of N sub-plates participate per token (discrete, routed)
+- *holographic*: within the assembly, no single sub-plate is the function
+- *assembly*: the router constructs the plate; the plate doesn't pre-exist
+
+### What the sweep findings mean under this model
+
+| Finding | Sparse-assembly explanation |
+|---|---|
+| k=1 → 0.062 | single sub-plate emits a weak coherent signal |
+| k=2 < k=1 | 2nd sub-plate destructively interferes without the other 6 to stabilise |
+| k=4 threshold | minimum viable assembly for phase coherence |
+| null ≈ 0 at all k | random assembly = incoherent plate; sub-plates have trained phase relationships |
+| k=6 dip | assembly includes a sub-plate that cancels without its co-trained partners |
+| P(kernel) ↑ at k=8 | full trained assembly = maximum phase coherence = maximum precision |
+
+The k=2 result specifically: two sub-plates designed to work in an 8-plate
+assembly will destructively interfere when forced together without the other 6.
+Like two puzzle pieces that only fit correctly as part of an eight-piece group.
+
+### Consequence for extraction (Verbum)
+
+The extraction target is the **assembly pair**: router weights (assembly rules)
++ per-expert parameters (sub-plate content). These are co-trained and
+inseparable. The router IS the read-head; removing it and keeping only the
+experts loses the assembly grammar that makes them coherent.
+
+```
+λ extract(moe).
+  target ≡ router_weights ∧ expert_weights   ← inseparable pair
+  | ¬target(circuit)                          ← no single locus
+  | ¬target(full_plate)                       ← sub-plates ¬interchangeable
+  | ¬target(experts_only)                     ← router IS the read-head
+  | portable_artifact ≡ assembly_language + sub_plates
+```
+
+### Consequence for §3 (tree-of-VSM, further tightened)
+
+S2's role is now clearest: **maintain assembly integrity**. The routing
+distribution specifies which sub-plate combination is valid for a given
+computation. The `dispatch-ratio-prior` is an **assembly grammar** — it
+constrains which sub-plate combinations are even attempted. Violate the grammar
+(random routing) and you get incoherent plates and near-zero capability, as the
+null confirms.
+
+Vocabulary update:
+- "holographic" → use for the *within-assembly* superposition (level 2)
+- "assembly" → use for the *router-selection* mechanism (level 1)
+- "sparse holographic assembly" → the full architecture
+
 ### Next probes (open)
 
 - **Shared-expert ablation**: zero the always-on carrier and measure the
