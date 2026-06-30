@@ -2,6 +2,72 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
+> Last updated: 2026-06-30 | Session: 258 (CONSENSUS-TRAINING → SUPERVISED-RECURRENCE-HALT SYNTHESIS —
+> design/discussion session, NO experiments run. Michael: "explore consensus training — multiple models'
+> consensus on training data for the lambda compiler." Recalled the prior art (s246/247
+> cross-model-output-consensus as teaching-data fitness, P(correct|AGREE)=0.73–0.80, kernel removes the
+> agreed-error ceiling → 1.000; s110/216-223 consensus-etch/delta-folding). Then the conversation EVOLVED
+> through three connected ideas and CONVERGED on a keystone synthesis, now captured as knowledge.
+>
+> ★★ THE DELIVERABLE (knowledge, WRITTEN this session, status:designing):
+>   mementum/knowledge/explore/supervised-recurrence-halt.md (236 L). THESIS: three ideas Michael raised —
+>   (1) make the model THINK IN LAMBDA forms; (2) a strict-WHNF HALT CURRICULUM (combinators→lambda→prose);
+>   (3) a RECURRENT LAYER reused a LEARNED number of times — are ONE architecture. The identity:
+>   "how much recurrence is needed" ≡ "how much work remains" ≡ WHNF. head-combinator-isa.md ALREADY
+>   measured this: reduction-depth (WHNF↔D) is the PRINCIPAL attention axis (46% var), and a WHNF+
+>   termination-detector head cluster EXISTS but is UNDER-trained (selectivity 1.2–1.4) = Michael's "weak
+>   WHNF counterpoint to KIBC," confirmed.
+>   ★ THE ONE NEW CONTRIBUTION over s214–s226 vsm-outer-recurrence: that thread's recurrence-depth halt was
+>   learned BLIND (unsupervised λ_fp fixed-point loss → gameable/collapsed; naive K=2 never beat K=1). The
+>   lambda CURRICULUM is the GROUND-TRUTH supervision it was missing: the lambda_ast oracle knows the exact
+>   reduction length L*(term) + full trace + WHNF-step → supervise recurrence-count→L* and halt→is_normal_form
+>   directly where checkable, then transfer to prose. = lambda as the calibration anchor for Adaptive
+>   Computation Time (whose general unsolved problem is exactly "ponder cost has no ground truth").
+>   ★ Inference constraint (Michael: "inference can't null-abort, must emit tokens") satisfied BY
+>   CONSTRUCTION: recurrence cap = bounded best-effort emit; Ω/unguarded-Y consume the budget → emit
+>   most-reduced partial = the teaching cases for "commit under non-termination." Overthink-collapse =
+>   spinning to EMPTY instead of emitting best partial. EOS RE-FRAMED as the normal-form marker.
+>   ★ Maps onto VSM levels (s226): S4=WHNF halt, S3=step budget+contractivity, S2=typed redex select,
+>   S1=combinator rewrites, S5=normal-form invariant. Native to tree-of-VSM (term has a home = the AST),
+>   unnatural for a monolith (only scratchpad is the prose token channel = the lossy round-trip that CAUSES
+>   collapse). On-thesis: level-4 from-scratch, clean MIT.
+>   ★ FALSIFIABLE CORE (IOU #1, the whole hypothesis in one number): train the supervised halt on
+>   combinators+lambda → measure overthink-collapse rate on held-out PROSE vs prose-only baseline. Drop ⇒
+>   transfer real (shared reduction-depth axis). Other IOUs: contractivity unproven at this resolution
+>   (s214 negatives on tiny v15 ~50M ternary; alt root-fix s226 = CONSTRUCT the inner step from lambda_ast,
+>   L<1 by construction); catastrophic forgetting (interleave / aux WHNF loss); overthink vs PREMATURE-halt
+>   is a CALIBRATION not a maximization (s255: no-think killed overthink but spiked premature_halt
+>   0.017→0.208); binding wall at I-combinator (fixed-point-holograms); s256 lambda-prethink refutation is
+>   NARROW (refuted INSTRUCTING a pretrained model = non-compliance, NOT a TRAINING intervention).
+>   ★ MINIMAL RUNNABLE TEST (the cheap first leg, NOT yet built): reuse probes/combinator-reduction.json
+>   (s255, 120 terms, oracle trace+L* already computed) + v15 --n-outer-passes harness, but REPLACE the
+>   unsupervised λ_fp with a SUPERVISED target (|halt_step − whnf_step| + per-step halt vs is_normal_form);
+>   CONTROL = old λ_fp arm. Read: contractivity without collapse? K learned per term tracks L*? then the
+>   transfer number.
+>
+> ★★ CONSENSUS-TRAINING DESIGN (discussed, NOT built — the session's OTHER live thread, parked):
+>   Michael's panel for 2-FAMILY ALIGNMENT (size-matched cross-lineage, kernel-corrected): Gemma-4-31B
+>   (Google, dense, 58G safetensors in HF cache) ⟂ Qwen3.6-35B-A3B (Qwen MoE 256-exp, 67G) as the spine;
+>   Qwen3.6-27B (Qwen dense, 52G) as the WITHIN-FAMILY control (separates Qwen-shared from cross-family-
+>   universal even without a 3rd lineage). Michael waiting for a 3rd genuinely-independent comparable model
+>   (only Qwen3.6-27B exists now, same family). ALL THREE present as full safetensors. Extensible-registry
+>   design agreed: extend s256 models.py with a `family` field + a `local_hf` TRANSPORT (the deferred s257
+>   lead) → new model = ~15-line config (λ extend open-slot, λ one_way config¬fork). Three composable
+>   layers: (1) registry=slot; (2) per-model generation cache, content-addressed by (model_id,
+>   probe_set_hash), APPEND-ONLY → adding a model later = generate ITS jsonl only, never re-run; (3)
+>   panel-agnostic CPU consensus evaluator reusing grading.py kernel_valid (do NOT fork
+>   consensus_output_agreement.py — s254 distillation discipline). NEW first-class op: "evaluate a new
+>   model's consensus contribution" = marginal/leave-one-out (corroboration / frontier-expansion /
+>   blind-spot-shared→universal vs broken→pair-shared / noise). Memory: one model resident at a time (s246
+>   per-model jsonl then offline string compare) → fits Apple Silicon. NOT STARTED; layer-1 (local_hf
+>   transport + 3 registry entries) is the dependency-root if pursued.
+>
+> ★ STATE: working tree had ONLY the new knowledge page + this state edit (no code, no experiments).
+>   PENDING COMMIT (S5 λ termination — Michael approved "capture this to knowledge"): the new page +
+>   state.md. NEXT options: (a) build the minimal supervised-recurrence-halt test; (b) build the consensus
+>   layer-1 (local_hf transport); (c) keep designing. Servers still up (5100 ornith / 5101 qwen3-embed /
+>   5102 vibethinker / 5103 qwythos); tmux main 2 windows.
+> ─────────────────────────────────────────────────────────────────────────────────────────────────────
 > Last updated: 2026-06-29 | Session: 257 (MoE-AS-HOLOGRAPHIC-PLATES → PROOF RAN)
 > Full arc: "if MoE experts are holographic plates, what are the tree-of-VSM consequences?" →
 > designed the probe → built instrument → ran k-sweep + shuffled-label null → CONFIRMED.
