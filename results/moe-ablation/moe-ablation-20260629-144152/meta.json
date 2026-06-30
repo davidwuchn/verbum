@@ -1,0 +1,35 @@
+{
+  "run_id": "moe-ablation-20260629-144152",
+  "repo": "Qwen/Qwen3.6-35B-A3B",
+  "dtype": "bfloat16",
+  "device": "auto",
+  "probe_set": "compile-gradient",
+  "categories": [
+    "strong_compile",
+    "null"
+  ],
+  "n_probes": 16,
+  "k_values": [
+    1,
+    2,
+    4,
+    6,
+    8
+  ],
+  "max_new_tokens": 80,
+  "num_experts": 256,
+  "trained_top_k": 8,
+  "has_shared": true,
+  "timestamp": "2026-06-29T21:41:52.205108+00:00",
+  "lib_versions": {
+    "verbum": "0.0.0",
+    "httpx": "0.28.1",
+    "httpx-sse": "0.4.3",
+    "pydantic": "2.13.1",
+    "numpy": "2.4.4",
+    "structlog": "25.5.0",
+    "polars": "1.39.3"
+  },
+  "lockfile_hash": "sha256:5bc2ee2e297f67744e2dc1fcf2bd15a9c303b25c8ee5c82c528a05de04ca2435",
+  "git_sha": "44669da1c7ddef56d292615d4b9cb17b482fb97a"
+}
