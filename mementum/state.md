@@ -2,6 +2,52 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
+> Last updated: 2026-07-01 | Session: 259 cont. (CLJ-REPL: MODEL-EVALUATES / KERNEL-VERIFIES — Michael:
+> "run the clojure compiler as a repl running from a chat" → chose "Model IS the evaluator, kernel
+> verifies." = the s255 model-as-REPL (LLM as δ, context as machine state) with the s255-concluded
+> ORACLE-IN-THE-LOOP upgrade, applied to clj_lambda. The chat model evaluates a Clojure form; the
+> clj_lambda kernel (over lambda_ast) reduces it EXACTLY = ground truth; verify(model, oracle); on a
+> mismatch feed the exact reduction (value + steps + normal form) back and retry once.
+>
+> ★★ THE ARTIFACT (tested/ruff-clean/live-verified):
+>   • src/verbum/clj_repl.py — oracle(form) [reduce_clj + decode, auto int→bool→raw]; a THIN multi-turn
+>     _chat reusing harness.ModelConfig + reasoning_extract_fn (the harness run loop is single-turn — a
+>     correction REPL needs history; NO fork of grading/HTTP, λ one_way/λ compose); EVALUATOR_SYSTEM prompt
+>     pinning the tiny-Clojure semantics (non-neg ints, MONUS -, dec 0=0, if/let/fn, zero?, not/and/or,
+>     cons/first/rest, Y=fixpoint) + '=> <value>' contract; parse_answer/normalize; verify_turn (ONE
+>     oracle-in-the-loop correction); repl_session → results/clj-repl/<run_id>/{meta,transcript.jsonl,
+>     summary} w/ provenance; interactive main() (`python -m verbum.clj_repl --model qwen36`).
+>   • tests/test_clj_repl.py — 13 tests, model STUBBED (monkeypatch _chat) for the correction paths;
+>     oracle/parse/normalize/verify all covered. 52 tests total pass (with clj_lambda).
+>   • src/verbum/probes/models.py — REGISTERED QWEN36 (base reference, :5100 chat, split_reasoning) — see
+>     ENV below. REGISTRY now {qwen36, ornith, vibethinker, qwythos}; qwen36 = default live target.
+>
+> ★★ THE FALSE≡0 FINDING (type-directedness in miniature, on-thesis S5 λ types): untyped Church encoding
+>   makes `false` and `0` the SAME TERM (K I). oracle decodes int-first so (zero? 5) → "0", but "false" is
+>   ALSO acceptable → OracleResult.acceptable = frozenset. WITH types they differ; WITHOUT types they are
+>   one value. Surfaced by a failing test, kept as a feature + documented. (TRUE=K, church(1)=I → distinct,
+>   no other collision.)
+>
+> ★★ LIVE RUN (run qwen36-clj-repl-20260701-122617, base :5100, greedy, no_think, 10 forms): 10/10 SOLVED
+>   FIRST TRY (acc 1.0). The base reference model correctly evaluated arithmetic, monus (- 3 5)=0, if, let
+>   (sequential binding =16), higher-order apply-twice =8, first/cons, and/not, sq(+3 4)=49, AND factorial
+>   via Y = 24 (kernel oracle 440 reduction steps). λ measure CAVEAT (two-sided): the set was EASY for a
+>   35B base → the CORRECTION LOOP was NOT exercised live (0 corrections); it is covered only by stubbed
+>   unit tests. To genuinely test oracle-in-the-loop teaching, run a HARDER set (deep Y, big monus, nested
+>   pairs) where the model errs. That is the honest next step.
+>
+> ★ ENV CORRECTION (Michael, mid-session): :5100 is NOW qwen36-35b-a3b, "our reference model" (the s256
+>   pivot: extract from the BASE, not the fine-tune). llama.cpp IGNORES the request `model` field;
+>   /v1/models reports alias 'qwen35-35b-a3b'. Base returns NO reasoning_content channel (split→"" safe).
+>   ornith fine-tune spec HELD in models.py but no longer on :5100. Servers up: 5100 qwen36 / 5102 vibe /
+>   5103 qwythos / 5101 embed. Env fully restored earlier (torch 2.11 back).
+>
+> ★ STATE: working tree = clj_repl.py, test_clj_repl.py (new) + models.py (QWEN36) + the run record +
+>   this state edit. logs/ is gitignored. PENDING APPROVAL (S5 λ termination): a memory + the commit
+>   (💡 clj-repl model-evaluates/kernel-verifies). NEXT options: (a) harder set to exercise the correction
+>   loop live; (b) per-STEP combinator verification (model does SKI rewrites, lambda_ast.step judges each —
+>   the full s255 repl_machine_eval design, seeded from Clojure); (c) notebook cell for the REPL.
+> ─────────────────────────────────────────────────────────────────────────────────────────────────────
 > Last updated: 2026-07-01 | Session: 259 (CLOJURE-IN-LAMBDA — a demonstration notebook. Michael, from
 > discussion: "could we create with lambda forms a clojure interpreter?" → "let's explore a notebook for
 > this, it will be good to show the full workings of the system." DELIVERED a constructive witness for S5

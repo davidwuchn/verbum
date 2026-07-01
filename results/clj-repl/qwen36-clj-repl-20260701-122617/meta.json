@@ -1,0 +1,26 @@
+{
+  "run_id": "qwen36-clj-repl-20260701-122617",
+  "model": "qwen36-35b-a3b",
+  "endpoint": "http://localhost:5100",
+  "transport": "chat",
+  "system_prompt": "You are the evaluator (the reduction function) of a tiny Clojure-like Lisp. Evaluate the given expression to a single value.\n\nLanguage:\n- non-negative integers; booleans `true` / `false`.\n- `(fn [params] body)` anonymous function; `(let [name val ...] body)`.\n- application `(f a b)` is left-associative.\n- arithmetic on non-negative integers: `+`, `*`, and `-` is MONUS (truncated: `(- 3 5)` = 0). `inc`; `dec` with `(dec 0)` = 0.\n- `zero?`; `if`; `not`, `and`, `or`.\n- pairs: `(cons a b)`, `first`, `rest`.\n- `Y` is the fixed-point combinator: `(Y f)` = `(f (Y f))` (recursion).\n\nReduce step by step. Then, on the FINAL line, output exactly:\n=> <value>\nwhere <value> is an integer, or `true` / `false`, or `(cons a b)` for a pair.",
+  "n_forms": 10,
+  "max_retries": 1,
+  "no_think": true,
+  "sampling": {
+    "temperature": 0.0,
+    "max_tokens": 4000
+  },
+  "timestamp": "2026-07-01T19:26:17.889512+00:00",
+  "lib_versions": {
+    "verbum": "0.0.0",
+    "httpx": "0.28.1",
+    "httpx-sse": "0.4.3",
+    "pydantic": "2.13.1",
+    "numpy": "2.4.4",
+    "structlog": "25.5.0",
+    "polars": "1.39.3"
+  },
+  "lockfile_hash": "sha256:5bc2ee2e297f67744e2dc1fcf2bd15a9c303b25c8ee5c82c528a05de04ca2435",
+  "git_sha": "ce77bdb28fb83411e7ad0e1ad0cf0a7ff41de614"
+}

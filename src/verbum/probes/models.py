@@ -6,11 +6,16 @@ attractor). A new model lands here as a :class:`~verbum.probes.harness.ModelConf
 (``λ one_way``). ``ModelConfig`` stays a public dataclass, so a genuinely
 one-off model can still be built inline.
 
-Fleet (llama.cpp servers on localhost):
+Fleet (llama.cpp servers on localhost — port assignment is fluid):
 
-  ORNITH       ornith-35b-a3b   :5100  chat        server-split reasoning_content
+  QWEN36       qwen36-35b-a3b   :5100  chat        BASE REFERENCE (s256 pivot target)
   VIBETHINKER  vibethinker-3b   :5102  completion  manual <|im_start|>, </think> parse
   QWYTHOS      qwythos-9b       :5103  chat        server-split reasoning_content
+
+  ORNITH is the ornith-35b-a3b fine-tune spec (held for reference); as of s259 the
+  base reference qwen36-35b-a3b serves on :5100 (the s256 "extract from the base"
+  pivot). llama.cpp ignores the request ``model`` field; ``/v1/models`` reports the
+  alias ``qwen35-35b-a3b``.
 
 The embedding model (``qwen3-embedding-8b`` :5101) is **not** a ``ModelConfig`` —
 it has no template, no reasoning split, no grading register; its job is
@@ -40,6 +45,15 @@ def qwen_chatml_template(system: str, sentence: str) -> str:
 
 
 # ── compiler-probe fleet ─────────────────────────────────────────────────────
+
+QWEN36 = ModelConfig(
+    name="qwen36-35b-a3b",
+    endpoint="http://localhost:5100",
+    transport="chat",
+    reasoning_extract_fn=split_reasoning_field,
+    arch="35B-A3B MoE BASE reference model (s256 pivot: extract from the base, "
+    "not the fine-tune). Serves on :5100; /v1/models alias 'qwen35-35b-a3b'.",
+)
 
 ORNITH = ModelConfig(
     name="ornith-35b-a3b",
@@ -76,6 +90,7 @@ QWYTHOS = ModelConfig(
 QWEN3_EMBED = "http://localhost:5101"  # qwen3-embedding-8b, /v1/embeddings
 
 #: Discoverable registry of compiler-probe configs by short name.
+#: QWEN36 (base reference) is the default live target on :5100.
 REGISTRY: dict[str, ModelConfig] = {
-    cfg.short(): cfg for cfg in (ORNITH, VIBETHINKER, QWYTHOS)
+    cfg.short(): cfg for cfg in (QWEN36, ORNITH, VIBETHINKER, QWYTHOS)
 }
