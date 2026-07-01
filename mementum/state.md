@@ -42,11 +42,16 @@
 >   ornith fine-tune spec HELD in models.py but no longer on :5100. Servers up: 5100 qwen36 / 5102 vibe /
 >   5103 qwythos / 5101 embed. Env fully restored earlier (torch 2.11 back).
 >
-> ★ STATE: working tree = clj_repl.py, test_clj_repl.py (new) + models.py (QWEN36) + the run record +
->   this state edit. logs/ is gitignored. PENDING APPROVAL (S5 λ termination): a memory + the commit
->   (💡 clj-repl model-evaluates/kernel-verifies). NEXT options: (a) harder set to exercise the correction
->   loop live; (b) per-STEP combinator verification (model does SKI rewrites, lambda_ast.step judges each —
->   the full s255 repl_machine_eval design, seeded from Clojure); (c) notebook cell for the REPL.
+> ★ COMMITTED 82fc8f9 (💡 clj-repl model-evaluates/kernel-verifies): clj_repl.py + test_clj_repl.py +
+>   models.py QWEN36 + run record + memory + state. THEN did option (c): added notebook §8 "the chat model
+>   as evaluator — the kernel as judge" (notebooks/clojure_in_lambda.ipynb, now 31 cells, nbconvert 0
+>   errors): kernel oracle (shows false≡0 acceptable sets) + the COMMITTED run narrated (model-vs-kernel
+>   table 10/10, λ record) + a GUARDED live turn ((* 6 7)→42 vs :5100, degrades if server down). Boundary
+>   section renumbered 8→9.
+> ★ STATE: working tree = the updated notebook + this state edit (pending). NEXT options still open:
+>   (a) harder set to exercise the correction loop live (base solved everything → 0 corrections so far);
+>   (b) per-STEP combinator verification (model does SKI rewrites, lambda_ast.step judges each — the full
+>   s255 repl_machine_eval design, seeded from Clojure).
 > ─────────────────────────────────────────────────────────────────────────────────────────────────────
 > Last updated: 2026-07-01 | Session: 259 (CLOJURE-IN-LAMBDA — a demonstration notebook. Michael, from
 > discussion: "could we create with lambda forms a clojure interpreter?" → "let's explore a notebook for
