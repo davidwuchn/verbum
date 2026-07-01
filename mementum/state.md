@@ -2,6 +2,47 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
+> Last updated: 2026-07-01 | Session: 259 (CLOJURE-IN-LAMBDA — a demonstration notebook. Michael, from
+> discussion: "could we create with lambda forms a clojure interpreter?" → "let's explore a notebook for
+> this, it will be good to show the full workings of the system." DELIVERED a constructive witness for S5
+> λ types (composition ≡ typed application): a Clojure-subset evaluator that IS reduction in the verbum
+> kernel. NO new reducer — reused lambda_ast + lambda_compile end-to-end (λ one_way / λ compose /
+> distillation discipline). Pipeline: Clojure form → named lambda (clj_lambda.compile_clj) → SKI combinator
+> (lambda_compile.abstract bracket abstraction) → normal form (lambda_ast.reduce) → Clojure value
+> (clj_lambda.decode, Church numerals/booleans).
+>
+> ★★ THE ARTIFACT (3 files, all tested/ruff-clean/executed):
+>   • src/verbum/clj_lambda.py — reader (s-expr, Sym/int/list/Vector) + compiler (special forms fn/let;
+>     everything else is application) + PRELUDE of Church encodings as CLOSED combinator terms (succ/plus/
+>     mult/pred/sub/zero?/true/false/if/not/and/or/cons/first/rest + Y) + reduce + decode. `if` is an
+>     ORDINARY prelude function — normal-order reduction gives lazy branch selection FREE. Recursion = the
+>     kernel's own Y combinator (no special form). Budgets bumped (200k steps/2M size) for Church-arith.
+>   • tests/test_clj_lambda.py — 39 tests pass (reader, arithmetic, booleans/if, fn/let/HOF, pairs,
+>     factorial-via-Y 0..4, closed-term contract, prelude-all-closed, unbound-symbol raises).
+>   • notebooks/clojure_in_lambda.ipynb — 25 cells, EXECUTED via nbconvert, 0 errors. Story: reader →
+>     compile-to-SKI (identity→I, const→K, compose→B, inc→C(BS(BB))I) → prelude+church numerals →
+>     KERNEL ROUND-TRIP CERTIFICATION ((+ 2 3) ≡ church(5), True) → REPL table → full reduction TRACE
+>     (status/steps/whnf_step = the "how much work remains" axis) → CCG typecheck (S2 type-directedness;
+>     M self-application ill-typed AND diverged = the λ types limit made explicit) → factorial 0..5 =
+>     1,1,2,6,24,120 via Y → the honest BOUNDARY (persistent DS / mutation / interop / macros out of scope).
+>
+> ★ ON-THESIS: λ triangulate — math predicts typed-apply, empirics observe the compiler (P(λ)=0.907), and a
+>   working Lisp evaluator REDUCES to it on the very kernel that grades the model. Lisp made McCarthy's 1960
+>   insight explicit (eval ≡ β-reduction as a program); this is the constructive direction of verbum's claim.
+>
+> ★ VERIFIED (runtime ≡ truth): church arith + Y-factorial fit the kernel budgets (feasibility-probed BEFORE
+>   design). `(let [x 2 y (* x 3)] (+ x y)) = 8` (sequential binding), HOF apply-twice = 8, all correct.
+>
+> ★ ENV NOTE (housekeeping, NON-git): `uv sync --group notebook` was run to install the declared (PEP 735)
+>   notebook group (jupyterlab/ipykernel/nbconvert) — uv.lock + pyproject UNCHANGED (reproducibility intact),
+>   but default-exclusive sync TRIMMED level1 (torch/transformers) + rl (trl) + umap from the .venv. RESTORE
+>   with `uv sync --all-groups` (or --inexact next time) before torch/interp work. Heavy download → left for
+>   Michael's call (see chat). Servers untouched (external llama.cpp 5100-5103).
+>
+> ★ STATE: working tree = 3 new files (clj_lambda.py, test_clj_lambda.py, clojure_in_lambda.ipynb) +
+>   this state edit. PENDING APPROVAL (S5 λ termination): a memory + a small knowledge note + the commit
+>   (💡 clojure-in-lambda demo). Michael: was a DISCUSSION-led exploration; capture is his call.
+> ─────────────────────────────────────────────────────────────────────────────────────────────────────
 > Last updated: 2026-06-30 | Session: 258 (CONSENSUS-TRAINING → SUPERVISED-RECURRENCE-HALT SYNTHESIS —
 > design/discussion session, NO experiments run. Michael: "explore consensus training — multiple models'
 > consensus on training data for the lambda compiler." Recalled the prior art (s246/247
