@@ -3,7 +3,7 @@ title: "Head→Combinator ISA: Shared Hardware, Not Dedicated Circuits"
 status: active
 category: methodology
 tags: [attention, heads, combinators, ISA, selectivity, WHNF, universality]
-related: [ffn-reduction-trace, crystal-universality, phi-information-partition, holographic-computer]
+related: [ffn-reduction-trace, crystal-universality, phi-information-partition, holographic-computer, explore/rl-layer-contribution-combinator-locus]
 depends-on: [ffn-reduction-trace]
 ---
 

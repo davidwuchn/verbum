@@ -2,6 +2,54 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
+> Last updated: 2026-07-02 | Session: 259 (cont. — LAYER-CONTRIBUTION ↔ COMBINATOR-LOCUS — Michael: a paper
+> dropped, "Is One Layer Enough? Training a Single Transformer Layer Can Match Full-Parameter RL Training"
+> (arXiv 2607.01232), RL-trains ONE decoder layer at a time on Qwen3-1.7B/4B/8B-Base → RL gains concentrate
+> in a MIDDLE band, low at input/output ends (= his bell curve: input/transform/output). "Do our KIBC
+> opcodes line up with the high-affect layers?" Ran TIER-0 (zero-GPU): correlate our measured combinator
+> locus vs their causal RL layer-contribution. NOT training the 8B — it's the oracle map; lesson ports to v15.
+>
+> ★★ THE FINDING (knowledge WRITTEN: explore/rl-layer-contribution-combinator-locus.md, status:active):
+>   the interior-bell SHAPE MATCHES (Michael's intuition ✓) but with a real ~4-layer OFFSET.
+>   • Paper Qwen3-8B-Base C(k): peak L16–17 (C=1.07), high band L13–23, L0=−0.51 (neg), most 0.6–1.0.
+>   • Our combinator peaks (Qwen/Qwen3-8B, s238 kernel_reference_prose_v2): C@L9, Y@L9, K@L11, I@L12 (all
+>     sig); B@L18 (flat/not-decodable). {C,I,K,Y} peak centroid L10.2 (depth 0.29) vs paper top-5 L16.8 (0.48).
+>   • Correlation: raw Spearman(CIKY mass, paperC)=+0.30 (marginal); LAG SCAN unimodal peak at k=+4 → ρ=+0.66
+>     (p≈0.0006) — SAME shape, shifted ~4 deeper. 52.7% of CIKY mass in paper high-band L13–23 (31% of layers)
+>     = 1.7× enrichment.
+>   • INTERPRETATION (λ measure two-sided): our combinator DECODABILITY peaks SHALLOWER than RL TRAINABILITY;
+>     RL adaptation lands JUST AFTER composition is computed = the compose→readout SEAM (readout-register
+>     null-space compose L7–22 → vocab-readable L23–35). RL tunes CONSOLIDATION not raw compose detection.
+>     B peaks L18 (in paper band) but has no amplitude home for us (s234–238). λ triangulate: our combinators
+>     + their RL-contribution + v13-funnel Zone B all point to the same interior band.
+>   • CONFOUND (load-bearing): OUR run = Qwen/Qwen3-8B (INSTRUCT/thinking), PAPER = Qwen3-8B-BASE. Shape match
+>     robust; exact +4 offset NOT (post-training may have shifted). Only instruct cached. Clean fix: re-run our
+>     combinator profile on Qwen3-8B-Base (~16GB dl). Also: decodability-vs-trainability register mismatch;
+>     +4 is a fitted lag (zero-lag ρ=0.30, best ρ=0.66).
+>
+> ★ v15 GUIDANCE (the deliverable, in the page §Implications): (1) bank the 3-band topology — put capacity/
+>   recurrence in the INTERIOR, ends thin (confirms v13-funnel Zone B + ascending-arm typing-zone); (2) place
+>   the trainable/recurrent block at the compose→readout SEAM (~+4 deeper than compose peak), not the compose
+>   peak — the supervised-recurrence-halt recurrent block straddles the seam; (3) band-differentiated LR/
+>   capacity = cheap v15 A/B (paper's winning strategies at v15 scale); (4) complementarity → interior ensemble
+>   (s257 holographic / s258 consensus at layer granularity). Paper licenses PLACE-don't-profile (middle-k
+>   heuristic works profiling-free).
+>
+> ★ ARTIFACTS: knowledge page (new, status:active) + cross-links added (head-combinator-isa.md,
+>   explore/v13-funnel-shape.md → related). Repro: /tmp/paper_8b_profile.json (paper C(k), extracted) +
+>   results/kernel-reference-audit/prose_v2_verdict_qwen3-8b.json (our per-layer combinator profile). NO new
+>   experiment code (pure re-analysis of committed data + external paper). NOT COMMITTED yet.
+> ★ DOWNLOAD RUNNING (async, λ async — launched + verified, NOT polling): Qwen3-8B-Base into HF cache via
+>   `uv run hf download Qwen/Qwen3-8B-Base` in tmux main:1, tee → logs/qwen3-8b-base-download.log. Verified
+>   live (Fetching 14 files ~36% on first read). PURPOSE: same-variant re-run of our combinator profile
+>   (kernel_reference_prose_v2) on the BASE to kill the base-vs-instruct confound → is the +4 offset real
+>   structure or post-training drift? On completion: models--Qwen--Qwen3-8B-Base in ~/.cache/huggingface/hub.
+> ★ STATE: working tree = new knowledge page (explore/rl-layer-contribution-combinator-locus.md) + 2 cross-link
+>   edits (head-combinator-isa.md, v13-funnel-shape.md) + this state edit. PENDING COMMIT (Michael said
+>   "update knowledge" → approved capture). session-258.md untracked = human-only chat log, do NOT stage.
+>   NEXT: (a) when base dl done → run prose_v2 on Qwen3-8B-Base, re-correlate vs paper C(k); (b) draft the
+>   concrete v15 interior-band recurrent experiment; (c) commit the knowledge capture.
+> ─────────────────────────────────────────────────────────────────────────────────────────────────────
 > Last updated: 2026-07-01 | Session: 259 cont. (CLJ-REPL: MODEL-EVALUATES / KERNEL-VERIFIES — Michael:
 > "run the clojure compiler as a repl running from a chat" → chose "Model IS the evaluator, kernel
 > verifies." = the s255 model-as-REPL (LLM as δ, context as machine state) with the s255-concluded

@@ -7,6 +7,7 @@ related:
   - v13-design.md
   - binding-cascade.md
   - crystal-seed-theory.md
+  - rl-layer-contribution-combinator-locus.md
 depends-on:
   - binding-cascade.md
 created: session 119
