@@ -12,6 +12,7 @@ related:
   - direct-delta-adjunction.md
   - crystal-sieve-architecture.md
   - error-correction-theory.md
+  - explore/asymmetric-pathway-quantization.md
 depends-on:
   - audit-registry.md
 created: session 203

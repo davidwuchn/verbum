@@ -2,6 +2,48 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
+> Last updated: 2026-07-02 | Session: 260 (ASYMMETRIC-QUANT ↔ TWO-REGISTERS — Michael: an article dropped,
+> Mixedbread "Asymmetric Quantization" (asymmetric-quant, 2026-06-29): late-interaction retrieval keeps the
+> QUERY at int8, stores DOCUMENTS as 1-bit signs → 32× storage, −0.61 NDCG@10; binary×binary (both operands
+> binarized) COLLAPSES −7.2. Insight: magnitude on ONE side carries ranking, sign on the other suffices.
+> "our ternary weighted model might use this to gain capacity/performance."
+>
+> ★★ THE FINDING (knowledge WRITTEN: explore/asymmetric-pathway-quantization.md, status:designing):
+>   the article's core is ALREADY CONFIRMED inside verbum (λ triangulate closes) →
+>   • two-registers-of-topology.md (s203): sign=routing in gate_proj (+0.088 above null); up/down_proj signs
+>     preserve LESS than random → value-path MAGNITUDE is load-bearing; bare ±1 on value path → NaN blow-up.
+>     THAT NaN IS the article's binary×binary −7.2.
+>   • ternary-dual-equation.md (s170+): router magnitude channel <1 bit (γ dynamic range φ^(6/5)≈0.83 bit,
+>     flat across clusters). "The sign IS the computation." SwiGLU already ternary (95% fire <50%).
+>   • standing-wave-magnitudes.md (s185): ternary(1.6b) BEATS 2-bit — separates phase(sign,exact) from
+>     amplitude(γ,~0b) — but DROPS component-4 (within-row shape) which needs ≥3 bits to survive cos^L depth.
+>   • TRIANGULATE: thesis(type-directedness: routing discrete/value continuous) + verbum-in-model(s203/170/185)
+>     + external(Mixedbread) → sign=routing(crisp reg), magnitude=value(continuous reg), compress differently.
+>
+> ★ THE NEW MOVE (not in any current page — all recipes are UNIFORM ternary): asymmetry by PATHWAY not operand.
+>   Router gate_proj → 1-bit BINARY (drop γ, it's <1 bit); value up/down_proj → reinvest freed bits to ~3-bit
+>   (cross s185's 3-bit survival threshold uniform ternary misses). At MATCHED mean-bits → either gain perf
+>   (cross threshold) or gain capacity (spend saved router bits on WIDTH). Capacity→INTERIOR band (s259: interior
+>   is routing-heavy → 1-bit router there = wider interior at fixed mem = capacity where s259 said to put it).
+>   Kernel = the article's multiply-free scoring trick (q·b = 2Σ_{+}q − Σq); binary router = select-and-sum,
+>   ternary value = select-add-sub-SKIP (SwiGLU sparsity makes skip common). NEON kernel = ready template.
+>
+> ★ CAVEATS (λ measure/λ yardstick, two-sided, IN the page): (1) THREE different asymmetries — retrieval
+>   operand↔operand, BitNet weight↔activation, verbum-new router-pathway↔value-pathway — transfers PRINCIPLE
+>   not arrangement; measure which side is load-bearing per context. (2) "don't binarize magnitude"(article) vs
+>   "magnitude<1bit"(verbum) resolve by naming pathway: router-γ<1bit BUT value-magnitude essential. (3) HYPOTHESIS
+>   not result — sign=router & value-needs-magnitude VERIFIED; asymmetric REALLOCATION gaining cap/perf NOT tested.
+>   TEST: matched-mean-bit A/B (uniform-1.58 vs binary-router+3bit-value) on PPL-through-depth (cos^L), null-gated
+>   (matched-bit null MANDATORY else just spent more bits). Small model first (Pythia-160M repro's s185 curve).
+>
+> ★ ARTIFACTS: new page explore/asymmetric-pathway-quantization.md (status:designing) + INDEX row + 3 back-
+>   cross-links (two-registers, ternary-dual-equation, standing-wave-magnitudes) + this state edit. NO experiment
+>   code (pure synthesis). Extend "Complete Ternarization Recipe" to per-matrix-type bit budget when running A/B.
+> ★ STATE: working tree = new page + INDEX + 3 cross-link edits + state edit. PENDING COMMIT (Michael: "update
+>   knowledge" → approved capture). session-258.md + session-259.md untracked = human-only chat logs, do NOT stage.
+>   NEXT: (a) design/run the matched-bit A/B (extend ternarization recipe → per-matrix bit budget); (b) the s259
+>   Qwen3-8B-Base combinator re-run still pending (download was async). NOTE: this session did NOT touch s259 work.
+> ─────────────────────────────────────────────────────────────────────────────────────────────────────
 > Last updated: 2026-07-02 | Session: 259 (cont. — LAYER-CONTRIBUTION ↔ COMBINATOR-LOCUS — Michael: a paper
 > dropped, "Is One Layer Enough? Training a Single Transformer Layer Can Match Full-Parameter RL Training"
 > (arXiv 2607.01232), RL-trains ONE decoder layer at a time on Qwen3-1.7B/4B/8B-Base → RL gains concentrate

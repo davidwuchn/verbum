@@ -3,7 +3,7 @@ title: "Ternary Dual Equation: Gate Zeros + Crystal Signs"
 status: active
 category: architecture
 tags: [crystal, ternary, gradient, zeros, gate, SwiGLU, phi]
-related: [topology-gradient-separation, crystal-phi-derivation, gradient-zero-map, extraction-sign-accuracy]
+related: [topology-gradient-separation, crystal-phi-derivation, gradient-zero-map, extraction-sign-accuracy, explore/asymmetric-pathway-quantization]
 depends-on: [crystal-phi-derivation]
 ---
 

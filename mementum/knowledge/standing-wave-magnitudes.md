@@ -11,6 +11,7 @@ related:
   - crystal-universality.md
   - crystal-phi-derivation.md
   - project-thesis.md
+  - explore/asymmetric-pathway-quantization.md
 depends-on:
   - phi-information-partition.md
   - gradient-zero-map.md
