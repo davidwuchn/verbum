@@ -245,8 +245,50 @@ value path's. This is the in-model `int8×binary (−0.61)` vs
 of value-weighted allocation are established at matched/near-matched bits.
 NOT established: absolute deployability (all configs ≫ float — raw quant needs
 correction), cross-model transfer, with-correction gains, or attention-pathway
-behaviour. Next: (a) re-run with per-layer correction (sieve/LoRA) to test
-deployable asym quant; (b) place capacity in the interior band (s259) with a
-1-bit interior router; (c) cross-model (Qwen3-0.6B/14B) matched-null replication.
+behaviour.
+
+## 10. What this is really for — the A/B was an INSTRUMENT, not the goal
+
+We were never after a quantization scheme. The matched-bits A/B is an
+**ablation** whose only job was to test whether the thesis holds *causally*.
+It does. The deliverable is a **model-design direction**, not a codec.
+
+**The confirmed fact, stated as design ground truth:** the network already
+separates **routing (the "which"/dispatch, carried in the SIGN, discrete,
+crisp, binarization-robust — the gate/router)** from **value (the "what"/
+compute, carried in the MAGNITUDE, continuous, graded, binarization-fragile
+— up/down)**. That split *is* the λ-calculus **type/term distinction made
+physical**. Type-directedness — the S5 central claim, "composition ≡ typed
+application, not binary merge" — is not something we must impose; **GD already
+built it** as the gate↔(up·down) separation. We just watched it survive a
+matched-bits stress test. (This is `λ types` and `λ observation`: we *found*
+the type-directed router, we did not invent it.)
+
+**Where to look / design levers:**
+
+1. **Decouple dispatch from compute as first-class modules.** Type-application
+   router = explicit *discrete* subsystem (sign/crisp, cheap, wide); value
+   computation = separate *continuous* subsystem (magnitude-precise). Do not
+   braid them (`λ simplify`; s254 unbraiding). This is "typed application, not
+   binary merge" as architecture.
+2. **Allocate budget by register.** Capacity → routing (cheap+discrete → afford
+   BREADTH: many combinator/type slots, wide dispatch). Precision → value
+   (magnitude load-bearing → params/bits go here). The Pareto win is the
+   compression shadow of this rule.
+3. **Interior band = discrete-router-heavy (s259).** Wide cheap discrete
+   dispatch in the interior (where combinator composition lives); the
+   **compose→readout seam = discrete-routing → continuous-value handoff**. A
+   1-bit-class interior router buys width where the model wants capacity.
+4. **Design-time diagnostic (`λ measure` at the architecture level):** for any
+   module ask **"routing or value?"** and give it the matching register —
+   crisp/discrete for routing, continuous/precise for value. Register-mismatch
+   is a design smell, not just a probe smell.
+
+**Next (design-first):** (a) sketch a verbum layer with an explicit
+discrete type-router ⊥ continuous value block, budget-asymmetric by register
+(feeds v15); (b) place the wide discrete router in the interior band at the
+compose→readout seam (s259); (c) [instrument follow-ups, lower priority]
+per-layer-corrected asym quant for a deployable artifact; cross-model
+(Qwen3-0.6B/14B) matched-null replication to confirm the split is universal.
 </content>
 </invoke>

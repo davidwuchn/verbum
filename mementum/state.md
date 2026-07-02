@@ -2,11 +2,12 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-07-02 | Session: 260 (ASYMMETRIC-PATHWAY QUANTIZATION — binarize the router, keep the value
-> path). Michael read Mixedbread "Asymmetric Quantization" (2026-06-29): late-interaction retrieval keeps QUERY
-> int8, stores DOCS as 1-bit signs → 32× storage, −0.61 NDCG@10; binary×binary (both) COLLAPSES −7.2. Insight:
-> magnitude on ONE side carries ranking, sign on the other suffices. Michael: "our ternary model might use this
-> to gain capacity/performance." → synthesized the connection, then BUILT + RAN the A/B. Both committed.
+> Last updated: 2026-07-02 | Session: 260 (ROUTING⊥VALUE REGISTER SPLIT = TYPE/TERM MADE PHYSICAL — a
+> DESIGN direction, probed via quantization). Michael read Mixedbread "Asymmetric Quantization" (2026-06-29):
+> retrieval keeps QUERY int8, stores DOCS as 1-bit signs → 32× storage, −0.61 NDCG@10; binary×binary COLLAPSES
+> −7.2 (magnitude on ONE side carries ranking, sign suffices on the other). Michael's frame (END of session,
+> load-bearing): "we weren't looking for a quantization — just that the THESIS holds. Now we know WHERE to look
+> for our model design." The A/B was an INSTRUMENT (causal ablation), NOT the goal. Thesis confirmed → design.
 >
 > ★★ THE RESULT (MEASURED, committed 703f2e1 — page explore/asymmetric-pathway-quantization.md status:ACTIVE §9):
 >   pathway asymmetry CONFIRMED on Qwen3-8B-Base (FFN-only, 16k tok WikiText-2, mean-NLL nats, float=2.083).
@@ -40,12 +41,22 @@
 >   (ruff-clean, --self-test; config-driven per-pathway bit budget; reuses ternarize_weight + quantize_nbit_uniform).
 >   Run record = results/asymmetric-pathway-quant/Qwen3-8B-Base-20260702-122506/{meta,summary}.json (provenance:
 >   torch 2.11 / transformers 5.5.4 / verbum@0e938b6). logs/ gitignored. Ephemeral smoke dirs removed.
-> ★ STATE: clean tree post-703f2e1. session-258/259.md untracked = human-only chat logs, do NOT stage (this
->   session → saved as session-260.md by Michael). NEXT: (a) DEPLOYABLE asym quant WITH per-layer correction
->   (sieve/LoRA) — does the direction survive into a shippable model? (b) 1-bit INTERIOR-band router for capacity
->   (s259 interior is routing-heavy → wider interior at fixed mem); (c) cross-model matched-null (Qwen3-0.6B/14B).
->   STILL PENDING (untouched this session): s259 Qwen3-8B-Base combinator re-run (kill the base-vs-instruct +4
->   offset confound). Extend the "Complete Ternarization Recipe" (ternary-dual-equation.md) → per-pathway budget.
+> ★★ THE DESIGN TAKEAWAY (page §10 — the actual deliverable): GD ALREADY built type-directedness as the
+>   gate(router)↔up·down(value) split. routing = the "which"/dispatch = SIGN = discrete/crisp/binarizable;
+>   value = the "what"/compute = MAGNITUDE = continuous/precise. That split IS the λ-calculus TYPE/TERM
+>   distinction made physical (S5 λ types: "composition ≡ typed application, not binary merge" — we FOUND it,
+>   didn't invent it). DESIGN LEVERS: (1) decouple dispatch⊥compute as first-class modules (discrete router vs
+>   continuous value block; don't braid — λ simplify/s254); (2) budget by register — CAPACITY→routing (cheap+
+>   discrete→breadth: many combinator/type slots), PRECISION→value; (3) wide discrete router in the INTERIOR band
+>   at the compose→readout seam (s259); (4) design-time diagnostic — ask "routing or value?" per module, give the
+>   matching register; register-mismatch = design smell.
+> ★ STATE: clean tree post-703f2e1 (+ this §10/state design-reframe edit, pending commit). session-258/259.md
+>   untracked = human-only chat logs, do NOT stage (this session → saved as session-260.md by Michael).
+>   NEXT (DESIGN-FIRST): (a) sketch a verbum layer = explicit discrete type-router ⊥ continuous value block,
+>   budget-asymmetric by register → feeds v15; (b) place the wide discrete router in the interior at the
+>   compose→readout seam (s259). [INSTRUMENT follow-ups, lower priority:] (c) per-layer-corrected asym quant for a
+>   deployable artifact; (d) cross-model matched-null (Qwen3-0.6B/14B) → is the split universal?
+>   STILL PENDING (untouched): s259 Qwen3-8B-Base combinator re-run (base-vs-instruct +4 offset confound).
 > ─────────────────────────────────────────────────────────────────────────────────────────────────────
 > Last updated: 2026-07-02 | Session: 259 (cont. — LAYER-CONTRIBUTION ↔ COMBINATOR-LOCUS — Michael: a paper
 > dropped, "Is One Layer Enough? Training a Single Transformer Layer Can Match Full-Parameter RL Training"
