@@ -39,10 +39,37 @@
 > ★ ARTIFACTS: new page explore/asymmetric-pathway-quantization.md (status:designing) + INDEX row + 3 back-
 >   cross-links (two-registers, ternary-dual-equation, standing-wave-magnitudes) + this state edit. NO experiment
 >   code (pure synthesis). Extend "Complete Ternarization Recipe" to per-matrix-type bit budget when running A/B.
-> ★ STATE: working tree = new page + INDEX + 3 cross-link edits + state edit. PENDING COMMIT (Michael: "update
->   knowledge" → approved capture). session-258.md + session-259.md untracked = human-only chat logs, do NOT stage.
->   NEXT: (a) design/run the matched-bit A/B (extend ternarization recipe → per-matrix bit budget); (b) the s259
->   Qwen3-8B-Base combinator re-run still pending (download was async). NOTE: this session did NOT touch s259 work.
+> ★ COMMITTED 0e938b6 (💡 asymmetric-quant ↔ two-registers): the knowledge page + INDEX + 3 cross-links + state.
+>   THEN Michael: "proceed with the A/B test" (Qwen3-8B-Base download done). Built harness + ran it.
+> ★ A/B HARNESS (built, ruff-clean, self-test ✓): scripts/experiments/asymmetric_pathway_quant.py — config-driven
+>   per-PATHWAY bit budget over Qwen SwiGLU FFN (gate=router, up/down=value); reuses ternarize_weight +
+>   quantize_nbit_uniform. Configs: float, uniform_ternary(1.58), uniform_2bit, uniform_3bit, asym_binR_3V(2.33),
+>   asym_binR_2V(1.67), inv_binDown(2.33), inv_binValue(2.33). MATCHED-NULL TRIPLE all=2.333b: binary on
+>   ROUTER vs one VALUE matrix vs WHOLE value path. CORRECTION: page's "matched 1.58" arithmetic was WRONG
+>   (1/3/3=2.33); honest test = Pareto + matched-null triple. Metric = mean NLL nats (PPL exp-caps → masks
+>   discrimination; loss stays comparable when aggressive quant kills the model).
+> ★★ FULL RESULT (run Qwen3-8B-Base-20260702-122506, 16k tok, FFN-only, DONE): pathway asymmetry CONFIRMED.
+>   MATCHED-BITS NULL TRIPLE @2.33b (only the LOCATION of the binary matrix changes):
+>     binary on ROUTER (gate)           loss 10.620   (Δfloat +8.54)
+>     binary on ONE value matrix (down) loss 18.694   (+8.07 vs router-binary)
+>     binary on WHOLE value path        loss 20.663   (+10.04 vs router-binary)
+>   monotone, as two-registers predicts. KILLER: binary-router (gate cos 0.79) ≈ binary-down (down cos 0.78)
+>   SAME weight cosine, +8 nats apart → reconstruction fidelity does NOT predict damage, the PATHWAY does.
+>   sign=router, magnitude=value, confirmed CAUSALLY (in-model int8×binary(−0.61) vs binary×binary(−7.2)).
+>   PARETO WIN: asym binary-router+2bit-value (1.67b, loss 13.50) beats uniform-2bit (2.0b, 17.70) at FEWER
+>   bits = "pay less get more" in-model. asym binR+3bit (2.33b, 10.62) below the uniform 2↔3bit interp (~13.96).
+>   CAVEAT (load-bearing): even best (10.62) ≫ float(2.08) — raw full-FFN quant compounds cos^L to death over
+>   36L; measures RELATIVE pathway sensitivity, NOT deployable (needs sieve/score-matching correction, s185).
+> ★ MEAN-BITS ARITHMETIC CORRECTION (λ compute): page's "matched 1.58" was WRONG — gate/up/down equal-size →
+>   1/3/3 = 2.33 not 1.58. Honest test = Pareto + matched-null triple (the triple IS the mandatory null).
+>   Metric = mean NLL nats (PPL exp-cap saturates → masks discrimination). Both baked into the page §7/§9.
+> ★ COMMITTED-THIS-SESSION so far: 0e938b6 (the synthesis page). NOW committing task-4: harness script +
+>   page update (designing→active, measured §9) + INDEX + results + state.
+> ★ STATE: working tree = harness script (scripts/experiments/asymmetric_pathway_quant.py, ruff-clean, self-test)
+>   + results/asymmetric-pathway-quant/... + page/INDEX/state edits. session-258/259.md = human-only, do NOT stage.
+>   NEXT: (a) deployable asym quant WITH per-layer correction (sieve/LoRA) — does the direction survive + ship?
+>   (b) 1-bit interior-band router for capacity (s259); (c) cross-model matched-null (Qwen3-0.6B/14B). Also still
+>   pending: s259 Qwen3-8B-Base combinator re-run (untouched). RUN ARTIFACT lives in tmux main:1 (now idle/done).
 > ─────────────────────────────────────────────────────────────────────────────────────────────────────
 > Last updated: 2026-07-02 | Session: 259 (cont. — LAYER-CONTRIBUTION ↔ COMBINATOR-LOCUS — Michael: a paper
 > dropped, "Is One Layer Enough? Training a Single Transformer Layer Can Match Full-Parameter RL Training"

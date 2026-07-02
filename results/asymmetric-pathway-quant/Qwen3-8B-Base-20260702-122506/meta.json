@@ -1,0 +1,71 @@
+{
+  "run_id": "20260702-122506",
+  "timestamp_utc": "2026-07-02T19:25:17Z",
+  "model": "Qwen/Qwen3-8B-Base",
+  "device": "mps",
+  "n_layers": 36,
+  "max_tokens": 16384,
+  "seq_len": 512,
+  "stride": 256,
+  "scope": "FFN only (gate/up/down); attention fp32",
+  "torch": "2.11.0",
+  "transformers": "5.5.4",
+  "configs": {
+    "float": {
+      "label": "Float baseline",
+      "gate": "float",
+      "up": "float",
+      "down": "float",
+      "mean_bits": 16.0
+    },
+    "uniform_ternary": {
+      "label": "Uniform ternary (1.58b)",
+      "gate": "ternary35",
+      "up": "ternary35",
+      "down": "ternary35",
+      "mean_bits": 1.584962500721156
+    },
+    "uniform_2bit": {
+      "label": "Uniform 2-bit",
+      "gate": "2bit",
+      "up": "2bit",
+      "down": "2bit",
+      "mean_bits": 2.0
+    },
+    "uniform_3bit": {
+      "label": "Uniform 3-bit",
+      "gate": "3bit",
+      "up": "3bit",
+      "down": "3bit",
+      "mean_bits": 3.0
+    },
+    "asym_binR_3V": {
+      "label": "Asym: binary router + 3-bit value",
+      "gate": "binary",
+      "up": "3bit",
+      "down": "3bit",
+      "mean_bits": 2.3333333333333335
+    },
+    "asym_binR_2V": {
+      "label": "Asym: binary router + 2-bit value",
+      "gate": "binary",
+      "up": "2bit",
+      "down": "2bit",
+      "mean_bits": 1.6666666666666667
+    },
+    "inv_binDown": {
+      "label": "Matched null: binary on down (value) matrix",
+      "gate": "3bit",
+      "up": "3bit",
+      "down": "binary",
+      "mean_bits": 2.3333333333333335
+    },
+    "inv_binValue": {
+      "label": "Matched null: binary whole value path (5b router)",
+      "gate": "5bit",
+      "up": "binary",
+      "down": "binary",
+      "mean_bits": 2.3333333333333335
+    }
+  }
+}

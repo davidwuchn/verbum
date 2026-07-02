@@ -1,0 +1,195 @@
+{
+  "meta": {
+    "run_id": "20260702-122506",
+    "timestamp_utc": "2026-07-02T19:25:17Z",
+    "model": "Qwen/Qwen3-8B-Base",
+    "device": "mps",
+    "n_layers": 36,
+    "max_tokens": 16384,
+    "seq_len": 512,
+    "stride": 256,
+    "scope": "FFN only (gate/up/down); attention fp32",
+    "torch": "2.11.0",
+    "transformers": "5.5.4",
+    "configs": {
+      "float": {
+        "label": "Float baseline",
+        "gate": "float",
+        "up": "float",
+        "down": "float",
+        "mean_bits": 16.0
+      },
+      "uniform_ternary": {
+        "label": "Uniform ternary (1.58b)",
+        "gate": "ternary35",
+        "up": "ternary35",
+        "down": "ternary35",
+        "mean_bits": 1.584962500721156
+      },
+      "uniform_2bit": {
+        "label": "Uniform 2-bit",
+        "gate": "2bit",
+        "up": "2bit",
+        "down": "2bit",
+        "mean_bits": 2.0
+      },
+      "uniform_3bit": {
+        "label": "Uniform 3-bit",
+        "gate": "3bit",
+        "up": "3bit",
+        "down": "3bit",
+        "mean_bits": 3.0
+      },
+      "asym_binR_3V": {
+        "label": "Asym: binary router + 3-bit value",
+        "gate": "binary",
+        "up": "3bit",
+        "down": "3bit",
+        "mean_bits": 2.3333333333333335
+      },
+      "asym_binR_2V": {
+        "label": "Asym: binary router + 2-bit value",
+        "gate": "binary",
+        "up": "2bit",
+        "down": "2bit",
+        "mean_bits": 1.6666666666666667
+      },
+      "inv_binDown": {
+        "label": "Matched null: binary on down (value) matrix",
+        "gate": "3bit",
+        "up": "3bit",
+        "down": "binary",
+        "mean_bits": 2.3333333333333335
+      },
+      "inv_binValue": {
+        "label": "Matched null: binary whole value path (5b router)",
+        "gate": "5bit",
+        "up": "binary",
+        "down": "binary",
+        "mean_bits": 2.3333333333333335
+      }
+    }
+  },
+  "results": [
+    {
+      "config": "float",
+      "label": "Float baseline",
+      "mean_bits": 16.0,
+      "gate": "float",
+      "up": "float",
+      "down": "float",
+      "cosine": {
+        "gate_proj": 1.0,
+        "up_proj": 1.0,
+        "down_proj": 1.0
+      },
+      "loss": 2.0832483922281573,
+      "ppl": 8.030512846460088
+    },
+    {
+      "config": "uniform_ternary",
+      "label": "Uniform ternary (1.58b)",
+      "mean_bits": 1.584962500721156,
+      "gate": "ternary35",
+      "up": "ternary35",
+      "down": "ternary35",
+      "cosine": {
+        "gate_proj": 0.8919307125939263,
+        "up_proj": 0.8948962804343965,
+        "down_proj": 0.8759028116861979
+      },
+      "loss": 21.09453228981264,
+      "ppl": 1449569263.8187284
+    },
+    {
+      "config": "uniform_2bit",
+      "label": "Uniform 2-bit",
+      "mean_bits": 2.0,
+      "gate": "2bit",
+      "up": "2bit",
+      "down": "2bit",
+      "cosine": {
+        "gate_proj": 0.7987168795532651,
+        "up_proj": 0.8141625771919886,
+        "down_proj": 0.7525237566894956
+      },
+      "loss": 17.701560543429466,
+      "ppl": 48718068.87800925
+    },
+    {
+      "config": "uniform_3bit",
+      "label": "Uniform 3-bit",
+      "mean_bits": 3.0,
+      "gate": "3bit",
+      "up": "3bit",
+      "down": "3bit",
+      "cosine": {
+        "gate_proj": 0.972692178355323,
+        "up_proj": 0.97746109465758,
+        "down_proj": 0.951793490184678
+      },
+      "loss": 6.378356102974184,
+      "ppl": 588.9587239273543
+    },
+    {
+      "config": "asym_binR_3V",
+      "label": "Asym: binary router + 3-bit value",
+      "mean_bits": 2.3333333333333335,
+      "gate": "binary",
+      "up": "3bit",
+      "down": "3bit",
+      "cosine": {
+        "gate_proj": 0.7922425121068954,
+        "up_proj": 0.97746109465758,
+        "down_proj": 0.951793490184678
+      },
+      "loss": 10.620494565656108,
+      "ppl": 40965.87023202326
+    },
+    {
+      "config": "asym_binR_2V",
+      "label": "Asym: binary router + 2-bit value",
+      "mean_bits": 1.6666666666666667,
+      "gate": "binary",
+      "up": "2bit",
+      "down": "2bit",
+      "cosine": {
+        "gate_proj": 0.7922425121068954,
+        "up_proj": 0.8141625771919886,
+        "down_proj": 0.7525237566894956
+      },
+      "loss": 13.503043943835843,
+      "ppl": 731640.0549798077
+    },
+    {
+      "config": "inv_binDown",
+      "label": "Matched null: binary on down (value) matrix",
+      "mean_bits": 2.3333333333333335,
+      "gate": "3bit",
+      "up": "3bit",
+      "down": "binary",
+      "cosine": {
+        "gate_proj": 0.972692178355323,
+        "up_proj": 0.97746109465758,
+        "down_proj": 0.7800148758623335
+      },
+      "loss": 18.694163476267168,
+      "ppl": 131453466.00453867
+    },
+    {
+      "config": "inv_binValue",
+      "label": "Matched null: binary whole value path (5b router)",
+      "mean_bits": 2.3333333333333335,
+      "gate": "5bit",
+      "up": "binary",
+      "down": "binary",
+      "cosine": {
+        "gate_proj": 1.0183510349856482,
+        "up_proj": 0.7988539768589867,
+        "down_proj": 0.7800148758623335
+      },
+      "loss": 20.663391651645785,
+      "ppl": 941883028.8599901
+    }
+  ]
+}

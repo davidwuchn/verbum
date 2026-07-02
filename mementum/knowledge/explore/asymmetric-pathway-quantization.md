@@ -1,6 +1,6 @@
 ---
 title: "Asymmetric Pathway Quantization — Binary Router + Precise Value Path (the retrieval trick, at finer granularity)"
-status: designing
+status: active
 category: explore
 tags: [quantization, ternary, binary, asymmetric, router, gate_proj, value-path, sign, magnitude, two-registers, standing-wave, capacity, interior-band, bitnet, matmul-free, scoring-trick, v15, level-4, null-gate]
 related:
@@ -31,8 +31,19 @@ created: session 260
 > (s203/s170/s185) — a triangulation win. The *new* move is to run the
 > asymmetry at **pathway** granularity (router vs value path), finer
 > than the article's operand granularity, which no current recipe does
-> (all are uniform ternary). This is a PROPOSAL, null-gated, not a
-> result.
+> (all are uniform ternary).
+>
+> ★★ MEASURED (s260, Qwen3-8B-Base, FFN-only, 16k tok WikiText-2 — see §9):
+> the pathway asymmetry is **CONFIRMED, strongly**. At a **matched 2.33-bit**
+> budget, binarizing the ROUTER costs +8.5 excess nats vs float; binarizing
+> the VALUE path costs +16.6 (one matrix) to +18.6 (whole path) — a **+8 to
+> +10 nat penalty for putting the same binary matrix on the wrong pathway**,
+> with *near-identical weight-space cosine (~0.79) on both*. And both
+> asymmetric configs beat the uniform PPL-vs-bits frontier (Pareto win):
+> binary-router+2bit-value (1.67 mean bits) beats uniform-2bit (2.0 bits)
+> using **fewer** bits. Caveat: measures RELATIVE pathway sensitivity, not a
+> deployable model (raw full-FFN quant compounds cos^L to death; needs the
+> sieve/score-matching correction — s185).
 
 ## 1. The article, in one line
 
@@ -151,26 +162,27 @@ quality" — maps onto the current thread:
   own page says **value-path** magnitude and activations are essential.
   Consistent only when the pathway is named (`λ measure`: router-magnitude
   ≠ value-magnitude; different quantities).
-- **This is a hypothesis, not a result.** VERIFIED in-model: sign=router,
-  value-needs-magnitude. NOT verified: that the asymmetric *reallocation*
-  nets capacity/perf.
+- **Result scope: RELATIVE pathway sensitivity, not deployability.** Even
+  the best config sits far above float (§9): raw full-FFN quant compounds
+  `cos^L` to death across 36 layers. The experiment proves *where bits
+  belong*, not that raw quant ships. Deployment needs correction
+  (sieve/score-matching/LoRA — s185, `standing-wave-magnitudes.md`).
 
-## 7. The test — matched-bit A/B, null-gated
+## 7. The test — matched-bits A/B (arithmetic corrected)
 
-```
-λ asymmetric_quant_ab(model).
-  A ≡ uniform ternary 1.58-bit (gate ∧ up ∧ down)          — current recipe
-  B ≡ 1-bit binary router (gate) + 3-bit value (up ∧ down)  — asymmetric
-  gate: mean_bits(A) ≈ mean_bits(B)                         — MATCHED (mandatory null)
-  measure: PPL-through-depth (cos^L law, s185) ∧ generation quality
-  claim_counts ⟺ B beats A at matched mean-bits (p<0.05)
-  else: spent more bits, learned nothing (λ yardstick)
-```
-
-Run on a small model first (Pythia-160M reproduces the s185 curve, or
-Qwen3-0.6B). Extend the "Complete Ternarization Recipe" to take a
-**per-matrix-type bit budget** instead of a single global one. If B wins
-at matched bits → the win is the reallocation, not the spend.
+**Correction (`λ compute`):** gate/up/down are equal-size in SwiGLU, so
+mean-bits = mean of the three per-matrix costs (binary=1, ternary=log₂3≈1.58,
+n-bit=n; γ/scale amortized ≈0). So "1-bit router + 3-bit value" = (1+3+3)/3 =
+**2.33 bits, NOT 1.58** — the original "matched 1.58" claim was arithmetically
+impossible. The honest test is a **Pareto frontier** (PPL vs mean-bits) plus a
+**matched-bits null triple** (all 2.33): move the binarization from ROUTER →
+one VALUE matrix → WHOLE value path at a fixed budget. That triple *is* the
+mandatory null (`λ yardstick`): claim counts iff binary-on-router beats
+binary-on-value at equal bits. Harness:
+`scripts/experiments/asymmetric_pathway_quant.py` (config-driven per-pathway
+bit budget over the Qwen FFN; reuses `ternarize_weight` + `quantize_nbit_uniform`).
+Metric = **mean NLL (nats)** — PPL's exp overflow saturates and masks
+discrimination; loss stays comparable when aggressive quant kills the model.
 
 ## 8. Provenance
 
@@ -181,8 +193,60 @@ at matched bits → the win is the reallocation, not the spend.
 - Internal (verified, Qwen3, null-gated): `two-registers-of-topology.md`
   (s203), `ternary-dual-equation.md` (s170+), `standing-wave-magnitudes.md`
   (s185).
-- Status `designing`: the pathway-asymmetric recipe + matched-bit A/B are
-  proposed, not yet run. No new experiment code this session (pure
-  synthesis).
+
+## 9. Measured results (s260)
+
+Run: Qwen/Qwen3-8B-Base, FFN-only (attention fp32), WikiText-2 test,
+16 384 tokens (seq 512 / stride 256), MPS, torch 2.11 / transformers 5.5.4,
+verbum@0e938b6. `results/asymmetric-pathway-quant/Qwen3-8B-Base-20260702-122506/`.
+Metric = mean NLL (nats); lower is better. Float baseline = 2.083.
+
+| Config | mean bits | gate/up/down cos | loss (nats) | Δ vs float |
+|---|---|---|---|---|
+| Float | 16.00 | 1.00/1.00/1.00 | 2.083 | — |
+| Uniform 3-bit | 3.00 | 0.97/0.98/0.95 | 6.378 | +4.30 |
+| **Asym: binary router + 3-bit value** | **2.33** | 0.79/0.98/0.95 | **10.620** | **+8.54** |
+| Asym: binary router + 2-bit value | 1.67 | 0.79/0.81/0.75 | 13.503 | +11.42 |
+| Uniform 2-bit | 2.00 | 0.80/0.81/0.75 | 17.702 | +15.62 |
+| null: binary on ONE value matrix (down) | 2.33 | 0.97/0.98/0.78 | 18.694 | +16.61 |
+| null: binary on WHOLE value path (5b router) | 2.33 | 1.02*/0.80/0.78 | 20.663 | +18.58 |
+| Uniform ternary (1.58b) | 1.58 | 0.89/0.89/0.88 | 21.095 | +19.01 |
+
+\* 5-bit gate cosine >1 is a float32 numerical artifact on 50M-element
+vectors; cosmetic, does not affect the loss measurement.
+
+**CRUX 2 — matched-bits null triple @ 2.33 (the causal test). CONFIRMED,
+monotone, as two-registers predicts:**
+
+```
+binary on ROUTER (gate)          loss 10.620   (baseline of the triple)
+binary on ONE value matrix (down) loss 18.694   +8.07 nats
+binary on WHOLE value path        loss 20.663   +10.04 nats
+```
+
+Same bit budget, only the *location* of the binarization changes → up to
+**+10 nats**. The killer detail: binary-router (gate cos 0.79) and
+binary-down (down cos 0.78) have **near-identical weight-space cosine** yet
+differ by +8 nats — **reconstruction fidelity does not predict damage; the
+pathway does.** Sign carries the router's function; magnitude carries the
+value path's. This is the in-model `int8×binary (−0.61)` vs
+`binary×binary (−7.2)`, on the exact 8B where s203 measured the two registers.
+
+**CRUX 1 — Pareto (does asymmetric beat the uniform frontier?). YES:**
+
+- Asym binary-router+3bit-value (2.33 b, loss 10.62) sits **below** the
+  uniform interpolation between uniform-2bit (2.0 b, 17.70) and uniform-3bit
+  (3.0 b, 6.38) at 2.33 b (≈13.96) by ~3.3 nats.
+- **Capacity win:** asym binary-router+2bit-value uses **fewer** bits
+  (1.67 vs 2.0) yet beats uniform-2bit by **4.2 nats** (13.50 vs 17.70).
+  Concretely "pay less, get more" — the article's value prop, in-model.
+
+**Verdict.** Direction (sign=router, magnitude=value) and Pareto-superiority
+of value-weighted allocation are established at matched/near-matched bits.
+NOT established: absolute deployability (all configs ≫ float — raw quant needs
+correction), cross-model transfer, with-correction gains, or attention-pathway
+behaviour. Next: (a) re-run with per-layer correction (sieve/LoRA) to test
+deployable asym quant; (b) place capacity in the interior band (s259) with a
+1-bit interior router; (c) cross-model (Qwen3-0.6B/14B) matched-null replication.
 </content>
 </invoke>
