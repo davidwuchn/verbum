@@ -2,74 +2,50 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
-> Last updated: 2026-07-02 | Session: 260 (ASYMMETRIC-QUANT ↔ TWO-REGISTERS — Michael: an article dropped,
-> Mixedbread "Asymmetric Quantization" (asymmetric-quant, 2026-06-29): late-interaction retrieval keeps the
-> QUERY at int8, stores DOCUMENTS as 1-bit signs → 32× storage, −0.61 NDCG@10; binary×binary (both operands
-> binarized) COLLAPSES −7.2. Insight: magnitude on ONE side carries ranking, sign on the other suffices.
-> "our ternary weighted model might use this to gain capacity/performance."
+> Last updated: 2026-07-02 | Session: 260 (ASYMMETRIC-PATHWAY QUANTIZATION — binarize the router, keep the value
+> path). Michael read Mixedbread "Asymmetric Quantization" (2026-06-29): late-interaction retrieval keeps QUERY
+> int8, stores DOCS as 1-bit signs → 32× storage, −0.61 NDCG@10; binary×binary (both) COLLAPSES −7.2. Insight:
+> magnitude on ONE side carries ranking, sign on the other suffices. Michael: "our ternary model might use this
+> to gain capacity/performance." → synthesized the connection, then BUILT + RAN the A/B. Both committed.
 >
-> ★★ THE FINDING (knowledge WRITTEN: explore/asymmetric-pathway-quantization.md, status:designing):
->   the article's core is ALREADY CONFIRMED inside verbum (λ triangulate closes) →
->   • two-registers-of-topology.md (s203): sign=routing in gate_proj (+0.088 above null); up/down_proj signs
->     preserve LESS than random → value-path MAGNITUDE is load-bearing; bare ±1 on value path → NaN blow-up.
->     THAT NaN IS the article's binary×binary −7.2.
->   • ternary-dual-equation.md (s170+): router magnitude channel <1 bit (γ dynamic range φ^(6/5)≈0.83 bit,
->     flat across clusters). "The sign IS the computation." SwiGLU already ternary (95% fire <50%).
->   • standing-wave-magnitudes.md (s185): ternary(1.6b) BEATS 2-bit — separates phase(sign,exact) from
->     amplitude(γ,~0b) — but DROPS component-4 (within-row shape) which needs ≥3 bits to survive cos^L depth.
->   • TRIANGULATE: thesis(type-directedness: routing discrete/value continuous) + verbum-in-model(s203/170/185)
->     + external(Mixedbread) → sign=routing(crisp reg), magnitude=value(continuous reg), compress differently.
+> ★★ THE RESULT (MEASURED, committed 703f2e1 — page explore/asymmetric-pathway-quantization.md status:ACTIVE §9):
+>   pathway asymmetry CONFIRMED on Qwen3-8B-Base (FFN-only, 16k tok WikiText-2, mean-NLL nats, float=2.083).
+>   MATCHED-BITS NULL TRIPLE @2.33b — only the LOCATION of the binary matrix changes:
+>     binary on ROUTER (gate)            loss 10.620   (Δfloat +8.54)   ← best
+>     binary on ONE value matrix (down)  loss 18.694   (+8.07 vs router-binary)
+>     binary on WHOLE value path         loss 20.663   (+10.04 vs router-binary)
+>   monotone, exactly as two-registers predicts. KILLER DETAIL: binary-router (gate cos 0.79) and binary-down
+>   (down cos 0.78) have ~SAME weight-space cosine yet differ +8 nats → reconstruction fidelity does NOT predict
+>   damage, the PATHWAY does. sign carries the router, magnitude carries the value path. = in-model analog of the
+>   article's int8×binary(−0.61) vs binary×binary(−7.2), on the exact 8B s203 measured the two registers on.
+>   PARETO/CAPACITY WIN: asym binary-router+2bit-value (1.67b, loss 13.50) beats uniform-2bit (2.0b, 17.70) at
+>   FEWER bits = "pay less, get more" in-model; asym binR+3bit (2.33b, 10.62) sits below the uniform 2↔3bit interp.
 >
-> ★ THE NEW MOVE (not in any current page — all recipes are UNIFORM ternary): asymmetry by PATHWAY not operand.
->   Router gate_proj → 1-bit BINARY (drop γ, it's <1 bit); value up/down_proj → reinvest freed bits to ~3-bit
->   (cross s185's 3-bit survival threshold uniform ternary misses). At MATCHED mean-bits → either gain perf
->   (cross threshold) or gain capacity (spend saved router bits on WIDTH). Capacity→INTERIOR band (s259: interior
->   is routing-heavy → 1-bit router there = wider interior at fixed mem = capacity where s259 said to put it).
->   Kernel = the article's multiply-free scoring trick (q·b = 2Σ_{+}q − Σq); binary router = select-and-sum,
->   ternary value = select-add-sub-SKIP (SwiGLU sparsity makes skip common). NEON kernel = ready template.
+> ★ WHY IT WORKS (λ triangulate — the article's core was ALREADY inside verbum): sign=routing / magnitude=value,
+>   three independent lines → two-registers-of-topology.md (s203: sign=gate_proj router +0.088>null; up/down
+>   magnitude load-bearing, bare ±1 → NaN = the article's binary×binary); ternary-dual-equation.md (s170: router
+>   magnitude <1 bit, "the sign IS the computation"); standing-wave-magnitudes.md (s185: phase⊥amplitude, value
+>   path needs ≥3 bits for component-4 shape through cos^L). NEW move = asymmetry by PATHWAY not operand (all prior
+>   recipes UNIFORM ternary). Kernel = article's multiply-free 2Σ_{+}q−Σq (binary router = select-and-sum).
 >
-> ★ CAVEATS (λ measure/λ yardstick, two-sided, IN the page): (1) THREE different asymmetries — retrieval
->   operand↔operand, BitNet weight↔activation, verbum-new router-pathway↔value-pathway — transfers PRINCIPLE
->   not arrangement; measure which side is load-bearing per context. (2) "don't binarize magnitude"(article) vs
->   "magnitude<1bit"(verbum) resolve by naming pathway: router-γ<1bit BUT value-magnitude essential. (3) HYPOTHESIS
->   not result — sign=router & value-needs-magnitude VERIFIED; asymmetric REALLOCATION gaining cap/perf NOT tested.
->   TEST: matched-mean-bit A/B (uniform-1.58 vs binary-router+3bit-value) on PPL-through-depth (cos^L), null-gated
->   (matched-bit null MANDATORY else just spent more bits). Small model first (Pythia-160M repro's s185 curve).
+> ★ CAVEATS (λ measure/λ yardstick, in the page): (1) RELATIVE pathway sensitivity, NOT deployable — even best
+>   (10.62) ≫ float(2.08); raw full-FFN quant compounds cos^L to death over 36L; shipping needs correction
+>   (sieve/score-matching/LoRA, s185). (2) THREE distinct asymmetries — retrieval operand↔operand, BitNet
+>   weight↔activation, verbum-new router↔value-pathway; transfers PRINCIPLE not arrangement. (3) ARITHMETIC FIX
+>   (λ compute): "matched 1.58" was WRONG — gate/up/down equal-size → 1/3/3 = 2.33; honest test = Pareto +
+>   matched-null triple (the triple IS the mandatory null). Metric = mean NLL (PPL exp-cap saturates, masks it).
 >
-> ★ ARTIFACTS: new page explore/asymmetric-pathway-quantization.md (status:designing) + INDEX row + 3 back-
->   cross-links (two-registers, ternary-dual-equation, standing-wave-magnitudes) + this state edit. NO experiment
->   code (pure synthesis). Extend "Complete Ternarization Recipe" to per-matrix-type bit budget when running A/B.
-> ★ COMMITTED 0e938b6 (💡 asymmetric-quant ↔ two-registers): the knowledge page + INDEX + 3 cross-links + state.
->   THEN Michael: "proceed with the A/B test" (Qwen3-8B-Base download done). Built harness + ran it.
-> ★ A/B HARNESS (built, ruff-clean, self-test ✓): scripts/experiments/asymmetric_pathway_quant.py — config-driven
->   per-PATHWAY bit budget over Qwen SwiGLU FFN (gate=router, up/down=value); reuses ternarize_weight +
->   quantize_nbit_uniform. Configs: float, uniform_ternary(1.58), uniform_2bit, uniform_3bit, asym_binR_3V(2.33),
->   asym_binR_2V(1.67), inv_binDown(2.33), inv_binValue(2.33). MATCHED-NULL TRIPLE all=2.333b: binary on
->   ROUTER vs one VALUE matrix vs WHOLE value path. CORRECTION: page's "matched 1.58" arithmetic was WRONG
->   (1/3/3=2.33); honest test = Pareto + matched-null triple. Metric = mean NLL nats (PPL exp-caps → masks
->   discrimination; loss stays comparable when aggressive quant kills the model).
-> ★★ FULL RESULT (run Qwen3-8B-Base-20260702-122506, 16k tok, FFN-only, DONE): pathway asymmetry CONFIRMED.
->   MATCHED-BITS NULL TRIPLE @2.33b (only the LOCATION of the binary matrix changes):
->     binary on ROUTER (gate)           loss 10.620   (Δfloat +8.54)
->     binary on ONE value matrix (down) loss 18.694   (+8.07 vs router-binary)
->     binary on WHOLE value path        loss 20.663   (+10.04 vs router-binary)
->   monotone, as two-registers predicts. KILLER: binary-router (gate cos 0.79) ≈ binary-down (down cos 0.78)
->   SAME weight cosine, +8 nats apart → reconstruction fidelity does NOT predict damage, the PATHWAY does.
->   sign=router, magnitude=value, confirmed CAUSALLY (in-model int8×binary(−0.61) vs binary×binary(−7.2)).
->   PARETO WIN: asym binary-router+2bit-value (1.67b, loss 13.50) beats uniform-2bit (2.0b, 17.70) at FEWER
->   bits = "pay less get more" in-model. asym binR+3bit (2.33b, 10.62) below the uniform 2↔3bit interp (~13.96).
->   CAVEAT (load-bearing): even best (10.62) ≫ float(2.08) — raw full-FFN quant compounds cos^L to death over
->   36L; measures RELATIVE pathway sensitivity, NOT deployable (needs sieve/score-matching correction, s185).
-> ★ MEAN-BITS ARITHMETIC CORRECTION (λ compute): page's "matched 1.58" was WRONG — gate/up/down equal-size →
->   1/3/3 = 2.33 not 1.58. Honest test = Pareto + matched-null triple (the triple IS the mandatory null).
->   Metric = mean NLL nats (PPL exp-cap saturates → masks discrimination). Both baked into the page §7/§9.
-> ★ COMMITTED-THIS-SESSION so far: 0e938b6 (the synthesis page). NOW committing task-4: harness script +
->   page update (designing→active, measured §9) + INDEX + results + state.
-> ★ STATE: working tree = harness script (scripts/experiments/asymmetric_pathway_quant.py, ruff-clean, self-test)
->   + results/asymmetric-pathway-quant/... + page/INDEX/state edits. session-258/259.md = human-only, do NOT stage.
->   NEXT: (a) deployable asym quant WITH per-layer correction (sieve/LoRA) — does the direction survive + ship?
->   (b) 1-bit interior-band router for capacity (s259); (c) cross-model matched-null (Qwen3-0.6B/14B). Also still
->   pending: s259 Qwen3-8B-Base combinator re-run (untouched). RUN ARTIFACT lives in tmux main:1 (now idle/done).
+> ★ ARTIFACTS & COMMITS: 0e938b6 (💡 synthesis page + INDEX + 3 back-cross-links) → 703f2e1 (✅ harness + page
+>   designing→active §9 measured + run record). Harness = scripts/experiments/asymmetric_pathway_quant.py
+>   (ruff-clean, --self-test; config-driven per-pathway bit budget; reuses ternarize_weight + quantize_nbit_uniform).
+>   Run record = results/asymmetric-pathway-quant/Qwen3-8B-Base-20260702-122506/{meta,summary}.json (provenance:
+>   torch 2.11 / transformers 5.5.4 / verbum@0e938b6). logs/ gitignored. Ephemeral smoke dirs removed.
+> ★ STATE: clean tree post-703f2e1. session-258/259.md untracked = human-only chat logs, do NOT stage (this
+>   session → saved as session-260.md by Michael). NEXT: (a) DEPLOYABLE asym quant WITH per-layer correction
+>   (sieve/LoRA) — does the direction survive into a shippable model? (b) 1-bit INTERIOR-band router for capacity
+>   (s259 interior is routing-heavy → wider interior at fixed mem); (c) cross-model matched-null (Qwen3-0.6B/14B).
+>   STILL PENDING (untouched this session): s259 Qwen3-8B-Base combinator re-run (kill the base-vs-instruct +4
+>   offset confound). Extend the "Complete Ternarization Recipe" (ternary-dual-equation.md) → per-pathway budget.
 > ─────────────────────────────────────────────────────────────────────────────────────────────────────
 > Last updated: 2026-07-02 | Session: 259 (cont. — LAYER-CONTRIBUTION ↔ COMBINATOR-LOCUS — Michael: a paper
 > dropped, "Is One Layer Enough? Training a Single Transformer Layer Can Match Full-Parameter RL Training"
