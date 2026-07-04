@@ -11,6 +11,7 @@ related:
   - v13-funnel-shape.md
   - rl-layer-contribution-combinator-locus.md
   - supervised-recurrence-halt.md
+  - ternary-flip-flop-not-overloading.md
 depends-on:
   - ../two-registers-of-topology.md
   - ../standing-wave-magnitudes.md

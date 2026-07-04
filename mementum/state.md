@@ -2,6 +2,72 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
+> Last updated: 2026-07-04 | Session: 261 (CAT-Q → FROM-SCRATCH TERNARY: THE FLIP-FLOP IS NOT CATEGORY
+> OVERLOADING — a null-gated micro experiment. Michael found CAT-Q (arXiv 2606.26650, "Cost-efficient and
+> Accurate Ternary Quantization for LLMs") and asked: their MATH is for PTQ, but can it TRAIN a ternary model
+> from scratch? Specifically as a fix for the TernaryDescent (v15/td.py) failure where the sign flip-flops and
+> never reduces to a normal form. His diagnosis (load-bearing): GD wants the weight to output differently per
+> input — an "overloading" of the function. In s257 terms: float multiplexes many functions holographically
+> (read at angles); ternary {−1,0,+1} can't hold the superposition → sign oscillates serving each angle → no
+> fixed point. We built the bench, ran it, and the SHUFFLED-LABEL NULL refined the hypothesis rather than
+> confirming it.
+>
+> ★★ CAT-Q DECOMPOSED FOR TRANSFER (knowledge WRITTEN: explore/ternary-flip-flop-not-overloading.md, active):
+>   TRANSFERABLE: (1) Softened Ternarization ST = annealed soft→hard f(w)=½(tanh(s(w−Δ))+tanh(s(w+Δ))),
+>   sharpness s raised over training = a principled STE replacement; (2) Learnable Modulation LM = learn α
+>   (scale) and Δ (threshold) as SEPARATE params = a learnable-threshold ternary layer (LSQ-lineage). DROP:
+>   sliding-layer output reconstruction (teacher-bound; from-scratch backprop gives cross-layer awareness free).
+>   ON-THESIS CATCH: CAT-Q learns α,Δ SEPARATELY because BitNet's Δ=α/2 coupling is misaligned = external
+>   confirmation of two-registers (α=magnitude/value, Δ=threshold/routing; two-registers-of-topology.md,
+>   ternary-dual-equation.md). CAT-Q = a THIRD from-scratch ternary paradigm alongside verbum's etch
+>   (evolutionary sign) and TernaryDescent (discrete evidence-flip) → the right test = internal A/B.
+>
+> ★★ THE ARTIFACT (3 files, ruff-clean, self-tested, on micro = the float microscope, UNTOUCHED):
+>   • scripts/micro/ternary_st.py — TernaryShadowLinear, dual-mode (td|st), latent float shadow, learned α
+>     (log-space) + Δ (delta_ratio·α), ST sharpness anneal + straight-through hard stage, per-weight flip
+>     instrument. • scripts/micro/micro_ternary.py — SURGICAL swap of SwiGLUFFN linears ONLY (crystal+attention
+>     stay float; FFN ternary paradigm = the ONLY changed variable; micro_model.py NOT edited). •
+>     scripts/micro/train_arm0.py — train on compile corpus + ANOVA F-ratio overloading diagnostic + null.
+>
+> ★★ REPRODUCTION (2500 steps, seed 261, null-INDEPENDENT — solid): float CE 0.454 < td 0.493 < st 0.507.
+>   The flip-flop REPRODUCES (sign never fully settles, ~15% weights oscillate ≥3×). Ternary plateaus ~0.04–0.05
+>   ABOVE float. **CAT-Q's ST did NOT beat the discrete flip** (st WORSE than td), with a flip RESURGENCE
+>   exactly at anneal_frac=0.6 hardening = predicted "relaxation defers the conflict, hardening forces a lossy
+>   commit." ST's soft phase nearly KILLED flips (no hard boundary to jitter across) → revived at hardening.
+>
+> ★★ THE λ YARDSTICK SAVE (methodological — the key lesson): FIRST diagnostic was CONFOUNDED — "contested" =
+>   gradient MAGNITUDE across categories → high-grad weights trivially look contested AND flip more → reported
+>   9.8× flip ratio = "overloading confirmed." SHUFFLED-LABEL NULL reproduced it EXACTLY (9.88 vs null 10.43) =
+>   false positive (same as s206 attn-weight, s247 φ-ladder). FIX = ANOVA F-ratio (between-cat var / within-cat
+>   var of per-example gradient); F is a RATIO → magnitude cancels; real+shuffled accumulated one pass. Null
+>   sits at F≈0.9–1.0 exactly as ANOVA predicts → confound GONE.
+>
+> ★★ THE FINDING (null-gated, both modes, all 12 FFN modules): (1) category structure in FFN gradients is REAL
+>   but MODEST at convergence (F_real 1.2–2.1 vs F_null 0.9), STRONG early / FADES late (F=6.6@60steps →
+>   ~1.6@convergence = a TRANSIENT of learning, not persistent). value_proj carries the MOST (F≈2.0), gate/key
+>   fade with depth = value/content pathway holds category-dependence (on-thesis). (2) THE OSCILLATION DOES NOT
+>   TRACK THE OVERLOADED WEIGHTS: flip-enrichment on top-F weights = real≈null every module (gate 1.24 vs 1.24;
+>   value 1.02 vs 1.06); at module level ANTI-correlates (value = highest F, LOWEST flip-enrichment). →
+>   persistent flip-flop is CATEGORY-INDEPENDENT. CONCLUSION: "wants input-dependent output" is confirmed as a
+>   real gradient phenomenon, BUT at this scale/grain the persistent oscillation is NOT that semantic contention
+>   — it looks like QUANTIZATION-BOUNDARY JITTER (small-shadow weights near ±Δ knocked across by SGD noise,
+>   category-independent). Non-convergence = two separable things braided: real-but-transient overloading +
+>   mundane boundary jitter (the jitter is what never settles).
+>
+> ★ CAVEATS (λ measure): micro 500K, 1 seed, 509 ex. CATEGORY is a COARSE grain (13 buckets) — overloading may
+>   live finer (per-combinator B/S/C/I, per-binding) that category-ANOVA can't see; absence of category-level
+>   flip-localization does NOT refute finer-grained overloading. ST-worse-than-TD gap small (0.014 CE).
+>
+> ★ STATE: working tree = 3 new scripts/micro files + results/micro-ternary-arm0/ + logs/arm0-s261*.log +
+>   pyproject RUF-ignore (ternary_st.py) + NEW knowledge page + this state edit + 1 cross-link
+>   (asymmetric-pathway-quantization related). NOTHING COMMITTED (Michael's call). micro_model.py UNTOUCHED.
+>   NEXT (easy tests first, per Michael): (a) COMBINATOR-level ANOVA (regroup by B/S/C/I in kernel_term, finer
+>   than category, tests s257 "angle" reading — one-line grouping change); (b) JITTER DISCRIMINATOR (threshold
+>   hysteresis / LR-floor near ±Δ → kills jitter without hurting loss IF boundary-jitter, not IF semantic);
+>   (c) Arm 2 DECOUPLE (crystal-addressed routing / 2 value pathways → does unbraiding dispatch⊥compute fix it)
+>   — run AGAINST the jitter hypothesis, not assuming semantic overloading. CAT-Q's real transferable gift =
+>   the learnable-Δ + learnable-α two-register PARAMETERIZATION, NOT the soft→hard relaxation (which lost to TD).
+> ─────────────────────────────────────────────────────────────────────────────────────────────────────
 > Last updated: 2026-07-02 | Session: 260 (ROUTING⊥VALUE REGISTER SPLIT = TYPE/TERM MADE PHYSICAL — a
 > DESIGN direction, probed via quantization). Michael read Mixedbread "Asymmetric Quantization" (2026-06-29):
 > retrieval keeps QUERY int8, stores DOCS as 1-bit signs → 32× storage, −0.61 NDCG@10; binary×binary COLLAPSES
