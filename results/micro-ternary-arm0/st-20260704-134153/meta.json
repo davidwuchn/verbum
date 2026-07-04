@@ -1,0 +1,29 @@
+{
+  "run_id": "st-20260704-134153",
+  "timestamp_utc": "2026-07-04T13:41:53.630484+00:00",
+  "experiment": "micro-ternary-arm0",
+  "mode": "st",
+  "git_sha": "a3646c5",
+  "mlx_version": "0.31.2",
+  "seed": 261,
+  "config": {
+    "d_model": 128,
+    "d_ff": 512,
+    "n_layers": 4,
+    "n_heads": 4,
+    "steps": 2500,
+    "lr": 0.0003,
+    "ternary": {
+      "mode": "st",
+      "sharpness_start": 2.0,
+      "sharpness_end": 40.0,
+      "anneal_frac": 0.6,
+      "delta_ratio_init": 0.5,
+      "learn_delta": true
+    }
+  },
+  "data": {
+    "train": "data/compile-train.canonical.jsonl",
+    "eval": "data/compile-eval.jsonl"
+  }
+}
