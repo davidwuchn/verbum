@@ -1,0 +1,72 @@
+{
+  "model_key": "pythia-160m-deduped",
+  "model": "EleutherAI/pythia-160m-deduped",
+  "model_revision": "EleutherAI/pythia-160m-deduped",
+  "n_layers": 12,
+  "n_heads": 12,
+  "device": "mps",
+  "verdict": {
+    "KIBC": {
+      "combinators": [
+        "K",
+        "I",
+        "B",
+        "C"
+      ],
+      "n_combinators": 4,
+      "real_fit": 0.157094,
+      "null_mean": 0.142498,
+      "null_std": 0.004169,
+      "gap": 0.014596,
+      "z": 3.501,
+      "p_null_ge_real": 0.0,
+      "cross_correlation": {
+        "pairwise": {
+          "K-I": 0.7153,
+          "K-B": 0.9442,
+          "K-C": 0.9031,
+          "I-B": 0.7113,
+          "I-C": 0.5992,
+          "B-C": 0.9168
+        },
+        "mean_abs_offdiag": 0.7983
+      },
+      "per_combinator_peak": {
+        "K": 0.34383,
+        "I": 0.18395,
+        "B": 0.31343,
+        "C": 0.33064
+      }
+    },
+    "SKI": {
+      "combinators": [
+        "S",
+        "K",
+        "I"
+      ],
+      "n_combinators": 3,
+      "real_fit": 0.150996,
+      "null_mean": 0.128489,
+      "null_std": 0.006735,
+      "gap": 0.022507,
+      "z": 3.342,
+      "p_null_ge_real": 0.0,
+      "cross_correlation": {
+        "pairwise": {
+          "S-K": 0.9207,
+          "S-I": 0.6577,
+          "K-I": 0.7153
+        },
+        "mean_abs_offdiag": 0.7646
+      },
+      "per_combinator_peak": {
+        "S": 0.27594,
+        "K": 0.34383,
+        "I": 0.18395
+      }
+    }
+  },
+  "delta_gap_kibc_minus_ski": -0.007911,
+  "delta_z_kibc_minus_ski": 0.159,
+  "call": "both bases clear null comparably (\u0394z=+0.16) \u2014 INCONCLUSIVE"
+}

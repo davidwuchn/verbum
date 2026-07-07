@@ -1,0 +1,16 @@
+{
+  "run_id": "pythia-160m-deduped-20260707-164835",
+  "timestamp": "2026-07-07T16:48:38.781475+00:00",
+  "git_sha": "b4a1291",
+  "seed": 262,
+  "n_shuffles": 200,
+  "smoke": false,
+  "model": "EleutherAI/pythia-160m-deduped",
+  "model_revision": "EleutherAI/pythia-160m-deduped",
+  "kibc_probe_hash": "1b957c03b9e0",
+  "ski_probe_hash": "cbe977c2de3d",
+  "torch": "2.11.0",
+  "transformers": "5.5.4",
+  "null": "shuffled-label (independent active/control perm, cardinality-matched)",
+  "metric": "basis_fit = mean_head max_combinator selectivity(active vs control)"
+}

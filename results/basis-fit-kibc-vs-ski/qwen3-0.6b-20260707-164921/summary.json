@@ -1,0 +1,72 @@
+{
+  "model_key": "qwen3-0.6b",
+  "model": "Qwen/Qwen3-0.6B",
+  "model_revision": "Qwen/Qwen3-0.6B",
+  "n_layers": 28,
+  "n_heads": 16,
+  "device": "mps",
+  "verdict": {
+    "KIBC": {
+      "combinators": [
+        "K",
+        "I",
+        "B",
+        "C"
+      ],
+      "n_combinators": 4,
+      "real_fit": 0.087734,
+      "null_mean": 0.079779,
+      "null_std": 0.00203,
+      "gap": 0.007954,
+      "z": 3.918,
+      "p_null_ge_real": 0.0,
+      "cross_correlation": {
+        "pairwise": {
+          "K-I": 0.6838,
+          "K-B": 0.9214,
+          "K-C": 0.9123,
+          "I-B": 0.6862,
+          "I-C": 0.5899,
+          "B-C": 0.9299
+        },
+        "mean_abs_offdiag": 0.7872
+      },
+      "per_combinator_peak": {
+        "K": 0.21551,
+        "I": 0.11276,
+        "B": 0.18886,
+        "C": 0.22078
+      }
+    },
+    "SKI": {
+      "combinators": [
+        "S",
+        "K",
+        "I"
+      ],
+      "n_combinators": 3,
+      "real_fit": 0.083745,
+      "null_mean": 0.073085,
+      "null_std": 0.00298,
+      "gap": 0.01066,
+      "z": 3.578,
+      "p_null_ge_real": 0.0,
+      "cross_correlation": {
+        "pairwise": {
+          "S-K": 0.9141,
+          "S-I": 0.645,
+          "K-I": 0.6838
+        },
+        "mean_abs_offdiag": 0.7476
+      },
+      "per_combinator_peak": {
+        "S": 0.17602,
+        "K": 0.21551,
+        "I": 0.11276
+      }
+    }
+  },
+  "delta_gap_kibc_minus_ski": -0.002706,
+  "delta_z_kibc_minus_ski": 0.34,
+  "call": "both bases clear null comparably (\u0394z=+0.34) \u2014 INCONCLUSIVE"
+}

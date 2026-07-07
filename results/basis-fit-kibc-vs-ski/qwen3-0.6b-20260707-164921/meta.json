@@ -1,0 +1,16 @@
+{
+  "run_id": "qwen3-0.6b-20260707-164921",
+  "timestamp": "2026-07-07T16:49:27.807239+00:00",
+  "git_sha": "b4a1291",
+  "seed": 262,
+  "n_shuffles": 200,
+  "smoke": false,
+  "model": "Qwen/Qwen3-0.6B",
+  "model_revision": "Qwen/Qwen3-0.6B",
+  "kibc_probe_hash": "1b957c03b9e0",
+  "ski_probe_hash": "cbe977c2de3d",
+  "torch": "2.11.0",
+  "transformers": "5.5.4",
+  "null": "shuffled-label (independent active/control perm, cardinality-matched)",
+  "metric": "basis_fit = mean_head max_combinator selectivity(active vs control)"
+}
