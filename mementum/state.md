@@ -2,6 +2,77 @@
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
 >
+> Last updated: 2026-07-07 | Session: 262 (ASSESSMENT + TWO ISOLATION EXPERIMENTS — Michael: "assess the
+> project" → v15 design review → "does the strided attention work?" → discussion of relational/GTSM loss,
+> recurrence placement, Montague, KIBC-vs-SKI → "test kibc vs ski again." A discussion-heavy session that
+> produced TWO clean, null-gated, committed isolation experiments on the float microscope + a repo assessment.
+>
+> ★★ ASSESSMENT (delivered, not filed): science is healthy; the MESS is representation-layer, not findings.
+>   state.md 7675 L (bootloader contract broken — needs compaction); INDEX references 62 pages, 228 exist
+>   (explore/ ~70% unindexed); 41GB results/ in git; 341GB checkpoints/ UNGITIGNORED (landmine); 8251 LoC dead
+>   vsm_lm_v1-5 + v6/ inside src/verbum/; mlx a hard CORE dep (breaks non-Apple installs). 378 tests pass.
+>   HIGHEST-LEVERAGE HYGIENE (not yet done, Michael's call): .gitignore checkpoints/, compact state.md,
+>   regenerate INDEX. The spine (probes/{harness,grading,models,library}, lambda_ast, clj_lambda) is coherent.
+>
+> ★★ v15 DESIGN REVIEW (delivered): (1) 🔴 spectral-φ loss (target 0.6299) is LIVE + on-by-default in
+>   v15model.py/config.py — but φ-constant was REFUTED (audit#6 s207, s247/s251 null-fail). An active gradient
+>   pulling toward a retired yardstick = coherence violation. CHEAPEST FIX: default use_spectral_loss=False,
+>   one A/B. (2) 🔴 uniform ternary contradicts s260 (sign=router ⊥ magnitude=value): FFN gate/key/value all
+>   same TernaryLinear → register-split them (binary-ish gate ⊥ higher-precision value, CAT-Q learnable α+Δ).
+>   (3) recurrence ships with the s214 λ_fp loss that already failed (gameable/collapsed) — s258 supervised
+>   WHNF halt is the fix. (4) recurrence wraps whole A→C; s259 says wrap the INTERIOR band at compose→readout
+>   seam. (5) control stack (S5 GRU/S4/S3/S2/MetaS3) UNVALIDATED — never ablated to show it earns its variety.
+>
+> ★★ EXPERIMENT 1 — STRIDED ATTENTION WORKS IN FLOAT (committed; knowledge: explore/strided-attention-float-ab.md,
+>   active). Q: does v15's Fibonacci-stride bet work, or starve composition (s191 relay collapse cos 0.92-0.99)?
+>   Isolated on float micro (identical seeded init, attention support the ONLY variable; micro_model.py
+>   untouched). 4 arms × 2500 steps: eval CE dense 6.795 / local 6.684 / fib 6.649 / fibband 6.846; RELAY
+>   max 0.44-0.60, 0/16 heads >0.9 ANY arm. → **the relay collapse does NOT reproduce in float = v15's collapse
+>   was the TERNARY/TD confound, not the geometry.** Fibonacci exonerated (fib edges dense). CAVEATS (two-sided):
+>   exact-match 0.00 every arm (memorization regime, CE-only read); local ties fib (short corpus ≤36 tok →
+>   strides can't show their coverage payoff) → supports "strides don't HURT," not "strides HELP at length."
+>   ARTIFACTS: scripts/micro/{micro_strided,train_strided_ab}.py + results/micro-strided-ab/*-153340/.
+>
+> ★★ EXPERIMENT 2 — KIBC vs SKI, NULL-GATED (committed 919ca25; knowledge: explore/basis-fit-kibc-vs-ski.md,
+>   active). Re-ran the remembered tracer selection (n=4 KIBC fit, n=3 SKI didn't) as a proper experiment.
+>   scripts/experiments/basis_fit_kibc_vs_ski.py (reuses probe_combinators.py, no fork; steelmans S as
+>   argument-sharing; shuffled-LABEL null keeping matched pairs intact). Finding (pythia-160m + qwen3-0.6b,
+>   200 shuffles): **both bases clear their null COMPARABLY** (KIBC z=3.50/3.92, SKI z=3.34/3.58) — the
+>   attention-selectivity register does NOT reproduce a clean KIBC-over-SKI win. Stable: S-K head corr ~0.92
+>   (S braided with K, predicted) — BUT B-K=0.94, C-K=0.90 at ≤0.6B too (common-mode smear, "K dominates all
+>   zones" s081) so not yet a discriminator. REGISTER CAVEAT (load-bearing): tracer used STATE classification
+>   (reduction dynamics) ≠ attention L2 → inconclusive-in-register, NOT a refutation. LESSON: first null was
+>   WRONG (shuffled sentences → random pairs surface-dissimilar → null>real by construction); fixed to shuffle
+>   labels only. fp16 attention → NaN on MPS for Pythia → float32.
+>
+> ★★ DISCUSSION THREADS (assessments delivered, may deserve knowledge later):
+>   • RELATIONAL LOSS (s223): ✅ strongest experimental result in repo (double dissociation 3seed×3λ, transfers
+>     ONLY in routing register, free w.r.t. CE) — keep, promote to v15.1 steering signal. IOU: WHNF gate.
+>   • GTSM LOSS: ✅ sound for DISTILLATION (degeneracy removal measured 27→37%, L35 cos 0.57→0.94); NO leverage
+>     from-scratch (endpoint-only) UNLESS the reducer supplies the trajectory = exactly the s258 curriculum.
+>     Synthesis: relational-loss + GTSM + WHNF-curriculum are ONE move (dense relational/trajectory constraint
+>     wherever an oracle exists: teacher-Gram / teacher-residual-path / reducer-trace).
+>   • RECURRENCE PLACEMENT: Michael's "deepest = middle (deepest from both ends)" = the A→C fold trough =
+>     compose→readout seam. Triangulated (s259 interior bell + v13 Zone B + progressive-collapse). Missing piece
+>     was never WHERE (correct) but the SUPERVISED HALT (s258). Deepest-from-input = readout printer = wrong.
+>   • MONTAGUE Q ("what are the chances this is Montague's thesis?"): decomposed. A(compositional type-driven)
+>     ~certain; B(KIBC crystal is a physical universal) UNRESOLVED — needs cross-basis null (KIBC vs SKI = a
+>     first leg, done, inconclusive-in-register); C(Montague-SPECIFIC) prob CCG/Lambek not Montague (KIBC=Curry
+>     unbraided structural basis, not typed-λ; no intensionality/GQ probed); D(WHNF layer) = BEYOND Montague
+>     (operational reduction dynamics, denotational Montague doesn't predict a halt axis). KIBC-over-SKI theory:
+>     BCKW unbraids what S braids (compose/permute/delete/identity = structural rules of substructural logic).
+>   • SCALING ("sharper+deeper with scale"): CHECKED prior artifacts — results/pythia-scaling (14m→2.8b gen
+>     ladder) DOES show behavioral sharpening (parse_rate 0.00→1.00); the cross-model combinator sweep is
+>     cross-FAMILY, unnormalized, boundary-dominated → does NOT cleanly show mechanistic sharpen/deepen.
+>     The clean same-suite fixed-yardstick null-gated Pythia-ladder crystal-sharpness test = STILL A GAP.
+>
+> ★ NEXT (open, Michael's call): (a) THE flagship — same-suite Pythia deduped ladder (14m→12b) for crystal
+>   sharpness + depth, fixed metric + matched-range null (the anti-describability result; also the KIBC-vs-SKI
+>   discriminator: do B-K,C-K FALL with scale while S-K stays ~0.9?); (b) hygiene: .gitignore checkpoints/,
+>   compact this file, regenerate INDEX; (c) v15.1: kill spectral-φ, register-split FFN quant, long-seq strided
+>   corpus + recurrent-interior supervised-halt arm; (d) re-decide KIBC-vs-SKI in the TRACER's state register.
+>   Servers/env: torch 2.11 + MPS live; Pythia deduped ladder (14m-2.8b) + qwen3-0.6b HF-cached.
+> ─────────────────────────────────────────────────────────────────────────────────────────────────────
 > Last updated: 2026-07-04 | Session: 261 (CAT-Q → FROM-SCRATCH TERNARY: THE FLIP-FLOP IS NOT CATEGORY
 > OVERLOADING — a null-gated micro experiment. Michael found CAT-Q (arXiv 2606.26650, "Cost-efficient and
 > Accurate Ternary Quantization for LLMs") and asked: their MATH is for PTQ, but can it TRAIN a ternary model

@@ -1,0 +1,1341 @@
+{
+  "dense": {
+    "arm": "dense",
+    "strides": null,
+    "final_eval_ce": 6.795,
+    "exact_match_eval": 0.0,
+    "exact_match_test": 0.0,
+    "n_relay_heads": 0,
+    "max_relay": 0.6021,
+    "final_diagnostics": [
+      {
+        "layer": 0,
+        "relay": [
+          0.3284,
+          0.341,
+          0.3678,
+          0.3539
+        ],
+        "entropy": [
+          4.3722,
+          4.4669,
+          4.4562,
+          4.4369
+        ],
+        "eff_pos": [
+          79.22,
+          87.08,
+          86.16,
+          84.51
+        ]
+      },
+      {
+        "layer": 1,
+        "relay": [
+          0.5149,
+          0.5288,
+          0.5495,
+          0.6021
+        ],
+        "entropy": [
+          2.6527,
+          3.8053,
+          3.7652,
+          3.8129
+        ],
+        "eff_pos": [
+          14.19,
+          44.94,
+          43.17,
+          45.28
+        ]
+      },
+      {
+        "layer": 2,
+        "relay": [
+          0.4957,
+          0.5652,
+          0.4662,
+          0.4586
+        ],
+        "entropy": [
+          1.9992,
+          1.956,
+          3.3688,
+          2.1474
+        ],
+        "eff_pos": [
+          7.38,
+          7.07,
+          29.04,
+          8.56
+        ]
+      },
+      {
+        "layer": 3,
+        "relay": [
+          0.2912,
+          0.3401,
+          0.2191,
+          0.297
+        ],
+        "entropy": [
+          4.1083,
+          3.0718,
+          3.1693,
+          3.4594
+        ],
+        "eff_pos": [
+          60.84,
+          21.58,
+          23.79,
+          31.8
+        ]
+      }
+    ],
+    "relay_trajectory": [
+      {
+        "step": 1,
+        "mean_relay": 0.3936
+      },
+      {
+        "step": 500,
+        "mean_relay": 0.3933
+      },
+      {
+        "step": 1000,
+        "mean_relay": 0.4086
+      },
+      {
+        "step": 1500,
+        "mean_relay": 0.4119
+      },
+      {
+        "step": 2000,
+        "mean_relay": 0.417
+      },
+      {
+        "step": 2500,
+        "mean_relay": 0.42
+      }
+    ],
+    "curve": [
+      {
+        "step": 1,
+        "train_ce": 12.4389,
+        "eval_ce": 12.5201
+      },
+      {
+        "step": 100,
+        "train_ce": 2.5858,
+        "eval_ce": 5.704
+      },
+      {
+        "step": 200,
+        "train_ce": 1.9894,
+        "eval_ce": 5.8709
+      },
+      {
+        "step": 300,
+        "train_ce": 1.7932,
+        "eval_ce": 5.9488
+      },
+      {
+        "step": 400,
+        "train_ce": 1.5117,
+        "eval_ce": 5.9154
+      },
+      {
+        "step": 500,
+        "train_ce": 1.0933,
+        "eval_ce": 5.99
+      },
+      {
+        "step": 600,
+        "train_ce": 0.7634,
+        "eval_ce": 6.1173
+      },
+      {
+        "step": 700,
+        "train_ce": 0.5828,
+        "eval_ce": 6.3146
+      },
+      {
+        "step": 800,
+        "train_ce": 0.5155,
+        "eval_ce": 6.3541
+      },
+      {
+        "step": 900,
+        "train_ce": 0.4849,
+        "eval_ce": 6.5033
+      },
+      {
+        "step": 1000,
+        "train_ce": 0.4641,
+        "eval_ce": 6.5412
+      },
+      {
+        "step": 1100,
+        "train_ce": 0.4899,
+        "eval_ce": 6.5507
+      },
+      {
+        "step": 1200,
+        "train_ce": 0.4556,
+        "eval_ce": 6.6699
+      },
+      {
+        "step": 1300,
+        "train_ce": 0.4578,
+        "eval_ce": 6.7029
+      },
+      {
+        "step": 1400,
+        "train_ce": 0.4661,
+        "eval_ce": 6.7054
+      },
+      {
+        "step": 1500,
+        "train_ce": 0.4539,
+        "eval_ce": 6.7273
+      },
+      {
+        "step": 1600,
+        "train_ce": 0.4512,
+        "eval_ce": 6.7406
+      },
+      {
+        "step": 1700,
+        "train_ce": 0.4485,
+        "eval_ce": 6.7482
+      },
+      {
+        "step": 1800,
+        "train_ce": 0.4671,
+        "eval_ce": 6.7744
+      },
+      {
+        "step": 1900,
+        "train_ce": 0.4328,
+        "eval_ce": 6.7691
+      },
+      {
+        "step": 2000,
+        "train_ce": 0.452,
+        "eval_ce": 6.786
+      },
+      {
+        "step": 2100,
+        "train_ce": 0.4498,
+        "eval_ce": 6.7976
+      },
+      {
+        "step": 2200,
+        "train_ce": 0.4319,
+        "eval_ce": 6.7957
+      },
+      {
+        "step": 2300,
+        "train_ce": 0.4496,
+        "eval_ce": 6.7984
+      },
+      {
+        "step": 2400,
+        "train_ce": 0.4412,
+        "eval_ce": 6.7895
+      },
+      {
+        "step": 2500,
+        "train_ce": 0.4314,
+        "eval_ce": 6.795
+      }
+    ],
+    "elapsed_s": 145.5,
+    "generations_test": [
+      {
+        "input": "The elephant climbs bravely.",
+        "truth": "climbs(elephant)",
+        "gen": "sings(artist)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "The elephant does not vanish.",
+        "truth": "\u00acvanish(elephant)",
+        "gen": "\u00acsings(artist)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "Felix thinks that the wizard whistles.",
+        "truth": "thinks(felix, wizard, whistles)",
+        "gen": "dances(guard)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "Felix chases diana.",
+        "truth": "chases(felix, diana)",
+        "gen": ", the knight, the dog jumps.",
+        "exact": false
+      },
+      {
+        "input": "The wizard vanishes in the river.",
+        "truth": "vanishes(wizard, river)",
+        "gen": "sits(cat, the scientist laughs.",
+        "exact": false
+      },
+      {
+        "input": "No elephant vanishes.",
+        "truth": "\u00acvanishes(elephant)",
+        "gen": "\u00acfall(john)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "The kind wizard whistles.",
+        "truth": "whistles(wizard)",
+        "gen": "dances(fish)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "The elephant is fast.",
+        "truth": "fast(elephant)",
+        "gen": "fast(peter)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "No nurse whistles.",
+        "truth": "\u00acwhistles(nurse)",
+        "gen": "sings(doctor)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "Felix vanishes.",
+        "truth": "vanishes(felix)",
+        "gen": "sings(teacher, the knight, the dog jumps.",
+        "exact": false
+      }
+    ]
+  },
+  "local": {
+    "arm": "local",
+    "strides": {
+      "0": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "1": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "2": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "3": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    "final_eval_ce": 6.6838,
+    "exact_match_eval": 0.0,
+    "exact_match_test": 0.0,
+    "n_relay_heads": 0,
+    "max_relay": 0.5455,
+    "final_diagnostics": [
+      {
+        "layer": 0,
+        "relay": [
+          0.3325,
+          0.4264,
+          0.3417,
+          0.4335
+        ],
+        "entropy": [
+          2.1411,
+          2.1201,
+          2.1454,
+          2.1066
+        ],
+        "eff_pos": [
+          8.51,
+          8.33,
+          8.55,
+          8.22
+        ]
+      },
+      {
+        "layer": 1,
+        "relay": [
+          0.3161,
+          0.5455,
+          0.462,
+          0.3877
+        ],
+        "entropy": [
+          1.7042,
+          1.8171,
+          1.7178,
+          1.7282
+        ],
+        "eff_pos": [
+          5.5,
+          6.15,
+          5.57,
+          5.63
+        ]
+      },
+      {
+        "layer": 2,
+        "relay": [
+          0.373,
+          0.5175,
+          0.4914,
+          0.4224
+        ],
+        "entropy": [
+          1.7616,
+          1.7586,
+          1.8353,
+          1.6622
+        ],
+        "eff_pos": [
+          5.82,
+          5.8,
+          6.27,
+          5.27
+        ]
+      },
+      {
+        "layer": 3,
+        "relay": [
+          0.5037,
+          0.4636,
+          0.4234,
+          0.3517
+        ],
+        "entropy": [
+          1.7706,
+          1.6956,
+          1.8167,
+          1.6434
+        ],
+        "eff_pos": [
+          5.87,
+          5.45,
+          6.15,
+          5.17
+        ]
+      }
+    ],
+    "relay_trajectory": [
+      {
+        "step": 1,
+        "mean_relay": 0.525
+      },
+      {
+        "step": 500,
+        "mean_relay": 0.4213
+      },
+      {
+        "step": 1000,
+        "mean_relay": 0.4224
+      },
+      {
+        "step": 1500,
+        "mean_relay": 0.4209
+      },
+      {
+        "step": 2000,
+        "mean_relay": 0.4243
+      },
+      {
+        "step": 2500,
+        "mean_relay": 0.4245
+      }
+    ],
+    "curve": [
+      {
+        "step": 1,
+        "train_ce": 12.4182,
+        "eval_ce": 12.4757
+      },
+      {
+        "step": 100,
+        "train_ce": 2.3473,
+        "eval_ce": 5.5431
+      },
+      {
+        "step": 200,
+        "train_ce": 0.748,
+        "eval_ce": 5.7476
+      },
+      {
+        "step": 300,
+        "train_ce": 0.5306,
+        "eval_ce": 6.0256
+      },
+      {
+        "step": 400,
+        "train_ce": 0.4869,
+        "eval_ce": 6.0964
+      },
+      {
+        "step": 500,
+        "train_ce": 0.4745,
+        "eval_ce": 6.2794
+      },
+      {
+        "step": 600,
+        "train_ce": 0.4692,
+        "eval_ce": 6.2762
+      },
+      {
+        "step": 700,
+        "train_ce": 0.4508,
+        "eval_ce": 6.3372
+      },
+      {
+        "step": 800,
+        "train_ce": 0.456,
+        "eval_ce": 6.3843
+      },
+      {
+        "step": 900,
+        "train_ce": 0.4536,
+        "eval_ce": 6.4231
+      },
+      {
+        "step": 1000,
+        "train_ce": 0.4383,
+        "eval_ce": 6.5192
+      },
+      {
+        "step": 1100,
+        "train_ce": 0.4621,
+        "eval_ce": 6.4724
+      },
+      {
+        "step": 1200,
+        "train_ce": 0.4414,
+        "eval_ce": 6.5304
+      },
+      {
+        "step": 1300,
+        "train_ce": 0.4443,
+        "eval_ce": 6.5904
+      },
+      {
+        "step": 1400,
+        "train_ce": 0.4509,
+        "eval_ce": 6.6189
+      },
+      {
+        "step": 1500,
+        "train_ce": 0.4424,
+        "eval_ce": 6.6295
+      },
+      {
+        "step": 1600,
+        "train_ce": 0.4454,
+        "eval_ce": 6.6043
+      },
+      {
+        "step": 1700,
+        "train_ce": 0.4451,
+        "eval_ce": 6.65
+      },
+      {
+        "step": 1800,
+        "train_ce": 0.458,
+        "eval_ce": 6.6549
+      },
+      {
+        "step": 1900,
+        "train_ce": 0.4267,
+        "eval_ce": 6.6693
+      },
+      {
+        "step": 2000,
+        "train_ce": 0.4379,
+        "eval_ce": 6.6676
+      },
+      {
+        "step": 2100,
+        "train_ce": 0.4477,
+        "eval_ce": 6.6851
+      },
+      {
+        "step": 2200,
+        "train_ce": 0.4264,
+        "eval_ce": 6.6782
+      },
+      {
+        "step": 2300,
+        "train_ce": 0.4485,
+        "eval_ce": 6.6811
+      },
+      {
+        "step": 2400,
+        "train_ce": 0.4364,
+        "eval_ce": 6.6849
+      },
+      {
+        "step": 2500,
+        "train_ce": 0.4253,
+        "eval_ce": 6.6838
+      }
+    ],
+    "elapsed_s": 154.0,
+    "generations_test": [
+      {
+        "input": "The elephant climbs bravely.",
+        "truth": "climbs(elephant)",
+        "gen": "dreams(poet, bravely)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "The elephant does not vanish.",
+        "truth": "\u00acvanish(elephant)",
+        "gen": "\u00acfly(clerk)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "Felix thinks that the wizard whistles.",
+        "truth": "thinks(felix, wizard, whistles)",
+        "gen": "thinks(grace, jane, x)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "Felix chases diana.",
+        "truth": "chases(felix, diana)",
+        "gen": "sees(alice, kate)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "The wizard vanishes in the river.",
+        "truth": "vanishes(wizard, river)",
+        "gen": "sings(judge, student)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "No elephant vanishes.",
+        "truth": "\u00acvanishes(elephant)",
+        "gen": "\u2200x. dancer(x) \u2192 \u00acruns(x)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "The kind wizard whistles.",
+        "truth": "whistles(wizard)",
+        "gen": "is(young, fish)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "The elephant is fast.",
+        "truth": "fast(elephant)",
+        "gen": "fast(farmer)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "No nurse whistles.",
+        "truth": "\u00acwhistles(nurse)",
+        "gen": "\u00acwait(man)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "Felix vanishes.",
+        "truth": "vanishes(felix)",
+        "gen": "hates(john, alice)<|endoftext|>",
+        "exact": false
+      }
+    ]
+  },
+  "fib": {
+    "arm": "fib",
+    "strides": {
+      "0": [
+        1,
+        3,
+        8,
+        21
+      ],
+      "1": [
+        2,
+        5,
+        13,
+        34
+      ],
+      "2": [
+        1,
+        3,
+        8,
+        21
+      ],
+      "3": [
+        2,
+        5,
+        13,
+        34
+      ]
+    },
+    "final_eval_ce": 6.6488,
+    "exact_match_eval": 0.0,
+    "exact_match_test": 0.0,
+    "n_relay_heads": 0,
+    "max_relay": 0.4405,
+    "final_diagnostics": [
+      {
+        "layer": 0,
+        "relay": [
+          0.2381,
+          0.3128,
+          0.2712,
+          0.4405
+        ],
+        "entropy": [
+          2.0439,
+          3.0052,
+          3.3425,
+          2.9707
+        ],
+        "eff_pos": [
+          7.72,
+          20.19,
+          28.29,
+          19.51
+        ]
+      },
+      {
+        "layer": 1,
+        "relay": [
+          0.2199,
+          0.3115,
+          0.3829,
+          0.3967
+        ],
+        "entropy": [
+          1.9373,
+          3.2747,
+          3.0955,
+          2.08
+        ],
+        "eff_pos": [
+          6.94,
+          26.43,
+          22.1,
+          8.0
+        ]
+      },
+      {
+        "layer": 2,
+        "relay": [
+          0.2148,
+          0.3271,
+          0.1909,
+          0.3224
+        ],
+        "entropy": [
+          1.545,
+          2.6227,
+          3.1311,
+          2.7921
+        ],
+        "eff_pos": [
+          4.69,
+          13.77,
+          22.9,
+          16.32
+        ]
+      },
+      {
+        "layer": 3,
+        "relay": [
+          0.3433,
+          0.2423,
+          0.3315,
+          0.2756
+        ],
+        "entropy": [
+          2.2567,
+          3.1531,
+          3.1287,
+          2.3473
+        ],
+        "eff_pos": [
+          9.55,
+          23.41,
+          22.84,
+          10.46
+        ]
+      }
+    ],
+    "relay_trajectory": [
+      {
+        "step": 1,
+        "mean_relay": 0.3903
+      },
+      {
+        "step": 500,
+        "mean_relay": 0.3036
+      },
+      {
+        "step": 1000,
+        "mean_relay": 0.3025
+      },
+      {
+        "step": 1500,
+        "mean_relay": 0.2988
+      },
+      {
+        "step": 2000,
+        "mean_relay": 0.3012
+      },
+      {
+        "step": 2500,
+        "mean_relay": 0.3013
+      }
+    ],
+    "curve": [
+      {
+        "step": 1,
+        "train_ce": 12.4522,
+        "eval_ce": 12.5176
+      },
+      {
+        "step": 100,
+        "train_ce": 2.4192,
+        "eval_ce": 5.6219
+      },
+      {
+        "step": 200,
+        "train_ce": 1.0222,
+        "eval_ce": 5.7099
+      },
+      {
+        "step": 300,
+        "train_ce": 0.6215,
+        "eval_ce": 6.0087
+      },
+      {
+        "step": 400,
+        "train_ce": 0.5201,
+        "eval_ce": 6.0754
+      },
+      {
+        "step": 500,
+        "train_ce": 0.4928,
+        "eval_ce": 6.2392
+      },
+      {
+        "step": 600,
+        "train_ce": 0.4752,
+        "eval_ce": 6.226
+      },
+      {
+        "step": 700,
+        "train_ce": 0.4499,
+        "eval_ce": 6.3859
+      },
+      {
+        "step": 800,
+        "train_ce": 0.4631,
+        "eval_ce": 6.3883
+      },
+      {
+        "step": 900,
+        "train_ce": 0.4542,
+        "eval_ce": 6.4417
+      },
+      {
+        "step": 1000,
+        "train_ce": 0.4385,
+        "eval_ce": 6.4949
+      },
+      {
+        "step": 1100,
+        "train_ce": 0.4689,
+        "eval_ce": 6.4815
+      },
+      {
+        "step": 1200,
+        "train_ce": 0.4453,
+        "eval_ce": 6.5249
+      },
+      {
+        "step": 1300,
+        "train_ce": 0.4448,
+        "eval_ce": 6.5205
+      },
+      {
+        "step": 1400,
+        "train_ce": 0.4594,
+        "eval_ce": 6.5648
+      },
+      {
+        "step": 1500,
+        "train_ce": 0.4464,
+        "eval_ce": 6.5951
+      },
+      {
+        "step": 1600,
+        "train_ce": 0.4449,
+        "eval_ce": 6.5513
+      },
+      {
+        "step": 1700,
+        "train_ce": 0.4429,
+        "eval_ce": 6.5593
+      },
+      {
+        "step": 1800,
+        "train_ce": 0.4602,
+        "eval_ce": 6.5893
+      },
+      {
+        "step": 1900,
+        "train_ce": 0.4324,
+        "eval_ce": 6.6173
+      },
+      {
+        "step": 2000,
+        "train_ce": 0.4397,
+        "eval_ce": 6.6356
+      },
+      {
+        "step": 2100,
+        "train_ce": 0.4455,
+        "eval_ce": 6.648
+      },
+      {
+        "step": 2200,
+        "train_ce": 0.4251,
+        "eval_ce": 6.6495
+      },
+      {
+        "step": 2300,
+        "train_ce": 0.4498,
+        "eval_ce": 6.6502
+      },
+      {
+        "step": 2400,
+        "train_ce": 0.4381,
+        "eval_ce": 6.6499
+      },
+      {
+        "step": 2500,
+        "train_ce": 0.4288,
+        "eval_ce": 6.6488
+      }
+    ],
+    "elapsed_s": 168.8,
+    "generations_test": [
+      {
+        "input": "The elephant climbs bravely.",
+        "truth": "climbs(elephant)",
+        "gen": "dreams(poet, bravely)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "The elephant does not vanish.",
+        "truth": "\u00acvanish(elephant)",
+        "gen": "\u00acsings(fish)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "Felix thinks that the wizard whistles.",
+        "truth": "thinks(felix, wizard, whistles)",
+        "gen": "thinks(kate, the poet, rests)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "Felix chases diana.",
+        "truth": "chases(felix, diana)",
+        "gen": "writes(dog, bird)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "The wizard vanishes in the river.",
+        "truth": "vanishes(wizard, river)",
+        "gen": "guides(bird, judge)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "No elephant vanishes.",
+        "truth": "\u00acvanishes(elephant)",
+        "gen": "\u00acgreets(dog, singer)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "The kind wizard whistles.",
+        "truth": "whistles(wizard)",
+        "gen": "dreams(fish)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "The elephant is fast.",
+        "truth": "fast(elephant)",
+        "gen": "fast(pilot)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "No nurse whistles.",
+        "truth": "\u00acwhistles(nurse)",
+        "gen": "\u00acdreams(cat)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "Felix vanishes.",
+        "truth": "vanishes(felix)",
+        "gen": "smiles(hunter)<|endoftext|>",
+        "exact": false
+      }
+    ]
+  },
+  "fibband": {
+    "arm": "fibband",
+    "strides": {
+      "0": [
+        1,
+        2,
+        3,
+        5
+      ],
+      "1": [
+        8,
+        13,
+        21,
+        34
+      ],
+      "2": [
+        8,
+        13,
+        21,
+        34
+      ],
+      "3": [
+        1,
+        2,
+        3,
+        5
+      ]
+    },
+    "final_eval_ce": 6.8464,
+    "exact_match_eval": 0.0,
+    "exact_match_test": 0.0,
+    "n_relay_heads": 0,
+    "max_relay": 0.4468,
+    "final_diagnostics": [
+      {
+        "layer": 0,
+        "relay": [
+          0.2288,
+          0.276,
+          0.2206,
+          0.3734
+        ],
+        "entropy": [
+          2.0553,
+          2.548,
+          3.0111,
+          3.4089
+        ],
+        "eff_pos": [
+          7.81,
+          12.78,
+          20.31,
+          30.23
+        ]
+      },
+      {
+        "layer": 1,
+        "relay": [
+          0.2215,
+          0.3913,
+          0.4287,
+          0.4468
+        ],
+        "entropy": [
+          3.2308,
+          3.0108,
+          2.6,
+          1.8596
+        ],
+        "eff_pos": [
+          25.3,
+          20.3,
+          13.46,
+          6.42
+        ]
+      },
+      {
+        "layer": 2,
+        "relay": [
+          0.206,
+          0.326,
+          0.3759,
+          0.4121
+        ],
+        "entropy": [
+          3.2248,
+          3.016,
+          2.6729,
+          2.2066
+        ],
+        "eff_pos": [
+          25.15,
+          20.41,
+          14.48,
+          9.08
+        ]
+      },
+      {
+        "layer": 3,
+        "relay": [
+          0.3184,
+          0.2499,
+          0.1684,
+          0.0841
+        ],
+        "entropy": [
+          1.6357,
+          1.9328,
+          2.4833,
+          2.9004
+        ],
+        "eff_pos": [
+          5.13,
+          6.91,
+          11.98,
+          18.18
+        ]
+      }
+    ],
+    "relay_trajectory": [
+      {
+        "step": 1,
+        "mean_relay": 0.3924
+      },
+      {
+        "step": 500,
+        "mean_relay": 0.2966
+      },
+      {
+        "step": 1000,
+        "mean_relay": 0.2922
+      },
+      {
+        "step": 1500,
+        "mean_relay": 0.2915
+      },
+      {
+        "step": 2000,
+        "mean_relay": 0.2964
+      },
+      {
+        "step": 2500,
+        "mean_relay": 0.2955
+      }
+    ],
+    "curve": [
+      {
+        "step": 1,
+        "train_ce": 12.4571,
+        "eval_ce": 12.5114
+      },
+      {
+        "step": 100,
+        "train_ce": 2.3792,
+        "eval_ce": 5.6041
+      },
+      {
+        "step": 200,
+        "train_ce": 1.012,
+        "eval_ce": 5.7529
+      },
+      {
+        "step": 300,
+        "train_ce": 0.6444,
+        "eval_ce": 6.1019
+      },
+      {
+        "step": 400,
+        "train_ce": 0.5242,
+        "eval_ce": 6.258
+      },
+      {
+        "step": 500,
+        "train_ce": 0.4931,
+        "eval_ce": 6.4533
+      },
+      {
+        "step": 600,
+        "train_ce": 0.4826,
+        "eval_ce": 6.4426
+      },
+      {
+        "step": 700,
+        "train_ce": 0.4562,
+        "eval_ce": 6.5658
+      },
+      {
+        "step": 800,
+        "train_ce": 0.4677,
+        "eval_ce": 6.597
+      },
+      {
+        "step": 900,
+        "train_ce": 0.4522,
+        "eval_ce": 6.6588
+      },
+      {
+        "step": 1000,
+        "train_ce": 0.4405,
+        "eval_ce": 6.7429
+      },
+      {
+        "step": 1100,
+        "train_ce": 0.4683,
+        "eval_ce": 6.6983
+      },
+      {
+        "step": 1200,
+        "train_ce": 0.4503,
+        "eval_ce": 6.7544
+      },
+      {
+        "step": 1300,
+        "train_ce": 0.444,
+        "eval_ce": 6.7381
+      },
+      {
+        "step": 1400,
+        "train_ce": 0.455,
+        "eval_ce": 6.7525
+      },
+      {
+        "step": 1500,
+        "train_ce": 0.4461,
+        "eval_ce": 6.7656
+      },
+      {
+        "step": 1600,
+        "train_ce": 0.4492,
+        "eval_ce": 6.7505
+      },
+      {
+        "step": 1700,
+        "train_ce": 0.4448,
+        "eval_ce": 6.7595
+      },
+      {
+        "step": 1800,
+        "train_ce": 0.4614,
+        "eval_ce": 6.8049
+      },
+      {
+        "step": 1900,
+        "train_ce": 0.4309,
+        "eval_ce": 6.8275
+      },
+      {
+        "step": 2000,
+        "train_ce": 0.4411,
+        "eval_ce": 6.8355
+      },
+      {
+        "step": 2100,
+        "train_ce": 0.4473,
+        "eval_ce": 6.8453
+      },
+      {
+        "step": 2200,
+        "train_ce": 0.429,
+        "eval_ce": 6.8427
+      },
+      {
+        "step": 2300,
+        "train_ce": 0.4499,
+        "eval_ce": 6.8444
+      },
+      {
+        "step": 2400,
+        "train_ce": 0.4398,
+        "eval_ce": 6.8471
+      },
+      {
+        "step": 2500,
+        "train_ce": 0.4293,
+        "eval_ce": 6.8464
+      }
+    ],
+    "elapsed_s": 181.5,
+    "generations_test": [
+      {
+        "input": "The elephant climbs bravely.",
+        "truth": "climbs(elephant)",
+        "gen": "dreams(poet, clerk)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "The elephant does not vanish.",
+        "truth": "\u00acvanish(elephant)",
+        "gen": "\u00acshout(woman)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "Felix thinks that the wizard whistles.",
+        "truth": "thinks(felix, wizard, whistles)",
+        "gen": "thinks(kate, jumps(dog))<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "Felix chases diana.",
+        "truth": "chases(felix, diana)",
+        "gen": "smiles(poet)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "The wizard vanishes in the river.",
+        "truth": "vanishes(wizard, river)",
+        "gen": "sings(artist)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "No elephant vanishes.",
+        "truth": "\u00acvanishes(elephant)",
+        "gen": "hates(david, kate)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "The kind wizard whistles.",
+        "truth": "whistles(wizard)",
+        "gen": "guides(mary, eagerly)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "The elephant is fast.",
+        "truth": "fast(elephant)",
+        "gen": "fast(pilot)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "No nurse whistles.",
+        "truth": "\u00acwhistles(nurse)",
+        "gen": "\u00acdreams(henry)<|endoftext|>",
+        "exact": false
+      },
+      {
+        "input": "Felix vanishes.",
+        "truth": "vanishes(felix)",
+        "gen": "likes(monk, woman)<|endoftext|>",
+        "exact": false
+      }
+    ]
+  }
+}
