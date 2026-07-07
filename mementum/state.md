@@ -15,10 +15,14 @@
 >
 > ★★ ASSESSMENT (delivered, not filed): science is healthy; the MESS is representation-layer, not findings.
 >   state.md 7675 L (bootloader contract broken — COMPACTED this session); INDEX references 62 pages, 228 exist
->   (explore/ ~70% unindexed); 41GB results/ in git; 341GB checkpoints/ UNGITIGNORED (landmine); 8251 LoC dead
->   vsm_lm_v1-5 + v6/ inside src/verbum/; mlx a hard CORE dep (breaks non-Apple installs). 378 tests pass.
->   HIGHEST-LEVERAGE HYGIENE (state.md now done): .gitignore checkpoints/, regenerate INDEX still pending.
->   The spine (probes/{harness,grading,models,library}, lambda_ast, clj_lambda) is coherent.
+>   (explore/ ~70% unindexed); 8251 LoC dead vsm_lm_v1-5 + v6/ inside src/verbum/; mlx a hard CORE dep (breaks
+>   non-Apple installs). 378 tests pass. The spine (probes/{harness,grading,models,library}, lambda_ast,
+>   clj_lambda) is coherent.
+>   ❌ CORRECTION (Michael caught it): my "341GB checkpoints/ UNGITIGNORED landmine" + "41GB results/ in git"
+>   claims were FALSE (propagated an explorer-agent assertion w/o verifying = λ assert violation, runtime≡truth).
+>   VERIFIED: .gitignore correctly ignores checkpoints/ (L48), models/ (L47), **/*.npz, **/*.pt, results
+>   checkpoint subpaths. results/ = 41GB on DISK but only 537MB TRACKED (2952 JSON/summary); .git = 382MB.
+>   Artifact hygiene is GOOD, no landmine. Remaining real items: INDEX regen, dead code, mlx-core-dep.
 >
 > ★★ v15 DESIGN REVIEW (delivered): (1) 🔴 spectral-φ loss (target 0.6299) is LIVE + on-by-default in
 >   v15model.py/config.py — but φ-constant was REFUTED (audit#6 s207, s247/s251 null-fail). An active gradient
@@ -75,8 +79,8 @@
 >
 > ★ NEXT (open, Michael's call): (a) THE flagship — same-suite Pythia deduped ladder (14m→12b) for crystal
 >   sharpness + depth, fixed metric + matched-range null (the anti-describability result; also the KIBC-vs-SKI
->   discriminator: do B-K,C-K FALL with scale while S-K stays ~0.9?); (b) hygiene: .gitignore checkpoints/,
->   regenerate INDEX; (c) v15.1: kill spectral-φ, register-split FFN quant, long-seq strided corpus +
+>   discriminator: do B-K,C-K FALL with scale while S-K stays ~0.9?); (b) hygiene: regenerate INDEX (artifact
+>   hygiene already good — see correction above); (c) v15.1: kill spectral-φ, register-split FFN quant, long-seq strided corpus +
 >   recurrent-interior supervised-halt arm; (d) re-decide KIBC-vs-SKI in the TRACER's state register.
 >   Servers/env: torch 2.11 + MPS live; Pythia deduped ladder (14m-2.8b) + qwen3-0.6b HF-cached.
 
