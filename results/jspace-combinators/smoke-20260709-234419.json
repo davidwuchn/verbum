@@ -1,0 +1,296 @@
+{
+  "experiment": "jspace_combinators: supervised broadcast(KL)+verbalize per layer for KIBC+S combinator directions vs matched-random and shuffled-label nulls",
+  "date": "2026-07-09T23:44:19.643606+00:00",
+  "model": "pythia-70m-deduped",
+  "model_hf": "EleutherAI/pythia-70m-deduped",
+  "n_layers": 6,
+  "d": 512,
+  "git_sha": "d663acc",
+  "probe_hash": "59633a89f6ce",
+  "config": {
+    "n_random": 2,
+    "n_shuffle": 3,
+    "skip": 2,
+    "frac": 0.5,
+    "null_sentences": 3,
+    "smoke": true
+  },
+  "locked_bands": {
+    "SIGNAL": "n_sig >= 3 (>=1 smoke); per-combo peak R>=1.5 & z>=1.64 & beats shuffled-label p95",
+    "WORKSPACE_SHAPE": "majority of signal combinators peak in mid third",
+    "S_UNDERREAD": "peak R(S) < min peak R over {K,I,B,C}"
+  },
+  "verdict": {
+    "call": "NULL",
+    "n_signal": 0,
+    "signal_combinators": [],
+    "workspace_shape": false,
+    "mid_peaks_of_signal": 0,
+    "s_underread": true,
+    "s_peak_R": 1.2099,
+    "kibc_peak_R": {
+      "K": 1.2627
+    }
+  },
+  "results": {
+    "K": {
+      "peak_layer": 4,
+      "peak_zone": "late",
+      "peak_R": 1.2627,
+      "peak_z": 14.152,
+      "peak_verbalize": [
+        " thereof",
+        " himself",
+        " married",
+        " spouse",
+        " whoever",
+        " nor",
+        "ardless",
+        "taire"
+      ],
+      "beats_shuffle_null": false,
+      "shuffle_null_p95": 2.12122,
+      "broadcast_real_at_peak": 1.35484,
+      "per_layer": {
+        "0": {
+          "zone": "early",
+          "raw_dir_norm": 1.5529,
+          "broadcast_real": 0.58108,
+          "broadcast_rand_mean": 0.54185,
+          "R": 1.0724,
+          "z": 0.27,
+          "verbalize": [
+            "bib",
+            "lio",
+            "pg",
+            "eric",
+            " stands",
+            "vi",
+            "nor",
+            "endo"
+          ]
+        },
+        "1": {
+          "zone": "early",
+          "raw_dir_norm": 2.5204,
+          "broadcast_real": 0.58899,
+          "broadcast_rand_mean": 0.57883,
+          "R": 1.0176,
+          "z": 4.853,
+          "verbalize": [
+            "bib",
+            "vill",
+            "cias",
+            "lor",
+            "oire",
+            "illian",
+            "gens",
+            "etica"
+          ]
+        },
+        "2": {
+          "zone": "mid",
+          "raw_dir_norm": 5.361,
+          "broadcast_real": 1.84792,
+          "broadcast_rand_mean": 2.52591,
+          "R": 0.7316,
+          "z": -1.213,
+          "verbalize": [
+            "\ufffd\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd",
+            "\ufffd"
+          ]
+        },
+        "3": {
+          "zone": "mid",
+          "raw_dir_norm": 5.0693,
+          "broadcast_real": 1.9546,
+          "broadcast_rand_mean": 1.97257,
+          "R": 0.9909,
+          "z": -0.173,
+          "verbalize": [
+            "\ufffd",
+            "\u03b9\u03bf",
+            "\u0d4d",
+            "achus",
+            "imod",
+            "ders",
+            "\ufffd",
+            "friend"
+          ]
+        },
+        "4": {
+          "zone": "late",
+          "raw_dir_norm": 4.0663,
+          "broadcast_real": 1.35484,
+          "broadcast_rand_mean": 1.07295,
+          "R": 1.2627,
+          "z": 14.152,
+          "verbalize": [
+            " thereof",
+            " himself",
+            " married",
+            " spouse",
+            " whoever",
+            " nor",
+            "ardless",
+            "taire"
+          ]
+        },
+        "5": {
+          "zone": "late",
+          "raw_dir_norm": 5.1744,
+          "broadcast_real": 5.79936,
+          "broadcast_rand_mean": 5.13583,
+          "R": 1.1292,
+          "z": 1.848,
+          "verbalize": [
+            " himself",
+            " yourself",
+            " spouse",
+            " knows",
+            " thereof",
+            " oneself",
+            " myself",
+            " necessarily"
+          ]
+        }
+      }
+    },
+    "S": {
+      "peak_layer": 0,
+      "peak_zone": "early",
+      "peak_R": 1.2099,
+      "peak_z": 0.721,
+      "peak_verbalize": [
+        "\u00edv",
+        " HEL",
+        " Help",
+        "olog",
+        " refuge",
+        " OK",
+        " FIX",
+        " center"
+      ],
+      "beats_shuffle_null": true,
+      "shuffle_null_p95": 0.72558,
+      "broadcast_real_at_peak": 0.8228,
+      "per_layer": {
+        "0": {
+          "zone": "early",
+          "raw_dir_norm": 0.8955,
+          "broadcast_real": 0.8228,
+          "broadcast_rand_mean": 0.68008,
+          "R": 1.2099,
+          "z": 0.721,
+          "verbalize": [
+            "\u00edv",
+            " HEL",
+            " Help",
+            "olog",
+            " refuge",
+            " OK",
+            " FIX",
+            " center"
+          ]
+        },
+        "1": {
+          "zone": "early",
+          "raw_dir_norm": 1.2453,
+          "broadcast_real": 0.82481,
+          "broadcast_rand_mean": 0.70167,
+          "R": 1.1755,
+          "z": 9.944,
+          "verbalize": [
+            "aliana",
+            "ci\u00f3n",
+            "Advertisement",
+            "ond",
+            "antage",
+            "aptop",
+            "ICES",
+            "://"
+          ]
+        },
+        "2": {
+          "zone": "mid",
+          "raw_dir_norm": 2.8226,
+          "broadcast_real": 1.44817,
+          "broadcast_rand_mean": 3.4748,
+          "R": 0.4168,
+          "z": -8.191,
+          "verbalize": [
+            "1451450014514500",
+            "\u00edm",
+            "\ufffd",
+            "pntd",
+            "\u0430\u0447",
+            "pgen",
+            "\ufffd",
+            "antage"
+          ]
+        },
+        "3": {
+          "zone": "mid",
+          "raw_dir_norm": 3.0831,
+          "broadcast_real": 1.31193,
+          "broadcast_rand_mean": 1.77714,
+          "R": 0.7382,
+          "z": -17.724,
+          "verbalize": [
+            "========",
+            "1451450014514500",
+            "===============",
+            "achus",
+            "ppat",
+            "pntd",
+            "\u00edm",
+            "assic"
+          ]
+        },
+        "4": {
+          "zone": "late",
+          "raw_dir_norm": 2.262,
+          "broadcast_real": 1.10979,
+          "broadcast_rand_mean": 0.95854,
+          "R": 1.1578,
+          "z": 2.016,
+          "verbalize": [
+            "://",
+            "onto",
+            " http",
+            "heet",
+            " https",
+            " www",
+            "YPT",
+            "ActivityThread"
+          ]
+        },
+        "5": {
+          "zone": "late",
+          "raw_dir_norm": 4.1427,
+          "broadcast_real": 2.36957,
+          "broadcast_rand_mean": 6.02786,
+          "R": 0.3931,
+          "z": -7.974,
+          "verbalize": [
+            " https",
+            " anywhere",
+            " via",
+            "://",
+            " http",
+            " manually",
+            " remotely",
+            " www"
+          ]
+        }
+      }
+    }
+  },
+  "elapsed_s": 4.2
+}

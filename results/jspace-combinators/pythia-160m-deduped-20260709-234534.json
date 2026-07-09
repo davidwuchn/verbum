@@ -1,0 +1,1226 @@
+{
+  "experiment": "jspace_combinators: supervised broadcast(KL)+verbalize per layer for KIBC+S combinator directions vs matched-random and shuffled-label nulls",
+  "date": "2026-07-09T23:45:34.724390+00:00",
+  "model": "pythia-160m-deduped",
+  "model_hf": "EleutherAI/pythia-160m-deduped",
+  "n_layers": 12,
+  "d": 768,
+  "git_sha": "d663acc",
+  "probe_hash": "97e6eb900a23",
+  "config": {
+    "n_random": 8,
+    "n_shuffle": 8,
+    "skip": 2,
+    "frac": 0.5,
+    "null_sentences": 6,
+    "smoke": false
+  },
+  "locked_bands": {
+    "SIGNAL": "n_sig >= 3 (>=1 smoke); per-combo peak R>=1.5 & z>=1.64 & beats shuffled-label p95",
+    "WORKSPACE_SHAPE": "majority of signal combinators peak in mid third",
+    "S_UNDERREAD": "peak R(S) < min peak R over {K,I,B,C}"
+  },
+  "verdict": {
+    "call": "NULL",
+    "n_signal": 0,
+    "signal_combinators": [],
+    "workspace_shape": false,
+    "mid_peaks_of_signal": 0,
+    "s_underread": false,
+    "s_peak_R": 1.3346,
+    "kibc_peak_R": {
+      "K": 1.3733,
+      "I": 1.4139,
+      "B": 2.616,
+      "C": 1.1297
+    }
+  },
+  "results": {
+    "K": {
+      "peak_layer": 0,
+      "peak_zone": "early",
+      "peak_R": 1.3733,
+      "peak_z": 2.891,
+      "peak_verbalize": [
+        "hood",
+        "rog",
+        "acha",
+        "ial",
+        "ede",
+        " subject",
+        "ye",
+        "str"
+      ],
+      "beats_shuffle_null": false,
+      "shuffle_null_p95": 0.89154,
+      "broadcast_real_at_peak": 0.59349,
+      "per_layer": {
+        "0": {
+          "zone": "early",
+          "raw_dir_norm": 1.5808,
+          "broadcast_real": 0.59349,
+          "broadcast_rand_mean": 0.43215,
+          "R": 1.3733,
+          "z": 2.891,
+          "verbalize": [
+            "hood",
+            "rog",
+            "acha",
+            "ial",
+            "ede",
+            " subject",
+            "ye",
+            "str"
+          ]
+        },
+        "1": {
+          "zone": "early",
+          "raw_dir_norm": 2.3798,
+          "broadcast_real": 0.72269,
+          "broadcast_rand_mean": 0.82434,
+          "R": 0.8767,
+          "z": -0.779,
+          "verbalize": [
+            "hood",
+            "ila",
+            "scala",
+            "scal",
+            "abstract",
+            "str",
+            "yna",
+            "Cfg"
+          ]
+        },
+        "2": {
+          "zone": "early",
+          "raw_dir_norm": 3.7206,
+          "broadcast_real": 0.74385,
+          "broadcast_rand_mean": 1.13525,
+          "R": 0.6552,
+          "z": -2.05,
+          "verbalize": [
+            "ha",
+            "Cfg",
+            "OSE",
+            "CLAIM",
+            "orse",
+            "Symbol",
+            "uca",
+            "isen"
+          ]
+        },
+        "3": {
+          "zone": "early",
+          "raw_dir_norm": 7.5722,
+          "broadcast_real": 0.87301,
+          "broadcast_rand_mean": 2.60276,
+          "R": 0.3354,
+          "z": -6.107,
+          "verbalize": [
+            "Symbol",
+            "beth",
+            "CLAIM",
+            "cho",
+            "osh",
+            "ila",
+            "NOTES",
+            "OSE"
+          ]
+        },
+        "4": {
+          "zone": "mid",
+          "raw_dir_norm": 7.7461,
+          "broadcast_real": 1.03259,
+          "broadcast_rand_mean": 2.66823,
+          "R": 0.387,
+          "z": -3.476,
+          "verbalize": [
+            "ila",
+            "nor",
+            "orse",
+            "Symbol",
+            "rede",
+            "beth",
+            "cho",
+            "osh"
+          ]
+        },
+        "5": {
+          "zone": "mid",
+          "raw_dir_norm": 7.6898,
+          "broadcast_real": 1.07194,
+          "broadcast_rand_mean": 3.0579,
+          "R": 0.3505,
+          "z": -4.942,
+          "verbalize": [
+            "conjug",
+            "ila",
+            "orse",
+            "idi",
+            "rede",
+            "nor",
+            "eds",
+            "ogle"
+          ]
+        },
+        "6": {
+          "zone": "mid",
+          "raw_dir_norm": 7.8154,
+          "broadcast_real": 1.1013,
+          "broadcast_rand_mean": 2.76272,
+          "R": 0.3986,
+          "z": -3.593,
+          "verbalize": [
+            "conjug",
+            "orig",
+            "Za",
+            "isc",
+            "eds",
+            "ila",
+            "ogle",
+            "dagger"
+          ]
+        },
+        "7": {
+          "zone": "mid",
+          "raw_dir_norm": 7.4678,
+          "broadcast_real": 1.01954,
+          "broadcast_rand_mean": 2.41154,
+          "R": 0.4228,
+          "z": -3.339,
+          "verbalize": [
+            "conjug",
+            "ogle",
+            "orse",
+            "Symbol",
+            "lookup",
+            "Za",
+            "mime",
+            "Unknown"
+          ]
+        },
+        "8": {
+          "zone": "late",
+          "raw_dir_norm": 7.3751,
+          "broadcast_real": 0.8903,
+          "broadcast_rand_mean": 2.49329,
+          "R": 0.3571,
+          "z": -4.011,
+          "verbalize": [
+            "conjug",
+            "eds",
+            "isEmpty",
+            "ifer",
+            "let",
+            "trunc",
+            "whose",
+            "oul"
+          ]
+        },
+        "9": {
+          "zone": "late",
+          "raw_dir_norm": 7.3487,
+          "broadcast_real": 0.80822,
+          "broadcast_rand_mean": 1.61325,
+          "R": 0.501,
+          "z": -5.453,
+          "verbalize": [
+            "conjug",
+            "getInstance",
+            "pdev",
+            "whose",
+            "chez",
+            "cott",
+            "cho",
+            "odom"
+          ]
+        },
+        "10": {
+          "zone": "late",
+          "raw_dir_norm": 6.2243,
+          "broadcast_real": 0.81026,
+          "broadcast_rand_mean": 1.22525,
+          "R": 0.6613,
+          "z": -2.641,
+          "verbalize": [
+            "?)",
+            " merely",
+            " yours",
+            " whom",
+            " whose",
+            "ifer",
+            " simply",
+            "cott"
+          ]
+        },
+        "11": {
+          "zone": "late",
+          "raw_dir_norm": 5.7734,
+          "broadcast_real": 3.5935,
+          "broadcast_rand_mean": 3.58785,
+          "R": 1.0016,
+          "z": 0.013,
+          "verbalize": [
+            " yours",
+            " prefers",
+            " ought",
+            "?)",
+            " necessarily",
+            " possessed",
+            " chose",
+            "?)."
+          ]
+        }
+      }
+    },
+    "I": {
+      "peak_layer": 10,
+      "peak_zone": "late",
+      "peak_R": 1.4139,
+      "peak_z": 3.504,
+      "peak_verbalize": [
+        " twice",
+        " correctly",
+        " consistently",
+        " TWO",
+        " even",
+        " herself",
+        " reliably",
+        " accurately"
+      ],
+      "beats_shuffle_null": false,
+      "shuffle_null_p95": 2.06431,
+      "broadcast_real_at_peak": 1.86254,
+      "per_layer": {
+        "0": {
+          "zone": "early",
+          "raw_dir_norm": 0.8553,
+          "broadcast_real": 0.40777,
+          "broadcast_rand_mean": 0.43922,
+          "R": 0.9284,
+          "z": -0.412,
+          "verbalize": [
+            " served",
+            " star",
+            "ces",
+            "ced",
+            " earned",
+            "uta",
+            " rocket",
+            " batt"
+          ]
+        },
+        "1": {
+          "zone": "early",
+          "raw_dir_norm": 1.022,
+          "broadcast_real": 0.91294,
+          "broadcast_rand_mean": 0.89156,
+          "R": 1.024,
+          "z": 0.14,
+          "verbalize": [
+            "ces",
+            " serve",
+            " served",
+            "alis",
+            "uta",
+            " star",
+            " something",
+            "ze"
+          ]
+        },
+        "2": {
+          "zone": "early",
+          "raw_dir_norm": 1.2736,
+          "broadcast_real": 1.31099,
+          "broadcast_rand_mean": 1.14995,
+          "R": 1.14,
+          "z": 2.296,
+          "verbalize": [
+            "leg",
+            " serve",
+            " star",
+            "ople",
+            " served",
+            " earned",
+            "alty",
+            "uta"
+          ]
+        },
+        "3": {
+          "zone": "early",
+          "raw_dir_norm": 1.8756,
+          "broadcast_real": 1.96554,
+          "broadcast_rand_mean": 2.69502,
+          "R": 0.7293,
+          "z": -1.673,
+          "verbalize": [
+            "leg",
+            "eland",
+            "eman",
+            "aan",
+            "alty",
+            "INDEX",
+            "bec",
+            "ogle"
+          ]
+        },
+        "4": {
+          "zone": "mid",
+          "raw_dir_norm": 2.0207,
+          "broadcast_real": 1.75486,
+          "broadcast_rand_mean": 2.53936,
+          "R": 0.6911,
+          "z": -2.361,
+          "verbalize": [
+            "eman",
+            "INDEX",
+            "oday",
+            "\u00e1rio",
+            " anything",
+            "uta",
+            "ced",
+            "ew"
+          ]
+        },
+        "5": {
+          "zone": "mid",
+          "raw_dir_norm": 2.2977,
+          "broadcast_real": 1.76586,
+          "broadcast_rand_mean": 2.75461,
+          "R": 0.6411,
+          "z": -2.962,
+          "verbalize": [
+            "ew",
+            "ct",
+            "akin",
+            " earned",
+            "eland",
+            "ced",
+            "vasive",
+            "wing"
+          ]
+        },
+        "6": {
+          "zone": "mid",
+          "raw_dir_norm": 2.1635,
+          "broadcast_real": 2.00704,
+          "broadcast_rand_mean": 2.63565,
+          "R": 0.7615,
+          "z": -2.1,
+          "verbalize": [
+            "inde",
+            "STAND",
+            "Formatter",
+            "javase",
+            "oday",
+            "DIRECT",
+            "OTHER",
+            "figure"
+          ]
+        },
+        "7": {
+          "zone": "mid",
+          "raw_dir_norm": 2.3421,
+          "broadcast_real": 1.73033,
+          "broadcast_rand_mean": 2.56893,
+          "R": 0.6736,
+          "z": -1.914,
+          "verbalize": [
+            "EEEE",
+            "eeee",
+            " Syndrome",
+            "Without",
+            "Answer",
+            "cdots",
+            "oday",
+            "without"
+          ]
+        },
+        "8": {
+          "zone": "late",
+          "raw_dir_norm": 2.5207,
+          "broadcast_real": 1.70941,
+          "broadcast_rand_mean": 2.25002,
+          "R": 0.7597,
+          "z": -1.779,
+          "verbalize": [
+            "Answer",
+            " ONE",
+            "teen",
+            " digits",
+            " even",
+            " doubles",
+            " Nine",
+            "tw"
+          ]
+        },
+        "9": {
+          "zone": "late",
+          "raw_dir_norm": 2.2739,
+          "broadcast_real": 1.73763,
+          "broadcast_rand_mean": 1.682,
+          "R": 1.0331,
+          "z": 0.528,
+          "verbalize": [
+            " herself",
+            " digits",
+            " goddamn",
+            "Answer",
+            " EVERY",
+            " tenth",
+            " TWO",
+            " twice"
+          ]
+        },
+        "10": {
+          "zone": "late",
+          "raw_dir_norm": 2.2363,
+          "broadcast_real": 1.86254,
+          "broadcast_rand_mean": 1.3173,
+          "R": 1.4139,
+          "z": 3.504,
+          "verbalize": [
+            " twice",
+            " correctly",
+            " consistently",
+            " TWO",
+            " even",
+            " herself",
+            " reliably",
+            " accurately"
+          ]
+        },
+        "11": {
+          "zone": "late",
+          "raw_dir_norm": 3.4598,
+          "broadcast_real": 2.59056,
+          "broadcast_rand_mean": 3.90735,
+          "R": 0.663,
+          "z": -2.725,
+          "verbalize": [
+            " correctly",
+            " twice",
+            " consistently",
+            " even",
+            " again",
+            " answer",
+            " really",
+            " okay"
+          ]
+        }
+      }
+    },
+    "B": {
+      "peak_layer": 11,
+      "peak_zone": "late",
+      "peak_R": 2.616,
+      "peak_z": 10.561,
+      "peak_verbalize": [
+        " hates",
+        " spoke",
+        " knows",
+        " wrote",
+        " knew",
+        " slept",
+        " was",
+        " talked"
+      ],
+      "beats_shuffle_null": false,
+      "shuffle_null_p95": 14.14653,
+      "broadcast_real_at_peak": 9.56562,
+      "per_layer": {
+        "0": {
+          "zone": "early",
+          "raw_dir_norm": 1.7702,
+          "broadcast_real": 0.59227,
+          "broadcast_rand_mean": 0.49305,
+          "R": 1.2012,
+          "z": 0.607,
+          "verbalize": [
+            " mandate",
+            "abad",
+            " show",
+            " demonstrates",
+            " shows",
+            " directive",
+            " j\u00e1",
+            " special"
+          ]
+        },
+        "1": {
+          "zone": "early",
+          "raw_dir_norm": 2.3549,
+          "broadcast_real": 1.16047,
+          "broadcast_rand_mean": 0.9371,
+          "R": 1.2384,
+          "z": 0.626,
+          "verbalize": [
+            "mk",
+            "typeof",
+            "ikan",
+            "def",
+            "cpp",
+            "ike",
+            " supports",
+            "neum"
+          ]
+        },
+        "2": {
+          "zone": "early",
+          "raw_dir_norm": 3.3801,
+          "broadcast_real": 1.17472,
+          "broadcast_rand_mean": 1.21895,
+          "R": 0.9637,
+          "z": -0.228,
+          "verbalize": [
+            "may",
+            "orig",
+            "typically",
+            "LEASE",
+            "ifer",
+            "call",
+            "usually",
+            "ppo"
+          ]
+        },
+        "3": {
+          "zone": "early",
+          "raw_dir_norm": 6.4821,
+          "broadcast_real": 1.09495,
+          "broadcast_rand_mean": 2.36481,
+          "R": 0.463,
+          "z": -4.094,
+          "verbalize": [
+            "orig",
+            "inf",
+            "docs",
+            "ifer",
+            "ableView",
+            "may",
+            "lew",
+            "oul"
+          ]
+        },
+        "4": {
+          "zone": "mid",
+          "raw_dir_norm": 6.799,
+          "broadcast_real": 1.42833,
+          "broadcast_rand_mean": 2.29321,
+          "R": 0.6229,
+          "z": -4.383,
+          "verbalize": [
+            "ifer",
+            "orig",
+            "ila",
+            "rose",
+            "bel",
+            "jon",
+            "may",
+            "could"
+          ]
+        },
+        "5": {
+          "zone": "mid",
+          "raw_dir_norm": 6.8662,
+          "broadcast_real": 1.61701,
+          "broadcast_rand_mean": 2.99718,
+          "R": 0.5395,
+          "z": -1.874,
+          "verbalize": [
+            "ifer",
+            "osh",
+            "orig",
+            "olla",
+            "evil",
+            "ila",
+            "bel",
+            "hattan"
+          ]
+        },
+        "6": {
+          "zone": "mid",
+          "raw_dir_norm": 7.122,
+          "broadcast_real": 1.3973,
+          "broadcast_rand_mean": 2.8533,
+          "R": 0.4897,
+          "z": -3.002,
+          "verbalize": [
+            "ifer",
+            "osh",
+            "olla",
+            "might",
+            "orig",
+            "ilee",
+            "may",
+            "inf"
+          ]
+        },
+        "7": {
+          "zone": "mid",
+          "raw_dir_norm": 6.8834,
+          "broadcast_real": 1.52626,
+          "broadcast_rand_mean": 2.71133,
+          "R": 0.5629,
+          "z": -5.356,
+          "verbalize": [
+            "ifer",
+            "osh",
+            " wrote",
+            "bel",
+            "inf",
+            "orig",
+            "might",
+            "evil"
+          ]
+        },
+        "8": {
+          "zone": "late",
+          "raw_dir_norm": 6.729,
+          "broadcast_real": 1.80705,
+          "broadcast_rand_mean": 2.63561,
+          "R": 0.6856,
+          "z": -1.229,
+          "verbalize": [
+            " wrote",
+            "infall",
+            "wrote",
+            "osh",
+            "olit",
+            "lev",
+            "arth",
+            "might"
+          ]
+        },
+        "9": {
+          "zone": "late",
+          "raw_dir_norm": 6.895,
+          "broadcast_real": 2.09048,
+          "broadcast_rand_mean": 1.6931,
+          "R": 1.2347,
+          "z": 2.21,
+          "verbalize": [
+            " wrote",
+            " could",
+            " spoke",
+            " hates",
+            " would",
+            " told",
+            " stole",
+            "woke"
+          ]
+        },
+        "10": {
+          "zone": "late",
+          "raw_dir_norm": 6.6185,
+          "broadcast_real": 2.28222,
+          "broadcast_rand_mean": 1.42293,
+          "R": 1.6039,
+          "z": 3.488,
+          "verbalize": [
+            " wrote",
+            " hates",
+            " spoke",
+            " slept",
+            " would",
+            " talked",
+            " could",
+            " was"
+          ]
+        },
+        "11": {
+          "zone": "late",
+          "raw_dir_norm": 6.2752,
+          "broadcast_real": 9.56562,
+          "broadcast_rand_mean": 3.65663,
+          "R": 2.616,
+          "z": 10.561,
+          "verbalize": [
+            " hates",
+            " spoke",
+            " knows",
+            " wrote",
+            " knew",
+            " slept",
+            " was",
+            " talked"
+          ]
+        }
+      }
+    },
+    "C": {
+      "peak_layer": 1,
+      "peak_zone": "early",
+      "peak_R": 1.1297,
+      "peak_z": 1.462,
+      "peak_verbalize": [
+        "OX",
+        "agma",
+        "arth",
+        "anton",
+        "ulfide",
+        "ury",
+        "\u0435\u0441\u043a",
+        "clipse"
+      ],
+      "beats_shuffle_null": false,
+      "shuffle_null_p95": 1.35954,
+      "broadcast_real_at_peak": 0.93669,
+      "per_layer": {
+        "0": {
+          "zone": "early",
+          "raw_dir_norm": 1.769,
+          "broadcast_real": 0.42054,
+          "broadcast_rand_mean": 0.39283,
+          "R": 1.0705,
+          "z": 0.817,
+          "verbalize": [
+            "anto",
+            "however",
+            "OX",
+            "arth",
+            "eland",
+            " reason",
+            "ity",
+            "therefore"
+          ]
+        },
+        "1": {
+          "zone": "early",
+          "raw_dir_norm": 2.1099,
+          "broadcast_real": 0.93669,
+          "broadcast_rand_mean": 0.82916,
+          "R": 1.1297,
+          "z": 1.462,
+          "verbalize": [
+            "OX",
+            "agma",
+            "arth",
+            "anton",
+            "ulfide",
+            "ury",
+            "\u0435\u0441\u043a",
+            "clipse"
+          ]
+        },
+        "2": {
+          "zone": "early",
+          "raw_dir_norm": 2.5569,
+          "broadcast_real": 1.17269,
+          "broadcast_rand_mean": 1.20656,
+          "R": 0.9719,
+          "z": -0.074,
+          "verbalize": [
+            "\u0435\u0441\u043a",
+            "\u043e\u0433\u0434\u0430",
+            "\u043e\ufffd",
+            "\u0440\u0430\u0432",
+            "\u03b9\u03c2",
+            "\u043b\u0435\u043c",
+            "\u0435\u043d\u0438",
+            "\u0435\u0447"
+          ]
+        },
+        "3": {
+          "zone": "early",
+          "raw_dir_norm": 3.6152,
+          "broadcast_real": 1.82607,
+          "broadcast_rand_mean": 2.26479,
+          "R": 0.8063,
+          "z": -1.603,
+          "verbalize": [
+            "arth",
+            "ilia",
+            "Param",
+            "agent",
+            "obt",
+            "ut",
+            "RESULT",
+            "DEFAULT"
+          ]
+        },
+        "4": {
+          "zone": "mid",
+          "raw_dir_norm": 3.9186,
+          "broadcast_real": 1.73699,
+          "broadcast_rand_mean": 2.7164,
+          "R": 0.6394,
+          "z": -2.789,
+          "verbalize": [
+            "agent",
+            "documentclass",
+            "obt",
+            "isEmpty",
+            " manufacturers",
+            " developers",
+            " convenience",
+            "untime"
+          ]
+        },
+        "5": {
+          "zone": "mid",
+          "raw_dir_norm": 3.8404,
+          "broadcast_real": 1.82442,
+          "broadcast_rand_mean": 2.98512,
+          "R": 0.6112,
+          "z": -1.272,
+          "verbalize": [
+            "\ufffd",
+            "\u0430\u0442",
+            "\u0e32\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd\ufffd",
+            "\u0435\u043d\u0438"
+          ]
+        },
+        "6": {
+          "zone": "mid",
+          "raw_dir_norm": 3.9421,
+          "broadcast_real": 1.92858,
+          "broadcast_rand_mean": 2.91769,
+          "R": 0.661,
+          "z": -1.393,
+          "verbalize": [
+            "pure",
+            "agent",
+            " merely",
+            "psy",
+            "anger",
+            "mostly",
+            "Except",
+            "nor"
+          ]
+        },
+        "7": {
+          "zone": "mid",
+          "raw_dir_norm": 4.0962,
+          "broadcast_real": 1.7643,
+          "broadcast_rand_mean": 2.6745,
+          "R": 0.6597,
+          "z": -1.861,
+          "verbalize": [
+            "\u043e\u0433\u0434\u0430",
+            "\u0435\u043d\u0438",
+            "\u044f\u043c",
+            "\u0430\u0442",
+            "\u0440\u0430\u0432",
+            "\u0430\u044e",
+            "\u0430\u043d\u0434",
+            "\u0430\u0432"
+          ]
+        },
+        "8": {
+          "zone": "late",
+          "raw_dir_norm": 4.2433,
+          "broadcast_real": 1.91912,
+          "broadcast_rand_mean": 2.39922,
+          "R": 0.7999,
+          "z": -1.723,
+          "verbalize": [
+            " representatives",
+            " merely",
+            "\u043e\u0433\u0434\u0430",
+            "\u0435\u043d\u0438",
+            "\u0430\u044e",
+            " simply",
+            "\u0430\u0442",
+            "numer"
+          ]
+        },
+        "9": {
+          "zone": "late",
+          "raw_dir_norm": 4.3761,
+          "broadcast_real": 1.62206,
+          "broadcast_rand_mean": 1.6653,
+          "R": 0.974,
+          "z": -0.226,
+          "verbalize": [
+            "\u0435\u043d\u0438",
+            "\u043e\u0433\u0434\u0430",
+            "\u0bbf",
+            "\u0430\u044e",
+            "\u0442\u043e",
+            "\u0432\u0440",
+            "\u0441\u043b\u0438",
+            "\u0430\u0442"
+          ]
+        },
+        "10": {
+          "zone": "late",
+          "raw_dir_norm": 4.2736,
+          "broadcast_real": 1.46039,
+          "broadcast_rand_mean": 1.46508,
+          "R": 0.9968,
+          "z": -0.017,
+          "verbalize": [
+            " principally",
+            "\u0435\u043d\u0438",
+            "\ufffd",
+            " merely",
+            "\u0bbf",
+            "\u043e\u0433\u0434\u0430",
+            "\ufffd",
+            "\u0e32"
+          ]
+        },
+        "11": {
+          "zone": "late",
+          "raw_dir_norm": 5.4518,
+          "broadcast_real": 3.12855,
+          "broadcast_rand_mean": 3.4081,
+          "R": 0.918,
+          "z": -0.794,
+          "verbalize": [
+            " hereditary",
+            " principally",
+            " born",
+            " competent",
+            " skilled",
+            " trained",
+            " inventor",
+            " applied"
+          ]
+        }
+      }
+    },
+    "S": {
+      "peak_layer": 2,
+      "peak_zone": "early",
+      "peak_R": 1.3346,
+      "peak_z": 2.118,
+      "peak_verbalize": [
+        "\u0435\ufffd",
+        "\ufffd",
+        "\ufffd",
+        "\ufffd",
+        "\u0435\u0441\u043a",
+        "\ufffd",
+        "\u0441\u044f",
+        "\u0435\u0436"
+      ],
+      "beats_shuffle_null": false,
+      "shuffle_null_p95": 2.25567,
+      "broadcast_real_at_peak": 1.58805,
+      "per_layer": {
+        "0": {
+          "zone": "early",
+          "raw_dir_norm": 0.8,
+          "broadcast_real": 0.39778,
+          "broadcast_rand_mean": 0.36702,
+          "R": 1.0838,
+          "z": 1.043,
+          "verbalize": [
+            "\u0435\u0436",
+            " measure",
+            "\u0430\u043d",
+            "\u0441\u044f",
+            "\u0430",
+            "lements",
+            " package",
+            " component"
+          ]
+        },
+        "1": {
+          "zone": "early",
+          "raw_dir_norm": 0.9582,
+          "broadcast_real": 1.03362,
+          "broadcast_rand_mean": 0.93709,
+          "R": 1.103,
+          "z": 0.695,
+          "verbalize": [
+            " behalf",
+            " mine",
+            " measure",
+            " part",
+            " further",
+            " ours",
+            "aly",
+            " condition"
+          ]
+        },
+        "2": {
+          "zone": "early",
+          "raw_dir_norm": 1.1643,
+          "broadcast_real": 1.58805,
+          "broadcast_rand_mean": 1.1899,
+          "R": 1.3346,
+          "z": 2.118,
+          "verbalize": [
+            "\u0435\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\u0435\u0441\u043a",
+            "\ufffd",
+            "\u0441\u044f",
+            "\u0435\u0436"
+          ]
+        },
+        "3": {
+          "zone": "early",
+          "raw_dir_norm": 1.8015,
+          "broadcast_real": 1.71778,
+          "broadcast_rand_mean": 2.49168,
+          "R": 0.6894,
+          "z": -2.623,
+          "verbalize": [
+            "\ufffd",
+            "doibase",
+            " heels",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd"
+          ]
+        },
+        "4": {
+          "zone": "mid",
+          "raw_dir_norm": 1.8098,
+          "broadcast_real": 1.71783,
+          "broadcast_rand_mean": 2.74996,
+          "R": 0.6247,
+          "z": -5.106,
+          "verbalize": [
+            " heels",
+            " direction",
+            " conditions",
+            " mainland",
+            " contour",
+            " knees",
+            " extreme",
+            "documentclass"
+          ]
+        },
+        "5": {
+          "zone": "mid",
+          "raw_dir_norm": 1.9238,
+          "broadcast_real": 1.84515,
+          "broadcast_rand_mean": 3.23935,
+          "R": 0.5696,
+          "z": -2.283,
+          "verbalize": [
+            " adiabatic",
+            " google",
+            " minimize",
+            " direction",
+            " topology",
+            " regime",
+            " estimates",
+            " lado"
+          ]
+        },
+        "6": {
+          "zone": "mid",
+          "raw_dir_norm": 1.9551,
+          "broadcast_real": 1.83227,
+          "broadcast_rand_mean": 2.85037,
+          "R": 0.6428,
+          "z": -1.238,
+          "verbalize": [
+            " google",
+            " any",
+            " anymore",
+            " automated",
+            " anybody",
+            "gni",
+            " gradient",
+            " mainland"
+          ]
+        },
+        "7": {
+          "zone": "mid",
+          "raw_dir_norm": 2.0833,
+          "broadcast_real": 2.20767,
+          "broadcast_rand_mean": 2.82745,
+          "R": 0.7808,
+          "z": -1.326,
+          "verbalize": [
+            " google",
+            " automated",
+            " any",
+            " autor",
+            " smoothly",
+            " scan",
+            " feasible",
+            " reasonable"
+          ]
+        },
+        "8": {
+          "zone": "late",
+          "raw_dir_norm": 2.2868,
+          "broadcast_real": 1.9616,
+          "broadcast_rand_mean": 2.51678,
+          "R": 0.7794,
+          "z": -1.565,
+          "verbalize": [
+            " any",
+            " whatsoever",
+            " anymore",
+            " conditions",
+            "))*-",
+            "){#",
+            " anytime",
+            " ourselves"
+          ]
+        },
+        "9": {
+          "zone": "late",
+          "raw_dir_norm": 2.424,
+          "broadcast_real": 1.76619,
+          "broadcast_rand_mean": 1.73154,
+          "R": 1.02,
+          "z": 0.154,
+          "verbalize": [
+            " myself",
+            " any",
+            " anytime",
+            " whatsoever",
+            " ourselves",
+            " ANY",
+            "pace",
+            " anymore"
+          ]
+        },
+        "10": {
+          "zone": "late",
+          "raw_dir_norm": 2.6365,
+          "broadcast_real": 1.29021,
+          "broadcast_rand_mean": 1.18694,
+          "R": 1.087,
+          "z": 0.499,
+          "verbalize": [
+            " any",
+            " anytime",
+            " myself",
+            " ANY",
+            " daylight",
+            "ubuntu",
+            " whichever",
+            " ourselves"
+          ]
+        },
+        "11": {
+          "zone": "late",
+          "raw_dir_norm": 3.8865,
+          "broadcast_real": 1.65567,
+          "broadcast_rand_mean": 3.66872,
+          "R": 0.4513,
+          "z": -6.159,
+          "verbalize": [
+            " any",
+            " myself",
+            " ANY",
+            " anybody",
+            " this",
+            " anyone",
+            " ourselves",
+            " whatsoever"
+          ]
+        }
+      }
+    }
+  },
+  "elapsed_s": 33.7
+}
