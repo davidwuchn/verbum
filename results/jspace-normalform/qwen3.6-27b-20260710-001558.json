@@ -1,0 +1,67 @@
+{
+  "experiment": "jspace_normalform: logit-lens normal-form hold_frac + converge_layer per regime (induction/compose/prose); I-combinator test",
+  "date": "2026-07-10T00:15:58.278391+00:00",
+  "model": "qwen3.6-27b",
+  "model_hf": "Qwen/Qwen3.6-27B",
+  "n_layers": 64,
+  "git_sha": "134e38d",
+  "config": {
+    "reps": 6,
+    "n_texts": 3,
+    "smoke": false
+  },
+  "locked_prediction": "hold_frac(induction) > hold_frac(compose) AND converge_layer(induction) < converge_layer(compose)",
+  "verdict": {
+    "call": "I-COMBINATOR-VISIBLE",
+    "predicted_holds": true,
+    "hold_frac": {
+      "induction": 0.1208,
+      "compose": 0.0469,
+      "prose": 0.0635
+    },
+    "converge_frac": {
+      "induction": 0.8792,
+      "compose": 0.9531,
+      "prose": 0.9365
+    }
+  },
+  "stats": {
+    "induction": {
+      "n": 153,
+      "hold_frac_mean": 0.1208,
+      "hold_frac_median": 0.1406,
+      "converge_layer_mean": 56.27,
+      "converge_frac_mean": 0.8792
+    },
+    "compose": {
+      "n": 6,
+      "hold_frac_mean": 0.0469,
+      "hold_frac_median": 0.0234,
+      "converge_layer_mean": 61.0,
+      "converge_frac_mean": 0.9531
+    },
+    "prose": {
+      "n": 30,
+      "hold_frac_mean": 0.0635,
+      "hold_frac_median": 0.039,
+      "converge_layer_mean": 59.93,
+      "converge_frac_mean": 0.9365
+    }
+  },
+  "demos": {
+    "induction_earliest": [
+      "L0:' ' -> L2:'...' -> L3:' ' -> L19:'\u6295\u4ea7' -> L20:'uh' -> L21:'\ufffd' -> L22:' ' -> L23:' but' -> L24:'\ufffd' -> L25:' ...' -> L26:'...' -> L28:'\u2026' -> L30:'...' -> L31:'\u2026' -> L32:'...' -> L34:'\\xa0' -> L35:'\u65e0\u8bef' -> L37:'...' -> L43:'\u2026' -> L44:'...' -> L47:' and'",
+      "L0:' ' -> L20:' vs' -> L21:'...' -> L23:' vs' -> L24:' ' -> L31:' *' -> L33:' ' -> L34:' ...' -> L50:'frog' -> L51:' over'",
+      "L0:' ' -> L22:'...' -> L24:' ' -> L26:'...' -> L27:' ' -> L31:'\\xa0' -> L33:' ' -> L36:' ...' -> L41:' to' -> L42:' ...' -> L51:' over'"
+    ],
+    "compose": [
+      "' Paris': L0:' ' -> L2:'...' -> L3:' ' -> L10:'...' -> L13:' ' -> L14:'...' -> L17:' ...' -> L19:'...' -> L20:'aring' -> L21:' ...' -> L23:'...' -> L31:'\u5fd9' -> L32:'\u6240\u5728' -> L33:'____' -> L36:' ____' -> L37:'\u6240\u5728' -> L39:'____' -> L40:'...' -> L46:'____' -> L55:' located' -> L58:' Paris' -> L62:' located' -> L63:' Paris'",
+      "' the': L0:' ' -> L9:'...' -> L18:' ' -> L19:'\u5b57\u6bcd' -> L23:'...' -> L24:'J' -> L25:' J' -> L26:'...' -> L28:'\\xa0' -> L33:'...' -> L35:'\u5b57\u6bcd' -> L41:'...' -> L47:'____' -> L49:'\u76f8\u540c\u7684' -> L50:'...' -> L51:'\u76f8\u540c\u7684' -> L52:'\u5b57\u6bcd' -> L53:'\u76f8\u540c\u7684' -> L58:'____' -> L62:\" '\" -> L63:' the'",
+      "\" '\": L0:' ' -> L10:'\u2026' -> L16:'(s' -> L17:'\u2026' -> L18:'(s' -> L19:'\u5b57\u6bcd' -> L22:\" '\" -> L28:'(s' -> L32:\" '\" -> L36:'\u5b57\u6bcd' -> L38:\" '\" -> L52:' ____' -> L54:\" '\" -> L55:' ____' -> L56:\" '\" -> L57:'\u4ec0\u4e48' -> L58:\" '\"",
+      "' the': L0:' ' -> L17:'!' -> L18:'\u2026' -> L20:'.' -> L21:'\u2026' -> L22:'.' -> L23:'\u2026' -> L24:' ' -> L25:'...' -> L32:' ' -> L35:'...' -> L36:' ' -> L40:'...' -> L48:'\u7b49\u4e8e' -> L50:'____' -> L51:'\u591a\u5c11' -> L52:'\u7b49\u4e8e' -> L53:'\u591a\u5c11' -> L56:'\u4ec0\u4e48' -> L57:' twice' -> L58:' what' -> L59:' twice' -> L61:' what' -> L62:' the'",
+      "' cold': L0:' ' -> L2:'...' -> L3:' ' -> L11:':' -> L12:' ' -> L15:'\\xa0' -> L17:'...' -> L20:' opposite' -> L23:':' -> L24:'op' -> L25:'...' -> L29:'amo' -> L30:'...' -> L32:'op' -> L33:'...' -> L35:'op' -> L36:'...' -> L50:'____' -> L51:'...' -> L52:'____' -> L53:'...' -> L57:' cold'",
+      "'\\n': L0:' ' -> L6:'...' -> L11:' ' -> L15:' \u201c' -> L16:'...' -> L17:' ' -> L18:'\u2026' -> L19:' \u201c' -> L20:' \"' -> L21:' \u201c' -> L23:' \"' -> L25:'...' -> L27:' \"' -> L28:' \u201c' -> L29:'\u201c' -> L31:'...' -> L45:'\u201c' -> L46:'...' -> L53:'\u4ec0\u4e48' -> L56:' today' -> L57:' England' -> L62:'...' -> L63:'\\n'"
+    ]
+  },
+  "elapsed_s": 49.0
+}

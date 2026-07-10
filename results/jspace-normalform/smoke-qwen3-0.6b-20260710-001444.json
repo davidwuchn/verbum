@@ -1,0 +1,63 @@
+{
+  "experiment": "jspace_normalform: logit-lens normal-form hold_frac + converge_layer per regime (induction/compose/prose); I-combinator test",
+  "date": "2026-07-10T00:14:44.891030+00:00",
+  "model": "qwen3-0.6b",
+  "model_hf": "Qwen/Qwen3-0.6B",
+  "n_layers": 28,
+  "git_sha": "134e38d",
+  "config": {
+    "reps": 6,
+    "n_texts": 1,
+    "smoke": true
+  },
+  "locked_prediction": "hold_frac(induction) > hold_frac(compose) AND converge_layer(induction) < converge_layer(compose)",
+  "verdict": {
+    "call": "I-COMBINATOR-VISIBLE",
+    "predicted_holds": true,
+    "hold_frac": {
+      "induction": 0.2021,
+      "compose": 0.1786,
+      "prose": 0.254
+    },
+    "converge_frac": {
+      "induction": 0.7979,
+      "compose": 0.8214,
+      "prose": 0.746
+    }
+  },
+  "stats": {
+    "induction": {
+      "n": 47,
+      "hold_frac_mean": 0.2021,
+      "hold_frac_median": 0.1429,
+      "converge_layer_mean": 22.34,
+      "converge_frac_mean": 0.7979
+    },
+    "compose": {
+      "n": 2,
+      "hold_frac_mean": 0.1786,
+      "hold_frac_median": 0.1786,
+      "converge_layer_mean": 23.0,
+      "converge_frac_mean": 0.8214
+    },
+    "prose": {
+      "n": 9,
+      "hold_frac_mean": 0.254,
+      "hold_frac_median": 0.2857,
+      "converge_layer_mean": 20.89,
+      "converge_frac_mean": 0.746
+    }
+  },
+  "demos": {
+    "induction_earliest": [
+      "L0:'sequent' -> L1:'g' -> L2:'ded' -> L3:'<|endoftext|>' -> L8:'jump' -> L10:'\"' -> L11:'um' -> L12:'<|endoftext|>' -> L15:'again' -> L16:'<|endoftext|>' -> L17:' \\n' -> L18:'...' -> L19:' the'",
+      "L0:' themselves' -> L1:' either' -> L2:' themselves' -> L3:' early' -> L4:' means' -> L5:' surrounding' -> L6:' themselves' -> L7:'licity' -> L8:'ometry' -> L9:'t' -> L10:' an' -> L11:'voor' -> L12:' itself' -> L13:' runs' -> L14:'<|endoftext|>' -> L15:'...' -> L16:' \\n' -> L18:' \\n\\n' -> L19:' the'",
+      "L0:'sequent' -> L1:'g' -> L2:'ded' -> L3:'<|endoftext|>' -> L9:'\"' -> L11:'@stop' -> L12:'<|endoftext|>' -> L15:'again' -> L16:'<|endoftext|>' -> L17:' \\n' -> L18:'...' -> L19:' the'"
+    ],
+    "compose": [
+      "' the': L0:' indeed' -> L1:' not' -> L6:' a' -> L17:'____' -> L21:' known' -> L22:' located' -> L25:' the'",
+      "' the': L0:' indeed' -> L1:' not' -> L3:' a' -> L4:' not' -> L5:' a' -> L18:' ' -> L19:' a' -> L20:' ' -> L21:' the'"
+    ]
+  },
+  "elapsed_s": 2.8
+}

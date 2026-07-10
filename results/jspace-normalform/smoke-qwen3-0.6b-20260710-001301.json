@@ -1,0 +1,64 @@
+{
+  "experiment": "jspace_normalform: logit-lens normal-form hold_frac + converge_layer per regime (induction/compose/prose); I-combinator test",
+  "date": "2026-07-10T00:13:01.630764+00:00",
+  "model": "qwen3-0.6b",
+  "model_hf": "Qwen/Qwen3-0.6B",
+  "n_layers": 28,
+  "git_sha": "134e38d",
+  "config": {
+    "period": 8,
+    "reps": 6,
+    "n_seeds": 1,
+    "smoke": true
+  },
+  "locked_prediction": "hold_frac(induction) > hold_frac(compose) AND converge_layer(induction) < converge_layer(compose)",
+  "verdict": {
+    "call": "NO-REGIME-SEPARATION",
+    "predicted_holds": false,
+    "hold_frac": {
+      "induction": 0.1026,
+      "compose": 0.1786,
+      "prose": 0.254
+    },
+    "converge_frac": {
+      "induction": 0.8974,
+      "compose": 0.8214,
+      "prose": 0.746
+    }
+  },
+  "stats": {
+    "induction": {
+      "n": 39,
+      "hold_frac_mean": 0.1026,
+      "hold_frac_median": 0.1071,
+      "converge_layer_mean": 25.13,
+      "converge_frac_mean": 0.8974
+    },
+    "compose": {
+      "n": 2,
+      "hold_frac_mean": 0.1786,
+      "hold_frac_median": 0.1786,
+      "converge_layer_mean": 23.0,
+      "converge_frac_mean": 0.8214
+    },
+    "prose": {
+      "n": 9,
+      "hold_frac_mean": 0.254,
+      "hold_frac_median": 0.2857,
+      "converge_layer_mean": 20.89,
+      "converge_frac_mean": 0.746
+    }
+  },
+  "demos": {
+    "induction_earliest": [
+      "L0:'ern' -> L1:'ial' -> L2:'our' -> L3:'ial' -> L4:' \\\\\\n' -> L5:'al' -> L6:'less' -> L9:'ary' -> L10:'0' -> L11:'2' -> L12:'on' -> L14:'2' -> L16:' \\n' -> L19:'n' -> L21:'_' -> L23:'_replace'",
+      "L0:'irectional' -> L1:'ly' -> L2:'irectional' -> L3:'ly' -> L4:',' -> L6:'2' -> L15:'.' -> L16:' ' -> L17:',' -> L18:'\\n' -> L19:' ' -> L21:'\\n' -> L24:' lasted'",
+      "L0:'eken' -> L1:',' -> L2:'io' -> L3:'-' -> L5:'2' -> L8:'s' -> L9:'1' -> L10:'2' -> L11:'s' -> L16:'-' -> L17:'_' -> L18:'-' -> L19:'_' -> L21:' \\n' -> L22:'\\n' -> L24:' Storage'"
+    ],
+    "compose": [
+      "' the': L0:' indeed' -> L1:' not' -> L6:' a' -> L17:'____' -> L21:' known' -> L22:' located' -> L25:' the'",
+      "' the': L0:' indeed' -> L1:' not' -> L3:' a' -> L4:' not' -> L5:' a' -> L18:' ' -> L19:' a' -> L20:' ' -> L21:' the'"
+    ]
+  },
+  "elapsed_s": 4.3
+}

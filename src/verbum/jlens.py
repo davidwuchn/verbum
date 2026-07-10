@@ -93,16 +93,29 @@ def _hidden(out: Any) -> torch.Tensor:
 
 @torch.no_grad()
 def capture_residuals(
-    model: nn.Module, tokenizer: Any, text: str
+    model: nn.Module,
+    tokenizer: Any,
+    text: str | None = None,
+    *,
+    input_ids: torch.Tensor | None = None,
 ) -> tuple[dict[int, torch.Tensor], torch.Tensor]:
-    """Forward ``text`` once; return ``({layer: (seq, d)}, input_ids)``.
+    """Forward once; return ``({layer: (seq, d)}, input_ids)``.
 
-    Residual = the *output* of each transformer layer (post-block), for every
-    position. Reuses :func:`verbum.hooks.capture`.
+    Provide ``text`` (tokenized here) or pre-tokenized ``input_ids`` (shape
+    ``(seq,)`` or ``(1, seq)``) — the latter for synthetic streams (e.g.
+    induction sequences of raw token ids). Residual = the *output* of each
+    transformer layer (post-block), for every position. Reuses
+    :func:`verbum.hooks.capture`.
     """
+    if input_ids is not None:
+        ids = input_ids if input_ids.dim() == 2 else input_ids.unsqueeze(0)
+        inputs = {"input_ids": ids.to(model.device)}
+    elif text is not None:
+        inputs = tokenizer(text, return_tensors="pt").to(model.device)
+    else:
+        raise ValueError("capture_residuals needs `text` or `input_ids`")
     nl = n_layers(model)
     ivs = [hooks.capture(layer_path(model, i), name=str(i)) for i in range(nl)]
-    inputs = tokenizer(text, return_tensors="pt").to(model.device)
     with hooks.intervene(model, ivs) as sess:
         model(**inputs)
     out: dict[int, torch.Tensor] = {}
