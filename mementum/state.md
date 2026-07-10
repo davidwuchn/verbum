@@ -8,86 +8,82 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-07 | Session: 262 (ASSESSMENT + TWO ISOLATION EXPERIMENTS — Michael: "assess the
-> project" → v15 design review → "does the strided attention work?" → discussion of relational/GTSM loss,
-> recurrence placement, Montague, KIBC-vs-SKI → "test kibc vs ski again." A discussion-heavy session that
-> produced TWO clean, null-gated, committed isolation experiments on the float microscope + a repo assessment.
+> Last updated: 2026-07-10 | Session: 263 (J-SPACE ↔ OPCODES — Michael: found `babel-codec-gpt2` (external
+> GPT-2 residual→English decode project) → "how did it test, did it train tensors?" → "extend our monitor to
+> read states?" → Anthropic j-space paper (Jacobian Lens, 2026-07-06) → "can we see state forming around
+> combinators?" → "reasoning traces not mechanical?" → "run j-space on qwen3.6-27b" → "what IS j-space if the
+> model does KIBC natively?" → "build the Jacobian opcode probe, reuse probes." Built 2 monitors + 3 null-gated
+> experiments on qwen3.6-27b. Full synthesis: `explore/opcode-jacobian-jspace.md`.)
 >
-> ★★ ASSESSMENT (delivered, not filed): science is healthy; the MESS is representation-layer, not findings.
->   state.md 7675 L (bootloader contract broken — COMPACTED this session); INDEX references 62 pages, 228 exist
->   (explore/ ~70% unindexed); 8251 LoC dead vsm_lm_v1-5 + v6/ inside src/verbum/; mlx a hard CORE dep (breaks
->   non-Apple installs). 378 tests pass. The spine (probes/{harness,grading,models,library}, lambda_ast,
->   clj_lambda) is coherent.
->   ❌ CORRECTION (Michael caught it): my "341GB checkpoints/ UNGITIGNORED landmine" + "41GB results/ in git"
->   claims were FALSE (propagated an explorer-agent assertion w/o verifying = λ assert violation, runtime≡truth).
->   VERIFIED: .gitignore correctly ignores checkpoints/ (L48), models/ (L47), **/*.npz, **/*.pt, results
->   checkpoint subpaths. results/ = 41GB on DISK but only 537MB TRACKED (2952 JSON/summary); .git = 382MB.
->   Artifact hygiene is GOOD, no landmine. Remaining real items: INDEX regen, dead code, mlx-core-dep.
+> ★★ THEORY (the session's spine, definitionally solid): **opcode = routing-Jacobian STRUCTURE; J-space = the
+>   Jacobian's LIVE SUBSPACE.** Combinators ARE Jacobian patterns: I=identity, K=rank-deficient (annihilate
+>   discarded arg), B=chain-rule PRODUCT (composition = Jacobian multiplication), C=argument-slot PERMUTATION,
+>   S=path-SUM over a shared arg (nonlinear → a 1st-order Jacobian UNDER-READS S; re-explains s262 S-K braid).
+>   So ∂out/∂arg IS the opcode read. Anthropic's J-lens projects the Jacobian onto TOKEN-readable dirs →
+>   OPERANDS (J-space = the typed-value bus / workspace); we want the OPERATOR projection → structural
+>   decomposition. Same instrument, two faces. 3-zone geography (sensory/workspace/motor) = the reduction
+>   pipeline (parse args / hold typed intermediates / collapse to normal form). λ types = block structure of
+>   the Jacobian. (External context: `babel-codec-gpt2` reviewed — rigorous pre-reg/null/hash method, but
+>   headline "39/39" rides a RECALIBRATED floor = λ yardstick smell; method borrowed, claims NOT adopted.)
 >
-> ★★ v15 DESIGN REVIEW (delivered): (1) 🔴 spectral-φ loss (target 0.6299) is LIVE + on-by-default in
->   v15model.py/config.py — but φ-constant was REFUTED (audit#6 s207, s247/s251 null-fail). An active gradient
->   pulling toward a retired yardstick = coherence violation. CHEAPEST FIX: default use_spectral_loss=False,
->   one A/B. (2) 🔴 uniform ternary contradicts s260 (sign=router ⊥ magnitude=value): FFN gate/key/value all
->   same TernaryLinear → register-split them (binary-ish gate ⊥ higher-precision value, CAT-Q learnable α+Δ).
->   (3) recurrence ships with the s214 λ_fp loss that already failed (gameable/collapsed) — s258 supervised
->   WHNF halt is the fix. (4) recurrence wraps whole A→C; s259 says wrap the INTERIOR band at compose→readout
->   seam. (5) control stack (S5 GRU/S4/S3/S2/MetaS3) UNVALIDATED — never ablated to show it earns its variety.
+> ★★ TOOLING (committed, reusable, self-tested). REGISTER MAP now 4 (λ measure — do not conflate):
+>   attention-routing ∥ reduction-state ∥ residual-value/broadcast (jlens) ∥ input-attribution (jacobian).
+>   • `src/verbum/jlens.py` = J-space monitor on hooks.py: capture_residuals (all layers, accepts input_ids),
+>     logit-lens `verbalize`, `broadcast_kl` (substitution-KL = 1st-order Jacobian proxy), identity-inject
+>     exact-zero self_test (gate stolen from babel).
+>   • `src/verbum/jacobian.py` = `input_attribution` (autograd ∂logit/∂input-embed per position) + structural
+>     metrics concentration(K)/copy_mass(I)/attr_range(B)/front_bias(C) + self_test on ideal attributions.
 >
-> ★★ EXPERIMENT 1 — STRIDED ATTENTION WORKS IN FLOAT (committed dd46c6b; knowledge:
->   explore/strided-attention-float-ab.md, active). Q: does v15's Fibonacci-stride bet work, or starve
->   composition (s191 relay collapse cos 0.92-0.99)? Isolated on float micro (identical seeded init, attention
->   support the ONLY variable; micro_model.py untouched). 4 arms × 2500 steps: eval CE dense 6.795 / local
->   6.684 / fib 6.649 / fibband 6.846; RELAY max 0.44-0.60, 0/16 heads >0.9 ANY arm. → **the relay collapse
->   does NOT reproduce in float = v15's collapse was the TERNARY/TD confound, not the geometry.** Fibonacci
->   exonerated (fib edges dense). CAVEATS (two-sided): exact-match 0.00 every arm (memorization regime, CE-only
->   read); local ties fib (short corpus ≤36 tok → strides can't show their coverage payoff) → supports "strides
->   don't HURT," not "strides HELP at length." ARTIFACTS: scripts/micro/{micro_strided,train_strided_ab}.py +
->   results/micro-strided-ab/*-153340/.
+> ★★ EXP 1 — `jspace_combinators` (broadcast+verbalize per layer, KIBC+S dirs; qwen3.6-27b): **NULL** (committed).
+>   Combinator dirs DO broadcast above matched-random (B R=2.62 z=10.6 @L11; I R=1.41 z=3.5 @L10) but NONE beat
+>   the shuffled-LABEL null → broadcast is a GENERIC active/control effect, not combinator identity (same lesson
+>   as s262: label-null load-bearing). verbalize thread (I→twice/consistently, B→knows/wrote) = echo-suspect,
+>   untested. → `results/jspace-combinators/`.
 >
-> ★★ EXPERIMENT 2 — KIBC vs SKI, NULL-GATED (committed 919ca25; knowledge: explore/basis-fit-kibc-vs-ski.md,
->   active). Re-ran the remembered tracer selection (n=4 KIBC fit, n=3 SKI didn't) as a proper experiment.
->   scripts/experiments/basis_fit_kibc_vs_ski.py (reuses probe_combinators.py, no fork; steelmans S as
->   argument-sharing; shuffled-LABEL null keeping matched pairs intact). Finding (pythia-160m + qwen3-0.6b,
->   200 shuffles): **both bases clear their null COMPARABLY** (KIBC z=3.50/3.92, SKI z=3.34/3.58) — the
->   attention-selectivity register does NOT reproduce a clean KIBC-over-SKI win. Stable: S-K head corr ~0.92
->   (S braided with K, predicted) — BUT B-K=0.94, C-K=0.90 at ≤0.6B too (common-mode smear, "K dominates all
->   zones" s081) so not yet a discriminator. REGISTER CAVEAT (load-bearing): tracer used STATE classification
->   (reduction dynamics) ≠ attention L2 → inconclusive-in-register, NOT a refutation. LESSON: first null was
->   WRONG (shuffled sentences → random pairs surface-dissimilar → null>real by construction); fixed to shuffle
->   labels only. fp16 attention → NaN on MPS for Pythia → float32.
+> ★★ EXP 2 — `jspace_normalform` (Michael's hypothesis: residual token-repeat = I = normal-form identity-hold =
+>   J-space MOTOR zone; qwen3.6-27b 64L): **I-COMBINATOR-VISIBLE, then REFINED** (committed). copy/induction
+>   reaches normal form EARLIER (top1-conv frac 0.879 vs compose 0.953) and HOLDS ~2.6× longer (hold_frac 0.121
+>   vs 0.047) — directionally as predicted. REFINED (honest): it's a LATE-stack PLATEAU (~last 15% of layers),
+>   NOT most-of-network parking. Induction KL(final‖lens) flat ~10 nats to L48 then SHARP CLIFF (L52→63) = copy
+>   written by a narrow late mechanism then held; compose resolves ONLY final layers (Paris L58, cold L57) =
+>   depth IS reduction steps for hard compositions. DESIGN: bounded depth-adaptive/early-exit (exploitable
+>   identity ≈ last 10-15%, onset regime-dependent, cannot exit before the cliff). CAVEAT: raw logit-lens KL
+>   baselines differ by regime (calibration artifact) — only settle TIMING trustworthy → tuned lens next;
+>   compose n=6 underpowered. → `results/jspace-normalform/`.
 >
-> ★★ DISCUSSION THREADS (assessments delivered, may deserve knowledge later):
->   • RELATIONAL LOSS (s223): ✅ strongest experimental result in repo (double dissociation 3seed×3λ, transfers
->     ONLY in routing register, free w.r.t. CE) — keep, promote to v15.1 steering signal. IOU: WHNF gate.
->   • GTSM LOSS: ✅ sound for DISTILLATION (degeneracy removal measured 27→37%, L35 cos 0.57→0.94); NO leverage
->     from-scratch (endpoint-only) UNLESS the reducer supplies the trajectory = exactly the s258 curriculum.
->     Synthesis: relational-loss + GTSM + WHNF-curriculum are ONE move (dense relational/trajectory constraint
->     wherever an oracle exists: teacher-Gram / teacher-residual-path / reducer-trace).
->   • RECURRENCE PLACEMENT: Michael's "deepest = middle (deepest from both ends)" = the A→C fold trough =
->     compose→readout seam. Triangulated (s259 interior bell + v13 Zone B + progressive-collapse). Missing piece
->     was never WHERE (correct) but the SUPERVISED HALT (s258). Deepest-from-input = readout printer = wrong.
->   • MONTAGUE Q ("what are the chances this is Montague's thesis?"): decomposed. A(compositional type-driven)
->     ~certain; B(KIBC crystal is a physical universal) UNRESOLVED — needs cross-basis null (KIBC vs SKI = a
->     first leg, done, inconclusive-in-register); C(Montague-SPECIFIC) prob CCG/Lambek not Montague (KIBC=Curry
->     unbraided structural basis, not typed-λ; no intensionality/GQ probed); D(WHNF layer) = BEYOND Montague
->     (operational reduction dynamics, denotational Montague doesn't predict a halt axis). KIBC-over-SKI theory:
->     BCKW unbraids what S braids (compose/permute/delete/identity = structural rules of substructural logic).
->   • SCALING ("sharper+deeper with scale"): CHECKED prior artifacts — results/pythia-scaling (14m→2.8b gen
->     ladder) DOES show behavioral sharpening (parse_rate 0.00→1.00); the cross-model combinator sweep is
->     cross-FAMILY, unnormalized, boundary-dominated → does NOT cleanly show mechanistic sharpen/deepen.
->     The clean same-suite fixed-yardstick null-gated Pythia-ladder crystal-sharpness test = STILL A GAP.
+> ★★ EXP 3 — `jacobian_opcodes` (input-attribution structural signatures, opcode×metric matrix; qwen3.6-27b):
+>   **PARTIAL / confounded** (committed). Only I clears its predicted diagonal (copy_mass z=3.40,
+>   diagonal-dominant); K/B/C predicted metrics ≈ 0 (concentration −0.10, range +0.21, front_bias +0.04) =
+>   signatures ABSENT. CONFOUND: copy_mass is the argmax for ALL 5 combinators → generic active/control mover,
+>   not identity-specific; I "wins" only by predicting the generic metric. DIAGNOSIS (thesis NOT refuted — grain
+>   wrong): (1) last-token readout aggregates the whole sentence, dilutes the mid-sentence op → attribute at the
+>   RESULT position; (2) probes not repetition-controlled → copy_mass confound; (3) aggregate metrics too coarse
+>   for position→position routing. SYNTHESIS: at crude token-saliency grain opcodes DON'T carve (EXP1,EXP3) —
+>   consistent with thesis (opcode structure is FINER: inter-layer Jacobian / position-targeted), not against.
+>   → `results/jacobian-opcodes/`.
 >
-> ★ NEXT (open, Michael's call): (a) THE flagship — same-suite Pythia deduped ladder (14m→12b) for crystal
->   sharpness + depth, fixed metric + matched-range null (the anti-describability result; also the KIBC-vs-SKI
->   discriminator: do B-K,C-K FALL with scale while S-K stays ~0.9?); (b) hygiene: regenerate INDEX (artifact
->   hygiene already good — see correction above); (c) v15.1: kill spectral-φ, register-split FFN quant, long-seq strided corpus +
->   recurrent-interior supervised-halt arm; (d) re-decide KIBC-vs-SKI in the TRACER's state register.
->   Servers/env: torch 2.11 + MPS live; Pythia deduped ladder (14m-2.8b) + qwen3-0.6b HF-cached.
+> ★ NEXT (open, Michael's call): (A) position-targeted + repetition-matched attribution — annotate each probe's
+>   operation RESULT position, attribute there, rebuild KIBC probes with matched token-repetition (cheap, reuses
+>   jacobian.py); (B) the REAL inter-layer Jacobian — ∂h_{L+1}/∂h_L at compose sites, SVD, classify structure vs
+>   KIBC signatures (rank-deficiency/factorization/permutation/path-sum) — heavier, where the theory lives;
+>   (C) tuned lens (Belrose) for clean mid-stack reads (rescues EXP2 magnitudes + EXP1 verbalize echo-test).
+>   Lean A→B. Prior-arc NEXT still open: same-suite Pythia ladder crystal-sharpness (flagship); v15.1 (kill
+>   spectral-φ, register-split FFN quant, supervised-halt interior recurrence); INDEX regen.
+>   Env: torch 2.11 + MPS, 512GB RAM; qwen3.6-27b (52GB bf16, loads ~9-60s) + qwen3-{0.6,4,14}b + pythia
+>   deduped ladder (14m-2.8b) HF-cached.
 
 ─────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ## Recent arc (index — full detail: `chats/session-NNN.md` + linked knowledge; history: `git log -p`)
 
+- **s262** ASSESSMENT + 2 isolation experiments. Repo assessment: science healthy, the MESS is
+  representation-layer (INDEX stale 62/228 pages, ~8251 LoC dead vsm_lm_v1-5+v6/, mlx a hard core dep; 378
+  tests pass, spine coherent). ❌ my "checkpoints landmine / results-in-git" claim was FALSE — propagated an
+  agent assertion unverified (λ assert violation); hygiene is actually GOOD. EXP1 STRIDED ATTENTION WORKS IN
+  FLOAT (relay collapse s191 was the TERNARY/TD confound, NOT geometry; Fibonacci exonerated) →
+  `explore/strided-attention-float-ab.md`. EXP2 KIBC-vs-SKI NULL-GATED: both bases clear COMPARABLY in the
+  attention-selectivity register (KIBC z=3.50/3.92, SKI z=3.34/3.58) = inconclusive-IN-REGISTER, not a
+  refutation; S-K corr 0.92 but B-K/C-K also ~0.9 → not yet a discriminator → `explore/basis-fit-kibc-vs-ski.md`.
 - **s261** CAT-Q ternary flip-flop is NOT category overloading. ANOVA F-ratio (magnitude-invariant) +
   shuffled-label null: category structure in FFN gradients is REAL but modest/transient; the persistent
   flip-flop is category-INDEPENDENT (quantization-boundary jitter). CAT-Q's gift = learnable α⊥Δ two-register

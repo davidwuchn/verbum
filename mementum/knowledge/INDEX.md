@@ -215,6 +215,7 @@ follow cross-references; then use the full catalog below for specific topics.
 | [explore/moe-holographic-tree-vsm.md](explore/moe-holographic-tree-vsm.md) | ✅ active | MoE-as-Holographic-Plates → Tree-of-VSM Configuration |
 | [explore/moire-training-shortcuts.md](explore/moire-training-shortcuts.md) | 🔨 designing | Moiré Training Shortcuts — What the Grating Cascade Enables |
 | [explore/normal-form-curriculum-partition.md](explore/normal-form-curriculum-partition.md) | 📋 open | Normal-Form Curriculum Partition — Routing-Only Forms Train Attention, Recursion Trains the Conti… |
+| [explore/opcode-jacobian-jspace.md](explore/opcode-jacobian-jspace.md) | ✅ active | Opcode = Jacobian structure; J-space = the Jacobian's live subspace (s263 j-space/opcode arc) |
 | [explore/optimization-negative-results.md](explore/optimization-negative-results.md) | ✅ active | Optimization Negative Results — Why FP Techniques Fail on Apple Silicon |
 | [explore/output-beamformers.md](explore/output-beamformers.md) | ✅ active | Output Beamformers — The Dynamic Output Lens at L63 |
 | [explore/phi-compression-universal.md](explore/phi-compression-universal.md) | ✅ active | Universal Phi Compression — SVD Spectrum Convergence Across Architectures |
