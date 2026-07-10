@@ -1,0 +1,133 @@
+{
+  "experiment": "jacobian_opcodes: input-attribution structural signatures (concentration/copy_mass/range/front_bias) per combinator, active vs control, shuffled-label null; opcode = routing-Jacobian structure",
+  "date": "2026-07-10T05:04:01.338996+00:00",
+  "model": "qwen3.6-27b",
+  "model_hf": "Qwen/Qwen3.6-27B",
+  "git_sha": "316dc96",
+  "probe_hash": "97e6eb900a23",
+  "config": {
+    "n_shuffle": 50,
+    "smoke": false,
+    "predicted": {
+      "K": "concentration",
+      "I": "copy_mass",
+      "B": "range",
+      "C": "front_bias"
+    }
+  },
+  "locked_bands": {
+    "SIGNAL": ">=3/4 of K,I,B,C have predicted-diagonal z>=1.64",
+    "DIAGONAL_DOMINANT": "predicted metric is argmax|delta| for the hits",
+    "S_UNDERREAD": "max|z|(S) < min diagonal|z|(K,I,B,C)"
+  },
+  "verdict": {
+    "call": "PARTIAL",
+    "n_diagonal_hits": 1,
+    "diagonal_hits": [
+      "I"
+    ],
+    "diagonal_dominant": {
+      "I": true
+    },
+    "s_underread": false,
+    "predicted_z": {
+      "K": -0.096,
+      "I": 3.396,
+      "B": 0.211,
+      "C": 0.043
+    }
+  },
+  "results": {
+    "K": {
+      "delta": {
+        "concentration": -0.0063,
+        "copy_mass": 0.1624,
+        "range": 0.0184,
+        "front_bias": -0.0184
+      },
+      "z_vs_shuffle": {
+        "concentration": -0.096,
+        "copy_mass": 2.809,
+        "range": 0.641,
+        "front_bias": -0.641
+      },
+      "predicted_metric": "concentration",
+      "predicted_delta": -0.0063,
+      "predicted_z": -0.096,
+      "argmax_metric": "copy_mass"
+    },
+    "I": {
+      "delta": {
+        "concentration": -0.0058,
+        "copy_mass": 0.2499,
+        "range": 0.0007,
+        "front_bias": -0.0007
+      },
+      "z_vs_shuffle": {
+        "concentration": -0.504,
+        "copy_mass": 3.396,
+        "range": 0.293,
+        "front_bias": -0.293
+      },
+      "predicted_metric": "copy_mass",
+      "predicted_delta": 0.2499,
+      "predicted_z": 3.396,
+      "argmax_metric": "copy_mass"
+    },
+    "B": {
+      "delta": {
+        "concentration": 0.0137,
+        "copy_mass": 0.0857,
+        "range": 0.0084,
+        "front_bias": -0.0084
+      },
+      "z_vs_shuffle": {
+        "concentration": 0.949,
+        "copy_mass": 1.278,
+        "range": 0.211,
+        "front_bias": -0.211
+      },
+      "predicted_metric": "range",
+      "predicted_delta": 0.0084,
+      "predicted_z": 0.211,
+      "argmax_metric": "copy_mass"
+    },
+    "C": {
+      "delta": {
+        "concentration": 0.004,
+        "copy_mass": -0.0229,
+        "range": -0.0033,
+        "front_bias": 0.0033
+      },
+      "z_vs_shuffle": {
+        "concentration": 0.415,
+        "copy_mass": -0.619,
+        "range": -0.043,
+        "front_bias": 0.043
+      },
+      "predicted_metric": "front_bias",
+      "predicted_delta": 0.0033,
+      "predicted_z": 0.043,
+      "argmax_metric": "copy_mass"
+    },
+    "S": {
+      "delta": {
+        "concentration": 0.0153,
+        "copy_mass": -0.0525,
+        "range": 0.0053,
+        "front_bias": -0.0053
+      },
+      "z_vs_shuffle": {
+        "concentration": 1.167,
+        "copy_mass": -1.294,
+        "range": 0.119,
+        "front_bias": -0.119
+      },
+      "predicted_metric": null,
+      "predicted_delta": null,
+      "predicted_z": null,
+      "argmax_metric": "copy_mass"
+    }
+  },
+  "elapsed_s": 98.4
+}

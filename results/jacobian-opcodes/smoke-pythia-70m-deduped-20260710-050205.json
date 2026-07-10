@@ -1,0 +1,91 @@
+{
+  "experiment": "jacobian_opcodes: input-attribution structural signatures (concentration/copy_mass/range/front_bias) per combinator, active vs control, shuffled-label null; opcode = routing-Jacobian structure",
+  "date": "2026-07-10T05:02:05.964850+00:00",
+  "model": "pythia-70m-deduped",
+  "model_hf": "EleutherAI/pythia-70m-deduped",
+  "git_sha": "316dc96",
+  "probe_hash": "45a1458fc6a7",
+  "config": {
+    "n_shuffle": 5,
+    "smoke": true,
+    "predicted": {
+      "K": "concentration",
+      "I": "copy_mass",
+      "B": "range",
+      "C": "front_bias"
+    }
+  },
+  "locked_bands": {
+    "SIGNAL": ">=3/4 of K,I,B,C have predicted-diagonal z>=1.64",
+    "DIAGONAL_DOMINANT": "predicted metric is argmax|delta| for the hits",
+    "S_UNDERREAD": "max|z|(S) < min diagonal|z|(K,I,B,C)"
+  },
+  "verdict": {
+    "call": "NULL",
+    "n_diagonal_hits": 0,
+    "diagonal_hits": [],
+    "diagonal_dominant": {},
+    "s_underread": false,
+    "predicted_z": {
+      "K": -0.911,
+      "I": -0.093
+    }
+  },
+  "results": {
+    "K": {
+      "delta": {
+        "concentration": -0.0598,
+        "copy_mass": 0.0969,
+        "range": 0.0196,
+        "front_bias": -0.0196
+      },
+      "z_vs_shuffle": {
+        "concentration": -0.911,
+        "copy_mass": 1.3,
+        "range": 0.823,
+        "front_bias": -0.823
+      },
+      "predicted_metric": "concentration",
+      "predicted_delta": -0.0598,
+      "predicted_z": -0.911,
+      "argmax_metric": "copy_mass"
+    },
+    "I": {
+      "delta": {
+        "concentration": 0.0092,
+        "copy_mass": 0.048,
+        "range": -0.0209,
+        "front_bias": 0.0209
+      },
+      "z_vs_shuffle": {
+        "concentration": 0.726,
+        "copy_mass": -0.093,
+        "range": -0.967,
+        "front_bias": 0.967
+      },
+      "predicted_metric": "copy_mass",
+      "predicted_delta": 0.048,
+      "predicted_z": -0.093,
+      "argmax_metric": "copy_mass"
+    },
+    "S": {
+      "delta": {
+        "concentration": -0.0435,
+        "copy_mass": -0.0227,
+        "range": 0.0213,
+        "front_bias": -0.0213
+      },
+      "z_vs_shuffle": {
+        "concentration": -0.465,
+        "copy_mass": 0.16,
+        "range": 0.493,
+        "front_bias": -0.493
+      },
+      "predicted_metric": null,
+      "predicted_delta": null,
+      "predicted_z": null,
+      "argmax_metric": "concentration"
+    }
+  },
+  "elapsed_s": 3.8
+}
