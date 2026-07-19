@@ -20,43 +20,40 @@
     "gate": {
       "n_layers": 6,
       "crystal_layers": [
-        0,
         1,
         2,
-        3,
-        4,
-        5
+        3
       ],
       "per_layer": {
         "0": {
-          "sil_z": 10.206,
-          "gc_consensus": 0.131,
-          "crystal_bearing": true
+          "sil_z": 1.385,
+          "gc_consensus": 0.733,
+          "crystal_bearing": false
         },
         "1": {
-          "sil_z": 8.335,
-          "gc_consensus": 0.124,
+          "sil_z": 2.962,
+          "gc_consensus": 0.758,
           "crystal_bearing": true
         },
         "2": {
-          "sil_z": 8.867,
-          "gc_consensus": 0.01,
+          "sil_z": 3.068,
+          "gc_consensus": 0.746,
           "crystal_bearing": true
         },
         "3": {
-          "sil_z": 7.609,
-          "gc_consensus": 0.108,
+          "sil_z": 2.527,
+          "gc_consensus": 0.761,
           "crystal_bearing": true
         },
         "4": {
-          "sil_z": 8.638,
-          "gc_consensus": 0.065,
-          "crystal_bearing": true
+          "sil_z": 1.859,
+          "gc_consensus": 0.774,
+          "crystal_bearing": false
         },
         "5": {
-          "sil_z": 7.516,
-          "gc_consensus": 0.219,
-          "crystal_bearing": true
+          "sil_z": 1.462,
+          "gc_consensus": 0.797,
+          "crystal_bearing": false
         }
       },
       "z_thresh": 3.0,
@@ -64,7 +61,7 @@
       "has_consensus": true,
       "null_kind": "crosstask",
       "register": "gate",
-      "n_probes": 135,
+      "n_probes": 535,
       "n_null_tokens": 55
     },
     "attn": {
@@ -77,33 +74,33 @@
       ],
       "per_layer": {
         "0": {
-          "sil_z": 4.507,
-          "gc_consensus": 0.305,
+          "sil_z": 2.368,
+          "gc_consensus": 0.776,
           "crystal_bearing": true
         },
         "1": {
-          "sil_z": 6.42,
-          "gc_consensus": 0.386,
+          "sil_z": 3.756,
+          "gc_consensus": 0.726,
           "crystal_bearing": true
         },
         "2": {
-          "sil_z": 9.212,
-          "gc_consensus": 0.239,
+          "sil_z": 3.217,
+          "gc_consensus": 0.821,
           "crystal_bearing": true
         },
         "3": {
-          "sil_z": 1.67,
-          "gc_consensus": -0.136,
+          "sil_z": 1.685,
+          "gc_consensus": 0.49,
           "crystal_bearing": false
         },
         "4": {
-          "sil_z": 4.374,
-          "gc_consensus": 0.317,
+          "sil_z": 3.523,
+          "gc_consensus": 0.861,
           "crystal_bearing": true
         },
         "5": {
-          "sil_z": -0.3,
-          "gc_consensus": -0.178,
+          "sil_z": -0.715,
+          "gc_consensus": -0.249,
           "crystal_bearing": false
         }
       },
@@ -112,7 +109,7 @@
       "has_consensus": true,
       "null_kind": "crosstask",
       "register": "attn",
-      "n_probes": 135,
+      "n_probes": 535,
       "n_null_tokens": 55
     }
   },
@@ -120,64 +117,28 @@
     "gate": {
       "register": "gate",
       "n_tokens": 32,
-      "token_noop_rate": 0.7188,
+      "token_noop_rate": 0.9688,
       "crystal_layers": [
-        0,
         1,
-        2,
-        3,
-        4,
-        5
-      ],
-      "trajectory": [
-        {
-          "layer": 0,
-          "op": "Y",
-          "votes": 2,
-          "total": 4
-        },
-        {
-          "layer": 1,
-          "op": "S",
-          "votes": 3,
-          "total": 6
-        },
-        {
-          "layer": 2,
-          "op": "B",
-          "votes": 1,
-          "total": 2
-        },
-        {
-          "layer": 3,
-          "op": "B",
-          "votes": 1,
-          "total": 1
-        },
-        {
-          "layer": 4,
-          "op": "S",
-          "votes": 1,
-          "total": 1
-        },
-        {
-          "layer": 5,
-          "op": "Y",
-          "votes": 2,
-          "total": 4
-        }
-      ],
-      "C_layers": [],
-      "B_layers": [
         2,
         3
       ],
+      "trajectory": [
+        {
+          "layer": 2,
+          "op": "I",
+          "votes": 1,
+          "total": 1
+        }
+      ],
+      "C_layers": [],
+      "B_layers": [],
       "C_before_B": false
     },
     "attn": {
       "register": "attn",
       "n_tokens": 32,
-      "token_noop_rate": 0.7812,
+      "token_noop_rate": 0.75,
       "crystal_layers": [
         0,
         1,
@@ -187,13 +148,13 @@
       "trajectory": [
         {
           "layer": 0,
-          "op": "Y",
-          "votes": 6,
-          "total": 6
+          "op": "S",
+          "votes": 3,
+          "total": 7
         },
         {
-          "layer": 4,
-          "op": "Y",
+          "layer": 2,
+          "op": "W",
           "votes": 1,
           "total": 1
         }
@@ -203,284 +164,10 @@
       "C_before_B": false
     }
   },
-  "operand": {
-    "read_layer": 5,
-    "rows": [
-      {
-        "prompt": "The dog runs.",
-        "tokens": [
-          "The",
-          " dog",
-          " runs",
-          "."
-        ],
-        "operand": [
-          [
-            "'",
-            ",",
-            "\""
-          ],
-          [
-            "-",
-            ".",
-            ","
-          ],
-          [
-            " the",
-            "!",
-            "'"
-          ],
-          [
-            "\n",
-            "!",
-            "\""
-          ]
-        ]
-      },
-      {
-        "prompt": "Every student reads a book.",
-        "tokens": [
-          "Every",
-          " student",
-          " reads",
-          " a",
-          " book",
-          "."
-        ],
-        "operand": [
-          [
-            "!",
-            "-",
-            ","
-          ],
-          [
-            "?",
-            "\n",
-            ","
-          ],
-          [
-            "!",
-            ".",
-            ","
-          ],
-          [
-            "!",
-            ",",
-            ")"
-          ],
-          [
-            "-",
-            ".",
-            ","
-          ],
-          [
-            "1",
-            "I",
-            "<|endoftext|>"
-          ]
-        ]
-      },
-      {
-        "prompt": "If it rains, the ground is wet.",
-        "tokens": [
-          "If",
-          " it",
-          " rains",
-          ",",
-          " the",
-          " ground",
-          " is",
-          " wet",
-          "."
-        ],
-        "operand": [
-          [
-            "!",
-            "#",
-            "\""
-          ],
-          [
-            "?",
-            "s",
-            ","
-          ],
-          [
-            "!",
-            ")",
-            "\""
-          ],
-          [
-            "\n",
-            " a",
-            "?"
-          ],
-          [
-            " w",
-            " p",
-            "\n"
-          ],
-          [
-            "!",
-            "-",
-            ","
-          ],
-          [
-            "\n",
-            " a",
-            ","
-          ],
-          [
-            "!",
-            ",",
-            ")"
-          ],
-          [
-            "I",
-            "\n",
-            "<|endoftext|>"
-          ]
-        ]
-      },
-      {
-        "prompt": "No bird can swim.",
-        "tokens": [
-          "No",
-          " bird",
-          " can",
-          " swim",
-          "."
-        ],
-        "operand": [
-          [
-            "*",
-            ",",
-            "\""
-          ],
-          [
-            "!",
-            "'",
-            "\""
-          ],
-          [
-            "'",
-            ",",
-            "\""
-          ],
-          [
-            "!",
-            "\"",
-            "<|endoftext|>"
-          ],
-          [
-            "1",
-            "I",
-            "<|endoftext|>"
-          ]
-        ]
-      },
-      {
-        "prompt": "Mary likes the cat that John owns.",
-        "tokens": [
-          "Mary",
-          " likes",
-          " the",
-          " cat",
-          " that",
-          " John",
-          " owns",
-          "."
-        ],
-        "operand": [
-          [
-            ",",
-            "-",
-            "'"
-          ],
-          [
-            "!",
-            ",",
-            "'"
-          ],
-          [
-            "-",
-            ".",
-            ","
-          ],
-          [
-            "-",
-            ".",
-            ","
-          ],
-          [
-            "!",
-            "'",
-            "<|endoftext|>"
-          ],
-          [
-            "\n",
-            " and",
-            ","
-          ],
-          [
-            " the",
-            " a",
-            "!"
-          ],
-          [
-            "\"",
-            ",",
-            "<|endoftext|>"
-          ]
-        ]
-      },
-      {
-        "prompt": "Some teacher graded every exam.",
-        "tokens": [
-          "Some",
-          " teacher",
-          " graded",
-          " every",
-          " exam",
-          "."
-        ],
-        "operand": [
-          [
-            " of",
-            ",",
-            "!"
-          ],
-          [
-            "!",
-            "\"",
-            "<|endoftext|>"
-          ],
-          [
-            "!",
-            "'",
-            "\""
-          ],
-          [
-            "-",
-            "\n",
-            ","
-          ],
-          [
-            "!",
-            ")",
-            "\""
-          ],
-          [
-            "\n",
-            "\"",
-            "("
-          ]
-        ]
-      }
-    ]
-  },
-  "elapsed_s": 2.4,
-  "timestamp_utc": "2026-07-19T23:08:03.659340+00:00",
-  "smoke": true,
-  "probes_per_comb": 15,
-  "n_perm": 120
+  "operand": null,
+  "elapsed_s": 9.0,
+  "timestamp_utc": "2026-07-19T23:11:59.113287+00:00",
+  "smoke": false,
+  "probes_per_comb": null,
+  "n_perm": 300
 }

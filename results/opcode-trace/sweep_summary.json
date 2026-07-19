@@ -7,7 +7,7 @@
       ],
       "n_gated": 1,
       "agreement_mean": NaN,
-      "gc_consensus": 0.2759123255209779
+      "gc_consensus": 0.89222973491376
     },
     "qwen3": {
       "models": [
@@ -15,18 +15,18 @@
       ],
       "n_gated": 1,
       "agreement_mean": NaN,
-      "gc_consensus": 0.41626460050877856
+      "gc_consensus": 0.9523396435701692
     }
   },
   "root_health": {
-    "sil_z": 8.684874999999998,
-    "gc_consensus": 0.344348196755979,
+    "sil_z": 4.067875,
+    "gc_consensus": 0.9395016837844821,
     "crystal_bearing_frac": 1.0,
     "null_floor_z": NaN
   },
   "root_agreement": {
-    "agreement_mean": 0.9400713163101441,
-    "agreement_min": 0.9400713163101441,
+    "agreement_mean": 0.9069966323342725,
+    "agreement_min": 0.9069966323342725,
     "dissent": false,
     "n_gated": 2
   }
