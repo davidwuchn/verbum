@@ -14,6 +14,7 @@ depends-on:
   - crystal-universality.md
   - mathematical-convergences.md
 created: session 181
+staleness: "s265: φ-eigenvalue claims weakened by λ yardstick (s247/s251); see note below"
 ---
 
 # Crystal φ-Derivation
@@ -36,6 +37,15 @@ created: session 181
 >   order + fingerprint centrality say **B-first**. One is wrong; resolve.
 > Treat the φ-as-determining-constant framing as **hypothesis localized
 > to mature models**, not an established universal law.
+>
+> **s265 update:** re-confirmed by the later yardstick audits — s247
+> (φ-ladder forced fit: P(random≥)=0.92 under a matched-range null) and
+> s251 (φ^(4/5) cross-model: only Qwen3-14B beats the shuffled-label
+> null; random labelings already sit at λ₀/λ₁≈1.55–1.66). Distinction to
+> preserve: the **16×16 cosine structure itself** (types/anti-types,
+> Kronecker form M₁₆ = S⊗J + D⊗F) is a measurement and stands; the **φ
+> numerology on its eigenvalues** is the weakened part. The 16-basis is
+> the extraction register of the crystal (see `opcode-vsm-tree.md` §3).
 
 > Session 181. The crystal eigenvalues are not empirical constants —
 > they are powers of the golden ratio with Fibonacci denominators.

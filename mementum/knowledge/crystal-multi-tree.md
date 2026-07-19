@@ -12,6 +12,7 @@ depends-on:
   - crystal-phi-derivation.md
   - crystal-universality.md
 created: session 197
+staleness: "s247: φ^(p/q) significance retracted (see caveat); topology/bridge findings stand"
 ---
 
 # Crystal Multi-Tree
@@ -297,5 +298,8 @@ Three trees → r=0.995. Bridge fine structure → r=0.999.
    does the number of bridges grow?
 
 4. **Are the bridge nodes the source of cross-model crystal
+   disagreement?** The PCA-Q agreement of 0.91-0.94 across models
+   could improve to 0.95+ if W and Y are phase-corrected.
+ridge nodes the source of cross-model crystal
    disagreement?** The PCA-Q agreement of 0.91-0.94 across models
    could improve to 0.95+ if W and Y are phase-corrected.

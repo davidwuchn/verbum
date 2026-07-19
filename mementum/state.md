@@ -33,23 +33,31 @@
 >
 > ★★ FIRST TREE RESULT (full calib, 2 smalls): root gc = +0.940 vs the 10-model consensus; cross-family
 >   agreement 0.907 between pythia-14m (14M! ungated up-proj proxy) and qwen3-0.6b (gated) — cross-architecture
->   at 43× scale gap. Qwen3-0.6b gate crystal zone L5–L19 (interior bell = combinator-locus prior). LESSON:
->   smoke calib (135 probes) gave gc 0.344 vs full (535) 0.940 — probe count dominates Gram fidelity; smoke =
->   pipeline-check ONLY. CAVEAT: attn 28/28 bearing may include null-floor inflation (s264); per-run
->   null_floor_z NOT yet measured (nan in tree) — register_visibility shuffled-null wiring is the fix.
+>   at 43× scale gap. LESSON: smoke calib (135 probes) gave gc 0.344 vs full (535) 0.940 — probe count
+>   dominates Gram fidelity; smoke = pipeline-check ONLY.
+>
+> ★★ NULL FLOOR MEASURED (classify.measure_null_floor, fills the tree's null_floor_z — Michael: "fix it").
+>   Shuffled-label recalibration on same features; null_floor_z = pooled q95 of per-layer shuffled sil_z
+>   (layer-count independent, N(0,1) ref ~1.64) + shuffled_bearing_frac + suspect(>5%). FINDING — floors are
+>   REGISTER- AND MODEL-SPECIFIC: qwen3-0.6b GATE 2.78 > attn 2.14 (REVERSES s264's 27B elevated-ATTN
+>   direction!); pythia-14m attn 1.94 SUSPECT (5.6% shuffled bearing). Consequence: 0.6b gate bearing at
+>   L0/L17–L19 sits at/below its own floor → solid gate zone = L5–L16 (sil_z≥3.27). NEVER carry a floor across
+>   scales/models. Discipline: ≥20 pooled samples, n_perm≥120 (fewer → z-estimate itself t-tailed, inflates
+>   floor — caught by synthetic smoke). Root null_floor = 2.78 (worst child); no nan left in the tree.
 >
 > ★ J-SPACE INTEGRATION (honest per s263 EXP1): operand register = WHAT is routed, NEVER classifies opcodes;
 >   display-only column in trace; must not feed the classifier. src/verbum/{jlens,jacobian}.py remain (jacobian
 >   = position-attribution for the future QK-pattern register).
 >
 > ★ NEXT (open, Michael's call): (A) LARGE SWEEP — registry loaded (qwen3 ladder+3.6-27B hybrid+gemma-4-31B+
->   olmo-2, MPS); overnight --tier large vs one 27B validation first. (B) measure per-run null_floor_z (wire
->   register_visibility's shuffled null into trace) → fill the nan. (C) QK-PATTERN register → decisive B/C test
->   (s264 F4 untested). (D) visualizer (the remaining MVP piece) + extract opcodes/ to dedicated MIT repo.
->   (E) mementum proposals PENDING approval: knowledge/opcode-vsm-tree.md + memories/opcodes-mvp-standalone.md
->   + staleness flags on φ-ladder claims in crystal-phi-derivation.md/crystal-multi-tree.md (λ yardstick).
->   Prior-arc NEXT still open: s263 position-attribution/Jacobian SVD; Pythia ladder crystal-sharpness; v15.1;
->   INDEX regen. Env: torch 2.11 + MPS, 512GB RAM; models HF-cached (see s264 note in arc).
+>   olmo-2, MPS); overnight --tier large vs one 27B validation first; floors at 27B retro-check s264's
+>   elevated-attn direction. (B) QK-PATTERN register → decisive B/C test (s264 F4 untested). (C) visualizer
+>   (the remaining MVP piece) + extract opcodes/ to dedicated MIT repo. DONE this session: null_floor_z
+>   measured+wired (was B); mementum encoded (was E): knowledge/opcode-vsm-tree.md + memories/
+>   opcodes-mvp-standalone.md + s265 cross-refs on the already-flagged φ pages (s202/s247 caveats existed —
+>   my "unflagged" claim was itself stale). Prior-arc NEXT still open: s263 position-attribution/Jacobian SVD;
+>   Pythia ladder crystal-sharpness; v15.1; INDEX regen. Env: torch 2.11 + MPS, 512GB RAM; models HF-cached
+>   (see s264 note in arc).
 
 ─────────────────────────────────────────────────────────────────────────────────────────────────────
 
