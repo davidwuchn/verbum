@@ -1,0 +1,486 @@
+{
+  "model": "EleutherAI/pythia-14m-deduped",
+  "device": "cpu",
+  "topology": {
+    "arch": "GPTNeoXForCausalLM",
+    "register": "ungated",
+    "read_register": "sign(dense_h_to_4h) [up-proj proxy]",
+    "layers_path": "gpt_neox.layers",
+    "gate_suffix": "mlp.dense_h_to_4h",
+    "gate_width": 512,
+    "attn_suffix": "attention.dense",
+    "attn_width": 128,
+    "n_layers": 6
+  },
+  "registers": [
+    "gate",
+    "attn"
+  ],
+  "calibration": {
+    "gate": {
+      "n_layers": 6,
+      "crystal_layers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "per_layer": {
+        "0": {
+          "sil_z": 10.206,
+          "gc_consensus": 0.131,
+          "crystal_bearing": true
+        },
+        "1": {
+          "sil_z": 8.335,
+          "gc_consensus": 0.124,
+          "crystal_bearing": true
+        },
+        "2": {
+          "sil_z": 8.867,
+          "gc_consensus": 0.01,
+          "crystal_bearing": true
+        },
+        "3": {
+          "sil_z": 7.609,
+          "gc_consensus": 0.108,
+          "crystal_bearing": true
+        },
+        "4": {
+          "sil_z": 8.638,
+          "gc_consensus": 0.065,
+          "crystal_bearing": true
+        },
+        "5": {
+          "sil_z": 7.516,
+          "gc_consensus": 0.219,
+          "crystal_bearing": true
+        }
+      },
+      "z_thresh": 3.0,
+      "sil_z_thresh": 2.0,
+      "has_consensus": true,
+      "null_kind": "crosstask",
+      "register": "gate",
+      "n_probes": 135,
+      "n_null_tokens": 55
+    },
+    "attn": {
+      "n_layers": 6,
+      "crystal_layers": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "per_layer": {
+        "0": {
+          "sil_z": 4.507,
+          "gc_consensus": 0.305,
+          "crystal_bearing": true
+        },
+        "1": {
+          "sil_z": 6.42,
+          "gc_consensus": 0.386,
+          "crystal_bearing": true
+        },
+        "2": {
+          "sil_z": 9.212,
+          "gc_consensus": 0.239,
+          "crystal_bearing": true
+        },
+        "3": {
+          "sil_z": 1.67,
+          "gc_consensus": -0.136,
+          "crystal_bearing": false
+        },
+        "4": {
+          "sil_z": 4.374,
+          "gc_consensus": 0.317,
+          "crystal_bearing": true
+        },
+        "5": {
+          "sil_z": -0.3,
+          "gc_consensus": -0.178,
+          "crystal_bearing": false
+        }
+      },
+      "z_thresh": 3.0,
+      "sil_z_thresh": 2.0,
+      "has_consensus": true,
+      "null_kind": "crosstask",
+      "register": "attn",
+      "n_probes": 135,
+      "n_null_tokens": 55
+    }
+  },
+  "traces": {
+    "gate": {
+      "register": "gate",
+      "n_tokens": 32,
+      "token_noop_rate": 0.7188,
+      "crystal_layers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "trajectory": [
+        {
+          "layer": 0,
+          "op": "Y",
+          "votes": 2,
+          "total": 4
+        },
+        {
+          "layer": 1,
+          "op": "S",
+          "votes": 3,
+          "total": 6
+        },
+        {
+          "layer": 2,
+          "op": "B",
+          "votes": 1,
+          "total": 2
+        },
+        {
+          "layer": 3,
+          "op": "B",
+          "votes": 1,
+          "total": 1
+        },
+        {
+          "layer": 4,
+          "op": "S",
+          "votes": 1,
+          "total": 1
+        },
+        {
+          "layer": 5,
+          "op": "Y",
+          "votes": 2,
+          "total": 4
+        }
+      ],
+      "C_layers": [],
+      "B_layers": [
+        2,
+        3
+      ],
+      "C_before_B": false
+    },
+    "attn": {
+      "register": "attn",
+      "n_tokens": 32,
+      "token_noop_rate": 0.7812,
+      "crystal_layers": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "trajectory": [
+        {
+          "layer": 0,
+          "op": "Y",
+          "votes": 6,
+          "total": 6
+        },
+        {
+          "layer": 4,
+          "op": "Y",
+          "votes": 1,
+          "total": 1
+        }
+      ],
+      "C_layers": [],
+      "B_layers": [],
+      "C_before_B": false
+    }
+  },
+  "operand": {
+    "read_layer": 5,
+    "rows": [
+      {
+        "prompt": "The dog runs.",
+        "tokens": [
+          "The",
+          " dog",
+          " runs",
+          "."
+        ],
+        "operand": [
+          [
+            "'",
+            ",",
+            "\""
+          ],
+          [
+            "-",
+            ".",
+            ","
+          ],
+          [
+            " the",
+            "!",
+            "'"
+          ],
+          [
+            "\n",
+            "!",
+            "\""
+          ]
+        ]
+      },
+      {
+        "prompt": "Every student reads a book.",
+        "tokens": [
+          "Every",
+          " student",
+          " reads",
+          " a",
+          " book",
+          "."
+        ],
+        "operand": [
+          [
+            "!",
+            "-",
+            ","
+          ],
+          [
+            "?",
+            "\n",
+            ","
+          ],
+          [
+            "!",
+            ".",
+            ","
+          ],
+          [
+            "!",
+            ",",
+            ")"
+          ],
+          [
+            "-",
+            ".",
+            ","
+          ],
+          [
+            "1",
+            "I",
+            "<|endoftext|>"
+          ]
+        ]
+      },
+      {
+        "prompt": "If it rains, the ground is wet.",
+        "tokens": [
+          "If",
+          " it",
+          " rains",
+          ",",
+          " the",
+          " ground",
+          " is",
+          " wet",
+          "."
+        ],
+        "operand": [
+          [
+            "!",
+            "#",
+            "\""
+          ],
+          [
+            "?",
+            "s",
+            ","
+          ],
+          [
+            "!",
+            ")",
+            "\""
+          ],
+          [
+            "\n",
+            " a",
+            "?"
+          ],
+          [
+            " w",
+            " p",
+            "\n"
+          ],
+          [
+            "!",
+            "-",
+            ","
+          ],
+          [
+            "\n",
+            " a",
+            ","
+          ],
+          [
+            "!",
+            ",",
+            ")"
+          ],
+          [
+            "I",
+            "\n",
+            "<|endoftext|>"
+          ]
+        ]
+      },
+      {
+        "prompt": "No bird can swim.",
+        "tokens": [
+          "No",
+          " bird",
+          " can",
+          " swim",
+          "."
+        ],
+        "operand": [
+          [
+            "*",
+            ",",
+            "\""
+          ],
+          [
+            "!",
+            "'",
+            "\""
+          ],
+          [
+            "'",
+            ",",
+            "\""
+          ],
+          [
+            "!",
+            "\"",
+            "<|endoftext|>"
+          ],
+          [
+            "1",
+            "I",
+            "<|endoftext|>"
+          ]
+        ]
+      },
+      {
+        "prompt": "Mary likes the cat that John owns.",
+        "tokens": [
+          "Mary",
+          " likes",
+          " the",
+          " cat",
+          " that",
+          " John",
+          " owns",
+          "."
+        ],
+        "operand": [
+          [
+            ",",
+            "-",
+            "'"
+          ],
+          [
+            "!",
+            ",",
+            "'"
+          ],
+          [
+            "-",
+            ".",
+            ","
+          ],
+          [
+            "-",
+            ".",
+            ","
+          ],
+          [
+            "!",
+            "'",
+            "<|endoftext|>"
+          ],
+          [
+            "\n",
+            " and",
+            ","
+          ],
+          [
+            " the",
+            " a",
+            "!"
+          ],
+          [
+            "\"",
+            ",",
+            "<|endoftext|>"
+          ]
+        ]
+      },
+      {
+        "prompt": "Some teacher graded every exam.",
+        "tokens": [
+          "Some",
+          " teacher",
+          " graded",
+          " every",
+          " exam",
+          "."
+        ],
+        "operand": [
+          [
+            " of",
+            ",",
+            "!"
+          ],
+          [
+            "!",
+            "\"",
+            "<|endoftext|>"
+          ],
+          [
+            "!",
+            "'",
+            "\""
+          ],
+          [
+            "-",
+            "\n",
+            ","
+          ],
+          [
+            "!",
+            ")",
+            "\""
+          ],
+          [
+            "\n",
+            "\"",
+            "("
+          ]
+        ]
+      }
+    ]
+  },
+  "elapsed_s": 2.4,
+  "timestamp_utc": "2026-07-19T23:08:03.659340+00:00",
+  "smoke": true,
+  "probes_per_comb": 15,
+  "n_perm": 120
+}
