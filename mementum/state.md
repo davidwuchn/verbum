@@ -10,7 +10,18 @@
 >
 > Last updated: 2026-07-19 | Session: 265 (OPCODES MVP: TREE-OF-VSM MULTI-MODEL — Michael: "make opcodes work
 > for multiple models; incorporate J-Space" → "use the v14/v15 tree-of-VSM tensor setup: multiple VSM-shaped
-> tensors stacked in the tree" → built the full MVP. 8 commits 4839f07..aa1e8d9.)
+> tensors stacked in the tree" → built the full MVP + null floors + launched the LARGE SWEEP. ~14 commits
+> 4839f07..HEAD.)
+>
+> ★★★ LARGE SWEEP IN FLIGHT (launched end of s265, tmux main:1): `uv run python opcodes/sweep.py --tier large`
+>   → log `results/opcode-trace/sweep_large.log`. 7 models sequential on MPS (qwen3-{4,14,32}B, qwen3.6-27B
+>   hybrid, gemma-4-31B, olmo-2-13B, pythia-2.8b), subprocess-per-model (a failure prints + continues), full
+>   535-probe calib × 2 registers + 3-shuffle null floors each, then restack → results/opcode-trace/
+>   {universal_vsm.json, sweep_summary.json}. NEXT SESSION FIRST: check `tmux capture-pane -p -t main:1 |
+>   tail -30` ∨ tail the log; then READ THE TREE: (1) does root gc hold ≥0.9 with 9 models / 4+ families?
+>   (2) 27B attn null floor elevated as s264 measured? (floors are register+model-specific — 0.6b REVERSED)
+>   (3) scale-sharpening: qwen3 family sil_z monotone up the ladder? If crashed → log tail names the model;
+>   rerun `--tier large` (cached artifacts skip) ∨ per-model `--models {id} --force`.
 >
 > ★★ OPCODE CRYSTAL TREE (`opcodes/vsm.py`) — tree-of-VSM applied to MEASUREMENT. One fractal node shape at
 >   every level (S5=9×9 Gram, S4=cross-child agreement/dissent, S3=null gate — ungated children stay visible

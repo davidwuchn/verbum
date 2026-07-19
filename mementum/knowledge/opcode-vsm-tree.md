@@ -113,7 +113,11 @@ synthetic smoke honestly flagging 3-layer toy data).
 
 ## 7. Open
 
-- Large sweep (qwen3 ladder + 3.6-27B hybrid + gemma-4-31B + olmo-2) — the
-  registry is loaded; floors at 27B retro-check s264.
-- QK-pattern register → decisive B/C test.
+- Large sweep **launched end of s265** (tmux main:1, log
+  `results/opcode-trace/sweep_large.log`): 7 large models, full calib +
+  floors, restack to universal root. Three headline questions: root gc ≥0.9
+  at 9 models / 4+ families; 27B attn floor vs s264; qwen3-family sil_z
+  monotone with scale. Results land in `results/opcode-trace/` — update §6
+  of this page when read.
+- QK-pattern register → decisive B/C test (predicted home of {B,C}).
 - Visualizer; then extraction of `opcodes/` to its own MIT repo.
