@@ -1,0 +1,77 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Fetching 15 files:   0%|          | 0/15 [00:00<?, ?it/s]Fetching 15 files: 100%|██████████| 15/15 [00:00<00:00, 127100.12it/s]
+The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+Loading weights:   0%|          | 0/851 [00:00<?, ?it/s]Loading weights: 100%|██████████| 851/851 [00:00<00:00, 25556.35it/s]
+[trace] loaded Qwen/Qwen3.6-27B on mps in 7.9s
+[trace] arch=Qwen3_5ForCausalLM  L=64  register=gated-dense  layers=model.layers  gate=mlp.gate_proj(d=17408)  read=sign(gate_proj) [validated]
+[trace] calibrating on 360 crystal probes ...
+[trace]   probe 0/360
+[trace]   probe 100/360
+[trace]   probe 200/360
+[trace]   probe 300/360
+[trace] building null from 8 natural-text prompts ...
+[trace] crystal-bearing layers: 55/64 -> [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+========================================================================
+OPCODE TRACE — Qwen/Qwen3.6-27B  [sign(gate_proj) [validated]]
+========================================================================
+crystal-bearing layers: 55/64
+token no-op rate: 0.375 (non-combinator tokens that stay silent)
+C-layers=[]  B-layers=[]  C_before_B=False
+trajectory (crystal-bearing layers, dominant op over lambda tokens):
+  L  0     Y    3/6   ##########
+  L  1  WHNF    1/2   ##########
+  L  2     D    1/1   ####################
+  L  3     D    1/1   ####################
+  L  4     D    1/1   ####################
+  L  5     D    1/1   ####################
+  L  6     K    1/3   ######
+  L  7  WHNF    1/3   ######
+  L  8     Y    3/5   ############
+  L  9     Y    3/6   ##########
+  L 10     S    2/3   #############
+  L 11     D    1/1   ####################
+  L 12     Y    1/1   ####################
+  L 13     Y    2/2   ####################
+  L 14     S    1/3   ######
+  L 15     D    1/1   ####################
+  L 16     D    1/1   ####################
+  L 17     Y    1/2   ##########
+  L 18     D    1/1   ####################
+  L 19     D    1/1   ####################
+  L 20     D    2/2   ####################
+  L 21     D    3/5   ############
+  L 22     D    4/4   ####################
+  L 23     D    3/3   ####################
+  L 24     Y    2/4   ##########
+  L 25     Y    3/4   ###############
+  L 26     Y    2/4   ##########
+  L 27     Y    6/8   ###############
+  L 28     Y    4/5   ################
+  L 29     Y    3/6   ##########
+  L 30     Y    2/4   ##########
+  L 31     D    2/2   ####################
+  L 32     Y    3/5   ############
+  L 33     Y    4/6   #############
+  L 34     Y    3/6   ##########
+  L 35     S    2/5   ########
+  L 36     S    5/6   ################
+  L 37     D    1/2   ##########
+  L 38     D    1/1   ####################
+  L 39     I    1/3   ######
+  L 40     S    2/3   #############
+  L 41     Y    2/4   ##########
+  L 42     Y    2/4   ##########
+  L 43     Y    2/4   ##########
+  L 44     Y    4/6   #############
+  L 45     Y    4/6   #############
+  L 46     Y    3/5   ############
+  L 47     Y    2/4   ##########
+  L 48     Y    2/4   ##########
+  L 49     Y    2/4   ##########
+  L 50     Y    4/5   ################
+  L 51     Y    2/4   ##########
+  L 52     Y    4/5   ################
+  L 53     Y    5/7   ##############
+  L 54     Y    4/4   ####################
+========================================================================
+[trace] wrote /Users/mwhitford/src/verbum/results/opcode-trace/qwen3-6-27b_mps.json  (224.0s)

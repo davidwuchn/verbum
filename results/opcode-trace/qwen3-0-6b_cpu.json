@@ -1,0 +1,382 @@
+{
+  "model": "Qwen/Qwen3-0.6B",
+  "device": "cpu",
+  "topology": {
+    "arch": "Qwen3ForCausalLM",
+    "register": "gated-dense",
+    "read_register": "sign(gate_proj) [validated]",
+    "layers_path": "model.layers",
+    "gate_suffix": "mlp.gate_proj",
+    "gate_width": 3072,
+    "n_layers": 28
+  },
+  "calibration": {
+    "n_layers": 28,
+    "crystal_layers": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27
+    ],
+    "per_layer": {
+      "0": {
+        "sil_z": 6.754,
+        "gc_consensus": 0.328,
+        "crystal_bearing": true
+      },
+      "1": {
+        "sil_z": 7.663,
+        "gc_consensus": 0.258,
+        "crystal_bearing": true
+      },
+      "2": {
+        "sil_z": 10.407,
+        "gc_consensus": 0.322,
+        "crystal_bearing": true
+      },
+      "3": {
+        "sil_z": 8.144,
+        "gc_consensus": 0.362,
+        "crystal_bearing": true
+      },
+      "4": {
+        "sil_z": 6.491,
+        "gc_consensus": 0.307,
+        "crystal_bearing": true
+      },
+      "5": {
+        "sil_z": 11.893,
+        "gc_consensus": 0.353,
+        "crystal_bearing": true
+      },
+      "6": {
+        "sil_z": 10.14,
+        "gc_consensus": 0.368,
+        "crystal_bearing": true
+      },
+      "7": {
+        "sil_z": 10.622,
+        "gc_consensus": 0.408,
+        "crystal_bearing": true
+      },
+      "8": {
+        "sil_z": 11.289,
+        "gc_consensus": 0.437,
+        "crystal_bearing": true
+      },
+      "9": {
+        "sil_z": 8.193,
+        "gc_consensus": 0.491,
+        "crystal_bearing": true
+      },
+      "10": {
+        "sil_z": 9.049,
+        "gc_consensus": 0.473,
+        "crystal_bearing": true
+      },
+      "11": {
+        "sil_z": 9.054,
+        "gc_consensus": 0.5,
+        "crystal_bearing": true
+      },
+      "12": {
+        "sil_z": 9.163,
+        "gc_consensus": 0.474,
+        "crystal_bearing": true
+      },
+      "13": {
+        "sil_z": 11.627,
+        "gc_consensus": 0.469,
+        "crystal_bearing": true
+      },
+      "14": {
+        "sil_z": 9.541,
+        "gc_consensus": 0.438,
+        "crystal_bearing": true
+      },
+      "15": {
+        "sil_z": 8.47,
+        "gc_consensus": 0.408,
+        "crystal_bearing": true
+      },
+      "16": {
+        "sil_z": 9.259,
+        "gc_consensus": 0.397,
+        "crystal_bearing": true
+      },
+      "17": {
+        "sil_z": 7.807,
+        "gc_consensus": 0.391,
+        "crystal_bearing": true
+      },
+      "18": {
+        "sil_z": 9.063,
+        "gc_consensus": 0.349,
+        "crystal_bearing": true
+      },
+      "19": {
+        "sil_z": 6.76,
+        "gc_consensus": 0.328,
+        "crystal_bearing": true
+      },
+      "20": {
+        "sil_z": 6.773,
+        "gc_consensus": 0.363,
+        "crystal_bearing": true
+      },
+      "21": {
+        "sil_z": 5.54,
+        "gc_consensus": 0.368,
+        "crystal_bearing": true
+      },
+      "22": {
+        "sil_z": 4.618,
+        "gc_consensus": 0.351,
+        "crystal_bearing": true
+      },
+      "23": {
+        "sil_z": 5.64,
+        "gc_consensus": 0.331,
+        "crystal_bearing": true
+      },
+      "24": {
+        "sil_z": 4.549,
+        "gc_consensus": 0.314,
+        "crystal_bearing": true
+      },
+      "25": {
+        "sil_z": 4.593,
+        "gc_consensus": 0.338,
+        "crystal_bearing": true
+      },
+      "26": {
+        "sil_z": 2.617,
+        "gc_consensus": 0.31,
+        "crystal_bearing": true
+      },
+      "27": {
+        "sil_z": 4.565,
+        "gc_consensus": 0.219,
+        "crystal_bearing": true
+      }
+    },
+    "z_thresh": 3.0,
+    "sil_z_thresh": 2.0,
+    "has_consensus": true,
+    "null_kind": "crosstask",
+    "n_probes": 135,
+    "n_null_tokens": 55
+  },
+  "trace": {
+    "n_tokens": 32,
+    "token_noop_rate": 0.5938,
+    "crystal_layers": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27
+    ],
+    "trajectory": [
+      {
+        "layer": 0,
+        "op": "Y",
+        "votes": 2,
+        "total": 3
+      },
+      {
+        "layer": 1,
+        "op": "Y",
+        "votes": 2,
+        "total": 3
+      },
+      {
+        "layer": 2,
+        "op": "D",
+        "votes": 1,
+        "total": 1
+      },
+      {
+        "layer": 3,
+        "op": "S",
+        "votes": 1,
+        "total": 2
+      },
+      {
+        "layer": 4,
+        "op": "Y",
+        "votes": 2,
+        "total": 2
+      },
+      {
+        "layer": 5,
+        "op": "S",
+        "votes": 2,
+        "total": 2
+      },
+      {
+        "layer": 6,
+        "op": "WHNF",
+        "votes": 1,
+        "total": 1
+      },
+      {
+        "layer": 7,
+        "op": "WHNF",
+        "votes": 2,
+        "total": 3
+      },
+      {
+        "layer": 8,
+        "op": "S",
+        "votes": 1,
+        "total": 1
+      },
+      {
+        "layer": 9,
+        "op": "S",
+        "votes": 1,
+        "total": 2
+      },
+      {
+        "layer": 10,
+        "op": "S",
+        "votes": 1,
+        "total": 1
+      },
+      {
+        "layer": 11,
+        "op": "S",
+        "votes": 1,
+        "total": 2
+      },
+      {
+        "layer": 12,
+        "op": "WHNF",
+        "votes": 1,
+        "total": 1
+      },
+      {
+        "layer": 14,
+        "op": "S",
+        "votes": 1,
+        "total": 1
+      },
+      {
+        "layer": 15,
+        "op": "S",
+        "votes": 1,
+        "total": 1
+      },
+      {
+        "layer": 17,
+        "op": "Y",
+        "votes": 1,
+        "total": 1
+      },
+      {
+        "layer": 19,
+        "op": "Y",
+        "votes": 2,
+        "total": 2
+      },
+      {
+        "layer": 20,
+        "op": "Y",
+        "votes": 4,
+        "total": 4
+      },
+      {
+        "layer": 21,
+        "op": "Y",
+        "votes": 5,
+        "total": 9
+      },
+      {
+        "layer": 22,
+        "op": "Y",
+        "votes": 4,
+        "total": 6
+      },
+      {
+        "layer": 23,
+        "op": "S",
+        "votes": 3,
+        "total": 4
+      },
+      {
+        "layer": 24,
+        "op": "WHNF",
+        "votes": 3,
+        "total": 3
+      },
+      {
+        "layer": 25,
+        "op": "WHNF",
+        "votes": 3,
+        "total": 4
+      },
+      {
+        "layer": 26,
+        "op": "WHNF",
+        "votes": 3,
+        "total": 4
+      }
+    ],
+    "C_layers": [],
+    "B_layers": [],
+    "C_before_B": false
+  },
+  "elapsed_s": 11.6,
+  "timestamp_utc": "2026-07-19T20:54:22.861198+00:00",
+  "smoke": true,
+  "probes_per_comb": 15,
+  "n_perm": 120
+}
