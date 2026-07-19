@@ -1,0 +1,3762 @@
+{
+ "description": "Crystal measurement probes \u2014 labeled prompts per combinator (exported from verbum.probes.library, dedup by prompt)",
+ "crystal_order": [
+  "K",
+  "I",
+  "B",
+  "C",
+  "S",
+  "D",
+  "W",
+  "Y",
+  "WHNF"
+ ],
+ "n_probes": 535,
+ "probes": [
+  {
+   "id": "lk_0000",
+   "prompt": "Of all the animals in the zoo, only the lion was truly",
+   "combinator": "K",
+   "source": "lambda_kernel",
+   "category": "lambda_K_select"
+  },
+  {
+   "id": "lk_0001",
+   "prompt": "Among the candidates, the committee chose the one who had the most",
+   "combinator": "K",
+   "source": "lambda_kernel",
+   "category": "lambda_K_select"
+  },
+  {
+   "id": "lk_0002",
+   "prompt": "Between coffee and tea, she always prefers",
+   "combinator": "K",
+   "source": "lambda_kernel",
+   "category": "lambda_K_select"
+  },
+  {
+   "id": "lk_0003",
+   "prompt": "Despite the rain, the cold, and the wind, the hikers continued to",
+   "combinator": "K",
+   "source": "lambda_kernel",
+   "category": "lambda_K_select"
+  },
+  {
+   "id": "lk_0004",
+   "prompt": "Ignoring the noise from the construction site next door, the student focused on",
+   "combinator": "K",
+   "source": "lambda_kernel",
+   "category": "lambda_K_select"
+  },
+  {
+   "id": "lk_0005",
+   "prompt": "If the test is positive, the doctor will prescribe medication; otherwise the patient can go",
+   "combinator": "K",
+   "source": "lambda_kernel",
+   "category": "lambda_K_select"
+  },
+  {
+   "id": "lk_0006",
+   "prompt": "Either we leave now and catch the train, or we stay and miss",
+   "combinator": "K",
+   "source": "lambda_kernel",
+   "category": "lambda_K_select"
+  },
+  {
+   "id": "lk_0007",
+   "prompt": "The winner takes the trophy while the loser goes",
+   "combinator": "K",
+   "source": "lambda_kernel",
+   "category": "lambda_K_select"
+  },
+  {
+   "id": "lk_0008",
+   "prompt": "You must choose: save the village or pursue the",
+   "combinator": "K",
+   "source": "lambda_kernel",
+   "category": "lambda_K_select"
+  },
+  {
+   "id": "lk_0009",
+   "prompt": "The relevant factor was not the price but the",
+   "combinator": "K",
+   "source": "lambda_kernel",
+   "category": "lambda_K_select"
+  },
+  {
+   "id": "lk_0010",
+   "prompt": "The key finding of the study, setting aside methodological concerns, was that",
+   "combinator": "K",
+   "source": "lambda_kernel",
+   "category": "lambda_K_select"
+  },
+  {
+   "id": "lk_0011",
+   "prompt": "Regardless of the criticism, the project achieved its primary",
+   "combinator": "K",
+   "source": "lambda_kernel",
+   "category": "lambda_K_select"
+  },
+  {
+   "id": "lk_0012",
+   "prompt": "Whatever the reason, the result was clearly",
+   "combinator": "K",
+   "source": "lambda_kernel",
+   "category": "lambda_K_select"
+  },
+  {
+   "id": "lk_0013",
+   "prompt": "No matter what else happened that day, the important thing was that",
+   "combinator": "K",
+   "source": "lambda_kernel",
+   "category": "lambda_K_select"
+  },
+  {
+   "id": "lk_0014",
+   "prompt": "Setting aside personal feelings, the decision was based purely on",
+   "combinator": "K",
+   "source": "lambda_kernel",
+   "category": "lambda_K_select"
+  },
+  {
+   "id": "lk_0015",
+   "prompt": "From the entire library, she selected only one book about",
+   "combinator": "K",
+   "source": "lambda_kernel",
+   "category": "lambda_K_select"
+  },
+  {
+   "id": "lk_0016",
+   "prompt": "Out of hundreds of applicants, only five were invited to",
+   "combinator": "K",
+   "source": "lambda_kernel",
+   "category": "lambda_K_select"
+  },
+  {
+   "id": "lk_0017",
+   "prompt": "The detective isolated the single piece of evidence that",
+   "combinator": "K",
+   "source": "lambda_kernel",
+   "category": "lambda_K_select"
+  },
+  {
+   "id": "lk_0018",
+   "prompt": "Among all the possible explanations, the simplest one was",
+   "combinator": "K",
+   "source": "lambda_kernel",
+   "category": "lambda_K_select"
+  },
+  {
+   "id": "lk_0019",
+   "prompt": "From the wreckage they recovered only the",
+   "combinator": "K",
+   "source": "lambda_kernel",
+   "category": "lambda_K_select"
+  },
+  {
+   "id": "lk_0020",
+   "prompt": "The editor removed all unnecessary adjectives, leaving only",
+   "combinator": "K",
+   "source": "lambda_kernel",
+   "category": "lambda_K_select"
+  },
+  {
+   "id": "lk_0021",
+   "prompt": "After stripping away the jargon, the message was simply that",
+   "combinator": "K",
+   "source": "lambda_kernel",
+   "category": "lambda_K_select"
+  },
+  {
+   "id": "lk_0022",
+   "prompt": "Reduce the fraction to its simplest form by removing common",
+   "combinator": "K",
+   "source": "lambda_kernel",
+   "category": "lambda_K_select"
+  },
+  {
+   "id": "lk_0023",
+   "prompt": "The sculptor removed marble until only the figure",
+   "combinator": "K",
+   "source": "lambda_kernel",
+   "category": "lambda_K_select"
+  },
+  {
+   "id": "lk_0024",
+   "prompt": "Delete everything except the first column and the last",
+   "combinator": "K",
+   "source": "lambda_kernel",
+   "category": "lambda_K_select"
+  },
+  {
+   "id": "lk_0025",
+   "prompt": "John said that he would finish the project by",
+   "combinator": "I",
+   "source": "lambda_kernel",
+   "category": "lambda_I_identity"
+  },
+  {
+   "id": "lk_0026",
+   "prompt": "The cat cleaned itself thoroughly before",
+   "combinator": "I",
+   "source": "lambda_kernel",
+   "category": "lambda_I_identity"
+  },
+  {
+   "id": "lk_0027",
+   "prompt": "Mary asked her mother if she could borrow",
+   "combinator": "I",
+   "source": "lambda_kernel",
+   "category": "lambda_I_identity"
+  },
+  {
+   "id": "lk_0028",
+   "prompt": "The students prepared their own presentations about",
+   "combinator": "I",
+   "source": "lambda_kernel",
+   "category": "lambda_I_identity"
+  },
+  {
+   "id": "lk_0029",
+   "prompt": "The company announced that it would be expanding into",
+   "combinator": "I",
+   "source": "lambda_kernel",
+   "category": "lambda_I_identity"
+  },
+  {
+   "id": "lk_0030",
+   "prompt": "The answer is exactly what you think it",
+   "combinator": "I",
+   "source": "lambda_kernel",
+   "category": "lambda_I_identity"
+  },
+  {
+   "id": "lk_0031",
+   "prompt": "What you see is precisely what you",
+   "combinator": "I",
+   "source": "lambda_kernel",
+   "category": "lambda_I_identity"
+  },
+  {
+   "id": "lk_0032",
+   "prompt": "The output of the function is the same as the",
+   "combinator": "I",
+   "source": "lambda_kernel",
+   "category": "lambda_I_identity"
+  },
+  {
+   "id": "lk_0033",
+   "prompt": "Copy the file exactly as it appears without changing",
+   "combinator": "I",
+   "source": "lambda_kernel",
+   "category": "lambda_I_identity"
+  },
+  {
+   "id": "lk_0034",
+   "prompt": "Repeat after me: the password is",
+   "combinator": "I",
+   "source": "lambda_kernel",
+   "category": "lambda_I_identity"
+  },
+  {
+   "id": "lk_0035",
+   "prompt": "The old man sat on the bench. He watched the pigeons as they",
+   "combinator": "I",
+   "source": "lambda_kernel",
+   "category": "lambda_I_identity"
+  },
+  {
+   "id": "lk_0036",
+   "prompt": "Alice found a book in the attic. She opened it and saw that it",
+   "combinator": "I",
+   "source": "lambda_kernel",
+   "category": "lambda_I_identity"
+  },
+  {
+   "id": "lk_0037",
+   "prompt": "The car broke down on the highway. Its engine had overheated because the",
+   "combinator": "I",
+   "source": "lambda_kernel",
+   "category": "lambda_I_identity"
+  },
+  {
+   "id": "lk_0038",
+   "prompt": "The twins looked identical. Both of them wore the same",
+   "combinator": "I",
+   "source": "lambda_kernel",
+   "category": "lambda_I_identity"
+  },
+  {
+   "id": "lk_0039",
+   "prompt": "The river flows south through the valley. It eventually reaches the",
+   "combinator": "I",
+   "source": "lambda_kernel",
+   "category": "lambda_I_identity"
+  },
+  {
+   "id": "lk_0040",
+   "prompt": "The scientist who published the paper last year now claims that her results were",
+   "combinator": "I",
+   "source": "lambda_kernel",
+   "category": "lambda_I_identity"
+  },
+  {
+   "id": "lk_0041",
+   "prompt": "The building that was constructed in 1920 still has its original",
+   "combinator": "I",
+   "source": "lambda_kernel",
+   "category": "lambda_I_identity"
+  },
+  {
+   "id": "lk_0042",
+   "prompt": "Every student who passed the exam received their certificate on",
+   "combinator": "I",
+   "source": "lambda_kernel",
+   "category": "lambda_I_identity"
+  },
+  {
+   "id": "lk_0043",
+   "prompt": "The book that I bought yesterday turned out to be the same one that she had already",
+   "combinator": "I",
+   "source": "lambda_kernel",
+   "category": "lambda_I_identity"
+  },
+  {
+   "id": "lk_0044",
+   "prompt": "The company that hired me three years ago just announced that they will",
+   "combinator": "I",
+   "source": "lambda_kernel",
+   "category": "lambda_I_identity"
+  },
+  {
+   "id": "lk_0045",
+   "prompt": "According to the report, the exact figure was",
+   "combinator": "I",
+   "source": "lambda_kernel",
+   "category": "lambda_I_identity"
+  },
+  {
+   "id": "lk_0046",
+   "prompt": "The witness stated that the car was, in her own words,",
+   "combinator": "I",
+   "source": "lambda_kernel",
+   "category": "lambda_I_identity"
+  },
+  {
+   "id": "lk_0047",
+   "prompt": "The translation preserves the original meaning which is",
+   "combinator": "I",
+   "source": "lambda_kernel",
+   "category": "lambda_I_identity"
+  },
+  {
+   "id": "lk_0048",
+   "prompt": "Verbatim, the inscription reads:",
+   "combinator": "I",
+   "source": "lambda_kernel",
+   "category": "lambda_I_identity"
+  },
+  {
+   "id": "lk_0049",
+   "prompt": "The signal passed through the amplifier unchanged and emerged as",
+   "combinator": "I",
+   "source": "lambda_kernel",
+   "category": "lambda_I_identity"
+  },
+  {
+   "id": "lk_0050",
+   "prompt": "After washing the dishes, she dried them with a",
+   "combinator": "B",
+   "source": "lambda_kernel",
+   "category": "lambda_B_compose"
+  },
+  {
+   "id": "lk_0051",
+   "prompt": "Having read the instructions, he assembled the furniture in",
+   "combinator": "B",
+   "source": "lambda_kernel",
+   "category": "lambda_B_compose"
+  },
+  {
+   "id": "lk_0052",
+   "prompt": "First the butter is melted, then the flour is added to create a",
+   "combinator": "B",
+   "source": "lambda_kernel",
+   "category": "lambda_B_compose"
+  },
+  {
+   "id": "lk_0053",
+   "prompt": "The water is filtered and then boiled before being served to",
+   "combinator": "B",
+   "source": "lambda_kernel",
+   "category": "lambda_B_compose"
+  },
+  {
+   "id": "lk_0054",
+   "prompt": "She wrote the code, tested it, and then deployed it to the",
+   "combinator": "B",
+   "source": "lambda_kernel",
+   "category": "lambda_B_compose"
+  },
+  {
+   "id": "lk_0055",
+   "prompt": "The man who fixed the roof was paid by the woman who owned the",
+   "combinator": "B",
+   "source": "lambda_kernel",
+   "category": "lambda_B_compose"
+  },
+  {
+   "id": "lk_0056",
+   "prompt": "The fact that the economy grew suggests that the policy was",
+   "combinator": "B",
+   "source": "lambda_kernel",
+   "category": "lambda_B_compose"
+  },
+  {
+   "id": "lk_0057",
+   "prompt": "Knowing that the bridge was closed, they took the longer route through",
+   "combinator": "B",
+   "source": "lambda_kernel",
+   "category": "lambda_B_compose"
+  },
+  {
+   "id": "lk_0058",
+   "prompt": "The cake that she baked using the recipe that her grandmother wrote won",
+   "combinator": "B",
+   "source": "lambda_kernel",
+   "category": "lambda_B_compose"
+  },
+  {
+   "id": "lk_0059",
+   "prompt": "The rumor that the CEO who fired the manager was himself going to resign spread",
+   "combinator": "B",
+   "source": "lambda_kernel",
+   "category": "lambda_B_compose"
+  },
+  {
+   "id": "lk_0060",
+   "prompt": "Take the raw text, clean it, tokenize it, then feed it into the",
+   "combinator": "B",
+   "source": "lambda_kernel",
+   "category": "lambda_B_compose"
+  },
+  {
+   "id": "lk_0061",
+   "prompt": "The signal is amplified, filtered, and then converted into a",
+   "combinator": "B",
+   "source": "lambda_kernel",
+   "category": "lambda_B_compose"
+  },
+  {
+   "id": "lk_0062",
+   "prompt": "The ore is mined, refined, shaped, and finally polished into a",
+   "combinator": "B",
+   "source": "lambda_kernel",
+   "category": "lambda_B_compose"
+  },
+  {
+   "id": "lk_0063",
+   "prompt": "Read the file, parse the JSON, extract the field, and return the",
+   "combinator": "B",
+   "source": "lambda_kernel",
+   "category": "lambda_B_compose"
+  },
+  {
+   "id": "lk_0064",
+   "prompt": "Collect the data, compute the average, then plot the result as a",
+   "combinator": "B",
+   "source": "lambda_kernel",
+   "category": "lambda_B_compose"
+  },
+  {
+   "id": "lk_0065",
+   "prompt": "The extremely rapidly spinning bright blue",
+   "combinator": "B",
+   "source": "lambda_kernel",
+   "category": "lambda_B_compose"
+  },
+  {
+   "id": "lk_0066",
+   "prompt": "A recently discovered previously unknown species of deep-sea",
+   "combinator": "B",
+   "source": "lambda_kernel",
+   "category": "lambda_B_compose"
+  },
+  {
+   "id": "lk_0067",
+   "prompt": "The heavily fortified carefully guarded ancient underground",
+   "combinator": "B",
+   "source": "lambda_kernel",
+   "category": "lambda_B_compose"
+  },
+  {
+   "id": "lk_0068",
+   "prompt": "A beautifully restored meticulously maintained Victorian-era",
+   "combinator": "B",
+   "source": "lambda_kernel",
+   "category": "lambda_B_compose"
+  },
+  {
+   "id": "lk_0069",
+   "prompt": "The surprisingly well-preserved recently excavated Bronze Age",
+   "combinator": "B",
+   "source": "lambda_kernel",
+   "category": "lambda_B_compose"
+  },
+  {
+   "id": "lk_0070",
+   "prompt": "The drought caused the crops to fail which led to a famine that",
+   "combinator": "B",
+   "source": "lambda_kernel",
+   "category": "lambda_B_compose"
+  },
+  {
+   "id": "lk_0071",
+   "prompt": "His injury prevented him from training which cost him the competition that",
+   "combinator": "B",
+   "source": "lambda_kernel",
+   "category": "lambda_B_compose"
+  },
+  {
+   "id": "lk_0072",
+   "prompt": "The storm damaged the power lines which cut electricity to the hospital where",
+   "combinator": "B",
+   "source": "lambda_kernel",
+   "category": "lambda_B_compose"
+  },
+  {
+   "id": "lk_0073",
+   "prompt": "The discovery inspired a new theory that explained the phenomenon that had puzzled",
+   "combinator": "B",
+   "source": "lambda_kernel",
+   "category": "lambda_B_compose"
+  },
+  {
+   "id": "lk_0074",
+   "prompt": "The invention revolutionized the industry that transformed the economy that now",
+   "combinator": "B",
+   "source": "lambda_kernel",
+   "category": "lambda_B_compose"
+  },
+  {
+   "id": "lk_0075",
+   "prompt": "The letter was written by the",
+   "combinator": "C",
+   "source": "lambda_kernel",
+   "category": "lambda_C_flip"
+  },
+  {
+   "id": "lk_0076",
+   "prompt": "The window was broken by the ball that the child had",
+   "combinator": "C",
+   "source": "lambda_kernel",
+   "category": "lambda_C_flip"
+  },
+  {
+   "id": "lk_0077",
+   "prompt": "The song was performed by a band that nobody had",
+   "combinator": "C",
+   "source": "lambda_kernel",
+   "category": "lambda_C_flip"
+  },
+  {
+   "id": "lk_0078",
+   "prompt": "Three people were rescued by the firefighter who",
+   "combinator": "C",
+   "source": "lambda_kernel",
+   "category": "lambda_C_flip"
+  },
+  {
+   "id": "lk_0079",
+   "prompt": "The problem was finally solved by the youngest member of",
+   "combinator": "C",
+   "source": "lambda_kernel",
+   "category": "lambda_C_flip"
+  },
+  {
+   "id": "lk_0080",
+   "prompt": "This particular issue, the board discussed at length during",
+   "combinator": "C",
+   "source": "lambda_kernel",
+   "category": "lambda_C_flip"
+  },
+  {
+   "id": "lk_0081",
+   "prompt": "Under no circumstances should you open the",
+   "combinator": "C",
+   "source": "lambda_kernel",
+   "category": "lambda_C_flip"
+  },
+  {
+   "id": "lk_0082",
+   "prompt": "Only after the rain stopped did the children go outside to",
+   "combinator": "C",
+   "source": "lambda_kernel",
+   "category": "lambda_C_flip"
+  },
+  {
+   "id": "lk_0083",
+   "prompt": "Never before had the city experienced such a severe",
+   "combinator": "C",
+   "source": "lambda_kernel",
+   "category": "lambda_C_flip"
+  },
+  {
+   "id": "lk_0084",
+   "prompt": "Rarely does one encounter such a perfectly preserved example of",
+   "combinator": "C",
+   "source": "lambda_kernel",
+   "category": "lambda_C_flip"
+  },
+  {
+   "id": "lk_0085",
+   "prompt": "She gave the book to the student who had",
+   "combinator": "C",
+   "source": "lambda_kernel",
+   "category": "lambda_C_flip"
+  },
+  {
+   "id": "lk_0086",
+   "prompt": "She gave the student the book that she had",
+   "combinator": "C",
+   "source": "lambda_kernel",
+   "category": "lambda_C_flip"
+  },
+  {
+   "id": "lk_0087",
+   "prompt": "He sent a letter to his mother explaining",
+   "combinator": "C",
+   "source": "lambda_kernel",
+   "category": "lambda_C_flip"
+  },
+  {
+   "id": "lk_0088",
+   "prompt": "He sent his mother a letter explaining",
+   "combinator": "C",
+   "source": "lambda_kernel",
+   "category": "lambda_C_flip"
+  },
+  {
+   "id": "lk_0089",
+   "prompt": "They offered the job to the candidate who",
+   "combinator": "C",
+   "source": "lambda_kernel",
+   "category": "lambda_C_flip"
+  },
+  {
+   "id": "lk_0090",
+   "prompt": "Into the room walked a tall man wearing a",
+   "combinator": "C",
+   "source": "lambda_kernel",
+   "category": "lambda_C_flip"
+  },
+  {
+   "id": "lk_0091",
+   "prompt": "Down the hill rolled the enormous boulder that had been",
+   "combinator": "C",
+   "source": "lambda_kernel",
+   "category": "lambda_C_flip"
+  },
+  {
+   "id": "lk_0092",
+   "prompt": "Away flew the birds when the dog started to",
+   "combinator": "C",
+   "source": "lambda_kernel",
+   "category": "lambda_C_flip"
+  },
+  {
+   "id": "lk_0093",
+   "prompt": "Up rose the sun over the mountains revealing the",
+   "combinator": "C",
+   "source": "lambda_kernel",
+   "category": "lambda_C_flip"
+  },
+  {
+   "id": "lk_0094",
+   "prompt": "Out came the truth about what had really",
+   "combinator": "C",
+   "source": "lambda_kernel",
+   "category": "lambda_C_flip"
+  },
+  {
+   "id": "lk_0095",
+   "prompt": "The teacher taught the student, and the student taught the",
+   "combinator": "C",
+   "source": "lambda_kernel",
+   "category": "lambda_C_flip"
+  },
+  {
+   "id": "lk_0096",
+   "prompt": "She trusts him more than he trusts",
+   "combinator": "C",
+   "source": "lambda_kernel",
+   "category": "lambda_C_flip"
+  },
+  {
+   "id": "lk_0097",
+   "prompt": "The cat chased the dog, but then the dog chased the",
+   "combinator": "C",
+   "source": "lambda_kernel",
+   "category": "lambda_C_flip"
+  },
+  {
+   "id": "lk_0098",
+   "prompt": "He gave her the ring that she later gave back to",
+   "combinator": "C",
+   "source": "lambda_kernel",
+   "category": "lambda_C_flip"
+  },
+  {
+   "id": "lk_0099",
+   "prompt": "The parent protects the child until the child can protect the",
+   "combinator": "C",
+   "source": "lambda_kernel",
+   "category": "lambda_C_flip"
+  },
+  {
+   "id": "lk_0125",
+   "prompt": "The dog bit itself on the",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_W_duplicate"
+  },
+  {
+   "id": "lk_0126",
+   "prompt": "She taught herself to play the",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_W_duplicate"
+  },
+  {
+   "id": "lk_0127",
+   "prompt": "The robot programmed itself to perform the",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_W_duplicate"
+  },
+  {
+   "id": "lk_0128",
+   "prompt": "He convinced himself that everything would be",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_W_duplicate"
+  },
+  {
+   "id": "lk_0129",
+   "prompt": "The system tested itself and found three",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_W_duplicate"
+  },
+  {
+   "id": "lk_0130",
+   "prompt": "The spy who betrayed the spy was the same",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_W_duplicate"
+  },
+  {
+   "id": "lk_0131",
+   "prompt": "He compared the result with the result and found no",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_W_duplicate"
+  },
+  {
+   "id": "lk_0132",
+   "prompt": "She liked the person she had become more than the person she used to",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_W_duplicate"
+  },
+  {
+   "id": "lk_0133",
+   "prompt": "The city was both the birthplace and the burial place of the",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_W_duplicate"
+  },
+  {
+   "id": "lk_0134",
+   "prompt": "The answer to the question was the question",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_W_duplicate"
+  },
+  {
+   "id": "lk_0135",
+   "prompt": "This sentence has exactly five",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_W_duplicate"
+  },
+  {
+   "id": "lk_0136",
+   "prompt": "The list contains its own name as the first",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_W_duplicate"
+  },
+  {
+   "id": "lk_0137",
+   "prompt": "The set of all sets that contain themselves is",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_W_duplicate"
+  },
+  {
+   "id": "lk_0138",
+   "prompt": "The statement refers to the truth of the statement",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_W_duplicate"
+  },
+  {
+   "id": "lk_0139",
+   "prompt": "The function calls itself with a smaller",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_W_duplicate"
+  },
+  {
+   "id": "lk_0140",
+   "prompt": "She sang and danced at the same",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_W_duplicate"
+  },
+  {
+   "id": "lk_0141",
+   "prompt": "The car accelerated and then braked",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_W_duplicate"
+  },
+  {
+   "id": "lk_0142",
+   "prompt": "He opened the door and closed the",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_W_duplicate"
+  },
+  {
+   "id": "lk_0143",
+   "prompt": "The bird flew up and then dove",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_W_duplicate"
+  },
+  {
+   "id": "lk_0144",
+   "prompt": "She read the letter and cried because it said",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_W_duplicate"
+  },
+  {
+   "id": "lk_0145",
+   "prompt": "What will be will",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_W_duplicate"
+  },
+  {
+   "id": "lk_0146",
+   "prompt": "Boys will be",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_W_duplicate"
+  },
+  {
+   "id": "lk_0147",
+   "prompt": "It is what it",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_W_duplicate"
+  },
+  {
+   "id": "lk_0148",
+   "prompt": "The more things change the more they stay the",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_W_duplicate"
+  },
+  {
+   "id": "lk_0149",
+   "prompt": "Easy come easy",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_W_duplicate"
+  },
+  {
+   "id": "lk_0200",
+   "prompt": "She gave him the book that she had found in the library that was built by",
+   "combinator": "D",
+   "source": "lambda_kernel",
+   "category": "lambda_D_deepcompose"
+  },
+  {
+   "id": "lk_0201",
+   "prompt": "He told her that the man who owned the house had sold it to the woman who",
+   "combinator": "D",
+   "source": "lambda_kernel",
+   "category": "lambda_D_deepcompose"
+  },
+  {
+   "id": "lk_0202",
+   "prompt": "They showed the visitors the paintings that the artist had created during",
+   "combinator": "D",
+   "source": "lambda_kernel",
+   "category": "lambda_D_deepcompose"
+  },
+  {
+   "id": "lk_0203",
+   "prompt": "The teacher explained to the students how the machine that the inventor designed actually",
+   "combinator": "D",
+   "source": "lambda_kernel",
+   "category": "lambda_D_deepcompose"
+  },
+  {
+   "id": "lk_0204",
+   "prompt": "He promised her that the surprise he had planned for months would",
+   "combinator": "D",
+   "source": "lambda_kernel",
+   "category": "lambda_D_deepcompose"
+  },
+  {
+   "id": "lk_0205",
+   "prompt": "She went to buy the ingredients to make the cake to bring to the",
+   "combinator": "D",
+   "source": "lambda_kernel",
+   "category": "lambda_D_deepcompose"
+  },
+  {
+   "id": "lk_0206",
+   "prompt": "He called to ask whether she was ready to leave to catch the",
+   "combinator": "D",
+   "source": "lambda_kernel",
+   "category": "lambda_D_deepcompose"
+  },
+  {
+   "id": "lk_0207",
+   "prompt": "They tried to find someone to help them to carry the equipment to",
+   "combinator": "D",
+   "source": "lambda_kernel",
+   "category": "lambda_D_deepcompose"
+  },
+  {
+   "id": "lk_0208",
+   "prompt": "I need you to help me to understand how to fix the code that",
+   "combinator": "D",
+   "source": "lambda_kernel",
+   "category": "lambda_D_deepcompose"
+  },
+  {
+   "id": "lk_0209",
+   "prompt": "She asked him to try to remember where he had put the",
+   "combinator": "D",
+   "source": "lambda_kernel",
+   "category": "lambda_D_deepcompose"
+  },
+  {
+   "id": "lk_0210",
+   "prompt": "The house that the man who the dog that bit the cat belonged to built was",
+   "combinator": "D",
+   "source": "lambda_kernel",
+   "category": "lambda_D_deepcompose"
+  },
+  {
+   "id": "lk_0211",
+   "prompt": "The paper that the student who the professor that won the award supervised wrote was",
+   "combinator": "D",
+   "source": "lambda_kernel",
+   "category": "lambda_D_deepcompose"
+  },
+  {
+   "id": "lk_0212",
+   "prompt": "The idea that the theory that the evidence that the experiment produced supported proposed",
+   "combinator": "D",
+   "source": "lambda_kernel",
+   "category": "lambda_D_deepcompose"
+  },
+  {
+   "id": "lk_0213",
+   "prompt": "The car that the mechanic who the garage that burned down employed fixed was",
+   "combinator": "D",
+   "source": "lambda_kernel",
+   "category": "lambda_D_deepcompose"
+  },
+  {
+   "id": "lk_0214",
+   "prompt": "The song that the band that the label that went bankrupt signed recorded was",
+   "combinator": "D",
+   "source": "lambda_kernel",
+   "category": "lambda_D_deepcompose"
+  },
+  {
+   "id": "lk_0215",
+   "prompt": "The rain that caused the flood that destroyed the bridge that connected the towns that",
+   "combinator": "D",
+   "source": "lambda_kernel",
+   "category": "lambda_D_deepcompose"
+  },
+  {
+   "id": "lk_0216",
+   "prompt": "The policy that created the incentive that motivated the behavior that produced the outcome that",
+   "combinator": "D",
+   "source": "lambda_kernel",
+   "category": "lambda_D_deepcompose"
+  },
+  {
+   "id": "lk_0217",
+   "prompt": "The gene that produces the protein that inhibits the enzyme that catalyzes the reaction that",
+   "combinator": "D",
+   "source": "lambda_kernel",
+   "category": "lambda_D_deepcompose"
+  },
+  {
+   "id": "lk_0218",
+   "prompt": "The event that triggered the response that overwhelmed the system that managed the process that",
+   "combinator": "D",
+   "source": "lambda_kernel",
+   "category": "lambda_D_deepcompose"
+  },
+  {
+   "id": "lk_0219",
+   "prompt": "The mistake that caused the error that crashed the server that hosted the website that",
+   "combinator": "D",
+   "source": "lambda_kernel",
+   "category": "lambda_D_deepcompose"
+  },
+  {
+   "id": "lk_0220",
+   "prompt": "Read the data, parse it, transform it, validate it, and store it in the",
+   "combinator": "D",
+   "source": "lambda_kernel",
+   "category": "lambda_D_deepcompose"
+  },
+  {
+   "id": "lk_0221",
+   "prompt": "The raw material is mined, transported, refined, processed, and finally shaped into",
+   "combinator": "D",
+   "source": "lambda_kernel",
+   "category": "lambda_D_deepcompose"
+  },
+  {
+   "id": "lk_0222",
+   "prompt": "The message was encoded, transmitted, received, decoded, and then displayed on the",
+   "combinator": "D",
+   "source": "lambda_kernel",
+   "category": "lambda_D_deepcompose"
+  },
+  {
+   "id": "lk_0223",
+   "prompt": "The patient was examined, diagnosed, treated, monitored, and eventually discharged from the",
+   "combinator": "D",
+   "source": "lambda_kernel",
+   "category": "lambda_D_deepcompose"
+  },
+  {
+   "id": "lk_0224",
+   "prompt": "The proposal was drafted, reviewed, revised, approved, and finally implemented across the",
+   "combinator": "D",
+   "source": "lambda_kernel",
+   "category": "lambda_D_deepcompose"
+  },
+  {
+   "id": "lk_0275",
+   "prompt": "The number is seven and nothing more needs to be",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_WHNF_terminal"
+  },
+  {
+   "id": "lk_0276",
+   "prompt": "The color is blue without any further",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_WHNF_terminal"
+  },
+  {
+   "id": "lk_0277",
+   "prompt": "The answer is simply yes and that is",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_WHNF_terminal"
+  },
+  {
+   "id": "lk_0278",
+   "prompt": "The value is true with no conditions",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_WHNF_terminal"
+  },
+  {
+   "id": "lk_0279",
+   "prompt": "The answer to life the universe and everything is forty-two",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_WHNF_terminal"
+  },
+  {
+   "id": "lk_0280",
+   "prompt": "The number is whatever you get when you multiply three by the square root of",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_WHNF_terminal"
+  },
+  {
+   "id": "lk_0281",
+   "prompt": "The color is the one that you see when you mix the primary colors in equal",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_WHNF_terminal"
+  },
+  {
+   "id": "lk_0282",
+   "prompt": "The answer depends on whether the initial conditions satisfy the constraints that",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_WHNF_terminal"
+  },
+  {
+   "id": "lk_0283",
+   "prompt": "The truth value of the conjunction of all the premises given that some are",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_WHNF_terminal"
+  },
+  {
+   "id": "lk_0284",
+   "prompt": "The result of applying the algorithm to the input after preprocessing and",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_WHNF_terminal"
+  },
+  {
+   "id": "lk_0285",
+   "prompt": "The dog is brown",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_WHNF_terminal"
+  },
+  {
+   "id": "lk_0286",
+   "prompt": "Water freezes at zero degrees",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_WHNF_terminal"
+  },
+  {
+   "id": "lk_0287",
+   "prompt": "Paris is a city",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_WHNF_terminal"
+  },
+  {
+   "id": "lk_0288",
+   "prompt": "Two is an even number",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_WHNF_terminal"
+  },
+  {
+   "id": "lk_0289",
+   "prompt": "Gold is a metal",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_WHNF_terminal"
+  },
+  {
+   "id": "lk_0290",
+   "prompt": "The animal that the witness described to the police was",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_WHNF_terminal"
+  },
+  {
+   "id": "lk_0291",
+   "prompt": "The temperature at which the substance begins to decompose under pressure is",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_WHNF_terminal"
+  },
+  {
+   "id": "lk_0292",
+   "prompt": "The city where the conference will be held next year is",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_WHNF_terminal"
+  },
+  {
+   "id": "lk_0293",
+   "prompt": "The number that satisfies both equations simultaneously is",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_WHNF_terminal"
+  },
+  {
+   "id": "lk_0294",
+   "prompt": "The person who knows the answer to the question that nobody else could solve is",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_WHNF_terminal"
+  },
+  {
+   "id": "lk_0295",
+   "prompt": "Calculate the sum of all prime numbers less than",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_WHNF_terminal"
+  },
+  {
+   "id": "lk_0296",
+   "prompt": "The sum of all prime numbers less than twenty is",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_WHNF_terminal"
+  },
+  {
+   "id": "lk_0297",
+   "prompt": "Find the shortest path between nodes A and",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_WHNF_terminal"
+  },
+  {
+   "id": "lk_0298",
+   "prompt": "The shortest path between nodes A and B has length",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_WHNF_terminal"
+  },
+  {
+   "id": "lk_0299",
+   "prompt": "Determine whether the given string is a valid",
+   "combinator": "W",
+   "source": "lambda_kernel",
+   "category": "lambda_WHNF_terminal"
+  },
+  {
+   "id": "lk_0300",
+   "prompt": "A folder contains files and other folders which contain files and other folders which",
+   "combinator": "Y",
+   "source": "lambda_kernel",
+   "category": "lambda_Y_recurse"
+  },
+  {
+   "id": "lk_0301",
+   "prompt": "She told a story about a girl who told a story about a girl who",
+   "combinator": "Y",
+   "source": "lambda_kernel",
+   "category": "lambda_Y_recurse"
+  },
+  {
+   "id": "lk_0302",
+   "prompt": "The dream was about having a dream which was about having a dream that",
+   "combinator": "Y",
+   "source": "lambda_kernel",
+   "category": "lambda_Y_recurse"
+  },
+  {
+   "id": "lk_0303",
+   "prompt": "He opened a box inside a box inside a box inside a",
+   "combinator": "Y",
+   "source": "lambda_kernel",
+   "category": "lambda_Y_recurse"
+  },
+  {
+   "id": "lk_0304",
+   "prompt": "The mirror reflected the mirror which reflected the mirror reflecting the",
+   "combinator": "Y",
+   "source": "lambda_kernel",
+   "category": "lambda_Y_recurse"
+  },
+  {
+   "id": "lk_0305",
+   "prompt": "This sentence is about this sentence being about",
+   "combinator": "Y",
+   "source": "lambda_kernel",
+   "category": "lambda_Y_recurse"
+  },
+  {
+   "id": "lk_0306",
+   "prompt": "The definition of recursion is: see the definition of",
+   "combinator": "Y",
+   "source": "lambda_kernel",
+   "category": "lambda_Y_recurse"
+  },
+  {
+   "id": "lk_0307",
+   "prompt": "In order to understand recursion you must first understand",
+   "combinator": "Y",
+   "source": "lambda_kernel",
+   "category": "lambda_Y_recurse"
+  },
+  {
+   "id": "lk_0308",
+   "prompt": "The word that describes itself is",
+   "combinator": "Y",
+   "source": "lambda_kernel",
+   "category": "lambda_Y_recurse"
+  },
+  {
+   "id": "lk_0309",
+   "prompt": "A self-referential statement is a statement that refers to",
+   "combinator": "Y",
+   "source": "lambda_kernel",
+   "category": "lambda_Y_recurse"
+  },
+  {
+   "id": "lk_0310",
+   "prompt": "To count to ten: if the number is ten, stop. Otherwise, say the number and count from",
+   "combinator": "Y",
+   "source": "lambda_kernel",
+   "category": "lambda_Y_recurse"
+  },
+  {
+   "id": "lk_0311",
+   "prompt": "To sort a list: if empty, return it. Otherwise, split it in half, sort each half, and",
+   "combinator": "Y",
+   "source": "lambda_kernel",
+   "category": "lambda_Y_recurse"
+  },
+  {
+   "id": "lk_0312",
+   "prompt": "A sentence is a noun phrase followed by a verb phrase, where a noun phrase is",
+   "combinator": "Y",
+   "source": "lambda_kernel",
+   "category": "lambda_Y_recurse"
+  },
+  {
+   "id": "lk_0313",
+   "prompt": "Factorial of n: if n is zero, the answer is one. Otherwise multiply n by the factorial of",
+   "combinator": "Y",
+   "source": "lambda_kernel",
+   "category": "lambda_Y_recurse"
+  },
+  {
+   "id": "lk_0314",
+   "prompt": "The ancestor of a person is either their parent or an ancestor of their",
+   "combinator": "Y",
+   "source": "lambda_kernel",
+   "category": "lambda_Y_recurse"
+  },
+  {
+   "id": "lk_0315",
+   "prompt": "Keep adding one until you reach the",
+   "combinator": "Y",
+   "source": "lambda_kernel",
+   "category": "lambda_Y_recurse"
+  },
+  {
+   "id": "lk_0316",
+   "prompt": "Repeat the process until the error is less than",
+   "combinator": "Y",
+   "source": "lambda_kernel",
+   "category": "lambda_Y_recurse"
+  },
+  {
+   "id": "lk_0317",
+   "prompt": "Double the amount each day for thirty",
+   "combinator": "Y",
+   "source": "lambda_kernel",
+   "category": "lambda_Y_recurse"
+  },
+  {
+   "id": "lk_0318",
+   "prompt": "Try again and again until you",
+   "combinator": "Y",
+   "source": "lambda_kernel",
+   "category": "lambda_Y_recurse"
+  },
+  {
+   "id": "lk_0319",
+   "prompt": "Each generation passes the knowledge to the next generation which passes it to the",
+   "combinator": "Y",
+   "source": "lambda_kernel",
+   "category": "lambda_Y_recurse"
+  },
+  {
+   "id": "lk_0320",
+   "prompt": "The Fibonacci sequence: 1, 1, 2, 3, 5, 8, 13, 21,",
+   "combinator": "Y",
+   "source": "lambda_kernel",
+   "category": "lambda_Y_recurse"
+  },
+  {
+   "id": "lk_0321",
+   "prompt": "Powers of two: 1, 2, 4, 8, 16, 32, 64,",
+   "combinator": "Y",
+   "source": "lambda_kernel",
+   "category": "lambda_Y_recurse"
+  },
+  {
+   "id": "lk_0322",
+   "prompt": "Each term is the sum of the previous two",
+   "combinator": "Y",
+   "source": "lambda_kernel",
+   "category": "lambda_Y_recurse"
+  },
+  {
+   "id": "lk_0323",
+   "prompt": "The fractal pattern repeats at every scale getting smaller each",
+   "combinator": "Y",
+   "source": "lambda_kernel",
+   "category": "lambda_Y_recurse"
+  },
+  {
+   "id": "lk_0324",
+   "prompt": "The infinite series converges because each term is half of the",
+   "combinator": "Y",
+   "source": "lambda_kernel",
+   "category": "lambda_Y_recurse"
+  },
+  {
+   "id": "fp_0001",
+   "prompt": "\u03bbx.x",
+   "combinator": "I",
+   "source": "fixedpoint",
+   "category": "fixedpoint_combinator_pure"
+  },
+  {
+   "id": "fp_0000",
+   "prompt": "\u03bbx.\u03bby.x",
+   "combinator": "K",
+   "source": "fixedpoint",
+   "category": "fixedpoint_combinator_pure"
+  },
+  {
+   "id": "fp_0002",
+   "prompt": "\u03bbf.\u03bbg.\u03bbx.f(g(x))",
+   "combinator": "B",
+   "source": "fixedpoint",
+   "category": "fixedpoint_combinator_pure"
+  },
+  {
+   "id": "fp_0003",
+   "prompt": "\u03bbf.\u03bbx.\u03bby.f(y)(x)",
+   "combinator": "C",
+   "source": "fixedpoint",
+   "category": "fixedpoint_combinator_pure"
+  },
+  {
+   "id": "fp_0007",
+   "prompt": "\u03bbf.\u03bbg.\u03bbx.f(x)(g(x))",
+   "combinator": "S",
+   "source": "fixedpoint",
+   "category": "fixedpoint_combinator_pure"
+  },
+  {
+   "id": "bp_0005",
+   "prompt": "\u03bbx.\u03bby.x(x(y))",
+   "combinator": "D",
+   "source": "basin",
+   "category": "basin_pure"
+  },
+  {
+   "id": "bp_0006",
+   "prompt": "\u03bbx.x(x)",
+   "combinator": "W",
+   "source": "basin",
+   "category": "basin_pure"
+  },
+  {
+   "id": "fp_0005",
+   "prompt": "\u03bbf.(\u03bbx.f(x(x)))(\u03bbx.f(x(x)))",
+   "combinator": "Y",
+   "source": "fixedpoint",
+   "category": "fixedpoint_combinator_pure"
+  },
+  {
+   "id": "bp_0008",
+   "prompt": "The expression is already in weak head normal form \u2014 no further reduction is possible",
+   "combinator": "WHNF",
+   "source": "basin",
+   "category": "basin_pure"
+  },
+  {
+   "id": "bp_0009",
+   "prompt": "(\u03bbx.x)(42) reduces to 42",
+   "combinator": "I",
+   "source": "basin",
+   "category": "basin_lambda"
+  },
+  {
+   "id": "bp_0010",
+   "prompt": "(\u03bbf.\u03bbx.f(f(x)))(double)(3) first binds f to double, then computes double(double(3))",
+   "combinator": "B",
+   "source": "basin",
+   "category": "basin_lambda"
+  },
+  {
+   "id": "bp_0011",
+   "prompt": "(\u03bbx.\u03bby.x)(a)(b) first binds x to a, then discards b, giving a",
+   "combinator": "K",
+   "source": "basin",
+   "category": "basin_lambda"
+  },
+  {
+   "id": "bp_0012",
+   "prompt": "(\u03bbf.\u03bbg.\u03bbx.f(g(x)))(square)(add1)(5) composes square after add1",
+   "combinator": "B",
+   "source": "basin",
+   "category": "basin_lambda"
+  },
+  {
+   "id": "bp_0013",
+   "prompt": "(\u03bbf.\u03bbx.\u03bby.f(y)(x))(sub)(3)(7) flips the arguments: sub(7)(3) = 4",
+   "combinator": "C",
+   "source": "basin",
+   "category": "basin_lambda"
+  },
+  {
+   "id": "bp_0014",
+   "prompt": "\u03bbx.\u03bby.\u03bbz.x(z)(y(z)) distributes z to both x and y before combining",
+   "combinator": "S",
+   "source": "basin",
+   "category": "basin_lambda"
+  },
+  {
+   "id": "bp_0020",
+   "prompt": "The Y combinator computes fixed points: Y(f) = f(Y(f)) for any f",
+   "combinator": "Y",
+   "source": "basin",
+   "category": "basin_lambda"
+  },
+  {
+   "id": "rc_0000",
+   "prompt": "(\u03bbx.x) a",
+   "combinator": "I",
+   "source": "reduction_chain",
+   "category": "reduction_redex"
+  },
+  {
+   "id": "rc_0001",
+   "prompt": "What is 5? The answer is 5.",
+   "combinator": "I",
+   "source": "reduction_chain",
+   "category": "reduction_natural"
+  },
+  {
+   "id": "rc_0002",
+   "prompt": "Repeat after me: hello world",
+   "combinator": "I",
+   "source": "reduction_chain",
+   "category": "reduction_natural"
+  },
+  {
+   "id": "rc_0003",
+   "prompt": "echo \"hello\"",
+   "combinator": "I",
+   "source": "reduction_chain",
+   "category": "reduction_code"
+  },
+  {
+   "id": "rc_0004",
+   "prompt": "def identity(x): return x",
+   "combinator": "I",
+   "source": "reduction_chain",
+   "category": "reduction_code"
+  },
+  {
+   "id": "rc_0005",
+   "prompt": "The input is 42. The output is 42.",
+   "combinator": "I",
+   "source": "reduction_chain",
+   "category": "reduction_natural"
+  },
+  {
+   "id": "rc_0006",
+   "prompt": "x = 7; print(x)",
+   "combinator": "I",
+   "source": "reduction_chain",
+   "category": "reduction_code"
+  },
+  {
+   "id": "rc_0008",
+   "prompt": "(\u03bbx.\u03bby.x) a b",
+   "combinator": "K",
+   "source": "reduction_chain",
+   "category": "reduction_redex"
+  },
+  {
+   "id": "rc_0009",
+   "prompt": "Given A=5 and B=3, choose A. The answer is 5.",
+   "combinator": "K",
+   "source": "reduction_chain",
+   "category": "reduction_natural"
+  },
+  {
+   "id": "rc_0010",
+   "prompt": "The first of (apple, banana) is apple.",
+   "combinator": "K",
+   "source": "reduction_chain",
+   "category": "reduction_natural"
+  },
+  {
+   "id": "rc_0011",
+   "prompt": "def first(x, y): return x",
+   "combinator": "K",
+   "source": "reduction_chain",
+   "category": "reduction_code"
+  },
+  {
+   "id": "rc_0012",
+   "prompt": "true ? a : b evaluates to a",
+   "combinator": "K",
+   "source": "reduction_chain",
+   "category": "reduction_code"
+  },
+  {
+   "id": "rc_0013",
+   "prompt": "Take the left branch. Ignore the right.",
+   "combinator": "K",
+   "source": "reduction_chain",
+   "category": "reduction_natural"
+  },
+  {
+   "id": "rc_0014",
+   "prompt": "head [1, 2, 3] = 1",
+   "combinator": "K",
+   "source": "reduction_chain",
+   "category": "reduction_code"
+  },
+  {
+   "id": "rc_0016",
+   "prompt": "(\u03bbf.\u03bbg.\u03bbx.f(g x)) f g a",
+   "combinator": "B",
+   "source": "reduction_chain",
+   "category": "reduction_redex"
+  },
+  {
+   "id": "rc_0017",
+   "prompt": "First sort the list, then reverse it.",
+   "combinator": "B",
+   "source": "reduction_chain",
+   "category": "reduction_natural"
+  },
+  {
+   "id": "rc_0018",
+   "prompt": "Double the number, then add one. 3 becomes 7.",
+   "combinator": "B",
+   "source": "reduction_chain",
+   "category": "reduction_natural"
+  },
+  {
+   "id": "rc_0019",
+   "prompt": "def compose(f, g): return lambda x: f(g(x))",
+   "combinator": "B",
+   "source": "reduction_chain",
+   "category": "reduction_code"
+  },
+  {
+   "id": "rc_0020",
+   "prompt": "map(str, map(int, items))",
+   "combinator": "B",
+   "source": "reduction_chain",
+   "category": "reduction_code"
+  },
+  {
+   "id": "rc_0021",
+   "prompt": "Translate to French, then to German.",
+   "combinator": "B",
+   "source": "reduction_chain",
+   "category": "reduction_natural"
+  },
+  {
+   "id": "rc_0022",
+   "prompt": "Parse the JSON, then extract the name field.",
+   "combinator": "B",
+   "source": "reduction_chain",
+   "category": "reduction_natural"
+  },
+  {
+   "id": "rc_0023",
+   "prompt": "len(str(42)) = 2",
+   "combinator": "B",
+   "source": "reduction_chain",
+   "category": "reduction_code"
+  },
+  {
+   "id": "rc_0024",
+   "prompt": "\u03bbf.\u03bbg.\u03bbx.f(g x)",
+   "combinator": "B",
+   "source": "reduction_chain",
+   "category": "reduction_formal"
+  },
+  {
+   "id": "rc_0025",
+   "prompt": "(\u03bbf.\u03bbx.\u03bby.f y x) f a b",
+   "combinator": "C",
+   "source": "reduction_chain",
+   "category": "reduction_redex"
+  },
+  {
+   "id": "rc_0026",
+   "prompt": "Instead of subtract(5,3), compute subtract(3,5).",
+   "combinator": "C",
+   "source": "reduction_chain",
+   "category": "reduction_natural"
+  },
+  {
+   "id": "rc_0027",
+   "prompt": "def flip(f): return lambda x, y: f(y, x)",
+   "combinator": "C",
+   "source": "reduction_chain",
+   "category": "reduction_code"
+  },
+  {
+   "id": "rc_0028",
+   "prompt": "Reverse the order: instead of A then B, do B then A.",
+   "combinator": "C",
+   "source": "reduction_chain",
+   "category": "reduction_natural"
+  },
+  {
+   "id": "rc_0029",
+   "prompt": "zip(ys, xs) instead of zip(xs, ys)",
+   "combinator": "C",
+   "source": "reduction_chain",
+   "category": "reduction_code"
+  },
+  {
+   "id": "rc_0030",
+   "prompt": "Read right to left instead of left to right.",
+   "combinator": "C",
+   "source": "reduction_chain",
+   "category": "reduction_natural"
+  },
+  {
+   "id": "rc_0031",
+   "prompt": "\u03bbf.\u03bbx.\u03bby.f y x",
+   "combinator": "C",
+   "source": "reduction_chain",
+   "category": "reduction_formal"
+  },
+  {
+   "id": "rc_0032",
+   "prompt": "(\u03bbf.\u03bbg.\u03bbx.f x (g x)) f g a",
+   "combinator": "S",
+   "source": "reduction_chain",
+   "category": "reduction_redex"
+  },
+  {
+   "id": "rc_0033",
+   "prompt": "Apply both f and g to x, then combine: f(x, g(x)).",
+   "combinator": "S",
+   "source": "reduction_chain",
+   "category": "reduction_natural"
+  },
+  {
+   "id": "rc_0034",
+   "prompt": "score = weight * value + bias * value",
+   "combinator": "S",
+   "source": "reduction_chain",
+   "category": "reduction_natural"
+  },
+  {
+   "id": "rc_0035",
+   "prompt": "def ap(f, g): return lambda x: f(x)(g(x))",
+   "combinator": "S",
+   "source": "reduction_chain",
+   "category": "reduction_code"
+  },
+  {
+   "id": "rc_0036",
+   "prompt": "liftA2 (+) (Just 3) (Just 4) = Just 7",
+   "combinator": "S",
+   "source": "reduction_chain",
+   "category": "reduction_code"
+  },
+  {
+   "id": "rc_0037",
+   "prompt": "Both add and multiply by 2: f(x) uses x twice.",
+   "combinator": "S",
+   "source": "reduction_chain",
+   "category": "reduction_natural"
+  },
+  {
+   "id": "rc_0038",
+   "prompt": "\u03bbf.\u03bbg.\u03bbx.f x (g x)",
+   "combinator": "S",
+   "source": "reduction_chain",
+   "category": "reduction_formal"
+  },
+  {
+   "id": "rc_0039",
+   "prompt": "(\u03bbf.\u03bbx.f(f x)) f a",
+   "combinator": "D",
+   "source": "reduction_chain",
+   "category": "reduction_redex"
+  },
+  {
+   "id": "rc_0040",
+   "prompt": "Apply the function twice: f(f(x)).",
+   "combinator": "D",
+   "source": "reduction_chain",
+   "category": "reduction_natural"
+  },
+  {
+   "id": "rc_0041",
+   "prompt": "Double sort: sort the sorted list again.",
+   "combinator": "D",
+   "source": "reduction_chain",
+   "category": "reduction_natural"
+  },
+  {
+   "id": "rc_0042",
+   "prompt": "encrypt(encrypt(message))",
+   "combinator": "D",
+   "source": "reduction_chain",
+   "category": "reduction_code"
+  },
+  {
+   "id": "rc_0043",
+   "prompt": "def twice(f): return lambda x: f(f(x))",
+   "combinator": "D",
+   "source": "reduction_chain",
+   "category": "reduction_code"
+  },
+  {
+   "id": "rc_0044",
+   "prompt": "\u03bbf.\u03bbx.f(f x)",
+   "combinator": "D",
+   "source": "reduction_chain",
+   "category": "reduction_formal"
+  },
+  {
+   "id": "rc_0045",
+   "prompt": "(\u03bbf.f f) g",
+   "combinator": "Y",
+   "source": "reduction_chain",
+   "category": "reduction_redex"
+  },
+  {
+   "id": "rc_0046",
+   "prompt": "Define factorial recursively: n! = n \u00d7 (n-1)!",
+   "combinator": "Y",
+   "source": "reduction_chain",
+   "category": "reduction_natural"
+  },
+  {
+   "id": "rc_0047",
+   "prompt": "The function calls itself: f(x) = g(f(x-1)).",
+   "combinator": "Y",
+   "source": "reduction_chain",
+   "category": "reduction_natural"
+  },
+  {
+   "id": "rc_0048",
+   "prompt": "fix f = f (fix f)",
+   "combinator": "Y",
+   "source": "reduction_chain",
+   "category": "reduction_code"
+  },
+  {
+   "id": "rc_0049",
+   "prompt": "while not done: step = process(step)",
+   "combinator": "Y",
+   "source": "reduction_chain",
+   "category": "reduction_code"
+  },
+  {
+   "id": "rc_0050",
+   "prompt": "This sentence refers to itself.",
+   "combinator": "Y",
+   "source": "reduction_chain",
+   "category": "reduction_natural"
+  },
+  {
+   "id": "rc_0051",
+   "prompt": "\u03bbf.f f",
+   "combinator": "Y",
+   "source": "reduction_chain",
+   "category": "reduction_formal"
+  },
+  {
+   "id": "rc_0052",
+   "prompt": "(\u03bbx.x x) a",
+   "combinator": "W",
+   "source": "reduction_chain",
+   "category": "reduction_redex"
+  },
+  {
+   "id": "rc_0053",
+   "prompt": "Use the same value twice: f(x, x).",
+   "combinator": "W",
+   "source": "reduction_chain",
+   "category": "reduction_natural"
+  },
+  {
+   "id": "rc_0054",
+   "prompt": "x * x is x squared",
+   "combinator": "W",
+   "source": "reduction_chain",
+   "category": "reduction_natural"
+  },
+  {
+   "id": "rc_0055",
+   "prompt": "def dup(f): return lambda x: f(x, x)",
+   "combinator": "W",
+   "source": "reduction_chain",
+   "category": "reduction_code"
+  },
+  {
+   "id": "rc_0056",
+   "prompt": "Compare x with itself: x == x is always true.",
+   "combinator": "W",
+   "source": "reduction_chain",
+   "category": "reduction_natural"
+  },
+  {
+   "id": "rc_0057",
+   "prompt": "\u03bbf.\u03bbx.f x x",
+   "combinator": "W",
+   "source": "reduction_chain",
+   "category": "reduction_formal"
+  },
+  {
+   "id": "rc_0058",
+   "prompt": "The capital of France is Paris.",
+   "combinator": "WHNF",
+   "source": "reduction_chain",
+   "category": "reduction_value"
+  },
+  {
+   "id": "rc_0059",
+   "prompt": "Water boils at 100 degrees Celsius.",
+   "combinator": "WHNF",
+   "source": "reduction_chain",
+   "category": "reduction_value"
+  },
+  {
+   "id": "rc_0060",
+   "prompt": "The speed of light is approximately 3\u00d710\u2078 m/s.",
+   "combinator": "WHNF",
+   "source": "reduction_chain",
+   "category": "reduction_value"
+  },
+  {
+   "id": "rc_0061",
+   "prompt": "42",
+   "combinator": "WHNF",
+   "source": "reduction_chain",
+   "category": "reduction_value"
+  },
+  {
+   "id": "rc_0062",
+   "prompt": "\"hello world\"",
+   "combinator": "WHNF",
+   "source": "reduction_chain",
+   "category": "reduction_value"
+  },
+  {
+   "id": "rc_0063",
+   "prompt": "Pi is 3.14159265358979.",
+   "combinator": "WHNF",
+   "source": "reduction_chain",
+   "category": "reduction_value"
+  },
+  {
+   "id": "rc_0064",
+   "prompt": "Abraham Lincoln was the 16th president.",
+   "combinator": "WHNF",
+   "source": "reduction_chain",
+   "category": "reduction_value"
+  },
+  {
+   "id": "rc_0065",
+   "prompt": "The chemical formula for water is H2O.",
+   "combinator": "WHNF",
+   "source": "reduction_chain",
+   "category": "reduction_value"
+  },
+  {
+   "id": "rc_0066",
+   "prompt": "Given (\u03bbx.\u03bby.x)(5)(3), first apply 5: (\u03bby.5). Then apply 3: 5. Result: 5.",
+   "combinator": "K",
+   "source": "reduction_chain",
+   "category": "reduction_chain"
+  },
+  {
+   "id": "rc_0067",
+   "prompt": "Given (\u03bbx.x)(hello), apply hello: hello. Result: hello.",
+   "combinator": "I",
+   "source": "reduction_chain",
+   "category": "reduction_chain"
+  },
+  {
+   "id": "rc_0068",
+   "prompt": "To compose f and g on x: first compute g(x), then apply f to that result.",
+   "combinator": "B",
+   "source": "reduction_chain",
+   "category": "reduction_chain"
+  },
+  {
+   "id": "rc_0069",
+   "prompt": "To flip f on (a,b): apply f to b first, then to a. f(b)(a).",
+   "combinator": "C",
+   "source": "reduction_chain",
+   "category": "reduction_chain"
+  },
+  {
+   "id": "rc_0070",
+   "prompt": "To distribute f and g over x: compute f(x) and g(x), combine as f(x)(g(x)).",
+   "combinator": "S",
+   "source": "reduction_chain",
+   "category": "reduction_chain"
+  },
+  {
+   "id": "rc_0071",
+   "prompt": "Apply f twice to x: first f(x) = y, then f(y) = result.",
+   "combinator": "D",
+   "source": "reduction_chain",
+   "category": "reduction_chain"
+  },
+  {
+   "id": "rc_0072",
+   "prompt": "No reduction needed. The value is already computed. Just return it.",
+   "combinator": "WHNF",
+   "source": "reduction_chain",
+   "category": "reduction_chain"
+  },
+  {
+   "id": "fp_0004",
+   "prompt": "\u03bbf.\u03bbx.f(x)(x)",
+   "combinator": "W",
+   "source": "fixedpoint",
+   "category": "fixedpoint_combinator_pure"
+  },
+  {
+   "id": "fp_0006",
+   "prompt": "\u03bbf.\u03bbg.\u03bbx.\u03bby.f(x)(g(y))",
+   "combinator": "D",
+   "source": "fixedpoint",
+   "category": "fixedpoint_combinator_pure"
+  },
+  {
+   "id": "fp_0008",
+   "prompt": "A value that cannot be reduced further \u2014 it is already in its simplest computational form, either a literal value or a partially applied function awaiting more arguments",
+   "combinator": "WHNF",
+   "source": "fixedpoint",
+   "category": "fixedpoint_combinator_pure"
+  },
+  {
+   "id": "fp_0009",
+   "prompt": "The projection function that given two arguments returns the first, discarding the second entirely",
+   "combinator": "K",
+   "source": "fixedpoint",
+   "category": "fixedpoint_combinator_prose"
+  },
+  {
+   "id": "fp_0010",
+   "prompt": "The identity function that returns its single argument completely unchanged",
+   "combinator": "I",
+   "source": "fixedpoint",
+   "category": "fixedpoint_combinator_prose"
+  },
+  {
+   "id": "fp_0011",
+   "prompt": "The composition operator that given functions f and g and argument x, applies g to x first, then applies f to that result",
+   "combinator": "B",
+   "source": "fixedpoint",
+   "category": "fixedpoint_combinator_prose"
+  },
+  {
+   "id": "fp_0012",
+   "prompt": "The argument flip operator that given a function f and arguments x and y, applies f to y first and then to x, reversing the argument order",
+   "combinator": "C",
+   "source": "fixedpoint",
+   "category": "fixedpoint_combinator_prose"
+  },
+  {
+   "id": "fp_0013",
+   "prompt": "The duplication operator that given a function f and argument x, applies f to x twice \u2014 using x as both the first and second argument",
+   "combinator": "W",
+   "source": "fixedpoint",
+   "category": "fixedpoint_combinator_prose"
+  },
+  {
+   "id": "fp_0014",
+   "prompt": "The fixed-point combinator that given a function f, finds the value that equals f applied to itself \u2014 enabling recursion without self-reference",
+   "combinator": "Y",
+   "source": "fixedpoint",
+   "category": "fixedpoint_combinator_prose"
+  },
+  {
+   "id": "fp_0015",
+   "prompt": "The deep composition operator that given functions f and g and arguments x and y, applies f to x and g to y independently, then combines the results",
+   "combinator": "D",
+   "source": "fixedpoint",
+   "category": "fixedpoint_combinator_prose"
+  },
+  {
+   "id": "fp_0016",
+   "prompt": "The substitution combinator that given functions f and g and argument x, applies both f and g to x, then applies the result of f(x) to the result of g(x)",
+   "combinator": "S",
+   "source": "fixedpoint",
+   "category": "fixedpoint_combinator_prose"
+  },
+  {
+   "id": "fp_0018",
+   "prompt": "Despite everything else that happened, the only thing that matters is",
+   "combinator": "K",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0019",
+   "prompt": "No matter what you say next, my answer remains",
+   "combinator": "K",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0020",
+   "prompt": "The first ingredient is all you need; ignore the rest and use",
+   "combinator": "K",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0021",
+   "prompt": "Regardless of the second option, always choose",
+   "combinator": "K",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0022",
+   "prompt": "Simply repeat exactly what was said:",
+   "combinator": "I",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0023",
+   "prompt": "The output is identical to the input:",
+   "combinator": "I",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0024",
+   "prompt": "Pass through without any modification:",
+   "combinator": "I",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0025",
+   "prompt": "Echo the following precisely as given:",
+   "combinator": "I",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0026",
+   "prompt": "First translate the document to French, then summarize the translated",
+   "combinator": "B",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0027",
+   "prompt": "The mother of the author of the book that",
+   "combinator": "B",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0028",
+   "prompt": "Take the square root of the sum of",
+   "combinator": "B",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0029",
+   "prompt": "Convert to uppercase the reversed version of",
+   "combinator": "B",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0030",
+   "prompt": "Instead of me giving it to you, you give it to",
+   "combinator": "C",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0031",
+   "prompt": "Not from English to French, but from French to",
+   "combinator": "C",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0032",
+   "prompt": "Rather than the teacher grading the student, the student evaluates the",
+   "combinator": "C",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0033",
+   "prompt": "Reverse the direction: instead of parent to child, child to",
+   "combinator": "C",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0034",
+   "prompt": "Compare the document with itself to find",
+   "combinator": "W",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0035",
+   "prompt": "Apply the same transformation to both sides of",
+   "combinator": "W",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0036",
+   "prompt": "The function that tests whether something equals itself:",
+   "combinator": "W",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0037",
+   "prompt": "Use the password as both the key and the value to",
+   "combinator": "W",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0038",
+   "prompt": "Keep applying the rule until the result stops changing:",
+   "combinator": "Y",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0039",
+   "prompt": "The process that feeds its own output back as input until stable:",
+   "combinator": "Y",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0040",
+   "prompt": "Repeat the simplification step until no further simplification is possible:",
+   "combinator": "Y",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0041",
+   "prompt": "Find the equilibrium by iterating the transformation until convergence:",
+   "combinator": "Y",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0042",
+   "prompt": "Score the essay on both grammar and content separately, then combine:",
+   "combinator": "D",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0043",
+   "prompt": "Evaluate the pros independently from the cons, then weigh",
+   "combinator": "D",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0044",
+   "prompt": "Process the image through both the color and edge filters, then merge",
+   "combinator": "D",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0045",
+   "prompt": "Apply the discount to the price and the tax to the subtotal, then sum",
+   "combinator": "D",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0046",
+   "prompt": "Use the input to determine both which function to apply and what to apply it to:",
+   "combinator": "S",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0047",
+   "prompt": "The context determines both the interpretation rule and the thing being interpreted:",
+   "combinator": "S",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0048",
+   "prompt": "Based on the query, select both the search strategy and the search terms:",
+   "combinator": "S",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0049",
+   "prompt": "The sentence itself determines both the parsing rule and the parse:",
+   "combinator": "S",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0050",
+   "prompt": "The final answer that cannot be simplified any further:",
+   "combinator": "WHNF",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0051",
+   "prompt": "This expression is already fully evaluated:",
+   "combinator": "WHNF",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0052",
+   "prompt": "No more computation steps are possible; the result is",
+   "combinator": "WHNF",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0053",
+   "prompt": "The irreducible form of the expression is",
+   "combinator": "WHNF",
+   "source": "fixedpoint",
+   "category": "fixedpoint_natural_language"
+  },
+  {
+   "id": "fp_0064",
+   "prompt": "Write a function that takes two arguments and always returns the first one",
+   "combinator": "K",
+   "source": "fixedpoint",
+   "category": "fixedpoint_compile"
+  },
+  {
+   "id": "fp_0065",
+   "prompt": "Define a constant function that ignores its second parameter",
+   "combinator": "K",
+   "source": "fixedpoint",
+   "category": "fixedpoint_compile"
+  },
+  {
+   "id": "fp_0066",
+   "prompt": "Implement a selector that always picks the left of a pair",
+   "combinator": "K",
+   "source": "fixedpoint",
+   "category": "fixedpoint_compile"
+  },
+  {
+   "id": "fp_0067",
+   "prompt": "Create a function where the second argument has no effect on the output",
+   "combinator": "K",
+   "source": "fixedpoint",
+   "category": "fixedpoint_compile"
+  },
+  {
+   "id": "fp_0068",
+   "prompt": "Write the simplest possible function \u2014 one that does nothing to its input",
+   "combinator": "I",
+   "source": "fixedpoint",
+   "category": "fixedpoint_compile"
+  },
+  {
+   "id": "fp_0069",
+   "prompt": "Define the identity transformation",
+   "combinator": "I",
+   "source": "fixedpoint",
+   "category": "fixedpoint_compile"
+  },
+  {
+   "id": "fp_0070",
+   "prompt": "Implement a pass-through that returns its argument unchanged",
+   "combinator": "I",
+   "source": "fixedpoint",
+   "category": "fixedpoint_compile"
+  },
+  {
+   "id": "fp_0071",
+   "prompt": "Write a function that composes two other functions \u2014 applying the second then the first",
+   "combinator": "B",
+   "source": "fixedpoint",
+   "category": "fixedpoint_compile"
+  },
+  {
+   "id": "fp_0072",
+   "prompt": "Define function composition: given f and g, produce a function that applies g then f",
+   "combinator": "B",
+   "source": "fixedpoint",
+   "category": "fixedpoint_compile"
+  },
+  {
+   "id": "fp_0073",
+   "prompt": "Implement a pipeline builder that chains two transformations",
+   "combinator": "B",
+   "source": "fixedpoint",
+   "category": "fixedpoint_compile"
+  },
+  {
+   "id": "fp_0074",
+   "prompt": "Create a higher-order function that given two functions returns their composition",
+   "combinator": "B",
+   "source": "fixedpoint",
+   "category": "fixedpoint_compile"
+  },
+  {
+   "id": "fp_0075",
+   "prompt": "Write a function that swaps the order of two arguments to another function",
+   "combinator": "C",
+   "source": "fixedpoint",
+   "category": "fixedpoint_compile"
+  },
+  {
+   "id": "fp_0076",
+   "prompt": "Define an argument reverser for binary functions",
+   "combinator": "C",
+   "source": "fixedpoint",
+   "category": "fixedpoint_compile"
+  },
+  {
+   "id": "fp_0077",
+   "prompt": "Implement flip: given f(x,y), produce a function that computes f(y,x)",
+   "combinator": "C",
+   "source": "fixedpoint",
+   "category": "fixedpoint_compile"
+  },
+  {
+   "id": "fp_0078",
+   "prompt": "Write a function that passes the same argument twice to a binary function",
+   "combinator": "W",
+   "source": "fixedpoint",
+   "category": "fixedpoint_compile"
+  },
+  {
+   "id": "fp_0079",
+   "prompt": "Define the diagonal: given f(x,y), produce a function that computes f(x,x)",
+   "combinator": "W",
+   "source": "fixedpoint",
+   "category": "fixedpoint_compile"
+  },
+  {
+   "id": "fp_0080",
+   "prompt": "Implement self-application: given f, produce the function that applies f to x twice",
+   "combinator": "W",
+   "source": "fixedpoint",
+   "category": "fixedpoint_compile"
+  },
+  {
+   "id": "fp_0081",
+   "prompt": "Write a function that finds the fixed point of another function without explicit recursion",
+   "combinator": "Y",
+   "source": "fixedpoint",
+   "category": "fixedpoint_compile"
+  },
+  {
+   "id": "fp_0082",
+   "prompt": "Define a combinator that enables recursion in a language without named functions",
+   "combinator": "Y",
+   "source": "fixedpoint",
+   "category": "fixedpoint_compile"
+  },
+  {
+   "id": "fp_0083",
+   "prompt": "Implement the mechanism by which a function can call itself without knowing its own name",
+   "combinator": "Y",
+   "source": "fixedpoint",
+   "category": "fixedpoint_compile"
+  },
+  {
+   "id": "fp_0084",
+   "prompt": "Write a function where the argument determines both the function to apply and the value to transform",
+   "combinator": "S",
+   "source": "fixedpoint",
+   "category": "fixedpoint_compile"
+  },
+  {
+   "id": "fp_0085",
+   "prompt": "Define the substitution combinator: given f, g, x, compute f(x)(g(x))",
+   "combinator": "S",
+   "source": "fixedpoint",
+   "category": "fixedpoint_compile"
+  },
+  {
+   "id": "fp_0086",
+   "prompt": "Write a function that processes two arguments independently through two different functions then combines",
+   "combinator": "D",
+   "source": "fixedpoint",
+   "category": "fixedpoint_compile"
+  },
+  {
+   "id": "fp_0087",
+   "prompt": "Define parallel application: given f, g, x, y, compute f(x) combined with g(y)",
+   "combinator": "D",
+   "source": "fixedpoint",
+   "category": "fixedpoint_compile"
+  },
+  {
+   "id": "fp_0088",
+   "prompt": "Explain in plain English what this function does: \u03bbx.\u03bby.x",
+   "combinator": "K",
+   "source": "fixedpoint",
+   "category": "fixedpoint_decompile"
+  },
+  {
+   "id": "fp_0089",
+   "prompt": "Describe the behavior of: \u03bbx.x",
+   "combinator": "I",
+   "source": "fixedpoint",
+   "category": "fixedpoint_decompile"
+  },
+  {
+   "id": "fp_0090",
+   "prompt": "What does this function compute: \u03bbf.\u03bbg.\u03bbx.f(g(x))",
+   "combinator": "B",
+   "source": "fixedpoint",
+   "category": "fixedpoint_decompile"
+  },
+  {
+   "id": "fp_0091",
+   "prompt": "Explain this lambda expression: \u03bbf.\u03bbx.\u03bby.f(y)(x)",
+   "combinator": "C",
+   "source": "fixedpoint",
+   "category": "fixedpoint_decompile"
+  },
+  {
+   "id": "fp_0092",
+   "prompt": "Describe what this does: \u03bbf.\u03bbx.f(x)(x)",
+   "combinator": "W",
+   "source": "fixedpoint",
+   "category": "fixedpoint_decompile"
+  },
+  {
+   "id": "fp_0093",
+   "prompt": "What is the purpose of: \u03bbf.(\u03bbx.f(x(x)))(\u03bbx.f(x(x)))",
+   "combinator": "Y",
+   "source": "fixedpoint",
+   "category": "fixedpoint_decompile"
+  },
+  {
+   "id": "fp_0094",
+   "prompt": "Explain this function: \u03bbf.\u03bbg.\u03bbx.f(x)(g(x))",
+   "combinator": "S",
+   "source": "fixedpoint",
+   "category": "fixedpoint_decompile"
+  },
+  {
+   "id": "fp_0095",
+   "prompt": "Describe the computation: \u03bbf.\u03bbg.\u03bbx.\u03bby.f(x)(g(y))",
+   "combinator": "D",
+   "source": "fixedpoint",
+   "category": "fixedpoint_decompile"
+  },
+  {
+   "id": "fp_0100",
+   "prompt": "The capital of the country that borders",
+   "combinator": "B",
+   "source": "fixedpoint",
+   "category": "fixedpoint_cross_domain"
+  },
+  {
+   "id": "fp_0101",
+   "prompt": "The color of the car that belongs to the person who",
+   "combinator": "B",
+   "source": "fixedpoint",
+   "category": "fixedpoint_cross_domain"
+  },
+  {
+   "id": "fp_0102",
+   "prompt": "Summarize the translation of the abstract of",
+   "combinator": "B",
+   "source": "fixedpoint",
+   "category": "fixedpoint_cross_domain"
+  },
+  {
+   "id": "fp_0103",
+   "prompt": "The square root of the absolute value of the difference between",
+   "combinator": "B",
+   "source": "fixedpoint",
+   "category": "fixedpoint_cross_domain"
+  },
+  {
+   "id": "fp_0104",
+   "prompt": "The CEO of the company that acquired the startup that developed",
+   "combinator": "B",
+   "source": "fixedpoint",
+   "category": "fixedpoint_cross_domain"
+  },
+  {
+   "id": "fp_0105",
+   "prompt": "Print the sorted unique values from the filtered list of",
+   "combinator": "B",
+   "source": "fixedpoint",
+   "category": "fixedpoint_cross_domain"
+  },
+  {
+   "id": "fp_0106",
+   "prompt": "No matter what happens next, the answer is still",
+   "combinator": "K",
+   "source": "fixedpoint",
+   "category": "fixedpoint_cross_domain"
+  },
+  {
+   "id": "fp_0107",
+   "prompt": "Regardless of the weather, the meeting will be held at",
+   "combinator": "K",
+   "source": "fixedpoint",
+   "category": "fixedpoint_cross_domain"
+  },
+  {
+   "id": "fp_0108",
+   "prompt": "The only relevant factor, ignoring everything else, is",
+   "combinator": "K",
+   "source": "fixedpoint",
+   "category": "fixedpoint_cross_domain"
+  },
+  {
+   "id": "fp_0109",
+   "prompt": "Whatever you do, don't forget that the main point is",
+   "combinator": "K",
+   "source": "fixedpoint",
+   "category": "fixedpoint_cross_domain"
+  },
+  {
+   "id": "fp_0110",
+   "prompt": "It wasn't the dog that bit the man, but the man who bit the",
+   "combinator": "C",
+   "source": "fixedpoint",
+   "category": "fixedpoint_cross_domain"
+  },
+  {
+   "id": "fp_0111",
+   "prompt": "Instead of the students evaluating the teachers, the teachers evaluate the",
+   "combinator": "C",
+   "source": "fixedpoint",
+   "category": "fixedpoint_cross_domain"
+  },
+  {
+   "id": "fp_0112",
+   "prompt": "Don't ask what your country can do for you \u2014 ask what you can do for your",
+   "combinator": "C",
+   "source": "fixedpoint",
+   "category": "fixedpoint_cross_domain"
+  },
+  {
+   "id": "fp_0113",
+   "prompt": "The seller became the buyer and the buyer became the",
+   "combinator": "C",
+   "source": "fixedpoint",
+   "category": "fixedpoint_cross_domain"
+  },
+  {
+   "id": "fp_0114",
+   "prompt": "The message was relayed exactly as received:",
+   "combinator": "I",
+   "source": "fixedpoint",
+   "category": "fixedpoint_cross_domain"
+  },
+  {
+   "id": "fp_0115",
+   "prompt": "The witness quoted the suspect verbatim:",
+   "combinator": "I",
+   "source": "fixedpoint",
+   "category": "fixedpoint_cross_domain"
+  },
+  {
+   "id": "fp_0116",
+   "prompt": "Copy the input to the output without any transformation:",
+   "combinator": "I",
+   "source": "fixedpoint",
+   "category": "fixedpoint_cross_domain"
+  },
+  {
+   "id": "fp_0117",
+   "prompt": "The committee that oversees itself discovered that",
+   "combinator": "W",
+   "source": "fixedpoint",
+   "category": "fixedpoint_cross_domain"
+  },
+  {
+   "id": "fp_0118",
+   "prompt": "The program that analyzes its own source code found",
+   "combinator": "W",
+   "source": "fixedpoint",
+   "category": "fixedpoint_cross_domain"
+  },
+  {
+   "id": "fp_0119",
+   "prompt": "Compare each item in the list with every other item in the same list to",
+   "combinator": "W",
+   "source": "fixedpoint",
+   "category": "fixedpoint_cross_domain"
+  },
+  {
+   "id": "fp_0120",
+   "prompt": "The rule for simplifying is: if the expression contains a reducible part, simplify it and repeat until",
+   "combinator": "Y",
+   "source": "fixedpoint",
+   "category": "fixedpoint_cross_domain"
+  },
+  {
+   "id": "fp_0121",
+   "prompt": "Start with an initial guess, apply Newton's method, and keep iterating until the answer converges to",
+   "combinator": "Y",
+   "source": "fixedpoint",
+   "category": "fixedpoint_cross_domain"
+  },
+  {
+   "id": "fp_0122",
+   "prompt": "To sort, split the list in half, sort each half, then merge \u2014 applying this same process to each half until",
+   "combinator": "Y",
+   "source": "fixedpoint",
+   "category": "fixedpoint_cross_domain"
+  },
+  {
+   "id": "fp_0123",
+   "prompt": "The sentence that refers to itself is true if and only if",
+   "combinator": "Y",
+   "source": "fixedpoint",
+   "category": "fixedpoint_cross_domain"
+  },
+  {
+   "id": "fp_0124",
+   "prompt": "Use the context to determine both what rule applies and what it applies to:",
+   "combinator": "S",
+   "source": "fixedpoint",
+   "category": "fixedpoint_cross_domain"
+  },
+  {
+   "id": "fp_0125",
+   "prompt": "The word itself tells you both how to pronounce it and what it means:",
+   "combinator": "S",
+   "source": "fixedpoint",
+   "category": "fixedpoint_cross_domain"
+  },
+  {
+   "id": "fp_0126",
+   "prompt": "Grade the essay separately for content and for grammar, then combine the scores:",
+   "combinator": "D",
+   "source": "fixedpoint",
+   "category": "fixedpoint_cross_domain"
+  },
+  {
+   "id": "fp_0127",
+   "prompt": "Analyze the image for both color and shape independently, then classify based on",
+   "combinator": "D",
+   "source": "fixedpoint",
+   "category": "fixedpoint_cross_domain"
+  },
+  {
+   "id": "fp_0143",
+   "prompt": "\u03bbx.x applied to the value 42 gives",
+   "combinator": "I",
+   "source": "fixedpoint",
+   "category": "fixedpoint_binding_depth"
+  },
+  {
+   "id": "fp_0144",
+   "prompt": "Apply the identity function to the string hello",
+   "combinator": "I",
+   "source": "fixedpoint",
+   "category": "fixedpoint_binding_depth"
+  },
+  {
+   "id": "fp_0145",
+   "prompt": "The function \u03bbx.x simply returns its argument, so (\u03bbx.x)(7) =",
+   "combinator": "I",
+   "source": "fixedpoint",
+   "category": "fixedpoint_binding_depth"
+  },
+  {
+   "id": "fp_0146",
+   "prompt": "\u03bbx.\u03bby.x applied to a then b gives",
+   "combinator": "K",
+   "source": "fixedpoint",
+   "category": "fixedpoint_binding_depth"
+  },
+  {
+   "id": "fp_0149",
+   "prompt": "\u03bbf.\u03bbg.\u03bbx.f(g(x)) with f=double, g=add1, x=3 gives",
+   "combinator": "B",
+   "source": "fixedpoint",
+   "category": "fixedpoint_binding_depth"
+  },
+  {
+   "id": "fp_0150",
+   "prompt": "\u03bbx.\u03bby.\u03bbz.x(z)(y(z)) applied to f, g, then a gives f(a)(g(a))",
+   "combinator": "S",
+   "source": "fixedpoint",
+   "category": "fixedpoint_binding_depth"
+  },
+  {
+   "id": "fp_0152",
+   "prompt": "\u03bba.\u03bbb.\u03bbc.\u03bbd.a(b(c(d))) with a=f, b=g, c=h, d=x gives f(g(h(x)))",
+   "combinator": "B",
+   "source": "fixedpoint",
+   "category": "fixedpoint_binding_depth"
+  },
+  {
+   "id": "fp_0158",
+   "prompt": "In \u03bbx.\u03bby.x, the binding of x must survive past the \u03bby abstraction unchanged",
+   "combinator": "K",
+   "source": "fixedpoint",
+   "category": "fixedpoint_binding_ops"
+  },
+  {
+   "id": "fp_0159",
+   "prompt": "A closure captures its environment: \u03bbx.(\u03bby.x) remembers x even after y is bound",
+   "combinator": "K",
+   "source": "fixedpoint",
+   "category": "fixedpoint_binding_ops"
+  },
+  {
+   "id": "fp_0160",
+   "prompt": "The free variable x in \u03bby.x refers to whatever x was bound to in the enclosing scope",
+   "combinator": "K",
+   "source": "fixedpoint",
+   "category": "fixedpoint_binding_ops"
+  },
+  {
+   "id": "fp_0166",
+   "prompt": "To resolve the pronoun in \"The cat sat on the mat. It was",
+   "combinator": "I",
+   "source": "fixedpoint",
+   "category": "fixedpoint_attention_binding"
+  },
+  {
+   "id": "fp_0168",
+   "prompt": "The variable x was defined three sentences ago. To use x now requires",
+   "combinator": "K",
+   "source": "fixedpoint",
+   "category": "fixedpoint_attention_binding"
+  },
+  {
+   "id": "fp_0169",
+   "prompt": "Copy the third element from the list [a, b, c, d] without modifying it:",
+   "combinator": "I",
+   "source": "fixedpoint",
+   "category": "fixedpoint_attention_binding"
+  },
+  {
+   "id": "fp_0170",
+   "prompt": "Repeat verbatim what was said in the first paragraph:",
+   "combinator": "I",
+   "source": "fixedpoint",
+   "category": "fixedpoint_attention_binding"
+  },
+  {
+   "id": "fp_0172",
+   "prompt": "K discards its second argument \u2014 this is binding followed by immediate unbinding",
+   "combinator": "K",
+   "source": "fixedpoint",
+   "category": "fixedpoint_binding_combinator"
+  },
+  {
+   "id": "fp_0173",
+   "prompt": "I preserves its argument \u2014 this is binding with no transformation, pure carry-through",
+   "combinator": "I",
+   "source": "fixedpoint",
+   "category": "fixedpoint_binding_combinator"
+  },
+  {
+   "id": "fp_0174",
+   "prompt": "B threads a value through two functions \u2014 binding must survive across both applications",
+   "combinator": "B",
+   "source": "fixedpoint",
+   "category": "fixedpoint_binding_combinator"
+  },
+  {
+   "id": "fp_0175",
+   "prompt": "C swaps two bindings \u2014 the first-bound becomes second-used and vice versa",
+   "combinator": "C",
+   "source": "fixedpoint",
+   "category": "fixedpoint_binding_combinator"
+  },
+  {
+   "id": "fp_0176",
+   "prompt": "W uses one binding twice \u2014 the same variable appears in two argument positions",
+   "combinator": "W",
+   "source": "fixedpoint",
+   "category": "fixedpoint_binding_combinator"
+  },
+  {
+   "id": "fp_0177",
+   "prompt": "Y creates a self-referential binding \u2014 the function is bound to its own fixed point",
+   "combinator": "Y",
+   "source": "fixedpoint",
+   "category": "fixedpoint_binding_combinator"
+  },
+  {
+   "id": "fp_0178",
+   "prompt": "S uses one binding for two purposes \u2014 x determines both the function and the argument",
+   "combinator": "S",
+   "source": "fixedpoint",
+   "category": "fixedpoint_binding_combinator"
+  },
+  {
+   "id": "fp_0181",
+   "prompt": "Alpha equivalence: \u03bbx.x and \u03bby.y are the same function \u2014 the name does not matter, only the binding structure",
+   "combinator": "I",
+   "source": "fixedpoint",
+   "category": "fixedpoint_binding_scope"
+  },
+  {
+   "id": "pc_0000",
+   "prompt": "The cat, not the dog, chased the mouse across the yard.",
+   "combinator": "K",
+   "source": "probe_combinators",
+   "category": "paired_active"
+  },
+  {
+   "id": "pc_0001",
+   "prompt": "Either the president or the minister signed the treaty last week.",
+   "combinator": "K",
+   "source": "probe_combinators",
+   "category": "paired_active"
+  },
+  {
+   "id": "pc_0002",
+   "prompt": "John, rather than his brother, won the competition in the end.",
+   "combinator": "K",
+   "source": "probe_combinators",
+   "category": "paired_active"
+  },
+  {
+   "id": "pc_0003",
+   "prompt": "The red ball, not the blue one, rolled under the table slowly.",
+   "combinator": "K",
+   "source": "probe_combinators",
+   "category": "paired_active"
+  },
+  {
+   "id": "pc_0004",
+   "prompt": "Some students but not all students passed the difficult exam.",
+   "combinator": "K",
+   "source": "probe_combinators",
+   "category": "paired_active"
+  },
+  {
+   "id": "pc_0005",
+   "prompt": "The old house, unlike the new building, survived the earthquake.",
+   "combinator": "K",
+   "source": "probe_combinators",
+   "category": "paired_active"
+  },
+  {
+   "id": "pc_0006",
+   "prompt": "The cat chased the mouse across the yard very quickly.",
+   "combinator": "K",
+   "source": "probe_combinators",
+   "category": "paired_control"
+  },
+  {
+   "id": "pc_0007",
+   "prompt": "The president signed the treaty at the ceremony last week.",
+   "combinator": "K",
+   "source": "probe_combinators",
+   "category": "paired_control"
+  },
+  {
+   "id": "pc_0008",
+   "prompt": "John won the competition in the end with great effort.",
+   "combinator": "K",
+   "source": "probe_combinators",
+   "category": "paired_control"
+  },
+  {
+   "id": "pc_0009",
+   "prompt": "The red ball rolled under the table slowly after the push.",
+   "combinator": "K",
+   "source": "probe_combinators",
+   "category": "paired_control"
+  },
+  {
+   "id": "pc_0010",
+   "prompt": "All students passed the difficult exam with high scores.",
+   "combinator": "K",
+   "source": "probe_combinators",
+   "category": "paired_control"
+  },
+  {
+   "id": "pc_0011",
+   "prompt": "The old house survived the earthquake without any damage.",
+   "combinator": "K",
+   "source": "probe_combinators",
+   "category": "paired_control"
+  },
+  {
+   "id": "pc_0012",
+   "prompt": "He said \"hello\" and then she also said \"hello\" to everyone.",
+   "combinator": "I",
+   "source": "probe_combinators",
+   "category": "paired_active"
+  },
+  {
+   "id": "pc_0013",
+   "prompt": "The result was five. The answer is five. Five is correct.",
+   "combinator": "I",
+   "source": "probe_combinators",
+   "category": "paired_active"
+  },
+  {
+   "id": "pc_0014",
+   "prompt": "She ran quickly. She ran so quickly that nobody could catch her.",
+   "combinator": "I",
+   "source": "probe_combinators",
+   "category": "paired_active"
+  },
+  {
+   "id": "pc_0015",
+   "prompt": "The temperature is rising. The temperature keeps rising every day.",
+   "combinator": "I",
+   "source": "probe_combinators",
+   "category": "paired_active"
+  },
+  {
+   "id": "pc_0016",
+   "prompt": "First he ate the apple. Then he ate another apple after that.",
+   "combinator": "I",
+   "source": "probe_combinators",
+   "category": "paired_active"
+  },
+  {
+   "id": "pc_0017",
+   "prompt": "The plan was simple. It was simple and it worked perfectly well.",
+   "combinator": "I",
+   "source": "probe_combinators",
+   "category": "paired_active"
+  },
+  {
+   "id": "pc_0018",
+   "prompt": "He said \"hello\" and then she said \"goodbye\" to everyone.",
+   "combinator": "I",
+   "source": "probe_combinators",
+   "category": "paired_control"
+  },
+  {
+   "id": "pc_0019",
+   "prompt": "The result was five. The method is correct. Nothing was wrong.",
+   "combinator": "I",
+   "source": "probe_combinators",
+   "category": "paired_control"
+  },
+  {
+   "id": "pc_0020",
+   "prompt": "She ran quickly. The others walked slowly behind the group.",
+   "combinator": "I",
+   "source": "probe_combinators",
+   "category": "paired_control"
+  },
+  {
+   "id": "pc_0021",
+   "prompt": "The temperature is rising. The wind keeps shifting every day.",
+   "combinator": "I",
+   "source": "probe_combinators",
+   "category": "paired_control"
+  },
+  {
+   "id": "pc_0022",
+   "prompt": "First he ate the apple. Then he drank some water after that.",
+   "combinator": "I",
+   "source": "probe_combinators",
+   "category": "paired_control"
+  },
+  {
+   "id": "pc_0023",
+   "prompt": "The plan was simple. It was elegant and it surprised everyone.",
+   "combinator": "I",
+   "source": "probe_combinators",
+   "category": "paired_control"
+  },
+  {
+   "id": "pc_0024",
+   "prompt": "The man who the dog that the cat chased bit ran away quickly.",
+   "combinator": "B",
+   "source": "probe_combinators",
+   "category": "paired_active"
+  },
+  {
+   "id": "pc_0025",
+   "prompt": "The student who read the book that the professor recommended passed.",
+   "combinator": "B",
+   "source": "probe_combinators",
+   "category": "paired_active"
+  },
+  {
+   "id": "pc_0026",
+   "prompt": "If every teacher who knows a student that failed helps them, all improve.",
+   "combinator": "B",
+   "source": "probe_combinators",
+   "category": "paired_active"
+  },
+  {
+   "id": "pc_0027",
+   "prompt": "The company that hired the lawyer who won the case prospered greatly.",
+   "combinator": "B",
+   "source": "probe_combinators",
+   "category": "paired_active"
+  },
+  {
+   "id": "pc_0028",
+   "prompt": "She believed that he thought that the answer was obviously wrong.",
+   "combinator": "B",
+   "source": "probe_combinators",
+   "category": "paired_active"
+  },
+  {
+   "id": "pc_0029",
+   "prompt": "The key that opened the door that led to the garden was lost.",
+   "combinator": "B",
+   "source": "probe_combinators",
+   "category": "paired_active"
+  },
+  {
+   "id": "pc_0030",
+   "prompt": "The man ran away quickly after the incident in the park.",
+   "combinator": "B",
+   "source": "probe_combinators",
+   "category": "paired_control"
+  },
+  {
+   "id": "pc_0031",
+   "prompt": "The student passed the course with excellent marks this year.",
+   "combinator": "B",
+   "source": "probe_combinators",
+   "category": "paired_control"
+  },
+  {
+   "id": "pc_0032",
+   "prompt": "If every teacher helps struggling students then all will improve.",
+   "combinator": "B",
+   "source": "probe_combinators",
+   "category": "paired_control"
+  },
+  {
+   "id": "pc_0033",
+   "prompt": "The company prospered greatly after its successful year overall.",
+   "combinator": "B",
+   "source": "probe_combinators",
+   "category": "paired_control"
+  },
+  {
+   "id": "pc_0034",
+   "prompt": "She believed the answer was obviously wrong from the start.",
+   "combinator": "B",
+   "source": "probe_combinators",
+   "category": "paired_control"
+  },
+  {
+   "id": "pc_0035",
+   "prompt": "The key was lost somewhere in the garden behind the house.",
+   "combinator": "B",
+   "source": "probe_combinators",
+   "category": "paired_control"
+  },
+  {
+   "id": "pc_0036",
+   "prompt": "The mouse was chased by the cat through the garden quickly.",
+   "combinator": "C",
+   "source": "probe_combinators",
+   "category": "paired_active"
+  },
+  {
+   "id": "pc_0037",
+   "prompt": "The treaty was signed by the president at the formal ceremony.",
+   "combinator": "C",
+   "source": "probe_combinators",
+   "category": "paired_active"
+  },
+  {
+   "id": "pc_0038",
+   "prompt": "The book was read by every student in the advanced class.",
+   "combinator": "C",
+   "source": "probe_combinators",
+   "category": "paired_active"
+  },
+  {
+   "id": "pc_0039",
+   "prompt": "The window was broken by the ball during the afternoon game.",
+   "combinator": "C",
+   "source": "probe_combinators",
+   "category": "paired_active"
+  },
+  {
+   "id": "pc_0040",
+   "prompt": "The letter was written by Mary to her friend in another city.",
+   "combinator": "C",
+   "source": "probe_combinators",
+   "category": "paired_active"
+  },
+  {
+   "id": "pc_0041",
+   "prompt": "The cake was baked by the chef for the celebration last night.",
+   "combinator": "C",
+   "source": "probe_combinators",
+   "category": "paired_active"
+  },
+  {
+   "id": "pc_0042",
+   "prompt": "The cat chased the mouse through the garden very quickly.",
+   "combinator": "C",
+   "source": "probe_combinators",
+   "category": "paired_control"
+  },
+  {
+   "id": "pc_0043",
+   "prompt": "The president signed the treaty at the formal ceremony today.",
+   "combinator": "C",
+   "source": "probe_combinators",
+   "category": "paired_control"
+  },
+  {
+   "id": "pc_0044",
+   "prompt": "Every student read the book in the advanced class this term.",
+   "combinator": "C",
+   "source": "probe_combinators",
+   "category": "paired_control"
+  },
+  {
+   "id": "pc_0045",
+   "prompt": "The ball broke the window during the afternoon game outside.",
+   "combinator": "C",
+   "source": "probe_combinators",
+   "category": "paired_control"
+  },
+  {
+   "id": "pc_0046",
+   "prompt": "Mary wrote the letter to her friend in another city yesterday.",
+   "combinator": "C",
+   "source": "probe_combinators",
+   "category": "paired_control"
+  },
+  {
+   "id": "pc_0047",
+   "prompt": "The chef baked the cake for the celebration last night here.",
+   "combinator": "C",
+   "source": "probe_combinators",
+   "category": "paired_control"
+  },
+  {
+   "id": "sup_0000",
+   "prompt": "Both the temperature and the humidity affect how comfortable the room feels to",
+   "combinator": "S",
+   "source": "supplement",
+   "category": "supplement_S"
+  },
+  {
+   "id": "sup_0001",
+   "prompt": "To determine the best candidate, evaluate both their experience and their references for",
+   "combinator": "S",
+   "source": "supplement",
+   "category": "supplement_S"
+  },
+  {
+   "id": "sup_0002",
+   "prompt": "The judge scored both the technique and the artistry before giving a total of",
+   "combinator": "S",
+   "source": "supplement",
+   "category": "supplement_S"
+  },
+  {
+   "id": "sup_0003",
+   "prompt": "The plant needs both sunlight and water to grow its",
+   "combinator": "S",
+   "source": "supplement",
+   "category": "supplement_S"
+  },
+  {
+   "id": "sup_0004",
+   "prompt": "She weighs the pros and cons of each option before deciding which is the best",
+   "combinator": "S",
+   "source": "supplement",
+   "category": "supplement_S"
+  },
+  {
+   "id": "sup_0005",
+   "prompt": "The formula combines the height and the width to calculate the total area of",
+   "combinator": "S",
+   "source": "supplement",
+   "category": "supplement_S"
+  },
+  {
+   "id": "sup_0006",
+   "prompt": "The algorithm uses both the key and the value to compute the final hash of",
+   "combinator": "S",
+   "source": "supplement",
+   "category": "supplement_S"
+  },
+  {
+   "id": "sup_0007",
+   "prompt": "He measured both the length and the weight to determine whether the package would fit in",
+   "combinator": "S",
+   "source": "supplement",
+   "category": "supplement_S"
+  },
+  {
+   "id": "sup_0008",
+   "prompt": "The recipe requires both beating the eggs and sifting the flour before mixing them into",
+   "combinator": "S",
+   "source": "supplement",
+   "category": "supplement_S"
+  },
+  {
+   "id": "sup_0009",
+   "prompt": "The hiring panel assesses both technical skills and cultural fit when choosing a",
+   "combinator": "S",
+   "source": "supplement",
+   "category": "supplement_S"
+  },
+  {
+   "id": "sup_0010",
+   "prompt": "To calculate BMI you need both the mass and the height of the",
+   "combinator": "S",
+   "source": "supplement",
+   "category": "supplement_S"
+  },
+  {
+   "id": "sup_0011",
+   "prompt": "The profit equals revenue minus costs, requiring both numbers to compute the",
+   "combinator": "S",
+   "source": "supplement",
+   "category": "supplement_S"
+  },
+  {
+   "id": "sup_0012",
+   "prompt": "The dot product multiplies corresponding elements and sums: a\u2081b\u2081 + a\u2082b\u2082 + a\u2083b\u2083 equals",
+   "combinator": "S",
+   "source": "supplement",
+   "category": "supplement_S"
+  },
+  {
+   "id": "sup_0013",
+   "prompt": "To evaluate f(x,g(x)) you first compute g(x) then pass both x and the result to",
+   "combinator": "S",
+   "source": "supplement",
+   "category": "supplement_S"
+  },
+  {
+   "id": "sup_0014",
+   "prompt": "The zip function takes two lists and pairs their elements: zip([a,b],[1,2]) gives",
+   "combinator": "S",
+   "source": "supplement",
+   "category": "supplement_S"
+  },
+  {
+   "id": "sup_0015",
+   "prompt": "Compare the predicted value with the actual value to compute the error for",
+   "combinator": "S",
+   "source": "supplement",
+   "category": "supplement_S"
+  },
+  {
+   "id": "sup_0016",
+   "prompt": "The linear combination \u03b1x + \u03b2y requires applying both scalars to their respective",
+   "combinator": "S",
+   "source": "supplement",
+   "category": "supplement_S"
+  },
+  {
+   "id": "sup_0017",
+   "prompt": "To test the hypothesis, collect both experimental and control measurements before",
+   "combinator": "S",
+   "source": "supplement",
+   "category": "supplement_S"
+  },
+  {
+   "id": "sup_0018",
+   "prompt": "The convolution operation multiplies and sums two signals element by element to produce",
+   "combinator": "S",
+   "source": "supplement",
+   "category": "supplement_S"
+  },
+  {
+   "id": "sup_0019",
+   "prompt": "The merge step of mergesort takes two sorted halves and interleaves them into",
+   "combinator": "S",
+   "source": "supplement",
+   "category": "supplement_S"
+  },
+  {
+   "id": "sup_0020",
+   "prompt": "Apply both the discount rate and the tax rate to the price to get the final",
+   "combinator": "S",
+   "source": "supplement",
+   "category": "supplement_S"
+  },
+  {
+   "id": "sup_0021",
+   "prompt": "The cross product of two vectors gives a vector perpendicular to both of the",
+   "combinator": "S",
+   "source": "supplement",
+   "category": "supplement_S"
+  },
+  {
+   "id": "sup_0022",
+   "prompt": "Check both the username and the password to authenticate the",
+   "combinator": "S",
+   "source": "supplement",
+   "category": "supplement_S"
+  },
+  {
+   "id": "sup_0023",
+   "prompt": "The correlation coefficient measures how two variables move together relative to their",
+   "combinator": "S",
+   "source": "supplement",
+   "category": "supplement_S"
+  },
+  {
+   "id": "sup_0024",
+   "prompt": "Validate both the format and the content of the input before processing the",
+   "combinator": "S",
+   "source": "supplement",
+   "category": "supplement_S"
+  },
+  {
+   "id": "sup_0025",
+   "prompt": "The bilinear form takes two vectors and produces a scalar by multiplying and summing",
+   "combinator": "S",
+   "source": "supplement",
+   "category": "supplement_S"
+  },
+  {
+   "id": "sup_0026",
+   "prompt": "The loss function compares the prediction and the label to produce a single",
+   "combinator": "S",
+   "source": "supplement",
+   "category": "supplement_S"
+  },
+  {
+   "id": "sup_0027",
+   "prompt": "Both the sender and the receiver must agree on the protocol before exchanging",
+   "combinator": "S",
+   "source": "supplement",
+   "category": "supplement_S"
+  },
+  {
+   "id": "sup_0028",
+   "prompt": "Encrypt the message and then encrypt the encrypted result for double",
+   "combinator": "D",
+   "source": "supplement",
+   "category": "supplement_D"
+  },
+  {
+   "id": "sup_0029",
+   "prompt": "Hash the hash of the password to produce a doubly-secure",
+   "combinator": "D",
+   "source": "supplement",
+   "category": "supplement_D"
+  },
+  {
+   "id": "sup_0030",
+   "prompt": "The function f(f(x)) squares the effect: if f doubles, then f(f(3)) gives",
+   "combinator": "D",
+   "source": "supplement",
+   "category": "supplement_D"
+  },
+  {
+   "id": "sup_0031",
+   "prompt": "Blur the image, then blur the blurred image to produce a heavily smoothed",
+   "combinator": "D",
+   "source": "supplement",
+   "category": "supplement_D"
+  },
+  {
+   "id": "sup_0032",
+   "prompt": "The derivative of the derivative is the second derivative which measures the",
+   "combinator": "D",
+   "source": "supplement",
+   "category": "supplement_D"
+  },
+  {
+   "id": "sup_0033",
+   "prompt": "The boss of the boss is the CEO who oversees the entire",
+   "combinator": "D",
+   "source": "supplement",
+   "category": "supplement_D"
+  },
+  {
+   "id": "sup_0034",
+   "prompt": "The value 42 requires no further computation \u2014 it is already",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0035",
+   "prompt": "The string 'hello' is a literal that cannot be simplified",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0036",
+   "prompt": "True is a boolean value that is already fully",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0037",
+   "prompt": "The empty list [] is a value \u2014 there is nothing to",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0038",
+   "prompt": "The constant \u03c0 \u2248 3.14159 is a fixed mathematical",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0039",
+   "prompt": "The tuple (1, 2, 3) is a concrete value requiring no further",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0040",
+   "prompt": "The symbol :ok is an atom that evaluates to",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0041",
+   "prompt": "NULL represents the absence of a value and is already in its simplest",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0042",
+   "prompt": "The character 'A' is a primitive value that cannot be",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0043",
+   "prompt": "A partially applied function like (+ 3) is in weak head normal form \u2014 it awaits one more",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0044",
+   "prompt": "The fraction 1/3 in its lowest terms is already fully",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0045",
+   "prompt": "The lambda abstraction \u03bbx.x+1 is a value \u2014 it doesn't reduce until",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0046",
+   "prompt": "The type Int is a fully resolved type that needs no further",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0047",
+   "prompt": "An empty dictionary {} is an already-computed data structure that",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0048",
+   "prompt": "The address 0x7FFF is a concrete pointer value that does not need",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0049",
+   "prompt": "The result has been computed: no more steps are needed, the answer is",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0050",
+   "prompt": "A constructor like Just(5) is already in normal form \u2014 it wraps a value without",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0051",
+   "prompt": "The set {a, b, c} is enumerated and complete \u2014 no expansion",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0052",
+   "prompt": "The matrix [[1,0],[0,1]] is the identity matrix \u2014 a fixed mathematical",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0053",
+   "prompt": "A leaf node in a tree has no children to process \u2014 it is a terminal",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0054",
+   "prompt": "The final state in the automaton accepts the input without further",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0055",
+   "prompt": "An axiom is taken as given \u2014 it requires no proof or further",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0056",
+   "prompt": "The checksum 0xDEADBEEF is a computed digest that stands as",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0057",
+   "prompt": "After all reductions, the expression is in beta-normal form and cannot be reduced",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0058",
+   "prompt": "A quoted expression 'x is data, not code \u2014 it is not evaluated",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0059",
+   "prompt": "The resolved DNS entry 93.184.216.34 is the final IP \u2014 no more lookups",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0060",
+   "prompt": "Return 0 \u2014 the program has finished executing and produces this exit",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0061",
+   "prompt": "The eigenvalue \u03bb\u2081 = 2.618 is a number, already computed, no matrix operations",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0062",
+   "prompt": "EOF marks the end of the file \u2014 there is nothing more to",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0063",
+   "prompt": "The hash sha256:a3b8c1... is a fixed fingerprint that does not change once",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0064",
+   "prompt": "A fully evaluated thunk is a value \u2014 the computation has already been",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0065",
+   "prompt": "The ground truth label 'cat' is a fact, not a prediction to be",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0066",
+   "prompt": "A closed-form solution like x = (-b \u00b1 \u221a(b\u00b2-4ac))/2a is the final answer \u2014 plug in",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0067",
+   "prompt": "The Unicode codepoint U+0041 corresponds exactly to the letter A without",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0068",
+   "prompt": "The base case of the recursion returns 1 \u2014 no further recursive calls",
+   "combinator": "WHNF",
+   "source": "supplement",
+   "category": "supplement_WHNF"
+  },
+  {
+   "id": "sup_0069",
+   "prompt": "The function calls itself with n-1 until n reaches zero and then returns the accumulated",
+   "combinator": "Y",
+   "source": "supplement",
+   "category": "supplement_Y"
+  },
+  {
+   "id": "sup_0070",
+   "prompt": "Each recursive call peels off one layer until the base case reveals the",
+   "combinator": "Y",
+   "source": "supplement",
+   "category": "supplement_Y"
+  }
+ ]
+}
