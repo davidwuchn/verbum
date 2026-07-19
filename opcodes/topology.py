@@ -575,8 +575,23 @@ def self_test(models: tuple[tuple[str, str | None], ...] = _SELF_TEST_MODELS) ->
             row["detected"] = topo.register
             row["summary"] = topo.summary()
             row["attn_ok"] = topo.attn_traceable
+            # readout paths (logit-lens / jspace operand register): both must
+            # resolve to real modules for the verbalize read to exist
+            norm_mod = (
+                _resolve(model, topo.final_norm_path)
+                if topo.final_norm_path
+                else None
+            )
+            unembed_mod = (
+                _resolve(model, topo.unembed_path) if topo.unembed_path else None
+            )
+            row["norm_path"] = topo.final_norm_path
+            row["unembed_path"] = topo.unembed_path
+            row["readout_ok"] = norm_mod is not None and unembed_mod is not None
             row["notes"] = list(topo.notes)
-            row["pass"] = (expected is None) or (topo.register == expected)
+            row["pass"] = (
+                (expected is None) or (topo.register == expected)
+            ) and row["readout_ok"]
         except Exception as e:
             row["status"] = "DETECT_FAIL"
             row["detail"] = f"{type(e).__name__}: {str(e)[:80]}"
@@ -610,6 +625,11 @@ def _print_report(report: dict) -> None:
         exp = r["expected"] if r["expected"] is not None else "(build IOU)"
         det = r.get("detected") or r.get("status") or "?"
         print(f"{mark} {r['model']:32s} expect={exp!s:12s} -> {det}")
+        if "readout_ok" in r:
+            print(
+                f"     readout_ok={r['readout_ok']} "
+                f"norm={r['norm_path']} unembed={r['unembed_path']}"
+            )
         if "summary" in r:
             print(f"     {r['summary']}")
         if r.get("notes"):
