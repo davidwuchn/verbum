@@ -55,7 +55,12 @@ sys.path.insert(0, str(_ROOT / "opcodes"))
 import capture as C  # noqa: E402
 import jspace as J  # noqa: E402
 import topology as T  # noqa: E402
-from classify import CRYSTAL, RelationalCrystalClassifier, register_node  # noqa: E402
+from classify import (  # noqa: E402
+    CRYSTAL,
+    RelationalCrystalClassifier,
+    measure_null_floor,
+    register_node,
+)
 from probes import crystal_probes  # noqa: E402
 from vsm import VSMNode, save_tree, stack  # noqa: E402
 
@@ -163,7 +168,7 @@ def calibrate_register(
     summ["register"] = register
     summ["n_probes"] = len(probes)
     summ["n_null_tokens"] = int(next(iter(null_np.values())).shape[0])
-    return rcc, summ
+    return rcc, summ, (feat_np, labels_np, null_np)
 
 
 def trace_register(
@@ -250,19 +255,28 @@ def build_model_vsm(
     model_name: str,
     topo: T.ModelTopology,
     calibrated: dict[str, RelationalCrystalClassifier],
+    floors: dict[str, dict],
 ) -> VSMNode:
-    """Stack the calibrated registers into the model-VSM node."""
+    """Stack the calibrated registers into the model-VSM node.
+
+    ``floors[reg]`` = measured shuffled-label floor (``measure_null_floor``);
+    its ``null_floor_z`` fills the register node's health slot and propagates
+    up the tree as the worst child (a caveat never vanishes by aggregation).
+    """
     regs = []
     for reg_name, rcc in calibrated.items():
+        floor = floors.get(reg_name) or {}
         regs.append(
             register_node(
                 rcc,
                 reg_name,
+                null_floor_z=floor.get("null_floor_z", float("nan")),
                 meta={
                     "read_register": (
                         topo.read_register if reg_name == "gate"
                         else f"sign({topo.attn_suffix}) [attn write]"
                     ),
+                    "null_floor": floor,
                     **REGISTER_NOTES.get(reg_name, {}),
                 },
             )
@@ -295,6 +309,9 @@ def main() -> None:
                     help="comma list from {gate,attn} (default both)")
     ap.add_argument("--operand", action="store_true",
                     help="add the J-space logit-lens operand column")
+    ap.add_argument("--null-floor-shuffles", type=int, default=3,
+                    help="shuffled-label floor recalibrations per register "
+                         "(0 = skip; fills null_floor_z in the tree)")
     ap.add_argument("--smoke", action="store_true",
                     help="15 probes/comb, n_perm=120 (fast pipeline check)")
     args = ap.parse_args()
@@ -332,17 +349,33 @@ def main() -> None:
     calibrated: dict[str, RelationalCrystalClassifier] = {}
     calib_summ: dict[str, dict] = {}
     traces: dict[str, dict] = {}
+    floors: dict[str, dict] = {}
     for reg in registers:
-        rcc, summ = calibrate_register(
+        rcc, summ, (feat_np, labels_np, null_np) = calibrate_register(
             model, tok, topo, reg, layers, ppc, n_perm, args.z
         )
         calibrated[reg] = rcc
         calib_summ[reg] = summ
         print(f"[trace] [{reg}] crystal-bearing layers: "
               f"{len(summ['crystal_layers'])}/{topo.n_layers}")
+        if args.null_floor_shuffles > 0:
+            print(f"[trace] [{reg}] shuffled-label null floor "
+                  f"({args.null_floor_shuffles} shuffles) ...")
+            floor = measure_null_floor(
+                feat_np, labels_np, layers,
+                n_shuffles=args.null_floor_shuffles,
+                n_perm=max(120, n_perm // 2),
+                null_gate_by_layer=null_np,
+            )
+            floors[reg] = floor
+            summ["null_floor"] = floor
+            mark = " ⚠ SUSPECT" if floor["suspect"] else ""
+            print(f"[trace] [{reg}] null_floor_z={floor['null_floor_z']} "
+                  f"(ref~1.64) shuffled_bearing="
+                  f"{floor['shuffled_bearing_frac']}{mark}")
         traces[reg] = trace_register(model, tok, topo, reg, rcc, layers, args.z)
 
-    mvsm = build_model_vsm(args.model, topo, calibrated)
+    mvsm = build_model_vsm(args.model, topo, calibrated, floors)
 
     operand = None
     if args.operand:

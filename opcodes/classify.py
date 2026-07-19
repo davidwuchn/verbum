@@ -53,6 +53,7 @@ __all__ = [
     "TokenOpcodes",
     "layer_nodes",
     "load_consensus_gram",
+    "measure_null_floor",
     "register_node",
 ]
 
@@ -301,6 +302,81 @@ class RelationalCrystalClassifier:
         }
 
 
+# ── null floor: how high does significance float under shuffled labels? ─────
+
+
+def measure_null_floor(
+    feat_by_layer: dict[int, np.ndarray],
+    labels: np.ndarray,
+    layers: list[int],
+    *,
+    n_shuffles: int = 3,
+    n_perm: int = 120,
+    sil_z_thresh: float = 2.0,
+    null_gate_by_layer: dict[int, np.ndarray] | None = None,
+    consensus_gram: np.ndarray | str | None = "auto",
+    seed: int = 0,
+) -> dict:
+    """Shuffled-label floor of the calibration statistic (s264 audit method).
+
+    Re-runs the FULL calibration ``n_shuffles`` times with permuted labels on
+    the SAME captured features (no model forwards), and measures where the
+    per-layer ``sil_z`` distribution sits when the labels carry no signal.
+
+    Returns (all layer-count independent):
+      - ``null_floor_z``          pooled 95th percentile of shuffled per-layer
+        sil_z. Reference: ~1.64 for a well-behaved N(0,1) null. Elevation
+        means the permutation null has heavy tails in this register (s264:
+        attn-write) and bearing calls near threshold must be read
+        conservatively. This is the scalar recorded in the VSM tree.
+      - ``shuffled_bearing_frac`` fraction of layers called crystal-bearing
+        under shuffled labels (nominal ~1-2% at sil_z_thresh=2 + gc>0).
+      - ``suspect``               shuffled_bearing_frac > 0.05.
+
+    Sample-size note: the floor pools ``n_layers * n_shuffles`` sil_z values;
+    it is meaningful from ~20+ pooled samples (real models: 28-64 layers x 3
+    shuffles). Use ``n_perm >= 120`` — smaller permutation counts make the
+    z-estimate itself heavy-tailed (t-like) and inflate the floor.
+    """
+    labels = np.asarray(labels)
+    rng = np.random.default_rng(seed + 7919)
+    pooled: list[float] = []
+    bearing_fracs: list[float] = []
+    per_shuffle: list[dict] = []
+    for s in range(n_shuffles):
+        clf = RelationalCrystalClassifier(
+            layers,
+            n_perm=n_perm,
+            sil_z_thresh=sil_z_thresh,
+            seed=seed + s,
+            consensus_gram=consensus_gram,
+        )
+        clf.calibrate(
+            feat_by_layer,
+            rng.permutation(labels),
+            null_gate_by_layer=null_gate_by_layer,
+        )
+        sils = [c.silhouette_z for c in clf.calib.values()]
+        nb = len(clf.crystal_layers)
+        pooled.extend(sils)
+        bearing_fracs.append(nb / max(1, len(layers)))
+        per_shuffle.append(
+            {"max_sil_z": round(max(sils), 3), "n_bearing": nb}
+        )
+    q95 = float(np.quantile(pooled, 0.95))
+    frac = float(np.mean(bearing_fracs))
+    return {
+        "null_floor_z": round(q95, 3),
+        "shuffled_bearing_frac": round(frac, 4),
+        "shuffled_sil_z_max": round(float(np.max(pooled)), 3),
+        "suspect": bool(frac > 0.05),
+        "n_shuffles": n_shuffles,
+        "n_perm": n_perm,
+        "per_shuffle": per_shuffle,
+        "reference": "q95 ~ 1.64 under a well-behaved N(0,1) null",
+    }
+
+
 # ── bridge: calibration -> VSM tree nodes ────────────────────────────────────
 
 
@@ -426,6 +502,22 @@ def _smoke() -> None:
     assert reg.child("L1").gated and not reg.child("L0").gated
     print("✅ register_node bridge passed:")
     print(reg.summary())
+
+    # null floor on the planted data: shuffling the labels must kill the
+    # signal — floor well below the real (huge) sil_z, bearing frac sane
+    nf = measure_null_floor(
+        gate_cal, labels, layers, n_shuffles=6, n_perm=120, consensus_gram=None
+    )
+    real_max = max(c.silhouette_z for c in clf.calib.values())
+    # 3 layers x 6 shuffles = 18 pooled samples: coarse (see docstring), so the
+    # smoke asserts only the meaningful invariant — the floor sits far below
+    # the real planted signal. The suspect flag needs real layer counts.
+    assert nf["null_floor_z"] < real_max / 4, (
+        f"null floor {nf['null_floor_z']} not far below real {real_max}"
+    )
+    print(f"✅ null floor sane: q95={nf['null_floor_z']} "
+          f"(real max sil_z={real_max}) bearing_frac="
+          f"{nf['shuffled_bearing_frac']} suspect={nf['suspect']}")
 
     # bundled consensus loads and is well-formed (order + shape)
     cg = load_consensus_gram()
