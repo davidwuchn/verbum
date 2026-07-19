@@ -1,0 +1,33 @@
+{
+  "n_models": 2,
+  "families": {
+    "pythia": {
+      "models": [
+        "EleutherAI/pythia-14m-deduped"
+      ],
+      "n_gated": 1,
+      "agreement_mean": NaN,
+      "gc_consensus": 0.2759123255209779
+    },
+    "qwen3": {
+      "models": [
+        "Qwen/Qwen3-0.6B"
+      ],
+      "n_gated": 1,
+      "agreement_mean": NaN,
+      "gc_consensus": 0.41626460050877856
+    }
+  },
+  "root_health": {
+    "sil_z": 8.684874999999998,
+    "gc_consensus": 0.344348196755979,
+    "crystal_bearing_frac": 1.0,
+    "null_floor_z": NaN
+  },
+  "root_agreement": {
+    "agreement_mean": 0.9400713163101441,
+    "agreement_min": 0.9400713163101441,
+    "dissent": false,
+    "n_gated": 2
+  }
+}
