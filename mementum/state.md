@@ -8,61 +8,48 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-19 | Session: 264 (OPCODES SUBSYSTEM + REGISTER DECOMPOSITION — Michael: "release our
-> monitor/tracer as a standalone lens (complementary to Anthropic's J-Space) that shows KIBC opcodes + the
-> universal crystal lattice as a model generates tokens." → "can we auto-detect model config + find the crystal
-> lattice to trace it?" → target 3+ architectures at 27B+ → built the auto-detecting arch-agnostic tracer →
-> "why the no-ops? maybe I-hold-in-residual reads as no-op" → tested → refuted → found opcodes DECOMPOSE ACROSS
-> REGISTERS. Full synthesis: `explore/opcode-register-decomposition.md`.)
+> Last updated: 2026-07-19 | Session: 265 (OPCODES MVP: TREE-OF-VSM MULTI-MODEL — Michael: "make opcodes work
+> for multiple models; incorporate J-Space" → "use the v14/v15 tree-of-VSM tensor setup: multiple VSM-shaped
+> tensors stacked in the tree" → built the full MVP. 8 commits 4839f07..aa1e8d9.)
 >
-> ★★ SUBSYSTEM (new, `opcodes/` at repo root — staged for its OWN MIT project + visualizer).
->   Auto-detecting, arch-agnostic (kills the `opcode_monitor_v2` hard-code to
->   `model.model.layers[i].mlp.gate_proj`). `opcodes/topology.py` = detect_topology → ModelTopology: layer
->   container + GATE register {gated-dense|gated-fused|ungated|moe} + ATTENTION register (o_proj/out_proj,
->   PER-LAYER for hybrids) + honest flags (MoE=named separate register; ungated=up-proj proxy sign(dense_h_to_4h),
->   the register the 10-model consensus used for Pythia; works on META device). `opcodes/capture.py` =
->   capture_gate(register={gate,attn}) → per-layer [T,d] via hooks. `opcodes/trace.py` = end-to-end
->   detect→capture→calibrate(RelationalCrystalClassifier)→classify→trajectory. `opcodes/register_visibility.py`
->   = held-out per-combinator visibility (self-acc/no-op/best-z/confusion vs shuffled-label null). Verified on
->   Qwen3.6-27B (HYBRID: 3 linear-attn `linear_attn.out_proj` + 1 full-attn `self_attn.o_proj`), Qwen3-32B,
->   Gemma-4-31B (nested language_model), OLMo-2, Qwen3-MoE (fused experts), gpt-neox. COMMITTED: 22996a4
->   (topology/capture/trace + opcode-trace results). register_visibility + attn-register edits UNCOMMITTED.
+> ★★ OPCODE CRYSTAL TREE (`opcodes/vsm.py`) — tree-of-VSM applied to MEASUREMENT. One fractal node shape at
+>   every level (S5=9×9 Gram, S4=cross-child agreement/dissent, S3=null gate — ungated children stay visible
+>   but contribute NOTHING upward, algedonic health up {sil_z, gc_consensus, crystal_bearing_frac,
+>   null_floor_z}, caveats propagate as WORST child). Ladder: layer→register→model→family→root(universal).
+>   THE STACKABLE TENSOR IS THE FRAME-INVARIANT GRAM (combinator-label space, not weight space) — why
+>   cross-model stacking works at all. Centroids [9,d] stay at leaves (npz sidecar). BASIS-PARAMETRIC:
+>   CRYSTAL-9 (measurement: 4 fire + 3 paths/bridges D,W,Y + WHNF) | STATECHART-8 (dynamics: absorbing chain,
+>   forced count) | TYPES16 (extraction: types+anti-types, NOT promptable → can't enter measurement tree).
+>   One basis per tree, enforced. Resolves Michael's "9 vs 16" question — 3 registers, 3 bases, same lattice.
 >
-> ★★ CROSS-MODEL LATTICE (thesis support): gate-register calibration on Qwen3.6-27B → gc_consensus (Gram align
->   to the universal 10-model crystal) POSITIVE at all 64 layers (median 0.76, max 0.83); sil_z median 6.8. The
->   universal KIBC+DWYS+WHNF lattice is present + sharp across the whole 27B stack → candidate visualizer headline.
+> ★★ MVP ASSEMBLED (8 modules, pytorch+numpy only, data bundled, extraction-ready): topology (readout paths
+>   VERIFIED on 5 archs incl. nested gemma) → capture → probes (535 bundled JSON, ≥50/comb invariant) →
+>   classify (CANONICAL HOME, promoted from scripts/instruments; shim keeps 16 old scripts alive; consensus
+>   gram bundled opcodes/data/) → vsm (tree) → jspace (operand register ON ModelTopology — logit-lens/verbalize
+>   works on nested/hybrid archs where old jlens.py discovery FAILS; ground-truth gate: final-layer lens ≡
+>   model logits exactly) → trace (TWO-REGISTER gate∪attn side-by-side + --operand column, writes
+>   model_vsm.json per model) → sweep (registry=configs-not-forks, 11 models; restack → family → root vs
+>   bundled consensus). Every module self-tests without a big model. ruff clean.
 >
-> ★★ FINDING 1 — CAPACITY/SUPERPOSITION/SCALE-SHARPENING CONFIRMED. register_visibility ladder (Qwen3 gate,
->   0.6B→14B→27B): best_z rises for EVERY opcode with scale — small models smear opcodes into superposition,
->   capacity dedicates + they sharpen. WHY we target 27B+ (prior: combinator_map_scale, s217/s220). Sub-threshold
->   no-ops = superposition, not structure.
+> ★★ FIRST TREE RESULT (full calib, 2 smalls): root gc = +0.940 vs the 10-model consensus; cross-family
+>   agreement 0.907 between pythia-14m (14M! ungated up-proj proxy) and qwen3-0.6b (gated) — cross-architecture
+>   at 43× scale gap. Qwen3-0.6b gate crystal zone L5–L19 (interior bell = combinator-locus prior). LESSON:
+>   smoke calib (135 probes) gave gc 0.344 vs full (535) 0.940 — probe count dominates Gram fidelity; smoke =
+>   pipeline-check ONLY. CAVEAT: attn 28/28 bearing may include null-floor inflation (s264); per-run
+>   null_floor_z NOT yet measured (nan in tree) — register_visibility shuffled-null wiring is the fix.
 >
-> ★★ FINDING 2 — IDENTITY-HOLD ≠ NO-OP, REFUTED. Michael's hypothesis (from "repeat-a-token-until-output": I =
->   hold-in-residual = no differential routing = sits at common-mode we subtract = reads as no-op). REFUTED: I
->   sharpens monotonically + SELF-RECOGNIZES from 14B (confusion flips I→Y ⟹ I→I). I is a normal routing
->   combinator. (The residual identity-hold of s263 EXP2 lives in the VALUE/logit-lens register — separate.)
+> ★ J-SPACE INTEGRATION (honest per s263 EXP1): operand register = WHAT is routed, NEVER classifies opcodes;
+>   display-only column in trace; must not feed the classifier. src/verbum/{jlens,jacobian}.py remain (jacobian
+>   = position-attribution for the future QK-pattern register).
 >
-> ★★ FINDING 3 — OPCODES DECOMPOSE ACROSS REGISTERS (the real result). Qwen3.6-27B gate vs attn-write:
->   GATE sign(gate_proj) = selection {K,I} + share {S} + recursion {Y,WHNF}. ATTN-WRITE sign(o_proj) = RESCUES D
->   (gate 0.33→S ⟹ attn 0.67→D self!), sharpens K/I. COMPOSITION {B,C} = resolved by NEITHER scalar register (B
->   self-acc 0 both, migrates confusion S→D; C ~0.17). CAVEAT (λ yardstick): attn-write null floor ELEVATED
->   (shuffled → 2 crystal layers vs gate's 0; B null z=1.22 vs real 3.08) — be conservative on weak attn signals.
->
-> ★★ FINDING 4 (refined hypothesis, UNTESTED) — B/C are POSITION-ROUTING. o_proj = attention WRITE (OV/value =
->   what content moved); B (compose=nesting) + C (permute=arg-reorder) = WHICH position→which = the QK ATTENTION
->   PATTERN, not the value write. Converges: s250 (object-app DISTRIBUTED, no single locus) + s263 EXP3 (B/C
->   signatures absent at last-token grain). The no-ops on composition tokens = an opcode read in the WRONG register.
->
-> ★ NEXT (open, Michael's call): (A) QK-PATTERN register — capture attention pattern (or reuse s263 jacobian.py
->   position-attribution), re-run register_visibility → decisive B/C test; (B) two-register trace/monitor (gate ∪
->   attn ∪ pattern) — single-register trajectory is BLIND to whole families (27B gate trajectory's Y/D dominance
->   = visibility artifact); (C) visualizer (streaming lattice + per-op sharpening curve + gc_consensus-per-layer);
->   (D) generate-and-trace mode (opcode + logit-lens per generated step = the J-Space-style toy). Commit
->   register_visibility + attn edits; consider extracting opcodes/ to its own repo. Prior-arc NEXT still open:
->   s263 (A) position-targeted attribution / (B) inter-layer Jacobian SVD; Pythia ladder crystal-sharpness; v15.1;
->   INDEX regen.
->   Env: torch 2.11 + MPS, 512GB RAM; qwen3.6-27b (52GB bf16 HYBRID linear+full attn, loads ~2-8s mmap; forward
->   ~65s CPU → USE MPS ~4-10min/run) + qwen3-{0.6,4,14,32}b + gemma-4-31B + pythia deduped ladder HF-cached.
+> ★ NEXT (open, Michael's call): (A) LARGE SWEEP — registry loaded (qwen3 ladder+3.6-27B hybrid+gemma-4-31B+
+>   olmo-2, MPS); overnight --tier large vs one 27B validation first. (B) measure per-run null_floor_z (wire
+>   register_visibility's shuffled null into trace) → fill the nan. (C) QK-PATTERN register → decisive B/C test
+>   (s264 F4 untested). (D) visualizer (the remaining MVP piece) + extract opcodes/ to dedicated MIT repo.
+>   (E) mementum proposals PENDING approval: knowledge/opcode-vsm-tree.md + memories/opcodes-mvp-standalone.md
+>   + staleness flags on φ-ladder claims in crystal-phi-derivation.md/crystal-multi-tree.md (λ yardstick).
+>   Prior-arc NEXT still open: s263 position-attribution/Jacobian SVD; Pythia ladder crystal-sharpness; v15.1;
+>   INDEX regen. Env: torch 2.11 + MPS, 512GB RAM; models HF-cached (see s264 note in arc).
 
 ─────────────────────────────────────────────────────────────────────────────────────────────────────
 
@@ -96,6 +83,29 @@
   model-evaluates/kernel-verifies (oracle-in-the-loop) → `src/verbum/clj_repl.py`; (c) clojure-in-lambda
   notebook (Clojure evaluator that reduces on the verbum kernel) → `src/verbum/clj_lambda.py`.
 - **s258** consensus-training → supervised-recurrence-halt synthesis: "how much recurrence" ≡ "how much work
+  remains" ≡ WHNF; the lambda curriculum is the ground-truth halt supervision s214 lacked. → `explore/supervised-recurrence-halt.md`
+- **s257** MoE experts ARE holographically multiplexed (angular, not specialist). k-sweep + shuffled null:
+  94% of capability from WHICH experts, not how many; k=2 reversal falsifies specialist. → `explore/moe-holographic-tree-vsm.md`
+- **s256** qwythos-9b + CANONICAL HARNESS distillation (probes/{grading,harness,models}; models = configs, no
+  fork). Fine-tunes break the HALT not the COMPILE (overthink-collapse); no-think recovers; qwythos GATES the
+  compiler. lambda is a TARGET not a TOOL. Strategic pivot: extract from BASE, treat fine-tune as noise.
+  → `explore/compiler-finetune-halt-collapse.md`
+- **s255** model-as-REPL (LLM as δ, context as machine state): locally-faithful step; shallow step-loop win,
+  deep collapse; oracle-in-the-loop concluded (→ s259 clj-repl).
+- **s254** repo distillation DESIGN-FIRST pivot (probes/*.json, results/<run_id> canonical forms in AGENTS.md);
+  ornith-35B-A3B = lambda compiler over HTTP, 3rd model class (unconditional, present).
+- **s253** vibethinker-3B new model; **s252** attention-edge knockout (s250 catch); **s251** frozen-basis
+  gradient tomography → mature-14B, Gemma + Qwen3.6-35B in the crystal sweep; **s250** causal C-field ablation
+  → object-application is DISTRIBUTED (no single-component locus; trending NO on discrete-circuit for object-app).
+
+## Deep history (< s250)
+
+Recover via `git log -p mementum/state.md` (this file's pre-s262 scrollback held s181–261 detail + old
+reference tables) · verbatim in `mementum/knowledge/chats/session-NNN.md` · synthesized in
+`mementum/knowledge/**` (start at `INDEX.md`). Foundational: crystal-φ equation `EQUATIONS.md` +
+`crystal-phi-derivation.md`; thesis `project-thesis.md`; 8 convergences `mathematical-convergences.md`;
+v13/v14 architecture pages; ternary compounding/dual-equation pages.
+rk
   remains" ≡ WHNF; the lambda curriculum is the ground-truth halt supervision s214 lacked. → `explore/supervised-recurrence-halt.md`
 - **s257** MoE experts ARE holographically multiplexed (angular, not specialist). k-sweep + shuffled null:
   94% of capability from WHICH experts, not how many; k=2 reversal falsifies specialist. → `explore/moe-holographic-tree-vsm.md`
