@@ -8,74 +8,73 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-10 | Session: 263 (J-SPACE ↔ OPCODES — Michael: found `babel-codec-gpt2` (external
-> GPT-2 residual→English decode project) → "how did it test, did it train tensors?" → "extend our monitor to
-> read states?" → Anthropic j-space paper (Jacobian Lens, 2026-07-06) → "can we see state forming around
-> combinators?" → "reasoning traces not mechanical?" → "run j-space on qwen3.6-27b" → "what IS j-space if the
-> model does KIBC natively?" → "build the Jacobian opcode probe, reuse probes." Built 2 monitors + 3 null-gated
-> experiments on qwen3.6-27b. Full synthesis: `explore/opcode-jacobian-jspace.md`.)
+> Last updated: 2026-07-19 | Session: 264 (OPCODES SUBSYSTEM + REGISTER DECOMPOSITION — Michael: "release our
+> monitor/tracer as a standalone lens (complementary to Anthropic's J-Space) that shows KIBC opcodes + the
+> universal crystal lattice as a model generates tokens." → "can we auto-detect model config + find the crystal
+> lattice to trace it?" → target 3+ architectures at 27B+ → built the auto-detecting arch-agnostic tracer →
+> "why the no-ops? maybe I-hold-in-residual reads as no-op" → tested → refuted → found opcodes DECOMPOSE ACROSS
+> REGISTERS. Full synthesis: `explore/opcode-register-decomposition.md`.)
 >
-> ★★ THEORY (the session's spine, definitionally solid): **opcode = routing-Jacobian STRUCTURE; J-space = the
->   Jacobian's LIVE SUBSPACE.** Combinators ARE Jacobian patterns: I=identity, K=rank-deficient (annihilate
->   discarded arg), B=chain-rule PRODUCT (composition = Jacobian multiplication), C=argument-slot PERMUTATION,
->   S=path-SUM over a shared arg (nonlinear → a 1st-order Jacobian UNDER-READS S; re-explains s262 S-K braid).
->   So ∂out/∂arg IS the opcode read. Anthropic's J-lens projects the Jacobian onto TOKEN-readable dirs →
->   OPERANDS (J-space = the typed-value bus / workspace); we want the OPERATOR projection → structural
->   decomposition. Same instrument, two faces. 3-zone geography (sensory/workspace/motor) = the reduction
->   pipeline (parse args / hold typed intermediates / collapse to normal form). λ types = block structure of
->   the Jacobian. (External context: `babel-codec-gpt2` reviewed — rigorous pre-reg/null/hash method, but
->   headline "39/39" rides a RECALIBRATED floor = λ yardstick smell; method borrowed, claims NOT adopted.)
+> ★★ SUBSYSTEM (new, `opcodes/` at repo root — staged for its OWN MIT project + visualizer).
+>   Auto-detecting, arch-agnostic (kills the `opcode_monitor_v2` hard-code to
+>   `model.model.layers[i].mlp.gate_proj`). `opcodes/topology.py` = detect_topology → ModelTopology: layer
+>   container + GATE register {gated-dense|gated-fused|ungated|moe} + ATTENTION register (o_proj/out_proj,
+>   PER-LAYER for hybrids) + honest flags (MoE=named separate register; ungated=up-proj proxy sign(dense_h_to_4h),
+>   the register the 10-model consensus used for Pythia; works on META device). `opcodes/capture.py` =
+>   capture_gate(register={gate,attn}) → per-layer [T,d] via hooks. `opcodes/trace.py` = end-to-end
+>   detect→capture→calibrate(RelationalCrystalClassifier)→classify→trajectory. `opcodes/register_visibility.py`
+>   = held-out per-combinator visibility (self-acc/no-op/best-z/confusion vs shuffled-label null). Verified on
+>   Qwen3.6-27B (HYBRID: 3 linear-attn `linear_attn.out_proj` + 1 full-attn `self_attn.o_proj`), Qwen3-32B,
+>   Gemma-4-31B (nested language_model), OLMo-2, Qwen3-MoE (fused experts), gpt-neox. COMMITTED: 22996a4
+>   (topology/capture/trace + opcode-trace results). register_visibility + attn-register edits UNCOMMITTED.
 >
-> ★★ TOOLING (committed, reusable, self-tested). REGISTER MAP now 4 (λ measure — do not conflate):
->   attention-routing ∥ reduction-state ∥ residual-value/broadcast (jlens) ∥ input-attribution (jacobian).
->   • `src/verbum/jlens.py` = J-space monitor on hooks.py: capture_residuals (all layers, accepts input_ids),
->     logit-lens `verbalize`, `broadcast_kl` (substitution-KL = 1st-order Jacobian proxy), identity-inject
->     exact-zero self_test (gate stolen from babel).
->   • `src/verbum/jacobian.py` = `input_attribution` (autograd ∂logit/∂input-embed per position) + structural
->     metrics concentration(K)/copy_mass(I)/attr_range(B)/front_bias(C) + self_test on ideal attributions.
+> ★★ CROSS-MODEL LATTICE (thesis support): gate-register calibration on Qwen3.6-27B → gc_consensus (Gram align
+>   to the universal 10-model crystal) POSITIVE at all 64 layers (median 0.76, max 0.83); sil_z median 6.8. The
+>   universal KIBC+DWYS+WHNF lattice is present + sharp across the whole 27B stack → candidate visualizer headline.
 >
-> ★★ EXP 1 — `jspace_combinators` (broadcast+verbalize per layer, KIBC+S dirs; qwen3.6-27b): **NULL** (committed).
->   Combinator dirs DO broadcast above matched-random (B R=2.62 z=10.6 @L11; I R=1.41 z=3.5 @L10) but NONE beat
->   the shuffled-LABEL null → broadcast is a GENERIC active/control effect, not combinator identity (same lesson
->   as s262: label-null load-bearing). verbalize thread (I→twice/consistently, B→knows/wrote) = echo-suspect,
->   untested. → `results/jspace-combinators/`.
+> ★★ FINDING 1 — CAPACITY/SUPERPOSITION/SCALE-SHARPENING CONFIRMED. register_visibility ladder (Qwen3 gate,
+>   0.6B→14B→27B): best_z rises for EVERY opcode with scale — small models smear opcodes into superposition,
+>   capacity dedicates + they sharpen. WHY we target 27B+ (prior: combinator_map_scale, s217/s220). Sub-threshold
+>   no-ops = superposition, not structure.
 >
-> ★★ EXP 2 — `jspace_normalform` (Michael's hypothesis: residual token-repeat = I = normal-form identity-hold =
->   J-space MOTOR zone; qwen3.6-27b 64L): **I-COMBINATOR-VISIBLE, then REFINED** (committed). copy/induction
->   reaches normal form EARLIER (top1-conv frac 0.879 vs compose 0.953) and HOLDS ~2.6× longer (hold_frac 0.121
->   vs 0.047) — directionally as predicted. REFINED (honest): it's a LATE-stack PLATEAU (~last 15% of layers),
->   NOT most-of-network parking. Induction KL(final‖lens) flat ~10 nats to L48 then SHARP CLIFF (L52→63) = copy
->   written by a narrow late mechanism then held; compose resolves ONLY final layers (Paris L58, cold L57) =
->   depth IS reduction steps for hard compositions. DESIGN: bounded depth-adaptive/early-exit (exploitable
->   identity ≈ last 10-15%, onset regime-dependent, cannot exit before the cliff). CAVEAT: raw logit-lens KL
->   baselines differ by regime (calibration artifact) — only settle TIMING trustworthy → tuned lens next;
->   compose n=6 underpowered. → `results/jspace-normalform/`.
+> ★★ FINDING 2 — IDENTITY-HOLD ≠ NO-OP, REFUTED. Michael's hypothesis (from "repeat-a-token-until-output": I =
+>   hold-in-residual = no differential routing = sits at common-mode we subtract = reads as no-op). REFUTED: I
+>   sharpens monotonically + SELF-RECOGNIZES from 14B (confusion flips I→Y ⟹ I→I). I is a normal routing
+>   combinator. (The residual identity-hold of s263 EXP2 lives in the VALUE/logit-lens register — separate.)
 >
-> ★★ EXP 3 — `jacobian_opcodes` (input-attribution structural signatures, opcode×metric matrix; qwen3.6-27b):
->   **PARTIAL / confounded** (committed). Only I clears its predicted diagonal (copy_mass z=3.40,
->   diagonal-dominant); K/B/C predicted metrics ≈ 0 (concentration −0.10, range +0.21, front_bias +0.04) =
->   signatures ABSENT. CONFOUND: copy_mass is the argmax for ALL 5 combinators → generic active/control mover,
->   not identity-specific; I "wins" only by predicting the generic metric. DIAGNOSIS (thesis NOT refuted — grain
->   wrong): (1) last-token readout aggregates the whole sentence, dilutes the mid-sentence op → attribute at the
->   RESULT position; (2) probes not repetition-controlled → copy_mass confound; (3) aggregate metrics too coarse
->   for position→position routing. SYNTHESIS: at crude token-saliency grain opcodes DON'T carve (EXP1,EXP3) —
->   consistent with thesis (opcode structure is FINER: inter-layer Jacobian / position-targeted), not against.
->   → `results/jacobian-opcodes/`.
+> ★★ FINDING 3 — OPCODES DECOMPOSE ACROSS REGISTERS (the real result). Qwen3.6-27B gate vs attn-write:
+>   GATE sign(gate_proj) = selection {K,I} + share {S} + recursion {Y,WHNF}. ATTN-WRITE sign(o_proj) = RESCUES D
+>   (gate 0.33→S ⟹ attn 0.67→D self!), sharpens K/I. COMPOSITION {B,C} = resolved by NEITHER scalar register (B
+>   self-acc 0 both, migrates confusion S→D; C ~0.17). CAVEAT (λ yardstick): attn-write null floor ELEVATED
+>   (shuffled → 2 crystal layers vs gate's 0; B null z=1.22 vs real 3.08) — be conservative on weak attn signals.
 >
-> ★ NEXT (open, Michael's call): (A) position-targeted + repetition-matched attribution — annotate each probe's
->   operation RESULT position, attribute there, rebuild KIBC probes with matched token-repetition (cheap, reuses
->   jacobian.py); (B) the REAL inter-layer Jacobian — ∂h_{L+1}/∂h_L at compose sites, SVD, classify structure vs
->   KIBC signatures (rank-deficiency/factorization/permutation/path-sum) — heavier, where the theory lives;
->   (C) tuned lens (Belrose) for clean mid-stack reads (rescues EXP2 magnitudes + EXP1 verbalize echo-test).
->   Lean A→B. Prior-arc NEXT still open: same-suite Pythia ladder crystal-sharpness (flagship); v15.1 (kill
->   spectral-φ, register-split FFN quant, supervised-halt interior recurrence); INDEX regen.
->   Env: torch 2.11 + MPS, 512GB RAM; qwen3.6-27b (52GB bf16, loads ~9-60s) + qwen3-{0.6,4,14}b + pythia
->   deduped ladder (14m-2.8b) HF-cached.
+> ★★ FINDING 4 (refined hypothesis, UNTESTED) — B/C are POSITION-ROUTING. o_proj = attention WRITE (OV/value =
+>   what content moved); B (compose=nesting) + C (permute=arg-reorder) = WHICH position→which = the QK ATTENTION
+>   PATTERN, not the value write. Converges: s250 (object-app DISTRIBUTED, no single locus) + s263 EXP3 (B/C
+>   signatures absent at last-token grain). The no-ops on composition tokens = an opcode read in the WRONG register.
+>
+> ★ NEXT (open, Michael's call): (A) QK-PATTERN register — capture attention pattern (or reuse s263 jacobian.py
+>   position-attribution), re-run register_visibility → decisive B/C test; (B) two-register trace/monitor (gate ∪
+>   attn ∪ pattern) — single-register trajectory is BLIND to whole families (27B gate trajectory's Y/D dominance
+>   = visibility artifact); (C) visualizer (streaming lattice + per-op sharpening curve + gc_consensus-per-layer);
+>   (D) generate-and-trace mode (opcode + logit-lens per generated step = the J-Space-style toy). Commit
+>   register_visibility + attn edits; consider extracting opcodes/ to its own repo. Prior-arc NEXT still open:
+>   s263 (A) position-targeted attribution / (B) inter-layer Jacobian SVD; Pythia ladder crystal-sharpness; v15.1;
+>   INDEX regen.
+>   Env: torch 2.11 + MPS, 512GB RAM; qwen3.6-27b (52GB bf16 HYBRID linear+full attn, loads ~2-8s mmap; forward
+>   ~65s CPU → USE MPS ~4-10min/run) + qwen3-{0.6,4,14,32}b + gemma-4-31B + pythia deduped ladder HF-cached.
 
 ─────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ## Recent arc (index — full detail: `chats/session-NNN.md` + linked knowledge; history: `git log -p`)
 
+- **s263** J-SPACE ↔ OPCODES (Anthropic J-lens prompt). THEORY: opcode = routing-Jacobian STRUCTURE; J-space =
+  the Jacobian's LIVE SUBSPACE (I=identity, K=rank-deficient, B=chain-rule product, C=permutation, S=path-sum;
+  their J-lens reads OPERANDS, we want the OPERATOR projection). Built `src/verbum/{jlens,jacobian}.py` (2
+  monitors) + 3 null-gated experiments on qwen3.6-27b: EXP1 jspace_combinators NULL (broadcast generic, not
+  combinator-identity); EXP2 jspace_normalform I-VISIBLE-then-REFINED (normal-form hold = late-stack plateau,
+  value register); EXP3 jacobian_opcodes PARTIAL/confounded (only I clears, grain too coarse for
+  position-routing). → `explore/opcode-jacobian-jspace.md`.
 - **s262** ASSESSMENT + 2 isolation experiments. Repo assessment: science healthy, the MESS is
   representation-layer (INDEX stale 62/228 pages, ~8251 LoC dead vsm_lm_v1-5+v6/, mlx a hard core dep; 378
   tests pass, spine coherent). ❌ my "checkpoints landmine / results-in-git" claim was FALSE — propagated an
