@@ -39,11 +39,10 @@ import torch
 
 _ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(_ROOT / "opcodes"))
-sys.path.insert(0, str(_ROOT / "scripts" / "instruments"))
 
 import capture as C  # noqa: E402
 import topology as T  # noqa: E402
-from relational_opcode import CRYSTAL, RelationalCrystalClassifier  # noqa: E402
+from classify import CRYSTAL, RelationalCrystalClassifier  # noqa: E402
 
 RESULTS_DIR = _ROOT / "results" / "opcode-trace"
 
