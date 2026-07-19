@@ -22,7 +22,7 @@
     "sil_z": 4.067875,
     "gc_consensus": 0.9395016837844821,
     "crystal_bearing_frac": 1.0,
-    "null_floor_z": NaN
+    "null_floor_z": 2.78
   },
   "root_agreement": {
     "agreement_mean": 0.9069966323342725,

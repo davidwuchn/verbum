@@ -185,7 +185,30 @@
       "null_kind": "crosstask",
       "register": "gate",
       "n_probes": 535,
-      "n_null_tokens": 55
+      "n_null_tokens": 55,
+      "null_floor": {
+        "null_floor_z": 2.78,
+        "shuffled_bearing_frac": 0.0238,
+        "shuffled_sil_z_max": 3.352,
+        "suspect": false,
+        "n_shuffles": 3,
+        "n_perm": 150,
+        "per_shuffle": [
+          {
+            "max_sil_z": 1.154,
+            "n_bearing": 0
+          },
+          {
+            "max_sil_z": 2.14,
+            "n_bearing": 0
+          },
+          {
+            "max_sil_z": 3.352,
+            "n_bearing": 2
+          }
+        ],
+        "reference": "q95 ~ 1.64 under a well-behaved N(0,1) null"
+      }
     },
     "attn": {
       "n_layers": 28,
@@ -367,7 +390,30 @@
       "null_kind": "crosstask",
       "register": "attn",
       "n_probes": 535,
-      "n_null_tokens": 55
+      "n_null_tokens": 55,
+      "null_floor": {
+        "null_floor_z": 2.142,
+        "shuffled_bearing_frac": 0.0238,
+        "shuffled_sil_z_max": 2.752,
+        "suspect": false,
+        "n_shuffles": 3,
+        "n_perm": 150,
+        "per_shuffle": [
+          {
+            "max_sil_z": 2.094,
+            "n_bearing": 1
+          },
+          {
+            "max_sil_z": 1.877,
+            "n_bearing": 0
+          },
+          {
+            "max_sil_z": 2.752,
+            "n_bearing": 1
+          }
+        ],
+        "reference": "q95 ~ 1.64 under a well-behaved N(0,1) null"
+      }
     }
   },
   "traces": {
@@ -521,8 +567,8 @@
     }
   },
   "operand": null,
-  "elapsed_s": 96.3,
-  "timestamp_utc": "2026-07-19T23:11:46.402608+00:00",
+  "elapsed_s": 130.5,
+  "timestamp_utc": "2026-07-19T23:24:02.733149+00:00",
   "smoke": false,
   "probes_per_comb": null,
   "n_perm": 300

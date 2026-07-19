@@ -120,7 +120,7 @@
       "sil_z": 3.1660000000000004,
       "gc_consensus": 0.89222973491376,
       "crystal_bearing_frac": 1.0,
-      "null_floor_z": NaN
+      "null_floor_z": 1.936
     },
     "gated": true,
     "meta": {
@@ -248,7 +248,7 @@
           "sil_z": 2.962,
           "gc_consensus": 0.8205887245949398,
           "crystal_bearing_frac": 0.5,
-          "null_floor_z": NaN
+          "null_floor_z": 1.548
         },
         "gated": true,
         "meta": {
@@ -264,7 +264,30 @@
           "dissent": false,
           "n_perm": 300,
           "z_thresh": 3.0,
-          "read_register": "sign(dense_h_to_4h) [up-proj proxy]"
+          "read_register": "sign(dense_h_to_4h) [up-proj proxy]",
+          "null_floor": {
+            "null_floor_z": 1.548,
+            "shuffled_bearing_frac": 0.0,
+            "shuffled_sil_z_max": 1.812,
+            "suspect": false,
+            "n_shuffles": 3,
+            "n_perm": 150,
+            "per_shuffle": [
+              {
+                "max_sil_z": 1.377,
+                "n_bearing": 0
+              },
+              {
+                "max_sil_z": 1.812,
+                "n_bearing": 0
+              },
+              {
+                "max_sil_z": 1.501,
+                "n_bearing": 0
+              }
+            ],
+            "reference": "q95 ~ 1.64 under a well-behaved N(0,1) null"
+          }
         },
         "array_keys": [],
         "children": [
@@ -376,7 +399,7 @@
               "sil_z": 1.385,
               "gc_consensus": 0.733,
               "crystal_bearing_frac": 0.0,
-              "null_floor_z": NaN
+              "null_floor_z": 1.548
             },
             "gated": false,
             "meta": {
@@ -494,7 +517,7 @@
               "sil_z": 2.962,
               "gc_consensus": 0.758,
               "crystal_bearing_frac": 1.0,
-              "null_floor_z": NaN
+              "null_floor_z": 1.548
             },
             "gated": true,
             "meta": {
@@ -612,7 +635,7 @@
               "sil_z": 3.068,
               "gc_consensus": 0.746,
               "crystal_bearing_frac": 1.0,
-              "null_floor_z": NaN
+              "null_floor_z": 1.548
             },
             "gated": true,
             "meta": {
@@ -730,7 +753,7 @@
               "sil_z": 2.527,
               "gc_consensus": 0.761,
               "crystal_bearing_frac": 1.0,
-              "null_floor_z": NaN
+              "null_floor_z": 1.548
             },
             "gated": true,
             "meta": {
@@ -848,7 +871,7 @@
               "sil_z": 1.859,
               "gc_consensus": 0.774,
               "crystal_bearing_frac": 0.0,
-              "null_floor_z": NaN
+              "null_floor_z": 1.548
             },
             "gated": false,
             "meta": {
@@ -966,7 +989,7 @@
               "sil_z": 1.462,
               "gc_consensus": 0.797,
               "crystal_bearing_frac": 0.0,
-              "null_floor_z": NaN
+              "null_floor_z": 1.548
             },
             "gated": false,
             "meta": {
@@ -1086,7 +1109,7 @@
           "sil_z": 3.37,
           "gc_consensus": 0.9172285830674171,
           "crystal_bearing_frac": 0.6666666666666666,
-          "null_floor_z": NaN
+          "null_floor_z": 1.936
         },
         "gated": true,
         "meta": {
@@ -1104,6 +1127,29 @@
           "n_perm": 300,
           "z_thresh": 3.0,
           "read_register": "sign(attention.dense) [attn write]",
+          "null_floor": {
+            "null_floor_z": 1.936,
+            "shuffled_bearing_frac": 0.0556,
+            "shuffled_sil_z_max": 2.31,
+            "suspect": true,
+            "n_shuffles": 3,
+            "n_perm": 150,
+            "per_shuffle": [
+              {
+                "max_sil_z": 1.87,
+                "n_bearing": 0
+              },
+              {
+                "max_sil_z": 1.298,
+                "n_bearing": 0
+              },
+              {
+                "max_sil_z": 2.31,
+                "n_bearing": 1
+              }
+            ],
+            "reference": "q95 ~ 1.64 under a well-behaved N(0,1) null"
+          },
           "caveat": "elevated shuffled-label null floor vs gate (s264): be conservative on weak attn signals"
         },
         "array_keys": [],
@@ -1216,7 +1262,7 @@
               "sil_z": 2.368,
               "gc_consensus": 0.776,
               "crystal_bearing_frac": 1.0,
-              "null_floor_z": NaN
+              "null_floor_z": 1.936
             },
             "gated": true,
             "meta": {
@@ -1334,7 +1380,7 @@
               "sil_z": 3.756,
               "gc_consensus": 0.726,
               "crystal_bearing_frac": 1.0,
-              "null_floor_z": NaN
+              "null_floor_z": 1.936
             },
             "gated": true,
             "meta": {
@@ -1452,7 +1498,7 @@
               "sil_z": 3.217,
               "gc_consensus": 0.821,
               "crystal_bearing_frac": 1.0,
-              "null_floor_z": NaN
+              "null_floor_z": 1.936
             },
             "gated": true,
             "meta": {
@@ -1570,7 +1616,7 @@
               "sil_z": 1.685,
               "gc_consensus": 0.49,
               "crystal_bearing_frac": 0.0,
-              "null_floor_z": NaN
+              "null_floor_z": 1.936
             },
             "gated": false,
             "meta": {
@@ -1688,7 +1734,7 @@
               "sil_z": 3.523,
               "gc_consensus": 0.861,
               "crystal_bearing_frac": 1.0,
-              "null_floor_z": NaN
+              "null_floor_z": 1.936
             },
             "gated": true,
             "meta": {
@@ -1806,7 +1852,7 @@
               "sil_z": -0.715,
               "gc_consensus": -0.249,
               "crystal_bearing_frac": 0.0,
-              "null_floor_z": NaN
+              "null_floor_z": 1.936
             },
             "gated": false,
             "meta": {
