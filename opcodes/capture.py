@@ -29,7 +29,7 @@ from typing import Any
 
 import numpy as np
 import torch
-from topology import ModelTopology, detect_topology, gate_path
+from topology import ModelTopology, detect_topology, find_attn_out, gate_path
 from torch import nn
 
 __all__ = ["GateCapture", "capture_gate", "self_test"]
@@ -56,6 +56,7 @@ class GateCapture:
     input_ids: list[int]
     tokens: list[str]
     topo: ModelTopology
+    register: str = "gate"    # which register was captured: "gate" | "attn"
 
     @property
     def n_tokens(self) -> int:
@@ -80,19 +81,47 @@ def capture_gate(
     input_ids: torch.Tensor | None = None,
     topo: ModelTopology | None = None,
     layers: list[int] | None = None,
+    register: str = "gate",
 ) -> GateCapture:
-    """Capture the routing register at every (or selected) layer in one forward.
+    """Capture a routing register at every (or selected) layer in one forward.
+
+    ``register`` selects which module to read:
+      - ``"gate"``  the FFN routing register (gate_proj / up-proj proxy / fused
+        gate half) — where selection/recursion/share opcodes live.
+      - ``"attn"``  the attention write (o_proj) — the value/attention register
+        where composition {B,C} is expected to live (s127).
 
     Provide ``text`` (tokenized here) or pre-tokenized ``input_ids`` (shape
     ``(seq,)`` or ``(1, seq)``). ``topo`` defaults to auto-detection; ``layers``
     defaults to all layers.
     """
     topo = topo if topo is not None else detect_topology(model, model.config)
-    if not topo.traceable:
-        raise ValueError(
-            f"{topo.arch}: register={topo.register!r} is not traceable "
-            f"(read_register={topo.read_register!r}); no gate capture available."
-        )
+    if register == "gate":
+        if not topo.traceable:
+            raise ValueError(
+                f"{topo.arch}: register={topo.register!r} is not traceable "
+                f"(read_register={topo.read_register!r}); no gate capture available."
+            )
+        width = topo.gate_width
+        fused = topo.register == "gated-fused"
+
+        def _module_for(i: int) -> nn.Module:
+            return model.get_submodule(gate_path(topo, i))
+    elif register == "attn":
+        width, fused = topo.attn_width, False
+
+        def _module_for(i: int) -> nn.Module:
+            # per-layer resolution — hybrid stacks mix o_proj / out_proj writes
+            layer_mod = model.get_submodule(f"{topo.layers_path}.{i}")
+            fa = find_attn_out(layer_mod)
+            if fa is None:
+                raise ValueError(
+                    f"{topo.arch}: layer {i} has no resolvable attention output "
+                    "projection (add its name to _ATTN_OUT_ATTRS)."
+                )
+            return fa[1]
+    else:
+        raise ValueError(f"register must be 'gate' or 'attn', got {register!r}")
     layer_ids = list(layers) if layers is not None else list(range(topo.n_layers))
 
     dev = next(model.parameters()).device
@@ -104,16 +133,14 @@ def capture_gate(
     else:
         raise ValueError("capture_gate needs `text` or `input_ids`")
 
-    fused = topo.register == "gated-fused"
-    d = topo.gate_width
     store: dict[int, np.ndarray] = {}
 
     def _mk(i: int):
         def hook(_m: nn.Module, _inp: Any, out: Any) -> None:
             h = _hidden(out)          # [B, T, D]
             v = h[0]                  # [T, D]  (single sequence)
-            if fused and d:
-                v = v[:, :d]          # gate half of the fused gate‖up projection
+            if fused and width:
+                v = v[:, :width]      # gate half of the fused gate‖up projection
             store[i] = v.detach().float().cpu().numpy()
 
         return hook
@@ -121,8 +148,7 @@ def capture_gate(
     handles = []
     try:
         for i in layer_ids:
-            mod = model.get_submodule(gate_path(topo, i))
-            handles.append(mod.register_forward_hook(_mk(i)))
+            handles.append(_module_for(i).register_forward_hook(_mk(i)))
         model(**inputs)
     finally:
         for h in handles:
@@ -130,7 +156,9 @@ def capture_gate(
 
     ids_list = inputs["input_ids"][0].detach().cpu().tolist()
     toks = [tokenizer.decode([t]) for t in ids_list]
-    return GateCapture(gate=store, input_ids=ids_list, tokens=toks, topo=topo)
+    return GateCapture(
+        gate=store, input_ids=ids_list, tokens=toks, topo=topo, register=register
+    )
 
 
 # ── self-test (tiny model, CPU) ──────────────────────────────────────────────
@@ -150,18 +178,21 @@ def self_test(model_name: str = "EleutherAI/pythia-14m-deduped") -> dict:
     ).eval()
 
     text = "Every student reads a book."
-    cap = capture_gate(model, tok, text)
+    cap = capture_gate(model, tok, text, register="gate")
+    acap = capture_gate(model, tok, text, register="attn")
 
-    d = cap.topo.gate_width
-    shapes_ok = all(
-        v.shape == (cap.n_tokens, d) for v in cap.gate.values()
-    )
+    d, ad = cap.topo.gate_width, acap.topo.attn_width
     checks = {
-        "all_layers_captured": len(cap.gate) == cap.topo.n_layers,
-        "shapes_uniform_T_d": shapes_ok,
-        "width_matches_topo": all(v.shape[1] == d for v in cap.gate.values()),
-        "finite": all(np.isfinite(v).all() for v in cap.gate.values()),
-        "register_is_upproj": cap.topo.register == "ungated",
+        "gate_all_layers": len(cap.gate) == cap.topo.n_layers,
+        "gate_shapes_T_d": all(v.shape == (cap.n_tokens, d) for v in cap.gate.values()),
+        "gate_finite": all(np.isfinite(v).all() for v in cap.gate.values()),
+        "gate_is_upproj": cap.topo.register == "ungated",
+        "attn_all_layers": len(acap.gate) == acap.topo.n_layers,
+        "attn_shapes_T_d": all(
+            v.shape == (acap.n_tokens, ad) for v in acap.gate.values()
+        ),
+        "attn_finite": all(np.isfinite(v).all() for v in acap.gate.values()),
+        "attn_register_tag": acap.register == "attn",
     }
     return {
         "model": model_name,
@@ -170,7 +201,10 @@ def self_test(model_name: str = "EleutherAI/pythia-14m-deduped") -> dict:
         "n_layers": cap.topo.n_layers,
         "n_tokens": cap.n_tokens,
         "gate_width": d,
-        "example_shape": next(iter(cap.gate.values())).shape,
+        "attn_suffix": cap.topo.attn_suffix,
+        "attn_width": ad,
+        "gate_shape": next(iter(cap.gate.values())).shape,
+        "attn_shape": next(iter(acap.gate.values())).shape,
         "tokens": cap.tokens,
         "checks": checks,
         "all_pass": all(checks.values()),

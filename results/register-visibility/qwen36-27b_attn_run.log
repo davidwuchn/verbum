@@ -1,0 +1,50 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Fetching 15 files:   0%|          | 0/15 [00:00<?, ?it/s]Fetching 15 files: 100%|██████████| 15/15 [00:00<00:00, 55333.83it/s]
+The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+Loading weights:   0%|          | 0/851 [00:00<?, ?it/s]Loading weights: 100%|██████████| 851/851 [00:00<00:00, 25860.75it/s]
+[vis] arch=Qwen3_5ForCausalLM  L=64  register=gated-dense  layers=model.layers  gate=mlp.gate_proj(d=17408)  read=sign(gate_proj) [validated]  attn=linear_attn.out_proj(d=5120)
+[vis] register=attn calib=375 test=160 (shuffle_labels=False)
+[vis]   calib probe 0/375
+[vis]   calib probe 100/375
+[vis]   calib probe 200/375
+[vis]   calib probe 300/375
+[vis]   test probe 0/160
+[vis]   test probe 100/160
+========================================================================
+REGISTER VISIBILITY — Qwen/Qwen3.6-27B  [attn: sign(linear_attn.out_proj)]
+crystal layers 60/64  calib=375 test=160  z>3.0
+   op    n  self_acc    noop  best_z  confusion
+------------------------------------------------------------
+    K   20       0.6     0.0     4.5  -> K
+    I   20       0.4     0.0    3.77  -> I
+    B   21       0.0     0.0    3.08  -> D
+    C   18     0.167   0.111     2.5  -> D
+    S   15     0.733     0.0    5.76  -> S
+    D   15     0.667     0.0    6.93  -> D
+    W   21       0.0   0.048    2.22  -> Y
+    Y   15       0.8     0.0    8.37  -> Y
+ WHNF   15     0.867     0.0    8.96  -> WHNF
+========================================================================
+[vis] register=attn calib=375 test=160 (shuffle_labels=True)
+[vis]   calib probe 0/375
+[vis]   calib probe 100/375
+[vis]   calib probe 200/375
+[vis]   calib probe 300/375
+[vis]   test probe 0/160
+[vis]   test probe 100/160
+========================================================================
+SHUFFLED-LABEL CONTROL (chance anchor)
+crystal layers 2/64  calib=375 test=160  z>3.0
+   op    n  self_acc    noop  best_z  confusion
+------------------------------------------------------------
+    K   20      0.05     0.7    0.99  -> D
+    I   20       0.0     0.6    0.68  -> W
+    B   21       0.0   0.714    1.22  -> C
+    C   18       0.0   0.722     0.7  -> I
+    S   15       0.0   0.733    0.72  -> K
+    D   15       0.0   0.733    0.46  -> K
+    W   21     0.048    0.81    0.18  -> W
+    Y   15       0.0     0.6   -0.07  -> C
+ WHNF   15       0.0     0.6   -0.86  -> S
+========================================================================
+[vis] wrote /Users/mwhitford/src/verbum/results/register-visibility/qwen3-6-27b_attn_mps.json  (443.7s)

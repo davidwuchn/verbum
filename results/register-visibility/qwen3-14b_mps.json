@@ -1,0 +1,171 @@
+{
+  "model": "Qwen/Qwen3-14B",
+  "device": "mps",
+  "read_register": "sign(gate_proj) [validated]",
+  "real": {
+    "n_calib": 375,
+    "n_test": 160,
+    "n_crystal_layers": 37,
+    "n_layers": 40,
+    "z_thresh": 3.0,
+    "shuffle_labels": false,
+    "rows": [
+      {
+        "combinator": "K",
+        "n": 20,
+        "self_acc": 0.3,
+        "noop_rate": 0.25,
+        "mean_best_z": 2.92,
+        "top_confusion": "K"
+      },
+      {
+        "combinator": "I",
+        "n": 20,
+        "self_acc": 0.35,
+        "noop_rate": 0.1,
+        "mean_best_z": 2.7,
+        "top_confusion": "I"
+      },
+      {
+        "combinator": "B",
+        "n": 21,
+        "self_acc": 0.048,
+        "noop_rate": 0.143,
+        "mean_best_z": 1.65,
+        "top_confusion": "S"
+      },
+      {
+        "combinator": "C",
+        "n": 18,
+        "self_acc": 0.0,
+        "noop_rate": 0.278,
+        "mean_best_z": 1.87,
+        "top_confusion": "B"
+      },
+      {
+        "combinator": "S",
+        "n": 15,
+        "self_acc": 0.933,
+        "noop_rate": 0.0,
+        "mean_best_z": 6.24,
+        "top_confusion": "S"
+      },
+      {
+        "combinator": "D",
+        "n": 15,
+        "self_acc": 0.2,
+        "noop_rate": 0.2,
+        "mean_best_z": 3.3,
+        "top_confusion": "S"
+      },
+      {
+        "combinator": "W",
+        "n": 21,
+        "self_acc": 0.048,
+        "noop_rate": 0.429,
+        "mean_best_z": 1.91,
+        "top_confusion": "WHNF"
+      },
+      {
+        "combinator": "Y",
+        "n": 15,
+        "self_acc": 0.867,
+        "noop_rate": 0.0,
+        "mean_best_z": 5.76,
+        "top_confusion": "Y"
+      },
+      {
+        "combinator": "WHNF",
+        "n": 15,
+        "self_acc": 0.933,
+        "noop_rate": 0.0,
+        "mean_best_z": 8.47,
+        "top_confusion": "WHNF"
+      }
+    ]
+  },
+  "shuffled": {
+    "n_calib": 375,
+    "n_test": 160,
+    "n_crystal_layers": 0,
+    "n_layers": 40,
+    "z_thresh": 3.0,
+    "shuffle_labels": true,
+    "rows": [
+      {
+        "combinator": "K",
+        "n": 20,
+        "self_acc": 0.0,
+        "noop_rate": 1.0,
+        "mean_best_z": null,
+        "top_confusion": null
+      },
+      {
+        "combinator": "I",
+        "n": 20,
+        "self_acc": 0.0,
+        "noop_rate": 1.0,
+        "mean_best_z": null,
+        "top_confusion": null
+      },
+      {
+        "combinator": "B",
+        "n": 21,
+        "self_acc": 0.0,
+        "noop_rate": 1.0,
+        "mean_best_z": null,
+        "top_confusion": null
+      },
+      {
+        "combinator": "C",
+        "n": 18,
+        "self_acc": 0.0,
+        "noop_rate": 1.0,
+        "mean_best_z": null,
+        "top_confusion": null
+      },
+      {
+        "combinator": "S",
+        "n": 15,
+        "self_acc": 0.0,
+        "noop_rate": 1.0,
+        "mean_best_z": null,
+        "top_confusion": null
+      },
+      {
+        "combinator": "D",
+        "n": 15,
+        "self_acc": 0.0,
+        "noop_rate": 1.0,
+        "mean_best_z": null,
+        "top_confusion": null
+      },
+      {
+        "combinator": "W",
+        "n": 21,
+        "self_acc": 0.0,
+        "noop_rate": 1.0,
+        "mean_best_z": null,
+        "top_confusion": null
+      },
+      {
+        "combinator": "Y",
+        "n": 15,
+        "self_acc": 0.0,
+        "noop_rate": 1.0,
+        "mean_best_z": null,
+        "top_confusion": null
+      },
+      {
+        "combinator": "WHNF",
+        "n": 15,
+        "self_acc": 0.0,
+        "noop_rate": 1.0,
+        "mean_best_z": null,
+        "top_confusion": null
+      }
+    ]
+  },
+  "elapsed_s": 239.8,
+  "timestamp_utc": "2026-07-19T21:27:18.833371+00:00"
+}

@@ -51,9 +51,11 @@ from torch import nn
 
 __all__ = [
     "ModelTopology",
+    "attn_path",
     "detect_topology",
     "expert_gate_path",
     "final_norm_path",
+    "find_attn_out",
     "gate_path",
     "router_path",
     "self_test",
@@ -88,6 +90,20 @@ _UPPROJ_ATTRS: tuple[str, ...] = (
     "dense_h_to_4h", "c_fc", "fc_in", "fc1", "w1", "up_proj",
 )
 
+# Attention submodule + its output projection (the value/attention register —
+# the write attention makes to the residual). s127/s206: composition {B,C}
+# routes through ATTENTION, not the FFN gate, so this is the register where the
+# composition opcodes are expected to be readable. Includes linear-attention
+# variants (GatedDeltaNet / Mamba-style) for HYBRID stacks (Qwen3.6): those
+# layers write via ``out_proj`` instead of ``o_proj``. Resolution is per-layer.
+_ATTN_ATTRS: tuple[str, ...] = (
+    "self_attn", "attention", "attn", "self_attention",
+    "linear_attn", "mamba", "mixer",
+)
+_ATTN_OUT_ATTRS: tuple[str, ...] = (
+    "o_proj", "out_proj", "dense", "c_proj", "wo",
+)
+
 # Final-norm dotted paths, aligned with the layer wrappers above.
 _NORM_PATHS: tuple[str, ...] = (
     "model.language_model.norm",
@@ -119,6 +135,8 @@ class ModelTopology:
     register: str                     # gated-dense | gated-fused | ungated | moe
     gate_suffix: str | None           # per-layer suffix, e.g. "mlp.gate_proj"
     gate_width: int | None            # feature width d of the gate output
+    attn_suffix: str | None = None    # attention write, e.g. "self_attn.o_proj"
+    attn_width: int | None = None     # feature width of the attn output (~hidden)
     read_register: str = ""           # the routing read, named (lambda measure)
     # MoE only:
     router_suffix: str | None = None
@@ -146,6 +164,15 @@ class ModelTopology:
         """True only for the sign(gate_proj) register (s203/s231 validated)."""
         return self.register == "gated-dense"
 
+    @property
+    def attn_traceable(self) -> bool:
+        """Is the attention/value register (o_proj write) available to capture?
+
+        Present even for MoE (the attention path is dense there), so composition
+        {B,C} may be readable in MoE models where the gate register is undecided.
+        """
+        return self.attn_suffix is not None
+
     def summary(self) -> str:
         parts = [
             f"arch={self.arch}",
@@ -157,6 +184,8 @@ class ModelTopology:
             parts.append(f"gate={self.gate_suffix}(d={self.gate_width})")
         if self.read_register:
             parts.append(f"read={self.read_register}")
+        if self.attn_suffix:
+            parts.append(f"attn={self.attn_suffix}(d={self.attn_width})")
         if self.register == "moe":
             parts.append(f"experts={self.n_experts} router={self.router_suffix}")
         return "  ".join(parts)
@@ -250,6 +279,25 @@ def _find_upproj(ffn: nn.Module) -> tuple[str, Any] | None:
     return None
 
 
+def find_attn_out(layer: nn.Module) -> tuple[str, Any] | None:
+    """Return ``(suffix, out_module)`` for a layer's attention output projection.
+
+    ``suffix`` is relative to the layer, e.g. ``"self_attn.o_proj"`` (full
+    attention) or ``"linear_attn.out_proj"`` (linear/GatedDeltaNet). This is the
+    attention *write* to the residual — the value/attention register. Resolved
+    PER-LAYER so hybrid stacks (mixed full + linear attention) work.
+    """
+    for a in _ATTN_ATTRS:
+        attn = getattr(layer, a, None)
+        if attn is None:
+            continue
+        for o in _ATTN_OUT_ATTRS:
+            out = getattr(attn, o, None)
+            if out is not None:
+                return f"{a}.{o}", out
+    return None
+
+
 def _out_features(mod: Any) -> int | None:
     for attr in ("out_features", "nf", "embed_dim"):
         v = getattr(mod, attr, None)
@@ -318,6 +366,28 @@ def detect_topology(model: nn.Module, config: Any | None = None) -> ModelTopolog
         )
     ffn, ffn_attr = ffn_found
     register = _classify_ffn(ffn)
+
+    # attention/value register (o_proj write) — independent of the FFN register,
+    # present even for MoE. Where composition {B,C} is expected to live (s127).
+    # Scan several layers: HYBRID stacks (Qwen3.6) mix full-attention (o_proj)
+    # and linear-attention (out_proj) layers; both write hidden_size, so the
+    # captured width is uniform. attn_suffix records layer 0's; capture resolves
+    # each layer independently via find_attn_out.
+    attn_suffixes: list[str] = []
+    attn_out0: Any = None
+    for L in list(layers)[: min(len(layers), 12)]:
+        fa = find_attn_out(L)
+        if fa is not None:
+            attn_suffixes.append(fa[0])
+            if attn_out0 is None:
+                attn_out0 = fa[1]
+    attn_suffix = attn_suffixes[0] if attn_suffixes else None
+    attn_width = (_out_features(attn_out0) if attn_out0 is not None else None) or hidden
+    if len(set(attn_suffixes)) > 1:
+        notes.append(
+            "hybrid attention: layers write via "
+            f"{sorted(set(attn_suffixes))} — attn register resolved per-layer."
+        )
 
     gate_suffix = gate_width = None
     read_register = ""
@@ -396,7 +466,8 @@ def detect_topology(model: nn.Module, config: Any | None = None) -> ModelTopolog
     return ModelTopology(
         arch=arch, n_layers=n_layers, hidden_size=hidden,
         layers_path=layers_path, register=register, gate_suffix=gate_suffix,
-        gate_width=gate_width, read_register=read_register,
+        gate_width=gate_width, attn_suffix=attn_suffix, attn_width=attn_width,
+        read_register=read_register,
         router_suffix=router_suffix,
         expert_gate_suffix=expert_gate_suffix, n_experts=n_experts,
         final_norm_path=_first_present(model, _NORM_PATHS),
@@ -423,6 +494,20 @@ def gate_path(topo: ModelTopology, layer: int) -> str:
             f"(read_register={topo.read_register!r})."
         )
     return f"{topo.layers_path}.{layer}.{topo.gate_suffix}"
+
+
+def attn_path(topo: ModelTopology, layer: int) -> str:
+    """Dotted path to layer ``layer``'s attention output projection (o_proj write).
+
+    The value/attention register — where composition {B,C} is expected to live.
+    Available for dense and MoE alike.
+    """
+    if not topo.attn_traceable or topo.attn_suffix is None:
+        raise ValueError(
+            f"attn_path undefined for {topo.arch}: no attention output projection "
+            "found (add its name to _ATTN_OUT_ATTRS)."
+        )
+    return f"{topo.layers_path}.{layer}.{topo.attn_suffix}"
 
 
 def router_path(topo: ModelTopology, layer: int) -> str:
@@ -489,6 +574,7 @@ def self_test(models: tuple[tuple[str, str | None], ...] = _SELF_TEST_MODELS) ->
             topo = detect_topology(model, cfg)
             row["detected"] = topo.register
             row["summary"] = topo.summary()
+            row["attn_ok"] = topo.attn_traceable
             row["notes"] = list(topo.notes)
             row["pass"] = (expected is None) or (topo.register == expected)
         except Exception as e:

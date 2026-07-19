@@ -1,0 +1,48 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights: 100%|██████████| 443/443 [00:00<00:00, 7153.96it/s]
+[vis] arch=Qwen3ForCausalLM  L=40  register=gated-dense  layers=model.layers  gate=mlp.gate_proj(d=17408)  read=sign(gate_proj) [validated]
+[vis] calib=375 test=160 (shuffle_labels=False)
+[vis]   calib probe 0/375
+[vis]   calib probe 100/375
+[vis]   calib probe 200/375
+[vis]   calib probe 300/375
+[vis]   test probe 0/160
+[vis]   test probe 100/160
+========================================================================
+REGISTER VISIBILITY — Qwen/Qwen3-14B  [sign(gate_proj) [validated]]
+crystal layers 37/40  calib=375 test=160  z>3.0
+   op    n  self_acc    noop  best_z  confusion
+------------------------------------------------------------
+    K   20       0.3    0.25    2.92  -> K
+    I   20      0.35     0.1     2.7  -> I
+    B   21     0.048   0.143    1.65  -> S
+    C   18       0.0   0.278    1.87  -> B
+    S   15     0.933     0.0    6.24  -> S
+    D   15       0.2     0.2     3.3  -> S
+    W   21     0.048   0.429    1.91  -> WHNF
+    Y   15     0.867     0.0    5.76  -> Y
+ WHNF   15     0.933     0.0    8.47  -> WHNF
+========================================================================
+[vis] calib=375 test=160 (shuffle_labels=True)
+[vis]   calib probe 0/375
+[vis]   calib probe 100/375
+[vis]   calib probe 200/375
+[vis]   calib probe 300/375
+[vis]   test probe 0/160
+[vis]   test probe 100/160
+========================================================================
+SHUFFLED-LABEL CONTROL (chance anchor)
+crystal layers 0/40  calib=375 test=160  z>3.0
+   op    n  self_acc    noop  best_z  confusion
+------------------------------------------------------------
+    K   20       0.0     1.0    None  -> None
+    I   20       0.0     1.0    None  -> None
+    B   21       0.0     1.0    None  -> None
+    C   18       0.0     1.0    None  -> None
+    S   15       0.0     1.0    None  -> None
+    D   15       0.0     1.0    None  -> None
+    W   21       0.0     1.0    None  -> None
+    Y   15       0.0     1.0    None  -> None
+ WHNF   15       0.0     1.0    None  -> None
+========================================================================
+[vis] wrote /Users/mwhitford/src/verbum/results/register-visibility/qwen3-14b_mps.json  (239.8s)

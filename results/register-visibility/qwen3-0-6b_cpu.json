@@ -1,0 +1,171 @@
+{
+  "model": "Qwen/Qwen3-0.6B",
+  "device": "cpu",
+  "read_register": "sign(gate_proj) [validated]",
+  "real": {
+    "n_calib": 375,
+    "n_test": 160,
+    "n_crystal_layers": 25,
+    "n_layers": 28,
+    "z_thresh": 3.0,
+    "shuffle_labels": false,
+    "rows": [
+      {
+        "combinator": "K",
+        "n": 20,
+        "self_acc": 0.2,
+        "noop_rate": 0.35,
+        "mean_best_z": 1.88,
+        "top_confusion": "K"
+      },
+      {
+        "combinator": "I",
+        "n": 20,
+        "self_acc": 0.1,
+        "noop_rate": 0.15,
+        "mean_best_z": 1.75,
+        "top_confusion": "Y"
+      },
+      {
+        "combinator": "B",
+        "n": 21,
+        "self_acc": 0.0,
+        "noop_rate": 0.238,
+        "mean_best_z": 1.2,
+        "top_confusion": "S"
+      },
+      {
+        "combinator": "C",
+        "n": 18,
+        "self_acc": 0.0,
+        "noop_rate": 0.5,
+        "mean_best_z": 1.45,
+        "top_confusion": "Y"
+      },
+      {
+        "combinator": "S",
+        "n": 15,
+        "self_acc": 0.467,
+        "noop_rate": 0.0,
+        "mean_best_z": 4.57,
+        "top_confusion": "S"
+      },
+      {
+        "combinator": "D",
+        "n": 15,
+        "self_acc": 0.067,
+        "noop_rate": 0.333,
+        "mean_best_z": 2.21,
+        "top_confusion": "S"
+      },
+      {
+        "combinator": "W",
+        "n": 21,
+        "self_acc": 0.0,
+        "noop_rate": 0.476,
+        "mean_best_z": 1.38,
+        "top_confusion": "WHNF"
+      },
+      {
+        "combinator": "Y",
+        "n": 15,
+        "self_acc": 0.733,
+        "noop_rate": 0.067,
+        "mean_best_z": 4.77,
+        "top_confusion": "Y"
+      },
+      {
+        "combinator": "WHNF",
+        "n": 15,
+        "self_acc": 0.733,
+        "noop_rate": 0.0,
+        "mean_best_z": 5.81,
+        "top_confusion": "WHNF"
+      }
+    ]
+  },
+  "shuffled": {
+    "n_calib": 375,
+    "n_test": 160,
+    "n_crystal_layers": 0,
+    "n_layers": 28,
+    "z_thresh": 3.0,
+    "shuffle_labels": true,
+    "rows": [
+      {
+        "combinator": "K",
+        "n": 20,
+        "self_acc": 0.0,
+        "noop_rate": 1.0,
+        "mean_best_z": null,
+        "top_confusion": null
+      },
+      {
+        "combinator": "I",
+        "n": 20,
+        "self_acc": 0.0,
+        "noop_rate": 1.0,
+        "mean_best_z": null,
+        "top_confusion": null
+      },
+      {
+        "combinator": "B",
+        "n": 21,
+        "self_acc": 0.0,
+        "noop_rate": 1.0,
+        "mean_best_z": null,
+        "top_confusion": null
+      },
+      {
+        "combinator": "C",
+        "n": 18,
+        "self_acc": 0.0,
+        "noop_rate": 1.0,
+        "mean_best_z": null,
+        "top_confusion": null
+      },
+      {
+        "combinator": "S",
+        "n": 15,
+        "self_acc": 0.0,
+        "noop_rate": 1.0,
+        "mean_best_z": null,
+        "top_confusion": null
+      },
+      {
+        "combinator": "D",
+        "n": 15,
+        "self_acc": 0.0,
+        "noop_rate": 1.0,
+        "mean_best_z": null,
+        "top_confusion": null
+      },
+      {
+        "combinator": "W",
+        "n": 21,
+        "self_acc": 0.0,
+        "noop_rate": 1.0,
+        "mean_best_z": null,
+        "top_confusion": null
+      },
+      {
+        "combinator": "Y",
+        "n": 15,
+        "self_acc": 0.0,
+        "noop_rate": 1.0,
+        "mean_best_z": null,
+        "top_confusion": null
+      },
+      {
+        "combinator": "WHNF",
+        "n": 15,
+        "self_acc": 0.0,
+        "noop_rate": 1.0,
+        "mean_best_z": null,
+        "top_confusion": null
+      }
+    ]
+  },
+  "elapsed_s": 91.4,
+  "timestamp_utc": "2026-07-19T21:21:47.288380+00:00"
+}

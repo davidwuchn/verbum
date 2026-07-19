@@ -1,0 +1,90 @@
+{
+  "model": "Qwen/Qwen3-0.6B",
+  "device": "cpu",
+  "register": "attn",
+  "read_register": "sign(self_attn.o_proj)",
+  "real": {
+    "n_calib": 375,
+    "n_test": 160,
+    "n_crystal_layers": 27,
+    "n_layers": 28,
+    "z_thresh": 3.0,
+    "shuffle_labels": false,
+    "rows": [
+      {
+        "combinator": "K",
+        "n": 20,
+        "self_acc": 0.45,
+        "noop_rate": 0.0,
+        "mean_best_z": 3.32,
+        "top_confusion": "K"
+      },
+      {
+        "combinator": "I",
+        "n": 20,
+        "self_acc": 0.15,
+        "noop_rate": 0.0,
+        "mean_best_z": 2.43,
+        "top_confusion": "Y"
+      },
+      {
+        "combinator": "B",
+        "n": 21,
+        "self_acc": 0.0,
+        "noop_rate": 0.0,
+        "mean_best_z": 2.24,
+        "top_confusion": "S"
+      },
+      {
+        "combinator": "C",
+        "n": 18,
+        "self_acc": 0.056,
+        "noop_rate": 0.222,
+        "mean_best_z": 2.31,
+        "top_confusion": "Y"
+      },
+      {
+        "combinator": "S",
+        "n": 15,
+        "self_acc": 0.733,
+        "noop_rate": 0.0,
+        "mean_best_z": 6.47,
+        "top_confusion": "S"
+      },
+      {
+        "combinator": "D",
+        "n": 15,
+        "self_acc": 0.467,
+        "noop_rate": 0.0,
+        "mean_best_z": 4.64,
+        "top_confusion": "D"
+      },
+      {
+        "combinator": "W",
+        "n": 21,
+        "self_acc": 0.048,
+        "noop_rate": 0.143,
+        "mean_best_z": 1.45,
+        "top_confusion": "S"
+      },
+      {
+        "combinator": "Y",
+        "n": 15,
+        "self_acc": 0.733,
+        "noop_rate": 0.0,
+        "mean_best_z": 6.52,
+        "top_confusion": "Y"
+      },
+      {
+        "combinator": "WHNF",
+        "n": 15,
+        "self_acc": 0.8,
+        "noop_rate": 0.067,
+        "mean_best_z": 7.33,
+        "top_confusion": "WHNF"
+      }
+    ]
+  },
+  "elapsed_s": 41.0,
+  "timestamp_utc": "2026-07-19T21:54:54.298377+00:00"
+}
