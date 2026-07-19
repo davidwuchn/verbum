@@ -28,28 +28,52 @@ A live "cool toy" — the lattice lighting up opcode-by-opcode as tokens stream 
 is the surface that gets researchers to look, the same way J-Space's interactive
 visualization did.
 
-## The pipeline (fingerprint → crystal → trace)
+## The pipeline (detect → capture → calibrate → tree → trace)
 
-Most of this already works and is model-agnostic; the goal here is to wrap it in
-an **auto-detecting** system so it runs on any model without hand-editing paths.
+PyTorch + numpy only. Self-contained: probes and the 10-model consensus Gram
+ship as data files (`data/`); nothing imports the parent repo at run time.
 
-1. **Detect** (`topology.py`) — auto-detect the model config: the transformer
-   layer container, the per-layer gate module, and the MLP *register*
-   (`gated-dense` | `moe` | `ungated`). Honest by construction: MoE is a
-   *different* register (named, not silently reused); un-gated architectures
-   (GPT-NeoX) have no routing-gate crystal to read and the detector says so.
-2. **Fingerprint** (`fingerprint.py`, planned) — run the crystal probes, capture
-   gate features, build the per-model 9×9 Gram and the crystal-bearing layers.
-   *This is finding the lattice.*
-3. **Calibrate + classify** (`classify.py`, promoted from
-   `scripts/instruments/relational_opcode.py`) — the validated,
+1. **Detect** (`topology.py`) — auto-detect the model layout: the transformer
+   layer container (incl. nested `language_model` wrappers and hybrid
+   linear+full attention stacks), the per-layer gate module, the MLP *register*
+   (`gated-dense` | `gated-fused` | `moe` | `ungated`), the attention-write
+   register, and the logit-lens readout paths (final norm + unembed). Honest by
+   construction: MoE is a *different* register (named, not silently reused);
+   un-gated architectures fall back to the up-proj proxy register, flagged.
+   Works on meta-device (no weights) — `python opcodes/topology.py`.
+2. **Capture** (`capture.py`) — plain forward hooks → per-layer `[T, d]`
+   feature matrices for either register (`gate` | `attn`), one forward pass.
+3. **Calibrate + classify** (`classify.py` + `probes.py`) — the validated,
    null-gated opcode reader: sign(gate) routing register, common-mode removal,
-   relational centroids vs the consensus crystal, permutation-null z-scoring
-   (a token can NO-OP). Already model-agnostic.
-4. **Trace** (`monitor.py`, promoted from `opcode_monitor_v2.py`) — per-token,
-   per-layer opcode trajectory (the C→B program), with the gate-confound and
-   retrieval-silence controls that keep it from manufacturing signal.
-5. **Visualize** (planned) — the streaming lattice + opcode trajectory.
+   relational centroids vs the bundled consensus crystal, null z-scoring (a
+   token can NO-OP). Calibrated on 535 bundled crystal probes (≥50 per
+   combinator) against a natural-text cross-task null.
+4. **Tree** (`vsm.py`) — every calibration becomes a stackable **VSM node**
+   (tree-of-VSM, Beer 1972 via verbum v14/v15): same fractal shape at every
+   level — S5 identity = the 9×9 Gram, S3 control = the null gate, S4 =
+   cross-child agreement/dissent, algedonic health up, caveats propagate as
+   the worst child. `layer → register → model → family → root(universal)`.
+   The Gram is frame-invariant (combinator-label space, not weight space) —
+   that is what makes models of any architecture/scale stackable.
+5. **Trace** (`trace.py`) — per-token, per-layer opcode trajectory for BOTH
+   registers side by side (s264: gate sees {K,I,S,Y,WHNF}, attn-write rescues
+   D, neither resolves {B,C} — single-register blindness is structural and
+   shown, not hidden). Optional `--operand`: the J-space logit-lens column
+   (`jspace.py`) showing WHAT is routed — display-only, never fed to the
+   classifier (s263: the operand register does not identify opcodes).
+6. **Sweep** (`sweep.py`) — the model registry (configs, not forks) + the
+   restack: all model-VSMs → family → root, root Gram vs the bundled
+   consensus. `--restack-only` recomputes the tree from existing artifacts.
+7. **Visualize** (planned) — the streaming lattice + opcode trajectory.
+
+```
+# one model, both registers, tree + trace artifacts:
+uv run python opcodes/trace.py --model Qwen/Qwen3-0.6B --smoke
+
+# multi-model sweep + universal crystal tree:
+uv run python opcodes/sweep.py --tier small
+uv run python opcodes/sweep.py --restack-only
+```
 
 ## Discipline (inherited from the verbum project)
 
@@ -64,6 +88,9 @@ an **auto-detecting** system so it runs on any model without hand-editing paths.
 
 ## Status
 
-Foundational. `topology.py` (auto-detection) is the first module. Everything
-downstream already exists in the parent repo and will be promoted here as the
-system takes shape.
+MVP assembled (s265): `topology` (detect, incl. readout paths) → `capture`
+(gate ∪ attn) → `probes` (bundled) → `classify` (canonical home) → `vsm`
+(stackable crystal tree) → `jspace` (operand register) → `trace` (two-register
++ operand) → `sweep` (registry + restack). Every module has a self-test that
+runs without loading a large model (or on pythia-14m). Staged for extraction
+into a dedicated MIT repo; the visualizer is the remaining piece.
