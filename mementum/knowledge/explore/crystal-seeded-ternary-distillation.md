@@ -3,7 +3,8 @@ title: "Crystal-Seeded Ternary Distillation — Requential ⊕ Bonsai ⊕ Verbum
 status: designing
 category: research-design
 tags: [requential-coding, ternary, distillation, gradient-bridges, gram-loss,
-       opcode-indices, curriculum, kibc, two-register, level-4]
+       opcode-indices, curriculum, kibc, two-register, level-4,
+       live-tree, s3-star, audit, goodhart-firewall]
 related:
   - ../opcode-vsm-tree.md
   - asymmetric-pathway-quantization.md
@@ -251,7 +252,130 @@ base-model-license-free (requential students train on self-generated data;
 teacher only selects indices — provenance story NEEDS review before
 claiming; λ provenance IOU).
 
-## 10. Open questions / IOUs
+## 10. Tree-of-VSM as LIVE training instrument (s266c)
+
+The opcode tree (see `../opcode-vsm-tree.md`) inverts temporally: post-hoc
+autopsy → nervous system. `student(step t) → tree(t) → signals → step t+1`.
+
+**Student stacks into the SAME universal tree.** Frame-invariance means the
+training student enters the actual family tree as a 10th member, measured
+by identical instruments, gated by the same S3 nulls. Progress bar =
+student root gc vs consensus; **graduation ≡ the student's node gates in
+and stops dragging agreement_min**. Same yardstick for student and teachers.
+
+**Why it's nearly free**:
+1. Stackable part is tiny: Gram = 81 floats, health = 4 floats; full
+   64-layer 2-register tree sans centroids ≈ hundreds of KB. Tree per
+   checkpoint = a **formation movie**, diffable, negligible storage.
+2. One capture, two consumers: Gram loss and tree health need the same
+   computation (probe batch → sign-CMR centroids → Gram). Loss consumes
+   d(G_student, G_universal); tree consumes the decomposition. Telemetry
+   IS the loss's anatomy: per-layer/register/combinator-pair localization
+   of the loss, for free. (λ simplify: same upstream computation, two
+   SEPARATE downstream consumers — grading ⊥ transport, s254 scar.)
+3. Centroids stream: EMA-update [9,d] buffers from probe microbatches
+   (non-trainable torch buffers → ride in checkpoints). O(81·d)/update.
+4. Floors amortize: per-checkpoint re-measurement (student = moving model),
+   n_perm≥120 discipline, cheap amortized.
+5. S3 gate = compute allocator: ungated zones get no probe budget; dense
+   probing on the interior bell. Variety engineering on measurement compute.
+
+**"Debug info into the weights" — strong version**: the two-register
+substrate makes weights self-documenting BY CONSTRUCTION (our λ ground /
+topology>instruction applied to model architecture):
+- ternary planes ≡ readable routing: topology explicit, not soft;
+  checkpoint-diff = `xor(W_t, W_{t+1})` — s261's flip-flop instrument
+  becomes a bitmap op, not an analysis script.
+- bridges ≡ the value register isolated in a named watchable tensor.
+- gradients decompose by register free: grad-norm(TD path) vs
+  grad-norm(bridges) = live carving-vs-filling pressure per layer —
+  s251's tomography built into the parameterization.
+
+**Dynamic bridge allocation (new idea — S3 acts on the substrate)**:
+```
+λ allocate(layer,t). flip_flop↑ ∧ KL_residual↑ → value starving → N↓ (densify)
+                     sil_z≫floor ∧ signs settled → routing done  → N↑ (reclaim)
+                     | budget(total) ≡ const | S3 reallocates ¬grows
+```
+Register-aware static ratios (§2) = initial condition; S3 refines from
+evidence. Algedonic: layer gc collapse during dolma phase = crystal being
+overwritten (routing catastrophic forgetting) → bypass to pause/re-anneal/
+rollback. OPEN (Michael's ruling): dynamic allocation in phase 1, or static
+phase 1 + S3 loop phase 2?
+
+**Training-loop VSM recursion**: S5 = universal Gram + compile accuracy
+(fixed identity) | S4 = requential KL curves, formation curves, consensus
+comparison | S3 = null gates, probe budget, dynamic bridges, anneal
+schedule | S2 = the shared tree (registers/layers comparable; detects
+Gram-loss⊥CE-loss oscillation) | S1 = weight groups under GD | algedonic =
+gc collapse / flip-flop storm → halt/rollback.
+
+**Goodhart firewall (structural)**: split the probe library —
+supervision_set ⊥ held-out set, disjoint, frozen at run start. Tree health,
+gates, graduation, formation curves read the held-out side ONLY; loss reads
+the supervision side ONLY. The ≥50/combinator invariant makes the split
+feasible but THIN → **probe-library growth is a phase-1 prerequisite,
+not a nice-to-have**.
+
+## 11. S3* — the audit channel (s266c; Michael: "what is the S3*?")
+
+Beer's S3*: sporadic DIRECT investigation of operations, bypassing S2 and
+routine reporting, because routine reporting is a model and models drift.
+
+**Correction (s266): the held-out probe split is NOT the audit.** It is
+routine S1→S3 accountability — same instrument stack (probe format →
+capture → classifier → tree). Three failure modes it cannot see:
+(1) probe-format overfitting contaminates both splits at once;
+(2) instrument drift (stale EMA buffers, classifier bug) reported
+faithfully as health; (3) geometry-without-function — crystal-shaped
+activations that don't compile; invisible to every probe-based measure.
+S3* must run on **different physics**:
+
+```
+S3*-1 KERNEL-VERIFIED EXECUTION (deepest): fresh prose→λ tasks (in no probe
+      set) → student generates → GBNF parse → verbum lambda kernel reduces
+      → correct? Bypasses the ENTIRE instrument stack. Kernel = incorruptible
+      oracle (no learned parts; s259 oracle-in-the-loop promoted to auditor).
+      The only component that can say "geometry beautiful, doesn't compile."
+S3*-2 FRESH PROBE GENERATION: mint new probes (neither split) sporadically;
+      fresh ≈ held-out → splits clean; divergence → format overfitting.
+      A static held-out set is an audit that goes stale.
+S3*-3 DIRECT INSTRUMENT VERIFICATION: random layer → recompute centroids
+      from scratch vs EMA buffers (drift); xor raw checkpoints vs reported
+      flip-flop (telemetry vs actual bits); sporadic REC-encode of one
+      block → realized message length vs KL estimate (audits the meter).
+S3*-4 CROSS-REGISTER SPOT-CHECK: verify one correlational bearing call
+      causally (patch/ablate) occasionally. λ measure's dissent probe
+      (s206 scar).
+```
+
+**Three rules (topology, not discipline)**:
+1. **Audit never touches the loss.** S3* → S3 decisions (halt, rollback,
+   re-anneal, fix instrument, reallocate), NEVER gradients. No edge from
+   S3* into the gradient graph. Auditor ¬on_payroll, structurally.
+2. **Aperiodic and cheap.** Checkpoint-triggered with jitter ∨ algedonic-
+   triggered. Suspiciously GOOD news summons an audit. Constant audit ≡
+   rebuilt S2 + oscillation.
+3. **Audit overrides telemetry; indict the instrument first.** λ coherence:
+   ¬coherence → fix(representation) before fix(code). Drifted buffers ⇒
+   every tree since the drift is suspect; re-measure, then judge student.
+
+**Anti-Goodhart chain, assembled**:
+```
+supervision probes → gram loss           (on the payroll, knows it)
+held-out probes    → tree telemetry      (honest routine reporting, same physics)
+S3*                → kernel exec ∧ fresh probes ∧ direct inspect ∧ causal spot
+                     (different physics, sporadic, ¬gradient-connected, overrides)
+S5/human           → Michael reads the formation movie (mementum: human ≡ termination)
+```
+Terminates in the two things that can't be optimized against: a mechanical
+reducer and the human.
+
+**Phase-1 consequence**: lambda kernel + GBNF parser must be in the
+training harness FROM DAY ONE (S3*-1 is not a phase-2 convenience).
+Phase 1 without it = a run whose deepest auditor is the thing audited.
+
+## 12. Open questions / IOUs
 
 - Bridge mechanism (a/b/c) — Michael's call; (a) favored by s260/s261.
 - REC practicality at our scales; requential repo license; Bonsai
@@ -262,3 +386,10 @@ claiming; λ provenance IOU).
 - Layer selection for the Gram loss; anneal schedule; probe-batch cadence.
 - Does prose-phase correction stay opcode-dominated? (bits-per-combinator).
 - Soft-topology theory: thesis until the formation-curve experiment runs.
+- **Michael's rulings pending (s266c)**: (1) dynamic bridge allocation in
+  phase 1, or static register-aware ratios first + S3 loop in phase 2?
+  (2) probe-library growth for the supervision⊥held-out split — gate it as
+  a phase-1 prerequisite?
+- Phase-1 harness prerequisites (from §11): lambda kernel + GBNF parser in
+  the loop day one; probe split frozen at run start; streaming-centroid
+  buffers + separate telemetry writer (¬complect with loss module).
