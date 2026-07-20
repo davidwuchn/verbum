@@ -91,12 +91,28 @@ the same captured features. `null_floor_z` = pooled q95 of per-layer shuffled
 sil_z (layer-count independent; ~1.64 for a clean N(0,1) null);
 `shuffled_bearing_frac` (nominal 1–2%); `suspect` flag > 5%.
 
-**Finding (s265, refines s264): floors are register- AND model-specific.**
-qwen3-0.6b: gate 2.78 > attn 2.14 — a REVERSAL of the 27B measurement
-(elevated attn floor). pythia-14m: attn 1.94, SUSPECT (5.6% shuffled
-bearing). Consequence: near-threshold bearing calls (e.g. 0.6b gate
+**Finding (s265→s266): floors are register-, model-, and
+ARCHITECTURE-conditioned.** The s265 "reversal" on qwen3-0.6b (gate 2.78 >
+attn 2.14) was not scale — the 9-model sweep (s266) shows the direction is
+**family-patterned**:
+
+| family | gate floor | attn floor | direction |
+|---|---|---|---|
+| qwen3 (×5) | 2.03–2.78 | 1.46–2.14 | gate-elevated (all 5) |
+| gemma-4-31B | 1.86 | 1.46 | gate-elevated |
+| olmo-2-13B | 2.07 | 1.75 | gate-elevated |
+| pythia-14m | 1.55 | 1.94 | **attn-elevated** |
+| pythia-2.8b | 1.93 | 2.04 | **attn-elevated** |
+
+Gated-FFN architectures → gate-elevated floor; the ungated pythia arch
+(up-proj proxy) → attn-elevated. Fresh 27B floors: gate 2.08 > attn 1.85 —
+s264's elevated-attn 27B reading **does not reproduce** and is now the
+anomaly (retro-check that run's n_perm/pooling before discarding).
+pythia-14m attn remains SUSPECT (5.6% shuffled bearing). Consequence
+unchanged and sharpened: near-threshold bearing calls (e.g. 0.6b gate
 L0/L17–L19) sit at/below their own floor; the solid 0.6b gate zone is
-L5–L16. Never carry a floor from one scale/model to another.
+L5–L16. Never carry a floor across models — and the *direction* itself is
+an architectural observable, not noise.
 
 Discipline: floor needs ≥~20 pooled samples and n_perm ≥ 120 (fewer perms →
 the z-estimate itself is t-tailed and inflates the floor — caught by the
@@ -111,13 +127,36 @@ synthetic smoke honestly flagging 3-layer toy data).
   count dominates Gram fidelity; smoke = pipeline check only, never a
   measurement.**
 
-## 7. Open
+## 7. Nine-model sweep result (s266 — the large sweep, read clean)
 
-- Large sweep **launched end of s265** (tmux main:1, log
-  `results/opcode-trace/sweep_large.log`): 7 large models, full calib +
-  floors, restack to universal root. Three headline questions: root gc ≥0.9
-  at 9 models / 4+ families; 27B attn floor vs s264; qwen3-family sil_z
-  monotone with scale. Results land in `results/opcode-trace/` — update §6
-  of this page when read.
+Artifacts: `results/opcode-trace/{universal_vsm.json, sweep_summary.json,
+per-model dirs}`; log `sweep_large.log`. 9 models (7 large + 2 cached
+smalls), 4 architecture families, 14M→32B, full 535-probe calibration ×
+2 registers + 3-shuffle floors each.
+
+- **Universal root HOLDS and sharpens with evidence**: root gc = **+0.982**
+  vs the bundled 10-model consensus (up from 0.940 at 2 models) | sil_z
+  5.09 | bearing 1.00. Families 4/4 gated; cross-family agreement mean
+  0.906, min 0.841; dissent = False.
+- Family gc: qwen3 0.976 (intra-family agreement 0.982), olmo 0.957,
+  gemma 0.935 (**nested arch works in production**), pythia 0.919
+  (agreement 0.821 — the weak seam).
+- **Scale-sharpening confirmed**: pure qwen3 ladder sil_z is monotone —
+  0.6B 4.97 → 4B 5.40 → 14B 6.36 → 32B 6.70. qwen3.6-27B (hybrid, next
+  generation) sits off-ladder at 5.94.
+- **pythia-2.8b gate register FAILED its null gate** (bearing 0.31,
+  gated=False); attn carries the model alone at sil_z 2.34, barely above
+  its 2.04 floor — the weakest node in the tree, weaker than pythia-14m.
+  Reading: the up-proj proxy **degrades with scale** on ungated archs — a
+  real limit on the Pythia crystal-ladder plan. The S3 gate demonstrated
+  its design: the failed register stays visible, contributes nothing
+  upward.
+
+## 8. Open
+
 - QK-pattern register → decisive B/C test (predicted home of {B,C}).
 - Visualizer; then extraction of `opcodes/` to its own MIT repo.
+- Retro-check the s264 27B floor run (n_perm / pooling) — its
+  elevated-attn direction is now the unreproduced anomaly (§5).
+- Pythia crystal-ladder plan needs a proxy-degradation answer before
+  scaling further up the ungated ladder (§7).
