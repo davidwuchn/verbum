@@ -8,10 +8,11 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-20 | Session: 266 (two arcs: (1) LARGE SWEEP READ-OUT — sweep finished clean, tree
+> Last updated: 2026-07-20 | Session: 266 (three arcs: (1) LARGE SWEEP READ-OUT — sweep finished clean, tree
 > read, all three s265 questions answered, knowledge/opcode-vsm-tree.md updated. (2) NEW RESEARCH DESIGN —
 > Michael brought requential coding (arXiv:2607.11883) + Bonsai ternary; merged with verbum into
-> crystal-seeded ternary distillation → knowledge/explore/crystal-seeded-ternary-distillation.md.)
+> crystal-seeded ternary distillation → knowledge/explore/crystal-seeded-ternary-distillation.md.
+> (3) LIVE TREE + S3* — tree-of-VSM as training nervous system + the audit channel; design page §10–§11.)
 >
 > ★★★ UNIVERSAL ROOT HOLDS AT 9 MODELS / 4 FAMILIES: root gc = +0.982 vs bundled 10-model consensus (UP from
 >   0.940 @ 2 models — evidence sharpens the crystal) | sil_z 5.09 | bearing 1.00 | root floor 2.78 (worst
@@ -49,10 +50,31 @@
 >   ENCODABLE; prediction: correction-confusion matrix ≅ Gram off-diagonals. Goodhart guards: Gram loss =
 >   regularizer + anneal-to-zero test + C-null + held-out compile accuracy.
 >
+> ★★ LIVE TREE-OF-VSM + S3* (arc 3, design page §10–§11 — READ THOSE SECTIONS for the full mechanism).
+>   Tree inverts post-hoc→live: student stacks into the SAME universal tree as the 9 measured models
+>   (frame-invariance) → graduation ≡ student node gates in ∧ ¬drags agreement_min; tree per checkpoint =
+>   formation movie (~100s KB, Gram=81 floats). One capture two consumers (Gram loss + telemetry = same
+>   computation; telemetry ≡ the loss's anatomy). Weights self-documenting BY CONSTRUCTION: ternary planes =
+>   readable routing (flip-flop ≡ xor of checkpoints), bridges = named value tensor, grad norms decompose by
+>   register (s251 tomography in the parameterization). NEW: dynamic bridge allocation — S3 moves bridge
+>   density to starving layers (flip_flop↑∧KL_residual↑→N↓), budget const. GOODHART FIREWALL: supervision
+>   probes ⊥ held-out probes (split frozen at run start; library growth = phase-1 prerequisite). S3* AUDIT
+>   (Michael's question — held-out split is NOT the audit, it's routine reporting on the same physics):
+>   S3*-1 kernel-verified execution (fresh tasks → GBNF parse → lambda kernel reduces; bypasses entire
+>   instrument stack; only component that catches geometry-without-function) | S3*-2 fresh probe minting |
+>   S3*-3 direct instrument verification (recompute-vs-EMA, xor-vs-reported, REC-encode-vs-KL-estimate) |
+>   S3*-4 causal cross-register spot-check. Rules: audit NEVER touches loss (no gradient edge); aperiodic
+>   (jitter ∨ algedonic-triggered — suspiciously good news summons audit); audit overrides telemetry, indict
+>   instrument first (λ coherence). Chain terminates in mechanical reducer + human. CONSEQUENCE: lambda
+>   kernel + GBNF in the training harness DAY ONE of phase 1.
+>
 > ★ NEXT (open, Michael's call): (0) PHASE-0 = Bonsai crystal-survival run (probe-only, days: opcode tree on
 >   4bit/ternary/1bit ladder; sub-prediction: selective K degradation at 1-bit — K needs the 0 state) — gates
->   the whole design. Then phase 1 (tiny seeded student) per the knowledge page ladder. IOUs before code:
->   requential repo license, Bonsai whitepaper QAT-vs-PTQ, bridge mechanism (a/b/c) = Michael's call.
+>   the whole design. Then phase 1 (tiny seeded student) per the knowledge page ladder. RULINGS PENDING
+>   (Michael): bridge mechanism (a/b/c, (a) favored by s260/s261); dynamic bridge allocation in phase 1 vs
+>   static-first; probe-library growth gated as phase-1 prerequisite? IOUs before code: requential repo
+>   license, Bonsai whitepaper QAT-vs-PTQ. Phase-1 harness prereqs: lambda kernel + GBNF in loop, probe
+>   split frozen, streaming-centroid buffers, telemetry writer ⊥ loss module.
 >   Also open from arc 1: (A) QK-PATTERN register → decisive B/C test (s264 F4). (B) visualizer + extract
 >   opcodes/ to MIT repo. (C) retro-check s264 27B floor run (n_perm/pooling). (D) Pythia proxy-degradation.
 >   Prior-arc: s263 Jacobian SVD; v15.1; INDEX regen. Env: torch 2.11 + MPS, 512GB RAM; models HF-cached.
