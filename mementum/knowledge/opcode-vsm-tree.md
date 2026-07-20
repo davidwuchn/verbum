@@ -154,6 +154,11 @@ smalls), 4 architecture families, 14M→32B, full 535-probe calibration ×
 
 ## 8. Open
 
+- **s266b**: the consensus Gram is now also a SPECIFICATION — supervision
+  target for a seeded ternary student. Design:
+  `explore/crystal-seeded-ternary-distillation.md` (phase 0 = crystal
+  survival on the Bonsai 4bit→ternary→1bit ladder, this tree as the
+  instrument).
 - QK-pattern register → decisive B/C test (predicted home of {B,C}).
 - Visualizer; then extraction of `opcodes/` to its own MIT repo.
 - Retro-check the s264 27B floor run (n_perm / pooling) — its
