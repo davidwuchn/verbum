@@ -8,72 +8,45 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-19 | Session: 265 (OPCODES MVP: TREE-OF-VSM MULTI-MODEL — Michael: "make opcodes work
-> for multiple models; incorporate J-Space" → "use the v14/v15 tree-of-VSM tensor setup: multiple VSM-shaped
-> tensors stacked in the tree" → built the full MVP + null floors + launched the LARGE SWEEP. ~14 commits
-> 4839f07..HEAD.)
+> Last updated: 2026-07-20 | Session: 266 (LARGE SWEEP READ-OUT — sweep finished clean overnight (tmux server
+> gone but log complete); read the tree, answered all three s265 questions; knowledge/opcode-vsm-tree.md
+> updated (§5 floors, new §7 sweep result, §8 open).)
 >
-> ★★★ LARGE SWEEP IN FLIGHT (launched end of s265, tmux main:1): `uv run python opcodes/sweep.py --tier large`
->   → log `results/opcode-trace/sweep_large.log`. 7 models sequential on MPS (qwen3-{4,14,32}B, qwen3.6-27B
->   hybrid, gemma-4-31B, olmo-2-13B, pythia-2.8b), subprocess-per-model (a failure prints + continues), full
->   535-probe calib × 2 registers + 3-shuffle null floors each, then restack → results/opcode-trace/
->   {universal_vsm.json, sweep_summary.json}. NEXT SESSION FIRST: check `tmux capture-pane -p -t main:1 |
->   tail -30` ∨ tail the log; then READ THE TREE: (1) does root gc hold ≥0.9 with 9 models / 4+ families?
->   (2) 27B attn null floor elevated as s264 measured? (floors are register+model-specific — 0.6b REVERSED)
->   (3) scale-sharpening: qwen3 family sil_z monotone up the ladder? If crashed → log tail names the model;
->   rerun `--tier large` (cached artifacts skip) ∨ per-model `--models {id} --force`.
+> ★★★ UNIVERSAL ROOT HOLDS AT 9 MODELS / 4 FAMILIES: root gc = +0.982 vs bundled 10-model consensus (UP from
+>   0.940 @ 2 models — evidence sharpens the crystal) | sil_z 5.09 | bearing 1.00 | root floor 2.78 (worst
+>   child). Families 4/4 gated; agreement mean 0.906, min 0.841 (pythia seam); dissent=False. Family gc:
+>   qwen3 0.976 (intra 0.982), olmo 0.957, gemma 0.935 (nested arch in production), pythia 0.919 (intra
+>   0.821). Artifacts: results/opcode-trace/{universal_vsm.json, sweep_summary.json, per-model dirs}.
 >
-> ★★ OPCODE CRYSTAL TREE (`opcodes/vsm.py`) — tree-of-VSM applied to MEASUREMENT. One fractal node shape at
->   every level (S5=9×9 Gram, S4=cross-child agreement/dissent, S3=null gate — ungated children stay visible
->   but contribute NOTHING upward, algedonic health up {sil_z, gc_consensus, crystal_bearing_frac,
->   null_floor_z}, caveats propagate as WORST child). Ladder: layer→register→model→family→root(universal).
->   THE STACKABLE TENSOR IS THE FRAME-INVARIANT GRAM (combinator-label space, not weight space) — why
->   cross-model stacking works at all. Centroids [9,d] stay at leaves (npz sidecar). BASIS-PARAMETRIC:
->   CRYSTAL-9 (measurement: 4 fire + 3 paths/bridges D,W,Y + WHNF) | STATECHART-8 (dynamics: absorbing chain,
->   forced count) | TYPES16 (extraction: types+anti-types, NOT promptable → can't enter measurement tree).
->   One basis per tree, enforced. Resolves Michael's "9 vs 16" question — 3 registers, 3 bases, same lattice.
+> ★★ FLOOR DIRECTION IS ARCHITECTURE-CONDITIONED, NOT SCALE: gated-FFN families ALL gate-elevated (gate
+>   1.86–2.78 > attn 1.46–2.14 across qwen3×5 + gemma + olmo); ungated pythia attn-elevated (14m 1.55/1.94,
+>   2.8b 1.93/2.04). Fresh 27B floors: gate 2.08 > attn 1.85 → s264's elevated-attn 27B reading DOES NOT
+>   REPRODUCE — now the anomaly (retro-check its n_perm/pooling before discarding). Floors never travel;
+>   the DIRECTION itself is an architectural observable.
 >
-> ★★ MVP ASSEMBLED (8 modules, pytorch+numpy only, data bundled, extraction-ready): topology (readout paths
->   VERIFIED on 5 archs incl. nested gemma) → capture → probes (535 bundled JSON, ≥50/comb invariant) →
->   classify (CANONICAL HOME, promoted from scripts/instruments; shim keeps 16 old scripts alive; consensus
->   gram bundled opcodes/data/) → vsm (tree) → jspace (operand register ON ModelTopology — logit-lens/verbalize
->   works on nested/hybrid archs where old jlens.py discovery FAILS; ground-truth gate: final-layer lens ≡
->   model logits exactly) → trace (TWO-REGISTER gate∪attn side-by-side + --operand column, writes
->   model_vsm.json per model) → sweep (registry=configs-not-forks, 11 models; restack → family → root vs
->   bundled consensus). Every module self-tests without a big model. ruff clean.
+> ★★ SCALE-SHARPENING CONFIRMED: pure qwen3 ladder sil_z monotone — 0.6B 4.97 → 4B 5.40 → 14B 6.36 →
+>   32B 6.70. qwen3.6-27B hybrid = 5.94, off-ladder (different generation), between 4B and 14B.
 >
-> ★★ FIRST TREE RESULT (full calib, 2 smalls): root gc = +0.940 vs the 10-model consensus; cross-family
->   agreement 0.907 between pythia-14m (14M! ungated up-proj proxy) and qwen3-0.6b (gated) — cross-architecture
->   at 43× scale gap. LESSON: smoke calib (135 probes) gave gc 0.344 vs full (535) 0.940 — probe count
->   dominates Gram fidelity; smoke = pipeline-check ONLY.
+> ★ PYTHIA-2.8B GATE REGISTER FAILED ITS NULL GATE (bearing 0.31, gated=False; attn carries alone at sil_z
+>   2.34 vs floor 2.04 — weakest node in the tree, weaker than pythia-14m). Reading: up-proj proxy DEGRADES
+>   WITH SCALE on ungated archs → real caveat on the Pythia crystal-ladder plan. S3 gate demonstrated by
+>   fire: failed register visible, contributes nothing upward.
 >
-> ★★ NULL FLOOR MEASURED (classify.measure_null_floor, fills the tree's null_floor_z — Michael: "fix it").
->   Shuffled-label recalibration on same features; null_floor_z = pooled q95 of per-layer shuffled sil_z
->   (layer-count independent, N(0,1) ref ~1.64) + shuffled_bearing_frac + suspect(>5%). FINDING — floors are
->   REGISTER- AND MODEL-SPECIFIC: qwen3-0.6b GATE 2.78 > attn 2.14 (REVERSES s264's 27B elevated-ATTN
->   direction!); pythia-14m attn 1.94 SUSPECT (5.6% shuffled bearing). Consequence: 0.6b gate bearing at
->   L0/L17–L19 sits at/below its own floor → solid gate zone = L5–L16 (sil_z≥3.27). NEVER carry a floor across
->   scales/models. Discipline: ≥20 pooled samples, n_perm≥120 (fewer → z-estimate itself t-tailed, inflates
->   floor — caught by synthetic smoke). Root null_floor = 2.78 (worst child); no nan left in the tree.
->
-> ★ J-SPACE INTEGRATION (honest per s263 EXP1): operand register = WHAT is routed, NEVER classifies opcodes;
->   display-only column in trace; must not feed the classifier. src/verbum/{jlens,jacobian}.py remain (jacobian
->   = position-attribution for the future QK-pattern register).
->
-> ★ NEXT (open, Michael's call): (A) LARGE SWEEP — registry loaded (qwen3 ladder+3.6-27B hybrid+gemma-4-31B+
->   olmo-2, MPS); overnight --tier large vs one 27B validation first; floors at 27B retro-check s264's
->   elevated-attn direction. (B) QK-PATTERN register → decisive B/C test (s264 F4 untested). (C) visualizer
->   (the remaining MVP piece) + extract opcodes/ to dedicated MIT repo. DONE this session: null_floor_z
->   measured+wired (was B); mementum encoded (was E): knowledge/opcode-vsm-tree.md + memories/
->   opcodes-mvp-standalone.md + s265 cross-refs on the already-flagged φ pages (s202/s247 caveats existed —
->   my "unflagged" claim was itself stale). Prior-arc NEXT still open: s263 position-attribution/Jacobian SVD;
->   Pythia ladder crystal-sharpness; v15.1; INDEX regen. Env: torch 2.11 + MPS, 512GB RAM; models HF-cached
->   (see s264 note in arc).
+> ★ NEXT (open, Michael's call): (A) QK-PATTERN register → decisive B/C test (s264 F4 untested). (B)
+>   visualizer + extract opcodes/ to dedicated MIT repo. (C) retro-check s264 27B floor run (n_perm/pooling).
+>   (D) Pythia-ladder plan needs a proxy-degradation answer first. Prior-arc still open: s263 Jacobian SVD;
+>   v15.1; INDEX regen. Env: torch 2.11 + MPS, 512GB RAM; models HF-cached.
 
 ─────────────────────────────────────────────────────────────────────────────────────────────────────
 
 ## Recent arc (index — full detail: `chats/session-NNN.md` + linked knowledge; history: `git log -p`)
 
+- **s265** OPCODES MVP: tree-of-VSM multi-model. 8 standalone modules (pytorch+numpy, 535 probes bundled,
+  extraction-ready); one fractal node shape (S5 Gram / S4 agreement / S3 null gate / algedonic health),
+  ladder layer→register→model→family→root; basis-parametric CRYSTAL-9 | STATECHART-8 | TYPES16 (resolves
+  "9 vs 16"). Null floors measured+wired (register+model-specific). First tree (2 smalls): root gc 0.940,
+  cross-family 0.907 at 43× scale gap; probe count dominates Gram fidelity (135→0.344 vs 535→0.940).
+  Launched the large sweep → read in s266. → `knowledge/opcode-vsm-tree.md`
 - **s263** J-SPACE ↔ OPCODES (Anthropic J-lens prompt). THEORY: opcode = routing-Jacobian STRUCTURE; J-space =
   the Jacobian's LIVE SUBSPACE (I=identity, K=rank-deficient, B=chain-rule product, C=permutation, S=path-sum;
   their J-lens reads OPERANDS, we want the OPERATOR projection). Built `src/verbum/{jlens,jacobian}.py` (2
@@ -102,29 +75,6 @@
   model-evaluates/kernel-verifies (oracle-in-the-loop) → `src/verbum/clj_repl.py`; (c) clojure-in-lambda
   notebook (Clojure evaluator that reduces on the verbum kernel) → `src/verbum/clj_lambda.py`.
 - **s258** consensus-training → supervised-recurrence-halt synthesis: "how much recurrence" ≡ "how much work
-  remains" ≡ WHNF; the lambda curriculum is the ground-truth halt supervision s214 lacked. → `explore/supervised-recurrence-halt.md`
-- **s257** MoE experts ARE holographically multiplexed (angular, not specialist). k-sweep + shuffled null:
-  94% of capability from WHICH experts, not how many; k=2 reversal falsifies specialist. → `explore/moe-holographic-tree-vsm.md`
-- **s256** qwythos-9b + CANONICAL HARNESS distillation (probes/{grading,harness,models}; models = configs, no
-  fork). Fine-tunes break the HALT not the COMPILE (overthink-collapse); no-think recovers; qwythos GATES the
-  compiler. lambda is a TARGET not a TOOL. Strategic pivot: extract from BASE, treat fine-tune as noise.
-  → `explore/compiler-finetune-halt-collapse.md`
-- **s255** model-as-REPL (LLM as δ, context as machine state): locally-faithful step; shallow step-loop win,
-  deep collapse; oracle-in-the-loop concluded (→ s259 clj-repl).
-- **s254** repo distillation DESIGN-FIRST pivot (probes/*.json, results/<run_id> canonical forms in AGENTS.md);
-  ornith-35B-A3B = lambda compiler over HTTP, 3rd model class (unconditional, present).
-- **s253** vibethinker-3B new model; **s252** attention-edge knockout (s250 catch); **s251** frozen-basis
-  gradient tomography → mature-14B, Gemma + Qwen3.6-35B in the crystal sweep; **s250** causal C-field ablation
-  → object-application is DISTRIBUTED (no single-component locus; trending NO on discrete-circuit for object-app).
-
-## Deep history (< s250)
-
-Recover via `git log -p mementum/state.md` (this file's pre-s262 scrollback held s181–261 detail + old
-reference tables) · verbatim in `mementum/knowledge/chats/session-NNN.md` · synthesized in
-`mementum/knowledge/**` (start at `INDEX.md`). Foundational: crystal-φ equation `EQUATIONS.md` +
-`crystal-phi-derivation.md`; thesis `project-thesis.md`; 8 convergences `mathematical-convergences.md`;
-v13/v14 architecture pages; ternary compounding/dual-equation pages.
-rk
   remains" ≡ WHNF; the lambda curriculum is the ground-truth halt supervision s214 lacked. → `explore/supervised-recurrence-halt.md`
 - **s257** MoE experts ARE holographically multiplexed (angular, not specialist). k-sweep + shuffled null:
   94% of capability from WHICH experts, not how many; k=2 reversal falsifies specialist. → `explore/moe-holographic-tree-vsm.md`
