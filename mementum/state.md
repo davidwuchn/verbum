@@ -8,9 +8,10 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-20 | Session: 266 (LARGE SWEEP READ-OUT — sweep finished clean overnight (tmux server
-> gone but log complete); read the tree, answered all three s265 questions; knowledge/opcode-vsm-tree.md
-> updated (§5 floors, new §7 sweep result, §8 open).)
+> Last updated: 2026-07-20 | Session: 266 (two arcs: (1) LARGE SWEEP READ-OUT — sweep finished clean, tree
+> read, all three s265 questions answered, knowledge/opcode-vsm-tree.md updated. (2) NEW RESEARCH DESIGN —
+> Michael brought requential coding (arXiv:2607.11883) + Bonsai ternary; merged with verbum into
+> crystal-seeded ternary distillation → knowledge/explore/crystal-seeded-ternary-distillation.md.)
 >
 > ★★★ UNIVERSAL ROOT HOLDS AT 9 MODELS / 4 FAMILIES: root gc = +0.982 vs bundled 10-model consensus (UP from
 >   0.940 @ 2 models — evidence sharpens the crystal) | sil_z 5.09 | bearing 1.00 | root floor 2.78 (worst
@@ -32,10 +33,29 @@
 >   WITH SCALE on ungated archs → real caveat on the Pythia crystal-ladder plan. S3 gate demonstrated by
 >   fire: failed register visible, contributes nothing upward.
 >
-> ★ NEXT (open, Michael's call): (A) QK-PATTERN register → decisive B/C test (s264 F4 untested). (B)
->   visualizer + extract opcodes/ to dedicated MIT repo. (C) retro-check s264 27B floor run (n_perm/pooling).
->   (D) Pythia-ladder plan needs a proxy-degradation answer first. Prior-arc still open: s263 Jacobian SVD;
->   v15.1; INDEX regen. Env: torch 2.11 + MPS, 512GB RAM; models HF-cached.
+> ★★★ CRYSTAL-SEEDED TERNARY DISTILLATION (new level-3/4 design, status DESIGNING — full detail:
+>   knowledge/explore/crystal-seeded-ternary-distillation.md, READ IT before touching this thread). Merge of
+>   requential coding (arXiv:2607.11883 — student proposes from own dist, teacher selects via REC, code ≈
+>   ΣKL(Q‖P), on-policy distillation with a bit-meter) + Bonsai ternary (PrismML: end-to-end 1.58-bit,
+>   group-128 FP16 scales, 27B ON OUR SWEPT Qwen3.6-27B BACKBONE, Apache-2.0 8B, ready 4bit→ternary→1bit
+>   ladder) + verbum. Michael's keystone theory: GD's bimodal gradients = carve routing topology (same one
+>   every model, hence gc 0.982) then fill values → MOVE the soft topology into ternary routing + FP gradient
+>   bridges (1 per N wts, N∈{8,16,…}, value-register sink — explains why full ternary couldn't regain loss:
+>   TD did both jobs through one quantized channel, s261 flip-flop = the collision) + 9×9 consensus Gram as
+>   RELATIONAL LOSS (measurement→SPECIFICATION reversal; frame-invariance makes it legal across FP→ternary;
+>   pythia-14m = existence proof target fits 14M) + requential KL as the meter. Thesis test in bits:
+>   ∫KL(seeded)≪∫KL(unseeded) ∧ null(shuffled-pairing)≈unseeded. OPCODE-INDEXED extension: lattice-phase
+>   proposal space = reduction steps → messages ≡ readable opcode corrections, ≤log₂9 bits/step, actually
+>   ENCODABLE; prediction: correction-confusion matrix ≅ Gram off-diagonals. Goodhart guards: Gram loss =
+>   regularizer + anneal-to-zero test + C-null + held-out compile accuracy.
+>
+> ★ NEXT (open, Michael's call): (0) PHASE-0 = Bonsai crystal-survival run (probe-only, days: opcode tree on
+>   4bit/ternary/1bit ladder; sub-prediction: selective K degradation at 1-bit — K needs the 0 state) — gates
+>   the whole design. Then phase 1 (tiny seeded student) per the knowledge page ladder. IOUs before code:
+>   requential repo license, Bonsai whitepaper QAT-vs-PTQ, bridge mechanism (a/b/c) = Michael's call.
+>   Also open from arc 1: (A) QK-PATTERN register → decisive B/C test (s264 F4). (B) visualizer + extract
+>   opcodes/ to MIT repo. (C) retro-check s264 27B floor run (n_perm/pooling). (D) Pythia proxy-degradation.
+>   Prior-arc: s263 Jacobian SVD; v15.1; INDEX regen. Env: torch 2.11 + MPS, 512GB RAM; models HF-cached.
 
 ─────────────────────────────────────────────────────────────────────────────────────────────────────
 
