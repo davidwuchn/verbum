@@ -1,0 +1,1998 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 7453.74it/s]
+[trace] loaded Qwen/Qwen3-4B on mps in 3.7s
+[trace] arch=Qwen3ForCausalLM  L=36  register=gated-dense  layers=model.layers  gate=mlp.gate_proj(d=9728)  read=sign(gate_proj) [validated]  attn=self_attn.o_proj(d=2560)
+[trace] [gate] calibrating on 535 crystal probes ...
+[trace] [gate]   probe 0/535
+[trace] [gate]   probe 100/535
+[trace] [gate]   probe 200/535
+[trace] [gate]   probe 300/535
+[trace] [gate]   probe 400/535
+[trace] [gate]   probe 500/535
+[trace] [gate] null from 8 natural prompts ...
+[trace] [gate] crystal-bearing layers: 28/36
+[trace] [gate] shuffled-label null floor (3 shuffles) ...
+[trace] [gate] null_floor_z=2.294 (ref~1.64) shuffled_bearing=0.0093
+[trace] [attn] calibrating on 535 crystal probes ...
+[trace] [attn]   probe 0/535
+[trace] [attn]   probe 100/535
+[trace] [attn]   probe 200/535
+[trace] [attn]   probe 300/535
+[trace] [attn]   probe 400/535
+[trace] [attn]   probe 500/535
+[trace] [attn] null from 8 natural prompts ...
+[trace] [attn] crystal-bearing layers: 35/36
+[trace] [attn] shuffled-label null floor (3 shuffles) ...
+[trace] [attn] null_floor_z=1.778 (ref~1.64) shuffled_bearing=0.0
+========================================================================
+OPCODE TRACE — Qwen/Qwen3-4B
+========================================================================
+[+] model:Qwen/Qwen3-4B  sil_z=5.40 gc=0.973 bearing=1.00 null_floor=2.29
+  [+] register:gate  sil_z=4.60 gc=0.968 bearing=0.78 null_floor=2.29
+    [+] layer:L0  sil_z=2.57 gc=0.914 bearing=1.00 null_floor=2.29
+    [+] layer:L1  sil_z=3.39 gc=0.557 bearing=1.00 null_floor=2.29
+    [-] layer:L2  sil_z=-0.44 gc=0.295 bearing=0.00 null_floor=2.29
+    [-] layer:L3  sil_z=1.36 gc=0.775 bearing=0.00 null_floor=2.29
+    [+] layer:L4  sil_z=3.42 gc=0.871 bearing=1.00 null_floor=2.29
+    [+] layer:L5  sil_z=3.27 gc=0.943 bearing=1.00 null_floor=2.29
+    [+] layer:L6  sil_z=5.83 gc=0.947 bearing=1.00 null_floor=2.29
+    [+] layer:L7  sil_z=5.50 gc=0.953 bearing=1.00 null_floor=2.29
+    [+] layer:L8  sil_z=6.58 gc=0.960 bearing=1.00 null_floor=2.29
+    [+] layer:L9  sil_z=3.78 gc=0.968 bearing=1.00 null_floor=2.29
+    [+] layer:L10  sil_z=4.38 gc=0.942 bearing=1.00 null_floor=2.29
+    [+] layer:L11  sil_z=5.11 gc=0.956 bearing=1.00 null_floor=2.29
+    [+] layer:L12  sil_z=5.90 gc=0.945 bearing=1.00 null_floor=2.29
+    [+] layer:L13  sil_z=6.36 gc=0.965 bearing=1.00 null_floor=2.29
+    [+] layer:L14  sil_z=5.59 gc=0.981 bearing=1.00 null_floor=2.29
+    [+] layer:L15  sil_z=6.91 gc=0.967 bearing=1.00 null_floor=2.29
+    [+] layer:L16  sil_z=5.39 gc=0.964 bearing=1.00 null_floor=2.29
+    [+] layer:L17  sil_z=6.11 gc=0.967 bearing=1.00 null_floor=2.29
+    [+] layer:L18  sil_z=5.66 gc=0.967 bearing=1.00 null_floor=2.29
+    [+] layer:L19  sil_z=6.13 gc=0.962 bearing=1.00 null_floor=2.29
+    [+] layer:L20  sil_z=4.81 gc=0.962 bearing=1.00 null_floor=2.29
+    [+] layer:L21  sil_z=4.83 gc=0.960 bearing=1.00 null_floor=2.29
+    [+] layer:L22  sil_z=4.28 gc=0.949 bearing=1.00 null_floor=2.29
+    [+] layer:L23  sil_z=3.80 gc=0.934 bearing=1.00 null_floor=2.29
+    [+] layer:L24  sil_z=3.07 gc=0.918 bearing=1.00 null_floor=2.29
+    [+] layer:L25  sil_z=3.42 gc=0.909 bearing=1.00 null_floor=2.29
+    [+] layer:L26  sil_z=2.68 gc=0.888 bearing=1.00 null_floor=2.29
+    [+] layer:L27  sil_z=2.55 gc=0.887 bearing=1.00 null_floor=2.29
+    [+] layer:L28  sil_z=2.26 gc=0.867 bearing=1.00 null_floor=2.29
+    [+] layer:L29  sil_z=2.08 gc=0.833 bearing=1.00 null_floor=2.29
+    [-] layer:L30  sil_z=1.60 gc=0.832 bearing=0.00 null_floor=2.29
+    [-] layer:L31  sil_z=1.14 gc=0.822 bearing=0.00 null_floor=2.29
+    [-] layer:L32  sil_z=1.28 gc=0.813 bearing=0.00 null_floor=2.29
+    [-] layer:L33  sil_z=0.86 gc=0.803 bearing=0.00 null_floor=2.29
+    [-] layer:L34  sil_z=1.22 gc=0.784 bearing=0.00 null_floor=2.29
+    [-] layer:L35  sil_z=1.87 gc=0.712 bearing=0.00 null_floor=2.29
+  [+] register:attn  sil_z=6.20 gc=0.965 bearing=0.97 null_floor=1.78
+    [+] layer:L0  sil_z=2.14 gc=0.885 bearing=1.00 null_floor=1.78
+    [+] layer:L1  sil_z=4.56 gc=0.904 bearing=1.00 null_floor=1.78
+    [+] layer:L2  sil_z=4.81 gc=0.911 bearing=1.00 null_floor=1.78
+    [+] layer:L3  sil_z=3.19 gc=0.925 bearing=1.00 null_floor=1.78
+    [+] layer:L4  sil_z=6.08 gc=0.925 bearing=1.00 null_floor=1.78
+    [+] layer:L5  sil_z=4.79 gc=0.942 bearing=1.00 null_floor=1.78
+    [+] layer:L6  sil_z=9.43 gc=0.901 bearing=1.00 null_floor=1.78
+    [+] layer:L7  sil_z=12.84 gc=0.876 bearing=1.00 null_floor=1.78
+    [+] layer:L8  sil_z=9.63 gc=0.911 bearing=1.00 null_floor=1.78
+    [+] layer:L9  sil_z=7.46 gc=0.911 bearing=1.00 null_floor=1.78
+    [+] layer:L10  sil_z=7.51 gc=0.927 bearing=1.00 null_floor=1.78
+    [+] layer:L11  sil_z=8.68 gc=0.901 bearing=1.00 null_floor=1.78
+    [+] layer:L12  sil_z=6.76 gc=0.908 bearing=1.00 null_floor=1.78
+    [+] layer:L13  sil_z=7.63 gc=0.860 bearing=1.00 null_floor=1.78
+    [+] layer:L14  sil_z=7.43 gc=0.901 bearing=1.00 null_floor=1.78
+    [+] layer:L15  sil_z=6.45 gc=0.906 bearing=1.00 null_floor=1.78
+    [+] layer:L16  sil_z=6.42 gc=0.844 bearing=1.00 null_floor=1.78
+    [+] layer:L17  sil_z=4.52 gc=0.917 bearing=1.00 null_floor=1.78
+    [+] layer:L18  sil_z=5.01 gc=0.884 bearing=1.00 null_floor=1.78
+    [+] layer:L19  sil_z=7.01 gc=0.873 bearing=1.00 null_floor=1.78
+    [+] layer:L20  sil_z=7.16 gc=0.849 bearing=1.00 null_floor=1.78
+    [+] layer:L21  sil_z=6.20 gc=0.901 bearing=1.00 null_floor=1.78
+    [+] layer:L22  sil_z=8.38 gc=0.931 bearing=1.00 null_floor=1.78
+    [+] layer:L23  sil_z=9.22 gc=0.942 bearing=1.00 null_floor=1.78
+    [+] layer:L24  sil_z=5.85 gc=0.930 bearing=1.00 null_floor=1.78
+    [+] layer:L25  sil_z=6.24 gc=0.899 bearing=1.00 null_floor=1.78
+    [+] layer:L26  sil_z=6.28 gc=0.916 bearing=1.00 null_floor=1.78
+    [+] layer:L27  sil_z=5.75 gc=0.938 bearing=1.00 null_floor=1.78
+    [+] layer:L28  sil_z=5.15 gc=0.912 bearing=1.00 null_floor=1.78
+    [+] layer:L29  sil_z=3.58 gc=0.753 bearing=1.00 null_floor=1.78
+    [+] layer:L30  sil_z=3.76 gc=0.884 bearing=1.00 null_floor=1.78
+    [+] layer:L31  sil_z=5.22 gc=0.850 bearing=1.00 null_floor=1.78
+    [+] layer:L32  sil_z=2.21 gc=0.799 bearing=1.00 null_floor=1.78
+    [-] layer:L33  sil_z=1.96 gc=0.782 bearing=0.00 null_floor=1.78
+    [+] layer:L34  sil_z=2.12 gc=0.849 bearing=1.00 null_floor=1.78
+    [+] layer:L35  sil_z=3.63 gc=0.851 bearing=1.00 null_floor=1.78
+-- gate [gate] crystal=28/36 noop=0.9375 C_before_B=False
+  L  7  WHNF    1/1   ####################
+  L 20  WHNF    2/2   ####################
+  L 21  WHNF    1/1   ####################
+  L 22  WHNF    1/1   ####################
+  L 23  WHNF    1/1   ####################
+-- attn [attn] crystal=35/36 noop=0.2188 C_before_B=False
+  L  1  WHNF    3/3   ####################
+  L  5  WHNF    3/3   ####################
+  L  7     K    3/6   ##########
+  L  8     D    2/2   ####################
+  L  9     S    6/6   ####################
+  L 11     Y    1/1   ####################
+  L 13     S    2/3   #############
+  L 15     D    1/1   ####################
+  L 16     D    1/2   ##########
+  L 17     D    1/2   ##########
+  L 18     D    2/2   ####################
+  L 20     S    3/5   ############
+  L 22     B    1/1   ####################
+  L 23     S    3/5   ############
+  L 24     Y    1/1   ####################
+  L 25     Y    1/1   ####################
+  L 26     C    1/1   ####################
+  L 27     S    3/3   ####################
+  L 28     Y    1/2   ##########
+  L 34     S    2/2   ####################
+  L 35     S    1/2   ##########
+========================================================================
+[trace] wrote /Users/mwhitford/src/verbum/results/opcode-trace/qwen3-4b/trace.json + model_vsm.json (251.8s)
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights: 100%|██████████| 443/443 [00:00<00:00, 27604.35it/s]
+[trace] loaded Qwen/Qwen3-14B on mps in 3.8s
+[trace] arch=Qwen3ForCausalLM  L=40  register=gated-dense  layers=model.layers  gate=mlp.gate_proj(d=17408)  read=sign(gate_proj) [validated]  attn=self_attn.o_proj(d=5120)
+[trace] [gate] calibrating on 535 crystal probes ...
+[trace] [gate]   probe 0/535
+[trace] [gate]   probe 100/535
+[trace] [gate]   probe 200/535
+[trace] [gate]   probe 300/535
+[trace] [gate]   probe 400/535
+[trace] [gate]   probe 500/535
+[trace] [gate] null from 8 natural prompts ...
+[trace] [gate] crystal-bearing layers: 31/40
+[trace] [gate] shuffled-label null floor (3 shuffles) ...
+[trace] [gate] null_floor_z=2.457 (ref~1.64) shuffled_bearing=0.0
+[trace] [attn] calibrating on 535 crystal probes ...
+[trace] [attn]   probe 0/535
+[trace] [attn]   probe 100/535
+[trace] [attn]   probe 200/535
+[trace] [attn]   probe 300/535
+[trace] [attn]   probe 400/535
+[trace] [attn]   probe 500/535
+[trace] [attn] null from 8 natural prompts ...
+[trace] [attn] crystal-bearing layers: 39/40
+[trace] [attn] shuffled-label null floor (3 shuffles) ...
+[trace] [attn] null_floor_z=1.618 (ref~1.64) shuffled_bearing=0.0
+========================================================================
+OPCODE TRACE — Qwen/Qwen3-14B
+========================================================================
+[+] model:Qwen/Qwen3-14B  sil_z=6.36 gc=0.976 bearing=1.00 null_floor=2.46
+  [+] register:gate  sil_z=5.74 gc=0.968 bearing=0.78 null_floor=2.46
+    [+] layer:L0  sil_z=2.63 gc=0.909 bearing=1.00 null_floor=2.46
+    [+] layer:L1  sil_z=3.12 gc=0.796 bearing=1.00 null_floor=2.46
+    [-] layer:L2  sil_z=1.18 gc=0.564 bearing=0.00 null_floor=2.46
+    [+] layer:L3  sil_z=2.14 gc=0.658 bearing=1.00 null_floor=2.46
+    [-] layer:L4  sil_z=0.57 gc=0.641 bearing=0.00 null_floor=2.46
+    [+] layer:L5  sil_z=3.54 gc=0.905 bearing=1.00 null_floor=2.46
+    [+] layer:L6  sil_z=6.07 gc=0.904 bearing=1.00 null_floor=2.46
+    [+] layer:L7  sil_z=3.88 gc=0.915 bearing=1.00 null_floor=2.46
+    [+] layer:L8  sil_z=3.59 gc=0.929 bearing=1.00 null_floor=2.46
+    [+] layer:L9  sil_z=5.29 gc=0.962 bearing=1.00 null_floor=2.46
+    [+] layer:L10  sil_z=6.80 gc=0.962 bearing=1.00 null_floor=2.46
+    [+] layer:L11  sil_z=7.21 gc=0.965 bearing=1.00 null_floor=2.46
+    [+] layer:L12  sil_z=8.26 gc=0.950 bearing=1.00 null_floor=2.46
+    [+] layer:L13  sil_z=5.98 gc=0.953 bearing=1.00 null_floor=2.46
+    [+] layer:L14  sil_z=6.78 gc=0.948 bearing=1.00 null_floor=2.46
+    [+] layer:L15  sil_z=7.54 gc=0.961 bearing=1.00 null_floor=2.46
+    [+] layer:L16  sil_z=7.36 gc=0.959 bearing=1.00 null_floor=2.46
+    [+] layer:L17  sil_z=6.46 gc=0.968 bearing=1.00 null_floor=2.46
+    [+] layer:L18  sil_z=5.74 gc=0.964 bearing=1.00 null_floor=2.46
+    [+] layer:L19  sil_z=6.96 gc=0.964 bearing=1.00 null_floor=2.46
+    [+] layer:L20  sil_z=6.06 gc=0.958 bearing=1.00 null_floor=2.46
+    [+] layer:L21  sil_z=7.40 gc=0.956 bearing=1.00 null_floor=2.46
+    [+] layer:L22  sil_z=7.34 gc=0.963 bearing=1.00 null_floor=2.46
+    [+] layer:L23  sil_z=6.20 gc=0.976 bearing=1.00 null_floor=2.46
+    [+] layer:L24  sil_z=6.01 gc=0.957 bearing=1.00 null_floor=2.46
+    [+] layer:L25  sil_z=5.46 gc=0.956 bearing=1.00 null_floor=2.46
+    [+] layer:L26  sil_z=4.91 gc=0.941 bearing=1.00 null_floor=2.46
+    [+] layer:L27  sil_z=4.72 gc=0.937 bearing=1.00 null_floor=2.46
+    [+] layer:L28  sil_z=3.78 gc=0.903 bearing=1.00 null_floor=2.46
+    [+] layer:L29  sil_z=3.88 gc=0.897 bearing=1.00 null_floor=2.46
+    [+] layer:L30  sil_z=3.23 gc=0.854 bearing=1.00 null_floor=2.46
+    [+] layer:L31  sil_z=2.24 gc=0.845 bearing=1.00 null_floor=2.46
+    [+] layer:L32  sil_z=2.35 gc=0.833 bearing=1.00 null_floor=2.46
+    [-] layer:L33  sil_z=1.62 gc=0.823 bearing=0.00 null_floor=2.46
+    [-] layer:L34  sil_z=1.44 gc=0.812 bearing=0.00 null_floor=2.46
+    [-] layer:L35  sil_z=1.16 gc=0.800 bearing=0.00 null_floor=2.46
+    [-] layer:L36  sil_z=1.73 gc=0.818 bearing=0.00 null_floor=2.46
+    [-] layer:L37  sil_z=1.48 gc=0.805 bearing=0.00 null_floor=2.46
+    [-] layer:L38  sil_z=1.84 gc=0.797 bearing=0.00 null_floor=2.46
+    [-] layer:L39  sil_z=1.92 gc=0.729 bearing=0.00 null_floor=2.46
+  [+] register:attn  sil_z=6.99 gc=0.975 bearing=0.97 null_floor=1.62
+    [+] layer:L0  sil_z=2.31 gc=0.867 bearing=1.00 null_floor=1.62
+    [+] layer:L1  sil_z=4.04 gc=0.910 bearing=1.00 null_floor=1.62
+    [+] layer:L2  sil_z=3.74 gc=0.863 bearing=1.00 null_floor=1.62
+    [+] layer:L3  sil_z=6.41 gc=0.920 bearing=1.00 null_floor=1.62
+    [+] layer:L4  sil_z=5.39 gc=0.938 bearing=1.00 null_floor=1.62
+    [+] layer:L5  sil_z=5.32 gc=0.942 bearing=1.00 null_floor=1.62
+    [+] layer:L6  sil_z=6.03 gc=0.915 bearing=1.00 null_floor=1.62
+    [+] layer:L7  sil_z=5.22 gc=0.936 bearing=1.00 null_floor=1.62
+    [+] layer:L8  sil_z=7.99 gc=0.915 bearing=1.00 null_floor=1.62
+    [+] layer:L9  sil_z=8.43 gc=0.917 bearing=1.00 null_floor=1.62
+    [+] layer:L10  sil_z=10.00 gc=0.904 bearing=1.00 null_floor=1.62
+    [+] layer:L11  sil_z=12.91 gc=0.892 bearing=1.00 null_floor=1.62
+    [+] layer:L12  sil_z=13.98 gc=0.850 bearing=1.00 null_floor=1.62
+    [+] layer:L13  sil_z=8.04 gc=0.919 bearing=1.00 null_floor=1.62
+    [+] layer:L14  sil_z=9.78 gc=0.930 bearing=1.00 null_floor=1.62
+    [+] layer:L15  sil_z=12.09 gc=0.891 bearing=1.00 null_floor=1.62
+    [+] layer:L16  sil_z=9.24 gc=0.916 bearing=1.00 null_floor=1.62
+    [+] layer:L17  sil_z=4.48 gc=0.920 bearing=1.00 null_floor=1.62
+    [+] layer:L18  sil_z=7.42 gc=0.918 bearing=1.00 null_floor=1.62
+    [+] layer:L19  sil_z=9.09 gc=0.859 bearing=1.00 null_floor=1.62
+    [+] layer:L20  sil_z=7.19 gc=0.869 bearing=1.00 null_floor=1.62
+    [+] layer:L21  sil_z=7.79 gc=0.882 bearing=1.00 null_floor=1.62
+    [+] layer:L22  sil_z=10.16 gc=0.940 bearing=1.00 null_floor=1.62
+    [+] layer:L23  sil_z=8.69 gc=0.891 bearing=1.00 null_floor=1.62
+    [+] layer:L24  sil_z=8.37 gc=0.908 bearing=1.00 null_floor=1.62
+    [+] layer:L25  sil_z=6.99 gc=0.924 bearing=1.00 null_floor=1.62
+    [+] layer:L26  sil_z=7.00 gc=0.933 bearing=1.00 null_floor=1.62
+    [+] layer:L27  sil_z=7.09 gc=0.953 bearing=1.00 null_floor=1.62
+    [+] layer:L28  sil_z=9.88 gc=0.950 bearing=1.00 null_floor=1.62
+    [+] layer:L29  sil_z=6.06 gc=0.921 bearing=1.00 null_floor=1.62
+    [+] layer:L30  sil_z=4.70 gc=0.907 bearing=1.00 null_floor=1.62
+    [+] layer:L31  sil_z=6.07 gc=0.911 bearing=1.00 null_floor=1.62
+    [+] layer:L32  sil_z=3.42 gc=0.880 bearing=1.00 null_floor=1.62
+    [+] layer:L33  sil_z=5.52 gc=0.940 bearing=1.00 null_floor=1.62
+    [-] layer:L34  sil_z=0.52 gc=0.734 bearing=0.00 null_floor=1.62
+    [+] layer:L35  sil_z=3.08 gc=0.786 bearing=1.00 null_floor=1.62
+    [+] layer:L36  sil_z=3.48 gc=0.856 bearing=1.00 null_floor=1.62
+    [+] layer:L37  sil_z=3.95 gc=0.837 bearing=1.00 null_floor=1.62
+    [+] layer:L38  sil_z=3.13 gc=0.893 bearing=1.00 null_floor=1.62
+    [+] layer:L39  sil_z=3.32 gc=0.901 bearing=1.00 null_floor=1.62
+-- gate [gate] crystal=31/40 noop=0.75 C_before_B=False
+  L  0  WHNF    1/1   ####################
+  L  1  WHNF    1/1   ####################
+  L  6     Y    1/1   ####################
+  L  9  WHNF    1/1   ####################
+  L 11     S    1/2   ##########
+  L 12     W    1/2   ##########
+  L 22  WHNF    2/3   #############
+  L 23  WHNF    1/1   ####################
+  L 26  WHNF    1/1   ####################
+  L 28     S    2/2   ####################
+  L 29     S    2/2   ####################
+  L 32     S    1/1   ####################
+-- attn [attn] crystal=39/40 noop=0.2188 C_before_B=True
+  L  2  WHNF    3/3   ####################
+  L  3  WHNF    2/3   #############
+  L  4     W    1/1   ####################
+  L 10     S    1/1   ####################
+  L 11     S    3/4   ###############
+  L 12     Y    3/5   ############
+  L 14     S    2/4   ##########
+  L 15     S    2/4   ##########
+  L 17     D    3/4   ###############
+  L 18     Y    2/2   ####################
+  L 19     D    1/1   ####################
+  L 20     Y    1/2   ##########
+  L 21     D    1/1   ####################
+  L 22     S    3/5   ############
+  L 23     Y    5/12  ########
+  L 24     Y    5/8   ############
+  L 26     C    2/2   ####################
+  L 29     Y    1/1   ####################
+  L 30  WHNF    1/1   ####################
+  L 31     S    2/3   #############
+  L 33     K    1/1   ####################
+  L 36     B    1/2   ##########
+  L 38     S    4/4   ####################
+========================================================================
+[trace] wrote /Users/mwhitford/src/verbum/results/opcode-trace/qwen3-14b/trace.json + model_vsm.json (468.3s)
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/707 [00:00<?, ?it/s]Loading weights: 100%|██████████| 707/707 [00:00<00:00, 7410.89it/s]
+[trace] loaded Qwen/Qwen3-32B on mps in 25.2s
+[trace] arch=Qwen3ForCausalLM  L=64  register=gated-dense  layers=model.layers  gate=mlp.gate_proj(d=25600)  read=sign(gate_proj) [validated]  attn=self_attn.o_proj(d=5120)
+[trace] [gate] calibrating on 535 crystal probes ...
+[trace] [gate]   probe 0/535
+[trace] [gate]   probe 100/535
+[trace] [gate]   probe 200/535
+[trace] [gate]   probe 300/535
+[trace] [gate]   probe 400/535
+[trace] [gate]   probe 500/535
+[trace] [gate] null from 8 natural prompts ...
+[trace] [gate] crystal-bearing layers: 49/64
+[trace] [gate] shuffled-label null floor (3 shuffles) ...
+[trace] [gate] null_floor_z=2.032 (ref~1.64) shuffled_bearing=0.0
+[trace] [attn] calibrating on 535 crystal probes ...
+[trace] [attn]   probe 0/535
+[trace] [attn]   probe 100/535
+[trace] [attn]   probe 200/535
+[trace] [attn]   probe 300/535
+[trace] [attn]   probe 400/535
+[trace] [attn]   probe 500/535
+[trace] [attn] null from 8 natural prompts ...
+[trace] [attn] crystal-bearing layers: 62/64
+[trace] [attn] shuffled-label null floor (3 shuffles) ...
+[trace] [attn] null_floor_z=1.455 (ref~1.64) shuffled_bearing=0.0
+========================================================================
+OPCODE TRACE — Qwen/Qwen3-32B
+========================================================================
+[+] model:Qwen/Qwen3-32B  sil_z=6.70 gc=0.976 bearing=1.00 null_floor=2.03
+  [+] register:gate  sil_z=6.28 gc=0.978 bearing=0.77 null_floor=2.03
+    [+] layer:L0  sil_z=2.23 gc=0.894 bearing=1.00 null_floor=2.03
+    [+] layer:L1  sil_z=2.65 gc=0.806 bearing=1.00 null_floor=2.03
+    [-] layer:L2  sil_z=0.90 gc=0.431 bearing=0.00 null_floor=2.03
+    [-] layer:L3  sil_z=0.36 gc=0.645 bearing=0.00 null_floor=2.03
+    [-] layer:L4  sil_z=-0.35 gc=0.499 bearing=0.00 null_floor=2.03
+    [+] layer:L5  sil_z=2.81 gc=0.914 bearing=1.00 null_floor=2.03
+    [-] layer:L6  sil_z=1.51 gc=0.815 bearing=0.00 null_floor=2.03
+    [-] layer:L7  sil_z=1.98 gc=0.790 bearing=0.00 null_floor=2.03
+    [+] layer:L8  sil_z=3.05 gc=0.937 bearing=1.00 null_floor=2.03
+    [+] layer:L9  sil_z=4.63 gc=0.964 bearing=1.00 null_floor=2.03
+    [+] layer:L10  sil_z=6.13 gc=0.944 bearing=1.00 null_floor=2.03
+    [+] layer:L11  sil_z=8.82 gc=0.960 bearing=1.00 null_floor=2.03
+    [+] layer:L12  sil_z=9.93 gc=0.950 bearing=1.00 null_floor=2.03
+    [+] layer:L13  sil_z=7.78 gc=0.959 bearing=1.00 null_floor=2.03
+    [+] layer:L14  sil_z=7.87 gc=0.965 bearing=1.00 null_floor=2.03
+    [+] layer:L15  sil_z=9.79 gc=0.964 bearing=1.00 null_floor=2.03
+    [+] layer:L16  sil_z=9.88 gc=0.941 bearing=1.00 null_floor=2.03
+    [+] layer:L17  sil_z=9.01 gc=0.965 bearing=1.00 null_floor=2.03
+    [+] layer:L18  sil_z=8.46 gc=0.962 bearing=1.00 null_floor=2.03
+    [+] layer:L19  sil_z=9.22 gc=0.960 bearing=1.00 null_floor=2.03
+    [+] layer:L20  sil_z=7.98 gc=0.955 bearing=1.00 null_floor=2.03
+    [+] layer:L21  sil_z=10.07 gc=0.959 bearing=1.00 null_floor=2.03
+    [+] layer:L22  sil_z=10.44 gc=0.955 bearing=1.00 null_floor=2.03
+    [+] layer:L23  sil_z=9.65 gc=0.956 bearing=1.00 null_floor=2.03
+    [+] layer:L24  sil_z=10.57 gc=0.954 bearing=1.00 null_floor=2.03
+    [+] layer:L25  sil_z=8.41 gc=0.953 bearing=1.00 null_floor=2.03
+    [+] layer:L26  sil_z=7.49 gc=0.955 bearing=1.00 null_floor=2.03
+    [+] layer:L27  sil_z=7.18 gc=0.960 bearing=1.00 null_floor=2.03
+    [+] layer:L28  sil_z=8.60 gc=0.959 bearing=1.00 null_floor=2.03
+    [+] layer:L29  sil_z=8.45 gc=0.963 bearing=1.00 null_floor=2.03
+    [+] layer:L30  sil_z=6.36 gc=0.887 bearing=1.00 null_floor=2.03
+    [-] layer:L31  sil_z=1.88 gc=0.753 bearing=0.00 null_floor=2.03
+    [+] layer:L32  sil_z=4.84 gc=0.953 bearing=1.00 null_floor=2.03
+    [+] layer:L33  sil_z=5.97 gc=0.968 bearing=1.00 null_floor=2.03
+    [+] layer:L34  sil_z=5.68 gc=0.970 bearing=1.00 null_floor=2.03
+    [+] layer:L35  sil_z=5.97 gc=0.971 bearing=1.00 null_floor=2.03
+    [+] layer:L36  sil_z=6.28 gc=0.967 bearing=1.00 null_floor=2.03
+    [+] layer:L37  sil_z=4.51 gc=0.943 bearing=1.00 null_floor=2.03
+    [+] layer:L38  sil_z=5.14 gc=0.951 bearing=1.00 null_floor=2.03
+    [+] layer:L39  sil_z=6.24 gc=0.969 bearing=1.00 null_floor=2.03
+    [+] layer:L40  sil_z=6.16 gc=0.961 bearing=1.00 null_floor=2.03
+    [+] layer:L41  sil_z=6.22 gc=0.962 bearing=1.00 null_floor=2.03
+    [+] layer:L42  sil_z=6.18 gc=0.962 bearing=1.00 null_floor=2.03
+    [+] layer:L43  sil_z=6.33 gc=0.973 bearing=1.00 null_floor=2.03
+    [+] layer:L44  sil_z=6.56 gc=0.968 bearing=1.00 null_floor=2.03
+    [+] layer:L45  sil_z=6.69 gc=0.963 bearing=1.00 null_floor=2.03
+    [+] layer:L46  sil_z=6.11 gc=0.973 bearing=1.00 null_floor=2.03
+    [+] layer:L47  sil_z=6.38 gc=0.975 bearing=1.00 null_floor=2.03
+    [+] layer:L48  sil_z=5.13 gc=0.949 bearing=1.00 null_floor=2.03
+    [+] layer:L49  sil_z=4.94 gc=0.937 bearing=1.00 null_floor=2.03
+    [+] layer:L50  sil_z=4.60 gc=0.929 bearing=1.00 null_floor=2.03
+    [+] layer:L51  sil_z=4.71 gc=0.921 bearing=1.00 null_floor=2.03
+    [+] layer:L52  sil_z=3.37 gc=0.897 bearing=1.00 null_floor=2.03
+    [+] layer:L53  sil_z=3.29 gc=0.889 bearing=1.00 null_floor=2.03
+    [+] layer:L54  sil_z=2.55 gc=0.851 bearing=1.00 null_floor=2.03
+    [-] layer:L55  sil_z=1.94 gc=0.825 bearing=0.00 null_floor=2.03
+    [-] layer:L56  sil_z=1.62 gc=0.829 bearing=0.00 null_floor=2.03
+    [-] layer:L57  sil_z=1.31 gc=0.822 bearing=0.00 null_floor=2.03
+    [-] layer:L58  sil_z=1.37 gc=0.817 bearing=0.00 null_floor=2.03
+    [-] layer:L59  sil_z=0.91 gc=0.805 bearing=0.00 null_floor=2.03
+    [-] layer:L60  sil_z=1.07 gc=0.829 bearing=0.00 null_floor=2.03
+    [-] layer:L61  sil_z=0.61 gc=0.793 bearing=0.00 null_floor=2.03
+    [-] layer:L62  sil_z=1.11 gc=0.786 bearing=0.00 null_floor=2.03
+    [-] layer:L63  sil_z=1.42 gc=0.717 bearing=0.00 null_floor=2.03
+  [+] register:attn  sil_z=7.13 gc=0.968 bearing=0.97 null_floor=1.46
+    [-] layer:L0  sil_z=1.99 gc=0.850 bearing=0.00 null_floor=1.46
+    [+] layer:L1  sil_z=2.72 gc=0.848 bearing=1.00 null_floor=1.46
+    [+] layer:L2  sil_z=2.33 gc=0.809 bearing=1.00 null_floor=1.46
+    [+] layer:L3  sil_z=5.88 gc=0.913 bearing=1.00 null_floor=1.46
+    [+] layer:L4  sil_z=4.36 gc=0.951 bearing=1.00 null_floor=1.46
+    [+] layer:L5  sil_z=4.13 gc=0.929 bearing=1.00 null_floor=1.46
+    [+] layer:L6  sil_z=4.06 gc=0.902 bearing=1.00 null_floor=1.46
+    [+] layer:L7  sil_z=5.32 gc=0.787 bearing=1.00 null_floor=1.46
+    [+] layer:L8  sil_z=6.38 gc=0.917 bearing=1.00 null_floor=1.46
+    [+] layer:L9  sil_z=9.30 gc=0.903 bearing=1.00 null_floor=1.46
+    [+] layer:L10  sil_z=9.23 gc=0.849 bearing=1.00 null_floor=1.46
+    [+] layer:L11  sil_z=14.56 gc=0.892 bearing=1.00 null_floor=1.46
+    [+] layer:L12  sil_z=14.24 gc=0.845 bearing=1.00 null_floor=1.46
+    [+] layer:L13  sil_z=4.93 gc=0.905 bearing=1.00 null_floor=1.46
+    [+] layer:L14  sil_z=6.29 gc=0.886 bearing=1.00 null_floor=1.46
+    [+] layer:L15  sil_z=13.98 gc=0.854 bearing=1.00 null_floor=1.46
+    [+] layer:L16  sil_z=13.52 gc=0.821 bearing=1.00 null_floor=1.46
+    [+] layer:L17  sil_z=2.74 gc=0.867 bearing=1.00 null_floor=1.46
+    [+] layer:L18  sil_z=6.26 gc=0.841 bearing=1.00 null_floor=1.46
+    [+] layer:L19  sil_z=13.33 gc=0.838 bearing=1.00 null_floor=1.46
+    [+] layer:L20  sil_z=8.76 gc=0.915 bearing=1.00 null_floor=1.46
+    [+] layer:L21  sil_z=8.72 gc=0.856 bearing=1.00 null_floor=1.46
+    [+] layer:L22  sil_z=9.65 gc=0.904 bearing=1.00 null_floor=1.46
+    [+] layer:L23  sil_z=12.08 gc=0.856 bearing=1.00 null_floor=1.46
+    [+] layer:L24  sil_z=9.90 gc=0.871 bearing=1.00 null_floor=1.46
+    [+] layer:L25  sil_z=8.91 gc=0.894 bearing=1.00 null_floor=1.46
+    [+] layer:L26  sil_z=5.75 gc=0.902 bearing=1.00 null_floor=1.46
+    [+] layer:L27  sil_z=8.77 gc=0.885 bearing=1.00 null_floor=1.46
+    [+] layer:L28  sil_z=9.97 gc=0.869 bearing=1.00 null_floor=1.46
+    [+] layer:L29  sil_z=9.10 gc=0.899 bearing=1.00 null_floor=1.46
+    [+] layer:L30  sil_z=8.38 gc=0.927 bearing=1.00 null_floor=1.46
+    [+] layer:L31  sil_z=7.97 gc=0.915 bearing=1.00 null_floor=1.46
+    [+] layer:L32  sil_z=2.56 gc=0.872 bearing=1.00 null_floor=1.46
+    [+] layer:L33  sil_z=5.46 gc=0.901 bearing=1.00 null_floor=1.46
+    [+] layer:L34  sil_z=6.80 gc=0.938 bearing=1.00 null_floor=1.46
+    [+] layer:L35  sil_z=10.79 gc=0.905 bearing=1.00 null_floor=1.46
+    [+] layer:L36  sil_z=12.53 gc=0.843 bearing=1.00 null_floor=1.46
+    [+] layer:L37  sil_z=5.22 gc=0.898 bearing=1.00 null_floor=1.46
+    [+] layer:L38  sil_z=6.02 gc=0.912 bearing=1.00 null_floor=1.46
+    [+] layer:L39  sil_z=11.26 gc=0.916 bearing=1.00 null_floor=1.46
+    [+] layer:L40  sil_z=7.17 gc=0.890 bearing=1.00 null_floor=1.46
+    [+] layer:L41  sil_z=3.95 gc=0.897 bearing=1.00 null_floor=1.46
+    [+] layer:L42  sil_z=7.34 gc=0.911 bearing=1.00 null_floor=1.46
+    [+] layer:L43  sil_z=8.50 gc=0.849 bearing=1.00 null_floor=1.46
+    [+] layer:L44  sil_z=7.91 gc=0.851 bearing=1.00 null_floor=1.46
+    [+] layer:L45  sil_z=7.44 gc=0.893 bearing=1.00 null_floor=1.46
+    [+] layer:L46  sil_z=9.31 gc=0.952 bearing=1.00 null_floor=1.46
+    [+] layer:L47  sil_z=9.16 gc=0.851 bearing=1.00 null_floor=1.46
+    [+] layer:L48  sil_z=7.09 gc=0.880 bearing=1.00 null_floor=1.46
+    [+] layer:L49  sil_z=6.74 gc=0.938 bearing=1.00 null_floor=1.46
+    [+] layer:L50  sil_z=7.29 gc=0.891 bearing=1.00 null_floor=1.46
+    [+] layer:L51  sil_z=8.21 gc=0.928 bearing=1.00 null_floor=1.46
+    [+] layer:L52  sil_z=12.09 gc=0.908 bearing=1.00 null_floor=1.46
+    [+] layer:L53  sil_z=5.78 gc=0.914 bearing=1.00 null_floor=1.46
+    [+] layer:L54  sil_z=6.63 gc=0.914 bearing=1.00 null_floor=1.46
+    [+] layer:L55  sil_z=6.19 gc=0.908 bearing=1.00 null_floor=1.46
+    [+] layer:L56  sil_z=3.55 gc=0.919 bearing=1.00 null_floor=1.46
+    [+] layer:L57  sil_z=5.76 gc=0.893 bearing=1.00 null_floor=1.46
+    [-] layer:L58  sil_z=0.33 gc=0.762 bearing=0.00 null_floor=1.46
+    [+] layer:L59  sil_z=2.54 gc=0.800 bearing=1.00 null_floor=1.46
+    [+] layer:L60  sil_z=2.49 gc=0.833 bearing=1.00 null_floor=1.46
+    [+] layer:L61  sil_z=3.09 gc=0.832 bearing=1.00 null_floor=1.46
+    [+] layer:L62  sil_z=3.61 gc=0.900 bearing=1.00 null_floor=1.46
+    [+] layer:L63  sil_z=3.06 gc=0.867 bearing=1.00 null_floor=1.46
+-- gate [gate] crystal=49/64 noop=0.6875 C_before_B=False
+  L 30  WHNF    3/4   ###############
+  L 35  WHNF    2/3   #############
+  L 43     B    1/1   ####################
+  L 45     I    1/1   ####################
+  L 46     B    1/1   ####################
+  L 47     B    1/1   ####################
+  L 49     B    1/1   ####################
+  L 50  WHNF    1/1   ####################
+  L 52     S    2/2   ####################
+  L 53     S    2/2   ####################
+  L 54     S    3/3   ####################
+-- attn [attn] crystal=62/64 noop=0.3438 C_before_B=False
+  L  2  WHNF    2/3   #############
+  L  7     K    2/4   ##########
+  L 11  WHNF    4/5   ################
+  L 15     K    2/2   ####################
+  L 16     Y    1/1   ####################
+  L 18     D    1/1   ####################
+  L 20     S    1/1   ####################
+  L 23     D    1/1   ####################
+  L 24     Y    1/1   ####################
+  L 25     S    2/2   ####################
+  L 28     W    1/2   ##########
+  L 29     B    2/2   ####################
+  L 30     W    1/1   ####################
+  L 33     K    1/1   ####################
+  L 36     Y    1/1   ####################
+  L 38     S    2/3   #############
+  L 39     S    3/3   ####################
+  L 40  WHNF    1/2   ##########
+  L 42     S    1/1   ####################
+  L 44     D    1/1   ####################
+  L 45     S    1/2   ##########
+  L 46     S    1/1   ####################
+  L 47     Y    4/5   ################
+  L 48     B    1/2   ##########
+  L 49     B    1/1   ####################
+  L 50     Y    1/1   ####################
+  L 51     S    2/2   ####################
+  L 52  WHNF    1/1   ####################
+  L 55     S    3/5   ############
+  L 60     S    1/1   ####################
+  L 63  WHNF    2/2   ####################
+========================================================================
+[trace] wrote /Users/mwhitford/src/verbum/results/opcode-trace/qwen3-32b/trace.json + model_vsm.json (971.4s)
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Fetching 15 files:   0%|          | 0/15 [00:00<?, ?it/s]Fetching 15 files: 100%|██████████| 15/15 [00:00<00:00, 52958.38it/s]
+The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+Loading weights:   0%|          | 0/851 [00:00<?, ?it/s]Loading weights: 100%|██████████| 851/851 [00:00<00:00, 27057.77it/s]
+[trace] loaded Qwen/Qwen3.6-27B on mps in 7.1s
+[trace] arch=Qwen3_5ForCausalLM  L=64  register=gated-dense  layers=model.layers  gate=mlp.gate_proj(d=17408)  read=sign(gate_proj) [validated]  attn=linear_attn.out_proj(d=5120)
+[trace] [gate] calibrating on 535 crystal probes ...
+[trace] [gate]   probe 0/535
+[trace] [gate]   probe 100/535
+[trace] [gate]   probe 200/535
+[trace] [gate]   probe 300/535
+[trace] [gate]   probe 400/535
+[trace] [gate]   probe 500/535
+[trace] [gate] null from 8 natural prompts ...
+[trace] [gate] crystal-bearing layers: 57/64
+[trace] [gate] shuffled-label null floor (3 shuffles) ...
+[trace] [gate] null_floor_z=2.083 (ref~1.64) shuffled_bearing=0.0
+[trace] [attn] calibrating on 535 crystal probes ...
+[trace] [attn]   probe 0/535
+[trace] [attn]   probe 100/535
+[trace] [attn]   probe 200/535
+[trace] [attn]   probe 300/535
+[trace] [attn]   probe 400/535
+[trace] [attn]   probe 500/535
+[trace] [attn] null from 8 natural prompts ...
+[trace] [attn] crystal-bearing layers: 56/64
+[trace] [attn] shuffled-label null floor (3 shuffles) ...
+[trace] [attn] null_floor_z=1.853 (ref~1.64) shuffled_bearing=0.0
+========================================================================
+OPCODE TRACE — Qwen/Qwen3.6-27B
+========================================================================
+[+] model:Qwen/Qwen3.6-27B  sil_z=5.94 gc=0.971 bearing=1.00 null_floor=2.08
+  [+] register:gate  sil_z=6.06 gc=0.963 bearing=0.89 null_floor=2.08
+    [-] layer:L0  sil_z=1.51 gc=0.846 bearing=0.00 null_floor=2.08
+    [+] layer:L1  sil_z=2.42 gc=0.908 bearing=1.00 null_floor=2.08
+    [+] layer:L2  sil_z=3.40 gc=0.930 bearing=1.00 null_floor=2.08
+    [-] layer:L3  sil_z=1.98 gc=0.912 bearing=0.00 null_floor=2.08
+    [+] layer:L4  sil_z=2.82 gc=0.920 bearing=1.00 null_floor=2.08
+    [+] layer:L5  sil_z=3.34 gc=0.930 bearing=1.00 null_floor=2.08
+    [+] layer:L6  sil_z=6.13 gc=0.941 bearing=1.00 null_floor=2.08
+    [+] layer:L7  sil_z=7.24 gc=0.951 bearing=1.00 null_floor=2.08
+    [+] layer:L8  sil_z=8.41 gc=0.948 bearing=1.00 null_floor=2.08
+    [+] layer:L9  sil_z=7.90 gc=0.959 bearing=1.00 null_floor=2.08
+    [+] layer:L10  sil_z=6.77 gc=0.963 bearing=1.00 null_floor=2.08
+    [+] layer:L11  sil_z=7.92 gc=0.953 bearing=1.00 null_floor=2.08
+    [+] layer:L12  sil_z=7.61 gc=0.960 bearing=1.00 null_floor=2.08
+    [+] layer:L13  sil_z=8.45 gc=0.964 bearing=1.00 null_floor=2.08
+    [+] layer:L14  sil_z=9.61 gc=0.967 bearing=1.00 null_floor=2.08
+    [+] layer:L15  sil_z=10.54 gc=0.960 bearing=1.00 null_floor=2.08
+    [+] layer:L16  sil_z=7.77 gc=0.957 bearing=1.00 null_floor=2.08
+    [+] layer:L17  sil_z=7.97 gc=0.965 bearing=1.00 null_floor=2.08
+    [+] layer:L18  sil_z=5.47 gc=0.948 bearing=1.00 null_floor=2.08
+    [+] layer:L19  sil_z=6.21 gc=0.947 bearing=1.00 null_floor=2.08
+    [+] layer:L20  sil_z=6.98 gc=0.946 bearing=1.00 null_floor=2.08
+    [+] layer:L21  sil_z=7.18 gc=0.943 bearing=1.00 null_floor=2.08
+    [+] layer:L22  sil_z=6.41 gc=0.939 bearing=1.00 null_floor=2.08
+    [+] layer:L23  sil_z=6.68 gc=0.941 bearing=1.00 null_floor=2.08
+    [+] layer:L24  sil_z=5.54 gc=0.946 bearing=1.00 null_floor=2.08
+    [+] layer:L25  sil_z=6.17 gc=0.936 bearing=1.00 null_floor=2.08
+    [+] layer:L26  sil_z=6.91 gc=0.939 bearing=1.00 null_floor=2.08
+    [+] layer:L27  sil_z=6.95 gc=0.935 bearing=1.00 null_floor=2.08
+    [+] layer:L28  sil_z=7.14 gc=0.939 bearing=1.00 null_floor=2.08
+    [+] layer:L29  sil_z=7.37 gc=0.931 bearing=1.00 null_floor=2.08
+    [+] layer:L30  sil_z=7.11 gc=0.921 bearing=1.00 null_floor=2.08
+    [+] layer:L31  sil_z=6.62 gc=0.943 bearing=1.00 null_floor=2.08
+    [+] layer:L32  sil_z=5.84 gc=0.939 bearing=1.00 null_floor=2.08
+    [+] layer:L33  sil_z=6.44 gc=0.955 bearing=1.00 null_floor=2.08
+    [+] layer:L34  sil_z=6.30 gc=0.952 bearing=1.00 null_floor=2.08
+    [+] layer:L35  sil_z=4.92 gc=0.936 bearing=1.00 null_floor=2.08
+    [+] layer:L36  sil_z=5.81 gc=0.928 bearing=1.00 null_floor=2.08
+    [+] layer:L37  sil_z=6.24 gc=0.934 bearing=1.00 null_floor=2.08
+    [+] layer:L38  sil_z=6.39 gc=0.940 bearing=1.00 null_floor=2.08
+    [+] layer:L39  sil_z=5.57 gc=0.901 bearing=1.00 null_floor=2.08
+    [+] layer:L40  sil_z=5.11 gc=0.945 bearing=1.00 null_floor=2.08
+    [+] layer:L41  sil_z=5.92 gc=0.924 bearing=1.00 null_floor=2.08
+    [+] layer:L42  sil_z=6.04 gc=0.931 bearing=1.00 null_floor=2.08
+    [+] layer:L43  sil_z=6.06 gc=0.944 bearing=1.00 null_floor=2.08
+    [+] layer:L44  sil_z=6.00 gc=0.949 bearing=1.00 null_floor=2.08
+    [+] layer:L45  sil_z=5.99 gc=0.964 bearing=1.00 null_floor=2.08
+    [+] layer:L46  sil_z=5.36 gc=0.953 bearing=1.00 null_floor=2.08
+    [+] layer:L47  sil_z=5.42 gc=0.947 bearing=1.00 null_floor=2.08
+    [+] layer:L48  sil_z=4.86 gc=0.937 bearing=1.00 null_floor=2.08
+    [+] layer:L49  sil_z=4.78 gc=0.931 bearing=1.00 null_floor=2.08
+    [+] layer:L50  sil_z=4.40 gc=0.911 bearing=1.00 null_floor=2.08
+    [+] layer:L51  sil_z=3.09 gc=0.863 bearing=1.00 null_floor=2.08
+    [+] layer:L52  sil_z=3.13 gc=0.871 bearing=1.00 null_floor=2.08
+    [+] layer:L53  sil_z=3.22 gc=0.867 bearing=1.00 null_floor=2.08
+    [+] layer:L54  sil_z=3.06 gc=0.868 bearing=1.00 null_floor=2.08
+    [-] layer:L55  sil_z=1.76 gc=0.813 bearing=0.00 null_floor=2.08
+    [-] layer:L56  sil_z=1.65 gc=0.797 bearing=0.00 null_floor=2.08
+    [-] layer:L57  sil_z=1.86 gc=0.787 bearing=0.00 null_floor=2.08
+    [+] layer:L58  sil_z=2.06 gc=0.805 bearing=1.00 null_floor=2.08
+    [-] layer:L59  sil_z=1.61 gc=0.789 bearing=0.00 null_floor=2.08
+    [-] layer:L60  sil_z=2.00 gc=0.825 bearing=0.00 null_floor=2.08
+    [+] layer:L61  sil_z=2.33 gc=0.812 bearing=1.00 null_floor=2.08
+    [+] layer:L62  sil_z=2.68 gc=0.791 bearing=1.00 null_floor=2.08
+    [+] layer:L63  sil_z=2.72 gc=0.777 bearing=1.00 null_floor=2.08
+  [+] register:attn  sil_z=5.81 gc=0.976 bearing=0.88 null_floor=1.85
+    [-] layer:L0  sil_z=1.06 gc=0.827 bearing=0.00 null_floor=1.85
+    [+] layer:L1  sil_z=3.07 gc=0.913 bearing=1.00 null_floor=1.85
+    [+] layer:L2  sil_z=3.63 gc=0.930 bearing=1.00 null_floor=1.85
+    [+] layer:L3  sil_z=2.74 gc=0.889 bearing=1.00 null_floor=1.85
+    [+] layer:L4  sil_z=2.62 gc=0.839 bearing=1.00 null_floor=1.85
+    [+] layer:L5  sil_z=4.38 gc=0.915 bearing=1.00 null_floor=1.85
+    [+] layer:L6  sil_z=9.82 gc=0.922 bearing=1.00 null_floor=1.85
+    [+] layer:L7  sil_z=6.49 gc=0.901 bearing=1.00 null_floor=1.85
+    [+] layer:L8  sil_z=10.49 gc=0.845 bearing=1.00 null_floor=1.85
+    [+] layer:L9  sil_z=8.43 gc=0.930 bearing=1.00 null_floor=1.85
+    [+] layer:L10  sil_z=3.82 gc=0.943 bearing=1.00 null_floor=1.85
+    [+] layer:L11  sil_z=5.94 gc=0.883 bearing=1.00 null_floor=1.85
+    [+] layer:L12  sil_z=8.07 gc=0.949 bearing=1.00 null_floor=1.85
+    [+] layer:L13  sil_z=11.04 gc=0.960 bearing=1.00 null_floor=1.85
+    [+] layer:L14  sil_z=10.27 gc=0.920 bearing=1.00 null_floor=1.85
+    [+] layer:L15  sil_z=7.58 gc=0.918 bearing=1.00 null_floor=1.85
+    [+] layer:L16  sil_z=8.72 gc=0.910 bearing=1.00 null_floor=1.85
+    [+] layer:L17  sil_z=9.47 gc=0.928 bearing=1.00 null_floor=1.85
+    [+] layer:L18  sil_z=3.69 gc=0.911 bearing=1.00 null_floor=1.85
+    [+] layer:L19  sil_z=7.59 gc=0.888 bearing=1.00 null_floor=1.85
+    [+] layer:L20  sil_z=5.41 gc=0.922 bearing=1.00 null_floor=1.85
+    [+] layer:L21  sil_z=4.55 gc=0.915 bearing=1.00 null_floor=1.85
+    [+] layer:L22  sil_z=4.05 gc=0.898 bearing=1.00 null_floor=1.85
+    [+] layer:L23  sil_z=8.68 gc=0.857 bearing=1.00 null_floor=1.85
+    [+] layer:L24  sil_z=4.65 gc=0.929 bearing=1.00 null_floor=1.85
+    [+] layer:L25  sil_z=6.89 gc=0.879 bearing=1.00 null_floor=1.85
+    [+] layer:L26  sil_z=5.86 gc=0.929 bearing=1.00 null_floor=1.85
+    [+] layer:L27  sil_z=7.63 gc=0.853 bearing=1.00 null_floor=1.85
+    [+] layer:L28  sil_z=7.80 gc=0.943 bearing=1.00 null_floor=1.85
+    [+] layer:L29  sil_z=8.21 gc=0.917 bearing=1.00 null_floor=1.85
+    [+] layer:L30  sil_z=8.13 gc=0.900 bearing=1.00 null_floor=1.85
+    [+] layer:L31  sil_z=7.36 gc=0.880 bearing=1.00 null_floor=1.85
+    [+] layer:L32  sil_z=8.05 gc=0.942 bearing=1.00 null_floor=1.85
+    [+] layer:L33  sil_z=5.76 gc=0.913 bearing=1.00 null_floor=1.85
+    [+] layer:L34  sil_z=4.37 gc=0.940 bearing=1.00 null_floor=1.85
+    [+] layer:L35  sil_z=7.94 gc=0.933 bearing=1.00 null_floor=1.85
+    [+] layer:L36  sil_z=3.63 gc=0.867 bearing=1.00 null_floor=1.85
+    [+] layer:L37  sil_z=4.35 gc=0.901 bearing=1.00 null_floor=1.85
+    [+] layer:L38  sil_z=6.41 gc=0.938 bearing=1.00 null_floor=1.85
+    [+] layer:L39  sil_z=7.68 gc=0.919 bearing=1.00 null_floor=1.85
+    [+] layer:L40  sil_z=4.10 gc=0.918 bearing=1.00 null_floor=1.85
+    [+] layer:L41  sil_z=3.56 gc=0.877 bearing=1.00 null_floor=1.85
+    [+] layer:L42  sil_z=3.99 gc=0.933 bearing=1.00 null_floor=1.85
+    [+] layer:L43  sil_z=5.98 gc=0.966 bearing=1.00 null_floor=1.85
+    [+] layer:L44  sil_z=4.86 gc=0.956 bearing=1.00 null_floor=1.85
+    [+] layer:L45  sil_z=4.45 gc=0.926 bearing=1.00 null_floor=1.85
+    [+] layer:L46  sil_z=6.79 gc=0.928 bearing=1.00 null_floor=1.85
+    [+] layer:L47  sil_z=8.28 gc=0.963 bearing=1.00 null_floor=1.85
+    [+] layer:L48  sil_z=5.37 gc=0.920 bearing=1.00 null_floor=1.85
+    [+] layer:L49  sil_z=3.78 gc=0.880 bearing=1.00 null_floor=1.85
+    [+] layer:L50  sil_z=3.47 gc=0.860 bearing=1.00 null_floor=1.85
+    [+] layer:L51  sil_z=6.58 gc=0.932 bearing=1.00 null_floor=1.85
+    [+] layer:L52  sil_z=2.64 gc=0.831 bearing=1.00 null_floor=1.85
+    [-] layer:L53  sil_z=1.62 gc=0.810 bearing=0.00 null_floor=1.85
+    [+] layer:L54  sil_z=2.55 gc=0.826 bearing=1.00 null_floor=1.85
+    [+] layer:L55  sil_z=2.08 gc=0.772 bearing=1.00 null_floor=1.85
+    [-] layer:L56  sil_z=1.58 gc=0.782 bearing=0.00 null_floor=1.85
+    [-] layer:L57  sil_z=1.18 gc=0.816 bearing=0.00 null_floor=1.85
+    [-] layer:L58  sil_z=1.09 gc=0.786 bearing=0.00 null_floor=1.85
+    [-] layer:L59  sil_z=-0.19 gc=0.520 bearing=0.00 null_floor=1.85
+    [+] layer:L60  sil_z=3.41 gc=0.875 bearing=1.00 null_floor=1.85
+    [-] layer:L61  sil_z=1.99 gc=0.769 bearing=0.00 null_floor=1.85
+    [-] layer:L62  sil_z=1.96 gc=0.752 bearing=0.00 null_floor=1.85
+    [+] layer:L63  sil_z=2.09 gc=0.765 bearing=1.00 null_floor=1.85
+-- gate [gate] crystal=57/64 noop=0.5938 C_before_B=False
+  L  4     D    1/1   ####################
+  L  6     D    1/1   ####################
+  L  7     D    1/1   ####################
+  L  8     C    1/1   ####################
+  L 16     D    1/1   ####################
+  L 17     D    1/1   ####################
+  L 18     D    3/3   ####################
+  L 19     D    3/3   ####################
+  L 20     D    4/4   ####################
+  L 21     D    4/4   ####################
+  L 22     D    4/5   ################
+  L 23     D    4/4   ####################
+  L 24     D    3/3   ####################
+  L 25     D    3/4   ###############
+  L 26     D    4/5   ################
+  L 27     D    4/6   #############
+  L 28     D    3/3   ####################
+  L 29     D    4/4   ####################
+  L 30     D    3/3   ####################
+  L 31     D    4/4   ####################
+  L 32     D    4/4   ####################
+  L 33     D    4/4   ####################
+  L 34     Y    2/4   ##########
+  L 36     D    1/2   ##########
+  L 37     D    1/2   ##########
+  L 38     D    1/2   ##########
+  L 39     D    1/1   ####################
+  L 40     D    1/1   ####################
+  L 41     D    1/1   ####################
+  L 44     D    1/1   ####################
+  L 46     D    1/1   ####################
+  L 49     Y    1/1   ####################
+  L 50     Y    1/1   ####################
+  L 51     S    2/3   #############
+  L 52     S    2/2   ####################
+  L 53  WHNF    1/2   ##########
+  L 54  WHNF    1/2   ##########
+  L 61     Y    1/1   ####################
+  L 62     Y    1/2   ##########
+  L 63     S    1/1   ####################
+-- attn [attn] crystal=56/64 noop=0.2812 C_before_B=False
+  L  1  WHNF    3/3   ####################
+  L  4     B    1/1   ####################
+  L  5  WHNF    1/1   ####################
+  L  6     K    2/4   ##########
+  L  8     S    1/3   ######
+  L 10     I    1/1   ####################
+  L 13     I    1/1   ####################
+  L 15  WHNF    1/2   ##########
+  L 16     B   11/12  ##################
+  L 18     D    2/2   ####################
+  L 20     B    3/3   ####################
+  L 21     D    2/3   #############
+  L 22     D    2/2   ####################
+  L 23     D    4/7   ###########
+  L 25     B    2/2   ####################
+  L 26     B    1/2   ##########
+  L 27     D    2/3   #############
+  L 28     D    2/2   ####################
+  L 29     K    1/1   ####################
+  L 30     D    2/2   ####################
+  L 31     D    1/1   ####################
+  L 35     Y    2/2   ####################
+  L 38     B    2/4   ##########
+  L 40     D    1/1   ####################
+  L 44  WHNF    1/1   ####################
+  L 47     D    5/5   ####################
+  L 48  WHNF    1/1   ####################
+  L 49     B    1/1   ####################
+  L 60     B    1/1   ####################
+  L 63     S    1/1   ####################
+========================================================================
+[trace] wrote /Users/mwhitford/src/verbum/results/opcode-trace/qwen3-6-27b/trace.json + model_vsm.json (986.3s)
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Fetching 2 files:   0%|          | 0/2 [00:00<?, ?it/s]Fetching 2 files: 100%|██████████| 2/2 [00:00<00:00, 14.74it/s]Fetching 2 files: 100%|██████████| 2/2 [00:00<00:00, 14.71it/s]
+Loading weights:   0%|          | 0/1188 [00:00<?, ?it/s]Loading weights:  70%|██████▉   | 831/1188 [00:00<00:00, 8299.62it/s]Loading weights: 100%|██████████| 1188/1188 [00:00<00:00, 8397.54it/s]
+[trace] loaded google/gemma-4-31B-it on mps in 25.4s
+[trace] arch=Gemma4ForConditionalGeneration  L=60  register=gated-dense  layers=model.language_model.layers  gate=mlp.gate_proj(d=21504)  read=sign(gate_proj) [validated]  attn=self_attn.o_proj(d=5376)
+[trace] [gate] calibrating on 535 crystal probes ...
+[trace] [gate]   probe 0/535
+[trace] [gate]   probe 100/535
+[trace] [gate]   probe 200/535
+[trace] [gate]   probe 300/535
+[trace] [gate]   probe 400/535
+[trace] [gate]   probe 500/535
+[trace] [gate] null from 8 natural prompts ...
+[trace] [gate] crystal-bearing layers: 53/60
+[trace] [gate] shuffled-label null floor (3 shuffles) ...
+[trace] [gate] null_floor_z=1.86 (ref~1.64) shuffled_bearing=0.0
+[trace] [attn] calibrating on 535 crystal probes ...
+[trace] [attn]   probe 0/535
+[trace] [attn]   probe 100/535
+[trace] [attn]   probe 200/535
+[trace] [attn]   probe 300/535
+[trace] [attn]   probe 400/535
+[trace] [attn]   probe 500/535
+[trace] [attn] null from 8 natural prompts ...
+[trace] [attn] crystal-bearing layers: 54/60
+[trace] [attn] shuffled-label null floor (3 shuffles) ...
+[trace] [attn] null_floor_z=1.458 (ref~1.64) shuffled_bearing=0.0056
+========================================================================
+OPCODE TRACE — google/gemma-4-31B-it
+========================================================================
+[+] model:google/gemma-4-31B-it  sil_z=4.49 gc=0.935 bearing=1.00 null_floor=1.86
+  [+] register:gate  sil_z=3.23 gc=0.939 bearing=0.88 null_floor=1.86
+    [+] layer:L0  sil_z=2.19 gc=0.832 bearing=1.00 null_floor=1.86
+    [-] layer:L1  sil_z=1.22 gc=0.872 bearing=0.00 null_floor=1.86
+    [+] layer:L2  sil_z=6.25 gc=0.799 bearing=1.00 null_floor=1.86
+    [+] layer:L3  sil_z=4.88 gc=0.891 bearing=1.00 null_floor=1.86
+    [+] layer:L4  sil_z=4.52 gc=0.891 bearing=1.00 null_floor=1.86
+    [+] layer:L5  sil_z=3.35 gc=0.918 bearing=1.00 null_floor=1.86
+    [-] layer:L6  sil_z=1.73 gc=0.863 bearing=0.00 null_floor=1.86
+    [+] layer:L7  sil_z=2.91 gc=0.887 bearing=1.00 null_floor=1.86
+    [+] layer:L8  sil_z=3.06 gc=0.885 bearing=1.00 null_floor=1.86
+    [+] layer:L9  sil_z=4.24 gc=0.837 bearing=1.00 null_floor=1.86
+    [+] layer:L10  sil_z=2.16 gc=0.822 bearing=1.00 null_floor=1.86
+    [+] layer:L11  sil_z=3.00 gc=0.862 bearing=1.00 null_floor=1.86
+    [+] layer:L12  sil_z=3.21 gc=0.909 bearing=1.00 null_floor=1.86
+    [+] layer:L13  sil_z=5.39 gc=0.864 bearing=1.00 null_floor=1.86
+    [+] layer:L14  sil_z=5.95 gc=0.859 bearing=1.00 null_floor=1.86
+    [+] layer:L15  sil_z=5.07 gc=0.911 bearing=1.00 null_floor=1.86
+    [+] layer:L16  sil_z=6.30 gc=0.958 bearing=1.00 null_floor=1.86
+    [+] layer:L17  sil_z=6.16 gc=0.966 bearing=1.00 null_floor=1.86
+    [+] layer:L18  sil_z=6.31 gc=0.943 bearing=1.00 null_floor=1.86
+    [+] layer:L19  sil_z=5.55 gc=0.942 bearing=1.00 null_floor=1.86
+    [+] layer:L20  sil_z=6.16 gc=0.924 bearing=1.00 null_floor=1.86
+    [+] layer:L21  sil_z=5.62 gc=0.936 bearing=1.00 null_floor=1.86
+    [+] layer:L22  sil_z=4.48 gc=0.934 bearing=1.00 null_floor=1.86
+    [+] layer:L23  sil_z=7.76 gc=0.904 bearing=1.00 null_floor=1.86
+    [+] layer:L24  sil_z=5.57 gc=0.876 bearing=1.00 null_floor=1.86
+    [+] layer:L25  sil_z=4.80 gc=0.807 bearing=1.00 null_floor=1.86
+    [+] layer:L26  sil_z=4.10 gc=0.763 bearing=1.00 null_floor=1.86
+    [+] layer:L27  sil_z=3.59 gc=0.724 bearing=1.00 null_floor=1.86
+    [+] layer:L28  sil_z=3.60 gc=0.733 bearing=1.00 null_floor=1.86
+    [+] layer:L29  sil_z=4.08 gc=0.778 bearing=1.00 null_floor=1.86
+    [+] layer:L30  sil_z=4.00 gc=0.867 bearing=1.00 null_floor=1.86
+    [+] layer:L31  sil_z=2.78 gc=0.835 bearing=1.00 null_floor=1.86
+    [+] layer:L32  sil_z=4.06 gc=0.827 bearing=1.00 null_floor=1.86
+    [+] layer:L33  sil_z=2.03 gc=0.818 bearing=1.00 null_floor=1.86
+    [+] layer:L34  sil_z=2.49 gc=0.806 bearing=1.00 null_floor=1.86
+    [+] layer:L35  sil_z=2.81 gc=0.860 bearing=1.00 null_floor=1.86
+    [+] layer:L36  sil_z=2.66 gc=0.789 bearing=1.00 null_floor=1.86
+    [+] layer:L37  sil_z=2.66 gc=0.791 bearing=1.00 null_floor=1.86
+    [+] layer:L38  sil_z=2.79 gc=0.785 bearing=1.00 null_floor=1.86
+    [+] layer:L39  sil_z=3.10 gc=0.840 bearing=1.00 null_floor=1.86
+    [+] layer:L40  sil_z=3.06 gc=0.847 bearing=1.00 null_floor=1.86
+    [+] layer:L41  sil_z=3.23 gc=0.923 bearing=1.00 null_floor=1.86
+    [-] layer:L42  sil_z=1.70 gc=0.911 bearing=0.00 null_floor=1.86
+    [-] layer:L43  sil_z=1.88 gc=0.917 bearing=0.00 null_floor=1.86
+    [+] layer:L44  sil_z=2.70 gc=0.897 bearing=1.00 null_floor=1.86
+    [+] layer:L45  sil_z=2.71 gc=0.914 bearing=1.00 null_floor=1.86
+    [+] layer:L46  sil_z=2.34 gc=0.879 bearing=1.00 null_floor=1.86
+    [-] layer:L47  sil_z=1.16 gc=0.901 bearing=0.00 null_floor=1.86
+    [-] layer:L48  sil_z=1.79 gc=0.907 bearing=0.00 null_floor=1.86
+    [+] layer:L49  sil_z=2.91 gc=0.921 bearing=1.00 null_floor=1.86
+    [+] layer:L50  sil_z=3.33 gc=0.939 bearing=1.00 null_floor=1.86
+    [+] layer:L51  sil_z=3.20 gc=0.872 bearing=1.00 null_floor=1.86
+    [+] layer:L52  sil_z=3.41 gc=0.898 bearing=1.00 null_floor=1.86
+    [+] layer:L53  sil_z=3.21 gc=0.885 bearing=1.00 null_floor=1.86
+    [+] layer:L54  sil_z=2.67 gc=0.777 bearing=1.00 null_floor=1.86
+    [+] layer:L55  sil_z=3.14 gc=0.859 bearing=1.00 null_floor=1.86
+    [+] layer:L56  sil_z=3.21 gc=0.796 bearing=1.00 null_floor=1.86
+    [+] layer:L57  sil_z=2.60 gc=0.779 bearing=1.00 null_floor=1.86
+    [+] layer:L58  sil_z=2.34 gc=0.761 bearing=1.00 null_floor=1.86
+    [-] layer:L59  sil_z=1.09 gc=0.625 bearing=0.00 null_floor=1.86
+  [+] register:attn  sil_z=5.74 gc=0.896 bearing=0.90 null_floor=1.46
+    [-] layer:L0  sil_z=1.32 gc=0.735 bearing=0.00 null_floor=1.46
+    [-] layer:L1  sil_z=1.68 gc=0.610 bearing=0.00 null_floor=1.46
+    [+] layer:L2  sil_z=5.40 gc=0.700 bearing=1.00 null_floor=1.46
+    [+] layer:L3  sil_z=4.96 gc=0.808 bearing=1.00 null_floor=1.46
+    [+] layer:L4  sil_z=8.75 gc=0.805 bearing=1.00 null_floor=1.46
+    [+] layer:L5  sil_z=2.79 gc=0.868 bearing=1.00 null_floor=1.46
+    [+] layer:L6  sil_z=2.81 gc=0.825 bearing=1.00 null_floor=1.46
+    [-] layer:L7  sil_z=0.77 gc=0.759 bearing=0.00 null_floor=1.46
+    [+] layer:L8  sil_z=2.91 gc=0.769 bearing=1.00 null_floor=1.46
+    [+] layer:L9  sil_z=3.02 gc=0.779 bearing=1.00 null_floor=1.46
+    [+] layer:L10  sil_z=4.26 gc=0.794 bearing=1.00 null_floor=1.46
+    [-] layer:L11  sil_z=1.56 gc=0.819 bearing=0.00 null_floor=1.46
+    [-] layer:L12  sil_z=1.22 gc=0.602 bearing=0.00 null_floor=1.46
+    [+] layer:L13  sil_z=5.89 gc=0.785 bearing=1.00 null_floor=1.46
+    [+] layer:L14  sil_z=6.40 gc=0.773 bearing=1.00 null_floor=1.46
+    [+] layer:L15  sil_z=4.10 gc=0.785 bearing=1.00 null_floor=1.46
+    [+] layer:L16  sil_z=11.15 gc=0.825 bearing=1.00 null_floor=1.46
+    [+] layer:L17  sil_z=6.20 gc=0.890 bearing=1.00 null_floor=1.46
+    [+] layer:L18  sil_z=14.26 gc=0.842 bearing=1.00 null_floor=1.46
+    [+] layer:L19  sil_z=7.12 gc=0.859 bearing=1.00 null_floor=1.46
+    [+] layer:L20  sil_z=6.26 gc=0.688 bearing=1.00 null_floor=1.46
+    [+] layer:L21  sil_z=10.91 gc=0.846 bearing=1.00 null_floor=1.46
+    [+] layer:L22  sil_z=10.96 gc=0.821 bearing=1.00 null_floor=1.46
+    [+] layer:L23  sil_z=8.94 gc=0.842 bearing=1.00 null_floor=1.46
+    [+] layer:L24  sil_z=8.97 gc=0.751 bearing=1.00 null_floor=1.46
+    [+] layer:L25  sil_z=6.74 gc=0.785 bearing=1.00 null_floor=1.46
+    [+] layer:L26  sil_z=6.03 gc=0.689 bearing=1.00 null_floor=1.46
+    [+] layer:L27  sil_z=3.31 gc=0.478 bearing=1.00 null_floor=1.46
+    [+] layer:L28  sil_z=4.90 gc=0.664 bearing=1.00 null_floor=1.46
+    [+] layer:L29  sil_z=4.33 gc=0.722 bearing=1.00 null_floor=1.46
+    [+] layer:L30  sil_z=5.25 gc=0.739 bearing=1.00 null_floor=1.46
+    [+] layer:L31  sil_z=4.61 gc=0.734 bearing=1.00 null_floor=1.46
+    [+] layer:L32  sil_z=4.91 gc=0.648 bearing=1.00 null_floor=1.46
+    [+] layer:L33  sil_z=4.17 gc=0.696 bearing=1.00 null_floor=1.46
+    [+] layer:L34  sil_z=6.28 gc=0.698 bearing=1.00 null_floor=1.46
+    [+] layer:L35  sil_z=5.95 gc=0.738 bearing=1.00 null_floor=1.46
+    [+] layer:L36  sil_z=4.86 gc=0.692 bearing=1.00 null_floor=1.46
+    [+] layer:L37  sil_z=6.15 gc=0.852 bearing=1.00 null_floor=1.46
+    [+] layer:L38  sil_z=4.31 gc=0.727 bearing=1.00 null_floor=1.46
+    [+] layer:L39  sil_z=6.17 gc=0.746 bearing=1.00 null_floor=1.46
+    [+] layer:L40  sil_z=6.15 gc=0.766 bearing=1.00 null_floor=1.46
+    [+] layer:L41  sil_z=3.69 gc=0.871 bearing=1.00 null_floor=1.46
+    [+] layer:L42  sil_z=5.43 gc=0.914 bearing=1.00 null_floor=1.46
+    [+] layer:L43  sil_z=6.03 gc=0.906 bearing=1.00 null_floor=1.46
+    [+] layer:L44  sil_z=6.21 gc=0.890 bearing=1.00 null_floor=1.46
+    [+] layer:L45  sil_z=5.94 gc=0.919 bearing=1.00 null_floor=1.46
+    [+] layer:L46  sil_z=5.22 gc=0.878 bearing=1.00 null_floor=1.46
+    [+] layer:L47  sil_z=4.80 gc=0.867 bearing=1.00 null_floor=1.46
+    [+] layer:L48  sil_z=7.67 gc=0.875 bearing=1.00 null_floor=1.46
+    [+] layer:L49  sil_z=2.70 gc=0.864 bearing=1.00 null_floor=1.46
+    [+] layer:L50  sil_z=6.87 gc=0.915 bearing=1.00 null_floor=1.46
+    [+] layer:L51  sil_z=5.47 gc=0.939 bearing=1.00 null_floor=1.46
+    [+] layer:L52  sil_z=6.35 gc=0.888 bearing=1.00 null_floor=1.46
+    [+] layer:L53  sil_z=7.88 gc=0.819 bearing=1.00 null_floor=1.46
+    [+] layer:L54  sil_z=5.24 gc=0.906 bearing=1.00 null_floor=1.46
+    [+] layer:L55  sil_z=5.63 gc=0.893 bearing=1.00 null_floor=1.46
+    [+] layer:L56  sil_z=5.84 gc=0.856 bearing=1.00 null_floor=1.46
+    [+] layer:L57  sil_z=5.24 gc=0.839 bearing=1.00 null_floor=1.46
+    [+] layer:L58  sil_z=2.51 gc=0.736 bearing=1.00 null_floor=1.46
+    [-] layer:L59  sil_z=1.30 gc=0.633 bearing=0.00 null_floor=1.46
+-- gate [gate] crystal=53/60 noop=0.4688 C_before_B=False
+  L  0  WHNF    2/3   #############
+  L  2     Y    1/2   ##########
+  L  3     K    3/4   ###############
+  L  9     K    1/1   ####################
+  L 10     K    5/5   ####################
+  L 11     I    1/3   ######
+  L 18     B    1/1   ####################
+  L 19     S    4/5   ################
+  L 20     S    2/2   ####################
+  L 21     S    5/5   ####################
+  L 22     S    6/7   #################
+  L 23     S    1/1   ####################
+  L 24     S    2/4   ##########
+  L 25     S    3/5   ############
+  L 26     S    2/4   ##########
+  L 27     S    4/6   #############
+  L 28     S    6/6   ####################
+  L 29     K    1/2   ##########
+  L 30     S    5/5   ####################
+  L 31     S    4/6   #############
+  L 32     K    1/1   ####################
+  L 33     S    4/4   ####################
+  L 34     S    3/3   ####################
+  L 35     S    1/2   ##########
+  L 36     K    1/1   ####################
+  L 37     K    1/1   ####################
+  L 38     K    1/1   ####################
+  L 50  WHNF    1/1   ####################
+  L 51  WHNF    1/1   ####################
+-- attn [attn] crystal=54/60 noop=0.375 C_before_B=False
+  L  2     Y    1/1   ####################
+  L  3     K    4/4   ####################
+  L  4     B    1/2   ##########
+  L  8     K    1/1   ####################
+  L  9     K    5/5   ####################
+  L 10     K    3/4   ###############
+  L 13     S    1/1   ####################
+  L 14     K    3/3   ####################
+  L 15     K    2/2   ####################
+  L 16  WHNF    1/1   ####################
+  L 17     K    1/1   ####################
+  L 19     S    4/7   ###########
+  L 20     K    4/6   #############
+  L 21     K    1/1   ####################
+  L 22     S    1/1   ####################
+  L 24     K    3/5   ############
+  L 25     S    2/2   ####################
+  L 26     K    2/2   ####################
+  L 29     K    1/2   ##########
+  L 30     K    5/7   ##############
+  L 31     K    2/2   ####################
+  L 32     C    2/3   #############
+  L 33     S    1/2   ##########
+  L 34     K    2/2   ####################
+  L 35     K    2/2   ####################
+  L 36     K    2/2   ####################
+  L 37     K    1/1   ####################
+  L 38     K    3/4   ###############
+  L 39     K    4/6   #############
+  L 40     S    6/7   #################
+  L 44     Y    1/1   ####################
+  L 48     Y    1/2   ##########
+  L 49     K    1/1   ####################
+  L 52     K    2/2   ####################
+  L 54     K    1/1   ####################
+  L 56     B    1/1   ####################
+========================================================================
+[trace] wrote /Users/mwhitford/src/verbum/results/opcode-trace/gemma-4-31b-it/trace.json + model_vsm.json (883.0s)
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:02<16:41,  2.27s/it]Loading weights:   0%|          | 2/443 [00:04<16:44,  2.28s/it]Loading weights:   8%|▊         | 36/443 [00:04<00:33, 12.04it/s]Loading weights:  10%|▉         | 44/443 [00:05<00:32, 12.40it/s]Loading weights:  11%|█         | 49/443 [00:06<00:40,  9.76it/s]Loading weights:  13%|█▎        | 56/443 [00:06<00:34, 11.19it/s]Loading weights:  13%|█▎        | 59/443 [00:07<00:41,  9.25it/s]Loading weights:  14%|█▍        | 62/443 [00:07<00:40,  9.47it/s]Loading weights:  16%|█▌        | 69/443 [00:08<00:36, 10.33it/s]Loading weights:  16%|█▌        | 71/443 [00:08<00:41,  8.89it/s]Loading weights:  18%|█▊        | 80/443 [00:09<00:35, 10.30it/s]Loading weights:  19%|█▊        | 82/443 [00:09<00:36,  9.81it/s]Loading weights:  20%|██        | 90/443 [00:09<00:24, 14.37it/s]Loading weights:  21%|██        | 93/443 [00:10<00:38,  9.09it/s]Loading weights:  23%|██▎       | 100/443 [00:10<00:28, 12.15it/s]Loading weights:  23%|██▎       | 102/443 [00:11<00:40,  8.47it/s]Loading weights:  23%|██▎       | 104/443 [00:11<00:39,  8.64it/s]Loading weights:  26%|██▌       | 113/443 [00:12<00:33,  9.87it/s]Loading weights:  26%|██▌       | 115/443 [00:12<00:33,  9.77it/s]Loading weights:  28%|██▊       | 123/443 [00:13<00:21, 14.65it/s]Loading weights:  28%|██▊       | 125/443 [00:13<00:35,  9.00it/s]Loading weights:  30%|███       | 133/443 [00:14<00:25, 12.38it/s]Loading weights:  30%|███       | 135/443 [00:14<00:37,  8.32it/s]Loading weights:  31%|███       | 137/443 [00:15<00:36,  8.29it/s]Loading weights:  33%|███▎      | 144/443 [00:15<00:22, 13.51it/s]Loading weights:  33%|███▎      | 147/443 [00:16<00:36,  8.17it/s]Loading weights:  35%|███▍      | 155/443 [00:16<00:21, 13.69it/s]Loading weights:  36%|███▌      | 159/443 [00:17<00:33,  8.61it/s]Loading weights:  37%|███▋      | 166/443 [00:17<00:21, 12.63it/s]Loading weights:  38%|███▊      | 170/443 [00:18<00:32,  8.51it/s]Loading weights:  40%|███▉      | 177/443 [00:18<00:23, 11.54it/s]Loading weights:  41%|████      | 180/443 [00:19<00:30,  8.57it/s]Loading weights:  41%|████▏     | 183/443 [00:19<00:27,  9.52it/s]Loading weights:  43%|████▎     | 190/443 [00:19<00:18, 13.53it/s]Loading weights:  44%|████▎     | 193/443 [00:20<00:26,  9.28it/s]Loading weights:  45%|████▌     | 201/443 [00:21<00:25,  9.32it/s]Loading weights:  46%|████▌     | 203/443 [00:21<00:24,  9.78it/s]Loading weights:  47%|████▋     | 210/443 [00:21<00:16, 14.02it/s]Loading weights:  48%|████▊     | 213/443 [00:22<00:25,  9.10it/s]Loading weights:  49%|████▊     | 215/443 [00:22<00:24,  9.21it/s]Loading weights:  50%|████▉     | 221/443 [00:22<00:16, 13.78it/s]Loading weights:  51%|█████     | 224/443 [00:23<00:26,  8.29it/s]Loading weights:  52%|█████▏    | 232/443 [00:23<00:15, 13.39it/s]Loading weights:  53%|█████▎    | 235/443 [00:24<00:21,  9.86it/s]Loading weights:  55%|█████▌    | 245/443 [00:25<00:18, 10.78it/s]Loading weights:  56%|█████▌    | 247/443 [00:25<00:18, 10.74it/s]Loading weights:  57%|█████▋    | 254/443 [00:25<00:12, 15.17it/s]Loading weights:  58%|█████▊    | 257/443 [00:26<00:19,  9.39it/s]Loading weights:  58%|█████▊    | 259/443 [00:26<00:18,  9.77it/s]Loading weights:  60%|█████▉    | 265/443 [00:26<00:13, 13.16it/s]Loading weights:  60%|██████    | 268/443 [00:27<00:20,  8.54it/s]Loading weights:  61%|██████    | 270/443 [00:27<00:19,  9.07it/s]Loading weights:  63%|██████▎   | 278/443 [00:28<00:14, 11.65it/s]Loading weights:  63%|██████▎   | 280/443 [00:28<00:17,  9.19it/s]Loading weights:  65%|██████▌   | 289/443 [00:29<00:13, 11.77it/s]Loading weights:  66%|██████▌   | 291/443 [00:29<00:15,  9.92it/s]Loading weights:  68%|██████▊   | 300/443 [00:30<00:13, 10.39it/s]Loading weights:  68%|██████▊   | 302/443 [00:30<00:13, 10.65it/s]Loading weights:  70%|██████▉   | 309/443 [00:30<00:08, 14.89it/s]Loading weights:  70%|███████   | 311/443 [00:31<00:15,  8.78it/s]Loading weights:  71%|███████   | 313/443 [00:31<00:14,  9.21it/s]Loading weights:  73%|███████▎  | 322/443 [00:32<00:09, 12.19it/s]Loading weights:  73%|███████▎  | 324/443 [00:32<00:11,  9.92it/s]Loading weights:  75%|███████▌  | 333/443 [00:33<00:10, 10.80it/s]Loading weights:  76%|███████▌  | 335/443 [00:33<00:09, 10.91it/s]Loading weights:  77%|███████▋  | 342/443 [00:33<00:06, 15.00it/s]Loading weights:  78%|███████▊  | 344/443 [00:34<00:10,  9.04it/s]Loading weights:  78%|███████▊  | 346/443 [00:34<00:10,  8.95it/s]Loading weights:  80%|███████▉  | 353/443 [00:35<00:06, 14.73it/s]Loading weights:  80%|████████  | 356/443 [00:35<00:10,  8.34it/s]Loading weights:  82%|████████▏ | 365/443 [00:36<00:05, 14.36it/s]Loading weights:  83%|████████▎ | 369/443 [00:37<00:08,  9.23it/s]Loading weights:  85%|████████▌ | 377/443 [00:37<00:06,  9.72it/s]Loading weights:  86%|████████▌ | 380/443 [00:37<00:06, 10.34it/s]Loading weights:  87%|████████▋ | 386/443 [00:38<00:04, 13.64it/s]Loading weights:  88%|████████▊ | 389/443 [00:38<00:06,  8.83it/s]Loading weights:  88%|████████▊ | 391/443 [00:39<00:05,  9.37it/s]Loading weights:  90%|████████▉ | 397/443 [00:39<00:03, 13.76it/s]Loading weights:  90%|█████████ | 400/443 [00:40<00:05,  8.44it/s]Loading weights:  91%|█████████ | 402/443 [00:40<00:04,  9.30it/s]Loading weights:  93%|█████████▎| 410/443 [00:40<00:02, 11.10it/s]Loading weights:  93%|█████████▎| 412/443 [00:41<00:03,  9.02it/s]Loading weights:  95%|█████████▌| 421/443 [00:42<00:02,  9.56it/s]Loading weights:  95%|█████████▌| 423/443 [00:42<00:02,  9.85it/s]Loading weights:  97%|█████████▋| 430/443 [00:42<00:00, 14.17it/s]Loading weights:  98%|█████████▊| 433/443 [00:43<00:01,  8.89it/s]Loading weights:  98%|█████████▊| 435/443 [00:43<00:00,  9.71it/s]Loading weights: 100%|██████████| 443/443 [00:43<00:00, 10.21it/s]
+[trace] loaded allenai/OLMo-2-1124-13B on mps in 45.8s
+[trace] arch=Olmo2ForCausalLM  L=40  register=gated-dense  layers=model.layers  gate=mlp.gate_proj(d=13824)  read=sign(gate_proj) [validated]  attn=self_attn.o_proj(d=5120)
+[trace] [gate] calibrating on 535 crystal probes ...
+[trace] [gate]   probe 0/535
+[trace] [gate]   probe 100/535
+[trace] [gate]   probe 200/535
+[trace] [gate]   probe 300/535
+[trace] [gate]   probe 400/535
+[trace] [gate]   probe 500/535
+[trace] [gate] null from 8 natural prompts ...
+[trace] [gate] crystal-bearing layers: 25/40
+[trace] [gate] shuffled-label null floor (3 shuffles) ...
+[trace] [gate] null_floor_z=2.068 (ref~1.64) shuffled_bearing=0.0417
+[trace] [attn] calibrating on 535 crystal probes ...
+[trace] [attn]   probe 0/535
+[trace] [attn]   probe 100/535
+[trace] [attn]   probe 200/535
+[trace] [attn]   probe 300/535
+[trace] [attn]   probe 400/535
+[trace] [attn]   probe 500/535
+[trace] [attn] null from 8 natural prompts ...
+[trace] [attn] crystal-bearing layers: 36/40
+[trace] [attn] shuffled-label null floor (3 shuffles) ...
+[trace] [attn] null_floor_z=1.753 (ref~1.64) shuffled_bearing=0.0167
+========================================================================
+OPCODE TRACE — allenai/OLMo-2-1124-13B
+========================================================================
+[+] model:allenai/OLMo-2-1124-13B  sil_z=5.69 gc=0.957 bearing=1.00 null_floor=2.07
+  [+] register:gate  sil_z=5.15 gc=0.950 bearing=0.62 null_floor=2.07
+    [-] layer:L0  sil_z=0.35 gc=0.799 bearing=0.00 null_floor=2.07
+    [-] layer:L1  sil_z=-0.47 gc=0.791 bearing=0.00 null_floor=2.07
+    [+] layer:L2  sil_z=2.92 gc=0.875 bearing=1.00 null_floor=2.07
+    [+] layer:L3  sil_z=2.03 gc=0.946 bearing=1.00 null_floor=2.07
+    [+] layer:L4  sil_z=2.87 gc=0.939 bearing=1.00 null_floor=2.07
+    [+] layer:L5  sil_z=3.51 gc=0.944 bearing=1.00 null_floor=2.07
+    [+] layer:L6  sil_z=6.11 gc=0.954 bearing=1.00 null_floor=2.07
+    [+] layer:L7  sil_z=4.93 gc=0.943 bearing=1.00 null_floor=2.07
+    [+] layer:L8  sil_z=6.76 gc=0.952 bearing=1.00 null_floor=2.07
+    [+] layer:L9  sil_z=7.82 gc=0.937 bearing=1.00 null_floor=2.07
+    [+] layer:L10  sil_z=7.70 gc=0.937 bearing=1.00 null_floor=2.07
+    [+] layer:L11  sil_z=7.07 gc=0.947 bearing=1.00 null_floor=2.07
+    [+] layer:L12  sil_z=7.31 gc=0.947 bearing=1.00 null_floor=2.07
+    [+] layer:L13  sil_z=7.52 gc=0.928 bearing=1.00 null_floor=2.07
+    [+] layer:L14  sil_z=7.60 gc=0.954 bearing=1.00 null_floor=2.07
+    [+] layer:L15  sil_z=6.56 gc=0.950 bearing=1.00 null_floor=2.07
+    [+] layer:L16  sil_z=5.75 gc=0.953 bearing=1.00 null_floor=2.07
+    [+] layer:L17  sil_z=5.71 gc=0.940 bearing=1.00 null_floor=2.07
+    [+] layer:L18  sil_z=5.15 gc=0.942 bearing=1.00 null_floor=2.07
+    [+] layer:L19  sil_z=5.52 gc=0.942 bearing=1.00 null_floor=2.07
+    [+] layer:L20  sil_z=4.74 gc=0.906 bearing=1.00 null_floor=2.07
+    [+] layer:L21  sil_z=5.10 gc=0.904 bearing=1.00 null_floor=2.07
+    [+] layer:L22  sil_z=3.88 gc=0.881 bearing=1.00 null_floor=2.07
+    [+] layer:L23  sil_z=2.99 gc=0.855 bearing=1.00 null_floor=2.07
+    [+] layer:L24  sil_z=2.97 gc=0.861 bearing=1.00 null_floor=2.07
+    [+] layer:L25  sil_z=3.01 gc=0.855 bearing=1.00 null_floor=2.07
+    [+] layer:L26  sil_z=2.12 gc=0.840 bearing=1.00 null_floor=2.07
+    [-] layer:L27  sil_z=1.23 gc=0.824 bearing=0.00 null_floor=2.07
+    [-] layer:L28  sil_z=1.04 gc=0.803 bearing=0.00 null_floor=2.07
+    [-] layer:L29  sil_z=0.88 gc=0.793 bearing=0.00 null_floor=2.07
+    [-] layer:L30  sil_z=0.93 gc=0.763 bearing=0.00 null_floor=2.07
+    [-] layer:L31  sil_z=1.03 gc=0.741 bearing=0.00 null_floor=2.07
+    [-] layer:L32  sil_z=1.14 gc=0.725 bearing=0.00 null_floor=2.07
+    [-] layer:L33  sil_z=0.93 gc=0.733 bearing=0.00 null_floor=2.07
+    [-] layer:L34  sil_z=0.64 gc=0.726 bearing=0.00 null_floor=2.07
+    [-] layer:L35  sil_z=0.70 gc=0.736 bearing=0.00 null_floor=2.07
+    [-] layer:L36  sil_z=0.75 gc=0.758 bearing=0.00 null_floor=2.07
+    [-] layer:L37  sil_z=0.49 gc=0.769 bearing=0.00 null_floor=2.07
+    [-] layer:L38  sil_z=0.69 gc=0.753 bearing=0.00 null_floor=2.07
+    [-] layer:L39  sil_z=1.21 gc=0.765 bearing=0.00 null_floor=2.07
+  [+] register:attn  sil_z=6.22 gc=0.954 bearing=0.90 null_floor=1.75
+    [+] layer:L0  sil_z=2.33 gc=0.747 bearing=1.00 null_floor=1.75
+    [-] layer:L1  sil_z=1.85 gc=0.907 bearing=0.00 null_floor=1.75
+    [+] layer:L2  sil_z=5.27 gc=0.846 bearing=1.00 null_floor=1.75
+    [+] layer:L3  sil_z=5.48 gc=0.909 bearing=1.00 null_floor=1.75
+    [+] layer:L4  sil_z=7.08 gc=0.946 bearing=1.00 null_floor=1.75
+    [+] layer:L5  sil_z=6.28 gc=0.895 bearing=1.00 null_floor=1.75
+    [+] layer:L6  sil_z=10.82 gc=0.914 bearing=1.00 null_floor=1.75
+    [+] layer:L7  sil_z=6.35 gc=0.921 bearing=1.00 null_floor=1.75
+    [+] layer:L8  sil_z=9.85 gc=0.867 bearing=1.00 null_floor=1.75
+    [+] layer:L9  sil_z=10.03 gc=0.901 bearing=1.00 null_floor=1.75
+    [+] layer:L10  sil_z=10.54 gc=0.911 bearing=1.00 null_floor=1.75
+    [+] layer:L11  sil_z=8.36 gc=0.932 bearing=1.00 null_floor=1.75
+    [+] layer:L12  sil_z=8.84 gc=0.909 bearing=1.00 null_floor=1.75
+    [+] layer:L13  sil_z=10.32 gc=0.905 bearing=1.00 null_floor=1.75
+    [+] layer:L14  sil_z=11.38 gc=0.896 bearing=1.00 null_floor=1.75
+    [+] layer:L15  sil_z=6.16 gc=0.878 bearing=1.00 null_floor=1.75
+    [+] layer:L16  sil_z=8.87 gc=0.920 bearing=1.00 null_floor=1.75
+    [+] layer:L17  sil_z=10.79 gc=0.911 bearing=1.00 null_floor=1.75
+    [+] layer:L18  sil_z=9.14 gc=0.933 bearing=1.00 null_floor=1.75
+    [+] layer:L19  sil_z=11.82 gc=0.925 bearing=1.00 null_floor=1.75
+    [+] layer:L20  sil_z=6.47 gc=0.877 bearing=1.00 null_floor=1.75
+    [+] layer:L21  sil_z=6.43 gc=0.873 bearing=1.00 null_floor=1.75
+    [+] layer:L22  sil_z=4.86 gc=0.887 bearing=1.00 null_floor=1.75
+    [+] layer:L23  sil_z=4.10 gc=0.870 bearing=1.00 null_floor=1.75
+    [+] layer:L24  sil_z=6.17 gc=0.862 bearing=1.00 null_floor=1.75
+    [+] layer:L25  sil_z=5.89 gc=0.908 bearing=1.00 null_floor=1.75
+    [+] layer:L26  sil_z=6.42 gc=0.915 bearing=1.00 null_floor=1.75
+    [+] layer:L27  sil_z=3.30 gc=0.832 bearing=1.00 null_floor=1.75
+    [+] layer:L28  sil_z=4.26 gc=0.880 bearing=1.00 null_floor=1.75
+    [+] layer:L29  sil_z=2.71 gc=0.875 bearing=1.00 null_floor=1.75
+    [+] layer:L30  sil_z=4.12 gc=0.870 bearing=1.00 null_floor=1.75
+    [+] layer:L31  sil_z=3.09 gc=0.882 bearing=1.00 null_floor=1.75
+    [-] layer:L32  sil_z=1.06 gc=0.734 bearing=0.00 null_floor=1.75
+    [-] layer:L33  sil_z=1.20 gc=0.617 bearing=0.00 null_floor=1.75
+    [+] layer:L34  sil_z=2.65 gc=0.837 bearing=1.00 null_floor=1.75
+    [+] layer:L35  sil_z=3.00 gc=0.826 bearing=1.00 null_floor=1.75
+    [-] layer:L36  sil_z=1.68 gc=0.859 bearing=0.00 null_floor=1.75
+    [+] layer:L37  sil_z=2.43 gc=0.882 bearing=1.00 null_floor=1.75
+    [+] layer:L38  sil_z=3.48 gc=0.860 bearing=1.00 null_floor=1.75
+    [+] layer:L39  sil_z=3.83 gc=0.798 bearing=1.00 null_floor=1.75
+-- gate [gate] crystal=25/40 noop=0.6562 C_before_B=False
+  L  2  WHNF    1/1   ####################
+  L  3  WHNF    3/3   ####################
+  L  5  WHNF    5/5   ####################
+  L  6     B    1/1   ####################
+  L  7     B    1/1   ####################
+  L  8     B    1/1   ####################
+  L  9     B    1/1   ####################
+  L 10  WHNF    1/1   ####################
+  L 14  WHNF    2/2   ####################
+  L 16  WHNF    5/5   ####################
+  L 17  WHNF    2/2   ####################
+  L 18  WHNF    1/1   ####################
+  L 20     D    2/3   #############
+  L 21     D    2/2   ####################
+  L 22     D    2/3   #############
+  L 23     D    2/2   ####################
+  L 24     D    2/2   ####################
+  L 25     D    2/2   ####################
+  L 26     D    1/1   ####################
+-- attn [attn] crystal=36/40 noop=0.5938 C_before_B=True
+  L  2  WHNF    2/3   #############
+  L  3     D    2/4   ##########
+  L  4  WHNF    4/6   #############
+  L  5     D    2/3   #############
+  L  6     C    2/3   #############
+  L  8     B    1/2   ##########
+  L  9     D    1/1   ####################
+  L 10     D    2/2   ####################
+  L 11     D    2/2   ####################
+  L 13     D    2/2   ####################
+  L 14     D    2/2   ####################
+  L 16     D    2/2   ####################
+  L 17     D    2/2   ####################
+  L 18     D    2/3   #############
+  L 19     D    2/2   ####################
+  L 20     D    2/2   ####################
+  L 23     D    2/3   #############
+  L 24  WHNF    2/3   #############
+========================================================================
+[trace] wrote /Users/mwhitford/src/verbum/results/opcode-trace/olmo-2-1124-13b/trace.json + model_vsm.json (392.4s)
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights:   0%|          | 1/388 [00:00<02:25,  2.66it/s]Loading weights:   6%|▌         | 24/388 [00:00<00:06, 60.24it/s]Loading weights:  10%|▉         | 38/388 [00:00<00:05, 67.51it/s]Loading weights:  14%|█▍        | 56/388 [00:00<00:03, 88.53it/s]Loading weights:  18%|█▊        | 68/388 [00:00<00:03, 87.94it/s]Loading weights:  20%|██        | 79/388 [00:01<00:03, 86.21it/s]Loading weights:  24%|██▎       | 92/388 [00:01<00:03, 88.57it/s]Loading weights:  26%|██▋       | 102/388 [00:01<00:03, 87.73it/s]Loading weights:  29%|██▉       | 112/388 [00:01<00:03, 78.76it/s]Loading weights:  33%|███▎      | 128/388 [00:01<00:02, 92.02it/s]Loading weights:  36%|███▌      | 138/388 [00:01<00:02, 87.08it/s]Loading weights:  38%|███▊      | 147/388 [00:01<00:03, 79.34it/s]Loading weights:  41%|████      | 158/388 [00:02<00:02, 85.35it/s]Loading weights:  43%|████▎     | 168/388 [00:02<00:02, 82.57it/s]Loading weights:  46%|████▋     | 180/388 [00:02<00:02, 90.61it/s]Loading weights:  49%|████▉     | 192/388 [00:02<00:02, 84.89it/s]Loading weights:  53%|█████▎    | 204/388 [00:02<00:02, 87.25it/s]Loading weights:  56%|█████▌    | 216/388 [00:02<00:01, 93.06it/s]Loading weights:  59%|█████▉    | 228/388 [00:02<00:01, 90.22it/s]Loading weights:  62%|██████▏   | 240/388 [00:02<00:01, 83.15it/s]Loading weights:  65%|██████▌   | 254/388 [00:03<00:01, 83.39it/s]Loading weights:  69%|██████▊   | 266/388 [00:03<00:01, 89.48it/s]Loading weights:  71%|███████   | 276/388 [00:03<00:01, 88.24it/s]Loading weights:  74%|███████▍  | 288/388 [00:03<00:01, 91.46it/s]Loading weights:  77%|███████▋  | 300/388 [00:03<00:00, 88.12it/s]Loading weights:  80%|████████  | 312/388 [00:03<00:00, 89.87it/s]Loading weights:  84%|████████▎ | 324/388 [00:03<00:00, 86.06it/s]Loading weights:  87%|████████▋ | 336/388 [00:04<00:00, 87.20it/s]Loading weights:  90%|████████▉ | 348/388 [00:04<00:00, 84.56it/s]Loading weights:  93%|█████████▎| 360/388 [00:04<00:00, 87.50it/s]Loading weights:  96%|█████████▌| 372/388 [00:04<00:00, 87.17it/s]Loading weights: 100%|██████████| 388/388 [00:04<00:00, 85.79it/s]
+[trace] loaded EleutherAI/pythia-2.8b-deduped on mps in 5.7s
+[trace] arch=GPTNeoXForCausalLM  L=32  register=ungated  layers=gpt_neox.layers  gate=mlp.dense_h_to_4h(d=10240)  read=sign(dense_h_to_4h) [up-proj proxy]  attn=attention.dense(d=2560)
+[trace] [gate] calibrating on 535 crystal probes ...
+[trace] [gate]   probe 0/535
+[trace] [gate]   probe 100/535
+[trace] [gate]   probe 200/535
+[trace] [gate]   probe 300/535
+[trace] [gate]   probe 400/535
+[trace] [gate]   probe 500/535
+[trace] [gate] null from 8 natural prompts ...
+[trace] [gate] crystal-bearing layers: 0/32
+[trace] [gate] shuffled-label null floor (3 shuffles) ...
+[trace] [gate] null_floor_z=1.93 (ref~1.64) shuffled_bearing=0.0104
+[trace] [attn] calibrating on 535 crystal probes ...
+[trace] [attn]   probe 0/535
+[trace] [attn]   probe 100/535
+[trace] [attn]   probe 200/535
+[trace] [attn]   probe 300/535
+[trace] [attn]   probe 400/535
+[trace] [attn]   probe 500/535
+[trace] [attn] null from 8 natural prompts ...
+[trace] [attn] crystal-bearing layers: 10/32
+[trace] [attn] shuffled-label null floor (3 shuffles) ...
+[trace] [attn] null_floor_z=2.039 (ref~1.64) shuffled_bearing=0.0208
+========================================================================
+OPCODE TRACE — EleutherAI/pythia-2.8b-deduped
+========================================================================
+[+] model:EleutherAI/pythia-2.8b-deduped  sil_z=2.34 gc=0.859 bearing=0.50 null_floor=2.04
+  [-] register:gate  sil_z=nan gc=nan bearing=0.00 null_floor=1.93
+    [-] layer:L0  sil_z=1.59 gc=0.718 bearing=0.00 null_floor=1.93
+    [-] layer:L1  sil_z=0.87 gc=0.793 bearing=0.00 null_floor=1.93
+    [-] layer:L2  sil_z=-0.59 gc=0.490 bearing=0.00 null_floor=1.93
+    [-] layer:L3  sil_z=-0.51 gc=0.529 bearing=0.00 null_floor=1.93
+    [-] layer:L4  sil_z=-0.15 gc=0.515 bearing=0.00 null_floor=1.93
+    [-] layer:L5  sil_z=-0.01 gc=0.596 bearing=0.00 null_floor=1.93
+    [-] layer:L6  sil_z=0.59 gc=0.645 bearing=0.00 null_floor=1.93
+    [-] layer:L7  sil_z=0.73 gc=0.591 bearing=0.00 null_floor=1.93
+    [-] layer:L8  sil_z=0.92 gc=0.602 bearing=0.00 null_floor=1.93
+    [-] layer:L9  sil_z=0.84 gc=0.606 bearing=0.00 null_floor=1.93
+    [-] layer:L10  sil_z=0.86 gc=0.598 bearing=0.00 null_floor=1.93
+    [-] layer:L11  sil_z=1.15 gc=0.617 bearing=0.00 null_floor=1.93
+    [-] layer:L12  sil_z=0.88 gc=0.584 bearing=0.00 null_floor=1.93
+    [-] layer:L13  sil_z=1.07 gc=0.595 bearing=0.00 null_floor=1.93
+    [-] layer:L14  sil_z=0.80 gc=0.578 bearing=0.00 null_floor=1.93
+    [-] layer:L15  sil_z=0.83 gc=0.605 bearing=0.00 null_floor=1.93
+    [-] layer:L16  sil_z=0.58 gc=0.577 bearing=0.00 null_floor=1.93
+    [-] layer:L17  sil_z=0.59 gc=0.596 bearing=0.00 null_floor=1.93
+    [-] layer:L18  sil_z=0.59 gc=0.584 bearing=0.00 null_floor=1.93
+    [-] layer:L19  sil_z=0.36 gc=0.578 bearing=0.00 null_floor=1.93
+    [-] layer:L20  sil_z=0.27 gc=0.583 bearing=0.00 null_floor=1.93
+    [-] layer:L21  sil_z=0.22 gc=0.620 bearing=0.00 null_floor=1.93
+    [-] layer:L22  sil_z=0.25 gc=0.618 bearing=0.00 null_floor=1.93
+    [-] layer:L23  sil_z=0.13 gc=0.598 bearing=0.00 null_floor=1.93
+    [-] layer:L24  sil_z=0.07 gc=0.612 bearing=0.00 null_floor=1.93
+    [-] layer:L25  sil_z=0.08 gc=0.631 bearing=0.00 null_floor=1.93
+    [-] layer:L26  sil_z=-0.11 gc=0.620 bearing=0.00 null_floor=1.93
+    [-] layer:L27  sil_z=-0.09 gc=0.665 bearing=0.00 null_floor=1.93
+    [-] layer:L28  sil_z=-0.03 gc=0.643 bearing=0.00 null_floor=1.93
+    [-] layer:L29  sil_z=-0.07 gc=0.634 bearing=0.00 null_floor=1.93
+    [-] layer:L30  sil_z=0.10 gc=0.651 bearing=0.00 null_floor=1.93
+    [-] layer:L31  sil_z=1.18 gc=0.821 bearing=0.00 null_floor=1.93
+  [+] register:attn  sil_z=2.34 gc=0.859 bearing=0.31 null_floor=2.04
+    [-] layer:L0  sil_z=1.87 gc=0.876 bearing=0.00 null_floor=2.04
+    [-] layer:L1  sil_z=1.40 gc=0.771 bearing=0.00 null_floor=2.04
+    [-] layer:L2  sil_z=1.15 gc=0.720 bearing=0.00 null_floor=2.04
+    [-] layer:L3  sil_z=1.86 gc=0.817 bearing=0.00 null_floor=2.04
+    [+] layer:L4  sil_z=2.18 gc=0.747 bearing=1.00 null_floor=2.04
+    [+] layer:L5  sil_z=2.23 gc=0.838 bearing=1.00 null_floor=2.04
+    [+] layer:L6  sil_z=2.08 gc=0.775 bearing=1.00 null_floor=2.04
+    [+] layer:L7  sil_z=2.45 gc=0.843 bearing=1.00 null_floor=2.04
+    [+] layer:L8  sil_z=2.94 gc=0.815 bearing=1.00 null_floor=2.04
+    [+] layer:L9  sil_z=2.78 gc=0.839 bearing=1.00 null_floor=2.04
+    [-] layer:L10  sil_z=1.98 gc=0.786 bearing=0.00 null_floor=2.04
+    [+] layer:L11  sil_z=2.07 gc=0.826 bearing=1.00 null_floor=2.04
+    [+] layer:L12  sil_z=2.06 gc=0.836 bearing=1.00 null_floor=2.04
+    [-] layer:L13  sil_z=1.15 gc=0.783 bearing=0.00 null_floor=2.04
+    [-] layer:L14  sil_z=1.61 gc=0.788 bearing=0.00 null_floor=2.04
+    [-] layer:L15  sil_z=1.26 gc=0.726 bearing=0.00 null_floor=2.04
+    [-] layer:L16  sil_z=0.70 gc=0.766 bearing=0.00 null_floor=2.04
+    [-] layer:L17  sil_z=1.40 gc=0.799 bearing=0.00 null_floor=2.04
+    [-] layer:L18  sil_z=1.02 gc=0.802 bearing=0.00 null_floor=2.04
+    [-] layer:L19  sil_z=1.61 gc=0.795 bearing=0.00 null_floor=2.04
+    [-] layer:L20  sil_z=0.86 gc=0.828 bearing=0.00 null_floor=2.04
+    [-] layer:L21  sil_z=0.38 gc=0.759 bearing=0.00 null_floor=2.04
+    [-] layer:L22  sil_z=0.99 gc=0.795 bearing=0.00 null_floor=2.04
+    [-] layer:L23  sil_z=1.96 gc=0.890 bearing=0.00 null_floor=2.04
+    [-] layer:L24  sil_z=1.62 gc=0.847 bearing=0.00 null_floor=2.04
+    [-] layer:L25  sil_z=0.94 gc=0.847 bearing=0.00 null_floor=2.04
+    [-] layer:L26  sil_z=-0.22 gc=0.740 bearing=0.00 null_floor=2.04
+    [-] layer:L27  sil_z=0.30 gc=0.802 bearing=0.00 null_floor=2.04
+    [+] layer:L28  sil_z=4.40 gc=0.894 bearing=1.00 null_floor=2.04
+    [-] layer:L29  sil_z=1.70 gc=0.874 bearing=0.00 null_floor=2.04
+    [+] layer:L30  sil_z=2.52 gc=0.880 bearing=1.00 null_floor=2.04
+    [-] layer:L31  sil_z=-0.14 gc=0.745 bearing=0.00 null_floor=2.04
+-- gate [gate] crystal=0/32 noop=1.0 C_before_B=False
+-- attn [attn] crystal=10/32 noop=0.8125 C_before_B=False
+  L  5  WHNF    2/2   ####################
+  L  9  WHNF    4/4   ####################
+  L 11  WHNF    1/1   ####################
+  L 12  WHNF    2/2   ####################
+  L 28     S    2/2   ####################
+========================================================================
+[trace] wrote /Users/mwhitford/src/verbum/results/opcode-trace/pythia-2-8b-deduped/trace.json + model_vsm.json (206.9s)
+[sweep] tracing Qwen/Qwen3-4B (Qwen/Qwen3-4B --device mps) ...
+[sweep] tracing Qwen/Qwen3-14B (Qwen/Qwen3-14B --device mps) ...
+[sweep] tracing Qwen/Qwen3-32B (Qwen/Qwen3-32B --device mps) ...
+[sweep] tracing Qwen/Qwen3.6-27B (Qwen/Qwen3.6-27B --device mps) ...
+[sweep] tracing google/gemma-4-31B-it (google/gemma-4-31B-it --device mps) ...
+[sweep] tracing allenai/OLMo-2-1124-13B (allenai/OLMo-2-1124-13B --device mps) ...
+[sweep] tracing EleutherAI/pythia-2.8b-deduped (EleutherAI/pythia-2.8b-deduped --device mps) ...
+========================================================================
+OPCODE CRYSTAL TREE — cross-model consensus
+========================================================================
+[+] root:universal  sil_z=5.09 gc=0.982 bearing=1.00 null_floor=2.78
+  [+] family:gemma  sil_z=4.49 gc=0.935 bearing=1.00 null_floor=1.86
+    [+] model:google/gemma-4-31B-it  sil_z=4.49 gc=0.935 bearing=1.00 null_floor=1.86
+      [+] register:gate  sil_z=3.23 gc=0.939 bearing=0.88 null_floor=1.86
+        [+] layer:L0  sil_z=2.19 gc=0.832 bearing=1.00 null_floor=1.86
+        [-] layer:L1  sil_z=1.22 gc=0.872 bearing=0.00 null_floor=1.86
+        [+] layer:L2  sil_z=6.25 gc=0.799 bearing=1.00 null_floor=1.86
+        [+] layer:L3  sil_z=4.88 gc=0.891 bearing=1.00 null_floor=1.86
+        [+] layer:L4  sil_z=4.52 gc=0.891 bearing=1.00 null_floor=1.86
+        [+] layer:L5  sil_z=3.35 gc=0.918 bearing=1.00 null_floor=1.86
+        [-] layer:L6  sil_z=1.73 gc=0.863 bearing=0.00 null_floor=1.86
+        [+] layer:L7  sil_z=2.91 gc=0.887 bearing=1.00 null_floor=1.86
+        [+] layer:L8  sil_z=3.06 gc=0.885 bearing=1.00 null_floor=1.86
+        [+] layer:L9  sil_z=4.24 gc=0.837 bearing=1.00 null_floor=1.86
+        [+] layer:L10  sil_z=2.16 gc=0.822 bearing=1.00 null_floor=1.86
+        [+] layer:L11  sil_z=3.00 gc=0.862 bearing=1.00 null_floor=1.86
+        [+] layer:L12  sil_z=3.21 gc=0.909 bearing=1.00 null_floor=1.86
+        [+] layer:L13  sil_z=5.39 gc=0.864 bearing=1.00 null_floor=1.86
+        [+] layer:L14  sil_z=5.95 gc=0.859 bearing=1.00 null_floor=1.86
+        [+] layer:L15  sil_z=5.07 gc=0.911 bearing=1.00 null_floor=1.86
+        [+] layer:L16  sil_z=6.30 gc=0.958 bearing=1.00 null_floor=1.86
+        [+] layer:L17  sil_z=6.16 gc=0.966 bearing=1.00 null_floor=1.86
+        [+] layer:L18  sil_z=6.31 gc=0.943 bearing=1.00 null_floor=1.86
+        [+] layer:L19  sil_z=5.55 gc=0.942 bearing=1.00 null_floor=1.86
+        [+] layer:L20  sil_z=6.16 gc=0.924 bearing=1.00 null_floor=1.86
+        [+] layer:L21  sil_z=5.62 gc=0.936 bearing=1.00 null_floor=1.86
+        [+] layer:L22  sil_z=4.48 gc=0.934 bearing=1.00 null_floor=1.86
+        [+] layer:L23  sil_z=7.76 gc=0.904 bearing=1.00 null_floor=1.86
+        [+] layer:L24  sil_z=5.57 gc=0.876 bearing=1.00 null_floor=1.86
+        [+] layer:L25  sil_z=4.80 gc=0.807 bearing=1.00 null_floor=1.86
+        [+] layer:L26  sil_z=4.10 gc=0.763 bearing=1.00 null_floor=1.86
+        [+] layer:L27  sil_z=3.59 gc=0.724 bearing=1.00 null_floor=1.86
+        [+] layer:L28  sil_z=3.60 gc=0.733 bearing=1.00 null_floor=1.86
+        [+] layer:L29  sil_z=4.08 gc=0.778 bearing=1.00 null_floor=1.86
+        [+] layer:L30  sil_z=4.00 gc=0.867 bearing=1.00 null_floor=1.86
+        [+] layer:L31  sil_z=2.78 gc=0.835 bearing=1.00 null_floor=1.86
+        [+] layer:L32  sil_z=4.06 gc=0.827 bearing=1.00 null_floor=1.86
+        [+] layer:L33  sil_z=2.03 gc=0.818 bearing=1.00 null_floor=1.86
+        [+] layer:L34  sil_z=2.49 gc=0.806 bearing=1.00 null_floor=1.86
+        [+] layer:L35  sil_z=2.81 gc=0.860 bearing=1.00 null_floor=1.86
+        [+] layer:L36  sil_z=2.66 gc=0.789 bearing=1.00 null_floor=1.86
+        [+] layer:L37  sil_z=2.66 gc=0.791 bearing=1.00 null_floor=1.86
+        [+] layer:L38  sil_z=2.79 gc=0.785 bearing=1.00 null_floor=1.86
+        [+] layer:L39  sil_z=3.10 gc=0.840 bearing=1.00 null_floor=1.86
+        [+] layer:L40  sil_z=3.06 gc=0.847 bearing=1.00 null_floor=1.86
+        [+] layer:L41  sil_z=3.23 gc=0.923 bearing=1.00 null_floor=1.86
+        [-] layer:L42  sil_z=1.70 gc=0.911 bearing=0.00 null_floor=1.86
+        [-] layer:L43  sil_z=1.88 gc=0.917 bearing=0.00 null_floor=1.86
+        [+] layer:L44  sil_z=2.70 gc=0.897 bearing=1.00 null_floor=1.86
+        [+] layer:L45  sil_z=2.71 gc=0.914 bearing=1.00 null_floor=1.86
+        [+] layer:L46  sil_z=2.34 gc=0.879 bearing=1.00 null_floor=1.86
+        [-] layer:L47  sil_z=1.16 gc=0.901 bearing=0.00 null_floor=1.86
+        [-] layer:L48  sil_z=1.79 gc=0.907 bearing=0.00 null_floor=1.86
+        [+] layer:L49  sil_z=2.91 gc=0.921 bearing=1.00 null_floor=1.86
+        [+] layer:L50  sil_z=3.33 gc=0.939 bearing=1.00 null_floor=1.86
+        [+] layer:L51  sil_z=3.20 gc=0.872 bearing=1.00 null_floor=1.86
+        [+] layer:L52  sil_z=3.41 gc=0.898 bearing=1.00 null_floor=1.86
+        [+] layer:L53  sil_z=3.21 gc=0.885 bearing=1.00 null_floor=1.86
+        [+] layer:L54  sil_z=2.67 gc=0.777 bearing=1.00 null_floor=1.86
+        [+] layer:L55  sil_z=3.14 gc=0.859 bearing=1.00 null_floor=1.86
+        [+] layer:L56  sil_z=3.21 gc=0.796 bearing=1.00 null_floor=1.86
+        [+] layer:L57  sil_z=2.60 gc=0.779 bearing=1.00 null_floor=1.86
+        [+] layer:L58  sil_z=2.34 gc=0.761 bearing=1.00 null_floor=1.86
+        [-] layer:L59  sil_z=1.09 gc=0.625 bearing=0.00 null_floor=1.86
+      [+] register:attn  sil_z=5.74 gc=0.896 bearing=0.90 null_floor=1.46
+        [-] layer:L0  sil_z=1.32 gc=0.735 bearing=0.00 null_floor=1.46
+        [-] layer:L1  sil_z=1.68 gc=0.610 bearing=0.00 null_floor=1.46
+        [+] layer:L2  sil_z=5.40 gc=0.700 bearing=1.00 null_floor=1.46
+        [+] layer:L3  sil_z=4.96 gc=0.808 bearing=1.00 null_floor=1.46
+        [+] layer:L4  sil_z=8.75 gc=0.805 bearing=1.00 null_floor=1.46
+        [+] layer:L5  sil_z=2.79 gc=0.868 bearing=1.00 null_floor=1.46
+        [+] layer:L6  sil_z=2.81 gc=0.825 bearing=1.00 null_floor=1.46
+        [-] layer:L7  sil_z=0.77 gc=0.759 bearing=0.00 null_floor=1.46
+        [+] layer:L8  sil_z=2.91 gc=0.769 bearing=1.00 null_floor=1.46
+        [+] layer:L9  sil_z=3.02 gc=0.779 bearing=1.00 null_floor=1.46
+        [+] layer:L10  sil_z=4.26 gc=0.794 bearing=1.00 null_floor=1.46
+        [-] layer:L11  sil_z=1.56 gc=0.819 bearing=0.00 null_floor=1.46
+        [-] layer:L12  sil_z=1.22 gc=0.602 bearing=0.00 null_floor=1.46
+        [+] layer:L13  sil_z=5.89 gc=0.785 bearing=1.00 null_floor=1.46
+        [+] layer:L14  sil_z=6.40 gc=0.773 bearing=1.00 null_floor=1.46
+        [+] layer:L15  sil_z=4.10 gc=0.785 bearing=1.00 null_floor=1.46
+        [+] layer:L16  sil_z=11.15 gc=0.825 bearing=1.00 null_floor=1.46
+        [+] layer:L17  sil_z=6.20 gc=0.890 bearing=1.00 null_floor=1.46
+        [+] layer:L18  sil_z=14.26 gc=0.842 bearing=1.00 null_floor=1.46
+        [+] layer:L19  sil_z=7.12 gc=0.859 bearing=1.00 null_floor=1.46
+        [+] layer:L20  sil_z=6.26 gc=0.688 bearing=1.00 null_floor=1.46
+        [+] layer:L21  sil_z=10.91 gc=0.846 bearing=1.00 null_floor=1.46
+        [+] layer:L22  sil_z=10.96 gc=0.821 bearing=1.00 null_floor=1.46
+        [+] layer:L23  sil_z=8.94 gc=0.842 bearing=1.00 null_floor=1.46
+        [+] layer:L24  sil_z=8.97 gc=0.751 bearing=1.00 null_floor=1.46
+        [+] layer:L25  sil_z=6.74 gc=0.785 bearing=1.00 null_floor=1.46
+        [+] layer:L26  sil_z=6.03 gc=0.689 bearing=1.00 null_floor=1.46
+        [+] layer:L27  sil_z=3.31 gc=0.478 bearing=1.00 null_floor=1.46
+        [+] layer:L28  sil_z=4.90 gc=0.664 bearing=1.00 null_floor=1.46
+        [+] layer:L29  sil_z=4.33 gc=0.722 bearing=1.00 null_floor=1.46
+        [+] layer:L30  sil_z=5.25 gc=0.739 bearing=1.00 null_floor=1.46
+        [+] layer:L31  sil_z=4.61 gc=0.734 bearing=1.00 null_floor=1.46
+        [+] layer:L32  sil_z=4.91 gc=0.648 bearing=1.00 null_floor=1.46
+        [+] layer:L33  sil_z=4.17 gc=0.696 bearing=1.00 null_floor=1.46
+        [+] layer:L34  sil_z=6.28 gc=0.698 bearing=1.00 null_floor=1.46
+        [+] layer:L35  sil_z=5.95 gc=0.738 bearing=1.00 null_floor=1.46
+        [+] layer:L36  sil_z=4.86 gc=0.692 bearing=1.00 null_floor=1.46
+        [+] layer:L37  sil_z=6.15 gc=0.852 bearing=1.00 null_floor=1.46
+        [+] layer:L38  sil_z=4.31 gc=0.727 bearing=1.00 null_floor=1.46
+        [+] layer:L39  sil_z=6.17 gc=0.746 bearing=1.00 null_floor=1.46
+        [+] layer:L40  sil_z=6.15 gc=0.766 bearing=1.00 null_floor=1.46
+        [+] layer:L41  sil_z=3.69 gc=0.871 bearing=1.00 null_floor=1.46
+        [+] layer:L42  sil_z=5.43 gc=0.914 bearing=1.00 null_floor=1.46
+        [+] layer:L43  sil_z=6.03 gc=0.906 bearing=1.00 null_floor=1.46
+        [+] layer:L44  sil_z=6.21 gc=0.890 bearing=1.00 null_floor=1.46
+        [+] layer:L45  sil_z=5.94 gc=0.919 bearing=1.00 null_floor=1.46
+        [+] layer:L46  sil_z=5.22 gc=0.878 bearing=1.00 null_floor=1.46
+        [+] layer:L47  sil_z=4.80 gc=0.867 bearing=1.00 null_floor=1.46
+        [+] layer:L48  sil_z=7.67 gc=0.875 bearing=1.00 null_floor=1.46
+        [+] layer:L49  sil_z=2.70 gc=0.864 bearing=1.00 null_floor=1.46
+        [+] layer:L50  sil_z=6.87 gc=0.915 bearing=1.00 null_floor=1.46
+        [+] layer:L51  sil_z=5.47 gc=0.939 bearing=1.00 null_floor=1.46
+        [+] layer:L52  sil_z=6.35 gc=0.888 bearing=1.00 null_floor=1.46
+        [+] layer:L53  sil_z=7.88 gc=0.819 bearing=1.00 null_floor=1.46
+        [+] layer:L54  sil_z=5.24 gc=0.906 bearing=1.00 null_floor=1.46
+        [+] layer:L55  sil_z=5.63 gc=0.893 bearing=1.00 null_floor=1.46
+        [+] layer:L56  sil_z=5.84 gc=0.856 bearing=1.00 null_floor=1.46
+        [+] layer:L57  sil_z=5.24 gc=0.839 bearing=1.00 null_floor=1.46
+        [+] layer:L58  sil_z=2.51 gc=0.736 bearing=1.00 null_floor=1.46
+        [-] layer:L59  sil_z=1.30 gc=0.633 bearing=0.00 null_floor=1.46
+  [+] family:olmo  sil_z=5.69 gc=0.957 bearing=1.00 null_floor=2.07
+    [+] model:allenai/OLMo-2-1124-13B  sil_z=5.69 gc=0.957 bearing=1.00 null_floor=2.07
+      [+] register:gate  sil_z=5.15 gc=0.950 bearing=0.62 null_floor=2.07
+        [-] layer:L0  sil_z=0.35 gc=0.799 bearing=0.00 null_floor=2.07
+        [-] layer:L1  sil_z=-0.47 gc=0.791 bearing=0.00 null_floor=2.07
+        [+] layer:L2  sil_z=2.92 gc=0.875 bearing=1.00 null_floor=2.07
+        [+] layer:L3  sil_z=2.03 gc=0.946 bearing=1.00 null_floor=2.07
+        [+] layer:L4  sil_z=2.87 gc=0.939 bearing=1.00 null_floor=2.07
+        [+] layer:L5  sil_z=3.51 gc=0.944 bearing=1.00 null_floor=2.07
+        [+] layer:L6  sil_z=6.11 gc=0.954 bearing=1.00 null_floor=2.07
+        [+] layer:L7  sil_z=4.93 gc=0.943 bearing=1.00 null_floor=2.07
+        [+] layer:L8  sil_z=6.76 gc=0.952 bearing=1.00 null_floor=2.07
+        [+] layer:L9  sil_z=7.82 gc=0.937 bearing=1.00 null_floor=2.07
+        [+] layer:L10  sil_z=7.70 gc=0.937 bearing=1.00 null_floor=2.07
+        [+] layer:L11  sil_z=7.07 gc=0.947 bearing=1.00 null_floor=2.07
+        [+] layer:L12  sil_z=7.31 gc=0.947 bearing=1.00 null_floor=2.07
+        [+] layer:L13  sil_z=7.52 gc=0.928 bearing=1.00 null_floor=2.07
+        [+] layer:L14  sil_z=7.60 gc=0.954 bearing=1.00 null_floor=2.07
+        [+] layer:L15  sil_z=6.56 gc=0.950 bearing=1.00 null_floor=2.07
+        [+] layer:L16  sil_z=5.75 gc=0.953 bearing=1.00 null_floor=2.07
+        [+] layer:L17  sil_z=5.71 gc=0.940 bearing=1.00 null_floor=2.07
+        [+] layer:L18  sil_z=5.15 gc=0.942 bearing=1.00 null_floor=2.07
+        [+] layer:L19  sil_z=5.52 gc=0.942 bearing=1.00 null_floor=2.07
+        [+] layer:L20  sil_z=4.74 gc=0.906 bearing=1.00 null_floor=2.07
+        [+] layer:L21  sil_z=5.10 gc=0.904 bearing=1.00 null_floor=2.07
+        [+] layer:L22  sil_z=3.88 gc=0.881 bearing=1.00 null_floor=2.07
+        [+] layer:L23  sil_z=2.99 gc=0.855 bearing=1.00 null_floor=2.07
+        [+] layer:L24  sil_z=2.97 gc=0.861 bearing=1.00 null_floor=2.07
+        [+] layer:L25  sil_z=3.01 gc=0.855 bearing=1.00 null_floor=2.07
+        [+] layer:L26  sil_z=2.12 gc=0.840 bearing=1.00 null_floor=2.07
+        [-] layer:L27  sil_z=1.23 gc=0.824 bearing=0.00 null_floor=2.07
+        [-] layer:L28  sil_z=1.04 gc=0.803 bearing=0.00 null_floor=2.07
+        [-] layer:L29  sil_z=0.88 gc=0.793 bearing=0.00 null_floor=2.07
+        [-] layer:L30  sil_z=0.93 gc=0.763 bearing=0.00 null_floor=2.07
+        [-] layer:L31  sil_z=1.03 gc=0.741 bearing=0.00 null_floor=2.07
+        [-] layer:L32  sil_z=1.14 gc=0.725 bearing=0.00 null_floor=2.07
+        [-] layer:L33  sil_z=0.93 gc=0.733 bearing=0.00 null_floor=2.07
+        [-] layer:L34  sil_z=0.64 gc=0.726 bearing=0.00 null_floor=2.07
+        [-] layer:L35  sil_z=0.70 gc=0.736 bearing=0.00 null_floor=2.07
+        [-] layer:L36  sil_z=0.75 gc=0.758 bearing=0.00 null_floor=2.07
+        [-] layer:L37  sil_z=0.49 gc=0.769 bearing=0.00 null_floor=2.07
+        [-] layer:L38  sil_z=0.69 gc=0.753 bearing=0.00 null_floor=2.07
+        [-] layer:L39  sil_z=1.21 gc=0.765 bearing=0.00 null_floor=2.07
+      [+] register:attn  sil_z=6.22 gc=0.954 bearing=0.90 null_floor=1.75
+        [+] layer:L0  sil_z=2.33 gc=0.747 bearing=1.00 null_floor=1.75
+        [-] layer:L1  sil_z=1.85 gc=0.907 bearing=0.00 null_floor=1.75
+        [+] layer:L2  sil_z=5.27 gc=0.846 bearing=1.00 null_floor=1.75
+        [+] layer:L3  sil_z=5.48 gc=0.909 bearing=1.00 null_floor=1.75
+        [+] layer:L4  sil_z=7.08 gc=0.946 bearing=1.00 null_floor=1.75
+        [+] layer:L5  sil_z=6.28 gc=0.895 bearing=1.00 null_floor=1.75
+        [+] layer:L6  sil_z=10.82 gc=0.914 bearing=1.00 null_floor=1.75
+        [+] layer:L7  sil_z=6.35 gc=0.921 bearing=1.00 null_floor=1.75
+        [+] layer:L8  sil_z=9.85 gc=0.867 bearing=1.00 null_floor=1.75
+        [+] layer:L9  sil_z=10.03 gc=0.901 bearing=1.00 null_floor=1.75
+        [+] layer:L10  sil_z=10.54 gc=0.911 bearing=1.00 null_floor=1.75
+        [+] layer:L11  sil_z=8.36 gc=0.932 bearing=1.00 null_floor=1.75
+        [+] layer:L12  sil_z=8.84 gc=0.909 bearing=1.00 null_floor=1.75
+        [+] layer:L13  sil_z=10.32 gc=0.905 bearing=1.00 null_floor=1.75
+        [+] layer:L14  sil_z=11.38 gc=0.896 bearing=1.00 null_floor=1.75
+        [+] layer:L15  sil_z=6.16 gc=0.878 bearing=1.00 null_floor=1.75
+        [+] layer:L16  sil_z=8.87 gc=0.920 bearing=1.00 null_floor=1.75
+        [+] layer:L17  sil_z=10.79 gc=0.911 bearing=1.00 null_floor=1.75
+        [+] layer:L18  sil_z=9.14 gc=0.933 bearing=1.00 null_floor=1.75
+        [+] layer:L19  sil_z=11.82 gc=0.925 bearing=1.00 null_floor=1.75
+        [+] layer:L20  sil_z=6.47 gc=0.877 bearing=1.00 null_floor=1.75
+        [+] layer:L21  sil_z=6.43 gc=0.873 bearing=1.00 null_floor=1.75
+        [+] layer:L22  sil_z=4.86 gc=0.887 bearing=1.00 null_floor=1.75
+        [+] layer:L23  sil_z=4.10 gc=0.870 bearing=1.00 null_floor=1.75
+        [+] layer:L24  sil_z=6.17 gc=0.862 bearing=1.00 null_floor=1.75
+        [+] layer:L25  sil_z=5.89 gc=0.908 bearing=1.00 null_floor=1.75
+        [+] layer:L26  sil_z=6.42 gc=0.915 bearing=1.00 null_floor=1.75
+        [+] layer:L27  sil_z=3.30 gc=0.832 bearing=1.00 null_floor=1.75
+        [+] layer:L28  sil_z=4.26 gc=0.880 bearing=1.00 null_floor=1.75
+        [+] layer:L29  sil_z=2.71 gc=0.875 bearing=1.00 null_floor=1.75
+        [+] layer:L30  sil_z=4.12 gc=0.870 bearing=1.00 null_floor=1.75
+        [+] layer:L31  sil_z=3.09 gc=0.882 bearing=1.00 null_floor=1.75
+        [-] layer:L32  sil_z=1.06 gc=0.734 bearing=0.00 null_floor=1.75
+        [-] layer:L33  sil_z=1.20 gc=0.617 bearing=0.00 null_floor=1.75
+        [+] layer:L34  sil_z=2.65 gc=0.837 bearing=1.00 null_floor=1.75
+        [+] layer:L35  sil_z=3.00 gc=0.826 bearing=1.00 null_floor=1.75
+        [-] layer:L36  sil_z=1.68 gc=0.859 bearing=0.00 null_floor=1.75
+        [+] layer:L37  sil_z=2.43 gc=0.882 bearing=1.00 null_floor=1.75
+        [+] layer:L38  sil_z=3.48 gc=0.860 bearing=1.00 null_floor=1.75
+        [+] layer:L39  sil_z=3.83 gc=0.798 bearing=1.00 null_floor=1.75
+  [+] family:pythia  sil_z=2.75 gc=0.919 bearing=1.00 null_floor=2.04
+    [+] model:EleutherAI/pythia-14m-deduped  sil_z=3.17 gc=0.892 bearing=1.00 null_floor=1.94
+      [+] register:gate  sil_z=2.96 gc=0.821 bearing=0.50 null_floor=1.55
+        [-] layer:L0  sil_z=1.39 gc=0.733 bearing=0.00 null_floor=1.55
+        [+] layer:L1  sil_z=2.96 gc=0.758 bearing=1.00 null_floor=1.55
+        [+] layer:L2  sil_z=3.07 gc=0.746 bearing=1.00 null_floor=1.55
+        [+] layer:L3  sil_z=2.53 gc=0.761 bearing=1.00 null_floor=1.55
+        [-] layer:L4  sil_z=1.86 gc=0.774 bearing=0.00 null_floor=1.55
+        [-] layer:L5  sil_z=1.46 gc=0.797 bearing=0.00 null_floor=1.55
+      [+] register:attn  sil_z=3.37 gc=0.917 bearing=0.67 null_floor=1.94
+        [+] layer:L0  sil_z=2.37 gc=0.776 bearing=1.00 null_floor=1.94
+        [+] layer:L1  sil_z=3.76 gc=0.726 bearing=1.00 null_floor=1.94
+        [+] layer:L2  sil_z=3.22 gc=0.821 bearing=1.00 null_floor=1.94
+        [-] layer:L3  sil_z=1.69 gc=0.490 bearing=0.00 null_floor=1.94
+        [+] layer:L4  sil_z=3.52 gc=0.861 bearing=1.00 null_floor=1.94
+        [-] layer:L5  sil_z=-0.71 gc=-0.249 bearing=0.00 null_floor=1.94
+    [+] model:EleutherAI/pythia-2.8b-deduped  sil_z=2.34 gc=0.859 bearing=0.50 null_floor=2.04
+      [-] register:gate  sil_z=nan gc=nan bearing=0.00 null_floor=1.93
+        [-] layer:L0  sil_z=1.59 gc=0.718 bearing=0.00 null_floor=1.93
+        [-] layer:L1  sil_z=0.87 gc=0.793 bearing=0.00 null_floor=1.93
+        [-] layer:L2  sil_z=-0.59 gc=0.490 bearing=0.00 null_floor=1.93
+        [-] layer:L3  sil_z=-0.51 gc=0.529 bearing=0.00 null_floor=1.93
+        [-] layer:L4  sil_z=-0.15 gc=0.515 bearing=0.00 null_floor=1.93
+        [-] layer:L5  sil_z=-0.01 gc=0.596 bearing=0.00 null_floor=1.93
+        [-] layer:L6  sil_z=0.59 gc=0.645 bearing=0.00 null_floor=1.93
+        [-] layer:L7  sil_z=0.73 gc=0.591 bearing=0.00 null_floor=1.93
+        [-] layer:L8  sil_z=0.92 gc=0.602 bearing=0.00 null_floor=1.93
+        [-] layer:L9  sil_z=0.84 gc=0.606 bearing=0.00 null_floor=1.93
+        [-] layer:L10  sil_z=0.86 gc=0.598 bearing=0.00 null_floor=1.93
+        [-] layer:L11  sil_z=1.15 gc=0.617 bearing=0.00 null_floor=1.93
+        [-] layer:L12  sil_z=0.88 gc=0.584 bearing=0.00 null_floor=1.93
+        [-] layer:L13  sil_z=1.07 gc=0.595 bearing=0.00 null_floor=1.93
+        [-] layer:L14  sil_z=0.80 gc=0.578 bearing=0.00 null_floor=1.93
+        [-] layer:L15  sil_z=0.83 gc=0.605 bearing=0.00 null_floor=1.93
+        [-] layer:L16  sil_z=0.58 gc=0.577 bearing=0.00 null_floor=1.93
+        [-] layer:L17  sil_z=0.59 gc=0.596 bearing=0.00 null_floor=1.93
+        [-] layer:L18  sil_z=0.59 gc=0.584 bearing=0.00 null_floor=1.93
+        [-] layer:L19  sil_z=0.36 gc=0.578 bearing=0.00 null_floor=1.93
+        [-] layer:L20  sil_z=0.27 gc=0.583 bearing=0.00 null_floor=1.93
+        [-] layer:L21  sil_z=0.22 gc=0.620 bearing=0.00 null_floor=1.93
+        [-] layer:L22  sil_z=0.25 gc=0.618 bearing=0.00 null_floor=1.93
+        [-] layer:L23  sil_z=0.13 gc=0.598 bearing=0.00 null_floor=1.93
+        [-] layer:L24  sil_z=0.07 gc=0.612 bearing=0.00 null_floor=1.93
+        [-] layer:L25  sil_z=0.08 gc=0.631 bearing=0.00 null_floor=1.93
+        [-] layer:L26  sil_z=-0.11 gc=0.620 bearing=0.00 null_floor=1.93
+        [-] layer:L27  sil_z=-0.09 gc=0.665 bearing=0.00 null_floor=1.93
+        [-] layer:L28  sil_z=-0.03 gc=0.643 bearing=0.00 null_floor=1.93
+        [-] layer:L29  sil_z=-0.07 gc=0.634 bearing=0.00 null_floor=1.93
+        [-] layer:L30  sil_z=0.10 gc=0.651 bearing=0.00 null_floor=1.93
+        [-] layer:L31  sil_z=1.18 gc=0.821 bearing=0.00 null_floor=1.93
+      [+] register:attn  sil_z=2.34 gc=0.859 bearing=0.31 null_floor=2.04
+        [-] layer:L0  sil_z=1.87 gc=0.876 bearing=0.00 null_floor=2.04
+        [-] layer:L1  sil_z=1.40 gc=0.771 bearing=0.00 null_floor=2.04
+        [-] layer:L2  sil_z=1.15 gc=0.720 bearing=0.00 null_floor=2.04
+        [-] layer:L3  sil_z=1.86 gc=0.817 bearing=0.00 null_floor=2.04
+        [+] layer:L4  sil_z=2.18 gc=0.747 bearing=1.00 null_floor=2.04
+        [+] layer:L5  sil_z=2.23 gc=0.838 bearing=1.00 null_floor=2.04
+        [+] layer:L6  sil_z=2.08 gc=0.775 bearing=1.00 null_floor=2.04
+        [+] layer:L7  sil_z=2.45 gc=0.843 bearing=1.00 null_floor=2.04
+        [+] layer:L8  sil_z=2.94 gc=0.815 bearing=1.00 null_floor=2.04
+        [+] layer:L9  sil_z=2.78 gc=0.839 bearing=1.00 null_floor=2.04
+        [-] layer:L10  sil_z=1.98 gc=0.786 bearing=0.00 null_floor=2.04
+        [+] layer:L11  sil_z=2.07 gc=0.826 bearing=1.00 null_floor=2.04
+        [+] layer:L12  sil_z=2.06 gc=0.836 bearing=1.00 null_floor=2.04
+        [-] layer:L13  sil_z=1.15 gc=0.783 bearing=0.00 null_floor=2.04
+        [-] layer:L14  sil_z=1.61 gc=0.788 bearing=0.00 null_floor=2.04
+        [-] layer:L15  sil_z=1.26 gc=0.726 bearing=0.00 null_floor=2.04
+        [-] layer:L16  sil_z=0.70 gc=0.766 bearing=0.00 null_floor=2.04
+        [-] layer:L17  sil_z=1.40 gc=0.799 bearing=0.00 null_floor=2.04
+        [-] layer:L18  sil_z=1.02 gc=0.802 bearing=0.00 null_floor=2.04
+        [-] layer:L19  sil_z=1.61 gc=0.795 bearing=0.00 null_floor=2.04
+        [-] layer:L20  sil_z=0.86 gc=0.828 bearing=0.00 null_floor=2.04
+        [-] layer:L21  sil_z=0.38 gc=0.759 bearing=0.00 null_floor=2.04
+        [-] layer:L22  sil_z=0.99 gc=0.795 bearing=0.00 null_floor=2.04
+        [-] layer:L23  sil_z=1.96 gc=0.890 bearing=0.00 null_floor=2.04
+        [-] layer:L24  sil_z=1.62 gc=0.847 bearing=0.00 null_floor=2.04
+        [-] layer:L25  sil_z=0.94 gc=0.847 bearing=0.00 null_floor=2.04
+        [-] layer:L26  sil_z=-0.22 gc=0.740 bearing=0.00 null_floor=2.04
+        [-] layer:L27  sil_z=0.30 gc=0.802 bearing=0.00 null_floor=2.04
+        [+] layer:L28  sil_z=4.40 gc=0.894 bearing=1.00 null_floor=2.04
+        [-] layer:L29  sil_z=1.70 gc=0.874 bearing=0.00 null_floor=2.04
+        [+] layer:L30  sil_z=2.52 gc=0.880 bearing=1.00 null_floor=2.04
+        [-] layer:L31  sil_z=-0.14 gc=0.745 bearing=0.00 null_floor=2.04
+  [+] family:qwen3  sil_z=5.94 gc=0.976 bearing=1.00 null_floor=2.78
+    [+] model:Qwen/Qwen3-0.6B  sil_z=4.97 gc=0.952 bearing=1.00 null_floor=2.78
+      [+] register:gate  sil_z=3.87 gc=0.942 bearing=0.57 null_floor=2.78
+        [+] layer:L0  sil_z=2.16 gc=0.859 bearing=1.00 null_floor=2.78
+        [-] layer:L1  sil_z=1.67 gc=0.815 bearing=0.00 null_floor=2.78
+        [-] layer:L2  sil_z=1.77 gc=0.892 bearing=0.00 null_floor=2.78
+        [-] layer:L3  sil_z=1.49 gc=0.853 bearing=0.00 null_floor=2.78
+        [-] layer:L4  sil_z=2.00 gc=0.835 bearing=0.00 null_floor=2.78
+        [+] layer:L5  sil_z=3.27 gc=0.923 bearing=1.00 null_floor=2.78
+        [+] layer:L6  sil_z=3.57 gc=0.925 bearing=1.00 null_floor=2.78
+        [+] layer:L7  sil_z=3.74 gc=0.955 bearing=1.00 null_floor=2.78
+        [+] layer:L8  sil_z=4.15 gc=0.950 bearing=1.00 null_floor=2.78
+        [+] layer:L9  sil_z=3.75 gc=0.941 bearing=1.00 null_floor=2.78
+        [+] layer:L10  sil_z=3.99 gc=0.940 bearing=1.00 null_floor=2.78
+        [+] layer:L11  sil_z=4.50 gc=0.952 bearing=1.00 null_floor=2.78
+        [+] layer:L12  sil_z=5.26 gc=0.928 bearing=1.00 null_floor=2.78
+        [+] layer:L13  sil_z=6.03 gc=0.900 bearing=1.00 null_floor=2.78
+        [+] layer:L14  sil_z=5.21 gc=0.905 bearing=1.00 null_floor=2.78
+        [+] layer:L15  sil_z=4.67 gc=0.913 bearing=1.00 null_floor=2.78
+        [+] layer:L16  sil_z=3.99 gc=0.910 bearing=1.00 null_floor=2.78
+        [+] layer:L17  sil_z=2.92 gc=0.888 bearing=1.00 null_floor=2.78
+        [+] layer:L18  sil_z=2.63 gc=0.868 bearing=1.00 null_floor=2.78
+        [+] layer:L19  sil_z=2.36 gc=0.850 bearing=1.00 null_floor=2.78
+        [-] layer:L20  sil_z=1.77 gc=0.848 bearing=0.00 null_floor=2.78
+        [-] layer:L21  sil_z=1.30 gc=0.818 bearing=0.00 null_floor=2.78
+        [-] layer:L22  sil_z=0.87 gc=0.796 bearing=0.00 null_floor=2.78
+        [-] layer:L23  sil_z=1.44 gc=0.825 bearing=0.00 null_floor=2.78
+        [-] layer:L24  sil_z=1.21 gc=0.815 bearing=0.00 null_floor=2.78
+        [-] layer:L25  sil_z=1.53 gc=0.813 bearing=0.00 null_floor=2.78
+        [-] layer:L26  sil_z=0.91 gc=0.750 bearing=0.00 null_floor=2.78
+        [-] layer:L27  sil_z=1.33 gc=0.746 bearing=0.00 null_floor=2.78
+      [+] register:attn  sil_z=6.07 gc=0.950 bearing=1.00 null_floor=2.14
+        [+] layer:L0  sil_z=2.03 gc=0.801 bearing=1.00 null_floor=2.14
+        [+] layer:L1  sil_z=2.97 gc=0.934 bearing=1.00 null_floor=2.14
+        [+] layer:L2  sil_z=2.62 gc=0.884 bearing=1.00 null_floor=2.14
+        [+] layer:L3  sil_z=5.77 gc=0.897 bearing=1.00 null_floor=2.14
+        [+] layer:L4  sil_z=4.08 gc=0.827 bearing=1.00 null_floor=2.14
+        [+] layer:L5  sil_z=5.63 gc=0.925 bearing=1.00 null_floor=2.14
+        [+] layer:L6  sil_z=7.93 gc=0.913 bearing=1.00 null_floor=2.14
+        [+] layer:L7  sil_z=9.52 gc=0.895 bearing=1.00 null_floor=2.14
+        [+] layer:L8  sil_z=6.25 gc=0.924 bearing=1.00 null_floor=2.14
+        [+] layer:L9  sil_z=8.55 gc=0.911 bearing=1.00 null_floor=2.14
+        [+] layer:L10  sil_z=8.78 gc=0.925 bearing=1.00 null_floor=2.14
+        [+] layer:L11  sil_z=8.24 gc=0.895 bearing=1.00 null_floor=2.14
+        [+] layer:L12  sil_z=7.48 gc=0.840 bearing=1.00 null_floor=2.14
+        [+] layer:L13  sil_z=8.07 gc=0.873 bearing=1.00 null_floor=2.14
+        [+] layer:L14  sil_z=6.11 gc=0.850 bearing=1.00 null_floor=2.14
+        [+] layer:L15  sil_z=8.75 gc=0.865 bearing=1.00 null_floor=2.14
+        [+] layer:L16  sil_z=6.33 gc=0.886 bearing=1.00 null_floor=2.14
+        [+] layer:L17  sil_z=8.61 gc=0.893 bearing=1.00 null_floor=2.14
+        [+] layer:L18  sil_z=6.03 gc=0.911 bearing=1.00 null_floor=2.14
+        [+] layer:L19  sil_z=7.36 gc=0.885 bearing=1.00 null_floor=2.14
+        [+] layer:L20  sil_z=4.44 gc=0.844 bearing=1.00 null_floor=2.14
+        [+] layer:L21  sil_z=3.92 gc=0.824 bearing=1.00 null_floor=2.14
+        [+] layer:L22  sil_z=5.12 gc=0.878 bearing=1.00 null_floor=2.14
+        [+] layer:L23  sil_z=6.14 gc=0.847 bearing=1.00 null_floor=2.14
+        [+] layer:L24  sil_z=5.17 gc=0.929 bearing=1.00 null_floor=2.14
+        [+] layer:L25  sil_z=3.13 gc=0.868 bearing=1.00 null_floor=2.14
+        [+] layer:L26  sil_z=4.70 gc=0.874 bearing=1.00 null_floor=2.14
+        [+] layer:L27  sil_z=3.89 gc=0.893 bearing=1.00 null_floor=2.14
+    [+] model:Qwen/Qwen3-14B  sil_z=6.36 gc=0.976 bearing=1.00 null_floor=2.46
+      [+] register:gate  sil_z=5.74 gc=0.968 bearing=0.78 null_floor=2.46
+        [+] layer:L0  sil_z=2.63 gc=0.909 bearing=1.00 null_floor=2.46
+        [+] layer:L1  sil_z=3.12 gc=0.796 bearing=1.00 null_floor=2.46
+        [-] layer:L2  sil_z=1.18 gc=0.564 bearing=0.00 null_floor=2.46
+        [+] layer:L3  sil_z=2.14 gc=0.658 bearing=1.00 null_floor=2.46
+        [-] layer:L4  sil_z=0.57 gc=0.641 bearing=0.00 null_floor=2.46
+        [+] layer:L5  sil_z=3.54 gc=0.905 bearing=1.00 null_floor=2.46
+        [+] layer:L6  sil_z=6.07 gc=0.904 bearing=1.00 null_floor=2.46
+        [+] layer:L7  sil_z=3.88 gc=0.915 bearing=1.00 null_floor=2.46
+        [+] layer:L8  sil_z=3.59 gc=0.929 bearing=1.00 null_floor=2.46
+        [+] layer:L9  sil_z=5.29 gc=0.962 bearing=1.00 null_floor=2.46
+        [+] layer:L10  sil_z=6.80 gc=0.962 bearing=1.00 null_floor=2.46
+        [+] layer:L11  sil_z=7.21 gc=0.965 bearing=1.00 null_floor=2.46
+        [+] layer:L12  sil_z=8.26 gc=0.950 bearing=1.00 null_floor=2.46
+        [+] layer:L13  sil_z=5.98 gc=0.953 bearing=1.00 null_floor=2.46
+        [+] layer:L14  sil_z=6.78 gc=0.948 bearing=1.00 null_floor=2.46
+        [+] layer:L15  sil_z=7.54 gc=0.961 bearing=1.00 null_floor=2.46
+        [+] layer:L16  sil_z=7.36 gc=0.959 bearing=1.00 null_floor=2.46
+        [+] layer:L17  sil_z=6.46 gc=0.968 bearing=1.00 null_floor=2.46
+        [+] layer:L18  sil_z=5.74 gc=0.964 bearing=1.00 null_floor=2.46
+        [+] layer:L19  sil_z=6.96 gc=0.964 bearing=1.00 null_floor=2.46
+        [+] layer:L20  sil_z=6.06 gc=0.958 bearing=1.00 null_floor=2.46
+        [+] layer:L21  sil_z=7.40 gc=0.956 bearing=1.00 null_floor=2.46
+        [+] layer:L22  sil_z=7.34 gc=0.963 bearing=1.00 null_floor=2.46
+        [+] layer:L23  sil_z=6.20 gc=0.976 bearing=1.00 null_floor=2.46
+        [+] layer:L24  sil_z=6.01 gc=0.957 bearing=1.00 null_floor=2.46
+        [+] layer:L25  sil_z=5.46 gc=0.956 bearing=1.00 null_floor=2.46
+        [+] layer:L26  sil_z=4.91 gc=0.941 bearing=1.00 null_floor=2.46
+        [+] layer:L27  sil_z=4.72 gc=0.937 bearing=1.00 null_floor=2.46
+        [+] layer:L28  sil_z=3.78 gc=0.903 bearing=1.00 null_floor=2.46
+        [+] layer:L29  sil_z=3.88 gc=0.897 bearing=1.00 null_floor=2.46
+        [+] layer:L30  sil_z=3.23 gc=0.854 bearing=1.00 null_floor=2.46
+        [+] layer:L31  sil_z=2.24 gc=0.845 bearing=1.00 null_floor=2.46
+        [+] layer:L32  sil_z=2.35 gc=0.833 bearing=1.00 null_floor=2.46
+        [-] layer:L33  sil_z=1.62 gc=0.823 bearing=0.00 null_floor=2.46
+        [-] layer:L34  sil_z=1.44 gc=0.812 bearing=0.00 null_floor=2.46
+        [-] layer:L35  sil_z=1.16 gc=0.800 bearing=0.00 null_floor=2.46
+        [-] layer:L36  sil_z=1.73 gc=0.818 bearing=0.00 null_floor=2.46
+        [-] layer:L37  sil_z=1.48 gc=0.805 bearing=0.00 null_floor=2.46
+        [-] layer:L38  sil_z=1.84 gc=0.797 bearing=0.00 null_floor=2.46
+        [-] layer:L39  sil_z=1.92 gc=0.729 bearing=0.00 null_floor=2.46
+      [+] register:attn  sil_z=6.99 gc=0.975 bearing=0.97 null_floor=1.62
+        [+] layer:L0  sil_z=2.31 gc=0.867 bearing=1.00 null_floor=1.62
+        [+] layer:L1  sil_z=4.04 gc=0.910 bearing=1.00 null_floor=1.62
+        [+] layer:L2  sil_z=3.74 gc=0.863 bearing=1.00 null_floor=1.62
+        [+] layer:L3  sil_z=6.41 gc=0.920 bearing=1.00 null_floor=1.62
+        [+] layer:L4  sil_z=5.39 gc=0.938 bearing=1.00 null_floor=1.62
+        [+] layer:L5  sil_z=5.32 gc=0.942 bearing=1.00 null_floor=1.62
+        [+] layer:L6  sil_z=6.03 gc=0.915 bearing=1.00 null_floor=1.62
+        [+] layer:L7  sil_z=5.22 gc=0.936 bearing=1.00 null_floor=1.62
+        [+] layer:L8  sil_z=7.99 gc=0.915 bearing=1.00 null_floor=1.62
+        [+] layer:L9  sil_z=8.43 gc=0.917 bearing=1.00 null_floor=1.62
+        [+] layer:L10  sil_z=10.00 gc=0.904 bearing=1.00 null_floor=1.62
+        [+] layer:L11  sil_z=12.91 gc=0.892 bearing=1.00 null_floor=1.62
+        [+] layer:L12  sil_z=13.98 gc=0.850 bearing=1.00 null_floor=1.62
+        [+] layer:L13  sil_z=8.04 gc=0.919 bearing=1.00 null_floor=1.62
+        [+] layer:L14  sil_z=9.78 gc=0.930 bearing=1.00 null_floor=1.62
+        [+] layer:L15  sil_z=12.09 gc=0.891 bearing=1.00 null_floor=1.62
+        [+] layer:L16  sil_z=9.24 gc=0.916 bearing=1.00 null_floor=1.62
+        [+] layer:L17  sil_z=4.48 gc=0.920 bearing=1.00 null_floor=1.62
+        [+] layer:L18  sil_z=7.42 gc=0.918 bearing=1.00 null_floor=1.62
+        [+] layer:L19  sil_z=9.09 gc=0.859 bearing=1.00 null_floor=1.62
+        [+] layer:L20  sil_z=7.19 gc=0.869 bearing=1.00 null_floor=1.62
+        [+] layer:L21  sil_z=7.79 gc=0.882 bearing=1.00 null_floor=1.62
+        [+] layer:L22  sil_z=10.16 gc=0.940 bearing=1.00 null_floor=1.62
+        [+] layer:L23  sil_z=8.69 gc=0.891 bearing=1.00 null_floor=1.62
+        [+] layer:L24  sil_z=8.37 gc=0.908 bearing=1.00 null_floor=1.62
+        [+] layer:L25  sil_z=6.99 gc=0.924 bearing=1.00 null_floor=1.62
+        [+] layer:L26  sil_z=7.00 gc=0.933 bearing=1.00 null_floor=1.62
+        [+] layer:L27  sil_z=7.09 gc=0.953 bearing=1.00 null_floor=1.62
+        [+] layer:L28  sil_z=9.88 gc=0.950 bearing=1.00 null_floor=1.62
+        [+] layer:L29  sil_z=6.06 gc=0.921 bearing=1.00 null_floor=1.62
+        [+] layer:L30  sil_z=4.70 gc=0.907 bearing=1.00 null_floor=1.62
+        [+] layer:L31  sil_z=6.07 gc=0.911 bearing=1.00 null_floor=1.62
+        [+] layer:L32  sil_z=3.42 gc=0.880 bearing=1.00 null_floor=1.62
+        [+] layer:L33  sil_z=5.52 gc=0.940 bearing=1.00 null_floor=1.62
+        [-] layer:L34  sil_z=0.52 gc=0.734 bearing=0.00 null_floor=1.62
+        [+] layer:L35  sil_z=3.08 gc=0.786 bearing=1.00 null_floor=1.62
+        [+] layer:L36  sil_z=3.48 gc=0.856 bearing=1.00 null_floor=1.62
+        [+] layer:L37  sil_z=3.95 gc=0.837 bearing=1.00 null_floor=1.62
+        [+] layer:L38  sil_z=3.13 gc=0.893 bearing=1.00 null_floor=1.62
+        [+] layer:L39  sil_z=3.32 gc=0.901 bearing=1.00 null_floor=1.62
+    [+] model:Qwen/Qwen3-32B  sil_z=6.70 gc=0.976 bearing=1.00 null_floor=2.03
+      [+] register:gate  sil_z=6.28 gc=0.978 bearing=0.77 null_floor=2.03
+        [+] layer:L0  sil_z=2.23 gc=0.894 bearing=1.00 null_floor=2.03
+        [+] layer:L1  sil_z=2.65 gc=0.806 bearing=1.00 null_floor=2.03
+        [-] layer:L2  sil_z=0.90 gc=0.431 bearing=0.00 null_floor=2.03
+        [-] layer:L3  sil_z=0.36 gc=0.645 bearing=0.00 null_floor=2.03
+        [-] layer:L4  sil_z=-0.35 gc=0.499 bearing=0.00 null_floor=2.03
+        [+] layer:L5  sil_z=2.81 gc=0.914 bearing=1.00 null_floor=2.03
+        [-] layer:L6  sil_z=1.51 gc=0.815 bearing=0.00 null_floor=2.03
+        [-] layer:L7  sil_z=1.98 gc=0.790 bearing=0.00 null_floor=2.03
+        [+] layer:L8  sil_z=3.05 gc=0.937 bearing=1.00 null_floor=2.03
+        [+] layer:L9  sil_z=4.63 gc=0.964 bearing=1.00 null_floor=2.03
+        [+] layer:L10  sil_z=6.13 gc=0.944 bearing=1.00 null_floor=2.03
+        [+] layer:L11  sil_z=8.82 gc=0.960 bearing=1.00 null_floor=2.03
+        [+] layer:L12  sil_z=9.93 gc=0.950 bearing=1.00 null_floor=2.03
+        [+] layer:L13  sil_z=7.78 gc=0.959 bearing=1.00 null_floor=2.03
+        [+] layer:L14  sil_z=7.87 gc=0.965 bearing=1.00 null_floor=2.03
+        [+] layer:L15  sil_z=9.79 gc=0.964 bearing=1.00 null_floor=2.03
+        [+] layer:L16  sil_z=9.88 gc=0.941 bearing=1.00 null_floor=2.03
+        [+] layer:L17  sil_z=9.01 gc=0.965 bearing=1.00 null_floor=2.03
+        [+] layer:L18  sil_z=8.46 gc=0.962 bearing=1.00 null_floor=2.03
+        [+] layer:L19  sil_z=9.22 gc=0.960 bearing=1.00 null_floor=2.03
+        [+] layer:L20  sil_z=7.98 gc=0.955 bearing=1.00 null_floor=2.03
+        [+] layer:L21  sil_z=10.07 gc=0.959 bearing=1.00 null_floor=2.03
+        [+] layer:L22  sil_z=10.44 gc=0.955 bearing=1.00 null_floor=2.03
+        [+] layer:L23  sil_z=9.65 gc=0.956 bearing=1.00 null_floor=2.03
+        [+] layer:L24  sil_z=10.57 gc=0.954 bearing=1.00 null_floor=2.03
+        [+] layer:L25  sil_z=8.41 gc=0.953 bearing=1.00 null_floor=2.03
+        [+] layer:L26  sil_z=7.49 gc=0.955 bearing=1.00 null_floor=2.03
+        [+] layer:L27  sil_z=7.18 gc=0.960 bearing=1.00 null_floor=2.03
+        [+] layer:L28  sil_z=8.60 gc=0.959 bearing=1.00 null_floor=2.03
+        [+] layer:L29  sil_z=8.45 gc=0.963 bearing=1.00 null_floor=2.03
+        [+] layer:L30  sil_z=6.36 gc=0.887 bearing=1.00 null_floor=2.03
+        [-] layer:L31  sil_z=1.88 gc=0.753 bearing=0.00 null_floor=2.03
+        [+] layer:L32  sil_z=4.84 gc=0.953 bearing=1.00 null_floor=2.03
+        [+] layer:L33  sil_z=5.97 gc=0.968 bearing=1.00 null_floor=2.03
+        [+] layer:L34  sil_z=5.68 gc=0.970 bearing=1.00 null_floor=2.03
+        [+] layer:L35  sil_z=5.97 gc=0.971 bearing=1.00 null_floor=2.03
+        [+] layer:L36  sil_z=6.28 gc=0.967 bearing=1.00 null_floor=2.03
+        [+] layer:L37  sil_z=4.51 gc=0.943 bearing=1.00 null_floor=2.03
+        [+] layer:L38  sil_z=5.14 gc=0.951 bearing=1.00 null_floor=2.03
+        [+] layer:L39  sil_z=6.24 gc=0.969 bearing=1.00 null_floor=2.03
+        [+] layer:L40  sil_z=6.16 gc=0.961 bearing=1.00 null_floor=2.03
+        [+] layer:L41  sil_z=6.22 gc=0.962 bearing=1.00 null_floor=2.03
+        [+] layer:L42  sil_z=6.18 gc=0.962 bearing=1.00 null_floor=2.03
+        [+] layer:L43  sil_z=6.33 gc=0.973 bearing=1.00 null_floor=2.03
+        [+] layer:L44  sil_z=6.56 gc=0.968 bearing=1.00 null_floor=2.03
+        [+] layer:L45  sil_z=6.69 gc=0.963 bearing=1.00 null_floor=2.03
+        [+] layer:L46  sil_z=6.11 gc=0.973 bearing=1.00 null_floor=2.03
+        [+] layer:L47  sil_z=6.38 gc=0.975 bearing=1.00 null_floor=2.03
+        [+] layer:L48  sil_z=5.13 gc=0.949 bearing=1.00 null_floor=2.03
+        [+] layer:L49  sil_z=4.94 gc=0.937 bearing=1.00 null_floor=2.03
+        [+] layer:L50  sil_z=4.60 gc=0.929 bearing=1.00 null_floor=2.03
+        [+] layer:L51  sil_z=4.71 gc=0.921 bearing=1.00 null_floor=2.03
+        [+] layer:L52  sil_z=3.37 gc=0.897 bearing=1.00 null_floor=2.03
+        [+] layer:L53  sil_z=3.29 gc=0.889 bearing=1.00 null_floor=2.03
+        [+] layer:L54  sil_z=2.55 gc=0.851 bearing=1.00 null_floor=2.03
+        [-] layer:L55  sil_z=1.94 gc=0.825 bearing=0.00 null_floor=2.03
+        [-] layer:L56  sil_z=1.62 gc=0.829 bearing=0.00 null_floor=2.03
+        [-] layer:L57  sil_z=1.31 gc=0.822 bearing=0.00 null_floor=2.03
+        [-] layer:L58  sil_z=1.37 gc=0.817 bearing=0.00 null_floor=2.03
+        [-] layer:L59  sil_z=0.91 gc=0.805 bearing=0.00 null_floor=2.03
+        [-] layer:L60  sil_z=1.07 gc=0.829 bearing=0.00 null_floor=2.03
+        [-] layer:L61  sil_z=0.61 gc=0.793 bearing=0.00 null_floor=2.03
+        [-] layer:L62  sil_z=1.11 gc=0.786 bearing=0.00 null_floor=2.03
+        [-] layer:L63  sil_z=1.42 gc=0.717 bearing=0.00 null_floor=2.03
+      [+] register:attn  sil_z=7.13 gc=0.968 bearing=0.97 null_floor=1.46
+        [-] layer:L0  sil_z=1.99 gc=0.850 bearing=0.00 null_floor=1.46
+        [+] layer:L1  sil_z=2.72 gc=0.848 bearing=1.00 null_floor=1.46
+        [+] layer:L2  sil_z=2.33 gc=0.809 bearing=1.00 null_floor=1.46
+        [+] layer:L3  sil_z=5.88 gc=0.913 bearing=1.00 null_floor=1.46
+        [+] layer:L4  sil_z=4.36 gc=0.951 bearing=1.00 null_floor=1.46
+        [+] layer:L5  sil_z=4.13 gc=0.929 bearing=1.00 null_floor=1.46
+        [+] layer:L6  sil_z=4.06 gc=0.902 bearing=1.00 null_floor=1.46
+        [+] layer:L7  sil_z=5.32 gc=0.787 bearing=1.00 null_floor=1.46
+        [+] layer:L8  sil_z=6.38 gc=0.917 bearing=1.00 null_floor=1.46
+        [+] layer:L9  sil_z=9.30 gc=0.903 bearing=1.00 null_floor=1.46
+        [+] layer:L10  sil_z=9.23 gc=0.849 bearing=1.00 null_floor=1.46
+        [+] layer:L11  sil_z=14.56 gc=0.892 bearing=1.00 null_floor=1.46
+        [+] layer:L12  sil_z=14.24 gc=0.845 bearing=1.00 null_floor=1.46
+        [+] layer:L13  sil_z=4.93 gc=0.905 bearing=1.00 null_floor=1.46
+        [+] layer:L14  sil_z=6.29 gc=0.886 bearing=1.00 null_floor=1.46
+        [+] layer:L15  sil_z=13.98 gc=0.854 bearing=1.00 null_floor=1.46
+        [+] layer:L16  sil_z=13.52 gc=0.821 bearing=1.00 null_floor=1.46
+        [+] layer:L17  sil_z=2.74 gc=0.867 bearing=1.00 null_floor=1.46
+        [+] layer:L18  sil_z=6.26 gc=0.841 bearing=1.00 null_floor=1.46
+        [+] layer:L19  sil_z=13.33 gc=0.838 bearing=1.00 null_floor=1.46
+        [+] layer:L20  sil_z=8.76 gc=0.915 bearing=1.00 null_floor=1.46
+        [+] layer:L21  sil_z=8.72 gc=0.856 bearing=1.00 null_floor=1.46
+        [+] layer:L22  sil_z=9.65 gc=0.904 bearing=1.00 null_floor=1.46
+        [+] layer:L23  sil_z=12.08 gc=0.856 bearing=1.00 null_floor=1.46
+        [+] layer:L24  sil_z=9.90 gc=0.871 bearing=1.00 null_floor=1.46
+        [+] layer:L25  sil_z=8.91 gc=0.894 bearing=1.00 null_floor=1.46
+        [+] layer:L26  sil_z=5.75 gc=0.902 bearing=1.00 null_floor=1.46
+        [+] layer:L27  sil_z=8.77 gc=0.885 bearing=1.00 null_floor=1.46
+        [+] layer:L28  sil_z=9.97 gc=0.869 bearing=1.00 null_floor=1.46
+        [+] layer:L29  sil_z=9.10 gc=0.899 bearing=1.00 null_floor=1.46
+        [+] layer:L30  sil_z=8.38 gc=0.927 bearing=1.00 null_floor=1.46
+        [+] layer:L31  sil_z=7.97 gc=0.915 bearing=1.00 null_floor=1.46
+        [+] layer:L32  sil_z=2.56 gc=0.872 bearing=1.00 null_floor=1.46
+        [+] layer:L33  sil_z=5.46 gc=0.901 bearing=1.00 null_floor=1.46
+        [+] layer:L34  sil_z=6.80 gc=0.938 bearing=1.00 null_floor=1.46
+        [+] layer:L35  sil_z=10.79 gc=0.905 bearing=1.00 null_floor=1.46
+        [+] layer:L36  sil_z=12.53 gc=0.843 bearing=1.00 null_floor=1.46
+        [+] layer:L37  sil_z=5.22 gc=0.898 bearing=1.00 null_floor=1.46
+        [+] layer:L38  sil_z=6.02 gc=0.912 bearing=1.00 null_floor=1.46
+        [+] layer:L39  sil_z=11.26 gc=0.916 bearing=1.00 null_floor=1.46
+        [+] layer:L40  sil_z=7.17 gc=0.890 bearing=1.00 null_floor=1.46
+        [+] layer:L41  sil_z=3.95 gc=0.897 bearing=1.00 null_floor=1.46
+        [+] layer:L42  sil_z=7.34 gc=0.911 bearing=1.00 null_floor=1.46
+        [+] layer:L43  sil_z=8.50 gc=0.849 bearing=1.00 null_floor=1.46
+        [+] layer:L44  sil_z=7.91 gc=0.851 bearing=1.00 null_floor=1.46
+        [+] layer:L45  sil_z=7.44 gc=0.893 bearing=1.00 null_floor=1.46
+        [+] layer:L46  sil_z=9.31 gc=0.952 bearing=1.00 null_floor=1.46
+        [+] layer:L47  sil_z=9.16 gc=0.851 bearing=1.00 null_floor=1.46
+        [+] layer:L48  sil_z=7.09 gc=0.880 bearing=1.00 null_floor=1.46
+        [+] layer:L49  sil_z=6.74 gc=0.938 bearing=1.00 null_floor=1.46
+        [+] layer:L50  sil_z=7.29 gc=0.891 bearing=1.00 null_floor=1.46
+        [+] layer:L51  sil_z=8.21 gc=0.928 bearing=1.00 null_floor=1.46
+        [+] layer:L52  sil_z=12.09 gc=0.908 bearing=1.00 null_floor=1.46
+        [+] layer:L53  sil_z=5.78 gc=0.914 bearing=1.00 null_floor=1.46
+        [+] layer:L54  sil_z=6.63 gc=0.914 bearing=1.00 null_floor=1.46
+        [+] layer:L55  sil_z=6.19 gc=0.908 bearing=1.00 null_floor=1.46
+        [+] layer:L56  sil_z=3.55 gc=0.919 bearing=1.00 null_floor=1.46
+        [+] layer:L57  sil_z=5.76 gc=0.893 bearing=1.00 null_floor=1.46
+        [-] layer:L58  sil_z=0.33 gc=0.762 bearing=0.00 null_floor=1.46
+        [+] layer:L59  sil_z=2.54 gc=0.800 bearing=1.00 null_floor=1.46
+        [+] layer:L60  sil_z=2.49 gc=0.833 bearing=1.00 null_floor=1.46
+        [+] layer:L61  sil_z=3.09 gc=0.832 bearing=1.00 null_floor=1.46
+        [+] layer:L62  sil_z=3.61 gc=0.900 bearing=1.00 null_floor=1.46
+        [+] layer:L63  sil_z=3.06 gc=0.867 bearing=1.00 null_floor=1.46
+    [+] model:Qwen/Qwen3-4B  sil_z=5.40 gc=0.973 bearing=1.00 null_floor=2.29
+      [+] register:gate  sil_z=4.60 gc=0.968 bearing=0.78 null_floor=2.29
+        [+] layer:L0  sil_z=2.57 gc=0.914 bearing=1.00 null_floor=2.29
+        [+] layer:L1  sil_z=3.39 gc=0.557 bearing=1.00 null_floor=2.29
+        [-] layer:L2  sil_z=-0.44 gc=0.295 bearing=0.00 null_floor=2.29
+        [-] layer:L3  sil_z=1.36 gc=0.775 bearing=0.00 null_floor=2.29
+        [+] layer:L4  sil_z=3.42 gc=0.871 bearing=1.00 null_floor=2.29
+        [+] layer:L5  sil_z=3.27 gc=0.943 bearing=1.00 null_floor=2.29
+        [+] layer:L6  sil_z=5.83 gc=0.947 bearing=1.00 null_floor=2.29
+        [+] layer:L7  sil_z=5.50 gc=0.953 bearing=1.00 null_floor=2.29
+        [+] layer:L8  sil_z=6.58 gc=0.960 bearing=1.00 null_floor=2.29
+        [+] layer:L9  sil_z=3.78 gc=0.968 bearing=1.00 null_floor=2.29
+        [+] layer:L10  sil_z=4.38 gc=0.942 bearing=1.00 null_floor=2.29
+        [+] layer:L11  sil_z=5.11 gc=0.956 bearing=1.00 null_floor=2.29
+        [+] layer:L12  sil_z=5.90 gc=0.945 bearing=1.00 null_floor=2.29
+        [+] layer:L13  sil_z=6.36 gc=0.965 bearing=1.00 null_floor=2.29
+        [+] layer:L14  sil_z=5.59 gc=0.981 bearing=1.00 null_floor=2.29
+        [+] layer:L15  sil_z=6.91 gc=0.967 bearing=1.00 null_floor=2.29
+        [+] layer:L16  sil_z=5.39 gc=0.964 bearing=1.00 null_floor=2.29
+        [+] layer:L17  sil_z=6.11 gc=0.967 bearing=1.00 null_floor=2.29
+        [+] layer:L18  sil_z=5.66 gc=0.967 bearing=1.00 null_floor=2.29
+        [+] layer:L19  sil_z=6.13 gc=0.962 bearing=1.00 null_floor=2.29
+        [+] layer:L20  sil_z=4.81 gc=0.962 bearing=1.00 null_floor=2.29
+        [+] layer:L21  sil_z=4.83 gc=0.960 bearing=1.00 null_floor=2.29
+        [+] layer:L22  sil_z=4.28 gc=0.949 bearing=1.00 null_floor=2.29
+        [+] layer:L23  sil_z=3.80 gc=0.934 bearing=1.00 null_floor=2.29
+        [+] layer:L24  sil_z=3.07 gc=0.918 bearing=1.00 null_floor=2.29
+        [+] layer:L25  sil_z=3.42 gc=0.909 bearing=1.00 null_floor=2.29
+        [+] layer:L26  sil_z=2.68 gc=0.888 bearing=1.00 null_floor=2.29
+        [+] layer:L27  sil_z=2.55 gc=0.887 bearing=1.00 null_floor=2.29
+        [+] layer:L28  sil_z=2.26 gc=0.867 bearing=1.00 null_floor=2.29
+        [+] layer:L29  sil_z=2.08 gc=0.833 bearing=1.00 null_floor=2.29
+        [-] layer:L30  sil_z=1.60 gc=0.832 bearing=0.00 null_floor=2.29
+        [-] layer:L31  sil_z=1.14 gc=0.822 bearing=0.00 null_floor=2.29
+        [-] layer:L32  sil_z=1.28 gc=0.813 bearing=0.00 null_floor=2.29
+        [-] layer:L33  sil_z=0.86 gc=0.803 bearing=0.00 null_floor=2.29
+        [-] layer:L34  sil_z=1.22 gc=0.784 bearing=0.00 null_floor=2.29
+        [-] layer:L35  sil_z=1.87 gc=0.712 bearing=0.00 null_floor=2.29
+      [+] register:attn  sil_z=6.20 gc=0.965 bearing=0.97 null_floor=1.78
+        [+] layer:L0  sil_z=2.14 gc=0.885 bearing=1.00 null_floor=1.78
+        [+] layer:L1  sil_z=4.56 gc=0.904 bearing=1.00 null_floor=1.78
+        [+] layer:L2  sil_z=4.81 gc=0.911 bearing=1.00 null_floor=1.78
+        [+] layer:L3  sil_z=3.19 gc=0.925 bearing=1.00 null_floor=1.78
+        [+] layer:L4  sil_z=6.08 gc=0.925 bearing=1.00 null_floor=1.78
+        [+] layer:L5  sil_z=4.79 gc=0.942 bearing=1.00 null_floor=1.78
+        [+] layer:L6  sil_z=9.43 gc=0.901 bearing=1.00 null_floor=1.78
+        [+] layer:L7  sil_z=12.84 gc=0.876 bearing=1.00 null_floor=1.78
+        [+] layer:L8  sil_z=9.63 gc=0.911 bearing=1.00 null_floor=1.78
+        [+] layer:L9  sil_z=7.46 gc=0.911 bearing=1.00 null_floor=1.78
+        [+] layer:L10  sil_z=7.51 gc=0.927 bearing=1.00 null_floor=1.78
+        [+] layer:L11  sil_z=8.68 gc=0.901 bearing=1.00 null_floor=1.78
+        [+] layer:L12  sil_z=6.76 gc=0.908 bearing=1.00 null_floor=1.78
+        [+] layer:L13  sil_z=7.63 gc=0.860 bearing=1.00 null_floor=1.78
+        [+] layer:L14  sil_z=7.43 gc=0.901 bearing=1.00 null_floor=1.78
+        [+] layer:L15  sil_z=6.45 gc=0.906 bearing=1.00 null_floor=1.78
+        [+] layer:L16  sil_z=6.42 gc=0.844 bearing=1.00 null_floor=1.78
+        [+] layer:L17  sil_z=4.52 gc=0.917 bearing=1.00 null_floor=1.78
+        [+] layer:L18  sil_z=5.01 gc=0.884 bearing=1.00 null_floor=1.78
+        [+] layer:L19  sil_z=7.01 gc=0.873 bearing=1.00 null_floor=1.78
+        [+] layer:L20  sil_z=7.16 gc=0.849 bearing=1.00 null_floor=1.78
+        [+] layer:L21  sil_z=6.20 gc=0.901 bearing=1.00 null_floor=1.78
+        [+] layer:L22  sil_z=8.38 gc=0.931 bearing=1.00 null_floor=1.78
+        [+] layer:L23  sil_z=9.22 gc=0.942 bearing=1.00 null_floor=1.78
+        [+] layer:L24  sil_z=5.85 gc=0.930 bearing=1.00 null_floor=1.78
+        [+] layer:L25  sil_z=6.24 gc=0.899 bearing=1.00 null_floor=1.78
+        [+] layer:L26  sil_z=6.28 gc=0.916 bearing=1.00 null_floor=1.78
+        [+] layer:L27  sil_z=5.75 gc=0.938 bearing=1.00 null_floor=1.78
+        [+] layer:L28  sil_z=5.15 gc=0.912 bearing=1.00 null_floor=1.78
+        [+] layer:L29  sil_z=3.58 gc=0.753 bearing=1.00 null_floor=1.78
+        [+] layer:L30  sil_z=3.76 gc=0.884 bearing=1.00 null_floor=1.78
+        [+] layer:L31  sil_z=5.22 gc=0.850 bearing=1.00 null_floor=1.78
+        [+] layer:L32  sil_z=2.21 gc=0.799 bearing=1.00 null_floor=1.78
+        [-] layer:L33  sil_z=1.96 gc=0.782 bearing=0.00 null_floor=1.78
+        [+] layer:L34  sil_z=2.12 gc=0.849 bearing=1.00 null_floor=1.78
+        [+] layer:L35  sil_z=3.63 gc=0.851 bearing=1.00 null_floor=1.78
+    [+] model:Qwen/Qwen3.6-27B  sil_z=5.94 gc=0.971 bearing=1.00 null_floor=2.08
+      [+] register:gate  sil_z=6.06 gc=0.963 bearing=0.89 null_floor=2.08
+        [-] layer:L0  sil_z=1.51 gc=0.846 bearing=0.00 null_floor=2.08
+        [+] layer:L1  sil_z=2.42 gc=0.908 bearing=1.00 null_floor=2.08
+        [+] layer:L2  sil_z=3.40 gc=0.930 bearing=1.00 null_floor=2.08
+        [-] layer:L3  sil_z=1.98 gc=0.912 bearing=0.00 null_floor=2.08
+        [+] layer:L4  sil_z=2.82 gc=0.920 bearing=1.00 null_floor=2.08
+        [+] layer:L5  sil_z=3.34 gc=0.930 bearing=1.00 null_floor=2.08
+        [+] layer:L6  sil_z=6.13 gc=0.941 bearing=1.00 null_floor=2.08
+        [+] layer:L7  sil_z=7.24 gc=0.951 bearing=1.00 null_floor=2.08
+        [+] layer:L8  sil_z=8.41 gc=0.948 bearing=1.00 null_floor=2.08
+        [+] layer:L9  sil_z=7.90 gc=0.959 bearing=1.00 null_floor=2.08
+        [+] layer:L10  sil_z=6.77 gc=0.963 bearing=1.00 null_floor=2.08
+        [+] layer:L11  sil_z=7.92 gc=0.953 bearing=1.00 null_floor=2.08
+        [+] layer:L12  sil_z=7.61 gc=0.960 bearing=1.00 null_floor=2.08
+        [+] layer:L13  sil_z=8.45 gc=0.964 bearing=1.00 null_floor=2.08
+        [+] layer:L14  sil_z=9.61 gc=0.967 bearing=1.00 null_floor=2.08
+        [+] layer:L15  sil_z=10.54 gc=0.960 bearing=1.00 null_floor=2.08
+        [+] layer:L16  sil_z=7.77 gc=0.957 bearing=1.00 null_floor=2.08
+        [+] layer:L17  sil_z=7.97 gc=0.965 bearing=1.00 null_floor=2.08
+        [+] layer:L18  sil_z=5.47 gc=0.948 bearing=1.00 null_floor=2.08
+        [+] layer:L19  sil_z=6.21 gc=0.947 bearing=1.00 null_floor=2.08
+        [+] layer:L20  sil_z=6.98 gc=0.946 bearing=1.00 null_floor=2.08
+        [+] layer:L21  sil_z=7.18 gc=0.943 bearing=1.00 null_floor=2.08
+        [+] layer:L22  sil_z=6.41 gc=0.939 bearing=1.00 null_floor=2.08
+        [+] layer:L23  sil_z=6.68 gc=0.941 bearing=1.00 null_floor=2.08
+        [+] layer:L24  sil_z=5.54 gc=0.946 bearing=1.00 null_floor=2.08
+        [+] layer:L25  sil_z=6.17 gc=0.936 bearing=1.00 null_floor=2.08
+        [+] layer:L26  sil_z=6.91 gc=0.939 bearing=1.00 null_floor=2.08
+        [+] layer:L27  sil_z=6.95 gc=0.935 bearing=1.00 null_floor=2.08
+        [+] layer:L28  sil_z=7.14 gc=0.939 bearing=1.00 null_floor=2.08
+        [+] layer:L29  sil_z=7.37 gc=0.931 bearing=1.00 null_floor=2.08
+        [+] layer:L30  sil_z=7.11 gc=0.921 bearing=1.00 null_floor=2.08
+        [+] layer:L31  sil_z=6.62 gc=0.943 bearing=1.00 null_floor=2.08
+        [+] layer:L32  sil_z=5.84 gc=0.939 bearing=1.00 null_floor=2.08
+        [+] layer:L33  sil_z=6.44 gc=0.955 bearing=1.00 null_floor=2.08
+        [+] layer:L34  sil_z=6.30 gc=0.952 bearing=1.00 null_floor=2.08
+        [+] layer:L35  sil_z=4.92 gc=0.936 bearing=1.00 null_floor=2.08
+        [+] layer:L36  sil_z=5.81 gc=0.928 bearing=1.00 null_floor=2.08
+        [+] layer:L37  sil_z=6.24 gc=0.934 bearing=1.00 null_floor=2.08
+        [+] layer:L38  sil_z=6.39 gc=0.940 bearing=1.00 null_floor=2.08
+        [+] layer:L39  sil_z=5.57 gc=0.901 bearing=1.00 null_floor=2.08
+        [+] layer:L40  sil_z=5.11 gc=0.945 bearing=1.00 null_floor=2.08
+        [+] layer:L41  sil_z=5.92 gc=0.924 bearing=1.00 null_floor=2.08
+        [+] layer:L42  sil_z=6.04 gc=0.931 bearing=1.00 null_floor=2.08
+        [+] layer:L43  sil_z=6.06 gc=0.944 bearing=1.00 null_floor=2.08
+        [+] layer:L44  sil_z=6.00 gc=0.949 bearing=1.00 null_floor=2.08
+        [+] layer:L45  sil_z=5.99 gc=0.964 bearing=1.00 null_floor=2.08
+        [+] layer:L46  sil_z=5.36 gc=0.953 bearing=1.00 null_floor=2.08
+        [+] layer:L47  sil_z=5.42 gc=0.947 bearing=1.00 null_floor=2.08
+        [+] layer:L48  sil_z=4.86 gc=0.937 bearing=1.00 null_floor=2.08
+        [+] layer:L49  sil_z=4.78 gc=0.931 bearing=1.00 null_floor=2.08
+        [+] layer:L50  sil_z=4.40 gc=0.911 bearing=1.00 null_floor=2.08
+        [+] layer:L51  sil_z=3.09 gc=0.863 bearing=1.00 null_floor=2.08
+        [+] layer:L52  sil_z=3.13 gc=0.871 bearing=1.00 null_floor=2.08
+        [+] layer:L53  sil_z=3.22 gc=0.867 bearing=1.00 null_floor=2.08
+        [+] layer:L54  sil_z=3.06 gc=0.868 bearing=1.00 null_floor=2.08
+        [-] layer:L55  sil_z=1.76 gc=0.813 bearing=0.00 null_floor=2.08
+        [-] layer:L56  sil_z=1.65 gc=0.797 bearing=0.00 null_floor=2.08
+        [-] layer:L57  sil_z=1.86 gc=0.787 bearing=0.00 null_floor=2.08
+        [+] layer:L58  sil_z=2.06 gc=0.805 bearing=1.00 null_floor=2.08
+        [-] layer:L59  sil_z=1.61 gc=0.789 bearing=0.00 null_floor=2.08
+        [-] layer:L60  sil_z=2.00 gc=0.825 bearing=0.00 null_floor=2.08
+        [+] layer:L61  sil_z=2.33 gc=0.812 bearing=1.00 null_floor=2.08
+        [+] layer:L62  sil_z=2.68 gc=0.791 bearing=1.00 null_floor=2.08
+        [+] layer:L63  sil_z=2.72 gc=0.777 bearing=1.00 null_floor=2.08
+      [+] register:attn  sil_z=5.81 gc=0.976 bearing=0.88 null_floor=1.85
+        [-] layer:L0  sil_z=1.06 gc=0.827 bearing=0.00 null_floor=1.85
+        [+] layer:L1  sil_z=3.07 gc=0.913 bearing=1.00 null_floor=1.85
+        [+] layer:L2  sil_z=3.63 gc=0.930 bearing=1.00 null_floor=1.85
+        [+] layer:L3  sil_z=2.74 gc=0.889 bearing=1.00 null_floor=1.85
+        [+] layer:L4  sil_z=2.62 gc=0.839 bearing=1.00 null_floor=1.85
+        [+] layer:L5  sil_z=4.38 gc=0.915 bearing=1.00 null_floor=1.85
+        [+] layer:L6  sil_z=9.82 gc=0.922 bearing=1.00 null_floor=1.85
+        [+] layer:L7  sil_z=6.49 gc=0.901 bearing=1.00 null_floor=1.85
+        [+] layer:L8  sil_z=10.49 gc=0.845 bearing=1.00 null_floor=1.85
+        [+] layer:L9  sil_z=8.43 gc=0.930 bearing=1.00 null_floor=1.85
+        [+] layer:L10  sil_z=3.82 gc=0.943 bearing=1.00 null_floor=1.85
+        [+] layer:L11  sil_z=5.94 gc=0.883 bearing=1.00 null_floor=1.85
+        [+] layer:L12  sil_z=8.07 gc=0.949 bearing=1.00 null_floor=1.85
+        [+] layer:L13  sil_z=11.04 gc=0.960 bearing=1.00 null_floor=1.85
+        [+] layer:L14  sil_z=10.27 gc=0.920 bearing=1.00 null_floor=1.85
+        [+] layer:L15  sil_z=7.58 gc=0.918 bearing=1.00 null_floor=1.85
+        [+] layer:L16  sil_z=8.72 gc=0.910 bearing=1.00 null_floor=1.85
+        [+] layer:L17  sil_z=9.47 gc=0.928 bearing=1.00 null_floor=1.85
+        [+] layer:L18  sil_z=3.69 gc=0.911 bearing=1.00 null_floor=1.85
+        [+] layer:L19  sil_z=7.59 gc=0.888 bearing=1.00 null_floor=1.85
+        [+] layer:L20  sil_z=5.41 gc=0.922 bearing=1.00 null_floor=1.85
+        [+] layer:L21  sil_z=4.55 gc=0.915 bearing=1.00 null_floor=1.85
+        [+] layer:L22  sil_z=4.05 gc=0.898 bearing=1.00 null_floor=1.85
+        [+] layer:L23  sil_z=8.68 gc=0.857 bearing=1.00 null_floor=1.85
+        [+] layer:L24  sil_z=4.65 gc=0.929 bearing=1.00 null_floor=1.85
+        [+] layer:L25  sil_z=6.89 gc=0.879 bearing=1.00 null_floor=1.85
+        [+] layer:L26  sil_z=5.86 gc=0.929 bearing=1.00 null_floor=1.85
+        [+] layer:L27  sil_z=7.63 gc=0.853 bearing=1.00 null_floor=1.85
+        [+] layer:L28  sil_z=7.80 gc=0.943 bearing=1.00 null_floor=1.85
+        [+] layer:L29  sil_z=8.21 gc=0.917 bearing=1.00 null_floor=1.85
+        [+] layer:L30  sil_z=8.13 gc=0.900 bearing=1.00 null_floor=1.85
+        [+] layer:L31  sil_z=7.36 gc=0.880 bearing=1.00 null_floor=1.85
+        [+] layer:L32  sil_z=8.05 gc=0.942 bearing=1.00 null_floor=1.85
+        [+] layer:L33  sil_z=5.76 gc=0.913 bearing=1.00 null_floor=1.85
+        [+] layer:L34  sil_z=4.37 gc=0.940 bearing=1.00 null_floor=1.85
+        [+] layer:L35  sil_z=7.94 gc=0.933 bearing=1.00 null_floor=1.85
+        [+] layer:L36  sil_z=3.63 gc=0.867 bearing=1.00 null_floor=1.85
+        [+] layer:L37  sil_z=4.35 gc=0.901 bearing=1.00 null_floor=1.85
+        [+] layer:L38  sil_z=6.41 gc=0.938 bearing=1.00 null_floor=1.85
+        [+] layer:L39  sil_z=7.68 gc=0.919 bearing=1.00 null_floor=1.85
+        [+] layer:L40  sil_z=4.10 gc=0.918 bearing=1.00 null_floor=1.85
+        [+] layer:L41  sil_z=3.56 gc=0.877 bearing=1.00 null_floor=1.85
+        [+] layer:L42  sil_z=3.99 gc=0.933 bearing=1.00 null_floor=1.85
+        [+] layer:L43  sil_z=5.98 gc=0.966 bearing=1.00 null_floor=1.85
+        [+] layer:L44  sil_z=4.86 gc=0.956 bearing=1.00 null_floor=1.85
+        [+] layer:L45  sil_z=4.45 gc=0.926 bearing=1.00 null_floor=1.85
+        [+] layer:L46  sil_z=6.79 gc=0.928 bearing=1.00 null_floor=1.85
+        [+] layer:L47  sil_z=8.28 gc=0.963 bearing=1.00 null_floor=1.85
+        [+] layer:L48  sil_z=5.37 gc=0.920 bearing=1.00 null_floor=1.85
+        [+] layer:L49  sil_z=3.78 gc=0.880 bearing=1.00 null_floor=1.85
+        [+] layer:L50  sil_z=3.47 gc=0.860 bearing=1.00 null_floor=1.85
+        [+] layer:L51  sil_z=6.58 gc=0.932 bearing=1.00 null_floor=1.85
+        [+] layer:L52  sil_z=2.64 gc=0.831 bearing=1.00 null_floor=1.85
+        [-] layer:L53  sil_z=1.62 gc=0.810 bearing=0.00 null_floor=1.85
+        [+] layer:L54  sil_z=2.55 gc=0.826 bearing=1.00 null_floor=1.85
+        [+] layer:L55  sil_z=2.08 gc=0.772 bearing=1.00 null_floor=1.85
+        [-] layer:L56  sil_z=1.58 gc=0.782 bearing=0.00 null_floor=1.85
+        [-] layer:L57  sil_z=1.18 gc=0.816 bearing=0.00 null_floor=1.85
+        [-] layer:L58  sil_z=1.09 gc=0.786 bearing=0.00 null_floor=1.85
+        [-] layer:L59  sil_z=-0.19 gc=0.520 bearing=0.00 null_floor=1.85
+        [+] layer:L60  sil_z=3.41 gc=0.875 bearing=1.00 null_floor=1.85
+        [-] layer:L61  sil_z=1.99 gc=0.769 bearing=0.00 null_floor=1.85
+        [-] layer:L62  sil_z=1.96 gc=0.752 bearing=0.00 null_floor=1.85
+        [+] layer:L63  sil_z=2.09 gc=0.765 bearing=1.00 null_floor=1.85
+------------------------------------------------------------------------
+root Gram vs bundled 10-model consensus: gc = +0.982
+families: 4/4 gated | agreement mean=0.906 min=0.841 dissent=False
+  gemma: 1/1 models gated | agreement=nan | gc=0.935
+  olmo: 1/1 models gated | agreement=nan | gc=0.957
+  pythia: 2/2 models gated | agreement=0.821 | gc=0.919
+  qwen3: 5/5 models gated | agreement=0.982 | gc=0.976
+========================================================================
+[sweep] wrote /Users/mwhitford/src/verbum/results/opcode-trace/universal_vsm.json + sweep_summary.json

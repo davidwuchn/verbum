@@ -1,33 +1,54 @@
 {
-  "n_models": 2,
+  "n_models": 9,
   "families": {
-    "pythia": {
+    "gemma": {
       "models": [
-        "EleutherAI/pythia-14m-deduped"
+        "google/gemma-4-31B-it"
       ],
       "n_gated": 1,
       "agreement_mean": NaN,
-      "gc_consensus": 0.89222973491376
+      "gc_consensus": 0.9348578764299399
+    },
+    "olmo": {
+      "models": [
+        "allenai/OLMo-2-1124-13B"
+      ],
+      "n_gated": 1,
+      "agreement_mean": NaN,
+      "gc_consensus": 0.9566432376427749
+    },
+    "pythia": {
+      "models": [
+        "EleutherAI/pythia-14m-deduped",
+        "EleutherAI/pythia-2.8b-deduped"
+      ],
+      "n_gated": 2,
+      "agreement_mean": 0.8209155111984399,
+      "gc_consensus": 0.9189552608840358
     },
     "qwen3": {
       "models": [
-        "Qwen/Qwen3-0.6B"
+        "Qwen/Qwen3-0.6B",
+        "Qwen/Qwen3-14B",
+        "Qwen/Qwen3-32B",
+        "Qwen/Qwen3-4B",
+        "Qwen/Qwen3.6-27B"
       ],
-      "n_gated": 1,
-      "agreement_mean": NaN,
-      "gc_consensus": 0.9523396435701692
+      "n_gated": 5,
+      "agreement_mean": 0.981599249716165,
+      "gc_consensus": 0.9763930094478624
     }
   },
   "root_health": {
-    "sil_z": 4.067875,
-    "gc_consensus": 0.9395016837844821,
+    "sil_z": 5.085875000000001,
+    "gc_consensus": 0.9822763382589085,
     "crystal_bearing_frac": 1.0,
     "null_floor_z": 2.78
   },
   "root_agreement": {
-    "agreement_mean": 0.9069966323342725,
-    "agreement_min": 0.9069966323342725,
+    "agreement_mean": 0.9064569611792,
+    "agreement_min": 0.8414263333705101,
     "dissent": false,
-    "n_gated": 2
+    "n_gated": 4
   }
 }

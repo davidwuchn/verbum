@@ -1,0 +1,1250 @@
+{
+  "model": "Qwen/Qwen3-32B",
+  "device": "mps",
+  "topology": {
+    "arch": "Qwen3ForCausalLM",
+    "register": "gated-dense",
+    "read_register": "sign(gate_proj) [validated]",
+    "layers_path": "model.layers",
+    "gate_suffix": "mlp.gate_proj",
+    "gate_width": 25600,
+    "attn_suffix": "self_attn.o_proj",
+    "attn_width": 5120,
+    "n_layers": 64
+  },
+  "registers": [
+    "gate",
+    "attn"
+  ],
+  "calibration": {
+    "gate": {
+      "n_layers": 64,
+      "crystal_layers": [
+        0,
+        1,
+        5,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54
+      ],
+      "per_layer": {
+        "0": {
+          "sil_z": 2.226,
+          "gc_consensus": 0.894,
+          "crystal_bearing": true
+        },
+        "1": {
+          "sil_z": 2.649,
+          "gc_consensus": 0.806,
+          "crystal_bearing": true
+        },
+        "2": {
+          "sil_z": 0.895,
+          "gc_consensus": 0.431,
+          "crystal_bearing": false
+        },
+        "3": {
+          "sil_z": 0.357,
+          "gc_consensus": 0.645,
+          "crystal_bearing": false
+        },
+        "4": {
+          "sil_z": -0.348,
+          "gc_consensus": 0.499,
+          "crystal_bearing": false
+        },
+        "5": {
+          "sil_z": 2.812,
+          "gc_consensus": 0.914,
+          "crystal_bearing": true
+        },
+        "6": {
+          "sil_z": 1.511,
+          "gc_consensus": 0.815,
+          "crystal_bearing": false
+        },
+        "7": {
+          "sil_z": 1.98,
+          "gc_consensus": 0.79,
+          "crystal_bearing": false
+        },
+        "8": {
+          "sil_z": 3.054,
+          "gc_consensus": 0.937,
+          "crystal_bearing": true
+        },
+        "9": {
+          "sil_z": 4.626,
+          "gc_consensus": 0.964,
+          "crystal_bearing": true
+        },
+        "10": {
+          "sil_z": 6.133,
+          "gc_consensus": 0.944,
+          "crystal_bearing": true
+        },
+        "11": {
+          "sil_z": 8.821,
+          "gc_consensus": 0.96,
+          "crystal_bearing": true
+        },
+        "12": {
+          "sil_z": 9.932,
+          "gc_consensus": 0.95,
+          "crystal_bearing": true
+        },
+        "13": {
+          "sil_z": 7.779,
+          "gc_consensus": 0.959,
+          "crystal_bearing": true
+        },
+        "14": {
+          "sil_z": 7.87,
+          "gc_consensus": 0.965,
+          "crystal_bearing": true
+        },
+        "15": {
+          "sil_z": 9.795,
+          "gc_consensus": 0.964,
+          "crystal_bearing": true
+        },
+        "16": {
+          "sil_z": 9.879,
+          "gc_consensus": 0.941,
+          "crystal_bearing": true
+        },
+        "17": {
+          "sil_z": 9.007,
+          "gc_consensus": 0.965,
+          "crystal_bearing": true
+        },
+        "18": {
+          "sil_z": 8.456,
+          "gc_consensus": 0.962,
+          "crystal_bearing": true
+        },
+        "19": {
+          "sil_z": 9.221,
+          "gc_consensus": 0.96,
+          "crystal_bearing": true
+        },
+        "20": {
+          "sil_z": 7.984,
+          "gc_consensus": 0.955,
+          "crystal_bearing": true
+        },
+        "21": {
+          "sil_z": 10.068,
+          "gc_consensus": 0.959,
+          "crystal_bearing": true
+        },
+        "22": {
+          "sil_z": 10.437,
+          "gc_consensus": 0.955,
+          "crystal_bearing": true
+        },
+        "23": {
+          "sil_z": 9.647,
+          "gc_consensus": 0.956,
+          "crystal_bearing": true
+        },
+        "24": {
+          "sil_z": 10.575,
+          "gc_consensus": 0.954,
+          "crystal_bearing": true
+        },
+        "25": {
+          "sil_z": 8.407,
+          "gc_consensus": 0.953,
+          "crystal_bearing": true
+        },
+        "26": {
+          "sil_z": 7.492,
+          "gc_consensus": 0.955,
+          "crystal_bearing": true
+        },
+        "27": {
+          "sil_z": 7.185,
+          "gc_consensus": 0.96,
+          "crystal_bearing": true
+        },
+        "28": {
+          "sil_z": 8.599,
+          "gc_consensus": 0.959,
+          "crystal_bearing": true
+        },
+        "29": {
+          "sil_z": 8.451,
+          "gc_consensus": 0.963,
+          "crystal_bearing": true
+        },
+        "30": {
+          "sil_z": 6.356,
+          "gc_consensus": 0.887,
+          "crystal_bearing": true
+        },
+        "31": {
+          "sil_z": 1.878,
+          "gc_consensus": 0.753,
+          "crystal_bearing": false
+        },
+        "32": {
+          "sil_z": 4.843,
+          "gc_consensus": 0.953,
+          "crystal_bearing": true
+        },
+        "33": {
+          "sil_z": 5.974,
+          "gc_consensus": 0.968,
+          "crystal_bearing": true
+        },
+        "34": {
+          "sil_z": 5.677,
+          "gc_consensus": 0.97,
+          "crystal_bearing": true
+        },
+        "35": {
+          "sil_z": 5.974,
+          "gc_consensus": 0.971,
+          "crystal_bearing": true
+        },
+        "36": {
+          "sil_z": 6.276,
+          "gc_consensus": 0.967,
+          "crystal_bearing": true
+        },
+        "37": {
+          "sil_z": 4.513,
+          "gc_consensus": 0.943,
+          "crystal_bearing": true
+        },
+        "38": {
+          "sil_z": 5.141,
+          "gc_consensus": 0.951,
+          "crystal_bearing": true
+        },
+        "39": {
+          "sil_z": 6.242,
+          "gc_consensus": 0.969,
+          "crystal_bearing": true
+        },
+        "40": {
+          "sil_z": 6.159,
+          "gc_consensus": 0.961,
+          "crystal_bearing": true
+        },
+        "41": {
+          "sil_z": 6.218,
+          "gc_consensus": 0.962,
+          "crystal_bearing": true
+        },
+        "42": {
+          "sil_z": 6.179,
+          "gc_consensus": 0.962,
+          "crystal_bearing": true
+        },
+        "43": {
+          "sil_z": 6.334,
+          "gc_consensus": 0.973,
+          "crystal_bearing": true
+        },
+        "44": {
+          "sil_z": 6.556,
+          "gc_consensus": 0.968,
+          "crystal_bearing": true
+        },
+        "45": {
+          "sil_z": 6.688,
+          "gc_consensus": 0.963,
+          "crystal_bearing": true
+        },
+        "46": {
+          "sil_z": 6.106,
+          "gc_consensus": 0.973,
+          "crystal_bearing": true
+        },
+        "47": {
+          "sil_z": 6.375,
+          "gc_consensus": 0.975,
+          "crystal_bearing": true
+        },
+        "48": {
+          "sil_z": 5.129,
+          "gc_consensus": 0.949,
+          "crystal_bearing": true
+        },
+        "49": {
+          "sil_z": 4.939,
+          "gc_consensus": 0.937,
+          "crystal_bearing": true
+        },
+        "50": {
+          "sil_z": 4.6,
+          "gc_consensus": 0.929,
+          "crystal_bearing": true
+        },
+        "51": {
+          "sil_z": 4.707,
+          "gc_consensus": 0.921,
+          "crystal_bearing": true
+        },
+        "52": {
+          "sil_z": 3.367,
+          "gc_consensus": 0.897,
+          "crystal_bearing": true
+        },
+        "53": {
+          "sil_z": 3.286,
+          "gc_consensus": 0.889,
+          "crystal_bearing": true
+        },
+        "54": {
+          "sil_z": 2.548,
+          "gc_consensus": 0.851,
+          "crystal_bearing": true
+        },
+        "55": {
+          "sil_z": 1.939,
+          "gc_consensus": 0.825,
+          "crystal_bearing": false
+        },
+        "56": {
+          "sil_z": 1.622,
+          "gc_consensus": 0.829,
+          "crystal_bearing": false
+        },
+        "57": {
+          "sil_z": 1.31,
+          "gc_consensus": 0.822,
+          "crystal_bearing": false
+        },
+        "58": {
+          "sil_z": 1.374,
+          "gc_consensus": 0.817,
+          "crystal_bearing": false
+        },
+        "59": {
+          "sil_z": 0.91,
+          "gc_consensus": 0.805,
+          "crystal_bearing": false
+        },
+        "60": {
+          "sil_z": 1.075,
+          "gc_consensus": 0.829,
+          "crystal_bearing": false
+        },
+        "61": {
+          "sil_z": 0.606,
+          "gc_consensus": 0.793,
+          "crystal_bearing": false
+        },
+        "62": {
+          "sil_z": 1.106,
+          "gc_consensus": 0.786,
+          "crystal_bearing": false
+        },
+        "63": {
+          "sil_z": 1.421,
+          "gc_consensus": 0.717,
+          "crystal_bearing": false
+        }
+      },
+      "z_thresh": 3.0,
+      "sil_z_thresh": 2.0,
+      "has_consensus": true,
+      "null_kind": "crosstask",
+      "register": "gate",
+      "n_probes": 535,
+      "n_null_tokens": 55,
+      "null_floor": {
+        "null_floor_z": 2.032,
+        "shuffled_bearing_frac": 0.0,
+        "shuffled_sil_z_max": 2.438,
+        "suspect": false,
+        "n_shuffles": 3,
+        "n_perm": 150,
+        "per_shuffle": [
+          {
+            "max_sil_z": 1.475,
+            "n_bearing": 0
+          },
+          {
+            "max_sil_z": 2.102,
+            "n_bearing": 0
+          },
+          {
+            "max_sil_z": 2.438,
+            "n_bearing": 0
+          }
+        ],
+        "reference": "q95 ~ 1.64 under a well-behaved N(0,1) null"
+      }
+    },
+    "attn": {
+      "n_layers": 64,
+      "crystal_layers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        59,
+        60,
+        61,
+        62,
+        63
+      ],
+      "per_layer": {
+        "0": {
+          "sil_z": 1.989,
+          "gc_consensus": 0.85,
+          "crystal_bearing": false
+        },
+        "1": {
+          "sil_z": 2.724,
+          "gc_consensus": 0.848,
+          "crystal_bearing": true
+        },
+        "2": {
+          "sil_z": 2.329,
+          "gc_consensus": 0.809,
+          "crystal_bearing": true
+        },
+        "3": {
+          "sil_z": 5.881,
+          "gc_consensus": 0.913,
+          "crystal_bearing": true
+        },
+        "4": {
+          "sil_z": 4.363,
+          "gc_consensus": 0.951,
+          "crystal_bearing": true
+        },
+        "5": {
+          "sil_z": 4.132,
+          "gc_consensus": 0.929,
+          "crystal_bearing": true
+        },
+        "6": {
+          "sil_z": 4.058,
+          "gc_consensus": 0.902,
+          "crystal_bearing": true
+        },
+        "7": {
+          "sil_z": 5.323,
+          "gc_consensus": 0.787,
+          "crystal_bearing": true
+        },
+        "8": {
+          "sil_z": 6.375,
+          "gc_consensus": 0.917,
+          "crystal_bearing": true
+        },
+        "9": {
+          "sil_z": 9.303,
+          "gc_consensus": 0.903,
+          "crystal_bearing": true
+        },
+        "10": {
+          "sil_z": 9.235,
+          "gc_consensus": 0.849,
+          "crystal_bearing": true
+        },
+        "11": {
+          "sil_z": 14.56,
+          "gc_consensus": 0.892,
+          "crystal_bearing": true
+        },
+        "12": {
+          "sil_z": 14.239,
+          "gc_consensus": 0.845,
+          "crystal_bearing": true
+        },
+        "13": {
+          "sil_z": 4.934,
+          "gc_consensus": 0.905,
+          "crystal_bearing": true
+        },
+        "14": {
+          "sil_z": 6.29,
+          "gc_consensus": 0.886,
+          "crystal_bearing": true
+        },
+        "15": {
+          "sil_z": 13.977,
+          "gc_consensus": 0.854,
+          "crystal_bearing": true
+        },
+        "16": {
+          "sil_z": 13.52,
+          "gc_consensus": 0.821,
+          "crystal_bearing": true
+        },
+        "17": {
+          "sil_z": 2.742,
+          "gc_consensus": 0.867,
+          "crystal_bearing": true
+        },
+        "18": {
+          "sil_z": 6.26,
+          "gc_consensus": 0.841,
+          "crystal_bearing": true
+        },
+        "19": {
+          "sil_z": 13.332,
+          "gc_consensus": 0.838,
+          "crystal_bearing": true
+        },
+        "20": {
+          "sil_z": 8.762,
+          "gc_consensus": 0.915,
+          "crystal_bearing": true
+        },
+        "21": {
+          "sil_z": 8.723,
+          "gc_consensus": 0.856,
+          "crystal_bearing": true
+        },
+        "22": {
+          "sil_z": 9.65,
+          "gc_consensus": 0.904,
+          "crystal_bearing": true
+        },
+        "23": {
+          "sil_z": 12.076,
+          "gc_consensus": 0.856,
+          "crystal_bearing": true
+        },
+        "24": {
+          "sil_z": 9.902,
+          "gc_consensus": 0.871,
+          "crystal_bearing": true
+        },
+        "25": {
+          "sil_z": 8.906,
+          "gc_consensus": 0.894,
+          "crystal_bearing": true
+        },
+        "26": {
+          "sil_z": 5.747,
+          "gc_consensus": 0.902,
+          "crystal_bearing": true
+        },
+        "27": {
+          "sil_z": 8.77,
+          "gc_consensus": 0.885,
+          "crystal_bearing": true
+        },
+        "28": {
+          "sil_z": 9.975,
+          "gc_consensus": 0.869,
+          "crystal_bearing": true
+        },
+        "29": {
+          "sil_z": 9.099,
+          "gc_consensus": 0.899,
+          "crystal_bearing": true
+        },
+        "30": {
+          "sil_z": 8.379,
+          "gc_consensus": 0.927,
+          "crystal_bearing": true
+        },
+        "31": {
+          "sil_z": 7.97,
+          "gc_consensus": 0.915,
+          "crystal_bearing": true
+        },
+        "32": {
+          "sil_z": 2.565,
+          "gc_consensus": 0.872,
+          "crystal_bearing": true
+        },
+        "33": {
+          "sil_z": 5.463,
+          "gc_consensus": 0.901,
+          "crystal_bearing": true
+        },
+        "34": {
+          "sil_z": 6.802,
+          "gc_consensus": 0.938,
+          "crystal_bearing": true
+        },
+        "35": {
+          "sil_z": 10.789,
+          "gc_consensus": 0.905,
+          "crystal_bearing": true
+        },
+        "36": {
+          "sil_z": 12.532,
+          "gc_consensus": 0.843,
+          "crystal_bearing": true
+        },
+        "37": {
+          "sil_z": 5.22,
+          "gc_consensus": 0.898,
+          "crystal_bearing": true
+        },
+        "38": {
+          "sil_z": 6.023,
+          "gc_consensus": 0.912,
+          "crystal_bearing": true
+        },
+        "39": {
+          "sil_z": 11.256,
+          "gc_consensus": 0.916,
+          "crystal_bearing": true
+        },
+        "40": {
+          "sil_z": 7.17,
+          "gc_consensus": 0.89,
+          "crystal_bearing": true
+        },
+        "41": {
+          "sil_z": 3.946,
+          "gc_consensus": 0.897,
+          "crystal_bearing": true
+        },
+        "42": {
+          "sil_z": 7.336,
+          "gc_consensus": 0.911,
+          "crystal_bearing": true
+        },
+        "43": {
+          "sil_z": 8.502,
+          "gc_consensus": 0.849,
+          "crystal_bearing": true
+        },
+        "44": {
+          "sil_z": 7.908,
+          "gc_consensus": 0.851,
+          "crystal_bearing": true
+        },
+        "45": {
+          "sil_z": 7.439,
+          "gc_consensus": 0.893,
+          "crystal_bearing": true
+        },
+        "46": {
+          "sil_z": 9.311,
+          "gc_consensus": 0.952,
+          "crystal_bearing": true
+        },
+        "47": {
+          "sil_z": 9.16,
+          "gc_consensus": 0.851,
+          "crystal_bearing": true
+        },
+        "48": {
+          "sil_z": 7.086,
+          "gc_consensus": 0.88,
+          "crystal_bearing": true
+        },
+        "49": {
+          "sil_z": 6.742,
+          "gc_consensus": 0.938,
+          "crystal_bearing": true
+        },
+        "50": {
+          "sil_z": 7.289,
+          "gc_consensus": 0.891,
+          "crystal_bearing": true
+        },
+        "51": {
+          "sil_z": 8.207,
+          "gc_consensus": 0.928,
+          "crystal_bearing": true
+        },
+        "52": {
+          "sil_z": 12.091,
+          "gc_consensus": 0.908,
+          "crystal_bearing": true
+        },
+        "53": {
+          "sil_z": 5.779,
+          "gc_consensus": 0.914,
+          "crystal_bearing": true
+        },
+        "54": {
+          "sil_z": 6.626,
+          "gc_consensus": 0.914,
+          "crystal_bearing": true
+        },
+        "55": {
+          "sil_z": 6.19,
+          "gc_consensus": 0.908,
+          "crystal_bearing": true
+        },
+        "56": {
+          "sil_z": 3.547,
+          "gc_consensus": 0.919,
+          "crystal_bearing": true
+        },
+        "57": {
+          "sil_z": 5.763,
+          "gc_consensus": 0.893,
+          "crystal_bearing": true
+        },
+        "58": {
+          "sil_z": 0.33,
+          "gc_consensus": 0.762,
+          "crystal_bearing": false
+        },
+        "59": {
+          "sil_z": 2.542,
+          "gc_consensus": 0.8,
+          "crystal_bearing": true
+        },
+        "60": {
+          "sil_z": 2.493,
+          "gc_consensus": 0.833,
+          "crystal_bearing": true
+        },
+        "61": {
+          "sil_z": 3.092,
+          "gc_consensus": 0.832,
+          "crystal_bearing": true
+        },
+        "62": {
+          "sil_z": 3.613,
+          "gc_consensus": 0.9,
+          "crystal_bearing": true
+        },
+        "63": {
+          "sil_z": 3.056,
+          "gc_consensus": 0.867,
+          "crystal_bearing": true
+        }
+      },
+      "z_thresh": 3.0,
+      "sil_z_thresh": 2.0,
+      "has_consensus": true,
+      "null_kind": "crosstask",
+      "register": "attn",
+      "n_probes": 535,
+      "n_null_tokens": 55,
+      "null_floor": {
+        "null_floor_z": 1.455,
+        "shuffled_bearing_frac": 0.0,
+        "shuffled_sil_z_max": 2.462,
+        "suspect": false,
+        "n_shuffles": 3,
+        "n_perm": 150,
+        "per_shuffle": [
+          {
+            "max_sil_z": 1.357,
+            "n_bearing": 0
+          },
+          {
+            "max_sil_z": 1.684,
+            "n_bearing": 0
+          },
+          {
+            "max_sil_z": 2.462,
+            "n_bearing": 0
+          }
+        ],
+        "reference": "q95 ~ 1.64 under a well-behaved N(0,1) null"
+      }
+    }
+  },
+  "traces": {
+    "gate": {
+      "register": "gate",
+      "n_tokens": 32,
+      "token_noop_rate": 0.6875,
+      "crystal_layers": [
+        0,
+        1,
+        5,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54
+      ],
+      "trajectory": [
+        {
+          "layer": 30,
+          "op": "WHNF",
+          "votes": 3,
+          "total": 4
+        },
+        {
+          "layer": 35,
+          "op": "WHNF",
+          "votes": 2,
+          "total": 3
+        },
+        {
+          "layer": 43,
+          "op": "B",
+          "votes": 1,
+          "total": 1
+        },
+        {
+          "layer": 45,
+          "op": "I",
+          "votes": 1,
+          "total": 1
+        },
+        {
+          "layer": 46,
+          "op": "B",
+          "votes": 1,
+          "total": 1
+        },
+        {
+          "layer": 47,
+          "op": "B",
+          "votes": 1,
+          "total": 1
+        },
+        {
+          "layer": 49,
+          "op": "B",
+          "votes": 1,
+          "total": 1
+        },
+        {
+          "layer": 50,
+          "op": "WHNF",
+          "votes": 1,
+          "total": 1
+        },
+        {
+          "layer": 52,
+          "op": "S",
+          "votes": 2,
+          "total": 2
+        },
+        {
+          "layer": 53,
+          "op": "S",
+          "votes": 2,
+          "total": 2
+        },
+        {
+          "layer": 54,
+          "op": "S",
+          "votes": 3,
+          "total": 3
+        }
+      ],
+      "C_layers": [],
+      "B_layers": [
+        43,
+        46,
+        47,
+        49
+      ],
+      "C_before_B": false
+    },
+    "attn": {
+      "register": "attn",
+      "n_tokens": 32,
+      "token_noop_rate": 0.3438,
+      "crystal_layers": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        59,
+        60,
+        61,
+        62,
+        63
+      ],
+      "trajectory": [
+        {
+          "layer": 2,
+          "op": "WHNF",
+          "votes": 2,
+          "total": 3
+        },
+        {
+          "layer": 7,
+          "op": "K",
+          "votes": 2,
+          "total": 4
+        },
+        {
+          "layer": 11,
+          "op": "WHNF",
+          "votes": 4,
+          "total": 5
+        },
+        {
+          "layer": 15,
+          "op": "K",
+          "votes": 2,
+          "total": 2
+        },
+        {
+          "layer": 16,
+          "op": "Y",
+          "votes": 1,
+          "total": 1
+        },
+        {
+          "layer": 18,
+          "op": "D",
+          "votes": 1,
+          "total": 1
+        },
+        {
+          "layer": 20,
+          "op": "S",
+          "votes": 1,
+          "total": 1
+        },
+        {
+          "layer": 23,
+          "op": "D",
+          "votes": 1,
+          "total": 1
+        },
+        {
+          "layer": 24,
+          "op": "Y",
+          "votes": 1,
+          "total": 1
+        },
+        {
+          "layer": 25,
+          "op": "S",
+          "votes": 2,
+          "total": 2
+        },
+        {
+          "layer": 28,
+          "op": "W",
+          "votes": 1,
+          "total": 2
+        },
+        {
+          "layer": 29,
+          "op": "B",
+          "votes": 2,
+          "total": 2
+        },
+        {
+          "layer": 30,
+          "op": "W",
+          "votes": 1,
+          "total": 1
+        },
+        {
+          "layer": 33,
+          "op": "K",
+          "votes": 1,
+          "total": 1
+        },
+        {
+          "layer": 36,
+          "op": "Y",
+          "votes": 1,
+          "total": 1
+        },
+        {
+          "layer": 38,
+          "op": "S",
+          "votes": 2,
+          "total": 3
+        },
+        {
+          "layer": 39,
+          "op": "S",
+          "votes": 3,
+          "total": 3
+        },
+        {
+          "layer": 40,
+          "op": "WHNF",
+          "votes": 1,
+          "total": 2
+        },
+        {
+          "layer": 42,
+          "op": "S",
+          "votes": 1,
+          "total": 1
+        },
+        {
+          "layer": 44,
+          "op": "D",
+          "votes": 1,
+          "total": 1
+        },
+        {
+          "layer": 45,
+          "op": "S",
+          "votes": 1,
+          "total": 2
+        },
+        {
+          "layer": 46,
+          "op": "S",
+          "votes": 1,
+          "total": 1
+        },
+        {
+          "layer": 47,
+          "op": "Y",
+          "votes": 4,
+          "total": 5
+        },
+        {
+          "layer": 48,
+          "op": "B",
+          "votes": 1,
+          "total": 2
+        },
+        {
+          "layer": 49,
+          "op": "B",
+          "votes": 1,
+          "total": 1
+        },
+        {
+          "layer": 50,
+          "op": "Y",
+          "votes": 1,
+          "total": 1
+        },
+        {
+          "layer": 51,
+          "op": "S",
+          "votes": 2,
+          "total": 2
+        },
+        {
+          "layer": 52,
+          "op": "WHNF",
+          "votes": 1,
+          "total": 1
+        },
+        {
+          "layer": 55,
+          "op": "S",
+          "votes": 3,
+          "total": 5
+        },
+        {
+          "layer": 60,
+          "op": "S",
+          "votes": 1,
+          "total": 1
+        },
+        {
+          "layer": 63,
+          "op": "WHNF",
+          "votes": 2,
+          "total": 2
+        }
+      ],
+      "C_layers": [],
+      "B_layers": [
+        29,
+        48,
+        49
+      ],
+      "C_before_B": false
+    }
+  },
+  "operand": null,
+  "elapsed_s": 971.4,
+  "timestamp_utc": "2026-07-20T00:10:29.090297+00:00",
+  "smoke": false,
+  "probes_per_comb": null,
+  "n_perm": 300
+}
