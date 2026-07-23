@@ -1,0 +1,108 @@
+========================================================================
+  Universal Lattice Map — Cross-Model Consensus
+  Models: ['qwen3.6-27b', 'bonsai27b-ternary']
+  Depths: [0.0, 0.25, 0.5, 0.75]
+========================================================================
+
+1. Loading probes...
+  Loaded 380 probes across 20 axes
+
+2. Extracting per-model RDMs...
+
+  ─── qwen3.6-27b (Qwen/Qwen3.6-27B) ───
+  Layers: 64, d_model: 5120
+  Target layers: [0, 16, 32, 47] (fracs: [0.0, 0.25, 0.5, 0.75])
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Fetching 15 files:   0%|          | 0/15 [00:00<?, ?it/s]Fetching 15 files: 100%|██████████| 15/15 [00:00<00:00, 37786.52it/s]
+The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+Loading weights:   0%|          | 0/851 [00:00<?, ?it/s]Loading weights:   0%|          | 1/851 [00:02<30:27,  2.15s/it]Loading weights:   0%|          | 2/851 [00:03<20:09,  1.42s/it]Loading weights:   2%|▏         | 13/851 [00:03<02:07,  6.60it/s]Loading weights:   2%|▏         | 17/851 [00:03<01:34,  8.83it/s]Loading weights:   3%|▎         | 27/851 [00:03<00:50, 16.48it/s]Loading weights:   4%|▍         | 32/851 [00:03<00:41, 19.63it/s]Loading weights:   5%|▍         | 41/851 [00:03<00:29, 27.44it/s]Loading weights:   5%|▌         | 46/851 [00:03<00:29, 27.38it/s]Loading weights:   6%|▌         | 51/851 [00:04<00:26, 29.67it/s]Loading weights:   7%|▋         | 62/851 [00:04<00:18, 41.99it/s]Loading weights:   8%|▊         | 68/851 [00:04<00:20, 37.47it/s]Loading weights:   9%|▉         | 80/851 [00:04<00:15, 48.63it/s]Loading weights:  10%|█         | 86/851 [00:04<00:15, 48.43it/s]Loading weights:  11%|█         | 94/851 [00:04<00:15, 50.30it/s]Loading weights:  12%|█▏        | 100/851 [00:05<00:18, 39.53it/s]Loading weights:  13%|█▎        | 107/851 [00:05<00:17, 42.85it/s]Loading weights:  14%|█▍        | 119/851 [00:05<00:13, 52.97it/s]Loading weights:  15%|█▍        | 125/851 [00:05<00:14, 51.73it/s]Loading weights:  16%|█▌        | 133/851 [00:05<00:13, 52.65it/s]Loading weights:  16%|█▋        | 139/851 [00:05<00:13, 50.96it/s]Loading weights:  17%|█▋        | 147/851 [00:05<00:13, 52.21it/s]Loading weights:  18%|█▊        | 153/851 [00:06<00:17, 40.20it/s]Loading weights:  19%|█▉        | 160/851 [00:06<00:15, 43.44it/s]Loading weights:  20%|██        | 172/851 [00:06<00:12, 54.17it/s]Loading weights:  21%|██        | 178/851 [00:06<00:12, 52.64it/s]Loading weights:  22%|██▏       | 186/851 [00:06<00:12, 53.24it/s]Loading weights:  23%|██▎       | 192/851 [00:06<00:12, 51.76it/s]Loading weights:  24%|██▎       | 200/851 [00:06<00:12, 52.72it/s]Loading weights:  24%|██▍       | 206/851 [00:07<00:15, 40.45it/s]Loading weights:  25%|██▌       | 213/851 [00:07<00:14, 43.40it/s]Loading weights:  26%|██▋       | 225/851 [00:07<00:11, 53.89it/s]Loading weights:  27%|██▋       | 231/851 [00:07<00:11, 52.36it/s]Loading weights:  28%|██▊       | 239/851 [00:07<00:11, 52.93it/s]Loading weights:  29%|██▉       | 245/851 [00:07<00:11, 51.55it/s]Loading weights:  30%|██▉       | 253/851 [00:08<00:11, 52.82it/s]Loading weights:  30%|███       | 259/851 [00:08<00:14, 40.76it/s]Loading weights:  31%|███▏      | 266/851 [00:08<00:13, 43.87it/s]Loading weights:  33%|███▎      | 278/851 [00:08<00:10, 54.45it/s]Loading weights:  33%|███▎      | 284/851 [00:08<00:10, 52.65it/s]Loading weights:  34%|███▍      | 292/851 [00:08<00:10, 53.86it/s]Loading weights:  35%|███▌      | 298/851 [00:08<00:10, 52.46it/s]Loading weights:  36%|███▌      | 306/851 [00:09<00:10, 53.55it/s]Loading weights:  37%|███▋      | 312/851 [00:09<00:13, 40.88it/s]Loading weights:  37%|███▋      | 319/851 [00:09<00:12, 43.75it/s]Loading weights:  39%|███▉      | 331/851 [00:09<00:09, 54.16it/s]Loading weights:  40%|███▉      | 337/851 [00:09<00:09, 52.68it/s]Loading weights:  41%|████      | 345/851 [00:09<00:09, 53.61it/s]Loading weights:  41%|████      | 351/851 [00:10<00:09, 52.27it/s]Loading weights:  42%|████▏     | 359/851 [00:10<00:09, 53.54it/s]Loading weights:  43%|████▎     | 365/851 [00:10<00:11, 41.18it/s]Loading weights:  44%|████▎     | 372/851 [00:10<00:10, 44.02it/s]Loading weights:  45%|████▌     | 384/851 [00:10<00:08, 54.64it/s]Loading weights:  46%|████▌     | 390/851 [00:10<00:08, 53.05it/s]Loading weights:  47%|████▋     | 398/851 [00:10<00:08, 54.04it/s]Loading weights:  47%|████▋     | 404/851 [00:11<00:08, 52.49it/s]Loading weights:  48%|████▊     | 412/851 [00:11<00:08, 53.37it/s]Loading weights:  49%|████▉     | 418/851 [00:11<00:10, 40.65it/s]Loading weights:  50%|████▉     | 425/851 [00:11<00:09, 43.71it/s]Loading weights:  51%|█████▏    | 437/851 [00:11<00:07, 54.05it/s]Loading weights:  52%|█████▏    | 443/851 [00:11<00:07, 52.33it/s]Loading weights:  53%|█████▎    | 451/851 [00:12<00:07, 53.30it/s]Loading weights:  54%|█████▎    | 457/851 [00:12<00:07, 51.93it/s]Loading weights:  55%|█████▍    | 465/851 [00:12<00:07, 53.17it/s]Loading weights:  55%|█████▌    | 471/851 [00:12<00:09, 41.01it/s]Loading weights:  56%|█████▌    | 478/851 [00:12<00:08, 43.97it/s]Loading weights:  58%|█████▊    | 490/851 [00:12<00:06, 54.57it/s]Loading weights:  58%|█████▊    | 496/851 [00:12<00:06, 52.89it/s]Loading weights:  59%|█████▉    | 504/851 [00:13<00:06, 53.89it/s]Loading weights:  60%|█████▉    | 510/851 [00:13<00:06, 52.20it/s]Loading weights:  61%|██████    | 518/851 [00:13<00:06, 53.23it/s]Loading weights:  62%|██████▏   | 524/851 [00:13<00:08, 40.57it/s]Loading weights:  62%|██████▏   | 531/851 [00:13<00:07, 43.52it/s]Loading weights:  64%|██████▍   | 543/851 [00:13<00:05, 54.29it/s]Loading weights:  65%|██████▍   | 549/851 [00:14<00:05, 52.72it/s]Loading weights:  65%|██████▌   | 557/851 [00:14<00:05, 53.91it/s]Loading weights:  66%|██████▌   | 563/851 [00:14<00:05, 52.28it/s]Loading weights:  67%|██████▋   | 571/851 [00:14<00:05, 53.44it/s]Loading weights:  68%|██████▊   | 577/851 [00:14<00:06, 40.82it/s]Loading weights:  69%|██████▊   | 584/851 [00:14<00:06, 43.72it/s]Loading weights:  70%|███████   | 596/851 [00:14<00:04, 54.07it/s]Loading weights:  71%|███████   | 602/851 [00:15<00:04, 52.48it/s]Loading weights:  72%|███████▏  | 610/851 [00:15<00:04, 53.50it/s]Loading weights:  72%|███████▏  | 616/851 [00:15<00:04, 51.98it/s]Loading weights:  73%|███████▎  | 624/851 [00:15<00:04, 53.14it/s]Loading weights:  74%|███████▍  | 630/851 [00:15<00:05, 40.85it/s]Loading weights:  75%|███████▍  | 637/851 [00:15<00:04, 43.88it/s]Loading weights:  76%|███████▋  | 649/851 [00:16<00:03, 53.95it/s]Loading weights:  77%|███████▋  | 655/851 [00:16<00:03, 52.52it/s]Loading weights:  78%|███████▊  | 663/851 [00:16<00:03, 53.33it/s]Loading weights:  79%|███████▊  | 669/851 [00:16<00:03, 52.18it/s]Loading weights:  80%|███████▉  | 677/851 [00:16<00:03, 53.57it/s]Loading weights:  80%|████████  | 683/851 [00:16<00:04, 40.93it/s]Loading weights:  81%|████████  | 690/851 [00:16<00:03, 43.82it/s]Loading weights:  82%|████████▏ | 702/851 [00:17<00:02, 54.25it/s]Loading weights:  83%|████████▎ | 708/851 [00:17<00:02, 53.02it/s]Loading weights:  84%|████████▍ | 716/851 [00:17<00:02, 53.93it/s]Loading weights:  85%|████████▍ | 722/851 [00:17<00:02, 52.42it/s]Loading weights:  86%|████████▌ | 730/851 [00:17<00:02, 53.43it/s]Loading weights:  86%|████████▋ | 736/851 [00:17<00:02, 40.97it/s]Loading weights:  87%|████████▋ | 743/851 [00:18<00:02, 43.79it/s]Loading weights:  89%|████████▊ | 755/851 [00:18<00:01, 54.41it/s]Loading weights:  89%|████████▉ | 761/851 [00:18<00:01, 52.73it/s]Loading weights:  90%|█████████ | 769/851 [00:18<00:01, 53.80it/s]Loading weights:  91%|█████████ | 775/851 [00:18<00:01, 51.85it/s]Loading weights:  92%|█████████▏| 783/851 [00:18<00:01, 52.34it/s]Loading weights:  93%|█████████▎| 789/851 [00:18<00:01, 40.60it/s]Loading weights:  94%|█████████▎| 796/851 [00:19<00:01, 43.68it/s]Loading weights:  95%|█████████▍| 808/851 [00:19<00:00, 54.22it/s]Loading weights:  96%|█████████▌| 814/851 [00:19<00:00, 52.45it/s]Loading weights:  97%|█████████▋| 822/851 [00:19<00:00, 53.42it/s]Loading weights:  97%|█████████▋| 828/851 [00:19<00:00, 52.00it/s]Loading weights:  98%|█████████▊| 836/851 [00:19<00:00, 52.80it/s]Loading weights:  99%|█████████▉| 842/851 [00:20<00:00, 40.59it/s]Loading weights: 100%|█████████▉| 849/851 [00:20<00:00, 43.68it/s]Loading weights: 100%|██████████| 851/851 [00:20<00:00, 42.25it/s]
+  Running 380 probes...
+    100/380 probes done...
+    200/380 probes done...
+    300/380 probes done...
+  Done in 128.7s (338.6ms/probe)
+  L0 (depth=0%): RDM (380, 380), mean_sim=0.9797
+  L16 (depth=25%): RDM (380, 380), mean_sim=0.8193
+  L32 (depth=50%): RDM (380, 380), mean_sim=0.6408
+  L47 (depth=75%): RDM (380, 380), mean_sim=0.5765
+
+  ─── bonsai27b-ternary (/Users/mwhitford/localai/models/bonsai27b-unpacked) ───
+  Layers: 64, d_model: 5120
+  Target layers: [0, 16, 32, 47] (fracs: [0.0, 0.25, 0.5, 0.75])
+Loading weights:   0%|          | 0/851 [00:00<?, ?it/s]Loading weights:   0%|          | 1/851 [00:00<05:27,  2.60it/s]Loading weights:   3%|▎         | 27/851 [00:00<00:11, 71.20it/s]Loading weights:   5%|▌         | 46/851 [00:00<00:07, 100.79it/s]Loading weights:   8%|▊         | 67/851 [00:00<00:06, 130.61it/s]Loading weights:  11%|█         | 93/851 [00:00<00:04, 165.67it/s]Loading weights:  13%|█▎        | 114/851 [00:00<00:04, 172.53it/s]Loading weights:  16%|█▌        | 134/851 [00:01<00:04, 173.25it/s]Loading weights:  18%|█▊        | 154/851 [00:01<00:04, 168.04it/s]Loading weights:  22%|██▏       | 183/851 [00:01<00:03, 200.17it/s]Loading weights:  24%|██▍       | 205/851 [00:01<00:03, 189.14it/s]Loading weights:  27%|██▋       | 226/851 [00:01<00:03, 194.45it/s]Loading weights:  30%|██▉       | 252/851 [00:01<00:02, 209.89it/s]Loading weights:  32%|███▏      | 274/851 [00:01<00:02, 201.48it/s]Loading weights:  35%|███▍      | 295/851 [00:01<00:02, 192.26it/s]Loading weights:  37%|███▋      | 315/851 [00:01<00:02, 188.96it/s]Loading weights:  40%|████      | 342/851 [00:02<00:02, 211.05it/s]Loading weights:  43%|████▎     | 364/851 [00:02<00:02, 196.13it/s]Loading weights:  45%|████▌     | 385/851 [00:02<00:02, 199.47it/s]Loading weights:  48%|████▊     | 411/851 [00:02<00:02, 214.72it/s]Loading weights:  51%|█████     | 433/851 [00:02<00:02, 204.15it/s]Loading weights:  53%|█████▎    | 454/851 [00:02<00:02, 189.13it/s]Loading weights:  56%|█████▌    | 474/851 [00:02<00:02, 184.20it/s]Loading weights:  59%|█████▉    | 501/851 [00:02<00:01, 206.92it/s]Loading weights:  61%|██████▏   | 523/851 [00:02<00:01, 193.83it/s]Loading weights:  64%|██████▍   | 545/851 [00:03<00:01, 193.82it/s]Loading weights:  67%|██████▋   | 571/851 [00:03<00:01, 210.73it/s]Loading weights:  70%|██████▉   | 593/851 [00:03<00:01, 207.91it/s]Loading weights:  72%|███████▏  | 615/851 [00:03<00:01, 204.83it/s]Loading weights:  75%|███████▍  | 636/851 [00:03<00:01, 197.41it/s]Loading weights:  78%|███████▊  | 663/851 [00:03<00:00, 210.65it/s]Loading weights:  80%|████████  | 685/851 [00:03<00:00, 192.78it/s]Loading weights:  84%|████████▍ | 713/851 [00:03<00:00, 215.24it/s]Loading weights:  86%|████████▋ | 736/851 [00:04<00:00, 194.40it/s]Loading weights:  90%|████████▉ | 763/851 [00:04<00:00, 213.68it/s]Loading weights:  92%|█████████▏| 786/851 [00:04<00:00, 202.58it/s]Loading weights:  95%|█████████▌| 809/851 [00:04<00:00, 202.71it/s]Loading weights:  98%|█████████▊| 835/851 [00:04<00:00, 216.90it/s]Loading weights: 100%|██████████| 851/851 [00:04<00:00, 185.53it/s]
+  Running 380 probes...
+    100/380 probes done...
+    200/380 probes done...
+    300/380 probes done...
+  Done in 117.9s (310.3ms/probe)
+  L0 (depth=0%): RDM (380, 380), mean_sim=0.8942
+  L16 (depth=25%): RDM (380, 380), mean_sim=0.5592
+  L32 (depth=50%): RDM (380, 380), mean_sim=0.3140
+  L47 (depth=75%): RDM (380, 380), mean_sim=0.3163
+
+3. Building cross-model consensus...
+  Depth 0%: 2 models, agreement=0.6178, high_agree=8.5%, model_corr=0.8725
+  Depth 25%: 2 models, agreement=0.3933, high_agree=0.8%, model_corr=0.9154
+  Depth 50%: 2 models, agreement=0.3578, high_agree=0.6%, model_corr=0.7422
+  Depth 75%: 2 models, agreement=0.3751, high_agree=1.1%, model_corr=0.7739
+
+4. Discovering universal dimensions...
+
+  Depth 0%:
+  SVD: 3 dimensions (cumulative variance: 93.6%)
+    ✓ dim 0: 0.7563 (cum: 0.7563)
+    ✓ dim 1: 0.1497 (cum: 0.9060)
+    ✓ dim 2: 0.0296 (cum: 0.9356)
+      dim 3: 0.0149 (cum: 0.9506)
+      dim 4: 0.0071 (cum: 0.9577)
+      dim 5: 0.0034 (cum: 0.9611)
+
+  Depth 25%:
+  SVD: 2 dimensions (cumulative variance: 92.4%)
+    ✓ dim 0: 0.8250 (cum: 0.8250)
+    ✓ dim 1: 0.0987 (cum: 0.9237)
+      dim 2: 0.0119 (cum: 0.9356)
+      dim 3: 0.0067 (cum: 0.9424)
+      dim 4: 0.0061 (cum: 0.9484)
+
+  Depth 50%:
+  SVD: 4 dimensions (cumulative variance: 83.7%)
+    ✓ dim 0: 0.6321 (cum: 0.6321)
+    ✓ dim 1: 0.1158 (cum: 0.7479)
+    ✓ dim 2: 0.0500 (cum: 0.7979)
+    ✓ dim 3: 0.0387 (cum: 0.8366)
+      dim 4: 0.0190 (cum: 0.8556)
+      dim 5: 0.0142 (cum: 0.8699)
+      dim 6: 0.0099 (cum: 0.8798)
+
+  Depth 75%:
+  SVD: 5 dimensions (cumulative variance: 82.1%)
+    ✓ dim 0: 0.5975 (cum: 0.5975)
+    ✓ dim 1: 0.1211 (cum: 0.7187)
+    ✓ dim 2: 0.0485 (cum: 0.7672)
+    ✓ dim 3: 0.0294 (cum: 0.7965)
+    ✓ dim 4: 0.0247 (cum: 0.8213)
+      dim 5: 0.0198 (cum: 0.8411)
+      dim 6: 0.0160 (cum: 0.8571)
+      dim 7: 0.0121 (cum: 0.8692)
+
+5. Saving lattice map...
+  💾 NPZ: lattice/ternary_gram/per_model_rdms.npz (3.7 MB)
+
+  💾 NPZ: lattice/ternary_gram/universal_lattice.npz (3920.8 KB)
+  💾 JSON: lattice/ternary_gram/universal_lattice.json
+  💾 Compat: lattice/ternary_gram/lattice_relational_target.json (v12 relational loss format)
+
+========================================================================
+  Universal Lattice Map Complete
+  Models: 2
+  Probes: 380
+  Depths: 4
+    0%: agreement=0.6178, model_corr=0.8725, dims=3
+    25%: agreement=0.3933, model_corr=0.9154, dims=2
+    50%: agreement=0.3578, model_corr=0.7422, dims=4
+    75%: agreement=0.3751, model_corr=0.7739, dims=5
+  Elapsed: 280s
+  Output: lattice/ternary_gram/
+========================================================================

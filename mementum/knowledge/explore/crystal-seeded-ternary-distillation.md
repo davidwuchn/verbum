@@ -7,6 +7,7 @@ tags: [requential-coding, ternary, distillation, gradient-bridges, gram-loss,
        live-tree, s3-star, audit, goodhart-firewall]
 related:
   - ../opcode-vsm-tree.md
+  - bonsai-crystal-survival.md
   - asymmetric-pathway-quantization.md
   - ternary-flip-flop-not-overloading.md
   - supervised-recurrence-halt.md

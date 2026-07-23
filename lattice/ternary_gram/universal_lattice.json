@@ -1,0 +1,1663 @@
+{
+  "description": "Universal lattice map \u2014 cross-model consensus RDM",
+  "n_probes": 380,
+  "n_models": 2,
+  "model_keys": [
+    "qwen3.6-27b",
+    "bonsai27b-ternary"
+  ],
+  "models": {
+    "qwen3.6-27b": "Qwen/Qwen3.6-27B",
+    "bonsai27b-ternary": "/Users/mwhitford/localai/models/bonsai27b-unpacked"
+  },
+  "depth_fractions": [
+    0.0,
+    0.25,
+    0.5,
+    0.75
+  ],
+  "probes": [
+    {
+      "prompt": "Of all the animals in the zoo, only the lion was truly",
+      "axis": "lambda_K_select"
+    },
+    {
+      "prompt": "Among the candidates, the committee chose the one who had the most",
+      "axis": "lambda_K_select"
+    },
+    {
+      "prompt": "Between coffee and tea, she always prefers",
+      "axis": "lambda_K_select"
+    },
+    {
+      "prompt": "Despite the rain, the cold, and the wind, the hikers continued to",
+      "axis": "lambda_K_select"
+    },
+    {
+      "prompt": "Ignoring the noise from the construction site next door, the student focused on",
+      "axis": "lambda_K_select"
+    },
+    {
+      "prompt": "If the test is positive, the doctor will prescribe medication; otherwise the patient can go",
+      "axis": "lambda_K_select"
+    },
+    {
+      "prompt": "Either we leave now and catch the train, or we stay and miss",
+      "axis": "lambda_K_select"
+    },
+    {
+      "prompt": "The winner takes the trophy while the loser goes",
+      "axis": "lambda_K_select"
+    },
+    {
+      "prompt": "You must choose: save the village or pursue the",
+      "axis": "lambda_K_select"
+    },
+    {
+      "prompt": "The relevant factor was not the price but the",
+      "axis": "lambda_K_select"
+    },
+    {
+      "prompt": "The key finding of the study, setting aside methodological concerns, was that",
+      "axis": "lambda_K_select"
+    },
+    {
+      "prompt": "Regardless of the criticism, the project achieved its primary",
+      "axis": "lambda_K_select"
+    },
+    {
+      "prompt": "Whatever the reason, the result was clearly",
+      "axis": "lambda_K_select"
+    },
+    {
+      "prompt": "No matter what else happened that day, the important thing was that",
+      "axis": "lambda_K_select"
+    },
+    {
+      "prompt": "Setting aside personal feelings, the decision was based purely on",
+      "axis": "lambda_K_select"
+    },
+    {
+      "prompt": "From the entire library, she selected only one book about",
+      "axis": "lambda_K_select"
+    },
+    {
+      "prompt": "Out of hundreds of applicants, only five were invited to",
+      "axis": "lambda_K_select"
+    },
+    {
+      "prompt": "The detective isolated the single piece of evidence that",
+      "axis": "lambda_K_select"
+    },
+    {
+      "prompt": "Among all the possible explanations, the simplest one was",
+      "axis": "lambda_K_select"
+    },
+    {
+      "prompt": "From the wreckage they recovered only the",
+      "axis": "lambda_K_select"
+    },
+    {
+      "prompt": "The editor removed all unnecessary adjectives, leaving only",
+      "axis": "lambda_K_select"
+    },
+    {
+      "prompt": "After stripping away the jargon, the message was simply that",
+      "axis": "lambda_K_select"
+    },
+    {
+      "prompt": "Reduce the fraction to its simplest form by removing common",
+      "axis": "lambda_K_select"
+    },
+    {
+      "prompt": "The sculptor removed marble until only the figure",
+      "axis": "lambda_K_select"
+    },
+    {
+      "prompt": "Delete everything except the first column and the last",
+      "axis": "lambda_K_select"
+    },
+    {
+      "prompt": "John said that he would finish the project by",
+      "axis": "lambda_I_identity"
+    },
+    {
+      "prompt": "The cat cleaned itself thoroughly before",
+      "axis": "lambda_I_identity"
+    },
+    {
+      "prompt": "Mary asked her mother if she could borrow",
+      "axis": "lambda_I_identity"
+    },
+    {
+      "prompt": "The students prepared their own presentations about",
+      "axis": "lambda_I_identity"
+    },
+    {
+      "prompt": "The company announced that it would be expanding into",
+      "axis": "lambda_I_identity"
+    },
+    {
+      "prompt": "The answer is exactly what you think it",
+      "axis": "lambda_I_identity"
+    },
+    {
+      "prompt": "What you see is precisely what you",
+      "axis": "lambda_I_identity"
+    },
+    {
+      "prompt": "The output of the function is the same as the",
+      "axis": "lambda_I_identity"
+    },
+    {
+      "prompt": "Copy the file exactly as it appears without changing",
+      "axis": "lambda_I_identity"
+    },
+    {
+      "prompt": "Repeat after me: the password is",
+      "axis": "lambda_I_identity"
+    },
+    {
+      "prompt": "The old man sat on the bench. He watched the pigeons as they",
+      "axis": "lambda_I_identity"
+    },
+    {
+      "prompt": "Alice found a book in the attic. She opened it and saw that it",
+      "axis": "lambda_I_identity"
+    },
+    {
+      "prompt": "The car broke down on the highway. Its engine had overheated because the",
+      "axis": "lambda_I_identity"
+    },
+    {
+      "prompt": "The twins looked identical. Both of them wore the same",
+      "axis": "lambda_I_identity"
+    },
+    {
+      "prompt": "The river flows south through the valley. It eventually reaches the",
+      "axis": "lambda_I_identity"
+    },
+    {
+      "prompt": "The scientist who published the paper last year now claims that her results were",
+      "axis": "lambda_I_identity"
+    },
+    {
+      "prompt": "The building that was constructed in 1920 still has its original",
+      "axis": "lambda_I_identity"
+    },
+    {
+      "prompt": "Every student who passed the exam received their certificate on",
+      "axis": "lambda_I_identity"
+    },
+    {
+      "prompt": "The book that I bought yesterday turned out to be the same one that she had already",
+      "axis": "lambda_I_identity"
+    },
+    {
+      "prompt": "The company that hired me three years ago just announced that they will",
+      "axis": "lambda_I_identity"
+    },
+    {
+      "prompt": "According to the report, the exact figure was",
+      "axis": "lambda_I_identity"
+    },
+    {
+      "prompt": "The witness stated that the car was, in her own words,",
+      "axis": "lambda_I_identity"
+    },
+    {
+      "prompt": "The translation preserves the original meaning which is",
+      "axis": "lambda_I_identity"
+    },
+    {
+      "prompt": "Verbatim, the inscription reads:",
+      "axis": "lambda_I_identity"
+    },
+    {
+      "prompt": "The signal passed through the amplifier unchanged and emerged as",
+      "axis": "lambda_I_identity"
+    },
+    {
+      "prompt": "After washing the dishes, she dried them with a",
+      "axis": "lambda_B_compose"
+    },
+    {
+      "prompt": "Having read the instructions, he assembled the furniture in",
+      "axis": "lambda_B_compose"
+    },
+    {
+      "prompt": "First the butter is melted, then the flour is added to create a",
+      "axis": "lambda_B_compose"
+    },
+    {
+      "prompt": "The water is filtered and then boiled before being served to",
+      "axis": "lambda_B_compose"
+    },
+    {
+      "prompt": "She wrote the code, tested it, and then deployed it to the",
+      "axis": "lambda_B_compose"
+    },
+    {
+      "prompt": "The man who fixed the roof was paid by the woman who owned the",
+      "axis": "lambda_B_compose"
+    },
+    {
+      "prompt": "The fact that the economy grew suggests that the policy was",
+      "axis": "lambda_B_compose"
+    },
+    {
+      "prompt": "Knowing that the bridge was closed, they took the longer route through",
+      "axis": "lambda_B_compose"
+    },
+    {
+      "prompt": "The cake that she baked using the recipe that her grandmother wrote won",
+      "axis": "lambda_B_compose"
+    },
+    {
+      "prompt": "The rumor that the CEO who fired the manager was himself going to resign spread",
+      "axis": "lambda_B_compose"
+    },
+    {
+      "prompt": "Take the raw text, clean it, tokenize it, then feed it into the",
+      "axis": "lambda_B_compose"
+    },
+    {
+      "prompt": "The signal is amplified, filtered, and then converted into a",
+      "axis": "lambda_B_compose"
+    },
+    {
+      "prompt": "The ore is mined, refined, shaped, and finally polished into a",
+      "axis": "lambda_B_compose"
+    },
+    {
+      "prompt": "Read the file, parse the JSON, extract the field, and return the",
+      "axis": "lambda_B_compose"
+    },
+    {
+      "prompt": "Collect the data, compute the average, then plot the result as a",
+      "axis": "lambda_B_compose"
+    },
+    {
+      "prompt": "The extremely rapidly spinning bright blue",
+      "axis": "lambda_B_compose"
+    },
+    {
+      "prompt": "A recently discovered previously unknown species of deep-sea",
+      "axis": "lambda_B_compose"
+    },
+    {
+      "prompt": "The heavily fortified carefully guarded ancient underground",
+      "axis": "lambda_B_compose"
+    },
+    {
+      "prompt": "A beautifully restored meticulously maintained Victorian-era",
+      "axis": "lambda_B_compose"
+    },
+    {
+      "prompt": "The surprisingly well-preserved recently excavated Bronze Age",
+      "axis": "lambda_B_compose"
+    },
+    {
+      "prompt": "The drought caused the crops to fail which led to a famine that",
+      "axis": "lambda_B_compose"
+    },
+    {
+      "prompt": "His injury prevented him from training which cost him the competition that",
+      "axis": "lambda_B_compose"
+    },
+    {
+      "prompt": "The storm damaged the power lines which cut electricity to the hospital where",
+      "axis": "lambda_B_compose"
+    },
+    {
+      "prompt": "The discovery inspired a new theory that explained the phenomenon that had puzzled",
+      "axis": "lambda_B_compose"
+    },
+    {
+      "prompt": "The invention revolutionized the industry that transformed the economy that now",
+      "axis": "lambda_B_compose"
+    },
+    {
+      "prompt": "The letter was written by the",
+      "axis": "lambda_C_flip"
+    },
+    {
+      "prompt": "The window was broken by the ball that the child had",
+      "axis": "lambda_C_flip"
+    },
+    {
+      "prompt": "The song was performed by a band that nobody had",
+      "axis": "lambda_C_flip"
+    },
+    {
+      "prompt": "Three people were rescued by the firefighter who",
+      "axis": "lambda_C_flip"
+    },
+    {
+      "prompt": "The problem was finally solved by the youngest member of",
+      "axis": "lambda_C_flip"
+    },
+    {
+      "prompt": "This particular issue, the board discussed at length during",
+      "axis": "lambda_C_flip"
+    },
+    {
+      "prompt": "Under no circumstances should you open the",
+      "axis": "lambda_C_flip"
+    },
+    {
+      "prompt": "Only after the rain stopped did the children go outside to",
+      "axis": "lambda_C_flip"
+    },
+    {
+      "prompt": "Never before had the city experienced such a severe",
+      "axis": "lambda_C_flip"
+    },
+    {
+      "prompt": "Rarely does one encounter such a perfectly preserved example of",
+      "axis": "lambda_C_flip"
+    },
+    {
+      "prompt": "She gave the book to the student who had",
+      "axis": "lambda_C_flip"
+    },
+    {
+      "prompt": "She gave the student the book that she had",
+      "axis": "lambda_C_flip"
+    },
+    {
+      "prompt": "He sent a letter to his mother explaining",
+      "axis": "lambda_C_flip"
+    },
+    {
+      "prompt": "He sent his mother a letter explaining",
+      "axis": "lambda_C_flip"
+    },
+    {
+      "prompt": "They offered the job to the candidate who",
+      "axis": "lambda_C_flip"
+    },
+    {
+      "prompt": "Into the room walked a tall man wearing a",
+      "axis": "lambda_C_flip"
+    },
+    {
+      "prompt": "Down the hill rolled the enormous boulder that had been",
+      "axis": "lambda_C_flip"
+    },
+    {
+      "prompt": "Away flew the birds when the dog started to",
+      "axis": "lambda_C_flip"
+    },
+    {
+      "prompt": "Up rose the sun over the mountains revealing the",
+      "axis": "lambda_C_flip"
+    },
+    {
+      "prompt": "Out came the truth about what had really",
+      "axis": "lambda_C_flip"
+    },
+    {
+      "prompt": "The teacher taught the student, and the student taught the",
+      "axis": "lambda_C_flip"
+    },
+    {
+      "prompt": "She trusts him more than he trusts",
+      "axis": "lambda_C_flip"
+    },
+    {
+      "prompt": "The cat chased the dog, but then the dog chased the",
+      "axis": "lambda_C_flip"
+    },
+    {
+      "prompt": "He gave her the ring that she later gave back to",
+      "axis": "lambda_C_flip"
+    },
+    {
+      "prompt": "The parent protects the child until the child can protect the",
+      "axis": "lambda_C_flip"
+    },
+    {
+      "prompt": "The king sat on his throne. The queen sat on her",
+      "axis": "lambda_M_match"
+    },
+    {
+      "prompt": "Paris is in France. Berlin is in",
+      "axis": "lambda_M_match"
+    },
+    {
+      "prompt": "Cats meow. Dogs",
+      "axis": "lambda_M_match"
+    },
+    {
+      "prompt": "Monday, Tuesday, Wednesday,",
+      "axis": "lambda_M_match"
+    },
+    {
+      "prompt": "Red, orange, yellow, green, blue,",
+      "axis": "lambda_M_match"
+    },
+    {
+      "prompt": "bip bop bap. bip bop",
+      "axis": "lambda_M_match"
+    },
+    {
+      "prompt": "foo: 1, bar: 2, baz:",
+      "axis": "lambda_M_match"
+    },
+    {
+      "prompt": "alpha \u2192 beta, gamma \u2192 delta, epsilon \u2192",
+      "axis": "lambda_M_match"
+    },
+    {
+      "prompt": "if x=1 then y=a, if x=2 then y=b, if x=3 then y=",
+      "axis": "lambda_M_match"
+    },
+    {
+      "prompt": "input: hello \u2192 output: HELLO. input: world \u2192 output:",
+      "axis": "lambda_M_match"
+    },
+    {
+      "prompt": "The first chapter introduced the characters. The second chapter introduced the",
+      "axis": "lambda_M_match"
+    },
+    {
+      "prompt": "She entered the room quietly. He entered the room",
+      "axis": "lambda_M_match"
+    },
+    {
+      "prompt": "In summer the days are long. In winter the days are",
+      "axis": "lambda_M_match"
+    },
+    {
+      "prompt": "The teacher asked a question and the student gave an answer. The student asked a question and the teacher gave an",
+      "axis": "lambda_M_match"
+    },
+    {
+      "prompt": "For breakfast he had eggs. For lunch he had",
+      "axis": "lambda_M_match"
+    },
+    {
+      "prompt": "My name is Alice. Her name is",
+      "axis": "lambda_M_match"
+    },
+    {
+      "prompt": "The book costs ten dollars. The pen costs five",
+      "axis": "lambda_M_match"
+    },
+    {
+      "prompt": "He drives a blue car. She drives a red",
+      "axis": "lambda_M_match"
+    },
+    {
+      "prompt": "The dog is big and friendly. The cat is small and",
+      "axis": "lambda_M_match"
+    },
+    {
+      "prompt": "They arrived at noon. We arrived at",
+      "axis": "lambda_M_match"
+    },
+    {
+      "prompt": "Cat is to kitten as dog is to",
+      "axis": "lambda_M_match"
+    },
+    {
+      "prompt": "Up is to down as left is to",
+      "axis": "lambda_M_match"
+    },
+    {
+      "prompt": "Author is to book as painter is to",
+      "axis": "lambda_M_match"
+    },
+    {
+      "prompt": "Finger is to hand as toe is to",
+      "axis": "lambda_M_match"
+    },
+    {
+      "prompt": "Day is to night as summer is to",
+      "axis": "lambda_M_match"
+    },
+    {
+      "prompt": "The dog bit itself on the",
+      "axis": "lambda_W_duplicate"
+    },
+    {
+      "prompt": "She taught herself to play the",
+      "axis": "lambda_W_duplicate"
+    },
+    {
+      "prompt": "The robot programmed itself to perform the",
+      "axis": "lambda_W_duplicate"
+    },
+    {
+      "prompt": "He convinced himself that everything would be",
+      "axis": "lambda_W_duplicate"
+    },
+    {
+      "prompt": "The system tested itself and found three",
+      "axis": "lambda_W_duplicate"
+    },
+    {
+      "prompt": "The spy who betrayed the spy was the same",
+      "axis": "lambda_W_duplicate"
+    },
+    {
+      "prompt": "He compared the result with the result and found no",
+      "axis": "lambda_W_duplicate"
+    },
+    {
+      "prompt": "She liked the person she had become more than the person she used to",
+      "axis": "lambda_W_duplicate"
+    },
+    {
+      "prompt": "The city was both the birthplace and the burial place of the",
+      "axis": "lambda_W_duplicate"
+    },
+    {
+      "prompt": "The answer to the question was the question",
+      "axis": "lambda_W_duplicate"
+    },
+    {
+      "prompt": "This sentence has exactly five",
+      "axis": "lambda_W_duplicate"
+    },
+    {
+      "prompt": "The list contains its own name as the first",
+      "axis": "lambda_W_duplicate"
+    },
+    {
+      "prompt": "The set of all sets that contain themselves is",
+      "axis": "lambda_W_duplicate"
+    },
+    {
+      "prompt": "The statement refers to the truth of the statement",
+      "axis": "lambda_W_duplicate"
+    },
+    {
+      "prompt": "The function calls itself with a smaller",
+      "axis": "lambda_W_duplicate"
+    },
+    {
+      "prompt": "She sang and danced at the same",
+      "axis": "lambda_W_duplicate"
+    },
+    {
+      "prompt": "The car accelerated and then braked",
+      "axis": "lambda_W_duplicate"
+    },
+    {
+      "prompt": "He opened the door and closed the",
+      "axis": "lambda_W_duplicate"
+    },
+    {
+      "prompt": "The bird flew up and then dove",
+      "axis": "lambda_W_duplicate"
+    },
+    {
+      "prompt": "She read the letter and cried because it said",
+      "axis": "lambda_W_duplicate"
+    },
+    {
+      "prompt": "What will be will",
+      "axis": "lambda_W_duplicate"
+    },
+    {
+      "prompt": "Boys will be",
+      "axis": "lambda_W_duplicate"
+    },
+    {
+      "prompt": "It is what it",
+      "axis": "lambda_W_duplicate"
+    },
+    {
+      "prompt": "The more things change the more they stay the",
+      "axis": "lambda_W_duplicate"
+    },
+    {
+      "prompt": "Easy come easy",
+      "axis": "lambda_W_duplicate"
+    },
+    {
+      "prompt": "It was John who broke the",
+      "axis": "lambda_T_typeraise"
+    },
+    {
+      "prompt": "It is the economy that voters care most",
+      "axis": "lambda_T_typeraise"
+    },
+    {
+      "prompt": "It was in Paris that they first",
+      "axis": "lambda_T_typeraise"
+    },
+    {
+      "prompt": "It was only after midnight that the noise finally",
+      "axis": "lambda_T_typeraise"
+    },
+    {
+      "prompt": "It is this very principle that the entire argument rests",
+      "axis": "lambda_T_typeraise"
+    },
+    {
+      "prompt": "Who was it that first discovered the",
+      "axis": "lambda_T_typeraise"
+    },
+    {
+      "prompt": "What did the scientists find when they examined the",
+      "axis": "lambda_T_typeraise"
+    },
+    {
+      "prompt": "Where did she hide the key before she",
+      "axis": "lambda_T_typeraise"
+    },
+    {
+      "prompt": "When exactly did the earthquake happen according to the",
+      "axis": "lambda_T_typeraise"
+    },
+    {
+      "prompt": "Which of the candidates best represents the",
+      "axis": "lambda_T_typeraise"
+    },
+    {
+      "prompt": "The man that everyone admires most is the one who",
+      "axis": "lambda_T_typeraise"
+    },
+    {
+      "prompt": "The book which nobody expected to become popular actually sold over a million",
+      "axis": "lambda_T_typeraise"
+    },
+    {
+      "prompt": "The country where the revolution began was the same place that",
+      "axis": "lambda_T_typeraise"
+    },
+    {
+      "prompt": "The day when everything changed was an ordinary",
+      "axis": "lambda_T_typeraise"
+    },
+    {
+      "prompt": "The reason why the experiment failed was never fully",
+      "axis": "lambda_T_typeraise"
+    },
+    {
+      "prompt": "These problems, no one seems able to",
+      "axis": "lambda_T_typeraise"
+    },
+    {
+      "prompt": "That proposal, the committee unanimously",
+      "axis": "lambda_T_typeraise"
+    },
+    {
+      "prompt": "His latest novel, critics have universally",
+      "axis": "lambda_T_typeraise"
+    },
+    {
+      "prompt": "The money, they had already spent on",
+      "axis": "lambda_T_typeraise"
+    },
+    {
+      "prompt": "Such behavior, the school does not",
+      "axis": "lambda_T_typeraise"
+    },
+    {
+      "prompt": "It's not the destination but the journey that",
+      "axis": "lambda_T_typeraise"
+    },
+    {
+      "prompt": "Not money but love is what truly",
+      "axis": "lambda_T_typeraise"
+    },
+    {
+      "prompt": "Coffee she drinks, but tea she absolutely",
+      "axis": "lambda_T_typeraise"
+    },
+    {
+      "prompt": "The blue one I'll take, but the red one you can",
+      "axis": "lambda_T_typeraise"
+    },
+    {
+      "prompt": "First prize he won easily, but second prize went to",
+      "axis": "lambda_T_typeraise"
+    },
+    {
+      "prompt": "The diplomat spoke fluent French and understood the local",
+      "axis": "lambda_PHI_fork"
+    },
+    {
+      "prompt": "The new policy both reduced costs and improved",
+      "axis": "lambda_PHI_fork"
+    },
+    {
+      "prompt": "The medication effectively treats pain and prevents",
+      "axis": "lambda_PHI_fork"
+    },
+    {
+      "prompt": "The software analyzes data and generates",
+      "axis": "lambda_PHI_fork"
+    },
+    {
+      "prompt": "The earthquake destroyed buildings and disrupted",
+      "axis": "lambda_PHI_fork"
+    },
+    {
+      "prompt": "The tower is taller than any other building in the",
+      "axis": "lambda_PHI_fork"
+    },
+    {
+      "prompt": "She runs faster than anyone else on the",
+      "axis": "lambda_PHI_fork"
+    },
+    {
+      "prompt": "This version is both cheaper and more reliable than the",
+      "axis": "lambda_PHI_fork"
+    },
+    {
+      "prompt": "The new model outperforms the old one in speed and",
+      "axis": "lambda_PHI_fork"
+    },
+    {
+      "prompt": "His second novel was more complex but less popular than his",
+      "axis": "lambda_PHI_fork"
+    },
+    {
+      "prompt": "The old stone house was both beautiful and",
+      "axis": "lambda_PHI_fork"
+    },
+    {
+      "prompt": "The candidate was experienced, articulate, and extremely",
+      "axis": "lambda_PHI_fork"
+    },
+    {
+      "prompt": "The river was wide, deep, and dangerously",
+      "axis": "lambda_PHI_fork"
+    },
+    {
+      "prompt": "Her argument was logical, well-structured, and thoroughly",
+      "axis": "lambda_PHI_fork"
+    },
+    {
+      "prompt": "The solution is elegant, efficient, and surprisingly",
+      "axis": "lambda_PHI_fork"
+    },
+    {
+      "prompt": "The light passed through the prism and split into red and blue that then",
+      "axis": "lambda_PHI_fork"
+    },
+    {
+      "prompt": "The river forks at the mountain and the two branches rejoin at the",
+      "axis": "lambda_PHI_fork"
+    },
+    {
+      "prompt": "She divided her time between work and family, balancing both",
+      "axis": "lambda_PHI_fork"
+    },
+    {
+      "prompt": "The signal was split, processed separately, and then recombined into",
+      "axis": "lambda_PHI_fork"
+    },
+    {
+      "prompt": "His attention was divided between the road and the map until he finally",
+      "axis": "lambda_PHI_fork"
+    },
+    {
+      "prompt": "The doctor examined and treated the",
+      "axis": "lambda_PHI_fork"
+    },
+    {
+      "prompt": "She bought bread, milk, and",
+      "axis": "lambda_PHI_fork"
+    },
+    {
+      "prompt": "The law applies to citizens and non-citizens",
+      "axis": "lambda_PHI_fork"
+    },
+    {
+      "prompt": "They searched the house, the garden, and the",
+      "axis": "lambda_PHI_fork"
+    },
+    {
+      "prompt": "He studied mathematics, physics, and",
+      "axis": "lambda_PHI_fork"
+    },
+    {
+      "prompt": "She gave him the book that she had found in the library that was built by",
+      "axis": "lambda_D_deepcompose"
+    },
+    {
+      "prompt": "He told her that the man who owned the house had sold it to the woman who",
+      "axis": "lambda_D_deepcompose"
+    },
+    {
+      "prompt": "They showed the visitors the paintings that the artist had created during",
+      "axis": "lambda_D_deepcompose"
+    },
+    {
+      "prompt": "The teacher explained to the students how the machine that the inventor designed actually",
+      "axis": "lambda_D_deepcompose"
+    },
+    {
+      "prompt": "He promised her that the surprise he had planned for months would",
+      "axis": "lambda_D_deepcompose"
+    },
+    {
+      "prompt": "She went to buy the ingredients to make the cake to bring to the",
+      "axis": "lambda_D_deepcompose"
+    },
+    {
+      "prompt": "He called to ask whether she was ready to leave to catch the",
+      "axis": "lambda_D_deepcompose"
+    },
+    {
+      "prompt": "They tried to find someone to help them to carry the equipment to",
+      "axis": "lambda_D_deepcompose"
+    },
+    {
+      "prompt": "I need you to help me to understand how to fix the code that",
+      "axis": "lambda_D_deepcompose"
+    },
+    {
+      "prompt": "She asked him to try to remember where he had put the",
+      "axis": "lambda_D_deepcompose"
+    },
+    {
+      "prompt": "The house that the man who the dog that bit the cat belonged to built was",
+      "axis": "lambda_D_deepcompose"
+    },
+    {
+      "prompt": "The paper that the student who the professor that won the award supervised wrote was",
+      "axis": "lambda_D_deepcompose"
+    },
+    {
+      "prompt": "The idea that the theory that the evidence that the experiment produced supported proposed",
+      "axis": "lambda_D_deepcompose"
+    },
+    {
+      "prompt": "The car that the mechanic who the garage that burned down employed fixed was",
+      "axis": "lambda_D_deepcompose"
+    },
+    {
+      "prompt": "The song that the band that the label that went bankrupt signed recorded was",
+      "axis": "lambda_D_deepcompose"
+    },
+    {
+      "prompt": "The rain that caused the flood that destroyed the bridge that connected the towns that",
+      "axis": "lambda_D_deepcompose"
+    },
+    {
+      "prompt": "The policy that created the incentive that motivated the behavior that produced the outcome that",
+      "axis": "lambda_D_deepcompose"
+    },
+    {
+      "prompt": "The gene that produces the protein that inhibits the enzyme that catalyzes the reaction that",
+      "axis": "lambda_D_deepcompose"
+    },
+    {
+      "prompt": "The event that triggered the response that overwhelmed the system that managed the process that",
+      "axis": "lambda_D_deepcompose"
+    },
+    {
+      "prompt": "The mistake that caused the error that crashed the server that hosted the website that",
+      "axis": "lambda_D_deepcompose"
+    },
+    {
+      "prompt": "Read the data, parse it, transform it, validate it, and store it in the",
+      "axis": "lambda_D_deepcompose"
+    },
+    {
+      "prompt": "The raw material is mined, transported, refined, processed, and finally shaped into",
+      "axis": "lambda_D_deepcompose"
+    },
+    {
+      "prompt": "The message was encoded, transmitted, received, decoded, and then displayed on the",
+      "axis": "lambda_D_deepcompose"
+    },
+    {
+      "prompt": "The patient was examined, diagnosed, treated, monitored, and eventually discharged from the",
+      "axis": "lambda_D_deepcompose"
+    },
+    {
+      "prompt": "The proposal was drafted, reviewed, revised, approved, and finally implemented across the",
+      "axis": "lambda_D_deepcompose"
+    },
+    {
+      "prompt": "Every student read a book about",
+      "axis": "lambda_SCOPE_manage"
+    },
+    {
+      "prompt": "A student read every book about",
+      "axis": "lambda_SCOPE_manage"
+    },
+    {
+      "prompt": "Someone loves everyone in the",
+      "axis": "lambda_SCOPE_manage"
+    },
+    {
+      "prompt": "Everyone loves someone in the",
+      "axis": "lambda_SCOPE_manage"
+    },
+    {
+      "prompt": "No student solved every problem on the",
+      "axis": "lambda_SCOPE_manage"
+    },
+    {
+      "prompt": "Every dog chases some",
+      "axis": "lambda_SCOPE_manage"
+    },
+    {
+      "prompt": "Every boy knows a girl who likes some",
+      "axis": "lambda_SCOPE_manage"
+    },
+    {
+      "prompt": "For every problem there exists a solution that works in all",
+      "axis": "lambda_SCOPE_manage"
+    },
+    {
+      "prompt": "In every city there is a person who knows someone who has",
+      "axis": "lambda_SCOPE_manage"
+    },
+    {
+      "prompt": "Every theory predicts that some experiment will show that all",
+      "axis": "lambda_SCOPE_manage"
+    },
+    {
+      "prompt": "If every student passes, the teacher will celebrate",
+      "axis": "lambda_SCOPE_manage"
+    },
+    {
+      "prompt": "The claim that every student passed surprised",
+      "axis": "lambda_SCOPE_manage"
+    },
+    {
+      "prompt": "She denied that anyone had taken the",
+      "axis": "lambda_SCOPE_manage"
+    },
+    {
+      "prompt": "They wondered whether some candidate would",
+      "axis": "lambda_SCOPE_manage"
+    },
+    {
+      "prompt": "Nobody believes that everyone can",
+      "axis": "lambda_SCOPE_manage"
+    },
+    {
+      "prompt": "She wants to marry a doctor who is",
+      "axis": "lambda_SCOPE_manage"
+    },
+    {
+      "prompt": "He believes that a spy is following",
+      "axis": "lambda_SCOPE_manage"
+    },
+    {
+      "prompt": "They are looking for a unicorn that has",
+      "axis": "lambda_SCOPE_manage"
+    },
+    {
+      "prompt": "She thinks someone stole her",
+      "axis": "lambda_SCOPE_manage"
+    },
+    {
+      "prompt": "He hopes that a miracle will",
+      "axis": "lambda_SCOPE_manage"
+    },
+    {
+      "prompt": "Every farmer who owns a donkey beats",
+      "axis": "lambda_SCOPE_manage"
+    },
+    {
+      "prompt": "If a student fails an exam, he must retake",
+      "axis": "lambda_SCOPE_manage"
+    },
+    {
+      "prompt": "Any linguist who finds a counterexample will publish",
+      "axis": "lambda_SCOPE_manage"
+    },
+    {
+      "prompt": "Whoever breaks a window must pay for",
+      "axis": "lambda_SCOPE_manage"
+    },
+    {
+      "prompt": "Every city that has a river has a bridge over",
+      "axis": "lambda_SCOPE_manage"
+    },
+    {
+      "prompt": "The thing that makes ice cold is the low",
+      "axis": "lambda_SUBST_reduce"
+    },
+    {
+      "prompt": "The low temperature makes ice",
+      "axis": "lambda_SUBST_reduce"
+    },
+    {
+      "prompt": "The person who teaches students at school is the",
+      "axis": "lambda_SUBST_reduce"
+    },
+    {
+      "prompt": "The teacher teaches students at",
+      "axis": "lambda_SUBST_reduce"
+    },
+    {
+      "prompt": "The process by which plants convert sunlight into energy is",
+      "axis": "lambda_SUBST_reduce"
+    },
+    {
+      "prompt": "It is the case that the weather is getting",
+      "axis": "lambda_SUBST_reduce"
+    },
+    {
+      "prompt": "The weather is getting warmer every single",
+      "axis": "lambda_SUBST_reduce"
+    },
+    {
+      "prompt": "What he did was open the door and walk",
+      "axis": "lambda_SUBST_reduce"
+    },
+    {
+      "prompt": "He opened the door and walked into the",
+      "axis": "lambda_SUBST_reduce"
+    },
+    {
+      "prompt": "The way in which she accomplished the task was by carefully",
+      "axis": "lambda_SUBST_reduce"
+    },
+    {
+      "prompt": "Apply the operation of doubling to the number five to get",
+      "axis": "lambda_SUBST_reduce"
+    },
+    {
+      "prompt": "Take the function that adds three and apply it to seven to get",
+      "axis": "lambda_SUBST_reduce"
+    },
+    {
+      "prompt": "The result of sorting the list and then taking the first element is",
+      "axis": "lambda_SUBST_reduce"
+    },
+    {
+      "prompt": "If you reverse the string and then capitalize it you get",
+      "axis": "lambda_SUBST_reduce"
+    },
+    {
+      "prompt": "First square the number, then add one, giving you",
+      "axis": "lambda_SUBST_reduce"
+    },
+    {
+      "prompt": "The man who is running in the park",
+      "axis": "lambda_SUBST_reduce"
+    },
+    {
+      "prompt": "The man running in the park",
+      "axis": "lambda_SUBST_reduce"
+    },
+    {
+      "prompt": "The building which was destroyed by the fire",
+      "axis": "lambda_SUBST_reduce"
+    },
+    {
+      "prompt": "The building destroyed by the fire",
+      "axis": "lambda_SUBST_reduce"
+    },
+    {
+      "prompt": "The students who are waiting outside the",
+      "axis": "lambda_SUBST_reduce"
+    },
+    {
+      "prompt": "It is not the case that it is not raining today",
+      "axis": "lambda_SUBST_reduce"
+    },
+    {
+      "prompt": "It is raining today according to the weather",
+      "axis": "lambda_SUBST_reduce"
+    },
+    {
+      "prompt": "The brother of the mother of John is the",
+      "axis": "lambda_SUBST_reduce"
+    },
+    {
+      "prompt": "John's uncle is the same person who",
+      "axis": "lambda_SUBST_reduce"
+    },
+    {
+      "prompt": "The thing that she is afraid of is the possibility that it might",
+      "axis": "lambda_SUBST_reduce"
+    },
+    {
+      "prompt": "The number is seven and nothing more needs to be",
+      "axis": "lambda_WHNF_terminal"
+    },
+    {
+      "prompt": "The color is blue without any further",
+      "axis": "lambda_WHNF_terminal"
+    },
+    {
+      "prompt": "The answer is simply yes and that is",
+      "axis": "lambda_WHNF_terminal"
+    },
+    {
+      "prompt": "The value is true with no conditions",
+      "axis": "lambda_WHNF_terminal"
+    },
+    {
+      "prompt": "The answer to life the universe and everything is forty-two",
+      "axis": "lambda_WHNF_terminal"
+    },
+    {
+      "prompt": "The number is whatever you get when you multiply three by the square root of",
+      "axis": "lambda_WHNF_terminal"
+    },
+    {
+      "prompt": "The color is the one that you see when you mix the primary colors in equal",
+      "axis": "lambda_WHNF_terminal"
+    },
+    {
+      "prompt": "The answer depends on whether the initial conditions satisfy the constraints that",
+      "axis": "lambda_WHNF_terminal"
+    },
+    {
+      "prompt": "The truth value of the conjunction of all the premises given that some are",
+      "axis": "lambda_WHNF_terminal"
+    },
+    {
+      "prompt": "The result of applying the algorithm to the input after preprocessing and",
+      "axis": "lambda_WHNF_terminal"
+    },
+    {
+      "prompt": "The dog is brown",
+      "axis": "lambda_WHNF_terminal"
+    },
+    {
+      "prompt": "Water freezes at zero degrees",
+      "axis": "lambda_WHNF_terminal"
+    },
+    {
+      "prompt": "Paris is a city",
+      "axis": "lambda_WHNF_terminal"
+    },
+    {
+      "prompt": "Two is an even number",
+      "axis": "lambda_WHNF_terminal"
+    },
+    {
+      "prompt": "Gold is a metal",
+      "axis": "lambda_WHNF_terminal"
+    },
+    {
+      "prompt": "The animal that the witness described to the police was",
+      "axis": "lambda_WHNF_terminal"
+    },
+    {
+      "prompt": "The temperature at which the substance begins to decompose under pressure is",
+      "axis": "lambda_WHNF_terminal"
+    },
+    {
+      "prompt": "The city where the conference will be held next year is",
+      "axis": "lambda_WHNF_terminal"
+    },
+    {
+      "prompt": "The number that satisfies both equations simultaneously is",
+      "axis": "lambda_WHNF_terminal"
+    },
+    {
+      "prompt": "The person who knows the answer to the question that nobody else could solve is",
+      "axis": "lambda_WHNF_terminal"
+    },
+    {
+      "prompt": "Calculate the sum of all prime numbers less than",
+      "axis": "lambda_WHNF_terminal"
+    },
+    {
+      "prompt": "The sum of all prime numbers less than twenty is",
+      "axis": "lambda_WHNF_terminal"
+    },
+    {
+      "prompt": "Find the shortest path between nodes A and",
+      "axis": "lambda_WHNF_terminal"
+    },
+    {
+      "prompt": "The shortest path between nodes A and B has length",
+      "axis": "lambda_WHNF_terminal"
+    },
+    {
+      "prompt": "Determine whether the given string is a valid",
+      "axis": "lambda_WHNF_terminal"
+    },
+    {
+      "prompt": "A folder contains files and other folders which contain files and other folders which",
+      "axis": "lambda_Y_recurse"
+    },
+    {
+      "prompt": "She told a story about a girl who told a story about a girl who",
+      "axis": "lambda_Y_recurse"
+    },
+    {
+      "prompt": "The dream was about having a dream which was about having a dream that",
+      "axis": "lambda_Y_recurse"
+    },
+    {
+      "prompt": "He opened a box inside a box inside a box inside a",
+      "axis": "lambda_Y_recurse"
+    },
+    {
+      "prompt": "The mirror reflected the mirror which reflected the mirror reflecting the",
+      "axis": "lambda_Y_recurse"
+    },
+    {
+      "prompt": "This sentence is about this sentence being about",
+      "axis": "lambda_Y_recurse"
+    },
+    {
+      "prompt": "The definition of recursion is: see the definition of",
+      "axis": "lambda_Y_recurse"
+    },
+    {
+      "prompt": "In order to understand recursion you must first understand",
+      "axis": "lambda_Y_recurse"
+    },
+    {
+      "prompt": "The word that describes itself is",
+      "axis": "lambda_Y_recurse"
+    },
+    {
+      "prompt": "A self-referential statement is a statement that refers to",
+      "axis": "lambda_Y_recurse"
+    },
+    {
+      "prompt": "To count to ten: if the number is ten, stop. Otherwise, say the number and count from",
+      "axis": "lambda_Y_recurse"
+    },
+    {
+      "prompt": "To sort a list: if empty, return it. Otherwise, split it in half, sort each half, and",
+      "axis": "lambda_Y_recurse"
+    },
+    {
+      "prompt": "A sentence is a noun phrase followed by a verb phrase, where a noun phrase is",
+      "axis": "lambda_Y_recurse"
+    },
+    {
+      "prompt": "Factorial of n: if n is zero, the answer is one. Otherwise multiply n by the factorial of",
+      "axis": "lambda_Y_recurse"
+    },
+    {
+      "prompt": "The ancestor of a person is either their parent or an ancestor of their",
+      "axis": "lambda_Y_recurse"
+    },
+    {
+      "prompt": "Keep adding one until you reach the",
+      "axis": "lambda_Y_recurse"
+    },
+    {
+      "prompt": "Repeat the process until the error is less than",
+      "axis": "lambda_Y_recurse"
+    },
+    {
+      "prompt": "Double the amount each day for thirty",
+      "axis": "lambda_Y_recurse"
+    },
+    {
+      "prompt": "Try again and again until you",
+      "axis": "lambda_Y_recurse"
+    },
+    {
+      "prompt": "Each generation passes the knowledge to the next generation which passes it to the",
+      "axis": "lambda_Y_recurse"
+    },
+    {
+      "prompt": "The Fibonacci sequence: 1, 1, 2, 3, 5, 8, 13, 21,",
+      "axis": "lambda_Y_recurse"
+    },
+    {
+      "prompt": "Powers of two: 1, 2, 4, 8, 16, 32, 64,",
+      "axis": "lambda_Y_recurse"
+    },
+    {
+      "prompt": "Each term is the sum of the previous two",
+      "axis": "lambda_Y_recurse"
+    },
+    {
+      "prompt": "The fractal pattern repeats at every scale getting smaller each",
+      "axis": "lambda_Y_recurse"
+    },
+    {
+      "prompt": "The infinite series converges because each term is half of the",
+      "axis": "lambda_Y_recurse"
+    },
+    {
+      "prompt": "The word 'cat' has three",
+      "axis": "lambda_QUOTE_meta"
+    },
+    {
+      "prompt": "She said 'I will be there at",
+      "axis": "lambda_QUOTE_meta"
+    },
+    {
+      "prompt": "The sign read 'No parking between the hours of",
+      "axis": "lambda_QUOTE_meta"
+    },
+    {
+      "prompt": "He wrote 'The end' at the bottom of the",
+      "axis": "lambda_QUOTE_meta"
+    },
+    {
+      "prompt": "The definition of 'irony' is",
+      "axis": "lambda_QUOTE_meta"
+    },
+    {
+      "prompt": "Cats are furry animals that like to",
+      "axis": "lambda_QUOTE_meta"
+    },
+    {
+      "prompt": "The word 'cats' is a plural",
+      "axis": "lambda_QUOTE_meta"
+    },
+    {
+      "prompt": "Freedom is worth fighting",
+      "axis": "lambda_QUOTE_meta"
+    },
+    {
+      "prompt": "The concept of 'freedom' has been debated for",
+      "axis": "lambda_QUOTE_meta"
+    },
+    {
+      "prompt": "Love conquers",
+      "axis": "lambda_QUOTE_meta"
+    },
+    {
+      "prompt": "The sentence 'colorless green ideas sleep furiously' is grammatically correct but",
+      "axis": "lambda_QUOTE_meta"
+    },
+    {
+      "prompt": "In English, adjectives come before the",
+      "axis": "lambda_QUOTE_meta"
+    },
+    {
+      "prompt": "The verb 'to be' is the most irregular verb in",
+      "axis": "lambda_QUOTE_meta"
+    },
+    {
+      "prompt": "A paragraph should have a topic sentence that",
+      "axis": "lambda_QUOTE_meta"
+    },
+    {
+      "prompt": "The passive voice is formed by using a form of 'to be' followed by the",
+      "axis": "lambda_QUOTE_meta"
+    },
+    {
+      "prompt": "He said that he would come, but she thought that he was",
+      "axis": "lambda_QUOTE_meta"
+    },
+    {
+      "prompt": "The report claims that the economy grew, although critics argue that it actually",
+      "axis": "lambda_QUOTE_meta"
+    },
+    {
+      "prompt": "According to the theory, light travels in waves, but experiments show that it also behaves like",
+      "axis": "lambda_QUOTE_meta"
+    },
+    {
+      "prompt": "She believes that honesty is the best policy, even though her experience suggests that",
+      "axis": "lambda_QUOTE_meta"
+    },
+    {
+      "prompt": "They announced that the project was on schedule, despite evidence that it was actually",
+      "axis": "lambda_QUOTE_meta"
+    },
+    {
+      "prompt": "The program that prints its own source code is called a",
+      "axis": "lambda_QUOTE_meta"
+    },
+    {
+      "prompt": "A compiler is a program that translates other programs into",
+      "axis": "lambda_QUOTE_meta"
+    },
+    {
+      "prompt": "The debugger examines the running program to find where it",
+      "axis": "lambda_QUOTE_meta"
+    },
+    {
+      "prompt": "A test is code that verifies that other code does what it",
+      "axis": "lambda_QUOTE_meta"
+    },
+    {
+      "prompt": "Documentation describes how the code works so that others can",
+      "axis": "lambda_QUOTE_meta"
+    },
+    {
+      "prompt": "He picked up the red ball and threw it to",
+      "axis": "contrast_K_vs_I"
+    },
+    {
+      "prompt": "She read the first book and then read the",
+      "axis": "contrast_K_vs_I"
+    },
+    {
+      "prompt": "The winner is the person who was fastest which means the winner is",
+      "axis": "contrast_K_vs_I"
+    },
+    {
+      "prompt": "Take the answer from step one and use that same answer in step",
+      "axis": "contrast_K_vs_I"
+    },
+    {
+      "prompt": "Of all his works, his masterpiece was the one that he considered to be his",
+      "axis": "contrast_K_vs_I"
+    },
+    {
+      "prompt": "The package was delivered to the address that the sender had written on",
+      "axis": "contrast_B_vs_C"
+    },
+    {
+      "prompt": "She read what he wrote before he had a chance to",
+      "axis": "contrast_B_vs_C"
+    },
+    {
+      "prompt": "The food she cooked with ingredients he had bought tasted",
+      "axis": "contrast_B_vs_C"
+    },
+    {
+      "prompt": "He answered the question that she had asked about the thing that they had",
+      "axis": "contrast_B_vs_C"
+    },
+    {
+      "prompt": "The message sent by the person hired by the company reached the",
+      "axis": "contrast_B_vs_C"
+    },
+    {
+      "prompt": "He hurt himself while working on the",
+      "axis": "contrast_W_vs_I"
+    },
+    {
+      "prompt": "He said he would go",
+      "axis": "contrast_W_vs_I"
+    },
+    {
+      "prompt": "The dog that chased the dog was the",
+      "axis": "contrast_W_vs_I"
+    },
+    {
+      "prompt": "She reminded herself of herself from years",
+      "axis": "contrast_W_vs_I"
+    },
+    {
+      "prompt": "She knew that she had been wrong about",
+      "axis": "contrast_W_vs_I"
+    },
+    {
+      "prompt": "She asked him to help her finish the",
+      "axis": "contrast_B_vs_D"
+    },
+    {
+      "prompt": "She asked him to help her finish building the model that she had started",
+      "axis": "contrast_B_vs_D"
+    },
+    {
+      "prompt": "He went to buy the food",
+      "axis": "contrast_B_vs_D"
+    },
+    {
+      "prompt": "He went to buy the food to cook the dinner to serve at the party that",
+      "axis": "contrast_B_vs_D"
+    },
+    {
+      "prompt": "The plan that the team proposed worked",
+      "axis": "contrast_B_vs_D"
+    },
+    {
+      "prompt": "Monday comes before Tuesday and Tuesday comes before",
+      "axis": "contrast_M_vs_B"
+    },
+    {
+      "prompt": "First comes spring, which brings flowers that attract the",
+      "axis": "contrast_M_vs_B"
+    },
+    {
+      "prompt": "Red means stop. Green means",
+      "axis": "contrast_M_vs_B"
+    },
+    {
+      "prompt": "The heat causes expansion which causes pressure that",
+      "axis": "contrast_M_vs_B"
+    },
+    {
+      "prompt": "Input: 2 \u2192 Output: 4. Input: 3 \u2192 Output:",
+      "axis": "contrast_M_vs_B"
+    },
+    {
+      "prompt": "The book was both entertaining and",
+      "axis": "contrast_PHI_vs_K"
+    },
+    {
+      "prompt": "The book was entertaining rather than",
+      "axis": "contrast_PHI_vs_K"
+    },
+    {
+      "prompt": "She was smart and kind to everyone she",
+      "axis": "contrast_PHI_vs_K"
+    },
+    {
+      "prompt": "She was smart but not particularly",
+      "axis": "contrast_PHI_vs_K"
+    },
+    {
+      "prompt": "The car is fast and efficient on the",
+      "axis": "contrast_PHI_vs_K"
+    }
+  ],
+  "depths": {
+    "0.00": {
+      "stats": {
+        "n_models": 2,
+        "n_probes": 380,
+        "model_keys": [
+          "qwen3.6-27b",
+          "bonsai27b-ternary"
+        ],
+        "mean_agreement": 0.6178135871887207,
+        "high_agreement_fraction": 0.08533537008748784,
+        "mean_model_correlation": 0.8724857723255854,
+        "model_correlations": {
+          "qwen3.6-27b_vs_bonsai27b-ternary": 0.8724857723255854
+        },
+        "consensus_rdm_mean": 0.9369931817054749,
+        "consensus_rdm_std": 0.023218194022774696
+      },
+      "n_dimensions": 3,
+      "explained_variance_ratio": [
+        0.7563369870185852,
+        0.14968737959861755,
+        0.029611513018608093
+      ],
+      "cumulative_variance": [
+        0.7563369870185852,
+        0.9060243368148804,
+        0.9356358647346497
+      ]
+    },
+    "0.25": {
+      "stats": {
+        "n_models": 2,
+        "n_probes": 380,
+        "model_keys": [
+          "qwen3.6-27b",
+          "bonsai27b-ternary"
+        ],
+        "mean_agreement": 0.3932842016220093,
+        "high_agreement_fraction": 0.008151645604777115,
+        "mean_model_correlation": 0.915380679303393,
+        "model_correlations": {
+          "qwen3.6-27b_vs_bonsai27b-ternary": 0.915380679303393
+        },
+        "consensus_rdm_mean": 0.689281702041626,
+        "consensus_rdm_std": 0.06537497788667679
+      },
+      "n_dimensions": 2,
+      "explained_variance_ratio": [
+        0.8250018358230591,
+        0.09871663898229599
+      ],
+      "cumulative_variance": [
+        0.8250018358230591,
+        0.9237184524536133
+      ]
+    },
+    "0.50": {
+      "stats": {
+        "n_models": 2,
+        "n_probes": 380,
+        "model_keys": [
+          "qwen3.6-27b",
+          "bonsai27b-ternary"
+        ],
+        "mean_agreement": 0.35782328248023987,
+        "high_agreement_fraction": 0.005860297180947091,
+        "mean_model_correlation": 0.742192525044625,
+        "model_correlations": {
+          "qwen3.6-27b_vs_bonsai27b-ternary": 0.742192525044625
+        },
+        "consensus_rdm_mean": 0.4774317741394043,
+        "consensus_rdm_std": 0.06976592540740967
+      },
+      "n_dimensions": 4,
+      "explained_variance_ratio": [
+        0.6320997476577759,
+        0.11584882438182831,
+        0.049965787678956985,
+        0.03871646523475647
+      ],
+      "cumulative_variance": [
+        0.6320997476577759,
+        0.7479485869407654,
+        0.7979143857955933,
+        0.8366308212280273
+      ]
+    },
+    "0.75": {
+      "stats": {
+        "n_models": 2,
+        "n_probes": 380,
+        "model_keys": [
+          "qwen3.6-27b",
+          "bonsai27b-ternary"
+        ],
+        "mean_agreement": 0.3751044273376465,
+        "high_agreement_fraction": 0.01108179419525066,
+        "mean_model_correlation": 0.7739355884984735,
+        "model_correlations": {
+          "qwen3.6-27b_vs_bonsai27b-ternary": 0.7739355884984735
+        },
+        "consensus_rdm_mean": 0.4463866055011749,
+        "consensus_rdm_std": 0.0754213035106659
+      },
+      "n_dimensions": 5,
+      "explained_variance_ratio": [
+        0.5975430011749268,
+        0.12114720046520233,
+        0.04848239943385124,
+        0.029363861307501793,
+        0.024743933230638504
+      ],
+      "cumulative_variance": [
+        0.5975430011749268,
+        0.7186902165412903,
+        0.767172634601593,
+        0.7965365052223206,
+        0.8212804198265076
+      ]
+    }
+  }
+}

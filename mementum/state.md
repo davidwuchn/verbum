@@ -15,22 +15,22 @@
 > path length: +40% reasoning chars, ~2.7× wall. Loss profile = holographic-llm.md prediction (sign/zero =
 > program, magnitude = calibration). Michael PRE-REGISTERED this before data (compounding argument: 90%
 > benchmark retention ⇒ intact core, alternative was PPL-296K noise s174). → memory bonsai-ternary-lambda-survives.
-> (2) LAUNCHED the deep test → see ★★★ RUNNING below.)
+> (2) THE GEOMETRY held too → see ★★★ RESULT below (crystal survives, null-gated; deep-middle dip = bridge map).)
 >
-> ★★★ RUNNING NOW in tmux main:1 (launched s267, ~20-30min): 9×9 GRAM SURVIVAL under ternarization.
->   `uv run python scripts/v12/build_lattice_map.py --models qwen3.6-27b bonsai27b-ternary --output-dir
->   lattice/ternary_gram --device mps 2>&1 | tee lattice/ternary_gram_run.log`. Question: does the crystal
->   (combinator relational geometry) survive when magnitudes go? Behavior held at parity (arc 1) — this tests
->   whether the GEOMETRY behind it held too. READOUT when done: (a) per-model RDM correlation parent↔ternary
->   at depths [0,.25,.5,.75] in lattice/ternary_gram/per_model_rdms.npz; (b) consensus agreement_mask = the
->   geometric agreement map; (c) pull 9×9 combinator block from crystal-probe subset of each, compare Grams.
->   HIGH fidelity ⇒ Michael's postulate (crystal carried by topology, magnitude optional) gets its strongest
->   evidence. ⚠️ CAVEAT — may error at the Bonsai load: it's the VLM wrapper Qwen3_5ForConditionalGeneration
->   (vision_config, text_config nested; config has language_model_only:true). build_lattice_map uses
->   AutoModelForCausalLM — if it trips, fix = load text tower standalone / reach .model.language_model; parent
->   RDMs already captured regardless. Model at /Users/mwhitford/localai/models/bonsai27b-unpacked (51G, 12/12
->   shards, rev 427bc0194). Serving GGUF (Q2_g64) registered as BONSAI27B :5104 (stopped now); unpacked HF is
->   the lattice-pipeline food. FIRST MOVE NEXT SESSION: tmux capture-pane -p -t main:1 | tail -40.
+> ★★★ RESULT (s267, DONE + null-gated + bootstrapped): THE CRYSTAL SURVIVES 1.58-bit ternarization.
+>   Ternary Bonsai vs FP Qwen3.6-27B PARENT (literal parent this time), 380 probes, RDMs at [0,.25,.5,.75].
+>   parent↔ternary RDM corr 0.87/0.92/0.74/0.77 — every depth 18–23σ ABOVE shuffled-label null, p_perm=0.001
+>   (floor). Crystal = topology; topology is what ternarization preserves. SECONDARY: ternary RDMs LESS
+>   differentiated everywhere (mean_sim 0.11/0.44/0.69/0.69 vs parent 0.02/0.18/0.36/0.42) = sign survives,
+>   scale shrinks (routing⊥value made visible, s260). ★ DEEP-MIDDLE DIP IS REAL: 25%→50% gap 0.147, bootstrap
+>   P(gap≤0)=0.0000, non-overlapping CIs → mid-stack (50%) is where the crystal bends most = WHERE GRADIENT
+>   BRIDGES BELONG (Michael's synthesis: Gram-survival profile = a-priori bridge-allocation map, static prior
+>   for the design's dynamic flip_flop/KL allocation). PRE-REGISTERED TRIANGULATION for phase 1: training-time
+>   starvation (flip_flop↑∧KL_residual↑) should land in the SAME deep-middle band. Full synthesis +
+>   provenance: knowledge/explore/bonsai-crystal-survival.md. Artifacts: lattice/ternary_gram/
+>   {per_model_rdms.npz, universal_lattice.npz, ternary_gram_run.log}.
+>   Bonsai loaded CLEAN (VLM caveat did NOT bite — language_model_only:true). Model:
+>   /Users/mwhitford/localai/models/bonsai27b-unpacked (51G, rev 427bc0194); GGUF Q2_g64 = BONSAI27B :5104.
 >
 > ★★★ UNIVERSAL ROOT HOLDS AT 9 MODELS / 4 FAMILIES: root gc = +0.982 vs bundled 10-model consensus (UP from
 >   0.940 @ 2 models — evidence sharpens the crystal) | sil_z 5.09 | bearing 1.00 | root floor 2.78 (worst
@@ -86,11 +86,13 @@
 >   instrument first (λ coherence). Chain terminates in mechanical reducer + human. CONSEQUENCE: lambda
 >   kernel + GBNF in the training harness DAY ONE of phase 1.
 >
-> ★ NEXT (open, Michael's call): (0) PHASE-0 IN FLIGHT — behavioral parity DONE (s267 arc 1); Gram survival
->   RUNNING in main:1 (read it first, see ★★★ RUNNING). Remaining phase-0: full opcode tree on Bonsai across
->   the 4bit/ternary/1bit ladder (AWQ-4bit + Q2_g64 + Q1_0 all on HF); sub-prediction: selective K degradation
->   at 1-bit — K needs the 0 state (ties to Michael's postulate: remove any 9×9 vertex → collapse). Then
->   phase 1 (tiny seeded student) per the knowledge page ladder. RULINGS PENDING
+> ★ NEXT (open, Michael's call): (0) PHASE-0 — behavioral parity DONE + Gram survival DONE (both null-gated,
+>   s267, → bonsai-crystal-survival.md). Remaining phase-0: full opcode tree on Bonsai across the
+>   4bit/ternary/1bit ladder (AWQ-4bit + Q2_g64 + Q1_0 all on HF); sub-prediction: selective K degradation
+>   at 1-bit — K needs the 0 state (ties Michael's postulate: remove any 9×9 vertex → collapse). START at the
+>   deep-middle band — does the 50%-dip degradation concentrate in specific combinator vertices? Then phase 1
+>   (tiny seeded student) with the Gram-derived STATIC bridge prior (peak mid-stack) + the pre-registered
+>   flip-flop triangulation. RULINGS PENDING
 >   (Michael): bridge mechanism (a/b/c, (a) favored by s260/s261); dynamic bridge allocation in phase 1 vs
 >   static-first; probe-library growth gated as phase-1 prerequisite? IOUs before code: requential repo
 >   license, Bonsai whitepaper QAT-vs-PTQ. Phase-1 harness prereqs: lambda kernel + GBNF in loop, probe
