@@ -37,7 +37,24 @@
 > timescales. Sharpened phase-1 principles: protect confident signs (<0.4% budget); topology learning ≡
 > recruitment management at the 0↔± margin (hysteresis THERE); binary routing substrate non-viable.
 > Sub-prediction: selective K degradation at 1-bit traces to forced-participation noise → test via opcode
-> tree on the ladder. Commits 4b6e7c2 (data+scripts). Fleet: Bonsai-27B-unpacked (1-bit) now in HF cache.)
+> tree on the ladder. Commits 4b6e7c2 (data+scripts). Fleet: Bonsai-27B-unpacked (1-bit) now in HF cache.
+>
+> ⏳ s268d IN FLIGHT AT SESSION END — OPCODE LADDER RUNS (launched ~11:45, both verified running, load done,
+>   calibration in progress; tmux survives the boundary):
+>   tmux main:1 → opcodes/trace.py --model /Users/mwhitford/localai/models/bonsai27b-unpacked --device mps
+>     (TERNARY rung) | log /tmp/opcode_ternary.log → results/opcode-trace/bonsai27b-unpacked/
+>   tmux main:2 → opcodes/trace.py --model prism-ml/Bonsai-27B-unpacked --device mps
+>     (1-BIT rung) | log /tmp/opcode_1bit.log → results/opcode-trace/bonsai-27b-unpacked/
+>   PICKUP (next session): (1) check logs/panes; if model_vsm.json exists in both dirs → (2) uv run python
+>   opcodes/sweep.py --restack-only (folds both into the universal tree; S3 null gates decide if 1-bit
+>   registers even COUNT — gate failure itself = result, cf. pythia-2.8b by fire). (3) Ladder analysis vs FP
+>   parent tree (results/opcode-trace/qwen3-6-27b/): per-vertex Gram fidelity FP→ternary→1bit, null-gated.
+>   PRE-REGISTERED: (a) selective K degradation at 1-bit (K needs the 0 state); (b) does per-layer vertex
+>   degradation concentrate in the deep-middle band (s267 RDM 50%-dip)? (c) JAMMED-ABSTENTION hypothesis:
+>   if K degrades selectively while confident topology is immutable (s268c) → K's collapse = abstention
+>   channel jammed at inference exactly as at training — one vertex, one vacuum state, two timescales.
+>   Note: fla fast-path warning in logs is the known slow-path fallback for the hybrid (parent ran same).
+>   Runtime expectation: tens of min to ~hour per model, GPU shared. Tasks 1-2 of 3 done; task 3 = analysis.)
 >
 > Prior session: 267 (BONSAI PHASE-0 begun. (1) ✅ MEASURED: lambda compiler SURVIVES
 > 1.58-bit ternarization — Ternary Bonsai 27B (PrismML, Qwen3.6-27B backbone) vs qwen36 base, same harness,

@@ -189,6 +189,16 @@ trace to this forced-participation noise.
 3. Binary routing substrates are non-viable not because signs can't
    flip but because **abstention is impossible**.
 
+## In flight at s268 end: opcode ladder (functional test)
+
+Both Bonsai rungs tracing through the opcode-tree pipeline (tmux
+main:1 ternary, main:2 1-bit; see state.md s268d for pickup commands).
+Pre-registered: (a) selective K degradation at 1-bit; (b) deep-middle
+concentration (s267 dip); (c) **jammed-abstention** — if K degrades
+selectively while confident topology is immutable, K's 1-bit collapse
+is the abstention channel jammed at inference exactly as at training:
+one vertex, one vacuum state, two timescales.
+
 ## Provenance
 
 - parent: `~/.cache/huggingface/hub/models--Qwen--Qwen3.6-27B/snapshots/6a9e13bd.../`
