@@ -161,6 +161,41 @@ predicts — WHNF transfers at 0.60–1.00, Y →0.89, I 0.30–0.47, while **C 
 in every cell**, B/D/S ≈ 0. Content/process vertices are register-invariant
 (bus-portable); operation vertices are register-bound (ALU-internal).
 
+## s269 v3 RESULTS (qwen3.6-27b, commit b6d0d96 — the rebuild delivers)
+
+- **E1 — K annihilation GATED: z=2.81, p=0.001 (n=12).** First null-gated
+  operator-structure signature in the attribution register in this project's
+  history. With token-matched pairs at the result position, K's attribution
+  concentrates on the selected argument and annihilates on the discarded one.
+  C: well-powered null (z=−1.43) — no attribution signature. B: +, ungated
+  (z=1.26). I: copy-mass 2.5× uniform, 2/3 probes z>2 (suggestive).
+- **E2 — direction verbalization: the halt-lexicon metric scored 0.0
+  everywhere** (WHNF-halt prediction FAILED via the W_gate^T pullback), but
+  the raw readouts hold the finding: **Y's gate centroid verbalizes to
+  recursion vocabulary cross-lingually** (` recursively`/`递归`/`依次`/
+  ` recurse`/` далее`) and **C's to precedence vocabulary** (` previously`/
+  `此前`/`当时的`/`先前` — 4/6 order words). The other 7 op directions are
+  unembed-unreadable. Caveat: W_gate^T is one pullback map; "not lexical via
+  this map" ≠ "not lexical".
+- **E4 — shuffled-op null separates identity from salience** (the s263 EXP1
+  trap-killer): identity-specific bus coupling = **Y +5.13, WHNF +4.55,
+  S +4.36** (C marginal +1.59); **K/I/B/D/W collapse to generic**
+  (z_shufop −1.3..0) despite z_rand up to +11. v2's dramatic raw ordering
+  was mostly direction salience.
+
+**Synthesis (the two-register claim, now instrument-complete for K and Y):**
+K = pure operator — Jacobian-structure ✓, verbalize ✗, bus-couple ✗. Y = pure
+content — verbalize ✓ (recursion, cross-lingual), bus-couple ✓. WHNF =
+bus-causal (+4.55) but not lexical via this pullback. **C = the open puzzle**:
+no attribution signature, zero register transfer, marginal coupling — yet its
+direction verbalizes coherent *precedence* vocabulary; hypothesis worth
+probing: C's reordering is implemented via order-tagging content rather than
+positional routing (would unify its lexical coherence with its operational
+invisibility; cf. v2's plateau tokens `后者/前者/latter/former` on K/C
+prompts). This is the **4th independent register** for the sector
+decomposition (Gram geometry, quantization fragility, register transfer,
+causal bus coupling).
+
 ## Next (options, Michael's call — s263 list, updated s269)
 
 - **(A) position-targeted + repetition-matched attribution** — ✅ DONE

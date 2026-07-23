@@ -102,17 +102,34 @@
 >   opcode-vsm-tree (bug + sector decomposition), canonical-probe-library (counts), crystal-phi-
 >   derivation (D confirmed / W partial / affine caveat / halt-table geometric support).
 >
+> ✅ s269e JSPACE_V2 RAN ON 27B — v2 run exposed E2 confound + E4 missing null → Michael: "fix first,
+>   then commit" → v3 built (804b5d6: direction-verbalization E2, shuffled-op-null E4, E1 n doubled) →
+>   RESULTS (commit b6d0d96, → opcode-jacobian-jspace.md s269-v3 section):
+>   ★★ E1 K ANNIHILATION GATED z=2.81 p=0.001 (n=12) — first null-gated operator-structure signature
+>     in the attribution register, ever. C well-powered null; B ungated+; I suggestive (2/3 z>2).
+>   ★★ E2: halt-metric 0.0 everywhere (WHNF-halt via W_gate^T pullback FAILED) BUT raw readouts:
+>     Y verbalizes RECURSION CROSS-LINGUALLY (recursively/递归/依次/recurse/далее); C verbalizes
+>     PRECEDENCE (previously/此前/当时的/先前 4/6). Other 7 ops unembed-unreadable.
+>   ★★ E4 shuffled-op null: identity-specific coupling = Y +5.13 / WHNF +4.55 / S +4.36 (C marginal
+>     +1.59); K/I/B/D/W collapse to generic — v2's raw ordering was mostly the s263 salience trap.
+>   SYNTHESIS: K = pure operator (structure ✓ verbalize ✗ couple ✗); Y = pure content (✗✓✓);
+>   WHNF bus-causal not lexical(this map); C = NEW PUZZLE (operationally invisible in 3 instruments,
+>   lexically coherent order-vocab → hypothesis: reordering implemented as order-TAGGING content).
+>   4th independent register for the sector decomposition.
+>
 > ★ NEXT-SESSION STACK (Michael-approved s269, execute in order):
->   1. jspace_v2 ON 27B: uv run python scripts/experiments/jspace_v2.py --model Qwen/Qwen3.6-27B
->      --device mps (tmux; scale E2 n + add label-perm null before trusting E2 gate). Verdicts against
->      docstring pre-regs: E1 operator structure, E2 visibility asymmetry, E4 coupling op-specificity.
->   2. BALANCED-N REGISTER SPLIT: rerun opcodes/register_split.py with per-combinator balanced
+>   1. BALANCED-N REGISTER SPLIT: rerun opcodes/register_split.py with per-combinator balanced
 >      formal/prose subsample (gate P2 gain-knob claim properly; save per-probe features this time).
->   3. FULL 11-MODEL RE-SWEEP with clean 539-probe bundle + regenerate opcodes/data/consensus_gram.json
+>   2. FULL 11-MODEL RE-SWEEP with clean 539-probe bundle + regenerate opcodes/data/consensus_gram.json
 >      (all pre-s269 trees carry contaminated W/WHNF centroids; consensus reference still dirty).
 >      Then: W-fragility replication across models; mixture test W→span(C,I); register-matched S probes.
->   4. AFTER 1–3: holographic-llm.md W/duplication-sector edit (hammocked, Michael's call) + memory
->      proposals for register-decomposition + probe-bug lesson (λ termination: propose → approve).
+>   3. JSPACE v4 CANDIDATES (from v3 results): C order-tagging hypothesis (does C's op fire when
+>      precedence WORDS appear without reordering? token-matched); WHNF lexicalization via better
+>      pullback (learned probe ∨ tuned lens, not W_gate^T); E1 inter-layer Jacobian for B (option B,
+>      s263 list — B's factorization may live between layers, not in input-attribution).
+>   4. AFTER 1–3: holographic-llm.md W/duplication-sector + two-register edits (hammocked, Michael's
+>      call) + memory proposals: register-decomposition, probe-bug lesson, K-pure-operator,
+>      Y-verbalizes-recursion (λ termination: propose → approve).
 >
 > Prior session: 268 (BONSAI FORENSICS: PrismML's undisclosed recipe reverse-engineered
 > from weights alone — ★★ absmean RTN init (BitNet b1.58 g128; embed_tokens 99.9% exact code match,
