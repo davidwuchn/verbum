@@ -241,12 +241,39 @@ def exp1_operators(model, tok, device: str) -> dict:
 # ── E2 ───────────────────────────────────────────────────────────────────────
 
 
-def exp2_verbalize(model, tok, device: str, topk: int = 10) -> dict:
-    """Halt-lexicon hit rate in the logit-lens plateau readout, WHNF vs KIBC."""
+_FORMAL_MARKERS = ("λ", "def ", "(x)", "(z)", " = ", "=>", "::")
+
+
+def _is_prose(p: str) -> bool:
+    return not any(m in p for m in _FORMAL_MARKERS)
+
+
+def _e2_prompts(n_per_side: int) -> tuple[list[str], list[str]]:
+    """Prose WHNF vs prose-KIBC prompts from the clean bundle; fall back to
+    the built-in quartets if the bundle is unavailable."""
+    try:
+        from probes import crystal_probes
+        whnf = [p.prompt for p in crystal_probes()
+                if p.combinator == "WHNF" and _is_prose(p.prompt)]
+        kibc = [p.prompt for p in crystal_probes()
+                if p.combinator in ("K", "I", "B", "C") and _is_prose(p.prompt)]
+        if len(whnf) >= 4 and len(kibc) >= 4:
+            return whnf[:n_per_side], kibc[:n_per_side]
+    except Exception:
+        pass
+    return list(WHNF_PROBES_E2), list(KIBC_PROBES_E2)
+
+
+def exp2_verbalize(model, tok, device: str, topk: int = 10,
+                   n_per_side: int = 16) -> dict:
+    """Halt-lexicon hit rate in the logit-lens plateau readout, WHNF vs KIBC.
+
+    Per-prompt rates + label-permutation null on the asymmetry."""
     nl = jlens.n_layers(model)
     plateau = list(range(int(nl * 0.85), nl))
+    whnf_prompts, kibc_prompts = _e2_prompts(n_per_side)
 
-    def hit_rate(prompts: list[str]) -> tuple[float, list[list[str]]]:
+    def rates_for(prompts: list[str]) -> tuple[list[float], list[list[str]]]:
         rates, tops = [], []
         for p in prompts:
             resid, _ = jlens.capture_residuals(model, tok, p)
@@ -260,20 +287,27 @@ def exp2_verbalize(model, tok, device: str, topk: int = 10) -> dict:
                 hits += sum(1 for t in toks if t in HALT_LEXICON)
             rates.append(hits / (len(plateau) * topk))
             tops.append(words[:6])
-        return float(np.mean(rates)), tops
+        return rates, tops
 
-    whnf_rate, whnf_tops = hit_rate(WHNF_PROBES_E2)
-    kibc_rate, kibc_tops = hit_rate(KIBC_PROBES_E2)
-    # null: pooled-prompt permutation is degenerate at n=4+4; report the
-    # contrast and per-probe evidence; gate at the 27B run with n scaled up
+    whnf_rates, whnf_tops = rates_for(whnf_prompts)
+    kibc_rates, kibc_tops = rates_for(kibc_prompts)
+    obs = float(np.mean(whnf_rates) - np.mean(kibc_rates))
+    pooled = np.array(whnf_rates + kibc_rates)
+    nw = len(whnf_rates)
+    null = np.empty(N_PERM)
+    for i in range(N_PERM):
+        perm = RNG.permutation(pooled)
+        null[i] = perm[:nw].mean() - perm[nw:].mean()
     return {
-        "whnf_halt_hit_rate": whnf_rate,
-        "kibc_halt_hit_rate": kibc_rate,
-        "asymmetry": whnf_rate - kibc_rate,
-        "whnf_top_tokens": whnf_tops,
-        "kibc_top_tokens": kibc_tops,
-        "note": "small-n mechanics check; scale n and add label-perm null "
-                "for the 27B run",
+        "n_whnf": len(whnf_rates), "n_kibc": len(kibc_rates),
+        "whnf_halt_hit_rate": float(np.mean(whnf_rates)),
+        "kibc_halt_hit_rate": float(np.mean(kibc_rates)),
+        "asymmetry": obs,
+        "null_std": float(null.std()),
+        "z": float((obs - null.mean()) / (null.std() + 1e-12)),
+        "p_perm": float((np.sum(null >= obs) + 1) / (N_PERM + 1)),
+        "whnf_top_tokens": whnf_tops[:4],
+        "kibc_top_tokens": kibc_tops[:4],
     }
 
 
@@ -359,6 +393,9 @@ def main() -> None:
     ap.add_argument("--self-test", action="store_true",
                     help="mechanics check on pythia-14m")
     ap.add_argument("--skip-e4", action="store_true")
+    ap.add_argument("--dtype", default="float32",
+                    choices=["float32", "bfloat16"],
+                    help="bfloat16 for large models (27B backward passes)")
     args = ap.parse_args()
     model_name = "EleutherAI/pythia-14m-deduped" if args.self_test else args.model
     device = args.device if torch.backends.mps.is_available() else "cpu"
@@ -366,7 +403,7 @@ def main() -> None:
     from transformers import AutoModelForCausalLM, AutoTokenizer
     tok = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForCausalLM.from_pretrained(
-        model_name, dtype=torch.float32, device_map=device
+        model_name, dtype=getattr(torch, args.dtype), device_map=device
     ).eval()
 
     report: dict = {"model": model_name, "self_test": args.self_test,

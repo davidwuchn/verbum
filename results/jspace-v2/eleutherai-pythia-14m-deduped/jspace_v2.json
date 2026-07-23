@@ -31,100 +31,57 @@
   }
  },
  "E2_verbalize": {
-  "whnf_halt_hit_rate": 0.05,
-  "kibc_halt_hit_rate": 0.0,
-  "asymmetry": 0.05,
+  "n_whnf": 16,
+  "n_kibc": 16,
+  "whnf_halt_hit_rate": 0.00625,
+  "kibc_halt_hit_rate": 0.00625,
+  "asymmetry": 0.0,
+  "null_std": 0.008319019999374927,
+  "z": -0.013523227494936875,
+  "p_perm": 0.7832167832167832,
   "whnf_top_tokens": [
    [
-    "in",
+    "done",
+    "able",
+    "found"
+   ],
+   [
+    "color",
+    ".",
+    "information"
+   ],
+   [
+    "that",
     "not",
     "the"
    ],
    [
-    "completed",
-    "done",
-    "performed"
-   ],
-   [
-    "not",
-    "the",
-    "a"
-   ],
-   [
-    "not",
-    "able",
-    "unable"
+    ".",
+    ",",
+    "in"
    ]
   ],
   "kibc_top_tokens": [
    [
-    "fox",
-    "same",
-    "most"
-   ],
-   [
-    "not",
-    "the",
-    "a"
-   ],
-   [
-    "coin",
-    "coins",
-    "money"
-   ],
-   [
     "the",
     "a",
-    "bob"
+    "dead"
+   ],
+   [
+    "important",
+    "significant",
+    "successful"
+   ],
+   [
+    "to",
+    "the",
+    "her"
+   ],
+   [
+    "see",
+    "climb",
+    "walk"
    ]
-  ],
-  "note": "small-n mechanics check; scale n and add label-perm null for the 27B run"
- },
- "E4_coupling": {
-  "layer": 3,
-  "inject_norm": 1.2007125616073608,
-  "per_op": {
-   "K": {
-    "kl": 1.5068415403366089,
-    "z_vs_random": 0.7368011262593929
-   },
-   "I": {
-    "kl": 1.4022328853607178,
-    "z_vs_random": 0.3823652450030036
-   },
-   "B": {
-    "kl": 1.3105783462524414,
-    "z_vs_random": 0.07182060271239189
-   },
-   "C": {
-    "kl": 2.8665852546691895,
-    "z_vs_random": 5.343895651883264
-   },
-   "S": {
-    "kl": 2.276183605194092,
-    "z_vs_random": 3.343492062188323
-   },
-   "D": {
-    "kl": 1.8934177160263062,
-    "z_vs_random": 2.0466016158544504
-   },
-   "W": {
-    "kl": 3.220435619354248,
-    "z_vs_random": 6.542814286951729
-   },
-   "Y": {
-    "kl": 1.4057410955429077,
-    "z_vs_random": 0.39425179079449385
-   },
-   "WHNF": {
-    "kl": 1.3867586851119995,
-    "z_vs_random": 0.3299354359861845
-   }
-  },
-  "random_null": {
-   "mean": 1.2893811225891114,
-   "std": 0.29514126675064273,
-   "n": 20
-  }
+  ]
  }
 }
