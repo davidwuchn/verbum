@@ -1,6 +1,14 @@
 {
-  "n_models": 9,
+  "n_models": 11,
   "families": {
+    "": {
+      "models": [
+        "/Users/mwhitford/localai/models/bonsai27b-unpacked"
+      ],
+      "n_gated": 1,
+      "agreement_mean": NaN,
+      "gc_consensus": 0.9756067675200234
+    },
     "gemma": {
       "models": [
         "google/gemma-4-31B-it"
@@ -16,6 +24,14 @@
       "n_gated": 1,
       "agreement_mean": NaN,
       "gc_consensus": 0.9566432376427749
+    },
+    "prism-ml": {
+      "models": [
+        "prism-ml/Bonsai-27B-unpacked"
+      ],
+      "n_gated": 1,
+      "agreement_mean": NaN,
+      "gc_consensus": 0.9808258221640191
     },
     "pythia": {
       "models": [
@@ -40,15 +56,15 @@
     }
   },
   "root_health": {
-    "sil_z": 5.085875000000001,
-    "gc_consensus": 0.9822763382589085,
+    "sil_z": 5.78125,
+    "gc_consensus": 0.985288503996572,
     "crystal_bearing_frac": 1.0,
     "null_floor_z": 2.78
   },
   "root_agreement": {
-    "agreement_mean": 0.9064569611792,
+    "agreement_mean": 0.9355007064289912,
     "agreement_min": 0.8414263333705101,
     "dissent": false,
-    "n_gated": 4
+    "n_gated": 6
   }
 }
