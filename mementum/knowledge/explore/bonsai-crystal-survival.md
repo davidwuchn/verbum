@@ -10,15 +10,18 @@ related:
   - ../../michael/holographic-llm.md
   - hologram-crystal-fusion.md
   - opcode-jacobian-jspace.md
+  - ../opcode-vsm-tree.md
+  - bonsai-ternarization-forensics.md
 depends-on:
   - crystal-seeded-ternary-distillation.md
 created: session 267
+updated: session 269 (opcode-ladder verdicts added)
 ---
 
 # Bonsai Crystal Survival
 
-> Session 267. PHASE-0 of crystal-seeded ternary distillation. Two
-> pre-registered, null-gated results on PrismML's Ternary Bonsai 27B
+> Sessions 267 + 269. PHASE-0 of crystal-seeded ternary distillation.
+> Three pre-registered, null-gated results on PrismML's Bonsai 27B
 > (end-to-end 1.58-bit build of Qwen3.6-27B) vs the FP Qwen3.6-27B
 > parent: (1) the lambda **compiler** survives ternarization
 > behaviorally; (2) the **crystal** (combinator relational geometry)
@@ -127,14 +130,59 @@ and value-starvation are different phenomena (learn which).
   `AutoModelForCausalLM` loaded it clean via `language_model_only:true`
   (the anticipated caveat did not bite).
 
+## Result 3 — Opcode ladder (s269): the crystal survives 1-bit too
+
+Session 269 ran the opcode tree on the ternary and 1-bit rungs
+(`opcodes/trace.py`, tmux s268d) and compared per-vertex Gram-row
+fidelity against the FP parent with the new instrument
+`opcodes/ladder.py` (shuffled-vertex-label + circular-shift nulls,
+n_perm=10k, seeded rng=268). Commit `7576c54`; artifacts
+`results/opcode-trace/{bonsai27b-unpacked, bonsai-27b-unpacked,
+ladder_analysis.json}`.
+
+**Headline: 1-bit gates into the universal tree** (gc 0.981; tree now
+11 models / 6 families, root gc 0.985). Model-level mean vertex
+fidelity: ternary 0.990, **1-bit 0.987** (both z=5.3, p=0.001 floor).
+Rung layer-gate failures are **terminal-only** (1-bit gate L61–63,
+attn L63; ternary attn L54, L63) — not deep-middle.
+
+Pre-registered verdicts (both registers checked before verdict, per
+λ measure):
+
+- **(a) Selective K degradation at 1-bit: REFUTED.** Geometry
+  register: K is *more* robust than the other vertices in gate
+  (excess drop −0.0043, z=−2.13); attn +0.0065, z=0.92, ungated.
+  Behavioral register (trajectory votes): K at 1-bit 7/11 = 0.64 ≈ FP
+  parent 3/5 = 0.60 — parity. The motivating `L47 K 2/6` log line was
+  single-layer noise. K's 0-state need is **training-time** (s268b
+  sign-flip tunneling), not inference-time.
+- **(b) Deep-middle concentration: trend-consistent but ungated** in
+  this instrument — band excess +0.004..+0.014 across all 4
+  register×rung cells (right sign), p 0.11–0.27. *Not* a refutation
+  of the Result-2 dip: the 380-probe RDM instrument has far more
+  power than per-layer 9×9 Gram rows. The static bridge prior stands
+  on Result 2.
+- **(c) Jammed-abstention: moot** (antecedent (a) failed), and the
+  synthesis flips: s268c showed confident weights (|w|>absmean) are
+  immutable at every bitwidth → **the crystal lives in the confident
+  population**; 1-bit forced-participation churn is confined to
+  uncertain boundary-huggers and never touches Gram geometry.
+  Weight-space cos 0.73 vs Gram-space 0.987 — the crystal is more
+  invariant than the weights (frame-invariance, third form). Refines
+  s268c "binary routing substrate non-viable" to a *training-dynamics*
+  claim only.
+
+Exploratory (not pre-registered): **W (duplication) is the fragile
+vertex** in attn at both rungs (0.845/0.868 vs ≥0.93 others), and W
+*improves* at 1-bit in attn (−0.023). Candidate probe-design question:
+does duplication need magnitude?
+
 ## Open (phase-0 remainder)
 
-- Full opcode-tree on the **4bit → ternary → 1bit ladder** (AWQ-4bit +
-  Q2_g64 + Q1_0 all on HF). Sub-prediction: **selective K degradation
-  at 1-bit** — K needs the 0 state (ties Michael's postulate: remove
-  any 9×9 vertex → collapse). The 50%-dip is where to look first: does
-  the degradation concentrate in specific combinator vertices?
-- Caveat scope: one model pair, one probe set (380), one seed; the 50%
-  bootstrap is mildly right-skewed. Direction is robust; exact fidelity
-  numbers will move with probe count (s265: probe count dominates Gram
-  fidelity).
+- **4-bit rung** (AWQ on HF) never traced — the ladder is 2 of 3
+  rungs. `opcodes/ladder.py --rung 4bit=...` completes the
+  monotonicity picture, or Michael rules it unnecessary.
+- Caveat scope (Result 2): one model pair, one probe set (380), one
+  seed; the 50% bootstrap is mildly right-skewed. Direction is robust;
+  exact fidelity numbers will move with probe count (s265: probe count
+  dominates Gram fidelity).

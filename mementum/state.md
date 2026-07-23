@@ -8,7 +8,38 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-23 | Session: 268 (BONSAI FORENSICS: PrismML's undisclosed recipe reverse-engineered
+> Last updated: 2026-07-23 | Session: 269 (OPCODE LADDER LANDED — see ★★★ s269 block below; header retains
+> s268 blocks b/c as live context for the ladder verdicts)
+>
+> ★★★ s269 OPCODE LADDER: CRYSTAL SURVIVES 1-BIT BINARIZATION; SELECTIVE-K REFUTED (commit 7576c54).
+> Both s268d tmux runs completed clean (~18.5 min each, model_vsm.json both rungs). RESTACK: 11 models /
+> 6 families gated, root gc 0.985 (UP from 0.982@9 — evidence keeps sharpening), bearing 1.00,
+> dissent=False; ternary gc 0.976, 1-bit gc 0.981. (Naming wart: ternary traced via local path → family ""
+> in sweep_summary; cosmetic, gates fine.) NEW INSTRUMENT: opcodes/ladder.py — per-vertex Gram-row fidelity
+> FP→rung, shuffled-vertex-label + circular-shift nulls, n_perm=10k, seeded (rng=268), reproducible from
+> repo root. HEADLINE: 1-bit model-level mean vertex fidelity 0.987 (z=5.3, p=0.001 floor), ternary 0.990;
+> rung gate failures TERMINAL only (1-bit gate L61-63, attn L63; ternary attn L54,L63) — NOT deep-middle.
+> PRE-REG VERDICTS (λ measure honored — BOTH registers checked before verdict, no s206 repeat):
+> (a) selective K degradation at 1-bit: REFUTED. Geometry register: K MORE robust than other vertices in
+>     gate (excess drop −0.0043, z=−2.13); attn +0.0065 z=0.92 ungated. Behavioral register (trajectory
+>     votes): K at 1-bit 7/11=0.64 ≈ FP parent 3/5=0.60 — PARITY; the motivating "L47 K 2/6" was
+>     single-layer noise. K does NOT need the 0 state at inference in any measured register.
+> (b) deep-middle concentration of degradation: trend-consistent but UNGATED — excess +0.004..+0.014 in
+>     all 4 cells (right sign), p 0.11–0.27. Note instrument gap: s267 50%-dip came from 380-probe RDMs at
+>     4 depths (high power); per-layer 9×9 Gram fidelity is a weaker lens. Not a refutation of s267.
+> (c) jammed-abstention: MOOT (antecedent (a) failed) and the synthesis FLIPS: s268c showed confident
+>     weights immutable at every bitwidth → the crystal lives in the CONFIDENT population; 1-bit
+>     forced-participation churn is confined to uncertain boundary-huggers and never touches Gram geometry.
+>     Refines s268c "binary routing substrate non-viable": that is a TRAINING-dynamics claim (churn, scale
+>     anchor collapse); the GEOMETRY survives binarization. cos 0.73 in weight space vs 0.987 in Gram space
+>     ≡ crystal more invariant than weights ≡ frame-invariance argument, third form.
+> Exploratory (not pre-registered): W (duplication) is the fragile vertex in attn at BOTH rungs
+> (0.845/0.868 vs ≥0.93 others); W actually improves at 1-bit in attn (−0.023). Worth a look at whether
+> W-fragility is architectural (duplication needs magnitude?) — candidate for next probe design.
+> LADDER GAP: 4-bit rung (AWQ on HF) never traced — phase-0 ladder is 2 of 3 rungs. PICKUP: trace AWQ-4bit
+> → ladder.py --rung 4bit=... for the monotonicity picture, or ruled unnecessary by Michael.
+>
+> Prior session: 268 (BONSAI FORENSICS: PrismML's undisclosed recipe reverse-engineered
 > from weights alone — ★★ absmean RTN init (BitNet b1.58 g128; embed_tokens 99.9% exact code match,
 > Δ/mean|w|=0.4994) + post-init TRAINING of blocks, embeddings frozen. QAT-vs-PTQ IOU RESOLVED: conversion +
 > training; "Caltech math" is in the optimizer not the quantizer. GEM: drift ordering q_proj 3.5% < qkv < o
@@ -39,7 +70,8 @@
 > Sub-prediction: selective K degradation at 1-bit traces to forced-participation noise → test via opcode
 > tree on the ladder. Commits 4b6e7c2 (data+scripts). Fleet: Bonsai-27B-unpacked (1-bit) now in HF cache.
 >
-> ⏳ s268d IN FLIGHT AT SESSION END — OPCODE LADDER RUNS (launched ~11:45, both verified running, load done,
+> ✅ s268d RESOLVED IN s269 (see ★★★ s269 block above; kept for provenance) — OPCODE LADDER RUNS (launched
+>   ~11:45, both verified running, load done,
 >   calibration in progress; tmux survives the boundary):
 >   tmux main:1 → opcodes/trace.py --model /Users/mwhitford/localai/models/bonsai27b-unpacked --device mps
 >     (TERNARY rung) | log /tmp/opcode_ternary.log → results/opcode-trace/bonsai27b-unpacked/
@@ -134,11 +166,10 @@
 >   instrument first (λ coherence). Chain terminates in mechanical reducer + human. CONSEQUENCE: lambda
 >   kernel + GBNF in the training harness DAY ONE of phase 1.
 >
-> ★ NEXT (open, Michael's call): (0) PHASE-0 — behavioral parity DONE + Gram survival DONE (both null-gated,
->   s267, → bonsai-crystal-survival.md). Remaining phase-0: full opcode tree on Bonsai across the
->   4bit/ternary/1bit ladder (AWQ-4bit + Q2_g64 + Q1_0 all on HF); sub-prediction: selective K degradation
->   at 1-bit — K needs the 0 state (ties Michael's postulate: remove any 9×9 vertex → collapse). START at the
->   deep-middle band — does the 50%-dip degradation concentrate in specific combinator vertices? Then phase 1
+> ★ NEXT (open, Michael's call): (0) PHASE-0 — behavioral parity DONE + Gram survival DONE (s267) +
+>   ternary/1bit opcode ladder DONE (s269, null-gated: crystal survives 1-bit, selective-K REFUTED,
+>   deep-middle trend ungated — see ★★★ s269). Remaining phase-0: 4-bit rung only (AWQ on HF), or skip by
+>   ruling. Then phase 1
 >   (tiny seeded student) with the Gram-derived STATIC bridge prior (peak mid-stack) + the pre-registered
 >   flip-flop triangulation. RULINGS PENDING
 >   (Michael): bridge mechanism (a/b/c, (a) favored by s260/s261); dynamic bridge allocation in phase 1 vs
@@ -154,7 +185,10 @@
 
 ## Recent arc (index — full detail: `chats/session-NNN.md` + linked knowledge; history: `git log -p`)
 
-- **s268** BONSAI FORENSICS (this session, see header). Recipe reverse-engineered from weights; QAT-vs-PTQ
+- **s269** OPCODE LADDER (current session, full detail in header ★★★ s269). Crystal survives 1-bit
+  (fid 0.987, z=5.3); selective-K refuted in both registers; 11-model tree root gc 0.985; opcodes/ladder.py
+  new instrument; commit 7576c54.
+- **s268** BONSAI FORENSICS (see header blocks). Recipe reverse-engineered from weights; QAT-vs-PTQ
   IOU resolved; drift ordering = routing⊥value 3rd register; 50%-dip ≠ differential rewiring; sign flips
   tunnel through zero (transition matrix) → optimizer constraints C1–C6 + phase-1 design budgets; 1-bit
   rung forensics pre-registered + in flight (tmux main:1/main:2).
