@@ -4,84 +4,200 @@
  "n_perm": 1000,
  "E1_operators": {
   "K_annihilation": {
-   "obs": 0.0031133348423531605,
-   "null_std": 0.01608249517660917,
-   "z": 0.16307217195556656,
-   "p_perm": 0.43156843156843155
+   "obs": 0.012286424086406534,
+   "null_std": 0.010448844690827854,
+   "z": 1.1677224612521202,
+   "p_perm": 0.12387612387612387
   },
   "C_role_tracking": {
-   "obs": -0.0069425783291938185,
-   "null_std": 0.021707944535678078,
-   "z": -0.2908787908186468,
-   "p_perm": 0.6073926073926074
+   "obs": 0.013191191413024937,
+   "null_std": 0.01546146609273554,
+   "z": 0.8534285213156475,
+   "p_perm": 0.2127872127872128
   },
   "I_copy_mass": {
    "obs": 0.17492916633838732,
-   "per_probe": [
-    0.2127,
-    0.201,
-    0.111
+   "mean_z_vs_span_null": 2.7864510528510866,
+   "per_probe_z": [
+    2.4,
+    5.21,
+    0.75
    ]
   },
   "B_intermediate": {
    "obs": 0.009252221089552749,
-   "null_std": 0.009600915674364682,
-   "z": 0.9492092878963387,
+   "null_std": 0.009557625541607367,
+   "z": 0.9506545274371145,
    "p_perm": 0.5084915084915085
   }
  },
  "E2_verbalize": {
-  "n_whnf": 16,
-  "n_kibc": 16,
-  "whnf_halt_hit_rate": 0.00625,
-  "kibc_halt_hit_rate": 0.00625,
-  "asymmetry": 0.0,
-  "null_std": 0.008319019999374927,
-  "z": -0.013523227494936875,
-  "p_perm": 0.7832167832167832,
-  "whnf_top_tokens": [
-   [
-    "done",
-    "able",
-    "found"
+  "halt_rate_per_op": {
+   "K": 0.0,
+   "I": 0.0,
+   "B": 0.0,
+   "C": 0.0,
+   "S": 0.0,
+   "D": 0.0,
+   "W": 0.0,
+   "Y": 0.0,
+   "WHNF": 0.0
+  },
+  "z_per_op": {
+   "K": -0.06,
+   "I": -0.06,
+   "B": -0.06,
+   "C": -0.06,
+   "S": -0.06,
+   "D": -0.06,
+   "W": -0.06,
+   "Y": -0.06,
+   "WHNF": -0.06
+  },
+  "whnf_z": -0.0578314931865906,
+  "kibc_max_z": -0.0578314931865906,
+  "null_mean": 0.0003333333333333334,
+  "null_std": 0.005763872156263526,
+  "n_perm": 300,
+  "top_tokens": {
+   "K": [
+    " hazard",
+    "charge",
+    "gage",
+    "rass",
+    " toll",
+    " branching"
    ],
-   [
-    "color",
-    ".",
-    "information"
+   "I": [
+    " Luck",
+    " tricks",
+    " tools",
+    " grew",
+    " improvements",
+    " progresses"
    ],
-   [
-    "that",
-    "not",
-    "the"
+   "B": [
+    " cooker",
+    " detergent",
+    " disposal",
+    " hassle",
+    " earlier",
+    " louder"
    ],
-   [
-    ".",
-    ",",
-    "in"
+   "C": [
+    "\ufffd",
+    "\n                           ",
+    "\n\t     ",
+    "\n                                                ",
+    "                                  ",
+    "\r\n    "
+   ],
+   "S": [
+    " Fellow",
+    "doms",
+    "binant",
+    "inally",
+    "igen",
+    " Professor"
+   ],
+   "D": [
+    "\ufffd",
+    "\ufffd",
+    "\ufffd",
+    "\ufffd",
+    "\ufffd",
+    "\ufffd"
+   ],
+   "W": [
+    "\ufffd",
+    "\n                           ",
+    "\n\t     ",
+    "                                  ",
+    "\r\n    ",
+    "\n                                                   "
+   ],
+   "Y": [
+    " closely",
+    " timely",
+    " respects",
+    "cases",
+    " progresses",
+    " Rs"
+   ],
+   "WHNF": [
+    " courses",
+    " ways",
+    " respects",
+    "chaft",
+    " werden",
+    " respected"
    ]
-  ],
-  "kibc_top_tokens": [
-   [
-    "the",
-    "a",
-    "dead"
-   ],
-   [
-    "important",
-    "significant",
-    "successful"
-   ],
-   [
-    "to",
-    "the",
-    "her"
-   ],
-   [
-    "see",
-    "climb",
-    "walk"
-   ]
-  ]
+  }
+ },
+ "E4_coupling": {
+  "layer": 3,
+  "inject_norm": 1.2007125616073608,
+  "per_op": {
+   "K": {
+    "kl": 1.506874442100525,
+    "z_vs_random": -0.008605255123620975,
+    "z_vs_shuffled_op": -0.5869489853009249,
+    "shuffled_mean": 1.8246930360794067
+   },
+   "I": {
+    "kl": 1.4022328853607178,
+    "z_vs_random": -0.3090006353270001,
+    "z_vs_shuffled_op": -0.741581740799267,
+    "shuffled_mean": 2.0371107310056686
+   },
+   "B": {
+    "kl": 1.3105783462524414,
+    "z_vs_random": -0.572114076875432,
+    "z_vs_shuffled_op": -0.5667706013555444,
+    "shuffled_mean": 1.7541485965251922
+   },
+   "C": {
+    "kl": 2.8665592670440674,
+    "z_vs_random": 3.894653188950185,
+    "z_vs_shuffled_op": 2.1428223522481784,
+    "shuffled_mean": 1.6967755734920502
+   },
+   "S": {
+    "kl": 2.276183605194092,
+    "z_vs_random": 2.1998569060047877,
+    "z_vs_shuffled_op": 0.04284244829069852,
+    "shuffled_mean": 2.238293355703354
+   },
+   "D": {
+    "kl": 1.8934177160263062,
+    "z_vs_random": 1.1010477102342797,
+    "z_vs_shuffled_op": -0.18655966225327897,
+    "shuffled_mean": 2.098682534694672
+   },
+   "W": {
+    "kl": 3.220435619354248,
+    "z_vs_random": 4.91052895293108,
+    "z_vs_shuffled_op": 2.7468948948598007,
+    "shuffled_mean": 1.7610004127025605
+   },
+   "Y": {
+    "kl": 1.4057410955429077,
+    "z_vs_random": -0.2989295874150054,
+    "z_vs_shuffled_op": -0.5884022566722055,
+    "shuffled_mean": 1.7955044031143188
+   },
+   "WHNF": {
+    "kl": 1.3867586851119995,
+    "z_vs_random": -0.35342254963983105,
+    "z_vs_shuffled_op": -0.8798208386894281,
+    "shuffled_mean": 2.013536834716797
+   }
+  },
+  "random_null": {
+   "mean": 1.5098720490932465,
+   "std": 0.3483460919703918,
+   "n": 20
+  },
+  "n_shuffle": 20
  }
 }
