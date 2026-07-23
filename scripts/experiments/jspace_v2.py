@@ -67,6 +67,20 @@ K_PAIRS = [  # selection: attribution should concentrate on selected, ~0 on disc
       "selected": "Mary", "discarded": "John", "target": " Mary"},
      {"prompt": "John, rather than Mary, signed the letter, so the signer was",
       "selected": "John", "discarded": "Mary", "target": " John"}),
+    ({"prompt": "The oak, not the pine, fell in the storm, so the fallen tree was the",
+      "selected": "oak", "discarded": "pine", "target": " oak"},
+     {"prompt": "The pine, not the oak, fell in the storm, so the fallen tree was the",
+      "selected": "pine", "discarded": "oak", "target": " pine"}),
+    ({"prompt": "Rome, rather than Paris, hosted the summit, so the host city was",
+      "selected": "Rome", "discarded": "Paris", "target": " Rome"},
+     {"prompt": "Paris, rather than Rome, hosted the summit, so the host city was",
+      "selected": "Paris", "discarded": "Rome", "target": " Paris"}),
+    ({"prompt": "The silver coin, not the gold coin, was stolen, "
+                "so the missing one was the",
+      "selected": "silver", "discarded": "gold", "target": " silver"},
+     {"prompt": "The gold coin, not the silver coin, was stolen, "
+                "so the missing one was the",
+      "selected": "gold", "discarded": "silver", "target": " gold"}),
     ({"prompt": "The red cup, not the blue cup, broke on the floor, "
                 "so the broken one was the",
       "selected": "red", "discarded": "blue", "target": " red"},
@@ -88,6 +102,18 @@ C_PAIRS = [  # swap: attribution over the two argument spans should invert
       "arg1": "cat", "arg2": "dog", "target": " dog"},
      {"prompt": "The dog feared the cat, so the frightening one was the",
       "arg1": "dog", "arg2": "cat", "target": " cat"}),
+    ({"prompt": "The teacher praised the student, so the one being praised was the",
+      "arg1": "teacher", "arg2": "student", "target": " student"},
+     {"prompt": "The student praised the teacher, so the one being praised was the",
+      "arg1": "student", "arg2": "teacher", "target": " teacher"}),
+    ({"prompt": "The hawk hunted the mouse, so the hunted one was the",
+      "arg1": "hawk", "arg2": "mouse", "target": " mouse"},
+     {"prompt": "The mouse hunted the hawk, so the hunted one was the",
+      "arg1": "mouse", "arg2": "hawk", "target": " hawk"}),
+    ({"prompt": "Emma followed Liam, so the one being followed was",
+      "arg1": "Emma", "arg2": "Liam", "target": " Liam"},
+     {"prompt": "Liam followed Emma, so the one being followed was",
+      "arg1": "Liam", "arg2": "Emma", "target": " Emma"}),
 ]
 
 I_PROBES = [  # copy: attribution should concentrate on the copy source
@@ -117,21 +143,10 @@ B_PAIRS = [  # composition: 2-hop routes through the intermediate span
 # ── E2: halt-state vs operator verbalization ─────────────────────────────────
 
 HALT_LEXICON = (
-    "done", "finished", "complete", "final", "answer", "result", "is",
-    "already", "value", "nothing", "end", "stop", "resolved", "settled",
+    "done", "finished", "complete", "completed", "final", "answer",
+    "result", "already", "value", "nothing", "end", "stop", "resolved",
+    "settled", "given", "fixed", "constant",
 )
-WHNF_PROBES_E2 = [
-    "The value 42 requires no further computation because it is already",
-    "After all the steps were carried out, the calculation was finally",
-    "There is nothing left to simplify, so the expression is",
-    "The result has been computed and no more work remains, so we are",
-]
-KIBC_PROBES_E2 = [
-    "The fox, not the hound, ate the food, so we keep only the",       # K
-    "The password is otter, repeated exactly: the password is",         # I
-    "The key opens the box and the box holds the coin, giving the",     # B
-    "Alice paid Bob, which reversed means Bob was paid by",             # C
-]
 
 
 # ── attribution machinery (result-position, per-position magnitudes) ─────────
@@ -216,14 +231,24 @@ def exp1_operators(model, tok, device: str) -> dict:
         c_stats.extend([da, db])
     out["C_role_tracking"] = pair_null(float(np.mean(c_stats)), c_stats)
 
-    # I — copy mass on the source span
-    i_stats = []
+    # I — copy mass on the source span, vs equal-length span-position null
+    i_stats, i_zs = [], []
     for m in I_PROBES:
         attr = input_attribution(model, tok, m["prompt"], m["target"], device)
-        i_stats.append(span_mass(attr, token_span(tok, m["prompt"], m["source"])))
+        span = token_span(tok, m["prompt"], m["source"])
+        obs = span_mass(attr, span)
+        w = len(span)
+        others = [
+            span_mass(attr, list(range(s, s + w)))
+            for s in range(1, len(attr) - w)
+            if not set(range(s, s + w)) & set(span)
+        ]
+        i_stats.append(obs)
+        i_zs.append((obs - np.mean(others)) / (np.std(others) + 1e-12))
     out["I_copy_mass"] = {
         "obs": float(np.mean(i_stats)),
-        "per_probe": [round(v, 4) for v in i_stats],
+        "mean_z_vs_span_null": float(np.mean(i_zs)),
+        "per_probe_z": [round(float(z), 2) for z in i_zs],
     }
 
     # B — intermediate mass: 2-hop vs token-matched 1-hop
@@ -241,82 +266,10 @@ def exp1_operators(model, tok, device: str) -> dict:
 # ── E2 ───────────────────────────────────────────────────────────────────────
 
 
-_FORMAL_MARKERS = ("λ", "def ", "(x)", "(z)", " = ", "=>", "::")
-
-
-def _is_prose(p: str) -> bool:
-    return not any(m in p for m in _FORMAL_MARKERS)
-
-
-def _e2_prompts(n_per_side: int) -> tuple[list[str], list[str]]:
-    """Prose WHNF vs prose-KIBC prompts from the clean bundle; fall back to
-    the built-in quartets if the bundle is unavailable."""
-    try:
-        from probes import crystal_probes
-        whnf = [p.prompt for p in crystal_probes()
-                if p.combinator == "WHNF" and _is_prose(p.prompt)]
-        kibc = [p.prompt for p in crystal_probes()
-                if p.combinator in ("K", "I", "B", "C") and _is_prose(p.prompt)]
-        if len(whnf) >= 4 and len(kibc) >= 4:
-            return whnf[:n_per_side], kibc[:n_per_side]
-    except Exception:
-        pass
-    return list(WHNF_PROBES_E2), list(KIBC_PROBES_E2)
-
-
-def exp2_verbalize(model, tok, device: str, topk: int = 10,
-                   n_per_side: int = 16) -> dict:
-    """Halt-lexicon hit rate in the logit-lens plateau readout, WHNF vs KIBC.
-
-    Per-prompt rates + label-permutation null on the asymmetry."""
-    nl = jlens.n_layers(model)
-    plateau = list(range(int(nl * 0.85), nl))
-    whnf_prompts, kibc_prompts = _e2_prompts(n_per_side)
-
-    def rates_for(prompts: list[str]) -> tuple[list[float], list[list[str]]]:
-        rates, tops = [], []
-        for p in prompts:
-            resid, _ = jlens.capture_residuals(model, tok, p)
-            hits = 0
-            words: list[str] = []
-            for li in plateau:
-                lg = jlens.logit_lens(model, resid[li][-1:])
-                ids = torch.topk(lg[0], topk).indices.tolist()
-                toks = [tok.decode([t]).strip().lower() for t in ids]
-                words.extend(toks[:3])
-                hits += sum(1 for t in toks if t in HALT_LEXICON)
-            rates.append(hits / (len(plateau) * topk))
-            tops.append(words[:6])
-        return rates, tops
-
-    whnf_rates, whnf_tops = rates_for(whnf_prompts)
-    kibc_rates, kibc_tops = rates_for(kibc_prompts)
-    obs = float(np.mean(whnf_rates) - np.mean(kibc_rates))
-    pooled = np.array(whnf_rates + kibc_rates)
-    nw = len(whnf_rates)
-    null = np.empty(N_PERM)
-    for i in range(N_PERM):
-        perm = RNG.permutation(pooled)
-        null[i] = perm[:nw].mean() - perm[nw:].mean()
-    return {
-        "n_whnf": len(whnf_rates), "n_kibc": len(kibc_rates),
-        "whnf_halt_hit_rate": float(np.mean(whnf_rates)),
-        "kibc_halt_hit_rate": float(np.mean(kibc_rates)),
-        "asymmetry": obs,
-        "null_std": float(null.std()),
-        "z": float((obs - null.mean()) / (null.std() + 1e-12)),
-        "p_perm": float((np.sum(null >= obs) + 1) / (N_PERM + 1)),
-        "whnf_top_tokens": whnf_tops[:4],
-        "kibc_top_tokens": kibc_tops[:4],
-    }
-
-
-# ── E4 ───────────────────────────────────────────────────────────────────────
-
-
-def exp4_coupling(model, tok, device: str, probes_per_comb: int = 8) -> dict:
-    """Inject gate-register opcode centroids into the residual stream via
-    W_gate^T; measure downstream broadcast vs matched-random and shuffled-op."""
+def gate_calibration(model, tok, probes_per_comb: int = 8) -> dict:
+    """Shared gate-register calibration at the mid layer: sign-CMR features,
+    labels, and W_gate (the residual→gate map whose transpose carries opcode
+    centroids back into residual space)."""
     import capture as C
     import topology as T
     from classify import CRYSTAL
@@ -337,24 +290,82 @@ def exp4_coupling(model, tok, device: str, probes_per_comb: int = 8) -> dict:
         feats.append(cap.gate[li][-1])
         labels.append(p.combinator)
     G = np.sign(np.stack(feats))
-    common = G.mean(axis=0)
-    X = G - common
-    labels = np.array(labels)
-
-    # W_gate at layer li: gate = W @ resid  →  resid direction = W^T s
+    X = G - G.mean(axis=0)
     path = T.gate_path(topo, li)
     mod = model
     for part in path.split("."):
         mod = getattr(mod, part)
-    W = mod.weight.detach()                      # [d_ff, d_model]
+    return {"topo": topo, "layer": li, "X": X,
+            "labels": np.array(labels), "W": mod.weight.detach()}
+
+
+def _op_direction(calib: dict, mask: np.ndarray) -> np.ndarray:
+    cent = calib["X"][mask].mean(axis=0)
+    d = (calib["W"].T.float().cpu() @ torch.from_numpy(cent).float()).numpy()
+    return d / (np.linalg.norm(d) + 1e-12)
+
+
+def exp2_direction_verbalize(model, tok, calib: dict, topk: int = 10,
+                             n_perm: int = 300) -> dict:
+    """v3 readout: verbalize each opcode centroid DIRECTION (unembed matmul,
+    no prompt → no demanded-completion confound). Halt-lexicon hit rate per
+    op; null = directions from label-shuffled centroids."""
+    from classify import CRYSTAL
+
+    labels = calib["labels"]
+
+    def halt_rate(d: np.ndarray) -> tuple[float, list[str]]:
+        toks = jlens.verbalize(model, tok, torch.from_numpy(d).float(),
+                               top_k=topk)
+        clean = [t.strip().lower() for t in toks]
+        return sum(1 for t in clean if t in HALT_LEXICON) / topk, toks
+
+    true_rates, tops = {}, {}
+    for op in CRYSTAL:
+        m = labels == op
+        if m.any():
+            r, t = halt_rate(_op_direction(calib, m))
+            true_rates[op], tops[op] = r, t
+
+    # null: label-shuffled centroids of WHNF-sized groups
+    n_whnf = int((labels == "WHNF").sum())
+    null = np.empty(n_perm)
+    for i in range(n_perm):
+        idx = RNG.choice(len(labels), size=n_whnf, replace=False)
+        mask = np.zeros(len(labels), dtype=bool)
+        mask[idx] = True
+        null[i], _ = halt_rate(_op_direction(calib, mask))
+    mu, sd = float(null.mean()), float(null.std()) + 1e-12
+    return {
+        "halt_rate_per_op": {k: round(v, 3) for k, v in true_rates.items()},
+        "z_per_op": {k: round((v - mu) / sd, 2) for k, v in true_rates.items()},
+        "whnf_z": (true_rates.get("WHNF", 0.0) - mu) / sd,
+        "kibc_max_z": max(
+            (true_rates[o] - mu) / sd for o in ("K", "I", "B", "C")
+            if o in true_rates
+        ),
+        "null_mean": mu, "null_std": sd, "n_perm": n_perm,
+        "top_tokens": {k: v[:6] for k, v in tops.items()},
+    }
+
+
+# ── E4 ───────────────────────────────────────────────────────────────────────
+
+
+def exp4_coupling(model, tok, calib: dict, n_shuffle: int = 20) -> dict:
+    """Inject gate-register opcode centroids into the residual stream via
+    W_gate^T; broadcast KL vs BOTH nulls: matched-random (any direction) and
+    shuffled-op (label-identity — the s263 EXP1 trap-killer)."""
+    from classify import CRYSTAL
+
+    li, labels = calib["layer"], calib["labels"]
+    d_model = calib["W"].shape[1]
 
     test_prompt = ("The fox chased the hound across the field and the hound "
                    "ran toward the river before the")
     # injection scale: 0.5 x typical residual norm at layer li (s263 FRAC)
     resid, _ = jlens.capture_residuals(model, tok, test_prompt)
-    scale = 0.5 * float(
-        resid[li].float().norm(dim=-1).mean().item()
-    )
+    scale = 0.5 * float(resid[li].float().norm(dim=-1).mean().item())
     clean = jlens.forward_logits(model, tok, test_prompt)
 
     def _kl(vec: np.ndarray) -> float:
@@ -364,22 +375,31 @@ def exp4_coupling(model, tok, device: str, probes_per_comb: int = 8) -> dict:
             torch.from_numpy(v).float(), clean=clean,
         ))
 
-    out: dict = {"layer": li, "inject_norm": scale, "per_op": {}}
-    kls_by_op = {}
-    d_model = W.shape[1]
-    for op in CRYSTAL:
-        m = labels == op
-        if not m.any():
-            continue
-        cent = X[m].mean(axis=0)
-        d = (W.T.float().cpu() @ torch.from_numpy(cent).float()).numpy()
-        kls_by_op[op] = _kl(d)
-    # matched-random null
+    kls_by_op = {
+        op: _kl(_op_direction(calib, labels == op))
+        for op in CRYSTAL if (labels == op).any()
+    }
+    # null 1: matched-random directions
     rand_kls = [_kl(RNG.standard_normal(d_model)) for _ in range(20)]
-    mu, sd = float(np.mean(rand_kls)), float(np.std(rand_kls)) + 1e-12
+    mu_r, sd_r = float(np.mean(rand_kls)), float(np.std(rand_kls)) + 1e-12
+    # null 2: shuffled-op — permute labels, rebuild all centroids, inject
+    shuf: dict[str, list[float]] = {op: [] for op in kls_by_op}
+    for _ in range(n_shuffle):
+        perm = RNG.permutation(labels)
+        for op in kls_by_op:
+            shuf[op].append(_kl(_op_direction(calib, perm == op)))
+    out: dict = {"layer": li, "inject_norm": scale, "per_op": {}}
     for op, kl in kls_by_op.items():
-        out["per_op"][op] = {"kl": kl, "z_vs_random": (kl - mu) / sd}
-    out["random_null"] = {"mean": mu, "std": sd, "n": len(rand_kls)}
+        mu_s = float(np.mean(shuf[op]))
+        sd_s = float(np.std(shuf[op])) + 1e-12
+        out["per_op"][op] = {
+            "kl": kl,
+            "z_vs_random": (kl - mu_r) / sd_r,
+            "z_vs_shuffled_op": (kl - mu_s) / sd_s,
+            "shuffled_mean": mu_s,
+        }
+    out["random_null"] = {"mean": mu_r, "std": sd_r, "n": len(rand_kls)}
+    out["n_shuffle"] = n_shuffle
     return out
 
 
@@ -415,22 +435,28 @@ def main() -> None:
         print(f"  {k}: obs={v['obs']:+.4f}"
               + (f" z={z:.2f} p={v['p_perm']:.4f}" if z is not None else ""))
 
-    print("[jspace_v2] E2 halt verbalization ...")
-    report["E2_verbalize"] = exp2_verbalize(model, tok, device)
-    e2 = report["E2_verbalize"]
-    print(f"  WHNF halt-rate={e2['whnf_halt_hit_rate']:.3f} "
-          f"KIBC={e2['kibc_halt_hit_rate']:.3f} "
-          f"asymmetry={e2['asymmetry']:+.3f}")
+    calib = None
+    try:
+        print("[jspace_v2] gate calibration (shared E2/E4) ...")
+        calib = gate_calibration(model, tok)
+    except Exception as e:  # MoE refusal / missing register etc.
+        report["calibration"] = {"error": str(e)}
+        print(f"  calibration failed, skipping E2/E4: {e}")
 
-    if not args.skip_e4:
+    if calib is not None:
+        print("[jspace_v2] E2 direction verbalization (v3 readout) ...")
+        report["E2_verbalize"] = exp2_direction_verbalize(model, tok, calib)
+        e2 = report["E2_verbalize"]
+        print(f"  WHNF z={e2['whnf_z']:+.2f} | KIBC max z={e2['kibc_max_z']:+.2f}"
+              f" | per-op halt-rate {e2['halt_rate_per_op']}")
+
+    if calib is not None and not args.skip_e4:
         print("[jspace_v2] E4 cross-register coupling ...")
-        try:
-            report["E4_coupling"] = exp4_coupling(model, tok, device)
-            for op, v in report["E4_coupling"]["per_op"].items():
-                print(f"  {op}: kl={v['kl']:.4f} z_vs_random={v['z_vs_random']:+.2f}")
-        except Exception as e:  # MoE refusal / missing register etc.
-            report["E4_coupling"] = {"error": str(e)}
-            print(f"  E4 skipped: {e}")
+        report["E4_coupling"] = exp4_coupling(model, tok, calib)
+        for op, v in report["E4_coupling"]["per_op"].items():
+            print(f"  {op}: kl={v['kl']:.4f} "
+                  f"z_rand={v['z_vs_random']:+.2f} "
+                  f"z_shufop={v['z_vs_shuffled_op']:+.2f}")
 
     out_dir = RESULTS_DIR / model_name.replace("/", "-").lower()
     out_dir.mkdir(parents=True, exist_ok=True)
