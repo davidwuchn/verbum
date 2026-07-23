@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import shlex
 import subprocess
 import sys
 from dataclasses import dataclass
@@ -99,7 +100,9 @@ def has_artifact(spec: ModelSpec) -> bool:
     return (RESULTS_DIR / spec.slug / "model_vsm.json").exists()
 
 
-def run_trace(spec: ModelSpec, device: str | None, smoke: bool) -> bool:
+def run_trace(
+    spec: ModelSpec, device: str | None, smoke: bool, trace_args: str = ""
+) -> bool:
     cmd = [
         sys.executable, str(_HERE / "trace.py"),
         "--model", spec.model,
@@ -107,7 +110,9 @@ def run_trace(spec: ModelSpec, device: str | None, smoke: bool) -> bool:
     ]
     if smoke:
         cmd.append("--smoke")
-    print(f"[sweep] tracing {spec.model} ({' '.join(cmd[-3:])}) ...")
+    if trace_args:
+        cmd.extend(shlex.split(trace_args))  # open slot: any trace.py flag
+    print(f"[sweep] tracing {spec.model} ({' '.join(cmd[2:])}) ...")
     r = subprocess.run(cmd, cwd=str(_ROOT), check=False)
     if r.returncode != 0:
         print(f"[sweep] FAILED ({r.returncode}): {spec.model} — continuing")
@@ -174,6 +179,9 @@ def main() -> None:
                     help="re-trace even if an artifact exists")
     ap.add_argument("--smoke", action="store_true",
                     help="pass --smoke to trace runs")
+    ap.add_argument("--trace-args", default="",
+                    help="extra args passed verbatim to every trace.py run "
+                         "(e.g. \"--jspace-projector --n-perm 500\")")
     ap.add_argument("--restack-only", action="store_true",
                     help="skip tracing; restack existing artifacts")
     args = ap.parse_args()
@@ -193,7 +201,7 @@ def main() -> None:
                 print(f"[sweep] cached: {spec.model} "
                       f"({RESULTS_DIR / spec.slug / 'model_vsm.json'})")
                 continue
-            run_trace(spec, args.device, args.smoke)
+            run_trace(spec, args.device, args.smoke, args.trace_args)
 
     reference = load_consensus_gram()
     root = restack(reference)
