@@ -167,6 +167,29 @@ def forensics_one(w: torch.Tensor, wq: torch.Tensor) -> dict:
     ratio_s_absmean = (s_flat[m] / mean_abs[m].clamp(min=1e-30))
     corr_s_absmean = corr(s_flat, mean_abs)
 
+    # -- 9c. transition matrix parent-RTN code -> child code.
+    #        The optimizer's fossil record: sign reversals via the zero state
+    #        (promotion/demotion churn) vs direct +/- jumps.  Reversal sites'
+    #        |w|/s tells whether reversals target confident parent weights.
+    tm = {}
+    for a in (-1, 0, 1):
+        pa = t_abs == a
+        for b in (-1, 0, 1):
+            tm[f"{a}->{b}"] = int((pa & (t == b)).sum().item())
+    rev = (t_abs * t) == -1
+    rev_mag_q = [q((absw / s.clamp(min=1e-30))[rev], p)
+                 for p in (0.25, 0.5, 0.75)] if rev.any() else []
+    n_nz = int((t_abs != 0).sum().item())
+    trans = {
+        "promotions_0_to_pm": tm["0->1"] + tm["0->-1"],
+        "demotions_pm_to_0": tm["1->0"] + tm["-1->0"],
+        "reversals_direct": tm["1->-1"] + tm["-1->1"],
+        "stay": tm["0->0"] + tm["1->1"] + tm["-1->-1"],
+        "reversal_rate_vs_nonzero": (tm["1->-1"] + tm["-1->1"]) / max(n_nz, 1),
+        "reversal_mag_q25_50_75": rev_mag_q,
+        "matrix": tm,
+    }
+
     # -- 10. flip structure per input channel: z-score of max channel flip
     #        count vs binomial null.  High z => certain input channels are
     #        systematically rewired (activation-aware compensation);
@@ -201,6 +224,7 @@ def forensics_one(w: torch.Tensor, wq: torch.Tensor) -> dict:
         "s_over_absmean_q25_50_75": [q(ratio_s_absmean, p) for p in (0.25, 0.5, 0.75)],
         "chan_flip_z_q50_95_999": chan_z_q,
         "chan_flip_z_max": chan_z_max,
+        "transitions": trans,
     }
 
 
@@ -272,6 +296,13 @@ def main() -> None:
         print(f"  ABSMEAN: code_match={r['absmean_code_match']:.4f}"
               f"  corr(s,absmean)={r['corr_s_absmean']:.4f}"
               f"  s/absmean q25-75={['%.3f' % x for x in r['s_over_absmean_q25_50_75']]}")
+        tr = r["transitions"]
+        tot = max(sum(tr["matrix"].values()), 1)
+        print(f"  TRANSITIONS: promote(0→±)={tr['promotions_0_to_pm']/tot:.4f}"
+              f"  demote(±→0)={tr['demotions_pm_to_0']/tot:.4f}"
+              f"  REVERSE(±→∓)={tr['reversals_direct']/tot:.5f}"
+              f"  rev/nonzero={tr['reversal_rate_vs_nonzero']:.5f}")
+        print(f"  reversal |w|/s q25-75={['%.3f' % x for x in tr['reversal_mag_q25_50_75']]}")
         print(f"  chan_flip_z q50/95/99.9={['%.2f' % x for x in r['chan_flip_z_q50_95_999']]}"
               f"  max={r['chan_flip_z_max']:.1f}  ({r['elapsed_s']}s)\n")
 
