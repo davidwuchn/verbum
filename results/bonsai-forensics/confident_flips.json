@@ -1,0 +1,62 @@
+{
+  "device": "mps",
+  "conf_criterion": "|w| > mean|w|_group(parent)",
+  "results": {
+    "model.language_model.layers.3.self_attn.q_proj.weight": {
+      "conf_frac": 0.4235333800315857,
+      "tern_rev_given_conf": 1.1483721599461751e-05,
+      "onebit_flip_given_conf": 3.779120147273851e-05,
+      "elapsed_s": 0.18,
+      "ratio_1bit_over_tern": 3.2908496732026142
+    },
+    "model.language_model.layers.3.mlp.down_proj.weight": {
+      "conf_frac": 0.4246244728565216,
+      "tern_rev_given_conf": 9.155443739652895e-05,
+      "onebit_flip_given_conf": 0.001154854197774918,
+      "elapsed_s": 0.12,
+      "ratio_1bit_over_tern": 12.613852813852816
+    },
+    "model.language_model.layers.19.self_attn.o_proj.weight": {
+      "conf_frac": 0.42147526144981384,
+      "tern_rev_given_conf": 9.292176733882844e-05,
+      "onebit_flip_given_conf": 0.0006256380357756347,
+      "elapsed_s": 0.06,
+      "ratio_1bit_over_tern": 6.732954545454546
+    },
+    "model.language_model.layers.19.mlp.gate_proj.weight": {
+      "conf_frac": 0.42464491724967957,
+      "tern_rev_given_conf": 2.6342099589517693e-05,
+      "onebit_flip_given_conf": 0.00039531644338852934,
+      "elapsed_s": 0.07,
+      "ratio_1bit_over_tern": 15.007021063189569
+    },
+    "model.language_model.layers.32.mlp.down_proj.weight": {
+      "conf_frac": 0.42153361439704895,
+      "tern_rev_given_conf": 0.0007306728098686716,
+      "onebit_flip_given_conf": 0.0035987738579896992,
+      "elapsed_s": 0.07,
+      "ratio_1bit_over_tern": 4.925287775025499
+    },
+    "model.language_model.layers.32.mlp.gate_proj.weight": {
+      "conf_frac": 0.42195045948028564,
+      "tern_rev_given_conf": 0.0001583439525267015,
+      "onebit_flip_given_conf": 0.0022490956978200704,
+      "elapsed_s": 0.05,
+      "ratio_1bit_over_tern": 14.20386230058774
+    },
+    "model.language_model.layers.44.mlp.down_proj.weight": {
+      "conf_frac": 0.4226764440536499,
+      "tern_rev_given_conf": 0.000301279079669125,
+      "onebit_flip_given_conf": 0.0020476094208455183,
+      "elapsed_s": 0.05,
+      "ratio_1bit_over_tern": 6.796387665198238
+    },
+    "model.language_model.layers.57.mlp.down_proj.weight": {
+      "conf_frac": 0.42420682311058044,
+      "tern_rev_given_conf": 0.0004501560364602057,
+      "onebit_flip_given_conf": 0.001997745940185001,
+      "elapsed_s": 0.05,
+      "ratio_1bit_over_tern": 4.437896592244418
+    }
+  }
+}
