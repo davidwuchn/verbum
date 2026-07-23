@@ -147,23 +147,47 @@ bridges (architectural, cleaner than their recomputed-scale channel);
 budgets from a working 27B artifact:** churn ~17% of codes, direct
 reversals <0.3%, dispatch ~3%, value ~18%, embeddings 0.
 
-## Pre-registered: 1-bit rung forensics (in flight, s268)
+## 1-bit rung results (s268c): the zero state is an ABSTENTION register
 
-`prism-ml/Bonsai-27B-unpacked` (1-bit) pulling to HF cache (main:1);
-forensics chained in main:2 → `results/bonsai-forensics/forensics_1bit.json`.
-Registered before data:
+Pre-registrations above; outcome (data: `forensics_1bit.json`,
+`confident_flips.json`, commit 4b6e7c2):
 
-1. Same pipeline: embed = sign(w), s ≈ mean|w_g|, ~0 flips (frozen).
-2. **Zero-waypoint hypothesis:** block sign-flip rate ≪ ternary's 17%
-   flux — without the 0 waypoint, sign editing is kinetically
-   suppressed (expect ~direct-reversal scale, 0.2–1%, boundary-hugging).
-3. Falsifier: flip ~15%+ broad → zero-as-kinetic-pathway wrong; the
-   1-bit gap is purely representational (K needs 0), not optimizational.
-4. Register ordering (value > dispatch) persists either way.
+- **P1 ✓** same pipeline: 1-bit embed = pure sign(w), s/absmean = 1.000,
+  flips only at |w|/s < 0.03 (ties). Frozen.
+- **P2 ✗ and P3 ✗ — both void-in-register** (λ measure lesson: the
+  pre-registrations treated "flip rate" as one number; the population
+  decomposes into two register-distinct behaviors):
+  - **Confident weights** (|w| > parent absmean, 42% of weights —
+    ternary-RTN codes them ±1): essentially **immutable in BOTH rungs**.
+    Ternary reversals ≤ 0.07%, 1-bit flips ≤ 0.36% (3–15× more, still
+    tiny). **The carved topology is never re-carved at any bitwidth.**
+  - **Uncertain weights** (the rest): ternary parks ~30% at 0 and does
+    evidence-gated recruitment churn (~17%, the promote/demote flux);
+    binary has no 0 bin → forced sign declaration → 10–13% flips,
+    boundary-hugging (median |w|/s 0.09–0.25, q05 ~0.01), scale
+    anchoring collapsed in MLP (corr(s,absmean) 0.42–0.75 vs ternary
+    0.94+), cos(w,ŵ) 0.73 vs 0.85–0.87.
+- **P4 ✓** register ordering persists (attn 4.5–9% < MLP 10–13%).
 
-If repair is suppressed AND K degrades selectively at 1-bit (phase-0
-opcode-ladder prediction), the mechanisms unify: **the vacuum state is
-where topology gets edited — at train time and at inference time.**
+**Revised mechanism.** The zero state's primary optimizer role is not a
+kinetic tunnel for confident reversals (those barely occur anywhere) —
+it is **abstention**: uncertain weights declare "no routing opinion"
+and enter the topology only on accumulated evidence. Binary's failure
+mode is **forced participation**: every uncertain weight must carry a
+sign, injecting a permanent noise floor into the routing register.
+This unifies with the representational story: K discards via 0 at
+inference; uncertain weights abstain via 0 during training — one
+vacuum-state function, "no opinion," at both timescales. Phase-0
+sub-prediction sharpened: selective K degradation at 1-bit should
+trace to this forced-participation noise.
+
+**Sharpened optimizer principles (for our phase-1 trainings):**
+1. Confident signs essentially never flip — protect them structurally
+   (measured budget across two working rungs: <0.4%). Carve once.
+2. All topology learning = **recruitment management at the 0↔± margin**
+   — hysteresis/evidence gating applies there, not to sign reversal.
+3. Binary routing substrates are non-viable not because signs can't
+   flip but because **abstention is impossible**.
 
 ## Provenance
 

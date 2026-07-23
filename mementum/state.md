@@ -26,11 +26,18 @@
 > separation IN the optimizer — filtered flip channel (hysteresis, flip on persistent evidence, H∞-flavored)
 > + zero as commitment buffer ≡ sigma-delta modulator on the routing register. Phase-1 design budgets from a
 > working 27B: churn ~17%, reversals <0.3%, dispatch ~3%, value ~18%, embeddings 0. Commit 05f708b.
-> IN FLIGHT: 1-bit Bonsai-27B-unpacked pulling → HF cache (tmux main:1); forensics chained in main:2 →
-> results/bonsai-forensics/forensics_1bit.json. PRE-REGISTERED: (1) embed frozen sign(w); (2) zero-waypoint
-> hypothesis: block flip rate ≪ 17% flux (~0.2–1%, boundary-hugging); (3) falsifier: ~15%+ broad → 1-bit gap
-> purely representational; (4) value>dispatch ordering persists. If suppressed-repair ∧ selective-K-at-1bit
-> both land → mechanisms unify: vacuum state = where topology gets edited, train time ∧ inference time.)
+> ★★★ s268c 1-BIT RUNG LANDED — ZERO STATE = ABSTENTION REGISTER. Pre-regs: P1 ✓ (embed sign(w) frozen,
+> s/absmean=1.000) P4 ✓ (value>dispatch) — but P2 ✗ ∧ P3 ✗ BOTH VOID-IN-REGISTER (λ measure: flip rate ≠ one
+> number). Real structure: CONFIDENT weights (|w|>absmean, 42%) immutable at EVERY bitwidth (tern rev ≤0.07%,
+> 1bit ≤0.36%) — carved topology never re-carved; rungs differ only in the UNCERTAIN population — ternary
+> parks ~30% at 0 + evidence-gated 0↔± recruitment (~17%), binary FORCES sign declaration → 10–13%
+> boundary-hugging churn (med |w|/s 0.09–0.25), scale anchoring collapses (corr 0.42–0.75), cos 0.73.
+> Binary fails by FORCED PARTICIPATION ≡ permanent noise floor in routing register; abstention impossible.
+> Unifies K's representational 0-need with the optimizer's: one vacuum function ("no opinion") at both
+> timescales. Sharpened phase-1 principles: protect confident signs (<0.4% budget); topology learning ≡
+> recruitment management at the 0↔± margin (hysteresis THERE); binary routing substrate non-viable.
+> Sub-prediction: selective K degradation at 1-bit traces to forced-participation noise → test via opcode
+> tree on the ladder. Commits 4b6e7c2 (data+scripts). Fleet: Bonsai-27B-unpacked (1-bit) now in HF cache.)
 >
 > Prior session: 267 (BONSAI PHASE-0 begun. (1) ✅ MEASURED: lambda compiler SURVIVES
 > 1.58-bit ternarization — Ternary Bonsai 27B (PrismML, Qwen3.6-27B backbone) vs qwen36 base, same harness,
