@@ -151,8 +151,12 @@
 >      formal/prose subsample (gate P2 gain-knob claim properly; save per-probe features this time).
 >   2. FULL 11-MODEL RE-SWEEP with clean 539-probe bundle + regenerate opcodes/data/consensus_gram.json
 >      (all pre-s269 trees carry contaminated W/WHNF centroids; consensus reference still dirty).
->      RUN WITH --jspace-projector (s270, Michael-approved): sweep then answers pre-reg P3 (9-vector
->      cross-model stability) for free; check sweep.py passes trace flags through first.
+>      RUN WITH the projector (s270, Michael-approved; sweep answers pre-reg P3 for free). READY —
+>      sweep.py --trace-args pass-through built + verified end-to-end s270 (commit b1dff52; smoke on
+>      pythia-70m non-registry model, artifacts restored). Invocation:
+>        uv run python opcodes/sweep.py --tier all --force --device mps --trace-args "--jspace-projector"
+>      (--force required: re-trace replaces contaminated-bundle artifacts; that overwrite is the POINT
+>      this time. 27B jspace cost ≈ tens of min extra: 256 bwd + ~1.5k fwd at defaults k=32.)
 >      Then: W-fragility replication across models; mixture test W→span(C,I); register-matched S probes.
 >   3. JSPACE v4 CANDIDATES (from v3 results): C order-tagging hypothesis (does C's op fire when
 >      precedence WORDS appear without reordering? token-matched); WHNF lexicalization via better
