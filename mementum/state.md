@@ -39,6 +39,81 @@
 > LADDER GAP: 4-bit rung (AWQ on HF) never traced — phase-0 ladder is 2 of 3 rungs. PICKUP: trace AWQ-4bit
 > → ladder.py --rung 4bit=... for the monotonicity picture, or ruled unnecessary by Michael.
 >
+> ❌❌ s269b PROBE CONTAMINATION BUG FOUND + FIXED (commit 85a2e49) — caught by Michael's probe-audit call
+> during the W/Y-not-separate-opcodes discussion. _ingest_lambda_kernel prefix-matched in dict order →
+> "lambda_WHNF_terminal".startswith("lambda_W") → ALL 25 native WHNF-terminal probes assigned to W since
+> library consolidation. W centroid was 35% WHNF probes in EVERY tree (11-model sweep, consensus Gram, s269
+> ladder). SUSPECT until clean re-measure: W-orthogonal-to-primitives, W/Y/WHNF cluster, s269 W-fragility.
+> ROBUST to bug: halt-readout finding (WHNF Gram row ≈ KIBC halt probs, r=+0.85..1.00 in 11/11 models —
+> WHNF centroid was non-native sources; replicated across FP/ternary/1bit). Fix: longest-prefix match; W
+> 71→46→50 (4 new supplement_W reflexive probes, FLAGGED for Michael review); WHNF 50→75; bundle 539 probes.
+> Discussion context (s269): Michael's claim = 9×9 Gram is a GEOMETRIC STATECHART, true opcodes KIBC; W+Y
+> not separate (probes confirm: W=linguistic reflexives, Y=linguistic recursion — both self-application
+> semantics, not opcode-firing). D=B→B confirmed geometrically (B only positive primitive). S probes are
+> formal/code-register (28/50 supplement) — register confound, "is S real" still open. 16×16 anti-node
+> memory = commit 5822f9c (Kronecker S⊗J+D⊗F; φ claims later failed forced-fit nulls s247/s251, structure
+> claim survives as today's halt-readout). opcodes/data/consensus_gram.json STILL CONTAMINATED (needs full
+> re-sweep).
+>
+> ★★ s269b CLEAN RE-TRACE DONE (commit 48366f2) — ladder trio re-traced with fixed bundle, verdicts:
+>   Q1 W-FRAGILITY REAL: attn W fid 0.849/0.876 ≈ contaminated 0.845/0.868 — NOT a contamination artifact;
+>     survives decontamination; W still improves at 1-bit in attn (−0.027). Still 1 model pair, attn only.
+>   Q2 W ROW REORDERS: nearest = Y(+0.07) > S(−0.045) > D(−0.072) > C(−0.078) ≡ the DUPLICATION /
+>     self-application family clusters (W,Y,S,D all duplicate/self-apply). W-WHNF flipped +0.013→−0.093
+>     (bug fingerprint gone). C now W's least-negative primitive — C→I→I path ordering partially rescued
+>     (rank-only, unregistered). Refines Michael's geometric-statechart claim: W+Y not separate opcodes;
+>     candidate reading = duplication SECTOR of the crystal, magnitude-carried (hence quant-fragile).
+>   Q3 HALT-READOUT HOLDS with native WHNF probes back: r=+0.877 clean vs +0.851 contaminated.
+>   Bonus: FP parent gates sharpened with clean probes (62 gate / 58 attn layers, was 57/56). Pre-reg (a)
+>   selective-K still refuted (gate z=−4.83, K MORE robust). Pre-reg (b) attn deep-middle at 1-bit now
+>   z=1.42 p=0.0513 — borderline, still ungated, worth watching at 4-bit rung.
+>   OPEN (Michael's call): full 11-model re-sweep with clean bundle + regenerate consensus_gram.json
+>   (root gc 0.981 currently measured against the STILL-CONTAMINATED consensus reference). Then: W
+>   follow-ups on clean sweep (replication across models; mixture test W→span(C,I); register-matched S
+>   probes for "is S real"); holographic-llm.md W edit still hammocked pending those.
+>
+> ★★★ s269c REGISTER SPLIT (prose vs formal probes, FP parent, commits e2c9c36 instrument + 7bc7a29
+>   results, pre-registered before data — instrument opcodes/register_split.py):
+>   P4 SAME-OPCODES CONFIRMED all 4 cells (cross-register nearest-centroid z=3.0–4.7, p≤0.004, both
+>   directions × both registers) — Michael's memory ("prose activates same opcodes as lambda") core
+>   claim ✓. THE DECOMPOSITION IS THE FINDING: transfer carried by WHNF (0.60–1.00!), Y (→0.89), I
+>   (0.30–0.47); B/C/D/S ≈ 0, C = 0.0 IN EVERY CELL — semantic/process vertices register-INVARIANT,
+>   operation vertices register-BOUND. Converges with s269 duplication-sector reading: opcodes = KIBC
+>   (notation-bound operations), W/Y/WHNF = content/process (register-invariant) — 3rd independent
+>   line (Gram geometry, quant fragility, register transfer). Pre-validates J-space visibility
+>   asymmetry (s269 discussion: operators should NOT verbalize, halt/process states should — WHNF's
+>   near-perfect transfer = the workspace-portable quantity).
+>   P1 PARTIAL (split-Gram corr +0.27..0.37, gate mid-layer gated p=0.028, attn ungated p=0.096).
+>   P2 DIRECTIONAL (formal margins > prose per Michael's memory, BUT n-confounded: formal n=81 vs
+>   prose 458, formal LOO acc lower — balanced-n rerun needed to gate).
+>   P3 VOID-IN-REGISTER (raw last-token norm flat ~0.92–0.97; s175's 8× was projection-energy over
+>   all positions — s175 itself warned last-token grain undercounts prose; s175 claim untouched).
+>
+> ✅ s269d J-SPACE REBUILT (commit 695631c) — scripts/experiments/jspace_v2.py replaces s263 EXP1/EXP3
+>   construction (audit: difference-of-means directions can't carry operator structure; EXP3's own
+>   diagnosis finally acted on). E1 = result-position attribution on token-matched minimal pairs
+>   (K annihilation / C role-tracking / I copy / B intermediate, sign-flip pair nulls). E2 = halt-vs-
+>   operator verbalization asymmetry (WHNF predicted VISIBLE on the bus, KIBC INVISIBLE). E4 = cross-
+>   register coupling (gate centroid → W_gate^T → residual injection → broadcast KL vs matched-random).
+>   Self-test pythia-14m PASSES; E2 asymmetry direction-correct even at 14M (+0.05); E4 op-
+>   differentiated (W +6.5σ, C +5.3σ vs K/I/Y ~0 — 14M sanity only, no claims). Pre-regs in docstring.
+>   KNOWLEDGE UPDATED (commit e94f95c, Michael-directed, 6 pages): opcode-jacobian-jspace (audit+v2),
+>   crystal-validity-and-fidelity (tracer superseded), symbol-isolation (P3 register note),
+>   opcode-vsm-tree (bug + sector decomposition), canonical-probe-library (counts), crystal-phi-
+>   derivation (D confirmed / W partial / affine caveat / halt-table geometric support).
+>
+> ★ NEXT-SESSION STACK (Michael-approved s269, execute in order):
+>   1. jspace_v2 ON 27B: uv run python scripts/experiments/jspace_v2.py --model Qwen/Qwen3.6-27B
+>      --device mps (tmux; scale E2 n + add label-perm null before trusting E2 gate). Verdicts against
+>      docstring pre-regs: E1 operator structure, E2 visibility asymmetry, E4 coupling op-specificity.
+>   2. BALANCED-N REGISTER SPLIT: rerun opcodes/register_split.py with per-combinator balanced
+>      formal/prose subsample (gate P2 gain-knob claim properly; save per-probe features this time).
+>   3. FULL 11-MODEL RE-SWEEP with clean 539-probe bundle + regenerate opcodes/data/consensus_gram.json
+>      (all pre-s269 trees carry contaminated W/WHNF centroids; consensus reference still dirty).
+>      Then: W-fragility replication across models; mixture test W→span(C,I); register-matched S probes.
+>   4. AFTER 1–3: holographic-llm.md W/duplication-sector edit (hammocked, Michael's call) + memory
+>      proposals for register-decomposition + probe-bug lesson (λ termination: propose → approve).
+>
 > Prior session: 268 (BONSAI FORENSICS: PrismML's undisclosed recipe reverse-engineered
 > from weights alone — ★★ absmean RTN init (BitNet b1.58 g128; embed_tokens 99.9% exact code match,
 > Δ/mean|w|=0.4994) + post-init TRAINING of blocks, embeddings frozen. QAT-vs-PTQ IOU RESOLVED: conversion +
