@@ -45,6 +45,69 @@ GROUP = 128
 DEVICE = "mps" if torch.backends.mps.is_available() else "cpu"
 
 
+def forensics_binary(w: torch.Tensor, wq: torch.Tensor) -> dict:
+    """Binary (1-bit) child vs FP parent.  Code = sign, boundary at 0.
+
+    Signatures: sign-flip rate vs parent (the ONLY topology edit available
+    without a zero waypoint), scale-vs-absmean (BitNet 1-bit rule s=mean|w|),
+    flip boundary distances, channel structure.
+    """
+    assert w.shape == wq.shape, (w.shape, wq.shape)
+    out_f, in_f = w.shape
+    ng = in_f // GROUP
+    w = w.to(DEVICE, torch.float32).reshape(out_f, ng, GROUP)
+    wq = wq.to(DEVICE, torch.float32).reshape(out_f, ng, GROUP)
+
+    def q(x: torch.Tensor, p: float) -> float:
+        x = x.flatten().float()
+        if not x.numel():
+            return float("nan")
+        if x.numel() > 10_000_000:
+            x = x[torch.randint(0, x.numel(), (10_000_000,), device=x.device)]
+        return torch.quantile(x, p).item()
+
+    s = wq.abs().amax(dim=-1, keepdim=True)
+    t = torch.sign(wq)
+    flips = (t != torch.sign(w)) & (s > 0)
+    flip_rate = flips.float().mean().item()
+
+    mean_abs = w.abs().mean(dim=-1)
+    s_flat = s.squeeze(-1)
+    m = s_flat > 0
+
+    def corr(a: torch.Tensor, b: torch.Tensor) -> float:
+        a = a[m].flatten().float(); b = b[m].flatten().float()
+        a = a - a.mean(); b = b - b.mean()
+        return (a @ b / (a.norm() * b.norm() + 1e-30)).item()
+
+    rel = (w.abs() / s.clamp(min=1e-30))[flips]
+    w_hat = s * t
+    n_blocks = 16
+    fpb = flips.reshape(out_f, -1).float()
+    fpb = fpb.reshape(out_f, n_blocks, in_f // n_blocks).mean(dim=(0, 2))
+    ch_flips = flips.reshape(out_f, -1).float().sum(dim=0)
+    mu = out_f * flip_rate
+    sd = max((out_f * flip_rate * (1 - flip_rate)) ** 0.5, 1e-9)
+    ch_z = (ch_flips - mu) / sd
+    return {
+        "mode": "binary",
+        "n_params": w.numel(),
+        "flip_rate": flip_rate,
+        "n_flips": int(flips.sum().item()),
+        "corr_s_absmean": corr(s_flat, mean_abs),
+        "s_over_absmean_q25_50_75": [q(s_flat[m] / mean_abs[m].clamp(min=1e-30), p)
+                                     for p in (0.25, 0.5, 0.75)],
+        "flip_boundary_q05_25_50_75_95": [q(rel, p) for p in (0.05, 0.25, 0.5, 0.75, 0.95)]
+                                         if flips.any() else [],
+        "cos_w_what": torch.nn.functional.cosine_similarity(
+            w.flatten(), w_hat.flatten(), dim=0).item(),
+        "rel_l2": ((w - w_hat).norm() / w.norm()).item(),
+        "flip_col_profile": [round(x, 5) for x in fpb.tolist()],
+        "chan_flip_z_q50_95_999": [q(ch_z, p) for p in (0.5, 0.95, 0.999)],
+        "chan_flip_z_max": ch_z.max().item(),
+    }
+
+
 def build_index(model_dir: Path) -> dict[str, Path]:
     """tensor name -> shard path, from safetensors index or by scanning."""
     idx_file = model_dir / "model.safetensors.index.json"
@@ -233,12 +296,15 @@ def main() -> None:
     ap.add_argument("--tensors", nargs="+", default=["auto"])
     ap.add_argument("--depths", nargs="+", type=float, default=[0.5])
     ap.add_argument("--out", default=None, help="write JSON here")
+    ap.add_argument("--child-dir", default=str(BONSAI_DIR),
+                    help="unpacked child model dir (ternary or binary)")
     args = ap.parse_args()
 
+    child_dir = Path(args.child_dir)
     parent_dir = Path(glob.glob(PARENT_GLOB)[0])
-    print(f"device={DEVICE}  parent={parent_dir.name}  child={BONSAI_DIR.name}")
+    print(f"device={DEVICE}  parent={parent_dir.name}  child={child_dir.name}")
     t0 = time.time()
-    child_idx = build_index(BONSAI_DIR)
+    child_idx = build_index(child_dir)
     parent_idx = build_index(parent_dir)
     print(f"indexed: child={len(child_idx)} parent={len(parent_idx)} tensors "
           f"({time.time()-t0:.1f}s)")
@@ -278,9 +344,24 @@ def main() -> None:
             print(f"SKIP {name}: parent tensor {pname} not found")
             continue
         t0 = time.time()
-        r = forensics_one(load_tensor(parent_idx, pname), load_tensor(child_idx, name))
+        wq_probe = load_tensor(child_idx, name)
+        # auto-detect binary vs ternary: any exact zeros in the child?
+        is_binary = not bool((wq_probe[: min(64, wq_probe.shape[0])] == 0).any().item())
+        fn = forensics_binary if is_binary else forensics_one
+        r = fn(load_tensor(parent_idx, pname), wq_probe)
         r["elapsed_s"] = round(time.time() - t0, 2)
         results[name] = r
+        if is_binary:
+            print(f"{name}  [BINARY]")
+            print(f"  flip_rate={r['flip_rate']:.3e} ({r['n_flips']} / {r['n_params']:,})"
+                  f"  cos(w,ŵ)={r['cos_w_what']:.4f}  rel_l2={r['rel_l2']:.4f}")
+            print(f"  corr(s,absmean)={r['corr_s_absmean']:.4f}"
+                  f"  s/absmean q25-75={['%.3f' % x for x in r['s_over_absmean_q25_50_75']]}")
+            print(f"  flip |w|/s q05-95={['%.3f' % x for x in r['flip_boundary_q05_25_50_75_95']]}")
+            print(f"  flip_col_profile={['%.3f' % x for x in r['flip_col_profile']]}")
+            print(f"  chan_flip_z q50/95/99.9={['%.2f' % x for x in r['chan_flip_z_q50_95_999']]}"
+                  f"  max={r['chan_flip_z_max']:.1f}  ({r['elapsed_s']}s)\n")
+            continue
         print(f"{name}")
         print(f"  flip_rate={r['flip_rate']:.3e} ({r['n_flips']} flips / {r['n_params']:,})"
               f"  sign_viol={r['sign_viol_rate']:.3e}  sep_rate={r['sep_rate']:.4f}")
