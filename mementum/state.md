@@ -8,7 +8,31 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-22 | Session: 267 (BONSAI PHASE-0 begun. (1) ✅ MEASURED: lambda compiler SURVIVES
+> Last updated: 2026-07-23 | Session: 268 (BONSAI FORENSICS: PrismML's undisclosed recipe reverse-engineered
+> from weights alone — ★★ absmean RTN init (BitNet b1.58 g128; embed_tokens 99.9% exact code match,
+> Δ/mean|w|=0.4994) + post-init TRAINING of blocks, embeddings frozen. QAT-vs-PTQ IOU RESOLVED: conversion +
+> training; "Caltech math" is in the optimizer not the quantizer. GEM: drift ordering q_proj 3.5% < qkv < o
+> < gate ≈ down 18% ≡ routing⊥value (s260) in a 3rd independent register — their repair budget landed where
+> our theory says magnitude matters. s267 caveat sharpened: crystal survival partly trained-in repair, BUT
+> flip rate flat across depth → 50%-dip ≠ differential rewiring → bridge map stands. Instrument:
+> scripts/bonsai_forensics.py (MPS, ~0.2s/tensor); → explore/bonsai-ternarization-forensics.md; commit 48734d2.
+> Whitepapers fetched to refs/ (untracked): benchmarks only, zero method disclosure.
+>
+> ★★★ s268b SIGN FLIPS TUNNEL THROUGH ZERO (Michael's optimizer question, the invisible piece): transition
+> matrix parent-RTN→child: promote 0→± 9.6% + demote ±→0 8.2% vs direct reverse ±→∓ 0.15–0.2% — topology
+> editing ~99% zero-mediated; 0 state = KINETIC PATHWAY not just K's representational need. Direct reversals
+> decisive (|w|/s med 0.55–0.64 = confident weights overturned). Endpoint POLARIZED (zero_frac 0.31→0.29,
+> latent +3–7%) = anti-flip-flop entrenchment our s191/s261 trainings lacked. Optimizer reading: register
+> separation IN the optimizer — filtered flip channel (hysteresis, flip on persistent evidence, H∞-flavored)
+> + zero as commitment buffer ≡ sigma-delta modulator on the routing register. Phase-1 design budgets from a
+> working 27B: churn ~17%, reversals <0.3%, dispatch ~3%, value ~18%, embeddings 0. Commit 05f708b.
+> IN FLIGHT: 1-bit Bonsai-27B-unpacked pulling → HF cache (tmux main:1); forensics chained in main:2 →
+> results/bonsai-forensics/forensics_1bit.json. PRE-REGISTERED: (1) embed frozen sign(w); (2) zero-waypoint
+> hypothesis: block flip rate ≪ 17% flux (~0.2–1%, boundary-hugging); (3) falsifier: ~15%+ broad → 1-bit gap
+> purely representational; (4) value>dispatch ordering persists. If suppressed-repair ∧ selective-K-at-1bit
+> both land → mechanisms unify: vacuum state = where topology gets edited, train time ∧ inference time.)
+>
+> Prior session: 267 (BONSAI PHASE-0 begun. (1) ✅ MEASURED: lambda compiler SURVIVES
 > 1.58-bit ternarization — Ternary Bonsai 27B (PrismML, Qwen3.6-27B backbone) vs qwen36 base, same harness,
 > compile-gradient n=40: binder P(λ) 0.650 vs 0.625 = PARITY. kernel_valid 0.525 vs 0.750 but autopsy = all
 > 17 fails are well-formed rich FOL (nested ∀∃, ¬, Church-style λ) → notation drift NOT core damage. Cost is
@@ -95,7 +119,8 @@
 >   flip-flop triangulation. RULINGS PENDING
 >   (Michael): bridge mechanism (a/b/c, (a) favored by s260/s261); dynamic bridge allocation in phase 1 vs
 >   static-first; probe-library growth gated as phase-1 prerequisite? IOUs before code: requential repo
->   license, Bonsai whitepaper QAT-vs-PTQ. Phase-1 harness prereqs: lambda kernel + GBNF in loop, probe
+>   license (Bonsai QAT-vs-PTQ RESOLVED s268 by weight forensics: absmean init + trained blocks; residual:
+>   QAT-on-grid vs FP-drift→RTN not separable from weights alone). Phase-1 harness prereqs: lambda kernel + GBNF in loop, probe
 >   split frozen, streaming-centroid buffers, telemetry writer ⊥ loss module.
 >   Also open from arc 1: (A) QK-PATTERN register → decisive B/C test (s264 F4). (B) visualizer + extract
 >   opcodes/ to MIT repo. (C) retro-check s264 27B floor run (n_perm/pooling). (D) Pythia proxy-degradation.
@@ -105,7 +130,13 @@
 
 ## Recent arc (index — full detail: `chats/session-NNN.md` + linked knowledge; history: `git log -p`)
 
-- **s267** BONSAI PHASE-0 (this session, see header). Compiler survives ternarization (behavioral parity,
+- **s268** BONSAI FORENSICS (this session, see header). Recipe reverse-engineered from weights; QAT-vs-PTQ
+  IOU resolved; drift ordering = routing⊥value 3rd register; 50%-dip ≠ differential rewiring; sign flips
+  tunnel through zero (transition matrix) → optimizer constraints C1–C6 + phase-1 design budgets; 1-bit
+  rung forensics pre-registered + in flight (tmux main:1/main:2).
+  → `explore/bonsai-ternarization-forensics.md` + memories bonsai-recipe-reverse-engineered,
+  bonsai-sign-flips-tunnel-through-zero.
+- **s267** BONSAI PHASE-0 (see header of prior update). Compiler survives ternarization (behavioral parity,
   measured); Gram survival launched in main:1. New in fleet: BONSAI27B ModelConfig (:5104, Q2_g64 GGUF, rev
   427bc0194). Runtime learnings: Q2_0 ternary needs the g64 GGUF on mainline llama.cpp ≥10090 (Q2_0 offset
   bug); ternary is DENSE 27B so it streams 7GB/token — slower than the 35B-A3B MoE base (only 3B active),
