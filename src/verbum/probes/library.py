@@ -142,7 +142,12 @@ def _ingest_lambda_kernel(root: Path) -> list[Probe]:
         combinator: str | None = None
         tier = "contrast"
         if axis_name.startswith("lambda_"):
-            for prefix, comb in _LK_COMBINATOR_MAP.items():
+            # Longest prefix first: "lambda_WHNF_terminal" must match
+            # "lambda_WHNF", not "lambda_W" (s269 contamination bug — 25
+            # WHNF-terminal probes were assigned to W by dict-order match).
+            for prefix, comb in sorted(
+                _LK_COMBINATOR_MAP.items(), key=lambda kv: -len(kv[0])
+            ):
                 if axis_name.startswith(prefix):
                     combinator = comb
                     tier = _LK_TIER_MAP.get(comb, "")
@@ -463,6 +468,16 @@ _SUPPLEMENT_Y = [
     "Each recursive call peels off one layer until the base case reveals the",
 ]
 
+# W combinator: duplication / self-application (added s269 after the
+# lambda_WHNF_terminal → W misassignment fix dropped W to 46; register
+# matches the native lambda_W_duplicate reflexive style)
+_SUPPLEMENT_W = [
+    "The committee reviewed its own report and found itself unable to reach a",
+    "The compiler compiles itself, producing a new version of the",
+    "She quizzed herself on the same question twice before trusting her",
+    "The function received its own output as its next",
+]
+
 
 def _ingest_supplements() -> list[Probe]:
     """Generate supplemental probes to ensure ≥50 per crystal combinator."""
@@ -474,6 +489,7 @@ def _ingest_supplements() -> list[Probe]:
         ("D", _SUPPLEMENT_D),
         ("WHNF", _SUPPLEMENT_WHNF),
         ("Y", _SUPPLEMENT_Y),
+        ("W", _SUPPLEMENT_W),
     ]:
         for prompt in prompts:
             probes.append(Probe(

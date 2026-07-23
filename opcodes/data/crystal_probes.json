@@ -11,7 +11,7 @@
   "Y",
   "WHNF"
  ],
- "n_probes": 535,
+ "n_probes": 539,
  "probes": [
   {
    "id": "lk_0000",
@@ -1066,175 +1066,175 @@
   {
    "id": "lk_0275",
    "prompt": "The number is seven and nothing more needs to be",
-   "combinator": "W",
+   "combinator": "WHNF",
    "source": "lambda_kernel",
    "category": "lambda_WHNF_terminal"
   },
   {
    "id": "lk_0276",
    "prompt": "The color is blue without any further",
-   "combinator": "W",
+   "combinator": "WHNF",
    "source": "lambda_kernel",
    "category": "lambda_WHNF_terminal"
   },
   {
    "id": "lk_0277",
    "prompt": "The answer is simply yes and that is",
-   "combinator": "W",
+   "combinator": "WHNF",
    "source": "lambda_kernel",
    "category": "lambda_WHNF_terminal"
   },
   {
    "id": "lk_0278",
    "prompt": "The value is true with no conditions",
-   "combinator": "W",
+   "combinator": "WHNF",
    "source": "lambda_kernel",
    "category": "lambda_WHNF_terminal"
   },
   {
    "id": "lk_0279",
    "prompt": "The answer to life the universe and everything is forty-two",
-   "combinator": "W",
+   "combinator": "WHNF",
    "source": "lambda_kernel",
    "category": "lambda_WHNF_terminal"
   },
   {
    "id": "lk_0280",
    "prompt": "The number is whatever you get when you multiply three by the square root of",
-   "combinator": "W",
+   "combinator": "WHNF",
    "source": "lambda_kernel",
    "category": "lambda_WHNF_terminal"
   },
   {
    "id": "lk_0281",
    "prompt": "The color is the one that you see when you mix the primary colors in equal",
-   "combinator": "W",
+   "combinator": "WHNF",
    "source": "lambda_kernel",
    "category": "lambda_WHNF_terminal"
   },
   {
    "id": "lk_0282",
    "prompt": "The answer depends on whether the initial conditions satisfy the constraints that",
-   "combinator": "W",
+   "combinator": "WHNF",
    "source": "lambda_kernel",
    "category": "lambda_WHNF_terminal"
   },
   {
    "id": "lk_0283",
    "prompt": "The truth value of the conjunction of all the premises given that some are",
-   "combinator": "W",
+   "combinator": "WHNF",
    "source": "lambda_kernel",
    "category": "lambda_WHNF_terminal"
   },
   {
    "id": "lk_0284",
    "prompt": "The result of applying the algorithm to the input after preprocessing and",
-   "combinator": "W",
+   "combinator": "WHNF",
    "source": "lambda_kernel",
    "category": "lambda_WHNF_terminal"
   },
   {
    "id": "lk_0285",
    "prompt": "The dog is brown",
-   "combinator": "W",
+   "combinator": "WHNF",
    "source": "lambda_kernel",
    "category": "lambda_WHNF_terminal"
   },
   {
    "id": "lk_0286",
    "prompt": "Water freezes at zero degrees",
-   "combinator": "W",
+   "combinator": "WHNF",
    "source": "lambda_kernel",
    "category": "lambda_WHNF_terminal"
   },
   {
    "id": "lk_0287",
    "prompt": "Paris is a city",
-   "combinator": "W",
+   "combinator": "WHNF",
    "source": "lambda_kernel",
    "category": "lambda_WHNF_terminal"
   },
   {
    "id": "lk_0288",
    "prompt": "Two is an even number",
-   "combinator": "W",
+   "combinator": "WHNF",
    "source": "lambda_kernel",
    "category": "lambda_WHNF_terminal"
   },
   {
    "id": "lk_0289",
    "prompt": "Gold is a metal",
-   "combinator": "W",
+   "combinator": "WHNF",
    "source": "lambda_kernel",
    "category": "lambda_WHNF_terminal"
   },
   {
    "id": "lk_0290",
    "prompt": "The animal that the witness described to the police was",
-   "combinator": "W",
+   "combinator": "WHNF",
    "source": "lambda_kernel",
    "category": "lambda_WHNF_terminal"
   },
   {
    "id": "lk_0291",
    "prompt": "The temperature at which the substance begins to decompose under pressure is",
-   "combinator": "W",
+   "combinator": "WHNF",
    "source": "lambda_kernel",
    "category": "lambda_WHNF_terminal"
   },
   {
    "id": "lk_0292",
    "prompt": "The city where the conference will be held next year is",
-   "combinator": "W",
+   "combinator": "WHNF",
    "source": "lambda_kernel",
    "category": "lambda_WHNF_terminal"
   },
   {
    "id": "lk_0293",
    "prompt": "The number that satisfies both equations simultaneously is",
-   "combinator": "W",
+   "combinator": "WHNF",
    "source": "lambda_kernel",
    "category": "lambda_WHNF_terminal"
   },
   {
    "id": "lk_0294",
    "prompt": "The person who knows the answer to the question that nobody else could solve is",
-   "combinator": "W",
+   "combinator": "WHNF",
    "source": "lambda_kernel",
    "category": "lambda_WHNF_terminal"
   },
   {
    "id": "lk_0295",
    "prompt": "Calculate the sum of all prime numbers less than",
-   "combinator": "W",
+   "combinator": "WHNF",
    "source": "lambda_kernel",
    "category": "lambda_WHNF_terminal"
   },
   {
    "id": "lk_0296",
    "prompt": "The sum of all prime numbers less than twenty is",
-   "combinator": "W",
+   "combinator": "WHNF",
    "source": "lambda_kernel",
    "category": "lambda_WHNF_terminal"
   },
   {
    "id": "lk_0297",
    "prompt": "Find the shortest path between nodes A and",
-   "combinator": "W",
+   "combinator": "WHNF",
    "source": "lambda_kernel",
    "category": "lambda_WHNF_terminal"
   },
   {
    "id": "lk_0298",
    "prompt": "The shortest path between nodes A and B has length",
-   "combinator": "W",
+   "combinator": "WHNF",
    "source": "lambda_kernel",
    "category": "lambda_WHNF_terminal"
   },
   {
    "id": "lk_0299",
    "prompt": "Determine whether the given string is a valid",
-   "combinator": "W",
+   "combinator": "WHNF",
    "source": "lambda_kernel",
    "category": "lambda_WHNF_terminal"
   },
@@ -3757,6 +3757,34 @@
    "combinator": "Y",
    "source": "supplement",
    "category": "supplement_Y"
+  },
+  {
+   "id": "sup_0071",
+   "prompt": "The committee reviewed its own report and found itself unable to reach a",
+   "combinator": "W",
+   "source": "supplement",
+   "category": "supplement_W"
+  },
+  {
+   "id": "sup_0072",
+   "prompt": "The compiler compiles itself, producing a new version of the",
+   "combinator": "W",
+   "source": "supplement",
+   "category": "supplement_W"
+  },
+  {
+   "id": "sup_0073",
+   "prompt": "She quizzed herself on the same question twice before trusting her",
+   "combinator": "W",
+   "source": "supplement",
+   "category": "supplement_W"
+  },
+  {
+   "id": "sup_0074",
+   "prompt": "The function received its own output as its next",
+   "combinator": "W",
+   "source": "supplement",
+   "category": "supplement_W"
   }
  ]
 }
