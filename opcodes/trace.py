@@ -17,6 +17,23 @@ The whole pipeline, architecture-agnostic, wired together:
   6. **operand**   (optional, ``--operand``) J-space logit-lens column: WHAT
      is being routed at the last crystal-bearing layer, per token. Honest
      scope (s263): the operand register never feeds the opcode classifier.
+  7. **projector** (optional, ``--jspace-projector``) the FULL J-space
+     construction (``projector.py``, s270 — closes the s269 projection gap):
+     consensus Jacobian-row-space bases at quartile depths, residual-space
+     combinator centroids (no ``W_gate^T`` pullback), per-combinator
+     workspace fractions + matched-random + shuffled-label gates, and
+     verbalization of the basis directions themselves. Sidecar observable:
+     never feeds the classifier, not gated into the VSM tree.
+
+     PRE-REGISTERED (s270, before any 27B/sweep data):
+       P1  workspace-fraction ordering: content/process vertices {Y, WHNF, S}
+           > operator vertices {K, I, B} (E4 s269e restated geometrically);
+           gate = shuffled-label partition null on the mean gap.
+       P2  some J-space basis directions verbalize coherently (Anthropic's
+           core claim replicated on our stack); WHNF-adjacent vocabulary is
+           the specific watch (the nameless bus-causal vertex, s269f).
+       P3  the 9-vector of fractions is stable across models (the sector
+           decomposition is universal, not a 27B fact) — read at sweep time.
 
 Single-register blindness is structural, not a bug to hide (s264 finding 3:
 gate sees {K,I,S,Y,WHNF}, attn-write rescues D, neither resolves {B,C}) — so
@@ -54,6 +71,7 @@ sys.path.insert(0, str(_ROOT / "opcodes"))
 
 import capture as C  # noqa: E402
 import jspace as J  # noqa: E402
+import projector as P  # noqa: E402
 import topology as T  # noqa: E402
 from classify import (  # noqa: E402
     CRYSTAL,
@@ -251,6 +269,157 @@ def operand_column(
     return rows
 
 
+# P1 sets (pre-registered from s269e E4: identity-specific bus coupling vs
+# collapse-to-generic; C excluded = open puzzle, D excluded = lexically
+# visible but coupling-generic — both reported, neither gates P1)
+JSPACE_CONTENT_OPS = ["Y", "WHNF", "S"]
+JSPACE_OPERATOR_OPS = ["K", "I", "B"]
+
+
+def _balanced_subsets(
+    probes: list, n_proj: int, n_cent: int
+) -> tuple[list, list]:
+    """Disjoint balanced probe subsets: projector prompts vs centroid prompts.
+
+    Disjoint so the basis is never fit on the prompts it is measured with.
+    """
+    by_comb: dict[str, list] = {}
+    for p in probes:
+        by_comb.setdefault(p.combinator, []).append(p)
+    proj, cent = [], []
+    for c in CRYSTAL:
+        pool = by_comb.get(c, [])
+        proj.extend(pool[:n_proj])
+        cent.extend(pool[n_proj : n_proj + n_cent])
+    return proj, cent
+
+
+def jspace_projector_step(
+    model: Any,
+    tok: Any,
+    topo: T.ModelTopology,
+    *,
+    k: int,
+    depths: list[float],
+    proj_ppc: int,
+    cent_ppc: int,
+    eps_rel: float,
+    n_shuffle: int,
+    batch_size: int = 8,
+    seed: int = 270,
+) -> dict:
+    """Full J-space projector sidecar (docstring step 7). Never feeds the
+    classifier; not gated into the VSM tree (S3: observe first)."""
+    rng = np.random.default_rng(seed)
+    target_layer = topo.n_layers - 2
+    layers = sorted({
+        min(max(round(f * topo.n_layers), 0), target_layer - 1)
+        for f in depths
+    })
+    proj_probes, cent_probes = _balanced_subsets(
+        [p for p in crystal_probes() if p.combinator in CRYSTAL],
+        proj_ppc, cent_ppc,
+    )
+    print(f"[trace] [jspace] bases at layers {layers} (target L{target_layer}) "
+          f"from {len(proj_probes)} prompts, k={k}, m={2*k} ...")
+    bases = P.jspace_bases(
+        model, tok, [p.prompt for p in proj_probes],
+        layers=layers, target_layer=target_layer, k=k,
+        refine=True, eps_rel=eps_rel, topo=topo,
+        batch_size=batch_size, seed=seed,
+    )
+    print(f"[trace] [jspace] residual centroids from {len(cent_probes)} "
+          f"disjoint prompts ...")
+    centroids, centered = P.capture_residual_centroids(
+        model, tok,
+        [p.prompt for p in cent_probes],
+        [p.combinator for p in cent_probes],
+        layers=layers, topo=topo, batch_size=batch_size,
+    )
+    labels = np.array([p.combinator for p in cent_probes])
+
+    per_layer: dict[str, dict] = {}
+    for li in layers:
+        basis = bases[li]
+        v = basis.basis  # [k, d]
+        fracs = {c: P.workspace_fraction(v, mu)
+                 for c, mu in centroids[li].items()}
+        # per-probe dispersion
+        proj_states = centered[li] @ v.T.astype(np.float64)  # [N, k]
+        e_in = (proj_states ** 2).sum(axis=1)
+        e_all = (centered[li].astype(np.float64) ** 2).sum(axis=1)
+        pf = e_in / np.maximum(e_all, 1e-30)
+        per_probe = {
+            c: {
+                "mean": float(pf[labels == c].mean()),
+                "sd": float(pf[labels == c].std()),
+                "n": int((labels == c).sum()),
+            }
+            for c in sorted(set(labels))
+        }
+        # matched-random baseline (E[fraction] = k/d for generic directions)
+        rf = P.random_vector_fractions(v, n=200, rng=rng)
+        # P1: content-minus-operator centroid-fraction gap vs shuffled labels
+        def _gap(lab: np.ndarray, vv: np.ndarray, states: np.ndarray) -> float:
+            f = {c: P.workspace_fraction(vv, states[lab == c].mean(axis=0))
+                 for c in CRYSTAL}
+            return (float(np.mean([f[c] for c in JSPACE_CONTENT_OPS]))
+                    - float(np.mean([f[c] for c in JSPACE_OPERATOR_OPS])))
+        obs = _gap(labels, v, centered[li])
+        null = np.array([_gap(rng.permutation(labels), v, centered[li])
+                         for _ in range(n_shuffle)])
+        z = float((obs - null.mean()) / max(null.std(), 1e-12))
+        pval = float((1 + (null >= obs).sum()) / (1 + n_shuffle))
+        # P2: verbalize the basis directions themselves (no pullback map)
+        verb = []
+        for i in range(min(10, v.shape[0])):
+            verb.append({
+                "dir": i,
+                "strength": float(basis.strengths[i]),
+                "plus": J.verbalize(model, tok, v[i], topo=topo, top_k=8),
+                "minus": J.verbalize(model, tok, -v[i], topo=topo, top_k=8),
+            })
+        per_layer[str(li)] = {
+            "strengths": [float(s) for s in basis.strengths],
+            "fractions": {c: round(f, 6) for c, f in sorted(fracs.items())},
+            "per_probe": per_probe,
+            "random_baseline": {
+                "mean": float(rf.mean()), "sd": float(rf.std()),
+                "k_over_d": basis.k / basis.d,
+            },
+            "p1_gap": {
+                "observed": round(obs, 6),
+                "null_mean": float(null.mean()), "null_sd": float(null.std()),
+                "z": round(z, 3), "p": round(pval, 5),
+                "gated": bool(pval < 0.05 and obs > 0),
+            },
+            "verbalize": verb,
+        }
+        print(f"[trace] [jspace] L{li}: P1 gap={obs:+.4f} z={z:+.2f} "
+              f"p={pval:.4f} gated={per_layer[str(li)]['p1_gap']['gated']} "
+              f"| rand≈{rf.mean():.4f} (k/d={basis.k / basis.d:.4f})")
+
+    return {
+        "k": k, "m": 2 * k, "target_layer": target_layer,
+        "depth_layers": layers, "depths": depths,
+        "eps_rel": eps_rel, "seed": seed, "n_shuffle": n_shuffle,
+        "proj_probes_per_comb": proj_ppc,
+        "centroid_probes_per_comb": cent_ppc,
+        "content_set": JSPACE_CONTENT_OPS,
+        "operator_set": JSPACE_OPERATOR_OPS,
+        "honest_scope": (
+            "sidecar observable; never feeds the opcode classifier; "
+            "not gated into the VSM tree (s263 discipline)"
+        ),
+        "preregistrations": {
+            "P1": "fraction(Y,WHNF,S) > fraction(K,I,B); shuffled-label gate",
+            "P2": "basis directions verbalize coherently; WHNF-adjacent watch",
+            "P3": "9-vector stable across models (read at sweep restack)",
+        },
+        "layers": per_layer,
+    }
+
+
 def build_model_vsm(
     model_name: str,
     topo: T.ModelTopology,
@@ -309,6 +478,17 @@ def main() -> None:
                     help="comma list from {gate,attn} (default both)")
     ap.add_argument("--operand", action="store_true",
                     help="add the J-space logit-lens operand column")
+    ap.add_argument("--jspace-projector", action="store_true",
+                    help="add the FULL J-space projector sidecar (step 7)")
+    ap.add_argument("--jspace-k", type=int, default=32)
+    ap.add_argument("--jspace-depths", default="0.25,0.5,0.75")
+    ap.add_argument("--jspace-proj-ppc", type=int, default=3,
+                    help="projector prompts per combinator")
+    ap.add_argument("--jspace-cent-ppc", type=int, default=12,
+                    help="centroid prompts per combinator (disjoint set)")
+    ap.add_argument("--jspace-eps-rel", type=float, default=0.02,
+                    help="FD injection scale (0.02 tuned for bf16)")
+    ap.add_argument("--jspace-shuffles", type=int, default=1000)
     ap.add_argument("--null-floor-shuffles", type=int, default=3,
                     help="shuffled-label floor recalibrations per register "
                          "(0 = skip; fills null_floor_z in the tree)")
@@ -387,6 +567,18 @@ def main() -> None:
             "read_layer": read_layer,
             "rows": operand_column(model, tok, topo, read_layer),
         }
+
+    jspace_proj = None
+    if args.jspace_projector:
+        jspace_proj = jspace_projector_step(
+            model, tok, topo,
+            k=8 if args.smoke else args.jspace_k,
+            depths=[float(x) for x in args.jspace_depths.split(",")],
+            proj_ppc=2 if args.smoke else args.jspace_proj_ppc,
+            cent_ppc=4 if args.smoke else args.jspace_cent_ppc,
+            eps_rel=args.jspace_eps_rel,
+            n_shuffle=200 if args.smoke else args.jspace_shuffles,
+        )
     elapsed = time.time() - t0
 
     print("=" * 72)
@@ -407,6 +599,11 @@ def main() -> None:
     out_dir = RESULTS_DIR / slug
     out_dir.mkdir(parents=True, exist_ok=True)
     save_tree(mvsm, out_dir / "model_vsm")
+    if jspace_proj is not None:
+        (out_dir / "jspace_projector.json").write_text(
+            json.dumps(jspace_proj, indent=2, default=str), encoding="utf-8"
+        )
+        print(f"[trace] wrote {out_dir}/jspace_projector.json")
     out = {
         "model": args.model, "device": args.device,
         "topology": {
@@ -421,6 +618,7 @@ def main() -> None:
         "calibration": calib_summ,
         "traces": traces,
         "operand": operand,
+        "jspace_projector": ("jspace_projector.json" if jspace_proj else None),
         "elapsed_s": round(elapsed, 1),
         "timestamp_utc": datetime.now(UTC).isoformat(),
         "smoke": args.smoke, "probes_per_comb": ppc, "n_perm": n_perm,
