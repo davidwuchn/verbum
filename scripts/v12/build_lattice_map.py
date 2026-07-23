@@ -48,6 +48,11 @@ import numpy as np
 MODELS = {
     # Model key → (HuggingFace ID, n_layers, d_model)
     "qwen3.6-27b":  ("Qwen/Qwen3.6-27B",             64, 5120),
+    # Ternary Bonsai 27B (PrismML) — unpacked HF-format ternary build of
+    # Qwen3.6-27B (rev 427bc0194). Same arch/geometry as parent; weights
+    # {-1,0,+1} x group-scales. s268: does the crystal survive ternarization?
+    "bonsai27b-ternary": (
+        "/Users/mwhitford/localai/models/bonsai27b-unpacked", 64, 5120),
     "qwen3-14b":    ("Qwen/Qwen3-14B",                40, 5120),
     "llama-3-8b":   ("meta-llama/Llama-3.1-8B",       32, 4096),
     "mistral-7b":   ("mistralai/Mistral-7B-v0.3",     32, 4096),
@@ -431,6 +436,7 @@ def save_lattice(
     probes: list[dict],
     output_dir: Path,
     model_keys: list[str],
+    all_rdms: dict[str, dict[float, np.ndarray]] | None = None,
 ) -> None:
     """Save the universal lattice map as .npz and .json."""
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -449,6 +455,21 @@ def save_lattice(
 
     npz_path = output_dir / "universal_lattice.npz"
     np.savez_compressed(str(npz_path), **npz_data)
+
+    # ── Per-model RDMs (s268): persist the raw measurements, not just
+    # the consensus — a solo-model run previously saved NOTHING, and
+    # cross-model comparisons (e.g. ternary-vs-parent Gram) need the
+    # per-model matrices.
+    if all_rdms:
+        pm_data = {
+            f"{mk}_depth_{frac:.2f}_rdm": rdm.astype(np.float32)
+            for mk, fracs in all_rdms.items()
+            for frac, rdm in fracs.items()
+        }
+        pm_path = output_dir / "per_model_rdms.npz"
+        np.savez_compressed(str(pm_path), **pm_data)
+        print(f"  💾 NPZ: {pm_path} ({pm_path.stat().st_size / 1048576:.1f} MB)",
+              file=sys.stderr, flush=True)
     print(f"\n  💾 NPZ: {npz_path} ({npz_path.stat().st_size / 1024:.1f} KB)",
           file=sys.stderr, flush=True)
 
@@ -593,6 +614,7 @@ def main():
     save_lattice(
         consensus_results, dimension_results,
         probes, output_dir, list(all_rdms.keys()),
+        all_rdms=all_rdms,
     )
 
     elapsed = time.time() - t_start
