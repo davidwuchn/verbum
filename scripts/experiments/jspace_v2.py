@@ -148,6 +148,27 @@ HALT_LEXICON = (
     "settled", "given", "fixed", "constant",
 )
 
+# E2 v4 — pre-registered per-op concept lexicons (confirmatory tier).
+# Y and C are POST-HOC (their fields were observed in the v3 raw readout);
+# the other seven are genuine predictions. Substring match, lowercase.
+OP_LEXICONS: dict[str, tuple[str, ...]] = {
+    "K": ("select", "only", "former", "latter", "instead", "rather",
+          "chosen", "pick", "not", "exclude"),
+    "I": ("same", "again", "repeat", "identical", "copy", "itself",
+          "unchanged", "still"),
+    "B": ("then", "chain", "through", "via", "compose", "leads",
+          "sequence", "pipeline"),
+    "C": ("previous", "order", "before", "after", "swap", "reverse",
+          "此前", "先前", "当时", "former"),          # post-hoc (v3)
+    "S": ("both", "combine", "share", "together", "distribute", "apply"),
+    "D": ("twice", "double", "deep", "again", "further", "finalize"),
+    "W": ("self", "itself", "own", "twice", "duplicate", "mirror"),
+    "Y": ("recurs", "递归", "依次", "loop", "iterate", "fixed point",
+          "repeat", "далее"),                          # post-hoc (v3)
+    "WHNF": ("done", "final", "complete", "already", "value", "result",
+             "settled", "nothing"),
+}
+
 
 # ── attribution machinery (result-position, per-position magnitudes) ─────────
 
@@ -305,48 +326,79 @@ def _op_direction(calib: dict, mask: np.ndarray) -> np.ndarray:
     return d / (np.linalg.norm(d) + 1e-12)
 
 
-def exp2_direction_verbalize(model, tok, calib: dict, topk: int = 10,
+def exp2_direction_verbalize(model, tok, calib: dict, topk: int = 50,
                              n_perm: int = 300) -> dict:
-    """v3 readout: verbalize each opcode centroid DIRECTION (unembed matmul,
-    no prompt → no demanded-completion confound). Halt-lexicon hit rate per
-    op; null = directions from label-shuffled centroids."""
+    """v4 readout, two tiers + full visibility:
+
+    - COHERENCE (discovery, dictionary-free): mean pairwise input-embedding
+      cosine of the direction's top-k tokens — high iff the readout is a
+      semantically clustered field (catches Y's cross-lingual recursion
+      field without naming it). Null: label-shuffled centroid directions.
+    - LEXICON (confirmatory): pre-registered per-op concept lexicons
+      (OP_LEXICONS; Y/C marked post-hoc), substring hit rate at top-k.
+    - VISIBILITY: full top-k token list stored per op."""
     from classify import CRYSTAL
 
     labels = calib["labels"]
+    emb = model.get_input_embeddings().weight.detach().float().cpu()
 
-    def halt_rate(d: np.ndarray) -> tuple[float, list[str]]:
+    def read(d: np.ndarray) -> dict:
+        toks_ids: list[int] = []
         toks = jlens.verbalize(model, tok, torch.from_numpy(d).float(),
                                top_k=topk)
         clean = [t.strip().lower() for t in toks]
-        return sum(1 for t in clean if t in HALT_LEXICON) / topk, toks
+        for t in toks:
+            ids = tok(t, add_special_tokens=False)["input_ids"]
+            if ids:
+                toks_ids.append(ids[0])
+        E = emb[toks_ids]
+        E = E / (E.norm(dim=-1, keepdim=True) + 1e-12)
+        sims = (E @ E.T).numpy()
+        off = ~np.eye(len(E), dtype=bool)
+        return {"tokens": toks, "clean": clean,
+                "coherence": float(sims[off].mean())}
 
-    true_rates, tops = {}, {}
+    def lex_rate(clean: list[str], lexicon: tuple[str, ...]) -> float:
+        return sum(
+            1 for t in clean if any(w in t for w in lexicon)
+        ) / max(len(clean), 1)
+
+    true: dict[str, dict] = {}
     for op in CRYSTAL:
         m = labels == op
         if m.any():
-            r, t = halt_rate(_op_direction(calib, m))
-            true_rates[op], tops[op] = r, t
+            true[op] = read(_op_direction(calib, m))
 
-    # null: label-shuffled centroids of WHNF-sized groups
-    n_whnf = int((labels == "WHNF").sum())
-    null = np.empty(n_perm)
+    # null: label-shuffled centroid directions (op-sized groups, pooled)
+    group_n = int(np.median([int((labels == o).sum()) for o in true]))
+    null_coh = np.empty(n_perm)
+    null_lex: dict[str, list[float]] = {op: [] for op in true}
     for i in range(n_perm):
-        idx = RNG.choice(len(labels), size=n_whnf, replace=False)
+        idx = RNG.choice(len(labels), size=group_n, replace=False)
         mask = np.zeros(len(labels), dtype=bool)
         mask[idx] = True
-        null[i], _ = halt_rate(_op_direction(calib, mask))
-    mu, sd = float(null.mean()), float(null.std()) + 1e-12
-    return {
-        "halt_rate_per_op": {k: round(v, 3) for k, v in true_rates.items()},
-        "z_per_op": {k: round((v - mu) / sd, 2) for k, v in true_rates.items()},
-        "whnf_z": (true_rates.get("WHNF", 0.0) - mu) / sd,
-        "kibc_max_z": max(
-            (true_rates[o] - mu) / sd for o in ("K", "I", "B", "C")
-            if o in true_rates
-        ),
-        "null_mean": mu, "null_std": sd, "n_perm": n_perm,
-        "top_tokens": {k: v[:6] for k, v in tops.items()},
-    }
+        r = read(_op_direction(calib, mask))
+        null_coh[i] = r["coherence"]
+        for op in true:
+            null_lex[op].append(lex_rate(r["clean"], OP_LEXICONS[op]))
+    mu_c, sd_c = float(null_coh.mean()), float(null_coh.std()) + 1e-12
+
+    out: dict = {"topk": topk, "n_perm": n_perm,
+                 "coherence_null": {"mean": mu_c, "std": sd_c},
+                 "per_op": {}}
+    for op, r in true.items():
+        lr = lex_rate(r["clean"], OP_LEXICONS[op])
+        mu_l = float(np.mean(null_lex[op]))
+        sd_l = float(np.std(null_lex[op])) + 1e-12
+        out["per_op"][op] = {
+            "coherence": round(r["coherence"], 4),
+            "coherence_z": round((r["coherence"] - mu_c) / sd_c, 2),
+            "lexicon_rate": round(lr, 3),
+            "lexicon_z": round((lr - mu_l) / sd_l, 2),
+            "post_hoc": op in ("Y", "C"),
+            "top_tokens": r["tokens"],
+        }
+    return out
 
 
 # ── E4 ───────────────────────────────────────────────────────────────────────
@@ -413,6 +465,8 @@ def main() -> None:
     ap.add_argument("--self-test", action="store_true",
                     help="mechanics check on pythia-14m")
     ap.add_argument("--skip-e4", action="store_true")
+    ap.add_argument("--only-e2", action="store_true",
+                    help="calibration + E2 only (no E1 backwards, no E4)")
     ap.add_argument("--dtype", default="float32",
                     choices=["float32", "bfloat16"],
                     help="bfloat16 for large models (27B backward passes)")
@@ -428,12 +482,13 @@ def main() -> None:
 
     report: dict = {"model": model_name, "self_test": args.self_test,
                     "n_perm": N_PERM}
-    print("[jspace_v2] E1 operator structure ...")
-    report["E1_operators"] = exp1_operators(model, tok, device)
-    for k, v in report["E1_operators"].items():
-        z = v.get("z")
-        print(f"  {k}: obs={v['obs']:+.4f}"
-              + (f" z={z:.2f} p={v['p_perm']:.4f}" if z is not None else ""))
+    if not args.only_e2:
+        print("[jspace_v2] E1 operator structure ...")
+        report["E1_operators"] = exp1_operators(model, tok, device)
+        for k, v in report["E1_operators"].items():
+            z = v.get("z")
+            print(f"  {k}: obs={v['obs']:+.4f}"
+                  + (f" z={z:.2f} p={v['p_perm']:.4f}" if z is not None else ""))
 
     calib = None
     try:
@@ -444,13 +499,15 @@ def main() -> None:
         print(f"  calibration failed, skipping E2/E4: {e}")
 
     if calib is not None:
-        print("[jspace_v2] E2 direction verbalization (v3 readout) ...")
+        print("[jspace_v2] E2 direction verbalization (v4 two-tier readout) ...")
         report["E2_verbalize"] = exp2_direction_verbalize(model, tok, calib)
-        e2 = report["E2_verbalize"]
-        print(f"  WHNF z={e2['whnf_z']:+.2f} | KIBC max z={e2['kibc_max_z']:+.2f}"
-              f" | per-op halt-rate {e2['halt_rate_per_op']}")
+        for op, v in report["E2_verbalize"]["per_op"].items():
+            ph = " (post-hoc)" if v["post_hoc"] else ""
+            print(f"  {op:5s} coherence={v['coherence']:.3f} "
+                  f"z={v['coherence_z']:+.2f} | lexicon={v['lexicon_rate']:.2f} "
+                  f"z={v['lexicon_z']:+.2f}{ph}")
 
-    if calib is not None and not args.skip_e4:
+    if calib is not None and not args.skip_e4 and not args.only_e2:
         print("[jspace_v2] E4 cross-register coupling ...")
         report["E4_coupling"] = exp4_coupling(model, tok, calib)
         for op, v in report["E4_coupling"]["per_op"].items():
