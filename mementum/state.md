@@ -8,8 +8,28 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-23 | Session: 269 (OPCODE LADDER LANDED — see ★★★ s269 block below; header retains
-> s268 blocks b/c as live context for the ladder verdicts)
+> Last updated: 2026-07-23 | Session: 270 (JSPACE PROJECTOR INTEGRATED — see ★★ s270 block; header retains
+> s268/s269 blocks as live context)
+>
+> ★★ s270 JSPACE FULL PROJECTOR BUILT + INTEGRATED (commit 91bb3d7). Michael's audit call: "what did we
+> see IN j-space? j-space needs to be projected" → confession: jlens.py never built Anthropic's
+> Jacobian-to-penultimate construction — ALL prior J-space claims were membership tests of hand-picked
+> directions (broadcast_kl = dᵀJᵀJd ray samples; W_gate^T pullbacks). NEW: opcodes/projector.py —
+> J = ∂h_penult[pos]/∂h_L[pos] matrix-free: batched vjp row samples → randomized range finder →
+> Rayleigh-Ritz refinement with TRUE J·v via central-FD injection forwards (no jvp; same primitive as
+> broadcast_kl). Ground-truth gated: self_test recovers EXACT J on pythia-14m via identical code path
+> (probe_vectors=I), refined capture 0.878≥0.85 of exact top-k energy (raw 0.75 — refinement is
+> load-bearing), FD err ~2%, random fraction ≈ k/d. INTEGRATED as trace.py step 7 (--jspace-projector):
+> consensus bases at quartile depths, RESIDUAL-space combinator centroids (kills the criticized W_gate^T
+> one-map pullback), per-op workspace fractions + matched-random + shuffled-label P1 gate, verbalize of
+> basis directions THEMSELVES (honest E2 retest). PRE-REGISTERED before any 27B/sweep data:
+> P1 fraction(Y,WHNF,S)>fraction(K,I,B) [E4 s269e restated geometrically]; P2 basis dirs verbalize
+> coherently (WHNF-adjacent = the watch — nameless bus-causal vertex may get its name); P3 9-vector
+> stable across models (read at sweep restack). Honest scope: sidecar, never feeds classifier, not in
+> VSM tree. Smoke: pythia-14m CPU fp32 + Qwen3-0.6B MPS bf16 both clean; 0.6B P1 direction-POSITIVE at
+> all 3 depths (ungated, smoke-n, sanity only). ⚠ LANDMINE FOUND: trace.py reuses result dirs — smoke
+> runs CLOBBERED committed sweep artifacts (pythia-14m, qwen3-0-6b trace.json+model_vsm.json); restored
+> from git. Re-sweep overwrites intentionally; ad-hoc runs on swept models need care.
 >
 > ★★★ s269 OPCODE LADDER: CRYSTAL SURVIVES 1-BIT BINARIZATION; SELECTIVE-K REFUTED (commit 7576c54).
 > Both s268d tmux runs completed clean (~18.5 min each, model_vsm.json both rungs). RESTACK: 11 models /
@@ -131,6 +151,8 @@
 >      formal/prose subsample (gate P2 gain-knob claim properly; save per-probe features this time).
 >   2. FULL 11-MODEL RE-SWEEP with clean 539-probe bundle + regenerate opcodes/data/consensus_gram.json
 >      (all pre-s269 trees carry contaminated W/WHNF centroids; consensus reference still dirty).
+>      RUN WITH --jspace-projector (s270, Michael-approved): sweep then answers pre-reg P3 (9-vector
+>      cross-model stability) for free; check sweep.py passes trace flags through first.
 >      Then: W-fragility replication across models; mixture test W→span(C,I); register-matched S probes.
 >   3. JSPACE v4 CANDIDATES (from v3 results): C order-tagging hypothesis (does C's op fire when
 >      precedence WORDS appear without reordering? token-matched); WHNF lexicalization via better
