@@ -86,11 +86,29 @@ QWYTHOS = ModelConfig(
     arch="9B Qwen-family reasoner, multimodal (vision+video), 1M ctx, MTP",
 )
 
+BONSAI27B = ModelConfig(
+    name="bonsai27b-ternary",
+    endpoint="http://localhost:5104",
+    transport="chat",
+    reasoning_extract_fn=split_reasoning_field,
+    gguf_path=(
+        "/Users/mwhitford/localai/models/bonsai27b/"
+        "Ternary-Bonsai-27B-Q2_g64.gguf"
+    ),
+    arch=(
+        "PrismML Ternary Bonsai 27B — end-to-end ternary build of Qwen3.6-27B "
+        "dense (48L, hybrid-attention ~75% linear). HF rev abbae7230. "
+        "Weights {-1,0,+1} + group-wise FP16 scales; s268: the live probe of "
+        "whether combinator competence survives 1.58-bit (holographic-llm.md)."
+    ),
+    quant="Q2_g64 (ternary, group-64 scales, ~1.71 bpw effective)",
+)
+
 # Embedding service — NOT a ModelConfig (see module docstring).
 QWEN3_EMBED = "http://localhost:5101"  # qwen3-embedding-8b, /v1/embeddings
 
 #: Discoverable registry of compiler-probe configs by short name.
 #: QWEN36 (base reference) is the default live target on :5100.
 REGISTRY: dict[str, ModelConfig] = {
-    cfg.short(): cfg for cfg in (QWEN36, ORNITH, VIBETHINKER, QWYTHOS)
+    cfg.short(): cfg for cfg in (QWEN36, ORNITH, VIBETHINKER, QWYTHOS, BONSAI27B)
 }

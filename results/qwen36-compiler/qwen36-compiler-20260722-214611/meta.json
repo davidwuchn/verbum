@@ -1,0 +1,32 @@
+{
+  "run_id": "qwen36-compiler-20260722-214611",
+  "model": "qwen36-35b-a3b",
+  "quant": "Q8_0",
+  "gguf": null,
+  "arch": "35B-A3B MoE BASE reference model (s256 pivot: extract from the base, not the fine-tune). Serves on :5100; /v1/models alias 'qwen35-35b-a3b'.",
+  "server": "http://localhost:5100",
+  "transport": "chat",
+  "endpoint": "/v1/chat/completions",
+  "probe_set_id": "compile-gradient",
+  "probe_set_version": 1,
+  "n_probes": 40,
+  "system_prompt": "You are a lambda-calculus compiler. Translate the input sentence into a single lambda-calculus / first-order-logic expression using the notation: \u03bb \u2200 \u2203 . \u2192 \u2227 \u2228 \u00ac and predicate application f(a,b). Preserve the predicate and entity names from the sentence. Output ONLY the final expression on one line.",
+  "sampling": {
+    "temperature": 0.0,
+    "max_tokens": 12000,
+    "greedy": true,
+    "no_think": false
+  },
+  "timestamp": "2026-07-23T04:46:11.245412+00:00",
+  "lib_versions": {
+    "verbum": "0.0.0",
+    "httpx": "0.28.1",
+    "httpx-sse": "0.4.3",
+    "pydantic": "2.13.1",
+    "numpy": "2.4.4",
+    "structlog": "25.5.0",
+    "polars": "1.39.3"
+  },
+  "lockfile_hash": "sha256:5bc2ee2e297f67744e2dc1fcf2bd15a9c303b25c8ee5c82c528a05de04ca2435",
+  "git_sha": "0729b654cd8e14926f3556bbdfb9c6f638162886"
+}
