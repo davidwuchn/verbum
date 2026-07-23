@@ -177,6 +177,21 @@ in every cell**, B/D/S ≈ 0. Content/process vertices are register-invariant
   `此前`/`当时的`/`先前` — 4/6 order words). The other 7 op directions are
   unembed-unreadable. Caveat: W_gate^T is one pullback map; "not lexical via
   this map" ≠ "not lexical".
+- **E2 v4 — two-tier metric (Michael: "do we need more visibility?"; commits
+  c960a76 + 9728019).** Tier 1 = dictionary-free coherence (pairwise
+  input-embedding cosine of top-50); tier 2 = pre-registered per-op concept
+  lexicons (Y/C marked post-hoc; other 7 = predictions); full top-50 stored.
+  27B results: **Y lexicon z=+27.15** (12% recursion vocab), **C z=+15.22**
+  (18% precedence; only op gating coherence too, +3.38), **D z=+5.69 — a
+  GENUINE pre-registered hit** (twice/double/finalize; not post-hoc — the
+  tier-2 instrument works beyond formalizing hindsight). K/I/B/S/W/WHNF flat
+  at k=50 → **operator unembed-silence is a property, not a metric
+  artifact**; WHNF is bus-causal (E4 +4.55) but nameless. The visible set
+  {C, D, Y} = ops whose semantics have everyday-language names
+  (before/twice/again); pure structural ops (select/compose/distribute) are
+  silent. Tier-1 limit logged: input-embedding cosine misses cross-lingual
+  fields (递归 ∦ "recursively" in embedding space) — fix = score coherence
+  in a later-layer space where translation pairs converge.
 - **E4 — shuffled-op null separates identity from salience** (the s263 EXP1
   trap-killer): identity-specific bus coupling = **Y +5.13, WHNF +4.55,
   S +4.36** (C marginal +1.59); **K/I/B/D/W collapse to generic**

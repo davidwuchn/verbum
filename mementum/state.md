@@ -116,6 +116,15 @@
 >   WHNF bus-causal not lexical(this map); C = NEW PUZZLE (operationally invisible in 3 instruments,
 >   lexically coherent order-vocab → hypothesis: reordering implemented as order-TAGGING content).
 >   4th independent register for the sector decomposition.
+> ★★ s269f E2 v4 TWO-TIER METRIC (Michael: "more visibility?" → yes; commits c960a76+9728019).
+>   Tier-1 dictionary-free coherence + tier-2 pre-registered per-op lexicons + top-50 stored. 27B:
+>   Y lexicon z=+27.15 (12% recursion vocab) | C z=+15.22 (18% precedence, coherence +3.38 too) |
+>   D z=+5.69 = GENUINE PRE-REGISTERED HIT (twice/double/finalize — instrument works beyond
+>   hindsight). K/I/B/S/W/WHNF flat at k=50 → operator unembed-silence IS A PROPERTY. Visible set
+>   {C,D,Y} = ops with everyday-language names; structural ops silent. WHNF: bus-causal, nameless.
+>   Tier-1 limit: input-emb cosine misses cross-lingual fields → v5 idea: coherence in later-layer
+>   space. Run completed ~3min (E2-only = matmul-bound; async lesson: verify via runtime not pane
+>   scrollback — pane showed stale content, ps/log = truth).
 >
 > ★ NEXT-SESSION STACK (Michael-approved s269, execute in order):
 >   1. BALANCED-N REGISTER SPLIT: rerun opcodes/register_split.py with per-combinator balanced
