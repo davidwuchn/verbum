@@ -189,6 +189,19 @@ way around.
 | `results/symbol-isolation/Qwen_Qwen3.6-27B/symbol_isolation_results.json` | Full results |
 | `results/symbol-isolation/Qwen_Qwen3.6-27B/layer_op_energy.npz` | Per-layer energy matrices |
 
+## s269 status note
+
+`opcodes/register_split.py` (commit 7bc7a29) measured a *different* energy
+proxy — raw last-token gate-activation norm — and found prose/formal ≈ flat
+(0.92–0.97). This does **not** touch this page's 8× claim: the 8× is
+fingerprint-projection energy summed over all positions and layers, and this
+page's own methodological point 5 ("last-token-only measurement may undercount
+prose") is exactly why the flat last-token read was expected. The two
+measurements are different registers of "energy"; both stand. What register
+split *added*: the same-opcodes claim decomposes per vertex (WHNF/Y/I
+register-invariant; C/B/D register-bound — see
+`explore/opcode-jacobian-jspace.md` s269 section).
+
 ## Open questions
 
 1. **Does this hold across model scale?** Run on 0.6B, 4B, 14B.

@@ -128,12 +128,43 @@ site**, not in last-token saliency. The one behavior that *is* cleanly visible i
 of the already-reduced output), which is exactly why it shows where the others do
 not.
 
-## Next (options, Michael's call)
+## s269 probe-construction audit → jspace_v2 (BUILT, run pending)
 
-- **(A) position-targeted + repetition-matched attribution** — annotate each
-  probe's operation *result position*, attribute there, rebuild the KIBC probes
-  with matched token-repetition (removes the copy_mass confound). Cheap; reuses
-  `jacobian.py`. *Lead here.*
+Michael's question ("did we build the probes correctly?") answered: **EXP 1 and
+EXP 3 no; EXP 2 yes.** Three construction errors, all named by EXP 3's own
+diagnosis and never acted on until now:
+
+1. **Wrong projection** — difference-of-means residual *directions* cannot
+   carry operator structure (K = rank-deficiency, C = permutation, B =
+   factorization are properties of the Jacobian, not vectors). EXP 1's null is
+   the two-register theory's own prediction: the bus broadcasts content, not
+   the ALU's operation.
+2. **Surface confounds** — active/control prose pairs differ in repetition and
+   negation load; `copy_mass` moving for all five combinators (EXP 3) is the
+   fingerprint.
+3. **Wrong grain** — last-token scalar aggregates instead of result-position,
+   span-resolved attribution.
+
+**Rebuild: `scripts/experiments/jspace_v2.py`** (commit 695631c; option A below
+executed + E2/E4 additions). E1: token-matched minimal pairs (same token
+multiset, roles swapped) + result-position attribution + span signatures +
+sign-flip pair nulls. E2: halt-vs-operator verbalization asymmetry (WHNF
+predicted VISIBLE, KIBC predicted INVISIBLE on the bus). E4: cross-register
+coupling — gate sign-CMR centroid → residual via W_gate^T → broadcast KL vs
+matched-random (the workspace↔lattice interface, the doc's open question made
+operational). Pre-registrations in the script docstring. Self-test (pythia-14m)
+passes; E2 asymmetry already direction-correct at 14M; **27B run stacked**.
+
+**Supporting evidence from s269c register-split** (register_split.json, commit
+7bc7a29): cross-prompt-register transfer decomposes exactly as the asymmetry
+predicts — WHNF transfers at 0.60–1.00, Y →0.89, I 0.30–0.47, while **C = 0.0
+in every cell**, B/D/S ≈ 0. Content/process vertices are register-invariant
+(bus-portable); operation vertices are register-bound (ALU-internal).
+
+## Next (options, Michael's call — s263 list, updated s269)
+
+- **(A) position-targeted + repetition-matched attribution** — ✅ DONE
+  (jspace_v2 E1). Run on 27B pending.
 - **(B) the real inter-layer Jacobian** — compute ∂h_{L+1}/∂h_L at compose sites,
   SVD, classify structure vs the KIBC signatures (rank-deficiency / factorization
   / permutation / path-sum). Heavier (d×d per layer on a 27B) but where the theory

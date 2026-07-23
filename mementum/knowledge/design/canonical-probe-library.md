@@ -72,6 +72,13 @@ serve different purposes (AGENTS.md S2 `λ probe_format` vs `λ probe_library`):
   geometry). 903 probes, `Probe{id, prompt, combinator, source, category,
   tags}`, accessors `all_probes / by_combinator / crystal_probes /
   combinator_counts`. Invariant: ≥50 probes per crystal combinator.
+  **s269:** prefix-match bug fixed (`lambda_WHNF_terminal` had been assigned
+  to W — commit 85a2e49; longest-prefix matching now). Counts after fix:
+  W 50 (25 native + 21 cross-source + 4 new `supplement_W` reflexives),
+  WHNF 75 (native terminal set restored). Library 903 → bundle 539 crystal
+  probes. Register composition per combinator is imbalanced
+  (formal 3–15 vs prose 35–72) — see `opcodes/register_split.py` for why
+  this matters (register-bound vs register-invariant vertices).
 - **Already consolidated** 5 scattered sources → one importable module.
 
 **These two stay separate. This design adds the missing layers around them.**

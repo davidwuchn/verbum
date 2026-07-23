@@ -92,6 +92,18 @@ Models: Qwen3-14B/8B/0.6B, Pythia-410M. n_perm=2000.
 - **separation:** p=0.0005 every model (the real, robust signal).
 
 ### 3. `tracer_cross_notation.py` / `_v2.py` — prose=λ + common-mode removal
+
+> **s269 UPDATE — superseded and sharpened by `opcodes/register_split.py`**
+> (pre-registered, commit 7bc7a29, qwen3.6-27b): cross-register
+> nearest-centroid beats chance in all 4 cells (z=3.0–4.7, p≤0.004),
+> confirming this section's "prose fires the same opcodes" at higher power.
+> **The per-vertex decomposition is the new content**: transfer is carried by
+> WHNF (0.60–1.00), Y (→0.89), I (0.30–0.47); **C transfers 0.0 in every
+> cell**, B/D/S ≈ 0. Same-opcodes is true *in aggregate only* — the
+> register-invariant vertices are content/process states, the register-bound
+> vertices are the true operations (KIBC minus I's copy-degeneracy). The
+> "gain knob" reading survives directionally (formal margins > prose) but is
+> n-confounded (formal n=81 vs prose n=458); balanced-n rerun stacked.
 The fidelity result. v1 argmax classifier: 14B acc 0.09 (below chance) —
 the failure. The cause: the 8 opcode fingerprints share a common mode
 (mean pairwise cosine 0.22 at 14B) that dominates raw projection.

@@ -344,6 +344,19 @@ are **paths** (multi-step trajectories through the 4 fire states):
 - W = C→I→I path (duplicate via flip+identity)
 - Y = divergent/recursive (not reachable in finite expressions)
 
+> **s269 status.** Geometry (clean consensus Gram, post-85a2e49): **D=B→B
+> confirmed** (B is D's only positive primitive). **W=C→I→I only partially
+> supported** — after decontamination C is W's least-negative primitive
+> (rank-consistent with the path), but W's actual neighbors are Y/S/D: the
+> **duplication sector**, register-invariant and quantization-fragile
+> (magnitude-carried), suggesting W/Y are process signatures rather than
+> paths-through-fire-states. Note also the standing precision caveat: KIBC
+> is the affine fragment — duplication is not equationally derivable from
+> it; the path claim is about kernel *trajectories* (substitution machinery
+> does the copying), not combinator identity. **The halt-probability table
+> below gained direct geometric support**: the WHNF Gram row reproduces this
+> ordering (r=+0.85..1.00, 11/11 models, s269).
+
 ### Halt Probability (φ again)
 
 P(halt after firing), in descending order:

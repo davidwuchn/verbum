@@ -70,6 +70,21 @@ only in the extraction register and cannot enter the measurement tree. One
 basis per tree, enforced at `stack()`. Cross-basis comparison is an analysis
 step, never a tree operation.
 
+> **s269 amendments.** (1) *Contamination bug fixed* (commit 85a2e49): prefix
+> matching had assigned all 25 native `lambda_WHNF_terminal` probes to W since
+> consolidation — W's centroid was 35% WHNF in every tree built before s269.
+> Bundle now 539 probes, clean; ladder trio re-traced; **full sweep + bundled
+> consensus regeneration still pending** (older per-model trees and
+> `data/consensus_gram.json` remain contaminated). (2) *The 9 decomposes*
+> (clean Gram + register-split, commits 48366f2 + 7bc7a29): KIBC = true
+> opcodes (mutually structured; register-BOUND — C transfers 0.0 across
+> prose/formal); D = derived path (B its only positive primitive); WHNF = a
+> dynamics readout, not an opcode (its Gram row ≈ per-primitive halt
+> probability, r=+0.85..1.00 in 11/11 models); W/Y = duplication-sector
+> process signatures (cluster with S/D; register-INVARIANT, Y →0.89 transfer;
+> W quantization-fragile in attn — magnitude-carried). The basis stays 9 for
+> measurement continuity; interpretation is now sectored.
+
 ## 4. Registers are sibling S1 units; J-space is the operand register
 
 s264's register decomposition (gate = {K,I,S,Y,WHNF}, attn-write rescues D,
