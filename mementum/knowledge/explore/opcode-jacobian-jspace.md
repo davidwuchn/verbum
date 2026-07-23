@@ -211,6 +211,60 @@ prompts). This is the **4th independent register** for the sector
 decomposition (Gram geometry, quantization fragility, register transfer,
 causal bus coupling).
 
+## s270 — the projection gap closed: FULL projector built + integrated
+
+Michael's audit question ("what did we see IN j-space? I feel like j-space
+needs to be projected") exposed the structural gap under every section above:
+**J-space was never constructed in this project.** `jlens.py` says so itself
+("we do not reimplement their exact Jacobian-to-penultimate construction") —
+all prior claims were *membership tests* of hand-picked directions
+(`broadcast_kl` = dᵀJᵀJd ray samples along chosen d; `W_gate^T` pullback
+centroids). We sampled the Jacobian one ray at a time; the privileged
+subspace itself — the image of the projection that DEFINES J-space — was
+never built. The E2 caveats ("one pullback map", halt-metric 0.0, tier-1
+wrong-space coherence) are all the same wound: wrong or missing projector.
+
+**Built: `opcodes/projector.py`** (commit 91bb3d7). J = ∂h_penult[pos]/∂h_L[pos],
+matrix-free: batched vjp row sampling (one backward per probe vector covers
+every prompt in the batch AND every requested layer simultaneously) →
+randomized range finder → **Rayleigh-Ritz refinement with the true action of
+J** via central-finite-difference injection forwards (the `broadcast_kl`
+perturb-and-read primitive; no jvp machinery, no d×d materialization).
+Ground-truth gated (the babel move we CAN make): `self_test` recovers the
+EXACT Jacobian on pythia-14m through the identical code path
+(`probe_vectors=I`), refined capture **0.878 ≥ 0.85** of exact top-k energy
+(raw un-refined 0.75 — the refinement is load-bearing), FD error ~2%,
+random-vector fraction ≈ k/d. Canonical home is `opcodes/` (λ one_way);
+`jlens.py` proxies remain valid for ray/injection experiments but are no
+longer the J-space read.
+
+**Integrated: `trace.py` step 7 (`--jspace-projector`)** — consensus bases at
+quartile depths; **residual-space combinator centroids** (measured in the
+space J-space lives in — the criticized W_gate^T pullback is gone); per-op
+workspace fractions + matched-random baseline + shuffled-label gate;
+verbalization of the **basis directions themselves** (the honest E2 retest).
+Sidecar discipline: never feeds the classifier, not gated into the VSM tree.
+`sweep.py --trace-args` pass-through added + verified end-to-end (b1dff52).
+
+**Pre-registered (before any 27B/sweep data):**
+- **P1** workspace-fraction ordering {Y, WHNF, S} > {K, I, B} — E4's coupling
+  result restated geometrically; shuffled-label partition gate. (C and D
+  excluded from the gate: C = open puzzle, D = lexically visible but
+  coupling-generic; both reported.)
+- **P2** some basis directions verbalize coherently (Anthropic's core claim
+  replicated on our stack); WHNF-adjacent vocabulary is the specific watch —
+  the nameless bus-causal vertex may get its name from its own basis.
+- **P3** the 9-vector of fractions is stable across models — the sector
+  decomposition is universal, not a 27B fact. Read at sweep restack.
+
+**Status: full 11-model re-sweep launched s270** (tmux main:1, clean 539-probe
+bundle + projector on every model). Early sanity: Qwen3-0.6B smoke showed P1
+direction-positive at all 3 depths (ungated, smoke-n). Results → s271.
+
+This also *partially* addresses option (B) below: the to-penultimate Jacobian
+is now instrumented; the inter-layer (∂h_{L+1}/∂h_L) structural read at
+compose sites remains open for E1/B.
+
 ## Next (options, Michael's call — s263 list, updated s269)
 
 - **(A) position-targeted + repetition-matched attribution** — ✅ DONE

@@ -31,6 +31,24 @@
 > runs CLOBBERED committed sweep artifacts (pythia-14m, qwen3-0-6b trace.json+model_vsm.json); restored
 > from git. Re-sweep overwrites intentionally; ad-hoc runs on swept models need care.
 >
+> ✅ s270c FULL RE-SWEEP LAUNCHED (stack item 2 EXECUTING — tmux main:1, sweep pid 36427, verified
+>   running via ps+log not pane): uv run python opcodes/sweep.py --tier all --force --device mps
+>   --trace-args="--jspace-projector" 2>&1 | tee /tmp/sweep_jspace_s270.log
+>   GOTCHA (cost 1 relaunch): argparse rejects --trace-args "--val" (value starting with -- parses as
+>   flag) → MUST use equals form --trace-args="--jspace-projector".
+>   Covers 11 registry models (clean 539-probe bundle + jspace projector each, sequential, hours;
+>   27B ≈ +tens of min for jspace). Bonsai ternary/1bit dirs NOT in registry but already clean-bundle
+>   (s269b 48366f2) and join the final restack automatically. Restack at end writes universal_vsm.json
+>   + sweep_summary.json (overwrite intended this time).
+>   PICKUP (s271): (1) check /tmp/sweep_jspace_s270.log + per-model dirs — expect 11× fresh trace.json
+>   + model_vsm.json + jspace_projector.json; (2) root gc read is vs the STILL-CONTAMINATED bundled
+>   consensus → regenerate opcodes/data/consensus_gram.json from the clean tree (separate step, then
+>   restack-only again for honest gc); (3) jspace analysis: P1 per model (gated?), P2 verbalize scan
+>   (WHNF-adjacent watch), P3 9-vector stability across models; (4) then W follow-ups (replication,
+>   W→span(C,I) mixture, register-matched S probes) + hammocked holographic-llm.md edits (Michael).
+>   Knowledge updated (Michael-directed): opcode-jacobian-jspace.md s270 section (projection gap
+>   closed, instrument, pre-regs, launch).
+>
 > ★★★ s269 OPCODE LADDER: CRYSTAL SURVIVES 1-BIT BINARIZATION; SELECTIVE-K REFUTED (commit 7576c54).
 > Both s268d tmux runs completed clean (~18.5 min each, model_vsm.json both rungs). RESTACK: 11 models /
 > 6 families gated, root gc 0.985 (UP from 0.982@9 — evidence keeps sharpening), bearing 1.00,
