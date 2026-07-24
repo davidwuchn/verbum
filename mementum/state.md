@@ -8,8 +8,8 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-23 | Session: 270 (JSPACE PROJECTOR INTEGRATED — see ★★ s270 block; header retains
-> s268/s269 blocks as live context)
+> Last updated: 2026-07-24 | Session: 271 (S-AS-DUPLICATOR TEST — see ★★ s271 block; sweep from s270c still
+> in flight, header retains s270/s269 blocks as live context)
 >
 > ★★ s270 JSPACE FULL PROJECTOR BUILT + INTEGRATED (commit 91bb3d7). Michael's audit call: "what did we
 > see IN j-space? j-space needs to be projected" → confession: jlens.py never built Anthropic's
@@ -48,6 +48,47 @@
 >   W→span(C,I) mixture, register-matched S probes) + hammocked holographic-llm.md edits (Michael).
 >   Knowledge updated (Michael-directed): opcode-jacobian-jspace.md s270 section (projection gap
 >   closed, instrument, pre-regs, launch).
+>
+> ★★ s271 S-AS-DUPLICATOR: S DISSOLVES INTO THE DUPLICATION SECTOR, NOT THE KIBC OPCODES (commit 9467f38).
+>   Michael's thread (from arXiv:2607.09211 Z80 primordial-soup paper): substrate primitives determine the
+>   emergent universal. Refined over the conversation to: DATA (Montague — language carries typed-λ structure)
+>   picks the compositional CLASS; SUBSTRATE (softmax = convex mixing over V = holographic inference, CANNOT
+>   fan-out/duplicate) picks the REPRESENTATIVE = the affine/linear fragment BCKI = KIBC. So GD assembles KIBC
+>   (not SKI) because softmax can express route(C)/compose(B)/discard(K)/copy(I) but NOT the duplicator S;
+>   S's function is absorbed holographically into the amplitudes rather than sitting on a clean vertex.
+>   Michael's added MDL step: GD≈MDL-under-prior, so a λ-crystal fitting language is empirical evidence for
+>   Montague's UNPROVEN minimality half (adequacy was proven; efficiency was not).
+>   NEW INSTRUMENT opcodes/duplication_register.py — the honest re-do of s262 (KIBC-vs-SKI). s262 used the
+>   attention-SELECTIVITY register, structurally BLIND to duplication (K,I,B,C,S all merely route) → its
+>   "inconclusive-in-register" verdict finally EXPLAINED, not a refutation. Two registers that CAN see it:
+>   H1 relational-geometry (score(t)=corr(t,DUP\t)−corr(t,AFFINE\t), exact enumeration nulls),
+>   H2 quantization/magnitude (per-vertex Gram fidelity FP→rung). Partition AFFINE={K,I,B,C} vs DUP={S,W,Y},
+>   held {D,WHNF}. λ measure honored (register named before verdict); λ yardstick decision rule fixed before
+>   data (≥2 of {H1,H2gate,H2attn} gate, H1 included).
+>   TRIO RESULT (FP Qwen3.6-27B + bonsai ternary/1bit, clean s269b bundle 48366f2): H1 score(S)=+0.24 GATED
+>   in all 3 scopes (model p=0.026 / gate 0.017 / attn 0.043); W/Y positive controls gate (p≤0.005); all four
+>   KIBC land strongly affine (negative); S nearest = D,Y, farthest = K,I,C → SECTOR IS {S,D,Y}, refining the
+>   pre-reg {S,W,Y}. H2: S is the fragile vertex (fidelity ~0.96, lowest w/ WHNF), degrades > affine
+>   (ternary-model p=0.006, ternary-attn 0.003, 1bit-gate 0.019). W ROBUST at consensus-Gram level → s269
+>   W-fragility was a per-LAYER attn effect that averages out; S-fragility survives averaging (S = more robust
+>   duplicator-signature than W). Decision rule MET on the trio; refute condition (S affine+robust) is the
+>   opposite of observed. This confirms the PHENOMENON (S not a clean opcode); the CAUSE (softmax specifically)
+>   still needs the Mamba/RWKV substrate-swap (scan-state CAN copy → predict S crystallizes cleaner there).
+>   H3 dispersion (PR(S)>PR(KIBC)) DEFERRED: needs a --keep-centroids re-trace (no centroid sidecar on trees).
+>
+> ✅ s271b AUTO-FIRE WATCHER WIRED (tmux window main:dup-watch, NEW window so main:2 stays free). Blocks on
+>   `while pgrep -f '[s]weep.py --tier all'` (bracket-trick avoids self-match) until the s270c re-sweep exits,
+>   then runs the DECISIVE cross-model H1 binomial: `uv run python opcodes/duplication_register.py
+>   --sweep-scan results/opcode-trace` → /tmp/dup_register_sweep_s271.log + results/opcode-trace/
+>   duplication_register_sweep.json. SMOKE (mid-sweep, MIXED clean+old trees, NOT the official read): 11/11
+>   models score(S)>0 in model+attn (sign-test p=4.88e-4 = 2^-11, exactly the prediction), 10/10 gate;
+>   4-5/11 individually gated (gate-test p=6e-5..0.015). The marginal-per-model effect is DECISIVE across the
+>   family. PICKUP (s271 next): (1) read /tmp/dup_register_sweep_s271.log — this time all 11 are the clean
+>   539-probe bundle (the smoke used stale trees); confirm 11/11 sign-test holds on clean data. If the watcher
+>   died / boundary hit, just rerun the --sweep-scan command above. (2) H3 --keep-centroids re-trace for the
+>   dispersion register. (3) Mamba/RWKV node = the CAUSE test (does S crystallize where a scan-state can copy?).
+>   (4) {S,D,Y}-sector refinement. (5) knowledge/memory proposals (λ termination, Michael-approval):
+>   substrate-picks-representative + Montague-minimality + S-holographically-absorbed + dup-register instrument.
 >
 > ★★★ s269 OPCODE LADDER: CRYSTAL SURVIVES 1-BIT BINARIZATION; SELECTIVE-K REFUTED (commit 7576c54).
 > Both s268d tmux runs completed clean (~18.5 min each, model_vsm.json both rungs). RESTACK: 11 models /
