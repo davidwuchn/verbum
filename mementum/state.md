@@ -90,6 +90,49 @@
 >   (4) {S,D,Y}-sector refinement. (5) knowledge/memory proposals (λ termination, Michael-approval):
 >   substrate-picks-representative + Montague-minimality + S-holographically-absorbed + dup-register instrument.
 >
+> ★ s271c THEORY-ARC TEST QUEUE (Michael-requested — from the attention=β-reduction / Montague-derives-KIBC /
+>   6D-cascade conversation; spark = arXiv:2607.09211 Z80 primordial-soup. Ordered cheap→dear; each names
+>   register + null per λ measure. EXTENDS explore/attention-as-beta-reduction.md. NONE started — pick up any.
+>   Grounded in: crystal-universality.md (6D PCA: Comp/B PC0, Sel/K PC1, Term/WHNF PC2, Route/C PC3, Disp/I PC4,
+>   Fine PC5), diffusion-holographic-isomorphism.md (ECC cascade 8→6→5→4→3), error-correction-theory.md.)
+>   T1 CASCADE=REDUCTION [NEARLY FREE — jspace projector already computes it, do FIRST]. Claim: the ECC cascade
+>      8→6→5→4→3 IS the β-reduction trajectory → effective rank DESCENDS with depth (Zone A→C). Predict:
+>      consensus-basis rank at quartile depths monotone ~8→~4. Register: J-space effective rank. Null:
+>      matched-random dirs + PRE-REGISTERED energy threshold (yardstick — a flexible cutoff manufactures any
+>      ladder). Data: results/opcode-trace/*/jspace_projector.json from the s270c sweep. Add rank-vs-depth
+>      reader to the projector analysis.
+>   T2 16>9 TYPED BASIS [free-ish on sweep data]. Claim (Montague=typed): TYPES16 gates TIGHTER than CRYSTAL-9
+>      on compositional probes → typed is the "real" object, 9 its affine shadow. Register: Gram gate/sil_z.
+>      Null: shuffled-label. Caveat: TYPES16 anti-types fed from EXTRACTION not probes — check feasibility first.
+>   T3 PARASITIC-GAP STRESS [the Montague derivation's SHARP linguistic prediction — highest distinctiveness].
+>      Claim: parasitic gaps ("reports that I filed _ without reading _") = the UNIQUE construction needing S
+>      (forbidden duplicator) → compile accuracy LOWEST + crystal LEAST crisp there. Build probe set: parasitic
+>      vs matched single-gap/ATB controls. Register: P(λ)/kernel_valid + Gram crispness/participation ratio.
+>      Null: matched-complexity non-parasitic controls. Uses probes/*.json + grading harness. Derivable from
+>      PURE THEORY (no model in loop) — a prediction about English.
+>   T4 SOFTMAX-ENTROPY = BINDING-AMBIGUITY [the addressing bridge — "how attention attends to the right things"].
+>      Claim: attention entropy at variable-occurrence positions ∝ scope ambiguity; sharp scope→low entropy→
+>      near-discrete β; ambiguous→superposed. Build unambiguous-vs-shadowed-scope minimal pairs. Register:
+>      attention-distribution entropy + causal (var-occurrence attends to its binder). Null: non-variable tokens.
+>      This is the clause bridging "attention" and "in probability space".
+>   T5 β-IN-PROB-SPACE LINEARITY [the PROOF, face B — highest stakes, hardest]. Claim: reduce(αN₁+(1−α)N₂) ≈
+>      α·reduce(N₁)+(1−α)·reduce(N₂) in activation space as α sweeps. Discrete-β→winner-take-all; prob-β→linear
+>      blend. GOODHART GUARD (load-bearing): the superposition must be MODEL-FORMED (genuinely ambiguous
+>      argument), NOT hand-injected then read with a linear probe (that manufactures the linearity). PRE-REG
+>      null: broken redex → no lawful blend. The one test that proves the "in probability space" clause.
+>   T6 MAMBA/RWKV SUBSTRATE-SWAP [the CAUSE test for S; decisive substrate-vs-data]. Claim: a scan-state CAN
+>      copy → S CRYSTALLIZES (earns a vertex) where attention dissolves it. Trace a non-attention arch through
+>      opcodes/ pipeline + run duplication_register.py. Predict: S gates in Mamba's tree, dissolves in
+>      transformers. Register: dup-register H1/H2 (already built). Cost: new model class in registry.
+>   T7 PC5 FINE-STRUCTURE ID [exploratory, cheap — "where the next idea hides"]. The 6th crystal PC (2% var,
+>      unnamed). Correlate PC5 loadings with candidate roles (Y/recursion? de-Bruijn depth? type-polarity?).
+>      Register: PC-loading corr w/ probe metadata. The one measured crystal dimension the reduction-cascade
+>      story has no job for yet.
+>   T8 C-AS-ORDER-TAGGER causal [from the addressing hypothesis + s269e C-puzzle]. Claim: C writes role/order
+>      TAGS upstream of the move (why it is attribution-invisible yet order-lexical). Ablate C-direction →
+>      breaks argument-order/dative-shift addressing WITHOUT breaking the substitution step. Token-matched
+>      minimal pairs. Register: causal ablation on order-constructions vs reduction-constructions.
+>
 > ★★★ s269 OPCODE LADDER: CRYSTAL SURVIVES 1-BIT BINARIZATION; SELECTIVE-K REFUTED (commit 7576c54).
 > Both s268d tmux runs completed clean (~18.5 min each, model_vsm.json both rungs). RESTACK: 11 models /
 > 6 families gated, root gc 0.985 (UP from 0.982@9 — evidence keeps sharpening), bearing 1.00,
