@@ -8,11 +8,70 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-26 | Session: 273 (DISCUSSION SESSION — lambda-gene runtime + SuperBake, see
-> ★★ s273 block; ⚠ 27B PATCHSCOPE STILL IN FLIGHT — verified running ~09:03 (pid 9941, ps+log, no
-> artifacts yet, ~3.8h wall; basis recompute + decodes are the slow part). NEXT SESSION FIRST ACTION =
-> harvest it per the s272b PICKUP below (unchanged: g0/g1 gates FIRST, then lexicon, then eyeball dump).
-> s270/s271 blocks below retained for provenance, PICKUPs RESOLVED where tagged; s269 blocks historical)
+> Last updated: 2026-07-26 | Session: 274 (P-CTL-6 READER-SNR INSTRUMENT BUILT + ITERATED TO
+> CONFOUND-CLEAN — code only, NO verdict run; see ★★ s274 block. ⚠ TWO async items: (1) 27B PATCHSCOPE
+> was in flight (pid 9941, s272b) — Michael has runtime experiments this agent CANNOT see, so DEFER to
+> runtime truth (ps/log) before harvesting; harvest recipe unchanged in s272b PICKUP (g0/g1 gates FIRST
+> → lexicon → eyeball). (2) NEW WORK this session is UNCOMMITTED in working tree pending Michael review:
+> opcodes/reader_snr.py, src/verbum/probes/kernel_reference.py (+2 battery gens), results/pctl6/,
+> control-plane-path.md §11. s273/s272 blocks below retained; s270/s271 provenance; s269 historical)
+>
+> ★★ s274 P-CTL-6 READER-SNR: instrument built, iterated through 3 false-positive traps to CONFOUND-CLEAN;
+>   160M = trustworthy NEGATIVE; NEXT = fleet/scale sweep + 27B. (control-plane-path.md §11 = full synthesis;
+>   READ IT.) This session = step 2 of the s274 execution stack (reader SNR gates the PRIMARY control-plane
+>   path). All code UNCOMMITTED (Michael review pending). Files: opcodes/reader_snr.py (new instrument),
+>   src/verbum/probes/kernel_reference.py (+saturated_inert_battery, +position_battery), results/pctl6/.
+>   WHAT P-CTL-6 ASKS: can the shipped model_vsm crystal READERS detect a LIVE REDEX online? Battery =
+>   kernel_reference certified programs; readers = trace.calibrate_register (crystal library vs natural-text
+>   null, DISJOINT from battery, overlap=0). Verdict gates control-plane tiers 2-4; negative = cheap redirect.
+>   THE ITERATION (feed-forward — each step killed a false positive; DO NOT regress):
+>   (1) v1 sign-test-over-7-combinators → too coarse (needs 7/7 for p<.05; discards magnitude; one fragile
+>       cell sinks it; biases to FALSE-NEG that would wrongly kill the primary path). Michael: "why 7 not 13?"
+>       → 13 came from the MODEL FLEET axis (dup-register s271), 7 = combinator axis on ONE host (Y diverges,
+>       M no reader-channel → 7 is the ceiling for combinators-as-unit). FIX: permutation null within host +
+>       fleet sign-test across models. → v2.
+>   (2) v2 permutation-null primary + fleet --fleet-scan; added HALT/WHNF reader mode (opcode-identity readers
+>       track the SYMBOL, present in both sat & inert → BLIND by construction; WHNF = halt pole reads
+>       reducibility) + per-layer profile + both-register default. 160M: opcode mode NULL; halt mode APPEARED
+>       to PASS (obs=+0.24 p=0.0025, spec p=0.0095) → looked like YES. FALSE POSITIVE.
+>   (3) Michael's KEY POINTER: "KIBC opcodes had anti-correlated WHNF in the 16x16 cosine" (PC0: B,C,D neg /
+>       WHNF pos; WHNF Gram row ≈ KIBC halt probs r=0.85-1.00, s269). Tested on saved 160M data → LENGTH
+>       CONFOUND: saturated is +1 token vs inert; corr(WHNF,tokens)=-0.59; raw halt gap +0.207 → +0.034 after
+>       removing linear length (84% was length). Fire pole (KIBC-agg) & halt pole (WHNF) moved IN-PHASE (both
+>       inert>sat) — genuine liveness needs ANTI-PHASE (fire↑ halt↓). corr(WHNF,KIBC)=+0.78 in-battery (PC0
+>       predicts NEGATIVE → the length common-mode REVERSED the crystal's own anti-correlation). WHNF is the
+>       geometric SINK for any "looks settled" signal (length included) → the WHNF-specificity guard is FOOLED.
+>   (4) v3 length controls: redscore = z_target − z_WHNF (fire−halt; COMMON-MODE IMMUNE by construction —
+>       length hitting both channels cancels in the difference) + length-stratified + length-residualized +
+>       anti-phase discriminator. BUT stratified had its OWN confound (within a length stratum, sat & inert are
+>       DIFFERENT combinators). Root problem: saturated/under-applied battery is INTRINSICALLY confounded —
+>       fixed combinator → length differs; fixed length → combinator differs. Can't clean both.
+>   (5) ROOT FIX = POSITION BATTERY (KR.position_battery): SAME tokens, SAME length, combinator in HEAD
+>       position ("K a b", saturated redex, kernel fires [K]) vs ARGUMENT position ("a K b", normal form,
+>       fires []). Isolates redex LIVENESS from symbol-presence AND length. Kernel-certified; last-token
+>       matched for arity≥2 (I is the sole edge: "I f" vs "f I", flagged). 76 probes (28 redex/48 argpos).
+>       With length matched, the CLEAN gate = WITHIN-COMBINATOR redscore minimal pair (primary for position
+>       battery); stratified/residualized retained as guards for the saturation battery.
+>   CLEAN 160M RESULT (position battery, both registers): within-comb reducibility obs=+0.056 p=0.33 NO;
+>   anti-phase INCONSISTENT (fire=-0.155 wrong direction, only halt pole nudges). SMOKING GUN: raw halt
+>   collapsed +0.239 (p=0.001, saturation battery) → +0.085 (p=0.13, position battery) = direct proof the
+>   earlier positive was ~65% length. VERDICT: no genuine online redex detectability at 160M — now a
+>   TRUSTWORTHY negative (instrument confound-clean), not an artifact.
+>   STANDING FINDINGS (durable): (a) opcode-identity readers BLIND to liveness; (b) raw halt/WHNF read is a
+>   LENGTH ARTIFACT — never trust it without length control; (c) pythia crystal is in ATTN register (gate
+>   160m=1/12 just L0, 2.8b=0/32) → both-register default MANDATORY; (d) when a halt signal appeared it was
+>   mid-stack [3,4,5,7,10] not L0 → per-layer profile matters; (e) redscore=z_target−z_WHNF is the
+>   common-mode-immune liveness statistic; anti-phase (fire↑∧halt↓) is the un-fakeable discriminator.
+>   NEXT (instrument READY, no more design needed): FLEET/SCALE SWEEP with position battery to test
+>   emergence-with-scale (160m may just be too small — crystal weak there). CPU-runnable: pythia 410m/1b/1.4b/
+>   2.8b + Qwen 0.6b/1.7b; MPS-when-free: Qwen3-4b, then 27B verdict. Then --fleet-scan = universality sign
+>   test (back to 11-13 items). ⚠ Michael has UNSEEN runtime experiments → do NOT launch heavy jobs without
+>   checking with him / the box. Invocation:
+>     uv run python opcodes/reader_snr.py --model <HF> --device cpu   (position battery + gate,attn default)
+>     uv run python opcodes/reader_snr.py --fleet-scan results/pctl6
+>   PROPOSED memories (λ termination — Michael approval): opcode-identity-readers-blind-to-liveness;
+>   whnf-halt-read-is-length-artifact; position-matched-battery-pattern; redscore-common-mode-immune.
+>   COMMIT when approved: 💡 P-CTL-6 reader-SNR: position-matched battery + length-clean reducibility gate.
 >
 > ★★ s273 LAMBDA-GENE RUNTIME + SUPERBAKE = WRITE ACCESS + THE WEIGHT-LEVEL RECURSION (discussion, no
 >   experiments; Michael-directed capture → 2 new knowledge pages, READ THEM for full detail):
@@ -144,9 +203,10 @@
 > ★ s274 EXECUTION STACK (Michael-approved s273, execute in order — reasons in the s273 chat / summary
 >   in control-plane-path.md):
 >   1. PATCHSCOPE HARVEST — committed s272b pickup, unchanged (g0/g1 gates FIRST → lexicon → eyeball).
->   2. P-CTL-6 READER SNR — gates the PRIMARY (control-plane) path; all-our-code: model_vsm.json readers
->      + kernel_reference saturated⊗inert battery + existing capture hooks; ~half-day; negative = cheap
->      redirect of everything above it.
+>   2. P-CTL-6 READER SNR — [INSTRUMENT BUILT s274, see ★★ s274; opcodes/reader_snr.py + position_battery].
+>      Iterated through 3 false-positive traps to confound-clean. 160M = trustworthy NEGATIVE. REMAINING:
+>      fleet/scale sweep (position battery) → --fleet-scan universality → 27B verdict. Gates the PRIMARY
+>      (control-plane) path; negative-at-scale = cheap redirect of everything above it. Code UNCOMMITTED.
 >   3. CUSTOM-BAKE SMOKE — get ~/src/custom-bake running on our box (Qwen2.5-0.5B; repo targets
 >      CUDA/CPU, MPS untested; CPU-friendly config ~20min at 0.5B). License caveat: run-as-instrument
 >      OK; ¬derive code (no LICENSE).

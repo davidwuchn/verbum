@@ -154,6 +154,147 @@ def composite_probes() -> tuple[KernelRefProbe, ...]:
     return tuple(p for p in all_probes() if p.composite)
 
 
+# ── powered saturated⊗inert battery (P-CTL-6 reader-SNR) ─────────────────────
+# The single-target pairs above give n=1 per combinator — enough for the
+# original opcode audit (s233), too few for a per-combinator d' SNR estimate.
+# This generator emits multiple kernel-certified fresh-atom variants per
+# combinator so the reader-SNR instrument can pool within a cell. ADDITIVE:
+# it does not touch _build()/all_probes(); the canonical set is unchanged.
+
+
+def _atom_window(size: int, offset: int) -> list[str]:
+    """`size` distinct atoms starting at `offset` (wraps the atom pool)."""
+    return [_ATOMS[(offset + i) % len(_ATOMS)] for i in range(size)]
+
+
+def saturated_inert_battery(n_fillers: int = 4) -> list[KernelRefProbe]:
+    """Powered saturated⊗inert battery: up to ``n_fillers`` certified variants
+    per combinator, for a per-combinator SNR estimate.
+
+    For each combinator ``c`` (K,I,W,C,B,S,D) emit:
+      • SATURATED — ``c`` applied to exactly ``arity(c)`` fresh atoms. All
+        fillers are atoms, so the kernel fires ``c`` once at the LAST token
+        (the firing site) and reaches normal form: ``fired_seq == [c]``.
+      • INERT — ``c`` under-applied by one (``arity-1`` atoms; the bare symbol
+        when arity is 1). Symbol present, no redex: ``fired_seq == []``.
+
+    Distinct atom windows give textually distinct programs without accidental
+    combinator behaviour. Every returned probe is certified against the kernel
+    at build time (a variant that does not meet its fired-sequence contract is
+    skipped, never emitted).
+
+    The saturated/inert length differs by one token by construction (that IS
+    the specificity control — inert is a normal form). The reader-SNR
+    instrument additionally checks target-vs-off-target channel separation to
+    rule out a generic length/position effect.
+    """
+    probes: list[KernelRefProbe] = []
+    for comb, arity in _ARITY.items():
+        # SATURATED — exactly `arity` fresh-atom slots
+        made, offset = 0, 0
+        while made < n_fillers and offset < len(_ATOMS):
+            text = f"{comb} " + " ".join(_atom_window(arity, offset))
+            fired, nf, status = _certify(text)
+            offset += 1
+            if fired == [comb]:
+                probes.append(KernelRefProbe(
+                    id=f"{comb}_sat_v{made}",
+                    program_text=text,
+                    target_combinator=comb,
+                    saturated=True,
+                    composite=False,
+                    certified_fired_seq=fired,
+                    certified_present=_present_combinators(text),
+                    normal_form=nf,
+                    status=status,
+                ))
+                made += 1
+        # INERT — under-applied by one (bare symbol when arity == 1)
+        n_slots = arity - 1
+        made, offset = 0, 0
+        max_offset = len(_ATOMS) if n_slots > 0 else 1
+        while made < n_fillers and offset < max_offset:
+            args = _atom_window(n_slots, offset) if n_slots > 0 else []
+            text = (f"{comb} " + " ".join(args)).strip()
+            fired, nf, status = _certify(text)
+            offset += 1
+            if fired == []:
+                probes.append(KernelRefProbe(
+                    id=f"{comb}_inert_v{made}",
+                    program_text=text,
+                    target_combinator=comb,
+                    saturated=False,
+                    composite=False,
+                    certified_fired_seq=fired,
+                    certified_present=_present_combinators(text),
+                    normal_form=nf,
+                    status=status,
+                ))
+                made += 1
+    return probes
+
+
+# ── position-matched battery (P-CTL-6 v3, s273) ──────────────────────────────
+# The saturated/inert pairs above differ in LENGTH (saturation adds a token) —
+# a confound that fooled the raw WHNF halt read (length sinks onto the halt
+# pole). This battery isolates redex LIVENESS from both symbol-presence AND
+# length: the SAME combinator + atoms, combinator in HEAD position (saturated
+# redex, fires) vs an ARGUMENT position (normal form, no fire). Same tokens,
+# same length, matched last-token read locus (arity >= 2).
+
+
+def position_battery(n_fillers: int = 4) -> list[KernelRefProbe]:
+    """Length- and token-matched minimal pairs (redex vs non-redex position).
+
+    redex:  ``c a1 .. an``       head = c, saturated  -> kernel fires ``[c]``
+    inert:  ``a1 .. c .. an``    head = atom, c in arg -> normal form ``[]``
+            (c inserted at a non-head slot; for arity >= 2 the last token stays
+             an atom, matched to the redex's last atom. Arity 1 is the sole
+             edge: ``c a`` vs ``a c`` — last token differs, id-tagged.)
+
+    Only the redex-vs-argument POSITION of ``c`` differs; length and the token
+    multiset are identical, so a length/common-mode effect cannot masquerade as
+    a liveness signal. Every probe is kernel-certified at build time.
+    """
+    probes: list[KernelRefProbe] = []
+    for comb, arity in _ARITY.items():
+        made, offset = 0, 0
+        while made < n_fillers and offset < len(_ATOMS):
+            atoms = _atom_window(arity, offset)
+            offset += 1
+            rtext = f"{comb} " + " ".join(atoms)
+            rf, rnf, rst = _certify(rtext)
+            if rf != [comb]:
+                continue
+            probes.append(KernelRefProbe(
+                id=f"{comb}_redex_v{made}",
+                program_text=rtext, target_combinator=comb,
+                saturated=True, composite=False,
+                certified_fired_seq=rf,
+                certified_present=_present_combinators(rtext),
+                normal_form=rnf, status=rst,
+            ))
+            slots = range(1, arity) if arity >= 2 else [1]
+            iv = 0
+            for j in slots:
+                toks = [*atoms[:j], comb, *atoms[j:]]
+                itext = " ".join(toks)
+                f, nf, st = _certify(itext)
+                if f != []:
+                    continue
+                probes.append(KernelRefProbe(
+                    id=f"{comb}_argpos_v{made}_{iv}",
+                    program_text=itext, target_combinator=comb,
+                    saturated=False, composite=False,
+                    certified_fired_seq=f,
+                    certified_present=_present_combinators(itext),
+                    normal_form=nf, status=st,
+                ))
+                iv += 1
+            made += 1
+    return probes
+
+
 if __name__ == "__main__":
     for p in all_probes():
         kind = "COMPOSITE" if p.composite else ("SAT" if p.saturated else "INERT")

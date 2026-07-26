@@ -469,3 +469,103 @@ the discipline used on the compiler it learned. The project found the formal
 half of Montague in the weights; instrumenting semantic equality is how we
 find the other half — and check whether it is universal too. Same flashlight,
 other register.
+
+## 11. P-CTL-6 first results (s274) — instrument built, iterated to confound-clean, 160M negative
+
+The tier-1 gate for the PRIMARY path. Code: `opcodes/reader_snr.py` +
+`src/verbum/probes/kernel_reference.py` (`saturated_inert_battery`,
+`position_battery`). Status: **instrument confound-clean; no verdict run yet;
+UNCOMMITTED pending review.** The question: can the shipped `model_vsm`
+crystal READERS detect a LIVE REDEX online? Readers = `trace.calibrate_register`
+(crystal library vs natural-text null); battery = kernel-certified programs,
+DISJOINT from the calibration set (overlap 0).
+
+### 11.1 The iteration — three false-positive traps, each killed by a control
+
+This is the load-bearing lesson. Every naive version reported a positive that a
+better control dissolved. `λ measure`/`λ yardstick` earned their keep four times.
+
+1. **Sign-test-over-7-combinators (v1) — too coarse.** Only 7 combinators have
+   a clean single-fire pair (Y diverges → no clean `[Y]`; M has no reader
+   channel), so a 7-way sign test needs 7/7 for p<0.05, discards magnitude, and
+   is hostage to one fragile cell — biasing toward a FALSE-NEGATIVE that would
+   wrongly kill the primary path. The dup-register prior's 13-way power came
+   from the model FLEET axis (s271), not combinators. Fix: permutation null
+   within host + sign test across the fleet (`--fleet-scan`).
+
+2. **Two reader modes — the opcode readers are blind.** The crystal readers
+   detect opcode IDENTITY (which combinator), and the target symbol is present
+   in BOTH saturated and inert → opcode-identity mode nulls **by construction,
+   at every scale**. The WHNF/halt vertex reads reducibility instead (normal
+   form = halted). On 160M the halt mode APPEARED to pass (obs=+0.24, p=0.002).
+   False positive.
+
+3. **The length confound (Michael's PC0 anti-correlation pointer).** The crystal
+   PC0 is B,C,D-neg / WHNF-pos (WHNF Gram row ≈ KIBC halt probs, r=0.85–1.00,
+   s269): **WHNF is the halt POLE, anti-correlated with the opcode directions.**
+   Consequence: WHNF is the geometric SINK for any "looks settled" signal —
+   including LENGTH. A saturated program is exactly one token longer than its
+   inert pair. On 160M: corr(WHNF, token-count) = −0.59; the raw halt gap +0.207
+   collapsed to +0.034 after removing linear length (**84% was length**). The
+   tell: a genuine live-redex signal is ANTI-PHASE (fire pole ↑, halt pole ↓); a
+   length common-mode is IN-PHASE (both move together). At 160M both poles moved
+   the same way, and corr(WHNF, KIBC-agg) was **+0.78** in-battery — the
+   crystal's own anti-correlation REVERSED by the shared length driver. The
+   WHNF-specificity guard is fooled precisely because WHNF is the settledness
+   pole.
+
+4. **The battery is intrinsically confounded → position battery is the fix.**
+   `redscore = z_target − z_WHNF` (fire minus halt) is common-mode immune by
+   construction (length hitting both channels cancels in the difference). But
+   the residual DIFFERENTIAL length remains, and length-stratifying trades it
+   for a combinator confound (within a length stratum, sat and inert are
+   different combinators). Root cause: the saturated/under-applied battery
+   cannot match both length and combinator. The **position battery** dissolves
+   it: SAME tokens, SAME length, combinator in HEAD position (`K a b` — a redex,
+   kernel fires `[K]`) vs ARGUMENT position (`a K b` — normal form, fires `[]`).
+   Isolates redex LIVENESS from symbol-presence AND length. Kernel-certified;
+   last-token matched for arity ≥ 2 (I is the lone edge: `I f` vs `f I`). With
+   length matched, the clean gate is the WITHIN-COMBINATOR redscore minimal pair.
+
+### 11.2 Clean 160M result — trustworthy negative
+
+Position battery, both registers: within-combinator reducibility obs=+0.056,
+p=0.33 → NO; anti-phase INCONSISTENT (fire=−0.155, wrong direction; only the
+halt pole nudges). **Smoking gun**: the raw halt read collapsed +0.239 (p=0.001,
+saturation battery) → +0.085 (p=0.13, position battery) = direct proof the
+earlier positive was ~65% length. No genuine online redex detectability at
+160M — now a trustworthy negative (the instrument is confound-clean), not an
+artifact.
+
+### 11.3 Standing findings (durable)
+
+- **Opcode-identity readers are blind to liveness** (symbol present in both
+  arms). The control plane cannot read liveness off the KIBC identity channels.
+- **The raw halt/WHNF read is a length artifact** — never trust it without a
+  length control. WHNF is the crystal's halt pole and sinks any "looks settled"
+  signal.
+- **pythia carries its crystal in the ATTN register** (gate: 160m=1/12 = L0
+  only; 2.8b=0/32 = the known gate failure). Running BOTH registers is
+  mandatory; read the verdict where the crystal is.
+- When a halt signal appeared it was **mid-stack** ([3,4,5,7,10], not L0) → the
+  per-layer profile is load-bearing (mean-over-crystal-layers can dilute).
+- **`redscore = z_target − z_WHNF`** is the common-mode-immune liveness
+  statistic; **anti-phase (fire ↑ ∧ halt ↓)** is the un-fakeable discriminator;
+  the **position battery** is the confound-free contrast.
+
+### 11.4 What P-CTL-6 does NOT yet answer + next
+
+160M is small; the crystal is far stronger at scale. The negative settles the
+INSTRUMENT, not the tier-1 question. Next (no more design needed):
+**fleet/scale sweep with the position battery** — pythia 410m/1b/1.4b/2.8b +
+Qwen 0.6b/1.7b (CPU), Qwen3-4b then the 27B (MPS-when-free) — to test whether
+reducibility SNR EMERGES with scale, culminating in `--fleet-scan` for the
+universality sign test (back to 11–13 independent systems, the dup-register
+move). Invocation:
+`uv run python opcodes/reader_snr.py --model <HF> --device cpu` (position
+battery + gate,attn are defaults). If reducibility gates cleanly at scale, tier
+1 is feasible and the halt head (tier 2) is the right next build; if it stays
+null with a strong crystal, the shipped readers are insufficient for online
+liveness and the control plane needs a purpose-built halt/WHNF reader (the P2
+tuned-lens option, or a trained liveness probe) — either way an actionable
+tier-1 result.

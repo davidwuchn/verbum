@@ -1,0 +1,34 @@
+{
+  "instrument": "P-CTL-6 fleet universality",
+  "n_entries": 2,
+  "opcode": {
+    "n": 2,
+    "n_pos": 1,
+    "sign_p": 0.75,
+    "gated": false
+  },
+  "halt": {
+    "n": 2,
+    "n_pos": 1,
+    "sign_p": 0.75,
+    "gated": false
+  },
+  "n_individually_gated": 1,
+  "models": [
+    {
+      "model": "EleutherAI/pythia-160m-deduped",
+      "register": "gate",
+      "opcode_liveness_obs": -0.00671,
+      "halt_liveness_obs": -0.02425,
+      "gated": false
+    },
+    {
+      "model": "EleutherAI/pythia-160m-deduped",
+      "register": "attn",
+      "opcode_liveness_obs": 0.00688,
+      "halt_liveness_obs": 0.23936,
+      "gated": true
+    }
+  ],
+  "timestamp_utc": "2026-07-26T19:39:44.128293+00:00"
+}
