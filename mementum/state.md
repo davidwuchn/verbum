@@ -68,6 +68,17 @@
 >   halt-patch pre-reg candidate (patch late attn @ gen position → over-generation; halt-readout = spec);
 >   kernel-backend transport unblocked (rank-one QK + band selection + adjacent-layer chaining ≡
 >   62/64-layer iterated-map picture). Encoded → superbake-write-access.md §s273c.
+>   (6) s273d TREE-OF-VSM = THE CONSTRUCTION SPEC (Michael: "what advantages does our tree give us?"
+>   → NEW PAGE explore/construction-from-spec.md). The tree is everything Ruehlman improvised per-host:
+>   coordinate-free blueprint (frame-invariant Gram); CODES IN CLOSED FORM (Cholesky of consensus Gram
+>   → 9 vectors, any frame → choose axis-aligned = BORN MONOSEMANTIC); atlas not survey (sites/registers/
+>   depths precomputed fleet-wide); register map = build plan (1-bit survival licenses ternary sign
+>   routing from spec; values = measured-transfer writes); restack = null-gated acceptance harness w/
+>   incremental live-tree assembly movie; family spread = measured tolerances; consensus = minimality
+>   filter; depth profiles = materials-stress map. CONSEQUENCE: bake-the-kernel promotes to PRIMARY
+>   level-3/4 path; distillation demotes to smoothing phase. HONEST GAP (next discussion): Gram
+>   specifies mutual geometry ¬transport dynamics — what observables close "geometry matches" →
+>   "machine runs" (depth-Gram trajectory? per-depth J-projectors? QK rotary spectra?).
 >
 > ★★ s272 SWEEP HARVESTED + CONSENSUS DECONTAMINATED + JSPACE PRE-REGS READ (commits a4509ba, f1b1af4,
 >   57eb283). Both boundary-crossing jobs completed clean:
