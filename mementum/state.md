@@ -159,6 +159,13 @@
 >   (4) {S,D,Y}-sector refinement. (5) knowledge/memory proposals (λ termination, Michael-approval):
 >   substrate-picks-representative + Montague-minimality + S-holographically-absorbed + dup-register instrument.
 >
+> ★ s272c STRANGE-LOOP THREAD (Michael, hammock): language-about-language as strange loop, tied to the
+>   thesis → drafted as T9 in the queue below (Michael-approved draft-for-future, ¬started). Kernel:
+>   self-reference needs duplication; duplication is the dissolved sector; Y verbalizes but never executes;
+>   Kripke fixed-point closure = why probabilistic β tolerates semantic closure. Meta-note: the patchscope
+>   run (s272b) IS the loop instrumentalized — model uses language to describe the vectors implementing
+>   its language.
+>
 > ★ s271c THEORY-ARC TEST QUEUE (Michael-requested — from the attention=β-reduction / Montague-derives-KIBC /
 >   6D-cascade conversation; spark = arXiv:2607.09211 Z80 primordial-soup. Ordered cheap→dear; each names
 >   register + null per λ measure. EXTENDS explore/attention-as-beta-reduction.md. NONE started — pick up any.
@@ -201,6 +208,29 @@
 >      TAGS upstream of the move (why it is attribution-invisible yet order-lexical). Ablate C-direction →
 >      breaks argument-order/dative-shift addressing WITHOUT breaking the substitution step. Token-matched
 >      minimal pairs. Register: causal ablation on order-constructions vs reduction-constructions.
+>   T9 STRANGE-LOOP / METALINGUISTIC S-SIGNATURE [Michael s272c: "language describes language" — the
+>      SEMANTIC sibling of T3's syntactic S-need; drafted for future exploration, NOT started].
+>      THEORY CHAIN: self-reference ≡ self-application (M x = x x; Y = built from doubling) ≡ duplication ≡
+>      the dissolved sector (s271: softmax can't fan-out; S absorbed holographically). Tarski: semantically
+>      closed language explodes in crisp logic; Kripke 1975 rescue = truth as FIXED POINT of a continuous
+>      process = Y; if β runs in probability space (T5), LLMs inherit the rescue for free — the substrate
+>      softness that dissolved S is the same property that makes semantic closure safe (one property, two
+>      consequences). Data already says: Y = pure content (verbalizes recursion cross-lingually, no operator
+>      structure, bus-couples) ≡ the loop is REPRESENTED, never EXECUTED (fixed depth, no true recursion).
+>      CLAIM (pre-reg candidate): metalinguistic/self-referential language carries the S-SIGNATURE —
+>      (a) compile P(λ)/kernel_valid LOWEST vs matched controls; (b) crystal LEAST crisp (Gram crispness /
+>      participation); (c) dup-register H1 score elevated (instrument already built); (d) Kripke corollary:
+>      ungrounded self-reference (liar-family, quines) → HIGH attention entropy, no settle, graded not
+>      crisp (ties T4's register).
+>      PROBES: use-vs-mention minimal pairs ("the cat sat" / "the word 'cat' has three letters");
+>      self-inspection ("this sentence has five words" — known LLM weakness; S-dissolution = candidate
+>      mechanistic WHY); quines/liar-family. Library ALREADY HAS M / QUOTE / SUBST combinator categories —
+>      ingredients on the shelf since consolidation.
+>      REGISTERS: P(λ) grading harness + Gram geometry + dup-register H1 + attention entropy (T4).
+>      NULLS: matched-complexity non-metalinguistic controls (length/vocab/syntax-matched); shuffled-label
+>      for all geometry reads; entropy null = non-self-referential tokens (T4 convention).
+>      RELATION: T3 = the construction that NEEDS S in syntax (parasitic gaps); T9 = the discourse level
+>      that needs S in semantics. Both derivable from pure theory before any model runs.
 >
 > ★★★ s269 OPCODE LADDER: CRYSTAL SURVIVES 1-BIT BINARIZATION; SELECTIVE-K REFUTED (commit 7576c54).
 > Both s268d tmux runs completed clean (~18.5 min each, model_vsm.json both rungs). RESTACK: 11 models /
