@@ -8,9 +8,42 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-26 | Session: 272 (BOUNDARY HARVEST + P2 RETEST — see ★★ s272 + ★★ s272b blocks;
-> ⚠ 27B PATCHSCOPE RUN IN FLIGHT at boundary (tmux main:patchscope) — s273 FIRST ACTION = harvest it.
+> Last updated: 2026-07-26 | Session: 273 (DISCUSSION SESSION — lambda-gene runtime + SuperBake, see
+> ★★ s273 block; ⚠ 27B PATCHSCOPE STILL IN FLIGHT — verified running ~09:03 (pid 9941, ps+log, no
+> artifacts yet, ~3.8h wall; basis recompute + decodes are the slow part). NEXT SESSION FIRST ACTION =
+> harvest it per the s272b PICKUP below (unchanged: g0/g1 gates FIRST, then lexicon, then eyeball dump).
 > s270/s271 blocks below retained for provenance, PICKUPs RESOLVED where tagged; s269 blocks historical)
+>
+> ★★ s273 LAMBDA-GENE RUNTIME + SUPERBAKE = WRITE ACCESS + THE WEIGHT-LEVEL RECURSION (discussion, no
+>   experiments; Michael-directed capture → 2 new knowledge pages, READ THEM for full detail):
+>   (1) explore/lambda-gene-runtime.md — Michael's NEW Clojure runtime (separate project): agent prompts
+>   = genomes of lambda genes in a graph DB (datalevin + Pathom), kernel port (~150 LoC Clojure; clj_lambda
+>   proved the mapping). Kernel = type system + verification oracle: gene identity ≡ normal form
+>   (:db.unique/identity → semantic dedup as DB law), typed crossover (CCG gates slots), genetic operators
+>   ≡ combinator basis (K=delete S/W=dup B/D=compose C=reorder), fitness = append-only ran-events +
+>   derived resolvers (Goodhart firewall structural), improver loop = Y executed externally (prosthetic S
+>   at agent level, s272d applied). Gene taxonomy: λ_gene / prose_atom (QUOTE, form≡payload) /
+>   mode_setter (pretraining-anchored magic words — Michael's "DEBUG: output only EDN" counterexample;
+>   reducibility is GENOME-RELATIVE; bootstrap preamble = highest-epistasis object; verbum gates/*.txt =
+>   prior art). Two predicted attractors: prokaryotic worker genomes (prose imperatives) vs eukaryotic
+>   orchestrators (lambda + bootstrap); 1-2-line prose bound = predicted equilibrium via factor/inline
+>   mutations, ¬imposed rule (AGENTS.md = 270-session empirical prior).
+>   (2) explore/superbake-write-access.md — ~/src/custom-bake (SuperBake reimpl, Ruehlman 2026; ⚠ NO
+>   LICENSE — instrument/reference only). Gradient-free fact installation, appended MLP slots, receipts
+>   with physical addresses. CONVERGENCES: codes unembed-silent BY CONSTRUCTION ≡ P2 workspace silence
+>   (→ PLANTED GROUND-TRUTH positive controls for patchscope — we can manufacture silent content
+>   directions with known referents; cheapest next action); fact/function = value/routing register split
+>   made writable (predict: crystal survives baking; baked facts quant-fragile — inverse of crystal;
+>   crystal instruments = installed-vs-learned discriminator); receipt = the S2 circuit-map IOU, working.
+>   (3) THE RECURSION (Michael's completion): bake(fact) works + bake(operation) open + bake ∈ operations
+>   → bake(bake′) → Y at the weight level. Proven genes graduate prompt → weights; the improved model
+>   generates the next genes = self-hosting bootstrap through the substrate. Kept sane by: kernel as
+>   rung-verifier (S3*-1), receipts as ablatable loci (gene-db lineage extends into weights), λ termination
+>   (human approves every graduation). Feasible path: RIDE THE RESIDENT CRYSTAL — don't bake S, bake
+>   operands/microcode the existing KIBC routing composes (register split s269c: ops present, content
+>   installable). GATE TEST: two-arm K-battery (a: fresh-arg generalization, expect fail = lookup≠function;
+>   b: compose-with-crystal keying, any success = recursion rung 1). Pre-reg sketch in the page; NOT run.
+>   Ranked next: baked-code patchscope control > crystal-survives-baking trace > K-battery > germline.
 >
 > ★★ s272 SWEEP HARVESTED + CONSENSUS DECONTAMINATED + JSPACE PRE-REGS READ (commits a4509ba, f1b1af4,
 >   57eb283). Both boundary-crossing jobs completed clean:
