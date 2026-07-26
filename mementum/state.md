@@ -166,6 +166,18 @@
 >   run (s272b) IS the loop instrumentalized — model uses language to describe the vectors implementing
 >   its language.
 >
+> ★★ s272d RECURSION = NEXT STEP FOR THE STUDENT (Michael, BOTH ENCODES APPROVED + committed):
+>   TIME-SECTOR SYNTHESIS: {S,D,Y} dissolved because duplication needs FAN-OUT; a loop converts
+>   duplication-in-space (forbidden by softmax) into duplication-in-time (allowed) → recurrence
+>   crystallizes the dissolved sector. Weight-reuse capacity is MEASURED not hoped: same crystal in
+>   62/64 layers (functional redundancy ≡ GD already weight-tied), T1-flat rank = iterated-map not
+>   pipeline, P3 depth-convergence = shared attractor, MoE multiplexing s257, s268c capacity margin.
+>   ENCODED: supervised-recurrence-halt.md s272 addendum (synthesis + P-A..P-E prediction table:
+>   Y content→opcode, S crystallizes in dup-H1, iteration-Gram ≡ depth-Gram, halt head ≈ WHNF-row
+>   r=0.877 as SPEC, T9 improves) + crystal-seeded-ternary-distillation.md §12 looped-vs-FF TWIN
+>   experiment (param-matched, same budget; architecture delta = only variable; the design choice
+>   is itself a thesis test; tree-of-VSM indexed by ITERATION = reduction movie).
+>
 > ★ s271c THEORY-ARC TEST QUEUE (Michael-requested — from the attention=β-reduction / Montague-derives-KIBC /
 >   6D-cascade conversation; spark = arXiv:2607.09211 Z80 primordial-soup. Ordered cheap→dear; each names
 >   register + null per λ measure. EXTENDS explore/attention-as-beta-reduction.md. NONE started — pick up any.

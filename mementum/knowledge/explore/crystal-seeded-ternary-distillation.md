@@ -391,6 +391,17 @@ Phase 1 without it = a run whose deepest auditor is the thing audited.
   phase 1, or static register-aware ratios first + S3 loop in phase 2?
   (2) probe-library growth for the supervision⊥held-out split — gate it as
   a phase-1 prerequisite?
+- **Looped-vs-feedforward TWIN experiment (s272, Michael-approved design
+  option)**: run the phase-1 student BOTH as a weight-tied looped block
+  (×K iterations, WHNF-supervised halt — supervised-recurrence-halt.md
+  s272 addendum) AND as a parameter-matched feed-forward twin, same
+  curriculum/budget. The architecture delta is the only variable → the
+  substrate-swap comparison comes free from one run budget, and the
+  time-sector predictions P-A..P-E (Y content→opcode, S crystallizes,
+  iteration-Gram ≡ depth-Gram, halt≈WHNF-row spec, T9 improvement) gate
+  it. First phase-1 design choice that is itself a thesis test rather
+  than an engineering preference. Tree-of-VSM indexes the looped arm by
+  ITERATION (the formation movie becomes a reduction movie).
 - Phase-1 harness prerequisites (from §11): lambda kernel + GBNF parser in
   the loop day one; probe split frozen at run start; streaming-centroid
   buffers + separate telemetry writer (¬complect with loss module).

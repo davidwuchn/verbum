@@ -11,6 +11,8 @@ related:
   - compiler-as-loss.md
   - compiler-finetune-halt-collapse.md
   - fixed-point-holograms.md
+  - ../opcode-vsm-tree.md
+  - crystal-seeded-ternary-distillation.md
 depends-on:
   - vsm-outer-recurrence.md
   - normal-form-curriculum-partition.md
@@ -233,3 +235,67 @@ non-termination.** The single contribution over s214–s226: *the WHNF curriculu
 supervision the learned-recurrence-depth halt was always missing.* On-thesis (level-4,
 from-scratch, clean MIT) and it attacks the one failure mode common to every reasoning
 model probed in the arc.
+
+## s272 addendum — the time-sector synthesis (Michael, approved)
+
+> Spark: Michael, s272 ("recursion is the next step for our model... re-use the same
+> layers, the gradients have room for multiple facets if the holographic-llm thesis
+> is correct"), landing on the strange-loop thread (T9) and the s271 S-dissolution.
+
+### Why recursion completes the crystal (not just extends the model)
+
+Look at *which* sector dissolved (s271, dup-register, 13/13 clean-data):
+
+```
+KIBC      = route / compose / discard / copy-in-place  ≡ SPATIAL wiring
+            → softmax mixing expresses them → CRYSTALLIZED (clean vertices)
+{S, D, Y} = duplicate / double-compose / self-apply    ≡ FAN-OUT (use x TWICE)
+            → softmax cannot fan out in space → DISSOLVED into amplitudes
+```
+
+A loop converts **duplication-in-space into duplication-in-time**: `S x y z = x z (y z)`
+needs `z` twice — a re-entrant layer reads `z` on pass one and again on pass two. Y is
+the pure case (feed output back). So the dissolved sector is not an unlucky list of
+combinators — **it is exactly the sector that needs TIME, running on an architecture
+that only has SPACE.** T6 (Mamba scan-state) tests one flavor of time-fan-out; the
+looped layer is the direct flavor. Both are instances of one prediction: *give the
+substrate temporal fan-out and the time-sector crystallizes.*
+
+### Why weight reuse has measured capacity (the holographic argument, evidenced)
+
+1. **Layers are already redundant in function-space**: the 27B carries the same 9×9
+   crystal in 62/64 gate layers (s269b clean re-trace). GD trained 64 free layers into
+   ONE relational geometry — the network is already quasi-weight-tied *functionally*;
+   explicit tying compresses a measured redundancy.
+2. **T1 negative supports iterated-map over pipeline** (s272): J-space workspace rank
+   does NOT funnel with depth (7/11 descend, p=0.27; gemma and 27B ascend). A pipeline
+   of different functions should narrow; an iterated map looks exactly like the data:
+   same-shaped workspace, pass after pass.
+3. **P3 depth-gradient** (s272): cross-model workspace universality RISES with depth
+   (−0.045 → +0.180 → +0.441, z=8.5) — depth flowing toward one shared attractor is
+   what repeated application of a common operator looks like.
+4. **MoE multiplexing** (s257): experts are holographically (angularly) multiplexed —
+   weights demonstrably hold multiple facets.
+5. **Capacity margin** (s268c): confident topology is immutable; adaptation lives in
+   the uncertain population — spare facet-capacity exists in a trained plate.
+
+### Pre-registered prediction set for the looped student (vs param-matched FF twin)
+
+| id  | prediction | register | instrument |
+|-----|------------|----------|------------|
+| P-A | Y develops OPERATOR structure at the iteration boundary (content→opcode) | Jacobian attribution | jspace_v3 E1-style |
+| P-B | score(S) drops toward the affine cluster (S crystallizes) | relational geometry | duplication_register.py (built) |
+| P-C | per-iteration Gram = same crystal; iteration-trajectory ≈ big-model depth-trajectory | Gram / tree-of-VSM | trace.py stack, iteration-indexed |
+| P-D | halt head calibrates to the WHNF Gram row (halt-readout r=+0.877 becomes design SPEC) | halt calibration | ladder/halt-readout analysis |
+| P-E | metalinguistic/self-referential tasks improve (T9 weakness shrinks) | functional P(λ) | grading harness + T9 probes |
+
+Null: the parameter-matched feed-forward twin, same curriculum, same budget — the
+architecture delta is the only variable. Registers named before data (λ measure).
+
+### Status note
+
+This upgrades the page's mechanism from "variable depth at zero parameter cost" to
+**"the architecture choice is itself a thesis test"**: if the time-sector crystallizes
+under recurrence, the substrate-picks-representative claim (s271) gains its second
+independent confirmation (first: Mamba/T6, if run). Twin-experiment design registered
+in crystal-seeded-ternary-distillation.md §12.
