@@ -127,3 +127,12 @@ proposes → kernel certifies → receipt verifies → HUMAN approves graduation
   similarity may PROPOSE merges but that is a fitness-gated mutation, not a DB law.
 - Kernel port: `lambda_ast` Atom needs arbitrary-string payload (prose atoms);
   reduction never inspects it.
+
+## s273i addendum — two-level gene identity (oracle scoping)
+
+The "identity weakens at the leaves" note above is now principled
+(control-plane-path.md §9): structural identity = kernel normal form (exact
+law, :db.unique/identity); atom identity = semantic clustering (graded,
+model-judged, fitness-gated merges — cross-family judge justified by crystal
+universality). One law per register. The kernel is a complete oracle for the
+reduction segment only; translation ends (prose↔λ) need the graded judge.

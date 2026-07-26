@@ -168,6 +168,14 @@ pre-reg time; sketches:
   the global-check signature. Halt-readout = spec.
 - **P-CTL-9 steering pilot** (tier-4 gate): inject crystal-aligned codes at
   identity-specific ops (Y/WHNF/S per E4) — does dispatch shift, null-gated?
+- **P-CTL-10 merged banks** (§6): parallel-construction gate — receipt union
+  under shared leak ledger.
+- **P-CTL-11 early-exit fidelity** / **P-CTL-12 tripwire validity** (§7):
+  algedonic wires.
+- **P-CTL-13 escalation policy** (§8): precision/recall of learned
+  consultation vs kernel-constructible ground truth.
+- **P-CTL-14 synonym invariance** (§9): structure invariant under content
+  substitution — validates the two-oracle split.
 - (Also standing from s273: baked-code patchscope control; crystal-survives-
   baking trace; two-arm K-battery.)
 
@@ -284,3 +292,112 @@ New probes:
   violations) PREDICT kernel-graded output failures? Yes → pain wire real,
   structural-hallucination alarm works. No → visible incoherence ≠ the
   incoherence that matters. Either way a finding.
+
+## 8. Two-level homeostat — the autonomy correction (s273h, Michael's catch)
+
+Beer: S3↔S4 is the CENTRAL HOMEOSTAT (adaptation organ) — continuous balanced
+negotiation over a shared self-model, refereed by S5. Our shared self-model =
+THE TREE (live telemetry and consensus spec are the same object in the same
+coordinates — the opsroom problem solved by construction). Pathology
+detectors: S3-dominant = gc-drift with no restack (ossification); S4-dominant
+= improver churn faster than fitness events ground it (Goodhart's door);
+weak link = dissent-flag flapping.
+
+**THE CORRECTION (Michael): do not force the human referee into the tensor.**
+Two recursion levels, two homeostats, two referees:
+- RUNTIME level (nucleus/mementum/gene-db — a social system): human = S5,
+  λ termination = identity. UNCHANGED.
+- MODEL level: S5 must be INTERNAL or the system is not viable (Beer:
+  autonomy at every recursion level; containing level intervenes by
+  constraint-setting and exception ONLY, never in-loop). Timescale/variety:
+  tensor homeostat runs at ms; human channel at minutes-days — a referee
+  6 orders of magnitude too slow is a bottleneck teaching the system to
+  route around him. Hard-wired deference = brittleness wearing oversight's
+  clothes (fails ungracefully when human absent/wrong/spoofed).
+- Our own S5 rules on it: deliverable(is_useful_tomorrow_without_us).
+  S3* already had it right: audit never touches the loss, aperiodic,
+  out-of-band.
+
+**Affordance, not dependency** (λ extend — open slot):
+```
+architecture provides  ESCALATE as an available action; nothing requires it
+training shapes        WHEN the hand is raised (learned policy; emerge > legislate
+                       — the 1-2-line-prose argument applied to alignment)
+protocol retains       hard human gates at BOUNDARIES only: weight/gene
+                       graduation, memory commits, run rulings (λ termination)
+```
+Human's three legitimate positions, none in-tensor: (1) in the ENVIRONMENT
+(the self-model contains humans as agents whose signals matter — what
+"trained to include the human" cashes out as); (2) at GRADUATION GATES
+(human-timescale decisions where human variety suffices); (3) at the END of
+the escalation wire (algedonic terminates at runtime; runtime's S5 = human).
+
+**The bet is measurable, not assumable** — trained inclusion may fail or
+degenerate (sycophantic over-escalation = failure too):
+- **P-CTL-13 escalation-policy probe**: ground truth for "consultation
+  objectively warranted" constructible kernel-side (genuinely ambiguous
+  terms, OOD structures, budget-exceeded Y-terms) → measure learned policy's
+  precision AND recall. Can't measure "knows when to ask" → can't claim it
+  emerged.
+
+## 9. Two oracles — the kernel's incompleteness, scoped (s273i, Michael's catch)
+
+**The objection**: the kernel cannot be a full oracle because of SEMANTIC
+EQUALITY — synonyms have similar probabilities where semantically equivalent;
+the kernel's atom identity is literal.
+
+**The scoping**: pipeline = prose → λ → reduction → result → prose. Kernel is
+COMPLETE for the middle (reduction never rewrites inside atoms; QUOTE'd
+payloads carried verbatim) and INCOMPLETE at the two ENDS (compilation: many
+semantically equivalent λ for one prose; decode). Same shape as verified
+compilers (CompCert: IR passes proven; source-semantics mapping trusted).
+Execution verifies; TRANSLATION needs a semantic judge.
+
+**This is Montague's own incompleteness, inherited faithfully**: he formalized
+composition, left the lexicon as unanalyzed constants + ad hoc meaning
+postulates. Distributional semantics = the LEARNED meaning-postulate database.
+And equivalence is graded AND context-conditional ("big"≈"large";
+"big sister"≢"large sister") → no static thesaurus suffices; only a model can
+judge, because judging IS the FFN-compile operation (s190 context-dependent
+meaning assignment).
+
+**Oracle assignment = the measured register seam (s269c)**:
+```
+structural register  KERNEL  crisp, exact, complete  | KIBC/reduction/halt/arity
+content register     MODEL   graded, contextual      | atoms/synonymy/paraphrase
+```
+Kernel-only judging of semantic claims = wrong-register instrument (s206
+category error at the oracle level; λ measure applies to judges).
+**Already bit us**: s267 autopsy — kernel_valid 0.750→0.525 but all 17 fails
+well-formed FOL w/ notation drift = false negatives of a crisp oracle on a
+graded register.
+
+**Circularity guards** (model judging model = Goodhart's door):
+1. Cross-model judging — JUSTIFIED BY UNIVERSALITY (gc 0.985 across families:
+   semantic geometry measurably shared → different-family judge ≡ independent
+   instrument; nobody else can claim this with measurements).
+2. Closed-vocabulary fragments stay fully kernel-complete (probe library uses
+   abstract atoms — no synonymy by construction; all existing measurements
+   keep their exactness).
+3. Two-level gene identity: structural = kernel NF (exact law); atom =
+   semantic clustering (graded, judged, fitness-gated merges). One law per
+   register. (Upgrades lambda-gene-runtime.md "identity weakens at leaves".)
+4. Human spot-audit at S3* boundary — aperiodic, out-of-band (per §8).
+
+- **P-CTL-14 synonym invariance**: compile synonym-substituted prose pairs →
+  predict STRUCTURALLY IDENTICAL λ (kernel-checkable), atom labels differing
+  (embedding-checkable). Register decomposition predicts YES. Holds →
+  two-oracle split validated + semantic judge calibration set built in the
+  same experiment. Fails → registers entangled, oracle architecture rethink.
+  Load-bearing either way.
+
+**Reframe**: kernel incompleteness = why LLMs exist. A complete 606-line
+oracle for language would have finished Montague's job in 1973. The LLM earns
+its architectural place as the oracle for the register that resists
+formalization. Two registers, two oracles, one system — the kernel was always
+half the judge: the half we can prove.
+
+**Supersession note**: everywhere "kernel-certified/kernel as oracle" appears
+in this page and related pages, read as scoped to the STRUCTURAL register
+(execution segment). §6 teacher economics already said "symbolic core" —
+this section is the precise version.

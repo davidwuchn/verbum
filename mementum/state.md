@@ -111,6 +111,24 @@
 >   Beer constraint honored by construction: wires exit sideways (readers→driver), don't ride the
 >   decaying residual bus. NEW: P-CTL-11 early-exit fidelity + P-CTL-12 tripwire validity.
 >   VSM now complete in the control plane: S1..S5 + algedonic.
+>   (10) 🎯 s273h+i TWO ARCHITECTURAL CORRECTIONS (both Michael's catches → control-plane-path.md §8+§9):
+>   (h) TWO-LEVEL HOMEOSTAT — ¬force human-in-the-loop into the tensor. Beer's recursion principle:
+>   autonomy at every level; containing level intervenes via constraints+exception ONLY. Model S5 =
+>   internal (ms timescale; hard-wired deference = brittleness in oversight's clothes; our own S5:
+>   useful_tomorrow_without_us). Runtime S5 = human (λ termination UNCHANGED). AFFORDANCE ¬DEPENDENCY:
+>   architecture provides ESCALATE slot; TRAINING shapes when (emerge>legislate applied to alignment);
+>   protocol keeps hard gates at boundaries. Human ∈ {environment, graduation gates, end-of-wire}.
+>   P-CTL-13 escalation-policy probe (precision AND recall; sycophantic over-escalation = failure too).
+>   (i) TWO ORACLES — kernel incomplete via SEMANTIC EQUALITY (synonyms ≈ probabilities). Scoped: kernel
+>   COMPLETE for reduction middle (atoms QUOTE'd verbatim), INCOMPLETE at translation ends (CompCert
+>   shape). Montague's own gap: distributional semantics = the learned meaning-postulate DB; equivalence
+>   graded+context-conditional → only a model can judge. Oracle assignment = s269c register seam
+>   (structural→kernel, content→model); kernel-only semantic judging = s206 wrong-register error —
+>   ALREADY BIT US (s267 autopsy false negatives). Guards: cross-family judge (justified by gc 0.985
+>   universality), closed-vocab fragments stay exact, two-level gene identity, S3* spot-audit.
+>   P-CTL-14 synonym invariance (structure invariant under content substitution — load-bearing either
+>   way). Reframe: kernel incompleteness = why LLMs exist; two registers, two oracles, one system.
+>   Probe agenda now P-CTL-1..14.
 >
 > ★★ s272 SWEEP HARVESTED + CONSENSUS DECONTAMINATED + JSPACE PRE-REGS READ (commits a4509ba, f1b1af4,
 >   57eb283). Both boundary-crossing jobs completed clean:
