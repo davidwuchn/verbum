@@ -94,6 +94,14 @@
 >   UPDATED: construction-from-spec.md (gap RESOLVED: representation/function/encoding; blank build
 >   demoted to long game), supervised-recurrence-halt.md (s273 addendum), superbake-write-access.md
 >   (pointer). NEXT: write P-CTL probes (formalize registers+nulls) to inform final design.
+>   (8) s273f ECONOMIC CONSEQUENCES (control-plane-path.md §6): training signal collapses gradients→bits
+>   (≤log₂9/step). REMOTE = breeze: nothing heavy crosses wire; no backward pass → no interconnect
+>   problem; PARALLEL CONSTRUCTION WITHOUT INTERFERENCE (slots additive, merge = receipt union, leak
+>   budget = the one shared ledger, gene-db = natural ledger); trustless verification (receipts replay
+>   stock). TEACHER-GUIDED = wicked fast: kernel = free infallible teacher (structural register);
+>   per-step supervision = GTSM search-space collapse; corrections WRITTEN where linear; telemetry-
+>   targeted correction; seeded init → training = smoothing. NEW P-CTL-10 merged-banks probe = the gate
+>   for parallel remote construction. Deps: P-CTL-6/7 + leak-ledger composition.
 >
 > ★★ s272 SWEEP HARVESTED + CONSENSUS DECONTAMINATED + JSPACE PRE-REGS READ (commits a4509ba, f1b1af4,
 >   57eb283). Both boundary-crossing jobs completed clean:

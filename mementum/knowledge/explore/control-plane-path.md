@@ -180,3 +180,59 @@ pre-reg time; sketches:
   on-host; skeleton build (Cholesky codes, ternary routing) remains the
   long-game deliverable.
 - The span-arithmetic organ (never built): dissolved by §2.
+
+## 6. Economic consequences (s273f — Michael's two excitements, grounded)
+
+**Root: the training signal collapses from gradients to bits.** Two-register
+split + certified structure → the heavy parts (value register, parent bulk)
+never move or are written closed-form; what carries learning (routing/opcode
+corrections) is discrete and tiny: ≤log₂9 ≈ 3.2 bits per reduction step
+(opcode-indexed requential pricing). Gradient training ships tensors +
+optimizer state + all-reduce per step; this ships a trickle of certified
+corrections.
+
+### Remote training = a breeze because
+- Nothing heavy crosses the wire: parent frozen in place; travels = probe
+  batteries (text), receipts (JSON), reader packs (9×d floats/site — KBs),
+  Gram specs (81 floats). A control plane ships in an email.
+- No backward pass → no interconnect problem. Construction = measure → compute
+  → write: deterministic, resumable, ran on an RTX 2060 in their results.
+  Distributed training's hard problem (gradient sync) does not exist here.
+- PARALLEL CONSTRUCTION WITHOUT INTERFERENCE (the sleeper): appended slots
+  additive + lane-orthogonal → N remote nodes bake different ops/facts against
+  the SAME frozen parent simultaneously; merge = set-union of receipts; only
+  shared resource = the leak budget (one global ledger, not a parameter
+  server). Gene-db = the natural ledger.
+- Trustless verification: receipts replay in a fresh stock process — verify a
+  remote bake WITHOUT trusting the remote machine.
+
+### Teacher-guided training = wicked fast because
+- The best teacher is free and never wrong: for the symbolic core the teacher
+  is the KERNEL — infinite certified traces, per-step labels, depth countdowns,
+  zero inference cost, zero error rate. Expensive-teacher problem evaporates
+  for the structural register.
+- Per-step supervision = the GTSM speedup mechanically: endpoint loss makes the
+  student SEARCH (many trajectories share one output); certified per-step
+  correction hands it the trajectory — search space collapses to the path
+  (Girsanov exchange rate). Textual recursion makes every step supervisable by
+  construction: execution format ≡ training format.
+- Corrections WRITTEN, not descended into, where response is linear
+  (measured-transfer one-shot; SuperBake's calibration loop as trainer —
+  rounds, not epochs).
+- Teacher sees organs, not loss curves: live-tree telemetry in spec
+  coordinates → corrections target measured starvation (bridge-allocation
+  logic); correction-confusion ≅ Gram off-diagonals checkable in-flight.
+- Seeded start compounds it: constructed skeleton → training = smoothing.
+  ∫KL(seeded) ≪ ∫KL(unseeded) should be embarrassing with a constructed init.
+
+### Dependency chain (calibration)
+Both inherit the P-CTL gates: remote-parallel needs leak-budget accounting to
+compose across independent bakers; teacher-in-bits needs P-CTL-6/7 (readers
+see live redexes; per-step ≫ one-shot). If those gate, the rest is engineering
+with known parts.
+
+- **P-CTL-10 merged banks** (added): bake two banks separately against the same
+  frozen parent, merge (union of slots/receipts under a shared leak ledger),
+  verify BOTH receipt sets hold post-merge + referees flat. THE gate for
+  parallel remote construction. Register: receipt replay + prose/leak
+  referees. Null: interleaved-single-bake comparison.
