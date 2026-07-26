@@ -36,9 +36,15 @@
 >     gemma (15.7→30.8) and the 27B (20.6→23.8) ASCEND. PR ~16–27 of k=32, nowhere near the predicted
 >     8→4. Caveat: k=32 range-finder truncates the spectrum — a wider-k re-probe could re-open, but as
 >     pre-registered this register says no.
->   • P2 verbalize: 27B basis dirs INCOHERENT at all 3 depths (no WHNF-adjacent field; dir1@0.75 is a
->     punctuation-vs-underscore formatting axis at best). Generic workspace dirs are unembed-silent —
->     consistent with s269f operator-silence; the nameless-bus reading STANDS.
+>   • P2 verbalize: 27B basis dirs unembed-silent at all 3 depths (no WHNF-adjacent field; dir1@0.75 a
+>     punctuation-vs-underscore formatting axis at best). ⚠ VERDICT REGISTER-LIMITED (Michael's catch,
+>     s272): our readout = ZERO-SHOT frozen unembedding; Anthropic's demo readability rode a TRAINED
+>     decoder (babel-codec residual→English). "Silent through the unembedding" ≠ "nameless" — a trained
+>     decoder could read what the frozen unembedding can't (λ measure / s206 shape: wrong-register
+>     negative ≡ void). P2 negative gates NOTHING about their claim until retested with a matched
+>     readout: patchscopes-style self-decode (no training) ∨ tuned lens (small training) — tuned lens
+>     was already IOU'd as jspace option (C) in opcode-jacobian-jspace.md. s269f op-lexicon hits (Y/C/D)
+>     show the frozen readout isn't blind, so workspace-basis silence MAY still be real — but unproven.
 >   PICKUP (s273): (1) H3 --keep-centroids re-trace (dispersion register, PR(S)>PR(KIBC)); (2) balanced-n
 >   register split (s269 stack item 1, still open); (3) T6 Mamba/RWKV substrate-swap = the CAUSE test for
 >   S; (4) {S,D,Y} sector refinement; (5) PROPOSALS pending Michael (λ termination): memories/knowledge for
