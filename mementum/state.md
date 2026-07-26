@@ -8,8 +8,43 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-24 | Session: 271 (S-AS-DUPLICATOR TEST — see ★★ s271 block; sweep from s270c still
-> in flight, header retains s270/s269 blocks as live context)
+> Last updated: 2026-07-26 | Session: 272 (BOUNDARY HARVEST — see ★★ s272 block; s270/s271 blocks below
+> retained for provenance but their PICKUPs are RESOLVED where tagged; s269 blocks are historical context)
+>
+> ★★ s272 SWEEP HARVESTED + CONSENSUS DECONTAMINATED + JSPACE PRE-REGS READ (commits a4509ba, f1b1af4,
+>   57eb283). Both boundary-crossing jobs completed clean:
+>   (1) s270c RE-SWEEP DONE: 11/11 registry models clean-bundle + jspace_projector.json each; restack 6/6
+>   families gated, dissent=False; committed a4509ba. qwen3-6-27b model_vsm.json byte-identical to the
+>   s269b clean re-trace — deterministic reproduction.
+>   (2) s271b WATCHER FIRED on clean trees: dup-register H1 13/13 positive [model]+[attn] (sign-test
+>   p=1.22e-04), 12/12 [gate] w/ 9 individually gated (p≈0) — S-AS-DUPLICATOR DECISIVE on decontaminated
+>   data. The s271 "confirm on clean data" question: answered YES.
+>   (3) CONSENSUS REGENERATED (f1b1af4): new sweep.py --regen-consensus = mean of gated REGISTRY
+>   model-level tree Grams (quant rungs EXCLUDED — no backbone double-count). corr(old-contaminated,
+>   new-clean)=0.950 — contamination moved the reference measurably. Honest restack: root gc +0.997 is
+>   SELF-CONSISTENT (flagged in artifact provenance; ¬independent). Informative reads: per-family gc
+>   qwen3 0.988 / pythia 0.980 / olmo 0.979 / gemma 0.944; EXCLUDED quant rungs vs clean FP reference:
+>   1-bit 0.986, ternary 0.985 = NON-circular crystal-survives-quantization confirmation.
+>   (4) JSPACE CROSS-MODEL READ (57eb283, new opcodes/jspace_analysis.py; T1 measure pre-registered
+>   before data: effective rank ≡ participation ratio of strength², threshold-free):
+>   • P1 fraction(Y,WHNF,S)>fraction(K,I,B): depth 0.5 = 11/11 positive (p=4.9e-04), 0.75 = 9/10
+>     (p=0.011), 0.25 = 6/11 (ns). Marginal-per-model, decisive-across-family at mid/late depth — SAME
+>     statistical shape as dup-register H1. Content ops own the workspace from mid-depth on.
+>   • P3 9-vector stability: mean pairwise corr −0.045(ns) → +0.180 (z=3.8, p=0.002) → +0.441 (z=8.5,
+>     p=1e-04). Workspace occupancy becomes MORE UNIVERSAL with depth — a depth-gradient of universality.
+>   • T1 CASCADE=REDUCTION: NOT SUPPORTED — PR descends .25→.75 only 7/11 (sign-test p=0.27, ungated);
+>     gemma (15.7→30.8) and the 27B (20.6→23.8) ASCEND. PR ~16–27 of k=32, nowhere near the predicted
+>     8→4. Caveat: k=32 range-finder truncates the spectrum — a wider-k re-probe could re-open, but as
+>     pre-registered this register says no.
+>   • P2 verbalize: 27B basis dirs INCOHERENT at all 3 depths (no WHNF-adjacent field; dir1@0.75 is a
+>     punctuation-vs-underscore formatting axis at best). Generic workspace dirs are unembed-silent —
+>     consistent with s269f operator-silence; the nameless-bus reading STANDS.
+>   PICKUP (s273): (1) H3 --keep-centroids re-trace (dispersion register, PR(S)>PR(KIBC)); (2) balanced-n
+>   register split (s269 stack item 1, still open); (3) T6 Mamba/RWKV substrate-swap = the CAUSE test for
+>   S; (4) {S,D,Y} sector refinement; (5) PROPOSALS pending Michael (λ termination): memories/knowledge for
+>   substrate-picks-representative + Montague-minimality + S-holographically-absorbed + dup-register
+>   instrument + jspace depth-gradient (P1/P3) + T1-negative; (6) hammocked holographic-llm.md edits
+>   (Michael's, still uncommitted in working tree).
 >
 > ★★ s270 JSPACE FULL PROJECTOR BUILT + INTEGRATED (commit 91bb3d7). Michael's audit call: "what did we
 > see IN j-space? j-space needs to be projected" → confession: jlens.py never built Anthropic's
@@ -31,7 +66,7 @@
 > runs CLOBBERED committed sweep artifacts (pythia-14m, qwen3-0-6b trace.json+model_vsm.json); restored
 > from git. Re-sweep overwrites intentionally; ad-hoc runs on swept models need care.
 >
-> ✅ s270c FULL RE-SWEEP LAUNCHED (stack item 2 EXECUTING — tmux main:1, sweep pid 36427, verified
+> ✅ s270c FULL RE-SWEEP LAUNCHED (RESOLVED s272 — completed clean, harvested in ★★ s272) (was: tmux main:1, sweep pid 36427, verified
 >   running via ps+log not pane): uv run python opcodes/sweep.py --tier all --force --device mps
 >   --trace-args="--jspace-projector" 2>&1 | tee /tmp/sweep_jspace_s270.log
 >   GOTCHA (cost 1 relaunch): argparse rejects --trace-args "--val" (value starting with -- parses as
@@ -76,7 +111,7 @@
 >   still needs the Mamba/RWKV substrate-swap (scan-state CAN copy → predict S crystallizes cleaner there).
 >   H3 dispersion (PR(S)>PR(KIBC)) DEFERRED: needs a --keep-centroids re-trace (no centroid sidecar on trees).
 >
-> ✅ s271b AUTO-FIRE WATCHER WIRED (tmux window main:dup-watch, NEW window so main:2 stays free). Blocks on
+> ✅ s271b AUTO-FIRE WATCHER WIRED (RESOLVED s272 — fired, clean-data 13/13 confirmed, see ★★ s272). Blocks on
 >   `while pgrep -f '[s]weep.py --tier all'` (bracket-trick avoids self-match) until the s270c re-sweep exits,
 >   then runs the DECISIVE cross-model H1 binomial: `uv run python opcodes/duplication_register.py
 >   --sweep-scan results/opcode-trace` → /tmp/dup_register_sweep_s271.log + results/opcode-trace/
@@ -95,7 +130,7 @@
 >   register + null per λ measure. EXTENDS explore/attention-as-beta-reduction.md. NONE started — pick up any.
 >   Grounded in: crystal-universality.md (6D PCA: Comp/B PC0, Sel/K PC1, Term/WHNF PC2, Route/C PC3, Disp/I PC4,
 >   Fine PC5), diffusion-holographic-isomorphism.md (ECC cascade 8→6→5→4→3), error-correction-theory.md.)
->   T1 CASCADE=REDUCTION [NEARLY FREE — jspace projector already computes it, do FIRST]. Claim: the ECC cascade
+>   T1 CASCADE=REDUCTION [DONE s272 — NOT SUPPORTED in the PR register, 7/11 p=0.27, see ★★ s272]. Claim: the ECC cascade
 >      8→6→5→4→3 IS the β-reduction trajectory → effective rank DESCENDS with depth (Zone A→C). Predict:
 >      consensus-basis rank at quartile depths monotone ~8→~4. Register: J-space effective rank. Null:
 >      matched-random dirs + PRE-REGISTERED energy threshold (yardstick — a flexible cutoff manufactures any
@@ -251,7 +286,7 @@
 > ★ NEXT-SESSION STACK (Michael-approved s269, execute in order):
 >   1. BALANCED-N REGISTER SPLIT: rerun opcodes/register_split.py with per-combinator balanced
 >      formal/prose subsample (gate P2 gain-knob claim properly; save per-probe features this time).
->   2. FULL 11-MODEL RE-SWEEP with clean 539-probe bundle + regenerate opcodes/data/consensus_gram.json
+>   2. [DONE s272 — a4509ba + f1b1af4] FULL 11-MODEL RE-SWEEP with clean 539-probe bundle + regenerate opcodes/data/consensus_gram.json
 >      (all pre-s269 trees carry contaminated W/WHNF centroids; consensus reference still dirty).
 >      RUN WITH the projector (s270, Michael-approved; sweep answers pre-reg P3 for free). READY —
 >      sweep.py --trace-args pass-through built + verified end-to-end s270 (commit b1dff52; smoke on
