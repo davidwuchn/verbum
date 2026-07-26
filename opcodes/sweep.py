@@ -7,7 +7,7 @@ tracing, every model-VSM stacks into the tree:
 
     layer -> register -> model -> family -> root(universal)
 
-and the root's Gram is compared against the bundled 10-model consensus — the
+and the root's Gram is compared against the bundled consensus reference — the
 cross-model universality headline, with per-family agreement and per-model
 health visible at every level (dissent is a first-class output, not an error).
 
@@ -31,7 +31,10 @@ import shlex
 import subprocess
 import sys
 from dataclasses import dataclass
+from datetime import UTC, datetime
 from pathlib import Path
+
+import numpy as np
 
 _HERE = Path(__file__).resolve().parent
 _ROOT = _HERE.parent
@@ -147,6 +150,59 @@ def restack(reference=None) -> VSMNode | None:
     return root
 
 
+def regen_consensus() -> Path:
+    """Rebuild opcodes/data/consensus_gram.json from gated REGISTRY trees.
+
+    Reference = mean of model-level tree Grams (gate+attn rollup) across the
+    registry models only — quantization rungs and ad-hoc traces are excluded
+    so no backbone is double-counted. NOTE the self-consistency caveat: the
+    restack root is built from (a superset of) these same trees, so root gc
+    against this reference is a self-consistent read, not an independent one;
+    per-model and per-family gc remain the informative numbers.
+    """
+    registry_models = {s.model for s in REGISTRY}
+    names, grams, basis = [], [], None
+    for p in sorted(RESULTS_DIR.glob("*/model_vsm.json")):
+        node = load_tree(p.with_suffix(""))
+        if node.name not in registry_models:
+            print(f"[consensus] excluded (non-registry): {node.name}")
+            continue
+        if not node.gated or node.gram is None:
+            print(f"[consensus] SKIP (ungated / no gram): {node.name}")
+            continue
+        if basis is None:
+            basis = json.loads(p.read_text(encoding="utf-8")).get("basis")
+        names.append(node.name)
+        grams.append(np.asarray(node.gram, dtype=np.float64))
+    if not grams:
+        raise SystemExit("[consensus] no gated registry trees found")
+    consensus = np.mean(np.stack(grams), axis=0)
+    sha = subprocess.run(
+        ["git", "rev-parse", "--short", "HEAD"], cwd=str(_ROOT),
+        capture_output=True, text=True, check=False,
+    ).stdout.strip()
+    out = _HERE / "data" / "consensus_gram.json"
+    out.write_text(json.dumps({
+        "description": (
+            f"{len(names)}-model consensus crystal Gram — mean of gated "
+            "model-level tree Grams from results/opcode-trace (clean "
+            "539-probe bundle, contamination fix 48366f2). SELF-CONSISTENT "
+            "reference for the restack root (built from the same trees)."
+        ),
+        "register": "topological/routing (model-level tree rollup: gate+attn)",
+        "method": "mean of gated model-level Grams; registry models only",
+        "source": "results/opcode-trace/*/model_vsm.json",
+        "provenance_git_sha": sha,
+        "generated": datetime.now(UTC).isoformat(timespec="seconds"),
+        "n_models": len(names),
+        "models": names,
+        "crystal_order": basis,
+        "consensus_gram": consensus.tolist(),
+    }, indent=2), encoding="utf-8")
+    print(f"[consensus] wrote {out} ({len(names)} models)")
+    return out
+
+
 def report(root: VSMNode, reference) -> None:
     print("=" * 72)
     print("OPCODE CRYSTAL TREE — cross-model consensus")
@@ -155,7 +211,7 @@ def report(root: VSMNode, reference) -> None:
     print("-" * 72)
     if root.gram is not None and reference is not None:
         gc = offdiag_corr(root.gram, reference)
-        print(f"root Gram vs bundled 10-model consensus: gc = {gc:+.3f}")
+        print(f"root Gram vs bundled consensus reference: gc = {gc:+.3f}")
     print(f"families: {root.meta['n_gated']}/{root.meta['n_children']} gated | "
           f"agreement mean={root.meta['agreement_mean']:.3f} "
           f"min={root.meta['agreement_min']:.3f} "
@@ -184,7 +240,14 @@ def main() -> None:
                          "(e.g. \"--jspace-projector --n-perm 500\")")
     ap.add_argument("--restack-only", action="store_true",
                     help="skip tracing; restack existing artifacts")
+    ap.add_argument("--regen-consensus", action="store_true",
+                    help="rebuild opcodes/data/consensus_gram.json from gated "
+                         "registry trees before restacking (implies no trace)")
     args = ap.parse_args()
+
+    if args.regen_consensus:
+        regen_consensus()
+        args.restack_only = True
 
     if not args.restack_only:
         if args.models:

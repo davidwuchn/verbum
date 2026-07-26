@@ -7,7 +7,7 @@
       ],
       "n_gated": 1,
       "agreement_mean": NaN,
-      "gc_consensus": 0.9509766271096188
+      "gc_consensus": 0.9849193905865875
     },
     "gemma": {
       "models": [
@@ -15,7 +15,7 @@
       ],
       "n_gated": 1,
       "agreement_mean": NaN,
-      "gc_consensus": 0.9072664454466739
+      "gc_consensus": 0.9438925024123259
     },
     "olmo": {
       "models": [
@@ -23,7 +23,7 @@
       ],
       "n_gated": 1,
       "agreement_mean": NaN,
-      "gc_consensus": 0.9115805462058281
+      "gc_consensus": 0.9793004347341815
     },
     "prism-ml": {
       "models": [
@@ -31,7 +31,7 @@
       ],
       "n_gated": 1,
       "agreement_mean": NaN,
-      "gc_consensus": 0.9553233643710602
+      "gc_consensus": 0.9858081377378057
     },
     "pythia": {
       "models": [
@@ -42,7 +42,7 @@
       ],
       "n_gated": 4,
       "agreement_mean": 0.8851361538872392,
-      "gc_consensus": 0.9188575852468908
+      "gc_consensus": 0.9795599610484643
     },
     "qwen3": {
       "models": [
@@ -54,12 +54,12 @@
       ],
       "n_gated": 5,
       "agreement_mean": 0.9802522805501219,
-      "gc_consensus": 0.9521294025875809
+      "gc_consensus": 0.987585881218193
     }
   },
   "root_health": {
     "sil_z": 5.9087499999999995,
-    "gc_consensus": 0.9502760262883532,
+    "gc_consensus": 0.9965968108752857,
     "crystal_bearing_frac": 1.0,
     "null_floor_z": 1.733
   },
