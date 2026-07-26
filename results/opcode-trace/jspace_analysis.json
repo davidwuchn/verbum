@@ -1,0 +1,445 @@
+{
+  "p1": {
+    "per_model": {
+      "gemma-4-31b-it": {
+        "0.25": {
+          "observed": -0.000102,
+          "z": -0.356,
+          "p": 0.63636,
+          "gated": false
+        },
+        "0.5": {
+          "observed": 0.000119,
+          "z": 3.036,
+          "p": 0.004,
+          "gated": true
+        },
+        "0.75": {
+          "observed": 1.4e-05,
+          "z": 1.544,
+          "p": 0.05994,
+          "gated": false
+        }
+      },
+      "olmo-2-1124-13b": {
+        "0.25": {
+          "observed": 0.012505,
+          "z": 2.381,
+          "p": 0.00599,
+          "gated": true
+        },
+        "0.5": {
+          "observed": 0.010443,
+          "z": 1.339,
+          "p": 0.08891,
+          "gated": false
+        },
+        "0.75": {
+          "observed": 0.014439,
+          "z": 1.28,
+          "p": 0.09491,
+          "gated": false
+        }
+      },
+      "pythia-14m-deduped": {
+        "0.25": {
+          "observed": -0.039988,
+          "z": -1.063,
+          "p": 0.85215,
+          "gated": false
+        },
+        "0.5": {
+          "observed": 0.025148,
+          "z": 0.731,
+          "p": 0.23676,
+          "gated": false
+        }
+      },
+      "pythia-160m-deduped": {
+        "0.25": {
+          "observed": -0.003545,
+          "z": -0.457,
+          "p": 0.66633,
+          "gated": false
+        },
+        "0.5": {
+          "observed": 0.008676,
+          "z": 1.172,
+          "p": 0.12787,
+          "gated": false
+        },
+        "0.75": {
+          "observed": 0.014844,
+          "z": 0.837,
+          "p": 0.1958,
+          "gated": false
+        }
+      },
+      "pythia-2-8b-deduped": {
+        "0.25": {
+          "observed": -0.001089,
+          "z": -1.231,
+          "p": 0.88911,
+          "gated": false
+        },
+        "0.5": {
+          "observed": 0.001447,
+          "z": 0.447,
+          "p": 0.31169,
+          "gated": false
+        },
+        "0.75": {
+          "observed": -0.012972,
+          "z": -1.03,
+          "p": 0.84316,
+          "gated": false
+        }
+      },
+      "pythia-410m": {
+        "0.25": {
+          "observed": -0.011766,
+          "z": -1.878,
+          "p": 0.96903,
+          "gated": false
+        },
+        "0.5": {
+          "observed": 0.007307,
+          "z": 1.02,
+          "p": 0.15185,
+          "gated": false
+        },
+        "0.75": {
+          "observed": 0.022788,
+          "z": 1.956,
+          "p": 0.02098,
+          "gated": true
+        }
+      },
+      "qwen3-0-6b": {
+        "0.25": {
+          "observed": 0.014315,
+          "z": 1.503,
+          "p": 0.06793,
+          "gated": false
+        },
+        "0.5": {
+          "observed": 0.01726,
+          "z": 1.37,
+          "p": 0.07692,
+          "gated": false
+        },
+        "0.75": {
+          "observed": 0.043279,
+          "z": 1.691,
+          "p": 0.04895,
+          "gated": true
+        }
+      },
+      "qwen3-14b": {
+        "0.25": {
+          "observed": 0.005104,
+          "z": 2.196,
+          "p": 0.01499,
+          "gated": true
+        },
+        "0.5": {
+          "observed": 0.002585,
+          "z": 1.122,
+          "p": 0.11988,
+          "gated": false
+        },
+        "0.75": {
+          "observed": 0.008516,
+          "z": 1.228,
+          "p": 0.11588,
+          "gated": false
+        }
+      },
+      "qwen3-32b": {
+        "0.25": {
+          "observed": 0.004301,
+          "z": 2.324,
+          "p": 0.00999,
+          "gated": true
+        },
+        "0.5": {
+          "observed": 0.001328,
+          "z": 0.83,
+          "p": 0.1988,
+          "gated": false
+        },
+        "0.75": {
+          "observed": 0.00522,
+          "z": 1.613,
+          "p": 0.05495,
+          "gated": false
+        }
+      },
+      "qwen3-4b": {
+        "0.25": {
+          "observed": 0.007859,
+          "z": 1.908,
+          "p": 0.02298,
+          "gated": true
+        },
+        "0.5": {
+          "observed": 0.018624,
+          "z": 3.803,
+          "p": 0.002,
+          "gated": true
+        },
+        "0.75": {
+          "observed": 0.017071,
+          "z": 1.491,
+          "p": 0.06993,
+          "gated": false
+        }
+      },
+      "qwen3-6-27b": {
+        "0.25": {
+          "observed": 0.003507,
+          "z": 1.16,
+          "p": 0.11588,
+          "gated": false
+        },
+        "0.5": {
+          "observed": 0.002738,
+          "z": 0.606,
+          "p": 0.26873,
+          "gated": false
+        },
+        "0.75": {
+          "observed": 0.013891,
+          "z": 1.631,
+          "p": 0.05295,
+          "gated": false
+        }
+      }
+    },
+    "aggregate": {
+      "0.25": {
+        "n": 11,
+        "positive": 6,
+        "gated": 4,
+        "sign_p": 0.5
+      },
+      "0.5": {
+        "n": 11,
+        "positive": 11,
+        "gated": 2,
+        "sign_p": 0.00048828125
+      },
+      "0.75": {
+        "n": 10,
+        "positive": 9,
+        "gated": 2,
+        "sign_p": 0.0107421875
+      }
+    }
+  },
+  "p3": {
+    "0.25": {
+      "mean_pairwise_corr": -0.04546627821143284,
+      "null_mean": 0.00013351515257922878,
+      "null_sd": 0.0478439605074956,
+      "z": -0.9530940348650287,
+      "p": 0.8318168183181682,
+      "gated": false
+    },
+    "0.5": {
+      "mean_pairwise_corr": 0.18032082313707723,
+      "null_mean": -0.0005788647457510642,
+      "null_sd": 0.047602398803608066,
+      "z": 3.800222098662743,
+      "p": 0.0021997800219978004,
+      "gated": true
+    },
+    "0.75": {
+      "mean_pairwise_corr": 0.4408613273156554,
+      "null_mean": -0.0004056053719539631,
+      "null_sd": 0.052039648210075014,
+      "z": 8.479437272640496,
+      "p": 9.999000099990002e-05,
+      "gated": true
+    }
+  },
+  "t1": {
+    "measure": "participation ratio of strength^2 (pre-registered, threshold-free)",
+    "per_model": {
+      "gemma-4-31b-it": {
+        "depths": [
+          0.25,
+          0.5,
+          0.75
+        ],
+        "pr": [
+          15.725,
+          19.867,
+          30.764
+        ],
+        "descends_25_to_75": false,
+        "monotone_desc": false
+      },
+      "olmo-2-1124-13b": {
+        "depths": [
+          0.25,
+          0.5,
+          0.75
+        ],
+        "pr": [
+          25.356,
+          16.181,
+          12.175
+        ],
+        "descends_25_to_75": true,
+        "monotone_desc": true
+      },
+      "pythia-14m-deduped": {
+        "depths": [
+          0.25,
+          0.5,
+          0.75
+        ],
+        "pr": [
+          4.9,
+          15.384
+        ],
+        "descends_25_to_75": false,
+        "monotone_desc": false
+      },
+      "pythia-160m-deduped": {
+        "depths": [
+          0.25,
+          0.5,
+          0.75
+        ],
+        "pr": [
+          18.061,
+          18.936,
+          17.177
+        ],
+        "descends_25_to_75": true,
+        "monotone_desc": false
+      },
+      "pythia-2-8b-deduped": {
+        "depths": [
+          0.25,
+          0.5,
+          0.75
+        ],
+        "pr": [
+          18.485,
+          20.209,
+          16.569
+        ],
+        "descends_25_to_75": true,
+        "monotone_desc": false
+      },
+      "pythia-410m": {
+        "depths": [
+          0.25,
+          0.5,
+          0.75
+        ],
+        "pr": [
+          21.866,
+          23.55,
+          24.117
+        ],
+        "descends_25_to_75": false,
+        "monotone_desc": false
+      },
+      "qwen3-0-6b": {
+        "depths": [
+          0.25,
+          0.5,
+          0.75
+        ],
+        "pr": [
+          24.801,
+          27.839,
+          20.43
+        ],
+        "descends_25_to_75": true,
+        "monotone_desc": false
+      },
+      "qwen3-14b": {
+        "depths": [
+          0.25,
+          0.5,
+          0.75
+        ],
+        "pr": [
+          24.419,
+          23.868,
+          21.4
+        ],
+        "descends_25_to_75": true,
+        "monotone_desc": true
+      },
+      "qwen3-32b": {
+        "depths": [
+          0.25,
+          0.5,
+          0.75
+        ],
+        "pr": [
+          25.359,
+          25.31,
+          24.048
+        ],
+        "descends_25_to_75": true,
+        "monotone_desc": true
+      },
+      "qwen3-4b": {
+        "depths": [
+          0.25,
+          0.5,
+          0.75
+        ],
+        "pr": [
+          23.213,
+          26.235,
+          22.817
+        ],
+        "descends_25_to_75": true,
+        "monotone_desc": false
+      },
+      "qwen3-6-27b": {
+        "depths": [
+          0.25,
+          0.5,
+          0.75
+        ],
+        "pr": [
+          20.56,
+          20.505,
+          23.827
+        ],
+        "descends_25_to_75": false,
+        "monotone_desc": false
+      }
+    },
+    "aggregate": {
+      "n": 11,
+      "descend_25_to_75": 7,
+      "sign_p_descend": 0.2744140625,
+      "monotone_desc": 3,
+      "sign_p_monotone_all_orderings": null
+    }
+  },
+  "n_models": 11,
+  "models": [
+    "gemma-4-31b-it",
+    "olmo-2-1124-13b",
+    "pythia-14m-deduped",
+    "pythia-160m-deduped",
+    "pythia-2-8b-deduped",
+    "pythia-410m",
+    "qwen3-0-6b",
+    "qwen3-14b",
+    "qwen3-32b",
+    "qwen3-4b",
+    "qwen3-6-27b"
+  ]
+}
