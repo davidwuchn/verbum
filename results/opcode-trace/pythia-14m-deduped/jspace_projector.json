@@ -1,0 +1,735 @@
+{
+  "k": 32,
+  "m": 64,
+  "target_layer": 4,
+  "depth_layers": [
+    2,
+    3
+  ],
+  "depths": [
+    0.25,
+    0.5,
+    0.75
+  ],
+  "eps_rel": 0.02,
+  "seed": 270,
+  "n_shuffle": 1000,
+  "proj_probes_per_comb": 3,
+  "centroid_probes_per_comb": 12,
+  "content_set": [
+    "Y",
+    "WHNF",
+    "S"
+  ],
+  "operator_set": [
+    "K",
+    "I",
+    "B"
+  ],
+  "honest_scope": "sidecar observable; never feeds the opcode classifier; not gated into the VSM tree (s263 discipline)",
+  "preregistrations": {
+    "P1": "fraction(Y,WHNF,S) > fraction(K,I,B); shuffled-label gate",
+    "P2": "basis directions verbalize coherently; WHNF-adjacent watch",
+    "P3": "9-vector stable across models (read at sweep restack)"
+  },
+  "layers": {
+    "2": {
+      "strengths": [
+        22.269378662109375,
+        20.602983474731445,
+        11.623181343078613,
+        7.947559356689453,
+        6.864073753356934,
+        6.23251485824585,
+        5.16691255569458,
+        4.87080192565918,
+        4.5088911056518555,
+        4.4908599853515625,
+        4.179826259613037,
+        3.931821584701538,
+        3.6676645278930664,
+        3.5585126876831055,
+        3.52109432220459,
+        3.316549301147461,
+        3.2517049312591553,
+        3.1084609031677246,
+        2.943291187286377,
+        2.9341273307800293,
+        2.8758738040924072,
+        2.8172008991241455,
+        2.7578611373901367,
+        2.686413526535034,
+        2.5891804695129395,
+        2.559054374694824,
+        2.522618293762207,
+        2.5025365352630615,
+        2.431194543838501,
+        2.4000420570373535,
+        2.3773880004882812,
+        2.341968297958374
+      ],
+      "fractions": {
+        "B": 0.270282,
+        "C": 0.245418,
+        "D": 0.198015,
+        "I": 0.311677,
+        "K": 0.192142,
+        "S": 0.24942,
+        "W": 0.269731,
+        "WHNF": 0.220613,
+        "Y": 0.184106
+      },
+      "per_probe": {
+        "B": {
+          "mean": 0.2845465629642497,
+          "sd": 0.06256282616858735,
+          "n": 12
+        },
+        "C": {
+          "mean": 0.23922329922122923,
+          "sd": 0.04032531109977758,
+          "n": 12
+        },
+        "D": {
+          "mean": 0.2777119407184146,
+          "sd": 0.08477207189554416,
+          "n": 12
+        },
+        "I": {
+          "mean": 0.2610350056746541,
+          "sd": 0.06538169806955446,
+          "n": 12
+        },
+        "K": {
+          "mean": 0.2511046363212992,
+          "sd": 0.06278058200507733,
+          "n": 12
+        },
+        "S": {
+          "mean": 0.2521148670680462,
+          "sd": 0.04527167619574148,
+          "n": 12
+        },
+        "W": {
+          "mean": 0.2822303588712536,
+          "sd": 0.07685122193130656,
+          "n": 12
+        },
+        "WHNF": {
+          "mean": 0.266508435642746,
+          "sd": 0.06943241678614732,
+          "n": 12
+        },
+        "Y": {
+          "mean": 0.26790713011894596,
+          "sd": 0.04766867565334109,
+          "n": 12
+        }
+      },
+      "random_baseline": {
+        "mean": 0.25177481595440354,
+        "sd": 0.05280549815004187,
+        "k_over_d": 0.25
+      },
+      "p1_gap": {
+        "observed": -0.039988,
+        "null_mean": 0.00010764261493099695,
+        "null_sd": 0.03773158183067807,
+        "z": -1.063,
+        "p": 0.85215,
+        "gated": false
+      },
+      "verbalize": [
+        {
+          "dir": 0,
+          "strength": 22.269378662109375,
+          "plus": [
+            "\u102c",
+            "\u1038",
+            "\u102f",
+            "\u103a",
+            "ercase",
+            ")))",
+            "\ufffd",
+            "\u1010"
+          ],
+          "minus": [
+            "\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd"
+          ]
+        },
+        {
+          "dir": 1,
+          "strength": 20.602983474731445,
+          "plus": [
+            "\ufffd\ufffd",
+            "\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd"
+          ],
+          "minus": [
+            "AtA",
+            "gie",
+            "outing",
+            "eler",
+            "iret",
+            "aret",
+            "uve",
+            "affe"
+          ]
+        },
+        {
+          "dir": 2,
+          "strength": 11.623181343078613,
+          "plus": [
+            " sexes",
+            "olate",
+            "each",
+            "aux",
+            "hend",
+            "lor",
+            "rae",
+            "olic"
+          ],
+          "minus": [
+            "\ufffd\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd"
+          ]
+        },
+        {
+          "dir": 3,
+          "strength": 7.947559356689453,
+          "plus": [
+            " etc",
+            "`.",
+            " standpoint",
+            "].\"",
+            " thereon",
+            "].[",
+            " %>%",
+            " spouse"
+          ],
+          "minus": [
+            "\u09cd",
+            "\u09bf",
+            "\u09be",
+            "\u09c7",
+            "\ufffd",
+            "\u09b0",
+            "\ufffd",
+            "\ufffd"
+          ]
+        },
+        {
+          "dir": 4,
+          "strength": 6.864073753356934,
+          "plus": [
+            "unction",
+            "\\]]{}",
+            "omonas",
+            "uego",
+            "\u03bf\u03c5\u03bc\u03b5",
+            "ococcus",
+            "vous",
+            "quier"
+          ],
+          "minus": [
+            "\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd"
+          ]
+        },
+        {
+          "dir": 5,
+          "strength": 6.23251485824585,
+          "plus": [
+            "\u10d4\ufffd",
+            "\u10d0",
+            "\u10d0\ufffd",
+            "\ufffd",
+            "\u10d8\ufffd",
+            "inux",
+            "\u0b95",
+            "\u0648\u062f"
+          ],
+          "minus": [
+            "\ufffd",
+            "\ufffd",
+            "iginally",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd",
+            "\ufffd"
+          ]
+        },
+        {
+          "dir": 6,
+          "strength": 5.16691255569458,
+          "plus": [
+            "?\u2019",
+            "garten",
+            "wort",
+            "hr",
+            "crete",
+            " dipl",
+            "icol",
+            " microm"
+          ],
+          "minus": [
+            "                   ",
+            "\n                           ",
+            "\n\n                           ",
+            "",
+            "\n        ",
+            "\n    ",
+            "\n                   ",
+            "            "
+          ]
+        },
+        {
+          "dir": 7,
+          "strength": 4.87080192565918,
+          "plus": [
+            "\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd\ufffd"
+          ],
+          "minus": [
+            "AMS",
+            "[@",
+            "aths",
+            " (*",
+            "inson",
+            "zyk",
+            "ahn",
+            "STS"
+          ]
+        },
+        {
+          "dir": 8,
+          "strength": 4.5088911056518555,
+          "plus": [
+            "\u10d4\ufffd",
+            "unnumbered",
+            "\u10d8\ufffd",
+            "\ufffd",
+            " Superman",
+            "\u10d8",
+            " hereto",
+            "\u10d0\ufffd"
+          ],
+          "minus": [
+            "\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd"
+          ]
+        },
+        {
+          "dir": 9,
+          "strength": 4.4908599853515625,
+          "plus": [
+            "\ufffd",
+            "\u0ac7",
+            "\u0abe",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd",
+            "\ufffd"
+          ],
+          "minus": [
+            " ourselves",
+            " \u092a",
+            "\n\n\n\n\n",
+            ".\u2019\u201d",
+            " \ufffd",
+            "\\].",
+            ",\u2019",
+            "\u05d9\u05dd"
+          ]
+        }
+      ]
+    },
+    "3": {
+      "strengths": [
+        5.185964584350586,
+        4.863426208496094,
+        4.109487056732178,
+        3.0559840202331543,
+        2.710519552230835,
+        2.5076773166656494,
+        2.436459541320801,
+        2.3517706394195557,
+        2.225538969039917,
+        2.146327018737793,
+        2.094036817550659,
+        2.0460970401763916,
+        1.973233938217163,
+        1.9272536039352417,
+        1.8761085271835327,
+        1.8360354900360107,
+        1.8228439092636108,
+        1.7869237661361694,
+        1.7655953168869019,
+        1.7471624612808228,
+        1.7200857400894165,
+        1.7078505754470825,
+        1.6666514873504639,
+        1.65244460105896,
+        1.633044958114624,
+        1.6126214265823364,
+        1.5925105810165405,
+        1.5907758474349976,
+        1.5787371397018433,
+        1.566881775856018,
+        1.5463287830352783,
+        1.5196398496627808
+      ],
+      "fractions": {
+        "B": 0.247847,
+        "C": 0.176208,
+        "D": 0.089736,
+        "I": 0.187363,
+        "K": 0.143265,
+        "S": 0.282172,
+        "W": 0.128119,
+        "WHNF": 0.199538,
+        "Y": 0.172209
+      },
+      "per_probe": {
+        "B": {
+          "mean": 0.20474785688756889,
+          "sd": 0.04171384077772758,
+          "n": 12
+        },
+        "C": {
+          "mean": 0.1842876547006035,
+          "sd": 0.05998680843493355,
+          "n": 12
+        },
+        "D": {
+          "mean": 0.18443555911138623,
+          "sd": 0.08383767443750331,
+          "n": 12
+        },
+        "I": {
+          "mean": 0.23813622758803996,
+          "sd": 0.053694615181502627,
+          "n": 12
+        },
+        "K": {
+          "mean": 0.20239187199540556,
+          "sd": 0.059468418845722196,
+          "n": 12
+        },
+        "S": {
+          "mean": 0.24961122311997141,
+          "sd": 0.07031921536658456,
+          "n": 12
+        },
+        "W": {
+          "mean": 0.18679581039851087,
+          "sd": 0.060775710950490204,
+          "n": 12
+        },
+        "WHNF": {
+          "mean": 0.1909982732177431,
+          "sd": 0.05008299772317522,
+          "n": 12
+        },
+        "Y": {
+          "mean": 0.1552365328427935,
+          "sd": 0.02922542385206495,
+          "n": 12
+        }
+      },
+      "random_baseline": {
+        "mean": 0.2551814508715765,
+        "sd": 0.050188598030497245,
+        "k_over_d": 0.25
+      },
+      "p1_gap": {
+        "observed": 0.025148,
+        "null_mean": -0.0026233202467232683,
+        "null_sd": 0.037992792008701974,
+        "z": 0.731,
+        "p": 0.23676,
+        "gated": false
+      },
+      "verbalize": [
+        {
+          "dir": 0,
+          "strength": 5.185964584350586,
+          "plus": [
+            "ubuntu",
+            "guards",
+            "apters",
+            "ligt",
+            " \ufffd",
+            "rike",
+            "been",
+            "\ufffd"
+          ],
+          "minus": [
+            "\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "?\u201d",
+            "\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd\ufffd"
+          ]
+        },
+        {
+          "dir": 1,
+          "strength": 4.863426208496094,
+          "plus": [
+            ")]{}",
+            "\")]",
+            ".\"\"",
+            " Gandhi",
+            " Important",
+            "*]{},",
+            " influential",
+            " Muslims"
+          ],
+          "minus": [
+            "\ufffd",
+            "\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd"
+          ]
+        },
+        {
+          "dir": 2,
+          "strength": 4.109487056732178,
+          "plus": [
+            "\\\",",
+            ")[@",
+            ")$)",
+            "[@",
+            ")\\\\",
+            "`)",
+            "fony",
+            "circuit"
+          ],
+          "minus": [
+            "\ufffd\ufffd",
+            "\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd",
+            "\ufffd"
+          ]
+        },
+        {
+          "dir": 3,
+          "strength": 3.0559840202331543,
+          "plus": [
+            " tribute",
+            " Reporting",
+            " role",
+            " Record",
+            " flood",
+            " privilege",
+            " Certificate",
+            " record"
+          ],
+          "minus": [
+            "\ufffd\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd\ufffd"
+          ]
+        },
+        {
+          "dir": 4,
+          "strength": 2.710519552230835,
+          "plus": [
+            "\ufffd\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd"
+          ],
+          "minus": [
+            " movements",
+            "prisingly",
+            " travels",
+            "ishly",
+            "okes",
+            " &=&",
+            " encounters",
+            "ipel"
+          ]
+        },
+        {
+          "dir": 5,
+          "strength": 2.5076773166656494,
+          "plus": [
+            "\ufffd",
+            "\u0ba4",
+            "\u0bc1",
+            "\u0b95",
+            "\u0bbf",
+            "\ufffd",
+            " \ufffd",
+            "\u0bcd"
+          ],
+          "minus": [
+            "\ufffd\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd",
+            "\ufffd\ufffd",
+            "\n    ",
+            "\n\n       ",
+            "                  ",
+            "                                                                                                                                                                                                                                                                "
+          ]
+        },
+        {
+          "dir": 6,
+          "strength": 2.436459541320801,
+          "plus": [
+            "uria",
+            "ALLY",
+            "ieurs",
+            " fires",
+            " riots",
+            " searches",
+            " insults",
+            " clashes"
+          ],
+          "minus": [
+            "\ufffd\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "<|padding|>"
+          ]
+        },
+        {
+          "dir": 7,
+          "strength": 2.3517706394195557,
+          "plus": [
+            "\ufffd\ufffd",
+            "\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd"
+          ],
+          "minus": [
+            "aliana",
+            " been",
+            " gone",
+            " not",
+            "ailed",
+            " sunk",
+            "\u00e4t",
+            " USSR"
+          ]
+        },
+        {
+          "dir": 8,
+          "strength": 2.225538969039917,
+          "plus": [
+            "ples",
+            "ories",
+            " course",
+            "stitute",
+            "scrib",
+            "stant",
+            "stances",
+            "grades"
+          ],
+          "minus": [
+            "\ufffd\ufffd",
+            "                                                                              ",
+            "<|padding|>",
+            "\ufffd",
+            "                ",
+            "\n   ",
+            "                                ",
+            "\n        "
+          ]
+        },
+        {
+          "dir": 9,
+          "strength": 2.146327018737793,
+          "plus": [
+            "cknowled",
+            "[]",
+            "ranging",
+            "[$",
+            "MENT",
+            "++;",
+            "MENTS",
+            "978"
+          ],
+          "minus": [
+            "\ufffd\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd",
+            "\ufffd\ufffd",
+            "\ufffd",
+            "\ufffd",
+            "\ufffd"
+          ]
+        }
+      ]
+    }
+  }
+}

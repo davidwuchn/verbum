@@ -1,0 +1,1085 @@
+{
+  "k": 32,
+  "m": 64,
+  "target_layer": 38,
+  "depth_layers": [
+    10,
+    20,
+    30
+  ],
+  "depths": [
+    0.25,
+    0.5,
+    0.75
+  ],
+  "eps_rel": 0.02,
+  "seed": 270,
+  "n_shuffle": 1000,
+  "proj_probes_per_comb": 3,
+  "centroid_probes_per_comb": 12,
+  "content_set": [
+    "Y",
+    "WHNF",
+    "S"
+  ],
+  "operator_set": [
+    "K",
+    "I",
+    "B"
+  ],
+  "honest_scope": "sidecar observable; never feeds the opcode classifier; not gated into the VSM tree (s263 discipline)",
+  "preregistrations": {
+    "P1": "fraction(Y,WHNF,S) > fraction(K,I,B); shuffled-label gate",
+    "P2": "basis directions verbalize coherently; WHNF-adjacent watch",
+    "P3": "9-vector stable across models (read at sweep restack)"
+  },
+  "layers": {
+    "10": {
+      "strengths": [
+        12.194684982299805,
+        9.977069854736328,
+        9.549467086791992,
+        8.990448951721191,
+        8.849418640136719,
+        7.977423191070557,
+        7.801604270935059,
+        7.713886260986328,
+        7.583950519561768,
+        7.3448638916015625,
+        7.166837692260742,
+        6.925379753112793,
+        6.754936695098877,
+        6.69613790512085,
+        6.587928771972656,
+        6.45353364944458,
+        6.365479469299316,
+        6.2750139236450195,
+        6.195406436920166,
+        6.165019512176514,
+        6.104718208312988,
+        5.903006076812744,
+        5.8392181396484375,
+        5.7116923332214355,
+        5.598750591278076,
+        5.5874409675598145,
+        5.542462348937988,
+        5.467790603637695,
+        5.442263603210449,
+        5.354860782623291,
+        5.319693088531494,
+        5.28978157043457
+      ],
+      "fractions": {
+        "B": 0.004262,
+        "C": 0.013975,
+        "D": 0.01092,
+        "I": 0.007399,
+        "K": 0.015665,
+        "S": 0.02604,
+        "W": 0.006997,
+        "WHNF": 0.023553,
+        "Y": 0.015248
+      },
+      "per_probe": {
+        "B": {
+          "mean": 0.013043060808984588,
+          "sd": 0.009304023349506847,
+          "n": 12
+        },
+        "C": {
+          "mean": 0.017061722773783275,
+          "sd": 0.006557498578214534,
+          "n": 12
+        },
+        "D": {
+          "mean": 0.020135452987305482,
+          "sd": 0.007009649604665893,
+          "n": 12
+        },
+        "I": {
+          "mean": 0.01176073070743467,
+          "sd": 0.00657010280159787,
+          "n": 12
+        },
+        "K": {
+          "mean": 0.015441913915188671,
+          "sd": 0.006103834576931521,
+          "n": 12
+        },
+        "S": {
+          "mean": 0.019693305313993895,
+          "sd": 0.005863499500167386,
+          "n": 12
+        },
+        "W": {
+          "mean": 0.013950615118351752,
+          "sd": 0.004190705357671774,
+          "n": 12
+        },
+        "WHNF": {
+          "mean": 0.016842769000009857,
+          "sd": 0.00489336936710059,
+          "n": 12
+        },
+        "Y": {
+          "mean": 0.01691818465572188,
+          "sd": 0.004854303653106896,
+          "n": 12
+        }
+      },
+      "random_baseline": {
+        "mean": 0.006077502770776274,
+        "sd": 0.0014475319150116404,
+        "k_over_d": 0.00625
+      },
+      "p1_gap": {
+        "observed": 0.012505,
+        "null_mean": -0.0001340520647577158,
+        "null_sd": 0.0053079757868815716,
+        "z": 2.381,
+        "p": 0.00599,
+        "gated": true
+      },
+      "verbalize": [
+        {
+          "dir": 0,
+          "strength": 12.194684982299805,
+          "plus": [
+            " TEN",
+            ".direct",
+            "\ufffd",
+            " Hayward",
+            " Aus",
+            "cion",
+            "erves",
+            "ten"
+          ],
+          "minus": [
+            " overd",
+            "orra",
+            "oku",
+            "ilik",
+            "achuset",
+            "ARRANT",
+            " reckon",
+            " (*)"
+          ]
+        },
+        {
+          "dir": 1,
+          "strength": 9.977069854736328,
+          "plus": [
+            " monk",
+            "arna",
+            "leta",
+            "RACT",
+            "erland",
+            "isex",
+            "jax",
+            "vier"
+          ],
+          "minus": [
+            " sober",
+            " pinterest",
+            " fist",
+            " Gow",
+            "/il",
+            " hun",
+            " Fif",
+            " cheer"
+          ]
+        },
+        {
+          "dir": 2,
+          "strength": 9.549467086791992,
+          "plus": [
+            "oug",
+            "idar",
+            " specify",
+            " specifying",
+            " Tac",
+            "serialized",
+            " Slater",
+            "ighted"
+          ],
+          "minus": [
+            " Wizard",
+            "Outputs",
+            " Gilbert",
+            " Dungeons",
+            "Gil",
+            " Emit",
+            "odo",
+            "aban"
+          ]
+        },
+        {
+          "dir": 3,
+          "strength": 8.990448951721191,
+          "plus": [
+            "377",
+            " POLIT",
+            "/=",
+            "POL",
+            "ebin",
+            "mez",
+            "coc",
+            "885"
+          ],
+          "minus": [
+            "rh",
+            "opleft",
+            " Paw",
+            "iteration",
+            " eins",
+            " clever",
+            " COVID",
+            " Mend"
+          ]
+        },
+        {
+          "dir": 4,
+          "strength": 8.849418640136719,
+          "plus": [
+            " Lor",
+            "grav",
+            "OLS",
+            " ler",
+            " pend",
+            " somew",
+            " Terrain",
+            " refl"
+          ],
+          "minus": [
+            "alli",
+            "oso",
+            "ubo",
+            " McInt",
+            ".ast",
+            "ozo",
+            "ovan",
+            " Favor"
+          ]
+        },
+        {
+          "dir": 5,
+          "strength": 7.977423191070557,
+          "plus": [
+            "isclosed",
+            " without",
+            " miscellaneous",
+            " trending",
+            " eccentric",
+            " generalized",
+            " trendy",
+            " argparse"
+          ],
+          "minus": [
+            "emann",
+            "aber",
+            "Printing",
+            "ous",
+            "/w",
+            "AGON",
+            " tat",
+            "ation"
+          ]
+        },
+        {
+          "dir": 6,
+          "strength": 7.801604270935059,
+          "plus": [
+            "alles",
+            "legacy",
+            "unread",
+            "olan",
+            "Areas",
+            " pudo",
+            "aab",
+            "incinn"
+          ],
+          "minus": [
+            " prompted",
+            " adam",
+            " upfront",
+            " Hoy",
+            " magma",
+            " costo",
+            "&T",
+            "amina"
+          ]
+        },
+        {
+          "dir": 7,
+          "strength": 7.713886260986328,
+          "plus": [
+            "=__",
+            " VIP",
+            "iani",
+            " familiarity",
+            "ANNER",
+            " embodiments",
+            "obl",
+            " migli"
+          ],
+          "minus": [
+            " ensemble",
+            " (!!",
+            "apat",
+            " Gilbert",
+            " alternating",
+            " nods",
+            "lay",
+            " Lambert"
+          ]
+        },
+        {
+          "dir": 8,
+          "strength": 7.583950519561768,
+          "plus": [
+            " Syntax",
+            "Dept",
+            "IED",
+            "\u571f",
+            "UCE",
+            "_startup",
+            "Syntax",
+            "extras"
+          ],
+          "minus": [
+            " Bri",
+            " McKin",
+            "umba",
+            " skl",
+            " excer",
+            "OND",
+            "ipe",
+            " motivation"
+          ]
+        },
+        {
+          "dir": 9,
+          "strength": 7.3448638916015625,
+          "plus": [
+            " key",
+            " Schiff",
+            "908",
+            "asted",
+            " hands",
+            " sense",
+            "667",
+            " BOOT"
+          ],
+          "minus": [
+            "STALL",
+            "Formats",
+            "Visitor",
+            " Playback",
+            " Ramp",
+            " aprox",
+            "QUEUE",
+            "soever"
+          ]
+        }
+      ]
+    },
+    "20": {
+      "strengths": [
+        11.87973690032959,
+        8.137491226196289,
+        6.914499282836914,
+        6.053123474121094,
+        5.588124752044678,
+        5.422580718994141,
+        4.899848937988281,
+        4.662361145019531,
+        4.580172538757324,
+        4.479892730712891,
+        4.399615287780762,
+        4.3211188316345215,
+        4.2790141105651855,
+        4.242055892944336,
+        4.193464279174805,
+        4.13087272644043,
+        4.046359062194824,
+        4.010897159576416,
+        3.949512004852295,
+        3.9041030406951904,
+        3.8886990547180176,
+        3.8240323066711426,
+        3.7672598361968994,
+        3.7247960567474365,
+        3.70508074760437,
+        3.684183359146118,
+        3.630702495574951,
+        3.590202569961548,
+        3.5370419025421143,
+        3.5308332443237305,
+        3.479625701904297,
+        3.4414687156677246
+      ],
+      "fractions": {
+        "B": 0.032627,
+        "C": 0.050122,
+        "D": 0.035494,
+        "I": 0.021732,
+        "K": 0.062745,
+        "S": 0.063808,
+        "W": 0.024861,
+        "WHNF": 0.038431,
+        "Y": 0.046195
+      },
+      "per_probe": {
+        "B": {
+          "mean": 0.031243834555997493,
+          "sd": 0.013209357071144344,
+          "n": 12
+        },
+        "C": {
+          "mean": 0.042295141098819544,
+          "sd": 0.05727333294039405,
+          "n": 12
+        },
+        "D": {
+          "mean": 0.06185101344527954,
+          "sd": 0.07589943852870636,
+          "n": 12
+        },
+        "I": {
+          "mean": 0.025196279998134886,
+          "sd": 0.00877011043671859,
+          "n": 12
+        },
+        "K": {
+          "mean": 0.03154108628472516,
+          "sd": 0.012066385453938228,
+          "n": 12
+        },
+        "S": {
+          "mean": 0.03666861330233576,
+          "sd": 0.00689948573828399,
+          "n": 12
+        },
+        "W": {
+          "mean": 0.022506869056917848,
+          "sd": 0.007250533271163484,
+          "n": 12
+        },
+        "WHNF": {
+          "mean": 0.02320556614103562,
+          "sd": 0.006603077772887621,
+          "n": 12
+        },
+        "Y": {
+          "mean": 0.024437885338171008,
+          "sd": 0.00812903331350322,
+          "n": 12
+        }
+      },
+      "random_baseline": {
+        "mean": 0.00640209108814071,
+        "sd": 0.0016336893145039056,
+        "k_over_d": 0.00625
+      },
+      "p1_gap": {
+        "observed": 0.010443,
+        "null_mean": -0.00014324761162098348,
+        "null_sd": 0.00790768766029193,
+        "z": 1.339,
+        "p": 0.08891,
+        "gated": false
+      },
+      "verbalize": [
+        {
+          "dir": 0,
+          "strength": 11.87973690032959,
+          "plus": [
+            "(ed",
+            "ings",
+            "phans",
+            "edList",
+            "ics",
+            "lamp",
+            "ation",
+            "ations"
+          ],
+          "minus": [
+            " same",
+            "ses",
+            " biggest",
+            " slightest",
+            " oldest",
+            " entire",
+            " latest",
+            "(ir"
+          ]
+        },
+        {
+          "dir": 1,
+          "strength": 8.137491226196289,
+          "plus": [
+            "abouts",
+            " boca",
+            " jint",
+            "eenth",
+            "ijing",
+            " beurette",
+            "\uffe5",
+            " Majesty"
+          ],
+          "minus": [
+            " \u00ce",
+            "/course",
+            "[current",
+            "MinMax",
+            "ucch",
+            "servername",
+            "Extern",
+            "PLIT"
+          ]
+        },
+        {
+          "dir": 2,
+          "strength": 6.914499282836914,
+          "plus": [
+            "rome",
+            "ORB",
+            "etail",
+            "****************************",
+            "........................",
+            "oub",
+            "################################################################################",
+            "ousse"
+          ],
+          "minus": [
+            " ",
+            "                    \n                    \n",
+            "REA",
+            "BUFFER",
+            " inline",
+            "styl",
+            "dsp",
+            " Skinner"
+          ]
+        },
+        {
+          "dir": 3,
+          "strength": 6.053123474121094,
+          "plus": [
+            "\ufffd",
+            "Exclusive",
+            "aro",
+            "\ufffd",
+            "icode",
+            "\n   \n",
+            " Constit",
+            "\u2011"
+          ],
+          "minus": [
+            " ofs",
+            " _______,",
+            " ______",
+            "...)",
+            "Freq",
+            "Detalle",
+            "ongoose",
+            "\u0438\u0441\u043a"
+          ]
+        },
+        {
+          "dir": 4,
+          "strength": 5.588124752044678,
+          "plus": [
+            " cot",
+            " flu",
+            " lim",
+            " wat",
+            " Disabled",
+            " verge",
+            "ion",
+            " Springer"
+          ],
+          "minus": [
+            "Entered",
+            " mgr",
+            "Disposition",
+            "\u0e38",
+            ".done",
+            " SCR",
+            " dib",
+            " pes"
+          ]
+        },
+        {
+          "dir": 5,
+          "strength": 5.422580718994141,
+          "plus": [
+            "...</",
+            "...)",
+            "(...)",
+            " ...)",
+            " _______,",
+            ",...\n\n",
+            " __",
+            "...]"
+          ],
+          "minus": [
+            "tte",
+            "\u00a0\n",
+            "i\u0107",
+            "r\u00e1",
+            " +\"",
+            "@author",
+            "\u00e9g",
+            " (\u201c"
+          ]
+        },
+        {
+          "dir": 6,
+          "strength": 4.899848937988281,
+          "plus": [
+            " equipments",
+            " informations",
+            " upto",
+            "comma",
+            " splitted",
+            "gnu",
+            "organisation",
+            " learnt"
+          ],
+          "minus": [
+            " \u00ad",
+            ",Yes",
+            " \u200b",
+            " propor",
+            " squ",
+            " proport",
+            " Lum",
+            "meld"
+          ]
+        },
+        {
+          "dir": 7,
+          "strength": 4.662361145019531,
+          "plus": [
+            " manual",
+            "/rem",
+            "eeee",
+            " unlocked",
+            "-remove",
+            " blackout",
+            " update",
+            "/remove"
+          ],
+          "minus": [
+            " \u00a3",
+            "bai",
+            "ADED",
+            "-money",
+            " Ferd",
+            "\u00a3",
+            " Carnegie",
+            "iac"
+          ]
+        },
+        {
+          "dir": 8,
+          "strength": 4.580172538757324,
+          "plus": [
+            "________________________________________________________________",
+            "\u2026)",
+            " SUV",
+            ";element",
+            "...)",
+            "\u2026\"",
+            " sedan",
+            " ...)"
+          ],
+          "minus": [
+            " Maths",
+            " programme",
+            " maths",
+            " functionalities",
+            " programmes",
+            " \u20b9",
+            " learnt",
+            " onwards"
+          ]
+        },
+        {
+          "dir": 9,
+          "strength": 4.479892730712891,
+          "plus": [
+            " ad",
+            "iston",
+            " (?)",
+            "!,\n",
+            " Olymp",
+            "pus",
+            " Toledo",
+            " crowned"
+          ],
+          "minus": [
+            " Jal",
+            "commended",
+            "specified",
+            "ahren",
+            " aforementioned",
+            " Jake",
+            "arent",
+            " initialised"
+          ]
+        }
+      ]
+    },
+    "30": {
+      "strengths": [
+        8.436819076538086,
+        5.272865295410156,
+        4.603982448577881,
+        4.06056547164917,
+        3.5250344276428223,
+        3.3282599449157715,
+        3.0137062072753906,
+        2.939452648162842,
+        2.8201255798339844,
+        2.78326153755188,
+        2.7128796577453613,
+        2.644214391708374,
+        2.573869466781616,
+        2.4848480224609375,
+        2.442411184310913,
+        2.40850567817688,
+        2.372256278991699,
+        2.290292739868164,
+        2.2560627460479736,
+        2.224006175994873,
+        2.2154016494750977,
+        2.1894609928131104,
+        2.157853364944458,
+        2.143258810043335,
+        2.1302688121795654,
+        2.1107547283172607,
+        2.0969314575195312,
+        2.0696287155151367,
+        2.047579050064087,
+        2.0428619384765625,
+        2.0321333408355713,
+        2.0016701221466064
+      ],
+      "fractions": {
+        "B": 0.061298,
+        "C": 0.069809,
+        "D": 0.066565,
+        "I": 0.035707,
+        "K": 0.082205,
+        "S": 0.102422,
+        "W": 0.027085,
+        "WHNF": 0.061958,
+        "Y": 0.058146
+      },
+      "per_probe": {
+        "B": {
+          "mean": 0.04113578899772005,
+          "sd": 0.013189759129720527,
+          "n": 12
+        },
+        "C": {
+          "mean": 0.06902459644300415,
+          "sd": 0.09980580019394586,
+          "n": 12
+        },
+        "D": {
+          "mean": 0.09723424483985794,
+          "sd": 0.13565341023333824,
+          "n": 12
+        },
+        "I": {
+          "mean": 0.03989325886469741,
+          "sd": 0.016676461160973155,
+          "n": 12
+        },
+        "K": {
+          "mean": 0.042319603296242736,
+          "sd": 0.02727183757854763,
+          "n": 12
+        },
+        "S": {
+          "mean": 0.04576409907107202,
+          "sd": 0.010971458584822468,
+          "n": 12
+        },
+        "W": {
+          "mean": 0.03250683758117886,
+          "sd": 0.0141227050302144,
+          "n": 12
+        },
+        "WHNF": {
+          "mean": 0.030611409482773633,
+          "sd": 0.01021921385609338,
+          "n": 12
+        },
+        "Y": {
+          "mean": 0.035280824058826286,
+          "sd": 0.01795683756114451,
+          "n": 12
+        }
+      },
+      "random_baseline": {
+        "mean": 0.006187650474509263,
+        "sd": 0.001823220036451152,
+        "k_over_d": 0.00625
+      },
+      "p1_gap": {
+        "observed": 0.014439,
+        "null_mean": 0.00019159864430845692,
+        "null_sd": 0.01113404655039459,
+        "z": 1.28,
+        "p": 0.09491,
+        "gated": false
+      },
+      "verbalize": [
+        {
+          "dir": 0,
+          "strength": 8.436819076538086,
+          "plus": [
+            "(ed",
+            "\ufffd",
+            "own",
+            "/the",
+            "rush",
+            "PLATFORM",
+            "ELLOW",
+            "\u0142o"
+          ],
+          "minus": [
+            "ses",
+            " same",
+            " aforementioned",
+            " slightest",
+            " following",
+            " contents",
+            "sse",
+            " largest"
+          ]
+        },
+        {
+          "dir": 1,
+          "strength": 5.272865295410156,
+          "plus": [
+            " geschichten",
+            " limburg",
+            " Incontri",
+            " dikke",
+            " beurette",
+            " pornost",
+            "(ph",
+            " prostitutas"
+          ],
+          "minus": [
+            "ACING",
+            " *((",
+            "participants",
+            " diversas",
+            ")|(",
+            "loquent",
+            " nouvel",
+            " ning\u00fan"
+          ]
+        },
+        {
+          "dir": 2,
+          "strength": 4.603982448577881,
+          "plus": [
+            " \n",
+            "contador",
+            " DOC",
+            " \n\n\n",
+            "createView",
+            " entirety",
+            "abcdefghijklmnop",
+            "  "
+          ],
+          "minus": [
+            "Exiting",
+            "\u2022\n\n",
+            " //(",
+            "(Edit",
+            "ervas",
+            "Avg",
+            "Https",
+            "ZH"
+          ]
+        },
+        {
+          "dir": 3,
+          "strength": 4.06056547164917,
+          "plus": [
+            " subur",
+            "/Dk",
+            "idon",
+            "/Peak",
+            "\u00edcio",
+            " UIF",
+            "urge",
+            "\u00edg"
+          ],
+          "minus": [
+            " ctor",
+            " semiclassical",
+            " Readonly",
+            " constexpr",
+            " substring",
+            " serta",
+            " scanf",
+            " savory"
+          ]
+        },
+        {
+          "dir": 4,
+          "strength": 3.5250344276428223,
+          "plus": [
+            " guarante",
+            " entreprene",
+            " withd",
+            " disadv",
+            " scrut",
+            " sucess",
+            " proport",
+            " encount"
+          ],
+          "minus": [
+            "851",
+            " {//",
+            " {/*",
+            "771",
+            " noqa",
+            "\uffe5",
+            " <<\n",
+            "730"
+          ]
+        },
+        {
+          "dir": 5,
+          "strength": 3.3282599449157715,
+          "plus": [
+            " meantime",
+            "odore",
+            "rome",
+            "ufen",
+            "oretical",
+            "nder",
+            "ivery",
+            "etail"
+          ],
+          "minus": [
+            "NETWORK",
+            " }//",
+            "callbacks",
+            "Cancellation",
+            "REMOTE",
+            "MULT",
+            "FIXME",
+            "542"
+          ]
+        },
+        {
+          "dir": 6,
+          "strength": 3.0137062072753906,
+          "plus": [
+            " newcom",
+            " nameof",
+            "http",
+            "https",
+            "aN",
+            "INV",
+            "There",
+            "This"
+          ],
+          "minus": [
+            "Produto",
+            "contador",
+            "Detalle",
+            " (\"-",
+            " (!!",
+            "T\u00ean",
+            "Seleccione",
+            "Cerrar"
+          ]
+        },
+        {
+          "dir": 7,
+          "strength": 2.939452648162842,
+          "plus": [
+            "obierno",
+            "ategoria",
+            "okino",
+            "meno",
+            "neh",
+            " \"<?",
+            " \"}",
+            "ertino"
+          ],
+          "minus": [
+            " sizeof",
+            "\u00a0",
+            " nameof",
+            "ingroup",
+            ".",
+            " apl",
+            "Template",
+            "lr"
+          ]
+        },
+        {
+          "dir": 8,
+          "strength": 2.8201255798339844,
+          "plus": [
+            " (&",
+            " $#",
+            " _",
+            "/is",
+            "ely",
+            " soo",
+            "/ad",
+            " NOW"
+          ],
+          "minus": [
+            "ynos",
+            "ottom",
+            "FFE",
+            "GLOSS",
+            "byn",
+            "redo",
+            " natuur",
+            " Resolver"
+          ]
+        },
+        {
+          "dir": 9,
+          "strength": 2.78326153755188,
+          "plus": [
+            "/Dk",
+            "ProcessEvent",
+            "/an",
+            "IFn",
+            "\u043a\u043e\u0432",
+            "ADATA",
+            "ching",
+            " Stafford"
+          ],
+          "minus": [
+            "oret",
+            " --\n",
+            " ]\n",
+            " :\n",
+            " --\n\n",
+            "eee",
+            " ')\n\n",
+            "igr"
+          ]
+        }
+      ]
+    }
+  }
+}

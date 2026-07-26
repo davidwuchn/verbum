@@ -1,0 +1,273 @@
+{
+  "model": "EleutherAI/pythia-160m-deduped",
+  "device": "mps",
+  "topology": {
+    "arch": "GPTNeoXForCausalLM",
+    "register": "ungated",
+    "read_register": "sign(dense_h_to_4h) [up-proj proxy]",
+    "layers_path": "gpt_neox.layers",
+    "gate_suffix": "mlp.dense_h_to_4h",
+    "gate_width": 3072,
+    "attn_suffix": "attention.dense",
+    "attn_width": 768,
+    "n_layers": 12
+  },
+  "registers": [
+    "gate",
+    "attn"
+  ],
+  "calibration": {
+    "gate": {
+      "n_layers": 12,
+      "crystal_layers": [
+        0
+      ],
+      "per_layer": {
+        "0": {
+          "sil_z": 2.279,
+          "gc_consensus": 0.696,
+          "crystal_bearing": true
+        },
+        "1": {
+          "sil_z": 1.899,
+          "gc_consensus": 0.822,
+          "crystal_bearing": false
+        },
+        "2": {
+          "sil_z": 0.42,
+          "gc_consensus": 0.539,
+          "crystal_bearing": false
+        },
+        "3": {
+          "sil_z": 0.371,
+          "gc_consensus": 0.539,
+          "crystal_bearing": false
+        },
+        "4": {
+          "sil_z": 0.871,
+          "gc_consensus": 0.547,
+          "crystal_bearing": false
+        },
+        "5": {
+          "sil_z": 1.182,
+          "gc_consensus": 0.603,
+          "crystal_bearing": false
+        },
+        "6": {
+          "sil_z": 1.136,
+          "gc_consensus": 0.576,
+          "crystal_bearing": false
+        },
+        "7": {
+          "sil_z": 1.398,
+          "gc_consensus": 0.574,
+          "crystal_bearing": false
+        },
+        "8": {
+          "sil_z": 1.076,
+          "gc_consensus": 0.594,
+          "crystal_bearing": false
+        },
+        "9": {
+          "sil_z": 1.211,
+          "gc_consensus": 0.612,
+          "crystal_bearing": false
+        },
+        "10": {
+          "sil_z": 0.567,
+          "gc_consensus": 0.649,
+          "crystal_bearing": false
+        },
+        "11": {
+          "sil_z": 0.986,
+          "gc_consensus": 0.649,
+          "crystal_bearing": false
+        }
+      },
+      "z_thresh": 3.0,
+      "sil_z_thresh": 2.0,
+      "has_consensus": true,
+      "null_kind": "crosstask",
+      "register": "gate",
+      "n_probes": 539,
+      "n_null_tokens": 55,
+      "null_floor": {
+        "null_floor_z": 1.202,
+        "shuffled_bearing_frac": 0.0,
+        "shuffled_sil_z_max": 1.69,
+        "suspect": false,
+        "n_shuffles": 3,
+        "n_perm": 150,
+        "per_shuffle": [
+          {
+            "max_sil_z": -0.111,
+            "n_bearing": 0
+          },
+          {
+            "max_sil_z": 1.69,
+            "n_bearing": 0
+          },
+          {
+            "max_sil_z": 0.69,
+            "n_bearing": 0
+          }
+        ],
+        "reference": "q95 ~ 1.64 under a well-behaved N(0,1) null"
+      }
+    },
+    "attn": {
+      "n_layers": 12,
+      "crystal_layers": [
+        0,
+        3,
+        4,
+        5,
+        7,
+        10
+      ],
+      "per_layer": {
+        "0": {
+          "sil_z": 3.736,
+          "gc_consensus": 0.939,
+          "crystal_bearing": true
+        },
+        "1": {
+          "sil_z": 1.856,
+          "gc_consensus": 0.842,
+          "crystal_bearing": false
+        },
+        "2": {
+          "sil_z": 1.789,
+          "gc_consensus": 0.872,
+          "crystal_bearing": false
+        },
+        "3": {
+          "sil_z": 2.717,
+          "gc_consensus": 0.773,
+          "crystal_bearing": true
+        },
+        "4": {
+          "sil_z": 3.903,
+          "gc_consensus": 0.822,
+          "crystal_bearing": true
+        },
+        "5": {
+          "sil_z": 2.652,
+          "gc_consensus": 0.719,
+          "crystal_bearing": true
+        },
+        "6": {
+          "sil_z": 1.568,
+          "gc_consensus": 0.689,
+          "crystal_bearing": false
+        },
+        "7": {
+          "sil_z": 3.16,
+          "gc_consensus": 0.896,
+          "crystal_bearing": true
+        },
+        "8": {
+          "sil_z": 0.942,
+          "gc_consensus": 0.702,
+          "crystal_bearing": false
+        },
+        "9": {
+          "sil_z": 1.645,
+          "gc_consensus": 0.805,
+          "crystal_bearing": false
+        },
+        "10": {
+          "sil_z": 3.663,
+          "gc_consensus": 0.782,
+          "crystal_bearing": true
+        },
+        "11": {
+          "sil_z": 1.112,
+          "gc_consensus": 0.05,
+          "crystal_bearing": false
+        }
+      },
+      "z_thresh": 3.0,
+      "sil_z_thresh": 2.0,
+      "has_consensus": true,
+      "null_kind": "crosstask",
+      "register": "attn",
+      "n_probes": 539,
+      "n_null_tokens": 55,
+      "null_floor": {
+        "null_floor_z": 1.621,
+        "shuffled_bearing_frac": 0.0278,
+        "shuffled_sil_z_max": 2.113,
+        "suspect": false,
+        "n_shuffles": 3,
+        "n_perm": 150,
+        "per_shuffle": [
+          {
+            "max_sil_z": 1.245,
+            "n_bearing": 0
+          },
+          {
+            "max_sil_z": 0.982,
+            "n_bearing": 0
+          },
+          {
+            "max_sil_z": 2.113,
+            "n_bearing": 1
+          }
+        ],
+        "reference": "q95 ~ 1.64 under a well-behaved N(0,1) null"
+      }
+    }
+  },
+  "traces": {
+    "gate": {
+      "register": "gate",
+      "n_tokens": 32,
+      "token_noop_rate": 1.0,
+      "crystal_layers": [
+        0
+      ],
+      "trajectory": [],
+      "C_layers": [],
+      "B_layers": [],
+      "C_before_B": false
+    },
+    "attn": {
+      "register": "attn",
+      "n_tokens": 32,
+      "token_noop_rate": 0.9375,
+      "crystal_layers": [
+        0,
+        3,
+        4,
+        5,
+        7,
+        10
+      ],
+      "trajectory": [
+        {
+          "layer": 0,
+          "op": "D",
+          "votes": 1,
+          "total": 1
+        },
+        {
+          "layer": 10,
+          "op": "WHNF",
+          "votes": 1,
+          "total": 1
+        }
+      ],
+      "C_layers": [],
+      "B_layers": [],
+      "C_before_B": false
+    }
+  },
+  "operand": null,
+  "jspace_projector": "jspace_projector.json",
+  "elapsed_s": 189.3,
+  "timestamp_utc": "2026-07-25T08:28:39.796399+00:00",
+  "smoke": false,
+  "probes_per_comb": null,
+  "n_perm": 300
+}

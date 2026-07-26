@@ -1458,8 +1458,9 @@
     }
   },
   "operand": null,
-  "elapsed_s": 985.8,
-  "timestamp_utc": "2026-07-23T20:04:42.008414+00:00",
+  "jspace_projector": "jspace_projector.json",
+  "elapsed_s": 40140.3,
+  "timestamp_utc": "2026-07-24T21:39:58.852948+00:00",
   "smoke": false,
   "probes_per_comb": null,
   "n_perm": 300

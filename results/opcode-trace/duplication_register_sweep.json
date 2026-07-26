@@ -1,0 +1,357 @@
+{
+ "mode": "sweep_scan",
+ "root": "results/opcode-trace",
+ "n_trees_found": 13,
+ "n_usable": 13,
+ "partition": {
+  "AFFINE": [
+   "K",
+   "I",
+   "B",
+   "C"
+  ],
+  "DUP": [
+   "S",
+   "W",
+   "Y"
+  ],
+  "HELDOUT": [
+   "D",
+   "WHNF"
+  ]
+ },
+ "binomial": {
+  "model": {
+   "n_models": 13,
+   "n_score_positive": 13,
+   "sign_test_p": 0.000122,
+   "n_gated": 6,
+   "gate_test_p": 2e-05,
+   "mean_score": 0.3074
+  },
+  "gate": {
+   "n_models": 12,
+   "n_score_positive": 12,
+   "sign_test_p": 0.000244,
+   "n_gated": 9,
+   "gate_test_p": 0.0,
+   "mean_score": 0.3326
+  },
+  "attn": {
+   "n_models": 13,
+   "n_score_positive": 13,
+   "sign_test_p": 0.000122,
+   "n_gated": 5,
+   "gate_test_p": 0.000287,
+   "mean_score": 0.2799
+  }
+ },
+ "per_model": [
+  {
+   "model": "prism-ml/Bonsai-27B-unpacked",
+   "dir": "bonsai-27b-unpacked",
+   "scopes": {
+    "model": {
+     "score": 0.2308,
+     "p_exact": 0.0714,
+     "positive": true,
+     "gated": false
+    },
+    "gate": {
+     "score": 0.2672,
+     "p_exact": 0.0476,
+     "positive": true,
+     "gated": true
+    },
+    "attn": {
+     "score": 0.1944,
+     "p_exact": 0.0857,
+     "positive": true,
+     "gated": false
+    }
+   }
+  },
+  {
+   "model": "/Users/mwhitford/localai/models/bonsai27b-unpacked",
+   "dir": "bonsai27b-unpacked",
+   "scopes": {
+    "model": {
+     "score": 0.2364,
+     "p_exact": 0.0548,
+     "positive": true,
+     "gated": false
+    },
+    "gate": {
+     "score": 0.2648,
+     "p_exact": 0.05,
+     "positive": true,
+     "gated": false
+    },
+    "attn": {
+     "score": 0.208,
+     "p_exact": 0.0738,
+     "positive": true,
+     "gated": false
+    }
+   }
+  },
+  {
+   "model": "google/gemma-4-31B-it",
+   "dir": "gemma-4-31b-it",
+   "scopes": {
+    "model": {
+     "score": 0.183,
+     "p_exact": 0.0929,
+     "positive": true,
+     "gated": false
+    },
+    "gate": {
+     "score": 0.2262,
+     "p_exact": 0.0667,
+     "positive": true,
+     "gated": false
+    },
+    "attn": {
+     "score": 0.1397,
+     "p_exact": 0.1429,
+     "positive": true,
+     "gated": false
+    }
+   }
+  },
+  {
+   "model": "allenai/OLMo-2-1124-13B",
+   "dir": "olmo-2-1124-13b",
+   "scopes": {
+    "model": {
+     "score": 0.2674,
+     "p_exact": 0.05,
+     "positive": true,
+     "gated": false
+    },
+    "gate": {
+     "score": 0.3119,
+     "p_exact": 0.0429,
+     "positive": true,
+     "gated": true
+    },
+    "attn": {
+     "score": 0.223,
+     "p_exact": 0.0667,
+     "positive": true,
+     "gated": false
+    }
+   }
+  },
+  {
+   "model": "EleutherAI/pythia-14m-deduped",
+   "dir": "pythia-14m-deduped",
+   "scopes": {
+    "model": {
+     "score": 0.5407,
+     "p_exact": 0.0167,
+     "positive": true,
+     "gated": true
+    },
+    "gate": {
+     "score": 0.52,
+     "p_exact": 0.0238,
+     "positive": true,
+     "gated": true
+    },
+    "attn": {
+     "score": 0.5613,
+     "p_exact": 0.0143,
+     "positive": true,
+     "gated": true
+    }
+   }
+  },
+  {
+   "model": "EleutherAI/pythia-160m-deduped",
+   "dir": "pythia-160m-deduped",
+   "scopes": {
+    "model": {
+     "score": 0.5011,
+     "p_exact": 0.0357,
+     "positive": true,
+     "gated": true
+    },
+    "gate": {
+     "score": 0.5277,
+     "p_exact": 0.0429,
+     "positive": true,
+     "gated": true
+    },
+    "attn": {
+     "score": 0.4745,
+     "p_exact": 0.0333,
+     "positive": true,
+     "gated": true
+    }
+   }
+  },
+  {
+   "model": "EleutherAI/pythia-2.8b-deduped",
+   "dir": "pythia-2-8b-deduped",
+   "scopes": {
+    "model": {
+     "score": 0.363,
+     "p_exact": 0.0286,
+     "positive": true,
+     "gated": true
+    },
+    "attn": {
+     "score": 0.363,
+     "p_exact": 0.0286,
+     "positive": true,
+     "gated": true
+    }
+   }
+  },
+  {
+   "model": "EleutherAI/pythia-410m",
+   "dir": "pythia-410m",
+   "scopes": {
+    "model": {
+     "score": 0.3928,
+     "p_exact": 0.0333,
+     "positive": true,
+     "gated": true
+    },
+    "gate": {
+     "score": 0.3872,
+     "p_exact": 0.0238,
+     "positive": true,
+     "gated": true
+    },
+    "attn": {
+     "score": 0.3984,
+     "p_exact": 0.0333,
+     "positive": true,
+     "gated": true
+    }
+   }
+  },
+  {
+   "model": "Qwen/Qwen3-0.6B",
+   "dir": "qwen3-0-6b",
+   "scopes": {
+    "model": {
+     "score": 0.3109,
+     "p_exact": 0.0548,
+     "positive": true,
+     "gated": false
+    },
+    "gate": {
+     "score": 0.3711,
+     "p_exact": 0.0452,
+     "positive": true,
+     "gated": true
+    },
+    "attn": {
+     "score": 0.2507,
+     "p_exact": 0.0857,
+     "positive": true,
+     "gated": false
+    }
+   }
+  },
+  {
+   "model": "Qwen/Qwen3-14B",
+   "dir": "qwen3-14b",
+   "scopes": {
+    "model": {
+     "score": 0.2404,
+     "p_exact": 0.05,
+     "positive": true,
+     "gated": false
+    },
+    "gate": {
+     "score": 0.2768,
+     "p_exact": 0.0476,
+     "positive": true,
+     "gated": true
+    },
+    "attn": {
+     "score": 0.204,
+     "p_exact": 0.0738,
+     "positive": true,
+     "gated": false
+    }
+   }
+  },
+  {
+   "model": "Qwen/Qwen3-32B",
+   "dir": "qwen3-32b",
+   "scopes": {
+    "model": {
+     "score": 0.2049,
+     "p_exact": 0.0548,
+     "positive": true,
+     "gated": false
+    },
+    "gate": {
+     "score": 0.229,
+     "p_exact": 0.05,
+     "positive": true,
+     "gated": false
+    },
+    "attn": {
+     "score": 0.1808,
+     "p_exact": 0.0786,
+     "positive": true,
+     "gated": false
+    }
+   }
+  },
+  {
+   "model": "Qwen/Qwen3-4B",
+   "dir": "qwen3-4b",
+   "scopes": {
+    "model": {
+     "score": 0.2839,
+     "p_exact": 0.0476,
+     "positive": true,
+     "gated": true
+    },
+    "gate": {
+     "score": 0.3351,
+     "p_exact": 0.0381,
+     "positive": true,
+     "gated": true
+    },
+    "attn": {
+     "score": 0.2327,
+     "p_exact": 0.0762,
+     "positive": true,
+     "gated": false
+    }
+   }
+  },
+  {
+   "model": "Qwen/Qwen3.6-27B",
+   "dir": "qwen3-6-27b",
+   "scopes": {
+    "model": {
+     "score": 0.2413,
+     "p_exact": 0.0262,
+     "positive": true,
+     "gated": true
+    },
+    "gate": {
+     "score": 0.2741,
+     "p_exact": 0.0167,
+     "positive": true,
+     "gated": true
+    },
+    "attn": {
+     "score": 0.2086,
+     "p_exact": 0.0429,
+     "positive": true,
+     "gated": true
+    }
+   }
+  }
+ ]
+}

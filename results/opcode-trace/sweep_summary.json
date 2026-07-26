@@ -1,5 +1,5 @@
 {
-  "n_models": 11,
+  "n_models": 13,
   "families": {
     "": {
       "models": [
@@ -15,7 +15,7 @@
       ],
       "n_gated": 1,
       "agreement_mean": NaN,
-      "gc_consensus": 0.9348578764299399
+      "gc_consensus": 0.9072664454466739
     },
     "olmo": {
       "models": [
@@ -23,7 +23,7 @@
       ],
       "n_gated": 1,
       "agreement_mean": NaN,
-      "gc_consensus": 0.9566432376427749
+      "gc_consensus": 0.9115805462058281
     },
     "prism-ml": {
       "models": [
@@ -36,11 +36,13 @@
     "pythia": {
       "models": [
         "EleutherAI/pythia-14m-deduped",
-        "EleutherAI/pythia-2.8b-deduped"
+        "EleutherAI/pythia-160m-deduped",
+        "EleutherAI/pythia-2.8b-deduped",
+        "EleutherAI/pythia-410m"
       ],
-      "n_gated": 2,
-      "agreement_mean": 0.8209155111984399,
-      "gc_consensus": 0.9189552608840358
+      "n_gated": 4,
+      "agreement_mean": 0.8851361538872392,
+      "gc_consensus": 0.9188575852468908
     },
     "qwen3": {
       "models": [
@@ -51,19 +53,19 @@
         "Qwen/Qwen3.6-27B"
       ],
       "n_gated": 5,
-      "agreement_mean": 0.9700174051228228,
-      "gc_consensus": 0.9757281008551916
+      "agreement_mean": 0.9802522805501219,
+      "gc_consensus": 0.9521294025875809
     }
   },
   "root_health": {
-    "sil_z": 5.83475,
-    "gc_consensus": 0.9809612414518141,
+    "sil_z": 5.9087499999999995,
+    "gc_consensus": 0.9502760262883532,
     "crystal_bearing_frac": 1.0,
-    "null_floor_z": 2.78
+    "null_floor_z": 1.733
   },
   "root_agreement": {
-    "agreement_mean": 0.9259014545461401,
-    "agreement_min": 0.8414263333705101,
+    "agreement_mean": 0.9569358507291041,
+    "agreement_min": 0.8872621097803968,
     "dissent": false,
     "n_gated": 6
   }

@@ -1,0 +1,533 @@
+{
+  "model": "EleutherAI/pythia-410m",
+  "device": "mps",
+  "topology": {
+    "arch": "GPTNeoXForCausalLM",
+    "register": "ungated",
+    "read_register": "sign(dense_h_to_4h) [up-proj proxy]",
+    "layers_path": "gpt_neox.layers",
+    "gate_suffix": "mlp.dense_h_to_4h",
+    "gate_width": 4096,
+    "attn_suffix": "attention.dense",
+    "attn_width": 1024,
+    "n_layers": 24
+  },
+  "registers": [
+    "gate",
+    "attn"
+  ],
+  "calibration": {
+    "gate": {
+      "n_layers": 24,
+      "crystal_layers": [
+        0,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        19
+      ],
+      "per_layer": {
+        "0": {
+          "sil_z": 2.045,
+          "gc_consensus": 0.757,
+          "crystal_bearing": true
+        },
+        "1": {
+          "sil_z": 1.036,
+          "gc_consensus": 0.802,
+          "crystal_bearing": false
+        },
+        "2": {
+          "sil_z": 1.521,
+          "gc_consensus": 0.856,
+          "crystal_bearing": false
+        },
+        "3": {
+          "sil_z": 0.916,
+          "gc_consensus": 0.804,
+          "crystal_bearing": false
+        },
+        "4": {
+          "sil_z": 2.611,
+          "gc_consensus": 0.867,
+          "crystal_bearing": true
+        },
+        "5": {
+          "sil_z": 2.027,
+          "gc_consensus": 0.873,
+          "crystal_bearing": true
+        },
+        "6": {
+          "sil_z": 4.309,
+          "gc_consensus": 0.901,
+          "crystal_bearing": true
+        },
+        "7": {
+          "sil_z": 4.474,
+          "gc_consensus": 0.874,
+          "crystal_bearing": true
+        },
+        "8": {
+          "sil_z": 4.769,
+          "gc_consensus": 0.892,
+          "crystal_bearing": true
+        },
+        "9": {
+          "sil_z": 4.98,
+          "gc_consensus": 0.877,
+          "crystal_bearing": true
+        },
+        "10": {
+          "sil_z": 4.79,
+          "gc_consensus": 0.888,
+          "crystal_bearing": true
+        },
+        "11": {
+          "sil_z": 5.157,
+          "gc_consensus": 0.897,
+          "crystal_bearing": true
+        },
+        "12": {
+          "sil_z": 4.831,
+          "gc_consensus": 0.889,
+          "crystal_bearing": true
+        },
+        "13": {
+          "sil_z": 4.625,
+          "gc_consensus": 0.899,
+          "crystal_bearing": true
+        },
+        "14": {
+          "sil_z": 4.229,
+          "gc_consensus": 0.883,
+          "crystal_bearing": true
+        },
+        "15": {
+          "sil_z": 3.82,
+          "gc_consensus": 0.87,
+          "crystal_bearing": true
+        },
+        "16": {
+          "sil_z": 3.965,
+          "gc_consensus": 0.878,
+          "crystal_bearing": true
+        },
+        "17": {
+          "sil_z": 3.304,
+          "gc_consensus": 0.854,
+          "crystal_bearing": true
+        },
+        "18": {
+          "sil_z": 1.677,
+          "gc_consensus": 0.834,
+          "crystal_bearing": false
+        },
+        "19": {
+          "sil_z": 2.303,
+          "gc_consensus": 0.843,
+          "crystal_bearing": true
+        },
+        "20": {
+          "sil_z": 1.127,
+          "gc_consensus": 0.81,
+          "crystal_bearing": false
+        },
+        "21": {
+          "sil_z": 1.346,
+          "gc_consensus": 0.803,
+          "crystal_bearing": false
+        },
+        "22": {
+          "sil_z": 0.675,
+          "gc_consensus": 0.808,
+          "crystal_bearing": false
+        },
+        "23": {
+          "sil_z": 1.228,
+          "gc_consensus": 0.788,
+          "crystal_bearing": false
+        }
+      },
+      "z_thresh": 3.0,
+      "sil_z_thresh": 2.0,
+      "has_consensus": true,
+      "null_kind": "crosstask",
+      "register": "gate",
+      "n_probes": 539,
+      "n_null_tokens": 55,
+      "null_floor": {
+        "null_floor_z": 1.036,
+        "shuffled_bearing_frac": 0.0,
+        "shuffled_sil_z_max": 1.713,
+        "suspect": false,
+        "n_shuffles": 3,
+        "n_perm": 150,
+        "per_shuffle": [
+          {
+            "max_sil_z": -0.0,
+            "n_bearing": 0
+          },
+          {
+            "max_sil_z": 1.713,
+            "n_bearing": 0
+          },
+          {
+            "max_sil_z": 0.686,
+            "n_bearing": 0
+          }
+        ],
+        "reference": "q95 ~ 1.64 under a well-behaved N(0,1) null"
+      }
+    },
+    "attn": {
+      "n_layers": 24,
+      "crystal_layers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        22
+      ],
+      "per_layer": {
+        "0": {
+          "sil_z": 2.944,
+          "gc_consensus": 0.859,
+          "crystal_bearing": true
+        },
+        "1": {
+          "sil_z": 2.696,
+          "gc_consensus": 0.875,
+          "crystal_bearing": true
+        },
+        "2": {
+          "sil_z": 2.526,
+          "gc_consensus": 0.827,
+          "crystal_bearing": true
+        },
+        "3": {
+          "sil_z": 2.741,
+          "gc_consensus": 0.926,
+          "crystal_bearing": true
+        },
+        "4": {
+          "sil_z": 2.474,
+          "gc_consensus": 0.851,
+          "crystal_bearing": true
+        },
+        "5": {
+          "sil_z": 5.615,
+          "gc_consensus": 0.831,
+          "crystal_bearing": true
+        },
+        "6": {
+          "sil_z": 6.115,
+          "gc_consensus": 0.802,
+          "crystal_bearing": true
+        },
+        "7": {
+          "sil_z": 6.563,
+          "gc_consensus": 0.876,
+          "crystal_bearing": true
+        },
+        "8": {
+          "sil_z": 6.692,
+          "gc_consensus": 0.837,
+          "crystal_bearing": true
+        },
+        "9": {
+          "sil_z": 8.81,
+          "gc_consensus": 0.886,
+          "crystal_bearing": true
+        },
+        "10": {
+          "sil_z": 7.94,
+          "gc_consensus": 0.862,
+          "crystal_bearing": true
+        },
+        "11": {
+          "sil_z": 7.668,
+          "gc_consensus": 0.853,
+          "crystal_bearing": true
+        },
+        "12": {
+          "sil_z": 7.144,
+          "gc_consensus": 0.892,
+          "crystal_bearing": true
+        },
+        "13": {
+          "sil_z": 3.115,
+          "gc_consensus": 0.89,
+          "crystal_bearing": true
+        },
+        "14": {
+          "sil_z": 4.85,
+          "gc_consensus": 0.814,
+          "crystal_bearing": true
+        },
+        "15": {
+          "sil_z": 4.303,
+          "gc_consensus": 0.859,
+          "crystal_bearing": true
+        },
+        "16": {
+          "sil_z": 1.641,
+          "gc_consensus": 0.828,
+          "crystal_bearing": false
+        },
+        "17": {
+          "sil_z": 0.65,
+          "gc_consensus": 0.84,
+          "crystal_bearing": false
+        },
+        "18": {
+          "sil_z": 0.295,
+          "gc_consensus": 0.767,
+          "crystal_bearing": false
+        },
+        "19": {
+          "sil_z": 0.086,
+          "gc_consensus": 0.777,
+          "crystal_bearing": false
+        },
+        "20": {
+          "sil_z": 1.468,
+          "gc_consensus": 0.675,
+          "crystal_bearing": false
+        },
+        "21": {
+          "sil_z": -0.754,
+          "gc_consensus": 0.67,
+          "crystal_bearing": false
+        },
+        "22": {
+          "sil_z": 5.264,
+          "gc_consensus": 0.868,
+          "crystal_bearing": true
+        },
+        "23": {
+          "sil_z": 0.762,
+          "gc_consensus": 0.771,
+          "crystal_bearing": false
+        }
+      },
+      "z_thresh": 3.0,
+      "sil_z_thresh": 2.0,
+      "has_consensus": true,
+      "null_kind": "crosstask",
+      "register": "attn",
+      "n_probes": 539,
+      "n_null_tokens": 55,
+      "null_floor": {
+        "null_floor_z": 1.568,
+        "shuffled_bearing_frac": 0.0,
+        "shuffled_sil_z_max": 1.952,
+        "suspect": false,
+        "n_shuffles": 3,
+        "n_perm": 150,
+        "per_shuffle": [
+          {
+            "max_sil_z": 0.651,
+            "n_bearing": 0
+          },
+          {
+            "max_sil_z": 1.952,
+            "n_bearing": 0
+          },
+          {
+            "max_sil_z": 1.589,
+            "n_bearing": 0
+          }
+        ],
+        "reference": "q95 ~ 1.64 under a well-behaved N(0,1) null"
+      }
+    }
+  },
+  "traces": {
+    "gate": {
+      "register": "gate",
+      "n_tokens": 32,
+      "token_noop_rate": 0.9062,
+      "crystal_layers": [
+        0,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        19
+      ],
+      "trajectory": [
+        {
+          "layer": 4,
+          "op": "D",
+          "votes": 1,
+          "total": 1
+        },
+        {
+          "layer": 6,
+          "op": "D",
+          "votes": 1,
+          "total": 1
+        },
+        {
+          "layer": 7,
+          "op": "D",
+          "votes": 1,
+          "total": 1
+        },
+        {
+          "layer": 19,
+          "op": "S",
+          "votes": 2,
+          "total": 2
+        }
+      ],
+      "C_layers": [],
+      "B_layers": [],
+      "C_before_B": false
+    },
+    "attn": {
+      "register": "attn",
+      "n_tokens": 32,
+      "token_noop_rate": 0.2812,
+      "crystal_layers": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        22
+      ],
+      "trajectory": [
+        {
+          "layer": 3,
+          "op": "S",
+          "votes": 2,
+          "total": 3
+        },
+        {
+          "layer": 4,
+          "op": "WHNF",
+          "votes": 2,
+          "total": 2
+        },
+        {
+          "layer": 5,
+          "op": "WHNF",
+          "votes": 3,
+          "total": 4
+        },
+        {
+          "layer": 6,
+          "op": "S",
+          "votes": 3,
+          "total": 3
+        },
+        {
+          "layer": 7,
+          "op": "S",
+          "votes": 2,
+          "total": 3
+        },
+        {
+          "layer": 8,
+          "op": "Y",
+          "votes": 4,
+          "total": 4
+        },
+        {
+          "layer": 9,
+          "op": "Y",
+          "votes": 2,
+          "total": 4
+        },
+        {
+          "layer": 10,
+          "op": "C",
+          "votes": 3,
+          "total": 3
+        },
+        {
+          "layer": 11,
+          "op": "S",
+          "votes": 4,
+          "total": 5
+        },
+        {
+          "layer": 12,
+          "op": "K",
+          "votes": 2,
+          "total": 3
+        },
+        {
+          "layer": 14,
+          "op": "C",
+          "votes": 2,
+          "total": 3
+        },
+        {
+          "layer": 15,
+          "op": "S",
+          "votes": 1,
+          "total": 1
+        }
+      ],
+      "C_layers": [
+        10,
+        14
+      ],
+      "B_layers": [],
+      "C_before_B": false
+    }
+  },
+  "operand": null,
+  "jspace_projector": "jspace_projector.json",
+  "elapsed_s": 426.4,
+  "timestamp_utc": "2026-07-25T08:35:50.836331+00:00",
+  "smoke": false,
+  "probes_per_comb": null,
+  "n_perm": 300
+}

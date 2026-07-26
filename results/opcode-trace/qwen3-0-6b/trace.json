@@ -1,6 +1,6 @@
 {
   "model": "Qwen/Qwen3-0.6B",
-  "device": "cpu",
+  "device": "mps",
   "topology": {
     "arch": "Qwen3ForCausalLM",
     "register": "gated-dense",
@@ -21,6 +21,7 @@
       "n_layers": 28,
       "crystal_layers": [
         0,
+        4,
         5,
         6,
         7,
@@ -35,147 +36,148 @@
         16,
         17,
         18,
-        19
+        19,
+        20
       ],
       "per_layer": {
         "0": {
-          "sil_z": 2.158,
-          "gc_consensus": 0.859,
+          "sil_z": 2.095,
+          "gc_consensus": 0.841,
           "crystal_bearing": true
         },
         "1": {
-          "sil_z": 1.667,
-          "gc_consensus": 0.815,
+          "sil_z": 1.607,
+          "gc_consensus": 0.799,
           "crystal_bearing": false
         },
         "2": {
-          "sil_z": 1.773,
-          "gc_consensus": 0.892,
+          "sil_z": 1.965,
+          "gc_consensus": 0.862,
           "crystal_bearing": false
         },
         "3": {
-          "sil_z": 1.491,
-          "gc_consensus": 0.853,
+          "sil_z": 1.615,
+          "gc_consensus": 0.83,
           "crystal_bearing": false
         },
         "4": {
-          "sil_z": 1.995,
-          "gc_consensus": 0.835,
-          "crystal_bearing": false
+          "sil_z": 2.065,
+          "gc_consensus": 0.8,
+          "crystal_bearing": true
         },
         "5": {
-          "sil_z": 3.27,
-          "gc_consensus": 0.923,
+          "sil_z": 3.621,
+          "gc_consensus": 0.899,
           "crystal_bearing": true
         },
         "6": {
-          "sil_z": 3.571,
-          "gc_consensus": 0.925,
-          "crystal_bearing": true
-        },
-        "7": {
-          "sil_z": 3.738,
-          "gc_consensus": 0.955,
-          "crystal_bearing": true
-        },
-        "8": {
-          "sil_z": 4.154,
-          "gc_consensus": 0.95,
-          "crystal_bearing": true
-        },
-        "9": {
-          "sil_z": 3.754,
-          "gc_consensus": 0.941,
-          "crystal_bearing": true
-        },
-        "10": {
-          "sil_z": 3.987,
-          "gc_consensus": 0.94,
-          "crystal_bearing": true
-        },
-        "11": {
-          "sil_z": 4.503,
-          "gc_consensus": 0.952,
-          "crystal_bearing": true
-        },
-        "12": {
-          "sil_z": 5.256,
-          "gc_consensus": 0.928,
-          "crystal_bearing": true
-        },
-        "13": {
-          "sil_z": 6.03,
-          "gc_consensus": 0.9,
-          "crystal_bearing": true
-        },
-        "14": {
-          "sil_z": 5.214,
-          "gc_consensus": 0.905,
-          "crystal_bearing": true
-        },
-        "15": {
-          "sil_z": 4.672,
-          "gc_consensus": 0.913,
-          "crystal_bearing": true
-        },
-        "16": {
-          "sil_z": 3.993,
+          "sil_z": 3.544,
           "gc_consensus": 0.91,
           "crystal_bearing": true
         },
-        "17": {
-          "sil_z": 2.915,
-          "gc_consensus": 0.888,
+        "7": {
+          "sil_z": 4.483,
+          "gc_consensus": 0.931,
           "crystal_bearing": true
         },
-        "18": {
-          "sil_z": 2.635,
+        "8": {
+          "sil_z": 4.677,
+          "gc_consensus": 0.933,
+          "crystal_bearing": true
+        },
+        "9": {
+          "sil_z": 4.065,
+          "gc_consensus": 0.937,
+          "crystal_bearing": true
+        },
+        "10": {
+          "sil_z": 4.412,
+          "gc_consensus": 0.932,
+          "crystal_bearing": true
+        },
+        "11": {
+          "sil_z": 5.424,
+          "gc_consensus": 0.942,
+          "crystal_bearing": true
+        },
+        "12": {
+          "sil_z": 5.274,
+          "gc_consensus": 0.914,
+          "crystal_bearing": true
+        },
+        "13": {
+          "sil_z": 6.507,
+          "gc_consensus": 0.892,
+          "crystal_bearing": true
+        },
+        "14": {
+          "sil_z": 5.352,
+          "gc_consensus": 0.899,
+          "crystal_bearing": true
+        },
+        "15": {
+          "sil_z": 4.544,
+          "gc_consensus": 0.907,
+          "crystal_bearing": true
+        },
+        "16": {
+          "sil_z": 4.097,
+          "gc_consensus": 0.907,
+          "crystal_bearing": true
+        },
+        "17": {
+          "sil_z": 3.199,
           "gc_consensus": 0.868,
           "crystal_bearing": true
         },
+        "18": {
+          "sil_z": 2.624,
+          "gc_consensus": 0.853,
+          "crystal_bearing": true
+        },
         "19": {
-          "sil_z": 2.361,
-          "gc_consensus": 0.85,
+          "sil_z": 2.354,
+          "gc_consensus": 0.824,
           "crystal_bearing": true
         },
         "20": {
-          "sil_z": 1.766,
-          "gc_consensus": 0.848,
-          "crystal_bearing": false
+          "sil_z": 2.058,
+          "gc_consensus": 0.828,
+          "crystal_bearing": true
         },
         "21": {
-          "sil_z": 1.303,
-          "gc_consensus": 0.818,
+          "sil_z": 1.402,
+          "gc_consensus": 0.803,
           "crystal_bearing": false
         },
         "22": {
-          "sil_z": 0.873,
-          "gc_consensus": 0.796,
+          "sil_z": 0.767,
+          "gc_consensus": 0.784,
           "crystal_bearing": false
         },
         "23": {
-          "sil_z": 1.435,
-          "gc_consensus": 0.825,
+          "sil_z": 1.6,
+          "gc_consensus": 0.811,
           "crystal_bearing": false
         },
         "24": {
-          "sil_z": 1.208,
-          "gc_consensus": 0.815,
+          "sil_z": 1.457,
+          "gc_consensus": 0.792,
           "crystal_bearing": false
         },
         "25": {
-          "sil_z": 1.528,
-          "gc_consensus": 0.813,
+          "sil_z": 1.6,
+          "gc_consensus": 0.798,
           "crystal_bearing": false
         },
         "26": {
-          "sil_z": 0.914,
-          "gc_consensus": 0.75,
+          "sil_z": 0.955,
+          "gc_consensus": 0.744,
           "crystal_bearing": false
         },
         "27": {
-          "sil_z": 1.33,
-          "gc_consensus": 0.746,
+          "sil_z": 1.343,
+          "gc_consensus": 0.724,
           "crystal_bearing": false
         }
       },
@@ -184,27 +186,27 @@
       "has_consensus": true,
       "null_kind": "crosstask",
       "register": "gate",
-      "n_probes": 535,
+      "n_probes": 539,
       "n_null_tokens": 55,
       "null_floor": {
-        "null_floor_z": 2.78,
-        "shuffled_bearing_frac": 0.0238,
-        "shuffled_sil_z_max": 3.352,
+        "null_floor_z": 0.979,
+        "shuffled_bearing_frac": 0.0,
+        "shuffled_sil_z_max": 1.306,
         "suspect": false,
         "n_shuffles": 3,
         "n_perm": 150,
         "per_shuffle": [
           {
-            "max_sil_z": 1.154,
+            "max_sil_z": 0.652,
             "n_bearing": 0
           },
           {
-            "max_sil_z": 2.14,
+            "max_sil_z": 1.306,
             "n_bearing": 0
           },
           {
-            "max_sil_z": 3.352,
-            "n_bearing": 2
+            "max_sil_z": 0.967,
+            "n_bearing": 0
           }
         ],
         "reference": "q95 ~ 1.64 under a well-behaved N(0,1) null"
@@ -244,143 +246,143 @@
       ],
       "per_layer": {
         "0": {
-          "sil_z": 2.026,
-          "gc_consensus": 0.801,
+          "sil_z": 2.148,
+          "gc_consensus": 0.783,
           "crystal_bearing": true
         },
         "1": {
-          "sil_z": 2.971,
-          "gc_consensus": 0.934,
+          "sil_z": 3.197,
+          "gc_consensus": 0.928,
           "crystal_bearing": true
         },
         "2": {
-          "sil_z": 2.617,
-          "gc_consensus": 0.884,
+          "sil_z": 2.495,
+          "gc_consensus": 0.892,
           "crystal_bearing": true
         },
         "3": {
-          "sil_z": 5.766,
-          "gc_consensus": 0.897,
+          "sil_z": 5.033,
+          "gc_consensus": 0.882,
           "crystal_bearing": true
         },
         "4": {
-          "sil_z": 4.076,
-          "gc_consensus": 0.827,
+          "sil_z": 3.646,
+          "gc_consensus": 0.822,
           "crystal_bearing": true
         },
         "5": {
-          "sil_z": 5.635,
-          "gc_consensus": 0.925,
+          "sil_z": 6.122,
+          "gc_consensus": 0.905,
           "crystal_bearing": true
         },
         "6": {
-          "sil_z": 7.931,
-          "gc_consensus": 0.913,
+          "sil_z": 8.239,
+          "gc_consensus": 0.905,
           "crystal_bearing": true
         },
         "7": {
-          "sil_z": 9.524,
-          "gc_consensus": 0.895,
+          "sil_z": 9.519,
+          "gc_consensus": 0.866,
           "crystal_bearing": true
         },
         "8": {
-          "sil_z": 6.249,
-          "gc_consensus": 0.924,
+          "sil_z": 6.599,
+          "gc_consensus": 0.893,
           "crystal_bearing": true
         },
         "9": {
-          "sil_z": 8.552,
-          "gc_consensus": 0.911,
+          "sil_z": 9.351,
+          "gc_consensus": 0.902,
           "crystal_bearing": true
         },
         "10": {
-          "sil_z": 8.777,
-          "gc_consensus": 0.925,
-          "crystal_bearing": true
-        },
-        "11": {
-          "sil_z": 8.245,
+          "sil_z": 9.301,
           "gc_consensus": 0.895,
           "crystal_bearing": true
         },
+        "11": {
+          "sil_z": 8.9,
+          "gc_consensus": 0.861,
+          "crystal_bearing": true
+        },
         "12": {
-          "sil_z": 7.481,
-          "gc_consensus": 0.84,
+          "sil_z": 8.467,
+          "gc_consensus": 0.835,
           "crystal_bearing": true
         },
         "13": {
-          "sil_z": 8.066,
-          "gc_consensus": 0.873,
-          "crystal_bearing": true
-        },
-        "14": {
-          "sil_z": 6.111,
-          "gc_consensus": 0.85,
-          "crystal_bearing": true
-        },
-        "15": {
-          "sil_z": 8.754,
-          "gc_consensus": 0.865,
-          "crystal_bearing": true
-        },
-        "16": {
-          "sil_z": 6.33,
-          "gc_consensus": 0.886,
-          "crystal_bearing": true
-        },
-        "17": {
-          "sil_z": 8.611,
-          "gc_consensus": 0.893,
-          "crystal_bearing": true
-        },
-        "18": {
-          "sil_z": 6.027,
-          "gc_consensus": 0.911,
-          "crystal_bearing": true
-        },
-        "19": {
-          "sil_z": 7.362,
-          "gc_consensus": 0.885,
-          "crystal_bearing": true
-        },
-        "20": {
-          "sil_z": 4.437,
-          "gc_consensus": 0.844,
-          "crystal_bearing": true
-        },
-        "21": {
-          "sil_z": 3.916,
-          "gc_consensus": 0.824,
-          "crystal_bearing": true
-        },
-        "22": {
-          "sil_z": 5.124,
+          "sil_z": 8.079,
           "gc_consensus": 0.878,
           "crystal_bearing": true
         },
+        "14": {
+          "sil_z": 6.037,
+          "gc_consensus": 0.811,
+          "crystal_bearing": true
+        },
+        "15": {
+          "sil_z": 8.044,
+          "gc_consensus": 0.87,
+          "crystal_bearing": true
+        },
+        "16": {
+          "sil_z": 5.839,
+          "gc_consensus": 0.892,
+          "crystal_bearing": true
+        },
+        "17": {
+          "sil_z": 8.136,
+          "gc_consensus": 0.897,
+          "crystal_bearing": true
+        },
+        "18": {
+          "sil_z": 6.896,
+          "gc_consensus": 0.916,
+          "crystal_bearing": true
+        },
+        "19": {
+          "sil_z": 7.388,
+          "gc_consensus": 0.841,
+          "crystal_bearing": true
+        },
+        "20": {
+          "sil_z": 4.786,
+          "gc_consensus": 0.826,
+          "crystal_bearing": true
+        },
+        "21": {
+          "sil_z": 5.685,
+          "gc_consensus": 0.855,
+          "crystal_bearing": true
+        },
+        "22": {
+          "sil_z": 5.027,
+          "gc_consensus": 0.866,
+          "crystal_bearing": true
+        },
         "23": {
-          "sil_z": 6.138,
-          "gc_consensus": 0.847,
+          "sil_z": 7.131,
+          "gc_consensus": 0.846,
           "crystal_bearing": true
         },
         "24": {
-          "sil_z": 5.168,
-          "gc_consensus": 0.929,
+          "sil_z": 5.04,
+          "gc_consensus": 0.904,
           "crystal_bearing": true
         },
         "25": {
-          "sil_z": 3.129,
-          "gc_consensus": 0.868,
+          "sil_z": 3.715,
+          "gc_consensus": 0.836,
           "crystal_bearing": true
         },
         "26": {
-          "sil_z": 4.7,
-          "gc_consensus": 0.874,
+          "sil_z": 4.65,
+          "gc_consensus": 0.852,
           "crystal_bearing": true
         },
         "27": {
-          "sil_z": 3.893,
-          "gc_consensus": 0.893,
+          "sil_z": 4.2,
+          "gc_consensus": 0.843,
           "crystal_bearing": true
         }
       },
@@ -389,27 +391,27 @@
       "has_consensus": true,
       "null_kind": "crosstask",
       "register": "attn",
-      "n_probes": 535,
+      "n_probes": 539,
       "n_null_tokens": 55,
       "null_floor": {
-        "null_floor_z": 2.142,
-        "shuffled_bearing_frac": 0.0238,
-        "shuffled_sil_z_max": 2.752,
+        "null_floor_z": 1.479,
+        "shuffled_bearing_frac": 0.0,
+        "shuffled_sil_z_max": 1.893,
         "suspect": false,
         "n_shuffles": 3,
         "n_perm": 150,
         "per_shuffle": [
           {
-            "max_sil_z": 2.094,
-            "n_bearing": 1
-          },
-          {
-            "max_sil_z": 1.877,
+            "max_sil_z": 0.793,
             "n_bearing": 0
           },
           {
-            "max_sil_z": 2.752,
-            "n_bearing": 1
+            "max_sil_z": 1.893,
+            "n_bearing": 0
+          },
+          {
+            "max_sil_z": 1.579,
+            "n_bearing": 0
           }
         ],
         "reference": "q95 ~ 1.64 under a well-behaved N(0,1) null"
@@ -420,9 +422,10 @@
     "gate": {
       "register": "gate",
       "n_tokens": 32,
-      "token_noop_rate": 0.9062,
+      "token_noop_rate": 0.8438,
       "crystal_layers": [
         0,
+        4,
         5,
         6,
         7,
@@ -437,7 +440,8 @@
         16,
         17,
         18,
-        19
+        19,
+        20
       ],
       "trajectory": [
         {
@@ -447,10 +451,16 @@
           "total": 1
         },
         {
-          "layer": 16,
+          "layer": 13,
           "op": "WHNF",
+          "votes": 1,
+          "total": 1
+        },
+        {
+          "layer": 20,
+          "op": "S",
           "votes": 2,
-          "total": 2
+          "total": 3
         }
       ],
       "C_layers": [],
@@ -460,7 +470,7 @@
     "attn": {
       "register": "attn",
       "n_tokens": 32,
-      "token_noop_rate": 0.5625,
+      "token_noop_rate": 0.5312,
       "crystal_layers": [
         0,
         1,
@@ -492,6 +502,12 @@
         27
       ],
       "trajectory": [
+        {
+          "layer": 0,
+          "op": "WHNF",
+          "votes": 1,
+          "total": 1
+        },
         {
           "layer": 5,
           "op": "WHNF",
@@ -514,7 +530,7 @@
           "layer": 10,
           "op": "I",
           "votes": 1,
-          "total": 3
+          "total": 2
         },
         {
           "layer": 12,
@@ -532,7 +548,7 @@
           "layer": 14,
           "op": "D",
           "votes": 1,
-          "total": 1
+          "total": 2
         },
         {
           "layer": 15,
@@ -543,6 +559,12 @@
         {
           "layer": 19,
           "op": "S",
+          "votes": 2,
+          "total": 2
+        },
+        {
+          "layer": 21,
+          "op": "B",
           "votes": 1,
           "total": 1
         },
@@ -551,6 +573,12 @@
           "op": "K",
           "votes": 1,
           "total": 3
+        },
+        {
+          "layer": 25,
+          "op": "B",
+          "votes": 1,
+          "total": 1
         },
         {
           "layer": 26,
@@ -562,13 +590,17 @@
       "C_layers": [
         26
       ],
-      "B_layers": [],
+      "B_layers": [
+        21,
+        25
+      ],
       "C_before_B": false
     }
   },
   "operand": null,
-  "elapsed_s": 130.5,
-  "timestamp_utc": "2026-07-19T23:24:02.733149+00:00",
+  "jspace_projector": "jspace_projector.json",
+  "elapsed_s": 706.5,
+  "timestamp_utc": "2026-07-23T23:15:10.626220+00:00",
   "smoke": false,
   "probes_per_comb": null,
   "n_perm": 300
