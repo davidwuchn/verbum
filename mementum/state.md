@@ -141,6 +141,25 @@
 >   re-grade s267 autopsy (kernel_valid ⊗ sem_eq), gene-db merge scores, P-CTL-14 graded. Agenda now
 >   P-CTL-1..15.
 >
+> ★ s274 EXECUTION STACK (Michael-approved s273, execute in order — reasons in the s273 chat / summary
+>   in control-plane-path.md):
+>   1. PATCHSCOPE HARVEST — committed s272b pickup, unchanged (g0/g1 gates FIRST → lexicon → eyeball).
+>   2. P-CTL-6 READER SNR — gates the PRIMARY (control-plane) path; all-our-code: model_vsm.json readers
+>      + kernel_reference saturated⊗inert battery + existing capture hooks; ~half-day; negative = cheap
+>      redirect of everything above it.
+>   3. CUSTOM-BAKE SMOKE — get ~/src/custom-bake running on our box (Qwen2.5-0.5B; repo targets
+>      CUDA/CPU, MPS untested; CPU-friendly config ~20min at 0.5B). License caveat: run-as-instrument
+>      OK; ¬derive code (no LICENSE).
+>   4. BAKED-CODE PATCHSCOPE CONTROL — minutes once (3) works; planted silent-content direction with
+>      known referent; SYNERGISTIC with (1): strengthens the P2 verdict; debugs the bake toolchain on a
+>      known-answer task before aiming at unknowns.
+>   5. K-BATTERY PRE-REG DRAFT — registers/nulls/verdict rules BEFORE building (λ measure/yardstick;
+>      s206+φ-ladder scar tissue). Arm (b) "compose with resident crystal" = the novel design work.
+>      HIGHEST-STAKES experiment of the arc (recursion antecedent) → must not run on a first draft.
+>   6. K-BATTERY RUN — after the pre-reg survives a hammock (Michael review).
+>   Rationale: K-battery gates the SECONDARY (recursion/germline) tower; control plane is primary per
+>   the 🔄; cheap gates before dear ones; toolchain debugged on known answers first.
+>
 > ★★ s272 SWEEP HARVESTED + CONSENSUS DECONTAMINATED + JSPACE PRE-REGS READ (commits a4509ba, f1b1af4,
 >   57eb283). Both boundary-crossing jobs completed clean:
 >   (1) s270c RE-SWEEP DONE: 11/11 registry models clean-bundle + jspace_projector.json each; restack 6/6
