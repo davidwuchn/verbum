@@ -1,0 +1,568 @@
+{
+  "model": "Qwen/Qwen3-0.6B",
+  "layers": [
+    7,
+    14,
+    21
+  ],
+  "target_layer": 26,
+  "k": 32,
+  "top_dirs": 5,
+  "n_random": 8,
+  "max_new": 12,
+  "seed": 270,
+  "prompt": "cat -> cat\n1135 -> 1135\nhello -> hello\nX",
+  "preregistration": {
+    "G0": "median rel strength dev < 0.05 vs committed artifact",
+    "G1": ">=2/3 unembed-row controls decode their own field",
+    "verdict": "basis dirs self-decode iff coherent fields above random-dir rate (lexicon floor + eyeball dump)"
+  },
+  "g0": {
+    "available": true,
+    "median_rel_dev": 0.0,
+    "pass": true
+  },
+  "g1": {
+    "by_token": {
+      "recursively": false,
+      "previously": true,
+      "cat": true
+    },
+    "passed": 2,
+    "pass": true
+  },
+  "lexicon_summary": {
+    "basis_hits_per_gen": {
+      "recursion": 0.0,
+      "precedence": 0.03333333333333333,
+      "halt": 0.0
+    },
+    "random_hits_per_gen": {
+      "recursion": 0.0,
+      "precedence": 0.041666666666666664,
+      "halt": 0.0
+    }
+  },
+  "generations": {
+    "7": {
+      "dir0+": {
+        "text": " ducks -> ducks\n1135 -> 11",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir0-": {
+        "text": " -> 1135\nhello -> hello\nhello",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir1+": {
+        "text": "2 -> 2\n3 -> 3\n4 ->",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir1-": {
+        "text": " 1135 -> 1135\n",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir2+": {
+        "text": "\n```\n\nThe first line is the input, and the",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 1,
+          "halt": 0
+        }
+      },
+      "dir2-": {
+        "text": " -> 1135\n1135 ->",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir3+": {
+        "text": " -> me\nme -> me\nhello -> hello\ncat",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir3-": {
+        "text": "\n<|assistant|]: \n\nOkay, let's see",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir4+": {
+        "text": "\n```\n\n```\ncat\n1135\n",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir4-": {
+        "text": " -> d\ncat -> cat\n1135 ->",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "G1:recursively(recursively)": {
+        "text": " -> hello\nhello -> hello\nhello -> hello\nhello",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        },
+        "g1_pass": false
+      },
+      "G1:previously(previously)": {
+        "text": " 1135 -> 1135\n",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        },
+        "g1_pass": false
+      },
+      "G1:cat(cat)": {
+        "text": " cat -> cat\nhello -> hello\ncat -> cat\n",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        },
+        "g1_pass": true
+      },
+      "rand0": {
+        "text": " -> cat\n1135 -> 113",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand1": {
+        "text": "cat -> cat\n1135 -> 11",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand2": {
+        "text": "\n```\n\n```\ncat\n1135\n",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand3": {
+        "text": ".1135 -> 1135\n",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand4": {
+        "text": " (1135) -> (1135",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand5": {
+        "text": " then\n1135 -> 1135",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand6": {
+        "text": "\nhello -> hello\nhello -> hello\nhello -> hello",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand7": {
+        "text": " say hello\nhello -> hello\nhello -> hello\nhello",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      }
+    },
+    "14": {
+      "dir0+": {
+        "text": ": 1135\n1135 ->",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir0-": {
+        "text": " 1135 -> 1135\n",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir1+": {
+        "text": " make -> make\nhello -> hello\nmake -> make\n",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir1-": {
+        "text": " hello\nhello -> hello\nhello -> hello\nhello ->",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir2+": {
+        "text": "\nhello -> hello\nhello -> hello\nhello -> hello",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir2-": {
+        "text": "\nhello -> hello\nhello -> hello\nhello -> hello",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir3+": {
+        "text": " cat -> cat\nhello cat -> cat\nhello cat ->",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir3-": {
+        "text": "1135 -> 1135\nhello",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir4+": {
+        "text": " hello -> hello\nhello -> hello\nhello -> hello\n",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir4-": {
+        "text": "pe -> pe\npe -> pe\nhello -> hello\n",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "G1:recursively(recursively)": {
+        "text": " 1135 -> 1135\n",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        },
+        "g1_pass": false
+      },
+      "G1:previously(previously)": {
+        "text": " previous -> previous\n1135 -> 11",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 1,
+          "halt": 0
+        },
+        "g1_pass": true
+      },
+      "G1:cat(cat)": {
+        "text": ", 1135 -> 1135",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        },
+        "g1_pass": false
+      },
+      "rand0": {
+        "text": " this is a cat\n1135 -> 1",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand1": {
+        "text": " cat -> cat\ncat -> cat\nhello -> hello\n",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand2": {
+        "text": "1135 -> 1135\n1",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand3": {
+        "text": "\n\nThe pattern is that the first character of the word is",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 1,
+          "halt": 0
+        }
+      },
+      "rand4": {
+        "text": " is 1135\n1135 ->",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand5": {
+        "text": " -> 1135\n1135 ->",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand6": {
+        "text": "in -> Xin\nhello -> hello\n1135",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand7": {
+        "text": "1135 -> 1135\nhello",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      }
+    },
+    "21": {
+      "dir0+": {
+        "text": " 1135 -> 1135\n",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir0-": {
+        "text": "venile -> Xvenile\n1135 -> 1",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir1+": {
+        "text": "<vector> -> vector\nvector -> vector\nhello -> hello",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir1-": {
+        "text": " 1135 -> 1135\n",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir2+": {
+        "text": "#1135\n#1135",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir2-": {
+        "text": "è -> Xè\n1135 -> 1",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir3+": {
+        "text": "atemala -> Xatemala\n1135 -> 1",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir3-": {
+        "text": "1135 -> 1135\n1",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir4+": {
+        "text": " valid\n1135 -> 1135",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir4-": {
+        "text": "iki -> Xiki\n1135 -> 1",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "G1:recursively(recursively)": {
+        "text": "帼 -> X帼\n1135 -> 1",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        },
+        "g1_pass": false
+      },
+      "G1:previously(previously)": {
+        "text": " previously -> X previously\n1135 -> 1",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 1,
+          "halt": 0
+        },
+        "g1_pass": true
+      },
+      "G1:cat(cat)": {
+        "text": " cat -> x cat\nx cat -> x cat\nhello",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        },
+        "g1_pass": true
+      },
+      "rand0": {
+        "text": "1135 -> 1135\n1",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand1": {
+        "text": ", 1135 -> 1135",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand2": {
+        "text": "! -> 1135\n1135",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand3": {
+        "text": "1135 -> 1135\n1",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand4": {
+        "text": ", 1135 -> 1135",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand5": {
+        "text": ".1135 -> 1135\n",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand6": {
+        "text": "\n1135 -> 1135\n",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand7": {
+        "text": "一 -> 一\n1135 -> 1",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      }
+    }
+  },
+  "elapsed_s": 604.1
+}
