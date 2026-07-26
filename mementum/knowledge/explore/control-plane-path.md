@@ -236,3 +236,51 @@ with known parts.
   verify BOTH receipt sets hold post-merge + referees flat. THE gate for
   parallel remote construction. Register: receipt replay + prose/leak
   referees. Null: interleaved-single-bake comparison.
+
+## 7. The algedonic channel (s273g — Michael: "feed forwards in the tensors")
+
+Beer's fastest wire, completing the VSM: pain/pleasure signals that BYPASS the
+normal chain of command. Our normal chain = the depth pipeline (verdicts only
+at the end). An algedonic wire = a reader with INTERRUPT SEMANTICS — acts
+mid-pass, not post-mortem.
+
+**Nearly free**: readers already tap every layer (projections from captured
+hidden states). The channel adds no measurement — only threshold logic and the
+right to interrupt. The driver is the S5 the signals jump to.
+
+Four wires:
+- **PLEASURE — early exit.** Halt reader fires with margin at layer k /
+  iteration j → skip the rest. Early-exit/CALM shape, but halt has a CERTIFIED
+  spec (kernel labels), not a learned confidence guess. Compute ∝ actual
+  reduction length, with a floor under it.
+- **PAIN — in-flight abort.** Live register incoherence (opcode firing with
+  off-crystal geometry; gate violation in real time) → abort/escalate BEFORE
+  emitting. A hallucination tripwire for the structural fragment: catch the
+  derailment mid-pass, not the corpse.
+- **FEEDFORWARD — provisioning.** Remaining-depth signal (P-CTL-5 countdown)
+  read early → driver provisions iterations/batching/budget ahead of need.
+  Anticipation, not correction.
+- **TRAINING — starvation wire.** flip_flop↑ ∧ KL_residual↑ jumps straight to
+  the allocator (dynamic bridge logic); "suspiciously good news summons audit"
+  (S3*) becomes a wire instead of a policy.
+
+**The tree's boost: thresholds ship PRE-CALIBRATED.** An algedonic channel is
+only as good as its threshold. The tree gives measured null distributions per
+model/register/layer (sil_z floors, gc bands, family spread) — "abnormal" is a
+percentile against a committed distribution, not a hyperparameter. Referees
+that run INSIDE the forward pass, calibration inherited from 11 models.
+
+**Beer-fidelity constraint**: the channel must BYPASS, not ride, the normal
+chain. Residual bus = normal chain; §3.6 says payloads decay on it → the wires
+exit SIDEWAYS through the readers into the driver. The control plane already
+has this topology by construction — the channel was latent; naming it makes it
+load-bearing.
+
+New probes:
+- **P-CTL-11 early-exit fidelity**: at what depth fraction does the halt
+  reader's prediction match certified final WHNF; compute-saved vs error-rate
+  curve. Labels free (kernel); runnable on swept hosts.
+- **P-CTL-12 tripwire validity**: do live reader anomalies (mid-pass gate
+  violations) PREDICT kernel-graded output failures? Yes → pain wire real,
+  structural-hallucination alarm works. No → visible incoherence ≠ the
+  incoherence that matters. Either way a finding.

@@ -102,6 +102,15 @@
 >   per-step supervision = GTSM search-space collapse; corrections WRITTEN where linear; telemetry-
 >   targeted correction; seeded init → training = smoothing. NEW P-CTL-10 merged-banks probe = the gate
 >   for parallel remote construction. Deps: P-CTL-6/7 + leak-ledger composition.
+>   (9) s273g ALGEDONIC CHANNEL (control-plane-path.md §7): readers + INTERRUPT SEMANTICS = Beer's
+>   bypass wire, nearly free (readers already tap every layer; driver = the S5 signals jump to).
+>   Four wires: PLEASURE early-exit (certified halt spec ¬learned confidence), PAIN in-flight abort
+>   (live gate violation = structural-hallucination tripwire), FEEDFORWARD provisioning (P-CTL-5
+>   countdown), TRAINING starvation wire (S3* good-news audit becomes a wire). TREE BOOST: thresholds
+>   ship PRE-CALIBRATED (null distributions per model/register/layer = percentiles ¬hyperparameters).
+>   Beer constraint honored by construction: wires exit sideways (readers→driver), don't ride the
+>   decaying residual bus. NEW: P-CTL-11 early-exit fidelity + P-CTL-12 tripwire validity.
+>   VSM now complete in the control plane: S1..S5 + algedonic.
 >
 > ★★ s272 SWEEP HARVESTED + CONSENSUS DECONTAMINATED + JSPACE PRE-REGS READ (commits a4509ba, f1b1af4,
 >   57eb283). Both boundary-crossing jobs completed clean:
