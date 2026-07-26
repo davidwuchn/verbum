@@ -79,6 +79,21 @@
 >   level-3/4 path; distillation demotes to smoothing phase. HONEST GAP (next discussion): Gram
 >   specifies mutual geometry ¬transport dynamics — what observables close "geometry matches" →
 >   "machine runs" (depth-Gram trajectory? per-depth J-projectors? QK rotary spectra?).
+>   (7) 🔄 s273e DIRECTION SHIFT — THE CONTROL-PLANE PATH (Michael-approved; NEW PAGE
+>   explore/control-plane-path.md = the s273 arc consolidated + PROBE AGENDA P-CTL-1..9).
+>   PAPER MACHINE (ABI v0 game): flat spine PROVEN expressible; causality DERIVES shift-reduce@last-arg
+>   (matches s190+E1); offset-comb heads make saturated⊗inert structural; recency=GARBAGE COLLECTION;
+>   MOVER{K,I,W,S}/TAGGER{B,C,D} dichotomy derives C-puzzle + E1 pattern; halt=¬aggregate-firing
+>   (r=0.877 shape); one snap: nested spans → RECURSION-WITH-COMPACTION DISSOLVES the span organ
+>   (loop re-presents flat spine each iteration; s272d theorem 3rd instance). Halt has GROUND TRUTH:
+>   len(fired_sequence)=certified depth labels → depth weight SUPERVISED (¬ACT); hybrid = constructed
+>   WHNF head (loop exit) + trained provisioner; textual recursion first (CoT = certified reduction
+>   trace). CONTROL PLANE ON EXISTING HOST: model_vsm.json = precomputed adapter weights w/ calibration
+>   certificates; tiers READERS→HALT→DRIVER (no weight construction) →WRITERS (E4-gated). VSM REIFIED:
+>   parent=S1, our tensors=S2/S3, kernel checks=S3*. Deliverable = MIT control-plane pack + driver.
+>   UPDATED: construction-from-spec.md (gap RESOLVED: representation/function/encoding; blank build
+>   demoted to long game), supervised-recurrence-halt.md (s273 addendum), superbake-write-access.md
+>   (pointer). NEXT: write P-CTL probes (formalize registers+nulls) to inform final design.
 >
 > ★★ s272 SWEEP HARVESTED + CONSENSUS DECONTAMINATED + JSPACE PRE-REGS READ (commits a4509ba, f1b1af4,
 >   57eb283). Both boundary-crossing jobs completed clean:

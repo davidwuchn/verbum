@@ -95,12 +95,22 @@ ternary routing from spec → closed-form value calibration → tree-gated
 incremental acceptance. Every required input already sits in
 results/opcode-trace/.
 
-## The honest underdetermination gap (the next science)
+## The underdetermination gap — RESOLVED s273e (see control-plane-path.md)
 
-The consensus Gram specifies the opcodes' MUTUAL GEOMETRY, not the full
-TRANSPORT DYNAMICS between layers — the movie of how states flow. T1's flat
-rank and the depth-Grams constrain it but do not determine it. What the spec
-underdetermines is itself the next measurable question: which additional
-observables (depth-Gram trajectory? J-space projectors per depth? QK rotary
-spectra per head class?) close the gap between "geometry matches" and
-"machine runs." Discussion pending (s273+).
+The gap decomposed cleanly into three specs: **representation** (the tree —
+have), **function** (the kernel — have), **encoding/ABI** (the actual gap —
+how a term maps into state). For blank builds the ABI is DECLARED, not
+discovered (design freedom, like the frame choice), and every measured
+observable (depth-Grams, T1 flat rank, P3 gradient, halt-readout) converts
+from unusable-input into HELD-OUT EXAM: the constructed machine must reproduce
+them as emergent consequences. For existing hosts the ABI is partially
+measured already (s190 shift-reduce, binding traces, J-projectors).
+
+s273e DIRECTION SHIFT: the paper-machine game proved the flat-spine ABI
+expressible and retro-derived five measured findings; recursion-with-
+compaction dissolved the span-arithmetic organ; and the control-plane
+architecture (readers from model_vsm.json + kernel-supervised halt + driver
+loop on an EXISTING host) demoted the blank build to long-game status. Full
+detail + probe agenda: **control-plane-path.md**. This page remains the asset
+inventory for the blank-build skeleton (Cholesky codes, ternary routing from
+spec, tree-gated acceptance).

@@ -152,6 +152,7 @@ follow cross-references; then use the full catalog below for specific topics.
 | [explore/combinator-training-beta-reduction.md](explore/combinator-training-beta-reduction.md) | 📋 open | Combinator Training = β-Reduction = Substitution = Attention Move |
 | [explore/compiler-as-loss.md](explore/compiler-as-loss.md) | 🔨 designing | Compiler-as-Loss — Supervise Outputs (Capability), Crystal-Lattice Relational Loss (Inventory) |
 | [explore/construction-from-spec.md](explore/construction-from-spec.md) | 📋 open | Construction from Spec — what the tree-of-VSM gives direct model-building (s273) |
+| [explore/control-plane-path.md](explore/control-plane-path.md) | 🔨 designing | The Control-Plane Path — datapath exists, we add sequencing/halt/certification (s273 SHIFT) |
 | [explore/compiler-finetune-halt-collapse.md](explore/compiler-finetune-halt-collapse.md) | ✅ active | Compiler P(λ) across models — fine-tunes break the HALT, not the COMPILE |
 | [explore/complete-kernel-basis.md](explore/complete-kernel-basis.md) | 🔨 designing | Complete Kernel Basis — Beyond KIBC-M to the Full Lambda Calculus VM |
 | [explore/compression-vs-prediction.md](explore/compression-vs-prediction.md) | ✅ active | Compression ≠ Prediction: The H≈0.7 Boundary |

@@ -296,3 +296,9 @@ the substrate.
 2. Crystal-survives-baking trace (one opcodes/trace.py invocation on a baked ckpt).
 3. Two-arm K-battery.
 4. Gene-db germline layer (lambda-gene-runtime.md) — the long game.
+
+s273e UPDATE: the arc continued into a DIRECTION SHIFT — paper-machine ABI game,
+recursion-dissolves-span-arithmetic, and the control-plane architecture
+(readers from model_vsm.json + kernel-supervised halt + driver on an existing
+host). The consolidated probe agenda (P-CTL-1..9, absorbing the rotary-spectrum
+register and halt-patch test from §s273c) lives in **control-plane-path.md §4**.

@@ -299,3 +299,25 @@ This upgrades the page's mechanism from "variable depth at zero parameter cost" 
 under recurrence, the substrate-picks-representative claim (s271) gains its second
 independent confirmation (first: Mamba/T6, if run). Twin-experiment design registered
 in crystal-seeded-ternary-distillation.md §12.
+
+## s273 addendum — the halt thesis meets the control-plane path
+
+The construction thread (control-plane-path.md) lands three upgrades on this
+page's thesis:
+
+1. **Recursion-with-compaction dissolves the span-arithmetic organ** (the one
+   missing component of the paper-machine ABI): the outer loop re-presents a
+   flat spine every iteration → the recurrent middle block only ever solves the
+   proven-expressible flat case. The loop is not merely capacity reuse — it is
+   what makes positional addressing CLOSE.
+2. **The depth weight is supervised, not ACT-style.** len(fired_sequence) =
+   certified recursion depth, unlimited labels. Hybrid: constructed WHNF head
+   (§3.6 global-check template) = exact loop exit; trained depth predictor =
+   budget provisioning; disagreement = telemetry (Y at budget = correct
+   divergence, kernel MAX_STEPS semantics). The measured halt-readout
+   (WHNF row ≈ halt probs, r=0.877) is the SPEC both must match.
+3. **Textual vs latent recursion fork**: prototype textual (every iteration
+   emits a term → GBNF-parse → kernel-certify → CoT becomes a certified
+   reduction trace; S3*-1 as execution format), optimize to latent later.
+   New probe: P-CTL-5 remaining-depth linear probe (kernel-certified countdown
+   labels) — success makes the depth predictor nearly free.
