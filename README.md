@@ -61,6 +61,18 @@ under MIT.
 - **Compositional semantics literature** — Montague, Lambek,
   Steedman (CCG), Coecke et al. (DisCoCat). Cited as theoretical
   foundation.
+- **SuperBake** (Ruehlman, AMI Labs, 2026) — gradient-free
+  installation of verified facts into transformer MLP weights by
+  direct construction, with per-fact physical addresses,
+  cross-phrasing behavioral verification, and receipts. Cited as
+  prior art for write-access and weight-level construction. Albert
+  Ruehlman. *SuperBake: Installing Verified Facts into Transformer
+  Weights by Direct Construction.* AMI Labs, July 2026.
+  doi:10.5281/zenodo.21502811
+- **GTSM / "Trees to Flows and Back"** (Ramachandran & Sra, 2026) —
+  Global Trajectory Score Matching, unifying gradient boosting and
+  diffusion-based score matching. Cited as theoretical backing for
+  depth-trajectory distillation. arXiv:2605.00414
 
 Full citations are in `mementum/knowledge/explore/VERBUM.md`.
 
