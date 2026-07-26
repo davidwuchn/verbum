@@ -176,6 +176,9 @@ pre-reg time; sketches:
   consultation vs kernel-constructible ground truth.
 - **P-CTL-14 synonym invariance** (§9): structure invariant under content
   substitution — validates the two-oracle split.
+- **P-CTL-15 semantic-equality instrument** (§10): three registers, kernel-
+  certified calibration, antonym nulls, context acid test; phase 2 = semantic
+  Gram trees.
 - (Also standing from s273: baked-code patchscope control; crystal-survives-
   baking trace; two-arm K-battery.)
 
@@ -401,3 +404,68 @@ half the judge: the half we can prove.
 in this page and related pages, read as scoped to the STRUCTURAL register
 (execution segment). §6 teacher economics already said "symbolic core" —
 this section is the precise version.
+
+## 10. Instrumenting semantic equality (s273j — Michael: "can it be estimated?")
+
+Yes — and we own the one part nobody else has: a calibration anchor with
+certificates.
+
+**Operationalization** (Michael's own sentence made mechanical — Leibniz
+indiscernibility, measured distributionally):
+```
+sem_eq(a, b | frame) ≈ 1 − D( P(·|frame[a]) ‖ P(·|frame[b]) )
+graded ✓  context-conditional ✓  (equality is relative to the frame, as it must be)
+```
+
+**Three registers** (λ measure — one register = a hunch, three = an instrument):
+```
+DISTRIBUTIONAL  KL under substitution in matched frames  — the definition itself
+GEOMETRIC       same structural frame, atoms swapped →   — s269c content register-
+                downstream state-trajectory convergence     invariance predicts merge
+CAUSAL          patch a's representation with b's →      — existing E4 machinery
+                broadcast KL vs matched-random null         (residual injection)
+```
+
+**Kernel calibration anchor (the differentiator)**: the kernel certifies
+semantic equality on the formal fragment — syntactically DIFFERENT terms
+reducing to the SAME normal form are extensionally equal, provably
+(B f g x ≡ f (g x)). Unlimited certified-equivalent AND certified-inequivalent
+pairs → the graded estimator must score them correctly before being trusted on
+open vocabulary. The crisp oracle CALIBRATES the graded one at their overlap —
+the two-oracle architecture is a calibration hierarchy, closing §9's
+circularity worry cleanly.
+
+**Nulls/controls (pre-register)**: matched-random pairs (floor); ANTONYM pairs
+(THE discriminating control — hot/cold are distributionally similar but not
+equivalent; an instrument that passes them measures substitutability, not
+equality); context-sensitivity acid test (big≈large in size frames,
+big≢large in kinship frames — fail this and it is a thesaurus, not an
+instrument).
+
+**The research-program extension — SEMANTIC GRAM TREES**: pairwise sem_eq
+over an atom set = a Gram → the ENTIRE tree machinery applies to the content
+register: per-model semantic Grams → family stacking → consensus w/ sil_z /
+gc / bearing / shuffled-label nulls. Question (thesis-grade): is the semantic
+metric universal the way the crystal is? If it gates across families, the
+meaning-postulate database (Montague's unformalizable lexicon) is itself a
+shared, measurable, frame-invariant object — and the two-oracle architecture
+rests on TWO universal structures. (Relative-representations literature hints
+yes for embeddings; nobody has null-gated cross-family consensus.)
+
+**Immediate uses**: (1) the semantic judge gets error bars (both oracle halves
+calibrated); (2) re-grade the s267 autopsy's 17 "failures" — kernel_valid ⊗
+sem_eq turns notation-drift-vs-damage into a number; (3) gene-db atom-merge
+proposals get scores; (4) P-CTL-14 upgrades binary → graded.
+
+- **P-CTL-15 semantic-equality instrument**: three registers; kernel-certified
+  calibration at the formal overlap; antonym + matched-random nulls;
+  context-sensitivity acid test; phase 2 = semantic-Gram cross-family trees.
+  Slots behind P-CTL-14 (its first consumer); unblocks the graded half of
+  every oracle claim in the record.
+
+**Closing observation**: the instrument reads out the model's OWN equivalence
+relation — not imposing a semantics, MEASURING the lexicon GD learned, with
+the discipline used on the compiler it learned. The project found the formal
+half of Montague in the weights; instrumenting semantic equality is how we
+find the other half — and check whether it is universal too. Same flashlight,
+other register.

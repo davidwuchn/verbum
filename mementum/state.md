@@ -129,6 +129,17 @@
 >   P-CTL-14 synonym invariance (structure invariant under content substitution — load-bearing either
 >   way). Reframe: kernel incompleteness = why LLMs exist; two registers, two oracles, one system.
 >   Probe agenda now P-CTL-1..14.
+>   (11) s273j SEMANTIC EQUALITY IS INSTRUMENTABLE (control-plane-path.md §10 + P-CTL-15): sem_eq(a,b|
+>   frame) ≈ 1−D(P(·|frame[a])‖P(·|frame[b])) — graded, context-conditional. THREE REGISTERS
+>   (distributional KL-under-substitution / geometric trajectory-convergence / causal patch+broadcast-KL
+>   [E4 machinery exists]). KERNEL CALIBRATION ANCHOR = the differentiator: different terms → same NF ≡
+>   certified equivalence pairs, unlimited → crisp oracle calibrates the graded one at the overlap
+>   (calibration hierarchy closes §9 circularity). Nulls: matched-random floor + ANTONYM discriminating
+>   control (hot/cold = substitutable ¬equivalent) + context acid test (big/large vs big-sister).
+>   EXTENSION: sem_eq matrix = a GRAM → tree machinery applies to the CONTENT register → semantic
+>   tree-of-VSM; thesis-grade Q: is the lexicon universal like the crystal? Uses: judge w/ error bars,
+>   re-grade s267 autopsy (kernel_valid ⊗ sem_eq), gene-db merge scores, P-CTL-14 graded. Agenda now
+>   P-CTL-1..15.
 >
 > ★★ s272 SWEEP HARVESTED + CONSENSUS DECONTAMINATED + JSPACE PRE-REGS READ (commits a4509ba, f1b1af4,
 >   57eb283). Both boundary-crossing jobs completed clean:
