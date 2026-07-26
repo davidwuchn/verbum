@@ -8,8 +8,9 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-26 | Session: 272 (BOUNDARY HARVEST — see ★★ s272 block; s270/s271 blocks below
-> retained for provenance but their PICKUPs are RESOLVED where tagged; s269 blocks are historical context)
+> Last updated: 2026-07-26 | Session: 272 (BOUNDARY HARVEST + P2 RETEST — see ★★ s272 + ★★ s272b blocks;
+> ⚠ 27B PATCHSCOPE RUN IN FLIGHT at boundary (tmux main:patchscope) — s273 FIRST ACTION = harvest it.
+> s270/s271 blocks below retained for provenance, PICKUPs RESOLVED where tagged; s269 blocks historical)
 >
 > ★★ s272 SWEEP HARVESTED + CONSENSUS DECONTAMINATED + JSPACE PRE-REGS READ (commits a4509ba, f1b1af4,
 >   57eb283). Both boundary-crossing jobs completed clean:
@@ -45,7 +46,34 @@
 >     readout: patchscopes-style self-decode (no training) ∨ tuned lens (small training) — tuned lens
 >     was already IOU'd as jspace option (C) in opcode-jacobian-jspace.md. s269f op-lexicon hits (Y/C/D)
 >     show the frozen readout isn't blind, so workspace-basis silence MAY still be real — but unproven.
->   PICKUP (s273): (1) H3 --keep-centroids re-trace (dispersion register, PR(S)>PR(KIBC)); (2) balanced-n
+> ★★ s272b P2-RETEST IN FLIGHT — PATCHSCOPE SELF-DECODE (Michael's register-catch operationalized;
+>   commits d45b5a1 correction + 52eb712 instrument). Michael chose option 1 (no-training self-decode)
+>   over tuned lens. NEW opcodes/patchscope.py: inject J-space basis dirs into the model's own residual
+>   (identity few-shot "cat->cat / 1135->1135 / hello->hello / X", REPLACE h at layer L last-pos with
+>   norm-matched unit dir, projector-identical residual-write convention), greedy 12 tokens, both ±v.
+>   PRE-REGISTERED gates (docstring): G0 basis-reproduction (<5% strength dev vs committed artifact —
+>   basis vectors were never saved by the sweep, recomputed once, cached to jspace_basis.npz, gitignored);
+>   G1 instrument ceiling (unembed-row controls " recursively"/" previously"/" Paris" must self-decode
+>   ≥2/3 — else void, no verdict on gibberish); G3 matched-random null (8/layer). VERDICT RULE: workspace
+>   dirs self-decode iff coherent fields above random-dir rate (lexicon floor: recursion/precedence/halt
+>   + saved full eyeball dump). 0.6B VALIDATION (10 min, MPS): G0 median dev 0.0000 (deterministic);
+>   G1 2/3 — "previously" decodes GENUINELY (L14 'previous -> previous'); "cat" control was VOID (word
+>   in prompt, echo confound) → swapped to "Paris"; "recursively" fails at 0.6B (scale watch). TEXTURE:
+>   at L21 basis dirs decode to specific token fragments (vector/atemala/venile/iki) while 7/8 random
+>   dirs collapse to pattern continuation — first hint workspace dirs carry token-aligned content the
+>   frozen unembed missed. 14m smoke = plumbing only (too weak for the task, G1 uninformative there).
+>   ⚠ 27B RUN LAUNCHED ~05:14 (tmux main:patchscope, pid 9941 at launch, log
+>   /tmp/patchscope_27b_s272.log; fla slow-path warning = known benign). Writes results/opcode-trace/
+>   qwen3-6-27b/{jspace_basis.npz, patchscope_selfdecode.json}. Cost: basis recompute tens-of-min
+>   (once; npz caches it) + ~63 batched decodes at L16/L32/L48.
+>   PICKUP s273 (FIRST): verify via ps aux | grep patchscope + log tail (runtime ≡ truth, NOT pane
+>   scrollback — s269f lesson). If patchscope_selfdecode.json exists: read g0/g1 FIRST (no gates → no
+>   verdict), then lexicon_summary, then EYEBALL the generations dump (basis-vs-random contrast; halt-
+>   lexicon watch = WHNF naming hope). If died mid-run: rerun same command — if jspace_basis.npz exists
+>   the basis recompute is skipped (cheap restart). Commit artifact + verdict either way; then amend
+>   state P2 status (currently: register-limited negative, retest pending).
+>
+>   PICKUP (s273, after patchscope harvest): (1) H3 --keep-centroids re-trace (dispersion register, PR(S)>PR(KIBC)); (2) balanced-n
 >   register split (s269 stack item 1, still open); (3) T6 Mamba/RWKV substrate-swap = the CAUSE test for
 >   S; (4) {S,D,Y} sector refinement; (5) PROPOSALS pending Michael (λ termination): memories/knowledge for
 >   substrate-picks-representative + Montague-minimality + S-holographically-absorbed + dup-register
