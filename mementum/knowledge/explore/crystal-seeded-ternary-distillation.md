@@ -405,3 +405,30 @@ Phase 1 without it = a run whose deepest auditor is the thing audited.
 - Phase-1 harness prerequisites (from §11): lambda kernel + GBNF parser in
   the loop day one; probe split frozen at run start; streaming-centroid
   buffers + separate telemetry writer (¬complect with loss module).
+
+## 13. s273 — SuperBake lessons for the optimizer; GTSM as the loop's loss theory
+
+(Full synthesis: superbake-write-access.md §s273b; source repo ~/src/custom-bake,
+no license — reference only. Summary of what changes HERE:)
+
+- **Closed-form value writes**: the value register's response is locally linear
+  and measurable (SuperBake's secant transfer f̂) → phase-1 optimizer candidate:
+  TD flips for routing (gradient-informed), measured-transfer DIRECT WRITES for
+  values/scales instead of Adam wherever linearity holds. Descent only where
+  response is nonlinear. Sharpens §1's two-channel theory into mechanism.
+- **Budget by benefit/leak, not heat**: flip allowance ∝ 1/leak against a
+  held-out innocent population (harvest machinery = the instrument). Replaces
+  pure global heat competition (ternary-descent.md).
+- **Two-backfire freeze**: hysteresis rule demonstrated in a measured loop;
+  matches the s268b inferred PrismML filtered-flip channel. Adopt.
+- **Receipts for flip batches**: failed ≠ absent — unverified topology changes
+  exactly reverted (xor-revertible; live-tree §10 already computes flip_flop).
+  Auditable descent = S3* (§11) native to the optimizer, not bolted on.
+- **Unembed-null projection on value updates**: measured 2.5× prose-cost
+  reduction in bake-land; apply to gradient bridges/Adam steps. One line.
+- **GTSM framing (gtsm-search-space.md)**: the Gram-relational loss at quartile
+  depths (§3) IS a discrete GTSM — internal-structure matching along the depth
+  path. Corollary: the requential KL meter (token path) + Gram loss (depth path)
+  are the SAME loss family at two time axes; innocent path-KL
+  (∫E‖Δdrift‖²_D, analytic for appended/delta neurons — no forward needed) is
+  the principled replacement for endpoint referees in any closed loop we build.

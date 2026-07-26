@@ -44,6 +44,15 @@
 >   installable). GATE TEST: two-arm K-battery (a: fresh-arg generalization, expect fail = lookup≠function;
 >   b: compose-with-crystal keying, any success = recursion rung 1). Pre-reg sketch in the page; NOT run.
 >   Ranked next: baked-code patchscope control > crystal-survives-baking trace > K-battery > germline.
+>   (4) s273b GTSM⇄BAKING + CUSTOM-BAKE⇄TERNARYDESCENT (Michael's questions, synthesis encoded →
+>   superbake-write-access.md §s273b + distillation design §13): SuperBake's closed loop = ENDPOINT
+>   objective; its guards/referees = patches for path-underdetermination; GTSM/Girsanov gives the
+>   principled form — innocent path-KL ∫E‖Δdrift‖²_D is ANALYTIC for appended neurons (no forwards) =
+>   the honest prose budget. Inverse direction: closed-form value writes (measured transfer replaces
+>   Adam where response linear), benefit/leak flip budgets, two-backfire freeze (= s268b PrismML
+>   channel), receipts for flip batches (auditable descent, S3* native), unembed-null projection on
+>   value updates (measured 2.5× win), delta plates vindicated. UNIFICATION: Gram loss at quartile
+>   depths ALREADY IS discrete GTSM (depth path); requential KL = same family (token path).
 >
 > ★★ s272 SWEEP HARVESTED + CONSENSUS DECONTAMINATED + JSPACE PRE-REGS READ (commits a4509ba, f1b1af4,
 >   57eb283). Both boundary-crossing jobs completed clean:

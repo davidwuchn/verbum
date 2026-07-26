@@ -134,6 +134,74 @@ transport. we(find) ¬we(build) — then extend what we found in its own idiom.
   λ yardstick.
 - Status: NOT RUN. Antecedent of everything in the recursion section.
 
+## s273b — GTSM ⇄ baking, custom-bake ⇄ TernaryDescent (Michael's two questions)
+
+Both directions are one move seen from two ends: **measurement + closed-form
+write replaces descent wherever response is linear (value register); GTSM
+explains why any loop — bake or training — must constrain TRAJECTORIES, because
+endpoints under-determine.**
+
+### GTSM → baking
+
+SuperBake's closed loop is an ENDPOINT objective (target_gap at the answer
+position). Every stage-C guard is a patch for endpoint-matching failure:
+"greedy catches chain deaths teacher forcing hides" ≡ the endpoint-vs-path
+distinction verbatim; backfire/neighbor-shift/prune-to-fixed-point = many
+internal configs share one terminal gap; the referees (prose NLL, leak, known
+facts) = SPARSE POST-HOC SAMPLES of a trajectory constraint.
+
+GTSM (gtsm-search-space.md, Thm 3.2/Girsanov): match drift along the path ⟺
+match the path measure, for ANY positive weighting. Practical because the drift
+perturbation of an appended neuron is ANALYTIC — for harvested innocent state x,
+Δdrift = down_column × silu(x·k_gate)(x·k_up), no forward pass. So:
+
+```
+∫ depth×positions E_innocents ‖Δdrift(x)‖²_D  ≈  KL(P_baked ‖ P_stock) on paths
+prose_NLL_budget ≡ crude endpoint proxy of exactly this | Girsanov = exchange rate
+```
+
+Upgrades: (1) budget path-KL per neuron in closed form — cheaper AND tighter
+than NLL referees; (2) calibrate the code's ARRIVAL PROFILE across all depths
+(engine measures one scalar at delivery; layers ≡ time per
+diffusion-holographic-isomorphism); (3) chain front-to-back repair becomes
+per-transition score matching over the token path (principled, not heuristic).
+
+### custom-bake → TernaryDescent (ternary-descent.md; phase-1 optimizer)
+
+THE BIG ONE — closed-form value writes: SuperBake never descends on magnitudes;
+it measures transfer (secant f̂, logits-per-unit-push) and writes once. TD's
+premise is register separation (TD signs, Adam magnitudes); custom-bake says
+the second half may not need descent at all: measure transfer → write → verify.
+Phase-1 sketch: routing flips gradient-informed (bimodal gradient = flip
+evidence), value/scale by measured-transfer direct write; GD only where
+response is genuinely nonlinear.
+
+Portable mechanics:
+1. **Benefit/leak budget allocation** — TD's "hottest flips win" → SuperBake's
+   allowance ∝ 1/leak: charge flips by measured effect on held-out innocents,
+   not raw gradient heat. Hot-but-leaky flips = how topology damage happens.
+2. **Two-backfire freeze** — regress twice under boost → frozen. Cleaner
+   hysteresis than TD cooldowns; = the filtered-flip/sigma-delta channel
+   inferred in PrismML's optimizer (s268b), demonstrated in a measured loop.
+3. **Receipts + neutralization for flip batches** — failed ≠ absent: unverified
+   flip batches exactly reverted (ternary flips revertible: xor of checkpoints,
+   already live-tree telemetry). TD + receipts ≡ auditable descent; S3* native
+   to the optimizer.
+4. **Unembed-nulled updates** — nulling push dirs against the unembedding
+   principal subspace cut prose cost 2.5× at same magnitude. Same projection on
+   value-register updates (Adam steps / gradient bridges) = one-line constraint,
+   measured large win.
+5. **Delta plates vindicated** — append-only slots ≡ TD delta plates,
+   independently converged; adds deliverability discipline (uniform expansion,
+   trim-BEFORE-verify: verify what ships).
+
+### Unification note
+
+The Gram-relational loss at quartile depths in
+crystal-seeded-ternary-distillation.md §3 ALREADY IS a discrete GTSM — matching
+internal structure along the depth path, not the output. We were building
+trajectory losses without naming them. See distillation page §13.
+
 ## Ranked next actions (s273, none started)
 
 1. Baked-code patchscope positive control (cheapest, strengthens in-flight P2 work).

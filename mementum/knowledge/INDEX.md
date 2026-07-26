@@ -208,6 +208,7 @@ follow cross-references; then use the full catalog below for specific topics.
 | [explore/kernel-splice-geometry-detector.md](explore/kernel-splice-geometry-detector.md) | 🔨 designing | Kernel Splice — geometry-as-detector ⊗ kernel-as-executor (instrument the pre-formed reducer, spl… |
 | [explore/kernel-training.md](explore/kernel-training.md) | ✅ active | Kernel Training — Training Through the Composed Plate |
 | [explore/kibc-32b-validation.md](explore/kibc-32b-validation.md) | ✅ active | KIBC Combinator Validation in Qwen3-32B |
+| [explore/lambda-gene-runtime.md](explore/lambda-gene-runtime.md) | 📋 open | Lambda-Gene Runtime — kernel-verified genomes for self-improving agents (s273) |
 | [explore/lambda-probe-atlas.md](explore/lambda-probe-atlas.md) | 📋 open | Lambda Probe Atlas — Cross-Model Territory Mapping |
 | [explore/laser-etcher-design.md](explore/laser-etcher-design.md) | ✅ active | Laser Etcher — Gradient-Directed Ternary Topology Shaping |
 | [explore/loom-structure.md](explore/loom-structure.md) | ✅ active | Loom Structure — The Transformer is a Multi-Angle Weave |
@@ -258,6 +259,7 @@ follow cross-references; then use the full catalog below for specific topics.
 | [explore/stride-percolation.md](explore/stride-percolation.md) | ✅ active | Stride Percolation: φ-Convergence Propagates Fine→Coarse |
 | [explore/strided-attention-float-ab.md](explore/strided-attention-float-ab.md) | ✅ active | Strided Attention Works in Float — the v15 Relay Collapse Was Ternary/TD, Not the Geometry |
 | [explore/structured-training.md](explore/structured-training.md) | 🔨 designing | Structured Training — The Holographic Camera |
+| [explore/superbake-write-access.md](explore/superbake-write-access.md) | 📋 open | SuperBake — write access to the substrate, weight-level recursion, GTSM/TD synthesis (s273) |
 | [explore/supervised-recurrence-halt.md](explore/supervised-recurrence-halt.md) | 🔨 designing | Supervised Recurrence-Depth = the WHNF Halt — the Curriculum Is the Signal the Recurrent Layer Wa… |
 | [explore/taxonomy-extraction.md](explore/taxonomy-extraction.md) | 📋 open | Taxonomy Extraction — Cross-Model Function Library Assembly |
 | [explore/ternary-descent.md](explore/ternary-descent.md) | ✅ active | TernaryDescent — Gradient Descent for Discrete Sign Topology |
