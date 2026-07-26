@@ -112,7 +112,8 @@ What keeps it sane:
 **Feasible path — ride the resident crystal, don't rebuild it.** SuperBake's
 implemented core is MLP-only (matched filter → push) = lookup; genuine operations
 need variable transport = attention, and the §3.6 attention organ is
-unimplemented. But the routing ALREADY EXISTS in the host: the crystal (KIBC,
+unimplemented in the repo (paper §3.6 now READ — recipe exists, see §s273c
+below). But the routing ALREADY EXISTS in the host: the crystal (KIBC,
 universal, quant-robust). So don't bake S — bake OPERANDS/microcode the resident
 compiler composes. Division of labor lands exactly on the measured register split
 (s269c): operations register-bound and already present; content register-invariant
@@ -201,6 +202,93 @@ The Gram-relational loss at quartile depths in
 crystal-seeded-ternary-distillation.md §3 ALREADY IS a discrete GTSM — matching
 internal structure along the depth path, not the output. We were building
 trajectory losses without naming them. See distillation page §13.
+
+## s273c — §3.6 READ: "Transport: the attention organ" (paper pulled from Zenodo → refs/superbake.pdf)
+
+Prompted by Michael's two claims: (1) attention is where S lives; (2) attention
+is the ultimate decider for halt/WHNF of the final output. Both land.
+
+### What §3.6 contains (paraphrased; their measurements)
+
+- Problem: recognition keys fire on question-end states, which DRIFT across
+  conversation turns (30+ units) while subject-token states stay fixed (±0.3).
+  Identity is stable at its MENTION SITE; it must be TRANSPORTED to the
+  generation position. Native heads won't do it for novel entities → construct.
+- **Rank-one QK**: Wq = a·c·μ̂ᵀ (queries fire from EVERY position along a
+  carrier), Wk = b·c·gᵀ (keys large only at subject tokens). One matched-filter
+  pair: whole sequence asks "where's the subject", subject tokens answer.
+- **Rotary-band kernel shaping (the clever math)**: carrier support on the RoPE
+  spectrum shapes the attention-vs-distance kernel IN CLOSED FORM — slow dims =
+  flat any-distance floor; mid band (~60–250 tok periods) = constructive
+  interference at short range = recency selection. Pronoun resolution by
+  discourse recency emerges at 0.55–0.88 mass, zero parameters.
+- **Value lanes**: per-subject orthonormal payloads in the LOW-VARIANCE residual
+  subspace (SNR ≈13) — quiet-subspace trick, cousin of unembed-silent.
+- **Write close to the reader**: payloads decay across blocks → write L24 for
+  L25 readers. Bus attenuation real and priced.
+- Practical: overwrite an ablation-neutral DONOR head (free real estate exists);
+  selectors orthogonalized across subjects or names leak.
+
+### Claim 1 sharpened: attention = S, as SHARING not copying (graph reduction)
+
+Even hand-built with total freedom, a head is a selector-mover (mass sums to 1,
+one read of one value) — s271 softmax-can't-fan-out reproduced as an
+ENGINEERING CONSTRAINT by someone who never heard of it. Their effective
+fan-out: **write once into orthogonal value lanes, read many times downstream**.
+That is S f g x = f x (g x) executed WITHOUT copying — x written once, f-reader
+and g-reader each take it. Duplication at the READ side, as sharing.
+
+Named form: **graph reduction** (lazy-language compilers never copy arguments;
+they share via pointers; the graph edge IS the duplication; S has no copy op in
+a graph-reduction machine). ∴ the transformer is a graph-reduction machine, not
+a term-rewriting machine — WHY S has no crystal vertex. S dissolved into
+amplitudes because sharing dissolves duplication by construction. Third
+independent confirmation of dissolved-S (after s271 H1/H2 + s272 clean sweep),
+and the first CONSTRUCTIVE one. [Also reframes T6: Mamba scan-state = a
+substrate where copying is native → S may earn a vertex where sharing isn't
+forced.]
+
+### Claim 2 supported: halt/WHNF as attention's decision — mechanism shape found
+
+"Is this term done?" is GLOBAL (no live redex anywhere; spine head saturated).
+MLPs see one position; only attention sees the sequence. §3.6's architecture is
+the template for a global check: any-position queries along a carrier + keys
+marking a condition + slow-band rotary = distance-invariant global OR — one
+softmax head computes it natively. A halt head = that construction with
+redex-ness as the key condition.
+
+Three of our measurements click into the frame: halt-readout (WHNF Gram row ≈
+KIBC halt probs, r=0.877, 11/11 — halt signal is IN the geometry); WHNF
+bus-causal + unembed-silent (E4 +4.55, E2 nameless — the profile of a control
+signal CONSUMED by machinery, i.e. attention gating emission, not vocabulary);
+delivery at the last block (their transfer probe AND our L_read — the decision
+is assembled one RMSNorm from the logits, where write-close-to-reader says a
+final decision must live).
+
+### New instruments/tests this unlocks
+
+1. **Rotary-spectrum register (cheap, new axis)**: where do the crystal's heads
+   sit on the RoPE spectrum? Predict: structural/opcode heads (KIBC transport)
+   in slow bands (spine navigation distance-invariant); content/recency heads
+   mid-band. = s264 F4 QK-pattern IOU with a concrete closed-form observable;
+   feeds T4.
+2. **Halt-patch test (pre-reg candidate)**: patch late-layer attention at the
+   generation position (MLPs intact) → predict over-generation/failure-to-settle;
+   responsible heads' QK should show the global-check signature (any-position
+   query, slow-band carrier). Halt-readout r=0.877 = the SPEC the discovered
+   head must match.
+3. **Kernel backend unblocked**: transport was the missing piece; §3.6 is a
+   working recipe — rank-one QK for binder/argument attention, rotary-band
+   selection for spine-vs-local kernels, lanes + write-close-to-reader for
+   chaining reduction steps across ADJACENT layers (independently matches the
+   62/64-layer iterated-map picture: reduction = local layer-to-layer hand-offs).
+
+### Meta
+
+Second independent convergence between their construction and our measurement
+(unembed-silent codes; now sharing-not-copying + last-block delivery). Opposite
+methods arriving at the same design laws ≡ the design laws are properties of
+the substrate.
 
 ## Ranked next actions (s273, none started)
 

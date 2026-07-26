@@ -53,6 +53,21 @@
 >   channel), receipts for flip batches (auditable descent, S3* native), unembed-null projection on
 >   value updates (measured 2.5× win), delta plates vindicated. UNIFICATION: Gram loss at quartile
 >   depths ALREADY IS discrete GTSM (depth path); requential KL = same family (token path).
+>   (5) s273c §3.6 READ — "Transport: the attention organ" (paper pulled from Zenodo → refs/superbake.pdf
+>   + .txt; reimpl never built it). Rank-one QK (any-position carrier queries × subject-token keys),
+>   ROTARY-BAND KERNEL SHAPING in closed form (slow dims = any-distance floor, mid band = recency),
+>   low-variance value lanes (SNR 13), write-close-to-reader (L24→L25; bus attenuation priced),
+>   donor-head overwrite. Michael's claims both land: (a) S-in-attention SHARPENED — even hand-built
+>   heads can't fan-out; their effective fan-out = write-once-read-many lanes ≡ S f g x without copying
+>   ≡ GRAPH REDUCTION (sharing ¬copying; the graph edge IS the duplication) → transformer =
+>   graph-reduction machine = WHY S has no vertex; 3rd + first CONSTRUCTIVE dissolved-S confirmation;
+>   reframes T6 (Mamba = copying-native substrate). (b) halt/WHNF = attention's decision — §3.6 IS the
+>   template for a global check (any-position query + condition keys + slow-band = global OR in one
+>   head); converges with halt-readout r=0.877 + WHNF bus-causal/unembed-silent + last-block delivery.
+>   NEW: rotary-spectrum register (crystal heads on RoPE bands — concrete form of s264 F4 QK IOU);
+>   halt-patch pre-reg candidate (patch late attn @ gen position → over-generation; halt-readout = spec);
+>   kernel-backend transport unblocked (rank-one QK + band selection + adjacent-layer chaining ≡
+>   62/64-layer iterated-map picture). Encoded → superbake-write-access.md §s273c.
 >
 > ★★ s272 SWEEP HARVESTED + CONSENSUS DECONTAMINATED + JSPACE PRE-REGS READ (commits a4509ba, f1b1af4,
 >   57eb283). Both boundary-crossing jobs completed clean:
