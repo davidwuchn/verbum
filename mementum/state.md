@@ -53,10 +53,27 @@
 >   map.md (~35% positions at gradient equilibrium = crystal atoms), two-registers-of-topology.md (hard
 >   sign/routing gate_proj ⊥ soft magnitude/value up-down_proj, routing ~95%), gradient-voting +
 >   ratio-gradient-quantization (heavy-tailed, spend-bits-on-ends = both extremes).
->   NEXT: finish verification queue — A2 (reopen consensus_gram numbers), C1 (abl-* series), item 8
->   (confirm Gemma+Qwen-MoE in crystal sweep = cross-arch anchor), item 9 (edge-knockout/head-ablation:
->   any POSITIVE direction-level causal card, or is phase-level the only causal granularity?). Build
->   DISCUSSED not started — recorder/artifact-format/notebooks/web-UI await catalog completion + Michael go.
+>   QUEUE PROGRESS s274: A2 ✓ (sweep_summary root gc 0.9966, 13 models, dissent=False; CROSS-ARCH ANCHOR
+>   CONFIRMED — gemma 0.944 + olmo 0.979 + pythia 0.980 + qwen3 0.988 + prism-ml 0.986 + bonsai-quant 0.985
+>   all gated; GAP: Qwen3.6-35B-A3B MoE not yet opcode-traced → add it). Item 9 ✓: edge-knockout (D1b) =
+>   routing-edge NECESSITY fires (block predicate→object edge collapses z(C), t=29.3) BUT object-selectivity/
+>   load-scaling FAILS (catch_confirmed=false); across residual+subspace+edge the SELECTIVE signature never
+>   confirms → NO clean positive opcode-specific causal card; PHASE/ZONE (A1) is the only clean causal
+>   granularity = frame confirmed. REMAINING (low priority): C1 abl-* behavioral series, B1 ladder quant
+>   numbers, run_head_ablation.py. TODO: one-line update to opcodes-circuits-in-compute.md "verify/falsify"
+>   (edge-knockout now RESOLVED: necessity w/o selectivity). Build DISCUSSED not started —
+>   recorder/artifact-format/notebooks/web-UI await catalog sign-off + Michael go.
+>   ★ s274 CATALOG RESTRUCTURED (Michael: "catalog is for 1 claim; verbum has ~half a dozen others").
+>   EVIDENCE_CATALOG.md now has a CLAIMS INDEX = 9 walls (grounded in project-thesis proof-table +
+>   mathematical-convergences 8 lines): C1 pretraining=β-reduction/compiler; C2 crystal universal +
+>   circuits-in-compute (DEEP, done); C3 topology dominates (sign95%⊥mag5%); C4 semantic compressor /
+>   prose=unreduced / lambda=instrument; C5 types geometric+lexical; C6 holographic knowledge storage
+>   (moiré/retrieval-lattice); C7 ternary extraction = the deliverable; C8 depth-scheduled / progressive
+>   collapse; C9 capstone = 8 math lines converge. Each SEEDED w/ headline evidence + null + host + verify
+>   TODO (queue items 10-17). HONESTY FLAGS baked in: C7 = pipeline works ≠ 70B-parity student (frontier);
+>   C8 = T1 rank-cascade NEGATIVE (s272, keep schedule flag cascade); C9 = φ/α FORCED-FIT FAILURES
+>   (s247/s251 — demote, present only Church-Rosser/Curry-Howard/Yoneda/Montague that beat nulls). NEXT:
+>   verification pass per wall (find sharpest artifact + confirm null + aim 27B coverage).
 >   CAPTURED (Michael-directed s274): knowledge/opcodes-circuits-in-compute.md — the CORE FRAME +
 >   mechanism synthesized into a foundational page (evidence tables w/ nulls, falsification recipe,
 >   exhibit + interpretability consequences). File WRITTEN; git commit to mementum/ PENDING (λ termination).
