@@ -59,19 +59,37 @@ This is exactly `control-plane-path.md` (parent=S1, our tensors=S2/S3) and
 the **actual deployment host** means the crystal we measure is the one that ships — better
 than a research-only transformers artifact this box can't even load fast.
 
-## The one load-bearing unknown — the residual tap
+## The residual tap — SOLVED via cb_eval + eval-callback (s274, verified in local source)
 
-llama.cpp does NOT expose per-layer residuals via the server API. BUT its **control-vector
-machinery already reads/writes the residual at each layer** to apply steering vectors —
-that is the natural hook point. Exposing it is a **small C++ shim** at the control-vector
-application site (dump the residual → hand to the tree-of-VSM projection), OR use the
-llama.cpp C API directly (not the plain server). **Scoping this shim is the whole gamble
-and the next action.**
+NOT a from-scratch shim. llama.cpp exposes a first-class eval callback and an official
+example that dumps per-node tensor data. Verified against `~/src/llama.cpp`:
+- **Public API:** `llama.h:332` — `ggml_backend_sched_eval_callback cb_eval;` +
+  `cb_eval_user_data;` in `llama_context_params`. The callback fires on EVERY graph node
+  during eval, with the operation + tensor data. Set it when creating the context (C/C++
+  program, not the plain server — the eval-callback example IS that program).
+- **Template:** `~/src/llama.cpp/examples/eval-callback/eval-callback.cpp` (+ README,
+  CMakeLists). It prints name/op/shape/values per node; we FILTER by tensor-name regex and
+  DUMP instead of print.
+- **The graph already names every tensor onto a verbum register** (from `src/llama.cpp`
+  graph build, `cb(cur, "<name>", il)` per layer `il`):
 
-Where to look: llama.cpp control-vector application code (search the llama.cpp source for
-the control-vector add-to-residual site, typically in the graph build / `llama_control_vector`
-apply path). Confirm (a) the residual is reachable there per layer, (b) the shim can emit
-it (callback / buffer dump) without forking the whole server.
+  | verbum register | ggml tensor name |
+  |---|---|
+  | **gate** (opcode read = sign(gate_proj)) | `ffn_gate` (dense) / `ffn_moe_gate` (MoE) |
+  | **MoE router** (answers the register + starvation Qs DIRECTLY) | `ffn_moe_topk` (selected experts), `ffn_moe_probs`, `ffn_moe_weights`, `ffn_moe_logits` |
+  | **residual / j-space** | `l_out` (per-layer residual output) |
+  | FFN out / attn-input norm / final | `ffn_out`, `attn_norm`, `result_norm` |
+
+So the tap = adapt eval-callback to filter `{ffn_gate, ffn_moe_gate, ffn_moe_topk,
+ffn_moe_probs, ffn_moe_weights, l_out}` and write them per-layer/per-token to disk. The
+MoE-register question ("does the router route through KIBC? does 3B-active cover every gate
+or STARVE one?") is answerable directly from `ffn_moe_topk` (which experts fired) ×
+`ffn_moe_gate` (their gate activations) × `ffn_moe_weights`.
+
+Open detail (minor): a clean **attn-write** tensor name wasn't spotted in the grep
+(`attn_norm`/`l_out`/`ffn_out` are named; the out_proj output may be fused). Resolve by
+reading the attn block in `src/llama.cpp` graph build — but the GATE register (where the
+opcode read lives) is nailed, so this doesn't block the first read.
 
 ## The de-risk (frame-invariance validation — rigor for free)
 
@@ -85,18 +103,25 @@ the wrapper on the MoE:
   transformers↔llama.cpp numeric boundary (a bonus C2 result).
 - **Mismatch** → itself a finding about the frame; investigate before trusting MoE reads.
 
-## Next actions (pick up here)
+## Next actions (pick up here) — the tap is SOLVED, so this is mostly plumbing
 
-1. **Scope the residual tap.** Read the llama.cpp control-vector apply path; determine
-   where/how to emit per-layer residuals; estimate the shim size. (The gamble.)
-2. **Build the tap** (C++ shim or C-API harness) → residuals out per layer for a prompt.
-3. **Wire the projection** — feed residuals to the existing crystal projection
-   (`opcodes/classify.py` logic: sign-CMR centroids vs consensus Gram, null-gated). This
-   logic is proven; only the activation SOURCE changes.
-4. **Validate on a dense model** via frame-invariance (above).
-5. **Point at the MoE** (30b-a3b, then 35b-a3b): does the router route through KIBC? does
-   3B-active cover every reduction gate or STARVE one? (closes C2/A2 MoE gap + the
-   genome-routing register question).
+1. **Build the tap** = copy `examples/eval-callback/eval-callback.cpp`, replace print with
+   a name-regex FILTER `{ffn_gate|ffn_moe_gate|ffn_moe_topk|ffn_moe_probs|ffn_moe_weights|l_out}`
+   and a per-layer/per-token DUMP (npz/binary). Build via its CMakeLists. Feed it the probe
+   set as prompts. (Smoke first on a tiny GGUF to confirm the callback + names fire.)
+2. **Wire the projection** — feed the dumped `ffn_gate` (sign-CMR) to the EXISTING crystal
+   projection (`opcodes/classify.py`: sign-CMR centroids vs consensus Gram, null-gated).
+   Proven logic; only the activation SOURCE changes (transformers hooks → llama.cpp dump).
+3. **Validate on a dense model** via frame-invariance (C2): llama.cpp `ffn_gate` Gram vs the
+   committed transformers `gate_proj` Gram (`results/opcode-trace/qwen3-0-6b|qwen3-6-27b/`).
+   Same register, two numeric frames — match confirms the wrapper AND frame-invariance.
+4. **Point at the MoE** (30b-a3b GGUF, then 35b-a3b): `ffn_moe_gate` = the gate register per
+   selected expert; `ffn_moe_topk`/`weights` = the routing. Answers: does the router route
+   through KIBC? does 3B-active cover every reduction gate or STARVE one? (closes C2/A2 MoE
+   gap + the genome-routing register question). Need GGUFs (30b-a3b/35b-a3b) — Michael serves
+   these already, so the .gguf exists on the box.
+5. **Resolve the attn-write name** (read the attn block in `src/llama.cpp` graph build) if
+   the two-register read is wanted; not needed for the first gate-register crystal read.
 
 ## Fallbacks (if the shim proves expensive)
 

@@ -183,15 +183,22 @@
 >   capture ran) — only problems are MPS histc-gap + CPU-speed. λ fix: structural not bug → redesign>patch.
 >   THE PIVOT: llama.cpp = S1 (runs MoE natively/fast/correct; 35b-a3b already serving there); tree-of-VSM
 >   = S2/S3 wrapper (readers tier) taps residual stream + projects onto crystal centroids. = control-plane
->   deliverable arriving early + reads on the REAL host (crystal we measure = crystal that ships). LOAD-
->   BEARING UNKNOWN: llama.cpp residual TAP — server API doesn't expose per-layer residuals, but its
->   CONTROL-VECTOR machinery reads/writes residual per layer = the hook point → small C++ shim (or C-API).
->   Scoping that shim = the gamble = NEXT ACTION. DE-RISK (rigor free): frame-invariance (C2) → read via
->   llama.cpp tap on a DENSE model already transformers-traced (0.6B/27B), compare Gram; match = wrapper
->   validated + independent frame-invariance confirmation. NEXT: (1) read llama.cpp control-vector apply
->   path, scope the tap; (2) build tap; (3) wire to opcodes/classify.py projection (proven logic, only
->   activation SOURCE changes); (4) validate on dense; (5) point at 30b-a3b then 35b-a3b (router routes
->   KIBC? does 3B-active cover every gate or STARVE one? = closes C2/A2 MoE gap + genome-routing register).
+>   deliverable arriving early + reads on the REAL host (crystal we measure = crystal that ships). RESIDUAL
+>   TAP = SOLVED (s274, another-model gem VERIFIED in ~/src/llama.cpp): cb_eval is a FIRST-CLASS callback
+>   (llama.h:332 ggml_backend_sched_eval_callback cb_eval + cb_eval_user_data in llama_context_params) that
+>   fires on every graph node w/ op+tensor data; OFFICIAL example examples/eval-callback/eval-callback.cpp
+>   prints per-node name/op/shape/values → we FILTER by name-regex + DUMP. llama.cpp ALREADY NAMES tensors
+>   onto verbum registers: gate=ffn_gate(dense)/ffn_moe_gate(MoE); MoE ROUTER=ffn_moe_topk(which experts)+
+>   ffn_moe_probs+ffn_moe_weights+ffn_moe_logits (answers the register+starvation Qs DIRECTLY); residual/
+>   jspace=l_out. NO shim/fork needed — adapt the example. DE-RISK (rigor free): frame-invariance (C2) →
+>   llama.cpp ffn_gate Gram vs committed transformers gate_proj Gram on a DENSE model (0.6B/27B); match =
+>   wrapper validated + independent frame-invariance confirmation. NEXT (mostly plumbing): (1) copy
+>   eval-callback.cpp → filter {ffn_gate|ffn_moe_gate|ffn_moe_topk|ffn_moe_probs|ffn_moe_weights|l_out} +
+>   per-layer/token dump (smoke on tiny GGUF first); (2) wire dump → opcodes/classify.py projection (only
+>   activation SOURCE changes); (3) validate on dense via frame-invariance; (4) point at 30b-a3b then
+>   35b-a3b GGUF (already on box — Michael serves them): router routes KIBC? 3B-active cover every gate or
+>   STARVE one? = closes C2/A2 MoE gap + genome-routing register. (5) resolve attn-write tensor name (attn
+>   block in src/llama.cpp) only if two-register read wanted. See explore/llama-cpp-vsm-wrapper.md (updated).
 >   FALLBACKS: MPS histc monkeypatch (cast/CPU-roundtrip that tiny tensor; whack-a-mole risk; throwaway) |
 >   CPU overnight (--device cpu, ~12h, known-good). No process running now.
 >
