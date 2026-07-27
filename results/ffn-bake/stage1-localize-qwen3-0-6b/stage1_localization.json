@@ -1,0 +1,187 @@
+{
+  "model": "/Users/mwhitford/localai/models/verbum-frameinv/Qwen3-0.6B-f16.gguf",
+  "nonce": "thing",
+  "z_thresh": 3.0,
+  "n_targets": 8,
+  "localized_count": 3,
+  "diffuse_count": 5,
+  "verdict": "STRUCTURAL",
+  "per_target": [
+    {
+      "prompt": "Whatever the reason, the result was clearly",
+      "base_Kz": 4.98,
+      "top_word": "clearly",
+      "top_drop": 3.28,
+      "resid_after_top": 1.7,
+      "killed_by_one_word": true,
+      "top3": [
+        [
+          "clearly",
+          3.28
+        ],
+        [
+          "was",
+          1.31
+        ],
+        [
+          "Whatever",
+          1.02
+        ]
+      ]
+    },
+    {
+      "prompt": "No matter what else happened that day, the important thing was that",
+      "base_Kz": 4.5,
+      "top_word": "was",
+      "top_drop": 3.38,
+      "resid_after_top": 1.12,
+      "killed_by_one_word": true,
+      "top3": [
+        [
+          "was",
+          3.38
+        ],
+        [
+          "that",
+          3.27
+        ],
+        [
+          "important",
+          1.81
+        ]
+      ]
+    },
+    {
+      "prompt": "Setting aside personal feelings, the decision was based purely on",
+      "base_Kz": 3.94,
+      "top_word": "on",
+      "top_drop": 1.06,
+      "resid_after_top": 2.88,
+      "killed_by_one_word": true,
+      "top3": [
+        [
+          "on",
+          1.06
+        ],
+        [
+          "was",
+          0.45
+        ],
+        [
+          "purely",
+          0.04
+        ]
+      ]
+    },
+    {
+      "prompt": "From the entire library, she selected only one book about",
+      "base_Kz": 2.11,
+      "top_word": "about",
+      "top_drop": 0.92,
+      "resid_after_top": 1.19,
+      "killed_by_one_word": false,
+      "top3": [
+        [
+          "about",
+          0.92
+        ],
+        [
+          "one",
+          0.42
+        ],
+        [
+          "she",
+          0.17
+        ]
+      ]
+    },
+    {
+      "prompt": "Out of hundreds of applicants, only five were invited to",
+      "base_Kz": 2.1,
+      "top_word": "to",
+      "top_drop": 0.63,
+      "resid_after_top": 1.47,
+      "killed_by_one_word": false,
+      "top3": [
+        [
+          "to",
+          0.63
+        ],
+        [
+          "applicants,",
+          0.22
+        ],
+        [
+          "five",
+          0.03
+        ]
+      ]
+    },
+    {
+      "prompt": "The detective isolated the single piece of evidence that",
+      "base_Kz": 2.07,
+      "top_word": "that",
+      "top_drop": 1.03,
+      "resid_after_top": 1.04,
+      "killed_by_one_word": false,
+      "top3": [
+        [
+          "that",
+          1.03
+        ],
+        [
+          "the",
+          0.98
+        ],
+        [
+          "isolated",
+          0.53
+        ]
+      ]
+    },
+    {
+      "prompt": "Among all the possible explanations, the simplest one was",
+      "base_Kz": 2.63,
+      "top_word": "possible",
+      "top_drop": 0.38,
+      "resid_after_top": 2.25,
+      "killed_by_one_word": false,
+      "top3": [
+        [
+          "possible",
+          0.38
+        ],
+        [
+          "the",
+          0.05
+        ],
+        [
+          "the",
+          0.05
+        ]
+      ]
+    },
+    {
+      "prompt": "From the wreckage they recovered only the",
+      "base_Kz": 2.41,
+      "top_word": "only",
+      "top_drop": 1.42,
+      "resid_after_top": 0.98,
+      "killed_by_one_word": false,
+      "top3": [
+        [
+          "only",
+          1.42
+        ],
+        [
+          "the",
+          0.05
+        ],
+        [
+          "they",
+          -0.24
+        ]
+      ]
+    }
+  ]
+}
