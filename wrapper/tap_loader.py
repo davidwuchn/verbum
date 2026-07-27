@@ -2,13 +2,15 @@
 ``opcodes/classify.py`` consumes.
 
 vsm_tap (the pristine llama.cpp residual/register tap) writes, per prompt:
-  <dir>/manifest.json         — model, prompt, tokens, tensor index
-  <dir>/<register>-<layer>.bin — raw tensor bytes, ne=[d0, d1, ...] (d0 fastest)
+  <dir>/manifest.json          — model, prompt, tokens, tensor index (ne + nb)
+  <dir>/<register>-<layer>.bin — raw tensor bytes (the ggml buffer)
 
-ggml is contiguous in ne[0], so a gate tensor ne=[n_ff, n_tokens] read row-major
-as (n_tokens, n_ff) is EXACTLY the [T, d] matrix the classifier wants — no
-transpose. This module is the only new glue on the read path; the projection
-science is unchanged (opcodes/classify.py).
+Most registers are contiguous (ffn_gate, ffn_moe_gate, l_out), so reading raw as
+(n_tokens, feature) is exactly the [T, d] the classifier wants. Some are ggml
+VIEWS / argsort results (ffn_moe_topk = a view_4d of the 256-wide argsort with the
+parent row stride), so we de-stride using the byte strides ``nb`` recorded in the
+manifest. ``_load_token_major`` handles both uniformly. The projection science is
+unchanged (opcodes/classify.py).
 """
 
 from __future__ import annotations
@@ -32,26 +34,48 @@ def load_manifest(dump_dir: str | Path) -> dict:
     return json.loads((Path(dump_dir) / "manifest.json").read_text())
 
 
-def load_register(dump_dir: str | Path, register: str = "ffn_gate") -> dict[int, np.ndarray]:
-    """Return ``{layer: [T, d]}`` for one register from a tap dump directory.
+def _load_token_major(dump_dir: Path, t: dict) -> np.ndarray:
+    """Load one tensor as C-order axes [.., n_tok, .., feature], squeezing leading
+    size-1 dims. Respects ggml byte strides ``nb`` (handles views/argsort). ne[0]
+    is the fastest ggml axis, so numpy axes are ne[::-1] with strides nb[::-1]."""
+    ne = [int(x) for x in t["ne"]]
+    dt = _DTYPE.get(t["dtype"])
+    if dt is None:
+        raise ValueError(f"unhandled dtype {t['dtype']!r} for {t['name']}")
+    raw = np.fromfile(dump_dir / t["file"], dtype=np.uint8)
+    typed = raw.view(dt)
+    nb = t.get("nb")
+    if nb is not None:
+        arr = np.lib.stride_tricks.as_strided(
+            typed, shape=tuple(ne[::-1]), strides=tuple(int(x) for x in nb[::-1])
+        )
+        arr = np.ascontiguousarray(arr)
+    else:  # legacy dump without strides: assume contiguous
+        arr = typed.reshape(tuple(ne[::-1]))
+    while arr.ndim > 1 and arr.shape[0] == 1:
+        arr = arr[0]
+    return arr
 
-    ``[T, d]`` = (n_tokens, feature_dim), float64, matching classify.py.
-    """
+
+def _tensor(man: dict, register: str, layer: int) -> dict | None:
+    for t in man["tensors"]:
+        if t["register"] == register and int(t["layer"]) == layer:
+            return t
+    return None
+
+
+# ── dense register (ffn_gate / l_out): {layer: [T, d]} ──────────────────────
+
+
+def load_register(dump_dir: str | Path, register: str = "ffn_gate") -> dict[int, np.ndarray]:
+    """Return ``{layer: [T, d]}`` (float64) for one register."""
     dump_dir = Path(dump_dir)
     man = load_manifest(dump_dir)
     out: dict[int, np.ndarray] = {}
     for t in man["tensors"]:
         if t["register"] != register:
             continue
-        dt = _DTYPE.get(t["dtype"])
-        if dt is None:
-            raise ValueError(f"unhandled dtype {t['dtype']!r} for {t['name']}")
-        raw = np.fromfile(dump_dir / t["file"], dtype=dt)
-        ne = t["ne"]  # [d0(fast), d1, d2, d3]
-        n_feat, n_tok = int(ne[0]), int(ne[1])
-        # ggml contiguous in ne[0] -> token-major blocks -> (n_tok, n_feat)
-        arr = raw.reshape(n_tok, n_feat).astype(np.float64)
-        out[int(t["layer"])] = arr
+        out[int(t["layer"])] = _load_token_major(dump_dir, t).astype(np.float64)
     if not out:
         raise ValueError(f"no tensors for register={register!r} in {dump_dir}")
     return out
@@ -77,39 +101,16 @@ def stack_last_token(
 #
 # A dense model has one gate vector per token (ffn_gate ne=[n_ff, n_tok]). A MoE
 # routes each token through n_expert_used experts, so ffn_moe_gate is 3D
-# ne=[n_ff, n_expert_used, n_tok] — one gate vector PER SELECTED EXPERT. To get a
-# single per-token gate comparable to the dense register (and thus usable by the
-# frame-invariant crystal projection), we combine the selected experts by their
-# router weights (ffn_moe_weights ne=[1, n_expert_used, n_tok]) — the effective
-# gate contribution the MoE actually computes:
+# ne=[n_ff, n_expert_used, n_tok] — one gate vector PER SELECTED EXPERT. We combine
+# the selected experts by their router weights (ffn_moe_weights) into the effective
+# gate the MoE actually computes:
 #
 #     gate_eff[t, :] = Σ_e  weights[e, t] * ffn_moe_gate[:, e, t]
-#
-# This answers the C2/A2 MoE-register question: does the router route the crystal?
-
-
-def _reshape_token_major(raw: np.ndarray, ne: list[int]) -> np.ndarray:
-    """Reshape a ggml dump (ne[0] fastest) to C-order axes [.., n_tok, .., n_ff]
-    then squeeze leading size-1 dims. ffn_gate [n_ff,n_tok]->(n_tok,n_ff);
-    ffn_moe_gate [n_ff,n_exp,n_tok]->(n_tok,n_exp,n_ff)."""
-    dims = [int(x) for x in ne]
-    arr = raw.reshape(tuple(dims[::-1]))  # axes [d3, d2, d1, d0]
-    while arr.ndim > 1 and arr.shape[0] == 1:
-        arr = arr[0]
-    return arr
-
-
-def _tensor(man: dict, register: str, layer: int) -> dict | None:
-    for t in man["tensors"]:
-        if t["register"] == register and int(t["layer"]) == layer:
-            return t
-    return None
 
 
 def load_moe_gate_effective(dump_dir: str | Path) -> dict[int, np.ndarray]:
-    """Return ``{layer: [T, n_ff]}`` — the router-weighted effective gate per
-    token, aggregated over the selected experts. Falls back to an unweighted mean
-    if ffn_moe_weights is absent."""
+    """Return ``{layer: [T, n_ff]}`` — router-weighted effective gate per token.
+    Falls back to an unweighted mean if ffn_moe_weights is absent."""
     dump_dir = Path(dump_dir)
     man = load_manifest(dump_dir)
     layers = sorted({int(t["layer"]) for t in man["tensors"]
@@ -117,15 +118,10 @@ def load_moe_gate_effective(dump_dir: str | Path) -> dict[int, np.ndarray]:
     out: dict[int, np.ndarray] = {}
     for li in layers:
         tg = _tensor(man, "ffn_moe_gate", li)
-        dt = _DTYPE[tg["dtype"]]
-        gate = _reshape_token_major(
-            np.fromfile(dump_dir / tg["file"], dtype=dt), tg["ne"]
-        ).astype(np.float64)                       # (n_tok, n_exp, n_ff)
+        gate = _load_token_major(dump_dir, tg).astype(np.float64)   # (n_tok, n_exp, n_ff)
         tw = _tensor(man, "ffn_moe_weights", li)
         if tw is not None:
-            w = _reshape_token_major(
-                np.fromfile(dump_dir / tw["file"], dtype=_DTYPE[tw["dtype"]]), tw["ne"]
-            ).astype(np.float64)                   # (n_tok, n_exp)
+            w = _load_token_major(dump_dir, tw).astype(np.float64)  # (n_tok, n_exp)
             w = w.reshape(gate.shape[0], gate.shape[1])
             out[li] = np.einsum("te,tef->tf", w, gate)
         else:
@@ -146,15 +142,12 @@ def stack_moe_last_token(dump_root: str | Path, n_probes: int) -> dict[int, np.n
 
 def load_moe_topk(dump_dir: str | Path) -> dict[int, np.ndarray]:
     """Return ``{layer: [T, n_expert_used]}`` int — which experts fired per token.
-    (ffn_moe_topk ne=[n_expert_used, n_tok].)"""
+    ffn_moe_topk is a view of the 256-wide argsort; nb de-striding recovers it."""
     dump_dir = Path(dump_dir)
     man = load_manifest(dump_dir)
     out: dict[int, np.ndarray] = {}
     for t in man["tensors"]:
         if t["register"] != "ffn_moe_topk":
             continue
-        arr = _reshape_token_major(
-            np.fromfile(dump_dir / t["file"], dtype=_DTYPE[t["dtype"]]), t["ne"]
-        )
-        out[int(t["layer"])] = np.atleast_2d(arr)
+        out[int(t["layer"])] = np.atleast_2d(_load_token_major(dump_dir, t))
     return out

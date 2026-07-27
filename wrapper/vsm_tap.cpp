@@ -38,6 +38,7 @@ struct tensor_record {
     std::string reg;       // e.g. "ffn_gate"
     int         layer;     // e.g. 15  (-1 if none)
     int64_t     ne[4];     // element counts (ne[0] fastest)
+    size_t      nb[4];     // byte strides (views/argsort are non-contiguous)
     std::string dtype;     // ggml_type_name
     std::string file;      // relative .bin path
     size_t      nbytes;
@@ -113,7 +114,7 @@ static bool tap_cb(struct ggml_tensor * t, bool ask, void * user_data) {
     tensor_record rec;
     rec.name = t->name;
     split_name(rec.name, rec.reg, rec.layer);
-    for (int i = 0; i < 4; ++i) rec.ne[i] = t->ne[i];
+    for (int i = 0; i < 4; ++i) { rec.ne[i] = t->ne[i]; rec.nb[i] = t->nb[i]; }
     rec.dtype  = ggml_type_name(t->type);
     rec.nbytes = nbytes;
     rec.file   = rec.name + ".bin";
@@ -217,6 +218,7 @@ static bool process_prompt(llama_model * model, llama_context * ctx, const llama
            << "\"register\": \"" << json_escape(r.reg) << "\", "
            << "\"layer\": " << r.layer << ", "
            << "\"ne\": [" << r.ne[0] << ", " << r.ne[1] << ", " << r.ne[2] << ", " << r.ne[3] << "], "
+           << "\"nb\": [" << r.nb[0] << ", " << r.nb[1] << ", " << r.nb[2] << ", " << r.nb[3] << "], "
            << "\"dtype\": \"" << r.dtype << "\", "
            << "\"nbytes\": " << r.nbytes << ", "
            << "\"file\": \"" << json_escape(r.file) << "\"}";
