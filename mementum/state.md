@@ -16,13 +16,16 @@
 > gate → 31/40 layers crystal-bearing (sil_z up to 7.5), gc max 0.504/mean 0.173, shuffled-null
 > floor_z=1.221 bearing_frac 0.83% suspect=False → the MoE's ROUTING CARRIES KIBC (C2/A2 MoE-register gap
 > CLOSED, live on serving host, path capture.py refuses). wrapper/moe_calibrate.py +
-> results/moe-crystal/qwen3-5-35b-a3b/. All s275 code COMMITTED (5270813 read-path, fd39d35 MoE loader,
-> 7fb596b mementum, 211df7a MoE result). ▶ NEXT options: (a) STARVATION metric — ffn_moe_topk is a padded
-> argsort view (ggml_nbytes≠prod(ne)); add `nb` strides to the tap manifest + de-stride loader →
-> per-combinator expert coverage (does 3B-active starve a reduction gate?); (b) cross-arch — point tap at
-> gemma MoE / more GGUFs; (c) DRIVER tier — llama_set_adapter_cvec per-layer write (E4-gated); (d)
-> two-register attn-write name resolution.
-> ⚠ ALL s275 WORK UNCOMMITTED (wrapper/ code + knowledge page edits + this state); prior s274 pickup below.
+> results/moe-crystal/qwen3-5-35b-a3b/. NO STARVATION s275: every opcode K/I/B/C/S/D/W/Y/WHNF fires
+> 247-255 of 256 distinct experts (mid-late layers, top ≤1.7%) → crystal present (31/40) YET no opcode
+> localized to dedicated experts = ROUTING PATTERN carries KIBC not expert identity = s274 core frame
+> (circuits-in-compute) STRUCTURALLY VISIBLE. All s275 code COMMITTED (5270813 read-path, fd39d35 MoE
+> loader, 7fb596b mementum, 211df7a MoE result, 82f68f0 mementum MoE, d5f892c topk-fix+coverage). ▶ NEXT
+> options: (a) cross-arch — point tap at gemma MoE / more GGUFs (universality of the MoE crystal);
+> (b) DRIVER tier — llama_set_adapter_cvec per-layer write (E4-gated, the write/algedonic half of the
+> control plane); (c) two-register attn-write name resolution; (d) exhibit — feed opcode firing + j-space
+> per layer/token into the playback notebooks/web-UI (s274 build).
+> ⚠ s275 CODE ALL COMMITTED; only mementum (state + page) with the no-starvation finding pending. Below: s274.
 > (s274 header retained →) MoE opcode-trace PIVOTED to the llama.cpp
 > tree-of-VSM WRAPPER — READ explore/llama-cpp-vsm-wrapper.md FIRST (self-contained; next action = scope
 > the llama.cpp control-vector residual TAP). Also this session: opcodes/EVIDENCE_CATALOG.md = 9 claim-walls

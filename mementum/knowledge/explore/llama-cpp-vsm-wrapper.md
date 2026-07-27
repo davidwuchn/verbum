@@ -159,8 +159,14 @@ the wrapper on the MoE:
    The 77.5% bearing crushes the shuffled floor → **the MoE's routing carries the KIBC crystal**
    (C2/A2 MoE-register gap CLOSED, read live on the serving host, path capture.py refuses).
    Aggregation = router-weighted effective gate (first-pass; legitimated by the null, not raw gc).
-   ▶ DEFERRED: `ffn_moe_topk` is a padded argsort view (ggml_nbytes ≠ prod(ne)) → the per-combinator
-   expert-STARVATION metric needs strides (add `nb` to the tap manifest, then de-stride in loader).
+   ✅ **STARVATION METRIC DONE (s275)** — fixed `ffn_moe_topk` de-striding (it is a ggml `view_4d` of
+   the 256-wide argsort, so `ggml_nbytes ≠ prod(ne)`): the tap now records byte strides `nb[4]` in the
+   manifest and `tap_loader` de-strides via `as_strided` (uniform for views + any padding; contiguous
+   registers unaffected). RESULT: **no combinator starves** — every opcode K/I/B/C/S/D/W/Y/WHNF fires
+   **247–255 of 256 distinct experts** across mid-late layers (1920 slots each), top expert ≤1.7%. So the
+   crystal is present (31/40 bearing) YET **no opcode is localized to dedicated experts** — the ROUTING
+   PATTERN carries KIBC, not expert identity. The MoE makes the s274 core frame (opcodes are circuits IN
+   THE COMPUTE, not the topology) structurally visible.
 5. **Resolve the attn-write name** (attn block in `src/llama.cpp` graph build) if the
    two-register read is wanted; not needed for the gate-register crystal read.
 6. **Driver tier (later tower)** — `llama_set_adapter_cvec` per-layer additive write is the
