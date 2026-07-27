@@ -55,3 +55,8 @@ results/rlvr-grpo/**/completions/
 results/rlvr-grpo/**/run.log
 ideas.txt
 logs/
+
+# llama.cpp wrapper build + bulky reproducible tap dumps (keep the summary JSON)
+wrapper/build/
+results/frame-invariance/**/tap/
+results/frame-invariance/**/prompts.txt

@@ -1,0 +1,177 @@
+{
+  "n_probes": 108,
+  "n_layers": 28,
+  "cross_frame_gc_mean": 0.9997,
+  "cross_frame_gc_median": 0.9998,
+  "cross_frame_gc_min": 0.9992,
+  "per_layer": [
+    {
+      "layer": 0,
+      "cross_frame_gc": 0.9997,
+      "tf_vs_consensus": 0.4638,
+      "lc_vs_consensus": 0.4697
+    },
+    {
+      "layer": 1,
+      "cross_frame_gc": 0.9992,
+      "tf_vs_consensus": 0.3144,
+      "lc_vs_consensus": 0.3168
+    },
+    {
+      "layer": 2,
+      "cross_frame_gc": 0.9995,
+      "tf_vs_consensus": 0.4221,
+      "lc_vs_consensus": 0.4159
+    },
+    {
+      "layer": 3,
+      "cross_frame_gc": 0.9994,
+      "tf_vs_consensus": 0.4996,
+      "lc_vs_consensus": 0.4989
+    },
+    {
+      "layer": 4,
+      "cross_frame_gc": 0.9992,
+      "tf_vs_consensus": 0.3936,
+      "lc_vs_consensus": 0.394
+    },
+    {
+      "layer": 5,
+      "cross_frame_gc": 0.9996,
+      "tf_vs_consensus": 0.4442,
+      "lc_vs_consensus": 0.448
+    },
+    {
+      "layer": 6,
+      "cross_frame_gc": 0.9995,
+      "tf_vs_consensus": 0.356,
+      "lc_vs_consensus": 0.3485
+    },
+    {
+      "layer": 7,
+      "cross_frame_gc": 0.9995,
+      "tf_vs_consensus": 0.429,
+      "lc_vs_consensus": 0.4223
+    },
+    {
+      "layer": 8,
+      "cross_frame_gc": 0.9997,
+      "tf_vs_consensus": 0.4705,
+      "lc_vs_consensus": 0.4666
+    },
+    {
+      "layer": 9,
+      "cross_frame_gc": 0.9997,
+      "tf_vs_consensus": 0.501,
+      "lc_vs_consensus": 0.5035
+    },
+    {
+      "layer": 10,
+      "cross_frame_gc": 0.9997,
+      "tf_vs_consensus": 0.4922,
+      "lc_vs_consensus": 0.4915
+    },
+    {
+      "layer": 11,
+      "cross_frame_gc": 0.9998,
+      "tf_vs_consensus": 0.5141,
+      "lc_vs_consensus": 0.5112
+    },
+    {
+      "layer": 12,
+      "cross_frame_gc": 0.9998,
+      "tf_vs_consensus": 0.4727,
+      "lc_vs_consensus": 0.4731
+    },
+    {
+      "layer": 13,
+      "cross_frame_gc": 0.9998,
+      "tf_vs_consensus": 0.4481,
+      "lc_vs_consensus": 0.4473
+    },
+    {
+      "layer": 14,
+      "cross_frame_gc": 0.9998,
+      "tf_vs_consensus": 0.4248,
+      "lc_vs_consensus": 0.4248
+    },
+    {
+      "layer": 15,
+      "cross_frame_gc": 0.9998,
+      "tf_vs_consensus": 0.4348,
+      "lc_vs_consensus": 0.4329
+    },
+    {
+      "layer": 16,
+      "cross_frame_gc": 0.9998,
+      "tf_vs_consensus": 0.4187,
+      "lc_vs_consensus": 0.4186
+    },
+    {
+      "layer": 17,
+      "cross_frame_gc": 0.9999,
+      "tf_vs_consensus": 0.4496,
+      "lc_vs_consensus": 0.4513
+    },
+    {
+      "layer": 18,
+      "cross_frame_gc": 0.9999,
+      "tf_vs_consensus": 0.4138,
+      "lc_vs_consensus": 0.4104
+    },
+    {
+      "layer": 19,
+      "cross_frame_gc": 0.9998,
+      "tf_vs_consensus": 0.3787,
+      "lc_vs_consensus": 0.3743
+    },
+    {
+      "layer": 20,
+      "cross_frame_gc": 0.9999,
+      "tf_vs_consensus": 0.4093,
+      "lc_vs_consensus": 0.4077
+    },
+    {
+      "layer": 21,
+      "cross_frame_gc": 0.9999,
+      "tf_vs_consensus": 0.4138,
+      "lc_vs_consensus": 0.414
+    },
+    {
+      "layer": 22,
+      "cross_frame_gc": 0.9998,
+      "tf_vs_consensus": 0.3924,
+      "lc_vs_consensus": 0.3898
+    },
+    {
+      "layer": 23,
+      "cross_frame_gc": 0.9999,
+      "tf_vs_consensus": 0.3817,
+      "lc_vs_consensus": 0.3819
+    },
+    {
+      "layer": 24,
+      "cross_frame_gc": 0.9999,
+      "tf_vs_consensus": 0.3621,
+      "lc_vs_consensus": 0.3613
+    },
+    {
+      "layer": 25,
+      "cross_frame_gc": 0.9999,
+      "tf_vs_consensus": 0.3857,
+      "lc_vs_consensus": 0.3896
+    },
+    {
+      "layer": 26,
+      "cross_frame_gc": 0.9999,
+      "tf_vs_consensus": 0.3553,
+      "lc_vs_consensus": 0.3537
+    },
+    {
+      "layer": 27,
+      "cross_frame_gc": 0.9997,
+      "tf_vs_consensus": 0.3036,
+      "lc_vs_consensus": 0.3057
+    }
+  ]
+}
