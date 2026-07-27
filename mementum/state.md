@@ -72,8 +72,21 @@
 >   collapse; C9 capstone = 8 math lines converge. Each SEEDED w/ headline evidence + null + host + verify
 >   TODO (queue items 10-17). HONESTY FLAGS baked in: C7 = pipeline works ≠ 70B-parity student (frontier);
 >   C8 = T1 rank-cascade NEGATIVE (s272, keep schedule flag cascade); C9 = φ/α FORCED-FIT FAILURES
->   (s247/s251 — demote, present only Church-Rosser/Curry-Howard/Yoneda/Montague that beat nulls). NEXT:
->   verification pass per wall (find sharpest artifact + confirm null + aim 27B coverage).
+>   (s247/s251 — demote, present only Church-Rosser/Curry-Howard/Yoneda/Montague that beat nulls). 
+>   ✅ s274 VERIFICATION PASS DONE — all 9 walls verified against artifacts, recorded in catalog w/
+>   numbers+nulls+host+honesty flags. HIGHLIGHTS: C1 compilation-pipeline (transformer=compiler, 4
+>   converging angles, ternary-per-stage: optimizer L13-21 IMPROVES at 0.95×, ★27B via A1); C3 topology
+>   dominates (sign→gate_proj +0.088 above 0.80 null — NOT the legacy 0.84 which sits AT null; saliency>
+>   magnitude +7.5pt); C4 prose 8.6× vs lambda ★27B (symbol-isolation, fingerprint energy all-positions);
+>   C5 type-directed composition NONCE crossover +2.04-2.18 t~10 consistency 1.0, FREQUENCY-FREE null
+>   (decisive); C6 moiré fact-index 2.4× selective BUT mechanism-proven-capacity-NOT + R²=1.0 tautological
+>   + 0.6B-only (biggest host gap); C7 extraction PIPELINE works (375×, 85MB, 25min, TD −53.5%, lossless
+>   fold) BUT student NOT at parity (PPL ~7700, 28% > random) = OPEN FRONTIER, scope hard; C8 progressive-
+>   collapse compress→2D→expand ★27B (PR 2.2 by L2), reconciles s272 T1-negative (arc is non-monotone so
+>   monotone-cascade correctly rejected — STRENGTH not hole); C9 capstone AUDITED — defensible subset =
+>   Church-Rosser+Curry-Howard+Yoneda+Montague; DEMOTE φ (forced-fit FAIL s247/s251) + α (no null run).
+>   HOST GAPS to close for exhibit: C3/C5/C6 need 27B (C6 only on 0.6B). Catalog restructure+verification
+>   NOT yet committed (working tree). NEXT: commit verification pass, then close host gaps or start build.
 >   CAPTURED (Michael-directed s274): knowledge/opcodes-circuits-in-compute.md — the CORE FRAME +
 >   mechanism synthesized into a foundational page (evidence tables w/ nulls, falsification recipe,
 >   exhibit + interpretability consequences). File WRITTEN; git commit to mementum/ PENDING (λ termination).
