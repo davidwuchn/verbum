@@ -152,9 +152,15 @@ the wrapper on the MoE:
    per layer (40 layers, finite, sane sign balance). So the wrapper READS THE CRYSTAL FROM A MoE
    — which `opcodes/capture.py` explicitly refuses. (Also: tap now skips ggml `(reshaped)` view
    aliases.) Invocation: `./wrapper/build/vsm_tap --model <moe.gguf> --prompts-file <probes> --out <dir> -ngl 99`.
-   ▶ **REMAINING**: run the full crystal-probe set through the 35B-A3B, calibrate the effective-gate
-   Gram vs consensus + shuffled-label null = the actual C2/A2 answer (does the router route KIBC?
-   does 3B-active starve a gate? read `ffn_moe_topk` coverage per combinator). Not yet run.
+   ✅ **MoE CRYSTAL CALIBRATION DONE (s275)** — `wrapper/moe_calibrate.py` on Qwen3.5-35B-A3B
+   (108 crystal probes + 8 natural-text null; `results/moe-crystal/qwen3-5-35b-a3b/moe_calibration.json`):
+   **31/40 layers crystal-bearing** (sil_z>2 ∧ gc>0), sil_z up to 7.5; gc_consensus max 0.504,
+   mean 0.173; **shuffled-label null floor_z=1.221, bearing_frac=0.0083 (0.83% ≪ 5%), suspect=False**.
+   The 77.5% bearing crushes the shuffled floor → **the MoE's routing carries the KIBC crystal**
+   (C2/A2 MoE-register gap CLOSED, read live on the serving host, path capture.py refuses).
+   Aggregation = router-weighted effective gate (first-pass; legitimated by the null, not raw gc).
+   ▶ DEFERRED: `ffn_moe_topk` is a padded argsort view (ggml_nbytes ≠ prod(ne)) → the per-combinator
+   expert-STARVATION metric needs strides (add `nb` to the tap manifest, then de-stride in loader).
 5. **Resolve the attn-write name** (attn block in `src/llama.cpp` graph build) if the
    two-register read is wanted; not needed for the gate-register crystal read.
 6. **Driver tier (later tower)** — `llama_set_adapter_cvec` per-layer additive write is the

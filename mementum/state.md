@@ -12,13 +12,16 @@
 > BUILT + FRAME-INVARIANCE CONFIRMED (READ explore/llama-cpp-vsm-wrapper.md §VALIDATED). Pristine
 > attachment works: wrapper/vsm_tap.cpp (public C-API cb_eval tap, llama.cpp UNMODIFIED) → tap_loader.py
 > → opcodes/classify.py. Cross-frame Gram corr mean 0.9997 / min 0.9992 over 28 layers on Qwen3-0.6B
-> (transformers↔llama.cpp). ▶ NEXT = full MoE crystal-calibration run. MoE TAP already VERIFIED s275
-> on design-target Qwen3.5-35B-A3B (Michael-approved load; ffn_moe_gate=[512,8,ntok], topk=[8,ntok],
-> weights=[1,8,ntok], 256 experts/8 used, 40 layers). tap_loader.load_moe_gate_effective (router-weighted
-> Σ over selected experts → [T,512]) BUILT + tested — the wrapper READS THE CRYSTAL FROM A MoE (capture.py
-> refuses MoE). REMAINING = run crystal probes through 35B-A3B → calibrate effective-gate Gram vs consensus
-> + shuffled-null (router routes KIBC?) + ffn_moe_topk coverage per combinator (3B-active starves a gate?)
-> = the actual C2/A2 answer.
+> (transformers↔llama.cpp). ✅ MoE CRYSTAL CONFIRMED s275: Qwen3.5-35B-A3B router-weighted effective
+> gate → 31/40 layers crystal-bearing (sil_z up to 7.5), gc max 0.504/mean 0.173, shuffled-null
+> floor_z=1.221 bearing_frac 0.83% suspect=False → the MoE's ROUTING CARRIES KIBC (C2/A2 MoE-register gap
+> CLOSED, live on serving host, path capture.py refuses). wrapper/moe_calibrate.py +
+> results/moe-crystal/qwen3-5-35b-a3b/. All s275 code COMMITTED (5270813 read-path, fd39d35 MoE loader,
+> 7fb596b mementum, 211df7a MoE result). ▶ NEXT options: (a) STARVATION metric — ffn_moe_topk is a padded
+> argsort view (ggml_nbytes≠prod(ne)); add `nb` strides to the tap manifest + de-stride loader →
+> per-combinator expert coverage (does 3B-active starve a reduction gate?); (b) cross-arch — point tap at
+> gemma MoE / more GGUFs; (c) DRIVER tier — llama_set_adapter_cvec per-layer write (E4-gated); (d)
+> two-register attn-write name resolution.
 > ⚠ ALL s275 WORK UNCOMMITTED (wrapper/ code + knowledge page edits + this state); prior s274 pickup below.
 > (s274 header retained →) MoE opcode-trace PIVOTED to the llama.cpp
 > tree-of-VSM WRAPPER — READ explore/llama-cpp-vsm-wrapper.md FIRST (self-contained; next action = scope
