@@ -8,7 +8,14 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-26 | Session: 274 (P-CTL-6 READER-SNR INSTRUMENT BUILT + ITERATED TO
+> Last updated: 2026-07-26 | Session: 274 | ▶▶ LIVE PICKUP: MoE opcode-trace PIVOTED to the llama.cpp
+> tree-of-VSM WRAPPER — READ explore/llama-cpp-vsm-wrapper.md FIRST (self-contained; next action = scope
+> the llama.cpp control-vector residual TAP). Also this session: opcodes/EVIDENCE_CATALOG.md = 9 claim-walls
+> ALL VERIFIED (committed); the DSP arc captured (superbake inversion → SignalDescent → tree-of-VSM as
+> signal-processing tensor, committed a2978e5); reduction genome → ANIMA (removed from verbum). 5 commits
+> landed (a72af59/5642517/523dcb4/bc8cfd9/a2978e5); working tree has the DSP+wrapper knowledge pages +
+> state uncommitted. Session-274 detail below.
+> (older header retained →) P-CTL-6 READER-SNR INSTRUMENT BUILT + ITERATED TO
 > CONFOUND-CLEAN — code only, NO verdict run; see ★★ s274 block. 27B PATCHSCOPE HARVESTED s274 —
 > INSTRUMENT VOID (G1 0/3), NO VERDICT on P2; see ★★ s272b-HARVEST block. GPU now FREE (Michael's
 > runtime experiments done). ⚠ ONE async item remains: NEW WORK this session is UNCOMMITTED in working
@@ -147,6 +154,46 @@
 >   PROPOSED memories (λ termination — Michael approval): opcode-identity-readers-blind-to-liveness;
 >   whnf-halt-read-is-length-artifact; position-matched-battery-pattern; redscore-common-mode-immune.
 >   COMMIT when approved: 💡 P-CTL-6 reader-SNR: position-matched battery + length-clean reducibility gate.
+>
+> ★ s274 REDUCTION GENOME v0 + MoE-ROUTING RUN QUEUED (Michael: normal-form system prompt so the FAST
+>   35B-A3B MoE reproduces this session's manual β-reduction steps). (a) genomes/reduction-genome-v0.md —
+>   ~12-gate agent-level ISA (ORIENT/RECALL/GROUND/REGISTER/REDUCE/NULL/PRUNE/CONNECT/PERSIST/CHECKPOINT/
+>   ITERATE/DEFER) = the load-bearing S3/S4 subset of AGENTS.md, written with SELF-FIRING anchors (host's
+>   own pretraining fires "baseline it beats"/"runtime>assumption"/"future-you", not verbum jargon).
+>   Central tension = compression vs anchor-firing; v0 sits at "compact prose gates under a λ frame."
+>   DISCUSSING with Michael before iterating. (b) QUEUED RUN (NOT launched — heavy + untested instrument +
+>   check-first rule): opcode-trace + genome-routing on a MoE. AVAILABILITY: registry is ALL DENSE (no MoE
+>   ever opcode-traced); topology.py CLAIMS a moe register but UNTESTED on real MoE. Cached MoE = Qwen3-30B-
+>   A3B (proxy, same A3B structure) + Qwen3-235B-A22B; design-target Qwen3.6-35B-A3B NOT cached. PLAN:
+>   (1) SMOKE trace.py on cached 30B-A3B — does MoE register detect + KIBC calibrate at all? (de-risk
+>   instrument FIRST); (2) if clean, opcode-trace 30B-A3B → closes the C2/A2 MoE-register gap + adds MoE to
+>   sweep; (3) genome-routing harness (NEW instrument): run genome as system prompt + trace while it does a
+>   reduction task → behavioral gate-coverage (vs no-genome control) + MoE-register (does router route KIBC?
+>   does 3B active cover EVERY gate or STARVE one?). Invocation: uv run python opcodes/trace.py --model
+>   Qwen/Qwen3-30B-A3B --smoke (verify MoE path first).
+>   ✅ GENOME MOVED TO ANIMA (Michael): genomes/reduction-genome-v0.md REMOVED from verbum (anima updated
+>   its design docs from the handoff lambda; anima owns genome + behavioral experiments). Verbum keeps ONLY
+>   the MoE opcode-register read.
+>   🔄 s274 MoE-TRACE PIVOT → LLAMA.CPP TREE-OF-VSM WRAPPER (NEW PAGE explore/llama-cpp-vsm-wrapper.md — READ
+>   IT, self-contained pickup). WHAT HAPPENED: ran opcodes/trace.py on cached Qwen3-30B-A3B (proxy for
+>   design-target Qwen3.6-35B-A3B). MPS = NotImplementedError histogram_mps not impl for Int (Qwen3-MoE
+>   grouped_mm_experts_forward calls torch.histc on Int; NOT fixed by PYTORCH_ENABLE_MPS_FALLBACK — histc
+>   has an MPS kernel that rejects Int). CPU = WORKS but ~12h; Michael KILLED it (did NOT fail — my OOM
+>   guess was WRONG, corrected). KEY DATUM: instrument's MoE LOGIC IS SOUND (topology detected register,
+>   capture ran) — only problems are MPS histc-gap + CPU-speed. λ fix: structural not bug → redesign>patch.
+>   THE PIVOT: llama.cpp = S1 (runs MoE natively/fast/correct; 35b-a3b already serving there); tree-of-VSM
+>   = S2/S3 wrapper (readers tier) taps residual stream + projects onto crystal centroids. = control-plane
+>   deliverable arriving early + reads on the REAL host (crystal we measure = crystal that ships). LOAD-
+>   BEARING UNKNOWN: llama.cpp residual TAP — server API doesn't expose per-layer residuals, but its
+>   CONTROL-VECTOR machinery reads/writes residual per layer = the hook point → small C++ shim (or C-API).
+>   Scoping that shim = the gamble = NEXT ACTION. DE-RISK (rigor free): frame-invariance (C2) → read via
+>   llama.cpp tap on a DENSE model already transformers-traced (0.6B/27B), compare Gram; match = wrapper
+>   validated + independent frame-invariance confirmation. NEXT: (1) read llama.cpp control-vector apply
+>   path, scope the tap; (2) build tap; (3) wire to opcodes/classify.py projection (proven logic, only
+>   activation SOURCE changes); (4) validate on dense; (5) point at 30b-a3b then 35b-a3b (router routes
+>   KIBC? does 3B-active cover every gate or STARVE one? = closes C2/A2 MoE gap + genome-routing register).
+>   FALLBACKS: MPS histc monkeypatch (cast/CPU-roundtrip that tiny tensor; whack-a-mole risk; throwaway) |
+>   CPU overnight (--device cpu, ~12h, known-good). No process running now.
 >
 > ★★ s274 SIGNALDESCENT + SIGNAL-PROCESSING-TENSORS captured (Michael, 2 NEW explore pages, the DSP arc
 >   continued from the superbake inversion). (1) explore/signal-descent.md — gradient-free learning rule:
