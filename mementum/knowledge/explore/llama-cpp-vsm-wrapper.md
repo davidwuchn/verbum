@@ -24,6 +24,41 @@ created: session 274
 > point. This is not a workaround — it IS the control-plane deliverable, arriving
 > early because the research instrument fell over.
 
+## ✅ VALIDATED (session 275) — read path built + frame-invariance CONFIRMED
+
+The read-only milestone is **done and validated on the real host**. Pristine
+attachment: llama.cpp built once (cmake 4.4 via `uv tool install cmake`; Metal,
+`~/src/llama.cpp` UNMODIFIED); the tap links only the built public dylibs.
+
+- **Tap built** — `wrapper/vsm_tap.cpp` (+ `CMakeLists.txt`): sets
+  `llama_context_params.cb_eval` to a dumping callback via the PUBLIC C API only
+  (no libcommon), regex-filters tensor names, requests all-position outputs
+  (`batch.logits[i]=1`, defeats the final-layer `n_outputs` prune),
+  `llama_memory_clear` per prompt (independent forwards), dumps raw f32/i32 +
+  `manifest.json`. `--prompts-file` batch mode loads the GGUF ONCE.
+- **Loader** — `wrapper/tap_loader.py`: `manifest.json` + `<reg>-<layer>.bin` →
+  `{layer: [T, d]}`. ggml is contiguous in ne[0], so reading `ffn_gate` ne=[n_ff,
+  n_tok] as `(n_tok, n_ff)` is EXACTLY the `[T, d]` classify.py wants — no transpose.
+- **Frame-invariance** — `wrapper/frame_invariance.py`: same 108 crystal probes
+  through both frames (transformers hooks on `Qwen/Qwen3-0.6B` @ MPS vs `vsm_tap`
+  on the f16 GGUF), sign-CMR 9×9 Gram per layer, cross-frame `offdiag_corr`.
+
+  **RESULT (`results/frame-invariance/qwen3-0-6b/frame_invariance.json`):**
+  cross-frame Gram corr **mean 0.9997, median 0.9998, min 0.9992** across all 28
+  layers; per-layer `tf~consensus` and `lc~consensus` track to ~3 decimals. The
+  llama.cpp tap reads the SAME crystal as transformers — residual deviation is
+  just fp16(GGUF) vs bf16(transformers). **Wrapper validated + independent C2
+  frame-invariance confirmation across the transformers↔llama.cpp numeric boundary.**
+
+Corrections to the s274 design below: the tap is even MORE pre-built than recorded
+(a full `examples/debug/debug.cpp` + `common_debug_cb_user_data` with a
+`--tensor-filter` CLI already exists — we still wrote our own pristine dumping tool
+to avoid modifying their tree); the layer index is IN the tensor name
+(`ffn_gate-15` via `ggml_format_name`); `find_package(llama)` from the build tree
+mis-resolves includes (assumes install prefix) so we link the dylibs by path; the
+WRITE path also exists — `llama_set_adapter_cvec` → per-layer `ggml_add` (`build_cvec`)
+= the driver/algedonic tier, unbuilt, next tower.
+
 ## What happened (the instrument facts, corrected)
 
 Goal: first-ever MoE opcode-trace, to close the C2/A2 MoE-register gap (registry is
@@ -103,25 +138,27 @@ the wrapper on the MoE:
   transformers↔llama.cpp numeric boundary (a bonus C2 result).
 - **Mismatch** → itself a finding about the frame; investigate before trusting MoE reads.
 
-## Next actions (pick up here) — the tap is SOLVED, so this is mostly plumbing
+## Next actions (pick up here)
 
-1. **Build the tap** = copy `examples/eval-callback/eval-callback.cpp`, replace print with
-   a name-regex FILTER `{ffn_gate|ffn_moe_gate|ffn_moe_topk|ffn_moe_probs|ffn_moe_weights|l_out}`
-   and a per-layer/per-token DUMP (npz/binary). Build via its CMakeLists. Feed it the probe
-   set as prompts. (Smoke first on a tiny GGUF to confirm the callback + names fire.)
-2. **Wire the projection** — feed the dumped `ffn_gate` (sign-CMR) to the EXISTING crystal
-   projection (`opcodes/classify.py`: sign-CMR centroids vs consensus Gram, null-gated).
-   Proven logic; only the activation SOURCE changes (transformers hooks → llama.cpp dump).
-3. **Validate on a dense model** via frame-invariance (C2): llama.cpp `ffn_gate` Gram vs the
-   committed transformers `gate_proj` Gram (`results/opcode-trace/qwen3-0-6b|qwen3-6-27b/`).
-   Same register, two numeric frames — match confirms the wrapper AND frame-invariance.
-4. **Point at the MoE** (30b-a3b GGUF, then 35b-a3b): `ffn_moe_gate` = the gate register per
-   selected expert; `ffn_moe_topk`/`weights` = the routing. Answers: does the router route
-   through KIBC? does 3B-active cover every reduction gate or STARVE one? (closes C2/A2 MoE
-   gap + the genome-routing register question). Need GGUFs (30b-a3b/35b-a3b) — Michael serves
-   these already, so the .gguf exists on the box.
-5. **Resolve the attn-write name** (read the attn block in `src/llama.cpp` graph build) if
-   the two-register read is wanted; not needed for the first gate-register crystal read.
+1. ✅ **DONE (s275)** — tap built (`wrapper/vsm_tap.cpp`), pristine public-API attachment.
+2. ✅ **DONE (s275)** — projection wired (`wrapper/tap_loader.py` → `opcodes/classify.py`).
+3. ✅ **DONE (s275)** — frame-invariance CONFIRMED on dense Qwen3-0.6B (cross-frame Gram
+   corr mean 0.9997). See the VALIDATED section above.
+4. ✅ **MoE TAP VERIFIED (s275)** on the design-target `Qwen3.5-35B-A3B-Q8_0` (34GB, Metal).
+   Registers fire: `ffn_moe_gate` ne=[n_ff=512, n_expert_used=8, n_tok], `ffn_moe_topk` [8,n_tok]
+   i32, `ffn_moe_weights` [1,8,n_tok], `ffn_moe_probs` [n_expert=256, n_tok], `l_out` [2048,n_tok].
+   The genuinely-new loader bit is DONE + tested: `tap_loader.load_moe_gate_effective` combines
+   the selected experts by router weight — `gate_eff[t]=Σ_e w[e,t]·ffn_moe_gate[:,e,t]` → [T,512]
+   per layer (40 layers, finite, sane sign balance). So the wrapper READS THE CRYSTAL FROM A MoE
+   — which `opcodes/capture.py` explicitly refuses. (Also: tap now skips ggml `(reshaped)` view
+   aliases.) Invocation: `./wrapper/build/vsm_tap --model <moe.gguf> --prompts-file <probes> --out <dir> -ngl 99`.
+   ▶ **REMAINING**: run the full crystal-probe set through the 35B-A3B, calibrate the effective-gate
+   Gram vs consensus + shuffled-label null = the actual C2/A2 answer (does the router route KIBC?
+   does 3B-active starve a gate? read `ffn_moe_topk` coverage per combinator). Not yet run.
+5. **Resolve the attn-write name** (attn block in `src/llama.cpp` graph build) if the
+   two-register read is wanted; not needed for the gate-register crystal read.
+6. **Driver tier (later tower)** — `llama_set_adapter_cvec` per-layer additive write is the
+   S3/algedonic driver; E4-gated. The read tap validated the frame the driver would write into.
 
 ## Fallbacks (if the shim proves expensive)
 

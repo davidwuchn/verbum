@@ -8,7 +8,19 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-26 | Session: 274 | ▶▶ LIVE PICKUP: MoE opcode-trace PIVOTED to the llama.cpp
+> Last updated: 2026-07-27 | Session: 275 | ▶▶ LIVE PICKUP: llama.cpp tree-of-VSM WRAPPER read-path
+> BUILT + FRAME-INVARIANCE CONFIRMED (READ explore/llama-cpp-vsm-wrapper.md §VALIDATED). Pristine
+> attachment works: wrapper/vsm_tap.cpp (public C-API cb_eval tap, llama.cpp UNMODIFIED) → tap_loader.py
+> → opcodes/classify.py. Cross-frame Gram corr mean 0.9997 / min 0.9992 over 28 layers on Qwen3-0.6B
+> (transformers↔llama.cpp). ▶ NEXT = full MoE crystal-calibration run. MoE TAP already VERIFIED s275
+> on design-target Qwen3.5-35B-A3B (Michael-approved load; ffn_moe_gate=[512,8,ntok], topk=[8,ntok],
+> weights=[1,8,ntok], 256 experts/8 used, 40 layers). tap_loader.load_moe_gate_effective (router-weighted
+> Σ over selected experts → [T,512]) BUILT + tested — the wrapper READS THE CRYSTAL FROM A MoE (capture.py
+> refuses MoE). REMAINING = run crystal probes through 35B-A3B → calibrate effective-gate Gram vs consensus
+> + shuffled-null (router routes KIBC?) + ffn_moe_topk coverage per combinator (3B-active starves a gate?)
+> = the actual C2/A2 answer.
+> ⚠ ALL s275 WORK UNCOMMITTED (wrapper/ code + knowledge page edits + this state); prior s274 pickup below.
+> (s274 header retained →) MoE opcode-trace PIVOTED to the llama.cpp
 > tree-of-VSM WRAPPER — READ explore/llama-cpp-vsm-wrapper.md FIRST (self-contained; next action = scope
 > the llama.cpp control-vector residual TAP). Also this session: opcodes/EVIDENCE_CATALOG.md = 9 claim-walls
 > ALL VERIFIED (committed); the DSP arc captured (superbake inversion → SignalDescent → tree-of-VSM as
