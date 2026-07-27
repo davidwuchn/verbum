@@ -142,3 +142,19 @@ def stack_moe_last_token(dump_root: str | Path, n_probes: int) -> dict[int, np.n
     per_probe = [moe_gate_last_token(dump_root / str(i)) for i in range(n_probes)]
     layers = sorted(per_probe[0].keys())
     return {li: np.stack([p[li] for p in per_probe], axis=0) for li in layers}
+
+
+def load_moe_topk(dump_dir: str | Path) -> dict[int, np.ndarray]:
+    """Return ``{layer: [T, n_expert_used]}`` int — which experts fired per token.
+    (ffn_moe_topk ne=[n_expert_used, n_tok].)"""
+    dump_dir = Path(dump_dir)
+    man = load_manifest(dump_dir)
+    out: dict[int, np.ndarray] = {}
+    for t in man["tensors"]:
+        if t["register"] != "ffn_moe_topk":
+            continue
+        arr = _reshape_token_major(
+            np.fromfile(dump_dir / t["file"], dtype=_DTYPE[t["dtype"]]), t["ne"]
+        )
+        out[int(t["layer"])] = np.atleast_2d(arr)
+    return out

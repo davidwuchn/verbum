@@ -58,5 +58,6 @@ logs/
 
 # llama.cpp wrapper build + bulky reproducible tap dumps (keep the summary JSON)
 wrapper/build/
-results/frame-invariance/**/tap/
-results/frame-invariance/**/prompts.txt
+wrapper/__pycache__/
+results/**/tap/
+results/**/prompts.txt

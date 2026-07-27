@@ -1,0 +1,270 @@
+{
+  "model": "/Users/mwhitford/localai/models/qwen3.5-35b-a3b/Qwen_Qwen3.5-35B-A3B-Q8_0.gguf",
+  "n_crystal": 108,
+  "n_null_tokens": 55,
+  "n_layers": 40,
+  "crystal_bearing_layers": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    16,
+    17,
+    18,
+    19,
+    22,
+    23,
+    24,
+    25,
+    27,
+    31,
+    32,
+    33,
+    34,
+    36,
+    37,
+    38
+  ],
+  "n_bearing": 31,
+  "gc_consensus_max": 0.504,
+  "gc_consensus_mean": 0.173,
+  "null_floor": {
+    "null_floor_z": 1.221,
+    "shuffled_bearing_frac": 0.0083,
+    "shuffled_sil_z_max": 2.443,
+    "suspect": false,
+    "n_shuffles": 3,
+    "n_perm": 120,
+    "per_shuffle": [
+      {
+        "max_sil_z": 1.705,
+        "n_bearing": 0
+      },
+      {
+        "max_sil_z": 2.443,
+        "n_bearing": 1
+      },
+      {
+        "max_sil_z": 1.688,
+        "n_bearing": 0
+      }
+    ],
+    "reference": "q95 ~ 1.64 under a well-behaved N(0,1) null"
+  },
+  "per_layer": {
+    "0": {
+      "sil_z": 3.516,
+      "gc_consensus": 0.097,
+      "crystal_bearing": true
+    },
+    "1": {
+      "sil_z": 3.162,
+      "gc_consensus": 0.248,
+      "crystal_bearing": true
+    },
+    "2": {
+      "sil_z": 4.454,
+      "gc_consensus": 0.069,
+      "crystal_bearing": true
+    },
+    "3": {
+      "sil_z": 4.961,
+      "gc_consensus": 0.504,
+      "crystal_bearing": true
+    },
+    "4": {
+      "sil_z": 7.26,
+      "gc_consensus": 0.267,
+      "crystal_bearing": true
+    },
+    "5": {
+      "sil_z": 3.991,
+      "gc_consensus": 0.156,
+      "crystal_bearing": true
+    },
+    "6": {
+      "sil_z": 5.502,
+      "gc_consensus": 0.219,
+      "crystal_bearing": true
+    },
+    "7": {
+      "sil_z": 2.159,
+      "gc_consensus": 0.187,
+      "crystal_bearing": true
+    },
+    "8": {
+      "sil_z": 2.587,
+      "gc_consensus": 0.03,
+      "crystal_bearing": true
+    },
+    "9": {
+      "sil_z": 3.725,
+      "gc_consensus": 0.006,
+      "crystal_bearing": true
+    },
+    "10": {
+      "sil_z": 4.119,
+      "gc_consensus": 0.246,
+      "crystal_bearing": true
+    },
+    "11": {
+      "sil_z": 4.19,
+      "gc_consensus": 0.035,
+      "crystal_bearing": true
+    },
+    "12": {
+      "sil_z": 4.487,
+      "gc_consensus": 0.179,
+      "crystal_bearing": true
+    },
+    "13": {
+      "sil_z": 2.357,
+      "gc_consensus": 0.101,
+      "crystal_bearing": true
+    },
+    "14": {
+      "sil_z": 4.982,
+      "gc_consensus": 0.039,
+      "crystal_bearing": true
+    },
+    "15": {
+      "sil_z": 5.352,
+      "gc_consensus": -0.323,
+      "crystal_bearing": false
+    },
+    "16": {
+      "sil_z": 3.125,
+      "gc_consensus": 0.356,
+      "crystal_bearing": true
+    },
+    "17": {
+      "sil_z": 3.528,
+      "gc_consensus": 0.324,
+      "crystal_bearing": true
+    },
+    "18": {
+      "sil_z": 3.009,
+      "gc_consensus": 0.222,
+      "crystal_bearing": true
+    },
+    "19": {
+      "sil_z": 3.357,
+      "gc_consensus": 0.431,
+      "crystal_bearing": true
+    },
+    "20": {
+      "sil_z": 2.922,
+      "gc_consensus": -0.048,
+      "crystal_bearing": false
+    },
+    "21": {
+      "sil_z": 1.837,
+      "gc_consensus": 0.382,
+      "crystal_bearing": false
+    },
+    "22": {
+      "sil_z": 5.493,
+      "gc_consensus": 0.078,
+      "crystal_bearing": true
+    },
+    "23": {
+      "sil_z": 4.345,
+      "gc_consensus": 0.147,
+      "crystal_bearing": true
+    },
+    "24": {
+      "sil_z": 4.135,
+      "gc_consensus": 0.117,
+      "crystal_bearing": true
+    },
+    "25": {
+      "sil_z": 4.399,
+      "gc_consensus": 0.315,
+      "crystal_bearing": true
+    },
+    "26": {
+      "sil_z": 2.396,
+      "gc_consensus": -0.006,
+      "crystal_bearing": false
+    },
+    "27": {
+      "sil_z": 7.534,
+      "gc_consensus": 0.005,
+      "crystal_bearing": true
+    },
+    "28": {
+      "sil_z": 0.993,
+      "gc_consensus": 0.478,
+      "crystal_bearing": false
+    },
+    "29": {
+      "sil_z": 1.828,
+      "gc_consensus": 0.106,
+      "crystal_bearing": false
+    },
+    "30": {
+      "sil_z": 1.899,
+      "gc_consensus": 0.492,
+      "crystal_bearing": false
+    },
+    "31": {
+      "sil_z": 3.692,
+      "gc_consensus": 0.362,
+      "crystal_bearing": true
+    },
+    "32": {
+      "sil_z": 5.675,
+      "gc_consensus": 0.035,
+      "crystal_bearing": true
+    },
+    "33": {
+      "sil_z": 6.821,
+      "gc_consensus": 0.176,
+      "crystal_bearing": true
+    },
+    "34": {
+      "sil_z": 4.053,
+      "gc_consensus": 0.018,
+      "crystal_bearing": true
+    },
+    "35": {
+      "sil_z": 1.813,
+      "gc_consensus": 0.291,
+      "crystal_bearing": false
+    },
+    "36": {
+      "sil_z": 4.302,
+      "gc_consensus": 0.067,
+      "crystal_bearing": true
+    },
+    "37": {
+      "sil_z": 2.74,
+      "gc_consensus": 0.363,
+      "crystal_bearing": true
+    },
+    "38": {
+      "sil_z": 2.965,
+      "gc_consensus": 0.243,
+      "crystal_bearing": true
+    },
+    "39": {
+      "sil_z": 2.062,
+      "gc_consensus": -0.109,
+      "crystal_bearing": false
+    }
+  },
+  "topk_coverage": {
+    "error": "cannot reshape array of size 3080 into shape (1,1,13,8)"
+  }
+}
