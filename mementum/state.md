@@ -9,12 +9,57 @@
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
 > Last updated: 2026-07-26 | Session: 274 (P-CTL-6 READER-SNR INSTRUMENT BUILT + ITERATED TO
-> CONFOUND-CLEAN — code only, NO verdict run; see ★★ s274 block. ⚠ TWO async items: (1) 27B PATCHSCOPE
-> was in flight (pid 9941, s272b) — Michael has runtime experiments this agent CANNOT see, so DEFER to
-> runtime truth (ps/log) before harvesting; harvest recipe unchanged in s272b PICKUP (g0/g1 gates FIRST
-> → lexicon → eyeball). (2) NEW WORK this session is UNCOMMITTED in working tree pending Michael review:
+> CONFOUND-CLEAN — code only, NO verdict run; see ★★ s274 block. 27B PATCHSCOPE HARVESTED s274 —
+> INSTRUMENT VOID (G1 0/3), NO VERDICT on P2; see ★★ s272b-HARVEST block. GPU now FREE (Michael's
+> runtime experiments done). ⚠ ONE async item remains: NEW WORK this session is UNCOMMITTED in working
+> tree pending Michael review:
 > opcodes/reader_snr.py, src/verbum/probes/kernel_reference.py (+2 battery gens), results/pctl6/,
 > control-plane-path.md §11. s273/s272 blocks below retained; s270/s271 provenance; s269 historical)
+>
+> ★★ s274 STRATEGIC FRAME (Michael-directed) — opcodes/ = THE SPINOUT + LEGIBILITY LAYER. Not more
+>   experiments: opcodes/ distills the "ridiculous" pile of ~270 sessions into an EXHIBIT a hostile
+>   skeptic can SEE work, so "LLMs compute with lambda calculus" stops reading as crackpot. Funnel =
+>   see-it-work (prose sentence → KIBC opcodes fire + j-space per stage) → drill-down (specific
+>   null-gated results) → reproduce (one command), NO "point your AI at the repo for 2 sessions."
+>   TARGETS (design center, build to THIS or better): Qwen3.6-27B (dense) + Qwen3.6-35B-A3B (MoE)
+>   primary; gemma-4-31b = cross-architecture proof once Qwen pair works. Instruments MUST clear their
+>   ceiling AT 27B (small-model pass is necessary-not-sufficient — see patchscope void). DELIVERABLES:
+>   notebooks (individual pieces for review) + web-UI (load saved sessions, "play through" showing
+>   opcodes firing + j-space evolving). HONESTY GUARD (peer-review survival): playback = STATE-ON-THE-
+>   CRYSTAL (residual alignment per opcode/layer/token), NOT "watch the redex reduce" (online liveness =
+>   standing NEGATIVE, P-CTL-6); causal language only for ablation cards; NULL BESIDE SIGNAL on every
+>   headline view (s206/s247 scar); predicted-vs-observed (Montague: adjective→B, arg-order→C) + minimal
+>   pairs = what turns demo into evidence. EVIDENCE CATALOG (living, record-as-you-go for continuity):
+>   opcodes/EVIDENCE_CATALOG.md — ranked exhibit spec, Tier A/B/C + verification queue. STARTED s274 (all 27B unless noted):
+>   A1 zone-ablation VERIFIED CAUSAL+SELECTIVE (ENRICH L32-53 4.0× λ-specific, COMMIT L59-63 fact-
+>   specific, double-dissociation). A3 register-split VERIFIED (prose=formal opcodes z=2.99-4.68 p≤.004
+>   shuffled-null; WHNF/Y/I carry transfer, C=0 register-bound). D1 C-field ablation = NEGATIVE (C is a
+>   READOUT register, not the computation — un-ablatable as a direction; 14b+0.6b, not yet 27b). D2
+>   P-CTL-6 online-liveness negative. Ablations DO exist (Michael was right).
+>   ★ CORE FRAME (Michael s274, catalog top + KNOWLEDGE-PAGE CANDIDATE): opcodes are CIRCUITS IN THE
+>   COMPUTE, NOT IN THE TOPOLOGY. Not dedicated weights/heads/directions (head-combinator-isa r=0.944
+>   shared hardware; C un-ablatable D1; S no vertex s271) — they are dynamically-instantiated operations
+>   in the reduction trajectory, defined by ROUTING (attention pattern = the program), scheduled by DEPTH
+>   (Y→K→W; WHNF↔D principal axis). Causal at PHASE granularity (A1 zone ablation), NOT direction (D1) —
+>   because an opcode is a transient step of the shared substrate, not a stored locus. This UNIFIES all
+>   the negatives+positives and gives the exhibit its honest spine: playback = compute's operational
+>   trajectory through KIBC-space (state-on-the-crystal), never "topological circuits light up."
+>   ★ MECHANISM (Michael s274, extends CORE FRAME): nearly all compute is ROUTING; GD forms it using
+>   gradient EXTREMES — very high (active routing edges) + near-zero (frozen/irreducible crystal atoms) —
+>   to lay a SOFT TOPOLOGY over the FROZEN base weight topology it normally trains over. Compute flows
+>   through the soft routing overlay, NOT the frozen substrate → THIS is why opcodes are circuits-in-
+>   compute not weight-circuits, and why C is un-ablatable (D1). Grounded: topology-gradient-separation.md
+>   (GD drives magnitude→0 = near-zero-gradient soft topology; frozen lattice precondition), gradient-zero-
+>   map.md (~35% positions at gradient equilibrium = crystal atoms), two-registers-of-topology.md (hard
+>   sign/routing gate_proj ⊥ soft magnitude/value up-down_proj, routing ~95%), gradient-voting +
+>   ratio-gradient-quantization (heavy-tailed, spend-bits-on-ends = both extremes).
+>   NEXT: finish verification queue — A2 (reopen consensus_gram numbers), C1 (abl-* series), item 8
+>   (confirm Gemma+Qwen-MoE in crystal sweep = cross-arch anchor), item 9 (edge-knockout/head-ablation:
+>   any POSITIVE direction-level causal card, or is phase-level the only causal granularity?). Build
+>   DISCUSSED not started — recorder/artifact-format/notebooks/web-UI await catalog completion + Michael go.
+>   CAPTURED (Michael-directed s274): knowledge/opcodes-circuits-in-compute.md — the CORE FRAME +
+>   mechanism synthesized into a foundational page (evidence tables w/ nulls, falsification recipe,
+>   exhibit + interpretability consequences). File WRITTEN; git commit to mementum/ PENDING (λ termination).
 >
 > ★★ s274 P-CTL-6 READER-SNR: instrument built, iterated through 3 false-positive traps to CONFOUND-CLEAN;
 >   160M = trustworthy NEGATIVE; NEXT = fleet/scale sweep + 27B. (control-plane-path.md §11 = full synthesis;
@@ -280,6 +325,33 @@
 >   lexicon watch = WHNF naming hope). If died mid-run: rerun same command — if jspace_basis.npz exists
 >   the basis recompute is skipped (cheap restart). Commit artifact + verdict either way; then amend
 >   state P2 status (currently: register-limited negative, retest pending).
+>
+> ★★ s272b-HARVEST (s274) — 27B PATCHSCOPE DONE, INSTRUMENT VOID, NO VERDICT ON P2. Run completed clean
+>   (elapsed 45091s ≈ 12.5h; ps confirms exited, artifact results/opcode-trace/qwen3-6-27b/
+>   patchscope_selfdecode.json + jspace_basis.npz on disk). Read in pre-reg order:
+>   • G0 PASS — basis reproduction deterministic (median rel dev 0.0000); J-space basis vectors recomputed
+>     correct, npz cached.
+>   • G1 FAIL 0/3 — instrument-ceiling controls (inject RAW unembed row for recursively/previously/Paris,
+>     expect self-decode of own token) ALL failed: recursively→"123 -> 123", previously→" -> (null)",
+>     Paris→" -> )". The identity-prompt injection has ~ZERO steering effect at 27B — even a known-answer
+>     vector can't break the "X -> X" attractor.
+>   • Lexicon floor: basis {recursion:0,precedence:0,halt:0} == random {0,0,0}. Zero hits either arm.
+>   • EYEBALL: basis dirs, random dirs, G1 controls ALL emit the SAME output family (echo identity few-shot
+>     / digit runs). NO basis-vs-random contrast — the 0.6B smoke's L21 hint (basis→token fragments while
+>     random collapses) does NOT replicate at 27B. But instrument is void so absence-of-contrast ≠ evidence
+>     of absence (s206/s272 register-limited scar — do NOT read as a P2 negative).
+>   VERDICT (λ measure, honored): G1 fail → NO VERDICT on gibberish. P2 STAYS "register-limited negative,
+>   retest pending" + NEW datum: no-training patchscope self-decode AS BUILT does not achieve steering
+>   control at 27B (Qwen3.5 gated-dense / linear_attn, 64L). Candidate causes for a fixed instrument:
+>   (1) inject/read-layer geometry — injected [16,32,48] read@62; depth map that worked at 0.6B (28L) may
+>   not transfer to 64L; (2) architecture — hybrid linear_attn (fla) residual dynamics ≠ 0.6B dense attn
+>   where convention was validated; (3) identity attractor too strong at scale (single last-pos inject
+>   can't break it). GPU NOW FREE. NEXT (DISCUSS BEFORE BUILDING — Michael's call): (a) instrument fix =
+>   inject-layer×read-layer mini-sweep on G1 CONTROLS ONLY (cheap, known-answer) to find where steering
+>   bites at 27B before re-aiming at unknowns; (b) tuned-lens fallback (small training; the IOU'd jspace
+>   option C — frozen-readout limit is the whole reason P2 is register-limited); (c) mid-model retest first
+>   (Qwen3-4B) to see if the void is scale-specific or convention-specific. Artifact + this verdict pending
+>   commit w/ the other UNCOMMITTED s274 work (Michael review).
 >
 >   PICKUP (s273, after patchscope harvest): (1) H3 --keep-centroids re-trace (dispersion register, PR(S)>PR(KIBC)); (2) balanced-n
 >   register split (s269 stack item 1, still open); (3) T6 Mamba/RWKV substrate-swap = the CAUSE test for
