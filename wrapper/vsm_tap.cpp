@@ -78,6 +78,12 @@ static bool tap_cb(struct ggml_tensor * t, bool ask, void * user_data) {
         return true; // want the follow-up collect call
     }
 
+    // skip ggml view/reshape artifacts (names like "ffn_moe_weights-0 (reshaped)")
+    // — they alias data we already capture under the clean register name.
+    if (strchr(t->name, ' ') != nullptr) {
+        return true;
+    }
+
     // match name against the register filters (anchored ^, like common debug)
     bool match = st->filters.empty();
     for (const auto & rx : st->filters) {
