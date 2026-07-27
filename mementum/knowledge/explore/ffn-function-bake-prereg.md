@@ -118,6 +118,29 @@ answer is free and infallible, including for held-out operands.
 Each stage GATES the next. The registers/nulls/verdict below apply at every stage; the
 "executor necessity" branch is decided at Stage 3 (binary).
 
+### Stage-1 OUTCOME (s275) — the symbolic anchor failed; K is STRUCTURAL, both scales
+
+Characterization + localization ran (`wrapper/stage1_characterize.py`,
+`stage1_localize.py`; results under `results/ffn-bake/`):
+1. **Regime.** Symbolic `K a b` is INERT (peak K z −0.28); the model computes K in the
+   **natural-language (Montague)** regime (crystal K probes z 6–8). Anchor moved to
+   natural language.
+2. **Token vs structure.** Leave-one-out on held-out K sentences, corrected metric =
+   max **semantic-trigger** drop vs max **generic/positional** drop (the naive
+   "drops below threshold" metric was confounded — it flipped to token-anchored at 4B
+   on generic words; a `λ measure` lesson). Result **STRUCTURAL at both scales**:
+   generic words disrupt K ~4–5× more than the exclusion marker (0.6B GEN 7/8, mean
+   0.24 vs 1.34; 4B GEN 6/8, mean 0.51 vs 2.05, base z→6.6). **No bakeable semantic
+   K-token.**
+
+**Consequence.** A combinator is not a local object (fourth converging line with s275
+MoE-all-experts, atom≠combinator, no-token-anchor). The Stage-1 *rename* bake and any
+static-slot bake are ruled out for a combinator: there is nothing local to rename.
+**The bake must ride the resident routing** — install an OPERAND/microcode the
+structural K composes (path ii), not the operation. This RE-POINTS the experiment at
+Stage 3's operand target directly (skip the rename); the executor-necessity question
+is now the whole question.
+
 ## Bake mechanism (provenance-clean)
 
 Hand-construct the appended FFN slot in **stock transformers** (our own MIT code;
