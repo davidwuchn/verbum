@@ -1,0 +1,568 @@
+{
+  "model": "Qwen/Qwen3.6-27B",
+  "layers": [
+    16,
+    32,
+    48
+  ],
+  "target_layer": 62,
+  "k": 32,
+  "top_dirs": 5,
+  "n_random": 8,
+  "max_new": 12,
+  "seed": 270,
+  "prompt": "cat -> cat\n1135 -> 1135\nhello -> hello\nX",
+  "preregistration": {
+    "G0": "median rel strength dev < 0.05 vs committed artifact",
+    "G1": ">=2/3 unembed-row controls decode their own field",
+    "verdict": "basis dirs self-decode iff coherent fields above random-dir rate (lexicon floor + eyeball dump)"
+  },
+  "g0": {
+    "available": true,
+    "median_rel_dev": 0.0,
+    "pass": true
+  },
+  "g1": {
+    "by_token": {
+      "recursively": false,
+      "previously": false,
+      "Paris": false
+    },
+    "passed": 0,
+    "pass": false
+  },
+  "lexicon_summary": {
+    "basis_hits_per_gen": {
+      "recursion": 0.0,
+      "precedence": 0.0,
+      "halt": 0.0
+    },
+    "random_hits_per_gen": {
+      "recursion": 0.0,
+      "precedence": 0.0,
+      "halt": 0.0
+    }
+  },
+  "generations": {
+    "16": {
+      "dir0+": {
+        "text": "234 -> 1234\n12",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir0-": {
+        "text": " -> hello\n1135 -> 113",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir1+": {
+        "text": "123 -> (123)\n12",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir1-": {
+        "text": "1135 -> 1135\nhello",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir2+": {
+        "text": " -> /\n./ -> ./\n./hello -> ./hello",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir2-": {
+        "text": " -> hello\n123456789",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir3+": {
+        "text": "234 -> 1234\n12",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir3-": {
+        "text": "99 -> 99\n123abc ->",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir4+": {
+        "text": " -> 5\n123 -> 123",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir4-": {
+        "text": " -> fo\n123456789",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "G1:recursively(recursively)": {
+        "text": "123 -> 123\n123",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        },
+        "g1_pass": false
+      },
+      "G1:previously(previously)": {
+        "text": " -> (null)\n1234567",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        },
+        "g1_pass": false
+      },
+      "G1:Paris(Paris)": {
+        "text": " -> )\n123456789",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        },
+        "g1_pass": false
+      },
+      "rand0": {
+        "text": " -> 1135\n1135 ->",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand1": {
+        "text": " -> *\n123456789",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand2": {
+        "text": " -> _\n123456789",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand3": {
+        "text": " -> \n1234567890",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand4": {
+        "text": " -> it\n12345 -> 12",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand5": {
+        "text": " -> $\n123456789",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand6": {
+        "text": " -> hello\n1135 -> 113",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand7": {
+        "text": "123 -> 123\n123",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      }
+    },
+    "32": {
+      "dir0+": {
+        "text": " -> e\n123 -> 123\n",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir0-": {
+        "text": " -> hello\n1135 -> 113",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir1+": {
+        "text": "123 -> 123\n123",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir1-": {
+        "text": " -> hello\n1135 -> 113",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir2+": {
+        "text": "- -> -\n12345678",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir2-": {
+        "text": " -> llo\n12345 -> 1",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir3+": {
+        "text": " -> hello\n1135 -> 113",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir3-": {
+        "text": "2 -> 2\n123 -> 12",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir4+": {
+        "text": " -> O\n123456789",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir4-": {
+        "text": " -> hello\n1135 -> 113",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "G1:recursively(recursively)": {
+        "text": "hello -> hello\n123hello -> hello\n1",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        },
+        "g1_pass": false
+      },
+      "G1:previously(previously)": {
+        "text": "123 -> 213\n123",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        },
+        "g1_pass": false
+      },
+      "G1:Paris(Paris)": {
+        "text": " -> hello\n1135 -> 113",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        },
+        "g1_pass": false
+      },
+      "rand0": {
+        "text": " -> <\n123456789",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand1": {
+        "text": " -> O\n123456789",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand2": {
+        "text": "hello -> hello\n123hello -> hello\n1",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand3": {
+        "text": " -> 7\n12345678",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand4": {
+        "text": " -> L\n123456789",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand5": {
+        "text": "123 -> -1\n123a ->",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand6": {
+        "text": "000 -> 2000\n12",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand7": {
+        "text": " -> +\n123 -> 123\n",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      }
+    },
+    "48": {
+      "dir0+": {
+        "text": "-11 -> 11\n1234",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir0-": {
+        "text": "\n1135\nhello\ncat\ncat\n",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir1+": {
+        "text": " 1135 -> 1135\n",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir1-": {
+        "text": " ?\n1135 -> 1135",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir2+": {
+        "text": "? -> hello\n12345678",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir2-": {
+        "text": " -> hello\n1135 -> 113",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir3+": {
+        "text": "123 -> 123\n123",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir3-": {
+        "text": " 1135 -> 1135\n",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir4+": {
+        "text": " what is this? -> hello\nhello -> hello\nhello",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "dir4-": {
+        "text": "i'an -> Xi'an\n123456",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "G1:recursively(recursively)": {
+        "text": "1135 -> 1135\n1",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        },
+        "g1_pass": false
+      },
+      "G1:previously(previously)": {
+        "text": "\n1135\nhello\ncat\ncat\n",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        },
+        "g1_pass": false
+      },
+      "G1:Paris(Paris)": {
+        "text": "2 -> 2\n123 -> 12",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        },
+        "g1_pass": false
+      },
+      "rand0": {
+        "text": " -> hello\n1135 -> 113",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand1": {
+        "text": "123 -> 123\n123",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand2": {
+        "text": " -> hello\n1135 -> 113",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand3": {
+        "text": " -> hello\n1135 -> 113",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand4": {
+        "text": "\n1135\nhello\ncat\ncat\n",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand5": {
+        "text": "\n1135\nhello\ncat\ncat\n",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand6": {
+        "text": " 1135 -> 1135\n",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      },
+      "rand7": {
+        "text": " hello -> hello\nhello world -> hello world\nhello world",
+        "lexicon_hits": {
+          "recursion": 0,
+          "precedence": 0,
+          "halt": 0
+        }
+      }
+    }
+  },
+  "elapsed_s": 45091.2
+}
