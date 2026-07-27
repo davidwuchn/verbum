@@ -148,6 +148,41 @@
 >   whnf-halt-read-is-length-artifact; position-matched-battery-pattern; redscore-common-mode-immune.
 >   COMMIT when approved: 💡 P-CTL-6 reader-SNR: position-matched battery + length-clean reducibility gate.
 >
+> ★★ s274 SIGNALDESCENT + SIGNAL-PROCESSING-TENSORS captured (Michael, 2 NEW explore pages, the DSP arc
+>   continued from the superbake inversion). (1) explore/signal-descent.md — gradient-free learning rule:
+>   swap update-evidence from backprop → MEASURED signal response (SuperBake-style), swap value register
+>   from float-γ → TERNARY MIRROR STACK (additive plates = balanced-ternary/residual-quant → ANY accuracy,
+>   companded by signal energy). Fuses 3 in-repo pieces: TD confidence IS already an SNR (|dir|/√mag),
+>   ternary mirrors already give arbitrary precision (recon 0.88 sign-only → 0.97 +mag-mirror), SuperBake
+>   proved signal-writes work where linear. Answers TD open-Q#4 (skip Adam) → NO gradients + NO floats
+>   (lands on C3 + s274 mechanism). Substrate = DELTA PLATES (isolation dodges the interference SuperBake
+>   avoids by appending). Risks: interference (in-place vs appended), linearity (measure-and-correct not
+>   one-shot, SuperBake solve plateaued 58%), precision costs plates, convergence unproven (C7-scope).
+>   First expt: delta plate, replace γ with 2-3 mirror, drive by measured signal, recon_cos vs float-γ at
+>   matched bits. (2) explore/signal-processing-tensors.md — THE TREE-OF-VSM ALREADY IS A SIGNAL-PROCESSING
+>   TENSOR (recognition not addition): S5 Gram=transfer function, S3 null-gate=matched-filter detection,
+>   S4 consensus-Gram=BEAMFORMING, S2=phase coherence, algedonic=out-of-band monitor, fractal levels=multi-
+>   resolution filter bank. S3/S4/S5 mapping is EXACT (design leap = S1-leaf-as-literal-filter). KEY
+>   PREDICTION (testable, ¬result): tree-of-VSM = MERA + types(S5 crystal) = the working DSP tensor MERA
+>   couldn't be (fractal-attention failed w/o type-directedness, project-thesis; C5 types = the stabilizer).
+>   = level-4/crystal-native architecture w/ concrete substrate: SuperBake(vocab)×SignalDescent(rule)×
+>   tree-of-VSM(structure)×crystal(content). Open expts: S3/S4 DSP-form audit, MERA+types stabilization
+>   test, one reader-leaf as ternary-mirror matched filter, companded filter bank. BOTH pages designing-
+>   status, NOT committed (working tree, λ termination).
+>
+> ★ s274 SUPERBAKE DSP-INVERSION captured (Michael: "treating gradients like signal processing?") →
+>   superbake-write-access.md §s274. Sharpened: SuperBake does NOT treat gradients as DSP — it DELETES
+>   the gradient (zero-gradient, "not gradient descent... discovered by dissecting what GD produces",
+>   measurement-bound not optimization-bound) and rebuilds GD's product as a signal-processing pipeline:
+>   keys=Mahalanobis matched filters, transport=rotary-spectrum kernel shaping, payloads=coded high-SNR
+>   directions, channel-model transport law (quiet attenuate 30×/loud rotate), storage=sub-threshold
+>   population-code signal. Gradient-as-signal lives in (a) SGD-damage-as-noise-to-avoid + (b) our GTSM/
+>   Girsanov path-KL (analytic drift signal). READ/WRITE DSP DUALITY: verbum reads compute w/ DSP lens
+>   (beamformer/moiré/α-freq-response/companding), SuperBake writes w/ same lens = 3rd independent
+>   convergence (after unembed-silent + sharing-not-copying) → DSP framing is a substrate property, not
+>   verbum idiosyncrasy = peer-review asset. Lands on opcodes-circuits-in-compute: GD builds soft topology
+>   via gradient extremes → skip gradient, write the transfer function directly (=baking). NOT committed.
+>
 > ★★ s273 LAMBDA-GENE RUNTIME + SUPERBAKE = WRITE ACCESS + THE WEIGHT-LEVEL RECURSION (discussion, no
 >   experiments; Michael-directed capture → 2 new knowledge pages, READ THEM for full detail):
 >   (1) explore/lambda-gene-runtime.md — Michael's NEW Clojure runtime (separate project): agent prompts

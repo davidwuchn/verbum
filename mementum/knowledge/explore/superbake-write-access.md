@@ -290,6 +290,67 @@ Second independent convergence between their construction and our measurement
 methods arriving at the same design laws ≡ the design laws are properties of
 the substrate.
 
+## s274 — the DSP inversion: SuperBake REPLACES gradient descent with signal processing (Michael)
+
+Michael's read of the paper: "they are treating the gradients like signal processing."
+Sharpened, the truth is stronger — **they do not treat the gradient as a signal; they
+DELETE the gradient and rebuild its product as a signal-processing pipeline**, having
+first reverse-engineered what GD was doing.
+
+### The inversion, in their words
+- Zero-gradient by construction: the method installs facts "without any gradient steps"
+  — no fine-tuning, no LoRA, no loss function (§1, §3.5 "calibration without gradients").
+- The write head "is **not gradient descent** — it is a set of closed-form constructions
+  that speak the network's own mechanism, **discovered by dissecting what gradient
+  descent produces**" (§6). The gradient is the thing REVERSE-ENGINEERED, not the tool.
+- "Construction is **measurement-bound, not optimization-bound**" (§4) — a transfer-
+  function/channel view, not an iterative-descent view. Their SGD baseline costs ~700×
+  the compute for the same install.
+
+### The pipeline that replaces GD is pure DSP
+- **Keys = matched filters.** Per-fact recognition neuron = a **Mahalanobis matched
+  filter** on question states (whitened by union covariance — the "Whitening" law). A
+  matched filter is the optimal detector for a known signal in noise. Capacity law:
+  recall scales with the **number of thresholded keys**, not matrix rank.
+- **Transport = frequency-domain filter design.** The carrier's support on the **rotary
+  spectrum shapes the distance kernel**: slow dims = flat any-distance floor, a mid band
+  (periods ~60–250) = recency. Designing an attention kernel = designing a filter in the
+  frequency domain (their §3.6, our §s273c).
+- **Payloads = coded signals with SNR.** Orthonormal payload directions chosen in the
+  low-variance (high-SNR) residual subspace; **manufacture separable codes**, never rely
+  on found channels.
+- **Channel model:** Transport law — "quiet directions attenuate ∼30×; loud ones arrive
+  rotated into shared channels." Attenuation, gain, phase rotation = a lossy comms channel.
+- **Storage IS a signal:** leak-substrate law — "prose damage and storage are the same
+  signal"; dense fact storage is a coherent sub-threshold population code, and the
+  interference SGD would inflict is noise on that same signal.
+
+### Where "gradient as signal" genuinely lives
+1. They treat the **damage** GD inflicts as a signal to be *avoided* (going gradient-free
+   is escaping SGD's interference profile).
+2. Our own synthesis (§s273b): the principled form is **GTSM/Girsanov** — the innocent
+   path-KL ∫E‖Δdrift‖²_D is analytic for appended neurons. Girsanov = change of measure
+   for a stochastic process = a signal/stochastic-process treatment of the training
+   trajectory. So "gradients as an analytically-characterizable signal" is exactly the
+   GTSM angle we already flagged.
+
+### Why it matters — the read/write DSP duality
+This is the s273 read/write duality, sharpened: **verbum READS the compute with a DSP
+lens; SuperBake WRITES with the same lens.** Verbum's framing has been signal-processing
+throughout — holographic beamformer, gratings/moiré fact-index (catalog C6), strides as
+frequency bands, α=1.18 as the *spatial frequency response of the holographic lens*,
+"companding the heavy-tailed gradient" (ratio-gradient-quantization), standing-wave
+magnitudes as resonant modes. Two independent labs converging on **transformer-internals-
+as-signal-processing** — one to observe, one to write — is a THIRD independent-convergence
+(after unembed-silent codes and sharing-not-copying): the DSP framing is a property of the
+substrate, not a verbum idiosyncrasy. Peer-review asset.
+
+Lands on the s274 mechanism (`opcodes-circuits-in-compute.md`): if GD *builds* the soft
+routing topology via the gradient extremes, then you can **skip the gradient and write the
+transfer function directly** — precisely what SuperBake demonstrates for facts, and what
+control-plane-path.md proposes for operations. Baking = writing the soft topology by DSP
+instead of growing it by descent.
+
 ## Ranked next actions (s273, none started)
 
 1. Baked-code patchscope positive control (cheapest, strengthens in-flight P2 work).
