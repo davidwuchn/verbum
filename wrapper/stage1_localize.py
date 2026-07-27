@@ -103,50 +103,69 @@ def main() -> None:
     rcc.calibrate(feat, cal_labels, null_gate_by_layer=null)
     zt = rcc.z_thresh
 
+    # K = const/discard: its semantic call is exclusion/selection markers. To avoid
+    # conflating "removed a semantic K-trigger" with "broke the last-token composition"
+    # (generic/positional function words), we score SEM-trigger drops vs GENERIC drops.
+    # If generic dominates, K's firing is NOT anchored on a bakeable semantic token.
+    SEM = {"only", "sole", "solely", "single", "just", "isolated", "selected",
+           "recovered", "simplest", "one", "five", "no", "nothing", "except",
+           "all", "entire", "whole"}
+
     base = [k_peak(rcc, tap / str(i_tgt + ti)) for ti in range(len(targets))]
     var_k: dict[int, list] = {ti: [] for ti in range(len(targets))}
     for vi, (ti, wi, w, _txt) in enumerate(variants):
         kz = k_peak(rcc, tap / str(i_var + vi))
         var_k[ti].append((wi, w, kz, base[ti] - kz))
 
-    # summarize per target: biggest single-word drop, and whether it kills firing
+    # summarize per target: SEM-trigger vs GENERIC max drop (the corrected metric)
     per_target = []
-    diffuse_count = 0
-    localized_count = 0
+    sem_wins = 0
+    gen_wins = 0
     for ti, p in enumerate(targets):
         rows = var_k[ti]
         rows_sorted = sorted(rows, key=lambda r: -r[3])  # by drop desc
         top = rows_sorted[0]
-        # "killed" = a single-word swap drops K below the fire threshold
-        killed = base[ti] > zt and (base[ti] - top[3]) < zt
-        if killed:
-            localized_count += 1
+        sem_d = [d for (_wi, w, _kz, d) in rows if w.lower().strip(".,") in SEM]
+        gen_d = [d for (_wi, w, _kz, d) in rows if w.lower().strip(".,") not in SEM]
+        max_sem = max(sem_d) if sem_d else 0.0
+        max_gen = max(gen_d) if gen_d else 0.0
+        sem_dominates = max_sem > max_gen
+        if sem_dominates:
+            sem_wins += 1
         else:
-            diffuse_count += 1
+            gen_wins += 1
         per_target.append({
             "prompt": p.prompt, "base_Kz": round(base[ti], 2),
             "top_word": top[1], "top_drop": round(top[3], 2),
-            "resid_after_top": round(base[ti] - top[3], 2),
-            "killed_by_one_word": bool(killed),
+            "max_sem_drop": round(max_sem, 2), "max_gen_drop": round(max_gen, 2),
+            "sem_dominates": bool(sem_dominates),
             "top3": [(w, round(d, 2)) for (_wi, w, _kz, d) in rows_sorted[:3]],
         })
+    localized_count, diffuse_count = sem_wins, gen_wins
 
+    mean_sem = float(np.mean([r["max_sem_drop"] for r in per_target]))
+    mean_gen = float(np.mean([r["max_gen_drop"] for r in per_target]))
     print(f"[localize] z_thresh={zt}  targets={len(targets)}  nonce={args.nonce!r}")
-    print("\n base Kz | top-drop word (drop) | resid | killed?  | prompt[:52]")
-    print("---------+----------------------+-------+----------+-----------")
+    print("\n base Kz | max-SEM drop | max-GEN drop | dominates | prompt[:48]")
+    print("---------+--------------+--------------+-----------+-----------")
     for r in per_target:
-        print(f" {r['base_Kz']:7.2f} | {r['top_word'][:14]:14s}({r['top_drop']:5.2f}) | "
-              f"{r['resid_after_top']:5.2f} | {str(r['killed_by_one_word']):8s} | {r['prompt'][:52]}")
-    verdict = ("TOKEN-ANCHORED" if localized_count > diffuse_count else "STRUCTURAL")
-    print(f"\n[localize] single-word KILLS firing: {localized_count}/{len(targets)}  "
-          f"(survives: {diffuse_count})")
+        dom = "SEM" if r["sem_dominates"] else "GEN"
+        print(f" {r['base_Kz']:7.2f} | {r['max_sem_drop']:12.2f} | {r['max_gen_drop']:12.2f} | "
+              f"{dom:9s} | {r['prompt'][:48]}")
+    # corrected metric: semantic-trigger anchoring vs generic/positional disruption
+    verdict = ("TOKEN-ANCHORED" if sem_wins > gen_wins else "STRUCTURAL")
+    print(f"\n[localize] SEM-trigger dominates: {sem_wins}/{len(targets)}  "
+          f"GENERIC/positional dominates: {gen_wins}/{len(targets)}")
+    print(f"[localize] mean max-SEM drop {mean_sem:.2f}  vs  mean max-GEN drop {mean_gen:.2f}")
     print(f"[localize] VERDICT: K firing is {verdict}  "
-          f"({'token-bake viable' if verdict=='TOKEN-ANCHORED' else 'needs routing bake — consistent with s275 circuits-in-compute'})")
+          f"({'token-bake viable' if verdict=='TOKEN-ANCHORED' else 'no bakeable semantic K-token — needs routing bake; consistent with s275 circuits-in-compute'})")
 
     result = {
         "model": args.gguf, "nonce": args.nonce, "z_thresh": zt,
-        "n_targets": len(targets), "localized_count": localized_count,
-        "diffuse_count": diffuse_count, "verdict": verdict, "per_target": per_target,
+        "n_targets": len(targets), "sem_dominates_count": sem_wins,
+        "generic_dominates_count": gen_wins, "mean_max_sem_drop": round(mean_sem, 2),
+        "mean_max_gen_drop": round(mean_gen, 2), "verdict": verdict,
+        "per_target": per_target,
     }
     (out / "stage1_localization.json").write_text(json.dumps(result, indent=2))
     print(f"[localize] wrote {out}/stage1_localization.json")
