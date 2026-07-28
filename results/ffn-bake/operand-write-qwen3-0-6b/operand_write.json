@@ -1,0 +1,56 @@
+{
+  "model": "Qwen/Qwen3-0.6B",
+  "device": "mps",
+  "clean_recall_acc": 0.99,
+  "n_trials": 96,
+  "layers": [
+    2,
+    7,
+    13,
+    20,
+    26
+  ],
+  "verdict": "WRITEABLE (operand row causally load-bearing incl. mid-stack)",
+  "per_layer": [
+    {
+      "layer": 2,
+      "d_margin_real": 12.662,
+      "flip_real": 1.0,
+      "d_margin_rand": -1.281,
+      "flip_rand": 0.0,
+      "b_specificity": 5.966
+    },
+    {
+      "layer": 7,
+      "d_margin_real": 12.582,
+      "flip_real": 1.0,
+      "d_margin_rand": -0.435,
+      "flip_rand": 0.021,
+      "b_specificity": 5.649
+    },
+    {
+      "layer": 13,
+      "d_margin_real": 13.831,
+      "flip_real": 1.0,
+      "d_margin_rand": -0.644,
+      "flip_rand": 0.0,
+      "b_specificity": 6.524
+    },
+    {
+      "layer": 20,
+      "d_margin_real": 12.446,
+      "flip_real": 1.0,
+      "d_margin_rand": 0.693,
+      "flip_rand": 0.021,
+      "b_specificity": 5.835
+    },
+    {
+      "layer": 26,
+      "d_margin_real": 6.456,
+      "flip_real": 0.75,
+      "d_margin_rand": 0.472,
+      "flip_rand": 0.0,
+      "b_specificity": 2.879
+    }
+  ]
+}
