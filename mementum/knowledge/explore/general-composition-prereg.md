@@ -162,10 +162,11 @@ scale**.
 
 ## Result (s278 — Qwen3-4B, `wrapper/operand_compose.py`, commit 86d2cd9)
 
-**Arm 1 REUSABLE-TERM: SUPPORTED (moderate, null-gated). Arm 2 NOVEL-COMPOSITION: not yet
-tested.** The (h) Arm-1 rung fires — an installed operand composes under *category-
-orthogonal* resident functions well above null — a genuine advance past s277's category-
-swap. But it is moderate, not the clean 1.0 a first (imbalanced) run faked.
+**Arm 1 REUSABLE-TERM: SUPPORTED (moderate). Arm 2 NOVEL-COMPOSITION: SUPPORTED (clean).**
+Both (h) rungs fire at 4B: an installed operand composes under multiple *category-
+orthogonal* resident functions (Arm 1) AND combines with a *given* second operand into a
+*computed* result (Arm 2) — a genuine advance past s277's category-swap. Rung-level,
+hook-not-weight, 4B (not scale-final).
 
 ### Path to the result
 0.6B was too weak (`fly` 0.57 / `water` 0.43 real-word ceilings — the resident functions
@@ -193,23 +194,40 @@ size); `cat` dropped so the test is purely category-orthogonal. Random null fell
 - **`size` is an unreliable function** (ceiling 0.55 — the model itself mis-sizes insects
   vs a mouse); drop/replace it. On its surviving cells it is perfect.
 
+### Arm 2 — NOVEL-COMPOSITION (computed 2-operand relational; `operand_compose2.py`, 01136e2)
+Test: install entity E on the nonce, ask "compared to a {Y}, a {nonce} is bigger/smaller"
+with Y varied over a size ladder. The computed signature = **the crossover point tracks the
+installed entity's rank** (ant always smaller, whale always bigger, wolf flips at 5–7) —
+the resident comparison combines installed-content-size with the given Y into a computed
+result. install acc **0.974**; **content-specificity 0.929** (n=28).
+
+**SUPPORTED — but via the confound-immune metric, not the headline.** The flip-with-Y is
+*partly Y-driven* (the model knows "compared to a whale, anything is smaller" from Y alone):
+bare-nonce baseline already 0.82, random 0.80, `frac_varied` random 1.0. So do NOT lean on
+`flip_correct`/`frac_varied`. The clean evidence is **content-specificity (Y held fixed,
+install varied): 0.929** — installing a bigger vs smaller entity flips the answer for the
+*same* Y, which random content cannot do — plus the **crossover moving with installed rank**
+(random's crossover is fixed). One near-crossover error (horse@pig); eagle ceiling 0.6.
+
 ### Honest edges
-Moderate not perfect; some entities under-flip (install strength, needs a better content
-direction / layer, not more scale); `size` function broken; **Arm 2 (genuine two-hop
-computed-not-stored) is untested** — the size-relational is property-relational and
-ceiling-broken, so the real novel-composition prize is still open. 4B is not scale-final;
-hook-not-weight (gate (f) untouched).
+Arm 1 moderate not perfect; some entities under-flip (install strength — needs a better
+content direction / layer, not more scale; scale 4 over-steers); `size`-vs-mouse function
+broken (0.55 ceiling). Arm 2 baseline is Y-inflated (rely on content-specificity + crossover-
+tracking); it is *one* resident operation, **not yet a chained multi-hop** `f(g(X))`. Both
+arms are 4B **hook-not-weight** (gate (f) untouched) and **not scale-final**.
 
 ### Checklist move
-Flips **"write DATA / terms the engine composes"** from category-swap-only toward genuine
-category-orthogonal reusability (rung). **"composes ARBITRARY programs"** stays ❌ until the
-Arm-2 two-hop clears. No "programmable compiler" until (h)-Arm2 **and** (f) clear at scale.
+Flips **"write DATA / terms the engine composes"** from category-swap-only to genuine
+category-orthogonal reusability (Arm 1) AND **"composes ARBITRARY programs"** from ❌ toward
+a rung-level ✅ (Arm 2: computed 2-operand result). Still: no "programmable compiler" until
+these hold **weight-serialized (f) and at scale** — a chained multi-hop and 27B remain.
 
 ## Status
 
-Pre-registered s278; **RUN s278** (0.6B squish → 4B). Arm 1 REUSABLE-TERM supported
-(moderate, null-gated); Arm 2 two-hop novel-composition OPEN. Next: a clean gradeable
-two-hop `f(g(X))`, and/or strengthen the operand direction to fix the under-flips.
+Pre-registered s278; **RUN s278** (0.6B squish → 4B). **Both rungs fire at 4B**: Arm 1
+REUSABLE-TERM supported (moderate, null-gated), Arm 2 NOVEL-COMPOSITION supported (clean, via
+content-specificity 0.929 + crossover-tracking). Next: chained multi-hop `f(g(X))`; strengthen
+the operand direction (under-flips); gate (f) weight-serialize + R5; cross-scale to 27B.
 
 ## Sessions
 s273 (K-battery pre-reg sketch, arm a/b), s277 (operand-INSERT arc — category-composition

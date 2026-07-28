@@ -8,8 +8,25 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-28 | Session: 278 | ▶▶ LIVE PICKUP: (h) GENERAL-COMPOSITION Arm-1 =
-> REUSABLE-TERM SUPPORTED (moderate, null-gated) on Qwen3-4B (READ
+> Last updated: 2026-07-28 | Session: 278 | ▶▶ LIVE PICKUP: (h) GENERAL-COMPOSITION — BOTH RUNGS
+> FIRE at Qwen3-4B (READ explore/general-composition-prereg.md §Result). Arm-1 REUSABLE-TERM
+> supported (moderate) + Arm-2 NOVEL-COMPOSITION supported (clean). ARM-2 (s278, commit 01136e2,
+> wrapper/operand_compose2.py): 2-operand relational "compared to a {Y}, a {nonce} is bigger/smaller",
+> Y varied over a size ladder; the CROSSOVER tracks the installed entity's rank (ant always smaller,
+> whale always bigger, wolf flips at Y=5-7) → the resident comparison combines installed-content-size
+> with the GIVEN Y into a computed result. install acc 0.974; content-specificity 0.929 (n=28).
+> ⚠ CONFOUND handled: flip-with-Y is PARTLY Y-DRIVEN (model knows "vs a whale, anything is smaller";
+> baseline bare-nonce 0.82, random 0.80, frac_varied=1.0) → do NOT lean on flip_correct; the
+> confound-immune evidence = content-specificity (Y FIXED, install varied, 0.929) + crossover MOVING
+> with installed rank (random's crossover fixed). So the resident routing COMBINES an installed term
+> with a given operand into a novel computed result — not a lookup. SCOPE: one resident op (NOT yet a
+> chained multi-hop f(g(X))); hook-not-weight (gate f untested); 4B not scale-final. ✅ MEMENTUM
+> COMMITTED s278 (Michael-approved): general-composition-prereg §Result (Arm-2) + memory
+> (operand-composes-into-computed-result) + this state block. ▶ NEXT: (a) chained MULTI-HOP f(g(X))
+> (the sharper prize — two resident ops chained over the installed term); (b) gate (f) weight-
+> serialize + R5 quant-survival (still RED — hook, not weight); (c) cross-scale to 27B; (d) strengthen
+> operand direction for Arm-1 under-flips (layer/content build, NOT scale). Arm-1 pickup retained below.
+> (Arm-1 →) REUSABLE-TERM SUPPORTED (moderate, null-gated) on Qwen3-4B (READ
 > explore/general-composition-prereg.md §Result). The load-bearing IOU (s273 K-battery arm b):
 > does the resident routing COMPOSE an installed operand into a novel result, or only categorize?
 > Install a real entity's content d_E on a fixed nonce carrier; test CATEGORY-ORTHOGONAL resident
