@@ -1,0 +1,57 @@
+{
+  "model": "Qwen/Qwen3-0.6B",
+  "device": "mps",
+  "layer": 7,
+  "readout": "few-shot category (composed)",
+  "prefixes_heldout": 4,
+  "nonces": [
+    "zorp",
+    "blint",
+    "drell",
+    "frob",
+    "glark",
+    "murv"
+  ],
+  "baseline_acc": 0.333,
+  "baseline_per_nonce": {
+    "zorp": 1.0,
+    "blint": 0.0,
+    "drell": 0.0,
+    "frob": 1.0,
+    "glark": 0.0,
+    "murv": 0.0
+  },
+  "scales": [
+    0.0,
+    1.0,
+    2.0,
+    4.0
+  ],
+  "per_scale": [
+    {
+      "scale": 0.0,
+      "install_acc": 0.333,
+      "random_acc": 0.333,
+      "wrongkey_acc": 0.333
+    },
+    {
+      "scale": 1.0,
+      "install_acc": 0.708,
+      "random_acc": 0.333,
+      "wrongkey_acc": 0.333
+    },
+    {
+      "scale": 2.0,
+      "install_acc": 1.0,
+      "random_acc": 0.375,
+      "wrongkey_acc": 0.333
+    },
+    {
+      "scale": 4.0,
+      "install_acc": 1.0,
+      "random_acc": 0.542,
+      "wrongkey_acc": 0.333
+    }
+  ],
+  "verdict": "INSTALLED-OPERAND-COMPOSED (novel keyed row composed by resident join, generalizing + key-specific + dose-responsive)"
+}
