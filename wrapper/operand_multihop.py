@@ -93,7 +93,10 @@ def main() -> None:
     ap.add_argument("--swap-layers", type=int, nargs="+", default=[15, 18, 20])
     ap.add_argument("--dtype", default="bfloat16", choices=["float32", "bfloat16"])
     ap.add_argument("--device", default="mps")
-    ap.add_argument("--mode", default="full", choices=["ceiling", "full"])
+    ap.add_argument("--mode", default="full",
+                    choices=["ceiling", "full", "layersweep"])
+    ap.add_argument("--sweep-install-layers", type=int, nargs="+",
+                    default=[5, 7, 9, 11, 13, 15])
     ap.add_argument("--out", default="results/ffn-bake/operand-multihop-qwen3-4b")
     args = ap.parse_args()
 
@@ -156,27 +159,63 @@ def main() -> None:
         s, v = fr
         return f"{s} {v} a {obj}."
 
-    per_e = {e: [] for e in ENTS}
-    for fr in FRAMES:
-        for e in ENTS:
-            store: dict[int, np.ndarray] = {}
-            h = dec[L].register_forward_hook(cap_hook(store, L))
-            ids = tok(decl(fr, e), return_tensors="pt").to(dev)
-            with torch.no_grad():
-                model(**ids)
-            h.remove()
-            per_e[e].append(store[L][0, -2, :])
-    e_mean = {e: np.mean(per_e[e], axis=0) for e in ENTS}
-    g_mean = np.mean([e_mean[e] for e in ENTS], axis=0)
-    d_E = {e: e_mean[e] - g_mean for e in ENTS}
-    d_class = {c: np.mean([d_E[e] for e in CLASS_ENT[c]], axis=0) for c in CLASSES}
-    dim = g_mean.shape[0]
+    def build_dE(cap_L):
+        """object-token residual at cap_L over declaratives -> d_E + d_class."""
+        per_e = {e: [] for e in ENTS}
+        for fr in FRAMES:
+            for e in ENTS:
+                store: dict[int, np.ndarray] = {}
+                h = dec[cap_L].register_forward_hook(cap_hook(store, cap_L))
+                ids = tok(decl(fr, e), return_tensors="pt").to(dev)
+                with torch.no_grad():
+                    model(**ids)
+                h.remove()
+                per_e[e].append(store[cap_L][0, -2, :])
+        em = {e: np.mean(per_e[e], axis=0) for e in ENTS}
+        gm = np.mean([em[e] for e in ENTS], axis=0)
+        dE = {e: em[e] - gm for e in ENTS}
+        dC = {c: np.mean([dE[e] for e in CLASS_ENT[c]], axis=0) for c in CLASSES}
+        return dE, dC, gm.shape[0]
+
+    S = args.scale
+
+    # ── (a2) install-LAYER sweep: fix the weak cell (per-class Gate-1 + centroid) ──
+    # State s279: mammal→fur under-flips = install STRENGTH → strengthen via LAYER (not
+    # scale). Sweep the d_E capture+inject layer; report per-class acc + centroid.
+    if args.mode == "layersweep":
+        sweep = {}
+        for cap_L in args.sweep_install_layers:
+            dE, dC, _ = build_dE(cap_L)
+            by_class_hits = {c: [0, 0] for c in CLASSES}
+            for e in valid:
+                pred = cover_pred(NONCE, adds=[(cap_L, dE[e] * S)])
+                c = ENT_CLASS[e]
+                by_class_hits[c][0] += int(pred == COVER[c])
+                by_class_hits[c][1] += 1
+            by_class = {c: round(h / n, 3) if n else None
+                        for c, (h, n) in by_class_hits.items()}
+            tot_h = sum(h for h, _ in by_class_hits.values())
+            tot_n = sum(n for _, n in by_class_hits.values())
+            overall = round(tot_h / tot_n, 3) if tot_n else None
+            cen = {c: cover_pred(NONCE, adds=[(cap_L, dC[c] * S)]) for c in CLASSES}
+            cen_ok = {c: int(cen[c] == COVER[c]) for c in CLASSES}
+            sweep[str(cap_L)] = {"install_by_class": by_class, "overall": overall,
+                                 "centroid_pred": cen, "centroid_ok": cen_ok}
+            print(f"[layersweep] L={cap_L}: per-class={by_class} overall={overall} "
+                  f"centroid_ok={cen_ok}")
+        out = Path(args.out)
+        out.mkdir(parents=True, exist_ok=True)
+        (out / "layersweep.json").write_text(json.dumps(
+            {"scale": S, "sweep_layers": args.sweep_install_layers,
+             "sweep": sweep}, indent=2))
+        print(f"[layersweep] wrote {out}/layersweep.json")
+        return
+
+    d_E, d_class, dim = build_dE(L)
 
     def rand_vec(norm):
         v = rng.standard_normal(dim)
         return v / (np.linalg.norm(v) + 1e-9) * norm
-
-    S = args.scale
 
     # ══ GATE 1 — BEHAVIORAL COMPOSITION ══════════════════════════════════════════
     def install_acc(use_rand=False, scale=S):

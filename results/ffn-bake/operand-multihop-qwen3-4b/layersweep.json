@@ -1,0 +1,121 @@
+{
+  "scale": 2.0,
+  "sweep_layers": [
+    5,
+    7,
+    9,
+    11,
+    13,
+    15
+  ],
+  "sweep": {
+    "5": {
+      "install_by_class": {
+        "bird": 0.833,
+        "fish": 1.0,
+        "mammal": 0.667
+      },
+      "overall": 0.824,
+      "centroid_pred": {
+        "bird": "feathers",
+        "fish": "scales",
+        "mammal": "fur"
+      },
+      "centroid_ok": {
+        "bird": 1,
+        "fish": 1,
+        "mammal": 1
+      }
+    },
+    "7": {
+      "install_by_class": {
+        "bird": 1.0,
+        "fish": 1.0,
+        "mammal": 0.333
+      },
+      "overall": 0.765,
+      "centroid_pred": {
+        "bird": "feathers",
+        "fish": "scales",
+        "mammal": "scales"
+      },
+      "centroid_ok": {
+        "bird": 1,
+        "fish": 1,
+        "mammal": 0
+      }
+    },
+    "9": {
+      "install_by_class": {
+        "bird": 1.0,
+        "fish": 1.0,
+        "mammal": 0.5
+      },
+      "overall": 0.824,
+      "centroid_pred": {
+        "bird": "feathers",
+        "fish": "scales",
+        "mammal": "scales"
+      },
+      "centroid_ok": {
+        "bird": 1,
+        "fish": 1,
+        "mammal": 0
+      }
+    },
+    "11": {
+      "install_by_class": {
+        "bird": 1.0,
+        "fish": 1.0,
+        "mammal": 0.333
+      },
+      "overall": 0.765,
+      "centroid_pred": {
+        "bird": "feathers",
+        "fish": "scales",
+        "mammal": "fur"
+      },
+      "centroid_ok": {
+        "bird": 1,
+        "fish": 1,
+        "mammal": 1
+      }
+    },
+    "13": {
+      "install_by_class": {
+        "bird": 1.0,
+        "fish": 0.6,
+        "mammal": 0.333
+      },
+      "overall": 0.647,
+      "centroid_pred": {
+        "bird": "feathers",
+        "fish": "feathers",
+        "mammal": "feathers"
+      },
+      "centroid_ok": {
+        "bird": 1,
+        "fish": 0,
+        "mammal": 0
+      }
+    },
+    "15": {
+      "install_by_class": {
+        "bird": 1.0,
+        "fish": 0.4,
+        "mammal": 0.333
+      },
+      "overall": 0.588,
+      "centroid_pred": {
+        "bird": "feathers",
+        "fish": "feathers",
+        "mammal": "feathers"
+      },
+      "centroid_ok": {
+        "bird": 1,
+        "fish": 0,
+        "mammal": 0
+      }
+    }
+  }
+}
