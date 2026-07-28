@@ -229,6 +229,12 @@ REUSABLE-TERM supported (moderate, null-gated), Arm 2 NOVEL-COMPOSITION supporte
 content-specificity 0.929 + crossover-tracking). Next: chained multi-hop `f(g(X))`; strengthen
 the operand direction (under-flips); gate (f) weight-serialize + R5; cross-scale to 27B.
 
+## Successor
+
+The chained multi-hop `f(g(X))` (two sequential resident ops over the installed term, via an
+**unstated** category bridge) — the sharper prize flagged in §Honest edges — is pre-registered
+separately in **`multihop-composition-prereg.md`** (s279).
+
 ## Sessions
 s273 (K-battery pre-reg sketch, arm a/b), s277 (operand-INSERT arc — category-composition
 only), s278 (P-DSP-1: resident distributed join → zone-ablation lesson; this pre-reg).

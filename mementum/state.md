@@ -8,7 +8,34 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-28 | Session: 278 | ▶▶ LIVE PICKUP: (h) GENERAL-COMPOSITION — BOTH RUNGS
+> Last updated: 2026-07-28 | Session: 279 | ▶▶ LIVE PICKUP: (a) MULTI-HOP f(g(X)) — SUPPORTED
+> (3/3 mediation) at Qwen3-4B (READ explore/multihop-composition-prereg.md §Result). The resident
+> routing chains TWO sequential ops over ONE installed operand via an UNSTATED intermediate:
+> install entity E's d_E on a nonce, ask covering ("A {nonce} is covered in __" → feathers/scales/
+> fur); g(X)=animal class (bird/fish/mammal, bridge NEVER in prompt), f=class→covering. Pre-reg
+> FROZE verdict before the run (Gate-1 AND ≥2 of {2a,2b,2c}); ALL THREE fired. wrapper/
+> operand_multihop.py, results/ffn-bake/operand-multihop-qwen3-4b/. Ceiling 0.944 (17/18 valid,
+> cod voids). GATE-1 install acc 0.824 vs null/baseline 0.353 (+0.47); content-spec 0.656. DECISIVE
+> = (2c) CAUSAL late bridge-swap: a PURE class-axis edit (centroid diff) at a LATE layer flips the
+> covering 0.853@L15 / 0.765@L18 / 0.676@L20 vs random matched-norm 0.088/0.059/0.059 → hop-2 reads
+> a class variable persisting late = hop-1's product; a fact-vector read at the readout CANNOT be
+> flipped by a late category edit. + (2a) class token logit-lens peaks median L30 < covering L33
+> (intermediate resolved first; shuffled control −3, covering-peak ≥ class-peak 17/17). + (2b) class
+> centroid (identity averaged out) still resolves covering (2/3; mammal misses). ⚠ WEAK CELL:
+> mammal→fur under-flips to "scales" (all 3 Gate-1 misses + 2b mammal = entity-specific install
+> strength, NOT a category error, same as s278; strengthen via layer/content NOT scale). SCOPE:
+> category-MEDIATION (3 converging signatures) NOT a traced two-node circuit; hook-not-weight (gate
+> f untouched); 4B not scale-final; 0.6B squish. A RUNG. Flips checklist "composes ARBITRARY
+> programs" from single-op (s278 Arm-2) toward chained f(g(X)). ✅ CODE+RESULTS COMMITTED (autonomous):
+> operand_multihop.py + results. ⚠ PENDING MICHAEL APPROVAL (mementum): multihop-composition-prereg.md
+> (pre-reg + §Result), general-composition-prereg.md (successor link), memory
+> (multihop-fgx-chains-two-resident-ops), this state block. ▶ NEXT: (a2) strengthen the fur/mammal
+> install (layer sweep / better content build, NOT scale — fix the one under-flipping cell); (b) gate
+> (f) weight-serialize → GGUF → R5 quant-survival (still RED — hook, not weight); (c) cross-scale to
+> 27B; (d) DEEPER chain — 3-hop or a bridge that is itself computed (harder than category). s278
+> pickup retained below.
+>
+> (s278 header retained →) ▶▶ (h) GENERAL-COMPOSITION — BOTH RUNGS
 > FIRE at Qwen3-4B (READ explore/general-composition-prereg.md §Result). Arm-1 REUSABLE-TERM
 > supported (moderate) + Arm-2 NOVEL-COMPOSITION supported (clean). ARM-2 (s278, commit 01136e2,
 > wrapper/operand_compose2.py): 2-operand relational "compared to a {Y}, a {nonce} is bigger/smaller",
