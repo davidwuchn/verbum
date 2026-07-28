@@ -1,0 +1,480 @@
+{
+  "model": "Qwen/Qwen3-4B",
+  "device": "mps",
+  "layer": 9,
+  "scale": 2.0,
+  "nonce": "zorp",
+  "ent_rank": {
+    "ant": 1,
+    "rabbit": 3,
+    "eagle": 4,
+    "wolf": 5,
+    "horse": 7,
+    "shark": 8,
+    "elephant": 9,
+    "whale": 10
+  },
+  "y_ref": {
+    "mouse": 2,
+    "cat": 3,
+    "dog": 4,
+    "pig": 5,
+    "cow": 7,
+    "whale": 10
+  },
+  "ceiling_rate": 0.907,
+  "ceiling_per_e": {
+    "ant": 0.833,
+    "rabbit": 0.8,
+    "eagle": 0.6,
+    "wolf": 1.0,
+    "horse": 1.0,
+    "shark": 1.0,
+    "elephant": 1.0,
+    "whale": 1.0
+  },
+  "install": {
+    "acc": 0.974,
+    "n": 39,
+    "flip_correct": 0.967,
+    "frac_varied": 0.75,
+    "per_e_seq": {
+      "ant": [
+        [
+          3,
+          "smaller",
+          "smaller"
+        ],
+        [
+          4,
+          "smaller",
+          "smaller"
+        ],
+        [
+          5,
+          "smaller",
+          "smaller"
+        ],
+        [
+          7,
+          "smaller",
+          "smaller"
+        ],
+        [
+          10,
+          "smaller",
+          "smaller"
+        ]
+      ],
+      "rabbit": [
+        [
+          2,
+          "bigger",
+          "bigger"
+        ],
+        [
+          5,
+          "smaller",
+          "smaller"
+        ],
+        [
+          7,
+          "smaller",
+          "smaller"
+        ],
+        [
+          10,
+          "smaller",
+          "smaller"
+        ]
+      ],
+      "eagle": [
+        [
+          2,
+          "bigger",
+          "bigger"
+        ],
+        [
+          3,
+          "bigger",
+          "bigger"
+        ],
+        [
+          10,
+          "smaller",
+          "smaller"
+        ]
+      ],
+      "wolf": [
+        [
+          2,
+          "bigger",
+          "bigger"
+        ],
+        [
+          3,
+          "bigger",
+          "bigger"
+        ],
+        [
+          4,
+          "bigger",
+          "bigger"
+        ],
+        [
+          7,
+          "smaller",
+          "smaller"
+        ],
+        [
+          10,
+          "smaller",
+          "smaller"
+        ]
+      ],
+      "horse": [
+        [
+          2,
+          "bigger",
+          "bigger"
+        ],
+        [
+          3,
+          "bigger",
+          "bigger"
+        ],
+        [
+          4,
+          "bigger",
+          "bigger"
+        ],
+        [
+          5,
+          "smaller",
+          "bigger"
+        ],
+        [
+          10,
+          "smaller",
+          "smaller"
+        ]
+      ],
+      "shark": [
+        [
+          2,
+          "bigger",
+          "bigger"
+        ],
+        [
+          3,
+          "bigger",
+          "bigger"
+        ],
+        [
+          4,
+          "bigger",
+          "bigger"
+        ],
+        [
+          5,
+          "bigger",
+          "bigger"
+        ],
+        [
+          7,
+          "bigger",
+          "bigger"
+        ],
+        [
+          10,
+          "smaller",
+          "smaller"
+        ]
+      ],
+      "elephant": [
+        [
+          2,
+          "bigger",
+          "bigger"
+        ],
+        [
+          3,
+          "bigger",
+          "bigger"
+        ],
+        [
+          4,
+          "bigger",
+          "bigger"
+        ],
+        [
+          5,
+          "bigger",
+          "bigger"
+        ],
+        [
+          7,
+          "bigger",
+          "bigger"
+        ],
+        [
+          10,
+          "smaller",
+          "smaller"
+        ]
+      ],
+      "whale": [
+        [
+          2,
+          "bigger",
+          "bigger"
+        ],
+        [
+          3,
+          "bigger",
+          "bigger"
+        ],
+        [
+          4,
+          "bigger",
+          "bigger"
+        ],
+        [
+          5,
+          "bigger",
+          "bigger"
+        ],
+        [
+          7,
+          "bigger",
+          "bigger"
+        ]
+      ]
+    }
+  },
+  "random": {
+    "acc": 0.795,
+    "n": 39,
+    "flip_correct": 0.842,
+    "frac_varied": 1.0,
+    "per_e_seq": {
+      "ant": [
+        [
+          3,
+          "bigger",
+          "smaller"
+        ],
+        [
+          4,
+          "bigger",
+          "smaller"
+        ],
+        [
+          5,
+          "smaller",
+          "smaller"
+        ],
+        [
+          7,
+          "smaller",
+          "smaller"
+        ],
+        [
+          10,
+          "smaller",
+          "smaller"
+        ]
+      ],
+      "rabbit": [
+        [
+          2,
+          "bigger",
+          "bigger"
+        ],
+        [
+          5,
+          "bigger",
+          "smaller"
+        ],
+        [
+          7,
+          "smaller",
+          "smaller"
+        ],
+        [
+          10,
+          "smaller",
+          "smaller"
+        ]
+      ],
+      "eagle": [
+        [
+          2,
+          "bigger",
+          "bigger"
+        ],
+        [
+          3,
+          "bigger",
+          "bigger"
+        ],
+        [
+          10,
+          "smaller",
+          "smaller"
+        ]
+      ],
+      "wolf": [
+        [
+          2,
+          "bigger",
+          "bigger"
+        ],
+        [
+          3,
+          "bigger",
+          "bigger"
+        ],
+        [
+          4,
+          "bigger",
+          "bigger"
+        ],
+        [
+          7,
+          "bigger",
+          "smaller"
+        ],
+        [
+          10,
+          "smaller",
+          "smaller"
+        ]
+      ],
+      "horse": [
+        [
+          2,
+          "bigger",
+          "bigger"
+        ],
+        [
+          3,
+          "bigger",
+          "bigger"
+        ],
+        [
+          4,
+          "bigger",
+          "bigger"
+        ],
+        [
+          5,
+          "bigger",
+          "bigger"
+        ],
+        [
+          10,
+          "smaller",
+          "smaller"
+        ]
+      ],
+      "shark": [
+        [
+          2,
+          "bigger",
+          "bigger"
+        ],
+        [
+          3,
+          "bigger",
+          "bigger"
+        ],
+        [
+          4,
+          "bigger",
+          "bigger"
+        ],
+        [
+          5,
+          "bigger",
+          "bigger"
+        ],
+        [
+          7,
+          "smaller",
+          "bigger"
+        ],
+        [
+          10,
+          "smaller",
+          "smaller"
+        ]
+      ],
+      "elephant": [
+        [
+          2,
+          "bigger",
+          "bigger"
+        ],
+        [
+          3,
+          "bigger",
+          "bigger"
+        ],
+        [
+          4,
+          "bigger",
+          "bigger"
+        ],
+        [
+          5,
+          "smaller",
+          "bigger"
+        ],
+        [
+          7,
+          "smaller",
+          "bigger"
+        ],
+        [
+          10,
+          "smaller",
+          "smaller"
+        ]
+      ],
+      "whale": [
+        [
+          2,
+          "bigger",
+          "bigger"
+        ],
+        [
+          3,
+          "bigger",
+          "bigger"
+        ],
+        [
+          4,
+          "bigger",
+          "bigger"
+        ],
+        [
+          5,
+          "bigger",
+          "bigger"
+        ],
+        [
+          7,
+          "smaller",
+          "bigger"
+        ]
+      ]
+    }
+  },
+  "baseline": {
+    "acc": 0.821,
+    "n": 39
+  },
+  "content_specificity": 0.929,
+  "verdict_novel": true
+}
