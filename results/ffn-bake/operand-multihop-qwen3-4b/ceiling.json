@@ -1,0 +1,28 @@
+{
+  "ceiling_rate": 0.944,
+  "per_class": {
+    "bird": 1.0,
+    "fish": 0.833,
+    "mammal": 1.0
+  },
+  "per_entity": {
+    "eagle": 1,
+    "hawk": 1,
+    "owl": 1,
+    "crow": 1,
+    "sparrow": 1,
+    "robin": 1,
+    "salmon": 1,
+    "shark": 1,
+    "tuna": 1,
+    "trout": 1,
+    "cod": 0,
+    "carp": 1,
+    "wolf": 1,
+    "fox": 1,
+    "bear": 1,
+    "tiger": 1,
+    "rabbit": 1,
+    "cat": 1
+  }
+}
