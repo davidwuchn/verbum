@@ -113,12 +113,53 @@ cross-task, key-specific, null-gated.
   flipped at scale 2, so the effect is real on true-novel cases.
 - **0.6B necessary-not-sufficient** (patchscope-void scar, s272b) — a rung, not the claim.
 
-## Next
+## What it means (s277, Michael: "do we have an LLM compiler now?")
 
-`(f)` weight-serialize the keyed install → GGUF → R5 quant-survival gate (the real bake +
-the installed-compute signature). `(g)` cross-scale the write/harden/insert on 4B. Then the
-tower: `bake(operand)` proven → `bake(microcode the routing composes)` → `bake(bake)` = Y at
-the weight level (s273 recursion). The join stays un-bakeable; the rows are the write surface.
+**No — we did not build one; gradient descent did** (pretraining = β-reduction, the standing
+`project-thesis`). `λ extract`: we find, we don't build. What the arc adds is not the compiler
+but the **instrument to drive it**: a mature READ path (tap + crystal + operand-map) and the
+FIRST WRITE rung (operands the resident routing composes). So the honest phrase is **JTAG /
+a debugger on a resident compiler-machine**, not an authored compiler.
+
+**The unifying frame** (this arc ties four theses into one sentence):
+
+> The transformer is a **frozen universal combinator basis** (routing / JOINS = the KIBC
+> crystal) over a **writeable term store** (rows / OPERANDS). You extend its computation by
+> writing **terms**, never **instructions** — and *if* `crystal-universality` holds, that
+> **suffices**: combinatory logic says a fixed basis + arbitrary terms is Turing-complete.
+
+So **join-un-bakeability is the completeness STRUCTURE, not a limitation.** This unifies
+crystal-universality (fixed basis), circuits-in-compute (joins = routing), two-registers
+(routing ⊥ value), and the recursion tower (bake operands, ride the basis).
+
+**Checklist to earn "programmable LLM compiler"** (3 green, 4 red):
+
+| capability | status |
+|---|---|
+| read machine state | ✅ mature (tap + crystal + operand-map) |
+| fixed universal ISA | ✅ *if* crystal-universality holds |
+| write DATA / terms the engine composes | ✅ rung-1 (0.6B, keyed-hook, category-level) |
+| write new INSTRUCTIONS | ❌ structurally impossible (s276 K-structural) — and unneeded |
+| permanent artifact (weight-serialized, quant-survivable) | ❌ R5 untested (it is a hook) |
+| composes ARBITRARY programs | ❌ open — only category-swap shown |
+| works at scale | ❌ 0.6B rung |
+
+## Next — the two experiments that earn the phrase
+
+1. **(h) GENERAL-COMPOSITION gate — the load-bearing IOU** (s273 K-battery arm b): install an
+   operand row and have the RESIDENT routing **combine it with a resident combinator into a
+   NOVEL result**, not merely categorize it. This is exactly what turns "writeable term store"
+   into "programmable machine." The s277 arc showed category-composition, **not** arbitrary
+   composition — this is the gap between "debugger on a compiler" and "programmable compiler."
+2. **(f) weight-serialize** the keyed install → GGUF → the **R5 quant-survival** gate (hook →
+   real bake; the installed-vs-learned discriminator: baked facts are quant-FRAGILE, the
+   crystal is quant-ROBUST — which is the installed operand? `superbake-write-access`).
+3. **(g) cross-scale** the write/harden/insert on 4B before any strong claim (patchscope scar).
+
+Then the tower: `bake(operand)` proven → `bake(microcode the routing composes)` → `bake(bake)`
+= Y at the weight level (s273 recursion). The join stays un-bakeable; the rows are the write
+surface — and that is enough *iff* the basis is universal and composes arbitrary terms (the (h)
+IOU). Do not say "we have a compiler" until (h) + (f) clear at scale.
 
 ## Sessions
 s248–s252 (β-program not a tape; C-field readable-not-causal readout register — the contrast

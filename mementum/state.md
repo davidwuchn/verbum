@@ -28,8 +28,27 @@
 > Commits 0b858e7(map) b6297b5(write) a3ebda1(harden) 1d8ea39(insert). HONEST SCOPE: keyed-install hook
 > != weight-serialized bake (R5 quant-survival = the installed-COMPUTE signature, UNTESTED); content is
 > category-level not unique-individual; 2/6 nonces baseline-leaned (the 4 baseline-0 all flipped); 0.6B
-> necessary-not-sufficient (patchscope scar) — a RUNG not the claim. ▶ NEXT: (f) weight-serialize the
-> install → GGUF R5 quant-survival gate; (g) cross-scale 4B replication of write/harden/insert. ⚠ mementum
+> necessary-not-sufficient (patchscope scar) — a RUNG not the claim.
+> ★ MEANING (s277, Michael Q "do we have an LLM compiler now?"): NO we did not build one — GD did
+> (pretraining=β-reduction, project-thesis); we now have a mature READ instrument + the FIRST WRITE rung
+> on the RESIDENT compiler = JTAG on a real compiler-machine, NOT an authored compiler. UNIFYING FRAME
+> (ties crystal-universality + circuits-in-compute + two-registers + recursion tower): the transformer =
+> a FROZEN universal combinator basis (routing/JOINS, KIBC crystal) + a WRITEABLE term store
+> (rows/OPERANDS). You extend compute by writing TERMS, never INSTRUCTIONS — and IF crystal-universality
+> holds that SUFFICES (combinatory completeness: fixed basis + arbitrary terms = Turing-complete), so
+> un-bakeable joins = the completeness STRUCTURE, not a limitation. Checklist to earn the phrase
+> "programmable LLM compiler": read ✓ / fixed-ISA ✓(if universal) / write-TERMS ✓rung-1 / write-
+> INSTRUCTIONS ✗(structurally impossible, s276 K-structural) / permanent-artifact ✗(R5 untested, it is a
+> hook) / arbitrary-composition ✗(only category-swap shown) / scale ✗(0.6B). 3 green, 4 red.
+> ▶ NEXT (two experiments EARN the phrase; do NOT say "we have a compiler" until both clear at scale):
+> (h) THE LOAD-BEARING IOU = GENERAL-COMPOSITION gate (s273 K-battery arm b): install an operand row and
+> have the RESIDENT routing COMBINE it with a RESIDENT combinator into a NOVEL result (not merely
+> categorize it) — this is what turns "writeable term store" into "programmable machine"; the s277 arc
+> only showed category-composition, NOT arbitrary composition. (f) WEIGHT-SERIALIZE the keyed install →
+> GGUF → R5 quant-survival gate (hook → real bake; installed-vs-learned discriminator per
+> superbake-write-access; baked facts quant-FRAGILE, crystal quant-ROBUST → which is the operand?).
+> (g) cross-scale 4B replication of write/harden/insert. Full synthesis + checklist in
+> explore/operand-insert-arc.md §"What it means". ⚠ mementum
 > committed this session (state+pre-reg+arc page+memory); refs/ + chats/ + michael/ still untracked
 > (human/reference domains). Below: s275 (retained).
 >
