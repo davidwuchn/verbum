@@ -208,11 +208,76 @@ Nulls: random-head / random-edge ablation; shuffled head-label for the band sign
   text corpus at layer L; attention-mass + head-ablation on the injected/clean passes.
 - Results → `results/ffn-bake/operand-dsp-qwen3-0-6b/`.
 
+## Result (s278 run — Qwen3-0.6B, `wrapper/operand_dsp.py`, commit 9b027bd)
+
+**Verdict: H1 SUPPORTED on all three components; one surprise (payload); contrast
+instrument-limited.** Only the payload is written (and it is raw, NOT a SuperBake code —
+the surprise); the KEY is resident (causal slot-read); the TRANSPORT+TRANSFORM is resident,
+late, and distributed (circuits-in-compute). Full pipeline localized: write@L7 → resident
+slot-read (L7–14) → distributed transport (0/128 heads) → resident B/C transform (L20–21)
+→ readout.
+
+### C-PAYLOAD — the surprise (clean, value register, planted ground truth)
+`d_cat` is **coherent** (PR 1.93 of 3 dirs; 12 operand-means PR 11.1 vs random-null 17.7)
+but **NOT coded like SuperBake**: low-variance concentration **0.053 vs random 0.198**
+(it lives in the *loud, high-variance* subspace) and unembed-energy **13.7 vs random 11.2**
+(it is unembed-**AUDIBLE**, not silent). SuperBake deliberately builds quiet, low-variance,
+unembed-silent codes; we wrote the **raw natural content direction** and the resident
+machine composed it anyway. We inject transiently, so we never paid SuperBake's prose-safety
+tax. **Consequence for gate (f):** a weight-serialized operand would likely need to be
+re-coded into a quiet SuperBake-style direction to avoid prose damage — the raw direction
+is a hook-only convenience.
+
+### C-TRANSPORT — resident AND distributed (clean, routing register) → RESIDENT-BC
+Logit-lens margin (target category − others) is negative through L9, **stable-positive from
+L10**, and fires **decisively at L20–21 (5.75 → 8.48)**, sustained to L27 (the operand-map
+join-readout locus). So the B/C transform is genuinely resident and *late*. Head-ablation:
+**0/128 heads necessary** (16 heads × 8 readout layers, every knockout leaves acc 1.000).
+The transport/transform is **distributed and redundant** — the s274 **circuits-in-compute /
+shared-hardware** signature landing on the operand join. *Read-side consequence for gate
+(h):* "understand the resident transport" means characterizing distributed routing, not
+finding transport heads — there are none to find.
+
+### C-KEY — RESIDENT-KEY (causal slot-patch, redesigned probe)
+The first probe (clean-pass attention-mass, ratio 0.60) was mis-targeted (readout-time
+attention isn't where injected slot-content is read; short prompts add an attention-sink
+confound) — kept only as a labelled diagnostic. The redesigned **causal cross-operand
+slot-patch** is decisive: run recipient B (cat cB), overwrite B's slot residual at layer
+`pl` with donor A's slot residual (cat cA), measure whether the prediction flips to cA.
+**flip-to-donor = 1.000 @L7, 0.833 @L14, 0.000 @L20; non-slot null = 0.000 everywhere.**
+The resident routing causally reads the operand slot, **early (L7–14)** and gone by L20 —
+complementary to the late transform (L20–21). Placement robustness agrees (slot 1.0,
+slot+1 0.92, slot−1 0.46, wrong-key 0.33 = chance). **RESIDENT-KEY.**
+
+### CONTRAST — instrument-limited
+Bare-fact prompt (`"zorp:"`) is too short → attention-sink dominates the random-token
+baseline, so the operand-vs-fact ratio (0.60 vs 0.06) is not a clean read. Needs a
+length-matched fact control before the 1-vs-3-written-components claim can be tested.
+
+### Honest edges
+0.6B necessary-not-sufficient (patchscope-void scar); the head-ablation was single-head
+(no pairwise/zone knockout — distributed routing could still have a *necessary zone* à la
+A1); the fact-vs-operand CONTRAST stays instrument-limited (bare-fact prompt too short →
+attention-sink; needs a length-matched fact control before the 1-vs-3-written-components
+claim can be tested). The onset detector was corrected mid-run (an onset before the
+injection layer is impossible; restricted to stable-positive ≥ L).
+
+### What it establishes
+**We write a raw (loud, high-variance, unembed-audible) content payload; the resident
+routing causally reads the slot (early, L7–14) and the resident B/C join transports +
+transforms it, late (L20–21) and distributed (0/128 heads necessary).** All three
+components support H1: only the payload is written, and it rides the resident crystal.
+Confirms SuperBake's I-pipeline is *not* the compute template — the compute (key +
+transport + transform) is resident and circuits-in-compute. Two design consequences drop
+out: **(f)** needs re-coding the loud payload into a quiet SuperBake-style direction to
+weight-serialize without prose damage; **(h)** the resident transport is distributed
+routing, not a head-set — "understand it" means characterizing routing, not finding heads.
+
 ## Status
 
-Pre-registered s278. NOT RUN. Antecedent-adjacent to the load-bearing (h) general-
-composition gate; cheap (0.6B, minutes, planted ground truth) but gated on this pre-reg
-surviving review.
+Pre-registered s278; **RUN s278** (0.6B). C-PAYLOAD + C-KEY + C-TRANSPORT all resolved
+cleanly (H1 supported); CONTRAST instrument-limited (length-matched fact control pending).
+Antecedent-adjacent to the load-bearing (h) general-composition gate.
 
 ## Sessions
 s277 (operand-INSERT arc — the crude hook this decomposes), s273/s273c (SuperBake DSP

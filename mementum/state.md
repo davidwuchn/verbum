@@ -8,7 +8,34 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-28 | Session: 277 | ▶▶ LIVE PICKUP: OPERAND-INSERT ARC — the database
+> Last updated: 2026-07-28 | Session: 278 | ▶▶ LIVE PICKUP: P-DSP-1 — DSP-decomposed the
+> operand injection (READ explore/operand-dsp-decomposition-prereg.md, §Result). Michael s278:
+> SuperBake reverse-engineered the **I combinator** (fact=key→value unchanged=identity; a matched
+> filter IS I; its whole pipeline is I-flavored, no B/C transform). Grounded in A3 register-split
+> (I/WHNF/Y register-INVARIANT/portable/bakeable; C=0.0 register-BOUND) — same split as the s276
+> database reframe (rows=I-portable operands INSERT-able; joins=C-bound un-INSERT-able). H1
+> (resident join, written I-payload) = SUPPORTED on all three components on Qwen3-0.6B
+> (wrapper/operand_dsp.py, results/ffn-bake/operand-dsp-qwen3-0-6b/): (1) C-PAYLOAD SURPRISE — our
+> d_cat is NOT a SuperBake code: coherent (PR 1.93/3) but LOUD/high-variance (low-var frac 0.053 vs
+> random 0.198) and unembed-AUDIBLE (13.7 vs 11.2) = OPPOSITE of SuperBake's quiet silent code. We
+> write the raw natural direction, resident machine composes it (transient hook = no prose-safety
+> tax). ⇒ gate (f): weight-serialize would need re-coding it quiet. (2) C-KEY RESIDENT — causal
+> cross-operand slot-patch (redesign after attn-mass probe mis-targeted by sink/timing): patch
+> recipient B's slot with donor A's residual → flip-to-donor 1.0@L7, 0.83@L14, 0.0@L20; non-slot
+> null 0.0. Resident routing READS the slot, EARLY (L7-14). (3) C-TRANSPORT RESIDENT+DISTRIBUTED —
+> B/C transform fires late (logit-lens margin stable+ from L10, decisive L20-21, to L27=join-readout
+> locus); head-ablation 0/128 necessary = s274 circuits-in-compute. FULL PIPELINE LOCALIZED:
+> write@L7 → resident slot-read L7-14 → distributed transport → resident B/C transform L20-21 →
+> readout. CONTRAST still instrument-limited (bare-fact too short → attn-sink; needs length-matched
+> control). ⚠ COMMITTED (code, autonomous): 535d94e pre-reg, 9b027bd run, 93f6dfb C-KEY redesign.
+> PENDING MICHAEL APPROVAL (mementum): pre-reg §Result update + 2 memories (operand-payload-is-raw-
+> not-coded, operand-join-resident-and-distributed) + this state block. ▶ NEXT: (h) GENERAL-
+> COMPOSITION gate remains the load-bearing IOU (arbitrary compose, not category-swap); the P-DSP-1
+> read-side lesson = the resident transport is DISTRIBUTED routing (0/128 heads) → probe it with
+> zone/phase ablation (A1-style), not single-head; also (f) re-code payload quiet + weight-serialize;
+> cross-scale 4B. Below: s277 (retained).
+>
+> (s277 retained →) OPERAND-INSERT ARC — the database
 > "INSERT a row" thesis VALIDATED as a research go/no-go on Qwen3-0.6B (READ
 > explore/operand-insert-arc.md + explore/ffn-function-bake-prereg.md). s276 database reframe (Michael):
 > the FFN serves ROWS (operands/facts/type-tags), attention is the JOIN; a combinator = the join-SHAPE =
