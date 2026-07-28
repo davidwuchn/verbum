@@ -1,0 +1,123 @@
+{
+  "model": "Qwen/Qwen3-0.6B",
+  "device": "mps",
+  "payload_layer": 7,
+  "readout_layers": [
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27
+  ],
+  "n_layers": 28,
+  "n_heads": 16,
+  "C_PAYLOAD": {
+    "pr_operand_means": 11.087,
+    "pr_dcat": 1.927,
+    "pr_random_null": 17.703,
+    "lowvar_frac_dcat": 0.053,
+    "lowvar_frac_random": 0.198,
+    "lowvar_frac_shuffled": 0.0661,
+    "lowvar_baseline_uniform": 0.2013,
+    "unembed_energy_dcat": 13.699,
+    "unembed_energy_random": 11.158,
+    "unembed_energy_shuffled": 10.997
+  },
+  "C_KEY": {
+    "clean_attn_to_slot": 0.0434,
+    "clean_attn_to_random": 0.0725,
+    "attn_ratio": 0.6,
+    "placement": {
+      "slot-1": 0.458,
+      "slot": 1.0,
+      "slot+1": 0.917,
+      "wrong_key": 0.333
+    }
+  },
+  "C_TRANSPORT": {
+    "transform_onset_layer": 10,
+    "onset_raw_incl_noise": 4,
+    "target_margin_by_layer": [
+      -1.096,
+      -0.969,
+      -1.067,
+      -0.31,
+      0.028,
+      -0.817,
+      -0.982,
+      -1.683,
+      -1.586,
+      -0.553,
+      0.868,
+      0.849,
+      0.247,
+      0.296,
+      0.235,
+      0.593,
+      0.269,
+      1.709,
+      1.571,
+      1.697,
+      5.75,
+      8.481,
+      8.011,
+      8.176,
+      8.585,
+      7.452,
+      6.265,
+      6.26
+    ],
+    "head_ablation": {
+      "installed_base_acc": 1.0,
+      "n_heads_tested": 128,
+      "n_necessary_drop>=0.34": 0,
+      "top5": [
+        {
+          "layer": 20,
+          "head": 0,
+          "acc": 1.0,
+          "drop": 0.0
+        },
+        {
+          "layer": 20,
+          "head": 1,
+          "acc": 1.0,
+          "drop": 0.0
+        },
+        {
+          "layer": 20,
+          "head": 2,
+          "acc": 1.0,
+          "drop": 0.0
+        },
+        {
+          "layer": 20,
+          "head": 3,
+          "acc": 1.0,
+          "drop": 0.0
+        },
+        {
+          "layer": 20,
+          "head": 4,
+          "acc": 1.0,
+          "drop": 0.0
+        }
+      ]
+    }
+  },
+  "CONTRAST": {
+    "operand_resident_attn_to_slot": 0.0434,
+    "operand_attn_ratio": 0.6,
+    "novelfact_attn_to_slot": 0.0502,
+    "novelfact_attn_ratio": 0.06,
+    "note": "operand reuses a resident task's routing (few-shot join); a bare novel fact has no resident join -> lower slot-attention ratio."
+  },
+  "verdicts": {
+    "C_PAYLOAD": "NOT-CODED-LIKE-SUPERBAKE",
+    "C_KEY": "KEY-PLACEMENT-OURS",
+    "C_TRANSPORT": "RESIDENT-BC-TRANSFORM"
+  }
+}
