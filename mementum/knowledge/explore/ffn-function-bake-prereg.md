@@ -294,10 +294,165 @@ the resident routing composes it** — rung 1 of `bake(operand)` fires. Commits
 0b858e7 / b6297b5 / a3ebda1 / 1d8ea39. Honest scope: keyed-install hook ≠ weight-serialized
 bake (R5 quant UNTESTED); category-level content; 0.6B necessary-not-sufficient.
 
-## Next step
+## Stage-f (s279) — weight-serialize the operand + R5, grounded in the box
 
-Stage 1/2 SUBSUMED (s276: no join to write); Stage 0 (map) + Stage 3 (`INSERT`) RAN and
-passed (above). The live path is now: **(f) weight-serialize the keyed install** → GGUF →
-the R5 quant-survival gate (does the installed operand survive int4 like the crystal, or is
-it quant-fragile like a baked fact? — the installed-vs-learned discriminator); and **(g)
-cross-scale** the write/harden/insert on 4B before any strong claim (patchscope-void scar).
+> **Pre-registration addendum, status: designing.** The load-bearing red: the s277 INSERT
+> and the s278–279 general/multi-hop composition are all **runtime forward-hooks**
+> (transient). "Programmable machine" requires the operand to graduate **hook → weight** and
+> the R5 quant-survival signature to be measured. This stage is **dear** (recursion antecedent)
+> — freeze the mechanism + verdict here; **do not run on a first draft**; hammock before build.
+>
+> **Feasibility grounded (s279, read against `~/src/custom-bake` = SuperBake reimpl, the
+> METHOD REFERENCE only — no license, AGPL-adjacent; our code is our own MIT).** The
+> mechanism and quant path both exist and are box-verified:
+> - **Uniform-`E` expansion.** Every MLP is expanded by the *same* `E` zero rows/cols, so the
+>   delivered config declares one `intermediate_size` and **stock transformers loads it
+>   unchanged** (solves the per-layer-shape problem). One recognition neuron per key.
+> - **Key = Mahalanobis matched filter** `k = normalize(Σ⁻¹(x̄−μ) − ((Σ⁻¹(x̄−μ))·μ̂)μ̂)` built
+>   against *innocents* (self-sampled prose) + *near-miss decoys* (same question, un-baked
+>   names) → the key discriminates on the **nonce identity**, not the template.
+> - **Payload = a code** loud-in-residual / quiet-at-logits (mid-band residual PCA,
+>   orthogonalised against the top unembedding directions). **⚠ s278 P-DSP-1 caveat:** *our*
+>   `d_E` is the **RAW natural direction, NOT a quiet code** (unembed-audible 13.7 vs 11.2,
+>   low-var-frac 0.053 vs random 0.198). A transient hook paid no prose-safety tax; a
+>   **permanent** weight-write does → the bake likely needs the payload **re-coded quiet**
+>   (or we accept audible and measure the prose-leak). This is a design fork below.
+> - **Quant = bake-then-quantize** (bnb, box-verified): `int8`/`int4` cannot be baked *into*
+>   (packed weights aren't extendable); the supported path is **bake in bf16 → save stock ckpt
+>   → then bnb-quantize**. custom-bake's own measured signature: **int8 usually keeps facts,
+>   int4 flips them** = a *real*, reproducible value-register fragility — exactly the R5
+>   prediction.
+
+### Mechanism (MIT, stock transformers; base = Qwen3-4B to match the s278–279 composition;
+0.6B = cheaper-rung fallback)
+
+`wrapper/operand_bake.py` — our own slot constructor: (1) expand every layer's MLP by `E`
+(zeros on `gate_proj`/`up_proj` rows and `down_proj` cols); (2) at the install layer `L`,
+write **one** recognition neuron whose `gate`/`up` rows are the nonce Mahalanobis key (fires
+on the nonce content signature, quiet on innocents/decoys) and whose `down` column is the
+payload `d_E` (raw, or re-coded quiet — the fork); (3) **no runtime hook** — `save()` a
+bone-stock checkpoint that reloads in stock transformers.
+
+### E1 — EQUIVALENCE (hook → weight graduation; the prerequisite for R5)
+
+The baked, **hook-free** checkpoint must reproduce the composition the hook achieved: install
+the nonce, ask covering (`multihop`) / the resident functions (`compose`), and grade the same
+cells. **Pass ⟺** baked-no-hook composition ≈ hook composition (within tolerance) **and**
+≫ un-baked baseline **and** the key is nonce-specific (near-miss decoy names do **not** fire
+the slot). This is the honest "the operand now lives in the weights" claim.
+
+### R5 — REFRAMED (Michael, s279; hammock **A confirmed**): a ROUTING-TOPOLOGY change, not
+value-noise; and the ship-bar is TERNARY-MIRRORS, not a bnb quant level
+
+The naive "int4 flips baked facts, re-bake them" (custom-bake) is, **in our frame, a
+routing-topology perturbation** — and we can measure it, which others here cannot. Two known
+facts (both ours) reshape R5:
+
+**Fact 1 — Q4 changes the routing register (the *compute*), not just the values.**
+Grounds in `two-registers-of-topology` (hard **sign/routing** `gate_proj` ~95% ⊥ soft
+**magnitude/value** up-/down-proj ~5%) + `opcodes-circuits-in-compute` (the soft routing
+overlay GD lays over the frozen lattice via gradient extremes) + C3 (topology dominates). A
+4-bit step is coarse enough to **cross sign thresholds in the routing register → re-route the
+compute** (some SwiGLU gate neurons flip on/off → a different reduction path). So R5 is not a
+behavioral pass/fail — it is a **mechanistic, register-localized** measurement: *how much does
+Q4 re-route the routing register, and does that re-route drive the behavioral flip?*
+
+**Fact 2 — ternary mirrors on ternary weights → the artifact actually ships.**
+Grounds in `signal-descent` + `recursion-mirrors`: the additive mirror stack
+`out = Σ_k plate_k·x·γ_k` gives sign-only recon ~0.88 → **+mag-mirror ~0.97 (≈ Q4–Q5)**; each
+plate = one more balanced-ternary digit → **arbitrary precision, companded by signal energy**;
+and **delta/appended plates isolate** (dodge the interference SuperBake avoids by appending).
+The bake slot **is** an appended isolated plate → the natural home for a mirror stack. So the
+"artifact ships" bar is **not** a bnb quant level — it is **ship the operand as ternary weights
++ a ternary mirror stack** (the C7 crystal-native, no-float deliverable). "int4-fragile" →
+"int4-robust with mirrors"; naive bnb-int4 is the *control*, the mirror-robustified slot is the
+*result*.
+
+### Staged plan (cheap gate first; `λ` cheap-before-dear)
+
+- **f0 — ROUTING-TOPOLOGY INSTRUMENT (cheapest; NO bake; MIT; standalone result).** On the
+  *resident* model + our covering task, apply portable RTN-Q4 to the weights and measure the
+  **register-attributed damage**: quantize the **routing register alone** (`gate_proj`) vs the
+  **value register alone** (`up_proj`/`down_proj`) vs **all**, and read (i) behavioral covering
+  flip and (ii) activation-level **gate-sign flip rate** per layer (routing re-route) vs value
+  drift. **Predict (Fact 1):** gate-only-Q4 dominates the behavioral damage ⇒ Q4's damage is
+  routing-topology-dominated. Confirms Fact 1 on our own task *before* the bake, and stands
+  alone as an interpretability finding. `wrapper/q4_routing_topology.py`.
+- **f1 — E1 weight-serialize** (hook → appended slot; equivalence to the hook; nonce-specific).
+- **f2 — R5 mechanism:** baked-operand Q4 fragility **measured as a routing-topology change**
+  (tap/`classify` gate sign-CMR pre/post-Q4), not merely a behavioral flip.
+- **f3 — R5 robustify:** encode the slot payload as a **2–3-deep ternary mirror stack** →
+  composition survives quant where naive Q4 flips (recon target ~0.97). The fully-ternary,
+  no-float artifact = the C7 deliverable direction.
+
+### Nulls (`λ yardstick`; extend the page's N1–N6)
+
+- **N1 fact-form** (already) — the payload as an operand-independent push; discriminator holds.
+- **N7 shuffled-key baked slot** — scrambled key → slot never fires (E1 floor).
+- **N8 matched-random code** — payload = random unit dir of equal norm → no composition.
+- **N9 value-register control (the f0/R5 floor)** — value-only-Q4 (up/down) behavioral change =
+  the baseline the routing-only-Q4 damage is measured *against*.
+- **N10 mirror-depth null (f3)** — sign-only slot (no mirror) recon/composition = the floor the
+  2–3-deep mirror must beat at matched bitcount.
+
+### Verdict additions (FROZEN)
+
+```
+f0 ROUTING-DOMINATED   ⟺ gate-only-Q4 behavioral damage > value-only-Q4 (N9)
+                         ∧ gate-sign flip rate co-locates with the behavioral flip layers
+WEIGHT-SERIALIZED (E1) ⟺ baked-no-hook composition ≈ hook ∧ ≫ un-baked baseline
+                          ∧ nonce-specific (N7 shuffled-key fails, near-miss decoys inert)
+R5 MECHANISM (f2)      ⟺ baked-operand Q4 flip is accompanied by a routing (gate sign-CMR)
+                          change at the slot/compute layers (not value drift alone)
+ARTIFACT-SHIPS (f3)    ⟺ ternary-mirror slot composition survives Q4 ≫ sign-only null (N10)
+                          → the operand ships as a fully-ternary + mirror artifact
+FACT-IN-DISGUISE       ⟺ N1 fact-form also passes composition (payload too easy/additive)
+```
+
+### Remaining forks (post-A)
+
+1. **Payload: raw vs re-coded-quiet** — orthogonal to the mirror question; the P-DSP-1 audible
+   payload may tax prose on a *permanent* write. Measure prose-leak in f1; re-code quiet only if
+   it bites. The mirror stack carries precision either way.
+2. **Scale** — f0 routing-topology + f3 mirror-recon are cheap at **0.6B** (tap calibrated
+   there); composition-survival confirmed at **4B** (matches s278–279). Lean: 0.6B → 4B confirm.
+3. **Quant impl** — portable **RTN-Q4** (torch, MPS-clean, controllable, MIT) for f0/f2/f3; bnb
+   is a cross-check only (CUDA-centric; the box is MPS).
+
+### f0 Result (s279 — `wrapper/q4_routing_topology.py`, RTN-Q4, Qwen3-0.6B + 4B)
+
+**Fact 1 CONFIRMED, register-clean, both scales.** Register-attributed Q4 damage on the
+covering task (quantize ROUTING `gate_proj` vs VALUE `up/down` vs ALL):
+
+| Q4 on | 0.6B acc / flip / gate-sign-flip | 4B acc / flip / gate-sign-flip |
+|---|---|---|
+| bf16 | 1.0 / — / — | 0.944 / — / — |
+| **ROUTING (gate)** | 0.889 / **0.111** / **0.051** | 1.0 / 0.0 / **0.040** |
+| VALUE (up/down) | 0.944 / 0.056 / **0.0** | 1.0 / 0.0 / **0.0** |
+| ALL | 0.722 / 0.278 / 0.083 | 1.0 / 0.0 / 0.066 |
+
+Three findings:
+1. **Routing re-route is the mechanism (both scales).** Routing-Q4 flips gate signs (5.1% @0.6B,
+   4.0% @4B), concentrated **mid-stack** (0.6B L12–16, 4B L15–20 = the compute zone); value-Q4
+   flips **exactly 0** gate signs. Q4 on the routing register re-routes the compute; Q4 on the
+   value register does not touch routing. Direct, clean confirmation of Fact 1.
+2. **Routing dominates *decisions*; margin is a value-magnitude confound (`λ measure` lesson).**
+   At 0.6B (headroom), routing-Q4 flips **2×** the decisions of value-Q4 (0.111 vs 0.056). But
+   value-Q4 drops the covering *margin* more (1.14 vs 0.28) because the value register directly
+   scales logit magnitudes → margin moves without flipping. **Decision-flip + gate-sign-flip are
+   the register-honest routing signatures, not margin.**
+3. **Redundancy-gating (why f2 is required).** The easy *learned* covering task is Q4-invariant
+   at 4B (all acc 1.0, flip 0, margin Δ ~1% of base 10.9) *even though* the re-route still fires
+   (4% gate flips). A redundant, over-determined learned behavior **absorbs** the re-route ⇒ Q4
+   fragility needs a **non-redundant** target. The installed **operand** (a single fragile
+   value-write, not a redundant learned behavior) is exactly non-redundant → predicted to flip
+   where native covering doesn't = **the installed-vs-learned discriminator**, and it must be the
+   actual **baked operand (f2)** to show at 4B. Commit `f0` code+results this session.
+
+### Status
+
+Reframed s279 (**hammock A confirmed**): R5 = routing-topology measurement + ternary-mirror
+robustification (not a bnb int8/int4 bar). **f0 RAN** (Fact 1 confirmed register-clean; margin
+is a value confound; redundancy-gating ⇒ f2 needed to see 4B fragility). `bnb int8/int4` demoted
+to a cross-check; RTN-Q4 is the portable primary. **Next: f1** (E1 weight-serialize equivalence)
+→ f2 (baked-operand Q4 fragility as a routing change) → f3 (ternary-mirror robustify).

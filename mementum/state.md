@@ -35,6 +35,26 @@
 > 27B; (d) DEEPER chain — 3-hop or a bridge that is itself computed (harder than category). s278
 > pickup retained below.
 >
+> (s279 cont — (b) STAGE-f, the weight-serialize/quant RED) → REFRAMED by Michael (hammock A
+> confirmed) + f0 RAN (READ ffn-function-bake-prereg.md §Stage-f). TWO known facts reshaped R5:
+> (1) Q4 causes ROUTING-TOPOLOGY changes on the compute (not value-noise; two-registers + C3);
+> (2) ternary mirrors on ternary weights → arbitrary precision (signal-descent) → the artifact
+> ships as ternary+mirror, NOT a bnb int8/int4 bar. So R5 = routing-topology MEASUREMENT +
+> ternary-mirror ROBUSTIFY. Staged f0→f3 (cheap-first). ✅ f0 DONE (wrapper/q4_routing_topology.py,
+> RTN-Q4, 0.6B+4B; code+results committed autonomous): Fact 1 CONFIRMED register-clean — routing-Q4
+> (gate_proj) flips gate SIGNS 5.1%@0.6B / 4.0%@4B (mid-stack L12-20 = compute zone), value-Q4
+> (up/down) flips EXACTLY 0 gate signs → Q4 re-routes the routing register, not the value register.
+> Routing dominates DECISIONS (0.6B argmax flip 0.111 vs value 0.056, 2×). ⚠ MARGIN is a
+> value-magnitude CONFOUND (value drops margin 1.14 vs 0.28 without flipping) → use decision+gate-
+> sign flip, NOT margin (λ measure lesson). ⚠ REDUNDANCY-GATING: easy LEARNED covering is Q4-
+> invariant at 4B (acc 1.0, flip 0) though re-route fires → Q4 fragility needs a NON-REDUNDANT
+> target = the installed operand (this IS why installed-vs-learned discriminator works; f2 bake
+> required to see 4B fragility). ⚠ PENDING MICHAEL APPROVAL (mementum): ffn-function-bake-prereg.md
+> (§Stage-f reframe + f0 §Result), memory (q4-reroutes-routing-register), this state block. ▶ NEXT:
+> f1 = E1 weight-serialize (hook→appended slot equivalence, the cheap go/no-go) → f2 (baked-operand
+> Q4 fragility as a routing change) → f3 (ternary-mirror robustify = the ships artifact). Also still
+> open from (a): (a2) fur/mammal content-build (layer ruled out s279 layersweep); (c) 27B; (d) 3-hop.
+>
 > (s278 header retained →) ▶▶ (h) GENERAL-COMPOSITION — BOTH RUNGS
 > FIRE at Qwen3-4B (READ explore/general-composition-prereg.md §Result). Arm-1 REUSABLE-TERM
 > supported (moderate) + Arm-2 NOVEL-COMPOSITION supported (clean). ARM-2 (s278, commit 01136e2,
