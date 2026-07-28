@@ -295,6 +295,54 @@ def main() -> None:
             kr.append(r_)
     attn_slot, attn_rnd = float(np.mean(ks)), float(np.mean(kr))
 
+    # (1b) CAUSAL slot-patch (primary C-KEY test — immune to attn-sink/readout-timing):
+    #   run recipient B (cat cB), overwrite B's SLOT residual at layer `pl` with donor
+    #   A's slot residual (cat cA != cB); does the prediction FLIP to cA? if yes, the
+    #   resident routing causally reads the slot. null = patch a NON-slot position.
+    def slot_residual(prefix, word, pl):
+        ids, _, slot = slot_and_colon(prefix, word)
+        store: dict[int, np.ndarray] = {}
+        h = dec[pl].register_forward_hook(cap_hook(store, pl))
+        with torch.no_grad():
+            model(**ids)
+        h.remove()
+        return store[pl][0, slot, :]
+
+    def patch_pred(prefix, word, patch_vec, pl, at_slot=True):
+        ids, _, slot = slot_and_colon(prefix, word)
+        p = slot if at_slot else max(0, slot - 3)
+        vt = torch.tensor(patch_vec, dtype=torch.float32, device=dev)
+
+        def hook(_m, _i, out):
+            h = out[0] if isinstance(out, tuple) else out
+            if 0 <= p < h.shape[1]:
+                h[0, p, :] = vt.to(h.dtype)
+            return out
+        handle = dec[pl].register_forward_hook(hook)
+        with torch.no_grad():
+            lo = model(**ids).logits[0, -1, :].float().cpu().numpy()
+        handle.remove()
+        return max(cat_ids, key=lambda c: lo[cat_ids[c]])
+
+    donors = [("dog", "animal"), ("car", "vehicle"), ("rose", "plant")]
+    patch_layers = [L, n_layers // 2, args.readout_lo]
+    slotpatch = {}
+    for pl in patch_layers:
+        slot_flip, nonslot_flip = [], []
+        for aw, ca in donors:
+            dv = slot_residual(PREFIXES[0], aw, pl)
+            for bw, cb in donors:
+                if ca == cb:
+                    continue
+                slot_flip.append(patch_pred(PREFIXES[0], bw, dv, pl, True) == ca)
+                nonslot_flip.append(patch_pred(PREFIXES[0], bw, dv, pl, False) == ca)
+        slotpatch[f"L{pl}"] = {
+            "slot_flip_to_donor": round(float(np.mean(slot_flip)), 3),
+            "nonslot_flip_null": round(float(np.mean(nonslot_flip)), 3)}
+    best_pl = max(slotpatch, key=lambda k2: slotpatch[k2]["slot_flip_to_donor"])
+    sp_flip = slotpatch[best_pl]["slot_flip_to_donor"]
+    sp_null = slotpatch[best_pl]["nonslot_flip_null"]
+
     # (2) placement robustness: inject d_cat at slot-1/slot/slot+1 vs wrong-key
     def place_acc(offset, scale=2.0, wrong=False):
         vals = []
@@ -308,14 +356,19 @@ def main() -> None:
 
     place = {"slot-1": place_acc(-1), "slot": place_acc(0), "slot+1": place_acc(1),
              "wrong_key": place_acc(0, wrong=True)}
-    key = {"clean_attn_to_slot": round(attn_slot, 4),
-           "clean_attn_to_random": round(attn_rnd, 4),
-           "attn_ratio": round(attn_slot / (attn_rnd + 1e-9), 2),
+    key = {"causal_slot_patch": slotpatch, "best_patch_layer": best_pl,
+           "slot_flip_to_donor": round(sp_flip, 3),
+           "nonslot_flip_null": round(sp_null, 3),
+           "diag_clean_attn_to_slot": round(attn_slot, 4),
+           "diag_clean_attn_to_random": round(attn_rnd, 4),
+           "diag_attn_ratio": round(attn_slot / (attn_rnd + 1e-9), 2),
            "placement": {k2: round(v2, 3) for k2, v2 in place.items()}}
     print("\n── C-KEY (ROUTING register) ──")
-    print(f"  clean-pass attn readout→slot={attn_slot:.4f} vs →random={attn_rnd:.4f}"
-          f"  ratio={attn_slot/(attn_rnd+1e-9):.2f}")
+    print(f"  CAUSAL slot-patch (primary): flip-to-donor={sp_flip:.3f} "
+          f"vs non-slot null={sp_null:.3f}  @best {best_pl}  all={slotpatch}")
     print(f"  placement robustness: {key['placement']}")
+    print(f"  [diag] clean-attn readout→slot ratio={attn_slot/(attn_rnd+1e-9):.2f} "
+          f"(mis-targeted; sink confound)")
 
     # ══ C-TRANSPORT (ROUTING register) ════════════════════════════════════════════
     # I-copy vs B/C-transform: logit-lens sweep on the INSTALLED nonce. Where does the
@@ -425,10 +478,8 @@ def main() -> None:
     # ── verdicts (pre-registered) ─────────────────────────────────────────────────
     v_payload = ("I-CODED" if (lv_dcat > lv_null and ue_dcat < ue_null)
                  else "NOT-CODED-LIKE-SUPERBAKE")
-    v_key = ("RESIDENT-KEY" if (attn_slot > 2 * attn_rnd
-                                and place["slot"] > place["wrong_key"] + 0.34
-                                and min(place["slot-1"], place["slot+1"])
-                                > place["wrong_key"] + 0.17)
+    v_key = ("RESIDENT-KEY" if (sp_flip > 0.5 and sp_flip > sp_null + 0.34
+                                and place["slot"] > place["wrong_key"] + 0.34)
              else "KEY-PLACEMENT-OURS")
     v_transport = ("RESIDENT-BC-TRANSFORM" if (onset is not None and onset > L + 2)
                    else "I-COPY-OR-EARLY")

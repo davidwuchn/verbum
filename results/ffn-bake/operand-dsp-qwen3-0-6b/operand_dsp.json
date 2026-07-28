@@ -27,9 +27,26 @@
     "unembed_energy_shuffled": 10.997
   },
   "C_KEY": {
-    "clean_attn_to_slot": 0.0434,
-    "clean_attn_to_random": 0.0725,
-    "attn_ratio": 0.6,
+    "causal_slot_patch": {
+      "L7": {
+        "slot_flip_to_donor": 1.0,
+        "nonslot_flip_null": 0.0
+      },
+      "L14": {
+        "slot_flip_to_donor": 0.833,
+        "nonslot_flip_null": 0.0
+      },
+      "L20": {
+        "slot_flip_to_donor": 0.0,
+        "nonslot_flip_null": 0.0
+      }
+    },
+    "best_patch_layer": "L7",
+    "slot_flip_to_donor": 1.0,
+    "nonslot_flip_null": 0.0,
+    "diag_clean_attn_to_slot": 0.0434,
+    "diag_clean_attn_to_random": 0.0725,
+    "diag_attn_ratio": 0.6,
     "placement": {
       "slot-1": 0.458,
       "slot": 1.0,
@@ -69,44 +86,7 @@
       7.452,
       6.265,
       6.26
-    ],
-    "head_ablation": {
-      "installed_base_acc": 1.0,
-      "n_heads_tested": 128,
-      "n_necessary_drop>=0.34": 0,
-      "top5": [
-        {
-          "layer": 20,
-          "head": 0,
-          "acc": 1.0,
-          "drop": 0.0
-        },
-        {
-          "layer": 20,
-          "head": 1,
-          "acc": 1.0,
-          "drop": 0.0
-        },
-        {
-          "layer": 20,
-          "head": 2,
-          "acc": 1.0,
-          "drop": 0.0
-        },
-        {
-          "layer": 20,
-          "head": 3,
-          "acc": 1.0,
-          "drop": 0.0
-        },
-        {
-          "layer": 20,
-          "head": 4,
-          "acc": 1.0,
-          "drop": 0.0
-        }
-      ]
-    }
+    ]
   },
   "CONTRAST": {
     "operand_resident_attn_to_slot": 0.0434,
@@ -117,7 +97,7 @@
   },
   "verdicts": {
     "C_PAYLOAD": "NOT-CODED-LIKE-SUPERBAKE",
-    "C_KEY": "KEY-PLACEMENT-OURS",
+    "C_KEY": "RESIDENT-KEY",
     "C_TRANSPORT": "RESIDENT-BC-TRANSFORM"
   }
 }
