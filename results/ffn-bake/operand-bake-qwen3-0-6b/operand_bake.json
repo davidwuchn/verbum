@@ -1,0 +1,27 @@
+{
+  "model": "Qwen/Qwen3-0.6B",
+  "layer": 9,
+  "scale": 2.0,
+  "target_z": 6.0,
+  "device": "mps",
+  "nonce": "zorp",
+  "decoy": "blorf",
+  "baseline_nonce_cover": "scales",
+  "n": 1,
+  "baked_acc": 0.0,
+  "hook_acc": 0.0,
+  "shuffled_key_acc": 0.0,
+  "key_kx": 25.2345,
+  "beta": 0.2378,
+  "rows": {
+    "eagle": {
+      "truth": "feathers",
+      "baked": "scales",
+      "hook": "scales",
+      "decoy": "scales",
+      "real_word_wolf": "fur",
+      "shuffled_key": "scales"
+    }
+  },
+  "verdict_E1": false
+}

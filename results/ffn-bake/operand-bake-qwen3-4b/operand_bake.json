@@ -1,0 +1,155 @@
+{
+  "model": "Qwen/Qwen3-4B",
+  "layer": 9,
+  "scale": 2.0,
+  "target_z": 6.0,
+  "device": "mps",
+  "nonce": "zorp",
+  "decoy": "blorf",
+  "baseline_nonce_cover": "feathers",
+  "n": 17,
+  "baked_acc": 0.824,
+  "hook_acc": 0.941,
+  "shuffled_key_acc": 0.353,
+  "key_kx": 27.6241,
+  "beta": 0.2172,
+  "rows": {
+    "eagle": {
+      "truth": "feathers",
+      "baked": "feathers",
+      "hook": "feathers",
+      "decoy": "feathers",
+      "real_word_wolf": "fur",
+      "shuffled_key": "feathers"
+    },
+    "hawk": {
+      "truth": "feathers",
+      "baked": "feathers",
+      "hook": "feathers",
+      "decoy": "feathers",
+      "real_word_wolf": "fur",
+      "shuffled_key": "feathers"
+    },
+    "owl": {
+      "truth": "feathers",
+      "baked": "feathers",
+      "hook": "feathers",
+      "decoy": "feathers",
+      "real_word_wolf": "fur",
+      "shuffled_key": "feathers"
+    },
+    "crow": {
+      "truth": "feathers",
+      "baked": "feathers",
+      "hook": "feathers",
+      "decoy": "feathers",
+      "real_word_wolf": "fur",
+      "shuffled_key": "feathers"
+    },
+    "sparrow": {
+      "truth": "feathers",
+      "baked": "feathers",
+      "hook": "feathers",
+      "decoy": "feathers",
+      "real_word_wolf": "fur",
+      "shuffled_key": "feathers"
+    },
+    "robin": {
+      "truth": "feathers",
+      "baked": "feathers",
+      "hook": "feathers",
+      "decoy": "feathers",
+      "real_word_wolf": "fur",
+      "shuffled_key": "feathers"
+    },
+    "salmon": {
+      "truth": "scales",
+      "baked": "scales",
+      "hook": "scales",
+      "decoy": "feathers",
+      "real_word_wolf": "fur",
+      "shuffled_key": "feathers"
+    },
+    "shark": {
+      "truth": "scales",
+      "baked": "scales",
+      "hook": "scales",
+      "decoy": "feathers",
+      "real_word_wolf": "fur",
+      "shuffled_key": "feathers"
+    },
+    "tuna": {
+      "truth": "scales",
+      "baked": "scales",
+      "hook": "scales",
+      "decoy": "feathers",
+      "real_word_wolf": "fur",
+      "shuffled_key": "feathers"
+    },
+    "trout": {
+      "truth": "scales",
+      "baked": "scales",
+      "hook": "scales",
+      "decoy": "feathers",
+      "real_word_wolf": "fur",
+      "shuffled_key": "feathers"
+    },
+    "carp": {
+      "truth": "scales",
+      "baked": "scales",
+      "hook": "scales",
+      "decoy": "feathers",
+      "real_word_wolf": "fur",
+      "shuffled_key": "feathers"
+    },
+    "wolf": {
+      "truth": "fur",
+      "baked": "scales",
+      "hook": "scales",
+      "decoy": "feathers",
+      "real_word_wolf": "fur",
+      "shuffled_key": "feathers"
+    },
+    "fox": {
+      "truth": "fur",
+      "baked": "scales",
+      "hook": "fur",
+      "decoy": "feathers",
+      "real_word_wolf": "fur",
+      "shuffled_key": "feathers"
+    },
+    "bear": {
+      "truth": "fur",
+      "baked": "fur",
+      "hook": "fur",
+      "decoy": "feathers",
+      "real_word_wolf": "fur",
+      "shuffled_key": "feathers"
+    },
+    "tiger": {
+      "truth": "fur",
+      "baked": "scales",
+      "hook": "fur",
+      "decoy": "feathers",
+      "real_word_wolf": "fur",
+      "shuffled_key": "feathers"
+    },
+    "rabbit": {
+      "truth": "fur",
+      "baked": "fur",
+      "hook": "fur",
+      "decoy": "feathers",
+      "real_word_wolf": "fur",
+      "shuffled_key": "feathers"
+    },
+    "cat": {
+      "truth": "fur",
+      "baked": "fur",
+      "hook": "fur",
+      "decoy": "feathers",
+      "real_word_wolf": "fur",
+      "shuffled_key": "feathers"
+    }
+  },
+  "verdict_E1": true
+}
