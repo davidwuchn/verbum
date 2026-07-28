@@ -1,0 +1,211 @@
+{
+  "model": "/Users/mwhitford/localai/models/verbum-frameinv/Qwen3-0.6B-f16.gguf",
+  "n_probes": 96,
+  "n_operands": 12,
+  "n_contexts": 8,
+  "chance": 0.083,
+  "majority": 0.083,
+  "read": "last_token l_out (join readout)",
+  "best_layer": 0,
+  "best_loco": 1.0,
+  "null_ceiling": 0.094,
+  "verdict": "SEPARABLE (operand rows addressable -> INSERT slot exists)",
+  "per_layer": [
+    {
+      "layer": 0,
+      "within": 1.0,
+      "loco": 1.0,
+      "loco_shuffled": 0.094,
+      "loco_randfeat": 0.073
+    },
+    {
+      "layer": 1,
+      "within": 1.0,
+      "loco": 1.0,
+      "loco_shuffled": 0.062,
+      "loco_randfeat": 0.052
+    },
+    {
+      "layer": 2,
+      "within": 1.0,
+      "loco": 0.99,
+      "loco_shuffled": 0.01,
+      "loco_randfeat": 0.042
+    },
+    {
+      "layer": 3,
+      "within": 0.938,
+      "loco": 0.927,
+      "loco_shuffled": 0.083,
+      "loco_randfeat": 0.083
+    },
+    {
+      "layer": 4,
+      "within": 0.927,
+      "loco": 0.865,
+      "loco_shuffled": 0.021,
+      "loco_randfeat": 0.062
+    },
+    {
+      "layer": 5,
+      "within": 0.917,
+      "loco": 0.844,
+      "loco_shuffled": 0.083,
+      "loco_randfeat": 0.042
+    },
+    {
+      "layer": 6,
+      "within": 0.823,
+      "loco": 0.656,
+      "loco_shuffled": 0.052,
+      "loco_randfeat": 0.083
+    },
+    {
+      "layer": 7,
+      "within": 0.865,
+      "loco": 0.844,
+      "loco_shuffled": 0.021,
+      "loco_randfeat": 0.073
+    },
+    {
+      "layer": 8,
+      "within": 0.74,
+      "loco": 0.698,
+      "loco_shuffled": 0.052,
+      "loco_randfeat": 0.094
+    },
+    {
+      "layer": 9,
+      "within": 0.729,
+      "loco": 0.771,
+      "loco_shuffled": 0.052,
+      "loco_randfeat": 0.021
+    },
+    {
+      "layer": 10,
+      "within": 0.615,
+      "loco": 0.667,
+      "loco_shuffled": 0.115,
+      "loco_randfeat": 0.115
+    },
+    {
+      "layer": 11,
+      "within": 0.479,
+      "loco": 0.604,
+      "loco_shuffled": 0.062,
+      "loco_randfeat": 0.104
+    },
+    {
+      "layer": 12,
+      "within": 0.469,
+      "loco": 0.542,
+      "loco_shuffled": 0.062,
+      "loco_randfeat": 0.031
+    },
+    {
+      "layer": 13,
+      "within": 0.458,
+      "loco": 0.49,
+      "loco_shuffled": 0.073,
+      "loco_randfeat": 0.073
+    },
+    {
+      "layer": 14,
+      "within": 0.396,
+      "loco": 0.542,
+      "loco_shuffled": 0.083,
+      "loco_randfeat": 0.073
+    },
+    {
+      "layer": 15,
+      "within": 0.74,
+      "loco": 0.792,
+      "loco_shuffled": 0.073,
+      "loco_randfeat": 0.052
+    },
+    {
+      "layer": 16,
+      "within": 0.479,
+      "loco": 0.542,
+      "loco_shuffled": 0.062,
+      "loco_randfeat": 0.062
+    },
+    {
+      "layer": 17,
+      "within": 0.562,
+      "loco": 0.5,
+      "loco_shuffled": 0.083,
+      "loco_randfeat": 0.083
+    },
+    {
+      "layer": 18,
+      "within": 0.531,
+      "loco": 0.5,
+      "loco_shuffled": 0.042,
+      "loco_randfeat": 0.083
+    },
+    {
+      "layer": 19,
+      "within": 0.479,
+      "loco": 0.583,
+      "loco_shuffled": 0.052,
+      "loco_randfeat": 0.104
+    },
+    {
+      "layer": 20,
+      "within": 0.719,
+      "loco": 0.74,
+      "loco_shuffled": 0.062,
+      "loco_randfeat": 0.073
+    },
+    {
+      "layer": 21,
+      "within": 0.667,
+      "loco": 0.646,
+      "loco_shuffled": 0.062,
+      "loco_randfeat": 0.073
+    },
+    {
+      "layer": 22,
+      "within": 0.729,
+      "loco": 0.677,
+      "loco_shuffled": 0.094,
+      "loco_randfeat": 0.146
+    },
+    {
+      "layer": 23,
+      "within": 0.729,
+      "loco": 0.688,
+      "loco_shuffled": 0.073,
+      "loco_randfeat": 0.104
+    },
+    {
+      "layer": 24,
+      "within": 0.823,
+      "loco": 0.771,
+      "loco_shuffled": 0.104,
+      "loco_randfeat": 0.062
+    },
+    {
+      "layer": 25,
+      "within": 1.0,
+      "loco": 0.979,
+      "loco_shuffled": 0.062,
+      "loco_randfeat": 0.062
+    },
+    {
+      "layer": 26,
+      "within": 1.0,
+      "loco": 1.0,
+      "loco_shuffled": 0.052,
+      "loco_randfeat": 0.115
+    },
+    {
+      "layer": 27,
+      "within": 1.0,
+      "loco": 0.979,
+      "loco_shuffled": 0.115,
+      "loco_randfeat": 0.104
+    }
+  ]
+}
