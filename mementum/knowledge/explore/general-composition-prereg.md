@@ -160,10 +160,56 @@ scale**.
   real-word ceiling; optional zone-ablation of L20–21 for causal necessity.
 - Results → `results/ffn-bake/operand-compose-qwen3-0-6b/`.
 
+## Result (s278 — Qwen3-4B, `wrapper/operand_compose.py`, commit 86d2cd9)
+
+**Arm 1 REUSABLE-TERM: SUPPORTED (moderate, null-gated). Arm 2 NOVEL-COMPOSITION: not yet
+tested.** The (h) Arm-1 rung fires — an installed operand composes under *category-
+orthogonal* resident functions well above null — a genuine advance past s277's category-
+swap. But it is moderate, not the clean 1.0 a first (imbalanced) run faked.
+
+### Path to the result
+0.6B was too weak (`fly` 0.57 / `water` 0.43 real-word ceilings — the resident functions
+aren't reliably computed → squish; patchscope-void scar). Moved to **Qwen3-4B** where the
+functions work. A first 4B run (7 entities) read 1.0 across the board, but that was
+**label-imbalance inflation** (random-install null 0.70–0.86, the +0.34 threshold
+unpassable). **Rebalanced to 20 animals** (10 fliers + 10 aquatic, ~50/50 on fly/water/
+size); `cat` dropped so the test is purely category-orthogonal. Random null fell to 0.56.
+
+### Balanced numbers (best scale 2.0, null 0.56)
+| function | reusable acc | content-specificity | ceiling |
+|---|---|---|---|
+| fly | 16/19 = **0.84** | 0.70 | 0.95 |
+| water | 15/18 = **0.83** | 0.70 | 0.90 |
+| size | 11/11 = **1.00** | 1.00 | 0.55 ⚠ |
+
+- Effect is **real and large**: composing the installed operand yields the correct answer
+  ~0.84–1.0 vs **0.56** random/baseline (+31 pts). The pre-registered **decisive
+  discriminator (content-specificity) passes** (avg 0.80 ≫ 0.25 chance for both-directions-
+  correct). The strict accuracy threshold is missed by **0.03** (0.875 vs 0.902) — the bar
+  was set slightly high, not a substantive miss.
+- **All 6 failures are under-flips to the default "no"** (goose/crow/moth fly; salmon/whale/
+  tuna water) = entity-specific **install strength**, not a category error. Scale 4
+  *over-steers* (0.75) → strengthening is not just "steer harder."
+- **`size` is an unreliable function** (ceiling 0.55 — the model itself mis-sizes insects
+  vs a mouse); drop/replace it. On its surviving cells it is perfect.
+
+### Honest edges
+Moderate not perfect; some entities under-flip (install strength, needs a better content
+direction / layer, not more scale); `size` function broken; **Arm 2 (genuine two-hop
+computed-not-stored) is untested** — the size-relational is property-relational and
+ceiling-broken, so the real novel-composition prize is still open. 4B is not scale-final;
+hook-not-weight (gate (f) untouched).
+
+### Checklist move
+Flips **"write DATA / terms the engine composes"** from category-swap-only toward genuine
+category-orthogonal reusability (rung). **"composes ARBITRARY programs"** stays ❌ until the
+Arm-2 two-hop clears. No "programmable compiler" until (h)-Arm2 **and** (f) clear at scale.
+
 ## Status
 
-Pre-registered s278. **NOT RUN** — highest-stakes experiment of the arc; gated on this
-pre-reg surviving a hammock (Michael review). The load-bearing IOU.
+Pre-registered s278; **RUN s278** (0.6B squish → 4B). Arm 1 REUSABLE-TERM supported
+(moderate, null-gated); Arm 2 two-hop novel-composition OPEN. Next: a clean gradeable
+two-hop `f(g(X))`, and/or strengthen the operand direction to fix the under-flips.
 
 ## Sessions
 s273 (K-battery pre-reg sketch, arm a/b), s277 (operand-INSERT arc — category-composition

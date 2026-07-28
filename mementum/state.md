@@ -8,7 +8,30 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-28 | Session: 278 | ▶▶ LIVE PICKUP: P-DSP-1 — DSP-decomposed the
+> Last updated: 2026-07-28 | Session: 278 | ▶▶ LIVE PICKUP: (h) GENERAL-COMPOSITION Arm-1 =
+> REUSABLE-TERM SUPPORTED (moderate, null-gated) on Qwen3-4B (READ
+> explore/general-composition-prereg.md §Result). The load-bearing IOU (s273 K-battery arm b):
+> does the resident routing COMPOSE an installed operand into a novel result, or only categorize?
+> Install a real entity's content d_E on a fixed nonce carrier; test CATEGORY-ORTHOGONAL resident
+> functions. 0.6B = SQUISH (fly/water real-word ceilings 0.57/0.43 — the functions aren't computed;
+> patchscope-void scar → scale up). First 4B run (7 entities) faked 1.0 = label-imbalance inflation
+> (random null 0.70-0.86). REBALANCED 20 animals (10 fliers/10 aquatic, ~50/50 fly/water/size, cat
+> DROPPED): random null → 0.56; reusable acc fly 0.84 (16/19), water 0.83 (15/18), size 1.0 (11/11);
+> content-specificity fly/water 0.70, size 1.0 (chance ~0.25). Decisive content-specificity test
+> PASSES (avg 0.80); strict +0.34 accuracy threshold missed by 0.03 (0.875 vs 0.902 = bar too high,
+> not substantive). Advance past s277 category-swap: same nonce, same category, OPPOSITE fly/water
+> by installed content. CAVEATS: all 6 failures = UNDER-FLIPS to default "no" (entity-specific
+> install strength; scale 4 OVER-steers 0.75 → strengthen via layer/direction NOT scale); size vs-
+> mouse UNRELIABLE (0.55 ceiling); Arm 2 genuine TWO-HOP (computed-not-stored) still OPEN; hook-not-
+> weight; 4B not scale-final. Commits: fc744be pre-reg, 366090e 0.6B squish, 86d2cd9 4B balanced.
+> ⚠ PENDING MICHAEL APPROVAL (mementum): general-composition-prereg §Result + memory
+> (operand-is-a-reusable-term-moderate) + this state block. ▶ NEXT: (a) Arm-2 two-hop f(g(X)) =
+> the real novel-composition prize (design a clean gradeable chain; the size-relational was
+> property-relational + ceiling-broken); (b) strengthen the operand direction to fix under-flips
+> (layer sweep / better content build, NOT scale); (c) gate (f) weight-serialize + R5 quant-survival
+> (still red); (d) cross-scale beyond 4B. Below: s278 P-DSP-1 (retained).
+>
+> (s278 P-DSP-1 retained →) DSP-decomposed the
 > operand injection (READ explore/operand-dsp-decomposition-prereg.md, §Result). Michael s278:
 > SuperBake reverse-engineered the **I combinator** (fact=key→value unchanged=identity; a matched
 > filter IS I; its whole pipeline is I-flavored, no B/C transform). Grounded in A3 register-split
