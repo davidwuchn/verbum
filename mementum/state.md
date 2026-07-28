@@ -8,7 +8,32 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-27 | Session: 275 | ▶▶ LIVE PICKUP: llama.cpp tree-of-VSM WRAPPER read-path
+> Last updated: 2026-07-28 | Session: 277 | ▶▶ LIVE PICKUP: OPERAND-INSERT ARC — the database
+> "INSERT a row" thesis VALIDATED as a research go/no-go on Qwen3-0.6B (READ
+> explore/operand-insert-arc.md + explore/ffn-function-bake-prereg.md). s276 database reframe (Michael):
+> the FFN serves ROWS (operands/facts/type-tags), attention is the JOIN; a combinator = the join-SHAPE =
+> routing (s276 K-STRUCTURAL, un-INSERTable). So you CANNOT INSERT a join but you CAN INSERT an operand
+> ROW. FOUR GATES cleared (wrapper/operand_{map,write,harden,insert}.py + results/ffn-bake/):
+> (1) READABLE — operand rows separable/addressable in the VALUE register (l_out LOCO 0.49-1.0 vs null
+> ~0.05-0.11, context-invariant; join-readout locus L25-27, mirrors s248 late C-field). (2) WRITEABLE —
+> steering d(A→B) flips the composed output, flip 1.00 at L2-20 (MID-STACK not late-only = genuine
+> rewrite, NOT an unembed nudge), random null ~0, B-specific; the OPPOSITE of the s250 C-field
+> (readable-but-causally-inert readout register). (3) HARDENED — dose-responsive (flip 0→0.22→0.72→1.00
+> vs α) on a COMPOSED readout (category map operand→its category, a transform not a copy), cross-task
+> (dir built in declaratives rewrites the category task), B-specific, null-gated. (4) RUNG-1 FIRES — a
+> NOVEL nonce operand INSTALLED as a keyed residual-write row (value=category content, cross-task) is
+> COMPOSED by the RESIDENT join: dose 0.33→0.71→1.00 (scale 0/1/2), 24/24 across 4 HELD-OUT prefixes at
+> scale 2; WRONG-KEY install does NOTHING (0.333 flat = position-keyed composition, not a global logit
+> nudge); random+baseline=chance. = the bake(operand) recursion antecedent's first positive rung.
+> Commits 0b858e7(map) b6297b5(write) a3ebda1(harden) 1d8ea39(insert). HONEST SCOPE: keyed-install hook
+> != weight-serialized bake (R5 quant-survival = the installed-COMPUTE signature, UNTESTED); content is
+> category-level not unique-individual; 2/6 nonces baseline-leaned (the 4 baseline-0 all flipped); 0.6B
+> necessary-not-sufficient (patchscope scar) — a RUNG not the claim. ▶ NEXT: (f) weight-serialize the
+> install → GGUF R5 quant-survival gate; (g) cross-scale 4B replication of write/harden/insert. ⚠ mementum
+> committed this session (state+pre-reg+arc page+memory); refs/ + chats/ + michael/ still untracked
+> (human/reference domains). Below: s275 (retained).
+>
+> (s275 retained →) llama.cpp tree-of-VSM WRAPPER read-path
 > BUILT + FRAME-INVARIANCE CONFIRMED (READ explore/llama-cpp-vsm-wrapper.md §VALIDATED). Pristine
 > attachment works: wrapper/vsm_tap.cpp (public C-API cb_eval tap, llama.cpp UNMODIFIED) → tap_loader.py
 > → opcodes/classify.py. Cross-frame Gram corr mean 0.9997 / min 0.9992 over 28 layers on Qwen3-0.6B

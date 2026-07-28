@@ -1,6 +1,6 @@
 ---
 title: "FFN-function bake — pre-registration: installing a behavioral function as an appended transform-slot"
-status: designing
+status: active
 category: explore
 tags: [superbake, bake, ffn-function, function-vector, k-battery, recursion, register-split,
        circuits-in-compute, llama-cpp-tap, quantization, pre-registration, kernel-certified,
@@ -105,18 +105,22 @@ answer is free and infallible, including for held-out operands.
   signature SHIFT a priori; verify. Proves we can *alter* the compute, not just rename it.
 - Isolates the ACTION half now that Stage 1 fixed the wiring half.
 
-**Stage 3 — a NEW unknown g (only after Stages 1–2 teach the mechanism).**
-- Now invent a genuinely novel function and test whether the same construction installs
-  it. Criteria then: operand-dependent & **non-additive** (fact-form null N1 must fail by
-  construction — else `g` too easy), systematic (generalizes to held-out operands),
-  novel (baseline N4 does not already do it), composable with a resident combinator.
-  Candidate: a novel 2-ary combinator `G x y → (y x)` (C's action, fresh token). This is
-  the s273 K-battery arm (b), mechanized — and it brings in argument-transport, so
-  ablating the added attention tests whether the FFN slot ALONE suffices or the
-  **executor (attention) is load-bearing**.
+**Stage 3 — RETARGETED (s276): `INSERT` a novel operand ROW, not a novel combinator.**
+- The old target (bake a novel combinator `G x y → (y x)`) is baking a **join** — ruled out
+  (see "database reframe": no table to write a combinator into; s276 K-structural).
+- New target: `INSERT` a novel **operand row** `r` (a value/microcode atom) at the slot the
+  Stage-0 map (M1/M3) identifies, and test whether the **resident** combinator routing joins
+  over it correctly on **held-out** contexts. Criteria: the row is addressable (M3 passed),
+  the resident join composes it (R4 with a *resident* combinator, not an installed one),
+  it generalizes to held-out join-contexts (R3, not a memorized single-context lookup), and
+  it survives quant like the crystal (R5). This is the s273 K-battery arm (b) — "compose an
+  inserted operand with the resident crystal; any success = recursion rung 1" — mechanized.
+- **Executor-necessity branch:** because the join is the resident attention routing, ablating
+  that routing (not the row) tests whether the inserted row ALONE does nothing without the
+  resident executor — i.e. that attention EXECUTES is load-bearing (Michael's model).
 
-Each stage GATES the next. The registers/nulls/verdict below apply at every stage; the
-"executor necessity" branch is decided at Stage 3 (binary).
+Each stage GATES the next: Stage 0 map → (M3 pass) → Stage 3 `INSERT`. The registers/nulls/
+verdict below apply at every stage; the "executor necessity" branch is decided at Stage 3.
 
 ### Stage-1 OUTCOME (s275) — the symbolic anchor failed; K is STRUCTURAL, both scales
 
@@ -140,6 +144,57 @@ static-slot bake are ruled out for a combinator: there is nothing local to renam
 structural K composes (path ii), not the operation. This RE-POINTS the experiment at
 Stage 3's operand target directly (skip the rename); the executor-necessity question
 is now the whole question.
+
+## The database reframe (s276) — rows vs joins; retargets Stage 3
+
+Session 276 (Michael, this thread) crystallized the mechanism in database language and it
+**retargets Stage 3**:
+
+- The FFN serves **rows** — per-position operand/value/type-tag records (`mode-semantics`
+  type tags; `ffn-reduction-trace` compiled values; `ffn-circuit-types` LARQL KV geometry).
+  Rows are local, addressable, and **`INSERT`-able** (this is what SuperBake writes: a fact
+  is a row).
+- Attention's β-reduction is a **join** — a softmax-weighted aggregation *over* selected
+  rows. The **combinator (K/I/B/C) is the shape of the join**, and join-shapes live in the
+  **routing / query-plan** (s274 circuits-in-compute), not in any row.
+- ⇒ **You can `INSERT` a row; you cannot `INSERT` a join.** There is no table to write a
+  combinator into (s276 K-structural: no token/expert/slot anchor). The old Stage-3 target
+  ("bake a novel combinator `G x y → (y x)`") is baking a **join** and is ruled out for the
+  same reason the rename was.
+
+**The surviving door (the only one):** `INSERT` a new **operand row** that the *resident*
+combinator routing already knows how to join over — rung 1 of the recursion tower
+(`bake(operand)`, s273: "don't bake S, bake operands the KIBC routing composes"). Stage 3 is
+retargeted from CREATE-FUNCTION to `INSERT INTO`.
+
+### Precondition (already half-proven)
+
+For an inserted row to be composed, the resident join must be **operand-agnostic** (run over
+*whatever* row is delivered, not a memorized operation⊗operand fusion). Evidence in hand:
+s276 (K fires structurally, operand-independent — no operand fused into the routing) +
+s248–252 C-field (output covaries with the operand: z(C) grades with object count → the
+join's result already tracks the delivered row). So the join is operand-agnostic and outputs
+covary; the untested piece is **can we add a row to the table and have the resident join pick
+it up.**
+
+### Stage 0 — the operand-insertion MAP (pre-flight READ; cheapest gate)
+
+Before any `INSERT`, build the reconnaissance an insert requires — the map that says *where*
+a row lives and *whether there is a separable slot to write into*. Never done: the
+FFN-database reads located type tags and compiled values but never asked "here is the
+addressable slot operand-X sits in." Pure read on resident Qwen3-0.6B via the s275 tap
+(cheap, no heavy job, MIT-clean).
+
+| id | question | register (`λ measure`) | readout | null |
+|----|----------|------------------------|---------|------|
+| M1 | which layer carries operand-X's row? | **value** | operand-identity signal in `l_out` per layer | matched-random dir |
+| M2 | what key retrieves it? | **routing** | gate sign-CMR / QK at the operand read-position | shuffled key |
+| M3 | is the row **separable/addressable** or superposed? | **value** | linear operand-id decodability at the read-layer vs nulls | shuffled-label + matched-random-dir |
+
+**M3 is load-bearing.** Operand rows separable above null → a slot exists to `INSERT` into →
+operand-bake viable. Rows superposed like the join (at null) → even the *row* is holographic
+and the bake premise weakens. Register-honest: the ROW is a VALUE-register claim (s206 scar);
+read it with a value probe, not attention weights.
 
 ## Bake mechanism (provenance-clean)
 
@@ -223,10 +278,26 @@ the 6 nulls, register readouts via the tap + capture, verdict harness, `results/
 JSON with every register-vs-null number. The tap built s275 is the readout; the
 kernel is the free oracle; the frame-invariance result licenses HF↔GGUF equivalence.
 
+## Results (s277) — the arc RAN and PASSED at 0.6B
+
+Full synthesis: `explore/operand-insert-arc.md`. Four gates on Qwen3-0.6B, each null-gated:
+
+| gate | instrument | verdict | headline (vs null) |
+|---|---|---|---|
+| M3 readable | `wrapper/operand_map.py` | **SEPARABLE** | operand-id LOCO 0.49–1.0 vs null ~0.05–0.11; join-readout L25–27 |
+| (b) writeable | `wrapper/operand_write.py` | **WRITEABLE** | steer flips 1.00 @ L2–20 (mid-stack), random ~0, B-specific |
+| (d) hardened | `wrapper/operand_harden.py` | **HARDENED** | dose 0→0.22→0.72→1.00; COMPOSED (category) + cross-task |
+| (c) `INSERT` | `wrapper/operand_insert.py` | **INSTALLED-COMPOSED** | novel nonce, keyed: dose 0.33→0.71→1.00, 24/24 held-out; wrong-key 0.333 flat |
+
+Net: **you cannot `INSERT` a join (s276 K-structural) but you CAN `INSERT` an operand ROW and
+the resident routing composes it** — rung 1 of `bake(operand)` fires. Commits
+0b858e7 / b6297b5 / a3ebda1 / 1d8ea39. Honest scope: keyed-install hook ≠ weight-serialized
+bake (R5 quant UNTESTED); category-level content; 0.6B necessary-not-sufficient.
+
 ## Next step
 
-Michael hammock on this pre-reg (registers/nulls/verdict + the staged known→one-change
-design). On approval → **Stage 1** only: characterize resident `K`'s tap signature,
-confirm `K̃` is inert un-baked, then hand-construct the rename slot and check it
-reproduces the KNOWN K signature + NF on fresh pairs. That single result decides whether
-the hand-construction strategy works at all before any further investment.
+Stage 1/2 SUBSUMED (s276: no join to write); Stage 0 (map) + Stage 3 (`INSERT`) RAN and
+passed (above). The live path is now: **(f) weight-serialize the keyed install** → GGUF →
+the R5 quant-survival gate (does the installed operand survive int4 like the crystal, or is
+it quant-fragile like a baked fact? — the installed-vs-learned discriminator); and **(g)
+cross-scale** the write/harden/insert on 4B before any strong claim (patchscope-void scar).
