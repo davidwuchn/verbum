@@ -1,0 +1,812 @@
+{
+  "model": "Qwen/Qwen3-4B",
+  "device": "mps",
+  "layer": 9,
+  "nonce": "zorp",
+  "entities": {
+    "eagle": {
+      "fly": "yes",
+      "water": "no",
+      "size": "bigger"
+    },
+    "hawk": {
+      "fly": "yes",
+      "water": "no",
+      "size": "bigger"
+    },
+    "owl": {
+      "fly": "yes",
+      "water": "no",
+      "size": "bigger"
+    },
+    "goose": {
+      "fly": "yes",
+      "water": "no",
+      "size": "bigger"
+    },
+    "crow": {
+      "fly": "yes",
+      "water": "no",
+      "size": "bigger"
+    },
+    "bee": {
+      "fly": "yes",
+      "water": "no",
+      "size": "smaller"
+    },
+    "moth": {
+      "fly": "yes",
+      "water": "no",
+      "size": "smaller"
+    },
+    "dragonfly": {
+      "fly": "yes",
+      "water": "no",
+      "size": "smaller"
+    },
+    "wasp": {
+      "fly": "yes",
+      "water": "no",
+      "size": "smaller"
+    },
+    "butterfly": {
+      "fly": "yes",
+      "water": "no",
+      "size": "smaller"
+    },
+    "salmon": {
+      "fly": "no",
+      "water": "yes",
+      "size": "bigger"
+    },
+    "shark": {
+      "fly": "no",
+      "water": "yes",
+      "size": "bigger"
+    },
+    "whale": {
+      "fly": "no",
+      "water": "yes",
+      "size": "bigger"
+    },
+    "dolphin": {
+      "fly": "no",
+      "water": "yes",
+      "size": "bigger"
+    },
+    "tuna": {
+      "fly": "no",
+      "water": "yes",
+      "size": "bigger"
+    },
+    "frog": {
+      "fly": "no",
+      "water": "yes",
+      "size": "smaller"
+    },
+    "crab": {
+      "fly": "no",
+      "water": "yes",
+      "size": "smaller"
+    },
+    "shrimp": {
+      "fly": "no",
+      "water": "yes",
+      "size": "smaller"
+    },
+    "minnow": {
+      "fly": "no",
+      "water": "yes",
+      "size": "smaller"
+    },
+    "seahorse": {
+      "fly": "no",
+      "water": "yes",
+      "size": "smaller"
+    }
+  },
+  "ceiling_rate": {
+    "fly": 0.95,
+    "water": 0.9,
+    "size": 0.55
+  },
+  "ceiling": {
+    "fly": {
+      "eagle": 1,
+      "hawk": 1,
+      "owl": 1,
+      "goose": 1,
+      "crow": 1,
+      "bee": 1,
+      "moth": 1,
+      "dragonfly": 1,
+      "wasp": 1,
+      "butterfly": 1,
+      "salmon": 1,
+      "shark": 1,
+      "whale": 1,
+      "dolphin": 1,
+      "tuna": 1,
+      "frog": 1,
+      "crab": 1,
+      "shrimp": 1,
+      "minnow": 0,
+      "seahorse": 1
+    },
+    "water": {
+      "eagle": 1,
+      "hawk": 1,
+      "owl": 1,
+      "goose": 0,
+      "crow": 1,
+      "bee": 1,
+      "moth": 1,
+      "dragonfly": 0,
+      "wasp": 1,
+      "butterfly": 1,
+      "salmon": 1,
+      "shark": 1,
+      "whale": 1,
+      "dolphin": 1,
+      "tuna": 1,
+      "frog": 1,
+      "crab": 1,
+      "shrimp": 1,
+      "minnow": 1,
+      "seahorse": 1
+    },
+    "size": {
+      "eagle": 1,
+      "hawk": 1,
+      "owl": 1,
+      "goose": 1,
+      "crow": 1,
+      "bee": 0,
+      "moth": 0,
+      "dragonfly": 0,
+      "wasp": 0,
+      "butterfly": 0,
+      "salmon": 1,
+      "shark": 1,
+      "whale": 1,
+      "dolphin": 1,
+      "tuna": 1,
+      "frog": 0,
+      "crab": 0,
+      "shrimp": 0,
+      "minnow": 1,
+      "seahorse": 0
+    }
+  },
+  "baseline_acc": 0.562,
+  "content_specificity": {
+    "fly": 0.7,
+    "water": 0.7,
+    "size": 1.0
+  },
+  "results": {
+    "scales": {
+      "2.0": {
+        "arm1_reusable_acc": 0.875,
+        "arm1_random_null": 0.562,
+        "arm1_n": 48,
+        "arm2_size_acc": 1.0,
+        "arm2_random_null": 0.909,
+        "arm2_n": 11,
+        "arm1_cells": {
+          "eagle/fly": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "eagle/water": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "eagle/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "hawk/fly": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "hawk/water": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "hawk/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "owl/fly": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "owl/water": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "owl/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "goose/fly": {
+            "pred": "no",
+            "truth": "yes",
+            "ok": 0
+          },
+          "goose/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "crow/fly": {
+            "pred": "no",
+            "truth": "yes",
+            "ok": 0
+          },
+          "crow/water": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "crow/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "bee/fly": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "bee/water": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "moth/fly": {
+            "pred": "no",
+            "truth": "yes",
+            "ok": 0
+          },
+          "moth/water": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "dragonfly/fly": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "wasp/fly": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "wasp/water": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "butterfly/fly": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "butterfly/water": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "salmon/fly": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "salmon/water": {
+            "pred": "no",
+            "truth": "yes",
+            "ok": 0
+          },
+          "salmon/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "shark/fly": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "shark/water": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "shark/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "whale/fly": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "whale/water": {
+            "pred": "no",
+            "truth": "yes",
+            "ok": 0
+          },
+          "whale/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "dolphin/fly": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "dolphin/water": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "dolphin/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "tuna/fly": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "tuna/water": {
+            "pred": "no",
+            "truth": "yes",
+            "ok": 0
+          },
+          "tuna/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "frog/fly": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "frog/water": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "crab/fly": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "crab/water": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "shrimp/fly": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "shrimp/water": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "minnow/water": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "minnow/size": {
+            "pred": "smaller",
+            "truth": "smaller",
+            "ok": 1
+          },
+          "seahorse/fly": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "seahorse/water": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          }
+        },
+        "arm2_cells": {
+          "eagle/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "hawk/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "owl/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "goose/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "crow/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "salmon/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "shark/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "whale/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "dolphin/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "tuna/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "minnow/size": {
+            "pred": "smaller",
+            "truth": "smaller",
+            "ok": 1
+          }
+        }
+      },
+      "4.0": {
+        "arm1_reusable_acc": 0.75,
+        "arm1_random_null": 0.542,
+        "arm1_n": 48,
+        "arm2_size_acc": 0.909,
+        "arm2_random_null": 0.909,
+        "arm2_n": 11,
+        "arm1_cells": {
+          "eagle/fly": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "eagle/water": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "eagle/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "hawk/fly": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "hawk/water": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "hawk/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "owl/fly": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "owl/water": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "owl/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "goose/fly": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "goose/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "crow/fly": {
+            "pred": "no",
+            "truth": "yes",
+            "ok": 0
+          },
+          "crow/water": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "crow/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "bee/fly": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "bee/water": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "moth/fly": {
+            "pred": "no",
+            "truth": "yes",
+            "ok": 0
+          },
+          "moth/water": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "dragonfly/fly": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "wasp/fly": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "wasp/water": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "butterfly/fly": {
+            "pred": "no",
+            "truth": "yes",
+            "ok": 0
+          },
+          "butterfly/water": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "salmon/fly": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "salmon/water": {
+            "pred": "no",
+            "truth": "yes",
+            "ok": 0
+          },
+          "salmon/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "shark/fly": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "shark/water": {
+            "pred": "no",
+            "truth": "yes",
+            "ok": 0
+          },
+          "shark/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "whale/fly": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "whale/water": {
+            "pred": "no",
+            "truth": "yes",
+            "ok": 0
+          },
+          "whale/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "dolphin/fly": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "dolphin/water": {
+            "pred": "no",
+            "truth": "yes",
+            "ok": 0
+          },
+          "dolphin/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "tuna/fly": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "tuna/water": {
+            "pred": "no",
+            "truth": "yes",
+            "ok": 0
+          },
+          "tuna/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "frog/fly": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "frog/water": {
+            "pred": "no",
+            "truth": "yes",
+            "ok": 0
+          },
+          "crab/fly": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "crab/water": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "shrimp/fly": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "shrimp/water": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "minnow/water": {
+            "pred": "no",
+            "truth": "yes",
+            "ok": 0
+          },
+          "minnow/size": {
+            "pred": "bigger",
+            "truth": "smaller",
+            "ok": 0
+          },
+          "seahorse/fly": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "seahorse/water": {
+            "pred": "no",
+            "truth": "yes",
+            "ok": 0
+          }
+        },
+        "arm2_cells": {
+          "eagle/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "hawk/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "owl/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "goose/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "crow/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "salmon/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "shark/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "whale/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "dolphin/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "tuna/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "minnow/size": {
+            "pred": "bigger",
+            "truth": "smaller",
+            "ok": 0
+          }
+        }
+      }
+    }
+  },
+  "verdicts": {
+    "REUSABLE_TERM": false,
+    "NOVEL_COMPOSITION": false,
+    "arm1_content_specificity": 0.8,
+    "baseline_acc": 0.562,
+    "best_scale": 2.0
+  }
+}

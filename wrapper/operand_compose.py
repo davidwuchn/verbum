@@ -30,15 +30,33 @@ import numpy as np
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-# entity → resident-function ground truth (real-word answers a 0.6B should know)
+# entity → resident-function ground truth. BALANCED set (s278 rerun): 10 fliers + 10
+# aquatic animals, ~50/50 on fly / water / size, so the random-install null → chance.
+# `cat` dropped (all animals now): the reusable-term test uses only CATEGORY-ORTHOGONAL
+# functions (can-fly / lives-in-water / size) — stronger than re-showing category-swap.
 ENT = {
-    "eagle": {"cat": "animal", "fly": "yes", "water": "no", "size": "bigger"},
-    "salmon": {"cat": "animal", "fly": "no", "water": "yes", "size": "bigger"},
-    "whale": {"cat": "animal", "fly": "no", "water": "yes", "size": "bigger"},
-    "shark": {"cat": "animal", "fly": "no", "water": "yes", "size": "bigger"},
-    "car": {"cat": "vehicle", "fly": "no", "water": "no", "size": "bigger"},
-    "truck": {"cat": "vehicle", "fly": "no", "water": "no", "size": "bigger"},
-    "ant": {"cat": "animal", "fly": "no", "water": "no", "size": "smaller"},
+    # fliers (fly=yes, water=no) — 5 bigger, 5 smaller than a mouse
+    "eagle": {"fly": "yes", "water": "no", "size": "bigger"},
+    "hawk": {"fly": "yes", "water": "no", "size": "bigger"},
+    "owl": {"fly": "yes", "water": "no", "size": "bigger"},
+    "goose": {"fly": "yes", "water": "no", "size": "bigger"},
+    "crow": {"fly": "yes", "water": "no", "size": "bigger"},
+    "bee": {"fly": "yes", "water": "no", "size": "smaller"},
+    "moth": {"fly": "yes", "water": "no", "size": "smaller"},
+    "dragonfly": {"fly": "yes", "water": "no", "size": "smaller"},
+    "wasp": {"fly": "yes", "water": "no", "size": "smaller"},
+    "butterfly": {"fly": "yes", "water": "no", "size": "smaller"},
+    # aquatic (fly=no, water=yes) — 5 bigger, 5 smaller
+    "salmon": {"fly": "no", "water": "yes", "size": "bigger"},
+    "shark": {"fly": "no", "water": "yes", "size": "bigger"},
+    "whale": {"fly": "no", "water": "yes", "size": "bigger"},
+    "dolphin": {"fly": "no", "water": "yes", "size": "bigger"},
+    "tuna": {"fly": "no", "water": "yes", "size": "bigger"},
+    "frog": {"fly": "no", "water": "yes", "size": "smaller"},
+    "crab": {"fly": "no", "water": "yes", "size": "smaller"},
+    "shrimp": {"fly": "no", "water": "yes", "size": "smaller"},
+    "minnow": {"fly": "no", "water": "yes", "size": "smaller"},
+    "seahorse": {"fly": "no", "water": "yes", "size": "smaller"},
 }
 ENTS = list(ENT)
 NONCE = "zorp"
@@ -46,11 +64,6 @@ NONCE = "zorp"
 # resident functions: held-out few-shot prefixes (exemplars disjoint from ENT test set),
 # a query template with {x}, and the label vocabulary (read the next token).
 FUNCS = {
-    "cat": {
-        "labels": ["animal", "vehicle"],
-        "prefixes": ["dog: animal\nbus: vehicle\n", "cow: animal\njet: vehicle\n"],
-        "query": "{x}:",
-    },
     "fly": {
         "labels": ["yes", "no"],
         "prefixes": ["Can a bird fly? yes\nCan a dog fly? no\n",
@@ -71,7 +84,7 @@ FUNCS = {
         "query": "A {x} is",
     },
 }
-ARM1 = ["cat", "fly", "water"]
+ARM1 = ["fly", "water", "size"]   # three category-orthogonal balanced functions
 FRAMES = [("The farmer", "saw"), ("The child", "drew"), ("The hunter", "tracked"),
           ("A woman", "bought"), ("The boy", "chased"), ("A man", "found"),
           ("The girl", "wanted"), ("The old sailor", "watched")]
@@ -102,6 +115,7 @@ def main() -> None:
     ap.add_argument("--model-id", default="Qwen/Qwen3-0.6B")
     ap.add_argument("--layer", type=int, default=7)
     ap.add_argument("--scales", type=float, nargs="+", default=[2.0, 4.0])
+    ap.add_argument("--dtype", default="float32", choices=["float32", "bfloat16"])
     ap.add_argument("--device", default="mps")
     ap.add_argument("--out", default="results/ffn-bake/operand-compose-qwen3-0-6b")
     args = ap.parse_args()
@@ -112,7 +126,7 @@ def main() -> None:
     rng = np.random.default_rng(0)
     tok = AutoTokenizer.from_pretrained(args.model_id)
     model = AutoModelForCausalLM.from_pretrained(
-        args.model_id, dtype=torch.float32).to(dev).eval()
+        args.model_id, dtype=getattr(torch, args.dtype)).to(dev).eval()
     dec = model.model.layers
     lab_ids = {f: {lb: tid(tok, lb) for lb in FUNCS[f]["labels"]} for f in FUNCS}
     nonce_last = tok(" " + NONCE, add_special_tokens=False).input_ids[-1]
