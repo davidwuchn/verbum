@@ -449,10 +449,37 @@ Three findings:
    where native covering doesn't = **the installed-vs-learned discriminator**, and it must be the
    actual **baked operand (f2)** to show at 4B. Commit `f0` code+results this session.
 
+### f1 Result (s279 — `wrapper/operand_bake.py`, Qwen3-4B) — E1 PASS
+
+**E1 WEIGHT-SERIALIZED = True.** The operand graduates hook → **weights**: ONE appended MLP
+recognition neuron at layer L, built with the SuperBake §6 bias-free fix (key **⟂ carrier** so
+`x·k ≡ (x−μ)·k` → silu knee at the population mean, no bias; `gate=up` → `silu(z)·z`, ρ²
+selectivity), `down_col = scale·d_E`. **No runtime hook.**
+
+| metric | value | note |
+|---|---|---|
+| baked composition acc | **0.824** | agrees with the hook on **15/17** |
+| hook acc (reference) | 0.941 | the 2 disagreements = the mammal→fur weak cell |
+| shuffled-key null (N7) | 0.353 | = chance (scrambled key → slot inert) |
+| decoy nonce ("blorf") | **inert** | slot never fires; stays at baseline |
+| real-word ("wolf") | **unharmed** | stays "fur" (slot does not corrupt real tokens) |
+
+The operand now **lives in the weights** and composes **selectively** (nonce-specific, decoy
+inert, real words unharmed) — the hook→weight graduation. The append mechanics de-risked at
+0.6B (squish there: even the hook fails to compose, but **baked tracks hook**, confirming
+equivalence of the mechanism). **Key calibration bug found+fixed:** the payload must be
+`scale·d_E` (not `d_E`) to match the hook dose (under-dose → 0.647; correct dose → 0.824).
+
+**Honest edges:** in-memory weight edit (uniform-`E` expansion + `save()` a stock checkpoint =
+the f2/f3 prerequisite for the quant reads); the mammal→fur weak cell is **inherited** from the
+content direction (not a bake artifact, same as the s279 layersweep); 4B; one operand at a time.
+
 ### Status
 
 Reframed s279 (**hammock A confirmed**): R5 = routing-topology measurement + ternary-mirror
 robustification (not a bnb int8/int4 bar). **f0 RAN** (Fact 1 confirmed register-clean; margin
-is a value confound; redundancy-gating ⇒ f2 needed to see 4B fragility). `bnb int8/int4` demoted
-to a cross-check; RTN-Q4 is the portable primary. **Next: f1** (E1 weight-serialize equivalence)
-→ f2 (baked-operand Q4 fragility as a routing change) → f3 (ternary-mirror robustify).
+is a value confound; redundancy-gating ⇒ f2 needed to see 4B fragility). **f1 RAN — E1 PASS**
+(operand weight-serialized as an appended MLP slot; baked 0.824 ≈ hook, nonce-specific).
+`bnb int8/int4` demoted to a cross-check; RTN-Q4 is the portable primary. **Next: f2**
+(save the baked checkpoint → RTN-Q4 → does the baked operand flip *as a routing change*, more
+than the redundant native covering?) → **f3** (ternary-mirror robustify = the shipping artifact).

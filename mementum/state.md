@@ -49,11 +49,21 @@
 > sign flip, NOT margin (λ measure lesson). ⚠ REDUNDANCY-GATING: easy LEARNED covering is Q4-
 > invariant at 4B (acc 1.0, flip 0) though re-route fires → Q4 fragility needs a NON-REDUNDANT
 > target = the installed operand (this IS why installed-vs-learned discriminator works; f2 bake
-> required to see 4B fragility). ⚠ PENDING MICHAEL APPROVAL (mementum): ffn-function-bake-prereg.md
-> (§Stage-f reframe + f0 §Result), memory (q4-reroutes-routing-register), this state block. ▶ NEXT:
-> f1 = E1 weight-serialize (hook→appended slot equivalence, the cheap go/no-go) → f2 (baked-operand
-> Q4 fragility as a routing change) → f3 (ternary-mirror robustify = the ships artifact). Also still
-> open from (a): (a2) fur/mammal content-build (layer ruled out s279 layersweep); (c) 27B; (d) 3-hop.
+> required to see 4B fragility). ✅ f1 DONE — E1 WEIGHT-SERIALIZED = True (wrapper/operand_bake.py,
+> 4B; code+results committed autonomous): operand graduates hook→WEIGHTS as ONE appended MLP
+> recognition neuron (SuperBake §6 bias-free fix: key ⟂ carrier → silu knee at the mean, no bias;
+> gate=up → silu(z)·z ρ²-selectivity; down_col=scale·d_E; NO runtime hook). baked covering 0.824 ≈
+> hook 0.941 (AGREES 15/17; the 2 disagreements = the mammal→fur weak cell inherited from the
+> content direction, not a bake artifact). NONCE-SPECIFIC: shuffled-key 0.353=chance, decoy "blorf"
+> INERT (never fires), real-word "wolf" UNHARMED. Bug found+fixed: payload must be scale·d_E not d_E
+> (under-dose 0.647→0.824). The operand now LIVES IN THE WEIGHTS and composes selectively. Scope:
+> in-memory edit (uniform-E expand + save stock ckpt = f2/f3 prereq); 0.6B squish (baked tracks hook
+> = mechanism-equivalent). ⚠ PENDING MICHAEL APPROVAL (mementum): ffn-function-bake-prereg.md
+> (§Stage-f reframe + f0 §Result + f1 §Result), memories (q4-reroutes-routing-register,
+> operand-weight-serialized-appended-slot), this state block. ▶ NEXT: f2 = save the baked ckpt →
+> RTN-Q4 → does the baked operand flip AS A ROUTING CHANGE (more than the redundant native
+> covering)? → f3 (ternary-mirror robustify = the ships artifact). Also open from (a): (a2) fur/mammal
+> content-build (layer ruled out s279 layersweep); (c) 27B; (d) 3-hop.
 >
 > (s278 header retained →) ▶▶ (h) GENERAL-COMPOSITION — BOTH RUNGS
 > FIRE at Qwen3-4B (READ explore/general-composition-prereg.md §Result). Arm-1 REUSABLE-TERM
