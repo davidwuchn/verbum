@@ -1,0 +1,336 @@
+{
+  "model": "Qwen/Qwen3-0.6B",
+  "device": "mps",
+  "layer": 7,
+  "nonce": "zorp",
+  "entities": {
+    "eagle": {
+      "cat": "animal",
+      "fly": "yes",
+      "water": "no",
+      "size": "bigger"
+    },
+    "salmon": {
+      "cat": "animal",
+      "fly": "no",
+      "water": "yes",
+      "size": "bigger"
+    },
+    "whale": {
+      "cat": "animal",
+      "fly": "no",
+      "water": "yes",
+      "size": "bigger"
+    },
+    "shark": {
+      "cat": "animal",
+      "fly": "no",
+      "water": "yes",
+      "size": "bigger"
+    },
+    "car": {
+      "cat": "vehicle",
+      "fly": "no",
+      "water": "no",
+      "size": "bigger"
+    },
+    "truck": {
+      "cat": "vehicle",
+      "fly": "no",
+      "water": "no",
+      "size": "bigger"
+    },
+    "ant": {
+      "cat": "animal",
+      "fly": "no",
+      "water": "no",
+      "size": "smaller"
+    }
+  },
+  "ceiling_rate": {
+    "cat": 1.0,
+    "fly": 0.571,
+    "water": 0.429,
+    "size": 0.857
+  },
+  "ceiling": {
+    "cat": {
+      "eagle": 1,
+      "salmon": 1,
+      "whale": 1,
+      "shark": 1,
+      "car": 1,
+      "truck": 1,
+      "ant": 1
+    },
+    "fly": {
+      "eagle": 1,
+      "salmon": 1,
+      "whale": 0,
+      "shark": 0,
+      "car": 1,
+      "truck": 1,
+      "ant": 0
+    },
+    "water": {
+      "eagle": 0,
+      "salmon": 1,
+      "whale": 1,
+      "shark": 1,
+      "car": 0,
+      "truck": 0,
+      "ant": 0
+    },
+    "size": {
+      "eagle": 1,
+      "salmon": 1,
+      "whale": 1,
+      "shark": 1,
+      "car": 1,
+      "truck": 1,
+      "ant": 0
+    }
+  },
+  "baseline_acc": 0.75,
+  "content_specificity": {
+    "cat": 1.0,
+    "fly": 0.667,
+    "water": null,
+    "size": null
+  },
+  "results": {
+    "scales": {
+      "2.0": {
+        "arm1_reusable_acc": 0.929,
+        "arm1_random_null": 0.714,
+        "arm1_n": 14,
+        "arm2_size_acc": 0.667,
+        "arm2_random_null": 0.667,
+        "arm2_n": 6,
+        "arm1_cells": {
+          "eagle/cat": {
+            "pred": "animal",
+            "truth": "animal",
+            "ok": 1
+          },
+          "eagle/fly": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "salmon/cat": {
+            "pred": "animal",
+            "truth": "animal",
+            "ok": 1
+          },
+          "salmon/fly": {
+            "pred": "yes",
+            "truth": "no",
+            "ok": 0
+          },
+          "salmon/water": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "whale/cat": {
+            "pred": "animal",
+            "truth": "animal",
+            "ok": 1
+          },
+          "whale/water": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "shark/cat": {
+            "pred": "animal",
+            "truth": "animal",
+            "ok": 1
+          },
+          "shark/water": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "car/cat": {
+            "pred": "vehicle",
+            "truth": "vehicle",
+            "ok": 1
+          },
+          "car/fly": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "truck/cat": {
+            "pred": "vehicle",
+            "truth": "vehicle",
+            "ok": 1
+          },
+          "truck/fly": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "ant/cat": {
+            "pred": "animal",
+            "truth": "animal",
+            "ok": 1
+          }
+        },
+        "arm2_cells": {
+          "eagle/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "salmon/size": {
+            "pred": "smaller",
+            "truth": "bigger",
+            "ok": 0
+          },
+          "whale/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "shark/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "car/size": {
+            "pred": "smaller",
+            "truth": "bigger",
+            "ok": 0
+          },
+          "truck/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          }
+        }
+      },
+      "4.0": {
+        "arm1_reusable_acc": 0.929,
+        "arm1_random_null": 0.714,
+        "arm1_n": 14,
+        "arm2_size_acc": 1.0,
+        "arm2_random_null": 0.833,
+        "arm2_n": 6,
+        "arm1_cells": {
+          "eagle/cat": {
+            "pred": "animal",
+            "truth": "animal",
+            "ok": 1
+          },
+          "eagle/fly": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "salmon/cat": {
+            "pred": "animal",
+            "truth": "animal",
+            "ok": 1
+          },
+          "salmon/fly": {
+            "pred": "yes",
+            "truth": "no",
+            "ok": 0
+          },
+          "salmon/water": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "whale/cat": {
+            "pred": "animal",
+            "truth": "animal",
+            "ok": 1
+          },
+          "whale/water": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "shark/cat": {
+            "pred": "animal",
+            "truth": "animal",
+            "ok": 1
+          },
+          "shark/water": {
+            "pred": "yes",
+            "truth": "yes",
+            "ok": 1
+          },
+          "car/cat": {
+            "pred": "vehicle",
+            "truth": "vehicle",
+            "ok": 1
+          },
+          "car/fly": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "truck/cat": {
+            "pred": "vehicle",
+            "truth": "vehicle",
+            "ok": 1
+          },
+          "truck/fly": {
+            "pred": "no",
+            "truth": "no",
+            "ok": 1
+          },
+          "ant/cat": {
+            "pred": "animal",
+            "truth": "animal",
+            "ok": 1
+          }
+        },
+        "arm2_cells": {
+          "eagle/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "salmon/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "whale/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "shark/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "car/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          },
+          "truck/size": {
+            "pred": "bigger",
+            "truth": "bigger",
+            "ok": 1
+          }
+        }
+      }
+    }
+  },
+  "verdicts": {
+    "REUSABLE_TERM": false,
+    "NOVEL_COMPOSITION": false,
+    "arm1_content_specificity": 0.834,
+    "baseline_acc": 0.75,
+    "best_scale": 2.0
+  }
+}
