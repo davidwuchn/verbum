@@ -4,8 +4,10 @@ status: active
 category: explore
 tags: [types, beta-reduction, combinators, KIBC, CCG, montague, lambek, discocat,
        curry-howard, well-formedness, S-combinator, B-combinator, functor-kind,
-       type-check, compiler, P-TYPE-1, P-TYPE-1b, C1, C2, C9, s282]
+       type-check, compiler, P-TYPE-1, P-TYPE-1b, P-TYPE-1c, dark-field, holography,
+       beamformer, C1, C2, C9, s282, s283]
 related:
+  - beamformer-theory.md
   - type-is-decodable-readout-not-causal-direction.md
   - opcodes-circuits-in-compute.md
   - montague-inversion.md
@@ -293,6 +295,85 @@ The negative confirms the frame. The REPL is unaffected: decode-verify-swap
 needs only *us* to read the ledger (Print/type-checker side), not the machine
 to consult it. Successor experiment: **P-HOF-1** (§Consequence below).
 
+## Holographic reading — the amplification is dark-field contrast (s283b discussion, Michael)
+
+> Frame: s136 `beamformer-theory.md` + `holographic-plates.md`. Beam = attention/routing
+> (the inference pattern); gemstone = the frozen weights (the cut, the KIBC facet
+> geometry); value register = the illuminated MEDIUM the beam traverses.
+
+Every 1b result lands naturally in this frame:
+
+1. **Generic graceful degradation = holographic damage.** Scratching a hologram dims
+   everything, deletes nothing local. No class-selective breakage at any dose; 32B
+   role-slice recall survives ~1000 E/tok (bigger plate, more redundancy). The *storage*
+   prediction failed because holograms do not store locally.
+2. **retQ amplification = dark-field contrast.** Q_eff/M_eff are CONTRAST measures
+   (surprisal differences), not amplitudes. If licensing rides the BEAM and the value
+   register is the medium, dimming the medium is *background subtraction*: haze is removed
+   faster than signal → contrast RISES. Dark-field microscopy: block the direct light,
+   the scattered signal jumps out. The amplification is therefore an independent
+   signature that the signal is in the beam, not the medium — it CORROBORATES exhaust.
+3. **The 4B M_eff unmasking is the same phenomenon** (t 0.6→5.5 under gentle lattice
+   dampening, random does not) — dark-field seen once already, at the other scale.
+
+**The hint (s283b, POST-HOC — hypothesis-generation ONLY, cannot count as a finding).**
+Fit a generic contrast-gain law g(E) from the random condition (log-realized-energy
+interpolation) and compute per-condition residuals at matched energy. At d4:
+bind ΔQ = **−0.283** (ΔM +0.232); comp ΔM = **+0.669** (ΔQ +0.031); rolenull ≈ 0 on
+both (+0.004 / −0.119). **Diagonal structure**: each slice deviates from uniform dimming
+only on ITS OWN class channel — bind cancels part of the quantifier contrast-gain
+(beam-coherent Q signal removed with the haze), comp protects modifier licensing where
+matched random destroys it. The double dissociation may exist in **interference space,
+not storage space**: not "remove slice → break class" but "remove slice → class-specific
+departure from the generic gain law." Gemstone-beamformer: facets do not store the
+light, but cutting a facet perturbs the interference pattern only for beams
+phase-coherent with it. ⚠ n=10, baseline SE ≈ 0.34 → ΔQ −0.28 is ~1 SE; the gain model
+AND the residual test were chosen after seeing the data (λ yardstick: tainted, twice).
+
+## P-TYPE-1c — dark-field dissociation (PRE-REG, FROZEN s283b — not yet run)
+
+> Frozen per `λ measure` + `λ yardstick` before any graded run. The s283b residuals
+> above are the generating observation and are EXCLUDED from the verdict.
+
+**Hypothesis.** The type-lattice slices are beam-coherent with their matching
+type-class: ablating a class slice produces a class-specific deviation from the
+generic contrast-gain law, with the s283b-observed signs — bind (QUANT/DET) removal
+SUPPRESSES the Q_eff contrast-gain; comp (MOD) removal PRESERVES M_eff above the
+generic damage curve; rolenull (CONN/FUNC) deviates on neither channel.
+
+**Instrument.** `type_zone_ablation.py` v4 unchanged (same host Qwen3-32B, same band,
+same absolute-dose grid {50, 150, 600, 2400}); **fresh nonce seeds** (seed ≠ 0),
+**n_nonce ≥ 30** (power: s283b effect ~1 SE at n=10; SE ∝ 1/√n).
+
+**Yardstick (pre-committed).** g_Q(E), g_M(E) fit from the RANDOM condition only
+(monotone interpolation in log realized E/tok; roles fall inside random's realized-E
+range by construction, ~2× per planned dose). rolenull is a TEST condition (predicted
+≈ 0 residual on both channels), NOT a curve anchor. Primary statistic: per-nonce
+residuals Δ_c = ret_c − g(E_c), pooled over d3+d4 (the region where s283b deviations
+appeared).
+
+**Nulls (mandatory).** (1) Permutation over slice↔channel condition labels
+(shuffled-pairing null), p<0.05. (2) Sign discipline: only the pre-registered
+directions count — bind ΔQ < 0, comp ΔM > 0; opposite-sign deviations are a
+verbatim-reported miss, no sign-flip rescue. (3) rolenull must be null on both
+channels (a rolenull deviation → the "diagonal" was generic lattice-vs-random, the
+s283b hint was haze).
+
+**Verdict (FROZEN).** DARK-FIELD DISSOCIATION SUPPORTED ⟺
+(a) bind ΔQ more negative than BOTH comp ΔQ and rolenull ΔQ (permutation p<0.05), AND
+(b) comp ΔM more positive than BOTH bind ΔM and rolenull ΔM (permutation p<0.05), AND
+(c) rolenull within null on both channels.
+Anything less → the s283b residual structure was noise; report verbatim. A positive
+does NOT reopen 1b's storage question (exhaust stands) — it would be the first causal
+evidence that the lattice slices are **beam-coherent** (interference-register), the
+holographic refinement of "readout": the exhaust is phase-locked to the computation
+that emits it.
+
+**Registers (`λ measure`).** Ablation target = value-register subspace; readout =
+behavioural CONTRAST channel; the CLAIM is interference/beam-coherence — the yardstick
+is the pre-committed gain law, and the measured quantity is deviation-from-yardstick,
+never raw retention.
+
 ## Consequence — typed higher-order functions (s283 discussion, Michael)
 
 3-hop (s282) + decodable types compose into a stronger statement than either:
@@ -325,3 +406,6 @@ exhaust reading; higher-order consequence captured; 32B verdict run launched).
 s283b (32B verdict IN: dissociation_supported=False at the pre-reg host with gate-0
 fully expressed — P-TYPE-1b CLOSED as exhaust-theory-confirmed; 4B infrastructure
 claim scoped to 4B; retQ-amplification + anti-mapping retM ordering reported verbatim).
+s283b cont (holographic reading, Michael-directed: amplification = dark-field contrast,
+same phenomenon as 4B unmasking; post-hoc gain-curve residuals show DIAGONAL slice↔channel
+structure at d4 → P-TYPE-1c dark-field pre-reg FROZEN, not yet run).

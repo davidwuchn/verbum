@@ -49,12 +49,23 @@
 > US to read the ledger (readout register), not the machine to consult it. P-HOF-1 sketched
 > (unfrozen, theory page): quantifier over an INSTALLED predicate = literal Montague
 > higher-order test over a written term. Memory: type-lattice-is-exhaust-not-consulted.
-> ▶ NEXT: (1) ✅ 32B 1b verdict DONE (negative, closed — see s283b block above); (2) P-HOF-1
-> pre-reg (the natural successor: typed higher-order fns over an installed predicate — theory
-> page §Consequence sketch); (3) pre-reg the 4B M_eff unmasking effect before any use (4B-only
-> phenomenon, no 32B counterpart); (4) still open from s282: depth→SEQUENCING pre-reg for
-> 27B-hybrid, (a2) mammal→fur content build. Branch ~37 commits ahead (unpushed).
-> s282 blocks retained below.
+> ★ s283b HOLOGRAPHIC READING (Michael-directed, READ theory page §Holographic-reading +
+> §P-TYPE-1c): the 32B retQ amplification = DARK-FIELD CONTRAST (Q/M are contrast measures;
+> licensing rides the BEAM per s136 beamformer-theory, value register = illuminated medium →
+> ablation = background subtraction → contrast RISES) = independent corroboration of exhaust;
+> the 4B M_eff unmasking = same phenomenon at the other scale. 💡 POST-HOC HINT (tainted,
+> hypothesis-only): residuals from a random-fit contrast-gain law g(E) show DIAGONAL
+> slice↔channel structure @d4 — bind ΔQ −0.28, comp ΔM +0.67, rolenull ≈0 both — the double
+> dissociation may live in INTERFERENCE space (beam coherence) not storage space (~1 SE @n=10).
+> ⇒ P-TYPE-1c DARK-FIELD PRE-REG FROZEN in the theory page (fresh seeds, n_nonce≥30, gain law
+> from random only, permutation null, sign discipline; positive = slices beam-coherent, exhaust
+> phase-locked — does NOT reopen 1b storage). Memory:
+> dark-field-amplification-is-the-beam-signature. ⚠ NOT YET RUN — needs Michael GO (32B heavy).
+> ▶ NEXT: (1) P-TYPE-1c run on GO (pre-reg frozen); (2) P-HOF-1 pre-reg (typed higher-order
+> fns over an installed predicate — theory page §Consequence sketch); (3) pre-reg the 4B M_eff
+> unmasking before any use (now framed as dark-field, may fold into 1c); (4) still open from
+> s282: depth→SEQUENCING pre-reg for 27B-hybrid, (a2) mammal→fur content build. Branch ~38
+> commits ahead (unpushed). s282 blocks retained below.
 >
 > (s282 retained →) ▶▶ LIVE PICKUP (s282 — 3-HOP RAN): ✅ built
 > wrapper/operand_multihop3.py (geography chain, ceiling smoke green) + ran the 4B/32B pair
