@@ -136,6 +136,27 @@ def arity_ladder(x: np.ndarray, y: np.ndarray, rng) -> dict:
             "p": p}
 
 
+def axis_loadings(x: np.ndarray, y: np.ndarray, labels: list[str], k: int = 3) -> dict:
+    """SVD of the centered type centroids -> each TYPE's loading on the top-k axes.
+    Left singular vectors U[:, i] give how each present type projects onto axis i;
+    var_frac = the axis's share of centroid spread. (Which types on which axis.)"""
+    c, present = centroids(x, y, labels)
+    if len(present) < 3:
+        return {"present": present, "axes": []}
+    cc = c - c.mean(axis=0, keepdims=True)
+    u, s, _ = np.linalg.svd(cc, full_matrices=False)
+    tot = (s ** 2).sum() + 1e-12
+    axes = []
+    for i in range(min(k, len(s))):
+        # sign-fix: make the largest-magnitude loading positive (SVD sign is arbitrary)
+        col = u[:, i]
+        col = col * (1.0 if col[np.argmax(np.abs(col))] >= 0 else -1.0)
+        axes.append({"i": i, "var_frac": round(float(s[i] ** 2 / tot), 3),
+                     "loadings": {t: round(float(v), 3)
+                                  for t, v in zip(present, col, strict=False)}})
+    return {"present": present, "axes": axes}
+
+
 def gram(x: np.ndarray, y: np.ndarray) -> dict:
     c, present = centroids(x, y, TYPE_ORDER)
     if len(present) < 2:
@@ -209,10 +230,25 @@ def main() -> None:
               f"top3var={r['var_top3']} sep={r['sep_acc']} "
               f"arity_cos={r['arity']['cos']}(p={r['arity']['p']})", file=sys.stderr)
 
-    # gram at the most-separated layer
+    # gram at the most-separated layer (lexical, usually)
     best_L = max(data.keys(), key=lambda k: nearest_centroid_acc(*data[k], TYPE_ORDER))
-    gx, gy = data[best_L]
-    gram_best = gram(gx, gy)
+    gram_best = gram(*data[best_L])
+
+    # 1a-follow: characterize the ~3 primitive axes INSIDE the low-rank band.
+    # band layer = interior layer (mid-third) with the most-significant low-rank null.
+    interior = [L for L in data if 0 <= L and n_layers * 0.15 <= L <= n_layers * 0.65]
+    band_L = (min(interior, key=lambda L: per_layer[str(L)]["p_lowrank"])
+              if interior else best_L)
+    bx, by = data[band_L]
+    gram_band = gram(bx, by)
+    load_band = axis_loadings(bx, by, TYPE_ORDER, k=3)
+    print(f"\n[lattice] BAND layer L{band_L} axis loadings (type -> top-3 SVD axes):",
+          file=sys.stderr)
+    for ax in load_band["axes"]:
+        pairs = sorted(ax["loadings"].items(), key=lambda kv: -abs(kv[1]))
+        top = "  ".join(f"{t}:{v:+.2f}" for t, v in pairs)
+        print(f"[lattice]   axis{ax['i']} (var {ax['var_frac']:.2f}): {top}",
+              file=sys.stderr)
 
     slug = args.model.split("/")[-1].lower().replace(".", "-")
     out = (Path(args.output) if args.output
@@ -223,6 +259,8 @@ def main() -> None:
            "n_layers": n_layers, "n_labeled": n_lab, "n_null": args.n_null,
            "layer_stride": args.layer_stride, "type_order": TYPE_ORDER,
            "gram_best_layer": int(best_L), "gram": gram_best,
+           "band_layer": int(band_L), "gram_band": gram_band,
+           "axis_loadings_band": load_band,
            "per_layer": per_layer}
     (out / "lattice_geometry.json").write_text(json.dumps(res, indent=2))
     print(f"[lattice] wrote {out}/lattice_geometry.json", file=sys.stderr)
