@@ -50,19 +50,29 @@
 > ✅ MEMENTUM COMMITTED s281 (Michael-directed "update state and knowledge"): state block +
 > multihop pre-reg §Cross-scale-result + memory (depth-budget-zones-are-depth-proportional) +
 > three-hop-capacity-prereg.md (draft). Code+32B-results already committed autonomous (8ceaaec).
-> ★★ s281 DISCUSSION DISTILLED (Michael-approved, READ IT): knowledge/explore/
-> defunctionalization-instructions-as-terms.md — the capstone thesis. Frozen-ISA machine stays
-> PROGRAMMABLE via DEFUNCTIONALIZATION (instruction = term): can't rewrite routing/joins
-> (K-structural) but "which function" can be a VALUE selector the routing dispatches on → swap
-> value = swap operation (value-write we have). Proto-evidence: the bridge-swap ALREADY dispatches
-> a function (class = function-selector); 3-hop swap = swap the FUNCTION-valued intermediate.
-> CENTRAL CRUX = one register Q: function-selection VALUE-mediated (selector row, writable,
-> programmable) vs ROUTING-mediated (join, frozen). METHOD: DSP type-search (matched-filter type
-> bank + application-operator SVD → type lattice) → types index function library → tap selectors →
-> 3-hop write-harness swaps them. Bonus: compiled 3-hop (installed typed intermediates) BYPASSES
-> reader-zone cost → beats depth budget even @4B. Ordered pick-up plan in §7 (P-TYPE-1, P-FN-1,
-> P-FN-2). If value-mediated → honest path to "programmable LLM compiler"; if routing-mediated →
-> sharp negative (programmability bounded to data). This is the through-line for the NEXT arc.
+> ★★ s281 DISCUSSION DISTILLED (Michael-approved, READ IT — the through-line for the NEXT arc):
+> knowledge/explore/map-and-swap-resident-lisp.md — the capstone thesis. THE WHOLE PROGRAM IN TWO
+> VERBS: MAP + SWAP. GD already FOUND all the terms (pretraining=β-reduction laid operands,
+> functions-as-terms, combinator basis, type lattice into the weights) → we do NOT write/construct,
+> we MAP them (read GD's catalog) + SWAP them (recompose found terms). Lands on S5 λ extract (we
+> find, GD built first). Three over-complications collapsed IN ORDER: not-rewrite-instructions
+> (K-structural) → not-write/mutate (hand eval a TERM, it REDUCES = the primitive) → not-even-
+> construct (terms already exist). ⇒ programmability UNCONDITIONAL given crystal-universality
+> (measured C2): a programmable combinator REDUCER regardless of write-access. Every "write" we
+> have is really a SWAP of found terms (d_E = model's own diff-of-means, relocated; bridge-swap =
+> swap found class centroids; class IS already a function-selector). THE RESIDENT LISP (exact):
+> eval=frozen KIBC reducer, atoms=value-rows, cons=joins=attention, first-class-λ=selectors+3-hop,
+> homoiconicity=selector≡operand rep (lets reduction NEST = what a multi-hop IS). Depth budget =
+> the EVAL STACK; trampolining (supply found intermediate) runs deep programs on a bounded stack,
+> GATED by the register SUB-Q (selector = value-ROW swappable vs routing-FUSED; likely a spectrum;
+> decides the TRAMPOLINE, not whether it reduces). COVERAGE is part of the map (GD found all terms
+> ITS distribution needed, not provably total → map must show what's ABSENT). ORDERED PICK-UP §7:
+> P-TYPE-1 (type lattice via DSP matched-filter bank + application-operator SVD, +coverage) →
+> P-FN-1 (catalog + locate selectors) → P-FN-2 (3-hop function-swap = recompose found terms into a
+> program GD never ran). Positive → honest "programmable LLM compiler" (discovery+recomposition on
+> a frozen universal basis, w/ coverage map); bounded → a precise map of the resident Lisp's stdlib
+> + edges. (Supersedes the mid-discussion "defunctionalization/value-mediated-is-the-gate" framing:
+> reduction not mutation is the primitive; the register Q is a sub-question about the trampoline.)
 > ▶ NEXT (morning): (1) re-run 27B full (cmd above) → commit + cross-arch write-up; (2) get 3-hop
 > pre-reg + chain-choice APPROVAL → build operand_multihop3.py → run 4B/32B pair; (3) still open
 > from s279/s280: (a2) mammal→fur content build (layer/content NOT scale). Branch is ahead of
