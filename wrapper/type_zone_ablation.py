@@ -26,16 +26,28 @@ VERSION LOG (instrument iterations; results/.../run.log, run_v2.log)
     like the pre-reg "near-null" intent, (d) recall RATIO gate over-fires on a
     0.39-nat baseline. Also REPLICATED: Q_eff ~2.8 t>6 but M_eff ~0 at 4B
     (2 grids) - 4B does not express modifier licensing behaviourally.
-  v3 (this): (1) find_band p-bug fixed; (2) ROLE SUBSPACES built directly from
-    class centroids - bind = orthonormal span{c_QUANT-mean, c_DET-mean} (holds
-    both sides of the 4B axis split by construction), comp = span{c_MOD-mean},
-    ROLE-NULL = span{c_CONN-mean, c_FUNC-mean} (same lattice, wrong role = the
-    sharp class-control; REPLACES the pre-reg e-axis control, whose "near-null"
-    intent is unrealizable as a raw centroid direction - deviation documented
-    here); (3) budgets = geometric ladder over the MEASURED role-subspace
-    energies [min..max]; random = 2D isotropic subspace, uncapped, matched to
-    the same budget; (4) recall breakage gate = top-1 ACCURACY drop > 0.2
-    (surprisal still logged).
+  v3 @f0c3418: (1) find_band p-bug fixed (true band L9..L22 @4B); (2) ROLE
+    SUBSPACES built directly from class centroids - bind = orthonormal
+    span{c_QUANT-mean, c_DET-mean} (holds both sides of the 4B axis split by
+    construction), comp = span{c_MOD-mean}, ROLE-NULL = span{c_CONN-mean,
+    c_FUNC-mean} (same lattice, wrong role = the sharp class-control; REPLACES
+    the pre-reg e-axis control, whose "near-null" intent is unrealizable as a
+    raw centroid direction); (3) recall gate = top-1 ACCURACY. CAUGHT: budgets
+    anchored to centroid-subspace E_full (4-8M E/tok - every class offset
+    shares the dominant axis0 component) = 100-1000x the tolerable window ->
+    ALL cells recall_acc 0.0; random alpha~90 amplification CASCADES across
+    the zone (realized 5e10-3e12); planned-vs-realized drift ~x25 (capture
+    exemplars vs behavioral text - realized is the honest number).
+  v4 (this): ABSOLUTE-DOSE grid. Doses are fixed absolute per-layer removed
+    energies (default 150,600,2400 - log-spaced inside the window bracketed by
+    v1-v3: v2 showed no-effect at ~300-900 and Q_eff death by generic noise at
+    ~3274 over 5 layers; v3 showed global destruction at 150k+ over 14).
+    alpha = sqrt(dose/E_full): role subspaces get ~0.004-0.024 partial
+    dampening (no caps bind), random gets alpha <= ~2 (no cascade). All four
+    conditions compare at the SAME absolute dose; realized E/tok reported.
+    THE deciding comparison: bind vs rolenull vs random at matched dose -
+    equal degradation = non-specific fragility (exhaust/readout reading);
+    bind >> rolenull = first class-selective causal signal (consulted).
 
 INSTRUMENT
   1. Capture labeled Montague-type dataset at every decoder layer (reuses
@@ -66,13 +78,13 @@ VERDICT (pre-set, frozen before the v3 run; ret = effect/baseline):
   GATE-0: baseline Q_eff and M_eff both mean>0, t>=3 - else no ablation cell is
     interpreted for that class (a Gate-0 failure at 4B is a capacity finding;
     the Q side can still validate the instrument).
-  b* = LARGEST budget where recall_acc drops <=0.2 for ALL of
+  b* = LARGEST dose where recall_acc drops <=0.2 for ALL of
     {bind, comp, rolenull, random}. None -> not interpretable.
   At b*: BIND-SELECTIVE: ret(Q,bind)<0.5 AND ret(M,bind)>0.7
          COMP-SELECTIVE: ret(M,comp)<0.5 AND ret(Q,comp)>0.7
          NULLS: rolenull AND random keep BOTH rets>0.7
   DISSOCIATION_SUPPORTED <=> gate0 & b* & bind & comp & nulls. Verbatim rows
-  reported at every budget regardless.
+  reported at every dose regardless.
 
 lambda measure: ablation target = value-register lattice subspaces; claim =
 reduction LICENSING -> readout is behavioural class-selectivity at MATCHED
@@ -348,6 +360,8 @@ def main() -> None:
     ap.add_argument("--model", default="Qwen/Qwen3-4B")
     ap.add_argument("--device", default="mps")
     ap.add_argument("--n-null", type=int, default=100)
+    ap.add_argument("--doses", default="150,600,2400",
+                    help="absolute per-layer removed-energy doses (E/tok)")
     ap.add_argument("--n-nonce", type=int, default=10)
     ap.add_argument("--n-teach", type=int, default=2)
     ap.add_argument("--n-fill", type=int, default=3)
@@ -403,27 +417,21 @@ def main() -> None:
     import gc
     gc.collect()
 
-    # 3) budgets: geometric ladder over MEASURED role-subspace energies
-    def gmean(vals):
-        return float(np.exp(np.mean(np.log(np.maximum(vals, 1e-9)))))
+    # 3) ABSOLUTE-DOSE grid (v4): fixed per-layer removed energy, all conds
+    doses = [float(x) for x in args.doses.split(",")]
+    print(f"[1b] absolute doses (planned per-layer E/tok): {doses}",
+          file=sys.stderr)
 
-    role_gmeans = {name: gmean([band_info[L]["E"][name] for L in band_info])
-                   for name in ROLES}
-    e_lo, e_hi = min(role_gmeans.values()), max(role_gmeans.values())
-    budgets = [e_lo, float(np.sqrt(e_lo * e_hi)), e_hi]
-    print(f"[1b] role gmeans={ {k: round(v, 1) for k, v in role_gmeans.items()} } "
-          f"budgets={[round(b, 1) for b in budgets]}", file=sys.stderr)
-
-    # conditions: baseline + {bind, comp, rolenull, random} x budgets
+    # conditions: baseline + {bind, comp, rolenull, random} x doses
     conds: dict[str, list] = {"baseline": []}
     alpha_log: dict[str, dict] = {}
-    for bidx, budget in enumerate(budgets, start=1):
+    for didx, dose in enumerate(doses, start=1):
         for name in ("bind", "comp", "rolenull", "random"):
-            cname = f"{name}@b{bidx}"
+            cname = f"{name}@d{didx}"
             conds[cname] = []
             alpha_log[cname] = {}
             for L, bi in band_info.items():
-                alpha = float(np.sqrt(budget / max(bi["E"][name], 1e-9)))
+                alpha = float(np.sqrt(dose / max(bi["E"][name], 1e-9)))
                 if name != "random":
                     alpha = min(alpha, 1.0)   # projection cap; achieved E logged
                 conds[cname].append((L, bi["mu"], bi["sd"], bi["subs"][name],
@@ -475,16 +483,16 @@ def main() -> None:
         return a is not None and b is not None and (b - a) <= 0.2
 
     b_star = None
-    for bidx in (3, 2, 1):
-        if all(recall_ok(f"{n}@b{bidx}")
+    for didx in range(len(doses), 0, -1):
+        if all(recall_ok(f"{n}@d{didx}")
                for n in ("bind", "comp", "rolenull", "random")):
-            b_star = bidx
+            b_star = didx
             break
 
     bind_sel = comp_sel = nulls_ok = False
     if b_star is not None:
-        bb, cc = f"bind@b{b_star}", f"comp@b{b_star}"
-        nn, rr = f"rolenull@b{b_star}", f"random@b{b_star}"
+        bb, cc = f"bind@d{b_star}", f"comp@d{b_star}"
+        nn, rr = f"rolenull@d{b_star}", f"random@d{b_star}"
         bind_sel = ok(ret[bb]["Q"], hi=0.5) and ok(ret[bb]["M"], lo=0.7)
         comp_sel = ok(ret[cc]["M"], hi=0.5) and ok(ret[cc]["Q"], lo=0.7)
         nulls_ok = all(ok(ret[c][k], lo=0.7) for c in (nn, rr) for k in ("Q", "M"))
@@ -492,11 +500,10 @@ def main() -> None:
                      and bind_sel and comp_sel and nulls_ok)
 
     verdict = {
-        "register": "P-TYPE-1b zone x subspace ablation v3 (role subspaces)",
+        "register": "P-TYPE-1b zone x subspace ablation v4 (absolute-dose grid)",
         "host": args.model, "is_prereg_host": args.model == "Qwen/Qwen3-32B",
         "band": [int(band[0]), int(band[-1])], "n_band_layers": len(band_info),
-        "role_gmeans_E": {k: round(v, 1) for k, v in role_gmeans.items()},
-        "budgets_E_per_tok": [round(b, 1) for b in budgets],
+        "doses_planned_E_per_tok": doses,
         "gate0": {"both": gate0, "Q": gate0_q, "M": gate0_m},
         "baseline": base,
         "conditions": {c: results[c] for c in conds if c != "baseline"},
@@ -514,11 +521,10 @@ def main() -> None:
     }
 
     print("\n" + "=" * 76)
-    print("P-TYPE-1b v3 — zone x subspace dissociation, role subspaces")
+    print("P-TYPE-1b v4 — zone x subspace dissociation, absolute-dose grid")
     print("=" * 76)
     print(f"  host={args.model}  band=L{band[0]}..L{band[-1]}  "
-          f"gate0={gate0} (Q={gate0_q} M={gate0_m})  "
-          f"budgets={[round(b, 1) for b in budgets]}")
+          f"gate0={gate0} (Q={gate0_q} M={gate0_m})  doses={doses}")
     print(f"  baseline  Q_eff={base['Q_eff']}  M_eff={base['M_eff']}  "
           f"recall_acc={base['recall_acc']}")
     for c in ret:
