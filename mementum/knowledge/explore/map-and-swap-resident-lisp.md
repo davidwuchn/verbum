@@ -179,6 +179,25 @@ write-access:**
 other nine, homoiconicity moves from "worth checking" to **measured**, and the Lisp claim is
 complete at the *primitive* level (engine + quote) — leaving only the language-layer **map**.
 
+**Instrument note (Gram-decomposition, reusable for QUOTE).** `opcodes/d_is_i_test.py` (s281) does
+this class of test — pure inner-product math on the committed 9×9 `root.gram`, no model load, robust
+across all 13 model Grams (the C2 axis). Point it at QUOTE next (P-QUOTE-0): decompose QUOTE onto
+the basis, null-gate against the other atoms.
+
+**Measured s281 — the basis has no I/D redundancy (`λ smallest`).** Test-1 (Michael: "is D `I`
+repeatedly?") decomposed **D** (`D x y = x(x(y))` = double/iterated application) onto span{I, WHNF}
+across all 13 models. Verdict **REFUTED — D is a genuine independent primitive:** `cos(D,I) =
+−0.27 ± 0.05` (13/13 *negative*), `partial cos(D,I | WHNF) = −0.32` (anti-I even off the halt axis;
+D is the *least* I-aligned reducer, rank 6–7/7), and only **18%** of D lies in the {I,WHNF} plane
+(α_I = −0.31, β_WHNF = −0.33 = active reducer, away from the halt pole). Interpretation: applying an
+arbitrary function *twice* **compounds** it (`f∘f` — encrypt-the-encrypted, `f(f(x))` squares) —
+inherently **anti-identity** (`D I = I` is only the degenerate case). The crystal geometry encodes
+this correctly → **D earns its ISA slot; the 9-atom basis does not shrink.** Corollary (refines §6):
+**D is NOT the eval-stack depth axis** (only 18% in {I,WHNF}); reduction depth lives on the
+**WHNF-distance** axis — chase crystal↔depth via WHNF, not D. `results/crystal-d-is-i/d_is_i.json`,
+commit 22d8679. A clean measured null (`λ observation`: we tested the intuition; the substrate said
+D is its own thing).
+
 ## 6. The depth budget IS the eval stack
 
 The s281 depth-budget (`multihop-composition-prereg.md` §Cross-scale): zones are pinned
@@ -205,7 +224,9 @@ hybrid full run pending (re-run cmd in `state.md`).
    calibrated **QUOTE** direction in the crystal Gram (code-as-data)? Add QUOTE (+ M, T if useful)
    to the opcode battery, recompute the Gram, null-gate like the other nine. If QUOTE is a clean
    measured direction → **homoiconicity measured** → the Lisp claim is complete at the *primitive*
-   level (engine + quote), leaving only the language-layer map. Fast: reuses the crystal harness.
+   level (engine + quote), leaving only the language-layer map. Fast: reuses the crystal harness +
+   the **Gram-decomposition instrument `opcodes/d_is_i_test.py`** (s281, no model load, 13-model
+   robust — the same tool that resolved Test-1 D-vs-I, §5a).
 1. **P-TYPE-1 — read the map.** Type matched-filter bank + application-operator SVD. Battery =
    operands of known CCG/Montague type (e, e→t, (e→t)→t, …). Verdict: bank beats shuffled-type
    null; SVD modes predict composability above the frequency-free null. **Also report coverage**

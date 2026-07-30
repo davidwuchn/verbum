@@ -121,6 +121,17 @@
 > clean QUOTE direction → homoiconicity MEASURED → Lisp complete at the primitive level (engine+quote),
 > only the language-layer map remains. Knowledge sharpened: map-and-swap §5a + §7 step-0 + §8 measured;
 > memory eval-engine-is-a-lisp-measured.
+> ★ TEST-1 RAN (s281, Michael "is D I repeatedly?") — REFUTED, D is a GENUINE INDEPENDENT
+> combinator (opcodes/d_is_i_test.py, results/crystal-d-is-i/d_is_i.json, commit 22d8679; Gram-
+> decomposition, NO model load, 13/13 models). cos(D,I)=−0.27±0.05 (13/13 NEGATIVE = anti-identity);
+> partial cos(D,I|WHNF)=−0.32 (anti-I even off the halt axis; D = LEAST I-aligned reducer rank 6–7/7);
+> only 18% of D in span{I,WHNF} (α_I=−0.31, β_WHNF=−0.33 = active reducer away from halt). WHY: D x y =
+> x(x(y)) = double application COMPOUNDS an arbitrary effect (f∘f squares) = anti-identity (D I = I only
+> degenerate). TAKEAWAYS: (1) no I/D redundancy → D earns its ISA slot, 9-atom basis does NOT shrink
+> (λ smallest); (2) D is NOT the eval-stack depth axis (18% in {I,WHNF}) → reduction depth = WHNF-
+> DISTANCE not D → chase crystal↔depth via WHNF. Clean measured null. The Gram-decomposition tool is
+> now REUSABLE for P-QUOTE-0 (next: point d_is_i_test.py-style decomposition at a QUOTE direction).
+> Knowledge: map-and-swap §5a + §7 P-QUOTE-0 note; memory d-is-not-i-repeated.
 > ▶ NEXT (morning): (1) re-run 27B full (cmd above) → commit + cross-arch write-up; (2) get 3-hop
 > pre-reg + chain-choice APPROVAL → build operand_multihop3.py → run 4B/32B pair; (3) still open
 > from s279/s280: (a2) mammal→fur content build (layer/content NOT scale). Branch is ahead of
