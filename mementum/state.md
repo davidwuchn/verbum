@@ -60,8 +60,28 @@
 > ⇒ P-TYPE-1c DARK-FIELD PRE-REG FROZEN in the theory page (fresh seeds, n_nonce≥30, gain law
 > from random only, permutation null, sign discipline; positive = slices beam-coherent, exhaust
 > phase-locked — does NOT reopen 1b storage). Memory:
-> dark-field-amplification-is-the-beam-signature. ⚠ NOT YET RUN — needs Michael GO (32B heavy).
-> ▶ NEXT: (1) P-TYPE-1c run on GO (pre-reg frozen); (2) P-HOF-1 pre-reg (typed higher-order
+> dark-field-amplification-is-the-beam-signature. ▶▶ 1c VERDICT RUN LAUNCHED (Michael GO
+> s283b) in tmux main:1 → results/type-zone-ablation/qwen3-32b-1c/run_1c.log; instrument
+> updated eec0028 (--nonce-set fresh30, 30 disjoint nonces, per_nonce {w,Q,M} arrays in
+> verdict.json — unit-validated no-model), seed=1, doses 50/150/600/2400, 1090 items × 17
+> conds, ~65–75 min est (1b was 21.5 min @ n=10). ON RETURN: fit g_Q/g_M from RANDOM only
+> (log-realized-E monotone interp), per-nonce residuals pooled d3+d4, permutation null over
+> slice↔channel labels, sign discipline (bind ΔQ<0, comp ΔM>0, rolenull null both) — frozen
+> verdict in theory page §P-TYPE-1c; the wrapper's built-in 1b storage verdict is NOT the 1c
+> verdict (analysis is post-hoc script over per_nonce arrays).
+> ★ s283b ATTENTION ARC CAPTURED (Michael "capture this", READ
+> explore/type-check-is-the-qk-bilinear.md): the types arc located the mechanism in routing BY
+> ELIMINATION without ever measuring an attention pattern (founding "attention-pattern differ"
+> never built); 3-hop = steering-by-CONTENT proven, steering-by-AIM unmeasured (value→routing
+> intermediate = IOU). HYPOTHESIS: the type-check IS the QK bilinear (query(functor)·key(arg)
+> ≥ threshold ≡ licensed; 1a lattice = its shadow; name_pen = the predicate→subject edge).
+> Queue cheap-first: P-TYPE-QK (lattice axes through W_Q/W_K, ~free) → P-ATT-MED (3-hop w/
+> attention capture) → P-ATT-DIFF (minimal pairs, mass+OV) → P-ATT-STEER (force/block edges =
+> transient instruction write, the new verb). Register: routing claim → attention probe
+> register-matched (s206 inversion); distributed prior (0/128). Memory:
+> attention-never-measured-in-type-arc. Priority after 1c verdict: P-TYPE-QK.
+> ▶ NEXT: (1) 1c verdict analysis (run in flight); (2) P-TYPE-QK (pre-reg then run — cheap,
+> no generation); (3) P-HOF-1 pre-reg (typed higher-order
 > fns over an installed predicate — theory page §Consequence sketch); (3) pre-reg the 4B M_eff
 > unmasking before any use (now framed as dark-field, may fold into 1c); (4) still open from
 > s282: depth→SEQUENCING pre-reg for 27B-hybrid, (a2) mammal→fur content build. Branch ~38

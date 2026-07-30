@@ -7,6 +7,7 @@ tags: [types, beta-reduction, combinators, KIBC, CCG, montague, lambek, discocat
        type-check, compiler, P-TYPE-1, P-TYPE-1b, P-TYPE-1c, dark-field, holography,
        beamformer, C1, C2, C9, s282, s283]
 related:
+  - type-check-is-the-qk-bilinear.md
   - beamformer-theory.md
   - type-is-decodable-readout-not-causal-direction.md
   - opcodes-circuits-in-compute.md
