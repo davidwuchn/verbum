@@ -81,6 +81,10 @@ def main() -> None:
                     default=[5, 9, 13, 17, 21, 25, 29, 33])
     ap.add_argument("--swap-layers", type=int, nargs="+",
                     default=[11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33])
+    ap.add_argument("--ref-layer", type=int, default=9,
+                    help="standard-install reference layer (scales with model depth; "
+                         "9 for 36-layer 4B, ~16 for 64-layer 32B). Used for Arm B and "
+                         "as the cover-acc accounting reference.")
     ap.add_argument("--dtype", default="bfloat16", choices=["float32", "bfloat16"])
     ap.add_argument("--device", default="mps")
     ap.add_argument("--smoke", action="store_true")
@@ -91,7 +95,7 @@ def main() -> None:
         args.install_layers = [9, 21]
         args.swap_layers = [15, 25]
     S = args.scale
-    REF_L = 9                                              # s279 standard install
+    REF_L = args.ref_layer                                 # standard install (depth-scaled)
     if REF_L not in args.install_layers:
         args.install_layers = sorted([*args.install_layers, REF_L])
     dev = (args.device if (args.device != "mps" or torch.backends.mps.is_available())
@@ -300,6 +304,7 @@ def main() -> None:
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     res = {"model": args.model_id, "scale": S, "n_layers": n_layers,
+           "ref_layer": REF_L,
            "install_layers": Ls, "swap_layers": args.swap_layers,
            "class_ceiling": ceil_cls_rate,
            "cover_ceiling": round(float(np.mean(list(cover_ceil.values()))), 3),
