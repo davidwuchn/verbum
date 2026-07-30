@@ -1,0 +1,430 @@
+{
+  "test": "D \u2248 I \u2295 WHNF (is D identity, repeatedly?)",
+  "basis_order_note": "cosine crystal Gram (root.gram), unit diagonal",
+  "n_models": 13,
+  "aggregate": {
+    "cos_D_I": {
+      "mean": -0.271,
+      "sd": 0.0515
+    },
+    "cos_D_WHNF": {
+      "mean": -0.2929,
+      "sd": 0.0186
+    },
+    "cos_I_WHNF": {
+      "mean": -0.1193,
+      "sd": 0.0315
+    },
+    "expl_D": {
+      "mean": 0.1847,
+      "sd": 0.0367
+    },
+    "alpha_D": {
+      "mean": -0.311,
+      "sd": 0.0599
+    },
+    "beta_D": {
+      "mean": -0.3313,
+      "sd": 0.0252
+    },
+    "partial_D_I": {
+      "mean": -0.3228,
+      "sd": 0.0616
+    }
+  },
+  "D_rank_explained_mean": 1.615,
+  "D_rank_partial_mean": 6.231,
+  "verdict_D_is_I_repeatedly_Dspecific": false,
+  "per_model": {
+    "prism-ml/Bonsai-27B-unpacked": {
+      "cos_D_I": -0.2674,
+      "cos_D_WHNF": -0.2725,
+      "cos_I_WHNF": -0.1032,
+      "explained_frac_D": 0.1625,
+      "alpha_I": -0.2987,
+      "beta_WHNF": -0.3033,
+      "partial_cos_D_I_given_WHNF": -0.3088,
+      "D_rank_explained": 1,
+      "D_rank_partial": 6,
+      "n_reducers": 7,
+      "explained_all": {
+        "K": 0.0182,
+        "B": 0.1445,
+        "C": 0.1433,
+        "S": 0.1138,
+        "D": 0.1625,
+        "W": 0.031,
+        "Y": 0.045
+      },
+      "partial_all": {
+        "K": 0.0826,
+        "B": -0.1774,
+        "C": -0.0788,
+        "S": -0.3138,
+        "D": -0.3088,
+        "W": -0.1519,
+        "Y": -0.2111
+      }
+    },
+    "/Users/mwhitford/localai/models/bonsai27b-unpacked": {
+      "cos_D_I": -0.2674,
+      "cos_D_WHNF": -0.2638,
+      "cos_I_WHNF": -0.1274,
+      "explained_frac_D": 0.1617,
+      "alpha_I": -0.306,
+      "beta_WHNF": -0.3028,
+      "partial_cos_D_I_given_WHNF": -0.3147,
+      "D_rank_explained": 2,
+      "D_rank_partial": 6,
+      "n_reducers": 7,
+      "explained_all": {
+        "K": 0.0278,
+        "B": 0.1459,
+        "C": 0.1621,
+        "S": 0.1092,
+        "D": 0.1617,
+        "W": 0.0324,
+        "Y": 0.0529
+      },
+      "partial_all": {
+        "K": 0.0991,
+        "B": -0.168,
+        "C": -0.064,
+        "S": -0.3157,
+        "D": -0.3147,
+        "W": -0.1624,
+        "Y": -0.2299
+      }
+    },
+    "google/gemma-4-31B-it": {
+      "cos_D_I": -0.264,
+      "cos_D_WHNF": -0.2896,
+      "cos_I_WHNF": -0.0659,
+      "explained_frac_D": 0.1643,
+      "alpha_I": -0.2843,
+      "beta_WHNF": -0.3083,
+      "partial_cos_D_I_given_WHNF": -0.2964,
+      "D_rank_explained": 1,
+      "D_rank_partial": 6,
+      "n_reducers": 7,
+      "explained_all": {
+        "K": 0.0031,
+        "B": 0.1562,
+        "C": 0.1283,
+        "S": 0.1398,
+        "D": 0.1643,
+        "W": 0.0211,
+        "Y": 0.0412
+      },
+      "partial_all": {
+        "K": 0.0184,
+        "B": -0.1868,
+        "C": -0.0746,
+        "S": -0.3185,
+        "D": -0.2964,
+        "W": -0.136,
+        "Y": -0.1954
+      }
+    },
+    "allenai/OLMo-2-1124-13B": {
+      "cos_D_I": -0.3119,
+      "cos_D_WHNF": -0.2933,
+      "cos_I_WHNF": -0.1127,
+      "explained_frac_D": 0.2065,
+      "alpha_I": -0.3494,
+      "beta_WHNF": -0.3326,
+      "partial_cos_D_I_given_WHNF": -0.3631,
+      "D_rank_explained": 1,
+      "D_rank_partial": 7,
+      "n_reducers": 7,
+      "explained_all": {
+        "K": 0.0285,
+        "B": 0.1293,
+        "C": 0.1692,
+        "S": 0.1341,
+        "D": 0.2065,
+        "W": 0.0449,
+        "Y": 0.0613
+      },
+      "partial_all": {
+        "K": 0.1039,
+        "B": -0.1274,
+        "C": -0.0385,
+        "S": -0.3456,
+        "D": -0.3631,
+        "W": -0.1705,
+        "Y": -0.2469
+      }
+    },
+    "EleutherAI/pythia-14m-deduped": {
+      "cos_D_I": -0.3408,
+      "cos_D_WHNF": -0.2744,
+      "cos_I_WHNF": -0.1994,
+      "explained_frac_D": 0.2382,
+      "alpha_I": -0.4119,
+      "beta_WHNF": -0.3565,
+      "partial_cos_D_I_given_WHNF": -0.4197,
+      "D_rank_explained": 2,
+      "D_rank_partial": 7,
+      "n_reducers": 7,
+      "explained_all": {
+        "K": 0.0234,
+        "B": 0.2057,
+        "C": 0.2969,
+        "S": 0.1374,
+        "D": 0.2382,
+        "W": 0.1168,
+        "Y": 0.0147
+      },
+      "partial_all": {
+        "K": 0.1527,
+        "B": -0.1558,
+        "C": -0.0116,
+        "S": -0.3508,
+        "D": -0.4197,
+        "W": -0.3403,
+        "Y": -0.1137
+      }
+    },
+    "EleutherAI/pythia-160m-deduped": {
+      "cos_D_I": -0.2961,
+      "cos_D_WHNF": -0.2795,
+      "cos_I_WHNF": -0.1041,
+      "explained_frac_D": 0.185,
+      "alpha_I": -0.3288,
+      "beta_WHNF": -0.3137,
+      "partial_cos_D_I_given_WHNF": -0.3406,
+      "D_rank_explained": 2,
+      "D_rank_partial": 7,
+      "n_reducers": 7,
+      "explained_all": {
+        "K": 0.0044,
+        "B": 0.1118,
+        "C": 0.2326,
+        "S": 0.1135,
+        "D": 0.185,
+        "W": 0.0394,
+        "Y": 0.0542
+      },
+      "partial_all": {
+        "K": 0.062,
+        "B": -0.1079,
+        "C": -0.08,
+        "S": -0.2857,
+        "D": -0.3406,
+        "W": -0.1715,
+        "Y": -0.2229
+      }
+    },
+    "EleutherAI/pythia-2.8b-deduped": {
+      "cos_D_I": -0.1254,
+      "cos_D_WHNF": -0.2798,
+      "cos_I_WHNF": -0.083,
+      "explained_frac_D": 0.1005,
+      "alpha_I": -0.1497,
+      "beta_WHNF": -0.2922,
+      "partial_cos_D_I_given_WHNF": -0.1554,
+      "D_rank_explained": 3,
+      "D_rank_partial": 4,
+      "n_reducers": 7,
+      "explained_all": {
+        "K": 0.0259,
+        "B": 0.2198,
+        "C": 0.2279,
+        "S": 0.0545,
+        "D": 0.1005,
+        "W": 0.0067,
+        "Y": 0.0114
+      },
+      "partial_all": {
+        "K": -0.0663,
+        "B": -0.3336,
+        "C": -0.2451,
+        "S": -0.2196,
+        "D": -0.1554,
+        "W": 0.0233,
+        "Y": -0.089
+      }
+    },
+    "EleutherAI/pythia-410m": {
+      "cos_D_I": -0.2932,
+      "cos_D_WHNF": -0.3102,
+      "cos_I_WHNF": -0.1513,
+      "explained_frac_D": 0.2146,
+      "alpha_I": -0.3481,
+      "beta_WHNF": -0.3628,
+      "partial_cos_D_I_given_WHNF": -0.3619,
+      "D_rank_explained": 2,
+      "D_rank_partial": 6,
+      "n_reducers": 7,
+      "explained_all": {
+        "K": 0.0298,
+        "B": 0.1749,
+        "C": 0.2274,
+        "S": 0.1563,
+        "D": 0.2146,
+        "W": 0.0295,
+        "Y": 0.0696
+      },
+      "partial_all": {
+        "K": 0.1564,
+        "B": -0.118,
+        "C": -0.04,
+        "S": -0.3759,
+        "D": -0.3619,
+        "W": -0.1681,
+        "Y": -0.2599
+      }
+    },
+    "Qwen/Qwen3-0.6B": {
+      "cos_D_I": -0.3191,
+      "cos_D_WHNF": -0.3219,
+      "cos_I_WHNF": -0.1324,
+      "explained_frac_D": 0.2368,
+      "alpha_I": -0.3682,
+      "beta_WHNF": -0.3706,
+      "partial_cos_D_I_given_WHNF": -0.3855,
+      "D_rank_explained": 1,
+      "D_rank_partial": 7,
+      "n_reducers": 7,
+      "explained_all": {
+        "K": 0.0255,
+        "B": 0.1758,
+        "C": 0.1829,
+        "S": 0.1593,
+        "D": 0.2368,
+        "W": 0.0392,
+        "Y": 0.0597
+      },
+      "partial_all": {
+        "K": 0.1565,
+        "B": -0.1424,
+        "C": -0.0065,
+        "S": -0.3699,
+        "D": -0.3855,
+        "W": -0.1974,
+        "Y": -0.2443
+      }
+    },
+    "Qwen/Qwen3-14B": {
+      "cos_D_I": -0.2574,
+      "cos_D_WHNF": -0.307,
+      "cos_I_WHNF": -0.1249,
+      "explained_frac_D": 0.1831,
+      "alpha_I": -0.3004,
+      "beta_WHNF": -0.3445,
+      "partial_cos_D_I_given_WHNF": -0.3132,
+      "D_rank_explained": 1,
+      "D_rank_partial": 6,
+      "n_reducers": 7,
+      "explained_all": {
+        "K": 0.0211,
+        "B": 0.1439,
+        "C": 0.1694,
+        "S": 0.1142,
+        "D": 0.1831,
+        "W": 0.0316,
+        "Y": 0.0466
+      },
+      "partial_all": {
+        "K": 0.081,
+        "B": -0.166,
+        "C": -0.0539,
+        "S": -0.3211,
+        "D": -0.3132,
+        "W": -0.1522,
+        "Y": -0.2151
+      }
+    },
+    "Qwen/Qwen3-32B": {
+      "cos_D_I": -0.2499,
+      "cos_D_WHNF": -0.3112,
+      "cos_I_WHNF": -0.105,
+      "explained_frac_D": 0.1776,
+      "alpha_I": -0.2858,
+      "beta_WHNF": -0.3412,
+      "partial_cos_D_I_given_WHNF": -0.299,
+      "D_rank_explained": 1,
+      "D_rank_partial": 6,
+      "n_reducers": 7,
+      "explained_all": {
+        "K": 0.0175,
+        "B": 0.1425,
+        "C": 0.1394,
+        "S": 0.1016,
+        "D": 0.1776,
+        "W": 0.0295,
+        "Y": 0.0407
+      },
+      "partial_all": {
+        "K": 0.05,
+        "B": -0.1832,
+        "C": -0.0805,
+        "S": -0.3002,
+        "D": -0.299,
+        "W": -0.1262,
+        "Y": -0.2017
+      }
+    },
+    "Qwen/Qwen3-4B": {
+      "cos_D_I": -0.3011,
+      "cos_D_WHNF": -0.3208,
+      "cos_I_WHNF": -0.1088,
+      "explained_frac_D": 0.2172,
+      "alpha_I": -0.34,
+      "beta_WHNF": -0.3578,
+      "partial_cos_D_I_given_WHNF": -0.3569,
+      "D_rank_explained": 1,
+      "D_rank_partial": 7,
+      "n_reducers": 7,
+      "explained_all": {
+        "K": 0.0241,
+        "B": 0.1529,
+        "C": 0.1722,
+        "S": 0.1283,
+        "D": 0.2172,
+        "W": 0.0354,
+        "Y": 0.0504
+      },
+      "partial_all": {
+        "K": 0.1229,
+        "B": -0.1531,
+        "C": -0.0321,
+        "S": -0.3336,
+        "D": -0.3569,
+        "W": -0.1782,
+        "Y": -0.2241
+      }
+    },
+    "Qwen/Qwen3.6-27B": {
+      "cos_D_I": -0.2298,
+      "cos_D_WHNF": -0.2844,
+      "cos_I_WHNF": -0.1322,
+      "explained_frac_D": 0.1536,
+      "alpha_I": -0.2721,
+      "beta_WHNF": -0.3203,
+      "partial_cos_D_I_given_WHNF": -0.2814,
+      "D_rank_explained": 3,
+      "D_rank_partial": 6,
+      "n_reducers": 7,
+      "explained_all": {
+        "K": 0.0324,
+        "B": 0.1569,
+        "C": 0.1711,
+        "S": 0.0842,
+        "D": 0.1536,
+        "W": 0.0356,
+        "Y": 0.0495
+      },
+      "partial_all": {
+        "K": 0.0862,
+        "B": -0.1699,
+        "C": -0.0834,
+        "S": -0.2861,
+        "D": -0.2814,
+        "W": -0.1649,
+        "Y": -0.2215
+      }
+    }
+  }
+}
