@@ -201,14 +201,61 @@ Per model M:
   country-axis and city-axis swaps with random nulls (3b/3c), all verdicts frozen above.
 - Results → `results/ffn-bake/operand-multihop3-qwen3-4b/` and `…-qwen3-32b/`.
 
+## Result (s282) — the pre-registered dissociation MISSED; a sequencing one appeared
+
+Ran the frozen 4B/32B pair (`wrapper/operand_multihop3.py`, geography chain).
+`results/ffn-bake/operand-multihop3-qwen3-{4b,32b}/operand_multihop3.json`.
+
+| | **Qwen3-4B (36L)** | **Qwen3-32B (64L)** |
+|---|---|---|
+| valid landmarks | 17/18 | 18/18 (balanced 6/6/6) |
+| **Gate-1 full chain** | 0.824 (rand/base 0.353) | **0.944** (rand/base 0.333) |
+| content-specificity | 0.656 | 0.889 |
+| **Gate-2 controls** | PASS (g∘f 0.824, f∘h 1.0) | PASS (g∘f 0.889, f∘h 1.0) |
+| **Gate-3a depth-order** | city=32, country=32, cont=33 → **FAIL** | city=52.5 < country=57.5 < cont=60 → **PASS** |
+| Gate-3b country-swap | 0.86 / 0.91 / 0.93 (rand ~0.15) ✓ | 0.89 / 0.89 / 0.72 (rand ~0.05) ✓ |
+| Gate-3c city-swap | 0.76 / 0.80 / 0.81 (rand ~0.17) ✓ | 0.92 / 0.83 / 0.70 (rand ~0.06) ✓ |
+| capacity pattern | full chain **composes** (no fail) | full chain **composes + mediated** |
+
+**The pre-registered double-dissociation (4B-FAIL-BY-CAPACITY / 32B-PASS) did NOT occur.**
+Both models compose the full 3-hop chain. This is the pre-committed *"4B passes"* outcome
+(see Verdict rules): **the s280 depth-budget accounting (D_hop2=12, 3-HOP-ROOM@4B=False)
+over-estimated the third-hop cost.** 4B had the room. `λ measure`: reported verbatim, the
+prediction was wrong; C8-as-capacity-gate is not supported by this pair.
+
+**But the depth signal is real — on the SEQUENCING axis (Gate-3a), not Gate-1.** At 4B the
+three bridges resolve **compressed into one late window** (city=country=L32, continent=L33;
+3a order FAILS). At 32B they **unroll sequentially** (city L52.5 < country L57.5 <
+continent L60; 3a PASSES, beats the shuffled null). Both models mediate causally (3b/3c
+strong at both), but only 32B *spreads the hops out in depth*. ⇒ **depth is fuel for
+step-by-step UNROLLING, not for whether the chain composes.** This coheres with the s280
+pinned-late-zone finding and the 27B-hybrid UNPIN result (more room → more spreading): the
+cramped 4B stack collapses the pipeline into a pinned zone; the roomy 32B stack sequences it.
+
+**Honest flags (`λ measure`, `λ yardstick`):**
+- The 4B *chain-passes-but-3a-fails* is **POST-HOC** — 3a was pre-registered, but at 4B we
+  expected a Gate-1 fail, so we never predicted "composes without sequencing." The
+  depth→sequencing reframe is **hypothesis-generating**, not a pre-registered confirmation.
+  It needs its own pre-registration to count as C8 evidence.
+- Scale also cleaned Gate-1 / content-spec (0.94/0.89 @32B vs 0.82/0.66 @4B) — a mild
+  tension with the s279 "strengthen via layer/content, NOT scale" note; here scale *did*
+  ease the operand-install under-flips. Locus (layer vs scale) is confounded in this pair.
+- Two models = a **pair**, not a scaling law; mediation via converging signatures, not a
+  traced circuit; hook-not-weight; a RUNG.
+
+**What it advances:** 3-hop chained composition `h(f(g(X)))` over ONE installed operand
+works at 4B and 32B — extends the s279 2-hop rung to three sequential resident ops. The
+depth story survives, reframed: **capability is depth-robust; sequencing is depth-scaled.**
+
 ## Status
 
-**ACTIVE — pre-registration APPROVED s282 (Michael "yes": geography chain FROZEN).** Gates
-and per-model predictions frozen before any graded run. Framed by the s280 depth-budget
-measurement (pinned depth-proportional zones, missed-deadline mechanism, D_hop2 12→4,
-3-HOP-ROOM False@4B/True@32B) as a **capacity** experiment. Next: build `operand_multihop3.py`,
-run the 4B-FAIL / 32B-PASS pair.
+**DONE (s282) — pair run complete; pre-registered capacity dissociation MISSED (both compose,
+reported honestly); a SEQUENCING dissociation appeared (post-hoc, needs its own pre-reg).**
+The frozen gates and per-model predictions stand above as-registered; §Result records the
+verbatim outcome. Follow-on: pre-register the depth→sequencing hypothesis (Gate-3a as the
+primary axis) and test on the 27B-hybrid (UNPIN predicts even more spreading).
 
 ## Sessions
 s280 (this pre-reg — 3-hop capacity, successor to the s279 2-hop + s280 depth-budget).
-s282 (Michael approved; geography chain frozen; build + run begins).
+s282 (Michael approved; geography chain frozen; built `operand_multihop3.py`; ran 4B/32B
+pair; pre-registered prediction missed; depth→sequencing reframe found — §Result).

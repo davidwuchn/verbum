@@ -8,13 +8,43 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-30 | Session: 282 | ▶▶ LIVE PICKUP (s282 — 3-HOP CAPACITY): the
-> depth-as-fuel prize. ✅ 3-HOP PRE-REG APPROVED by Michael (geography chain FROZEN:
-> landmark→city→country→continent, 2 unstated bridges {city,country}, balanced 3-way
-> {Europe,Asia,Africa}) → BUILD wrapper/operand_multihop3.py → run 4B-FAIL / 32B-PASS pair
-> (READ three-hop-capacity-prereg.md — gates frozen: G1 full chain, G2 SUB-CHAIN CONTROLS =
-> the capacity discriminator, G3 mediation at BOTH bridges). ⚠ 32B is HEAVY — confirm box free
-> before launching. s281 arc retained below.
+> Last updated: 2026-07-30 | Session: 282 | ▶▶ LIVE PICKUP (s282 — 3-HOP RAN): ✅ built
+> wrapper/operand_multihop3.py (geography chain, ceiling smoke green) + ran the 4B/32B pair
+> (code+results COMMITTED autonomous: 3ec4d47 harness, 62b6066 results). 💡 CORE RESULT (READ
+> three-hop-capacity-prereg.md §Result): the pre-registered depth-CAPACITY dissociation MISSED
+> — 3-hop h(f(g(X))) COMPOSES at BOTH scales (Gate-1 4B 0.824 / 32B 0.944, controls PASS,
+> causal bridge-swaps PASS at both). s280 D_hop2=12/3-HOP-ROOM@4B=False OVER-estimated the
+> third-hop cost; 4B had the room. λ measure: reported verbatim, capability-gate prediction
+> WRONG. 💡 BUT depth dissociates on the SEQUENCING axis (Gate-3a): 4B compresses the bridges
+> into ONE late window (city=country=L32, cont=L33; 3a FAILS), 32B unrolls SEQUENTIALLY (city
+> L52.5<country L57.5<cont L60; 3a PASSES). ⇒ depth is fuel for step-by-step UNROLLING, not
+> capability. Coheres w/ s280 pinned-late-zone + 27B UNPIN. ⚠ POST-HOC (chain-passes-but-3a-
+> fails@4B surprise → needs own pre-reg to count as C8); scale also cleaned Gate-1/content-spec
+> (layer-vs-scale confounded). ⚠ PENDING MICHAEL APPROVAL (mementum): three-hop-capacity-prereg
+> §Result + Status + Sessions, memory (three-hop-depth-is-sequencing-not-capability), this state
+> block. ▶ NEXT: (1) pre-register the depth→SEQUENCING hypothesis (Gate-3a primary axis) + run
+> on 27B-hybrid (UNPIN predicts more spreading); (2) TYPES arc (see s282 discussion below);
+> (3) (a2) mammal→fur content build still open. s282 TYPES DISCUSSION + s281 arc retained below.
+> ★ s282 TYPES DISCUSSION (Michael-directed, mid-session, READ — informs the P-TYPE-1 arc):
+> examined the crisp-vs-graded REGISTER question for how to probe TYPES (λ measure). Found the
+> type work already spans THREE registers on disk and they TRIANGULATE: (v3 nonce-crossover,
+> results/type-directed) BEHAVIOURAL surprisal — crossover +2.038 t=9.3 consist=1.0 REAL +
+> frequency-free BUT carried ENTIRELY by name_pen (−2.01, predicate-licensing after a subject
+> name); det_pen null (+0.03) → not a symmetric noun/verb check, one strong slot. (type-probe-
+> qwen3-32b) DECODABILITY — 8-way type {DET,ENTITY,PRED,FUNC,REL,QUANT,MOD,CONN} linearly
+> decodable 0.88–0.96 EVERY layer (baseline 0.28) = type is a rich VALUE-register geometric
+> object. (v4 ablation) CAUSAL — type direction AUC→1.0 decodable BUT type_direction_is_causal=
+> FALSE (ablating it retains 0.643 of crossover vs 0.952 random) = decodable-but-NOT-causal-as-
+> a-direction. 💡 SYNTHESIS: type = DECODABLE READOUT of a DISTRIBUTED type-application compute,
+> NOT a stored/ablatable direction = SAME pattern as D1 C-field (readable/causally-inert) + s206
+> scar + circuits-in-compute (C2). Unifies C5 INTO C2. RE-SCOPES P-TYPE-1: (1a value/geometry)
+> matched-filter + application-op SVD → test LATTICE is low-rank + Montague-shaped + subspaces
+> NEST + align to crystal B/C/S — mostly a RE-ANALYSIS of the 8 decodable probe dirs, null-gate
+> the low-rank (any SVD decays → matched-range null MANDATORY); (1b causal) must use A1 ZONE/
+> PHASE ablation NOT direction (v4 already showed direction=negative, correctly). Open fork:
+> is name_pen-only telling us the real "type" is argument-SATURATION (predicate wants its
+> subject) = the S/binding combinator, not a noun/verb tag? ▶ candidate: capture this as a
+> knowledge page (type-is-decodable-readout-not-causal-direction) + P-TYPE-1 re-scope.
 >
 > (s281 arc retained →) ▶▶ (s281 — DEPTH EXPERIMENTS, the
 > s280 (c+d) NEXT): the depth-budget cross-scale replication + 3-hop capacity pre-reg.
