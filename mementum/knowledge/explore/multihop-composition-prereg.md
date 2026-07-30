@@ -227,14 +227,108 @@ Flips **"composes ARBITRARY programs"** from the s278 single-op rung toward genu
 mechanistic signature of a programmable machine (not a lookup). Still: no "programmable
 compiler" until this holds **weight-serialized (f) and at scale (27B)** — both remain red.
 
+## Depth-budget (s280 — pre-registered BEFORE the run; `wrapper/operand_depthbudget.py`)
+
+> **Question (gates the 3-hop d1 design):** how many layers does each hop consume, and is
+> there room for a third? The s279 pipeline occupies nearly the whole 36-layer stack:
+> install L9 → bridge causally live L15–20 (2c window already decaying at L20, closing edge
+> unmeasured) → class legible L30 → covering legible L33. The s279 layersweep (L5–15,
+> weak-cell-motivated) saw covering degrade at install ≥ L13 but is **confounded for budget
+> purposes**: it varied install layer AND `d_E` build layer together and read only the final
+> hop — fuel-exhaustion vs content/basis-drift are different quantities (`λ measure`).
+
+**Arm A — stage-resolved install-layer sweep.** Install L ∈ {5, 9, 13, 17, 21, 25, 29, 33},
+matched-build `d_E` (captured at the install layer; ALL sweep layers captured in one pass per
+declarative — no extra forwards), basis-drift covariate = cos(d_E@L, d_E@9) per entity. Per
+install layer, THREE reads: **hop-1 behavioral** = class query `"A {x} is a kind of ___"`
+graded over {bird, fish, mammal} (held-out exemplar prefixes, real-word ceiling gated first);
+**hop-2 behavioral** = covering query (s279 instrument unchanged); **logit-lens peaks**
+(class + covering, 6 strong entities: eagle, hawk, salmon, shark, bear, cat — the weak
+mammal trio excluded so install-strength does not masquerade as budget).
+
+**Arm B — bridge read-window fine sweep.** Standard install L9; class-axis swap (2c
+machinery) at L_edit ∈ {11, 13, …, 33}; 6 strong entities × 2 swap targets, matched-norm
+random null beside, single prefix (granularity read, noted).
+
+```
+Fuel accounting (definitions FROZEN):
+  L_max_1hop  = max install L with class-acc  ≥ 0.7·class-ceiling
+  L_max_2hop  = max install L with cover-acc  ≥ 0.7·cover-acc@L9
+  D_hop2      = L_max_1hop − L_max_2hop          (marginal cost of the second hop)
+  L_close     = min L_edit with flip ≤ random+0.10 (hop-2's bridge-read window closes)
+
+BUDGET-VISIBLE        ⟺ ∃ install band where class-acc ≥ 0.7·ceiling ∧ cover-acc ≤ 0.5·(@L9)
+                         (hop-2 fails while hop-1 succeeds = fuel, not install failure)
+DEPTH-BUDGET-UNMEASURED ⟺ class and covering collapse together everywhere
+                         (content/basis drift dominates; budget not measurable this way)
+PIPELINE-SLIDES (P2)  ⟺ median class logit-lens peak increases with install L
+                         (Spearman ρ > 0.8 over surviving layers) — the program moves,
+                         it is not pinned to absolute layers
+3-HOP-ROOM-AT-4B      ⟺ L_max_2hop − 9 ≥ D_hop2
+                         (the 2-hop pipeline can slide one hop-cost later ⇒ a third
+                          hop-sized stage fits after install at L9; else predict d1
+                          FAILS at 4B → design at 27B, couples (d) to (c))
+```
+
+**Predictions (a priori):** BUDGET-VISIBLE with L_max_1hop ≈ 21–29 and L_max_2hop ≈ 13–17
+(from the layersweep + 2c decay); PIPELINE-SLIDES holds (circuits-in-compute: the reduction
+trajectory is scheduled, not pinned); L_close ≈ 21–27 (between the 2c decay and the class
+legibility onset). Honest alternative: peaks may NOT slide (stages pinned to absolute
+depth-bands per A1 zone structure) — that would itself be a C8 finding (stage zones are
+architectural, and the budget is then a hard zone-capacity, worse for 3-hop at 4B).
+
+### Depth-budget Result (s280 — `wrapper/operand_depthbudget.py`, Qwen3-4B, commit 46910e9)
+
+| install L | 5 | 9 | 13 | 17 | 21 | 25 | 29 | 33 |
+|---|---|---|---|---|---|---|---|---|
+| class acc (hop-1) | 1.0 | 1.0 | 1.0 | **1.0** | **0.889** | **0.833** | 0.611 | 0.389 |
+| cover acc (hop-2) | 0.824 | 0.824 | 0.647 | **0.353** | **0.353** | **0.353** | 0.353 | 0.353 |
+| class peak (lens) | 30 | 30 | 30 | 31 | 31 | 31.5 | 32 | 35 |
+| drift cos vs L9 | 0.61 | 1.0 | 0.67 | 0.61 | 0.57 | 0.50 | 0.41 | 0.29 |
+
+Arm B bridge-read window: flip 0.917–1.0 across L11–21 (random 0.0 throughout), **sharp
+close L23 (0.25) → L25 (0.0)**. Frozen accounting: **L_max_1hop=25, L_max_2hop=13,
+D_hop2=12, L_close=25.**
+
+- **BUDGET-VISIBLE = True (clean).** Install L17–25: hop-1 completes (class 1.0–0.833)
+  while hop-2 sits at chance — fuel exhaustion measured stage-resolved, not install
+  failure. **Drift control:** cos ≈ 0.61 at *both* L5 (composes 0.824) and L17 (chance) →
+  basis drift does not explain the cliff.
+- **PIPELINE-SLIDES = False — in the strongest form.** The class peak is **constant at
+  L30–31 for every install layer L5→L25** (zero variance over surviving layers, not a
+  failed correlation). The pre-registered honest alternative fired: **stages are PINNED
+  to absolute depth zones** (A1 zone structure). The compute does not run a program
+  forward from the install point; the class→covering transform lives in a fixed late
+  zone. A C8 finding: the budget is a **hard zone-capacity**, not sliding fuel.
+- **Mechanism = MISSED DEADLINE.** Hop-2's bridge-reader operates at L11–21 and is gone
+  by L23–25. Install at L17 leaves too little room for hop-1 to write the bridge before
+  the reader's deadline — the class *still resolves* (peak L31, behaviorally 1.0) but
+  arrives **after the reader has passed** → chance covering. Fuel is not "layers
+  remaining," it is "can each stage's product reach the next fixed reader in time."
+- **3-HOP-ROOM-AT-4B = False** (L_max_2hop − 9 = 4 < D_hop2 = 12). d1 3-hop is a
+  **predicted negative at 4B**. Sharper than the frozen rule anticipated: since stages
+  are pinned (not sliding), a third sequential hop needs a reader/transform zone that
+  does not exist above L33 at 4B — no install layer fixes that.
+- Instrument note: lens peak search restricted to post-install layers (pre-run fix,
+  smoke-surfaced: bare-nonce prior produced a spurious early class peak).
+
+**Consequence for d1:** run 3-hop as the **capacity experiment**, not a capability rung:
+pre-register FAIL at 4B (this measurement's prediction) and SUCCESS at 27B (more layers →
+either more zones or wider ones — A1 27B zones are broad). A 4B-fail/27B-pass pair would be
+the strongest depth-as-fuel (C8) evidence the project holds, and it merges (d) with (c).
+
 ## Status
 
 Pre-registered s279; **RUN s279** — **MULTI-HOP SUPPORTED (3/3 Gate-2)** on Qwen3-4B via the
 causal late bridge-swap (0.853 vs 0.088 random) + depth-order (class before covering) + centroid
 individual-independence. Successor to `general-composition-prereg.md` (Arm 2 = one op; this =
-chained two ops through an unstated intermediate). Next: strengthen the `fur`/mammal install
-(layer/content, not scale); gate (f) weight-serialize + R5; cross-scale to 27B.
+chained two ops through an unstated intermediate). **s280: depth-budget RUN** — stages PINNED
+to absolute zones (class peak L30–31 ∀ install L5–25), missed-deadline mechanism (bridge-reader
+window L11–21, closes L23–25), **3-HOP-ROOM-AT-4B = False** → d1 3-hop = capacity experiment
+(pre-register 4B-fail / 27B-pass; merges (d) into (c)). Still open: mammal content build;
+cross-scale 27B.
 
 ## Sessions
 s278 (general-composition Arm 1/2 — reusable term + one-op novel composition), s279 (this
-pre-reg — chained `f(g(X))` via latent category bridge).
+pre-reg — chained `f(g(X))` via latent category bridge), s280 (depth-budget: pinned zones +
+missed deadline; no 3-hop room at 4B).

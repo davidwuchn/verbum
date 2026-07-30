@@ -49,10 +49,27 @@
 > (s277) → write (s277) → hook-compose (s277-279) → weight-serialized stock-loadable (f1/f2) →
 > fragility register-localized (f2) → ships fully-ternary+mirror (f3). Checklist R5 flips RED →
 > measured/localized/robustified. ⚠ PENDING MICHAEL APPROVAL adds: pre-reg f3 freeze + §f3
-> Result + Status, memory (ternary-slot-ships-at-parity). ▶ NEXT: (a2) fur/mammal content build
-> (bf16 weak trio wolf/fox/tiger + Q4-env bear/cat/crow all mammal-boundary — ONE content fix
-> may clear both ledgers), (c) 27B cross-scale, (d) 3-hop, (e) GGUF/llama.cpp export of the
-> uniform-E ckpt (vsm_tap could read the slot in situ = exhibit material). s279 pickup below.
+> Result + Status, memory (ternary-slot-ships-at-parity). ▶▶ (s280 cont — DEPTH BUDGET, gates
+> the 3-hop d1 design) RAN (READ multihop-composition-prereg.md §Depth-budget Result; commit
+> 46910e9, wrapper/operand_depthbudget.py). 💡 STAGES ARE PINNED, NOT SCHEDULED: class lens
+> peak CONSTANT at L30-31 for every install layer L5→L25 (zero variance = strongest anti-slide
+> form; the pre-registered honest alternative fired) — the compute does NOT run the program
+> forward from the install point; class→covering lives in a FIXED late zone (A1 zone structure;
+> C8 refined: budget = hard ZONE-CAPACITY). MECHANISM = MISSED DEADLINE: hop-2's bridge-reader
+> operates L11-21, closes sharply L23(0.25)→L25(0.0) (random 0.0 throughout); install ≥L17 →
+> hop-1 STILL completes (class 1.0-0.833, peak L31) but its product arrives AFTER the reader
+> passed → covering chance. BUDGET-VISIBLE clean (stage-resolved: class survives where cover
+> dies, install band L17-25); drift control clean (cos 0.61 at L5 composes 0.824, cos 0.61 at
+> L17 chance → basis drift ≠ cliff). Accounting: L_max_1hop=25 L_max_2hop=13 D_hop2=12
+> L_close=25 → 3-HOP-ROOM-AT-4B=FALSE (4<12): a third sequential hop needs a reader/transform
+> zone that does not exist above L33 at 4B; NO install layer fixes a missing zone. 🎯 d1
+> REFRAMED: 3-hop = CAPACITY experiment — pre-register 4B-FAIL (this prediction) / 27B-PASS
+> (A1 27B zones broad) = strongest depth-as-fuel C8 evidence; merges (d) into (c). Instrument
+> lesson: lens-peak search must be post-install-restricted (bare-nonce prior fakes early
+> peaks; smoke-surfaced, fixed pre-run). ⚠ PENDING MICHAEL APPROVAL adds: multihop pre-reg
+> (§Depth-budget freeze + §Result + Status), memory (hop-stages-pinned-missed-deadline).
+> ▶ NEXT: (c+d) 27B: replicate depth-budget → then 3-hop capacity pair; (a2) fur/mammal
+> content build; (e) GGUF/llama.cpp export of the uniform-E ckpt (in-situ tap read). s279 below.
 >
 > (s279 header retained →) ▶▶ LIVE PICKUP: (a) MULTI-HOP f(g(X)) — SUPPORTED
 > (3/3 mediation) at Qwen3-4B (READ explore/multihop-composition-prereg.md §Result). The resident
