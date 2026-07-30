@@ -1,0 +1,64 @@
+{
+  "model": "Qwen/Qwen3-4B",
+  "scale": 2.0,
+  "n_layers": 36,
+  "install_layers": [
+    9,
+    21
+  ],
+  "swap_layers": [
+    15,
+    25
+  ],
+  "class_ceiling": 1.0,
+  "cover_ceiling": 0.944,
+  "bare_nonce": {
+    "cover": "feathers",
+    "class": "mammal"
+  },
+  "strong_entities": [
+    "eagle",
+    "hawk",
+    "salmon",
+    "shark",
+    "bear",
+    "cat"
+  ],
+  "armA": {
+    "9": {
+      "class_acc": 1.0,
+      "cover_acc": 0.824,
+      "class_peak_median": 30.0,
+      "cover_peak_median": 33.0,
+      "drift_cos_vs_L9": 1.0
+    },
+    "21": {
+      "class_acc": 0.889,
+      "cover_acc": 0.353,
+      "class_peak_median": 12.0,
+      "cover_peak_median": 32.0,
+      "drift_cos_vs_L9": 0.5684
+    }
+  },
+  "armB": {
+    "15": {
+      "flip": 1.0,
+      "random": 0.0,
+      "n": 12
+    },
+    "25": {
+      "flip": 0.0,
+      "random": 0.0,
+      "n": 12
+    }
+  },
+  "L_max_1hop": 21,
+  "L_max_2hop": 9,
+  "D_hop2": 12,
+  "L_close": 25,
+  "slide_spearman": null,
+  "verdict_BUDGET_VISIBLE": true,
+  "verdict_UNMEASURED": false,
+  "verdict_PIPELINE_SLIDES": false,
+  "verdict_3HOP_ROOM_AT_4B": false
+}
