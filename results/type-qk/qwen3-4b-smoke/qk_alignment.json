@@ -1,0 +1,1762 @@
+{
+  "experiment": "P-TYPE-QK",
+  "prereg": "mementum/knowledge/explore/type-check-is-the-qk-bilinear.md#p-type-qk",
+  "model": "Qwen/Qwen3-4B",
+  "device": "mps",
+  "timestamp_utc": "2026-07-30T22:54:32.836913+00:00",
+  "git_sha": "f0b20e3a8bb3e2e8a08ae5d075333f1111576f59",
+  "seed": 0,
+  "layer_stride": 2,
+  "n_null": 50,
+  "n_null_profile": 25,
+  "n_null_geom": 100,
+  "n_layers": 36,
+  "head_dim": 128,
+  "n_heads_q": 32,
+  "n_heads_kv": 8,
+  "n_labeled": 263,
+  "type_order": [
+    "ENTITY",
+    "PRED",
+    "REL",
+    "QUANT",
+    "DET",
+    "MOD",
+    "CONN",
+    "FUNC"
+  ],
+  "conds": {
+    "bind": [
+      "QUANT",
+      "DET"
+    ],
+    "comp": [
+      "MOD"
+    ],
+    "rolenull": [
+      "CONN",
+      "FUNC"
+    ],
+    "entity": [
+      "ENTITY"
+    ]
+  },
+  "band_residual_layers": [
+    8,
+    10,
+    12
+  ],
+  "band_aggregate": {
+    "bind": {
+      "q": {
+        "rho": 1.5656,
+        "null_mean": 1.2111,
+        "null_std": 0.0569,
+        "p": 0.0
+      },
+      "k": {
+        "rho": 1.4311,
+        "null_mean": 1.7353,
+        "null_std": 0.2626,
+        "p": 0.98
+      },
+      "asym": {
+        "a": 0.1345,
+        "p_pos": 0.0,
+        "p_neg": 1.0
+      }
+    },
+    "comp": {
+      "q": {
+        "rho": 1.2123,
+        "null_mean": 1.2284,
+        "null_std": 0.0342,
+        "p": 0.74
+      },
+      "k": {
+        "rho": 1.6823,
+        "null_mean": 1.6894,
+        "null_std": 0.0339,
+        "p": 0.62
+      },
+      "asym": {
+        "a": -0.47,
+        "p_pos": 0.62,
+        "p_neg": 0.38
+      }
+    },
+    "rolenull": {
+      "q": {
+        "rho": 1.2607,
+        "null_mean": 1.2056,
+        "null_std": 0.0533,
+        "p": 0.14
+      },
+      "k": {
+        "rho": 1.7633,
+        "null_mean": 1.6325,
+        "null_std": 0.1671,
+        "p": 0.12
+      },
+      "asym": {
+        "a": -0.5026,
+        "p_pos": 0.8,
+        "p_neg": 0.2
+      }
+    },
+    "entity": {
+      "q": {
+        "rho": 1.2971,
+        "null_mean": 1.2214,
+        "null_std": 0.0576,
+        "p": 0.08
+      },
+      "k": {
+        "rho": 1.7072,
+        "null_mean": 1.7026,
+        "null_std": 0.1538,
+        "p": 0.12
+      },
+      "asym": {
+        "a": -0.4101,
+        "p_pos": 0.04,
+        "p_neg": 0.96
+      }
+    }
+  },
+  "verdict": {
+    "qk_aligned": false,
+    "mechanism_shaped": false,
+    "p_bind_q": 0.0,
+    "p_comp_q": 0.74,
+    "asym_signs": {
+      "bind": 0.1345,
+      "comp": -0.47,
+      "entity": -0.4101
+    },
+    "note": "advisory until #p-type-qk pre-reg is frozen (Michael GO)"
+  },
+  "per_layer": {
+    "-1": {
+      "attn_layer": 0,
+      "in_band": false,
+      "n_null": 25,
+      "bind": {
+        "q": {
+          "rho": 2.1708,
+          "null_mean": 2.3188,
+          "null_std": 0.4403,
+          "p": 0.64
+        },
+        "k": {
+          "rho": 3.0873,
+          "null_mean": 1.8866,
+          "null_std": 0.3117,
+          "p": 0.0
+        },
+        "asym": {
+          "a": -0.9165,
+          "p_pos": 1.0,
+          "p_neg": 0.0
+        }
+      },
+      "comp": {
+        "q": {
+          "rho": 2.7594,
+          "null_mean": 2.3243,
+          "null_std": 1.0171,
+          "p": 0.32
+        },
+        "k": {
+          "rho": 2.8826,
+          "null_mean": 1.9148,
+          "null_std": 0.5933,
+          "p": 0.04
+        },
+        "asym": {
+          "a": -0.1232,
+          "p_pos": 0.88,
+          "p_neg": 0.12
+        }
+      },
+      "rolenull": {
+        "q": {
+          "rho": 3.9763,
+          "null_mean": 2.1848,
+          "null_std": 0.618,
+          "p": 0.0
+        },
+        "k": {
+          "rho": 2.9568,
+          "null_mean": 1.9198,
+          "null_std": 0.4229,
+          "p": 0.0
+        },
+        "asym": {
+          "a": 1.0195,
+          "p_pos": 0.0,
+          "p_neg": 1.0
+        }
+      },
+      "entity": {
+        "q": {
+          "rho": 2.9125,
+          "null_mean": 2.4911,
+          "null_std": 1.0959,
+          "p": 0.36
+        },
+        "k": {
+          "rho": 2.9534,
+          "null_mean": 1.9731,
+          "null_std": 0.6379,
+          "p": 0.08
+        },
+        "asym": {
+          "a": -0.0409,
+          "p_pos": 0.84,
+          "p_neg": 0.16
+        }
+      }
+    },
+    "0": {
+      "attn_layer": 1,
+      "in_band": false,
+      "n_null": 25,
+      "bind": {
+        "q": {
+          "rho": 2.6551,
+          "null_mean": 2.0944,
+          "null_std": 0.4425,
+          "p": 0.16
+        },
+        "k": {
+          "rho": 3.4827,
+          "null_mean": 2.6968,
+          "null_std": 0.5828,
+          "p": 0.12
+        },
+        "asym": {
+          "a": -0.8276,
+          "p_pos": 0.88,
+          "p_neg": 0.12
+        }
+      },
+      "comp": {
+        "q": {
+          "rho": 3.9191,
+          "null_mean": 2.1568,
+          "null_std": 0.7549,
+          "p": 0.04
+        },
+        "k": {
+          "rho": 4.0515,
+          "null_mean": 2.7562,
+          "null_std": 0.9328,
+          "p": 0.12
+        },
+        "asym": {
+          "a": -0.1324,
+          "p_pos": 0.04,
+          "p_neg": 0.96
+        }
+      },
+      "rolenull": {
+        "q": {
+          "rho": 4.052,
+          "null_mean": 2.0307,
+          "null_std": 0.4054,
+          "p": 0.0
+        },
+        "k": {
+          "rho": 5.3406,
+          "null_mean": 2.6308,
+          "null_std": 0.4751,
+          "p": 0.0
+        },
+        "asym": {
+          "a": -1.2886,
+          "p_pos": 1.0,
+          "p_neg": 0.0
+        }
+      },
+      "entity": {
+        "q": {
+          "rho": 3.1502,
+          "null_mean": 2.0698,
+          "null_std": 0.7569,
+          "p": 0.12
+        },
+        "k": {
+          "rho": 4.4156,
+          "null_mean": 2.7312,
+          "null_std": 0.9478,
+          "p": 0.08
+        },
+        "asym": {
+          "a": -1.2654,
+          "p_pos": 0.92,
+          "p_neg": 0.08
+        }
+      }
+    },
+    "2": {
+      "attn_layer": 3,
+      "in_band": false,
+      "n_null": 25,
+      "bind": {
+        "q": {
+          "rho": 0.6214,
+          "null_mean": 1.142,
+          "null_std": 0.3028,
+          "p": 1.0
+        },
+        "k": {
+          "rho": 2.3561,
+          "null_mean": 2.1815,
+          "null_std": 0.3927,
+          "p": 0.28
+        },
+        "asym": {
+          "a": -1.7347,
+          "p_pos": 1.0,
+          "p_neg": 0.0
+        }
+      },
+      "comp": {
+        "q": {
+          "rho": 0.6647,
+          "null_mean": 0.852,
+          "null_std": 0.2914,
+          "p": 0.68
+        },
+        "k": {
+          "rho": 2.5759,
+          "null_mean": 2.1274,
+          "null_std": 0.4423,
+          "p": 0.12
+        },
+        "asym": {
+          "a": -1.9111,
+          "p_pos": 0.92,
+          "p_neg": 0.08
+        }
+      },
+      "rolenull": {
+        "q": {
+          "rho": 2.1721,
+          "null_mean": 1.0892,
+          "null_std": 0.3145,
+          "p": 0.04
+        },
+        "k": {
+          "rho": 3.7201,
+          "null_mean": 2.2188,
+          "null_std": 0.3595,
+          "p": 0.0
+        },
+        "asym": {
+          "a": -1.548,
+          "p_pos": 1.0,
+          "p_neg": 0.0
+        }
+      },
+      "entity": {
+        "q": {
+          "rho": 0.9646,
+          "null_mean": 0.9376,
+          "null_std": 0.3717,
+          "p": 0.44
+        },
+        "k": {
+          "rho": 1.8121,
+          "null_mean": 2.3306,
+          "null_std": 0.7857,
+          "p": 0.64
+        },
+        "asym": {
+          "a": -0.8475,
+          "p_pos": 0.32,
+          "p_neg": 0.68
+        }
+      }
+    },
+    "4": {
+      "attn_layer": 5,
+      "in_band": false,
+      "n_null": 25,
+      "bind": {
+        "q": {
+          "rho": 1.0179,
+          "null_mean": 1.2696,
+          "null_std": 0.2193,
+          "p": 0.96
+        },
+        "k": {
+          "rho": 5.3811,
+          "null_mean": 3.7072,
+          "null_std": 0.9186,
+          "p": 0.0
+        },
+        "asym": {
+          "a": -4.3631,
+          "p_pos": 1.0,
+          "p_neg": 0.0
+        }
+      },
+      "comp": {
+        "q": {
+          "rho": 1.6091,
+          "null_mean": 1.4117,
+          "null_std": 0.4262,
+          "p": 0.32
+        },
+        "k": {
+          "rho": 6.8497,
+          "null_mean": 3.4866,
+          "null_std": 1.3642,
+          "p": 0.0
+        },
+        "asym": {
+          "a": -5.2406,
+          "p_pos": 1.0,
+          "p_neg": 0.0
+        }
+      },
+      "rolenull": {
+        "q": {
+          "rho": 2.1428,
+          "null_mean": 1.3351,
+          "null_std": 0.2089,
+          "p": 0.0
+        },
+        "k": {
+          "rho": 5.5426,
+          "null_mean": 3.2629,
+          "null_std": 0.8227,
+          "p": 0.0
+        },
+        "asym": {
+          "a": -3.3998,
+          "p_pos": 1.0,
+          "p_neg": 0.0
+        }
+      },
+      "entity": {
+        "q": {
+          "rho": 1.6232,
+          "null_mean": 1.2962,
+          "null_std": 0.2801,
+          "p": 0.16
+        },
+        "k": {
+          "rho": 4.4399,
+          "null_mean": 3.6719,
+          "null_std": 1.5689,
+          "p": 0.24
+        },
+        "asym": {
+          "a": -2.8167,
+          "p_pos": 0.72,
+          "p_neg": 0.28
+        }
+      }
+    },
+    "6": {
+      "attn_layer": 7,
+      "in_band": false,
+      "n_null": 25,
+      "bind": {
+        "q": {
+          "rho": 1.0931,
+          "null_mean": 1.0745,
+          "null_std": 0.0977,
+          "p": 0.44
+        },
+        "k": {
+          "rho": 2.3683,
+          "null_mean": 2.5353,
+          "null_std": 0.1429,
+          "p": 0.88
+        },
+        "asym": {
+          "a": -1.2752,
+          "p_pos": 0.0,
+          "p_neg": 1.0
+        }
+      },
+      "comp": {
+        "q": {
+          "rho": 0.9503,
+          "null_mean": 0.9938,
+          "null_std": 0.1114,
+          "p": 0.84
+        },
+        "k": {
+          "rho": 3.6444,
+          "null_mean": 3.5385,
+          "null_std": 0.4093,
+          "p": 0.52
+        },
+        "asym": {
+          "a": -2.6941,
+          "p_pos": 0.8,
+          "p_neg": 0.2
+        }
+      },
+      "rolenull": {
+        "q": {
+          "rho": 1.2098,
+          "null_mean": 1.0605,
+          "null_std": 0.0707,
+          "p": 0.0
+        },
+        "k": {
+          "rho": 2.9521,
+          "null_mean": 2.5099,
+          "null_std": 0.1663,
+          "p": 0.0
+        },
+        "asym": {
+          "a": -1.7422,
+          "p_pos": 1.0,
+          "p_neg": 0.0
+        }
+      },
+      "entity": {
+        "q": {
+          "rho": 1.0275,
+          "null_mean": 0.9616,
+          "null_std": 0.0416,
+          "p": 0.08
+        },
+        "k": {
+          "rho": 3.621,
+          "null_mean": 3.5514,
+          "null_std": 0.4085,
+          "p": 0.76
+        },
+        "asym": {
+          "a": -2.5935,
+          "p_pos": 0.12,
+          "p_neg": 0.88
+        }
+      }
+    },
+    "8": {
+      "attn_layer": 9,
+      "in_band": true,
+      "n_null": 50,
+      "bind": {
+        "q": {
+          "rho": 1.5285,
+          "null_mean": 1.1386,
+          "null_std": 0.0924,
+          "p": 0.0
+        },
+        "k": {
+          "rho": 1.3293,
+          "null_mean": 1.3789,
+          "null_std": 0.1327,
+          "p": 0.62
+        },
+        "asym": {
+          "a": 0.1992,
+          "p_pos": 0.0,
+          "p_neg": 1.0
+        }
+      },
+      "comp": {
+        "q": {
+          "rho": 1.1201,
+          "null_mean": 1.1291,
+          "null_std": 0.0267,
+          "p": 0.64
+        },
+        "k": {
+          "rho": 1.4647,
+          "null_mean": 1.4639,
+          "null_std": 0.0188,
+          "p": 0.34
+        },
+        "asym": {
+          "a": -0.3446,
+          "p_pos": 0.78,
+          "p_neg": 0.22
+        }
+      },
+      "rolenull": {
+        "q": {
+          "rho": 1.2464,
+          "null_mean": 1.1576,
+          "null_std": 0.0889,
+          "p": 0.2
+        },
+        "k": {
+          "rho": 1.5699,
+          "null_mean": 1.4104,
+          "null_std": 0.1129,
+          "p": 0.04
+        },
+        "asym": {
+          "a": -0.3236,
+          "p_pos": 0.8,
+          "p_neg": 0.2
+        }
+      },
+      "entity": {
+        "q": {
+          "rho": 1.206,
+          "null_mean": 1.1193,
+          "null_std": 0.1042,
+          "p": 0.06
+        },
+        "k": {
+          "rho": 1.4835,
+          "null_mean": 1.4492,
+          "null_std": 0.0894,
+          "p": 0.08
+        },
+        "asym": {
+          "a": -0.2775,
+          "p_pos": 0.1,
+          "p_neg": 0.9
+        }
+      }
+    },
+    "10": {
+      "attn_layer": 11,
+      "in_band": true,
+      "n_null": 50,
+      "bind": {
+        "q": {
+          "rho": 1.4856,
+          "null_mean": 1.1744,
+          "null_std": 0.0682,
+          "p": 0.0
+        },
+        "k": {
+          "rho": 1.4177,
+          "null_mean": 1.5186,
+          "null_std": 0.1442,
+          "p": 0.74
+        },
+        "asym": {
+          "a": 0.0679,
+          "p_pos": 0.0,
+          "p_neg": 1.0
+        }
+      },
+      "comp": {
+        "q": {
+          "rho": 1.2207,
+          "null_mean": 1.2226,
+          "null_std": 0.0382,
+          "p": 0.72
+        },
+        "k": {
+          "rho": 1.716,
+          "null_mean": 1.7065,
+          "null_std": 0.0499,
+          "p": 0.38
+        },
+        "asym": {
+          "a": -0.4953,
+          "p_pos": 0.78,
+          "p_neg": 0.22
+        }
+      },
+      "rolenull": {
+        "q": {
+          "rho": 1.1944,
+          "null_mean": 1.1796,
+          "null_std": 0.0743,
+          "p": 0.34
+        },
+        "k": {
+          "rho": 1.8827,
+          "null_mean": 1.5285,
+          "null_std": 0.1335,
+          "p": 0.0
+        },
+        "asym": {
+          "a": -0.6883,
+          "p_pos": 1.0,
+          "p_neg": 0.0
+        }
+      },
+      "entity": {
+        "q": {
+          "rho": 1.3072,
+          "null_mean": 1.2253,
+          "null_std": 0.0361,
+          "p": 0.02
+        },
+        "k": {
+          "rho": 1.7474,
+          "null_mean": 1.7085,
+          "null_std": 0.0356,
+          "p": 0.02
+        },
+        "asym": {
+          "a": -0.4402,
+          "p_pos": 0.04,
+          "p_neg": 0.96
+        }
+      }
+    },
+    "12": {
+      "attn_layer": 13,
+      "in_band": true,
+      "n_null": 50,
+      "bind": {
+        "q": {
+          "rho": 1.6827,
+          "null_mean": 1.3201,
+          "null_std": 0.1223,
+          "p": 0.0
+        },
+        "k": {
+          "rho": 1.5464,
+          "null_mean": 2.3083,
+          "null_std": 0.777,
+          "p": 0.98
+        },
+        "asym": {
+          "a": 0.1363,
+          "p_pos": 0.0,
+          "p_neg": 1.0
+        }
+      },
+      "comp": {
+        "q": {
+          "rho": 1.2962,
+          "null_mean": 1.3337,
+          "null_std": 0.0939,
+          "p": 0.72
+        },
+        "k": {
+          "rho": 1.8663,
+          "null_mean": 1.8977,
+          "null_std": 0.0878,
+          "p": 0.7
+        },
+        "asym": {
+          "a": -0.5701,
+          "p_pos": 0.52,
+          "p_neg": 0.48
+        }
+      },
+      "rolenull": {
+        "q": {
+          "rho": 1.3413,
+          "null_mean": 1.2797,
+          "null_std": 0.0923,
+          "p": 0.18
+        },
+        "k": {
+          "rho": 1.8373,
+          "null_mean": 1.9586,
+          "null_std": 0.4772,
+          "p": 0.48
+        },
+        "asym": {
+          "a": -0.496,
+          "p_pos": 0.44,
+          "p_neg": 0.56
+        }
+      },
+      "entity": {
+        "q": {
+          "rho": 1.378,
+          "null_mean": 1.3197,
+          "null_std": 0.1428,
+          "p": 0.1
+        },
+        "k": {
+          "rho": 1.8906,
+          "null_mean": 1.9501,
+          "null_std": 0.4844,
+          "p": 0.34
+        },
+        "asym": {
+          "a": -0.5126,
+          "p_pos": 0.14,
+          "p_neg": 0.86
+        }
+      }
+    },
+    "14": {
+      "attn_layer": 15,
+      "in_band": false,
+      "n_null": 25,
+      "bind": {
+        "q": {
+          "rho": 1.5154,
+          "null_mean": 1.1007,
+          "null_std": 0.1146,
+          "p": 0.0
+        },
+        "k": {
+          "rho": 4.2147,
+          "null_mean": 4.3841,
+          "null_std": 2.5195,
+          "p": 0.44
+        },
+        "asym": {
+          "a": -2.6994,
+          "p_pos": 0.52,
+          "p_neg": 0.48
+        }
+      },
+      "comp": {
+        "q": {
+          "rho": 0.9612,
+          "null_mean": 0.9737,
+          "null_std": 0.053,
+          "p": 0.72
+        },
+        "k": {
+          "rho": 1.7592,
+          "null_mean": 1.9978,
+          "null_std": 0.4917,
+          "p": 0.8
+        },
+        "asym": {
+          "a": -0.798,
+          "p_pos": 0.24,
+          "p_neg": 0.76
+        }
+      },
+      "rolenull": {
+        "q": {
+          "rho": 1.1665,
+          "null_mean": 1.1072,
+          "null_std": 0.0983,
+          "p": 0.28
+        },
+        "k": {
+          "rho": 1.827,
+          "null_mean": 4.8951,
+          "null_std": 3.7701,
+          "p": 0.76
+        },
+        "asym": {
+          "a": -0.6605,
+          "p_pos": 0.12,
+          "p_neg": 0.88
+        }
+      },
+      "entity": {
+        "q": {
+          "rho": 1.0493,
+          "null_mean": 0.9715,
+          "null_std": 0.0441,
+          "p": 0.04
+        },
+        "k": {
+          "rho": 1.7376,
+          "null_mean": 1.7905,
+          "null_std": 0.1226,
+          "p": 0.8
+        },
+        "asym": {
+          "a": -0.6884,
+          "p_pos": 0.12,
+          "p_neg": 0.88
+        }
+      }
+    },
+    "16": {
+      "attn_layer": 17,
+      "in_band": false,
+      "n_null": 25,
+      "bind": {
+        "q": {
+          "rho": 0.9477,
+          "null_mean": 0.8496,
+          "null_std": 0.0782,
+          "p": 0.12
+        },
+        "k": {
+          "rho": 2.166,
+          "null_mean": 3.26,
+          "null_std": 2.0167,
+          "p": 0.52
+        },
+        "asym": {
+          "a": -1.2183,
+          "p_pos": 0.48,
+          "p_neg": 0.52
+        }
+      },
+      "comp": {
+        "q": {
+          "rho": 0.7585,
+          "null_mean": 0.7743,
+          "null_std": 0.1056,
+          "p": 0.4
+        },
+        "k": {
+          "rho": 1.6268,
+          "null_mean": 1.7371,
+          "null_std": 0.278,
+          "p": 0.68
+        },
+        "asym": {
+          "a": -0.8683,
+          "p_pos": 0.4,
+          "p_neg": 0.6
+        }
+      },
+      "rolenull": {
+        "q": {
+          "rho": 1.1104,
+          "null_mean": 0.8489,
+          "null_std": 0.0937,
+          "p": 0.0
+        },
+        "k": {
+          "rho": 1.7571,
+          "null_mean": 3.0135,
+          "null_std": 2.4386,
+          "p": 0.56
+        },
+        "asym": {
+          "a": -0.6467,
+          "p_pos": 0.28,
+          "p_neg": 0.72
+        }
+      },
+      "entity": {
+        "q": {
+          "rho": 0.8014,
+          "null_mean": 0.7646,
+          "null_std": 0.0297,
+          "p": 0.08
+        },
+        "k": {
+          "rho": 1.6233,
+          "null_mean": 1.6803,
+          "null_std": 0.2024,
+          "p": 0.64
+        },
+        "asym": {
+          "a": -0.8219,
+          "p_pos": 0.28,
+          "p_neg": 0.72
+        }
+      }
+    },
+    "18": {
+      "attn_layer": 19,
+      "in_band": false,
+      "n_null": 25,
+      "bind": {
+        "q": {
+          "rho": 1.1617,
+          "null_mean": 0.8592,
+          "null_std": 0.0905,
+          "p": 0.0
+        },
+        "k": {
+          "rho": 1.185,
+          "null_mean": 1.3195,
+          "null_std": 0.0808,
+          "p": 0.96
+        },
+        "asym": {
+          "a": -0.0232,
+          "p_pos": 0.0,
+          "p_neg": 1.0
+        }
+      },
+      "comp": {
+        "q": {
+          "rho": 0.5893,
+          "null_mean": 0.608,
+          "null_std": 0.047,
+          "p": 0.84
+        },
+        "k": {
+          "rho": 1.4307,
+          "null_mean": 1.4446,
+          "null_std": 0.038,
+          "p": 0.84
+        },
+        "asym": {
+          "a": -0.8414,
+          "p_pos": 0.44,
+          "p_neg": 0.56
+        }
+      },
+      "rolenull": {
+        "q": {
+          "rho": 1.0323,
+          "null_mean": 0.8303,
+          "null_std": 0.1066,
+          "p": 0.08
+        },
+        "k": {
+          "rho": 1.5686,
+          "null_mean": 1.3036,
+          "null_std": 0.1276,
+          "p": 0.04
+        },
+        "asym": {
+          "a": -0.5363,
+          "p_pos": 0.72,
+          "p_neg": 0.28
+        }
+      },
+      "entity": {
+        "q": {
+          "rho": 0.6537,
+          "null_mean": 0.6154,
+          "null_std": 0.0518,
+          "p": 0.08
+        },
+        "k": {
+          "rho": 1.5132,
+          "null_mean": 1.4413,
+          "null_std": 0.0535,
+          "p": 0.04
+        },
+        "asym": {
+          "a": -0.8596,
+          "p_pos": 1.0,
+          "p_neg": 0.0
+        }
+      }
+    },
+    "20": {
+      "attn_layer": 21,
+      "in_band": false,
+      "n_null": 25,
+      "bind": {
+        "q": {
+          "rho": 0.6984,
+          "null_mean": 0.6303,
+          "null_std": 0.0584,
+          "p": 0.16
+        },
+        "k": {
+          "rho": 0.8513,
+          "null_mean": 1.121,
+          "null_std": 0.1084,
+          "p": 1.0
+        },
+        "asym": {
+          "a": -0.1529,
+          "p_pos": 0.0,
+          "p_neg": 1.0
+        }
+      },
+      "comp": {
+        "q": {
+          "rho": 0.3639,
+          "null_mean": 0.3666,
+          "null_std": 0.0178,
+          "p": 0.6
+        },
+        "k": {
+          "rho": 0.9413,
+          "null_mean": 0.9428,
+          "null_std": 0.0173,
+          "p": 0.64
+        },
+        "asym": {
+          "a": -0.5774,
+          "p_pos": 0.6,
+          "p_neg": 0.4
+        }
+      },
+      "rolenull": {
+        "q": {
+          "rho": 0.8186,
+          "null_mean": 0.6526,
+          "null_std": 0.0729,
+          "p": 0.04
+        },
+        "k": {
+          "rho": 1.2751,
+          "null_mean": 1.0732,
+          "null_std": 0.1189,
+          "p": 0.04
+        },
+        "asym": {
+          "a": -0.4566,
+          "p_pos": 0.64,
+          "p_neg": 0.36
+        }
+      },
+      "entity": {
+        "q": {
+          "rho": 0.4005,
+          "null_mean": 0.3721,
+          "null_std": 0.0444,
+          "p": 0.12
+        },
+        "k": {
+          "rho": 0.9972,
+          "null_mean": 0.9398,
+          "null_std": 0.0464,
+          "p": 0.04
+        },
+        "asym": {
+          "a": -0.5967,
+          "p_pos": 1.0,
+          "p_neg": 0.0
+        }
+      }
+    },
+    "22": {
+      "attn_layer": 23,
+      "in_band": false,
+      "n_null": 25,
+      "bind": {
+        "q": {
+          "rho": 1.0679,
+          "null_mean": 0.703,
+          "null_std": 0.0861,
+          "p": 0.0
+        },
+        "k": {
+          "rho": 1.497,
+          "null_mean": 1.4571,
+          "null_std": 0.1254,
+          "p": 0.4
+        },
+        "asym": {
+          "a": -0.4291,
+          "p_pos": 0.0,
+          "p_neg": 1.0
+        }
+      },
+      "comp": {
+        "q": {
+          "rho": 0.3962,
+          "null_mean": 0.4281,
+          "null_std": 0.0853,
+          "p": 0.64
+        },
+        "k": {
+          "rho": 1.5713,
+          "null_mean": 1.5705,
+          "null_std": 0.0898,
+          "p": 0.6
+        },
+        "asym": {
+          "a": -1.175,
+          "p_pos": 0.72,
+          "p_neg": 0.28
+        }
+      },
+      "rolenull": {
+        "q": {
+          "rho": 0.8868,
+          "null_mean": 0.7111,
+          "null_std": 0.1049,
+          "p": 0.04
+        },
+        "k": {
+          "rho": 1.586,
+          "null_mean": 1.4504,
+          "null_std": 0.1262,
+          "p": 0.12
+        },
+        "asym": {
+          "a": -0.6991,
+          "p_pos": 0.48,
+          "p_neg": 0.52
+        }
+      },
+      "entity": {
+        "q": {
+          "rho": 0.4825,
+          "null_mean": 0.4255,
+          "null_std": 0.0913,
+          "p": 0.04
+        },
+        "k": {
+          "rho": 1.7014,
+          "null_mean": 1.5676,
+          "null_std": 0.056,
+          "p": 0.0
+        },
+        "asym": {
+          "a": -1.2189,
+          "p_pos": 1.0,
+          "p_neg": 0.0
+        }
+      }
+    },
+    "24": {
+      "attn_layer": 25,
+      "in_band": false,
+      "n_null": 25,
+      "bind": {
+        "q": {
+          "rho": 0.9929,
+          "null_mean": 0.6211,
+          "null_std": 0.093,
+          "p": 0.0
+        },
+        "k": {
+          "rho": 1.6112,
+          "null_mean": 1.5461,
+          "null_std": 0.0857,
+          "p": 0.2
+        },
+        "asym": {
+          "a": -0.6183,
+          "p_pos": 0.04,
+          "p_neg": 0.96
+        }
+      },
+      "comp": {
+        "q": {
+          "rho": 0.3213,
+          "null_mean": 0.3354,
+          "null_std": 0.0228,
+          "p": 0.84
+        },
+        "k": {
+          "rho": 1.802,
+          "null_mean": 1.7989,
+          "null_std": 0.0861,
+          "p": 0.56
+        },
+        "asym": {
+          "a": -1.4807,
+          "p_pos": 0.64,
+          "p_neg": 0.36
+        }
+      },
+      "rolenull": {
+        "q": {
+          "rho": 0.7003,
+          "null_mean": 0.624,
+          "null_std": 0.0892,
+          "p": 0.16
+        },
+        "k": {
+          "rho": 1.602,
+          "null_mean": 1.5649,
+          "null_std": 0.0968,
+          "p": 0.4
+        },
+        "asym": {
+          "a": -0.9018,
+          "p_pos": 0.48,
+          "p_neg": 0.52
+        }
+      },
+      "entity": {
+        "q": {
+          "rho": 0.4053,
+          "null_mean": 0.3719,
+          "null_std": 0.1323,
+          "p": 0.08
+        },
+        "k": {
+          "rho": 2.0662,
+          "null_mean": 1.7632,
+          "null_std": 0.1288,
+          "p": 0.0
+        },
+        "asym": {
+          "a": -1.6609,
+          "p_pos": 1.0,
+          "p_neg": 0.0
+        }
+      }
+    },
+    "26": {
+      "attn_layer": 27,
+      "in_band": false,
+      "n_null": 25,
+      "bind": {
+        "q": {
+          "rho": 1.0418,
+          "null_mean": 0.6436,
+          "null_std": 0.104,
+          "p": 0.0
+        },
+        "k": {
+          "rho": 1.4883,
+          "null_mean": 1.4087,
+          "null_std": 0.0861,
+          "p": 0.2
+        },
+        "asym": {
+          "a": -0.4465,
+          "p_pos": 0.0,
+          "p_neg": 1.0
+        }
+      },
+      "comp": {
+        "q": {
+          "rho": 0.343,
+          "null_mean": 0.4023,
+          "null_std": 0.1318,
+          "p": 0.6
+        },
+        "k": {
+          "rho": 1.4945,
+          "null_mean": 1.4776,
+          "null_std": 0.0833,
+          "p": 0.48
+        },
+        "asym": {
+          "a": -1.1515,
+          "p_pos": 0.6,
+          "p_neg": 0.4
+        }
+      },
+      "rolenull": {
+        "q": {
+          "rho": 0.7899,
+          "null_mean": 0.6436,
+          "null_std": 0.0908,
+          "p": 0.16
+        },
+        "k": {
+          "rho": 1.3972,
+          "null_mean": 1.3462,
+          "null_std": 0.0781,
+          "p": 0.24
+        },
+        "asym": {
+          "a": -0.6072,
+          "p_pos": 0.2,
+          "p_neg": 0.8
+        }
+      },
+      "entity": {
+        "q": {
+          "rho": 0.4038,
+          "null_mean": 0.3606,
+          "null_std": 0.0403,
+          "p": 0.12
+        },
+        "k": {
+          "rho": 1.7052,
+          "null_mean": 1.4905,
+          "null_std": 0.0604,
+          "p": 0.0
+        },
+        "asym": {
+          "a": -1.3013,
+          "p_pos": 1.0,
+          "p_neg": 0.0
+        }
+      }
+    },
+    "28": {
+      "attn_layer": 29,
+      "in_band": false,
+      "n_null": 25,
+      "bind": {
+        "q": {
+          "rho": 1.1089,
+          "null_mean": 0.5819,
+          "null_std": 0.1033,
+          "p": 0.0
+        },
+        "k": {
+          "rho": 1.8504,
+          "null_mean": 1.5741,
+          "null_std": 0.1684,
+          "p": 0.04
+        },
+        "asym": {
+          "a": -0.7415,
+          "p_pos": 0.04,
+          "p_neg": 0.96
+        }
+      },
+      "comp": {
+        "q": {
+          "rho": 0.3085,
+          "null_mean": 0.3544,
+          "null_std": 0.1054,
+          "p": 0.52
+        },
+        "k": {
+          "rho": 1.5411,
+          "null_mean": 1.5993,
+          "null_std": 0.1007,
+          "p": 0.72
+        },
+        "asym": {
+          "a": -1.2326,
+          "p_pos": 0.36,
+          "p_neg": 0.64
+        }
+      },
+      "rolenull": {
+        "q": {
+          "rho": 0.6464,
+          "null_mean": 0.616,
+          "null_std": 0.1323,
+          "p": 0.28
+        },
+        "k": {
+          "rho": 1.51,
+          "null_mean": 1.6215,
+          "null_std": 0.1528,
+          "p": 0.8
+        },
+        "asym": {
+          "a": -0.8636,
+          "p_pos": 0.16,
+          "p_neg": 0.84
+        }
+      },
+      "entity": {
+        "q": {
+          "rho": 0.4557,
+          "null_mean": 0.448,
+          "null_std": 0.2264,
+          "p": 0.28
+        },
+        "k": {
+          "rho": 2.4512,
+          "null_mean": 1.5596,
+          "null_std": 0.1654,
+          "p": 0.0
+        },
+        "asym": {
+          "a": -1.9955,
+          "p_pos": 1.0,
+          "p_neg": 0.0
+        }
+      }
+    },
+    "30": {
+      "attn_layer": 31,
+      "in_band": false,
+      "n_null": 25,
+      "bind": {
+        "q": {
+          "rho": 1.3354,
+          "null_mean": 0.6446,
+          "null_std": 0.1549,
+          "p": 0.0
+        },
+        "k": {
+          "rho": 1.8505,
+          "null_mean": 1.644,
+          "null_std": 0.2204,
+          "p": 0.16
+        },
+        "asym": {
+          "a": -0.5151,
+          "p_pos": 0.04,
+          "p_neg": 0.96
+        }
+      },
+      "comp": {
+        "q": {
+          "rho": 0.2914,
+          "null_mean": 0.474,
+          "null_std": 0.309,
+          "p": 0.96
+        },
+        "k": {
+          "rho": 1.4812,
+          "null_mean": 1.5309,
+          "null_std": 0.2013,
+          "p": 0.44
+        },
+        "asym": {
+          "a": -1.1899,
+          "p_pos": 0.72,
+          "p_neg": 0.28
+        }
+      },
+      "rolenull": {
+        "q": {
+          "rho": 0.7366,
+          "null_mean": 0.7201,
+          "null_std": 0.1916,
+          "p": 0.36
+        },
+        "k": {
+          "rho": 1.6076,
+          "null_mean": 1.6444,
+          "null_std": 0.1596,
+          "p": 0.48
+        },
+        "asym": {
+          "a": -0.8709,
+          "p_pos": 0.32,
+          "p_neg": 0.68
+        }
+      },
+      "entity": {
+        "q": {
+          "rho": 0.4935,
+          "null_mean": 0.5043,
+          "null_std": 0.2346,
+          "p": 0.36
+        },
+        "k": {
+          "rho": 3.0135,
+          "null_mean": 1.5681,
+          "null_std": 0.2488,
+          "p": 0.0
+        },
+        "asym": {
+          "a": -2.5201,
+          "p_pos": 1.0,
+          "p_neg": 0.0
+        }
+      }
+    },
+    "32": {
+      "attn_layer": 33,
+      "in_band": false,
+      "n_null": 25,
+      "bind": {
+        "q": {
+          "rho": 1.1721,
+          "null_mean": 0.5706,
+          "null_std": 0.1218,
+          "p": 0.0
+        },
+        "k": {
+          "rho": 1.8632,
+          "null_mean": 1.7252,
+          "null_std": 0.1615,
+          "p": 0.16
+        },
+        "asym": {
+          "a": -0.6911,
+          "p_pos": 0.0,
+          "p_neg": 1.0
+        }
+      },
+      "comp": {
+        "q": {
+          "rho": 0.2676,
+          "null_mean": 0.4381,
+          "null_std": 0.1832,
+          "p": 0.92
+        },
+        "k": {
+          "rho": 1.5913,
+          "null_mean": 1.6851,
+          "null_std": 0.1582,
+          "p": 0.72
+        },
+        "asym": {
+          "a": -1.3237,
+          "p_pos": 0.6,
+          "p_neg": 0.4
+        }
+      },
+      "rolenull": {
+        "q": {
+          "rho": 0.6279,
+          "null_mean": 0.5971,
+          "null_std": 0.1046,
+          "p": 0.44
+        },
+        "k": {
+          "rho": 1.6479,
+          "null_mean": 1.752,
+          "null_std": 0.185,
+          "p": 0.72
+        },
+        "asym": {
+          "a": -1.02,
+          "p_pos": 0.28,
+          "p_neg": 0.72
+        }
+      },
+      "entity": {
+        "q": {
+          "rho": 0.4567,
+          "null_mean": 0.4455,
+          "null_std": 0.2601,
+          "p": 0.28
+        },
+        "k": {
+          "rho": 3.2631,
+          "null_mean": 1.6709,
+          "null_std": 0.2574,
+          "p": 0.0
+        },
+        "asym": {
+          "a": -2.8064,
+          "p_pos": 1.0,
+          "p_neg": 0.0
+        }
+      }
+    },
+    "34": {
+      "attn_layer": 35,
+      "in_band": false,
+      "n_null": 25,
+      "bind": {
+        "q": {
+          "rho": 2.6771,
+          "null_mean": 2.1697,
+          "null_std": 0.1912,
+          "p": 0.0
+        },
+        "k": {
+          "rho": 2.6518,
+          "null_mean": 2.3704,
+          "null_std": 0.1919,
+          "p": 0.0
+        },
+        "asym": {
+          "a": 0.0253,
+          "p_pos": 0.0,
+          "p_neg": 1.0
+        }
+      },
+      "comp": {
+        "q": {
+          "rho": 3.4129,
+          "null_mean": 2.9369,
+          "null_std": 0.6129,
+          "p": 0.16
+        },
+        "k": {
+          "rho": 3.5031,
+          "null_mean": 3.1067,
+          "null_std": 0.6724,
+          "p": 0.36
+        },
+        "asym": {
+          "a": -0.0902,
+          "p_pos": 0.32,
+          "p_neg": 0.68
+        }
+      },
+      "rolenull": {
+        "q": {
+          "rho": 2.2032,
+          "null_mean": 2.2165,
+          "null_std": 0.1444,
+          "p": 0.64
+        },
+        "k": {
+          "rho": 2.5308,
+          "null_mean": 2.4385,
+          "null_std": 0.1651,
+          "p": 0.36
+        },
+        "asym": {
+          "a": -0.3277,
+          "p_pos": 0.92,
+          "p_neg": 0.08
+        }
+      },
+      "entity": {
+        "q": {
+          "rho": 2.809,
+          "null_mean": 3.0873,
+          "null_std": 0.5555,
+          "p": 0.8
+        },
+        "k": {
+          "rho": 3.2654,
+          "null_mean": 3.2379,
+          "null_std": 0.5284,
+          "p": 0.72
+        },
+        "asym": {
+          "a": -0.4564,
+          "p_pos": 0.96,
+          "p_neg": 0.04
+        }
+      }
+    }
+  },
+  "geometry": {
+    "-1": {
+      "pr_real": 6.403,
+      "p_lowrank": 1.0
+    },
+    "0": {
+      "pr_real": 6.147,
+      "p_lowrank": 0.96
+    },
+    "2": {
+      "pr_real": 6.2,
+      "p_lowrank": 0.98
+    },
+    "4": {
+      "pr_real": 6.375,
+      "p_lowrank": 1.0
+    },
+    "6": {
+      "pr_real": 3.318,
+      "p_lowrank": 0.07
+    },
+    "8": {
+      "pr_real": 3.506,
+      "p_lowrank": 0.03
+    },
+    "10": {
+      "pr_real": 3.296,
+      "p_lowrank": 0.0
+    },
+    "12": {
+      "pr_real": 3.315,
+      "p_lowrank": 0.02
+    },
+    "14": {
+      "pr_real": 3.343,
+      "p_lowrank": 0.04
+    },
+    "16": {
+      "pr_real": 3.287,
+      "p_lowrank": 0.0
+    },
+    "18": {
+      "pr_real": 3.391,
+      "p_lowrank": 0.03
+    },
+    "20": {
+      "pr_real": 3.681,
+      "p_lowrank": 0.0
+    },
+    "22": {
+      "pr_real": 4.088,
+      "p_lowrank": 0.03
+    },
+    "24": {
+      "pr_real": 4.74,
+      "p_lowrank": 0.03
+    },
+    "26": {
+      "pr_real": 5.24,
+      "p_lowrank": 0.11
+    },
+    "28": {
+      "pr_real": 5.64,
+      "p_lowrank": 0.26
+    },
+    "30": {
+      "pr_real": 5.997,
+      "p_lowrank": 0.81
+    },
+    "32": {
+      "pr_real": 6.136,
+      "p_lowrank": 0.94
+    },
+    "34": {
+      "pr_real": 6.114,
+      "p_lowrank": 0.88
+    },
+    "35": {
+      "pr_real": 3.804,
+      "p_lowrank": 0.05
+    }
+  }
+}

@@ -1,0 +1,61 @@
+
+========================================================================
+  Loading Qwen/Qwen3-4B
+========================================================================
+
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights:  10%|▉         | 38/398 [00:00<00:00, 378.69it/s]Loading weights:  21%|██        | 82/398 [00:00<00:00, 403.67it/s]Loading weights:  32%|███▏      | 126/398 [00:00<00:00, 417.73it/s]Loading weights:  42%|████▏     | 169/398 [00:00<00:00, 418.38it/s]Loading weights:  54%|█████▎    | 213/398 [00:00<00:00, 424.18it/s]Loading weights:  65%|██████▍   | 257/398 [00:00<00:00, 423.36it/s]Loading weights:  76%|███████▌  | 302/398 [00:00<00:00, 429.53it/s]Loading weights:  87%|████████▋ | 346/398 [00:00<00:00, 429.40it/s]Loading weights:  99%|█████████▊| 393/398 [00:00<00:00, 440.82it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 429.94it/s]
+  Loaded in 2.9s
+  Layers: 36  Heads: 32  KV heads: 8  d_model: 2560
+    sentence 1/56: The dog runs....
+    sentence 11/56: Alice runs....
+    sentence 21/56: The farmer finds the bird....
+    sentence 31/56: Some teacher laughs....
+    sentence 41/56: The old house stands....
+    sentence 51/56: The house is old....
+[qk] labeled=263 skipped=0 layers=20
+[qk] geom embed  PR=6.40 p=1.0
+[qk] geom L0     PR=6.15 p=0.96
+[qk] geom L2     PR=6.20 p=0.98
+[qk] geom L4     PR=6.38 p=1.0
+[qk] geom L6     PR=3.32 p=0.07
+[qk] geom L8     PR=3.51 p=0.03
+[qk] geom L10    PR=3.30 p=0.0
+[qk] geom L12    PR=3.32 p=0.02
+[qk] geom L14    PR=3.34 p=0.04
+[qk] geom L16    PR=3.29 p=0.0
+[qk] geom L18    PR=3.39 p=0.03
+[qk] geom L20    PR=3.68 p=0.0
+[qk] geom L22    PR=4.09 p=0.03
+[qk] geom L24    PR=4.74 p=0.03
+[qk] geom L26    PR=5.24 p=0.11
+[qk] geom L28    PR=5.64 p=0.26
+[qk] geom L30    PR=6.00 p=0.81
+[qk] geom L32    PR=6.14 p=0.94
+[qk] geom L34    PR=6.11 p=0.88
+[qk] geom L35    PR=3.80 p=0.05
+[qk] BAND (residual layers) = L8..L12 (3 layers)
+[qk]      embed ->attn L 0 bind_q=2.171(p=0.640) comp_q=2.759(p=0.320) rolenull_q=3.976
+[qk]      L0    ->attn L 1 bind_q=2.655(p=0.160) comp_q=3.919(p=0.040) rolenull_q=4.052
+[qk]      L2    ->attn L 3 bind_q=0.621(p=1.000) comp_q=0.665(p=0.680) rolenull_q=2.172
+[qk]      L4    ->attn L 5 bind_q=1.018(p=0.960) comp_q=1.609(p=0.320) rolenull_q=2.143
+[qk]      L6    ->attn L 7 bind_q=1.093(p=0.440) comp_q=0.950(p=0.840) rolenull_q=1.210
+[qk] BAND L8    ->attn L 9 bind_q=1.528(p=0.000) comp_q=1.120(p=0.640) rolenull_q=1.246
+[qk] BAND L10   ->attn L11 bind_q=1.486(p=0.000) comp_q=1.221(p=0.720) rolenull_q=1.194
+[qk] BAND L12   ->attn L13 bind_q=1.683(p=0.000) comp_q=1.296(p=0.720) rolenull_q=1.341
+[qk]      L14   ->attn L15 bind_q=1.515(p=0.000) comp_q=0.961(p=0.720) rolenull_q=1.167
+[qk]      L16   ->attn L17 bind_q=0.948(p=0.120) comp_q=0.758(p=0.400) rolenull_q=1.110
+[qk]      L18   ->attn L19 bind_q=1.162(p=0.000) comp_q=0.589(p=0.840) rolenull_q=1.032
+[qk]      L20   ->attn L21 bind_q=0.698(p=0.160) comp_q=0.364(p=0.600) rolenull_q=0.819
+[qk]      L22   ->attn L23 bind_q=1.068(p=0.000) comp_q=0.396(p=0.640) rolenull_q=0.887
+[qk]      L24   ->attn L25 bind_q=0.993(p=0.000) comp_q=0.321(p=0.840) rolenull_q=0.700
+[qk]      L26   ->attn L27 bind_q=1.042(p=0.000) comp_q=0.343(p=0.600) rolenull_q=0.790
+[qk]      L28   ->attn L29 bind_q=1.109(p=0.000) comp_q=0.308(p=0.520) rolenull_q=0.646
+[qk]      L30   ->attn L31 bind_q=1.335(p=0.000) comp_q=0.291(p=0.960) rolenull_q=0.737
+[qk]      L32   ->attn L33 bind_q=1.172(p=0.000) comp_q=0.268(p=0.920) rolenull_q=0.628
+[qk]      L34   ->attn L35 bind_q=2.677(p=0.000) comp_q=3.413(p=0.160) rolenull_q=2.203
+[qk] BAND AGGREGATE: bind_q rho=1.5656 p=0.0 | comp_q rho=1.2123 p=0.74 | rolenull_q rho=1.2607 p=0.14
+[qk] ASYM (q-k): bind=0.1345 comp=-0.47 entity=-0.4101
+[qk] VERDICT (advisory until pre-reg frozen): {'qk_aligned': False, 'mechanism_shaped': False, 'p_bind_q': 0.0, 'p_comp_q': 0.74, 'asym_signs': {'bind': 0.1345, 'comp': -0.47, 'entity': -0.4101}, 'note': 'advisory until #p-type-qk pre-reg is frozen (Michael GO)'}
+[qk] wrote results/type-qk/qwen3-4b-smoke/qk_alignment.json
