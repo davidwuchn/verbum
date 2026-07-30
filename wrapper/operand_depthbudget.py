@@ -53,6 +53,20 @@ from operand_multihop import (
 )
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
+
+def resolve_parts(model):
+    """(decoder-layers, final-norm, lm_head) across architectures.
+
+    Dense qwen3     : model.model.layers / model.model.norm.
+    qwen3_5 hybrid  : model.model.language_model.{layers,norm} (MM ConditionalGeneration
+                      wraps a vision tower + a text model). Residual-stream hooks and the
+                      unembed lens are identical; only the intra-layer attention differs
+                      (linear/GatedDeltaNet at most layers, full attention every 4th).
+    """
+    inner = model.model
+    lm = inner if hasattr(inner, "layers") else inner.language_model
+    return lm.layers, lm.norm, model.lm_head
+
 CLASS_PREFIXES = [
     "A parrot is a kind of bird.\nA goat is a kind of mammal.\n"
     "A bass is a kind of fish.\n",
@@ -104,7 +118,7 @@ def main() -> None:
     tok = AutoTokenizer.from_pretrained(args.model_id)
     model = AutoModelForCausalLM.from_pretrained(
         args.model_id, dtype=getattr(torch, args.dtype)).to(dev).eval()
-    dec = model.model.layers
+    dec, norm_f, unembed = resolve_parts(model)
     n_layers = len(dec)
     cover_ids = {lb: tid(tok, lb) for lb in COVER_LABELS}
     class_ids = {c: tid(tok, c) for c in CLASSES}
@@ -190,8 +204,7 @@ def main() -> None:
         drift[L] = round(float(np.mean(cs)), 4)
 
     # ── logit-lens peaks (class + covering) with install at L ─────────────────────
-    norm_f = model.model.norm
-    unembed = model.lm_head
+    # norm_f, unembed resolved above via resolve_parts (architecture-robust)
 
     def lens_peaks(e, L):
         pfx = COVER_PREFIXES[0]
