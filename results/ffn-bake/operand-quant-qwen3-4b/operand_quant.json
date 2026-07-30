@@ -1,0 +1,822 @@
+{
+  "model": "Qwen/Qwen3-4B",
+  "layer": 9,
+  "scale": 2.0,
+  "target_z": 6.0,
+  "bits": 4,
+  "device": "mps",
+  "n_layers": 36,
+  "nonce": "zorp",
+  "decoy": "blorf",
+  "n_entities": 17,
+  "valid": [
+    "eagle",
+    "hawk",
+    "owl",
+    "crow",
+    "sparrow",
+    "robin",
+    "salmon",
+    "shark",
+    "tuna",
+    "trout",
+    "carp",
+    "wolf",
+    "fox",
+    "bear",
+    "tiger",
+    "rabbit",
+    "cat"
+  ],
+  "serialization": {
+    "skipped": false,
+    "entity": "eagle",
+    "pred_in_memory": "feathers",
+    "pred_reloaded": "feathers",
+    "decoy_in_memory": "feathers",
+    "decoy_reloaded": "feathers",
+    "real_word_reloaded": "fur",
+    "z_in_memory": 6.0,
+    "verdict_SERIALIZED": true
+  },
+  "conditions": {
+    "bf16": {
+      "installed_flip_vs_bf16baked": 0.0,
+      "installed_acc": 0.824,
+      "native_flip_vs_bf16": 0.0,
+      "native_acc": 1.0,
+      "slot_z_mean": 6.0,
+      "slot_fired_frac": 1.0,
+      "margin_mean": 4.476,
+      "gate_sign_flip_mean": 0.0,
+      "gate_sign_flip_by_layer": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "weight_sign_flip": {},
+      "cells": {
+        "eagle": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 6.0,
+          "margin": 3.375
+        },
+        "hawk": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 6.0,
+          "margin": 3.688
+        },
+        "owl": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 6.0,
+          "margin": 6.562
+        },
+        "crow": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 6.0,
+          "margin": 2.188
+        },
+        "sparrow": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 6.0,
+          "margin": 3.875
+        },
+        "robin": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 6.0,
+          "margin": 1.625
+        },
+        "salmon": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 6.0,
+          "margin": 7.812
+        },
+        "shark": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 6.0,
+          "margin": 12.0
+        },
+        "tuna": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 6.0,
+          "margin": 7.25
+        },
+        "trout": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 6.0,
+          "margin": 11.219
+        },
+        "carp": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 6.0,
+          "margin": 3.688
+        },
+        "wolf": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 6.0,
+          "margin": -0.688
+        },
+        "fox": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 6.0,
+          "margin": -0.25
+        },
+        "bear": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 6.0,
+          "margin": 4.688
+        },
+        "tiger": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 6.0,
+          "margin": 0.312
+        },
+        "rabbit": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 6.0,
+          "margin": 3.625
+        },
+        "cat": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 6.0,
+          "margin": 5.125
+        }
+      }
+    },
+    "slot_q4": {
+      "installed_flip_vs_bf16baked": 0.118,
+      "installed_acc": 0.941,
+      "native_flip_vs_bf16": 0.0,
+      "native_acc": 1.0,
+      "slot_z_mean": 6.0,
+      "slot_fired_frac": 1.0,
+      "margin_mean": 4.357,
+      "gate_sign_flip_mean": 0.0,
+      "gate_sign_flip_by_layer": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "weight_sign_flip": {},
+      "cells": {
+        "eagle": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 6.0,
+          "margin": 5.125
+        },
+        "hawk": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 6.0,
+          "margin": 2.312
+        },
+        "owl": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 6.0,
+          "margin": 6.562
+        },
+        "crow": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 6.0,
+          "margin": 1.938
+        },
+        "sparrow": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 6.0,
+          "margin": 3.0
+        },
+        "robin": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 6.0,
+          "margin": 0.938
+        },
+        "salmon": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 6.0,
+          "margin": 7.375
+        },
+        "shark": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 6.0,
+          "margin": 11.375
+        },
+        "tuna": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 6.0,
+          "margin": 8.594
+        },
+        "trout": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 6.0,
+          "margin": 11.0
+        },
+        "carp": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 6.0,
+          "margin": 2.688
+        },
+        "wolf": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 6.0,
+          "margin": 0.062
+        },
+        "fox": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 6.0,
+          "margin": 0.438
+        },
+        "bear": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 6.0,
+          "margin": 4.781
+        },
+        "tiger": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 6.0,
+          "margin": 1.375
+        },
+        "rabbit": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 6.0,
+          "margin": 3.625
+        },
+        "cat": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 6.0,
+          "margin": 2.875
+        }
+      }
+    },
+    "routing_q4": {
+      "installed_flip_vs_bf16baked": 0.0,
+      "installed_acc": 0.824,
+      "native_flip_vs_bf16": 0.0,
+      "native_acc": 1.0,
+      "slot_z_mean": 5.688,
+      "slot_fired_frac": 1.0,
+      "margin_mean": 4.615,
+      "gate_sign_flip_mean": 0.04,
+      "gate_sign_flip_by_layer": [
+        0.0331,
+        0.0001,
+        0.0001,
+        0.0005,
+        0.0056,
+        0.0302,
+        0.0396,
+        0.0369,
+        0.0455,
+        0.034,
+        0.0322,
+        0.0385,
+        0.0451,
+        0.0504,
+        0.0511,
+        0.0655,
+        0.0624,
+        0.0694,
+        0.0646,
+        0.0674,
+        0.0642,
+        0.0629,
+        0.0553,
+        0.0438,
+        0.0367,
+        0.0344,
+        0.0295,
+        0.0307,
+        0.0305,
+        0.0257,
+        0.0344,
+        0.0411,
+        0.0504,
+        0.0555,
+        0.0469,
+        0.0256
+      ],
+      "weight_sign_flip": {
+        "gate": 0.25837
+      },
+      "cells": {
+        "eagle": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.688,
+          "margin": 3.938
+        },
+        "hawk": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.688,
+          "margin": 3.75
+        },
+        "owl": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.688,
+          "margin": 6.688
+        },
+        "crow": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.688,
+          "margin": 1.688
+        },
+        "sparrow": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.688,
+          "margin": 3.688
+        },
+        "robin": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.688,
+          "margin": 1.875
+        },
+        "salmon": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 5.688,
+          "margin": 9.125
+        },
+        "shark": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 5.688,
+          "margin": 13.484
+        },
+        "tuna": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 5.688,
+          "margin": 7.656
+        },
+        "trout": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 5.688,
+          "margin": 8.125
+        },
+        "carp": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 5.688,
+          "margin": 5.25
+        },
+        "wolf": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 5.688,
+          "margin": -0.188
+        },
+        "fox": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 5.688,
+          "margin": 0.125
+        },
+        "bear": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 5.688,
+          "margin": 6.188
+        },
+        "tiger": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 5.688,
+          "margin": -0.438
+        },
+        "rabbit": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 5.688,
+          "margin": 2.375
+        },
+        "cat": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 5.688,
+          "margin": 5.125
+        }
+      }
+    },
+    "value_q4": {
+      "installed_flip_vs_bf16baked": 0.118,
+      "installed_acc": 0.706,
+      "native_flip_vs_bf16": 0.0,
+      "native_acc": 1.0,
+      "slot_z_mean": 5.375,
+      "slot_fired_frac": 1.0,
+      "margin_mean": 3.319,
+      "gate_sign_flip_mean": 0.0528,
+      "gate_sign_flip_by_layer": [
+        0.0,
+        0.0,
+        0.0,
+        0.0002,
+        0.0031,
+        0.0221,
+        0.0337,
+        0.032,
+        0.0506,
+        0.0482,
+        0.0417,
+        0.052,
+        0.0634,
+        0.0689,
+        0.0694,
+        0.0843,
+        0.0832,
+        0.0955,
+        0.0948,
+        0.0899,
+        0.0902,
+        0.0856,
+        0.0754,
+        0.0578,
+        0.0503,
+        0.0483,
+        0.0449,
+        0.0446,
+        0.0434,
+        0.0382,
+        0.0515,
+        0.0633,
+        0.0786,
+        0.0884,
+        0.0723,
+        0.035
+      ],
+      "weight_sign_flip": {
+        "up": 0.23811,
+        "down": 0.30529
+      },
+      "cells": {
+        "eagle": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.375,
+          "margin": 1.312
+        },
+        "hawk": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.375,
+          "margin": 2.312
+        },
+        "owl": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.375,
+          "margin": 0.75
+        },
+        "crow": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.375,
+          "margin": -0.938
+        },
+        "sparrow": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.375,
+          "margin": 0.75
+        },
+        "robin": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.375,
+          "margin": -1.0
+        },
+        "salmon": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 5.375,
+          "margin": 9.562
+        },
+        "shark": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 5.375,
+          "margin": 10.875
+        },
+        "tuna": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 5.375,
+          "margin": 11.766
+        },
+        "trout": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 5.375,
+          "margin": 11.656
+        },
+        "carp": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 5.375,
+          "margin": 8.5
+        },
+        "wolf": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 5.375,
+          "margin": -1.188
+        },
+        "fox": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 5.375,
+          "margin": -3.125
+        },
+        "bear": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 5.375,
+          "margin": -1.562
+        },
+        "tiger": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 5.375,
+          "margin": 0.375
+        },
+        "rabbit": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 5.375,
+          "margin": 5.125
+        },
+        "cat": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 5.375,
+          "margin": 1.25
+        }
+      }
+    },
+    "all_q4": {
+      "installed_flip_vs_bf16baked": 0.176,
+      "installed_acc": 0.647,
+      "native_flip_vs_bf16": 0.0,
+      "native_acc": 1.0,
+      "slot_z_mean": 4.906,
+      "slot_fired_frac": 1.0,
+      "margin_mean": 4.154,
+      "gate_sign_flip_mean": 0.0656,
+      "gate_sign_flip_by_layer": [
+        0.0331,
+        0.0002,
+        0.0002,
+        0.0006,
+        0.0061,
+        0.0371,
+        0.0516,
+        0.0465,
+        0.0635,
+        0.0523,
+        0.0499,
+        0.0628,
+        0.0762,
+        0.0858,
+        0.0844,
+        0.1044,
+        0.0991,
+        0.1097,
+        0.1087,
+        0.1059,
+        0.1054,
+        0.1055,
+        0.0905,
+        0.0708,
+        0.0611,
+        0.0587,
+        0.0546,
+        0.0552,
+        0.0556,
+        0.0481,
+        0.0637,
+        0.0766,
+        0.0962,
+        0.1073,
+        0.0897,
+        0.0452
+      ],
+      "weight_sign_flip": {
+        "gate": 0.25199,
+        "up": 0.23172,
+        "down": 0.29742
+      },
+      "cells": {
+        "eagle": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.906,
+          "margin": 5.562
+        },
+        "hawk": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.906,
+          "margin": 4.125
+        },
+        "owl": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.906,
+          "margin": 3.5
+        },
+        "crow": {
+          "pred": "scales",
+          "truth": "feathers",
+          "z": 4.906,
+          "margin": -1.312
+        },
+        "sparrow": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.906,
+          "margin": 0.062
+        },
+        "robin": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.906,
+          "margin": 0.562
+        },
+        "salmon": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 4.906,
+          "margin": 10.438
+        },
+        "shark": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 4.906,
+          "margin": 10.375
+        },
+        "tuna": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 4.906,
+          "margin": 13.906
+        },
+        "trout": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 4.906,
+          "margin": 10.719
+        },
+        "carp": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 4.906,
+          "margin": 6.75
+        },
+        "wolf": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 4.906,
+          "margin": 0.625
+        },
+        "fox": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 4.906,
+          "margin": -2.188
+        },
+        "bear": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 4.906,
+          "margin": 0.594
+        },
+        "tiger": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 4.906,
+          "margin": 0.375
+        },
+        "rabbit": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 4.906,
+          "margin": 5.719
+        },
+        "cat": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 4.906,
+          "margin": 0.812
+        }
+      }
+    }
+  },
+  "verdict_R5_FRAGILE_INSTALLED": true,
+  "verdict_R5_ROUTING_MECHANISM": false,
+  "verdict_R5_ROUTING_MECHANISM_strict_first_frozen": false,
+  "verdict_SLOT_LOCAL": false
+}
