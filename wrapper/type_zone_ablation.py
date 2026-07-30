@@ -129,6 +129,13 @@ from type_lattice_geometry import (  # noqa: E402
 NONCE = ["wug", "blicket", "dax", "fep", "gorp", "zorp",
          "fendle", "glorp", "narp", "trisk"]
 
+# P-TYPE-1c: fresh 30 (disjoint from v1; pre-reg requires fresh nonces, n>=30)
+NONCE_FRESH = ["snerp", "clab", "drimp", "florn", "greb", "hilp",
+               "jorm", "klet", "morv", "nulk", "prand", "skop",
+               "tulb", "vren", "yerb", "zint", "brolt", "crint",
+               "dulf", "glent", "harn", "jisk", "kelb", "lorp",
+               "norf", "plim", "trom", "vasp", "stib", "drell"]
+
 # teach templates: NO quantifiers, NO intensifiers, NO test-frame leakage
 NOUN_TEACH = ["{W}s are common objects.", "He collected several {w}s.",
               "Those {w}s are nice.", "She bought two {w}s."]
@@ -327,19 +334,24 @@ def class_effects(items, scores) -> dict:
             return None
         return float(np.mean(a) - np.mean(n))
 
-    q_eff, m_eff, prefs = [], [], {"quant": [], "mod": [], "name": []}
+    q_eff, m_eff, ws = [], [], []
+    prefs = {"quant": [], "mod": [], "name": []}
     for w in NONCE:
         pq, pm, pn = pref(w, "quant"), pref(w, "mod"), pref(w, "name")
         if None in (pq, pm, pn):
             continue
         q_eff.append(pq - pn)
         m_eff.append(pn - pm)
+        ws.append(w)
         for f, v in (("quant", pq), ("mod", pm), ("name", pn)):
             prefs[f].append(v)
 
     rec = [r for it, r in zip(items, scores, strict=True)
            if it["kind"] == "recall" and r is not None]
     return {"Q_eff": agg(q_eff), "M_eff": agg(m_eff),
+            "per_nonce": {"w": ws,
+                          "Q": [round(float(v), 4) for v in q_eff],
+                          "M": [round(float(v), 4) for v in m_eff]},
             "pref": {f: agg(v) for f, v in prefs.items()},
             "recall_surprisal": (round(float(np.mean([r["s"] for r in rec])), 4)
                                  if rec else None),
@@ -366,12 +378,18 @@ def main() -> None:
     ap.add_argument("--n-teach", type=int, default=2)
     ap.add_argument("--n-fill", type=int, default=3)
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--nonce-set", default="v1", choices=["v1", "fresh30"],
+                    help="v1 = original 10 (1b); fresh30 = P-TYPE-1c disjoint set")
     ap.add_argument("--smoke", action="store_true",
                     help="tiny grid (plumbing + ceiling check)")
     ap.add_argument("--output", default=None)
     args = ap.parse_args()
     if args.smoke:
         args.n_nonce, args.n_teach, args.n_fill, args.n_null = 6, 2, 2, 50
+
+    if args.nonce_set == "fresh30":
+        global NONCE
+        NONCE = NONCE_FRESH  # gen_items + class_effects read the module global
 
     rng = np.random.default_rng(args.seed)
     model, tok, config = load_model(args.model, device=args.device)
