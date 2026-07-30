@@ -50,6 +50,19 @@
 > ✅ MEMENTUM COMMITTED s281 (Michael-directed "update state and knowledge"): state block +
 > multihop pre-reg §Cross-scale-result + memory (depth-budget-zones-are-depth-proportional) +
 > three-hop-capacity-prereg.md (draft). Code+32B-results already committed autonomous (8ceaaec).
+> ★★ s281 DISCUSSION DISTILLED (Michael-approved, READ IT): knowledge/explore/
+> defunctionalization-instructions-as-terms.md — the capstone thesis. Frozen-ISA machine stays
+> PROGRAMMABLE via DEFUNCTIONALIZATION (instruction = term): can't rewrite routing/joins
+> (K-structural) but "which function" can be a VALUE selector the routing dispatches on → swap
+> value = swap operation (value-write we have). Proto-evidence: the bridge-swap ALREADY dispatches
+> a function (class = function-selector); 3-hop swap = swap the FUNCTION-valued intermediate.
+> CENTRAL CRUX = one register Q: function-selection VALUE-mediated (selector row, writable,
+> programmable) vs ROUTING-mediated (join, frozen). METHOD: DSP type-search (matched-filter type
+> bank + application-operator SVD → type lattice) → types index function library → tap selectors →
+> 3-hop write-harness swaps them. Bonus: compiled 3-hop (installed typed intermediates) BYPASSES
+> reader-zone cost → beats depth budget even @4B. Ordered pick-up plan in §7 (P-TYPE-1, P-FN-1,
+> P-FN-2). If value-mediated → honest path to "programmable LLM compiler"; if routing-mediated →
+> sharp negative (programmability bounded to data). This is the through-line for the NEXT arc.
 > ▶ NEXT (morning): (1) re-run 27B full (cmd above) → commit + cross-arch write-up; (2) get 3-hop
 > pre-reg + chain-choice APPROVAL → build operand_multihop3.py → run 4B/32B pair; (3) still open
 > from s279/s280: (a2) mammal→fur content build (layer/content NOT scale). Branch is ahead of
