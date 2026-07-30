@@ -1,0 +1,610 @@
+{
+  "model": "Qwen/Qwen3-32B",
+  "device": "mps",
+  "ref_layer": 9,
+  "scale": 2.0,
+  "nonce": "zorp",
+  "landmarks": {
+    "Colosseum": [
+      "Rome",
+      "Italy",
+      "Europe"
+    ],
+    "Louvre": [
+      "Paris",
+      "France",
+      "Europe"
+    ],
+    "Parthenon": [
+      "Athens",
+      "Greece",
+      "Europe"
+    ],
+    "Kremlin": [
+      "Moscow",
+      "Russia",
+      "Europe"
+    ],
+    "Sagrada Familia": [
+      "Barcelona",
+      "Spain",
+      "Europe"
+    ],
+    "Brandenburg Gate": [
+      "Berlin",
+      "Germany",
+      "Europe"
+    ],
+    "Taj Mahal": [
+      "Agra",
+      "India",
+      "Asia"
+    ],
+    "Kaaba": [
+      "Mecca",
+      "Saudi Arabia",
+      "Asia"
+    ],
+    "Petronas Towers": [
+      "Kuala Lumpur",
+      "Malaysia",
+      "Asia"
+    ],
+    "Angkor Wat": [
+      "Siem Reap",
+      "Cambodia",
+      "Asia"
+    ],
+    "Tiananmen": [
+      "Beijing",
+      "China",
+      "Asia"
+    ],
+    "Burj Khalifa": [
+      "Dubai",
+      "UAE",
+      "Asia"
+    ],
+    "Pyramids": [
+      "Giza",
+      "Egypt",
+      "Africa"
+    ],
+    "Sphinx": [
+      "Giza",
+      "Egypt",
+      "Africa"
+    ],
+    "Karnak": [
+      "Luxor",
+      "Egypt",
+      "Africa"
+    ],
+    "Table Mountain": [
+      "Cape Town",
+      "South Africa",
+      "Africa"
+    ],
+    "Medina": [
+      "Marrakech",
+      "Morocco",
+      "Africa"
+    ],
+    "Victoria Falls": [
+      "Livingstone",
+      "Zambia",
+      "Africa"
+    ]
+  },
+  "s1_links": {
+    "lm_city": 1.0,
+    "city_country": 1.0,
+    "country_cont": 1.0,
+    "pass": true,
+    "link_lm_city": {
+      "Colosseum": 1,
+      "Louvre": 1,
+      "Parthenon": 1,
+      "Kremlin": 1,
+      "Sagrada Familia": 1,
+      "Brandenburg Gate": 1,
+      "Taj Mahal": 1,
+      "Kaaba": 1,
+      "Petronas Towers": 1,
+      "Angkor Wat": 1,
+      "Tiananmen": 1,
+      "Burj Khalifa": 1,
+      "Pyramids": 1,
+      "Sphinx": 1,
+      "Karnak": 1,
+      "Table Mountain": 1,
+      "Medina": 1,
+      "Victoria Falls": 1
+    },
+    "link_city_country": {
+      "Agra": 1,
+      "Athens": 1,
+      "Barcelona": 1,
+      "Beijing": 1,
+      "Berlin": 1,
+      "Cape Town": 1,
+      "Dubai": 1,
+      "Giza": 1,
+      "Kuala Lumpur": 1,
+      "Livingstone": 1,
+      "Luxor": 1,
+      "Marrakech": 1,
+      "Mecca": 1,
+      "Moscow": 1,
+      "Paris": 1,
+      "Rome": 1,
+      "Siem Reap": 1
+    },
+    "link_country_cont": {
+      "Cambodia": 1,
+      "China": 1,
+      "Egypt": 1,
+      "France": 1,
+      "Germany": 1,
+      "Greece": 1,
+      "India": 1,
+      "Italy": 1,
+      "Malaysia": 1,
+      "Morocco": 1,
+      "Russia": 1,
+      "Saudi Arabia": 1,
+      "South Africa": 1,
+      "Spain": 1,
+      "UAE": 1,
+      "Zambia": 1
+    }
+  },
+  "valid": [
+    "Colosseum",
+    "Louvre",
+    "Parthenon",
+    "Kremlin",
+    "Sagrada Familia",
+    "Brandenburg Gate",
+    "Taj Mahal",
+    "Kaaba",
+    "Petronas Towers",
+    "Angkor Wat",
+    "Tiananmen",
+    "Burj Khalifa",
+    "Pyramids",
+    "Sphinx",
+    "Karnak",
+    "Table Mountain",
+    "Medina",
+    "Victoria Falls"
+  ],
+  "per_continent": {
+    "Europe": 6,
+    "Asia": 6,
+    "Africa": 6
+  },
+  "gate1_full": {
+    "install_acc": 0.944,
+    "random": 0.333,
+    "baseline": 0.333,
+    "content_specificity": 0.889,
+    "n": 18,
+    "cells": {
+      "Colosseum": {
+        "pred": "Europe",
+        "truth": "Europe",
+        "ok": 1
+      },
+      "Louvre": {
+        "pred": "Europe",
+        "truth": "Europe",
+        "ok": 1
+      },
+      "Parthenon": {
+        "pred": "Europe",
+        "truth": "Europe",
+        "ok": 1
+      },
+      "Kremlin": {
+        "pred": "Europe",
+        "truth": "Europe",
+        "ok": 1
+      },
+      "Sagrada Familia": {
+        "pred": "Europe",
+        "truth": "Europe",
+        "ok": 1
+      },
+      "Brandenburg Gate": {
+        "pred": "Europe",
+        "truth": "Europe",
+        "ok": 1
+      },
+      "Taj Mahal": {
+        "pred": "Asia",
+        "truth": "Asia",
+        "ok": 1
+      },
+      "Kaaba": {
+        "pred": "Asia",
+        "truth": "Asia",
+        "ok": 1
+      },
+      "Petronas Towers": {
+        "pred": "Asia",
+        "truth": "Asia",
+        "ok": 1
+      },
+      "Angkor Wat": {
+        "pred": "Asia",
+        "truth": "Asia",
+        "ok": 1
+      },
+      "Tiananmen": {
+        "pred": "Asia",
+        "truth": "Asia",
+        "ok": 1
+      },
+      "Burj Khalifa": {
+        "pred": "Asia",
+        "truth": "Asia",
+        "ok": 1
+      },
+      "Pyramids": {
+        "pred": "Africa",
+        "truth": "Africa",
+        "ok": 1
+      },
+      "Sphinx": {
+        "pred": "Europe",
+        "truth": "Africa",
+        "ok": 0
+      },
+      "Karnak": {
+        "pred": "Africa",
+        "truth": "Africa",
+        "ok": 1
+      },
+      "Table Mountain": {
+        "pred": "Africa",
+        "truth": "Africa",
+        "ok": 1
+      },
+      "Medina": {
+        "pred": "Africa",
+        "truth": "Africa",
+        "ok": 1
+      },
+      "Victoria Falls": {
+        "pred": "Africa",
+        "truth": "Africa",
+        "ok": 1
+      }
+    },
+    "pass": true
+  },
+  "gate2_controls": {
+    "gof_landmark_country": {
+      "acc": 0.889,
+      "random": 0.111,
+      "baseline": 0.056,
+      "pass": true,
+      "cells": {
+        "Colosseum": {
+          "pred": "Italy",
+          "truth": "Italy",
+          "ok": 1
+        },
+        "Louvre": {
+          "pred": "France",
+          "truth": "France",
+          "ok": 1
+        },
+        "Parthenon": {
+          "pred": "Greece",
+          "truth": "Greece",
+          "ok": 1
+        },
+        "Kremlin": {
+          "pred": "Russia",
+          "truth": "Russia",
+          "ok": 1
+        },
+        "Sagrada Familia": {
+          "pred": "Spain",
+          "truth": "Spain",
+          "ok": 1
+        },
+        "Brandenburg Gate": {
+          "pred": "Germany",
+          "truth": "Germany",
+          "ok": 1
+        },
+        "Taj Mahal": {
+          "pred": "India",
+          "truth": "India",
+          "ok": 1
+        },
+        "Kaaba": {
+          "pred": "Saudi Arabia",
+          "truth": "Saudi Arabia",
+          "ok": 1
+        },
+        "Petronas Towers": {
+          "pred": "China",
+          "truth": "Malaysia",
+          "ok": 0
+        },
+        "Angkor Wat": {
+          "pred": "Cambodia",
+          "truth": "Cambodia",
+          "ok": 1
+        },
+        "Tiananmen": {
+          "pred": "China",
+          "truth": "China",
+          "ok": 1
+        },
+        "Burj Khalifa": {
+          "pred": "UAE",
+          "truth": "UAE",
+          "ok": 1
+        },
+        "Pyramids": {
+          "pred": "Egypt",
+          "truth": "Egypt",
+          "ok": 1
+        },
+        "Sphinx": {
+          "pred": "Egypt",
+          "truth": "Egypt",
+          "ok": 1
+        },
+        "Karnak": {
+          "pred": "Egypt",
+          "truth": "Egypt",
+          "ok": 1
+        },
+        "Table Mountain": {
+          "pred": "South Africa",
+          "truth": "South Africa",
+          "ok": 1
+        },
+        "Medina": {
+          "pred": "Saudi Arabia",
+          "truth": "Morocco",
+          "ok": 0
+        },
+        "Victoria Falls": {
+          "pred": "Zambia",
+          "truth": "Zambia",
+          "ok": 1
+        }
+      }
+    },
+    "fh_city_continent": {
+      "acc": 1.0,
+      "random": 0.529,
+      "baseline": 0.353,
+      "n": 17,
+      "pass": true,
+      "cells": {
+        "Agra": {
+          "pred": "Asia",
+          "truth": "Asia",
+          "ok": 1
+        },
+        "Athens": {
+          "pred": "Europe",
+          "truth": "Europe",
+          "ok": 1
+        },
+        "Barcelona": {
+          "pred": "Europe",
+          "truth": "Europe",
+          "ok": 1
+        },
+        "Beijing": {
+          "pred": "Asia",
+          "truth": "Asia",
+          "ok": 1
+        },
+        "Berlin": {
+          "pred": "Europe",
+          "truth": "Europe",
+          "ok": 1
+        },
+        "Cape Town": {
+          "pred": "Africa",
+          "truth": "Africa",
+          "ok": 1
+        },
+        "Dubai": {
+          "pred": "Asia",
+          "truth": "Asia",
+          "ok": 1
+        },
+        "Giza": {
+          "pred": "Africa",
+          "truth": "Africa",
+          "ok": 1
+        },
+        "Kuala Lumpur": {
+          "pred": "Asia",
+          "truth": "Asia",
+          "ok": 1
+        },
+        "Livingstone": {
+          "pred": "Africa",
+          "truth": "Africa",
+          "ok": 1
+        },
+        "Luxor": {
+          "pred": "Africa",
+          "truth": "Africa",
+          "ok": 1
+        },
+        "Marrakech": {
+          "pred": "Africa",
+          "truth": "Africa",
+          "ok": 1
+        },
+        "Mecca": {
+          "pred": "Asia",
+          "truth": "Asia",
+          "ok": 1
+        },
+        "Moscow": {
+          "pred": "Europe",
+          "truth": "Europe",
+          "ok": 1
+        },
+        "Paris": {
+          "pred": "Europe",
+          "truth": "Europe",
+          "ok": 1
+        },
+        "Rome": {
+          "pred": "Europe",
+          "truth": "Europe",
+          "ok": 1
+        },
+        "Siem Reap": {
+          "pred": "Asia",
+          "truth": "Asia",
+          "ok": 1
+        }
+      }
+    },
+    "s1_pass": true,
+    "controls_pass": true
+  },
+  "gate3_mediation": {
+    "depth_order": {
+      "median_city_peak": 52.5,
+      "median_country_peak": 57.5,
+      "median_continent_peak": 60.0,
+      "order_ok": true,
+      "shuffled_ok": false,
+      "pass": true,
+      "city_peaks": [
+        52,
+        52,
+        59,
+        59,
+        50,
+        53,
+        62,
+        33,
+        0,
+        59,
+        52,
+        53,
+        17,
+        17,
+        47,
+        57,
+        57,
+        59
+      ],
+      "country_peaks": [
+        59,
+        51,
+        59,
+        59,
+        52,
+        53,
+        59,
+        59,
+        8,
+        21,
+        59,
+        53,
+        58,
+        52,
+        58,
+        57,
+        4,
+        59
+      ],
+      "continent_peaks": [
+        61,
+        61,
+        61,
+        43,
+        51,
+        1,
+        60,
+        60,
+        54,
+        60,
+        60,
+        61,
+        61,
+        59,
+        61,
+        59,
+        58,
+        59
+      ]
+    },
+    "country_swap": {
+      "by_layer": {
+        "25": {
+          "flip_to_swapped": 0.891,
+          "random_flip": 0.057,
+          "n": 192
+        },
+        "35": {
+          "flip_to_swapped": 0.885,
+          "random_flip": 0.042,
+          "n": 192
+        },
+        "45": {
+          "flip_to_swapped": 0.724,
+          "random_flip": 0.047,
+          "n": 192
+        }
+      },
+      "best": {
+        "flip_to_swapped": 0.891,
+        "random_flip": 0.057,
+        "n": 192
+      },
+      "pass": true
+    },
+    "city_swap": {
+      "by_layer": {
+        "25": {
+          "flip_to_swapped": 0.922,
+          "random_flip": 0.069,
+          "n": 204
+        },
+        "35": {
+          "flip_to_swapped": 0.828,
+          "random_flip": 0.078,
+          "n": 204
+        },
+        "45": {
+          "flip_to_swapped": 0.701,
+          "random_flip": 0.054,
+          "n": 204
+        }
+      },
+      "best": {
+        "flip_to_swapped": 0.922,
+        "random_flip": 0.069,
+        "n": 204
+      },
+      "pass": true
+    },
+    "gate3_pass": true
+  },
+  "verdict": {
+    "gate1": true,
+    "gate2_controls": true,
+    "gate3": true,
+    "capacity_pattern": "PASS"
+  }
+}
