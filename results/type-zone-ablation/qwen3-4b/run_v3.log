@@ -1,0 +1,258 @@
+
+========================================================================
+  Loading Qwen/Qwen3-4B
+========================================================================
+
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights:   0%|          | 1/398 [00:00<01:35,  4.14it/s]Loading weights:  15%|█▍        | 59/398 [00:00<00:01, 216.29it/s]Loading weights:  30%|███       | 121/398 [00:00<00:00, 354.59it/s]Loading weights:  45%|████▌     | 181/398 [00:00<00:00, 430.79it/s]Loading weights:  62%|██████▏   | 245/398 [00:00<00:00, 491.94it/s]Loading weights:  76%|███████▌  | 302/398 [00:00<00:00, 515.78it/s]Loading weights:  90%|████████▉ | 358/398 [00:00<00:00, 525.54it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 429.90it/s]
+  Loaded in 2.7s
+  Layers: 36  Heads: 32  KV heads: 8  d_model: 2560
+    sentence 1/56: The dog runs....
+    sentence 11/56: Alice runs....
+    sentence 21/56: The farmer finds the bird....
+    sentence 31/56: Some teacher laughs....
+    sentence 41/56: The old house stands....
+    sentence 51/56: The house is old....
+[1b] labeled=263 skipped=0
+[1b] L 0 PR=6.15 null=5.75 p=0.96
+[1b] L 1 PR=6.03 null=5.81 p=0.85
+[1b] L 2 PR=6.20 null=5.77 p=0.98
+[1b] L 3 PR=6.45 null=5.83 p=1.0
+[1b] L 4 PR=6.38 null=5.84 p=1.0
+[1b] L 5 PR=6.33 null=5.80 p=1.0
+[1b] L 6 PR=3.32 null=4.81 p=0.0
+[1b] L 7 PR=3.40 null=4.71 p=0.04
+[1b] L 8 PR=3.51 null=4.96 p=0.05
+[1b] L 9 PR=3.40 null=5.02 p=0.0
+[1b] L10 PR=3.30 null=4.89 p=0.02
+[1b] L11 PR=3.30 null=4.89 p=0.0
+[1b] L12 PR=3.32 null=4.95 p=0.0
+[1b] L13 PR=3.36 null=4.98 p=0.01
+[1b] L14 PR=3.34 null=4.83 p=0.01
+[1b] L15 PR=3.33 null=4.83 p=0.03
+[1b] L16 PR=3.29 null=4.71 p=0.01
+[1b] L17 PR=3.30 null=4.96 p=0.01
+[1b] L18 PR=3.39 null=4.82 p=0.0
+[1b] L19 PR=3.58 null=5.05 p=0.02
+[1b] L20 PR=3.68 null=5.06 p=0.02
+[1b] L21 PR=3.90 null=5.04 p=0.03
+[1b] L22 PR=4.09 null=5.24 p=0.01
+[1b] L23 PR=4.44 null=5.31 p=0.06
+[1b] L24 PR=4.74 null=5.54 p=0.06
+[1b] L25 PR=4.98 null=5.58 p=0.04
+[1b] L26 PR=5.24 null=5.67 p=0.07
+[1b] L27 PR=5.45 null=5.74 p=0.16
+[1b] L28 PR=5.64 null=5.77 p=0.27
+[1b] L29 PR=5.83 null=5.84 p=0.41
+[1b] L30 PR=6.00 null=5.85 p=0.76
+[1b] L31 PR=6.08 null=5.86 p=0.89
+[1b] L32 PR=6.14 null=5.88 p=0.94
+[1b] L33 PR=6.15 null=5.87 p=0.95
+[1b] L34 PR=6.11 null=5.81 p=0.9
+[1b] L35 PR=3.80 null=4.72 p=0.05
+[1b] BAND = L9..L22 (14 layers)
+[1b] subspace energies: {
+ "9": {
+  "E_full": {
+   "bind": 7426322.0,
+   "comp": 3852816.8,
+   "rolenull": 5584807.5,
+   "random": 5372.8
+  }
+ },
+ "10": {
+  "E_full": {
+   "bind": 7412573.5,
+   "comp": 4175535.8,
+   "rolenull": 5703656.5,
+   "random": 19663.7
+  }
+ },
+ "11": {
+  "E_full": {
+   "bind": 7420479.5,
+   "comp": 4233113.0,
+   "rolenull": 5778151.5,
+   "random": 4243.9
+  }
+ },
+ "12": {
+  "E_full": {
+   "bind": 7414738.5,
+   "comp": 4246043.5,
+   "rolenull": 5632726.0,
+   "random": 11658.3
+  }
+ },
+ "13": {
+  "E_full": {
+   "bind": 7390780.5,
+   "comp": 4116931.8,
+   "rolenull": 5648950.5,
+   "random": 528.2
+  }
+ },
+ "14": {
+  "E_full": {
+   "bind": 7317895.0,
+   "comp": 4287657.5,
+   "rolenull": 5608045.0,
+   "random": 11977.7
+  }
+ },
+ "15": {
+  "E_full": {
+   "bind": 7309229.5,
+   "comp": 4267415.0,
+   "rolenull": 5617783.0,
+   "random": 3319.0
+  }
+ },
+ "16": {
+  "E_full": {
+   "bind": 7851331.5,
+   "comp": 4767629.0,
+   "rolenull": 6038243.0,
+   "random": 3635.9
+  }
+ },
+ "17": {
+  "E_full": {
+   "bind": 7839823.0,
+   "comp": 4646087.0,
+   "rolenull": 6026299.0,
+   "random": 611.6
+  }
+ },
+ "18": {
+  "E_full": {
+   "bind": 7953378.0,
+   "comp": 4423934.0,
+   "rolenull": 5801559.5,
+   "random": 11860.1
+  }
+ },
+ "19": {
+  "E_full": {
+   "bind": 7974650.0,
+   "comp": 4093186.5,
+   "rolenull": 5290188.5,
+   "random": 707.9
+  }
+ },
+ "20": {
+  "E_full": {
+   "bind": 7992155.5,
+   "comp": 3801102.5,
+   "rolenull": 4985133.5,
+   "random": 987.7
+  }
+ },
+ "21": {
+  "E_full": {
+   "bind": 8037045.0,
+   "comp": 3368930.8,
+   "rolenull": 4296308.5,
+   "random": 2480.4
+  }
+ },
+ "22": {
+  "E_full": {
+   "bind": 8098206.5,
+   "comp": 2900217.5,
+   "rolenull": 4104887.0,
+   "random": 4281.3
+  }
+ }
+}
+[1b] role gmeans={'bind': 7668417.7, 'comp': 4054542.3, 'rolenull': 5404043.7} budgets=[4054542.3, 5576013.3, 7668417.7]
+[1b] 370 items (360 typed + 10 recall) x 13 conds
+[1b] baseline: 0/370
+[1b] baseline: 120/370
+[1b] baseline: 240/370
+[1b] baseline: 360/370
+[1b] baseline     Q_eff={'mean': 2.7874, 't': 6.216, 'n': 10} M_eff={'mean': 0.1705, 't': 0.627, 'n': 10} recall_acc=0.9 E/tok=0.0
+[1b] bind@b1: 0/370
+[1b] bind@b1: 120/370
+[1b] bind@b1: 240/370
+[1b] bind@b1: 360/370
+[1b] bind@b1      Q_eff={'mean': -0.0271, 't': -1.531, 'n': 10} M_eff={'mean': 0.0682, 't': 4.617, 'n': 10} recall_acc=0.0 E/tok=166263.3
+[1b] comp@b1: 0/370
+[1b] comp@b1: 120/370
+[1b] comp@b1: 240/370
+[1b] comp@b1: 360/370
+[1b] comp@b1      Q_eff={'mean': 0.1144, 't': 1.156, 'n': 10} M_eff={'mean': -0.0978, 't': -1.476, 'n': 10} recall_acc=0.0 E/tok=153797.5
+[1b] rolenull@b1: 0/370
+[1b] rolenull@b1: 120/370
+[1b] rolenull@b1: 240/370
+[1b] rolenull@b1: 360/370
+[1b] rolenull@b1  Q_eff={'mean': 0.092, 't': 0.948, 'n': 10} M_eff={'mean': -0.1144, 't': -1.475, 'n': 10} recall_acc=0.0 E/tok=155531.5
+[1b] random@b1: 0/370
+[1b] random@b1: 120/370
+[1b] random@b1: 240/370
+[1b] random@b1: 360/370
+[1b] random@b1    Q_eff={'mean': -0.0998, 't': -0.854, 'n': 10} M_eff={'mean': 0.1108, 't': 2.22, 'n': 10} recall_acc=0.0 E/tok=49903331497.4
+[1b] bind@b2: 0/370
+[1b] bind@b2: 120/370
+[1b] bind@b2: 240/370
+[1b] bind@b2: 360/370
+[1b] bind@b2      Q_eff={'mean': -0.0331, 't': -1.319, 'n': 10} M_eff={'mean': 0.0408, 't': 3.761, 'n': 10} recall_acc=0.0 E/tok=216622.4
+[1b] comp@b2: 0/370
+[1b] comp@b2: 120/370
+[1b] comp@b2: 240/370
+[1b] comp@b2: 360/370
+[1b] comp@b2      Q_eff={'mean': 0.1026, 't': 1.098, 'n': 10} M_eff={'mean': -0.1152, 't': -2.524, 'n': 10} recall_acc=0.0 E/tok=154210.6
+[1b] rolenull@b2: 0/370
+[1b] rolenull@b2: 120/370
+[1b] rolenull@b2: 240/370
+[1b] rolenull@b2: 360/370
+[1b] rolenull@b2  Q_eff={'mean': 0.0337, 't': 0.335, 'n': 10} M_eff={'mean': 0.0174, 't': 0.201, 'n': 10} recall_acc=0.0 E/tok=206294.5
+[1b] random@b2: 0/370
+[1b] random@b2: 120/370
+[1b] random@b2: 240/370
+[1b] random@b2: 360/370
+[1b] random@b2    Q_eff={'mean': -0.1911, 't': -2.537, 'n': 10} M_eff={'mean': 0.2485, 't': 2.867, 'n': 10} recall_acc=0.0 E/tok=349058715414.1
+[1b] bind@b3: 0/370
+[1b] bind@b3: 120/370
+[1b] bind@b3: 240/370
+[1b] bind@b3: 360/370
+[1b] bind@b3      Q_eff={'mean': -0.025, 't': -1.489, 'n': 10} M_eff={'mean': 0.0408, 't': 2.196, 'n': 10} recall_acc=0.0 E/tok=283075.9
+[1b] comp@b3: 0/370
+[1b] comp@b3: 120/370
+[1b] comp@b3: 240/370
+[1b] comp@b3: 360/370
+[1b] comp@b3      Q_eff={'mean': 0.1026, 't': 1.098, 'n': 10} M_eff={'mean': -0.1152, 't': -2.524, 'n': 10} recall_acc=0.0 E/tok=154210.6
+[1b] rolenull@b3: 0/370
+[1b] rolenull@b3: 120/370
+[1b] rolenull@b3: 240/370
+[1b] rolenull@b3: 360/370
+[1b] rolenull@b3  Q_eff={'mean': 0.1052, 't': 0.91, 'n': 10} M_eff={'mean': -0.0779, 't': -0.793, 'n': 10} recall_acc=0.0 E/tok=206732.1
+[1b] random@b3: 0/370
+[1b] random@b3: 120/370
+[1b] random@b3: 240/370
+[1b] random@b3: 360/370
+[1b] random@b3    Q_eff={'mean': -0.2516, 't': -3.084, 'n': 10} M_eff={'mean': 0.2782, 't': 3.506, 'n': 10} recall_acc=0.0 E/tok=3253071417781.3
+[1b] wrote /Users/mwhitford/src/verbum/results/type-zone-ablation/qwen3-4b/verdict.json + meta.json
+
+============================================================================
+P-TYPE-1b v3 — zone x subspace dissociation, role subspaces
+============================================================================
+  host=Qwen/Qwen3-4B  band=L9..L22  gate0=False (Q=True M=False)  budgets=[4054542.3, 5576013.3, 7668417.7]
+  baseline  Q_eff={'mean': 2.7874, 't': 6.216, 'n': 10}  M_eff={'mean': 0.1705, 't': 0.627, 'n': 10}  recall_acc=0.9
+  bind@b1      retQ=-0.01  retM=0.4  recall_acc=0.0  E/tok=166263.3
+  comp@b1      retQ=0.041  retM=-0.574  recall_acc=0.0  E/tok=153797.5
+  rolenull@b1  retQ=0.033  retM=-0.671  recall_acc=0.0  E/tok=155531.5
+  random@b1    retQ=-0.036  retM=0.65  recall_acc=0.0  E/tok=49903331497.4
+  bind@b2      retQ=-0.012  retM=0.239  recall_acc=0.0  E/tok=216622.4
+  comp@b2      retQ=0.037  retM=-0.676  recall_acc=0.0  E/tok=154210.6
+  rolenull@b2  retQ=0.012  retM=0.102  recall_acc=0.0  E/tok=206294.5
+  random@b2    retQ=-0.069  retM=1.457  recall_acc=0.0  E/tok=349058715414.1
+  bind@b3      retQ=-0.009  retM=0.239  recall_acc=0.0  E/tok=283075.9
+  comp@b3      retQ=0.037  retM=-0.676  recall_acc=0.0  E/tok=154210.6
+  rolenull@b3  retQ=0.038  retM=-0.457  recall_acc=0.0  E/tok=206732.1
+  random@b3    retQ=-0.09  retM=1.632  recall_acc=0.0  E/tok=3253071417781.3
+  b*=None  bind_selective=False  comp_selective=False  nulls=False
+  * dissociation_supported = False
+============================================================================
+

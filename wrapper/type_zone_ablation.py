@@ -1,49 +1,57 @@
 #!/usr/bin/env python3
-"""P-TYPE-1b — combinator-zone x type-class dissociation (zone x axis ablation, v2).
+"""P-TYPE-1b — combinator-zone x type-class dissociation (zone x subspace, v3).
 
 Pre-reg: mementum/knowledge/explore/types-are-the-well-formedness-of-reduction.md
 (#p-type-1b, FROZEN s282). Host of record = Qwen3-32B; THIS FILE also runs the 4B
 SMOKE (instrument validation + capacity read; a 4B verdict does NOT close 1b).
 
-HYPOTHESIS (frozen): if type = which opcode's application is licensed, ablating a
-role-specific type axis as a ZONE across the low-rank band selectively breaks the
-matching type-class:
-  - binding axis (QUANT+DET loadings; S/binding role)  -> breaks quantifier licensing
-  - composition axis (MOD loadings; B/composition role) -> breaks modifier licensing
-Double dissociation; nulls (energy-matched random, e/ENTITY direction, recall task)
-break neither. v4 (global direction, crossover retention) was correctly negative.
+HYPOTHESIS (frozen): if type = which opcode's application is licensed, removing a
+role-specific slice of the type lattice as a ZONE across the low-rank band
+selectively breaks the matching type-class:
+  - binding subspace (QUANT/DET; S/binding role)  -> breaks quantifier licensing
+  - composition subspace (MOD; B/composition role) -> breaks modifier licensing
+Double dissociation; nulls (energy-matched random, role-null lattice subspace,
+recall task) break neither. v4 (global direction) was correctly negative.
 
-v2 — ENERGY-MATCHED DOSE LADDER (the v1 smoke catch, results/.../run.log @bc1d242):
-  v1 compared FULL projections of axes carrying wildly different variance (bind
-  ~85% of centroid var vs comp ~3%) -> removal energies differed by orders of
-  magnitude; bind-projection + unmatched random/e nulls all broke lexical recall
-  (x38/x14/x26) = "we just broke the model", caught by the pre-committed recall
-  control. Comparing conditions at unmatched removed energy conflates dose with
-  identity (lambda measure: register mismatch between claim=selectivity and
-  probe=raw damage). v2 therefore matches conditions on REMOVED ENERGY:
-    E_full(dir,L) = mean_tokens(coeff^2) * ||sd*v||^2   (from the capture, coeff
-                    = standardized projection) = full-projection removed energy.
-    budgets B1<B2<B3 = geometric ladder from E_comp (smallest natural unit) to
-                       E_bind (largest), B2 = sqrt(B1*B3).
-    per layer, per direction: alpha = sqrt(B / E_full), capped at 1.0 for real
-    axes (cannot remove more than the component; achieved energy logged);
-    random is uncapped (scaled steering along a random direction = the honest
-    energy-matched null). Hook: h' = h - alpha*coeff*(sd*v); realized removed
-    energy accumulated per condition and reported (match check: within ~x2).
+VERSION LOG (instrument iterations; results/.../run.log, run_v2.log)
+  v1 @bc1d242: full projections at wildly unmatched removed energy -> recall
+    control fired (x38/x14/x26) = dose conflated with identity. Gate worked.
+  v2 @f7e07f7: energy ladder ran; caught (a) find_band falsy-zero bug (p=0.0
+    layers excluded -> v1/v2 "bands" were accidental sub-bands of the true
+    ~L9-L22), (b) bind-axis SVD pick tie-flips between axis0/axis1 at 4B
+    (QUANT and DET SPLIT onto different axes at this scale - axis0 = QUANT-vs-
+    rest @85% var, DET on axis1 ~5%, MOD clean on axis4; at 32B QUANT+DET
+    co-load axis0) -> energies differ x10^4 across the flip -> ladder inverted,
+    caps starved bind, (c) e-centroid direction carries ~1e5 E/tok, nothing
+    like the pre-reg "near-null" intent, (d) recall RATIO gate over-fires on a
+    0.39-nat baseline. Also REPLICATED: Q_eff ~2.8 t>6 but M_eff ~0 at 4B
+    (2 grids) - 4B does not express modifier licensing behaviourally.
+  v3 (this): (1) find_band p-bug fixed; (2) ROLE SUBSPACES built directly from
+    class centroids - bind = orthonormal span{c_QUANT-mean, c_DET-mean} (holds
+    both sides of the 4B axis split by construction), comp = span{c_MOD-mean},
+    ROLE-NULL = span{c_CONN-mean, c_FUNC-mean} (same lattice, wrong role = the
+    sharp class-control; REPLACES the pre-reg e-axis control, whose "near-null"
+    intent is unrealizable as a raw centroid direction - deviation documented
+    here); (3) budgets = geometric ladder over the MEASURED role-subspace
+    energies [min..max]; random = 2D isotropic subspace, uncapped, matched to
+    the same budget; (4) recall breakage gate = top-1 ACCURACY drop > 0.2
+    (surprisal still logged).
 
-INSTRUMENT (unchanged from v1 where not noted)
+INSTRUMENT
   1. Capture labeled Montague-type dataset at every decoder layer (reuses
      probe_type_qwen3_32b capture; residuals[L] = output of model.layers[L]).
-  2. Per layer: standardize (diagonal whiten - the 1a massive-activation lesson),
-     centroid SVD, PR + shuffled-label null. BAND = longest contiguous run of
-     layers with p_lowrank < 0.05 (fallback: interior min-p +/- 3).
-  3. Axes BY LOADING PATTERN over top-5 (v2: k 3->5; at 4B the MOD axis is weak,
-     var ~0.03, and may sit below axis2): bind = argmax QUANT^2+DET^2 energy;
-     comp = argmax MOD^2 among the rest; e-dir = ENTITY centroid direction.
-     Full loadings logged per band layer.
-  4. Zone ablation in STANDARDIZED space at every band layer, every position.
+  2. Per layer: standardize (diagonal whiten - the 1a massive-activation
+     lesson), centroid SVD, PR + shuffled-label null (band detection + the
+     lattice record). BAND = longest contiguous run of p<0.05 layers.
+  3. Per band layer: role subspaces from class centroids (std space),
+     orthonormalized (QR); full-projection removed energy measured on the
+     capture: E_full = mean_tokens ||((z Q^T) Q) * sd||^2.
+  4. Zone ablation at every band layer, every position, alpha-scaled:
+     h' = h - alpha * (((h-mu)/sd) Q^T Q) * sd ; alpha = sqrt(B/E_full),
+     capped at 1.0 for role subspaces (achieved energy logged), uncapped for
+     the random subspace (scaled steering = the honest energy-matched null).
 
-BEHAVIOURAL READOUTS (v3-style nonce surprisal; frequency-free)
+BEHAVIOURAL READOUTS (v3-nonce-style surprisal; frequency-free)
   ONE teach pair (noun vs adj) x THREE frames, fully crossed & paired by nonce:
      frame quant: "Every {w}"       (QUANT licenses a NOUN)
      frame mod:   "It was very {w}" (intensifier licenses an ADJ)
@@ -52,23 +60,23 @@ BEHAVIOURAL READOUTS (v3-style nonce surprisal; frequency-free)
   Q_eff = pref(quant) - pref(name) > 0 baseline  (quantifier-class licensing)
   M_eff = pref(name)  - pref(mod)  > 0 baseline  (modifier-class licensing)
   Teach main effects cancel identically via the shared name arm. Recall task =
-  non-compositional control. v2 default grid is FULL (10 nonce x 3 fillers) —
-  the v1 smoke's M_eff was underpowered (t=1.0 @ n=6).
+  non-compositional control (surprisal + top-1 accuracy).
 
-VERDICT (pre-set, frozen before the v2 run; ret = effect/baseline):
+VERDICT (pre-set, frozen before the v3 run; ret = effect/baseline):
   GATE-0: baseline Q_eff and M_eff both mean>0, t>=3 - else no ablation cell is
-    interpreted (a Gate-0 failure at 4B is itself a capacity finding).
-  b* = LARGEST budget where recall_ratio < 1.2 for ALL of {bind, comp, random}.
-    No such budget -> "no non-breaking matched dose" -> not interpretable.
+    interpreted for that class (a Gate-0 failure at 4B is a capacity finding;
+    the Q side can still validate the instrument).
+  b* = LARGEST budget where recall_acc drops <=0.2 for ALL of
+    {bind, comp, rolenull, random}. None -> not interpretable.
   At b*: BIND-SELECTIVE: ret(Q,bind)<0.5 AND ret(M,bind)>0.7
          COMP-SELECTIVE: ret(M,comp)<0.5 AND ret(Q,comp)>0.7
-         NULLS: random keeps BOTH rets>0.7 ; e_axis both >0.7, recall<1.2
-  DISSOCIATION_SUPPORTED <=> gate0 & b* exists & bind & comp & nulls. Verbatim
-  reporting otherwise; ladder rows reported at every budget regardless.
+         NULLS: rolenull AND random keep BOTH rets>0.7
+  DISSOCIATION_SUPPORTED <=> gate0 & b* & bind & comp & nulls. Verbatim rows
+  reported at every budget regardless.
 
-lambda measure: ablation target = value-register band axes; claim = reduction
-LICENSING -> readout is behavioural class-selectivity at MATCHED dose, never a
-decodability change. A RUNG: hook-not-weight; one class pair, not the lattice.
+lambda measure: ablation target = value-register lattice subspaces; claim =
+reduction LICENSING -> readout is behavioural class-selectivity at MATCHED
+dose, never a decodability change. A RUNG: hook-not-weight; one class pair.
 
 Usage:
     uv run python wrapper/type_zone_ablation.py --model Qwen/Qwen3-4B --smoke
@@ -132,10 +140,12 @@ RECALL = [("The capital of France is", " Paris"),
           ("A week has seven", " days"),
           ("The largest ocean is the", " Pacific")]
 
+ROLES = {"bind": ["QUANT", "DET"], "comp": ["MOD"], "rolenull": ["CONN", "FUNC"]}
 
-# ── geometry: band + axes (standardized space) ─────────────────────────────────
+
+# ── geometry: band + role subspaces (standardized space) ───────────────────────
 def layer_geometry(x: np.ndarray, y: np.ndarray, rng, n_null: int) -> dict:
-    """Standardize -> centroid SVD -> PR + shuffled-label null + axes + z data."""
+    """Standardize -> centroid SVD -> PR + shuffled-label null; keep z for energy."""
     mu = x.mean(axis=0)
     sd = x.std(axis=0) + 1e-6
     z = (x - mu) / sd
@@ -143,59 +153,31 @@ def layer_geometry(x: np.ndarray, y: np.ndarray, rng, n_null: int) -> dict:
     def pr_of(labels):
         c, present = centroids(z, labels, TYPE_ORDER)
         if len(present) < 3:
-            return float("nan"), None, None, None
+            return float("nan"), None, None
         cc = c - c.mean(axis=0, keepdims=True)
-        u, s, vt = np.linalg.svd(cc, full_matrices=False)
-        return participation_ratio(s), present, (u, s, vt), c
+        sv = np.linalg.svd(cc, compute_uv=False)
+        return participation_ratio(sv), present, c
 
-    pr_real, present, svd, c = pr_of(y)
+    pr_real, present, c = pr_of(y)
     null = []
     for _ in range(n_null):
-        prn, _, _, _ = pr_of(rng.permutation(y))
+        prn, _, _ = pr_of(rng.permutation(y))
         if not np.isnan(prn):
             null.append(prn)
     null = np.array(null)
     p = float(np.mean(null <= pr_real)) if null.size else None
-    return {"mu": mu, "sd": sd, "z": z, "present": present, "svd": svd,
-            "centroids": c, "pr_real": float(pr_real), "p_lowrank": p,
+    return {"mu": mu, "sd": sd, "z": z, "present": present, "centroids": c,
+            "pr_real": float(pr_real), "p_lowrank": p,
             "pr_null_mean": float(null.mean()) if null.size else None}
 
 
-def pick_axes(geo: dict, k: int = 5) -> dict | None:
-    """Select bind/comp axes by loading pattern over top-k; e-dir from ENTITY.
-    Returns unit directions in STANDARDIZED space + full loadings, or None."""
-    if geo["svd"] is None:
-        return None
-    present = geo["present"]
-    idx = {t: i for i, t in enumerate(present)}
-    if not {"QUANT", "DET", "MOD", "ENTITY"} <= set(idx):
-        return None
-    u, s, vt = geo["svd"]
-    k = min(k, len(s))
-    tot = (s ** 2).sum() + 1e-12
-    bind_scores = [u[idx["QUANT"], i] ** 2 + u[idx["DET"], i] ** 2 for i in range(k)]
-    bind_i = int(np.argmax(bind_scores))
-    mod_scores = [u[idx["MOD"], i] ** 2 if i != bind_i else -1.0 for i in range(k)]
-    comp_i = int(np.argmax(mod_scores))
-
-    def unit(v):
-        return v / (np.linalg.norm(v) + 1e-12)
-
-    c = geo["centroids"]
-    e_dir = unit(c[idx["ENTITY"]] - c.mean(axis=0))
-    loadings = {f"axis{i}": {"var_frac": round(float(s[i] ** 2 / tot), 3),
-                             **{t: round(float(u[idx[t], i]), 3) for t in present}}
-                for i in range(k)}
-    return {"bind": unit(vt[bind_i]), "comp": unit(vt[comp_i]), "e": e_dir,
-            "bind_i": bind_i, "comp_i": comp_i,
-            "bind_var": float(s[bind_i] ** 2 / tot),
-            "comp_var": float(s[comp_i] ** 2 / tot),
-            "loadings": loadings}
-
-
 def find_band(per_layer: dict[int, dict], n_layers: int) -> list[int]:
-    """Longest contiguous run of layers with p_lowrank < 0.05; fallback interior."""
-    sig = [L for L in sorted(per_layer) if (per_layer[L]["p_lowrank"] or 1.0) < 0.05]
+    """Longest contiguous run of layers with p_lowrank < 0.05 (v3: p=0.0 counts)."""
+    def pval(L):
+        p = per_layer[L]["p_lowrank"]
+        return 1.0 if p is None else p
+
+    sig = [L for L in sorted(per_layer) if pval(L) < 0.05]
     best, cur = [], []
     for L in sig:
         cur = [*cur, L] if (cur and L == cur[-1] + 1) else [L]
@@ -207,20 +189,33 @@ def find_band(per_layer: dict[int, dict], n_layers: int) -> list[int]:
                 if n_layers * 0.15 <= L <= n_layers * 0.65]
     if not interior:
         return sig or sorted(per_layer)[:3]
-    lo = min(interior, key=lambda L: per_layer[L]["p_lowrank"] or 1.0)
+    lo = min(interior, key=pval)
     return [L for L in sorted(per_layer) if lo - 3 <= L <= lo + 3]
 
 
-def removed_energy(z: np.ndarray, sd: np.ndarray, v: np.ndarray) -> float:
-    """Full-projection removed energy per token: mean(coeff^2)*||sd*v||^2."""
-    coeff = z @ v
-    return float(np.mean(coeff ** 2) * (np.linalg.norm(sd * v) ** 2))
+def role_subspace(geo: dict, types: list[str]) -> np.ndarray | None:
+    """Orthonormal basis (k, D) of span{c_type - grand_mean} in std space."""
+    present = geo["present"]
+    idx = {t: i for i, t in enumerate(present)}
+    if not all(t in idx for t in types):
+        return None
+    c = geo["centroids"]
+    grand = c.mean(axis=0)
+    rows = np.stack([c[idx[t]] - grand for t in types])
+    q, _ = np.linalg.qr(rows.T)          # (D, k) orthonormal columns
+    return q.T                            # (k, D)
 
 
-# ── zone ablation hook (standardized-space, alpha-scaled, energy-logged) ───────
-def make_zone_hook(mu: np.ndarray, sd: np.ndarray, v: np.ndarray,
+def subspace_energy(z: np.ndarray, sd: np.ndarray, q: np.ndarray) -> float:
+    """Full-projection removed energy per token: mean ||((z Q^T) Q) * sd||^2."""
+    delta = (z @ q.T) @ q                 # (N, D) std-space removal
+    return float(np.mean(np.sum((delta * sd) ** 2, axis=1)))
+
+
+# ── zone ablation hook (subspace, alpha-scaled, energy-logged) ─────────────────
+def make_zone_hook(mu: np.ndarray, sd: np.ndarray, q: np.ndarray,
                    alpha: float, elog: dict):
-    """h' = h - alpha * (((h-mu)/sd).v) * (sd*v) at ALL positions (fp32->cast)."""
+    """h' = h - alpha * (((h-mu)/sd) Q^T Q) * sd at ALL positions (fp32->cast)."""
     box: dict = {}
 
     def hook(_module, _inp, out):
@@ -228,14 +223,13 @@ def make_zone_hook(mu: np.ndarray, sd: np.ndarray, v: np.ndarray,
         if not box:
             box["mu"] = torch.as_tensor(mu, dtype=torch.float32, device=h.device)
             box["sd"] = torch.as_tensor(sd, dtype=torch.float32, device=h.device)
-            box["v"] = torch.as_tensor(v, dtype=torch.float32, device=h.device)
-            box["w"] = box["sd"] * box["v"]
-            box["wn2"] = float((box["w"] ** 2).sum())
+            box["q"] = torch.as_tensor(q, dtype=torch.float32, device=h.device)
         hf = h.float()
-        coeff = alpha * (((hf - box["mu"]) / box["sd"]) @ box["v"])   # [B,T]
-        hf = hf - coeff.unsqueeze(-1) * box["w"]
-        elog["e"] += float((coeff.float() ** 2).sum()) * box["wn2"]
-        elog["n"] += int(coeff.numel())
+        zc = (hf - box["mu"]) / box["sd"]
+        delta = alpha * ((zc @ box["q"].T) @ box["q"]) * box["sd"]   # [B,T,D]
+        hf = hf - delta
+        elog["e"] += float((delta ** 2).sum())
+        elog["n"] += int(delta.shape[0] * delta.shape[1])
         h2 = hf.to(h.dtype)
         return (h2, *out[1:]) if isinstance(out, tuple) else h2
 
@@ -269,8 +263,8 @@ def item_text(it: dict) -> tuple[str, int]:
     return prefix + it["w"], len(prefix)
 
 
-def score_pass(items, model, tok, tag: str) -> list[float | None]:
-    """Mean surprisal of the target span per item (order-aligned with items)."""
+def score_pass(items, model, tok, tag: str) -> list[dict | None]:
+    """Per item: {'s': mean target surprisal, 'acc': top-1 gold (recall only)}."""
     import torch.nn.functional as func
     dev = next(model.parameters()).device
     out = []
@@ -286,7 +280,11 @@ def score_pass(items, model, tok, tag: str) -> list[float | None]:
         with torch.no_grad():
             logits = model(input_ids=ids.unsqueeze(0).to(dev)).logits[0]
         logp = func.log_softmax(logits.float(), dim=-1).cpu()
-        out.append(float(np.mean([-float(logp[j - 1, ids[j]]) for j in tgt])))
+        rec = {"s": float(np.mean([-float(logp[j - 1, ids[j]]) for j in tgt]))}
+        if it["kind"] == "recall":
+            j0 = min(tgt)
+            rec["acc"] = float(int(logp[j0 - 1].argmax()) == int(ids[j0]))
+        out.append(rec)
         if n % 120 == 0:
             print(f"[1b] {tag}: {n}/{len(items)}", file=sys.stderr, flush=True)
     return out
@@ -305,10 +303,10 @@ def agg(arr: list[float]) -> dict | None:
 def class_effects(items, scores) -> dict:
     """pref(f)=S(f|adj)-S(f|noun) per nonce; Q_eff/M_eff vs the shared name arm."""
     cell: dict = {}
-    for it, s in zip(items, scores, strict=True):
-        if it["kind"] != "typed" or s is None:
+    for it, r in zip(items, scores, strict=True):
+        if it["kind"] != "typed" or r is None:
             continue
-        cell.setdefault((it["w"], it["frame"], it["teach_type"]), []).append(s)
+        cell.setdefault((it["w"], it["frame"], it["teach_type"]), []).append(r["s"])
 
     def pref(w, f):
         a = cell.get((w, f, "adj"))
@@ -327,11 +325,14 @@ def class_effects(items, scores) -> dict:
         for f, v in (("quant", pq), ("mod", pm), ("name", pn)):
             prefs[f].append(v)
 
-    recall = [s for it, s in zip(items, scores, strict=True)
-              if it["kind"] == "recall" and s is not None]
+    rec = [r for it, r in zip(items, scores, strict=True)
+           if it["kind"] == "recall" and r is not None]
     return {"Q_eff": agg(q_eff), "M_eff": agg(m_eff),
             "pref": {f: agg(v) for f, v in prefs.items()},
-            "recall_surprisal": round(float(np.mean(recall)), 4) if recall else None}
+            "recall_surprisal": (round(float(np.mean([r["s"] for r in rec])), 4)
+                                 if rec else None),
+            "recall_acc": (round(float(np.mean([r["acc"] for r in rec])), 3)
+                           if rec else None)}
 
 
 def retention(eff_abl: dict | None, eff_base: dict | None) -> float | None:
@@ -343,7 +344,7 @@ def retention(eff_abl: dict | None, eff_base: dict | None) -> float | None:
 # ── main ───────────────────────────────────────────────────────────────────────
 def main() -> None:
     ap = argparse.ArgumentParser(
-        description="P-TYPE-1b zone x axis ablation (v2 energy-matched ladder)")
+        description="P-TYPE-1b zone x subspace ablation (v3 role subspaces)")
     ap.add_argument("--model", default="Qwen/Qwen3-4B")
     ap.add_argument("--device", default="mps")
     ap.add_argument("--n-null", type=int, default=100)
@@ -377,59 +378,56 @@ def main() -> None:
     print(f"[1b] BAND = L{band[0]}..L{band[-1]} ({len(band)} layers)",
           file=sys.stderr)
 
-    # 2) axes + full-projection energies per band layer
+    # 2) role subspaces + energies per band layer
     rng_r = np.random.default_rng(args.seed + 7)
-    band_info = {}   # L -> {dirs: {name: v}, E: {name: E_full}, mu, sd}
-    axis_log = {}
+    band_info, sub_log = {}, {}
     for L in band:
-        ax = pick_axes(geo[L])
-        if ax is None:
+        g = geo[L]
+        subs = {name: role_subspace(g, types) for name, types in ROLES.items()}
+        if any(v is None for v in subs.values()):
             continue
-        mu, sd, z = geo[L]["mu"], geo[L]["sd"], geo[L]["z"]
-        r = rng_r.standard_normal(len(mu))
-        r /= np.linalg.norm(r)
-        dirs = {"bind": ax["bind"], "comp": ax["comp"], "random": r, "e": ax["e"]}
-        E = {k: removed_energy(z, sd, v) for k, v in dirs.items()}
-        band_info[L] = {"dirs": dirs, "E": E, "mu": mu, "sd": sd}
-        axis_log[str(L)] = {"bind_i": ax["bind_i"], "comp_i": ax["comp_i"],
-                            "bind_var": round(ax["bind_var"], 3),
-                            "comp_var": round(ax["comp_var"], 3),
-                            "E_full": {k: round(v, 1) for k, v in E.items()},
-                            "loadings": ax["loadings"]}
-    print(f"[1b] axis picks: {json.dumps(axis_log, indent=1)}", file=sys.stderr)
+        r = rng_r.standard_normal((2, len(g["mu"])))
+        qr, _ = np.linalg.qr(r.T)
+        subs["random"] = qr.T[:2]
+        E = {k: subspace_energy(g["z"], g["sd"], q) for k, q in subs.items()}
+        band_info[L] = {"subs": subs, "E": E, "mu": g["mu"], "sd": g["sd"]}
+        sub_log[str(L)] = {"E_full": {k: round(v, 1) for k, v in E.items()}}
+    print(f"[1b] subspace energies: {json.dumps(sub_log, indent=1)}",
+          file=sys.stderr)
 
-    # free the capture memory (keep geometry summaries only)
+    # free capture memory (keep summaries)
     for L in geo:
         geo[L].pop("z", None)
+        geo[L].pop("centroids", None)
     del data
     import gc
     gc.collect()
 
-    # 3) energy budgets: geometric ladder from E_comp (floor) to E_bind (ceiling)
+    # 3) budgets: geometric ladder over MEASURED role-subspace energies
     def gmean(vals):
         return float(np.exp(np.mean(np.log(np.maximum(vals, 1e-9)))))
 
-    e_comp = gmean([band_info[L]["E"]["comp"] for L in band_info])
-    e_bind = gmean([band_info[L]["E"]["bind"] for L in band_info])
-    budgets = [e_comp, float(np.sqrt(e_comp * e_bind)), e_bind]
-    print(f"[1b] budgets (per-layer removed energy): "
-          f"{[round(b, 1) for b in budgets]}  (E_comp..E_bind)", file=sys.stderr)
+    role_gmeans = {name: gmean([band_info[L]["E"][name] for L in band_info])
+                   for name in ROLES}
+    e_lo, e_hi = min(role_gmeans.values()), max(role_gmeans.values())
+    budgets = [e_lo, float(np.sqrt(e_lo * e_hi)), e_hi]
+    print(f"[1b] role gmeans={ {k: round(v, 1) for k, v in role_gmeans.items()} } "
+          f"budgets={[round(b, 1) for b in budgets]}", file=sys.stderr)
 
-    # conditions: baseline + e_axis(full proj) + {bind, comp, random} x budgets
-    conds: dict[str, list] = {"baseline": [], "e_axis": []}
-    for L, bi in band_info.items():
-        conds["e_axis"].append((L, bi["mu"], bi["sd"], bi["dirs"]["e"], 1.0))
-    alpha_log: dict[str, dict] = {"e_axis": {str(L): 1.0 for L in band_info}}
-    for bidx, B in enumerate(budgets, start=1):
-        for name in ("bind", "comp", "random"):
+    # conditions: baseline + {bind, comp, rolenull, random} x budgets
+    conds: dict[str, list] = {"baseline": []}
+    alpha_log: dict[str, dict] = {}
+    for bidx, budget in enumerate(budgets, start=1):
+        for name in ("bind", "comp", "rolenull", "random"):
             cname = f"{name}@b{bidx}"
             conds[cname] = []
             alpha_log[cname] = {}
             for L, bi in band_info.items():
-                alpha = float(np.sqrt(B / max(bi["E"][name], 1e-9)))
-                if name in ("bind", "comp"):
+                alpha = float(np.sqrt(budget / max(bi["E"][name], 1e-9)))
+                if name != "random":
                     alpha = min(alpha, 1.0)   # projection cap; achieved E logged
-                conds[cname].append((L, bi["mu"], bi["sd"], bi["dirs"][name], alpha))
+                conds[cname].append((L, bi["mu"], bi["sd"], bi["subs"][name],
+                                     alpha))
                 alpha_log[cname][str(L)] = round(alpha, 4)
 
     # 4) behavioural passes
@@ -441,9 +439,9 @@ def main() -> None:
     results, energy = {}, {}
     for cname, dirset in conds.items():
         handles, elog = [], {"e": 0.0, "n": 0}
-        for L, mu, sd, v, alpha in dirset:
+        for L, mu, sd, q, alpha in dirset:
             handles.append(layer_mods[L].register_forward_hook(
-                make_zone_hook(mu, sd, v, alpha, elog)))
+                make_zone_hook(mu, sd, q, alpha, elog)))
         try:
             scores = score_pass(items, model, tok, cname)
         finally:
@@ -452,50 +450,54 @@ def main() -> None:
         results[cname] = class_effects(items, scores)
         energy[cname] = round(elog["e"] / max(elog["n"], 1), 1)
         r = results[cname]
-        print(f"[1b] {cname:10s} Q_eff={r['Q_eff']} M_eff={r['M_eff']} "
-              f"recall={r['recall_surprisal']} E/tok={energy[cname]}",
+        print(f"[1b] {cname:12s} Q_eff={r['Q_eff']} M_eff={r['M_eff']} "
+              f"recall_acc={r['recall_acc']} E/tok={energy[cname]}",
               file=sys.stderr)
 
     # 5) verdict (pre-set margins from the docstring)
     base = results["baseline"]
-    gate0 = bool(base["Q_eff"] and base["M_eff"]
-                 and base["Q_eff"]["mean"] > 0 and base["Q_eff"]["t"] >= 3
-                 and base["M_eff"]["mean"] > 0 and base["M_eff"]["t"] >= 3)
+    gate0_q = bool(base["Q_eff"] and base["Q_eff"]["mean"] > 0
+                   and base["Q_eff"]["t"] >= 3)
+    gate0_m = bool(base["M_eff"] and base["M_eff"]["mean"] > 0
+                   and base["M_eff"]["t"] >= 3)
+    gate0 = gate0_q and gate0_m
     ret = {c: {"Q": retention(results[c]["Q_eff"], base["Q_eff"]),
                "M": retention(results[c]["M_eff"], base["M_eff"]),
-               "recall_ratio": (round(results[c]["recall_surprisal"]
-                                      / base["recall_surprisal"], 3)
-                                if base["recall_surprisal"] else None),
+               "recall_acc": results[c]["recall_acc"],
                "E_per_tok": energy[c]}
            for c in conds if c != "baseline"}
 
     def ok(v, lo=None, hi=None):
         return v is not None and (lo is None or v > lo) and (hi is None or v < hi)
 
+    def recall_ok(c):
+        a, b = results[c]["recall_acc"], base["recall_acc"]
+        return a is not None and b is not None and (b - a) <= 0.2
+
     b_star = None
     for bidx in (3, 2, 1):
-        if all(ok(ret[f"{n}@b{bidx}"]["recall_ratio"], hi=1.2)
-               for n in ("bind", "comp", "random")):
+        if all(recall_ok(f"{n}@b{bidx}")
+               for n in ("bind", "comp", "rolenull", "random")):
             b_star = bidx
             break
 
     bind_sel = comp_sel = nulls_ok = False
     if b_star is not None:
-        bb, cc, rr = f"bind@b{b_star}", f"comp@b{b_star}", f"random@b{b_star}"
+        bb, cc = f"bind@b{b_star}", f"comp@b{b_star}"
+        nn, rr = f"rolenull@b{b_star}", f"random@b{b_star}"
         bind_sel = ok(ret[bb]["Q"], hi=0.5) and ok(ret[bb]["M"], lo=0.7)
         comp_sel = ok(ret[cc]["M"], hi=0.5) and ok(ret[cc]["Q"], lo=0.7)
-        nulls_ok = (all(ok(ret[rr][k], lo=0.7) for k in ("Q", "M"))
-                    and all(ok(ret["e_axis"][k], lo=0.7) for k in ("Q", "M"))
-                    and ok(ret["e_axis"]["recall_ratio"], hi=1.2))
+        nulls_ok = all(ok(ret[c][k], lo=0.7) for c in (nn, rr) for k in ("Q", "M"))
     supported = bool(gate0 and b_star is not None
                      and bind_sel and comp_sel and nulls_ok)
 
     verdict = {
-        "register": "P-TYPE-1b zone x axis ablation v2 (energy-matched ladder)",
+        "register": "P-TYPE-1b zone x subspace ablation v3 (role subspaces)",
         "host": args.model, "is_prereg_host": args.model == "Qwen/Qwen3-32B",
         "band": [int(band[0]), int(band[-1])], "n_band_layers": len(band_info),
+        "role_gmeans_E": {k: round(v, 1) for k, v in role_gmeans.items()},
         "budgets_E_per_tok": [round(b, 1) for b in budgets],
-        "gate0_baseline_expresses_classes": gate0,
+        "gate0": {"both": gate0, "Q": gate0_q, "M": gate0_m},
         "baseline": base,
         "conditions": {c: results[c] for c in conds if c != "baseline"},
         "retention": ret,
@@ -503,21 +505,25 @@ def main() -> None:
         "bind_selective": bind_sel, "comp_selective": comp_sel,
         "nulls_clean": nulls_ok,
         "dissociation_supported": supported,
-        "alpha_log": alpha_log, "axis_log": axis_log,
+        "alpha_log": alpha_log, "subspace_log": sub_log,
         "per_layer_pr": {str(L): {"pr": round(geo[L]["pr_real"], 3),
                                   "p": geo[L]["p_lowrank"]} for L in sorted(geo)},
+        "deviations": ["e-axis control replaced by role-null (CONN/FUNC lattice "
+                       "subspace): raw ENTITY-centroid direction carries ~1e5 "
+                       "E/tok, unrealizable as the pre-reg near-null (v2 catch)"],
     }
 
     print("\n" + "=" * 76)
-    print("P-TYPE-1b v2 — zone x axis dissociation, energy-matched dose ladder")
+    print("P-TYPE-1b v3 — zone x subspace dissociation, role subspaces")
     print("=" * 76)
-    print(f"  host={args.model}  band=L{band[0]}..L{band[-1]}  gate0={gate0}  "
+    print(f"  host={args.model}  band=L{band[0]}..L{band[-1]}  "
+          f"gate0={gate0} (Q={gate0_q} M={gate0_m})  "
           f"budgets={[round(b, 1) for b in budgets]}")
     print(f"  baseline  Q_eff={base['Q_eff']}  M_eff={base['M_eff']}  "
-          f"recall={base['recall_surprisal']}")
+          f"recall_acc={base['recall_acc']}")
     for c in ret:
-        print(f"  {c:10s} retQ={ret[c]['Q']}  retM={ret[c]['M']}  "
-              f"recall_ratio={ret[c]['recall_ratio']}  E/tok={ret[c]['E_per_tok']}")
+        print(f"  {c:12s} retQ={ret[c]['Q']}  retM={ret[c]['M']}  "
+              f"recall_acc={ret[c]['recall_acc']}  E/tok={ret[c]['E_per_tok']}")
     print(f"  b*={b_star}  bind_selective={bind_sel}  comp_selective={comp_sel}  "
           f"nulls={nulls_ok}")
     print(f"  * dissociation_supported = {supported}")
