@@ -227,6 +227,72 @@ the pre-reg e-axis control is unrealizable (raw ENTITY-centroid direction
 carries ~10⁵ E/tok) — replaced by the role-null (CONN/FUNC) lattice subspace,
 which is the sharper class-control anyway.
 
+## P-TYPE-1b — Result @32B (s283b; THE VERDICT HOST) — CLOSED NEGATIVE
+
+> Run: `wrapper/type_zone_ablation.py` v4 (commit 0961819), host Qwen/Qwen3-32B,
+> band L24–L49 (26 layers, p-fixed in-run), absolute-dose grid planned
+> {50, 150, 600, 2400} E/tok. Results committed 95d89de
+> (`results/type-zone-ablation/qwen3-32b/`). Frozen rules applied verbatim.
+
+**VERDICT: `dissociation_supported = False` at the pre-registered host.**
+`bind_selective = False`, `comp_selective = False`, `nulls_clean = False`.
+**P-TYPE-1b closes as exhaust-theory-confirmed at both scales.**
+
+**This is the full-strength verdict, not a capacity-limited one.** Gate-0
+passed BOTH effects: baseline Q_eff 1.197 (t=3.48), M_eff 0.929 (t=4.21),
+recall 0.8. Unlike 4B (M_eff t≈0.6, unexpressed), the 32B baseline expresses
+both licensing effects — the pre-reg host had everything to lose and lost
+nothing selectively.
+
+**The grid (retention = ablated/baseline; realized E/tok for role slices):**
+
+| dose | bind retQ/retM | comp retQ/retM | rolenull retQ/retM | random retQ/retM |
+|---|---|---|---|---|
+| d1 (~25) | 0.963 / 0.998 | 0.988 / 1.004 | 0.977 / 0.968 | 1.056 / 0.937 |
+| d2 (~74) | 0.963 / 1.004 | 1.011 / 0.996 | 0.984 / 0.932 | 1.167 / 0.821 |
+| d3 (~280) | 1.087 / 0.801 | 1.123 / 0.847 | 1.112 / 0.751 | 1.388 / 0.606 |
+| d4 (~1000) | 1.372 / 0.404 | 1.672 / 0.863 | 1.602 / 0.145 | 1.947 / −0.303 |
+
+Read, no spin:
+1. **No class-selectivity at any dose.** At d2 (~74 E/tok, the 4B
+   interpretable dose) bind ≈ comp ≈ rolenull within noise — the
+   pre-registered double dissociation is ABSENT, matching 4B.
+2. **retQ AMPLIFIES with dose** (1.37–1.95 @d4, every condition including
+   random) — opposite in sign to the predicted breakage. Verbatim
+   observation; plausibly a surprisal-scale artifact of generic degradation
+   (both crossover terms inflate, contrast widens). Not interpreted further.
+3. **retM degrades generically, anti-mapping ordered:** rolenull 0.145 >
+   bind 0.404 > comp 0.863 @d4 — the CONTROL subspace (CONN/FUNC) hurts
+   modifier licensing most, not the pre-registered axis2/comp mapping.
+   Random reaches sign-flip (−0.303) at ~2× realized energy →
+   `nulls_clean = False`; even the generic pattern fails the null gate.
+4. **⚠ The 4B "lattice = 4× load-bearing infrastructure" finding does NOT
+   replicate @32B:** role-slice recall_acc holds 0.8→1.0 through ~1000 E/tok
+   (4B cliff was 74→270). The infrastructure claim is **4B-scoped** (n=10,
+   one-cell resolution on the recall uptick — not over-read).
+5. **No 32B analog of the 4B M_eff-unmasking cell:** baseline M is already
+   fully expressed, so "gentle dampening reveals a weak licensing channel"
+   has no counterpart here — coheres with a 4B-capacity artifact, but that
+   remains post-hoc pending its own pre-reg.
+
+**Band note (for 1a-follow):** the in-run p-fixed band is L24–L49, later and
+narrower than 1a's L6–L48 sustained-low-rank characterization (different
+estimator, falsy-zero fix applied) — a refinement, not a contradiction.
+
+**Deviation (same as 4B, logged in verdict.json):** e-axis control replaced
+by role-null (CONN/FUNC) — raw ENTITY-centroid direction carries ~10⁵ E/tok,
+unrealizable as a near-null.
+
+**Meaning.** With (i) the v4 global-direction negative, (ii) the 4B zone×axis
+grid, and (iii) this full-baseline 32B verdict, the value-register hiding
+places are exhausted at both scales: **the type lattice is EXHAUST — a
+readout of routing-resident licensing — not a consulted ledger.** The
+theory-pure outcome: a type that IS the well-formedness of a reduction is
+unstorable by construction, so no dose can remove it from the value register.
+The negative confirms the frame. The REPL is unaffected: decode-verify-swap
+needs only *us* to read the ledger (Print/type-checker side), not the machine
+to consult it. Successor experiment: **P-HOF-1** (§Consequence below).
+
 ## Consequence — typed higher-order functions (s283 discussion, Michael)
 
 3-hop (s282) + decodable types compose into a stronger statement than either:
@@ -256,3 +322,6 @@ higher-order test over an inserted term, and the behavioral closure of axis0.
 s282 (theoretical closure from the types discussion; P-TYPE-1b pre-registration drafted).
 s283 (instrument v1→v4 built + iterated; 4B smoke verdict: no class-selectivity —
 exhaust reading; higher-order consequence captured; 32B verdict run launched).
+s283b (32B verdict IN: dissociation_supported=False at the pre-reg host with gate-0
+fully expressed — P-TYPE-1b CLOSED as exhaust-theory-confirmed; 4B infrastructure
+claim scoped to 4B; retQ-amplification + anti-mapping retM ordering reported verbatim).

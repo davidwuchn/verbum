@@ -1,15 +1,16 @@
-💡 P-TYPE-1b @4B (v4 absolute-dose grid, 0961819): at matched realized
-removed-energy (±5%), dampening the binding (QUANT/DET), composition (MOD),
-and role-null (CONN/FUNC) lattice subspaces produced statistically
-indistinguishable behavioral effects (Q_eff retention 0.84/0.80/0.87) — no
-class selectivity. With the earlier global-direction negative, the value
-register has no remaining hiding place at 4B: the type lattice is a READOUT
-(exhaust) of routing-resident licensing, not a consulted ledger. Theory-pure:
-a type that is the well-formedness of a reduction is unstorable by
-construction. The lattice region IS ~4× more load-bearing than random per
-unit energy (recall dies at ~270 vs ~9000 E/tok, cliff between 74 and 270) —
-shared-axis0 infrastructure, generic. Post-hoc (needs pre-reg): gentle
-role-subspace dampening unmasks M_eff (t 0.6→5.5+) for all three role slices
-but not random — the one lattice-specific behavioral cell. REPL implication:
-decode-verify-swap needs only the readout register — unaffected by exhaust.
-32B = verdict host (run launched s283).
+💡 P-TYPE-1b CLOSED NEGATIVE AT BOTH SCALES (4B 0961819; 32B verdict 95d89de):
+zone×axis ablation of the type-lattice subspaces (binding QUANT/DET,
+composition MOD, role-null CONN/FUNC) produced NO class-selective breakage at
+any matched dose — 4B smoke AND the pre-registered 32B host, where gate-0
+passed with BOTH effects expressed (Q_eff t=3.5, M_eff t=4.2), so the verdict
+is full-strength, not capacity-limited. With the earlier global-direction
+negative, the value register has no remaining hiding place: **the type
+lattice is a READOUT (exhaust) of routing-resident licensing, not a consulted
+ledger.** Theory-pure — a type that is the well-formedness of a reduction is
+unstorable by construction. Scale honesty: the 4B "lattice ~4× load-bearing
+infrastructure" cell does NOT replicate @32B (role-slice recall 1.0 through
+~1000 E/tok); the M_eff-unmasking cell has no 32B analog (baseline M already
+expressed) — both 4B-scoped, unmasking still post-hoc. Verbatim oddity: retQ
+AMPLIFIES with dose @32B (1.4–1.9, all conditions) — plausibly a
+surprisal-scale artifact, not interpreted. REPL implication unchanged:
+decode-verify-swap needs only the readout register. Successor: P-HOF-1.

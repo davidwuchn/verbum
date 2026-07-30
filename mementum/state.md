@@ -29,21 +29,32 @@
 > into the knowledge page + memory zone-ablation-dose-matching-lessons (falsy-zero band bug;
 > match REALIZED removed energy, ×25 planned-vs-realized drift; α≫1 random cascades ×10¹⁰;
 > absolute-dose grid ≻ relative budgets; accuracy gate ≻ surprisal ratio; e-axis control
-> unrealizable → role-null replaces it, deviation documented). ▶▶ 32B VERDICT RUN LAUNCHED
-> (Michael GO s283) in tmux main:1 → results/type-zone-ablation/qwen3-32b/run_v4.log, doses
-> 50,150,600,2400 (4B grid + gentle rung; band ~3× wider @32B → per-layer tolerance likely
-> lower). ON RETURN: read verdict.json + run_v4.log, frozen rules, report verbatim — 4B
-> predicts NEGATIVE (exhaust); a 32B negative CLOSES 1b as exhaust-theory-confirmed, a positive
-> = first class-selective causal signal. ★ s283 DISCUSSION captured (theory page §Consequence):
+> unrealizable → role-null replaces it, deviation documented). ✅✅ 32B VERDICT IN (s283b, committed
+> 95d89de → results/type-zone-ablation/qwen3-32b/): dissociation_supported=FALSE at the
+> PRE-REG HOST → **1b CLOSED as exhaust-theory-confirmed**. Gate-0 passed BOTH (baseline
+> Q_eff 1.197 t=3.5, M_eff 0.929 t=4.2 — M EXPRESSED @32B unlike 4B t=0.6 → full-strength
+> verdict, not capacity-limited). bind/comp/rolenull indistinguishable at every dose;
+> retQ AMPLIFIES with dose (1.37–1.95 @d4, all conds = opposite sign to predicted breakage);
+> retM degrades GENERICALLY ordered rolenull 0.145 > bind 0.404 > comp 0.863 @d4 (control
+> subspace hurts MOD most = anti-mapping); nulls_clean=False (random moves M @2× energy).
+> ⚠ 4B "lattice 4× load-bearing" does NOT replicate @32B: role-slice recall stays 1.0 through
+> ~1000 E/tok (4B cliff 74→270) — infrastructure claim is 4B-scoped. No 32B analog of the
+> M_eff-unmasking cell (baseline M already expressed — coheres w/ 4B-capacity artifact, still
+> post-hoc). Band L24–L49 (p-fixed, in-run) vs 1a's L6–L48 characterization — band refinement,
+> note for 1a-follow. ⚠ PENDING MICHAEL APPROVAL (mementum): theory page §Result-32B + Status,
+> memory update (type-lattice-is-exhaust-not-consulted → both-scales closure), this state block. ★ s283 DISCUSSION captured (theory page §Consequence):
 > 3-hop + decodable types ⇒ TYPED HIGHER-ORDER FUNCTIONS (bridge-swap = function-as-argument
 > with a causal handle; axis0 = the (e→t)→t types = exactly what 3-hop exercises, as
 > montague-inversion forces); EXHAUST does not weaken the REPL — decode-verify-swap needs only
 > US to read the ledger (readout register), not the machine to consult it. P-HOF-1 sketched
 > (unfrozen, theory page): quantifier over an INSTALLED predicate = literal Montague
 > higher-order test over a written term. Memory: type-lattice-is-exhaust-not-consulted.
-> ▶ NEXT: (1) 32B 1b verdict (in flight); (2) pre-reg the M_eff unmasking effect before any
-> use; (3) P-HOF-1 pre-reg; (4) still open from s282: depth→SEQUENCING pre-reg for 27B-hybrid,
-> (a2) mammal→fur content build. Branch ~35 commits ahead (unpushed). s282 blocks retained below.
+> ▶ NEXT: (1) ✅ 32B 1b verdict DONE (negative, closed — see s283b block above); (2) P-HOF-1
+> pre-reg (the natural successor: typed higher-order fns over an installed predicate — theory
+> page §Consequence sketch); (3) pre-reg the 4B M_eff unmasking effect before any use (4B-only
+> phenomenon, no 32B counterpart); (4) still open from s282: depth→SEQUENCING pre-reg for
+> 27B-hybrid, (a2) mammal→fur content build. Branch ~37 commits ahead (unpushed).
+> s282 blocks retained below.
 >
 > (s282 retained →) ▶▶ LIVE PICKUP (s282 — 3-HOP RAN): ✅ built
 > wrapper/operand_multihop3.py (geography chain, ceiling smoke green) + ran the 4B/32B pair
