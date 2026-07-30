@@ -1,0 +1,479 @@
+
+========================================================================
+  Loading Qwen/Qwen3-4B
+========================================================================
+
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights:   0%|          | 1/398 [00:00<01:39,  3.99it/s]Loading weights:  15%|█▌        | 60/398 [00:00<00:01, 214.52it/s]Loading weights:  31%|███       | 124/398 [00:00<00:00, 357.91it/s]Loading weights:  46%|████▋     | 185/398 [00:00<00:00, 437.91it/s]Loading weights:  62%|██████▏   | 245/398 [00:00<00:00, 487.95it/s]Loading weights:  76%|███████▌  | 302/398 [00:00<00:00, 508.18it/s]Loading weights:  90%|████████▉ | 358/398 [00:00<00:00, 521.37it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 429.69it/s]
+  Loaded in 2.4s
+  Layers: 36  Heads: 32  KV heads: 8  d_model: 2560
+    sentence 1/56: The dog runs....
+    sentence 11/56: Alice runs....
+    sentence 21/56: The farmer finds the bird....
+    sentence 31/56: Some teacher laughs....
+    sentence 41/56: The old house stands....
+    sentence 51/56: The house is old....
+[1b] labeled=263 skipped=0
+[1b] L 0 PR=6.15 null=5.75 p=0.96
+[1b] L 1 PR=6.03 null=5.81 p=0.85
+[1b] L 2 PR=6.20 null=5.77 p=0.98
+[1b] L 3 PR=6.45 null=5.83 p=1.0
+[1b] L 4 PR=6.38 null=5.84 p=1.0
+[1b] L 5 PR=6.33 null=5.80 p=1.0
+[1b] L 6 PR=3.32 null=4.81 p=0.0
+[1b] L 7 PR=3.40 null=4.71 p=0.04
+[1b] L 8 PR=3.51 null=4.96 p=0.05
+[1b] L 9 PR=3.40 null=5.02 p=0.0
+[1b] L10 PR=3.30 null=4.89 p=0.02
+[1b] L11 PR=3.30 null=4.89 p=0.0
+[1b] L12 PR=3.32 null=4.95 p=0.0
+[1b] L13 PR=3.36 null=4.98 p=0.01
+[1b] L14 PR=3.34 null=4.83 p=0.01
+[1b] L15 PR=3.33 null=4.83 p=0.03
+[1b] L16 PR=3.29 null=4.71 p=0.01
+[1b] L17 PR=3.30 null=4.96 p=0.01
+[1b] L18 PR=3.39 null=4.82 p=0.0
+[1b] L19 PR=3.58 null=5.05 p=0.02
+[1b] L20 PR=3.68 null=5.06 p=0.02
+[1b] L21 PR=3.90 null=5.04 p=0.03
+[1b] L22 PR=4.09 null=5.24 p=0.01
+[1b] L23 PR=4.44 null=5.31 p=0.06
+[1b] L24 PR=4.74 null=5.54 p=0.06
+[1b] L25 PR=4.98 null=5.58 p=0.04
+[1b] L26 PR=5.24 null=5.67 p=0.07
+[1b] L27 PR=5.45 null=5.74 p=0.16
+[1b] L28 PR=5.64 null=5.77 p=0.27
+[1b] L29 PR=5.83 null=5.84 p=0.41
+[1b] L30 PR=6.00 null=5.85 p=0.76
+[1b] L31 PR=6.08 null=5.86 p=0.89
+[1b] L32 PR=6.14 null=5.88 p=0.94
+[1b] L33 PR=6.15 null=5.87 p=0.95
+[1b] L34 PR=6.11 null=5.81 p=0.9
+[1b] L35 PR=3.80 null=4.72 p=0.05
+[1b] BAND = L13..L17 (5 layers)
+[1b] axis picks: {
+ "13": {
+  "bind_i": 0,
+  "comp_i": 4,
+  "bind_var": 0.855,
+  "comp_var": 0.021,
+  "E_full": {
+   "bind": 7547809.0,
+   "comp": 7865.6,
+   "random": 490.5,
+   "e": 108698.3
+  },
+  "loadings": {
+   "axis0": {
+    "var_frac": 0.855,
+    "ENTITY": -0.012,
+    "PRED": 0.214,
+    "REL": 0.213,
+    "QUANT": -0.852,
+    "DET": -0.208,
+    "MOD": 0.213,
+    "CONN": 0.217,
+    "FUNC": 0.215
+   },
+   "axis1": {
+    "var_frac": 0.044,
+    "ENTITY": -0.332,
+    "PRED": 0.156,
+    "REL": 0.119,
+    "QUANT": 0.382,
+    "DET": -0.785,
+    "MOD": 0.055,
+    "CONN": 0.243,
+    "FUNC": 0.163
+   },
+   "axis2": {
+    "var_frac": 0.032,
+    "ENTITY": 0.657,
+    "PRED": 0.072,
+    "REL": 0.076,
+    "QUANT": 0.021,
+    "DET": -0.41,
+    "MOD": 0.33,
+    "CONN": -0.352,
+    "FUNC": -0.395
+   },
+   "axis3": {
+    "var_frac": 0.024,
+    "ENTITY": 0.28,
+    "PRED": -0.321,
+    "REL": -0.722,
+    "QUANT": -0.01,
+    "DET": -0.122,
+    "MOD": 0.259,
+    "CONN": 0.235,
+    "FUNC": 0.401
+   },
+   "axis4": {
+    "var_frac": 0.021,
+    "ENTITY": 0.504,
+    "PRED": -0.027,
+    "REL": 0.125,
+    "QUANT": -0.038,
+    "DET": -0.17,
+    "MOD": -0.788,
+    "CONN": 0.207,
+    "FUNC": 0.188
+   }
+  }
+ },
+ "14": {
+  "bind_i": 1,
+  "comp_i": 4,
+  "bind_var": 0.051,
+  "comp_var": 0.022,
+  "E_full": {
+   "bind": 285.2,
+   "comp": 11665.0,
+   "random": 4388.8,
+   "e": 106104.3
+  },
+  "loadings": {
+   "axis0": {
+    "var_frac": 0.853,
+    "ENTITY": -0.011,
+    "PRED": 0.216,
+    "REL": 0.216,
+    "QUANT": -0.846,
+    "DET": -0.223,
+    "MOD": 0.207,
+    "CONN": 0.221,
+    "FUNC": 0.22
+   },
+   "axis1": {
+    "var_frac": 0.051,
+    "ENTITY": -0.167,
+    "PRED": 0.121,
+    "REL": 0.159,
+    "QUANT": 0.382,
+    "DET": -0.832,
+    "MOD": -0.078,
+    "CONN": 0.237,
+    "FUNC": 0.178
+   },
+   "axis2": {
+    "var_frac": 0.03,
+    "ENTITY": -0.799,
+    "PRED": -0.018,
+    "REL": -0.028,
+    "QUANT": 0.032,
+    "DET": 0.344,
+    "MOD": -0.178,
+    "CONN": 0.307,
+    "FUNC": 0.339
+   },
+   "axis3": {
+    "var_frac": 0.022,
+    "ENTITY": 0.289,
+    "PRED": -0.345,
+    "REL": -0.695,
+    "QUANT": -0.028,
+    "DET": -0.077,
+    "MOD": 0.092,
+    "CONN": 0.321,
+    "FUNC": 0.443
+   },
+   "axis4": {
+    "var_frac": 0.022,
+    "ENTITY": -0.353,
+    "PRED": 0.017,
+    "REL": -0.22,
+    "QUANT": 0.101,
+    "DET": -0.084,
+    "MOD": 0.868,
+    "CONN": -0.14,
+    "FUNC": -0.189
+   }
+  }
+ },
+ "15": {
+  "bind_i": 1,
+  "comp_i": 3,
+  "bind_var": 0.049,
+  "comp_var": 0.022,
+  "E_full": {
+   "bind": 207.0,
+   "comp": 23166.3,
+   "random": 11663.5,
+   "e": 105640.7
+  },
+  "loadings": {
+   "axis0": {
+    "var_frac": 0.855,
+    "ENTITY": -0.01,
+    "PRED": 0.218,
+    "REL": 0.215,
+    "QUANT": -0.845,
+    "DET": -0.226,
+    "MOD": 0.207,
+    "CONN": 0.222,
+    "FUNC": 0.22
+   },
+   "axis1": {
+    "var_frac": 0.049,
+    "ENTITY": -0.169,
+    "PRED": 0.129,
+    "REL": 0.145,
+    "QUANT": 0.387,
+    "DET": -0.836,
+    "MOD": -0.059,
+    "CONN": 0.227,
+    "FUNC": 0.177
+   },
+   "axis2": {
+    "var_frac": 0.031,
+    "ENTITY": -0.764,
+    "PRED": -0.014,
+    "REL": -0.026,
+    "QUANT": 0.026,
+    "DET": 0.342,
+    "MOD": -0.249,
+    "CONN": 0.319,
+    "FUNC": 0.366
+   },
+   "axis3": {
+    "var_frac": 0.022,
+    "ENTITY": 0.503,
+    "PRED": -0.15,
+    "REL": -0.103,
+    "QUANT": -0.099,
+    "DET": 0.001,
+    "MOD": -0.731,
+    "CONN": 0.268,
+    "FUNC": 0.312
+   },
+   "axis4": {
+    "var_frac": 0.021,
+    "ENTITY": -0.096,
+    "PRED": 0.319,
+    "REL": 0.716,
+    "QUANT": -0.015,
+    "DET": 0.088,
+    "MOD": -0.455,
+    "CONN": -0.219,
+    "FUNC": -0.338
+   }
+  }
+ },
+ "16": {
+  "bind_i": 1,
+  "comp_i": 4,
+  "bind_var": 0.048,
+  "comp_var": 0.02,
+  "E_full": {
+   "bind": 645.2,
+   "comp": 3251.8,
+   "random": 3176.7,
+   "e": 101929.9
+  },
+  "loadings": {
+   "axis0": {
+    "var_frac": 0.859,
+    "ENTITY": -0.009,
+    "PRED": 0.219,
+    "REL": 0.216,
+    "QUANT": -0.844,
+    "DET": -0.23,
+    "MOD": 0.209,
+    "CONN": 0.221,
+    "FUNC": 0.22
+   },
+   "axis1": {
+    "var_frac": 0.048,
+    "ENTITY": -0.179,
+    "PRED": 0.127,
+    "REL": 0.125,
+    "QUANT": 0.393,
+    "DET": -0.838,
+    "MOD": -0.02,
+    "CONN": 0.224,
+    "FUNC": 0.169
+   },
+   "axis2": {
+    "var_frac": 0.031,
+    "ENTITY": 0.722,
+    "PRED": 0.02,
+    "REL": 0.076,
+    "QUANT": -0.019,
+    "DET": -0.33,
+    "MOD": 0.282,
+    "CONN": -0.341,
+    "FUNC": -0.409
+   },
+   "axis3": {
+    "var_frac": 0.021,
+    "ENTITY": 0.52,
+    "PRED": -0.31,
+    "REL": -0.504,
+    "QUANT": -0.068,
+    "DET": -0.091,
+    "MOD": -0.284,
+    "CONN": 0.284,
+    "FUNC": 0.453
+   },
+   "axis4": {
+    "var_frac": 0.02,
+    "ENTITY": -0.225,
+    "PRED": -0.178,
+    "REL": -0.507,
+    "QUANT": 0.055,
+    "DET": -0.032,
+    "MOD": 0.806,
+    "CONN": -0.002,
+    "FUNC": 0.082
+   }
+  }
+ },
+ "17": {
+  "bind_i": 1,
+  "comp_i": 4,
+  "bind_var": 0.047,
+  "comp_var": 0.02,
+  "E_full": {
+   "bind": 365.3,
+   "comp": 5927.5,
+   "random": 3851.2,
+   "e": 101139.9
+  },
+  "loadings": {
+   "axis0": {
+    "var_frac": 0.858,
+    "ENTITY": -0.011,
+    "PRED": 0.219,
+    "REL": 0.217,
+    "QUANT": -0.843,
+    "DET": -0.232,
+    "MOD": 0.209,
+    "CONN": 0.222,
+    "FUNC": 0.22
+   },
+   "axis1": {
+    "var_frac": 0.047,
+    "ENTITY": -0.162,
+    "PRED": 0.132,
+    "REL": 0.127,
+    "QUANT": 0.394,
+    "DET": -0.845,
+    "MOD": -0.02,
+    "CONN": 0.203,
+    "FUNC": 0.171
+   },
+   "axis2": {
+    "var_frac": 0.031,
+    "ENTITY": 0.722,
+    "PRED": 0.04,
+    "REL": 0.046,
+    "QUANT": -0.028,
+    "DET": -0.312,
+    "MOD": 0.29,
+    "CONN": -0.332,
+    "FUNC": -0.427
+   },
+   "axis3": {
+    "var_frac": 0.021,
+    "ENTITY": 0.48,
+    "PRED": -0.348,
+    "REL": -0.556,
+    "QUANT": -0.06,
+    "DET": -0.095,
+    "MOD": -0.161,
+    "CONN": 0.256,
+    "FUNC": 0.485
+   },
+   "axis4": {
+    "var_frac": 0.02,
+    "ENTITY": 0.31,
+    "PRED": 0.133,
+    "REL": 0.423,
+    "QUANT": -0.068,
+    "DET": 0.019,
+    "MOD": -0.835,
+    "CONN": 0.054,
+    "FUNC": -0.036
+   }
+  }
+ }
+}
+[1b] budgets (per-layer removed energy): [8365.5, 4606.6, 2536.7]  (E_comp..E_bind)
+[1b] 370 items (360 typed + 10 recall) x 11 conds
+[1b] baseline: 0/370
+[1b] baseline: 120/370
+[1b] baseline: 240/370
+[1b] baseline: 360/370
+[1b] baseline   Q_eff={'mean': 2.7874, 't': 6.216, 'n': 10} M_eff={'mean': 0.1705, 't': 0.627, 'n': 10} recall=0.3871 E/tok=0.0
+[1b] e_axis: 0/370
+[1b] e_axis: 120/370
+[1b] e_axis: 240/370
+[1b] e_axis: 360/370
+[1b] e_axis     Q_eff={'mean': 0.3402, 't': 2.374, 'n': 10} M_eff={'mean': -0.3295, 't': -2.297, 'n': 10} recall=12.1287 E/tok=4757.3
+[1b] bind@b1: 0/370
+[1b] bind@b1: 120/370
+[1b] bind@b1: 240/370
+[1b] bind@b1: 360/370
+[1b] bind@b1    Q_eff={'mean': 2.6217, 't': 7.317, 'n': 10} M_eff={'mean': 1.1614, 't': 4.312, 'n': 10} recall=0.1273 E/tok=896.6
+[1b] comp@b1: 0/370
+[1b] comp@b1: 120/370
+[1b] comp@b1: 240/370
+[1b] comp@b1: 360/370
+[1b] comp@b1    Q_eff={'mean': 2.2917, 't': 4.365, 'n': 10} M_eff={'mean': 0.4386, 't': 1.265, 'n': 10} recall=0.8783 E/tok=550.6
+[1b] random@b1: 0/370
+[1b] random@b1: 120/370
+[1b] random@b1: 240/370
+[1b] random@b1: 360/370
+[1b] random@b1  Q_eff={'mean': -0.6237, 't': -1.24, 'n': 10} M_eff={'mean': 1.2208, 't': 3.593, 'n': 10} recall=2.6065 E/tok=10952.2
+[1b] bind@b2: 0/370
+[1b] bind@b2: 120/370
+[1b] bind@b2: 240/370
+[1b] bind@b2: 360/370
+[1b] bind@b2    Q_eff={'mean': 2.3607, 't': 6.893, 'n': 10} M_eff={'mean': 1.1031, 't': 5.514, 'n': 10} recall=0.1403 E/tok=517.2
+[1b] comp@b2: 0/370
+[1b] comp@b2: 120/370
+[1b] comp@b2: 240/370
+[1b] comp@b2: 360/370
+[1b] comp@b2    Q_eff={'mean': 2.5427, 't': 4.067, 'n': 10} M_eff={'mean': 0.2023, 't': 0.583, 'n': 10} recall=0.9919 E/tok=375.0
+[1b] random@b2: 0/370
+[1b] random@b2: 120/370
+[1b] random@b2: 240/370
+[1b] random@b2: 360/370
+[1b] random@b2  Q_eff={'mean': 0.4357, 't': 1.253, 'n': 10} M_eff={'mean': 2.6938, 't': 9.506, 'n': 10} recall=0.7087 E/tok=5925.2
+[1b] bind@b3: 0/370
+[1b] bind@b3: 120/370
+[1b] bind@b3: 240/370
+[1b] bind@b3: 360/370
+[1b] bind@b3    Q_eff={'mean': 2.2406, 't': 6.29, 'n': 10} M_eff={'mean': 1.0023, 't': 5.382, 'n': 10} recall=0.1778 E/tok=312.3
+[1b] comp@b3: 0/370
+[1b] comp@b3: 120/370
+[1b] comp@b3: 240/370
+[1b] comp@b3: 360/370
+[1b] comp@b3    Q_eff={'mean': 2.5593, 't': 4.204, 'n': 10} M_eff={'mean': 0.2644, 't': 0.908, 'n': 10} recall=1.1605 E/tok=273.3
+[1b] random@b3: 0/370
+[1b] random@b3: 120/370
+[1b] random@b3: 240/370
+[1b] random@b3: 360/370
+[1b] random@b3  Q_eff={'mean': 0.8251, 't': 2.2, 'n': 10} M_eff={'mean': 3.348, 't': 6.931, 'n': 10} recall=0.4427 E/tok=3274.6
+[1b] wrote /Users/mwhitford/src/verbum/results/type-zone-ablation/qwen3-4b/verdict.json + meta.json
+
+============================================================================
+P-TYPE-1b v2 — zone x axis dissociation, energy-matched dose ladder
+============================================================================
+  host=Qwen/Qwen3-4B  band=L13..L17  gate0=False  budgets=[8365.5, 4606.6, 2536.7]
+  baseline  Q_eff={'mean': 2.7874, 't': 6.216, 'n': 10}  M_eff={'mean': 0.1705, 't': 0.627, 'n': 10}  recall=0.3871
+  e_axis     retQ=0.122  retM=-1.933  recall_ratio=31.332  E/tok=4757.3
+  bind@b1    retQ=0.941  retM=6.812  recall_ratio=0.329  E/tok=896.6
+  comp@b1    retQ=0.822  retM=2.572  recall_ratio=2.269  E/tok=550.6
+  random@b1  retQ=-0.224  retM=7.16  recall_ratio=6.733  E/tok=10952.2
+  bind@b2    retQ=0.847  retM=6.47  recall_ratio=0.362  E/tok=517.2
+  comp@b2    retQ=0.912  retM=1.187  recall_ratio=2.562  E/tok=375.0
+  random@b2  retQ=0.156  retM=15.799  recall_ratio=1.831  E/tok=5925.2
+  bind@b3    retQ=0.804  retM=5.879  recall_ratio=0.459  E/tok=312.3
+  comp@b3    retQ=0.918  retM=1.551  recall_ratio=2.998  E/tok=273.3
+  random@b3  retQ=0.296  retM=19.636  recall_ratio=1.144  E/tok=3274.6
+  b*=None  bind_selective=False  comp_selective=False  nulls=False
+  * dissociation_supported = False
+============================================================================
+
