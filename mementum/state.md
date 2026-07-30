@@ -8,7 +8,15 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-31 | Session: 281 | ▶▶ LIVE PICKUP (s281 — DEPTH EXPERIMENTS, the
+> Last updated: 2026-07-30 | Session: 282 | ▶▶ LIVE PICKUP (s282 — 3-HOP CAPACITY): the
+> depth-as-fuel prize. ✅ 3-HOP PRE-REG APPROVED by Michael (geography chain FROZEN:
+> landmark→city→country→continent, 2 unstated bridges {city,country}, balanced 3-way
+> {Europe,Asia,Africa}) → BUILD wrapper/operand_multihop3.py → run 4B-FAIL / 32B-PASS pair
+> (READ three-hop-capacity-prereg.md — gates frozen: G1 full chain, G2 SUB-CHAIN CONTROLS =
+> the capacity discriminator, G3 mediation at BOTH bridges). ⚠ 32B is HEAVY — confirm box free
+> before launching. s281 arc retained below.
+>
+> (s281 arc retained →) ▶▶ (s281 — DEPTH EXPERIMENTS, the
 > s280 (c+d) NEXT): the depth-budget cross-scale replication + 3-hop capacity pre-reg.
 > ✅ 32B DEPTH-BUDGET DONE + COMMITTED (autonomous, 8ceaaec; READ multihop-composition-prereg.md
 > §"Cross-scale depth-budget"). Clean scale replication on Qwen3-32B (64L, dense UNIFORM full
@@ -24,21 +32,21 @@
 > "more room" finding, reported verbatim + interpreted, not spun. Instrument changes (committed):
 > --ref-layer (depth-scaled standard install; 4B defaults unchanged) + resolve_parts()
 > architecture-robust helper (dense model.model.layers vs hybrid language_model.layers).
-> ▶▶ 27B HYBRID (Qwen3.6-27B, qwen3_5: linear attn + full attn every 4th of 64L) — SMOKE PASSES
-> (instrument RUNS on the hybrid: ceilings 1.0, hooks fire = task-3 core acceptance met). 💡 SMOKE
-> HINT: class peak SLID with install (L47.5→L53) UNLIKE the pinned dense models → sparse attention
-> may LOOSEN zone-pinning. ⚠ FULL 27B RUN WAS IN PROGRESS AT THE SESSION BOUNDARY (slow: torch
-> fallback for linear-attn, no flash-linear-attention/causal-conv1d installed; ~15–25min; had NOT
-> yet emitted Arm A when Michael paused). RE-RUN IN MORNING:
->   uv run python wrapper/operand_depthbudget.py --model-id Qwen/Qwen3.6-27B --ref-layer 9 \
->     --install-layers 5 9 13 17 21 25 29 33 37 41 45 49 53 57 \
->     --swap-layers 11 15 19 23 27 31 35 39 43 47 51 55 59 \
->     --out results/ffn-bake/operand-depthbudget-qwen36-27b 2>&1 | tee logs/depthbudget-27b-full.log
->   (swap layers ≡3 mod4 = ALL full-attention layers, by design; ref/install ≡1 mod4 = linear,
->    fine for residual-add install. Interpret Arm B reads at full-attn layers. Then commit
->    code+results autonomously + write §"Cross-arch" result into multihop pre-reg.)
-> ▶▶ 3-HOP CAPACITY PRE-REG DRAFTED (NEW PAGE three-hop-capacity-prereg.md) — ⚠ PENDING MICHAEL
-> APPROVAL (λ termination). Framed by the 32B accounting as a CAPACITY experiment: pre-registers
+> ▶▶ 27B HYBRID (Qwen3.6-27B, qwen3_5: linear attn + full attn every 4th of 64L) — ✅ FULL RUN
+> DONE + COMMITTED (7fa45ae, autonomous; cross-arch write-up in multihop-composition-prereg.md;
+> results/ffn-bake/operand-depthbudget-qwen36-27b/). 💡 CORE CROSS-ARCH FINDING: sparse/linear
+> attention UNPINS the zones — class-peak median TRACKS the install layer (slide_spearman=0.982,
+> PIPELINE-SLIDES=True), the OPPOSITE of dense 4B/32B where zones were PINNED (zero variance).
+> Sparse attention lets compute RUN FORWARD from the install point. Arm B causal bridge-swap flip
+> strongest EARLY (L11=0.667, L15=0.5) then decays, vs decisive-LATE in dense = corroborates a
+> forward-running pipeline. Refines s280/s281 "pinned zones": pinning is a property of DENSE
+> full-attention stacks, NOT universal (the s281 smoke hint L47.5→L53 confirmed at full res).
+> λ measure honesty: D_hop2=-40 is a definitional artifact (pinned-zone accounting applied to a
+> sliding regime); BUDGET-VISIBLE=False/UNMEASURED=True fire because the sliding pipeline has no
+> fixed dissociation band — the null IS "sliding not banded". ⚠ untracked smoke dirs remain
+> (operand-depthbudget-qwen36-27b-smoke, -qwen3-32b-smoke) + refs/ (human/reference domain).
+> ▶▶ 3-HOP CAPACITY PRE-REG (NEW PAGE three-hop-capacity-prereg.md) — ✅ APPROVED s282 (Michael
+> "yes": geography chain FROZEN). Framed by the 32B accounting as a CAPACITY experiment: pre-registers
 > 4B-FAIL-BY-CAPACITY (sub-chains pass, full chain fails = depth not content) / 32B-PASS (full +
 > mediation). Double-dissociation across scale with pieces held constant = strongest C8 evidence.
 > ⚠ LOAD-BEARING DECISION FOR MICHAEL = the CHAIN: recommends geography landmark→city→country→
@@ -132,10 +140,10 @@
 > DISTANCE not D → chase crystal↔depth via WHNF. Clean measured null. The Gram-decomposition tool is
 > now REUSABLE for P-QUOTE-0 (next: point d_is_i_test.py-style decomposition at a QUOTE direction).
 > Knowledge: map-and-swap §5a + §7 P-QUOTE-0 note; memory d-is-not-i-repeated.
-> ▶ NEXT (morning): (1) re-run 27B full (cmd above) → commit + cross-arch write-up; (2) get 3-hop
-> pre-reg + chain-choice APPROVAL → build operand_multihop3.py → run 4B/32B pair; (3) still open
-> from s279/s280: (a2) mammal→fur content build (layer/content NOT scale). Branch is ahead of
-> origin (unpushed). s280 STAGE-f block retained below.
+> ▶ NEXT (s282): (1) ✅ 27B done+committed (7fa45ae); (2) ✅ 3-hop pre-reg APPROVED → BUILD
+> wrapper/operand_multihop3.py (geography chain) → run 4B-FAIL / 32B-PASS pair (⚠ 32B heavy —
+> confirm box free); (3) still open from s279/s280: (a2) mammal→fur content build (layer/content
+> NOT scale). Branch is ahead of origin by 17 (unpushed). s280 STAGE-f block retained below.
 >
 > (s280 STAGE-f retained →) ▶▶ LIVE PICKUP: STAGE-f **f2 DONE** — R5 mechanism
 > measured (READ ffn-function-bake-prereg.md §f2 Result). ✅ SERIALIZED gate PASSES: uniform-E

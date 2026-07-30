@@ -1,6 +1,6 @@
 ---
 title: "Three-hop capacity — pre-registration: h(f(g(X))) as a depth-as-fuel experiment"
-status: designing
+status: active
 category: explore
 tags: [three-hop, chained-composition, depth-budget, capacity, missed-deadline,
        pinned-zones, depth-proportional, operand, keyed-install, latent-bridge,
@@ -24,10 +24,11 @@ created: session 280
 > `multihop-composition-prereg.md` and is framed by the s280 depth-budget measurement
 > as a **CAPACITY experiment**, not a capability rung.
 >
-> **⚠ CHAIN-DESIGN DECISION for Michael (`λ termination`).** The load-bearing choice is
-> *which* 3-hop chain. §Chain design proposes a primary (geography: landmark → city →
-> country → continent) plus alternatives, and recommends one. This must be approved
-> before the graded run. Everything downstream (gates, nulls, code) is conditional on it.
+> **✅ CHAIN-DESIGN DECISION — APPROVED (s282, Michael "yes").** The chain is FROZEN to the
+> recommended PRIMARY: **geography — landmark → city → country → continent** (2 unstated
+> bridges {city, country}, balanced 3-way readout {Europe, Asia, Africa}, deterministic,
+> multi-token landmark cost handled by last-token contextualized-residual capture, ceiling-
+> gated). Everything downstream (gates, nulls, code) is now unblocked and conditional on this.
 
 ## Why this is a capacity experiment (grounded in s280)
 
@@ -202,10 +203,12 @@ Per model M:
 
 ## Status
 
-**DESIGNING — pre-registration draft s280, PENDING MICHAEL APPROVAL** (chain-design decision +
-frozen gates). Framed by the s280 depth-budget measurement (pinned depth-proportional zones,
-missed-deadline mechanism, D_hop2 12→4, 3-HOP-ROOM False@4B/True@32B) as a **capacity**
-experiment. On approval: build `operand_multihop3.py`, run the 4B-FAIL / 32B-PASS pair.
+**ACTIVE — pre-registration APPROVED s282 (Michael "yes": geography chain FROZEN).** Gates
+and per-model predictions frozen before any graded run. Framed by the s280 depth-budget
+measurement (pinned depth-proportional zones, missed-deadline mechanism, D_hop2 12→4,
+3-HOP-ROOM False@4B/True@32B) as a **capacity** experiment. Next: build `operand_multihop3.py`,
+run the 4B-FAIL / 32B-PASS pair.
 
 ## Sessions
 s280 (this pre-reg — 3-hop capacity, successor to the s279 2-hop + s280 depth-budget).
+s282 (Michael approved; geography chain frozen; build + run begins).
