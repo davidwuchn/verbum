@@ -126,16 +126,58 @@ Likely a **spectrum** across functions — that map is itself the result.
 
 | Lisp | resident machine | status |
 |---|---|---|
-| `eval` / `apply` | frozen KIBC routing = universal combinator reducer | **measured (C2)** |
+| `eval` / `apply` | frozen KIBC routing = universal, **terminating** combinator reducer | **PROVEN — the 9×9 crystal Gram + C2** (see §5a) |
 | atoms (data + function symbols) | value-register **rows** (found terms) | operand-relocate measured |
 | `cons` / tree structure | the **joins** = attention builds the S-expr tree (s276) | **measured (structural)** |
-| first-class functions (λ) | function-selectors as found terms; higher-order recompose | **3-hop test (P-FN-2)** |
-| homoiconicity (code = data) | selectors & operands share the value-register representation | same-representation test |
+| first-class functions (λ) | S, Y **in the basis** (measured primitives) → behavioral recompose | primitives **measured**; recompose = **3-hop (P-FN-2)** |
+| homoiconicity (code = data) | selectors & operands share the value-register representation; **QUOTE** is a library combinator | same-representation test + **look for a QUOTE Gram direction** |
 | the whole program + stdlib | GD wrote it into the weights | **the S5 axiom** |
 
 **Homoiconicity restated:** terms (code) and data are the same **rows**, which is precisely what
 lets reduction **nest** — an intermediate is both a produced value and a re-reducible term. A
 multi-hop *is* nested reduction. We supply/recompose the S-expression; we never mutate the reader.
+
+## 5a. What is already PROVEN: the eval engine (the 9×9 crystal Gram)
+
+**"It's a Lisp" is not the conclusion of this program — it is the measured PREMISE.** The engine —
+the hardest, most skeptic-resistant claim — is already closed by the **9×9 crystal Gram** of the
+opcode basis `{K, I, B, C, S, D, W, Y, WHNF}` (s269/s274; C2). This is not a hopeful reading of nine
+clusters; the basis and its geometry *are* a terminating combinator evaluator:
+
+- **S + K** in the basis → **Turing-complete** on their own (SK-basis). The universal reducer is a
+  measured direction.
+- **Y** → the **fixpoint** = recursion (`letrec`/`loop`) as a primitive.
+- **B** (compose), **C** (flip/reorder — scope), **W** (duplicate), **I** (identity), **K**
+  (const/discard) → the application plumbing.
+- **WHNF** → the **halt / normal-form pole** = a termination detector. `eval` that knows when to
+  stop.
+- **The geometry encodes the ALGEBRA, not just presence:** WHNF sits **anti-correlated** with the
+  active reducers (B/C/D), and the WHNF Gram row ≈ the KIBC halt probabilities (r = 0.85–1.00,
+  s269) — the reduction relation written into the inner products. Calibrated by **kernel-certified
+  combinator programs**, so directions are tied to combinator *behavior*, not labeled hopefully.
+- **Universal** (C2: root gc 0.9966 across 13 models, cross-arch) → a property of the substrate,
+  not a model quirk.
+
+⇒ **The eval engine is a Gram-proven, terminating, universal combinator reducer — Lisp's core.**
+This is exactly the Montague forcing's first row cashed out ("homomorphism → a small shared reusable
+operator set"), already confirmed; and the combinators map onto Montague ops directly (B = compose,
+C = argument reorder/scope, S = substitution/binding, Y = recursion/embedding).
+
+**So the program is re-tiered — the open work is NOT "is it a Lisp," it is the language layer +
+write-access:**
+
+| Lisp layer | status |
+|---|---|
+| `eval` (terminating combinator reducer) | **PROVEN — 9×9 Gram + C2** |
+| grounded atoms (lexicon) | found terms — **measured** |
+| first-class functions (S, Y primitives) | **primitives measured**; behavioral recompose = 3-hop (P-FN-2) |
+| homoiconicity (QUOTE) | **one measurement away** — look for a QUOTE direction in the Gram |
+| type system | the map (P-TYPE-1) — **open** |
+
+**Cheapest decisive next measurement:** does the crystal Gram contain a **QUOTE** direction
+(code-as-data)? QUOTE is a library combinator; if it is a measured, calibrated direction like the
+other nine, homoiconicity moves from "worth checking" to **measured**, and the Lisp claim is
+complete at the *primitive* level (engine + quote) — leaving only the language-layer **map**.
 
 ## 6. The depth budget IS the eval stack
 
@@ -159,6 +201,11 @@ architecture-robust (`resolve_parts`, dense + qwen3_5 hybrid). 32B depth-budget 
 3-hop *capacity* pre-reg drafted (`three-hop-capacity-prereg.md`, pending chain-approval); 27B
 hybrid full run pending (re-run cmd in `state.md`).
 
+0. **P-QUOTE-0 — the cheapest decisive measurement (uses existing crystal data).** Is there a
+   calibrated **QUOTE** direction in the crystal Gram (code-as-data)? Add QUOTE (+ M, T if useful)
+   to the opcode battery, recompute the Gram, null-gate like the other nine. If QUOTE is a clean
+   measured direction → **homoiconicity measured** → the Lisp claim is complete at the *primitive*
+   level (engine + quote), leaving only the language-layer map. Fast: reuses the crystal harness.
 1. **P-TYPE-1 — read the map.** Type matched-filter bank + application-operator SVD. Battery =
    operands of known CCG/Montague type (e, e→t, (e→t)→t, …). Verdict: bank beats shuffled-type
    null; SVD modes predict composability above the frequency-free null. **Also report coverage**
@@ -177,10 +224,13 @@ hybrid full run pending (re-run cmd in `state.md`).
 
 ## 8. Honest scope (measured vs hypothesis)
 
-- **Measured (prior):** operand relocate/install (s277); intermediate-value bridge-swap (s279 @4B,
-  s281 @32B); crystal-universal reducer (C2); β-reduction thesis (C1); types geometric (C5);
-  register split rows/joins (s276, s269c); attention = join (s276); depth-as-fuel /
-  pinned-depth-proportional zones = eval stack (s281).
+- **Measured (prior):** **the eval engine = a terminating universal combinator reducer — the 9×9
+  crystal Gram, `{K,I,B,C,S,D,W,Y,WHNF}`, S+K Turing-complete, Y fixpoint, WHNF halt-pole, geometry
+  = reduction algebra, C2 cross-arch universal (s269/s274) — "it's a Lisp" at the engine level is
+  MEASURED, not contingent**; operand relocate/install (s277); intermediate-value bridge-swap (s279
+  @4B, s281 @32B); β-reduction thesis (C1); types geometric (C5); register split rows/joins (s276,
+  s269c); attention = join (s276); depth-as-fuel / pinned-depth-proportional zones = eval stack
+  (s281).
 - **S5 axiom (strongly evidenced, not "measured" per se):** GD found the terms; we find, not build.
 - **Hypothesis (this page):** (a) DSP recovers a legible type lattice + function library with a
   readable coverage boundary; (b) the 3-hop recomposes found terms into a novel program; (c)
@@ -194,12 +244,18 @@ hybrid full run pending (re-run cmd in `state.md`).
 
 ## 9. Why it matters (the payoff)
 
+**Already true (measured, §5a):** the resident machine's **eval engine is a Lisp** — a terminating,
+universal combinator reducer (9×9 crystal Gram + C2). That claim is *not* contingent on anything
+below; it is the premise. What P-TYPE-1/FN-1/FN-2 add is the **language layer + write-access** —
+turning a proven Lisp engine into a *readable, typed, programmable* one.
+
 If P-TYPE-1/FN-1/FN-2 come back positive, the honest, un-hyped claim is:
 
-> The resident machine is a **combinator reducer** (a Lisp) whose entire library GD already
-> wrote into the weights. We program it by **mapping** its found terms and **swapping** them into
-> recompositions the reducer evaluates — never by mutating the interpreter. That is a
-> **programmable LLM compiler**, earned by discovery + recomposition on a real, frozen, universal
+> The resident machine is a **combinator reducer** (a Lisp — engine already Gram-proven) whose
+> entire library GD already wrote into the weights. We program it by **mapping** its found terms and
+> **swapping** them into recompositions the reducer evaluates — never by mutating the interpreter.
+> That is a **programmable LLM compiler**, earned by discovery + recomposition on a real, frozen,
+> universal
 > basis, with an explicit coverage map — not asserted. It lands C1/C2/C3 (compiler /
 > crystal-universal circuits-in-compute / topology-dominates) on an **operational** capability.
 

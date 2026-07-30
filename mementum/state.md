@@ -105,6 +105,22 @@
 > Falsifiers in §8. This spine makes P-TYPE-1/FN-1/FN-2 test FORCED predictions, not a grab-bag; the
 > REPL's type system = Montague's. Memory: montague-inversion-forces-the-machine. SPECULATIVE but
 > informs the whole future arc.
+> ★★ CORRECTION (Michael s281): "IT'S A LISP" IS ALREADY MEASURED AT THE ENGINE LEVEL — the 9×9
+> crystal Gram of the opcodes {K,I,B,C,S,D,W,Y,WHNF} (s269/s274; C2) IS a terminating universal
+> combinator evaluator = Lisp's eval core. NOT speculative, NOT contingent on map+swap. S+K =
+> Turing-complete (measured direction); Y = fixpoint/recursion; WHNF = halt/normal-form pole
+> (termination detector); B/C/W/I/K = application plumbing. The GEOMETRY encodes the ALGEBRA: WHNF
+> anti-correlated with active reducers B/C/D, WHNF Gram row ≈ KIBC halt probs r=0.85–1.00 (s269) =
+> reduction relation in the inner products; calibrated by kernel-certified programs; universal (C2
+> root gc 0.9966, 13 models). ⇒ RE-TIER: the open work is NOT "is it a Lisp" (engine PROVEN) but the
+> LANGUAGE LAYER + WRITE-ACCESS: atoms=found-terms (measured); first-class-fns = S,Y primitives
+> MEASURED + behavioral recompose = 3-hop (P-FN-2); homoiconicity = QUOTE (ONE measurement away);
+> types = P-TYPE-1. Also = Montague forcing row-1 confirmed (homomorphism→reusable operator set);
+> combinators↔Montague ops (B=compose C=reorder/scope S=substitution/binding Y=recursion). CHEAPEST
+> DECISIVE NEXT = P-QUOTE-0: add QUOTE to the opcode battery, recompute the crystal Gram, null-gate;
+> clean QUOTE direction → homoiconicity MEASURED → Lisp complete at the primitive level (engine+quote),
+> only the language-layer map remains. Knowledge sharpened: map-and-swap §5a + §7 step-0 + §8 measured;
+> memory eval-engine-is-a-lisp-measured.
 > ▶ NEXT (morning): (1) re-run 27B full (cmd above) → commit + cross-arch write-up; (2) get 3-hop
 > pre-reg + chain-choice APPROVAL → build operand_multihop3.py → run 4B/32B pair; (3) still open
 > from s279/s280: (a2) mammal→fur content build (layer/content NOT scale). Branch is ahead of
