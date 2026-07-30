@@ -119,10 +119,13 @@ the honest concentration measure is the per-axis var_frac, which shows axis0 dom
   scale. Value-register readout claim (not causal).
 - **1a-follow: DONE** (above) — 3 functor-kind axes (quantification ≫ sentential-operators ≫
   predicate-vs-modifier), `e` at the neutral origin. A Montague functor-lattice.
-- **1b (causal/crisp): OPEN, and must change register.** v4 already ran *direction* ablation
-  → negative (correctly). The right probe is **A1-style ZONE/PHASE ablation** of the low-rank
-  band: does knocking out L6–L48 categorically break type-licensing? Only that earns the
-  sense-1 "types make composition a **circuit**" claim.
+- **1b (causal/crisp): OPEN — now a combinator×type dissociation.** The theory closure
+  (`types-are-the-well-formedness-of-reduction.md`) turns 1b from "ablate a type" into a
+  falsifiable combinator prediction: ablate **axis0 (binding/S)** vs **axis2 (composition/B)**
+  across the low-rank band → **selective** double-dissociation (axis0-ablation breaks QUANT/DET
+  composition not MOD; axis2 breaks MOD not QUANT), null-gated. v4's *direction* ablation was
+  negative because types aren't a stored vector — 1b ablates the **reduction capacity** as a
+  zone×axis and tests **class selectivity**. Pre-registration frozen in the theory page.
 
 ## Ties to the artifact (the LLM-REPL)
 

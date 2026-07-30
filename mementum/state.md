@@ -74,7 +74,29 @@
 > decodable readout of a DISTRIBUTED compute NOT a causal direction (3-register triangulation,
 > folds C5→C2); the Montague type lattice is LOW-RANK + null-gated at 32B (compress→expand,
 > band L6–L48), resolving into 3 functor-kind axes with e at origin. All null-gated, confounds
-> flagged. Branch ~30 commits ahead (unpushed). NEXT real experiment = P-TYPE-1b zone-ablation.
+> flagged. Branch ~30 commits ahead (unpushed).
+> ★ s282 THEORY CLOSURE (Michael-directed "capture + update plan", READ IT): knowledge/explore/
+> types-are-the-well-formedness-of-reduction.md. Given attention=β-reduction (s276) + LLM
+> computes in KIBC (C2), a TYPE = the WELL-FORMEDNESS/licensing of a reduction, NOT a stored
+> feature → FORCES the s282 decodable-not-causal result (type = shape of which joins a term
+> licenses, unstorable). The type lattice = a PROJECTION of the combinator basis; the 3 axes =
+> combinator ROLES (INFERENCE→P-TYPE-1b): axis0 QUANT/DET=S/binding (dominant b/c binding=nested
+> reductions+first-class-fns=what quantifiers FORCE=what the 3-hop did), axis2 REL/PRED-vs-MOD=
+> B/composition, ENTITY(e)@origin=I/operand. Functor-KIND-not-arity ⇒ CCG-combinatory typing NOT
+> Church-arity (leans Lambek∧CCG∧DisCoCat). compress→expand=lexer→typed-reduction→codegen (C1/C8
+> concrete); Curry-Howard: low-rank=small proof system (C9); name_pen=argument saturation=β-
+> reduction on type-compat; S5 λ types resolves (type=router's combinator-selector). Memory
+> types-are-the-well-formedness-of-reduction.
+> ▶▶ NEXT REAL EXPERIMENT = P-TYPE-1b (pre-reg FROZEN in the theory page §P-TYPE-1b): combinator-
+> zone × type-class DISSOCIATION. Ablate axis0(binding/S) vs axis2(composition/B) across the
+> low-rank band L6–L48 (using 1a-follow axis dirs as hook targets) → predict SELECTIVE double-
+> dissociation (axis0-abl breaks QUANT/DET-composition not MOD; axis2-abl breaks MOD not QUANT),
+> null-gated (random matched-dir breaks neither; task control survives; e-axis control). NOT a
+> v4 repeat (v4 ablated a GLOBAL type dir + tested retention → negative; 1b = zone×axis, tests
+> CLASS SELECTIVITY = the operational "type=which reduction is licensed"). Host=32B. Build =
+> a new wrapper reusing type_lattice_geometry axis extraction + v3-style surprisal readouts
+> (quantifier-composition, modifier-composition, predication control). ⚠ PENDING MICHAEL GO for
+> the run (heavy 32B). Open fork folded in: name_pen=saturation already answered by the closure.
 >
 > (s281 arc retained →) ▶▶ (s281 — DEPTH EXPERIMENTS, the
 > s280 (c+d) NEXT): the depth-budget cross-scale replication + 3-hop capacity pre-reg.
