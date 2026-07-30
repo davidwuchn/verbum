@@ -1,0 +1,15 @@
+{
+  "model": "Qwen/Qwen3-32B",
+  "device": "mps",
+  "smoke": false,
+  "timestamp_utc": "2026-07-30T21:55:31.910897+00:00",
+  "git_sha": "e4d3b4fab5f91626b6f13c2026a99c7ed6c5fa33",
+  "seed": 0,
+  "n_null": 100,
+  "n_nonce": 10,
+  "n_teach": 2,
+  "n_fill": 3,
+  "n_items": 370,
+  "n_labeled": 263,
+  "torch": "2.11.0"
+}

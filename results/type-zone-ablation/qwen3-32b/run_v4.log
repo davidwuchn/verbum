@@ -1,0 +1,406 @@
+
+========================================================================
+  Loading Qwen/Qwen3-32B
+========================================================================
+
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/707 [00:00<?, ?it/s]Loading weights:   0%|          | 1/707 [00:01<18:17,  1.55s/it]Loading weights:   2%|▏         | 17/707 [00:01<00:49, 14.05it/s]Loading weights:   5%|▌         | 37/707 [00:01<00:20, 33.48it/s]Loading weights:   7%|▋         | 51/707 [00:01<00:14, 46.35it/s]Loading weights:  10%|▉         | 70/707 [00:02<00:09, 67.04it/s]Loading weights:  12%|█▏        | 85/707 [00:02<00:07, 79.28it/s]Loading weights:  15%|█▍        | 103/707 [00:02<00:06, 96.53it/s]Loading weights:  17%|█▋        | 118/707 [00:02<00:05, 103.79it/s]Loading weights:  19%|█▉        | 136/707 [00:02<00:04, 117.14it/s]Loading weights:  21%|██▏       | 151/707 [00:02<00:04, 119.46it/s]Loading weights:  24%|██▍       | 169/707 [00:02<00:04, 129.51it/s]Loading weights:  26%|██▌       | 184/707 [00:02<00:04, 127.35it/s]Loading weights:  29%|██▊       | 202/707 [00:02<00:03, 135.32it/s]Loading weights:  31%|███       | 217/707 [00:03<00:03, 132.63it/s]Loading weights:  33%|███▎      | 235/707 [00:03<00:03, 140.73it/s]Loading weights:  35%|███▌      | 250/707 [00:03<00:03, 136.28it/s]Loading weights:  38%|███▊      | 268/707 [00:03<00:03, 142.89it/s]Loading weights:  40%|████      | 283/707 [00:03<00:03, 137.85it/s]Loading weights:  43%|████▎     | 301/707 [00:03<00:02, 144.12it/s]Loading weights:  45%|████▍     | 316/707 [00:03<00:02, 137.14it/s]Loading weights:  47%|████▋     | 334/707 [00:03<00:02, 142.58it/s]Loading weights:  49%|████▉     | 349/707 [00:04<00:02, 132.42it/s]Loading weights:  52%|█████▏    | 367/707 [00:04<00:02, 138.48it/s]Loading weights:  54%|█████▍    | 381/707 [00:04<00:02, 126.09it/s]Loading weights:  57%|█████▋    | 400/707 [00:04<00:02, 136.10it/s]Loading weights:  59%|█████▊    | 414/707 [00:04<00:02, 129.07it/s]Loading weights:  61%|██████    | 433/707 [00:04<00:01, 138.77it/s]Loading weights:  63%|██████▎   | 448/707 [00:04<00:01, 133.67it/s]Loading weights:  66%|██████▌   | 466/707 [00:04<00:01, 140.26it/s]Loading weights:  68%|██████▊   | 481/707 [00:04<00:01, 135.20it/s]Loading weights:  71%|███████   | 499/707 [00:05<00:01, 141.45it/s]Loading weights:  73%|███████▎  | 514/707 [00:05<00:01, 137.07it/s]Loading weights:  75%|███████▌  | 532/707 [00:05<00:01, 140.43it/s]Loading weights:  77%|███████▋  | 547/707 [00:05<00:01, 133.77it/s]Loading weights:  80%|███████▉  | 563/707 [00:05<00:01, 140.60it/s]Loading weights:  82%|████████▏ | 578/707 [00:05<00:00, 129.20it/s]Loading weights:  85%|████████▍ | 598/707 [00:05<00:00, 140.34it/s]Loading weights:  87%|████████▋ | 613/707 [00:05<00:00, 134.18it/s]Loading weights:  89%|████████▉ | 631/707 [00:06<00:00, 139.91it/s]Loading weights:  91%|█████████▏| 646/707 [00:06<00:00, 133.25it/s]Loading weights:  94%|█████████▍| 664/707 [00:06<00:00, 139.30it/s]Loading weights:  96%|█████████▌| 679/707 [00:06<00:00, 135.05it/s]Loading weights:  99%|█████████▊| 697/707 [00:06<00:00, 141.67it/s]Loading weights: 100%|██████████| 707/707 [00:06<00:00, 107.08it/s]
+  Loaded in 8.9s
+  Layers: 64  Heads: 64  KV heads: 8  d_model: 5120
+    sentence 1/56: The dog runs....
+    sentence 11/56: Alice runs....
+    sentence 21/56: The farmer finds the bird....
+    sentence 31/56: Some teacher laughs....
+    sentence 41/56: The old house stands....
+    sentence 51/56: The house is old....
+[1b] labeled=263 skipped=0
+[1b] L 0 PR=5.87 null=5.64 p=0.74
+[1b] L 1 PR=6.07 null=5.69 p=0.93
+[1b] L 2 PR=5.97 null=5.68 p=0.83
+[1b] L 3 PR=6.09 null=5.80 p=0.87
+[1b] L 4 PR=5.97 null=5.78 p=0.75
+[1b] L 5 PR=6.02 null=5.76 p=0.83
+[1b] L 6 PR=3.57 null=4.96 p=0.0
+[1b] L 7 PR=3.61 null=4.85 p=0.04
+[1b] L 8 PR=3.71 null=4.96 p=0.05
+[1b] L 9 PR=3.88 null=5.14 p=0.02
+[1b] L10 PR=4.01 null=5.16 p=0.04
+[1b] L11 PR=4.06 null=5.31 p=0.01
+[1b] L12 PR=4.09 null=5.37 p=0.0
+[1b] L13 PR=4.11 null=5.41 p=0.01
+[1b] L14 PR=4.13 null=5.35 p=0.01
+[1b] L15 PR=4.17 null=5.35 p=0.02
+[1b] L16 PR=4.22 null=5.32 p=0.02
+[1b] L17 PR=4.25 null=5.52 p=0.0
+[1b] L18 PR=4.28 null=5.38 p=0.0
+[1b] L19 PR=4.31 null=5.51 p=0.0
+[1b] L20 PR=4.35 null=5.52 p=0.01
+[1b] L21 PR=4.38 null=5.44 p=0.03
+[1b] L22 PR=4.41 null=5.54 p=0.0
+[1b] L23 PR=4.46 null=5.48 p=0.05
+[1b] L24 PR=4.49 null=5.59 p=0.0
+[1b] L25 PR=4.55 null=5.55 p=0.03
+[1b] L26 PR=4.63 null=5.58 p=0.04
+[1b] L27 PR=4.72 null=5.64 p=0.0
+[1b] L28 PR=4.78 null=5.67 p=0.02
+[1b] L29 PR=4.83 null=5.71 p=0.0
+[1b] L30 PR=4.81 null=5.69 p=0.02
+[1b] L31 PR=4.74 null=5.71 p=0.0
+[1b] L32 PR=4.73 null=5.67 p=0.01
+[1b] L33 PR=4.77 null=5.67 p=0.02
+[1b] L34 PR=4.77 null=5.65 p=0.0
+[1b] L35 PR=4.73 null=5.69 p=0.01
+[1b] L36 PR=4.68 null=5.73 p=0.0
+[1b] L37 PR=4.54 null=5.62 p=0.0
+[1b] L38 PR=4.48 null=5.65 p=0.0
+[1b] L39 PR=4.44 null=5.55 p=0.01
+[1b] L40 PR=4.46 null=5.59 p=0.01
+[1b] L41 PR=4.42 null=5.59 p=0.02
+[1b] L42 PR=4.42 null=5.59 p=0.0
+[1b] L43 PR=4.31 null=5.60 p=0.0
+[1b] L44 PR=4.35 null=5.58 p=0.0
+[1b] L45 PR=4.46 null=5.62 p=0.01
+[1b] L46 PR=4.51 null=5.53 p=0.02
+[1b] L47 PR=4.65 null=5.60 p=0.01
+[1b] L48 PR=4.79 null=5.68 p=0.02
+[1b] L49 PR=5.00 null=5.68 p=0.01
+[1b] L50 PR=5.26 null=5.77 p=0.05
+[1b] L51 PR=5.53 null=5.81 p=0.12
+[1b] L52 PR=5.73 null=5.87 p=0.22
+[1b] L53 PR=5.89 null=5.87 p=0.51
+[1b] L54 PR=6.01 null=5.90 p=0.65
+[1b] L55 PR=6.10 null=5.94 p=0.87
+[1b] L56 PR=6.13 null=5.94 p=0.91
+[1b] L57 PR=6.17 null=5.93 p=0.92
+[1b] L58 PR=6.18 null=5.95 p=0.91
+[1b] L59 PR=6.17 null=5.91 p=0.93
+[1b] L60 PR=6.16 null=5.98 p=0.88
+[1b] L61 PR=6.09 null=5.94 p=0.81
+[1b] L62 PR=6.13 null=5.91 p=0.9
+[1b] L63 PR=5.49 null=5.60 p=0.34
+[1b] BAND = L24..L49 (26 layers)
+[1b] subspace energies: {
+ "24": {
+  "E_full": {
+   "bind": 60112460.0,
+   "comp": 13918989.0,
+   "rolenull": 26958516.0,
+   "random": 36927.4
+  }
+ },
+ "25": {
+  "E_full": {
+   "bind": 60269888.0,
+   "comp": 12830079.0,
+   "rolenull": 26210192.0,
+   "random": 80273.9
+  }
+ },
+ "26": {
+  "E_full": {
+   "bind": 60372552.0,
+   "comp": 11572352.0,
+   "rolenull": 25514384.0,
+   "random": 15974.8
+  }
+ },
+ "27": {
+  "E_full": {
+   "bind": 60523648.0,
+   "comp": 10281152.0,
+   "rolenull": 24544168.0,
+   "random": 185296.8
+  }
+ },
+ "28": {
+  "E_full": {
+   "bind": 60681040.0,
+   "comp": 9835170.0,
+   "rolenull": 24130856.0,
+   "random": 12658.8
+  }
+ },
+ "29": {
+  "E_full": {
+   "bind": 60675292.0,
+   "comp": 9351813.0,
+   "rolenull": 23772226.0,
+   "random": 5461.0
+  }
+ },
+ "30": {
+  "E_full": {
+   "bind": 60570136.0,
+   "comp": 9536744.0,
+   "rolenull": 24437078.0,
+   "random": 4158.8
+  }
+ },
+ "31": {
+  "E_full": {
+   "bind": 61354708.0,
+   "comp": 10436370.0,
+   "rolenull": 26215382.0,
+   "random": 11909.7
+  }
+ },
+ "32": {
+  "E_full": {
+   "bind": 61344096.0,
+   "comp": 10491836.0,
+   "rolenull": 26114512.0,
+   "random": 3496.9
+  }
+ },
+ "33": {
+  "E_full": {
+   "bind": 61264568.0,
+   "comp": 10206554.0,
+   "rolenull": 25704058.0,
+   "random": 23647.0
+  }
+ },
+ "34": {
+  "E_full": {
+   "bind": 61357008.0,
+   "comp": 10001589.0,
+   "rolenull": 25060204.0,
+   "random": 13373.4
+  }
+ },
+ "35": {
+  "E_full": {
+   "bind": 61703916.0,
+   "comp": 10645590.0,
+   "rolenull": 25177052.0,
+   "random": 60613.1
+  }
+ },
+ "36": {
+  "E_full": {
+   "bind": 61932580.0,
+   "comp": 11387625.0,
+   "rolenull": 25558572.0,
+   "random": 12333.6
+  }
+ },
+ "37": {
+  "E_full": {
+   "bind": 61756892.0,
+   "comp": 12869847.0,
+   "rolenull": 27654428.0,
+   "random": 100568.0
+  }
+ },
+ "38": {
+  "E_full": {
+   "bind": 61822132.0,
+   "comp": 13702451.0,
+   "rolenull": 28441780.0,
+   "random": 11622.7
+  }
+ },
+ "39": {
+  "E_full": {
+   "bind": 61582168.0,
+   "comp": 14645517.0,
+   "rolenull": 28832198.0,
+   "random": 2273.0
+  }
+ },
+ "40": {
+  "E_full": {
+   "bind": 61504812.0,
+   "comp": 14387350.0,
+   "rolenull": 27821504.0,
+   "random": 13640.4
+  }
+ },
+ "41": {
+  "E_full": {
+   "bind": 61422060.0,
+   "comp": 15138751.0,
+   "rolenull": 28669994.0,
+   "random": 17279.0
+  }
+ },
+ "42": {
+  "E_full": {
+   "bind": 61422796.0,
+   "comp": 14689533.0,
+   "rolenull": 28278238.0,
+   "random": 12618.8
+  }
+ },
+ "43": {
+  "E_full": {
+   "bind": 71147160.0,
+   "comp": 19201938.0,
+   "rolenull": 33797936.0,
+   "random": 78368.3
+  }
+ },
+ "44": {
+  "E_full": {
+   "bind": 72216464.0,
+   "comp": 19325562.0,
+   "rolenull": 32882906.0,
+   "random": 8681.7
+  }
+ },
+ "45": {
+  "E_full": {
+   "bind": 71133184.0,
+   "comp": 17137840.0,
+   "rolenull": 31791606.0,
+   "random": 16938.8
+  }
+ },
+ "46": {
+  "E_full": {
+   "bind": 71345736.0,
+   "comp": 16712030.0,
+   "rolenull": 30538482.0,
+   "random": 29026.9
+  }
+ },
+ "47": {
+  "E_full": {
+   "bind": 71093816.0,
+   "comp": 15032827.0,
+   "rolenull": 27729744.0,
+   "random": 7070.3
+  }
+ },
+ "48": {
+  "E_full": {
+   "bind": 71300488.0,
+   "comp": 14167133.0,
+   "rolenull": 26091290.0,
+   "random": 79359.7
+  }
+ },
+ "49": {
+  "E_full": {
+   "bind": 71489032.0,
+   "comp": 11538109.0,
+   "rolenull": 23241904.0,
+   "random": 2220.0
+  }
+ }
+}
+[1b] absolute doses (planned per-layer E/tok): [50.0, 150.0, 600.0, 2400.0]
+[1b] 370 items (360 typed + 10 recall) x 17 conds
+[1b] baseline: 0/370
+[1b] baseline: 120/370
+[1b] baseline: 240/370
+[1b] baseline: 360/370
+[1b] baseline     Q_eff={'mean': 1.1972, 't': 3.475, 'n': 10} M_eff={'mean': 0.9292, 't': 4.214, 'n': 10} recall_acc=0.8 E/tok=0.0
+[1b] bind@d1: 0/370
+[1b] bind@d1: 120/370
+[1b] bind@d1: 240/370
+[1b] bind@d1: 360/370
+[1b] bind@d1      Q_eff={'mean': 1.153, 't': 3.356, 'n': 10} M_eff={'mean': 0.9274, 't': 4.176, 'n': 10} recall_acc=0.8 E/tok=24.8
+[1b] comp@d1: 0/370
+[1b] comp@d1: 120/370
+[1b] comp@d1: 240/370
+[1b] comp@d1: 360/370
+[1b] comp@d1      Q_eff={'mean': 1.1826, 't': 3.5, 'n': 10} M_eff={'mean': 0.9332, 't': 4.105, 'n': 10} recall_acc=0.8 E/tok=27.2
+[1b] rolenull@d1: 0/370
+[1b] rolenull@d1: 120/370
+[1b] rolenull@d1: 240/370
+[1b] rolenull@d1: 360/370
+[1b] rolenull@d1  Q_eff={'mean': 1.1701, 't': 3.454, 'n': 10} M_eff={'mean': 0.8996, 't': 4.055, 'n': 10} recall_acc=0.8 E/tok=22.7
+[1b] random@d1: 0/370
+[1b] random@d1: 120/370
+[1b] random@d1: 240/370
+[1b] random@d1: 360/370
+[1b] random@d1    Q_eff={'mean': 1.2639, 't': 3.314, 'n': 10} M_eff={'mean': 0.8707, 't': 3.936, 'n': 10} recall_acc=0.8 E/tok=47.4
+[1b] bind@d2: 0/370
+[1b] bind@d2: 120/370
+[1b] bind@d2: 240/370
+[1b] bind@d2: 360/370
+[1b] bind@d2      Q_eff={'mean': 1.1534, 't': 3.555, 'n': 10} M_eff={'mean': 0.9326, 't': 4.196, 'n': 10} recall_acc=0.8 E/tok=74.2
+[1b] comp@d2: 0/370
+[1b] comp@d2: 120/370
+[1b] comp@d2: 240/370
+[1b] comp@d2: 360/370
+[1b] comp@d2      Q_eff={'mean': 1.2099, 't': 3.727, 'n': 10} M_eff={'mean': 0.9257, 't': 3.871, 'n': 10} recall_acc=0.8 E/tok=79.9
+[1b] rolenull@d2: 0/370
+[1b] rolenull@d2: 120/370
+[1b] rolenull@d2: 240/370
+[1b] rolenull@d2: 360/370
+[1b] rolenull@d2  Q_eff={'mean': 1.1784, 't': 3.618, 'n': 10} M_eff={'mean': 0.8656, 't': 3.883, 'n': 10} recall_acc=0.8 E/tok=67.3
+[1b] random@d2: 0/370
+[1b] random@d2: 120/370
+[1b] random@d2: 240/370
+[1b] random@d2: 360/370
+[1b] random@d2    Q_eff={'mean': 1.3973, 't': 3.502, 'n': 10} M_eff={'mean': 0.7633, 't': 3.333, 'n': 10} recall_acc=0.8 E/tok=141.3
+[1b] bind@d3: 0/370
+[1b] bind@d3: 120/370
+[1b] bind@d3: 240/370
+[1b] bind@d3: 360/370
+[1b] bind@d3      Q_eff={'mean': 1.301, 't': 4.584, 'n': 10} M_eff={'mean': 0.744, 't': 3.233, 'n': 10} recall_acc=0.9 E/tok=285.5
+[1b] comp@d3: 0/370
+[1b] comp@d3: 120/370
+[1b] comp@d3: 240/370
+[1b] comp@d3: 360/370
+[1b] comp@d3      Q_eff={'mean': 1.3443, 't': 4.551, 'n': 10} M_eff={'mean': 0.7866, 't': 2.861, 'n': 10} recall_acc=0.9 E/tok=296.4
+[1b] rolenull@d3: 0/370
+[1b] rolenull@d3: 120/370
+[1b] rolenull@d3: 240/370
+[1b] rolenull@d3: 360/370
+[1b] rolenull@d3  Q_eff={'mean': 1.3316, 't': 4.676, 'n': 10} M_eff={'mean': 0.6981, 't': 3.178, 'n': 10} recall_acc=0.9 E/tok=254.4
+[1b] random@d3: 0/370
+[1b] random@d3: 120/370
+[1b] random@d3: 240/370
+[1b] random@d3: 360/370
+[1b] random@d3    Q_eff={'mean': 1.6619, 't': 3.764, 'n': 10} M_eff={'mean': 0.5631, 't': 2.205, 'n': 10} recall_acc=0.8 E/tok=554.9
+[1b] bind@d4: 0/370
+[1b] bind@d4: 120/370
+[1b] bind@d4: 240/370
+[1b] bind@d4: 360/370
+[1b] bind@d4      Q_eff={'mean': 1.6428, 't': 6.104, 'n': 10} M_eff={'mean': 0.3754, 't': 1.546, 'n': 10} recall_acc=1.0 E/tok=1053.4
+[1b] comp@d4: 0/370
+[1b] comp@d4: 120/370
+[1b] comp@d4: 240/370
+[1b] comp@d4: 360/370
+[1b] comp@d4      Q_eff={'mean': 2.0022, 't': 8.042, 'n': 10} M_eff={'mean': 0.8023, 't': 5.025, 'n': 10} recall_acc=1.0 E/tok=1018.8
+[1b] rolenull@d4: 0/370
+[1b] rolenull@d4: 120/370
+[1b] rolenull@d4: 240/370
+[1b] rolenull@d4: 360/370
+[1b] rolenull@d4  Q_eff={'mean': 1.9184, 't': 6.283, 'n': 10} M_eff={'mean': 0.1348, 't': 0.451, 'n': 10} recall_acc=1.0 E/tok=918.8
+[1b] random@d4: 0/370
+[1b] random@d4: 120/370
+[1b] random@d4: 240/370
+[1b] random@d4: 360/370
+[1b] random@d4    Q_eff={'mean': 2.3312, 't': 5.706, 'n': 10} M_eff={'mean': -0.2815, 't': -1.255, 'n': 10} recall_acc=0.8 E/tok=2122.0
+[1b] wrote /Users/mwhitford/src/verbum/results/type-zone-ablation/qwen3-32b/verdict.json + meta.json
+
+============================================================================
+P-TYPE-1b v4 — zone x subspace dissociation, absolute-dose grid
+============================================================================
+  host=Qwen/Qwen3-32B  band=L24..L49  gate0=True (Q=True M=True)  doses=[50.0, 150.0, 600.0, 2400.0]
+  baseline  Q_eff={'mean': 1.1972, 't': 3.475, 'n': 10}  M_eff={'mean': 0.9292, 't': 4.214, 'n': 10}  recall_acc=0.8
+  bind@d1      retQ=0.963  retM=0.998  recall_acc=0.8  E/tok=24.8
+  comp@d1      retQ=0.988  retM=1.004  recall_acc=0.8  E/tok=27.2
+  rolenull@d1  retQ=0.977  retM=0.968  recall_acc=0.8  E/tok=22.7
+  random@d1    retQ=1.056  retM=0.937  recall_acc=0.8  E/tok=47.4
+  bind@d2      retQ=0.963  retM=1.004  recall_acc=0.8  E/tok=74.2
+  comp@d2      retQ=1.011  retM=0.996  recall_acc=0.8  E/tok=79.9
+  rolenull@d2  retQ=0.984  retM=0.932  recall_acc=0.8  E/tok=67.3
+  random@d2    retQ=1.167  retM=0.821  recall_acc=0.8  E/tok=141.3
+  bind@d3      retQ=1.087  retM=0.801  recall_acc=0.9  E/tok=285.5
+  comp@d3      retQ=1.123  retM=0.847  recall_acc=0.9  E/tok=296.4
+  rolenull@d3  retQ=1.112  retM=0.751  recall_acc=0.9  E/tok=254.4
+  random@d3    retQ=1.388  retM=0.606  recall_acc=0.8  E/tok=554.9
+  bind@d4      retQ=1.372  retM=0.404  recall_acc=1.0  E/tok=1053.4
+  comp@d4      retQ=1.672  retM=0.863  recall_acc=1.0  E/tok=1018.8
+  rolenull@d4  retQ=1.602  retM=0.145  recall_acc=1.0  E/tok=918.8
+  random@d4    retQ=1.947  retM=-0.303  recall_acc=0.8  E/tok=2122.0
+  b*=4  bind_selective=False  comp_selective=False  nulls=False
+  * dissociation_supported = False
+============================================================================
+
