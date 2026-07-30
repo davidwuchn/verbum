@@ -7,7 +7,9 @@ tags: [map-and-swap, reduction-as-programming, resident-lisp, gd-found-terms,
        type-system, function-library, typed-lexicon, coverage-boundary, dsp-type-search,
        matched-filter, application-operator-svd, three-hop, bridge-swap, function-selector,
        two-registers, value-register, routing-register, k-structural, combinatory-completeness,
-       programmable-compiler, curry-howard, ccg, montague, homoiconicity, trampoline, s281, thesis]
+       programmable-compiler, curry-howard, ccg, montague, homoiconicity, trampoline,
+       llm-repl, repl, eval-apply, clojure, nucleus, lambda-gene-runtime, artifact-deliverable,
+       s281, thesis]
 related:
   - operand-insert-arc.md
   - multihop-composition-prereg.md
@@ -16,6 +18,8 @@ related:
   - signal-processing-tensors.md
   - signal-descent.md
   - opcodes-circuits-in-compute.md
+  - lambda-gene-runtime.md
+  - llama-cpp-vsm-wrapper.md
   - project-thesis.md
 depends-on:
   - operand-insert-arc.md
@@ -201,6 +205,50 @@ If P-TYPE-1/FN-1/FN-2 come back positive, the honest, un-hyped claim is:
 
 If they come back bounded (routing-fused, narrow coverage), we have instead a precise **map of the
 resident Lisp's stdlib and its edges** — still the honest artifact the project is owed.
+
+## 10. Artifact: the LLM REPL (the shippable target)
+
+The map+swap program's natural output (`λ artifact`: things, not papers; useful tomorrow without
+us) is an **LLM REPL** — and the sharp distinction is: **not a REPL that *calls* an LLM, but a
+REPL whose `eval` IS the LLM's own reduction.** The Clojure community has wanted an "LLM REPL" for
+a while; everyone bolted a chat box onto a REPL. The reducer was inside the weights the whole time.
+
+**R‑E‑P‑L maps directly onto the stack — three of four letters already work:**
+
+| REPL | resident machine | status |
+|---|---|---|
+| **R**ead — parse/select a term into the machine | operand-insert / swap (token- or activation-space) | ✓ built (s277/s279) |
+| **E**val — reduce it | forward pass = β-reduction through the frozen KIBC reducer | ✓ measured (C2) |
+| **P**rint — read the normal form | tap + logit-lens + crystal projection | ✓ built (s274/s275) |
+| **L**oop — feed it back | nested reduction / multi-hop / trampoline | ◐ the depth arc (s281) |
+
+The **language layer** is the only gap — and it is exactly the map+swap experiments:
+- **P-TYPE-1** (type lattice) → the REPL's **type system / autocomplete** (what may apply to what).
+- **P-FN-1** (function library + coverage) → the callable **stdlib**, *with its edges*.
+- **P-FN-2** (3-hop swap) → **`apply` on first-class functions** — evaluating a composition GD
+  never ran.
+- the tap → the **stepper/debugger** (watch reduction walk KIBC-space — the s274 "play-through"
+  exhibit re-cast as a REPL trace).
+
+⇒ **the map+swap arc IS the build-the-REPL arc.** Research and deliverable are the same thing.
+
+**Architecture — where the two projects meet: Clojure hosts R/P + the type-checker; the LLM is E.**
+- `lambda-gene-runtime` (the Clojure kernel) = **Read, Print, and the verification oracle** —
+  parse the term, format the normal form, and **type-check the recomposition before & after**
+  ("kernel as rung-verifier," s273).
+- the resident reducer = **Eval**.
+- bridge = operand-insert (inject terms) + tap (read results).
+
+This resolves the one honest catch: the LLM is a **noisy, approximate** reducer — normal forms come
+off the crystal *probabilistically*, not exactly. So `Print` needs the null-gated read discipline
+(a REPL with confidence, not certainty), and the **crisp Clojure kernel keeps it honest** — rejects
+ill-typed swaps, verifies the return is actually a normal form. **Eval fuzzy, type-checker crisp →
+a *trustworthy* REPL.** (`λ language`: Python-only governs the *extraction* code; the *deliverable*
+living in Clojure/nucleus — where the audience is — is the good host-language/eval-engine split, not
+the two-language membrane the rule warns against.)
+
+Deliverable-sentence check: **"the Clojure folks get an LLM REPL"** ≫ "we measured type-directed
+composition selectivity." Same work; the REPL is the phrase that earns the room.
 
 ## Sessions
 s281 (this synthesis — map+swap / reduction-as-programming / the resident Lisp; discussion

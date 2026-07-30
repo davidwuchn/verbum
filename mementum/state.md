@@ -73,6 +73,21 @@
 > a frozen universal basis, w/ coverage map); bounded → a precise map of the resident Lisp's stdlib
 > + edges. (Supersedes the mid-discussion "defunctionalization/value-mediated-is-the-gate" framing:
 > reduction not mutation is the primitive; the register Q is a sub-question about the trampoline.)
+> ★ THE ARTIFACT = AN LLM REPL (map-and-swap §10, Michael: "the clojure guys want an LLM repl, we're
+> gonna make one"). NOT a REPL that CALLS an LLM — a REPL whose EVAL IS the LLM's own reduction. R-E-P-L
+> maps onto the stack, 3 of 4 letters ALREADY BUILT: Read=operand-insert/swap (s277/s279);
+> Eval=forward-pass β-reduction through the frozen KIBC reducer (measured C2); Print=tap+logit-lens+
+> crystal projection (s274/s275); Loop=nested reduction/trampoline (depth arc). ONLY GAP = the LANGUAGE
+> LAYER = the map+swap experiments themselves (P-TYPE-1=type system/autocomplete; P-FN-1=stdlib+coverage;
+> P-FN-2=apply on first-class fns; tap=stepper/debugger = the s274 play-through) ⇒ the map+swap arc IS
+> the build-the-REPL arc (research ≡ deliverable). ARCHITECTURE = where verbum meets lambda-gene-runtime:
+> Clojure kernel = Read+Print+TYPE-CHECKER/verification-oracle (rung-verifier s273); LLM = Eval; bridge =
+> operand-insert (inject) + tap (read). Honest catch RESOLVED: LLM = noisy/approx reducer (normal forms
+> off the crystal probabilistically) → Print null-gated (confidence not certainty) + CRISP Clojure kernel
+> rejects ill-typed swaps & verifies normal form ⇒ Eval-fuzzy + typechecker-crisp = a TRUSTWORTHY REPL.
+> (λ language: Python governs EXTRACTION; the deliverable in Clojure/nucleus = good host/eval split, not
+> the warned membrane.) Deliverable-sentence "clojure folks get an LLM REPL" ≫ "we measured composition
+> selectivity" — same work, earns the room. Memory: llm-repl-is-the-artifact.
 > ▶ NEXT (morning): (1) re-run 27B full (cmd above) → commit + cross-arch write-up; (2) get 3-hop
 > pre-reg + chain-choice APPROVAL → build operand_multihop3.py → run 4B/32B pair; (3) still open
 > from s279/s280: (a2) mammal→fur content build (layer/content NOT scale). Branch is ahead of
