@@ -317,6 +317,51 @@ pre-register FAIL at 4B (this measurement's prediction) and SUCCESS at 27B (more
 either more zones or wider ones — A1 27B zones are broad). A 4B-fail/27B-pass pair would be
 the strongest depth-as-fuel (C8) evidence the project holds, and it merges (d) with (c).
 
+### Cross-scale depth-budget (s281 — `wrapper/operand_depthbudget.py`, Qwen3-32B, commit 8ceaaec)
+
+Clean scale replication on **Qwen3-32B** (64L, dense **uniform full attention** — same
+architecture as 4B, isolating the *scale* variable; `--ref-layer 9`, install/swap swept
+{5,9,…,57}/{11,15,…,59}). The mechanism **replicates and refines**:
+
+| | **4B (36L)** | **32B (64L)** |
+|---|---|---|
+| class-transform zone | pinned **L30–31** (0.85 depth) | pinned **L58** (0.90 depth) |
+| pinned *within* model (∀ install)? | yes (L5–25) | yes (L5–49) |
+| cover-acc holds until install L | 13 | **45** |
+| reader window / close | L11–21 / **L25** | L11–47 / **L51** |
+| **D_hop2** (marginal 2nd-hop cost) | **12** | **4** |
+| L_max_1hop / L_max_2hop | 25 / 13 | 49 / 45 |
+| **3-HOP-ROOM** | **False** | **True** (headroom 36 ≫ cost 4) |
+
+- **Zones are depth-PROPORTIONAL, not absolute-layer-locked.** The class→covering transform
+  sits at ~0.85–0.90 of total depth in *both* models (L30–31 @4B, L58 @32B), install-invariant
+  within each. This **refines** the s280 "pinned zones" finding: pinned *within*-model,
+  depth-proportional *across*-model. The A1 zone structure scales with the stack; it is not
+  locked to absolute layer indices.
+- **Depth is fuel — quantified.** The marginal cost of the second hop collapsed **12 → 4**
+  layers, and the missed-deadline threshold moved **L25 → L51**. 32B tolerates install as late
+  as L45 where 4B failed at L17. Deeper model ⇒ each hop is *cheaper* in install-headroom, and
+  the deadline lands later.
+- **The missed-deadline mechanism replicates**: install past the reader-close (L51 @32B) →
+  hop-1's product reaches the late class zone (L58) after the reader has passed → chance cover.
+  Same physics as 4B, deadline scaled with depth.
+- **3-HOP-ROOM = True @32B** (L_max_2hop − ref = 36 ≥ D_hop2 = 4) — the pre-registered
+  **4B-FAIL / large-PASS** contrast is confirmed at the accounting level. This directly seeds
+  the `three-hop-capacity-prereg.md` predictions.
+- **Honest note on the frozen verdict.** At 32B `BUDGET-VISIBLE=False / UNMEASURED=True` fired
+  — NOT because budget is unmeasurable, but because with so much room the hops **stay coupled**
+  (class and cover degrade together only once install itself enters the terminal zone, ≥L49).
+  The dissociation band that made 4B's budget "visible" is narrow/absent in the roomy 32B. The
+  null **is** the "more room" finding; reported verbatim, interpreted, not spun. (`λ measure`:
+  the rule was tuned to the cramped regime.)
+
+Architecture-robustness follow-on: **Qwen3.6-27B** (qwen3_5 *hybrid*: linear attn + full attn
+every 4th of 64L) — instrument made architecture-robust via `resolve_parts` (dense
+`model.model.layers` vs hybrid `model.model.language_model.layers`); **smoke confirms it runs
+on the hybrid** (ceilings 1.0, hooks fire). Smoke hint: the class peak **slid** with install
+(L47.5→L53) — *unlike* the pinned dense models — suggesting sparse attention loosens zone
+pinning. **Full 27B run was in progress at the s281 boundary (not yet complete).**
+
 ## Status
 
 Pre-registered s279; **RUN s279** — **MULTI-HOP SUPPORTED (3/3 Gate-2)** on Qwen3-4B via the
@@ -326,9 +371,14 @@ chained two ops through an unstated intermediate). **s280: depth-budget RUN** �
 to absolute zones (class peak L30–31 ∀ install L5–25), missed-deadline mechanism (bridge-reader
 window L11–21, closes L23–25), **3-HOP-ROOM-AT-4B = False** → d1 3-hop = capacity experiment
 (pre-register 4B-fail / 27B-pass; merges (d) into (c)). Still open: mammal content build;
-cross-scale 27B.
+cross-scale 27B. **s281: cross-scale depth-budget RUN on Qwen3-32B** — zones depth-PROPORTIONAL
+(pinned within-model, L30@4B→L58@32B), depth-as-fuel quantified (D_hop2 12→4), 3-HOP-ROOM
+True@32B → 4B-FAIL/32B-PASS pair pre-registered in `three-hop-capacity-prereg.md`. Instrument
+made architecture-robust (`resolve_parts`); Qwen3.6-27B hybrid smoke passes, full run pending.
 
 ## Sessions
 s278 (general-composition Arm 1/2 — reusable term + one-op novel composition), s279 (this
 pre-reg — chained `f(g(X))` via latent category bridge), s280 (depth-budget: pinned zones +
-missed deadline; no 3-hop room at 4B).
+missed deadline; no 3-hop room at 4B), s281 (cross-scale depth-budget @32B: zones
+depth-proportional, depth-as-fuel D_hop2 12→4, 3-HOP-ROOM True@32B; 27B hybrid smoke +
+instrument architecture-robust; 3-hop capacity pre-reg drafted).

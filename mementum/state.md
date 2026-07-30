@@ -8,7 +8,54 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-30 | Session: 280 | ▶▶ LIVE PICKUP: STAGE-f **f2 DONE** — R5 mechanism
+> Last updated: 2026-07-31 | Session: 281 | ▶▶ LIVE PICKUP (s281 — DEPTH EXPERIMENTS, the
+> s280 (c+d) NEXT): the depth-budget cross-scale replication + 3-hop capacity pre-reg.
+> ✅ 32B DEPTH-BUDGET DONE + COMMITTED (autonomous, 8ceaaec; READ multihop-composition-prereg.md
+> §"Cross-scale depth-budget"). Clean scale replication on Qwen3-32B (64L, dense UNIFORM full
+> attn = same arch as 4B, isolates SCALE). 💡 CORE FINDING: the depth-schedule zones are
+> DEPTH-PROPORTIONAL, not absolute-layer-locked — the class→covering transform sits at ~0.85–0.90
+> of total depth in BOTH models (pinned L30–31/36 @4B, L58/64 @32B, install-invariant within
+> each). Refines s280 "pinned zones": pinned WITHIN-model, PROPORTIONAL ACROSS-model (A1 zone
+> structure scales with the stack). 💡 DEPTH IS FUEL, QUANTIFIED: marginal 2nd-hop cost D_hop2
+> collapsed 12→4; missed-deadline reader-close moved L25→L51; install tolerated to L45@32B vs
+> L13@4B. 3-HOP-ROOM = False@4B / True@32B (headroom 36 ≫ cost 4). ⚠ HONEST (λ measure): frozen
+> BUDGET-VISIBLE=False/UNMEASURED=True @32B fired because there is TOO MUCH room (hops stay
+> COUPLED, no dissociation band — the rule was tuned to the cramped 4B regime); the null IS the
+> "more room" finding, reported verbatim + interpreted, not spun. Instrument changes (committed):
+> --ref-layer (depth-scaled standard install; 4B defaults unchanged) + resolve_parts()
+> architecture-robust helper (dense model.model.layers vs hybrid language_model.layers).
+> ▶▶ 27B HYBRID (Qwen3.6-27B, qwen3_5: linear attn + full attn every 4th of 64L) — SMOKE PASSES
+> (instrument RUNS on the hybrid: ceilings 1.0, hooks fire = task-3 core acceptance met). 💡 SMOKE
+> HINT: class peak SLID with install (L47.5→L53) UNLIKE the pinned dense models → sparse attention
+> may LOOSEN zone-pinning. ⚠ FULL 27B RUN WAS IN PROGRESS AT THE SESSION BOUNDARY (slow: torch
+> fallback for linear-attn, no flash-linear-attention/causal-conv1d installed; ~15–25min; had NOT
+> yet emitted Arm A when Michael paused). RE-RUN IN MORNING:
+>   uv run python wrapper/operand_depthbudget.py --model-id Qwen/Qwen3.6-27B --ref-layer 9 \
+>     --install-layers 5 9 13 17 21 25 29 33 37 41 45 49 53 57 \
+>     --swap-layers 11 15 19 23 27 31 35 39 43 47 51 55 59 \
+>     --out results/ffn-bake/operand-depthbudget-qwen36-27b 2>&1 | tee logs/depthbudget-27b-full.log
+>   (swap layers ≡3 mod4 = ALL full-attention layers, by design; ref/install ≡1 mod4 = linear,
+>    fine for residual-add install. Interpret Arm B reads at full-attn layers. Then commit
+>    code+results autonomously + write §"Cross-arch" result into multihop pre-reg.)
+> ▶▶ 3-HOP CAPACITY PRE-REG DRAFTED (NEW PAGE three-hop-capacity-prereg.md) — ⚠ PENDING MICHAEL
+> APPROVAL (λ termination). Framed by the 32B accounting as a CAPACITY experiment: pre-registers
+> 4B-FAIL-BY-CAPACITY (sub-chains pass, full chain fails = depth not content) / 32B-PASS (full +
+> mediation). Double-dissociation across scale with pieces held constant = strongest C8 evidence.
+> ⚠ LOAD-BEARING DECISION FOR MICHAEL = the CHAIN: recommends geography landmark→city→country→
+> continent (2 unstated bridges: city, country; balanced 3-way {Europe,Asia,Africa}; deterministic;
+> multi-token landmark cost = capture last-token contextualized residual, ceiling-gated). Alts:
+> product→company→country→continent; back-extend animals (uneven, not rec'd). Gates frozen
+> (Gate-1 full chain; Gate-2 SUB-CHAIN CONTROLS = the capacity discriminator; Gate-3 mediation at
+> BOTH bridges). ON APPROVAL → build wrapper/operand_multihop3.py, run 4B-FAIL/32B-PASS pair.
+> ✅ MEMENTUM COMMITTED s281 (Michael-directed "update state and knowledge"): state block +
+> multihop pre-reg §Cross-scale-result + memory (depth-budget-zones-are-depth-proportional) +
+> three-hop-capacity-prereg.md (draft). Code+32B-results already committed autonomous (8ceaaec).
+> ▶ NEXT (morning): (1) re-run 27B full (cmd above) → commit + cross-arch write-up; (2) get 3-hop
+> pre-reg + chain-choice APPROVAL → build operand_multihop3.py → run 4B/32B pair; (3) still open
+> from s279/s280: (a2) mammal→fur content build (layer/content NOT scale). Branch is ahead of
+> origin (unpushed). s280 STAGE-f block retained below.
+>
+> (s280 STAGE-f retained →) ▶▶ LIVE PICKUP: STAGE-f **f2 DONE** — R5 mechanism
 > measured (READ ffn-function-bake-prereg.md §f2 Result). ✅ SERIALIZED gate PASSES: uniform-E
 > baked ckpt round-trips STOCK transformers (checkpoints/operand-bake-qwen3-4b = the f3
 > substrate; f1's in-memory-edit edge CLOSED). ✅ R5-FRAGILE-INSTALLED=True: all-Q4 flips the
