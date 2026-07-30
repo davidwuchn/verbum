@@ -8,7 +8,56 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-30 | Session: 283 | ▶▶ LIVE PICKUP (s283 — P-TYPE-1b RAN @4B, 32B IN
+> Last updated: 2026-07-30 | Session: 284 | ▶▶ LIVE PICKUP (s284 — P-TYPE-QK PREPPED WHILE 1c
+> IN FLIGHT): ✅ P-TYPE-QK pre-reg DRAFTED (type-check-is-the-qk-bilinear.md §P-TYPE-QK, s284 —
+> ⚠ PENDING MICHAEL APPROVAL, freeze on GO) + instrument BUILT+COMMITTED (f0b20e3,
+> scripts/explore/type_qk_alignment.py, --validate no-model ALL PASS: planted-subspace rho 9.8
+> p=0.0, unplanted null p=0.70, null calibration ~1, asymmetry sign correct). DESIGN: project 1b
+> role subspaces (bind=span{c_QUANT,c_DET}, comp=span{c_MOD}, rolenull verbatim-only,
+> entity=span{c_ENTITY} predicted KEY-side) through each band layer's own read-in map
+> v_attn ∝ (v_std⊙sd_L)⊙γ_{L+1} into W_Q/W_K of layer L+1; per-head Frobenius-normalized gain
+> rho (=1 analytic random expectation, RoPE-invariant since RoPE=orthogonal rotation); NULL =
+> full shuffled-label pipelines (shuffle→centroids→role_subspace→same mapping→same gain),
+> band-aggregated paired iterations; band = find_band/layer_geometry 1b-v4 verbatim in-run.
+> VERDICT (draft): QK-ALIGNED ⟺ bind AND comp Q-side beat null p<0.05; MECHANISM-SHAPED adds
+> asym signs bind>0, comp>0, entity<0 (query(functor)·key(argument)); rolenull + P3
+> band-profile verbatim never gated. Scope: q_norm/k_norm=pre-norm proxy; GQA K-side n=8 low
+> power; W_QW_K^T coupling RoPE-dependent=exploratory; geometry-not-causation (MED/STEER =
+> causal rungs); aggregates only (0/128 pre-refuted). ✅ 4B SMOKE RAN+COMMITTED (5ec3cf2,
+> results/type-qk/qwen3-4b-smoke/, ~3min, ran fine BESIDE the 1c run): pipeline green
+> end-to-end (real capture, GQA 32Q/8KV slicing, nulls, JSON). ADVISORY smoke signal:
+> bind_q BEATS null p=0.000 in-band (rho 1.49-1.68) AND most mid-late layers; comp_q null
+> everywhere = coheres w/ 1b 4B capacity (MOD/M_eff barely expressed @4B) — instrument
+> DISCRIMINATES, null does work; asym signs bind+/entity− as predicted, comp− (4B miss);
+> last-layer row inflates all conds (readout-adjacent, verbatim). ⚠ instrument caveat:
+> find_band assumes stride 1 (stride-2 smoke used interior-fallback window L8-L12) —
+> verdict config stride 1 unaffected, documented not forked. RUN CMD (box now free, on GO):
+> uv run python scripts/explore/type_qk_alignment.py --model Qwen/Qwen3-32B --device mps
+> → results/type-qk/qwen3-32b/.
+> ✅✅ 1c VERDICT IN (s284, run 1:03:38, frozen analysis executed + committed ebcc9fb,
+> scripts/explore/analyze_type1c_darkfield.py → results/.../qwen3-32b-1c/darkfield_verdict.json):
+> **darkfield_dissociation_supported = FALSE — the s283b hint was HAZE.** All 3 gates fail:
+> (a) bind ΔQ −0.497 right sign but indistinguishable (T_a +0.034 p_a 0.43; comp MORE negative
+> on Q); (b) comp ΔM −0.651 = OPPOSITE sign to prediction (n=10 +0.669 → n=30 −1.105, the
+> tainted hint reversed; p_b 0.70, no rescue); (c) rolenull NOT within null (p 0.002/0.000) =
+> the pre-reg's own alternative fires: diagonal was generic lattice-vs-random. λ yardstick did
+> its job — twice-tainted hypothesis evaporated under fresh seeds + sign discipline. REAL
+> (verbatim, post-hoc scope): generic role-slice cliff d3→d4 — ALL roles recall 1.0→0.0 between
+> E≈280 and E≈825–900 while random keeps 0.8 @4748 = 32B analog of 4B "lattice ~4× load-bearing"
+> (⚠ 1b n=10 grid had role recall 1.0 through ~1000 → cliff is item-set/n-sensitive, flagged);
+> dark-field retQ amplification replicates as GENERIC (random anchors 1.08→1.55). ARC CLOSED:
+> 1b storage-negative + 1c coherence-negative ⇒ lattice = exhaust, both hiding places shut;
+> mechanism search moves to ROUTING register = P-TYPE-QK. Gate-0 note: fresh30 baseline M_eff
+> 0.972 t=6.9 (M expressed, full-strength negative). ⚠ PENDING MICHAEL APPROVAL (mementum
+> batch): s283b theory-page §Result-32B + s284 §Result-1c + Sessions, QK-page §P-TYPE-QK
+> pre-reg, memory darkfield-hint-was-haze, this state block. ▶ NEXT: (1) P-TYPE-QK 32B on GO
+> (instrument validated + 4B-smoked, box free); (2) verbum.dsp design page (Michael-approved
+> direction s284: functional core + Chain-for-exploration, register tags warning-only,
+> verbum.dsp namespace DSP-tools-only reusable by superbake/term-swaps; draft in progress);
+> (3) P-HOF-1 pre-reg; (4) s282 leftovers (depth→SEQUENCING @27B, mammal→fur). s283 blocks
+> retained below.
+>
+> (s283 retained →) ▶▶ LIVE PICKUP (s283 — P-TYPE-1b RAN @4B, 32B IN
 > FLIGHT): ✅ built wrapper/type_zone_ablation.py — the frozen 1b zone×axis instrument, iterated
 > v1→v4 IN-SESSION (commits bc1d242 / f7e07f7 / f0c3418 / 0961819, code+results committed
 > autonomous; READ types-are-the-well-formedness-of-reduction.md §Result-4B). 💡 CORE: at the

@@ -375,6 +375,49 @@ behavioural CONTRAST channel; the CLAIM is interference/beam-coherence — the y
 is the pre-committed gain law, and the measured quantity is deviation-from-yardstick,
 never raw retention.
 
+## P-TYPE-1c — Result (s284) — CLOSED NEGATIVE (the hint was haze)
+
+> Analysis of record: `scripts/explore/analyze_type1c_darkfield.py` (frozen recipe,
+> seed 0, n_perm 10000) over the fresh30 n=30 run
+> (`results/type-zone-ablation/qwen3-32b-1c/`, commit ebcc9fb). One analysis
+> decision documented before computing residuals: per-nonce retention =
+> X_c,i / mean(X_baseline) — aggregate denominator (per-nonce pairing is unstable;
+> baseline per-nonce values cross zero).
+
+**VERDICT: `darkfield_dissociation_supported = FALSE`.** All three gates fail:
+- **(a)** bind ΔQ pooled −0.497 satisfies the sign but is indistinguishable from
+  the competitors (T_a = +0.034, p_a = 0.43 — comp is *more* negative on Q than
+  bind);
+- **(b)** comp ΔM pooled −0.651: **opposite sign** to the prediction (p_b = 0.70;
+  no rescue per sign discipline);
+- **(c)** rolenull is NOT within null (p_Q = 0.002, p_M = 0.000).
+
+The pre-reg's own alternative reading fires verbatim: the s283b diagonal was
+**generic lattice-vs-random deviation — haze, not phase-locked signal**. The
+tainted n=10 hint (comp ΔM +0.669) reversed under fresh nonces at n=30 (−1.105).
+λ yardstick did exactly its job: a twice-tainted hypothesis (gain model AND
+residual test chosen after seeing data) evaporated under fresh seeds + frozen
+sign discipline.
+
+**What is real (verbatim, post-hoc scope):** a GENERIC role-slice cliff between
+d3 and d4 — all three role slices at E≈825–900 E/tok: recall 1.0→0.0, retQ
+~1.2→0.04–0.50, while random keeps recall 0.8 and retQ 1.554 at E=4748. A 32B
+analog of the 4B "lattice region ~4× load-bearing per unit energy" after all —
+with the caveat that 1b's n=10 grid had 32B role recall at 1.0 through ~1000
+E/tok, so the cliff location is item-set/n-sensitive (refinement, flagged, not
+resolved here). The random gain-law anchors also show the dark-field
+amplification REPLICATING as a generic phenomenon on fresh nonces: retQ rises
+1.08→1.55 across E 48→4748; retM flat ~1.07–1.18.
+
+**Arc closure.** 1b (storage register) negative + 1c (interference register,
+class-specific) negative ⇒ the type lattice is **exhaust** — readable, generic
+load-bearing infrastructure, neither consulted as a ledger nor class-selectively
+beam-coherent. The value-register and interference-register hiding places are
+both closed. The mechanism question moves registers: the licensing check, if it
+is anywhere discrete, is in routing — **P-TYPE-QK**
+(`type-check-is-the-qk-bilinear.md`) is the next cheapest probe, pre-reg drafted
+s284.
+
 ## Consequence — typed higher-order functions (s283 discussion, Michael)
 
 3-hop (s282) + decodable types compose into a stronger statement than either:
@@ -410,3 +453,7 @@ claim scoped to 4B; retQ-amplification + anti-mapping retM ordering reported ver
 s283b cont (holographic reading, Michael-directed: amplification = dark-field contrast,
 same phenomenon as 4B unmasking; post-hoc gain-curve residuals show DIAGONAL slice↔channel
 structure at d4 → P-TYPE-1c dark-field pre-reg FROZEN, not yet run).
+s284 (1c fresh30 n=30 run completed + frozen analysis executed:
+darkfield_dissociation_supported=FALSE — comp ΔM sign reversed, permutation flat,
+rolenull not-null → the s283b hint was haze; generic role-slice cliff d3→d4 noted
+verbatim; arc closes, mechanism search moves to P-TYPE-QK).
