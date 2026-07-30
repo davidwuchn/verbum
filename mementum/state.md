@@ -88,6 +88,23 @@
 > (λ language: Python governs EXTRACTION; the deliverable in Clojure/nucleus = good host/eval split, not
 > the warned membrane.) Deliverable-sentence "clojure folks get an LLM REPL" ≫ "we measured composition
 > selectivity" — same work, earns the room. Memory: llm-repl-is-the-artifact.
+> ★ THEORETICAL SPINE (s281 "for fun" thought experiment, Michael-captured, READ IT):
+> knowledge/explore/montague-inversion.md — INVERT Montague (treat it as a SPECIFICATION, ask what GD
+> is FORCED to construct to fulfill it). The "too many neat edges" = NECESSITY: one syntax→semantics
+> homomorphism found several times. FORCING TABLE 6/6: homomorphism→crystal(C2); types→geometric
+> type-check(C5); application→attention=join(s276); binding→two-registers(C3)+operand-slots;
+> lexicon→found-terms; intensionality→contextual-reps. KILL SHOT: generalized quantifiers
+> (every/some/no/most) are type (e→t)→t = fn-of-fn → training saturated with them → GD FORCED to build
+> first-class functions = EXACTLY the 3-hop ⇒ the 3-hop is required by the word "every" (modulo depth
+> budget). FORCED FALSIFIABLE PREDICTIONS for P-TYPE-1/FN-1: (1) type lattice SMALL + Montague-shaped
+> (low-rank SVD, not high-dim) — decisive test; (2) two-registers forced by binding; (3) depth budget
+> forced by recursion (failures track embedding depth); (4) COVERAGE BOUNDARY = COMPOSITIONALITY
+> BOUNDARY (stdlib gap = idioms/non-compositional). HONEST: GD finds a NOISY/approximate homomorphism
+> (=noisy reducer); noise concentrates where Montague fails (idioms) → theory's failure modes predict
+> the machine's; the crisp Clojure type-checker re-imposes the EXACT homomorphism (verified inference).
+> Falsifiers in §8. This spine makes P-TYPE-1/FN-1/FN-2 test FORCED predictions, not a grab-bag; the
+> REPL's type system = Montague's. Memory: montague-inversion-forces-the-machine. SPECULATIVE but
+> informs the whole future arc.
 > ▶ NEXT (morning): (1) re-run 27B full (cmd above) → commit + cross-arch write-up; (2) get 3-hop
 > pre-reg + chain-choice APPROVAL → build operand_multihop3.py → run 4B/32B pair; (3) still open
 > from s279/s280: (a2) mammal→fur content build (layer/content NOT scale). Branch is ahead of
