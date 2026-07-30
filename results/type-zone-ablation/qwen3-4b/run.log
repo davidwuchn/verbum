@@ -1,0 +1,162 @@
+
+========================================================================
+  Loading Qwen/Qwen3-4B
+========================================================================
+
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights:   6%|▌         | 23/398 [00:00<00:01, 228.43it/s]Loading weights:  20%|██        | 81/398 [00:00<00:00, 427.57it/s]Loading weights:  34%|███▍      | 137/398 [00:00<00:00, 483.02it/s]Loading weights:  49%|████▉     | 196/398 [00:00<00:00, 522.08it/s]Loading weights:  64%|██████▍   | 256/398 [00:00<00:00, 545.99it/s]Loading weights:  79%|███████▉  | 314/398 [00:00<00:00, 556.91it/s]Loading weights:  93%|█████████▎| 372/398 [00:00<00:00, 563.99it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 529.11it/s]
+  Loaded in 2.9s
+  Layers: 36  Heads: 32  KV heads: 8  d_model: 2560
+    sentence 1/56: The dog runs....
+    sentence 11/56: Alice runs....
+    sentence 21/56: The farmer finds the bird....
+    sentence 31/56: Some teacher laughs....
+    sentence 41/56: The old house stands....
+    sentence 51/56: The house is old....
+[1b] labeled=263 skipped=0
+[1b] L 0 PR=6.15 null=5.70 p=0.98
+[1b] L 1 PR=6.03 null=5.78 p=0.88
+[1b] L 2 PR=6.20 null=5.83 p=0.96
+[1b] L 3 PR=6.45 null=5.80 p=1.0
+[1b] L 4 PR=6.38 null=5.82 p=1.0
+[1b] L 5 PR=6.33 null=5.79 p=1.0
+[1b] L 6 PR=3.32 null=4.87 p=0.0
+[1b] L 7 PR=3.40 null=4.79 p=0.04
+[1b] L 8 PR=3.51 null=4.97 p=0.02
+[1b] L 9 PR=3.40 null=4.88 p=0.04
+[1b] L10 PR=3.30 null=4.77 p=0.04
+[1b] L11 PR=3.30 null=4.81 p=0.02
+[1b] L12 PR=3.32 null=4.94 p=0.0
+[1b] L13 PR=3.36 null=4.99 p=0.0
+[1b] L14 PR=3.34 null=4.73 p=0.04
+[1b] L15 PR=3.33 null=4.76 p=0.0
+[1b] L16 PR=3.29 null=4.80 p=0.0
+[1b] L17 PR=3.30 null=4.76 p=0.06
+[1b] L18 PR=3.39 null=4.90 p=0.02
+[1b] L19 PR=3.58 null=5.04 p=0.0
+[1b] L20 PR=3.68 null=5.08 p=0.06
+[1b] L21 PR=3.90 null=5.02 p=0.0
+[1b] L22 PR=4.09 null=5.17 p=0.02
+[1b] L23 PR=4.44 null=5.39 p=0.02
+[1b] L24 PR=4.74 null=5.55 p=0.0
+[1b] L25 PR=4.98 null=5.59 p=0.08
+[1b] L26 PR=5.24 null=5.65 p=0.06
+[1b] L27 PR=5.45 null=5.77 p=0.08
+[1b] L28 PR=5.64 null=5.76 p=0.34
+[1b] L29 PR=5.83 null=5.80 p=0.44
+[1b] L30 PR=6.00 null=5.83 p=0.76
+[1b] L31 PR=6.08 null=5.87 p=0.86
+[1b] L32 PR=6.14 null=5.80 p=0.96
+[1b] L33 PR=6.15 null=5.84 p=0.96
+[1b] L34 PR=6.11 null=5.87 p=0.88
+[1b] L35 PR=3.80 null=4.82 p=0.02
+[1b] BAND = L7..L11 (5 layers)
+[1b] axis picks per band layer: {
+ "7": {
+  "bind_i": 0,
+  "comp_i": 2,
+  "bind_var": 0.851,
+  "comp_var": 0.032,
+  "bind_score": 0.773,
+  "comp_score": 0.264,
+  "removal_norms": {
+   "bind": 80.29,
+   "comp": 4.81,
+   "random": 26.78,
+   "e": 21.53
+  }
+ },
+ "8": {
+  "bind_i": 0,
+  "comp_i": 2,
+  "bind_var": 0.842,
+  "comp_var": 0.034,
+  "bind_score": 0.771,
+  "comp_score": 0.348,
+  "removal_norms": {
+   "bind": 83.93,
+   "comp": 1.28,
+   "random": 86.75,
+   "e": 22.61
+  }
+ },
+ "9": {
+  "bind_i": 0,
+  "comp_i": 2,
+  "bind_var": 0.852,
+  "comp_var": 0.031,
+  "bind_score": 0.772,
+  "comp_score": 0.218,
+  "removal_norms": {
+   "bind": 82.89,
+   "comp": 3.28,
+   "random": 127.65,
+   "e": 22.97
+  }
+ },
+ "10": {
+  "bind_i": 0,
+  "comp_i": 2,
+  "bind_var": 0.861,
+  "comp_var": 0.03,
+  "bind_score": 0.772,
+  "comp_score": 0.084,
+  "removal_norms": {
+   "bind": 81.29,
+   "comp": 5.63,
+   "random": 71.07,
+   "e": 22.42
+  }
+ },
+ "11": {
+  "bind_i": 0,
+  "comp_i": 2,
+  "bind_var": 0.86,
+  "comp_var": 0.029,
+  "bind_score": 0.772,
+  "comp_score": 0.086,
+  "removal_norms": {
+   "bind": 81.02,
+   "comp": 7.29,
+   "random": 60.5,
+   "e": 22.52
+  }
+ }
+}
+[1b] 154 items (144 typed + 10 recall) x 5 conds
+[1b] baseline: 0/154
+[1b] baseline: 60/154
+[1b] baseline: 120/154
+[1b] baseline   Q_eff={'mean': 2.8389, 't': 7.925, 'n': 6} M_eff={'mean': 0.3272, 't': 1.034, 'n': 6} recall=0.3871
+[1b] bind_axis: 0/154
+[1b] bind_axis: 60/154
+[1b] bind_axis: 120/154
+[1b] bind_axis  Q_eff={'mean': 0.0231, 't': 1.023, 'n': 6} M_eff={'mean': 0.0375, 't': 1.892, 'n': 6} recall=14.9652
+[1b] comp_axis: 0/154
+[1b] comp_axis: 60/154
+[1b] comp_axis: 120/154
+[1b] comp_axis  Q_eff={'mean': 4.059, 't': 6.976, 'n': 6} M_eff={'mean': -0.677, 't': -1.853, 'n': 6} recall=0.2933
+[1b] random: 0/154
+[1b] random: 60/154
+[1b] random: 120/154
+[1b] random     Q_eff={'mean': 2.4905, 't': 3.432, 'n': 6} M_eff={'mean': 1.6743, 't': 2.936, 'n': 6} recall=5.5138
+[1b] e_axis: 0/154
+[1b] e_axis: 60/154
+[1b] e_axis: 120/154
+[1b] e_axis     Q_eff={'mean': 0.2711, 't': 0.82, 'n': 6} M_eff={'mean': 1.2047, 't': 2.844, 'n': 6} recall=10.1936
+[1b] wrote /Users/mwhitford/src/verbum/results/type-zone-ablation/qwen3-4b/verdict.json + meta.json
+
+========================================================================
+P-TYPE-1b — combinator-zone x type-class dissociation
+========================================================================
+  host=Qwen/Qwen3-4B  band=L7..L11  gate0=False
+  baseline  Q_eff={'mean': 2.8389, 't': 7.925, 'n': 6}  M_eff={'mean': 0.3272, 't': 1.034, 'n': 6}
+  bind_axis  retQ=0.008  retM=0.115  recall_ratio=38.66
+  comp_axis  retQ=1.43  retM=-2.069  recall_ratio=0.758
+  random     retQ=0.877  retM=5.117  recall_ratio=14.244
+  e_axis     retQ=0.095  retM=3.682  recall_ratio=26.333
+  bind_selective=False  comp_selective=True  nulls=False  recall_ok=False
+  * dissociation_supported = False
+========================================================================
+

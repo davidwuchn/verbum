@@ -1,0 +1,15 @@
+{
+  "model": "Qwen/Qwen3-4B",
+  "device": "mps",
+  "smoke": true,
+  "timestamp_utc": "2026-07-30T21:01:21.797082+00:00",
+  "git_sha": "02a480490c3066b3c23cea27bb6c8dfd271b7546",
+  "seed": 0,
+  "n_null": 50,
+  "n_nonce": 6,
+  "n_teach": 2,
+  "n_fill": 2,
+  "n_items": 154,
+  "n_labeled": 263,
+  "torch": "2.11.0"
+}
