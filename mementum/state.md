@@ -43,8 +43,24 @@
 > the low-rank (any SVD decays → matched-range null MANDATORY); (1b causal) must use A1 ZONE/
 > PHASE ablation NOT direction (v4 already showed direction=negative, correctly). Open fork:
 > is name_pen-only telling us the real "type" is argument-SATURATION (predicate wants its
-> subject) = the S/binding combinator, not a noun/verb tag? ▶ candidate: capture this as a
-> knowledge page (type-is-decodable-readout-not-causal-direction) + P-TYPE-1 re-scope.
+> subject) = the S/binding combinator, not a noun/verb tag?
+> ✅ s282 P-TYPE-1a RAN + CAPTURED (Michael "capture this"): scripts/explore/type_lattice_
+> geometry.py measures the 8-type centroid geometry (standardized/diagonal-whitened, pre-
+> committed shuffled-label null). 💡 RESULT @Qwen3-32B: the Montague type lattice is LOW-RANK +
+> Montague-shaped, NULL-GATED — compress→expand arc: lexical embed–L4 FULL-rank (PR~6.4,
+> p≥0.68) → sharp onset L6 → SUSTAINED low-rank band L6–L48 (PR 3.7–4.8, p<0.05 throughout,
+> ~3 axes = top3var 0.85–0.92) → re-expand L52–63. Confirms montague-inversion decisive
+> prediction ("lattice SMALL, low-rank not high-dim"); same shape as C8 progressive-collapse,
+> in TYPE geometry. Scale strengthens (0.6B narrow L8–16; 32B broad). ⚠ λ measure: standardize
+> FIRST (raw mid-layer centroids collapse to PR~1 via massive-activation rogue dims — caught on
+> 0.6B pre-32B); ARITY LADDER negative (not a linear currying axis); Gram saved at lexical layer
+> (band-axis characterization = 1a-follow). Commits: c3fa367 instrument+0.6B, 3385768 32B result.
+> KNOWLEDGE: explore/type-is-decodable-readout-not-causal-direction.md (3-register triangulation;
+> folds C5 into C2; P-TYPE-1 re-scoped 1a-value-DONE / 1b-zone-OPEN). Memory
+> type-lattice-is-low-rank-montague-shaped. ▶ TYPES NEXT: (1a-follow, IN PROGRESS) characterize
+> the ~3 axes IN the band (SVD loadings per type at L24–36; is there an e-axis?); (1b) A1
+> zone-ablation of L6–L48 = the causal/crisp test (v4 direction-ablation already negative);
+> open fork = name_pen-only → argument-SATURATION (S/binding) not a noun/verb tag?
 >
 > (s281 arc retained →) ▶▶ (s281 — DEPTH EXPERIMENTS, the
 > s280 (c+d) NEXT): the depth-budget cross-scale replication + 3-hop capacity pre-reg.

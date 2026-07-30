@@ -268,6 +268,7 @@ follow cross-references; then use the full catalog below for specific topics.
 | [explore/ternary-flip-flop-not-overloading.md](explore/ternary-flip-flop-not-overloading.md) | ✅ active | Ternary Sign Flip-Flop ≠ Category Overloading — CAT-Q ST vs TernaryDescent on micro (null-gated) |
 | [explore/topology-magnitude-duality.md](explore/topology-magnitude-duality.md) | ✅ active | Topology-Magnitude Duality |
 | [explore/type-directed-composition.md](explore/type-directed-composition.md) | ✅ active | Type-Directed Composition — the behavioural test (composition follows TYPE, not just POSITION) |
+| [explore/type-is-decodable-readout-not-causal-direction.md](explore/type-is-decodable-readout-not-causal-direction.md) | ✅ active | Types are a decodable readout of a distributed type-application compute — not a stored direction (3-register + low-rank lattice, s282) |
 | [explore/type-probe-qwen3-32b.md](explore/type-probe-qwen3-32b.md) | ✅ active | Montague Type Probe: Types are Lexical, Geometric, and Follow B→K→B |
 | [explore/universal-crystal-scaffold.md](explore/universal-crystal-scaffold.md) | 🔨 designing | Universal Crystal Scaffold — Etching Computation into Ternary Plates |
 | [explore/universal-crystal-transfer.md](explore/universal-crystal-transfer.md) | 🔨 designing | Universal Crystal Transfer — From Ore to Device |
