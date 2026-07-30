@@ -1,0 +1,1075 @@
+{
+  "model": "Qwen/Qwen3-4B",
+  "layer": 9,
+  "scale": 2.0,
+  "target_z": 6.0,
+  "bits": 4,
+  "device": "mps",
+  "n_entities": 17,
+  "valid": [
+    "eagle",
+    "hawk",
+    "owl",
+    "crow",
+    "sparrow",
+    "robin",
+    "salmon",
+    "shark",
+    "tuna",
+    "trout",
+    "carp",
+    "wolf",
+    "fox",
+    "bear",
+    "tiger",
+    "rabbit",
+    "cat"
+  ],
+  "cells": {
+    "bf16_res/bf16": {
+      "acc": 0.824,
+      "flip_vs_ref": 0.0,
+      "key_cos": 1.0,
+      "payload_cos_mean": 1.0,
+      "z_mean": 6.0,
+      "margin_mean": 4.476,
+      "bits_per_weight": 16,
+      "cells": {
+        "eagle": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 6.0,
+          "margin": 3.375,
+          "payload_cos": 1.0
+        },
+        "hawk": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 6.0,
+          "margin": 3.688,
+          "payload_cos": 1.0
+        },
+        "owl": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 6.0,
+          "margin": 6.562,
+          "payload_cos": 1.0
+        },
+        "crow": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 6.0,
+          "margin": 2.188,
+          "payload_cos": 1.0
+        },
+        "sparrow": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 6.0,
+          "margin": 3.875,
+          "payload_cos": 1.0
+        },
+        "robin": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 6.0,
+          "margin": 1.625,
+          "payload_cos": 1.0
+        },
+        "salmon": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 6.0,
+          "margin": 7.812,
+          "payload_cos": 1.0
+        },
+        "shark": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 6.0,
+          "margin": 12.0,
+          "payload_cos": 1.0
+        },
+        "tuna": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 6.0,
+          "margin": 7.25,
+          "payload_cos": 1.0
+        },
+        "trout": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 6.0,
+          "margin": 11.219,
+          "payload_cos": 1.0
+        },
+        "carp": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 6.0,
+          "margin": 3.688,
+          "payload_cos": 1.0
+        },
+        "wolf": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 6.0,
+          "margin": -0.688,
+          "payload_cos": 1.0
+        },
+        "fox": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 6.0,
+          "margin": -0.25,
+          "payload_cos": 1.0
+        },
+        "bear": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 6.0,
+          "margin": 4.688,
+          "payload_cos": 1.0
+        },
+        "tiger": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 6.0,
+          "margin": 0.312,
+          "payload_cos": 1.0
+        },
+        "rabbit": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 6.0,
+          "margin": 3.625,
+          "payload_cos": 1.0
+        },
+        "cat": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 6.0,
+          "margin": 5.125,
+          "payload_cos": 1.0
+        }
+      }
+    },
+    "bf16_res/K1": {
+      "acc": 0.765,
+      "flip_vs_ref": 0.059,
+      "key_cos": 0.8999,
+      "payload_cos_mean": 0.835,
+      "z_mean": 5.938,
+      "margin_mean": 3.5,
+      "bits_per_weight": 1.58,
+      "cells": {
+        "eagle": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.938,
+          "margin": 5.125,
+          "payload_cos": 0.8458
+        },
+        "hawk": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.938,
+          "margin": 1.938,
+          "payload_cos": 0.8346
+        },
+        "owl": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.938,
+          "margin": 6.188,
+          "payload_cos": 0.8417
+        },
+        "crow": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.938,
+          "margin": 3.5,
+          "payload_cos": 0.8343
+        },
+        "sparrow": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.938,
+          "margin": 4.312,
+          "payload_cos": 0.8553
+        },
+        "robin": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.938,
+          "margin": 0.438,
+          "payload_cos": 0.832
+        },
+        "salmon": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 5.938,
+          "margin": 6.625,
+          "payload_cos": 0.8163
+        },
+        "shark": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 5.938,
+          "margin": 8.969,
+          "payload_cos": 0.8369
+        },
+        "tuna": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 5.938,
+          "margin": 6.688,
+          "payload_cos": 0.8445
+        },
+        "trout": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 5.938,
+          "margin": 5.062,
+          "payload_cos": 0.8263
+        },
+        "carp": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 5.938,
+          "margin": 1.5,
+          "payload_cos": 0.831
+        },
+        "wolf": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 5.938,
+          "margin": -0.375,
+          "payload_cos": 0.8488
+        },
+        "fox": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 5.938,
+          "margin": 0.125,
+          "payload_cos": 0.8289
+        },
+        "bear": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 5.938,
+          "margin": 4.656,
+          "payload_cos": 0.8362
+        },
+        "tiger": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 5.938,
+          "margin": -1.562,
+          "payload_cos": 0.8473
+        },
+        "rabbit": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 5.938,
+          "margin": 2.312,
+          "payload_cos": 0.8343
+        },
+        "cat": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 5.938,
+          "margin": 4.0,
+          "payload_cos": 0.8011
+        }
+      }
+    },
+    "bf16_res/K2": {
+      "acc": 0.824,
+      "flip_vs_ref": 0.0,
+      "key_cos": 0.9791,
+      "payload_cos_mean": 0.9312,
+      "z_mean": 5.938,
+      "margin_mean": 4.305,
+      "bits_per_weight": 3.17,
+      "cells": {
+        "eagle": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.938,
+          "margin": 3.812,
+          "payload_cos": 0.9442
+        },
+        "hawk": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.938,
+          "margin": 2.812,
+          "payload_cos": 0.9327
+        },
+        "owl": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.938,
+          "margin": 6.5,
+          "payload_cos": 0.9377
+        },
+        "crow": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.938,
+          "margin": 3.812,
+          "payload_cos": 0.9321
+        },
+        "sparrow": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.938,
+          "margin": 4.375,
+          "payload_cos": 0.9448
+        },
+        "robin": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.938,
+          "margin": 2.062,
+          "payload_cos": 0.9309
+        },
+        "salmon": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 5.938,
+          "margin": 6.5,
+          "payload_cos": 0.9167
+        },
+        "shark": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 5.938,
+          "margin": 11.188,
+          "payload_cos": 0.9294
+        },
+        "tuna": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 5.938,
+          "margin": 7.25,
+          "payload_cos": 0.9406
+        },
+        "trout": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 5.938,
+          "margin": 10.188,
+          "payload_cos": 0.9264
+        },
+        "carp": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 5.938,
+          "margin": 2.688,
+          "payload_cos": 0.9311
+        },
+        "wolf": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 5.938,
+          "margin": -1.188,
+          "payload_cos": 0.9428
+        },
+        "fox": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 5.938,
+          "margin": -0.75,
+          "payload_cos": 0.9241
+        },
+        "bear": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 5.938,
+          "margin": 4.375,
+          "payload_cos": 0.9294
+        },
+        "tiger": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 5.938,
+          "margin": -0.75,
+          "payload_cos": 0.9421
+        },
+        "rabbit": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 5.938,
+          "margin": 3.312,
+          "payload_cos": 0.927
+        },
+        "cat": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 5.938,
+          "margin": 7.0,
+          "payload_cos": 0.8986
+        }
+      }
+    },
+    "bf16_res/K3": {
+      "acc": 0.882,
+      "flip_vs_ref": 0.059,
+      "key_cos": 0.9916,
+      "payload_cos_mean": 0.9533,
+      "z_mean": 5.938,
+      "margin_mean": 4.407,
+      "bits_per_weight": 4.75,
+      "cells": {
+        "eagle": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.938,
+          "margin": 4.312,
+          "payload_cos": 0.9653
+        },
+        "hawk": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.938,
+          "margin": 3.375,
+          "payload_cos": 0.9545
+        },
+        "owl": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.938,
+          "margin": 6.562,
+          "payload_cos": 0.9591
+        },
+        "crow": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.938,
+          "margin": 2.625,
+          "payload_cos": 0.955
+        },
+        "sparrow": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.938,
+          "margin": 4.438,
+          "payload_cos": 0.9632
+        },
+        "robin": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.938,
+          "margin": 2.562,
+          "payload_cos": 0.9542
+        },
+        "salmon": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 5.938,
+          "margin": 6.812,
+          "payload_cos": 0.9423
+        },
+        "shark": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 5.938,
+          "margin": 11.078,
+          "payload_cos": 0.9503
+        },
+        "tuna": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 5.938,
+          "margin": 7.062,
+          "payload_cos": 0.962
+        },
+        "trout": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 5.938,
+          "margin": 11.531,
+          "payload_cos": 0.9504
+        },
+        "carp": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 5.938,
+          "margin": 2.625,
+          "payload_cos": 0.9542
+        },
+        "wolf": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 5.938,
+          "margin": -1.0,
+          "payload_cos": 0.9624
+        },
+        "fox": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 5.938,
+          "margin": 0.375,
+          "payload_cos": 0.9465
+        },
+        "bear": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 5.938,
+          "margin": 5.125,
+          "payload_cos": 0.95
+        },
+        "tiger": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 5.938,
+          "margin": -1.062,
+          "payload_cos": 0.9632
+        },
+        "rabbit": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 5.938,
+          "margin": 2.75,
+          "payload_cos": 0.949
+        },
+        "cat": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 5.938,
+          "margin": 5.75,
+          "payload_cos": 0.924
+        }
+      }
+    },
+    "allq4_res/bf16": {
+      "acc": 0.706,
+      "flip_vs_ref": 0.118,
+      "key_cos": 1.0,
+      "payload_cos_mean": 1.0,
+      "z_mean": 4.906,
+      "margin_mean": 4.136,
+      "bits_per_weight": 16,
+      "cells": {
+        "eagle": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.906,
+          "margin": 3.625,
+          "payload_cos": 1.0
+        },
+        "hawk": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.906,
+          "margin": 5.688,
+          "payload_cos": 1.0
+        },
+        "owl": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.906,
+          "margin": 3.938,
+          "payload_cos": 1.0
+        },
+        "crow": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.906,
+          "margin": -0.438,
+          "payload_cos": 1.0
+        },
+        "sparrow": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.906,
+          "margin": 1.188,
+          "payload_cos": 1.0
+        },
+        "robin": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.906,
+          "margin": 0.75,
+          "payload_cos": 1.0
+        },
+        "salmon": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 4.906,
+          "margin": 9.312,
+          "payload_cos": 1.0
+        },
+        "shark": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 4.906,
+          "margin": 10.312,
+          "payload_cos": 1.0
+        },
+        "tuna": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 4.906,
+          "margin": 13.75,
+          "payload_cos": 1.0
+        },
+        "trout": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 4.906,
+          "margin": 9.812,
+          "payload_cos": 1.0
+        },
+        "carp": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 4.906,
+          "margin": 8.938,
+          "payload_cos": 1.0
+        },
+        "wolf": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 4.906,
+          "margin": -0.188,
+          "payload_cos": 1.0
+        },
+        "fox": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 4.906,
+          "margin": -3.625,
+          "payload_cos": 1.0
+        },
+        "bear": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 4.906,
+          "margin": 1.125,
+          "payload_cos": 1.0
+        },
+        "tiger": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 4.906,
+          "margin": -0.625,
+          "payload_cos": 1.0
+        },
+        "rabbit": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 4.906,
+          "margin": 4.5,
+          "payload_cos": 1.0
+        },
+        "cat": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 4.906,
+          "margin": 2.25,
+          "payload_cos": 1.0
+        }
+      }
+    },
+    "allq4_res/K1": {
+      "acc": 0.706,
+      "flip_vs_ref": 0.118,
+      "key_cos": 0.8999,
+      "payload_cos_mean": 0.835,
+      "z_mean": 4.906,
+      "margin_mean": 3.3,
+      "bits_per_weight": 1.58,
+      "cells": {
+        "eagle": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.906,
+          "margin": 5.438,
+          "payload_cos": 0.8458
+        },
+        "hawk": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.906,
+          "margin": 2.75,
+          "payload_cos": 0.8346
+        },
+        "owl": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.906,
+          "margin": 3.062,
+          "payload_cos": 0.8417
+        },
+        "crow": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.906,
+          "margin": 0.75,
+          "payload_cos": 0.8343
+        },
+        "sparrow": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.906,
+          "margin": 0.438,
+          "payload_cos": 0.8553
+        },
+        "robin": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.906,
+          "margin": -0.562,
+          "payload_cos": 0.832
+        },
+        "salmon": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 4.906,
+          "margin": 7.969,
+          "payload_cos": 0.8163
+        },
+        "shark": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 4.906,
+          "margin": 8.312,
+          "payload_cos": 0.8369
+        },
+        "tuna": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 4.906,
+          "margin": 15.344,
+          "payload_cos": 0.8445
+        },
+        "trout": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 4.906,
+          "margin": 6.688,
+          "payload_cos": 0.8263
+        },
+        "carp": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 4.906,
+          "margin": 6.219,
+          "payload_cos": 0.831
+        },
+        "wolf": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 4.906,
+          "margin": 0.062,
+          "payload_cos": 0.8488
+        },
+        "fox": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 4.906,
+          "margin": -2.75,
+          "payload_cos": 0.8289
+        },
+        "bear": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 4.906,
+          "margin": -0.062,
+          "payload_cos": 0.8362
+        },
+        "tiger": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 4.906,
+          "margin": 0.312,
+          "payload_cos": 0.8473
+        },
+        "rabbit": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 4.906,
+          "margin": 3.312,
+          "payload_cos": 0.8343
+        },
+        "cat": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 4.906,
+          "margin": -1.188,
+          "payload_cos": 0.8011
+        }
+      }
+    },
+    "allq4_res/K2": {
+      "acc": 0.647,
+      "flip_vs_ref": 0.176,
+      "key_cos": 0.9791,
+      "payload_cos_mean": 0.9312,
+      "z_mean": 4.875,
+      "margin_mean": 3.529,
+      "bits_per_weight": 3.17,
+      "cells": {
+        "eagle": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.875,
+          "margin": 3.562,
+          "payload_cos": 0.9442
+        },
+        "hawk": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.875,
+          "margin": 5.062,
+          "payload_cos": 0.9327
+        },
+        "owl": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.875,
+          "margin": 2.688,
+          "payload_cos": 0.9377
+        },
+        "crow": {
+          "pred": "scales",
+          "truth": "feathers",
+          "z": 4.875,
+          "margin": -0.812,
+          "payload_cos": 0.9321
+        },
+        "sparrow": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.875,
+          "margin": 1.188,
+          "payload_cos": 0.9448
+        },
+        "robin": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.875,
+          "margin": 0.75,
+          "payload_cos": 0.9309
+        },
+        "salmon": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 4.875,
+          "margin": 6.781,
+          "payload_cos": 0.9167
+        },
+        "shark": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 4.875,
+          "margin": 9.906,
+          "payload_cos": 0.9294
+        },
+        "tuna": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 4.875,
+          "margin": 13.406,
+          "payload_cos": 0.9406
+        },
+        "trout": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 4.875,
+          "margin": 8.125,
+          "payload_cos": 0.9264
+        },
+        "carp": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 4.875,
+          "margin": 7.562,
+          "payload_cos": 0.9311
+        },
+        "wolf": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 4.875,
+          "margin": -0.25,
+          "payload_cos": 0.9428
+        },
+        "fox": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 4.875,
+          "margin": -4.562,
+          "payload_cos": 0.9241
+        },
+        "bear": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 4.875,
+          "margin": 1.375,
+          "payload_cos": 0.9294
+        },
+        "tiger": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 4.875,
+          "margin": -0.938,
+          "payload_cos": 0.9421
+        },
+        "rabbit": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 4.875,
+          "margin": 4.531,
+          "payload_cos": 0.927
+        },
+        "cat": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 4.875,
+          "margin": 1.625,
+          "payload_cos": 0.8986
+        }
+      }
+    },
+    "allq4_res/K3": {
+      "acc": 0.647,
+      "flip_vs_ref": 0.176,
+      "key_cos": 0.9916,
+      "payload_cos_mean": 0.9533,
+      "z_mean": 4.875,
+      "margin_mean": 3.754,
+      "bits_per_weight": 4.75,
+      "cells": {
+        "eagle": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.875,
+          "margin": 5.125,
+          "payload_cos": 0.9653
+        },
+        "hawk": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.875,
+          "margin": 5.25,
+          "payload_cos": 0.9545
+        },
+        "owl": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.875,
+          "margin": 2.812,
+          "payload_cos": 0.9591
+        },
+        "crow": {
+          "pred": "scales",
+          "truth": "feathers",
+          "z": 4.875,
+          "margin": -0.875,
+          "payload_cos": 0.955
+        },
+        "sparrow": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.875,
+          "margin": 1.438,
+          "payload_cos": 0.9632
+        },
+        "robin": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.875,
+          "margin": 0.562,
+          "payload_cos": 0.9542
+        },
+        "salmon": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 4.875,
+          "margin": 7.906,
+          "payload_cos": 0.9423
+        },
+        "shark": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 4.875,
+          "margin": 10.469,
+          "payload_cos": 0.9503
+        },
+        "tuna": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 4.875,
+          "margin": 14.406,
+          "payload_cos": 0.962
+        },
+        "trout": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 4.875,
+          "margin": 8.406,
+          "payload_cos": 0.9504
+        },
+        "carp": {
+          "pred": "scales",
+          "truth": "scales",
+          "z": 4.875,
+          "margin": 6.812,
+          "payload_cos": 0.9542
+        },
+        "wolf": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 4.875,
+          "margin": -0.438,
+          "payload_cos": 0.9624
+        },
+        "fox": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 4.875,
+          "margin": -4.688,
+          "payload_cos": 0.9465
+        },
+        "bear": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 4.875,
+          "margin": 1.562,
+          "payload_cos": 0.95
+        },
+        "tiger": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 4.875,
+          "margin": -1.562,
+          "payload_cos": 0.9632
+        },
+        "rabbit": {
+          "pred": "fur",
+          "truth": "fur",
+          "z": 4.875,
+          "margin": 4.5,
+          "payload_cos": 0.949
+        },
+        "cat": {
+          "pred": "scales",
+          "truth": "fur",
+          "z": 4.875,
+          "margin": 2.125,
+          "payload_cos": 0.924
+        }
+      }
+    }
+  },
+  "verdict_PARITY": true,
+  "verdict_SURVIVES_Q4": true,
+  "verdict_N10_degrades": false,
+  "verdict_BEATS_N10": null,
+  "verdict_ARTIFACT_SHIPS": true
+}

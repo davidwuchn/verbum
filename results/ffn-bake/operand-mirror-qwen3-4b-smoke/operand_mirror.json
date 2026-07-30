@@ -1,0 +1,179 @@
+{
+  "model": "Qwen/Qwen3-4B",
+  "layer": 9,
+  "scale": 2.0,
+  "target_z": 6.0,
+  "bits": 4,
+  "device": "mps",
+  "n_entities": 1,
+  "valid": [
+    "eagle",
+    "hawk",
+    "owl",
+    "crow",
+    "sparrow",
+    "robin",
+    "salmon",
+    "shark",
+    "tuna",
+    "trout",
+    "carp",
+    "wolf",
+    "fox",
+    "bear",
+    "tiger",
+    "rabbit",
+    "cat"
+  ],
+  "cells": {
+    "bf16_res/bf16": {
+      "acc": 1.0,
+      "flip_vs_ref": 0.0,
+      "key_cos": 1.0,
+      "payload_cos_mean": 1.0,
+      "z_mean": 6.0,
+      "margin_mean": 3.375,
+      "bits_per_weight": 16,
+      "cells": {
+        "eagle": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 6.0,
+          "margin": 3.375,
+          "payload_cos": 1.0
+        }
+      }
+    },
+    "bf16_res/K1": {
+      "acc": 1.0,
+      "flip_vs_ref": 0.0,
+      "key_cos": 0.8999,
+      "payload_cos_mean": 0.8458,
+      "z_mean": 5.938,
+      "margin_mean": 5.125,
+      "bits_per_weight": 1.58,
+      "cells": {
+        "eagle": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.938,
+          "margin": 5.125,
+          "payload_cos": 0.8458
+        }
+      }
+    },
+    "bf16_res/K2": {
+      "acc": 1.0,
+      "flip_vs_ref": 0.0,
+      "key_cos": 0.9791,
+      "payload_cos_mean": 0.9442,
+      "z_mean": 5.938,
+      "margin_mean": 3.812,
+      "bits_per_weight": 3.17,
+      "cells": {
+        "eagle": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.938,
+          "margin": 3.812,
+          "payload_cos": 0.9442
+        }
+      }
+    },
+    "bf16_res/K3": {
+      "acc": 1.0,
+      "flip_vs_ref": 0.0,
+      "key_cos": 0.9916,
+      "payload_cos_mean": 0.9653,
+      "z_mean": 5.938,
+      "margin_mean": 4.312,
+      "bits_per_weight": 4.75,
+      "cells": {
+        "eagle": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 5.938,
+          "margin": 4.312,
+          "payload_cos": 0.9653
+        }
+      }
+    },
+    "allq4_res/bf16": {
+      "acc": 1.0,
+      "flip_vs_ref": 0.0,
+      "key_cos": 1.0,
+      "payload_cos_mean": 1.0,
+      "z_mean": 4.906,
+      "margin_mean": 3.625,
+      "bits_per_weight": 16,
+      "cells": {
+        "eagle": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.906,
+          "margin": 3.625,
+          "payload_cos": 1.0
+        }
+      }
+    },
+    "allq4_res/K1": {
+      "acc": 1.0,
+      "flip_vs_ref": 0.0,
+      "key_cos": 0.8999,
+      "payload_cos_mean": 0.8458,
+      "z_mean": 4.906,
+      "margin_mean": 5.438,
+      "bits_per_weight": 1.58,
+      "cells": {
+        "eagle": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.906,
+          "margin": 5.438,
+          "payload_cos": 0.8458
+        }
+      }
+    },
+    "allq4_res/K2": {
+      "acc": 1.0,
+      "flip_vs_ref": 0.0,
+      "key_cos": 0.9791,
+      "payload_cos_mean": 0.9442,
+      "z_mean": 4.875,
+      "margin_mean": 3.562,
+      "bits_per_weight": 3.17,
+      "cells": {
+        "eagle": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.875,
+          "margin": 3.562,
+          "payload_cos": 0.9442
+        }
+      }
+    },
+    "allq4_res/K3": {
+      "acc": 1.0,
+      "flip_vs_ref": 0.0,
+      "key_cos": 0.9916,
+      "payload_cos_mean": 0.9653,
+      "z_mean": 4.875,
+      "margin_mean": 5.125,
+      "bits_per_weight": 4.75,
+      "cells": {
+        "eagle": {
+          "pred": "feathers",
+          "truth": "feathers",
+          "z": 4.875,
+          "margin": 5.125,
+          "payload_cos": 0.9653
+        }
+      }
+    }
+  },
+  "verdict_PARITY": true,
+  "verdict_SURVIVES_Q4": true,
+  "verdict_N10_degrades": false,
+  "verdict_BEATS_N10": null,
+  "verdict_ARTIFACT_SHIPS": true
+}
