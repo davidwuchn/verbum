@@ -1,0 +1,151 @@
+
+========================================================================
+  Loading Qwen/Qwen3-32B
+========================================================================
+
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/707 [00:00<?, ?it/s]Loading weights:   0%|          | 1/707 [00:01<18:45,  1.59s/it]Loading weights:   2%|▏         | 16/707 [00:01<00:53, 12.91it/s]Loading weights:   4%|▍         | 29/707 [00:01<00:26, 25.20it/s]Loading weights:   7%|▋         | 48/707 [00:01<00:14, 45.74it/s]Loading weights:   9%|▊         | 61/707 [00:02<00:11, 57.17it/s]Loading weights:  11%|█▏        | 81/707 [00:02<00:07, 80.24it/s]Loading weights:  13%|█▎        | 95/707 [00:02<00:06, 88.94it/s]Loading weights:  16%|█▌        | 114/707 [00:02<00:05, 107.22it/s]Loading weights:  18%|█▊        | 129/707 [00:02<00:05, 112.11it/s]Loading weights:  21%|██        | 147/707 [00:02<00:04, 124.21it/s]Loading weights:  23%|██▎       | 162/707 [00:02<00:04, 124.83it/s]Loading weights:  25%|██▌       | 180/707 [00:02<00:03, 134.42it/s]Loading weights:  28%|██▊       | 195/707 [00:02<00:03, 131.14it/s]Loading weights:  30%|██▉       | 211/707 [00:03<00:03, 138.55it/s]Loading weights:  32%|███▏      | 226/707 [00:03<00:03, 125.36it/s]Loading weights:  35%|███▍      | 246/707 [00:03<00:03, 138.90it/s]Loading weights:  37%|███▋      | 261/707 [00:03<00:03, 134.97it/s]Loading weights:  39%|███▉      | 279/707 [00:03<00:03, 141.65it/s]Loading weights:  42%|████▏     | 294/707 [00:03<00:03, 137.26it/s]Loading weights:  44%|████▍     | 312/707 [00:03<00:02, 143.57it/s]Loading weights:  46%|████▋     | 327/707 [00:03<00:02, 138.26it/s]Loading weights:  48%|████▊     | 342/707 [00:04<00:02, 139.97it/s]Loading weights:  50%|█████     | 357/707 [00:04<00:02, 132.17it/s]Loading weights:  52%|█████▏    | 371/707 [00:04<00:02, 132.28it/s]Loading weights:  55%|█████▌    | 389/707 [00:04<00:02, 137.18it/s]Loading weights:  57%|█████▋    | 403/707 [00:04<00:02, 127.80it/s]Loading weights:  60%|█████▉    | 422/707 [00:04<00:02, 138.45it/s]Loading weights:  62%|██████▏   | 436/707 [00:04<00:02, 132.36it/s]Loading weights:  64%|██████▍   | 455/707 [00:04<00:01, 142.36it/s]Loading weights:  66%|██████▋   | 470/707 [00:04<00:01, 136.82it/s]Loading weights:  69%|██████▉   | 488/707 [00:05<00:01, 143.04it/s]Loading weights:  71%|███████   | 503/707 [00:05<00:01, 137.46it/s]Loading weights:  74%|███████▎  | 521/707 [00:05<00:01, 143.46it/s]Loading weights:  76%|███████▌  | 536/707 [00:05<00:01, 137.18it/s]Loading weights:  78%|███████▊  | 554/707 [00:05<00:01, 142.13it/s]Loading weights:  80%|████████  | 569/707 [00:05<00:01, 136.31it/s]Loading weights:  83%|████████▎ | 587/707 [00:05<00:00, 143.42it/s]Loading weights:  85%|████████▌ | 602/707 [00:05<00:00, 137.82it/s]Loading weights:  88%|████████▊ | 620/707 [00:06<00:00, 143.84it/s]Loading weights:  90%|████████▉ | 635/707 [00:06<00:00, 138.23it/s]Loading weights:  92%|█████████▏| 653/707 [00:06<00:00, 144.41it/s]Loading weights:  94%|█████████▍| 668/707 [00:06<00:00, 137.94it/s]Loading weights:  97%|█████████▋| 686/707 [00:06<00:00, 144.00it/s]Loading weights:  99%|█████████▉| 701/707 [00:06<00:00, 138.64it/s]Loading weights: 100%|██████████| 707/707 [00:06<00:00, 106.71it/s]
+  Loaded in 8.8s
+  Layers: 64  Heads: 64  KV heads: 8  d_model: 5120
+    sentence 1/56: The dog runs....
+    sentence 11/56: Alice runs....
+    sentence 21/56: The farmer finds the bird....
+    sentence 31/56: Some teacher laughs....
+    sentence 41/56: The old house stands....
+    sentence 51/56: The house is old....
+[qk] labeled=263 skipped=0 layers=65
+[qk] geom embed  PR=6.47 p=1.0
+[qk] geom L0     PR=5.87 p=0.77
+[qk] geom L1     PR=6.07 p=0.88
+[qk] geom L2     PR=5.97 p=0.78
+[qk] geom L3     PR=6.09 p=0.875
+[qk] geom L4     PR=5.97 p=0.76
+[qk] geom L5     PR=6.02 p=0.78
+[qk] geom L6     PR=3.57 p=0.025
+[qk] geom L7     PR=3.61 p=0.01
+[qk] geom L8     PR=3.71 p=0.005
+[qk] geom L9     PR=3.88 p=0.025
+[qk] geom L10    PR=4.01 p=0.025
+[qk] geom L11    PR=4.06 p=0.015
+[qk] geom L12    PR=4.09 p=0.02
+[qk] geom L13    PR=4.11 p=0.01
+[qk] geom L14    PR=4.13 p=0.01
+[qk] geom L15    PR=4.17 p=0.025
+[qk] geom L16    PR=4.22 p=0.015
+[qk] geom L17    PR=4.25 p=0.015
+[qk] geom L18    PR=4.28 p=0.01
+[qk] geom L19    PR=4.31 p=0.02
+[qk] geom L20    PR=4.35 p=0.015
+[qk] geom L21    PR=4.38 p=0.01
+[qk] geom L22    PR=4.41 p=0.015
+[qk] geom L23    PR=4.46 p=0.015
+[qk] geom L24    PR=4.49 p=0.01
+[qk] geom L25    PR=4.55 p=0.01
+[qk] geom L26    PR=4.63 p=0.01
+[qk] geom L27    PR=4.72 p=0.015
+[qk] geom L28    PR=4.78 p=0.025
+[qk] geom L29    PR=4.83 p=0.02
+[qk] geom L30    PR=4.81 p=0.02
+[qk] geom L31    PR=4.74 p=0.005
+[qk] geom L32    PR=4.73 p=0.015
+[qk] geom L33    PR=4.77 p=0.01
+[qk] geom L34    PR=4.77 p=0.015
+[qk] geom L35    PR=4.73 p=0.015
+[qk] geom L36    PR=4.68 p=0.005
+[qk] geom L37    PR=4.54 p=0.02
+[qk] geom L38    PR=4.48 p=0.015
+[qk] geom L39    PR=4.44 p=0.015
+[qk] geom L40    PR=4.46 p=0.01
+[qk] geom L41    PR=4.42 p=0.005
+[qk] geom L42    PR=4.42 p=0.005
+[qk] geom L43    PR=4.31 p=0.005
+[qk] geom L44    PR=4.35 p=0.025
+[qk] geom L45    PR=4.46 p=0.0
+[qk] geom L46    PR=4.51 p=0.01
+[qk] geom L47    PR=4.65 p=0.005
+[qk] geom L48    PR=4.79 p=0.025
+[qk] geom L49    PR=5.00 p=0.02
+[qk] geom L50    PR=5.26 p=0.035
+[qk] geom L51    PR=5.53 p=0.125
+[qk] geom L52    PR=5.73 p=0.27
+[qk] geom L53    PR=5.89 p=0.52
+[qk] geom L54    PR=6.01 p=0.73
+[qk] geom L55    PR=6.10 p=0.815
+[qk] geom L56    PR=6.13 p=0.87
+[qk] geom L57    PR=6.17 p=0.92
+[qk] geom L58    PR=6.18 p=0.93
+[qk] geom L59    PR=6.17 p=0.895
+[qk] geom L60    PR=6.16 p=0.875
+[qk] geom L61    PR=6.09 p=0.835
+[qk] geom L62    PR=6.13 p=0.92
+[qk] geom L63    PR=5.49 p=0.305
+[qk] BAND (residual layers) = L6..L50 (45 layers)
+[qk]      embed ->attn L 0 bind_q=5.168(p=0.240) comp_q=7.810(p=0.060) rolenull_q=10.862
+[qk]      L0    ->attn L 1 bind_q=8.242(p=0.260) comp_q=10.199(p=0.220) rolenull_q=17.127
+[qk]      L1    ->attn L 2 bind_q=4.195(p=0.220) comp_q=5.535(p=0.040) rolenull_q=10.698
+[qk]      L2    ->attn L 3 bind_q=3.345(p=0.420) comp_q=4.771(p=0.040) rolenull_q=9.290
+[qk]      L3    ->attn L 4 bind_q=2.649(p=0.440) comp_q=3.884(p=0.020) rolenull_q=8.477
+[qk]      L4    ->attn L 5 bind_q=3.216(p=0.580) comp_q=4.108(p=0.200) rolenull_q=8.913
+[qk]      L5    ->attn L 6 bind_q=3.774(p=0.040) comp_q=4.289(p=0.080) rolenull_q=4.143
+[qk] BAND L6    ->attn L 7 bind_q=1.411(p=0.745) comp_q=1.547(p=0.780) rolenull_q=2.198
+[qk] BAND L7    ->attn L 8 bind_q=1.534(p=0.785) comp_q=1.792(p=0.760) rolenull_q=2.491
+[qk] BAND L8    ->attn L 9 bind_q=1.820(p=0.875) comp_q=2.128(p=0.700) rolenull_q=2.540
+[qk] BAND L9    ->attn L10 bind_q=1.519(p=0.980) comp_q=1.907(p=0.665) rolenull_q=2.316
+[qk] BAND L10   ->attn L11 bind_q=1.273(p=0.995) comp_q=1.512(p=0.475) rolenull_q=1.926
+[qk] BAND L11   ->attn L12 bind_q=1.388(p=1.000) comp_q=1.621(p=0.515) rolenull_q=1.891
+[qk] BAND L12   ->attn L13 bind_q=1.491(p=0.975) comp_q=1.895(p=0.375) rolenull_q=2.026
+[qk] BAND L13   ->attn L14 bind_q=1.597(p=0.805) comp_q=1.955(p=0.465) rolenull_q=2.148
+[qk] BAND L14   ->attn L15 bind_q=1.516(p=0.675) comp_q=1.602(p=0.610) rolenull_q=1.835
+[qk] BAND L15   ->attn L16 bind_q=1.345(p=0.990) comp_q=1.469(p=0.345) rolenull_q=1.724
+[qk] BAND L16   ->attn L17 bind_q=1.476(p=0.545) comp_q=1.568(p=0.405) rolenull_q=1.604
+[qk] BAND L17   ->attn L18 bind_q=1.348(p=0.395) comp_q=1.170(p=0.715) rolenull_q=1.422
+[qk] BAND L18   ->attn L19 bind_q=1.232(p=0.655) comp_q=1.201(p=0.520) rolenull_q=1.395
+[qk] BAND L19   ->attn L20 bind_q=1.293(p=0.330) comp_q=1.163(p=0.795) rolenull_q=1.647
+[qk] BAND L20   ->attn L21 bind_q=1.294(p=0.045) comp_q=1.037(p=0.635) rolenull_q=1.203
+[qk] BAND L21   ->attn L22 bind_q=1.282(p=0.650) comp_q=1.337(p=0.525) rolenull_q=1.451
+[qk] BAND L22   ->attn L23 bind_q=1.437(p=0.110) comp_q=1.423(p=0.505) rolenull_q=1.604
+[qk] BAND L23   ->attn L24 bind_q=1.241(p=0.335) comp_q=1.299(p=0.150) rolenull_q=1.390
+[qk] BAND L24   ->attn L25 bind_q=1.148(p=0.420) comp_q=1.212(p=0.140) rolenull_q=1.274
+[qk] BAND L25   ->attn L26 bind_q=1.253(p=0.410) comp_q=1.422(p=0.160) rolenull_q=1.349
+[qk] BAND L26   ->attn L27 bind_q=1.424(p=0.200) comp_q=1.539(p=0.455) rolenull_q=1.577
+[qk] BAND L27   ->attn L28 bind_q=1.170(p=0.440) comp_q=1.194(p=0.310) rolenull_q=1.321
+[qk] BAND L28   ->attn L29 bind_q=1.088(p=0.950) comp_q=1.143(p=0.635) rolenull_q=1.265
+[qk] BAND L29   ->attn L30 bind_q=1.368(p=0.050) comp_q=1.316(p=0.255) rolenull_q=1.454
+[qk] BAND L30   ->attn L31 bind_q=1.271(p=0.170) comp_q=1.312(p=0.105) rolenull_q=1.418
+[qk] BAND L31   ->attn L32 bind_q=1.356(p=0.880) comp_q=1.623(p=0.535) rolenull_q=1.855
+[qk] BAND L32   ->attn L33 bind_q=1.694(p=0.380) comp_q=1.803(p=0.700) rolenull_q=2.006
+[qk] BAND L33   ->attn L34 bind_q=1.451(p=0.735) comp_q=1.701(p=0.705) rolenull_q=1.861
+[qk] BAND L34   ->attn L35 bind_q=1.442(p=0.635) comp_q=1.703(p=0.535) rolenull_q=1.867
+[qk] BAND L35   ->attn L36 bind_q=1.766(p=0.665) comp_q=2.209(p=0.605) rolenull_q=2.028
+[qk] BAND L36   ->attn L37 bind_q=1.833(p=0.505) comp_q=2.361(p=0.560) rolenull_q=2.149
+[qk] BAND L37   ->attn L38 bind_q=1.787(p=0.230) comp_q=2.091(p=0.720) rolenull_q=1.946
+[qk] BAND L38   ->attn L39 bind_q=1.710(p=0.320) comp_q=1.989(p=0.645) rolenull_q=1.820
+[qk] BAND L39   ->attn L40 bind_q=1.895(p=0.415) comp_q=2.310(p=0.700) rolenull_q=2.114
+[qk] BAND L40   ->attn L41 bind_q=1.722(p=0.120) comp_q=1.858(p=0.610) rolenull_q=1.758
+[qk] BAND L41   ->attn L42 bind_q=1.731(p=0.110) comp_q=1.911(p=0.645) rolenull_q=1.859
+[qk] BAND L42   ->attn L43 bind_q=1.452(p=0.145) comp_q=1.539(p=0.670) rolenull_q=1.524
+[qk] BAND L43   ->attn L44 bind_q=0.960(p=0.195) comp_q=0.636(p=0.915) rolenull_q=1.254
+[qk] BAND L44   ->attn L45 bind_q=0.844(p=0.205) comp_q=0.472(p=0.825) rolenull_q=0.897
+[qk] BAND L45   ->attn L46 bind_q=0.756(p=0.560) comp_q=0.456(p=0.940) rolenull_q=0.951
+[qk] BAND L46   ->attn L47 bind_q=0.871(p=0.245) comp_q=0.545(p=0.825) rolenull_q=1.280
+[qk] BAND L47   ->attn L48 bind_q=0.805(p=0.160) comp_q=0.381(p=0.955) rolenull_q=0.992
+[qk] BAND L48   ->attn L49 bind_q=0.759(p=0.220) comp_q=0.337(p=0.920) rolenull_q=0.904
+[qk] BAND L49   ->attn L50 bind_q=0.909(p=0.020) comp_q=0.365(p=0.940) rolenull_q=0.852
+[qk] BAND L50   ->attn L51 bind_q=0.938(p=0.005) comp_q=0.204(p=0.945) rolenull_q=0.769
+[qk]      L51   ->attn L52 bind_q=1.086(p=0.000) comp_q=0.210(p=0.900) rolenull_q=0.727
+[qk]      L52   ->attn L53 bind_q=0.948(p=0.000) comp_q=0.166(p=0.940) rolenull_q=0.722
+[qk]      L53   ->attn L54 bind_q=1.094(p=0.000) comp_q=0.192(p=0.880) rolenull_q=0.703
+[qk]      L54   ->attn L55 bind_q=1.044(p=0.000) comp_q=0.210(p=0.800) rolenull_q=0.678
+[qk]      L55   ->attn L56 bind_q=1.099(p=0.000) comp_q=0.264(p=0.720) rolenull_q=0.701
+[qk]      L56   ->attn L57 bind_q=1.077(p=0.000) comp_q=0.269(p=0.620) rolenull_q=0.648
+[qk]      L57   ->attn L58 bind_q=1.066(p=0.020) comp_q=0.377(p=0.560) rolenull_q=0.801
+[qk]      L58   ->attn L59 bind_q=0.991(p=0.040) comp_q=0.340(p=0.500) rolenull_q=0.853
+[qk]      L59   ->attn L60 bind_q=1.373(p=0.000) comp_q=0.548(p=0.560) rolenull_q=1.178
+[qk]      L60   ->attn L61 bind_q=1.035(p=0.000) comp_q=0.356(p=0.780) rolenull_q=0.850
+[qk]      L61   ->attn L62 bind_q=1.455(p=0.000) comp_q=0.760(p=0.400) rolenull_q=1.218
+[qk]      L62   ->attn L63 bind_q=1.068(p=0.040) comp_q=0.646(p=0.520) rolenull_q=0.867
+[qk] BAND AGGREGATE: bind_q rho=1.3534 p=0.61 | comp_q rho=1.4057 p=0.5 | rolenull_q rho=1.6257 p=0.0
+[qk] ASYM (q-k): bind=-2.7647 comp=-4.6206 entity=-3.1001
+[qk] VERDICT (advisory until pre-reg frozen): {'qk_aligned': False, 'mechanism_shaped': False, 'p_bind_q': 0.61, 'p_comp_q': 0.5, 'asym_signs': {'bind': -2.7647, 'comp': -4.6206, 'entity': -3.1001}, 'note': 'advisory until #p-type-qk pre-reg is frozen (Michael GO)'}
+[qk] wrote /Users/mwhitford/src/verbum/results/type-qk/qwen3-32b/qk_alignment.json
