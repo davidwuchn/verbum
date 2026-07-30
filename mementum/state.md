@@ -8,7 +8,44 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-30 | Session: 282 | ▶▶ LIVE PICKUP (s282 — 3-HOP RAN): ✅ built
+> Last updated: 2026-07-30 | Session: 283 | ▶▶ LIVE PICKUP (s283 — P-TYPE-1b RAN @4B, 32B IN
+> FLIGHT): ✅ built wrapper/type_zone_ablation.py — the frozen 1b zone×axis instrument, iterated
+> v1→v4 IN-SESSION (commits bc1d242 / f7e07f7 / f0c3418 / 0961819, code+results committed
+> autonomous; READ types-are-the-well-formedness-of-reduction.md §Result-4B). 💡 CORE: at the
+> only interpretable matched dose (d1 ~74 E/tok, roles energy-matched ±5%, recall 1.0)
+> bind≈comp≈rolenull on Q_eff (ret 0.84/0.80/0.87) — the pre-registered class-selective double
+> dissociation is ABSENT @4B; with the v4 global-direction negative this EXHAUSTS the
+> value-register hiding places → the type lattice = EXHAUST/readout of routing-resident
+> licensing, NOT a consulted ledger = the theory-pure outcome (type = well-formedness of
+> reduction, unstorable by construction; the negative CONFIRMS the frame). 💡 lattice slices =
+> INFRASTRUCTURE: role subspaces kill recall @~270 E/tok vs 2D random needing ~9000 (~4×
+> load-bearing per unit energy, GENERIC not class-selective — all centroid offsets share the
+> dominant axis0; cliff 74→270). ⚠ POST-HOC (needs own pre-reg to count): gentle role-subspace
+> dampening (~74) UNMASKS M_eff 0.17(t=0.6)→~1.05(t=5.5–6.7) for ALL THREE role slices but NOT
+> random — the one cell where lattice≠random behaviorally. 💡 4B lattice: true band L9–L22
+> (falsy-zero p-bug fixed); QUANT/DET SPLIT onto separate axes @4B (axis0=QUANT-vs-rest 85%,
+> DET axis1 ~5%, MOD axis4) vs 32B co-load → lattice organization evolves with scale; M_eff
+> unexpressed @4B baseline (2 grids) = capacity, gate-0 held. ❌→✅ instrument lessons folded
+> into the knowledge page + memory zone-ablation-dose-matching-lessons (falsy-zero band bug;
+> match REALIZED removed energy, ×25 planned-vs-realized drift; α≫1 random cascades ×10¹⁰;
+> absolute-dose grid ≻ relative budgets; accuracy gate ≻ surprisal ratio; e-axis control
+> unrealizable → role-null replaces it, deviation documented). ▶▶ 32B VERDICT RUN LAUNCHED
+> (Michael GO s283) in tmux main:1 → results/type-zone-ablation/qwen3-32b/run_v4.log, doses
+> 50,150,600,2400 (4B grid + gentle rung; band ~3× wider @32B → per-layer tolerance likely
+> lower). ON RETURN: read verdict.json + run_v4.log, frozen rules, report verbatim — 4B
+> predicts NEGATIVE (exhaust); a 32B negative CLOSES 1b as exhaust-theory-confirmed, a positive
+> = first class-selective causal signal. ★ s283 DISCUSSION captured (theory page §Consequence):
+> 3-hop + decodable types ⇒ TYPED HIGHER-ORDER FUNCTIONS (bridge-swap = function-as-argument
+> with a causal handle; axis0 = the (e→t)→t types = exactly what 3-hop exercises, as
+> montague-inversion forces); EXHAUST does not weaken the REPL — decode-verify-swap needs only
+> US to read the ledger (readout register), not the machine to consult it. P-HOF-1 sketched
+> (unfrozen, theory page): quantifier over an INSTALLED predicate = literal Montague
+> higher-order test over a written term. Memory: type-lattice-is-exhaust-not-consulted.
+> ▶ NEXT: (1) 32B 1b verdict (in flight); (2) pre-reg the M_eff unmasking effect before any
+> use; (3) P-HOF-1 pre-reg; (4) still open from s282: depth→SEQUENCING pre-reg for 27B-hybrid,
+> (a2) mammal→fur content build. Branch ~35 commits ahead (unpushed). s282 blocks retained below.
+>
+> (s282 retained →) ▶▶ LIVE PICKUP (s282 — 3-HOP RAN): ✅ built
 > wrapper/operand_multihop3.py (geography chain, ceiling smoke green) + ran the 4B/32B pair
 > (code+results COMMITTED autonomous: 3ec4d47 harness, 62b6066 results). 💡 CORE RESULT (READ
 > three-hop-capacity-prereg.md §Result): the pre-registered depth-CAPACITY dissociation MISSED

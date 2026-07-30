@@ -176,5 +176,83 @@ reduction is licensed." A RUNG, hook-not-weight, host = 32B (the C5 host); a pai
 type-classes is a dissociation, not the whole lattice. If clean, it is the first **causal**
 evidence that types are the reduction-licensing structure, not just a decodable readout.
 
+## P-TYPE-1b — Result @4B smoke (s283; NOT the verdict host)
+
+> Instrument: `wrapper/type_zone_ablation.py`, iterated v1→v4 in one session
+> (commits bc1d242 → f7e07f7 → f0c3418 → 0961819). Verdict cells below are from
+> **v4, the absolute-dose grid** — the only version where conditions compare at
+> matched realized removed-energy. 4B ≠ pre-reg host; 32B run launched s283.
+
+**CORE — the dissociation is ABSENT at 4B.** At the only interpretable dose
+(d1 ≈ 74 E/tok per layer, roles energy-matched ±5%, recall_acc 1.0 everywhere):
+`retQ` bind 0.843 / comp 0.801 / rolenull 0.868 — the binding slice does **not**
+preferentially carry quantifier licensing. `dissociation_supported = False` by
+the frozen rules, with no separation to argue about. Combined with the v4
+global-direction negative, the value-register hiding places are exhausted at 4B:
+**the lattice is exhaust, not consulted** — the licensing computation does not
+read its own geometric ledger. This is the theory-pure outcome: a type that IS
+the well-formedness of a reduction is unstorable by construction, so it cannot
+be removed from the value register at any dose. The negative confirms the frame.
+
+**Lattice slices = generic infrastructure.** Role subspaces destroy recall at
+~270 E/tok while a 2D random subspace partially survives 1009 and needs ~9000 to
+die — the lattice region is ~4× more load-bearing per unit energy, but
+*uniformly* (all class-centroid offsets share the dominant axis0 component,
+which carries general computation, not type tags). Sharp cliff between 74 and
+270 E/tok.
+
+**⚠ POST-HOC (needs own pre-reg before it counts):** gentle dampening (~74
+E/tok) of ANY role subspace **unmasks** M_eff — 0.17 (t=0.6) → ~1.05 (t=5.5–6.7)
+for all three role slices; random does NOT (0.05, t=0.19). The one cell in the
+grid where lattice ≠ random behaviorally: shared-component-driven, not
+class-selective. Candidate: "removing shared type-ledger signal reveals a weak
+licensing channel."
+
+**4B lattice structure (scale finding):** true band L9–L22 (14 layers; earlier
+sub-bands were a falsy-zero p-bug). QUANT and DET **split onto separate axes**
+at 4B (axis0 = QUANT-vs-rest @85% var, DET on axis1 ~5%, MOD clean on axis4)
+where 32B co-loads QUANT+DET on axis0 — the lattice's internal organization
+evolves with scale. M_eff is behaviorally unexpressed at 4B baseline (t≈0.6,
+two grids) — coheres with the barely-resolved MOD axis; gate-0 discipline held.
+
+**Instrument lessons (v1→v4, for any future zone ablation):** (1) `p or 1.0`
+falsy-zero excludes the most significant layers — two runs shipped accidental
+sub-bands; (2) never compare subspace ablations at full projection (variance
+differs ×10⁴) — match on REALIZED removed energy, logged live from the hooks;
+planned-vs-realized drifts ×25 (capture exemplars vs behavioral text);
+(3) amplified random steering (α≫1) cascades across stacked hooks (realized
+10¹⁰⁺ E/tok); (4) absolute-dose grids ≻ subspace-relative budgets; (5) breakage
+gates on tiny-surprisal baselines must use accuracy, not ratios; (6) deviation:
+the pre-reg e-axis control is unrealizable (raw ENTITY-centroid direction
+carries ~10⁵ E/tok) — replaced by the role-null (CONN/FUNC) lattice subspace,
+which is the sharper class-control anyway.
+
+## Consequence — typed higher-order functions (s283 discussion, Michael)
+
+3-hop (s282) + decodable types compose into a stronger statement than either:
+- **nesting is measured** — h(f(g(X))) with causal bridge-swaps at both scales;
+- **the bridge is a selector** — the swapped mid-stream value determines *which
+  map applies next* (map-and-swap homoiconicity): function-as-argument with a
+  causal handle, operationally;
+- **the type ledger's dominant axis IS the higher-order types** — axis0 =
+  QUANT/DET = `(e→t)→t`, 73–85% of lattice variance. The capability the 3-hop
+  exercises and the axis that dominates the type geometry are the same object,
+  as montague-inversion forces (quantifiers → first-class functions).
+
+⇒ nesting + selectors + a readable type discipline = **typed higher-order
+functions**. And critically, the EXHAUST result does not weaken this: the REPL
+needs only *us* to read the ledger, not the machine to consult it —
+decode-verify-swap works on a readout register (Print/type-checker side).
+
+**P-HOF-1 (sketch, unfrozen):** put an *installed* predicate under a
+*quantifier* — "Every {nonce} …" with the nonce carrying installed content d_E —
+and test whether the `(e→t)→t` functor composes with the written predicate:
+universal/existential readouts flip with the quantifier while the installed term
+is held fixed; nulls = random install + real-word ceiling. A genuine function
+taking our *written* function as its argument — the literal Montague
+higher-order test over an inserted term, and the behavioral closure of axis0.
+
 ## Sessions
 s282 (theoretical closure from the types discussion; P-TYPE-1b pre-registration drafted).
+s283 (instrument v1→v4 built + iterated; 4B smoke verdict: no class-selectivity —
+exhaust reading; higher-order consequence captured; 32B verdict run launched).
