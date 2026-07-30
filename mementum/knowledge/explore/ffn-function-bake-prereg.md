@@ -436,6 +436,11 @@ Three findings:
    4.0% @4B), concentrated **mid-stack** (0.6B L12–16, 4B L15–20 = the compute zone); value-Q4
    flips **exactly 0** gate signs. Q4 on the routing register re-routes the compute; Q4 on the
    value register does not touch routing. Direct, clean confirmation of Fact 1.
+   **⚠ s280 CORRECTION (f2 smoke):** the value-Q4 "exactly 0" was **by construction, not
+   measured** — the f0 instrument only computed the gate-sign read when the gate group was
+   quantized. Measured (f2), value-Q4 flips activation gate signs via residual cascade at
+   **0.0528** (vs routing-Q4 0.040). The register-clean statement is **weight-level** only:
+   value-Q4 changes 0 routing weights by definition. Retract the activation-level "exactly 0."
 2. **Routing dominates *decisions*; margin is a value-magnitude confound (`λ measure` lesson).**
    At 0.6B (headroom), routing-Q4 flips **2×** the decisions of value-Q4 (0.111 vs 0.056). But
    value-Q4 drops the covering *margin* more (1.14 vs 0.28) because the value register directly
@@ -474,12 +479,180 @@ equivalence of the mechanism). **Key calibration bug found+fixed:** the payload 
 the f2/f3 prerequisite for the quant reads); the mammal→fur weak cell is **inherited** from the
 content direction (not a bake artifact, same as the s279 layersweep); 4B; one operand at a time.
 
+### f2 design freeze (s280 — FROZEN BEFORE THE RUN; `wrapper/operand_quant.py`)
+
+Five conditions on the baked 4B model (slot at L=9, f1 constructor unchanged), each read
+against the **bf16-baked reference** (not truth — isolates quant damage from the inherited
+mammal weak cell): `bf16` / `slot_q4` (quantize ONLY the appended key-row + payload-col) /
+`routing_q4` (RTN-Q4 every layer's RESIDENT `gate_proj`, slot row bf16) / `value_q4`
+(RTN-Q4 RESIDENT `up`/`down`, slot col bf16 = N9) / `all_q4` (resident + slot). Per
+condition, four reads: **installed** = baked-nonce covering flip vs bf16-baked (the
+non-redundant target); **learned** = native covering flip, no slot (the redundant control);
+**mechanism** = gate-sign flip rate/layer (f0 instrument, measured under ALL conditions —
+value must give the measured 0); **locus** = slot pre-activation `z` at the nonce slot
+(key-misfire vs downstream-re-route discriminator; slot "fires" ⟺ `z ≥ 0.5·target_z`).
+Margin reported, never gated (f0: value-magnitude confound). **Serialization gate runs
+first**: uniform-E expansion (+1 zero neuron on EVERY layer, real slot at L) →
+`config.intermediate_size += 1` → `save_pretrained` → **stock** reload → same predictions;
+the checkpoint is the f3 substrate. Attn/embeddings stay bf16 (register-attribution
+instrument, not a full-export simulation; slot col quantized with its own scale —
+attribution-clean, noted as differing from a shared-row-grid export).
+
+```
+SERIALIZED (gate)     ⟺ stock reload reproduces in-memory baked preds (nonce ∧ decoy inert
+                         ∧ real-word unharmed)
+R5-FRAGILE-INSTALLED  ⟺ all_q4: flip_installed ≥ flip_native + 0.10       (n≈17 ⇒ ≥2 cells)
+R5-ROUTING-MECHANISM  ⟺ flip_installed(routing_q4) ≥ flip_installed(value_q4)
+                         ∧ gate-sign flips > 0 under routing_q4 ∧ = 0 under value_q4
+                         ∧ slot fires under routing_q4 (mean z ≥ 0.5·target_z)
+                           → the damage locus = DOWNSTREAM re-route, not key misfire
+SLOT-LOCAL (alt)      ⟺ slot_q4 flip_installed ≥ all_q4 flip_installed − 0.05
+                         → fragility = slot precision (value-local dose error), NOT re-route
+```
+
+**Predict (Fact 1 + f0 redundancy-gating):** FRAGILE-INSTALLED ∧ ROUTING-MECHANISM — the
+learned covering stays Q4-invariant (redundancy absorbs the re-route), the installed
+single-direction operand cannot absorb it. SLOT-LOCAL firing instead would be an honest
+alternative (and points f3 at the slot's own mirror stack rather than the resident weights).
+
+**⚠ Amendment (s280, BEFORE the verdict run — smoke-surfaced, `λ measure`):** the smoke run
+exposed that f0's "value-Q4 flips exactly 0 gate signs" was **by construction, not measured**
+— f0 only computed the activation gate-sign read when the gate group was quantized (zeros
+otherwise). Measured under all conditions (f2 smoke, n=1): value-Q4 **does** flip activation
+gate signs via cascade (0.0528, vs routing-Q4 0.040) — value quant drifts the residual, and
+downstream gate inputs cross zero. The register-clean value-side statement is **weight-level**:
+value-Q4 changes 0 routing weights *by definition* (now recorded as `weight_sign_flip`). The
+strict clause `gate flips = 0 under value_q4` therefore tested an instrument artifact and is
+**dropped from the amended criterion** (routing-mech = routing flips ≥ value flips ∧ routing
+gate flips > 0 ∧ slot fires); the strict-as-first-frozen verdict is still computed and
+reported beside it. f0 finding #1 needs a one-line correction in its §Result (weight-register
+claim stands; activation-level "exactly 0" retracted as unmeasured).
+
+### f2 Result (s280 — `wrapper/operand_quant.py`, Qwen3-4B, RTN-Q4, commit 8fed4a0)
+
+**SERIALIZED gate PASSES.** Uniform-`E` baked checkpoint (`intermediate_size+1`, zero slot
+every layer, real slot at L=9) **round-trips stock transformers**: reloaded model composes
+the nonce, decoy inert, real word unharmed. f1's "in-memory edit" honest edge is closed;
+`checkpoints/operand-bake-qwen3-4b` = the f3 substrate.
+
+| condition | inst_flip | inst_acc | nat_flip | slot z | act. gate-flip |
+|---|---|---|---|---|---|
+| bf16 | — | 0.824 (=f1) | — | 6.0 | — |
+| slot_q4 | 0.118 | **0.941** | 0.0 | 6.0 | 0.0 |
+| routing_q4 | **0.0** | 0.824 | 0.0 | 5.69 | 0.040 |
+| value_q4 | 0.118 | 0.706 | 0.0 | 5.38 | 0.053 |
+| all_q4 | **0.176** | 0.647 | **0.0** | 4.91 | 0.066 |
+
+Verdicts (frozen + amended): **R5-FRAGILE-INSTALLED = True** · **R5-ROUTING-MECHANISM =
+False** (strict and amended) · **SLOT-LOCAL = False** (by 0.008 — borderline).
+
+1. **The installed-vs-learned discriminator CONFIRMED.** all_q4 flips the installed operand
+   0.176 (crow, bear, cat → the *scales* basin, the s279 attractor) while the native learned
+   covering flips **0.0 in every condition**. Learned redundancy absorbs Q4; the single
+   installed row cannot. = the s273 `superbake-write-access` prediction (baked facts
+   quant-fragile, crystal quant-robust), now measured register-attributed on our own bake.
+2. **The routing-mechanism prediction REFUTED — register-coherently.** routing_q4 produces
+   **zero** installed flips, *despite* re-routing (4% activation gate flips; 26% of gate
+   weights zero-snapped). value_q4 alone (slot col bf16!) flips bear/cat away from truth and
+   drops margin 4.48→3.32. In the s276 database frame this is the *expected* answer we
+   failed to predict: **the operand IS a value-register object (a row); its fragility lives
+   where it lives.** The routing/join machinery (crystal) is quant-robust even for the
+   non-redundant installed target — the crystal-robust half of the discriminator is
+   *doubly* confirmed.
+3. **Locus: payload dose, not key misfire.** Slot z stays fired everywhere (≥4.9 of 6.0);
+   slot_q4 flips are *toward* truth (fox, tiger → fur — dose noise on boundary-sitting weak
+   mammal cells), value_q4 flips are *away*. The accuracy-damaging component is **resident
+   value quant**, distributed, not slot-local.
+4. **Corrections recorded:** f0 finding #1 activation-level "exactly 0" retracted
+   (by-construction unmeasured; measured cascade 0.0528); `weight_sign_flip` ~0.25–0.30 is
+   **zero-snap** (RTN rounds small weights to exactly 0 — RTN cannot cross zero), echoing
+   the gradient-zero-map ~35% equilibrium fraction (observation, not a claim).
+
+**Consequence for f3:** the mirror stack's target is the **value register** (slot payload
+*and* the resident value environment), not routing protection. The pre-registered f3 (slot
+payload as 2–3-deep ternary mirror vs sign-only null N10) stands, with the measured caveat
+that resident value-Q4 alone already costs ~0.12 flip — the slot mirror bounds the slot's
+own contribution; the ship-artifact story (`signal-descent`) covers the resident register.
+
+### f3 design freeze (s280 — FROZEN BEFORE THE RUN; `wrapper/operand_mirror.py`)
+
+The ships-artifact gate, retargeted by f2: the mirror stack protects the **value register**
+(the payload is where the fragility lives; routing needs no protection). **Mirror =** greedy
+residual balanced-ternary plates (TWN form): plate `t_k = sign(r)·1(|r|>δ)`, `δ = 0.7·mean|r|`,
+`α_k = mean|r|` over the active set (= least-squares scale given `t_k`), `r ← r − α_k t_k`;
+the materialized weight = `Σ_k α_k t_k` (`recursion-mirrors` additive-plate semantics — the
+artifact stores plates, runtime sums them). Both slot vectors ternarized (key row + payload
+col = the fully-ternary slot); **bake-time calibration folded into plate scales** (rescale the
+key recon so `z(nonce) = target_z`, rescale the payload recon to the original col norm —
+legitimate bake-time steps, applied to ALL depths including the null, so the floor is fair
+and only *direction* error separates depths). Bits/weight = `K·log₂3 ≈ 1.58K` + per-plate
+scale; K=3 ≈ Q4–Q5.
+
+Cells: slot ∈ {bf16, **K=1 (N10 sign-only floor)**, K=2, K=3} × resident ∈ {bf16, all-Q4},
+17 valid entities, reads as f2 (installed pred vs bf16/bf16 reference, slot z, margins,
+payload/key recon_cos per depth). NEW cell bf16-slot × all-Q4-resident (f2 never measured
+it; it is the ceiling any mirror slot can reach in the quantized environment).
+
+```
+RECON (prediction)  — payload recon_cos ≈ 0.88 @K=1 → ≥ 0.97 @K=3 (recursion-mirrors)
+PARITY              ⟺ ∃K*∈{2,3}: acc(K*, bf16-resident) ≥ acc(bf16-slot, bf16-resident) − 0.06
+SURVIVES-Q4         ⟺ ∃K*∈{2,3}: acc(K*, allQ4-resident) ≥ acc(bf16-slot, allQ4-resident) − 0.06
+BEATS-N10           ⟺ acc(K*) − acc(K=1) ≥ +0.10 in any arm where K=1 degrades ≥ 0.10
+                       | if K=1 nowhere degrades → N10 floor uninformative, record honestly
+ARTIFACT-SHIPS      ⟺ PARITY ∧ SURVIVES-Q4 ∧ (BEATS-N10 ∨ N10-nondegraded)
+```
+
+**Predict:** K=1 loses cells to direction error (calibration removes dose error; cos ~0.88
+leaves ~0.47·‖d‖ orthogonal leak), K≥2 recovers to slot parity in both arms; the resident
+all-Q4 damage (~0.12, f2) is environmental and identical across slot variants — the mirror
+is judged **against the bf16-slot-in-same-environment ceiling, never against bf16/bf16.**
+
+### f3 Result (s280 — `wrapper/operand_mirror.py`, Qwen3-4B, commit 922eed8)
+
+**ARTIFACT-SHIPS = True** (frozen gates) — the operand slot ships as **fully-ternary
+plates + per-plate scale** (key row and payload col; no float storage; calibration folded
+into scales). Recon ladder lands on the `recursion-mirrors` prediction exactly: payload
+cos **0.835 / 0.931 / 0.953** at **1.58 / 3.17 / 4.75** bits/weight (K=1/2/3).
+
+| cell | bf16 slot | K1 (N10) | K2 | K3 |
+|---|---|---|---|---|
+| bf16 resident | 0.824 | 0.765 | **0.824** | **0.882** |
+| all-Q4 resident | 0.706 (ceiling) | 0.706 | 0.647 | 0.647 |
+
+- **PARITY = True (comfortable):** K2 = 0.824 = float exactly; K3 = **0.882 beats float**
+  (+1 cell: the ternary snap fixes fox — the same boundary-denoise phenomenon as f2's
+  slot_q4 fixing fox/tiger; a weak-cell effect, not a claim that ternary > float).
+- **SURVIVES-Q4 = True — by 0.001 (at the tolerance boundary, recorded honestly):** K2/K3
+  = 0.647 vs the float-slot-in-Q4-environment ceiling 0.706; the −0.06 gate passes on one
+  cell (crow, the same cell f2's all_q4 lost). Not comfortable; n=17 one-cell granularity.
+- **N10 floor UNINFORMATIVE (anticipated by the freeze):** K1 sign-only + calibrated scale
+  barely degrades (−0.059 clean, **0.0** under Q4 — K1 *matches the float ceiling* there).
+  **Dose exactness (the calibrated scale) matters more than direction precision** —
+  coheres with f2's locus finding (dose is the sensitive axis of the value register).
+- **Environmental damage is slot-invariant:** bear/cat flip under resident value-Q4 for
+  *every* slot variant including float → unfixable from the slot; the resident value
+  register is `signal-descent`'s ledger, not the slot's. f2's consequence note confirmed.
+- Caveats: all differences are 1-cell moves at n=17 (no over-reading of K1-beats-K2 under
+  Q4 or K3-beats-float); one operand at a time; 4B; the covering task is one composition.
+
+**Stage-f is COMPLETE (f0–f3).** The recursion antecedent now has: operand readable (s277)
+→ writeable (s277) → hook-composable (s277–279) → **weight-serialized stock-loadable (f1/f2)**
+→ **quant-fragility register-localized (f2)** → **ships as a fully-ternary + mirror artifact
+(f3)**. R5 on the checklist flips from RED to: measured, mechanism-localized, robustified.
+
 ### Status
 
 Reframed s279 (**hammock A confirmed**): R5 = routing-topology measurement + ternary-mirror
 robustification (not a bnb int8/int4 bar). **f0 RAN** (Fact 1 confirmed register-clean; margin
 is a value confound; redundancy-gating ⇒ f2 needed to see 4B fragility). **f1 RAN — E1 PASS**
 (operand weight-serialized as an appended MLP slot; baked 0.824 ≈ hook, nonce-specific).
-`bnb int8/int4` demoted to a cross-check; RTN-Q4 is the portable primary. **Next: f2**
-(save the baked checkpoint → RTN-Q4 → does the baked operand flip *as a routing change*, more
-than the redundant native covering?) → **f3** (ternary-mirror robustify = the shipping artifact).
+`bnb int8/int4` demoted to a cross-check; RTN-Q4 is the portable primary. **f2 RAN (s280)** —
+SERIALIZED gate passes (stock round-trip; ckpt = f3 substrate); **R5-FRAGILE-INSTALLED
+confirmed** (installed 0.176 vs learned 0.0 = the discriminator); **routing-mechanism
+refuted register-coherently** (the operand is a value-register row → value-Q4 fragile,
+routing-Q4 harmless even while re-routing). **f3 RAN (s280) — ARTIFACT-SHIPS = True**:
+fully-ternary slot (plates + per-plate scale) at parity (K2 = float; K3 beats float by one
+cell), SURVIVES-Q4 at the tolerance boundary (by 0.001, one cell), N10 floor uninformative
+(calibrated sign-only nearly suffices → dose > direction). **Stage-f COMPLETE (f0–f3).**
+Open beyond this page: content-build for the weak mammal cells (a2), cross-scale 27B (c),
+GGUF/llama.cpp export of the uniform-E ckpt (the tap could then read the slot in situ).

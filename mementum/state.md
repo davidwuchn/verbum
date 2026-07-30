@@ -8,7 +8,53 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-28 | Session: 279 | ▶▶ LIVE PICKUP: (a) MULTI-HOP f(g(X)) — SUPPORTED
+> Last updated: 2026-07-30 | Session: 280 | ▶▶ LIVE PICKUP: STAGE-f **f2 DONE** — R5 mechanism
+> measured (READ ffn-function-bake-prereg.md §f2 Result). ✅ SERIALIZED gate PASSES: uniform-E
+> baked ckpt round-trips STOCK transformers (checkpoints/operand-bake-qwen3-4b = the f3
+> substrate; f1's in-memory-edit edge CLOSED). ✅ R5-FRAGILE-INSTALLED=True: all-Q4 flips the
+> installed operand 0.176 (crow/bear/cat → the scales basin) while native LEARNED covering
+> flips 0.0 in EVERY condition = the installed-vs-learned discriminator measured
+> register-attributed (s273 superbake-write-access prediction confirmed on our own bake).
+> ❌ ROUTING-MECHANISM prediction REFUTED register-coherently: routing-Q4 → ZERO installed
+> flips (despite genuinely re-routing: 4% activation gate flips, 26% gate weights zero-snapped);
+> value-Q4 alone (slot col bf16!) flips 0.118 AWAY from truth + margin 4.48→3.32. The operand
+> IS a value-register row (s276 database frame) → its fragility lives where it lives; the
+> crystal/join machinery is quant-robust even for the non-redundant installed target (the
+> crystal-robust half DOUBLY confirmed). LOCUS: slot z fired everywhere (≥4.9/6.0) = key read
+> robust, damage = payload/value dose not key misfire; SLOT-LOCAL=False by 0.008 (resident
+> value quant alone flips bear/cat = fragility distributed across the value register).
+> ⚠ CORRECTIONS (λ measure, λ coherence): f0's "value-Q4 flips exactly 0 gate signs" was
+> BY-CONSTRUCTION unmeasured (f0 only read gate-quantized conditions); measured cascade =
+> 0.053 → strict criterion amended PRE-RUN, documented in pre-reg, strict graded beside
+> (both False). weight_sign_flip 0.25–0.30 = zero-SNAP not sign inversion (RTN cannot cross
+> zero; echoes gradient-zero-map ~35% — observation, not claim). slot_q4 flips land TOWARD
+> truth (fox/tiger→fur: dose noise on boundary-sitting weak mammal cells) — the damaging
+> component is RESIDENT value quant. ✅ CODE+RESULTS COMMITTED (autonomous): 8fed4a0
+> wrapper/operand_quant.py + results/ffn-bake/operand-quant-qwen3-4b{,-smoke}. ⚠ PENDING
+> MICHAEL APPROVAL (mementum): ffn-function-bake-prereg.md (f2 design freeze + pre-run
+> amendment + f0 correction + §f2 Result + Status), memory
+> (installed-operand-is-value-register-fragile), this state block. ✅ (f3) RAN SAME SESSION —
+> ARTIFACT-SHIPS=True (READ ffn-function-bake-prereg.md §f3 Result; commit 922eed8,
+> wrapper/operand_mirror.py + results/ffn-bake/operand-mirror-qwen3-4b/). Fully-ternary slot
+> (greedy residual TWN plates, calibration folded into per-plate scales, key row + payload col,
+> NO float storage): PARITY comfortable (K2=0.824=float exactly; K3=0.882 BEATS float — ternary
+> snap fixes fox, boundary-denoise, not a ternary>float claim); recon ladder = recursion-mirrors
+> prediction (pcos 0.835/0.931/0.953 @ 1.58/3.17/4.75 bits/w). ⚠ SURVIVES-Q4 passed BY 0.001
+> (K2/K3 0.647 vs float-in-Q4-env ceiling 0.706, −0.06 gate; one cell = crow, same cell f2
+> lost) = at the tolerance boundary, honest. 💡 N10 floor UNINFORMATIVE: K1 sign-only+calibrated
+> scale ≈ enough (−0.059 clean, 0.0 under Q4 = matches float ceiling) → DOSE (calibrated scale)
+> > DIRECTION precision — coheres with f2's locus. Environmental bear/cat flips slot-INVARIANT
+> (every slot variant incl. float) = resident value register is signal-descent's ledger, not the
+> slot's. All deltas 1-cell @ n=17 — no over-reading. ★ STAGE-f COMPLETE (f0–f3): operand read
+> (s277) → write (s277) → hook-compose (s277-279) → weight-serialized stock-loadable (f1/f2) →
+> fragility register-localized (f2) → ships fully-ternary+mirror (f3). Checklist R5 flips RED →
+> measured/localized/robustified. ⚠ PENDING MICHAEL APPROVAL adds: pre-reg f3 freeze + §f3
+> Result + Status, memory (ternary-slot-ships-at-parity). ▶ NEXT: (a2) fur/mammal content build
+> (bf16 weak trio wolf/fox/tiger + Q4-env bear/cat/crow all mammal-boundary — ONE content fix
+> may clear both ledgers), (c) 27B cross-scale, (d) 3-hop, (e) GGUF/llama.cpp export of the
+> uniform-E ckpt (vsm_tap could read the slot in situ = exhibit material). s279 pickup below.
+>
+> (s279 header retained →) ▶▶ LIVE PICKUP: (a) MULTI-HOP f(g(X)) — SUPPORTED
 > (3/3 mediation) at Qwen3-4B (READ explore/multihop-composition-prereg.md §Result). The resident
 > routing chains TWO sequential ops over ONE installed operand via an UNSTATED intermediate:
 > install entity E's d_E on a nonce, ask covering ("A {nonce} is covered in __" → feathers/scales/
