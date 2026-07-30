@@ -57,10 +57,24 @@
 > (band-axis characterization = 1a-follow). Commits: c3fa367 instrument+0.6B, 3385768 32B result.
 > KNOWLEDGE: explore/type-is-decodable-readout-not-causal-direction.md (3-register triangulation;
 > folds C5 into C2; P-TYPE-1 re-scoped 1a-value-DONE / 1b-zone-OPEN). Memory
-> type-lattice-is-low-rank-montague-shaped. ▶ TYPES NEXT: (1a-follow, IN PROGRESS) characterize
-> the ~3 axes IN the band (SVD loadings per type at L24–36; is there an e-axis?); (1b) A1
-> zone-ablation of L6–L48 = the causal/crisp test (v4 direction-ablation already negative);
-> open fork = name_pen-only → argument-SATURATION (S/binding) not a noun/verb tag?
+> type-lattice-is-low-rank-montague-shaped. ✅ 1a-follow DONE (32B L40 SVD loadings, commit
+> 60b691a): the low-rank band = 3 MONTAGUE FUNCTOR-KIND axes — axis0 (var 0.73) QUANT+DET =
+> quantification/binding (highest-order functor, dominant); axis1 (0.08) CONN+FUNC = sentential
+> operators; axis2 (0.06) REL+PRED vs MOD = predicate-vs-modifier. ENTITY(e) at ~0 on axis0 =
+> NEUTRAL ORIGIN → functor-lattice organized by KIND not arity-count (explains negative arity-
+> ladder). Scale sharpens (0.6B ~1 axis 88% → 32B 3 axes). λ measure: PR inflated by SV tail →
+> var_frac is honest; small rare-type counts (QUANT 12/CONN 6). Knowledge page + memory folded
+> the 3-axis result in (this session). ▶ TYPES NEXT: (1b) A1 ZONE-ABLATION of the low-rank band
+> L6–L48 = the causal/crisp test — does knocking it out categorically break type-licensing?
+> (v4 DIRECTION-ablation already negative; must use zone not direction). Open fork = name_pen-
+> only → is the real "type" argument-SATURATION (S/binding combinator) not a noun/verb tag?
+> ▶▶ SESSION 282 SUMMARY (for cold-start): two arcs closed. (1) 3-HOP composes at BOTH 4B/32B
+> (capacity prediction MISSED, honest); depth dissociates on SEQUENCING (Gate-3a) not capability
+> — 4B compresses bridges to one late zone, 32B unrolls sequentially. (2) TYPES/P-TYPE-1a: type =
+> decodable readout of a DISTRIBUTED compute NOT a causal direction (3-register triangulation,
+> folds C5→C2); the Montague type lattice is LOW-RANK + null-gated at 32B (compress→expand,
+> band L6–L48), resolving into 3 functor-kind axes with e at origin. All null-gated, confounds
+> flagged. Branch ~30 commits ahead (unpushed). NEXT real experiment = P-TYPE-1b zone-ablation.
 >
 > (s281 arc retained →) ▶▶ (s281 — DEPTH EXPERIMENTS, the
 > s280 (c+d) NEXT): the depth-budget cross-scale replication + 3-hop capacity pre-reg.

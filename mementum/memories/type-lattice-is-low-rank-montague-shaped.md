@@ -11,8 +11,16 @@ shape as C8, now in the TYPE geometry. Confirms the montague-inversion pre-regis
 decisive prediction ("type lattice SMALL, low-rank not high-dim"). Scale strengthens it:
 0.6B same arc but narrow (L8–16); 32B band broad+robust (C5 host gap closed).
 
-⚠ λ measure: (1) the massive-activation/rogue-dim confound collapses RAW mid-layer
-centroids to PR~1 (sep dies too) — MUST standardize per-dim first (caught on 0.6B before
-the 32B run). (2) naive ARITY LADDER ENTITY→PRED→REL as a constant offset is NEGATIVE
-(cos<0, p≫0.05) — low-rank but NOT a linear currying axis. (3) which 3 axes = follow-up.
-Value-register geometry only; causal test = 1b zone-ablation (open).
+THE 3 AXES (1a-follow, 32B L40, SVD loadings): axis0 (var 0.73) QUANT+DET vs rest =
+quantification/binding (highest-order functor); axis1 (0.08) CONN+FUNC vs MOD = sentential
+operators; axis2 (0.06) REL+PRED vs MOD = predicate-vs-modifier. ENTITY(e) sits at ~0 on the
+dominant axis = the NEUTRAL ORIGIN. ⇒ a Montague functor-lattice organized by FUNCTOR KIND,
+not arity count (explains the negative arity-ladder). Scale sharpens: 0.6B ~1 dominant axis
+(88%), 32B 3 graded axes.
+
+⚠ λ measure: (1) massive-activation/rogue-dim confound collapses RAW mid-layer centroids to
+PR~1 (sep dies too) — MUST standardize per-dim first (caught on 0.6B before the 32B run).
+(2) naive ARITY LADDER ENTITY→PRED→REL as a constant offset is NEGATIVE (cos<0) — the lattice
+is functor-KIND not arity-count. (3) PR ~3–4 inflated by a singular-value tail; per-axis
+var_frac is the honest concentration. Small rare-type counts (QUANT 12/CONN 6/REL 13).
+Value-register geometry only; causal test = 1b zone-ablation (OPEN).

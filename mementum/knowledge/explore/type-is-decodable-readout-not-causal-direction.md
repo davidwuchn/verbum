@@ -82,6 +82,25 @@ stack), null-gated — **confirming the montague-inversion decisive prediction**
 SMALL, low-rank not high-dim"). Same progressive-collapse shape as **C8**, in the type
 geometry. Scale strengthens it (0.6B: same arc, narrow L8–16; 32B: broad+robust).
 
+### The three primitive axes (1a-follow, DONE) — a Montague functor-lattice
+
+SVD component loadings of the standardized type centroids **inside the band** (Qwen3-32B,
+L40) resolve into **3 interpretable axes** (var 0.73 + 0.08 + 0.06 = 0.87):
+
+| axis | var | separates | Montague reading |
+|---|---|---|---|
+| **axis0** | 0.73 | QUANT +0.74, DET +0.42 vs pred/rel/conn/mod ~−0.24 | **quantification/binding** — the highest-order functor type, dominant |
+| **axis1** | 0.08 | CONN +0.57, FUNC +0.46 vs MOD −0.56, ENTITY −0.33 | **sentential operators** vs content-modifiers |
+| **axis2** | 0.06 | REL +0.71, PRED +0.24 vs MOD −0.57 | **predicate/relation** (verb core) vs modifier |
+
+**ENTITY (type `e`) sits at ~0 on the dominant axis (+0.01) = the neutral origin.** The axes
+measure **kinds of function-formation away from `e`**, with quantification (`<<e,t>,t>`, the
+highest type) as the principal axis. So the lattice is organized by **functor KIND, not
+arity count** — which is *why* the linear arity-ladder came back negative. Scale sharpens the
+resolution: 0.6B collapses to ~1 dominant functor axis (88% var); 32B resolves 3 graded axes.
+(Note `λ measure`: the participation-ratio PR ~3–4 is inflated by a small-singular-value tail;
+the honest concentration measure is the per-axis var_frac, which shows axis0 dominant.)
+
 ## Honest flags (`λ measure`, `λ yardstick`)
 
 - **Massive-activation confound:** RAW mid/late residual centroids collapse to PR≈1 (rogue-dim
@@ -90,15 +109,16 @@ geometry. Scale strengthens it (0.6B: same arc, narrow L8–16; 32B: broad+robus
 - **Arity ladder negative:** ENTITY→PRED→REL as a constant currying offset gives cos < 0
   (p ≫ 0.05). Low-rank but **NOT a linear arity axis** — the type algebra is not "add-an-
   argument = fixed vector."
-- The saved Gram is at the **lexical** best-sep layer (rough content{ENTITY/PRED/REL/MOD} vs
-  functional{DET/QUANT/CONN/FUNC} split); the ~3 axes **inside** the band are a follow-up.
+- Small labeled set (263 tokens; rare types QUANT 12 / CONN 6 / REL 13) → the rare-type axis
+  loadings carry variance; axis0 (QUANT/DET) is stable across the band (L8 and L40).
+- Simplified 8-way Montague scheme (not full recursive types); value-register geometry only.
 
 ## What it re-scopes — P-TYPE-1
 
 - **1a (value/geometry): DONE, positive.** Low-rank Montague-shaped lattice, null-gated, at
   scale. Value-register readout claim (not causal).
-- **1a-follow:** characterize the ~3 primitive axes **inside** the low-rank band (L24–L36) —
-  SVD component loadings per type; is there an `e`-axis / a function-formation axis?
+- **1a-follow: DONE** (above) — 3 functor-kind axes (quantification ≫ sentential-operators ≫
+  predicate-vs-modifier), `e` at the neutral origin. A Montague functor-lattice.
 - **1b (causal/crisp): OPEN, and must change register.** v4 already ran *direction* ablation
   → negative (correctly). The right probe is **A1-style ZONE/PHASE ablation** of the low-rank
   band: does knocking out L6–L48 categorically break type-licensing? Only that earns the
