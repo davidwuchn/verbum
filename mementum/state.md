@@ -99,8 +99,29 @@
 > mlp_transport). 4B→32B flip 3rd occurrence. ⚠ PENDING MICHAEL APPROVAL
 > (mementum): §Result-32B-P-TYPE-OV + memory
 > ov-passband-transmits-arguments-not-functors + this state block.
-> ▶▶ NEXT after approval: P-TYPE-PROB pre-reg (graded bank TE vs slot log-P
-> × entity-alignment — now sharpened by the passband result) ∨ queue below.
+> ▶▶ s288 CLOSE — CONVERGENCE HAMMOCK CAPTURED (Michael-approved):
+> knowledge/explore/geometry-holography-signals-convergence.md = companion/
+> bench-manual to Michael's THESIS DOC mementum/michael/holographic-llm.md
+> (the Holographic LLM — plates/beam/state; read BOTH). One primitive
+> (inner product), three registers (projection ∥ matched-filter ∥
+> reconstruction). Theorem-grade bridges: VanderLugt (matched filter ≡
+> hologram → passband ≡ hologram of substitutability), attention ≡
+> modern-Hopfield retrieval, RoPE ≡ literal phase (fringes across offset),
+> HRR/VSA (binding calculus w/ capacity laws), low-rank ≡ sparse spectrum.
+> REORGANIZES the arc: four-way location null = holography theorem (no
+> address in fringes; decodable-but-not-causal ≡ signature); lattice =
+> RECONSTRUCTION not just exhaust; P-TYPE-OV = arguments on the plate,
+> application = the diffraction; JOIN-TYPED = reconstruction failing for
+> uncued content; s267/s269 plate-damage already measured (weight register).
+> THREE PRE-REG CANDIDATES (unfrozen): P-HOLO-CAP (HRR capacity law, SNR ∝
+> √(D/k)), P-HOLO-FRAG (random head/layer-subset ablation → smooth-vs-cliff
+> SNR curve = cheapest decisive discriminator), P-HOLO-XTERM (superposed
+> operands → interference beats). Artifact implication: extraction =
+> re-recording not excision (coheres s149 computed-beam + s268 Bonsai).
+> ▶▶ COLD-START s289: (1) P-TYPE-PROB pre-reg (graded bank TE vs slot log-P
+> × entity-alignment — sharpened by the passband result) ∨ (2) P-HOLO-FRAG
+> pre-reg (cheapest holography discriminator) ∨ queue below — Michael picks.
+> Session-288 chat log → knowledge/chats/session-288.md (human saves).
 > ▶▶ NEXT: (1) P-TYPE-PROB + P-TYPE-OV pre-regs (types-are-compiled-
 > probabilities.md, unfrozen — the dsp substrate they wanted now exists;
 > P-TYPE-OV = what-computes-the-filter, the QK mirror through W_OV + MLP

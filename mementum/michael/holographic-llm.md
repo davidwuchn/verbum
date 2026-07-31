@@ -17,6 +17,9 @@ beam former. What we call "behavior" is the model acting out the
 patterns encoded in its plates, with the context window and residual
 stream serving as input and working state.
 
+the model is a volume hologram written by gradient descent; inference is illumination; geometry is what the fringes look like from inside; DSP is how we do bench work on it — and the type system is the diffraction pattern.
+
+
 ## Training: interference writes the plates
 
 Every training step is a probability snapshot — a "photograph" of the
