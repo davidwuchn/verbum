@@ -1,0 +1,61 @@
+
+========================================================================
+  Loading Qwen/Qwen3-4B
+========================================================================
+
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights:  12%|█▏        | 46/398 [00:00<00:00, 459.58it/s]Loading weights:  23%|██▎       | 93/398 [00:00<00:00, 461.52it/s]Loading weights:  37%|███▋      | 148/398 [00:00<00:00, 492.45it/s]Loading weights:  51%|█████     | 203/398 [00:00<00:00, 509.64it/s]Loading weights:  65%|██████▍   | 258/398 [00:00<00:00, 523.80it/s]Loading weights:  79%|███████▊  | 313/398 [00:00<00:00, 526.74it/s]Loading weights:  93%|█████████▎| 372/398 [00:00<00:00, 544.96it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 526.25it/s]
+  Loaded in 2.5s
+  Layers: 36  Heads: 32  KV heads: 8  d_model: 2560
+    sentence 1/56: The dog runs....
+    sentence 11/56: Alice runs....
+    sentence 21/56: The farmer finds the bird....
+    sentence 31/56: Some teacher laughs....
+    sentence 41/56: The old house stands....
+    sentence 51/56: The house is old....
+[ov] labeled=263 skipped=0 layers=20
+[ov] geom embed  PR=6.40 p=1.0
+[ov] geom L0     PR=6.15 p=0.96
+[ov] geom L2     PR=6.20 p=0.98
+[ov] geom L4     PR=6.38 p=1.0
+[ov] geom L6     PR=3.32 p=0.07
+[ov] geom L8     PR=3.51 p=0.03
+[ov] geom L10    PR=3.30 p=0.0
+[ov] geom L12    PR=3.32 p=0.02
+[ov] geom L14    PR=3.34 p=0.04
+[ov] geom L16    PR=3.29 p=0.0
+[ov] geom L18    PR=3.39 p=0.03
+[ov] geom L20    PR=3.68 p=0.0
+[ov] geom L22    PR=4.09 p=0.03
+[ov] geom L24    PR=4.74 p=0.03
+[ov] geom L26    PR=5.24 p=0.11
+[ov] geom L28    PR=5.64 p=0.26
+[ov] geom L30    PR=6.00 p=0.81
+[ov] geom L32    PR=6.14 p=0.94
+[ov] geom L34    PR=6.11 p=0.88
+[ov] geom L35    PR=3.80 p=0.05
+[ov] BAND (residual layers) = L8..L24 (9 probed layers)
+[ov]      embed ->blk L 0 ent_ov=2.099(p=0.000) bind_ov=1.762(p=0.000) rolenull_ov=1.413
+[ov]      L0    ->blk L 1 ent_ov=3.451(p=0.020) bind_ov=2.815(p=0.000) rolenull_ov=2.823
+[ov]      L2    ->blk L 3 ent_ov=1.208(p=0.060) bind_ov=0.252(p=1.000) rolenull_ov=1.459
+[ov]      L4    ->blk L 5 ent_ov=2.755(p=0.020) bind_ov=0.799(p=1.000) rolenull_ov=2.496
+[ov]      L6    ->blk L 7 ent_ov=0.157(p=0.380) bind_ov=0.333(p=0.960) rolenull_ov=0.682
+[ov] BAND L8    ->blk L 9 ent_ov=0.144(p=0.320) bind_ov=0.287(p=1.000) rolenull_ov=0.602
+[ov] BAND L10   ->blk L11 ent_ov=0.183(p=0.420) bind_ov=0.320(p=1.000) rolenull_ov=0.592
+[ov] BAND L12   ->blk L13 ent_ov=0.355(p=0.600) bind_ov=0.638(p=0.920) rolenull_ov=0.991
+[ov] BAND L14   ->blk L15 ent_ov=0.193(p=0.820) bind_ov=2.570(p=0.360) rolenull_ov=0.675
+[ov] BAND L16   ->blk L17 ent_ov=0.264(p=0.660) bind_ov=1.979(p=0.360) rolenull_ov=0.568
+[ov] BAND L18   ->blk L19 ent_ov=0.127(p=0.180) bind_ov=0.178(p=1.000) rolenull_ov=0.534
+[ov] BAND L20   ->blk L21 ent_ov=0.274(p=0.140) bind_ov=0.225(p=1.000) rolenull_ov=0.568
+[ov] BAND L22   ->blk L23 ent_ov=0.096(p=0.180) bind_ov=0.134(p=1.000) rolenull_ov=0.409
+[ov] BAND L24   ->blk L25 ent_ov=0.119(p=0.280) bind_ov=0.159(p=1.000) rolenull_ov=0.403
+[ov]      L26   ->blk L27 ent_ov=0.152(p=0.180) bind_ov=0.124(p=1.000) rolenull_ov=0.423
+[ov]      L28   ->blk L29 ent_ov=0.383(p=0.180) bind_ov=0.184(p=1.000) rolenull_ov=0.575
+[ov]      L30   ->blk L31 ent_ov=0.397(p=0.180) bind_ov=0.144(p=1.000) rolenull_ov=0.417
+[ov]      L32   ->blk L33 ent_ov=0.611(p=0.140) bind_ov=0.157(p=1.000) rolenull_ov=0.507
+[ov]      L34   ->blk L35 ent_ov=0.139(p=0.200) bind_ov=0.110(p=1.000) rolenull_ov=0.301
+[ov] BAND AGGREGATE: entity_ov rho=0.195 p=0.78 | bind_ov rho=0.721 p=0.76 | comp_ov rho=0.1846 p=1.0 | rolenull_ov rho=0.5936 p=0.9
+[ov] MLP row (advisory): entity rho=1.0734 p=0.06 | bind rho=1.0208 p=0.8
+[ov] VERDICT (advisory until pre-reg frozen): {'ov_transmitting': False, 'lattice_in_passband': False, 'p_entity_ov': 0.78, 'p_bind_ov': 0.76, 'p_comp_ov': 1.0, 'note': 'advisory until #p-type-ov pre-reg is frozen (Michael GO)'}
+[ov] wrote /Users/mwhitford/src/verbum/results/type-ov/qwen3-4b/ov_alignment.json

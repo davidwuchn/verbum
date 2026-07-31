@@ -165,6 +165,16 @@ def test_find_band_stride2_fallback_window_scales():
     assert band == [4, 6, 8, 10, 12, 14, 16]            # 10 +/- 3*stride
 
 
+def test_find_band_stride2_with_appended_tail_layer():
+    """FIX #2 (s288, caught live by the P-TYPE-OV 4B smoke): a stride-2 capture
+    with the final layer appended (diff 1 at the tail) must still infer
+    stride 2 and find the strided run — not collapse to min(diff)=1."""
+    pmap = {L: (0.01 if 8 <= L <= 24 else 0.5) for L in range(0, 36, 2)}
+    pmap[35] = 0.5                                       # appended tail layer
+    per = _pl(pmap)
+    assert find_band(per, 36) == [8, 10, 12, 14, 16, 18, 20, 22, 24]
+
+
 def test_find_band_p_zero_counts_and_none_is_insignificant():
     per = _pl({L: (0.0 if 5 <= L <= 9 else 0.9) for L in range(0, 16)})
     per[12]["p_lowrank"] = None                          # None -> 1.0 (v3 fix)

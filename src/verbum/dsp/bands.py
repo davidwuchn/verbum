@@ -32,7 +32,16 @@ def find_band(per_layer: dict[int, dict], n_layers: int,
         p = per_layer[L][p_key]
         return 1.0 if p is None else p
 
-    stride = int(min(np.diff(layers))) if len(layers) > 1 else 1
+    if len(layers) > 1:
+        # FIX #2 (s288, caught by the P-TYPE-OV 4B smoke): capture lists often
+        # append the final layer to a strided set (e.g. stride 2 + L_last),
+        # making min(diff)=1 collapse the inferred stride. Use the MODE of the
+        # diffs (ties -> smaller); stride-1 behavior identical.
+        diffs = np.diff(layers)
+        vals, counts = np.unique(diffs, return_counts=True)
+        stride = int(vals[counts.argmax()])
+    else:
+        stride = 1
 
     sig = [L for L in layers if pval(L) < alpha]
     best: list[int] = []

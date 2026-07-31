@@ -1,0 +1,1125 @@
+{
+  "experiment": "P-TYPE-OV",
+  "prereg": "mementum/knowledge/explore/types-are-compiled-probabilities.md#p-type-ov",
+  "model": "Qwen/Qwen3-4B",
+  "device": "mps",
+  "timestamp_utc": "2026-07-31T20:44:20.076626+00:00",
+  "git_sha": "ca38ac7174b9bee1520e15f5eb793ea89c8908e8",
+  "seed": 0,
+  "layer_stride": 2,
+  "n_null": 50,
+  "n_null_mlp": 50,
+  "n_null_profile": 50,
+  "n_null_geom": 100,
+  "n_layers": 36,
+  "head_dim": 128,
+  "n_heads_q": 32,
+  "n_heads_kv": 8,
+  "n_labeled": 263,
+  "type_order": [
+    "ENTITY",
+    "PRED",
+    "REL",
+    "QUANT",
+    "DET",
+    "MOD",
+    "CONN",
+    "FUNC"
+  ],
+  "conds": {
+    "bind": [
+      "QUANT",
+      "DET"
+    ],
+    "comp": [
+      "MOD"
+    ],
+    "rolenull": [
+      "CONN",
+      "FUNC"
+    ],
+    "entity": [
+      "ENTITY"
+    ]
+  },
+  "band_residual_layers": [
+    8,
+    10,
+    12,
+    14,
+    16,
+    18,
+    20,
+    22,
+    24
+  ],
+  "band_aggregate": {
+    "bind": {
+      "ov": {
+        "rho": 0.721,
+        "null_mean": 1.0397,
+        "null_std": 0.4605,
+        "p": 0.76
+      },
+      "mlp": {
+        "rho": 1.0208,
+        "null_mean": 1.0325,
+        "null_std": 0.0131,
+        "p": 0.8
+      }
+    },
+    "comp": {
+      "ov": {
+        "rho": 0.1846,
+        "null_mean": 0.2463,
+        "null_std": 0.1656,
+        "p": 1.0
+      },
+      "mlp": {
+        "rho": 1.0544,
+        "null_mean": 1.0577,
+        "null_std": 0.0099,
+        "p": 0.66
+      }
+    },
+    "rolenull": {
+      "ov": {
+        "rho": 0.5936,
+        "null_mean": 1.0912,
+        "null_std": 0.4782,
+        "p": 0.9
+      },
+      "mlp": {
+        "rho": 1.1026,
+        "null_mean": 1.0306,
+        "null_std": 0.014,
+        "p": 0.0
+      }
+    },
+    "entity": {
+      "ov": {
+        "rho": 0.195,
+        "null_mean": 0.3113,
+        "null_std": 0.3085,
+        "p": 0.78
+      },
+      "mlp": {
+        "rho": 1.0734,
+        "null_mean": 1.0581,
+        "null_std": 0.0103,
+        "p": 0.06
+      }
+    }
+  },
+  "verdict": {
+    "ov_transmitting": false,
+    "lattice_in_passband": false,
+    "p_entity_ov": 0.78,
+    "p_bind_ov": 0.76,
+    "p_comp_ov": 1.0,
+    "note": "advisory until #p-type-ov pre-reg is frozen (Michael GO)"
+  },
+  "per_layer": {
+    "-1": {
+      "block_layer": 0,
+      "in_band": false,
+      "n_null": 50,
+      "bind": {
+        "ov": {
+          "rho": 1.762,
+          "null_mean": 1.3009,
+          "null_std": 0.1007,
+          "p": 0.0
+        }
+      },
+      "comp": {
+        "ov": {
+          "rho": 2.0064,
+          "null_mean": 1.3441,
+          "null_std": 0.1598,
+          "p": 0.0
+        }
+      },
+      "rolenull": {
+        "ov": {
+          "rho": 1.4133,
+          "null_mean": 1.3244,
+          "null_std": 0.1053,
+          "p": 0.14
+        }
+      },
+      "entity": {
+        "ov": {
+          "rho": 2.0995,
+          "null_mean": 1.3156,
+          "null_std": 0.1506,
+          "p": 0.0
+        }
+      }
+    },
+    "0": {
+      "block_layer": 1,
+      "in_band": false,
+      "n_null": 50,
+      "bind": {
+        "ov": {
+          "rho": 2.8152,
+          "null_mean": 2.0359,
+          "null_std": 0.3379,
+          "p": 0.0
+        }
+      },
+      "comp": {
+        "ov": {
+          "rho": 3.4767,
+          "null_mean": 1.9497,
+          "null_std": 0.403,
+          "p": 0.0
+        }
+      },
+      "rolenull": {
+        "ov": {
+          "rho": 2.8229,
+          "null_mean": 2.0212,
+          "null_std": 0.3183,
+          "p": 0.04
+        }
+      },
+      "entity": {
+        "ov": {
+          "rho": 3.4507,
+          "null_mean": 1.8946,
+          "null_std": 0.4144,
+          "p": 0.02
+        }
+      }
+    },
+    "2": {
+      "block_layer": 3,
+      "in_band": false,
+      "n_null": 50,
+      "bind": {
+        "ov": {
+          "rho": 0.2523,
+          "null_mean": 0.8521,
+          "null_std": 0.1875,
+          "p": 1.0
+        }
+      },
+      "comp": {
+        "ov": {
+          "rho": 0.8346,
+          "null_mean": 0.6261,
+          "null_std": 0.361,
+          "p": 0.24
+        }
+      },
+      "rolenull": {
+        "ov": {
+          "rho": 1.4594,
+          "null_mean": 0.8438,
+          "null_std": 0.219,
+          "p": 0.0
+        }
+      },
+      "entity": {
+        "ov": {
+          "rho": 1.2079,
+          "null_mean": 0.6337,
+          "null_std": 0.4038,
+          "p": 0.06
+        }
+      }
+    },
+    "4": {
+      "block_layer": 5,
+      "in_band": false,
+      "n_null": 50,
+      "bind": {
+        "ov": {
+          "rho": 0.7993,
+          "null_mean": 1.4931,
+          "null_std": 0.3224,
+          "p": 1.0
+        }
+      },
+      "comp": {
+        "ov": {
+          "rho": 2.9475,
+          "null_mean": 1.6054,
+          "null_std": 0.6785,
+          "p": 0.06
+        }
+      },
+      "rolenull": {
+        "ov": {
+          "rho": 2.4962,
+          "null_mean": 1.5048,
+          "null_std": 0.3119,
+          "p": 0.02
+        }
+      },
+      "entity": {
+        "ov": {
+          "rho": 2.7551,
+          "null_mean": 1.4631,
+          "null_std": 0.4888,
+          "p": 0.02
+        }
+      }
+    },
+    "6": {
+      "block_layer": 7,
+      "in_band": false,
+      "n_null": 50,
+      "bind": {
+        "ov": {
+          "rho": 0.3332,
+          "null_mean": 0.4761,
+          "null_std": 0.0694,
+          "p": 0.96
+        }
+      },
+      "comp": {
+        "ov": {
+          "rho": 0.1561,
+          "null_mean": 0.1633,
+          "null_std": 0.031,
+          "p": 0.3
+        }
+      },
+      "rolenull": {
+        "ov": {
+          "rho": 0.6822,
+          "null_mean": 0.474,
+          "null_std": 0.077,
+          "p": 0.0
+        }
+      },
+      "entity": {
+        "ov": {
+          "rho": 0.1571,
+          "null_mean": 0.1703,
+          "null_std": 0.0494,
+          "p": 0.38
+        }
+      }
+    },
+    "8": {
+      "block_layer": 9,
+      "in_band": true,
+      "n_null": 50,
+      "bind": {
+        "ov": {
+          "rho": 0.2868,
+          "null_mean": 0.5105,
+          "null_std": 0.0657,
+          "p": 1.0
+        },
+        "mlp": {
+          "rho": 1.4115,
+          "null_mean": 1.4027,
+          "null_std": 0.0355,
+          "p": 0.38
+        }
+      },
+      "comp": {
+        "ov": {
+          "rho": 0.1383,
+          "null_mean": 0.1625,
+          "null_std": 0.0604,
+          "p": 0.74
+        },
+        "mlp": {
+          "rho": 1.8039,
+          "null_mean": 1.7866,
+          "null_std": 0.0535,
+          "p": 0.42
+        }
+      },
+      "rolenull": {
+        "ov": {
+          "rho": 0.6017,
+          "null_mean": 0.5349,
+          "null_std": 0.0746,
+          "p": 0.2
+        },
+        "mlp": {
+          "rho": 1.4157,
+          "null_mean": 1.4205,
+          "null_std": 0.0443,
+          "p": 0.54
+        }
+      },
+      "entity": {
+        "ov": {
+          "rho": 0.1445,
+          "null_mean": 0.1726,
+          "null_std": 0.1378,
+          "p": 0.32
+        },
+        "mlp": {
+          "rho": 1.8236,
+          "null_mean": 1.7795,
+          "null_std": 0.1118,
+          "p": 0.08
+        }
+      }
+    },
+    "10": {
+      "block_layer": 11,
+      "in_band": true,
+      "n_null": 50,
+      "bind": {
+        "ov": {
+          "rho": 0.32,
+          "null_mean": 0.5492,
+          "null_std": 0.0889,
+          "p": 1.0
+        },
+        "mlp": {
+          "rho": 1.1435,
+          "null_mean": 1.1264,
+          "null_std": 0.0323,
+          "p": 0.28
+        }
+      },
+      "comp": {
+        "ov": {
+          "rho": 0.1823,
+          "null_mean": 0.1886,
+          "null_std": 0.0242,
+          "p": 0.44
+        },
+        "mlp": {
+          "rho": 1.2586,
+          "null_mean": 1.2584,
+          "null_std": 0.0234,
+          "p": 0.56
+        }
+      },
+      "rolenull": {
+        "ov": {
+          "rho": 0.5922,
+          "null_mean": 0.5647,
+          "null_std": 0.0935,
+          "p": 0.42
+        },
+        "mlp": {
+          "rho": 1.1177,
+          "null_mean": 1.1307,
+          "null_std": 0.0268,
+          "p": 0.64
+        }
+      },
+      "entity": {
+        "ov": {
+          "rho": 0.1827,
+          "null_mean": 0.1834,
+          "null_std": 0.0035,
+          "p": 0.42
+        },
+        "mlp": {
+          "rho": 1.2723,
+          "null_mean": 1.2606,
+          "null_std": 0.015,
+          "p": 0.12
+        }
+      }
+    },
+    "12": {
+      "block_layer": 13,
+      "in_band": true,
+      "n_null": 50,
+      "bind": {
+        "ov": {
+          "rho": 0.6376,
+          "null_mean": 0.9986,
+          "null_std": 0.6343,
+          "p": 0.92
+        },
+        "mlp": {
+          "rho": 0.9893,
+          "null_mean": 0.9772,
+          "null_std": 0.0282,
+          "p": 0.38
+        }
+      },
+      "comp": {
+        "ov": {
+          "rho": 0.3532,
+          "null_mean": 0.3807,
+          "null_std": 0.1254,
+          "p": 0.6
+        },
+        "mlp": {
+          "rho": 0.952,
+          "null_mean": 0.9531,
+          "null_std": 0.0079,
+          "p": 0.58
+        }
+      },
+      "rolenull": {
+        "ov": {
+          "rho": 0.9906,
+          "null_mean": 0.9478,
+          "null_std": 0.4466,
+          "p": 0.24
+        },
+        "mlp": {
+          "rho": 1.071,
+          "null_mean": 0.9777,
+          "null_std": 0.0306,
+          "p": 0.0
+        }
+      },
+      "entity": {
+        "ov": {
+          "rho": 0.3555,
+          "null_mean": 0.4001,
+          "null_std": 0.1201,
+          "p": 0.6
+        },
+        "mlp": {
+          "rho": 0.9552,
+          "null_mean": 0.9544,
+          "null_std": 0.0201,
+          "p": 0.26
+        }
+      }
+    },
+    "14": {
+      "block_layer": 15,
+      "in_band": true,
+      "n_null": 50,
+      "bind": {
+        "ov": {
+          "rho": 2.5699,
+          "null_mean": 2.615,
+          "null_std": 1.9784,
+          "p": 0.36
+        },
+        "mlp": {
+          "rho": 0.8566,
+          "null_mean": 0.8421,
+          "null_std": 0.0286,
+          "p": 0.28
+        }
+      },
+      "comp": {
+        "ov": {
+          "rho": 0.2005,
+          "null_mean": 0.4209,
+          "null_std": 1.2919,
+          "p": 0.72
+        },
+        "mlp": {
+          "rho": 0.6929,
+          "null_mean": 0.6976,
+          "null_std": 0.0311,
+          "p": 0.6
+        }
+      },
+      "rolenull": {
+        "ov": {
+          "rho": 0.6752,
+          "null_mean": 2.1149,
+          "null_std": 1.8265,
+          "p": 0.88
+        },
+        "mlp": {
+          "rho": 0.8697,
+          "null_mean": 0.8453,
+          "null_std": 0.0251,
+          "p": 0.16
+        }
+      },
+      "entity": {
+        "ov": {
+          "rho": 0.193,
+          "null_mean": 0.273,
+          "null_std": 0.2179,
+          "p": 0.82
+        },
+        "mlp": {
+          "rho": 0.6956,
+          "null_mean": 0.701,
+          "null_std": 0.0472,
+          "p": 0.14
+        }
+      }
+    },
+    "16": {
+      "block_layer": 17,
+      "in_band": true,
+      "n_null": 50,
+      "bind": {
+        "ov": {
+          "rho": 1.9789,
+          "null_mean": 2.657,
+          "null_std": 3.1982,
+          "p": 0.36
+        },
+        "mlp": {
+          "rho": 0.8602,
+          "null_mean": 0.88,
+          "null_std": 0.0622,
+          "p": 0.7
+        }
+      },
+      "comp": {
+        "ov": {
+          "rho": 0.2512,
+          "null_mean": 0.4183,
+          "null_std": 0.569,
+          "p": 0.8
+        },
+        "mlp": {
+          "rho": 0.8228,
+          "null_mean": 0.8302,
+          "null_std": 0.0257,
+          "p": 0.76
+        }
+      },
+      "rolenull": {
+        "ov": {
+          "rho": 0.5683,
+          "null_mean": 3.6754,
+          "null_std": 3.2973,
+          "p": 0.88
+        },
+        "mlp": {
+          "rho": 0.9733,
+          "null_mean": 0.8676,
+          "null_std": 0.0549,
+          "p": 0.0
+        }
+      },
+      "entity": {
+        "ov": {
+          "rho": 0.2637,
+          "null_mean": 1.0854,
+          "null_std": 2.7495,
+          "p": 0.66
+        },
+        "mlp": {
+          "rho": 0.8248,
+          "null_mean": 0.8208,
+          "null_std": 0.0165,
+          "p": 0.5
+        }
+      }
+    },
+    "18": {
+      "block_layer": 19,
+      "in_band": true,
+      "n_null": 50,
+      "bind": {
+        "ov": {
+          "rho": 0.1785,
+          "null_mean": 0.451,
+          "null_std": 0.0751,
+          "p": 1.0
+        },
+        "mlp": {
+          "rho": 0.9775,
+          "null_mean": 1.0055,
+          "null_std": 0.0321,
+          "p": 0.8
+        }
+      },
+      "comp": {
+        "ov": {
+          "rho": 0.1176,
+          "null_mean": 0.1263,
+          "null_std": 0.0202,
+          "p": 0.66
+        },
+        "mlp": {
+          "rho": 0.9915,
+          "null_mean": 0.9945,
+          "null_std": 0.0204,
+          "p": 0.86
+        }
+      },
+      "rolenull": {
+        "ov": {
+          "rho": 0.5343,
+          "null_mean": 0.465,
+          "null_std": 0.0787,
+          "p": 0.2
+        },
+        "mlp": {
+          "rho": 1.2063,
+          "null_mean": 1.0007,
+          "null_std": 0.0358,
+          "p": 0.0
+        }
+      },
+      "entity": {
+        "ov": {
+          "rho": 0.1268,
+          "null_mean": 0.1534,
+          "null_std": 0.1413,
+          "p": 0.18
+        },
+        "mlp": {
+          "rho": 1.0107,
+          "null_mean": 0.9997,
+          "null_std": 0.0217,
+          "p": 0.06
+        }
+      }
+    },
+    "20": {
+      "block_layer": 21,
+      "in_band": true,
+      "n_null": 50,
+      "bind": {
+        "ov": {
+          "rho": 0.2249,
+          "null_mean": 0.5486,
+          "null_std": 0.0932,
+          "p": 1.0
+        },
+        "mlp": {
+          "rho": 0.994,
+          "null_mean": 1.0283,
+          "null_std": 0.0346,
+          "p": 0.84
+        }
+      },
+      "comp": {
+        "ov": {
+          "rho": 0.2618,
+          "null_mean": 0.2983,
+          "null_std": 0.1279,
+          "p": 0.88
+        },
+        "mlp": {
+          "rho": 1.0184,
+          "null_mean": 1.0277,
+          "null_std": 0.0359,
+          "p": 0.86
+        }
+      },
+      "rolenull": {
+        "ov": {
+          "rho": 0.5676,
+          "null_mean": 0.541,
+          "null_std": 0.1016,
+          "p": 0.46
+        },
+        "mlp": {
+          "rho": 1.1618,
+          "null_mean": 1.0206,
+          "null_std": 0.032,
+          "p": 0.0
+        }
+      },
+      "entity": {
+        "ov": {
+          "rho": 0.2736,
+          "null_mean": 0.2746,
+          "null_std": 0.0516,
+          "p": 0.14
+        },
+        "mlp": {
+          "rho": 1.0457,
+          "null_mean": 1.0264,
+          "null_std": 0.0178,
+          "p": 0.06
+        }
+      }
+    },
+    "22": {
+      "block_layer": 23,
+      "in_band": true,
+      "n_null": 50,
+      "bind": {
+        "ov": {
+          "rho": 0.1336,
+          "null_mean": 0.4873,
+          "null_std": 0.0768,
+          "p": 1.0
+        },
+        "mlp": {
+          "rho": 0.9269,
+          "null_mean": 1.0429,
+          "null_std": 0.0362,
+          "p": 1.0
+        }
+      },
+      "comp": {
+        "ov": {
+          "rho": 0.0807,
+          "null_mean": 0.1184,
+          "null_std": 0.1337,
+          "p": 0.84
+        },
+        "mlp": {
+          "rho": 1.0548,
+          "null_mean": 1.0683,
+          "null_std": 0.0419,
+          "p": 0.8
+        }
+      },
+      "rolenull": {
+        "ov": {
+          "rho": 0.4095,
+          "null_mean": 0.4612,
+          "null_std": 0.0826,
+          "p": 0.76
+        },
+        "mlp": {
+          "rho": 1.1218,
+          "null_mean": 1.0264,
+          "null_std": 0.044,
+          "p": 0.0
+        }
+      },
+      "entity": {
+        "ov": {
+          "rho": 0.0958,
+          "null_mean": 0.122,
+          "null_std": 0.1415,
+          "p": 0.18
+        },
+        "mlp": {
+          "rho": 1.1261,
+          "null_mean": 1.0671,
+          "null_std": 0.0328,
+          "p": 0.04
+        }
+      }
+    },
+    "24": {
+      "block_layer": 25,
+      "in_band": true,
+      "n_null": 50,
+      "bind": {
+        "ov": {
+          "rho": 0.1591,
+          "null_mean": 0.54,
+          "null_std": 0.0805,
+          "p": 1.0
+        },
+        "mlp": {
+          "rho": 1.0276,
+          "null_mean": 0.9877,
+          "null_std": 0.0316,
+          "p": 0.14
+        }
+      },
+      "comp": {
+        "ov": {
+          "rho": 0.0757,
+          "null_mean": 0.1028,
+          "null_std": 0.0699,
+          "p": 0.62
+        },
+        "mlp": {
+          "rho": 0.8947,
+          "null_mean": 0.903,
+          "null_std": 0.0131,
+          "p": 0.94
+        }
+      },
+      "rolenull": {
+        "ov": {
+          "rho": 0.4026,
+          "null_mean": 0.5162,
+          "null_std": 0.0758,
+          "p": 0.92
+        },
+        "mlp": {
+          "rho": 0.9861,
+          "null_mean": 0.9861,
+          "null_std": 0.0269,
+          "p": 0.48
+        }
+      },
+      "entity": {
+        "ov": {
+          "rho": 0.119,
+          "null_mean": 0.1374,
+          "null_std": 0.1508,
+          "p": 0.28
+        },
+        "mlp": {
+          "rho": 0.9068,
+          "null_mean": 0.9134,
+          "null_std": 0.0387,
+          "p": 0.32
+        }
+      }
+    },
+    "26": {
+      "block_layer": 27,
+      "in_band": false,
+      "n_null": 50,
+      "bind": {
+        "ov": {
+          "rho": 0.1243,
+          "null_mean": 0.4775,
+          "null_std": 0.0661,
+          "p": 1.0
+        }
+      },
+      "comp": {
+        "ov": {
+          "rho": 0.0397,
+          "null_mean": 0.1391,
+          "null_std": 0.2152,
+          "p": 0.46
+        }
+      },
+      "rolenull": {
+        "ov": {
+          "rho": 0.4228,
+          "null_mean": 0.4908,
+          "null_std": 0.0574,
+          "p": 0.88
+        }
+      },
+      "entity": {
+        "ov": {
+          "rho": 0.1523,
+          "null_mean": 0.1175,
+          "null_std": 0.1836,
+          "p": 0.18
+        }
+      }
+    },
+    "28": {
+      "block_layer": 29,
+      "in_band": false,
+      "n_null": 50,
+      "bind": {
+        "ov": {
+          "rho": 0.1836,
+          "null_mean": 0.8732,
+          "null_std": 0.1301,
+          "p": 1.0
+        }
+      },
+      "comp": {
+        "ov": {
+          "rho": 0.0633,
+          "null_mean": 0.3404,
+          "null_std": 0.4284,
+          "p": 0.64
+        }
+      },
+      "rolenull": {
+        "ov": {
+          "rho": 0.5747,
+          "null_mean": 0.8697,
+          "null_std": 0.126,
+          "p": 1.0
+        }
+      },
+      "entity": {
+        "ov": {
+          "rho": 0.3825,
+          "null_mean": 0.3304,
+          "null_std": 0.4539,
+          "p": 0.18
+        }
+      }
+    },
+    "30": {
+      "block_layer": 31,
+      "in_band": false,
+      "n_null": 50,
+      "bind": {
+        "ov": {
+          "rho": 0.1445,
+          "null_mean": 0.6457,
+          "null_std": 0.1156,
+          "p": 1.0
+        }
+      },
+      "comp": {
+        "ov": {
+          "rho": 0.0619,
+          "null_mean": 0.3166,
+          "null_std": 0.3402,
+          "p": 0.68
+        }
+      },
+      "rolenull": {
+        "ov": {
+          "rho": 0.4171,
+          "null_mean": 0.6925,
+          "null_std": 0.1551,
+          "p": 0.98
+        }
+      },
+      "entity": {
+        "ov": {
+          "rho": 0.3972,
+          "null_mean": 0.2285,
+          "null_std": 0.3345,
+          "p": 0.18
+        }
+      }
+    },
+    "32": {
+      "block_layer": 33,
+      "in_band": false,
+      "n_null": 50,
+      "bind": {
+        "ov": {
+          "rho": 0.157,
+          "null_mean": 0.8297,
+          "null_std": 0.1536,
+          "p": 1.0
+        }
+      },
+      "comp": {
+        "ov": {
+          "rho": 0.0972,
+          "null_mean": 0.3937,
+          "null_std": 0.4942,
+          "p": 0.6
+        }
+      },
+      "rolenull": {
+        "ov": {
+          "rho": 0.5074,
+          "null_mean": 0.8419,
+          "null_std": 0.1531,
+          "p": 1.0
+        }
+      },
+      "entity": {
+        "ov": {
+          "rho": 0.6112,
+          "null_mean": 0.3639,
+          "null_std": 0.466,
+          "p": 0.14
+        }
+      }
+    },
+    "34": {
+      "block_layer": 35,
+      "in_band": false,
+      "n_null": 50,
+      "bind": {
+        "ov": {
+          "rho": 0.1098,
+          "null_mean": 0.4245,
+          "null_std": 0.0641,
+          "p": 1.0
+        }
+      },
+      "comp": {
+        "ov": {
+          "rho": 0.0258,
+          "null_mean": 0.1834,
+          "null_std": 0.2426,
+          "p": 0.78
+        }
+      },
+      "rolenull": {
+        "ov": {
+          "rho": 0.3015,
+          "null_mean": 0.4302,
+          "null_std": 0.1007,
+          "p": 0.98
+        }
+      },
+      "entity": {
+        "ov": {
+          "rho": 0.1394,
+          "null_mean": 0.1415,
+          "null_std": 0.2028,
+          "p": 0.2
+        }
+      }
+    }
+  },
+  "geometry": {
+    "-1": {
+      "pr_real": 6.403,
+      "p_lowrank": 1.0
+    },
+    "0": {
+      "pr_real": 6.147,
+      "p_lowrank": 0.96
+    },
+    "2": {
+      "pr_real": 6.2,
+      "p_lowrank": 0.98
+    },
+    "4": {
+      "pr_real": 6.375,
+      "p_lowrank": 1.0
+    },
+    "6": {
+      "pr_real": 3.318,
+      "p_lowrank": 0.07
+    },
+    "8": {
+      "pr_real": 3.506,
+      "p_lowrank": 0.03
+    },
+    "10": {
+      "pr_real": 3.296,
+      "p_lowrank": 0.0
+    },
+    "12": {
+      "pr_real": 3.315,
+      "p_lowrank": 0.02
+    },
+    "14": {
+      "pr_real": 3.343,
+      "p_lowrank": 0.04
+    },
+    "16": {
+      "pr_real": 3.287,
+      "p_lowrank": 0.0
+    },
+    "18": {
+      "pr_real": 3.391,
+      "p_lowrank": 0.03
+    },
+    "20": {
+      "pr_real": 3.681,
+      "p_lowrank": 0.0
+    },
+    "22": {
+      "pr_real": 4.088,
+      "p_lowrank": 0.03
+    },
+    "24": {
+      "pr_real": 4.74,
+      "p_lowrank": 0.03
+    },
+    "26": {
+      "pr_real": 5.24,
+      "p_lowrank": 0.11
+    },
+    "28": {
+      "pr_real": 5.64,
+      "p_lowrank": 0.26
+    },
+    "30": {
+      "pr_real": 5.997,
+      "p_lowrank": 0.81
+    },
+    "32": {
+      "pr_real": 6.136,
+      "p_lowrank": 0.94
+    },
+    "34": {
+      "pr_real": 6.114,
+      "p_lowrank": 0.88
+    },
+    "35": {
+      "pr_real": 3.804,
+      "p_lowrank": 0.05
+    }
+  }
+}
