@@ -1,0 +1,26 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/707 [00:00<?, ?it/s]Loading weights: 100%|██████████| 707/707 [00:00<00:00, 25851.94it/s]
+[att-med] Qwen/Qwen3-32B L=9 lb=25 scale=2.0 dev=mps H=64 n_kv=8 hd=128 layers=64 reader=25..63
+[att-med] using 18 install-correct cells: ['Colosseum', 'Louvre', 'Parthenon', 'Kremlin', 'Sagrada Familia', 'Brandenburg Gate', 'Taj Mahal', 'Kaaba', 'Petronas Towers', 'Angkor Wat', 'Tiananmen', 'Burj Khalifa', 'Pyramids', 'Sphinx', 'Karnak', 'Table Mountain', 'Medina', 'Victoria Falls']
+[att-ffn] Colosseum        flip=1 route=mlp  attn=0.389 mlp=0.61 direct=0.001 recon_err=0.001 p_mlp=0.0 pk=59/61
+[att-ffn] Louvre           flip=1 route=mlp  attn=0.304 mlp=0.696 direct=0.0 recon_err=0.0 p_mlp=0.0 pk=51/61
+[att-ffn] Parthenon        flip=1 route=mlp  attn=0.243 mlp=0.757 direct=0.0 recon_err=0.0 p_mlp=0.0 pk=59/61
+[att-ffn] Kremlin          flip=1 route=mlp  attn=0.421 mlp=0.576 direct=0.003 recon_err=0.003 p_mlp=0.0 pk=59/43
+[att-ffn] Sagrada Familia  flip=1 route=attn attn=0.533 mlp=0.466 direct=0.0 recon_err=0.0 p_mlp=0.0 pk=52/51
+[att-ffn] Brandenburg Gate flip=1 route=mlp  attn=0.245 mlp=0.755 direct=0.0 recon_err=0.0 p_mlp=0.0 pk=53/1
+[att-ffn] Taj Mahal        flip=1 route=mlp  attn=0.484 mlp=0.515 direct=0.002 recon_err=0.002 p_mlp=0.0 pk=59/60
+[att-ffn] Kaaba            flip=0 route=mlp  attn=0.209 mlp=0.789 direct=0.002 recon_err=0.002 p_mlp=0.0 pk=59/60
+[att-ffn] Petronas Towers  flip=1 route=attn attn=0.596 mlp=0.399 direct=0.005 recon_err=0.005 p_mlp=0.01 pk=8/54
+[att-ffn] Angkor Wat       flip=1 route=attn attn=0.572 mlp=0.427 direct=0.001 recon_err=0.001 p_mlp=0.0 pk=21/60
+[att-ffn] Tiananmen        flip=1 route=mlp  attn=0.485 mlp=0.511 direct=0.003 recon_err=0.003 p_mlp=0.0 pk=59/60
+[att-ffn] Burj Khalifa     flip=1 route=mlp  attn=0.435 mlp=0.564 direct=0.001 recon_err=0.001 p_mlp=0.0 pk=53/61
+[att-ffn] Pyramids         flip=1 route=mlp  attn=0.357 mlp=0.642 direct=0.0 recon_err=0.0 p_mlp=0.0 pk=58/61
+[att-ffn] Sphinx           flip=1 route=mlp  attn=0.235 mlp=0.759 direct=0.005 recon_err=0.005 p_mlp=0.0 pk=52/58
+[att-ffn] Karnak           flip=1 route=mlp  attn=0.345 mlp=0.655 direct=0.0 recon_err=0.0 p_mlp=0.0 pk=58/61
+[att-ffn] Table Mountain   flip=0 route=mlp  attn=0.423 mlp=0.577 direct=0.001 recon_err=0.001 p_mlp=0.0 pk=57/59
+[att-ffn] Medina           flip=1 route=mlp  attn=0.413 mlp=0.58 direct=0.008 recon_err=0.008 p_mlp=0.155 pk=4/58
+[att-ffn] Victoria Falls   flip=1 route=attn attn=0.565 mlp=0.433 direct=0.002 recon_err=0.002 p_mlp=0.005 pk=59/59
+
+[att-med] AGG (flipped cells): aim=0.174 content=0.756 inter=0.07 content_dominant=True mean_p=0.006
+[att-ffn] ROUTE SPLIT: attn-dom=4 mlp-dom=12 mlp-cells=['Colosseum', 'Louvre', 'Parthenon', 'Kremlin', 'Brandenburg Gate', 'Taj Mahal', 'Tiananmen', 'Burj Khalifa', 'Pyramids', 'Sphinx', 'Karnak', 'Medina'] mean_recon_err=0.002
+[att-ffn] wrote results/type-att-ffn/qwen3-32b/att_ffn.json
