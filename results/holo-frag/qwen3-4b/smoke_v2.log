@@ -1,0 +1,42 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 29812.18it/s]
+[frag] Qwen/Qwen3-4B L_ref=9 scale=2.0 dev=mps n_layers=36 heads=32 hd=128 inter=9728
+[frag] valid landmarks (ceiling): 17/18
+[frag] band (find_band) = L21..L23 (3 layers)
+[frag] gate-0: SNR_0=6.004 SE=1.315 expressed=True
+
+── arm: HEADS (band, in-band) ──
+  [heads] f=0.10 SNR=5.708 LDI=0.05 p=1.0
+  [heads] f=0.20 SNR=5.524 LDI=0.15 p=0.9995
+  [heads] f=0.35 SNR=5.168 LDI=0.32 p=0.995
+  [heads] f=0.50 SNR=4.881 LDI=0.26 p=1.0
+  [heads] f=0.65 SNR=4.529 LDI=0.25 p=0.9995
+  [heads] f=0.80 SNR=4.315 LDI=0.32 p=0.9985
+  [heads] cliff_ratio=1.26 median_LDI=0.25 -> HOLOGRAPHIC/DELOCALIZED
+── arm: HEADS (out-of-band control, 3 layers [7, 14, 16]) ──
+  [heads_oob] f=0.10 SNR=6.106 LDI=0.04 p=1.0
+  [heads_oob] f=0.20 SNR=6.351 LDI=0.09 p=1.0
+  [heads_oob] f=0.35 SNR=6.410 LDI=0.05 p=1.0
+  [heads_oob] f=0.50 SNR=6.675 LDI=0.18 p=1.0
+  [heads_oob] f=0.65 SNR=6.943 LDI=0.09 p=1.0
+  [heads_oob] f=0.80 SNR=6.973 LDI=0.08 p=1.0
+  [heads_oob] cliff_ratio=nan median_LDI=0.09 -> HOLOGRAPHIC/DELOCALIZED
+
+── arm: MLP (band, in-band) ──
+  [mlp] f=0.10 SNR=5.897 LDI=0.03 p=1.0
+  [mlp] f=0.20 SNR=5.861 LDI=0.07 p=1.0
+  [mlp] f=0.35 SNR=5.604 LDI=0.06 p=1.0
+  [mlp] f=0.50 SNR=5.491 LDI=0.09 p=1.0
+  [mlp] f=0.65 SNR=5.468 LDI=0.10 p=1.0
+  [mlp] f=0.80 SNR=5.252 LDI=0.14 p=1.0
+  [mlp] cliff_ratio=nan median_LDI=0.08 -> HOLOGRAPHIC/DELOCALIZED
+── arm: MLP (out-of-band control, 3 layers [4, 14, 32]) ──
+  [mlp_oob] f=0.10 SNR=5.401 LDI=0.14 p=1.0
+  [mlp_oob] f=0.20 SNR=5.172 LDI=0.23 p=1.0
+  [mlp_oob] f=0.35 SNR=4.491 LDI=0.41 p=0.9825
+  [mlp_oob] f=0.50 SNR=4.164 LDI=0.39 p=0.9925
+  [mlp_oob] f=0.65 SNR=3.202 LDI=0.29 p=0.9985
+  [mlp_oob] f=0.80 SNR=2.923 LDI=0.40 p=0.99
+  [mlp_oob] cliff_ratio=1.87 median_LDI=0.34 -> HOLOGRAPHIC/DELOCALIZED
+
+[frag] wrote results/holo-frag/qwen3-4b/holo_frag.json

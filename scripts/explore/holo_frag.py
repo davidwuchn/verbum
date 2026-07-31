@@ -99,11 +99,18 @@ def ldi_at_f(per_probe_draws: np.ndarray, rng: np.random.Generator,
 
 
 def cliff_stat(f_grid: list[float], mean_curve: list[float],
-               snr0: float) -> dict:
+               snr0: float, material_frac: float = 0.15) -> dict:
     """G2: largest single-step drop / mean step on the mean SNR(f) curve.
 
     Prepend f=0 (clean SNR_0). Smooth monotone -> ratio ~= 1; a cliff (one
     dominant step) -> ratio >> 1. Sign-agnostic to overall level via steps.
+
+    FIX #1 (s289, caught by the 4B smoke): a curve that does NOT materially
+    degrade has no cliff to detect — max_step/mean_step divides near-zero
+    noise and reads a spurious cliff (MLP in-band: SNR 5.8->5.3, LDI~0.08,
+    the CLEANEST holographic arm, was mislabeled LOCALIZED). Gate G2 on a
+    material total drop (> material_frac * |SNR_0|); else cliff_ratio = NaN
+    (aggregate_verdict's isfinite check -> no cliff).
     """
     ys = [snr0, *mean_curve]
     steps = [ys[i] - ys[i + 1] for i in range(len(ys) - 1)]  # drops (may be <0)
@@ -111,9 +118,26 @@ def cliff_stat(f_grid: list[float], mean_curve: list[float],
     k = len(steps)
     mean_step = total / k if k else 0.0
     max_step = max(steps) if steps else 0.0
-    ratio = (max_step / mean_step) if mean_step > 1e-9 else float("nan")
+    material = bool(total > material_frac * abs(snr0)) if snr0 else False
+    ratio = (max_step / mean_step) if (material and mean_step > 1e-9) else float("nan")
     return {"cliff_ratio": float(ratio), "steps": [float(s) for s in steps],
-            "total_drop": float(total), "max_step": float(max_step)}
+            "total_drop": float(total), "max_step": float(max_step),
+            "material": material}
+
+
+def _json_safe(obj):
+    """Recursively map non-finite floats (NaN/inf) -> None so the artifact is
+    STRICT-valid JSON (λ result_format; Python's json writes bare `NaN`, which
+    strict parsers reject). cliff_ratio is legitimately NaN when a curve does
+    not materially degrade (FIX #1) — record it as null, not an invalid token.
+    """
+    if isinstance(obj, dict):
+        return {k: _json_safe(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_json_safe(v) for v in obj]
+    if isinstance(obj, float) and not np.isfinite(obj):
+        return None
+    return obj
 
 
 def aggregate_verdict(per_f: dict[float, dict], cliff: dict,
@@ -474,14 +498,21 @@ def run_model(args) -> int:
     for arm in arms:
         print(f"\n── arm: {arm.upper()} (band, in-band) ──")
         result["arms"][arm] = run_arm(arm, band, arm)
-        # out-of-band matched-fraction control (should barely move SNR)
+        # out-of-band control (matched LAYER COUNT — FIX #2, s289: ablating ALL
+        # out-of-band layers craters trivially b/c there are ~10x more of them;
+        # the fair control samples n_band random out-of-band layers).
         if args.control and out_band:
-            print(f"── arm: {arm.upper()} (out-of-band control) ──")
-            result["arms"][f"{arm}_oob"] = run_arm(arm, out_band, f"{arm}_oob")
+            n_ctrl = min(len(band), len(out_band))
+            ctrl_layers = sorted(int(li) for li in
+                                 rng.choice(out_band, n_ctrl, replace=False))
+            print(f"── arm: {arm.upper()} (out-of-band control, "
+                  f"{n_ctrl} layers {ctrl_layers}) ──")
+            result["arms"][f"{arm}_oob"] = run_arm(arm, ctrl_layers, f"{arm}_oob")
 
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
-    (out / "holo_frag.json").write_text(json.dumps(result, indent=2))
+    (out / "holo_frag.json").write_text(
+        json.dumps(_json_safe(result), indent=2, allow_nan=False))
     print(f"\n[frag] wrote {out}/holo_frag.json")
     if not gate0:
         print("[frag] ⚠ gate-0 FAILED — SNR_0 within noise; verdict INCONCLUSIVE")
