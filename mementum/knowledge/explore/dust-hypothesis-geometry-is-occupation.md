@@ -3,7 +3,8 @@ title: "The dust hypothesis — geometry is the occupation measure of the walk"
 status: designing
 category: explore
 tags: [dust, occupation-measure, crystal, gram, holography, graph, walk,
-       reduction-relation, universality, C2, P-DUST-1, s284]
+       reduction-relation, universality, C2, P-DUST-1, anti-block, halt-distance,
+       s284, s285]
 related:
   - types-are-the-well-formedness-of-reduction.md
   - map-and-swap-resident-lisp.md
@@ -238,6 +239,60 @@ above-frequency); halt pole confirmed directionally at KIBC; the full-basis
 halt statistic is open (distance vs probability). The C2-universality
 explanation (P3) survives every ensemble tried.
 
+## P-DUST-1c — pre-registration (FROZEN s285, before any walk-vs-geometry number)
+
+Resolves the 1b open question (halt **distance** vs **probability**) using the
+s285 expanded per-op halt states `whnf:X` (style-corrected, fire_formal span
+projected out; commit 6b521fb). The geometry side is committed and unblindable
+(same footing as P-DUST-1/1b); frozen here = ensemble, statistics, mapping,
+gates, sign. Michael-approved design, s285.
+
+**Ensemble.** Reuse the 1b **arm-B (Y-excluded)** healthy walk verbatim —
+`default_rng(1)`, sizes 3–9, N=100k, leaves {K,I,B,C,S,D,W,atom}, max_steps
+100, size_cap 20k. Deterministic; no new ensemble.
+
+**Statistics (frozen; `scripts/explore/dust_1c.py`, `--validate` PASS).**
+- `halt_distance_X` — mean steps from an X-fire to the terminating WHNF, over
+  terminating traces (the pre-named 1b candidate).
+- `halt_prob_X` — 1b `h` = P(next event is WHNF | X), recomputed for the
+  head-to-head.
+- `presence_PMI_XY` — add-one PMI, X,Y co-present in a trace (1b-comparable),
+  over all traces.
+- `co_absorption_PMI_XY` — add-one PMI over the final window (last 3 fired ops
+  before WHNF), terminating traces only.
+
+**Geometry (committed).** Style-corrected `cos(X, whnf:X)` [7], `pole→whnf:X`
+[7], `whnf:X × whnf:Y` block [21 off-diag], over ops {K,I,B,C,S,D,W}.
+
+**Sign map.** `cos(X, whnf:X)` is negative (opcode ⟂ its own halt, anti-podal);
+higher (less-negative) cos = closer to own halt = shorter distance → map to
+**−`halt_distance`** (monotone).
+
+**Gates.**
+- **G1 (PRIMARY):** spearman(`cos(X,whnf:X)`, −`halt_distance`) > 0 | exact 7!
+  (5040) label-perm null | pooled median + sign ≥ 8/10.
+- **G2 (discriminator):** per-model `ρ_distance` − `ρ_prob` (Δρ), pooled —
+  resolves distance-vs-prob if distance wins ≥ 8/10.
+- **G3a (co-absorption, primary):** spearman(`whnf` block off-diag,
+  `presence_PMI` off-diag) over 21 pairs | perm null | sign ≥ 8/10.
+- **G3b (co-absorption, robustness):** same with `co_absorption_PMI`
+  (final-window).
+- **G4 (pole):** spearman(`pole→whnf:X`, −`halt_distance`) > 0 | perm null |
+  sign ≥ 8/10.
+
+**Models.** All 10 **excluding qwen3-0-6b** (peeked pre-freeze = tainted →
+instrument-check tier).
+
+**Verdict: DUST-HALT-DISTANCE-SUPPORTED ⟺ G1 ∧ G3a ∧ G4.** G2 reports
+resolution; G3b robustness. Anything less → verbatim.
+
+**Honest scope.** Geometry long-known (unchanged caveat); the style-corrected
+block off-diag stays above the random-removal null only weakly in
+pythia-14m/160m (z ~+0.3/+0.6) — kept in per the design call, flagged as weak
+instruments; 7-op rank tests have min exact p = 1/5040 per model → cross-model
+pooling carries the inference; halt-distance and halt-prob coincide on KIBC
+(1b) — S/D/W placement is what discriminates.
+
 ## Sessions
 s284 (hypothesis captured from Michael's hammock — "probabilities gathering
 like dust in corners"; P-DUST-1 pre-reg drafted, mapping frozen before any walk
@@ -245,3 +300,13 @@ statistic computed; pre-run amendment: ensemble redefined to seeded random
 terms + 8-rule tracing reducer after lattice/ turned out to hold prose probes;
 P-DUST-1 RUN: split verdict — P2/P3 confirmed 13/13, P1 inverted (Y-flooding +
 statistic mismatch flagged); P-TYPE-JS running concurrently).
+
+s285 (expanded-gram sweep completed, 11 models, all coherence gates pass;
+style-corrected the WHNF anti-block — fire_formal rank-1 style span projected
+out, per-op cos(X,whnf:X) strongly negative with K least-negative = own-halt
+hint replicated 11/11, div:Y ⊥ absorption; M16 cross-check — anti-crystal
+ORDERING replicates cross-arc 11/11 (C1) but the Kronecker φ-reflection and
+φ^(4/5) eigenvalue law do NOT survive fresh measurement (λ yardstick); commit
+6b521fb. P-DUST-1c FROZEN — halt-distance primary, all 5 design calls
+Michael-approved; instrument `scripts/explore/dust_1c.py` built + --validate
+PASS; run pending).
