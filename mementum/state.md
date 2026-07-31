@@ -8,11 +8,47 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-31 | Session: 287 | P-ATT-FFN 32B verdict IN = MIXED-ROUTE
-> (atoms=FFN + joins=attention BOTH measured; null-misses split). Inductive hammock →
-> P-TYPE-SWAP (ill-typed term) approved+built+4B-green (JOIN-TYPED advisory,
-> filtered-payload). **32B P-TYPE-SWAP verdict RUN IN FLIGHT** (tmux main:1, Michael
-> GO, --cells-from pinned) — read it first next session.
+> Last updated: 2026-07-31 | Session: 288 | **P-TYPE-SWAP 32B VERDICT IN =
+> JOIN-TYPED** (manifold-membership refuted; filtered payload; FFN route enforces
+> the same discipline). The types arc has its causal leg + measured stage (the
+> join). Mementum batch drafted s288, PENDING MICHAEL APPROVAL. Next queue:
+> verbum.dsp build → P-DUST-2 → P-HOF-1 pre-reg → s282 leftovers.
+
+> ▶▶ s288 LIVE — P-TYPE-SWAP 32B VERDICT SCORED (run completed s287→s288 boundary,
+> ~1h03m, results committed 539ddbf): **JOIN-TYPED = TRUE** per frozen §P-TYPE-SWAP
+> gates. P1 PASSES both banks: TE(same)=3.61 vs wtA 2.66 / wtB 2.87 (paired
+> sign-flip perm over 18 pinned cells, p=2e-5/1e-5); ill-typed TE sits at its own
+> random-add null (0–1/18 beat null) while same beats null 17/18 transport;
+> slot-mass secondary discriminates (p .002/.009) but |Δ|<0.006 everywhere =
+> FILTERED PAYLOAD (edges never withdraw, refusal is content-side — 4B form
+> replicates at verdict host). BREAK: same +4.86 (18/18 p<.05) vs ill-typed ≈ null,
+> preds-stay-src 15–17/18. MANIFOLD (deflationary) refuted decisively — the
+> wrong-type-on-manifold cell is filled and typing wins; the s287 induction's
+> causal leg holds. VERBATIM findings: (1) survival NOT flat @32B (same +11%, perm
+> p≤.002) — "medium type-blind" is 4B-scoped, TE normalization carries the gate;
+> (2) sortal ladder NOT monotone (sortal 2.80 inside ill-typed band, refused as
+> fully as syntactic violations → discipline is domain/sortal-granular; 4B graded
+> hint scale-local); (3) mlp_transport row: same 3430 vs ill-typed 1808–2074
+> (p=1e-5 all arms) = the FFN route enforces the SAME discipline — the P-ATT-FFN
+> successor question ANSWERED (one discipline, both routes, coheres MIXED-ROUTE);
+> (4) route decomp on pinned cells 16/18 mlp-dom, mlp_frac 0.627 (vs 0.584
+> salted-hash run — target-set sensitivity, reading unchanged). Open implementation
+> question stands: WHAT computes the filter (four-way location null intact) — the
+> discipline acts at the join but is not stored in any probed geometry.
+> ⚠ PENDING MICHAEL APPROVAL (mementum batch, drafted s288): qk page
+> §Result-32B-P-TYPE-SWAP + §P-TYPE-SWAP header + Sessions s288 entry, memory
+> types-mechanism-is-join-typed, this state block. Results already committed
+> (autonomous, 539ddbf).
+> ▶▶ NEXT (post-approval queue, unchanged from s287): (1) verbum.dsp build (design
+> 2b40033 — skeleton + first harvest: whiten/subspace/nulls, tests/dsp from
+> --validate patterns, find_band stride-aware fix #1). (2) P-DUST-2
+> (training-trajectory convergence = halt-pole formation law). (3) P-HOF-1 pre-reg
+> (typed higher-order fns over an installed predicate — theory page §Consequence;
+> NOTE: JOIN-TYPED strengthens its premise — the join filters by type, so a
+> quantifier-over-installed-predicate has a measured licensing substrate).
+> (4) s282 leftovers: depth→SEQUENCING @27B, mammal→fur. (5) pre-reg candidates
+> parked: what-computes-the-filter (QK negative says not lattice-axes read-in;
+> P-ATT-STEER still gated, needs aim-dominant). Branch ~70 ahead (unpushed).
 
 > ▶▶ s287 LIVE — INDUCTIVE HAMMOCK → P-TYPE-SWAP ✅ APPROVED (Michael,
 > type-check-is-the-qk-bilinear.md §P-TYPE-SWAP; 4B smoke leads, 32B verdict on GO): Michael's induction = types-mechanism

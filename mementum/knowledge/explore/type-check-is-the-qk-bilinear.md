@@ -676,7 +676,7 @@ pre-registered): does the MLP route enforce the same type discipline as the
 attention route? — exactly P-TYPE-SWAP's `mlp_transport` arm row, already in
 flight at 4B (§P-TYPE-SWAP).
 
-## P-TYPE-SWAP — the ill-typed term (PRE-REG, APPROVED s287, Michael; FROZEN on GO s287 — 32B verdict IN FLIGHT)
+## P-TYPE-SWAP — the ill-typed term (PRE-REG, APPROVED s287, Michael; FROZEN on GO s287 — VERDICT IN s288: JOIN-TYPED, see §Result-32B-P-TYPE-SWAP)
 
 > **The generating induction (s287, Michael).** For most of our positive experiments
 > to show what they show, the system must have types of some sort — v3 nonce
@@ -796,6 +796,72 @@ image" presumes the fact-map is country-keyed; if P-ATT-FFN's 32B verdict lands
 FFN-RETRIEVAL or MIXED, its route split refines this arm's reading. (e) n=18 cells;
 per-cell splits are low power — aggregate gates only.
 
+### Result-32B-P-TYPE-SWAP (verdict host, s288 — frozen gates scored)
+
+**VERDICT: JOIN-TYPED = TRUE.** P1 passes both banks; P2 refuted (transport is
+NOT type-blind); the deflationary MANIFOLD outcome refuted decisively. The
+wrong-type-on-manifold cell is filled and manifold-membership loses: on-manifold,
+matched-norm, ill-typed content is transported at random-noise efficiency and
+ignored at the output, while the same-type displacement transports and reduces.
+The type discipline now has a measured **stage** (the join) and a measured
+**register** (unprojected transport) — the causal leg of the s287 induction holds.
+
+Run: Qwen3-32B, ~1h03m MPS, tmux main:1, `--arms --route-decomp`, install L9,
+swap L25, scale 2.0, 18 cells pinned via `--cells-from` (P-ATT-MED run of record,
+1:1 cell mapping — the s287 deviation fix), n_null 200. Results
+`results/type-swap/qwen3-32b/` (committed 539ddbf). Instrument gates: same-type
+arm replicates 3b in-run 18/18 flip (preds-stay-src 0/18), mean recon_err 0.002.
+Arm-vs-arm stats = paired sign-flip permutation over the 18 cells (100k iters,
+seed 1), computed post-hoc from the per-cell arrays per the frozen design.
+
+**P1 (primary gate) — PASSES both banks.** TE (unprojected, survival-normalized):
+same 3.614 vs wrongtype_a 2.660 (Δ+0.954, p=2e-5) and wrongtype_b 2.866
+(Δ+0.748, p=1e-5). The ill-typed arms sit at their own random-add null
+(p_te<0.05 in 1/18 and 0/18 cells; raw transport beats null only 4/18 each) while
+same beats null on transport 17/18. Slot-mass secondary ALSO discriminates
+(Δ+0.0048 p=0.002 bank A; Δ+0.0038 p=0.009 bank B) but magnitudes are ≈0
+everywhere (all |Δ|<0.006): the reader never withdraws the edge — refusal is
+content-side, the **filtered-payload** form, replicating the 4B advisory at the
+verdict host. Fixed edges, filtered payload: the OV/content channel delivers
+well-typed displacement preferentially.
+
+**Reduction register (verbatim; P2 not engaged since transport discriminates).**
+BREAK: same +4.86 (p_break<0.05 in 18/18 cells) vs sortal +0.30 / wtA +0.40 /
+wtB +0.75, all ≈ null (0–2/18), arm-vs-arm p≤2e-5. preds-stay-src: same 0/18,
+ill-typed 15–17/18. Every stage downstream of the join confirms the filtering.
+
+**⚠ 32B deviation from 4B (verbatim): SURVIVAL is not flat.** same 369.7 vs
+ill-typed 324.8–332.8 (perm p 0.0003–0.002) — the medium passes same-type ~11%
+stronger at 32B where 4B was flat. The TE gate is survival-normalized by
+construction, so join discrimination holds beyond the medium difference; but
+"medium is type-blind" is 4B-scoped, not scale-general.
+
+**P3 sortal ladder (verbatim, ungated): the 4B monotone hint does NOT replicate.**
+sortal TE 2.804 sits INSIDE the ill-typed band (wtB 2.866 > sortal); sortal BREAK
++0.30 ≈ null, preds-stay-src 17/18. At the verdict host the join refuses a
+sortal violation (entity-typed, wrong domain) as fully as a syntactic-type
+violation — the discipline is domain/sortal-granular, not merely
+syntactic-class. The 4B "graded hierarchy" was scale-local.
+
+**mlp_transport row (the P-ATT-FFN successor question): the FFN route enforces
+the SAME discipline.** mlp_transport same 3430 vs sortal 2074 / wtA 1808 /
+wtB 1954, arm-vs-arm p=1e-5 all three. Type-filtering is route-general: both the
+attention join and the MLP fact-map channel deliver well-typed payload
+preferentially — coheres with MIXED-ROUTE (atoms=FFN + joins=attention on one
+handle, one discipline).
+
+Route decomp on the pinned cells (verbatim): 16/18 mlp-dominant (attn: Angkor
+Wat, Table Mountain), mean mlp_frac 0.627 — slightly more MLP-leaning than the
+salted-hash P-ATT-FFN run (0.584), consistent with target-set sensitivity;
+mixed-route reading unchanged.
+
+**Reading.** Four location probes (1b/1c/QK/JS) found no stored/consulted type
+object; P-TYPE-SWAP finds the discipline ACTING — at the join, on the payload,
+in both routes, at sortal granularity. Type = which reductions are licensed,
+measured causally: the well-formedness frame now has its causal leg and its
+stage. What remains un-located is the implementation (what computes the filter),
+not the existence or the site of action.
+
 ## Sessions
 s283b (page created from the attention-gap hammock; no experiments run;
 1c dark-field run in flight during discussion).
@@ -862,3 +928,12 @@ hash(lm) → 16/18 tgt countries differ from the P-ATT-MED run of record; 2 cell
 no-flip under harder targets; --cells-from (built s287) pins cells henceforth.
 §Result-32B drafted; successor question = does the MLP route enforce the same
 type discipline → P-TYPE-SWAP mlp_transport row.)
+s288 (P-TYPE-SWAP 32B VERDICT IN, ~1h03m, pinned cells: **JOIN-TYPED** — TE
+discriminates same vs BOTH wrong-type banks (Δ+0.95/+0.75, perm-over-cells
+p≤2e-5) with ill-typed TE at its own random null; slot-mass Δ≈0 (edges never
+withdraw — filtered payload, 4B form replicated); BREAK same +4.86 vs ill-typed
+≈ null; MANIFOLD refuted. Verbatim: survival NOT flat at 32B (same +11%, medium
+type-blindness is 4B-scoped); sortal ladder NOT monotone (sortal inside the
+ill-typed band — discipline is domain-granular); mlp_transport discriminates
+p=1e-5 → the FFN route enforces the same discipline (P-ATT-FFN successor
+question answered: one discipline, both routes). §Result-32B-P-TYPE-SWAP.)
