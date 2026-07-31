@@ -490,6 +490,128 @@ measurement: the 3-hop swap is a term relocation the routing then reduces. It do
 NOT resurrect the QK-bilinear-as-lattice reading (QK stays negative) — it says the
 mediation is real and content-carried, wherever in routing the check itself lives.
 
+## P-ATT-FFN — retrieval vs composition (PRE-REG, APPROVED+FROZEN s286, Michael; 4B smoke leads, 32B verdict on GO)
+
+> Michael's read of the two P-ATT-MED null-misses (s286): they are not weak cells,
+> they are a **second route — FFN fact-lookup, not attention composition**. This
+> pre-reg tests it. Grounded in the FFN-as-key-value-memory literature (Geva;
+> ROME/MEMIT) AND our own frame: the s276 **database frame** (operand = value-register
+> row) and the FFN-bake arc (operand installs as a single appended MLP neuron). Under
+> map-and-swap: **atoms/facts = FFN value-rows, joins/composition = attention**; the
+> 3-hop chain should be caught doing **both**. Predictions, nulls, verdict fixed here
+> before any graded run (`λ measure` + `λ yardstick`).
+
+**The gap in P-ATT-MED.** It decomposed only the ATTENTION path (AIM vs CONTENT) and
+scored the attention contribution against the null. It never measured the **MLP
+contribution** or what fraction of the *total* flip attention carries. So "the
+null-misses are FFN retrieval" is currently unfalsified: a tiny attention
+contribution is consistent with MLP-retrieval OR with a simply-weak effect. To claim
+retrieval we must show the **MLP carries the flip** where attention does not.
+
+**Hypothesis.** The 3-hop chain is computed by a MIX of routes. For most cells the
+swap's effect is transported by attention (P-ATT-MED, content-dominant). For a
+minority — the P-ATT-MED attention-null-misses (Sphinx, Petronas) — the last hop
+(country→continent) is an **FFN fact-lookup**: the swapped country content is mapped
+to its continent by an MLP, and that MLP output carries the flip while attention does
+not. These cells also **skip the bridge-sequencing** that composition cells need.
+
+**Instrument.** Extend `scripts/explore/att_mediation.py` (`λ one_way`, additive —
+existing P-ATT-MED fields byte-identical, new work behind `--route-decomp`). Full
+residual-stream **direct logit attribution** of the swap's *total* effect on the
+continent-logit-diff direction w:
+1. Total: `Δℓ_total = logit_diff(swap) − logit_diff(baseline)` at the readout (ground
+   truth to reconstruct against).
+2. Per reader layer L: **attention** channel (existing aim+content+inter, via v/weights
+   + o_proj) AND **MLP** channel `Δmlp_out_L · w` (hook `dec[L].mlp` output, baseline
+   vs swap). Direct/embed = `Δℓ_total − Σ_L(attn_L + mlp_L)` (reconstruction residual;
+   should be small — a completeness check).
+3. Per cell: fractions attn / mlp / direct of `|Δℓ_total|`; route = argmax(attn, mlp).
+4. **Depth-order signature (secondary, reuse `operand_multihop3.lens_order`).** Per
+   cell, logit-lens peak layers for the country and continent tokens. Composition ⟺
+   country resolves before continent (bridge sequencing); retrieval ⟺ continent
+   resolves early / without country-bridge dependence.
+
+**Nulls (mandatory).** The matched-norm random-add at `L_b` (the exact 3b null):
+predict ~0 on attn AND mlp AND total projected on w. p = frac(|null| ≥ |real|),
+N≥200. Reconstruction check: `Σ channels ≈ Δℓ_total` (|residual|/|total| small) —
+a decomposition-completeness gate, not a hypothesis gate.
+
+**Predictions (fixed, a priori).**
+- **P1 (primary — route dissociation).** The two P-ATT-MED attention-null-misses
+  (Sphinx, Petronas) are **MLP-dominant** (mlp_frac > attn_frac) with the MLP channel
+  beating the null (p<0.05), while the P-ATT-MED attention-significant cells are
+  **attention-dominant**. A per-cell route split, not a global mean.
+- **P2 (depth-order corroboration, verbatim + gated-with-P1).** The MLP-dominant
+  cells resolve the continent **without** country<continent bridge-sequencing
+  (retrieval signature); the attention-dominant cells show the sequencing.
+- **P3 (verbatim, NOT gated).** The MLP contribution's layer profile — where the
+  country→continent fact-map fires (mid-stack MLP per the ROME/FFN prior vs the late
+  readout zone). Reported, not gated.
+
+**Verdict (freeze on GO).**
+- **FFN-RETRIEVAL-CONFIRMED** ⟺ P1 (Sphinx AND Petronas MLP-dominant + MLP beats null)
+  AND the attention-null-misses are exactly the MLP-dominant set (dissociation clean).
+- **MIXED-ROUTE-MEASURED** (weaker, still positive) ⟺ some cells attention-dominant
+  AND some MLP-dominant with both channels null-beating — the 3-hop provably uses both
+  routes, even if the specific 2 cells don't split as predicted.
+- Negative (the null-misses are MLP-negligible too — the flip is direct-residual or
+  just weak) → retrieval NOT supported; the null-misses are magnitude after all, as
+  P-ATT-MED reported them. No post-hoc route reassignment.
+
+**Registers (`λ measure`).** CLAIM = facts are FFN-resident, composition is attention
+→ probe = residual-stream DLA over attn vs MLP = register-matched for BOTH channels;
+the total-reconstruction gate proves the decomposition is complete (no hidden path).
+No causal intervention (that would be an MLP knockout — a later rung); this is the
+attribution leg. Distributed: aggregate over the MLP's contribution, no single-neuron
+claim (the FFN-bake installed ONE neuron, but that is an *installed* atom, not a claim
+that native facts are single-neuron).
+
+**Host & order.** Reuse the P-ATT-MED cells/config verbatim (Qwen3-32B, install L9,
+swap L25, scale 2.0, 18 cells, n_null 200) so the route split maps 1:1 onto the
+P-ATT-MED verdict cells. **4B contrast smoke first** (per the P-ATT-MED amendment):
+does the route dissociation appear at 4B, where composition is compressed? Results →
+`results/type-att-ffn/qwen3-{4b,32b}/`.
+
+**Honest scope.** (a) DLA is first-order (RMSNorm scale approximation); attn-vs-MLP
+attribution says *where the continent-aligned output is produced*, not a traced
+circuit. (b) Retrieval vs composition is a **route** characterization; "fact-lookup"
+is the FFN-memory reading, not proof of a specific stored key. (c) n=2 predicted
+retrieval cells is low power for P1's cleanliness — MIXED-ROUTE-MEASURED is the robust
+fallback. (d) A causal MLP-knockout (does removing the MLP path kill the flip only for
+retrieval cells?) is the stronger test, deferred. (e) hook-not-weight; a RUNG in the
+map-and-swap decomposition (atoms=FFN, joins=attention), not the compiler claim.
+
+## P-ATT-FFN — instrument note + Result @4B (s286 contrast smoke; NOT the verdict)
+
+**Instrument bug found + fixed by the smoke (`λ measure`, smoke-surfaced → fix
+pre-run).** The first two smokes had `recon_err ≈ 1.8` (attn+MLP did not reconstruct
+the total). Cause: `hidden_states[-1]` is the **post-final-norm** state, not the raw
+final residual (verified: `‖hs[-1] − rmsnorm(raw_final)‖/‖·‖ = 0.003`; per-layer
+residual identity holds <0.6% for L0–L34, breaks only at the last entry). Fix: capture
+the true pre-norm final residual as the **input to `norm_f`** (forward-pre-hook). After
+the fix `recon_err = 0.001` — attn+MLP+direct reconstruct the total exactly, direct ≈ 0
+(the swap at the nonce slot reaches the readout only via attention/MLP, never direct).
+**This does NOT affect the P-ATT-MED verdict or the route split:** those are *ratios*
+of projections onto the same `w` (scale-invariant to the wrong RMS); only the
+absolute total / reconstruction were wrong.
+
+**4B smoke (route-decomp, install L9, swap L20, reader L20–35, 18 cells, n_null 30):**
+- **Reconstruction clean** (mean recon_err 0.0012) and **MLP channel real + null-beating**
+  (p_mlp<0.05 in 13/14 flipped cells). The FFN carries a genuine, significant share of
+  the country→continent flip — the FFN-fact frame has legs.
+- **Route split = MIXED, MLP-leaning:** 11/14 cells MLP-dominant (mean mlp_frac 0.586),
+  3/14 attention-dominant. At 4B the fact-map is FFN-heavy for most cells.
+- **Tension with the clean P1 (verbatim, for the 32B verdict):** the 3 attention-dominant
+  cells are Petronas, Sphinx, Victoria Falls — i.e. the two 32B P-ATT-MED null-misses
+  (Sphinx, Petronas) are attention-dominant *here*, weak-MLP (p_mlp 0.033/0.067), the
+  OPPOSITE of the P1 prediction. 4B is contrast (compressed schedule, different cells
+  from the 32B verdict host), so this does not decide P1 — but it flags that
+  **MIXED-ROUTE-MEASURED is the more likely 32B outcome than a clean FFN-RETRIEVAL
+  dissociation.** Reported now; the 32B verdict scores the frozen gates.
+
+Results `results/type-att-ffn/qwen3-4b/`. Verdict host = Qwen3-32B on GO (reuse the
+P-ATT-MED cells/config verbatim so the route split maps 1:1 onto its verdict cells).
+
 ## Sessions
 s283b (page created from the attention-gap hammock; no experiments run;
 1c dark-field run in flight during discussion).
@@ -515,3 +637,11 @@ AIM-STEERING NOT indicated → P-ATT-STEER stays gated. First POSITIVE
 routing-register observation in the types arc; the s282 steering-by-content gap is
 measured. §Result-32B; the two null-misses are tiny-magnitude cells; localization
 late L49–63. Memory SKIPPED by Michael — follow-ups will sharpen a better one).
+s286 cont (Michael's read: the null-misses are FFN fact-lookup, not weak composition
+→ P-ATT-FFN pre-reg APPROVED+FROZEN. Instrument extended `--route-decomp` (attn vs
+MLP vs direct DLA + total reconstruction + depth-order). 4B smoke SURFACED + FIXED a
+reconstruction bug — `hidden_states[-1]` is post-final-norm; capture the pre-norm final
+residual via a `norm_f` pre-hook (recon_err 1.8→0.001; P-ATT-MED ratios unaffected).
+4B route split MIXED, MLP-leaning (11/14 MLP-dominant, MLP null-beating 13/14 — FFN
+carries the fact-map), but the two 32B null-misses are attention-dominant at 4B →
+MIXED-ROUTE the likely 32B outcome. Verdict host 32B on GO).

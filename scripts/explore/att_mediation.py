@@ -149,6 +149,23 @@ def validate() -> int:
     )
     ok &= abs(m) / s < 0.2  # centered on zero relative to spread
 
+    # ROUTE decomposition (P-ATT-FFN): MLP projection + reconstruction + route argmax
+    hidden = H * hd
+    wv = rng.standard_normal(hidden)
+    L_att = 5
+    mlp_b = rng.standard_normal((L_att, hidden))
+    mlp_s = mlp_b + 0.7 * rng.standard_normal((L_att, hidden))
+    mlp_p = float(sum((mlp_s[i] - mlp_b[i]) @ wv for i in range(L_att)))
+    attn_p, direct_true = 1.3, -0.4
+    total_p = attn_p + mlp_p + direct_true
+    direct_p = total_p - attn_p - mlp_p  # reconstruction
+    route_pick = "mlp" if abs(mlp_p) > abs(attn_p) else "attn"
+    print(
+        f"[validate] route recon : total={total_p:.4f} attn={attn_p} "
+        f"mlp={mlp_p:.4f} direct={direct_p:.4f} (true {direct_true}) route={route_pick}"
+    )
+    ok &= abs(direct_p - direct_true) < 1e-9
+
     print(f"[validate] {'ALL PASS' if ok else 'FAIL'}")
     return 0 if ok else 1
 
@@ -168,6 +185,7 @@ def run(args) -> None:
     L = args.ref_layer
     S = args.scale
     lb = args.swap_layer
+    route = args.route_decomp
 
     tok = AutoTokenizer.from_pretrained(args.model_id)
     model = (
@@ -194,6 +212,7 @@ def run(args) -> None:
     )
 
     cont_ids = {c: mh3.first_tid(tok, c) for c in mh3.CONTINENTS}
+    country_ids = {c: mh3.first_tid(tok, c) for c in mh3.COUNTRIES}
     nonce_last = tok(" " + mh3.NONCE, add_special_tokens=False).input_ids[-1]
 
     def find_slot(ids_list):
@@ -245,7 +264,16 @@ def run(args) -> None:
         ids = tok(prompt, return_tensors="pt").to(dev)
         slot = find_slot(ids.input_ids[0].tolist())
         vstore: dict[int, np.ndarray] = {}
+        mstore: dict[int, np.ndarray] = {}
+        nfstore: dict[str, np.ndarray] = {}
         handles = []
+        # true pre-norm final residual = INPUT to the final norm (hidden_states[-1] is
+        # POST-norm — confirmed s286; using it breaks the pre-norm DLA reconstruction).
+
+        def nf_pre(_m, inp):
+            nfstore["x"] = inp[0].detach().float().cpu().numpy()[0]  # [seq, hidden]
+
+        handles.append(norm_f.register_forward_pre_hook(nf_pre))
         for li in reader_layers:
 
             def mk(li):
@@ -256,6 +284,18 @@ def run(args) -> None:
                 return hook
 
             handles.append(dec[li].self_attn.v_proj.register_forward_hook(mk(li)))
+            if route:
+
+                def mk_mlp(li):
+                    def hook(_m, _i, out):
+                        o = out[0] if isinstance(out, tuple) else out
+                        mstore[li] = (
+                            o.detach().float().cpu().numpy()[0]
+                        )  # [seq, hidden]
+
+                    return hook
+
+                handles.append(dec[li].mlp.register_forward_hook(mk_mlp(li)))
         for li, vec in adds:
             vt = torch.tensor(vec, dtype=torch.float32, device=dev)
             handles.append(dec[li].register_forward_hook(mh3.add_hook_at(vt, slot)))
@@ -271,8 +311,16 @@ def run(args) -> None:
             vk = vstore[li].reshape(-1, n_kv, hd)  # [K, n_kv, hd]
             vfull = np.repeat(vk, group, axis=1).transpose(1, 0, 2)  # [H, K, hd]
             aw[li], vf[li] = a, vfull
-        r_final = out.hidden_states[-1][0, -1, :].float().cpu().numpy()
-        return aw, vf, r_final, slot
+        r_final = nfstore["x"][q]  # pre-norm final residual at readout
+        extra = {}
+        if route:
+            extra["logits"] = out.logits[0, -1, :].float().cpu().numpy()  # [vocab]
+            extra["mlp"] = {li: mstore[li][q].copy() for li in reader_layers}
+            # readout-position residual per layer (for depth-order lens)
+            extra["hs"] = np.stack(
+                [h[0, -1, :].float().cpu().numpy() for h in out.hidden_states]
+            )  # [n_layers+1, hidden]
+        return aw, vf, r_final, slot, extra
 
     gamma_f = norm_f.weight.detach().float().cpu().numpy()
     W_U = unembed.weight.detach().float().cpu().numpy()  # [vocab, hidden]
@@ -284,6 +332,16 @@ def run(args) -> None:
     def dla_dir(r_final, tgt_cont, src_cont):
         rms = float(np.sqrt(np.mean(r_final**2) + 1e-6))
         return gamma_f * (W_U[cont_ids[tgt_cont]] - W_U[cont_ids[src_cont]]) / rms
+
+    def lens_peak(hs, tid, others):
+        """argmax over layers of logit-lens margin (tid vs best-other) — numpy DLA."""
+        margins = []
+        for h in hs:
+            normed = h / np.sqrt(np.mean(h**2) + 1e-6) * gamma_f
+            margins.append(
+                float(normed @ W_U[tid] - max(normed @ W_U[o] for o in others))
+            )
+        return int(np.argmax(margins))
 
     # ── cells: first N valid landmarks × one cross-continent country target ──
     valid = []
@@ -307,8 +365,8 @@ def run(args) -> None:
         pred_swap, _ = cont_pred([(L, d_lm[lm] * S), (lb, swap)])
         flipped = int(pred_swap == tgt_cont)
 
-        aw_b, vf_b, _, _ = capture([(L, d_lm[lm] * S)])
-        aw_s, vf_s, rfin_s, _ = capture([(L, d_lm[lm] * S), (lb, swap)])
+        aw_b, vf_b, rfin_b, _, ex_b = capture([(L, d_lm[lm] * S)])
+        aw_s, vf_s, rfin_s, _, ex_s = capture([(L, d_lm[lm] * S), (lb, swap)])
         w = dla_dir(rfin_s, tgt_cont, src_cont)
 
         per_layer = {}
@@ -326,18 +384,70 @@ def run(args) -> None:
         frac = split_fractions(aim_t, content_t, inter_t)
         attn_total = aim_t + content_t + inter_t
 
+        # ── route decomposition (P-ATT-FFN): attn vs MLP vs direct of the TOTAL flip ──
+        route_fields = {}
+        mlp_null = []
+        if route:
+            ti, si = cont_ids[tgt_cont], cont_ids[src_cont]
+            # LINEARIZED total: Δresid_final · w — the per-layer attn+mlp deltas sum to
+            # this EXACTLY (pre-norm residual identity) → clean reconstruction. The raw
+            # logit flip (nonlinear through final RMSNorm) is reported separately.
+            total_p = float((rfin_s - rfin_b) @ w)
+            raw_total_p = float(
+                (ex_s["logits"][ti] - ex_s["logits"][si])
+                - (ex_b["logits"][ti] - ex_b["logits"][si])
+            )
+            mlp_p = float(
+                sum((ex_s["mlp"][li] - ex_b["mlp"][li]) @ w for li in reader_layers)
+            )
+            direct_p = total_p - attn_total - mlp_p  # completeness residual, expect ~0
+            denom = abs(attn_total) + abs(mlp_p) + abs(direct_p) + 1e-12
+            cell_route = "mlp" if abs(mlp_p) > abs(attn_total) else "attn"
+            oc = [country_ids[c] for c in mh3.COUNTRIES if c != src_country]
+            ok = [cont_ids[c] for c in mh3.CONTINENTS if c != src_cont]
+            pk_country = lens_peak(ex_b["hs"], country_ids[src_country], oc)
+            pk_cont = lens_peak(ex_b["hs"], cont_ids[src_cont], ok)
+            route_fields = {
+                "total_p": round(total_p, 4),
+                "raw_total_p": round(raw_total_p, 4),
+                "mlp_p": round(mlp_p, 4),
+                "direct_p": round(direct_p, 4),
+                "attn_frac_of_total": round(abs(attn_total) / denom, 3),
+                "mlp_frac_of_total": round(abs(mlp_p) / denom, 3),
+                "direct_frac_of_total": round(abs(direct_p) / denom, 3),
+                "recon_err": round(abs(direct_p) / (abs(total_p) + 1e-9), 3),
+                "route": cell_route,
+                "pk_country": pk_country,
+                "pk_cont": pk_cont,
+                "composition_order": bool(pk_country < pk_cont),
+            }
+
         # NULL: matched-norm random add at lb → attn contribution on the SAME w
         null_tot = []
         for _ in range(args.n_null):
             rnd = rand_vec(float(np.linalg.norm(swap)))
-            aw_r, vf_r, _, _ = capture([(L, d_lm[lm] * S), (lb, rnd)])
+            aw_r, vf_r, _, _, ex_r = capture([(L, d_lm[lm] * S), (lb, rnd)])
             nt = 0.0
             for li in reader_layers:
                 rr = decompose(aw_b[li], aw_r[li], vf_b[li], vf_r[li], oproj[li], w)
                 nt += rr["aim_p"] + rr["content_p"] + rr["inter_p"]
             null_tot.append(nt)
+            if route:
+                mlp_null.append(
+                    float(
+                        sum(
+                            (ex_r["mlp"][li] - ex_b["mlp"][li]) @ w
+                            for li in reader_layers
+                        )
+                    )
+                )
         null_tot = np.array(null_tot)
         p_med = float(np.mean(np.abs(null_tot) >= abs(attn_total)))
+        if route:
+            mlp_null = np.array(mlp_null)
+            route_fields["p_mlp_vs_null"] = round(
+                float(np.mean(np.abs(mlp_null) >= abs(route_fields["mlp_p"]))), 3
+            )
 
         cell = {
             "landmark": lm,
@@ -357,13 +467,23 @@ def run(args) -> None:
             "null_std": round(float(np.std(null_tot)), 4),
             "p_vs_null": round(p_med, 3),
             "per_layer": {str(k): v for k, v in per_layer.items()},
+            **route_fields,
         }
         cells.append(cell)
-        print(
-            f"[att-med] {lm:16s} flip={flipped} aim={cell['aim_frac']} "
-            f"content={cell['content_frac']} inter={cell['inter_frac']} "
-            f"attn_tot={cell['attn_total']} p_vs_null={cell['p_vs_null']}"
-        )
+        if route:
+            print(
+                f"[att-ffn] {lm:16s} flip={flipped} route={cell['route']:4s} "
+                f"attn={cell['attn_frac_of_total']} mlp={cell['mlp_frac_of_total']} "
+                f"direct={cell['direct_frac_of_total']} recon_err={cell['recon_err']} "
+                f"p_mlp={cell['p_mlp_vs_null']} "
+                f"pk={cell['pk_country']}/{cell['pk_cont']}"
+            )
+        else:
+            print(
+                f"[att-med] {lm:16s} flip={flipped} aim={cell['aim_frac']} "
+                f"content={cell['content_frac']} inter={cell['inter_frac']} "
+                f"attn_tot={cell['attn_total']} p_vs_null={cell['p_vs_null']}"
+            )
 
     flip_cells = [c for c in cells if c["flipped"]]
     agg_src = flip_cells or cells
@@ -387,13 +507,39 @@ def run(args) -> None:
         f"content_dominant={agg['content_dominant']} mean_p={agg['mean_p_vs_null']}"
     )
 
+    if route:
+        mlp_cells = [c for c in agg_src if c.get("route") == "mlp"]
+        attn_cells = [c for c in agg_src if c.get("route") == "attn"]
+        agg["route"] = {
+            "n_attn_dominant": len(attn_cells),
+            "n_mlp_dominant": len(mlp_cells),
+            "mlp_dominant_cells": [c["landmark"] for c in mlp_cells],
+            "mean_recon_err": round(
+                float(np.mean([c["recon_err"] for c in agg_src])), 3
+            ),
+            "mean_attn_frac_of_total": round(
+                float(np.mean([c["attn_frac_of_total"] for c in agg_src])), 3
+            ),
+            "mean_mlp_frac_of_total": round(
+                float(np.mean([c["mlp_frac_of_total"] for c in agg_src])), 3
+            ),
+            "mixed_route": bool(mlp_cells and attn_cells),
+        }
+        print(
+            f"[att-ffn] ROUTE SPLIT: attn-dom={len(attn_cells)} "
+            f"mlp-dom={len(mlp_cells)} "
+            f"mlp-cells={agg['route']['mlp_dominant_cells']} "
+            f"mean_recon_err={agg['route']['mean_recon_err']}"
+        )
+
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
     payload = {
-        "experiment": "P-ATT-MED",
-        "grade": "4B-contrast-smoke",
+        "experiment": "P-ATT-FFN" if route else "P-ATT-MED",
+        "grade": ("smoke" if "4b" in args.out.lower() else "verdict"),
         "prereg": (
-            "mementum/knowledge/explore/type-check-is-the-qk-bilinear.md#p-att-med"
+            "mementum/knowledge/explore/type-check-is-the-qk-bilinear.md#"
+            + ("p-att-ffn" if route else "p-att-med")
         ),
         "model": args.model_id,
         "device": dev,
@@ -406,12 +552,13 @@ def run(args) -> None:
         "n_kv": n_kv,
         "head_dim": hd,
         "n_null": args.n_null,
-        "note": "SMOKE: contrast grade, not the verdict. Verdict host = 32B on GO.",
+        "route_decomp": route,
         "aggregate": agg,
         "cells": cells,
     }
-    (out / "att_mediation.json").write_text(json.dumps(payload, indent=2))
-    print(f"[att-med] wrote {out}/att_mediation.json")
+    fname = "att_ffn.json" if route else "att_mediation.json"
+    (out / fname).write_text(json.dumps(payload, indent=2))
+    print(f"[att-{'ffn' if route else 'med'}] wrote {out}/{fname}")
 
 
 def main() -> None:
@@ -430,6 +577,11 @@ def main() -> None:
     ap.add_argument("--device", default="mps")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--out", default="results/type-att-med/qwen3-4b")
+    ap.add_argument(
+        "--route-decomp",
+        action="store_true",
+        help="P-ATT-FFN: add MLP + direct channels, total reconstruction, depth-order",
+    )
     args = ap.parse_args()
     if args.validate:
         raise SystemExit(validate())

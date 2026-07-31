@@ -8,9 +8,9 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-31 | Session: 286 | JS verdict landed (34dbab3); P-ATT-MED
-> 32B VERDICT IN = MEDIATION-MEASURED + MEDIUM-HANDLE (first POSITIVE routing-register
-> result). Results committed; mementum (memory + state + §Result-32B) PENDING APPROVAL.
+> Last updated: 2026-07-31 | Session: 286 | JS + P-ATT-MED (MEDIATION-MEASURED +
+> MEDIUM-HANDLE) landed. P-ATT-FFN (retrieval-vs-composition) APPROVED+built; 4B smoke
+> fixed a post-norm recon bug (recon_err→0.001), route MIXED/MLP-leaning; 32B on GO.
 
 > ▶▶ s286 DONE (P-TYPE-JS closed — the types arc is now a clean FOUR-way null):
 > the overnight P-TYPE-JS run (s285 tmux main:1) COMPLETED and the frozen verdict
@@ -76,7 +76,26 @@
 > into a better memory later). Results committed (autonomous), att_mediation.py + 4B
 > smoke already committed.
 >
-> ▶▶ COLD-START ORDER for s287: (1) verbum.dsp build (design page committed 2b40033;
+> ▶▶ s286 cont — P-ATT-FFN (Michael: "null-misses are FFN fact-lookup, not composition")
+> APPROVED+FROZEN + 4B smoke done. Extended att_mediation.py `--route-decomp`: full
+> residual-stream DLA of the swap's total flip into ATTN vs MLP vs DIRECT + total
+> reconstruction + depth-order (country/continent peak). ★ SMOKE CAUGHT A BUG: DLA
+> total used `hidden_states[-1]` = POST-final-norm (verified ‖hs[-1]−rmsnorm(raw)‖=0.003);
+> fix = capture pre-norm final residual via a `norm_f` forward-pre-hook → recon_err
+> 1.8→0.001. P-ATT-MED verdict UNAFFECTED (its fractions/p are ratios on the same w,
+> scale-invariant). 4B result (contrast, NOT verdict): reconstruction clean, MLP channel
+> real + null-beating 13/14, route MIXED MLP-leaning (11/14 MLP-dominant, mean mlp_frac
+> 0.586) — the FFN carries the country→continent fact-map. BUT the two 32B null-misses
+> (Sphinx, Petronas) are ATTENTION-dominant at 4B (opposite of P1) → MIXED-ROUTE-MEASURED
+> the likely 32B outcome, not a clean FFN-RETRIEVAL dissociation. Committed: instrument +
+> pre-reg §P-ATT-FFN + §Result-4B + 4B results + state. ▶ 32B VERDICT ON GO: uv run python
+> scripts/explore/att_mediation.py --model-id Qwen/Qwen3-32B --device mps --route-decomp
+> --ref-layer 9 --swap-layer 25 --scale 2.0 --n-cells 18 --n-null 200 --out
+> results/type-att-ffn/qwen3-32b (frozen gates §P-ATT-FFN: FFN-RETRIEVAL vs MIXED-ROUTE
+> vs negative).
+>
+> ▶▶ COLD-START ORDER for s287: (1) P-ATT-FFN 32B verdict (on GO — cmd above) OR
+> verbum.dsp build (design page committed 2b40033;
 > skeleton + first harvest: whiten/subspace/nulls, tests/dsp from --validate patterns,
 > find_band stride-aware fix #1) — the DSP substrate the whole attention/routing arc
 > now wants. (1b) P-ATT-MED follow-ups IF wanted: P-ATT-DIFF proper (licensed-vs-
