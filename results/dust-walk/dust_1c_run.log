@@ -1,0 +1,49 @@
+[1c] regenerating arm-B walk (N=100000, seed=1)
+[1c]   walk 20000/100000
+[1c]   walk 40000/100000
+[1c]   walk 60000/100000
+[1c]   walk 80000/100000
+[1c]   walk 100000/100000
+[1c] n_terminating=98800/100000
+[1c] halt_distance={'K': 1.9852, 'I': 3.0134, 'B': 3.9667, 'C': 4.5316, 'S': 5.8685, 'D': 5.6473, 'W': 5.5697}
+[1c] halt_prob    ={'K': 0.5798, 'I': 0.3754, 'B': 0.2119, 'C': 0.1312, 'S': 0.071, 'D': 0.2196, 'W': 0.0593}
+[1c] geometry models=['gemma-4-31b-it', 'olmo-2-1124-13b', 'pythia-14m-deduped', 'pythia-160m-deduped', 'pythia-2-8b-deduped', 'pythia-410m', 'qwen3-14b', 'qwen3-32b', 'qwen3-4b', 'qwen3-6-27b'] (excl ['qwen3-0-6b'])
+[1c] wrote /Users/mwhitford/src/verbum/results/dust-walk/dust_1c_verdict.json
+{
+ "n_models": 10,
+ "excluded": [
+  "qwen3-0-6b"
+ ],
+ "G1_per_op_absorption": {
+  "median_r": 0.0714,
+  "sign_positive": "5/10",
+  "perm_p_lt_05": "0/10",
+  "passes": false
+ },
+ "G2_distance_vs_prob": {
+  "median_delta": -0.25,
+  "n_distance_wins": "0/10",
+  "median_rho_distance": 0.0714,
+  "median_rho_prob": 0.3035,
+  "resolved_distance_over_prob": false
+ },
+ "G3a_coabsorption_presence_pmi": {
+  "median_r": 0.439,
+  "sign_positive": "10/10",
+  "perm_p_lt_05": "2/10",
+  "passes": true
+ },
+ "G3b_coabsorption_final_window_pmi": {
+  "median_r": 0.1215,
+  "sign_positive": "10/10",
+  "perm_p_lt_05": "0/10",
+  "passes": true
+ },
+ "G4_whnf_pole": {
+  "median_r": 0.4821,
+  "sign_positive": "9/10",
+  "perm_p_lt_05": "0/10",
+  "passes": true
+ },
+ "DUST_HALT_DISTANCE_SUPPORTED": false
+}

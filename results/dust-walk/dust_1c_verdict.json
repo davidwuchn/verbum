@@ -1,0 +1,338 @@
+{
+ "experiment": "P-DUST-1c",
+ "timestamp_utc": "2026-07-31T06:16:27.523178+00:00",
+ "git_sha": null,
+ "ensemble": "arm-B y-excluded (default_rng(1), N=100000)",
+ "final_window": 3,
+ "walk_stats": {
+  "n_traces": 100000,
+  "n_terminating": 98800,
+  "ops": [
+   "K",
+   "I",
+   "B",
+   "C",
+   "S",
+   "D",
+   "W"
+  ],
+  "halt_distance": [
+   1.9852,
+   3.0134,
+   3.9667,
+   4.5316,
+   5.8685,
+   5.6473,
+   5.5697
+  ],
+  "halt_prob": [
+   0.5798,
+   0.3754,
+   0.2119,
+   0.1312,
+   0.071,
+   0.2196,
+   0.0593
+  ],
+  "presence_pmi": [
+   [
+    0.0,
+    -0.15384700634133971,
+    -0.12342275987337457,
+    0.12716877175259966,
+    0.25761608287491644,
+    -0.08674176924494503,
+    0.20268073310290477
+   ],
+   [
+    -0.15384700634133971,
+    0.0,
+    0.21768311775466218,
+    0.16978827485885747,
+    0.24548184473233806,
+    0.11960692771376398,
+    0.1881915961895715
+   ],
+   [
+    -0.12342275987337457,
+    0.21768311775466218,
+    0.0,
+    0.48698478802229844,
+    0.5887245975949008,
+    0.27128309549956453,
+    0.6737689562193078
+   ],
+   [
+    0.12716877175259966,
+    0.16978827485885747,
+    0.48698478802229844,
+    0.0,
+    0.8016442224606267,
+    0.4280302938038871,
+    0.742053949658309
+   ],
+   [
+    0.25761608287491644,
+    0.24548184473233806,
+    0.5887245975949008,
+    0.8016442224606267,
+    0.0,
+    0.48495675403937544,
+    0.7921882564638975
+   ],
+   [
+    -0.08674176924494503,
+    0.11960692771376398,
+    0.27128309549956453,
+    0.4280302938038871,
+    0.48495675403937544,
+    0.0,
+    0.42202323358918653
+   ],
+   [
+    0.20268073310290477,
+    0.1881915961895715,
+    0.6737689562193078,
+    0.742053949658309,
+    0.7921882564638975,
+    0.42202323358918653,
+    0.0
+   ]
+  ],
+  "coabsorption_pmi": [
+   [
+    0.0,
+    -0.2639584836705363,
+    -0.2826954668481645,
+    0.020566200587133984,
+    0.17804320088488906,
+    -0.3068273677826873,
+    0.09431276854720427
+   ],
+   [
+    -0.2639584836705363,
+    0.0,
+    0.03525855974903777,
+    -0.11626212806627886,
+    -0.11198570946194072,
+    -0.1100443941837477,
+    -0.15580991194944915
+   ],
+   [
+    -0.2826954668481645,
+    0.03525855974903777,
+    0.0,
+    0.16666169198082098,
+    0.11227074882688076,
+    -0.16396740632145923,
+    0.3982925208977497
+   ],
+   [
+    0.020566200587133984,
+    -0.11626212806627886,
+    0.16666169198082098,
+    0.0,
+    0.3785539712503214,
+    -0.04632468678927932,
+    0.4373236238196007
+   ],
+   [
+    0.17804320088488906,
+    -0.11198570946194072,
+    0.11227074882688076,
+    0.3785539712503214,
+    0.0,
+    -0.03995008749316347,
+    0.3679165617857919
+   ],
+   [
+    -0.3068273677826873,
+    -0.1100443941837477,
+    -0.16396740632145923,
+    -0.04632468678927932,
+    -0.03995008749316347,
+    0.0,
+    -0.1953294754107228
+   ],
+   [
+    0.09431276854720427,
+    -0.15580991194944915,
+    0.3982925208977497,
+    0.4373236238196007,
+    0.3679165617857919,
+    -0.1953294754107228,
+    0.0
+   ]
+  ]
+ },
+ "verdict": {
+  "n_models": 10,
+  "excluded": [
+   "qwen3-0-6b"
+  ],
+  "G1_per_op_absorption": {
+   "median_r": 0.0714,
+   "sign_positive": "5/10",
+   "perm_p_lt_05": "0/10",
+   "passes": false
+  },
+  "G2_distance_vs_prob": {
+   "median_delta": -0.25,
+   "n_distance_wins": "0/10",
+   "median_rho_distance": 0.0714,
+   "median_rho_prob": 0.3035,
+   "resolved_distance_over_prob": false
+  },
+  "G3a_coabsorption_presence_pmi": {
+   "median_r": 0.439,
+   "sign_positive": "10/10",
+   "perm_p_lt_05": "2/10",
+   "passes": true
+  },
+  "G3b_coabsorption_final_window_pmi": {
+   "median_r": 0.1215,
+   "sign_positive": "10/10",
+   "perm_p_lt_05": "0/10",
+   "passes": true
+  },
+  "G4_whnf_pole": {
+   "median_r": 0.4821,
+   "sign_positive": "9/10",
+   "perm_p_lt_05": "0/10",
+   "passes": true
+  },
+  "DUST_HALT_DISTANCE_SUPPORTED": false
+ },
+ "per_model": {
+  "gemma-4-31b-it": {
+   "G1_abs_vs_neg_halt_distance": 0.2143,
+   "G1_perm_p": 0.3308,
+   "G2_rho_distance": 0.2143,
+   "G2_rho_prob": 0.4286,
+   "G2_delta": -0.2143,
+   "G3a_block_vs_presence_pmi": 0.4519,
+   "G3a_perm_p": 0.0562,
+   "G3b_block_vs_coabsorption_pmi": 0.1182,
+   "G3b_perm_p": 0.347,
+   "G4_pole_vs_neg_halt_distance": 0.6429,
+   "G4_perm_p": 0.0694
+  },
+  "olmo-2-1124-13b": {
+   "G1_abs_vs_neg_halt_distance": 0.0,
+   "G1_perm_p": 0.5183,
+   "G2_rho_distance": 0.0,
+   "G2_rho_prob": 0.4643,
+   "G2_delta": -0.4643,
+   "G3a_block_vs_presence_pmi": 0.5104,
+   "G3a_perm_p": 0.0411,
+   "G3b_block_vs_coabsorption_pmi": 0.1623,
+   "G3b_perm_p": 0.3131,
+   "G4_pole_vs_neg_halt_distance": 0.3571,
+   "G4_perm_p": 0.2222
+  },
+  "pythia-14m-deduped": {
+   "G1_abs_vs_neg_halt_distance": 0.0,
+   "G1_perm_p": 0.5183,
+   "G2_rho_distance": 0.0,
+   "G2_rho_prob": 0.2857,
+   "G2_delta": -0.2857,
+   "G3a_block_vs_presence_pmi": 0.3519,
+   "G3a_perm_p": 0.1764,
+   "G3b_block_vs_coabsorption_pmi": 0.1247,
+   "G3b_perm_p": 0.3639,
+   "G4_pole_vs_neg_halt_distance": 0.1786,
+   "G4_perm_p": 0.3565
+  },
+  "pythia-160m-deduped": {
+   "G1_abs_vs_neg_halt_distance": -0.2143,
+   "G1_perm_p": 0.7026,
+   "G2_rho_distance": -0.2143,
+   "G2_rho_prob": 0.1071,
+   "G2_delta": -0.3214,
+   "G3a_block_vs_presence_pmi": 0.2584,
+   "G3a_perm_p": 0.1752,
+   "G3b_block_vs_coabsorption_pmi": 0.0597,
+   "G3b_perm_p": 0.4032,
+   "G4_pole_vs_neg_halt_distance": 0.0714,
+   "G4_perm_p": 0.4532
+  },
+  "pythia-2-8b-deduped": {
+   "G1_abs_vs_neg_halt_distance": 0.25,
+   "G1_perm_p": 0.2974,
+   "G2_rho_distance": 0.25,
+   "G2_rho_prob": 0.2857,
+   "G2_delta": -0.0357,
+   "G3a_block_vs_presence_pmi": 0.4403,
+   "G3a_perm_p": 0.1224,
+   "G3b_block_vs_coabsorption_pmi": 0.1325,
+   "G3b_perm_p": 0.3677,
+   "G4_pole_vs_neg_halt_distance": 0.5,
+   "G4_perm_p": 0.1333
+  },
+  "pythia-410m": {
+   "G1_abs_vs_neg_halt_distance": 0.0,
+   "G1_perm_p": 0.5183,
+   "G2_rho_distance": 0.0,
+   "G2_rho_prob": 0.2857,
+   "G2_delta": -0.2857,
+   "G3a_block_vs_presence_pmi": 0.3065,
+   "G3a_perm_p": 0.1696,
+   "G3b_block_vs_coabsorption_pmi": 0.0636,
+   "G3b_perm_p": 0.4079,
+   "G4_pole_vs_neg_halt_distance": 0.0,
+   "G4_perm_p": 0.5183
+  },
+  "qwen3-14b": {
+   "G1_abs_vs_neg_halt_distance": 0.0,
+   "G1_perm_p": 0.5183,
+   "G2_rho_distance": 0.0,
+   "G2_rho_prob": 0.2857,
+   "G2_delta": -0.2857,
+   "G3a_block_vs_presence_pmi": 0.4325,
+   "G3a_perm_p": 0.0905,
+   "G3b_block_vs_coabsorption_pmi": 0.1052,
+   "G3b_perm_p": 0.3833,
+   "G4_pole_vs_neg_halt_distance": 0.6071,
+   "G4_perm_p": 0.0833
+  },
+  "qwen3-32b": {
+   "G1_abs_vs_neg_halt_distance": 0.2143,
+   "G1_perm_p": 0.3308,
+   "G2_rho_distance": 0.2143,
+   "G2_rho_prob": 0.4286,
+   "G2_delta": -0.2143,
+   "G3a_block_vs_presence_pmi": 0.513,
+   "G3a_perm_p": 0.0333,
+   "G3b_block_vs_coabsorption_pmi": 0.2195,
+   "G3b_perm_p": 0.2313,
+   "G4_pole_vs_neg_halt_distance": 0.6429,
+   "G4_perm_p": 0.0694
+  },
+  "qwen3-4b": {
+   "G1_abs_vs_neg_halt_distance": 0.1429,
+   "G1_perm_p": 0.3913,
+   "G2_rho_distance": 0.1429,
+   "G2_rho_prob": 0.3214,
+   "G2_delta": -0.1786,
+   "G3a_block_vs_presence_pmi": 0.4377,
+   "G3a_perm_p": 0.1081,
+   "G3b_block_vs_coabsorption_pmi": 0.1571,
+   "G3b_perm_p": 0.3331,
+   "G4_pole_vs_neg_halt_distance": 0.4643,
+   "G4_perm_p": 0.1512
+  },
+  "qwen3-6-27b": {
+   "G1_abs_vs_neg_halt_distance": 0.1429,
+   "G1_perm_p": 0.3913,
+   "G2_rho_distance": 0.1429,
+   "G2_rho_prob": 0.3214,
+   "G2_delta": -0.1786,
+   "G3a_block_vs_presence_pmi": 0.4442,
+   "G3a_perm_p": 0.0635,
+   "G3b_block_vs_coabsorption_pmi": 0.0909,
+   "G3b_perm_p": 0.3851,
+   "G4_pole_vs_neg_halt_distance": 0.6071,
+   "G4_perm_p": 0.0833
+  }
+ }
+}
