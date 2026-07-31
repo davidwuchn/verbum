@@ -118,13 +118,28 @@
 > SNR curve = cheapest decisive discriminator), P-HOLO-XTERM (superposed
 > operands → interference beats). Artifact implication: extraction =
 > re-recording not excision (coheres s149 computed-beam + s268 Bonsai).
+> ▶▶ s288 FINAL — TRAINING-DESIGN HAMMOCK CAPTURED (Michael-approved):
+> knowledge/explore/training-design-from-the-hologram.md — six levers, each
+> grounded in a measurement: (1) crystal-seeded init (s149 structure-is-free
+> → stop paying compute for universal parts), (2) declared passbands
+> (P-TYPE-OV → remove the tug-of-war architecturally; small models compose),
+> (3) probes→losses (JOIN-TYPED swap statistic is differentiable =
+> contrastive substitutability aux loss; ⚠ Goodhart guard: gate on causal
+> 3-hop not the trained probe), (4) two-phase topology→magnitude (s268 etch
+> + Bonsai forensics; ternary-native), (5) curriculum as exposure schedule
+> (gated behind P-DUST-2 formation-law data), (6) geometry-matched
+> distillation (re-exposure). CHEAPEST EXPERIMENT = the level-4 door:
+> pythia-14m scratch pairs, crystal-seeded vs random init, P-DUST-2-style
+> formation logging, ~1 GPU-day, tests levers 1+5 + yields the level-4
+> baseline regardless.
 > ▶▶ COLD-START s289: (1) P-PROJ-1 pre-reg (Michael-queued s288: the
 > holographic ARGUMENT projector — drive the measured entity passband;
 > TE/norm ladder passband-projected > centroid-diff ≫ anti-passband ≈
 > random; att_mediation harness verbatim; = the REPL write-head + a second
 > passband confirmation) ∨ (2) P-TYPE-PROB pre-reg (graded bank TE vs slot
 > log-P × entity-alignment) ∨ (3) P-HOLO-FRAG (cheapest holography
-> discriminator) ∨ queue below — Michael picks.
+> discriminator) ∨ (4) seeded-scratch pair (training-design page, the
+> level-4 door) ∨ queue below — Michael picks.
 > Session-288 chat log → knowledge/chats/session-288.md (human saves).
 > ▶▶ NEXT: (1) P-TYPE-PROB + P-TYPE-OV pre-regs (types-are-compiled-
 > probabilities.md, unfrozen — the dsp substrate they wanted now exists;
