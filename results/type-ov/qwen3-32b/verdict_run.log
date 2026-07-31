@@ -1,0 +1,151 @@
+
+========================================================================
+  Loading Qwen/Qwen3-32B
+========================================================================
+
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/707 [00:00<?, ?it/s]Loading weights:   0%|          | 1/707 [00:01<19:42,  1.67s/it]Loading weights:   2%|▏         | 15/707 [00:01<01:00, 11.48it/s]Loading weights:   4%|▍         | 27/707 [00:01<00:30, 22.27it/s]Loading weights:   6%|▌         | 39/707 [00:01<00:19, 34.24it/s]Loading weights:   8%|▊         | 56/707 [00:02<00:11, 54.46it/s]Loading weights:  10%|▉         | 70/707 [00:02<00:09, 68.26it/s]Loading weights:  12%|█▏        | 83/707 [00:02<00:08, 76.51it/s]Loading weights:  14%|█▍        | 100/707 [00:02<00:06, 96.13it/s]Loading weights:  16%|█▌        | 114/707 [00:02<00:05, 104.84it/s]Loading weights:  18%|█▊        | 128/707 [00:02<00:05, 105.61it/s]Loading weights:  21%|██        | 145/707 [00:02<00:04, 121.20it/s]Loading weights:  22%|██▏       | 159/707 [00:02<00:04, 118.27it/s]Loading weights:  24%|██▍       | 173/707 [00:03<00:04, 121.01it/s]Loading weights:  27%|██▋       | 188/707 [00:03<00:04, 126.97it/s]Loading weights:  29%|██▊       | 202/707 [00:03<00:04, 125.07it/s]Loading weights:  30%|███       | 215/707 [00:03<00:04, 116.07it/s]Loading weights:  33%|███▎      | 231/707 [00:03<00:03, 127.50it/s]Loading weights:  35%|███▍      | 246/707 [00:03<00:03, 127.33it/s]Loading weights:  37%|███▋      | 260/707 [00:03<00:03, 120.18it/s]Loading weights:  39%|███▉      | 274/707 [00:03<00:03, 124.83it/s]Loading weights:  41%|████      | 287/707 [00:03<00:03, 123.01it/s]Loading weights:  42%|████▏     | 300/707 [00:04<00:03, 124.51it/s]Loading weights:  44%|████▍     | 313/707 [00:04<00:03, 113.51it/s]Loading weights:  46%|████▌     | 325/707 [00:04<00:03, 110.26it/s]Loading weights:  48%|████▊     | 340/707 [00:04<00:03, 120.46it/s]Loading weights:  50%|█████     | 356/707 [00:04<00:02, 124.89it/s]Loading weights:  52%|█████▏    | 369/707 [00:04<00:02, 115.68it/s]Loading weights:  54%|█████▍    | 384/707 [00:04<00:02, 124.45it/s]Loading weights:  56%|█████▋    | 398/707 [00:04<00:02, 128.47it/s]Loading weights:  58%|█████▊    | 412/707 [00:04<00:02, 119.79it/s]Loading weights:  60%|██████    | 425/707 [00:05<00:02, 117.44it/s]Loading weights:  62%|██████▏   | 439/707 [00:05<00:02, 121.91it/s]Loading weights:  64%|██████▍   | 452/707 [00:05<00:02, 122.49it/s]Loading weights:  66%|██████▌   | 466/707 [00:05<00:02, 120.31it/s]Loading weights:  68%|██████▊   | 479/707 [00:05<00:02, 110.88it/s]Loading weights:  70%|██████▉   | 494/707 [00:05<00:01, 119.56it/s]Loading weights:  72%|███████▏  | 507/707 [00:05<00:01, 122.07it/s]Loading weights:  74%|███████▎  | 521/707 [00:05<00:01, 120.40it/s]Loading weights:  76%|███████▌  | 534/707 [00:06<00:01, 111.08it/s]Loading weights:  78%|███████▊  | 549/707 [00:06<00:01, 120.40it/s]Loading weights:  80%|███████▉  | 565/707 [00:06<00:01, 123.77it/s]Loading weights:  82%|████████▏ | 578/707 [00:06<00:01, 113.63it/s]Loading weights:  84%|████████▍ | 593/707 [00:06<00:00, 122.28it/s]Loading weights:  86%|████████▌ | 606/707 [00:06<00:00, 123.70it/s]Loading weights:  88%|████████▊ | 620/707 [00:06<00:00, 120.55it/s]Loading weights:  90%|████████▉ | 633/707 [00:06<00:00, 108.98it/s]Loading weights:  92%|█████████▏| 648/707 [00:06<00:00, 117.08it/s]Loading weights:  93%|█████████▎| 661/707 [00:07<00:00, 117.67it/s]Loading weights:  95%|█████████▌| 673/707 [00:07<00:00, 117.08it/s]Loading weights:  97%|█████████▋| 686/707 [00:07<00:00, 114.34it/s]Loading weights:  99%|█████████▊| 698/707 [00:07<00:00, 110.88it/s]Loading weights: 100%|██████████| 707/707 [00:07<00:00, 94.72it/s] 
+  Loaded in 10.2s
+  Layers: 64  Heads: 64  KV heads: 8  d_model: 5120
+    sentence 1/56: The dog runs....
+    sentence 11/56: Alice runs....
+    sentence 21/56: The farmer finds the bird....
+    sentence 31/56: Some teacher laughs....
+    sentence 41/56: The old house stands....
+    sentence 51/56: The house is old....
+[ov] labeled=263 skipped=0 layers=65
+[ov] geom embed  PR=6.47 p=1.0
+[ov] geom L0     PR=5.87 p=0.77
+[ov] geom L1     PR=6.07 p=0.88
+[ov] geom L2     PR=5.97 p=0.78
+[ov] geom L3     PR=6.09 p=0.875
+[ov] geom L4     PR=5.97 p=0.76
+[ov] geom L5     PR=6.02 p=0.78
+[ov] geom L6     PR=3.57 p=0.025
+[ov] geom L7     PR=3.61 p=0.01
+[ov] geom L8     PR=3.71 p=0.005
+[ov] geom L9     PR=3.88 p=0.025
+[ov] geom L10    PR=4.01 p=0.025
+[ov] geom L11    PR=4.06 p=0.015
+[ov] geom L12    PR=4.09 p=0.02
+[ov] geom L13    PR=4.11 p=0.01
+[ov] geom L14    PR=4.13 p=0.01
+[ov] geom L15    PR=4.17 p=0.025
+[ov] geom L16    PR=4.22 p=0.015
+[ov] geom L17    PR=4.25 p=0.015
+[ov] geom L18    PR=4.28 p=0.01
+[ov] geom L19    PR=4.31 p=0.02
+[ov] geom L20    PR=4.35 p=0.015
+[ov] geom L21    PR=4.38 p=0.01
+[ov] geom L22    PR=4.41 p=0.015
+[ov] geom L23    PR=4.46 p=0.015
+[ov] geom L24    PR=4.49 p=0.01
+[ov] geom L25    PR=4.55 p=0.01
+[ov] geom L26    PR=4.63 p=0.01
+[ov] geom L27    PR=4.72 p=0.015
+[ov] geom L28    PR=4.78 p=0.025
+[ov] geom L29    PR=4.83 p=0.02
+[ov] geom L30    PR=4.81 p=0.02
+[ov] geom L31    PR=4.74 p=0.005
+[ov] geom L32    PR=4.73 p=0.015
+[ov] geom L33    PR=4.77 p=0.01
+[ov] geom L34    PR=4.77 p=0.015
+[ov] geom L35    PR=4.73 p=0.015
+[ov] geom L36    PR=4.68 p=0.005
+[ov] geom L37    PR=4.54 p=0.02
+[ov] geom L38    PR=4.48 p=0.015
+[ov] geom L39    PR=4.44 p=0.015
+[ov] geom L40    PR=4.46 p=0.01
+[ov] geom L41    PR=4.42 p=0.005
+[ov] geom L42    PR=4.42 p=0.005
+[ov] geom L43    PR=4.31 p=0.005
+[ov] geom L44    PR=4.35 p=0.025
+[ov] geom L45    PR=4.46 p=0.0
+[ov] geom L46    PR=4.51 p=0.01
+[ov] geom L47    PR=4.65 p=0.005
+[ov] geom L48    PR=4.79 p=0.025
+[ov] geom L49    PR=5.00 p=0.02
+[ov] geom L50    PR=5.26 p=0.035
+[ov] geom L51    PR=5.53 p=0.125
+[ov] geom L52    PR=5.73 p=0.27
+[ov] geom L53    PR=5.89 p=0.52
+[ov] geom L54    PR=6.01 p=0.73
+[ov] geom L55    PR=6.10 p=0.815
+[ov] geom L56    PR=6.13 p=0.87
+[ov] geom L57    PR=6.17 p=0.92
+[ov] geom L58    PR=6.18 p=0.93
+[ov] geom L59    PR=6.17 p=0.895
+[ov] geom L60    PR=6.16 p=0.875
+[ov] geom L61    PR=6.09 p=0.835
+[ov] geom L62    PR=6.13 p=0.92
+[ov] geom L63    PR=5.49 p=0.305
+[ov] BAND (residual layers) = L6..L50 (45 probed layers)
+[ov]      embed ->blk L 0 ent_ov=10.621(p=0.000) bind_ov=7.819(p=0.000) rolenull_ov=8.354
+[ov]      L0    ->blk L 1 ent_ov=6.813(p=0.100) bind_ov=4.462(p=0.380) rolenull_ov=8.233
+[ov]      L1    ->blk L 2 ent_ov=4.616(p=0.000) bind_ov=3.751(p=0.000) rolenull_ov=3.596
+[ov]      L2    ->blk L 3 ent_ov=4.154(p=0.000) bind_ov=1.388(p=1.000) rolenull_ov=3.593
+[ov]      L3    ->blk L 4 ent_ov=4.280(p=0.000) bind_ov=1.923(p=0.800) rolenull_ov=4.232
+[ov]      L4    ->blk L 5 ent_ov=2.822(p=0.200) bind_ov=2.064(p=0.440) rolenull_ov=4.321
+[ov]      L5    ->blk L 6 ent_ov=3.958(p=0.120) bind_ov=2.333(p=0.460) rolenull_ov=4.515
+[ov] BAND L6    ->blk L 7 ent_ov=0.276(p=0.125) bind_ov=0.340(p=1.000) rolenull_ov=2.145
+[ov] BAND L7    ->blk L 8 ent_ov=0.451(p=0.105) bind_ov=0.429(p=1.000) rolenull_ov=1.128
+[ov] BAND L8    ->blk L 9 ent_ov=0.953(p=0.070) bind_ov=0.645(p=0.995) rolenull_ov=2.118
+[ov] BAND L9    ->blk L10 ent_ov=0.721(p=0.070) bind_ov=0.379(p=1.000) rolenull_ov=1.299
+[ov] BAND L10   ->blk L11 ent_ov=0.655(p=0.150) bind_ov=0.348(p=1.000) rolenull_ov=0.891
+[ov] BAND L11   ->blk L12 ent_ov=0.817(p=0.110) bind_ov=0.461(p=1.000) rolenull_ov=1.244
+[ov] BAND L12   ->blk L13 ent_ov=0.619(p=0.150) bind_ov=0.386(p=1.000) rolenull_ov=0.866
+[ov] BAND L13   ->blk L14 ent_ov=0.721(p=0.180) bind_ov=0.550(p=1.000) rolenull_ov=1.426
+[ov] BAND L14   ->blk L15 ent_ov=1.336(p=0.145) bind_ov=0.970(p=1.000) rolenull_ov=1.768
+[ov] BAND L15   ->blk L16 ent_ov=1.326(p=0.060) bind_ov=0.886(p=0.995) rolenull_ov=1.446
+[ov] BAND L16   ->blk L17 ent_ov=1.308(p=0.085) bind_ov=0.677(p=1.000) rolenull_ov=1.128
+[ov] BAND L17   ->blk L18 ent_ov=0.967(p=0.105) bind_ov=0.654(p=0.970) rolenull_ov=0.854
+[ov] BAND L18   ->blk L19 ent_ov=1.000(p=0.090) bind_ov=0.484(p=1.000) rolenull_ov=0.886
+[ov] BAND L19   ->blk L20 ent_ov=0.515(p=0.180) bind_ov=0.348(p=1.000) rolenull_ov=0.815
+[ov] BAND L20   ->blk L21 ent_ov=0.651(p=0.175) bind_ov=0.404(p=1.000) rolenull_ov=0.711
+[ov] BAND L21   ->blk L22 ent_ov=0.934(p=0.125) bind_ov=0.450(p=1.000) rolenull_ov=0.866
+[ov] BAND L22   ->blk L23 ent_ov=0.528(p=0.215) bind_ov=0.344(p=1.000) rolenull_ov=0.578
+[ov] BAND L23   ->blk L24 ent_ov=0.489(p=0.195) bind_ov=0.316(p=1.000) rolenull_ov=0.703
+[ov] BAND L24   ->blk L25 ent_ov=0.407(p=0.185) bind_ov=0.309(p=1.000) rolenull_ov=0.561
+[ov] BAND L25   ->blk L26 ent_ov=0.607(p=0.195) bind_ov=0.328(p=1.000) rolenull_ov=0.542
+[ov] BAND L26   ->blk L27 ent_ov=0.891(p=0.140) bind_ov=0.420(p=1.000) rolenull_ov=0.600
+[ov] BAND L27   ->blk L28 ent_ov=0.917(p=0.120) bind_ov=0.361(p=1.000) rolenull_ov=0.894
+[ov] BAND L28   ->blk L29 ent_ov=1.048(p=0.065) bind_ov=0.453(p=1.000) rolenull_ov=0.781
+[ov] BAND L29   ->blk L30 ent_ov=1.004(p=0.140) bind_ov=0.303(p=1.000) rolenull_ov=0.698
+[ov] BAND L30   ->blk L31 ent_ov=1.227(p=0.050) bind_ov=0.342(p=1.000) rolenull_ov=0.858
+[ov] BAND L31   ->blk L32 ent_ov=0.521(p=0.125) bind_ov=0.440(p=1.000) rolenull_ov=1.005
+[ov] BAND L32   ->blk L33 ent_ov=0.905(p=0.090) bind_ov=0.769(p=0.990) rolenull_ov=1.323
+[ov] BAND L33   ->blk L34 ent_ov=0.662(p=0.120) bind_ov=0.509(p=1.000) rolenull_ov=1.148
+[ov] BAND L34   ->blk L35 ent_ov=0.574(p=0.155) bind_ov=0.347(p=1.000) rolenull_ov=0.731
+[ov] BAND L35   ->blk L36 ent_ov=0.960(p=0.220) bind_ov=0.843(p=1.000) rolenull_ov=1.267
+[ov] BAND L36   ->blk L37 ent_ov=0.587(p=0.260) bind_ov=0.607(p=1.000) rolenull_ov=0.941
+[ov] BAND L37   ->blk L38 ent_ov=0.229(p=0.140) bind_ov=0.437(p=1.000) rolenull_ov=0.863
+[ov] BAND L38   ->blk L39 ent_ov=1.052(p=0.090) bind_ov=0.853(p=1.000) rolenull_ov=1.198
+[ov] BAND L39   ->blk L40 ent_ov=0.732(p=0.125) bind_ov=0.678(p=1.000) rolenull_ov=1.171
+[ov] BAND L40   ->blk L41 ent_ov=0.741(p=0.115) bind_ov=0.915(p=0.960) rolenull_ov=1.263
+[ov] BAND L41   ->blk L42 ent_ov=0.466(p=0.140) bind_ov=0.640(p=1.000) rolenull_ov=1.171
+[ov] BAND L42   ->blk L43 ent_ov=0.485(p=0.255) bind_ov=1.497(p=0.195) rolenull_ov=0.932
+[ov] BAND L43   ->blk L44 ent_ov=0.363(p=0.155) bind_ov=0.545(p=1.000) rolenull_ov=0.761
+[ov] BAND L44   ->blk L45 ent_ov=0.371(p=0.135) bind_ov=0.443(p=1.000) rolenull_ov=0.624
+[ov] BAND L45   ->blk L46 ent_ov=0.527(p=0.240) bind_ov=7.148(p=0.085) rolenull_ov=0.617
+[ov] BAND L46   ->blk L47 ent_ov=0.357(p=0.140) bind_ov=0.415(p=1.000) rolenull_ov=0.744
+[ov] BAND L47   ->blk L48 ent_ov=0.483(p=0.140) bind_ov=2.803(p=0.080) rolenull_ov=0.637
+[ov] BAND L48   ->blk L49 ent_ov=0.387(p=0.200) bind_ov=2.711(p=0.055) rolenull_ov=0.496
+[ov] BAND L49   ->blk L50 ent_ov=0.506(p=0.120) bind_ov=0.553(p=0.990) rolenull_ov=0.442
+[ov] BAND L50   ->blk L51 ent_ov=0.850(p=0.155) bind_ov=3.008(p=0.045) rolenull_ov=0.604
+[ov]      L51   ->blk L52 ent_ov=1.002(p=0.120) bind_ov=0.485(p=1.000) rolenull_ov=0.976
+[ov]      L52   ->blk L53 ent_ov=0.492(p=0.200) bind_ov=0.258(p=1.000) rolenull_ov=0.398
+[ov]      L53   ->blk L54 ent_ov=0.804(p=0.120) bind_ov=0.332(p=1.000) rolenull_ov=0.609
+[ov]      L54   ->blk L55 ent_ov=1.033(p=0.120) bind_ov=0.388(p=1.000) rolenull_ov=0.476
+[ov]      L55   ->blk L56 ent_ov=0.871(p=0.180) bind_ov=0.312(p=1.000) rolenull_ov=0.547
+[ov]      L56   ->blk L57 ent_ov=1.152(p=0.180) bind_ov=0.342(p=1.000) rolenull_ov=0.712
+[ov]      L57   ->blk L58 ent_ov=1.047(p=0.240) bind_ov=0.405(p=1.000) rolenull_ov=0.676
+[ov]      L58   ->blk L59 ent_ov=1.315(p=0.120) bind_ov=0.345(p=1.000) rolenull_ov=0.611
+[ov]      L59   ->blk L60 ent_ov=0.754(p=0.200) bind_ov=0.268(p=1.000) rolenull_ov=0.495
+[ov]      L60   ->blk L61 ent_ov=1.138(p=0.180) bind_ov=0.431(p=1.000) rolenull_ov=0.546
+[ov]      L61   ->blk L62 ent_ov=0.846(p=0.320) bind_ov=0.513(p=0.980) rolenull_ov=0.565
+[ov]      L62   ->blk L63 ent_ov=21.613(p=0.940) bind_ov=74.346(p=0.000) rolenull_ov=70.818
+[ov] BAND AGGREGATE: entity_ov rho=0.7139 p=0.0 | bind_ov rho=0.8388 p=0.965 | comp_ov rho=0.2938 p=1.0 | rolenull_ov rho=0.9722 p=0.275
+[ov] MLP row (advisory): entity rho=1.2319 p=0.0 | bind rho=1.1119 p=1.0
+[ov] VERDICT (advisory until pre-reg frozen): {'ov_transmitting': True, 'lattice_in_passband': False, 'p_entity_ov': 0.0, 'p_bind_ov': 0.965, 'p_comp_ov': 1.0, 'note': 'advisory until #p-type-ov pre-reg is frozen (Michael GO)'}
+[ov] wrote /Users/mwhitford/src/verbum/results/type-ov/qwen3-32b/ov_alignment.json
