@@ -293,6 +293,49 @@ instruments; 7-op rank tests have min exact p = 1/5040 per model → cross-model
 pooling carries the inference; halt-distance and halt-prob coincide on KIBC
 (1b) — S/D/W placement is what discriminates.
 
+## P-DUST-1c — Result (s285) — halt-distance REFUTED as primary; split negative; pairwise dust 10/10
+
+> Run of record: `scripts/explore/dust_1c.py` (commit da61ffa), arm-B
+> Y-excluded walk (`default_rng(1)`, N=100k, 98800/100000 terminating),
+> 10 models excl. tainted qwen3-0-6b. Deterministic.
+> walk halt_distance = {K 1.99, I 3.01, B 3.97, C 4.53, D 5.65, W 5.57, S 5.87};
+> halt_prob = {K 0.58, I 0.38, D 0.22, B 0.21, C 0.13, S 0.07, W 0.06}.
+
+**Frozen verdict: `dust_halt_distance_supported = FALSE`** (conjunction
+G1 ∧ G3a ∧ G4 fails on G1). Verbatim gates:
+
+- **G1 (PRIMARY) REFUTED** — per-op `cos(X, whnf:X)` does NOT rank by
+  −halt_distance: median ρ **+0.07**, 5/10 sign-positive, 0/10 perm-sig. The
+  pre-named 1b post-hoc candidate evaporated under its own frozen test
+  (λ yardstick: the "obvious" successor statistic was not the answer).
+- **G2 resolves 1b AGAINST distance** — halt-**probability** orders the per-op
+  absorption geometry better than distance (median ρ_prob **+0.30** >
+  ρ_dist **+0.07**; distance wins **0/10**, median Δ −0.25). The 1b guess was
+  backwards; neither statistic is strong, but prob edges it.
+- **G4 DISSOCIATION** — the **generic WHNF pole** tracks −halt_distance
+  (9/10 sign, median ρ **+0.48**) while the **per-op `whnf:X` states do not**
+  (G1). The single WHNF node the 9×9 root.gram collapsed carried
+  distance-work the expanded per-op states don't — a real information split
+  between the pole and the per-op halts (the un-flattening surfaced a
+  difference, not just detail).
+- **G3a pairwise dust SURVIVES** — anti-block off-diag ↔ presence-PMI:
+  **10/10 sign-positive** (median ρ **+0.44**, 2/10 perm-sig; binomial
+  p ≈ 0.001). The P-DUST-1/1b 39/39 pattern extends onto the anti-block.
+  Dust is **whole-trace** co-occurrence (G3a), NOT final-window (G3b weak,
+  median +0.12, 0/10 sig).
+
+**Standing synthesis (updated across 1/1b/1c).** **Pairwise dust is confirmed
+universally** — crystal block (1/1b, 39/39) AND anti-block (1c-G3a, 10/10):
+which opcodes travel together → how close their states sit, above frequency,
+every ensemble. The **halt-pole** correspondence holds only for the *generic*
+pole (directional at KIBC in 1b; distance-ranked in 1c-G4); the **per-op
+absorption statistic is unresolved and weak** — neither halt-distance nor
+halt-prob strongly orders `cos(X, whnf:X)`. The C2-universality explanation
+(the pairwise dust) survives; the halt-pole **formation law** remains the open
+edge → P-DUST-2 (training-trajectory convergence) territory. What 1c added:
+the pole vs per-op dissociation, and the closure of the distance-vs-prob
+question (prob ≥ distance, both weak).
+
 ## Sessions
 s284 (hypothesis captured from Michael's hammock — "probabilities gathering
 like dust in corners"; P-DUST-1 pre-reg drafted, mapping frozen before any walk
@@ -307,6 +350,8 @@ out, per-op cos(X,whnf:X) strongly negative with K least-negative = own-halt
 hint replicated 11/11, div:Y ⊥ absorption; M16 cross-check — anti-crystal
 ORDERING replicates cross-arc 11/11 (C1) but the Kronecker φ-reflection and
 φ^(4/5) eigenvalue law do NOT survive fresh measurement (λ yardstick); commit
-6b521fb. P-DUST-1c FROZEN — halt-distance primary, all 5 design calls
-Michael-approved; instrument `scripts/explore/dust_1c.py` built + --validate
-PASS; run pending).
+6b521fb. P-DUST-1c FROZEN + RUN + VERDICT — halt-distance primary (all 5 design calls
+Michael-approved); instrument `scripts/explore/dust_1c.py` --validate PASS;
+verdict FALSE (da61ffa): G1 primary REFUTED (median ρ +0.07), G2 resolves
+against distance (prob +0.30 edges it), G4 pole/per-op dissociation, G3a
+pairwise dust survives onto the anti-block 10/10. Split negative mirrors 1b).
