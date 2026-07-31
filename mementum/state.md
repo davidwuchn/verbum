@@ -31,7 +31,23 @@
 > §P-TYPE-JS Result + tags + Sessions, memory type-lattice-not-in-jspace-workspace,
 > this state block.
 >
-> ▶▶ COLD-START ORDER for s287: (1) verbum.dsp build (design page committed 2b40033;
+> ▶▶ s286 cont — P-ATT-MED APPROVED (Michael), 4B smoke leads: pre-reg drafted +
+> approved on type-check-is-the-qk-bilinear.md §P-ATT-MED. It reruns the 3-hop
+> Gate-3b country-swap WITH attention+OV capture and decomposes the flip into
+> AIM (Δweights×value = re-aim) vs CONTENT (weight×Δvalue = medium handle) vs
+> INTERACTION, projected on the continent-logit-diff direction; random-add null
+> (the exact 3b null) + permutation-over-heads; register-matched (routing claim →
+> attention probe, the s206-scar inversion); 0/128 no single-head. A-priori call =
+> CONTENT-dominant (medium handle); AIM-dominant → pre-reg P-ATT-STEER. Verdict host
+> = Qwen3-32B (freezes on GO after smoke green). Michael amendment: LEAD WITH 4B
+> CONTRAST SMOKE (compressed pinned-zone vs 32B unrolled). BUILD:
+> scripts/explore/att_mediation.py (reuse operand_multihop3 helpers, no fork;
+> --validate no-model self-test first: planted attention → known AIM/CONTENT split,
+> null flat) → run 4B → results/type-att-med/qwen3-4b/.
+>
+> ▶▶ COLD-START ORDER for s287: (1) P-ATT-MED — 4B smoke green? → on GO run the 32B
+> verdict (results/type-att-med/qwen3-32b/, frozen gates in §P-ATT-MED). (2)
+> verbum.dsp build (design page committed 2b40033;
 > skeleton + first harvest: whiten/subspace/nulls, tests/dsp from --validate patterns,
 > find_band stride-aware fix #1). (2) P-ATT-MED pre-reg (register-matched routing probe
 > = the mechanism search now that ALL value/geometry hiding places are shut — 3-hop
