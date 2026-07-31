@@ -15,7 +15,12 @@
 > ▶▶ COLD-START ORDER for s285: (1) check tmux main:1 (P-TYPE-JS) + main:2
 > (expanded-gram sweep, results/expanded-gram/sweep_run.log) — both ran overnight;
 > (2) JS verdict per frozen §P-TYPE-JS (types-are-the-well-formedness page);
-> (3) expanded-gram: coherence gates → anti-block vs M16 cross-check → freeze P-DUST-1c;
+> (3) expanded-gram: coherence gates → STYLE-CORRECT the anti-block first (project
+> fire_formal span out of whnf:* centroids — centroids.npz per model, 4cc3116; raw
+> cosines are style-blob-dominated per the 0.6B peek) → anti-block vs M16 cross-check →
+> freeze P-DUST-1c ⚠ EXCLUDING qwen3-0-6b (peeked pre-freeze = tainted, demoted to
+> instrument-check tier; verdict = the other 10 models); 0.6B peek findings: old WHNF
+> pole ANTI-correlated with all whnf:X; K own-halt hint; div:Y ⊥ distinct;
 > (4) verbum.dsp build queued (design page committed). Full context in the s284 blocks
 > below.
 >
