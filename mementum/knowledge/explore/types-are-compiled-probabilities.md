@@ -86,15 +86,113 @@ the frame from finding. Alternative kept alive: passband shaped by something
 correlated-with-but-not-identical-to slot probability (relation-specific feature
 geometry) — the graded bank is designed to split those.
 
-**P-TYPE-OV — what computes the filter (the QK experiment's mirror).**
-Project the 1b lattice role subspaces through W_OV per head (and the MLP
-down-projections — same discipline in the FFN route → same passband story must
-hold), same gain statistic + full shuffled-label null pipeline as P-TYPE-QK.
-Prediction: the type lattice spans the joins' TRANSMISSION subspace — what the
-read-in geometry doesn't do (QK dead-on-null), the write-out geometry should.
-Positive → the implementation is LOCATED: filter = passband, passband = weights.
-Negative → the filter is computed distributively upstream of the join (the
-compiled account survives; the locality claim dies).
+## P-TYPE-OV — what computes the filter (PRE-REG DRAFTED s288; build+smoke approved, Michael "proceed with P-TYPE-OV"; FREEZE on GO for the 32B verdict)
+
+**Hypothesis.** The type filter measured by P-TYPE-SWAP (JOIN-TYPED, filtered
+payload: edges fixed, OV/content channel delivers well-typed displacement
+preferentially) is implemented in the joins' TRANSMISSION geometry: the
+composite per-head OV map preferentially transmits the type-lattice role
+subspaces within the low-rank band. The QK mirror: what the read-in geometry
+does NOT do (P-TYPE-QK dead-on-null, aim side), the write-out geometry should
+(content side). Positive → the implementation is LOCATED: filter = passband,
+passband = weights. Negative → the filter is computed distributively upstream
+of the join; the compiled account survives, the single-layer locality claim
+dies (pre-committed reading, counts fully).
+
+**Measurement (register-matched; no RoPE concern — V is unrotated, cleaner
+than QK by construction).**
+1. Capture labeled Montague-type residuals every decoder layer (probe_type
+   capture verbatim, the QK instrument's path). Residual L pairs with the
+   attention of decoder layer L+1 (v_proj reads input_layernorm_{L+1}).
+2. Per layer: `layer_geometry` (standardize → centroid SVD → PR +
+   shuffled-label null) → `find_band` (1b-v4 procedure; stride-aware via
+   verbum.dsp — smoke may stride legitimately now). In-run band detection.
+3. Role subspaces from class centroids in std space: bind = span{c_QUANT,
+   c_DET}, comp = span{c_MOD}, rolenull = span{c_CONN, c_FUNC} (verbatim,
+   never gated), entity = span{c_ENTITY} (the payload type — the a-priori
+   focus: the content transported in every causal run is entity-class
+   displacement).
+4. Map each std basis into the space the attention block reads:
+   v_attn ∝ (v_std ⊙ sd_L) ⊙ γ_{L+1}, QR (map_basis verbatim).
+5. **Composite OV transmission gain** per Q-head h with GQA value-sharing
+   kv(h): rho_ov = D·‖W_O_h (W_V_kv(h) v)‖² / ‖W_O_h W_V_kv(h)‖²_F
+   (rho = 1 = analytic random-direction expectation; Frobenius norm via
+   tr(G_h C_kv), no D×D materialization). Subspace gain = mean over basis
+   rows; aggregate = mean over heads, then band layers.
+   **MLP read-in row (advisory, never gated):** rho through concat(W_gate,
+   W_up) reading post_attention_layernorm_{L+1} — the FFN-route analog
+   (P-TYPE-SWAP's mlp_transport discriminated; weight-only MLP claims are
+   weak under the nonlinear gate, hence verbatim-only).
+
+**Nulls (mandatory).** N full shuffled-label pipelines per band layer
+(shuffle type labels → centroids → role_subspace → identical mapping →
+identical gains, OV and MLP), band-aggregated per paired iteration;
+p = frac(null_agg ≥ real_agg). Instrument gate: --validate no-model self-test
+(planted OV-transmitted subspace → high rho p<0.05; unplanted → null;
+calibration ~1). Aggregates only (0/128 pre-refuted, no single-head claims).
+
+**Predictions (fixed, a priori).**
+- **P1 (primary).** entity OV band-aggregate beats the shuffled-label null
+  (p<0.05) — the payload type is in the transmission passband.
+- **P2 (lattice-wide).** bind AND comp also beat null — the whole lattice
+  spans the passband (the full compiled-probabilities form).
+- **P3 (verbatim rows, never gated).** rolenull; MLP read-in row (does the
+  FFN route read the lattice axes?); band-vs-out-of-band profile; OV-vs-QK
+  contrast (this run's rho against the committed QK dead-on-null).
+- **Deflationary (pre-committed, counts fully).** All conditions dead-on-null
+  → the filter is NOT single-layer OV weight geometry → distributed
+  implementation upstream of the join. Fifth location null; the compiled
+  account survives (the passband may be realized across layers), the locality
+  claim dies. Reported verbatim, no rescue.
+
+**Verdict (freeze on GO).**
+- **OV-TRANSMITTING** ⟺ P1 (entity, p<0.05, band aggregate).
+- **LATTICE-IN-PASSBAND** ⟺ P1 ∧ P2 (all three roles beat null).
+- **NOT-IN-OV** ⟺ deflationary outcome.
+
+**Registers (λ measure).** Claim = content-transmission geometry (the causal
+JOIN-TYPED filter's implementation); probe = value-register lattice projected
+through the routing register's own write-out weights = the claimed interface.
+Geometry-not-causation (P-TYPE-SWAP already carries the causal register; this
+locates, it does not re-prove).
+
+**Host & order.** --validate → Qwen3-4B contrast smoke (stride 2 legitimate
+now, n_null 50) → verdict host Qwen3-32B on GO (stride 1, n_null 200).
+Results → results/type-ov/qwen3-{4b,32b}/. Instrument
+scripts/explore/type_ov_alignment.py = **verbum.dsp's first consumer**
+(map_basis, layer_geometry, role_subspace, find_band, head_gain_ratios
+imported from the substrate — no sys.path wrapper hacks).
+
+**Honest scope.** (a) GQA: n_kv=8 distinct value heads at 32B — V-side
+variety limited (the QK K-side caveat, mirrored); composite rho spans all 64
+Q-head output slots. (b) Weight-only: transmission measured at the operator,
+not on data — a passband unused by the running model would still score
+(geometry-not-causation). (c) MLP row is read-in only (nonlinear gate blocks
+a clean weight-only transmission statistic) — advisory. (d) Single-layer
+pairing (L → L+1); a multi-layer distributed passband is invisible here by
+design — that is what the deflationary outcome means.
+
+### Result-4B-smoke (s288 — ADVISORY, not the verdict)
+
+Instrument green end-to-end (committed with fix #2): --validate ALL PASS;
+first verbum.dsp consumer in anger — and the smoke immediately CAUGHT
+find_band fix #2 (appended tail layer collapsed the inferred stride;
+mode-of-diffs fix, test added). Band L8–L24 (9 probed layers, stride 2 —
+coheres with the 1a 4B band L9–L22).
+
+Advisory signal @4B: **OV dead-on-null, all conditions** (entity p .78, bind
+.76, comp 1.0, rolenull .90; n_null 50). λ yardstick earned its keep twice:
+raw rho 0.19–0.72 (≪1) would read as "active suppression of the lattice" —
+but the shuffled-label subspaces score equally low (null means 0.25–1.09):
+the standardized-centroid REGION is generically low-gain in OV; there is no
+type-specific structure either direction at 4B. Verbatim: rolenull (CONN/
+FUNC) fires on the MLP read-in row (p=.000, rho 1.10 vs 1.03) — the FOURTH
+appearance of the rolenull-fires motif (QK Q-side, JS, now MLP read-in);
+entity MLP p=.06 marginal. NOT the verdict: 4B host, and P-TYPE-QK showed
+opposite 4B/32B in-band patterns (scale-dependent organization) — the 32B
+run decides. ▶ 32B VERDICT ON GO (freeze this pre-reg): uv run python
+scripts/explore/type_ov_alignment.py --model Qwen/Qwen3-32B --device mps
+→ results/type-ov/qwen3-32b/.
 
 ## DSP convergence
 

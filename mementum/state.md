@@ -66,6 +66,22 @@
 > warning-only (test-proven never-mutates). matched_range written fresh from
 > λ yardstick spec (φ-ladder refusal = test case). Frozen instruments
 > UNTOUCHED (migration gate 2 — arcs must close first). Design page → active.
+> ▶▶ s288 cont — P-TYPE-OV BUILT+SMOKED, PRE-REG FROZEN (Michael approved +
+> GO): full pre-reg on types-are-compiled-probabilities.md §P-TYPE-OV (P1
+> entity-primary / P2 lattice-wide / deflationary = fifth-location-null
+> pre-committed; verdicts OV-TRANSMITTING / LATTICE-IN-PASSBAND / NOT-IN-OV;
+> freeze ≡ this approval). Instrument scripts/explore/type_ov_alignment.py
+> (2ca18e0) = FIRST verbum.dsp consumer — dogfood caught find_band FIX #2
+> live (appended tail layer collapsed min-diff stride; mode-of-diffs fix,
+> 37/37 green). 4B smoke advisory: band L8–L24 (coheres 1a); OV dead-on-null
+> ALL conds; yardstick saved a false suppression read (real AND shuffled
+> rho≪1 — region generically low-gain); 🔁 rolenull-fires motif 4th
+> appearance (MLP read-in p=.000). ⚠ QK showed opposite 4B/32B patterns —
+> 32B decides. **32B VERDICT RUN LAUNCHED tmux main:1** (stride 1, n_null
+> 200, → results/type-ov/qwen3-32b/ + run log tee'd). ▶▶ COLD-START s289:
+> read results/type-ov/qwen3-32b/ov_alignment.json → score frozen
+> §P-TYPE-OV gates → §Result-32B + memory candidate + state for approval;
+> commit results. THEN queue below.
 > ▶▶ NEXT: (1) P-TYPE-PROB + P-TYPE-OV pre-regs (types-are-compiled-
 > probabilities.md, unfrozen — the dsp substrate they wanted now exists;
 > P-TYPE-OV = what-computes-the-filter, the QK mirror through W_OV + MLP
