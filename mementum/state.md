@@ -8,9 +8,9 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-31 | Session: 286 | JS + P-ATT-MED (MEDIATION-MEASURED +
-> MEDIUM-HANDLE) landed. P-ATT-FFN (retrieval-vs-composition) APPROVED+built; 4B smoke
-> fixed a post-norm recon bug (recon_err→0.001), route MIXED/MLP-leaning; 32B on GO.
+> Last updated: 2026-07-31 | Session: 286 | JS + P-ATT-MED landed. P-ATT-FFN
+> APPROVED+built (4B smoke fixed a post-norm recon bug → 0.001); **32B verdict RUN IN
+> FLIGHT** (tmux main:1, Michael GO) — read it first next session.
 
 > ▶▶ s286 DONE (P-TYPE-JS closed — the types arc is now a clean FOUR-way null):
 > the overnight P-TYPE-JS run (s285 tmux main:1) COMPLETED and the frozen verdict
@@ -93,9 +93,20 @@
 > --ref-layer 9 --swap-layer 25 --scale 2.0 --n-cells 18 --n-null 200 --out
 > results/type-att-ffn/qwen3-32b (frozen gates §P-ATT-FFN: FFN-RETRIEVAL vs MIXED-ROUTE
 > vs negative).
+> ✅ 32B VERDICT LAUNCHED (Michael GO, tmux main:1): cmd above, verified running
+> (weights 707/707). ~30–40 min MPS (route-decomp adds MLP+hs capture over P-ATT-MED's
+> ~31 min). ⚠ results/type-att-ffn/qwen3-32b/ UNTRACKED — commit with the verdict. ON
+> RETURN: read att_ffn.json → aggregate.route (n_attn_dominant vs n_mlp_dominant,
+> mlp_dominant_cells, mean_recon_err<0.05) → score frozen gates: FFN-RETRIEVAL-CONFIRMED
+> ⟺ Sphinx AND Petronas MLP-dominant + MLP beats null; MIXED-ROUTE-MEASURED ⟺ both routes
+> present + null-beating (the LIKELY outcome per the 4B contrast); negative ⟺ null-misses
+> MLP-negligible. Draft §Result-32B + state for approval; the 4B contrast already flagged
+> Sphinx/Petronas as attention-dominant, so watch whether 32B agrees or flips.
 >
-> ▶▶ COLD-START ORDER for s287: (1) P-ATT-FFN 32B verdict (on GO — cmd above) OR
-> verbum.dsp build (design page committed 2b40033;
+> ▶▶ COLD-START ORDER for s287: (1) P-ATT-FFN 32B verdict IN FLIGHT (s286, tmux main:1):
+> check `tmux capture-pane -t main:1` + results/type-att-ffn/qwen3-32b/att_ffn.json →
+> score the frozen gates → §Result-32B + state for approval; commit untracked results.
+> THEN (2) verbum.dsp build (design page committed 2b40033;
 > skeleton + first harvest: whiten/subspace/nulls, tests/dsp from --validate patterns,
 > find_band stride-aware fix #1) — the DSP substrate the whole attention/routing arc
 > now wants. (1b) P-ATT-MED follow-ups IF wanted: P-ATT-DIFF proper (licensed-vs-

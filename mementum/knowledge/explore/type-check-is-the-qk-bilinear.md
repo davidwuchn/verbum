@@ -612,6 +612,18 @@ absolute total / reconstruction were wrong.
 Results `results/type-att-ffn/qwen3-4b/`. Verdict host = Qwen3-32B on GO (reuse the
 P-ATT-MED cells/config verbatim so the route split maps 1:1 onto its verdict cells).
 
+## P-ATT-FFN — Result @32B — RUN IN FLIGHT (s286, tmux main:1)
+
+Verdict launched on Michael GO (s286): Qwen3-32B, `--route-decomp`, install L9, swap L25,
+scale 2.0, reader L25–63, 18 cells, n_null 200 → `results/type-att-ffn/qwen3-32b/att_ffn.json`.
+Verified running (weights 707/707). **No verdict recorded yet.** On completion, read
+`aggregate.route` (n_attn_dominant vs n_mlp_dominant, `mlp_dominant_cells`,
+`mean_recon_err` must be small) and score the frozen gates: **FFN-RETRIEVAL-CONFIRMED**
+⟺ Sphinx AND Petronas MLP-dominant + MLP beats null; **MIXED-ROUTE-MEASURED** ⟺ both
+routes present + null-beating (the likely outcome per the 4B contrast, which put
+Sphinx/Petronas on the *attention* side); **negative** ⟺ null-misses MLP-negligible. Fill
+§Result-32B verbatim, no post-hoc route reassignment.
+
 ## Sessions
 s283b (page created from the attention-gap hammock; no experiments run;
 1c dark-field run in flight during discussion).
@@ -645,3 +657,5 @@ residual via a `norm_f` pre-hook (recon_err 1.8→0.001; P-ATT-MED ratios unaffe
 4B route split MIXED, MLP-leaning (11/14 MLP-dominant, MLP null-beating 13/14 — FFN
 carries the fact-map), but the two 32B null-misses are attention-dominant at 4B →
 MIXED-ROUTE the likely 32B outcome. Verdict host 32B on GO).
+s286 cont (Michael GO → P-ATT-FFN 32B verdict LAUNCHED in tmux main:1, `--route-decomp`,
+swap L25, n_null 200 — RUN IN FLIGHT, §Result-32B pending on completion).
