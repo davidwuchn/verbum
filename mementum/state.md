@@ -9,8 +9,8 @@
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
 > Last updated: 2026-07-30 (evening close) | Session: 284 | MEMENTUM COMMITTED s284
-> (Michael-directed "update state and knowledge"; Michael wrote "session-384" — read as
-> s284 typo, chats dir holds 282/283; flag if intentional).
+> (Michael-directed "update state and knowledge"; session number confirmed by Michael —
+> chats/session-284.md will be human-saved after this session ends, per protocol).
 >
 > ▶▶ COLD-START ORDER for s285: (1) check tmux main:1 (P-TYPE-JS) + main:2
 > (expanded-gram sweep, results/expanded-gram/sweep_run.log) — both ran overnight;
