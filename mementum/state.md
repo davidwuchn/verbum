@@ -12,6 +12,22 @@
 > APPROVED+built (4B smoke fixed a post-norm recon bug → 0.001); **32B verdict RUN IN
 > FLIGHT** (tmux main:1, Michael GO) — read it first next session.
 
+> ▶▶ s287 LIVE — INDUCTIVE HAMMOCK → P-TYPE-SWAP ✅ APPROVED (Michael,
+> type-check-is-the-qk-bilinear.md §P-TYPE-SWAP; 4B smoke leads, 32B verdict on GO): Michael's induction = types-mechanism
+> EXISTENCE is over-determined by six positives (v3 crossover, decodability, 1a lattice,
+> 3b class-swap, P-ATT-MED transport, name_pen) each fatal to a no-types H₀; the 4-way
+> null constrained IMPLEMENTATION only. Two gaps found: (1) causal design space missing
+> the wrong-type-ON-MANIFOLD cell (only same-type-on-manifold vs random-off-manifold ever
+> run) = the typing-vs-manifold discriminator; (2) ⚠ MEASUREMENT CAVEAT — P-ATT-MED's
+> swap-vs-null differential is w-PROJECTED: "random refused" indistinguishable from
+> "random transported, no w-component"; refusal confirmed only in output register.
+> P-TYPE-SWAP design: arms baseline/same-type(3b control)/sortal(animal)/wrong-type
+> (adjective,×2 banks)/random; 3-stage SURVIVAL→TRANSPORT(unprojected, slot-mass)→
+> REDUCTION decomposition; verdicts JOIN-TYPED / REDUCTION-TYPED / MANIFOLD; subsumes
+> P-ATT-DIFF causally; reuses P-ATT-MED cells/config 1:1 (4B smoke first, 32B on GO).
+> P-ATT-FFN 32B verdict STILL IN FLIGHT (tmux main:1, launched 11:00) — read
+> results/type-att-ffn/qwen3-32b/att_ffn.json when done, score frozen gates.
+>
 > ▶▶ s286 DONE (P-TYPE-JS closed — the types arc is now a clean FOUR-way null):
 > the overnight P-TYPE-JS run (s285 tmux main:1) COMPLETED and the frozen verdict
 > is **js_resident=FALSE, js_specific=FALSE** — the exhaust is NOT the global

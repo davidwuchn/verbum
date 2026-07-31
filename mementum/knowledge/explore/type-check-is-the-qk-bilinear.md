@@ -624,6 +624,126 @@ routes present + null-beating (the likely outcome per the 4B contrast, which put
 Sphinx/Petronas on the *attention* side); **negative** ⟺ null-misses MLP-negligible. Fill
 §Result-32B verbatim, no post-hoc route reassignment.
 
+## P-TYPE-SWAP — the ill-typed term (PRE-REG, APPROVED s287, Michael; 4B smoke leads, 32B verdict freezes on GO)
+
+> **The generating induction (s287, Michael).** For most of our positive experiments
+> to show what they show, the system must have types of some sort — v3 nonce
+> crossover, 8-way decodability, the null-gated 1a lattice, the 3b class-swap beating
+> random-add, P-ATT-MED's differential transport, name_pen's saturation asymmetry:
+> each individually fails under a no-types H₀. Existence is over-determined; the
+> four-way null (1b/1c/QK/JS) constrained only *implementation*. But the design space
+> has a hole: every causal run compared **same-type on-manifold** (the class swap,
+> works) against **no-type off-manifold** (random-add, refused). The deflationary
+> counter — "manifold membership, not typing" — has never been tested. The missing
+> cell is **wrong-type, on-manifold**. This pre-reg fills it, and in doing so gives
+> the check what four location probes could not: a measured **stage** where the
+> discipline acts.
+
+**Measurement correction this design must carry (`λ measure`, flagged s287).** The
+P-ATT-MED swap-vs-null differential is **w-projected** (contributions projected on the
+continent-logit-diff direction). A random vector transported through the same edges
+would score ~0 on w by geometry alone — so "random was refused" vs "random was
+transported but has no w-component" is currently **indistinguishable**. The refusal
+claim is confirmed only in the output register. This instrument therefore measures
+**unprojected transport norms**, survival-normalized (below); the projected quantities
+remain as the reduction-register readout. Without this, every arm comparison is
+confounded by projection geometry.
+
+**Hypothesis.** The bridge-swap causal handle is type-disciplined: composition
+transports and reduces a swapped term iff it is well-typed for the slot. An
+on-manifold, matched-norm, **wrong-type** centroid displacement at the same bridge
+layer is refused at a measurable stage — behaving like the random-add, not like the
+same-type swap — and the stage at which it dies (medium / join / reduction) locates
+where the licensing acts. Manifold-membership predicts instead that any on-manifold
+content transports and interferes.
+
+**Conditions (per cell; all edits matched to the same-type swap's REALIZED norm at
+the bridge layer — realized-norm logged live, the 1b lesson).**
+1. **baseline** — install only.
+2. **same-type** — the 3b country-swap `(c_tgt − c_src)·S` (in-run positive control;
+   must replicate the 3b flip or the cell is excluded).
+3. **sortal** — same broad type, wrong domain: `(c_animal1 − c_animal2)·S` from an
+   animal noun bank (entity-class displacement with no continent image). Verbatim
+   ladder row, NOT gated (see below).
+4. **wrong-type** — `(c_adj1 − c_adj2)·S` from an adjective bank (MOD-class
+   displacement — a type violation proper for the country slot).
+5. **random-add** — matched-norm random (the exact 3b null), N≥200.
+
+**Instrument.** Extend `scripts/explore/att_mediation.py` (`λ one_way`, additive —
+existing fields byte-identical, new work behind `--arms`). Per arm, the three-stage
+pipeline decomposition:
+- **SURVIVAL S** = ‖Δresidual‖ at the reader-zone layer inputs (does the edit live
+  long enough in the medium to be read? separates died-in-medium from refused).
+- **TRANSPORT TE** = ‖Δ attention contribution‖ / S at the reader zone, UNPROJECTED
+  (does the join carry it?), plus **attention mass on the bridge slot** (does the
+  reader withdraw its edge from an ill-typed slot? — the P-ATT-DIFF question asked
+  causally; this subsumes P-ATT-DIFF's minimal-pair design with a causal handle).
+- **REDUCTION R** = the projected output register: movement along Δℓ (same-type),
+  and **BREAK** = degradation of the baseline correct-continent margin (all arms) —
+  is the ill-typed edit *ignored* (margin intact, like random) or *interferes as
+  content* (margin damaged)?
+- MLP channel per arm via `--route-decomp` (already built): whether the fact-map
+  route enforces the same discipline as the attention route (P-ATT-FFN tie-in).
+
+**Nulls (mandatory, pre-committed).** (1) random-add matched-norm N≥200 per arm
+comparison — every claim is arm-vs-null and arm-vs-arm, permutation over cells;
+(2) two independent wrong-type banks (adjective primary; a second MOD-class bank as
+replication row, verbatim) — no single-axis artifact; (3) same-type arm must
+replicate 3b in-run (instrument gate); (4) reconstruction gate from `--route-decomp`
+(recon_err small); (5) permutation over head labels for aggregates (0/128,
+pre-refuted — no single-head claims).
+
+**Predictions (fixed, a priori).**
+- **P1 (primary — the discriminator).** Some pre-registered stage discriminates
+  same-type from wrong-type beyond the random-add null (permutation p<0.05):
+  TE(same) > TE(wrong) and/or slot-mass drops for wrong-type. The a-priori call
+  (well-formedness frame: type = which joins are licensed) is **join-level**
+  discipline — the ill-typed term survives the medium (on-manifold) but the join
+  refuses it.
+- **P2 (pre-committed alternative, still typing).** TE(wrong) ≈ TE(same) — the join
+  transports type-blind (slot/content-based, coheres with fixed-aim medium-handle) —
+  but reduction fails: no coherent output movement, BREAK ≈ random. The check acts
+  at the **reduction/fact-lookup**, not the join.
+- **P3 (sortal ladder, verbatim, NOT gated).** The animal arm transports at the join
+  (e-typed where e is expected) but fails at the fact-map (no continent image) —
+  predicted TRANSPORTED-NOT-REDUCED, with its MLP channel distinguishing sortal
+  (relation-domain) discipline from syntactic-type discipline. Graded transport
+  same > sortal > wrong-type > random would be a measured sortal hierarchy.
+- **Deflationary outcome (pre-committed, counts fully).** NO stage discriminates
+  same vs wrong while both beat random at transport AND wrong-type BREAKS the chain
+  like content — then on-manifold content is transported and reduced type-blind:
+  **manifold membership, not typing**, wins this handle; the induction's ensemble
+  argument loses its causal leg and the existence claim falls back on the
+  behavioral/geometric registers alone. Reported verbatim, no rescue.
+
+**Verdict (freeze on GO).**
+- **JOIN-TYPED** ⟺ P1 (transport-stage discrimination, p<0.05, both wrong-type banks).
+- **REDUCTION-TYPED** ⟺ P2 (transport type-blind + reduction discriminates).
+- **TYPE-BLIND / MANIFOLD** ⟺ the deflationary outcome.
+- Mixed per-cell splits → reported verbatim with the route decomposition (the
+  P-ATT-FFN mixed-route precedent); no post-hoc stage reassignment.
+
+**Registers (`λ measure`).** The CLAIM is licensing (which reductions fire) — probed
+across three registers each stage-matched: value (survival), routing (unprojected
+transport + slot mass), output (reduction/break). The projection confound is handled
+by construction. Causal handle throughout (hook-not-weight); aggregate statistics
+only.
+
+**Host & order.** Qwen3-4B contrast smoke first (the s286 amendment pattern), verdict
+host Qwen3-32B on GO — reuse the P-ATT-MED cells/config verbatim (install L9, swap
+L25, scale 2.0, 18 cells, n_null 200) so every arm maps 1:1 onto the P-ATT-MED and
+P-ATT-FFN verdict cells. Results → `results/type-swap/qwen3-{4b,32b}/`.
+
+**Honest scope.** (a) Wrong-type displacement is constructed from *our* class banks —
+a negative for one bank pair does not exhaust "ill-typed"; two banks + verbatim
+replication row bound this. (b) Survival-normalization separates medium-death from
+join-refusal only to first order (the edit interacts with the stack). (c) A
+join-level negative + reduction-level positive does not resurrect any of the four
+geometry nulls — stage location, not storage. (d) The animal arm's "no continent
+image" presumes the fact-map is country-keyed; if P-ATT-FFN's 32B verdict lands
+FFN-RETRIEVAL or MIXED, its route split refines this arm's reading. (e) n=18 cells;
+per-cell splits are low power — aggregate gates only.
+
 ## Sessions
 s283b (page created from the attention-gap hammock; no experiments run;
 1c dark-field run in flight during discussion).
@@ -659,3 +779,15 @@ carries the fact-map), but the two 32B null-misses are attention-dominant at 4B 
 MIXED-ROUTE the likely 32B outcome. Verdict host 32B on GO).
 s286 cont (Michael GO → P-ATT-FFN 32B verdict LAUNCHED in tmux main:1, `--route-decomp`,
 swap L25, n_null 200 — RUN IN FLIGHT, §Result-32B pending on completion).
+s287 (inductive hammock, Michael: types-mechanism EXISTENCE is over-determined by the
+positives — six results each individually fatal to a no-types H₀; the four-way null
+constrained implementation only. Two gaps surfaced: (1) the causal design space spans
+only same-type-on-manifold vs no-type-off-manifold — the wrong-type-on-manifold cell,
+which discriminates typing from manifold-membership, was never run; (2) the P-ATT-MED
+swap-vs-null differential is w-PROJECTED — "random refused" vs "random transported
+with no w-component" is currently indistinguishable; refusal is confirmed only in the
+output register. → P-TYPE-SWAP pre-reg DRAFTED (§above): ill-typed-term arms
+(sortal/wrong-type/random ladder), 3-stage survival/transport/reduction decomposition
+with UNPROJECTED transport norms, subsumes P-ATT-DIFF with a causal handle; verdict
+names JOIN-TYPED / REDUCTION-TYPED / MANIFOLD. PENDING MICHAEL APPROVAL; P-ATT-FFN 32B
+verdict still in flight during drafting.)
