@@ -46,12 +46,16 @@
 > (>15%|SNR₀|) — flat MLP curve no longer false-LOCALIZED (cliff 2.85→null→
 > HOLOGRAPHIC); #2 oob control matched on LAYER COUNT (not all 33 oob layers);
 > #3 (Michael-caught scrollback NaN) _json_safe → strict JSON (allow_nan=False,
-> λ result_format). ★ CONCEPT (Michael, s289 "audio signal through an optical
-> lens"): the three registers agree on the OPERATION (inner product) but DIVERGE
-> on STORAGE TOPOLOGY — audio=addressed(cut→cliff), optics=delocalized(cut→smooth);
-> the lens ≡ Fourier transform (addressed→spread domain); LDI measures WHICH
-> domain the compute is stored in; FRAG measures the domain, CAP measures whether
-> it's a true hologram. (candidate convergence-page addition, unwritten.)
+> λ result_format). ⚠ METHOD NOTE (Michael, s289): his "audio signal through an
+> optical lens" meant lens ≡ FRAME OF REFERENCE (perspective), NOT a literal
+> Fourier transform — the question was register hygiene: we MEASURE in the signal
+> register (SNR/LDI/passband) but INTERPRET through the holography frame. Agent
+> over-read it as a literal FT/optical mechanism (correction logged). VERDICT:
+> the holographic frame is PREMATURE — an interpretation looking for a mechanism;
+> HOLD until the mechanism experiments (FRAG verdict, CAP, successors) show the
+> mechanisms clearly. DO NOT synthesize to knowledge yet; convergence page
+> untouched. Open λ measure question retained (not a claim): is our
+> signal-register measurement register-matched to a holography-register claim?
 > ▶ NEXT: 32B VERDICT on GO (tmux, per Michael) — uv run python
 > scripts/explore/holo_frag.py --model-id Qwen/Qwen3-32B --device mps --draws 100
 > --arms heads mlp --control --out results/holo-frag/qwen3-32b ; score frozen
