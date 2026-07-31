@@ -1,0 +1,13 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 7261.47it/s]
+[att-med] Qwen/Qwen3-4B L=9 lb=20 scale=2.0 dev=mps H=32 n_kv=8 hd=128 layers=36 reader=20..35
+[att-med] using 6 install-correct cells: ['Colosseum', 'Louvre', 'Parthenon', 'Kremlin', 'Sagrada Familia', 'Brandenburg Gate']
+[att-med] Colosseum        flip=1 aim=0.095 content=0.862 inter=0.043 attn_tot=33.5018 p_vs_null=0.0
+[att-med] Louvre           flip=1 aim=0.014 content=0.82 inter=0.166 attn_tot=14.13 p_vs_null=0.0
+[att-med] Parthenon        flip=1 aim=0.048 content=0.689 inter=0.263 attn_tot=16.09 p_vs_null=0.0
+[att-med] Kremlin          flip=1 aim=0.089 content=0.873 inter=0.039 attn_tot=13.9631 p_vs_null=0.0
+[att-med] Sagrada Familia  flip=1 aim=0.091 content=0.857 inter=0.053 attn_tot=9.049 p_vs_null=0.0
+[att-med] Brandenburg Gate flip=1 aim=0.172 content=0.773 inter=0.054 attn_tot=11.0079 p_vs_null=0.0
+
+[att-med] AGG (flipped cells): aim=0.085 content=0.812 inter=0.103 content_dominant=True mean_p=0.0
+[att-med] wrote results/type-att-med/qwen3-4b/att_mediation.json
