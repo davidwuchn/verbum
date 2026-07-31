@@ -1,0 +1,277 @@
+{
+ "timestamp_utc": "2026-07-31T05:29:31.086123+00:00",
+ "source_m16": "scripts/experiments/crystal_tree.py:52 (Zone-B 4-model)",
+ "source_ours": "results/expanded-gram/*/style_corrected.json (s285)",
+ "verdict": {
+  "n_models": 11,
+  "common_ops": [
+   "K",
+   "I",
+   "B",
+   "C",
+   "D",
+   "W"
+  ],
+  "m16_reference": {
+   "anti_block_offdiag_mean": 0.5418,
+   "crystal_block_offdiag_mean": 0.5418,
+   "cross_block_mean": -0.1174,
+   "anti_mirrors_crystal_r": 1.0
+  },
+  "C1_antiblock_match": {
+   "median_r": 0.4449,
+   "sign_positive": "11/11",
+   "perm_p_lt_05": "5/11"
+  },
+  "C2_kronecker_reflection": {
+   "median_r": 0.2384,
+   "sign_positive": "8/11",
+   "perm_p_lt_05": "0/11",
+   "m16_own_reflection_r": 1.0
+  },
+  "C3_cross_anticorrelation": {
+   "median_cross_mean": -0.7197,
+   "sign_negative": "11/11",
+   "m16_cross_mean": -0.1174
+  },
+  "VERDICT": {
+   "C1_supported": true,
+   "C2_supported": false,
+   "C3_supported": true,
+   "note": "C1=fresh anti-block reproduces M16 anti-crystal ordering; C2=Kronecker reflection (anti mirrors crystal) present in fresh data; C3=type<->anti anti-correlation. phi^(4/5) pairing reported descriptively (lambda yardstick, not gated)."
+  }
+ },
+ "per_model": {
+  "gemma-4-31b-it": {
+   "C1_antiblock_match_r": 0.5491,
+   "C1_perm_p": 0.0333,
+   "C2_our_reflection_r": 0.2256,
+   "C2_perm_p": 0.1972,
+   "C3_cross_mean": -0.6633,
+   "C3_cross_diag_mean": -0.6439,
+   "phi_pairing": {
+    "phi_45": 1.4696,
+    "eig_ratios": [
+     5.3042,
+     2.1272,
+     1.441,
+     1.39,
+     1.5228
+    ],
+    "mean_rel_err_vs_phi45": 0.6333,
+    "shuffled_null_mean_err": 0.6333,
+    "p_beats_shuffled_null": 0.836
+   }
+  },
+  "olmo-2-1124-13b": {
+   "C1_antiblock_match_r": 0.536,
+   "C1_perm_p": 0.0306,
+   "C2_our_reflection_r": 0.2384,
+   "C2_perm_p": 0.225,
+   "C3_cross_mean": -0.7197,
+   "C3_cross_diag_mean": -0.7079,
+   "phi_pairing": {
+    "phi_45": 1.4696,
+    "eig_ratios": [
+     6.6117,
+     2.71,
+     1.5119,
+     1.3933,
+     1.6645
+    ],
+    "mean_rel_err_vs_phi45": 0.9113,
+    "shuffled_null_mean_err": 0.9113,
+    "p_beats_shuffled_null": 0.1585
+   }
+  },
+  "pythia-14m-deduped": {
+   "C1_antiblock_match_r": 0.3427,
+   "C1_perm_p": 0.1347,
+   "C2_our_reflection_r": -0.3318,
+   "C2_perm_p": 0.8292,
+   "C3_cross_mean": -0.7869,
+   "C3_cross_diag_mean": -0.7758,
+   "phi_pairing": {
+    "phi_45": 1.4696,
+    "eig_ratios": [
+     6.9688,
+     3.1245,
+     2.7795,
+     1.7925,
+     1.5086
+    ],
+    "mean_rel_err_vs_phi45": 1.2012,
+    "shuffled_null_mean_err": 1.2012,
+    "p_beats_shuffled_null": 0.3875
+   }
+  },
+  "pythia-160m-deduped": {
+   "C1_antiblock_match_r": 0.3385,
+   "C1_perm_p": 0.1319,
+   "C2_our_reflection_r": -0.1965,
+   "C2_perm_p": 0.7292,
+   "C3_cross_mean": -0.7227,
+   "C3_cross_diag_mean": -0.7144,
+   "phi_pairing": {
+    "phi_45": 1.4696,
+    "eig_ratios": [
+     6.8016,
+     2.926,
+     2.2072,
+     1.9477,
+     1.1671
+    ],
+    "mean_rel_err_vs_phi45": 1.1305,
+    "shuffled_null_mean_err": 1.1305,
+    "p_beats_shuffled_null": 0.9775
+   }
+  },
+  "pythia-2-8b-deduped": {
+   "C1_antiblock_match_r": 0.4449,
+   "C1_perm_p": 0.0639,
+   "C2_our_reflection_r": -0.1667,
+   "C2_perm_p": 0.7,
+   "C3_cross_mean": -0.7288,
+   "C3_cross_diag_mean": -0.7219,
+   "phi_pairing": {
+    "phi_45": 1.4696,
+    "eig_ratios": [
+     6.9236,
+     2.3868,
+     1.6437,
+     1.6471,
+     1.5257
+    ],
+    "mean_rel_err_vs_phi45": 0.9226,
+    "shuffled_null_mean_err": 0.9226,
+    "p_beats_shuffled_null": 0.842
+   }
+  },
+  "pythia-410m": {
+   "C1_antiblock_match_r": 0.3849,
+   "C1_perm_p": 0.1069,
+   "C2_our_reflection_r": 0.1733,
+   "C2_perm_p": 0.2944,
+   "C3_cross_mean": -0.7444,
+   "C3_cross_diag_mean": -0.7335,
+   "phi_pairing": {
+    "phi_45": 1.4696,
+    "eig_ratios": [
+     6.2138,
+     2.627,
+     2.1105,
+     2.1045,
+     1.1358
+    ],
+    "mean_rel_err_vs_phi45": 1.0223,
+    "shuffled_null_mean_err": 1.0223,
+    "p_beats_shuffled_null": 0.9155
+   }
+  },
+  "qwen3-0-6b": {
+   "C1_antiblock_match_r": 0.4865,
+   "C1_perm_p": 0.0472,
+   "C2_our_reflection_r": 0.2628,
+   "C2_perm_p": 0.1667,
+   "C3_cross_mean": -0.7618,
+   "C3_cross_diag_mean": -0.7528,
+   "phi_pairing": {
+    "phi_45": 1.4696,
+    "eig_ratios": [
+     6.716,
+     3.0898,
+     1.562,
+     1.3478,
+     1.9821
+    ],
+    "mean_rel_err_vs_phi45": 1.0334,
+    "shuffled_null_mean_err": 1.0334,
+    "p_beats_shuffled_null": 0.1625
+   }
+  },
+  "qwen3-14b": {
+   "C1_antiblock_match_r": 0.4421,
+   "C1_perm_p": 0.0639,
+   "C2_our_reflection_r": 0.3657,
+   "C2_perm_p": 0.1028,
+   "C3_cross_mean": -0.6946,
+   "C3_cross_diag_mean": -0.6773,
+   "phi_pairing": {
+    "phi_45": 1.4696,
+    "eig_ratios": [
+     5.5161,
+     2.3626,
+     1.6163,
+     1.4109,
+     1.596
+    ],
+    "mean_rel_err_vs_phi45": 0.7174,
+    "shuffled_null_mean_err": 0.7174,
+    "p_beats_shuffled_null": 0.9955
+   }
+  },
+  "qwen3-32b": {
+   "C1_antiblock_match_r": 0.499,
+   "C1_perm_p": 0.0458,
+   "C2_our_reflection_r": 0.3731,
+   "C2_perm_p": 0.1042,
+   "C3_cross_mean": -0.6789,
+   "C3_cross_diag_mean": -0.6589,
+   "phi_pairing": {
+    "phi_45": 1.4696,
+    "eig_ratios": [
+     4.6957,
+     2.3101,
+     1.8129,
+     1.2367,
+     1.8126
+    ],
+    "mean_rel_err_vs_phi45": 0.6786,
+    "shuffled_null_mean_err": 0.6786,
+    "p_beats_shuffled_null": 0.996
+   }
+  },
+  "qwen3-4b": {
+   "C1_antiblock_match_r": 0.4225,
+   "C1_perm_p": 0.075,
+   "C2_our_reflection_r": 0.2956,
+   "C2_perm_p": 0.1347,
+   "C3_cross_mean": -0.6982,
+   "C3_cross_diag_mean": -0.6828,
+   "phi_pairing": {
+    "phi_45": 1.4696,
+    "eig_ratios": [
+     5.6217,
+     2.406,
+     1.627,
+     1.4404,
+     1.6083
+    ],
+    "mean_rel_err_vs_phi45": 0.7368,
+    "shuffled_null_mean_err": 0.7368,
+    "p_beats_shuffled_null": 0.887
+   }
+  },
+  "qwen3-6-27b": {
+   "C1_antiblock_match_r": 0.4993,
+   "C1_perm_p": 0.0444,
+   "C2_our_reflection_r": 0.4314,
+   "C2_perm_p": 0.075,
+   "C3_cross_mean": -0.6574,
+   "C3_cross_diag_mean": -0.6335,
+   "phi_pairing": {
+    "phi_45": 1.4696,
+    "eig_ratios": [
+     4.9647,
+     2.0656,
+     1.6422,
+     1.255,
+     1.6978
+    ],
+    "mean_rel_err_vs_phi45": 0.6405,
+    "shuffled_null_mean_err": 0.6405,
+    "p_beats_shuffled_null": 0.838
+   }
+  }
+ }
+}

@@ -1,10 +1,60 @@
 {
- "timestamp_utc": "2026-07-31T00:29:48.602760+00:00",
+ "timestamp_utc": "2026-07-31T03:16:27.473767+00:00",
  "summary": {
+  "qwen3-0-6b": {
+   "ok": true,
+   "coherence": 0.7457,
+   "n_gated": 28
+  },
+  "qwen3-4b": {
+   "ok": true,
+   "coherence": 0.7602,
+   "n_gated": 36
+  },
+  "qwen3-14b": {
+   "ok": true,
+   "coherence": 0.748,
+   "n_gated": 40
+  },
+  "qwen3-32b": {
+   "ok": true,
+   "coherence": 0.7141,
+   "n_gated": 64
+  },
+  "qwen3-6-27b": {
+   "ok": true,
+   "coherence": 0.7267,
+   "n_gated": 64
+  },
+  "gemma-4-31b-it": {
+   "ok": true,
+   "coherence": 0.7111,
+   "n_gated": 60
+  },
+  "olmo-2-1124-13b": {
+   "ok": true,
+   "coherence": 0.7989,
+   "n_gated": 40
+  },
   "pythia-14m-deduped": {
    "ok": true,
-   "coherence": 0.5098,
+   "coherence": 0.7456,
    "n_gated": 6
+  },
+  "pythia-160m-deduped": {
+   "ok": true,
+   "coherence": 0.724,
+   "n_gated": 12
+  },
+  "pythia-410m": {
+   "ok": true,
+   "coherence": 0.7929,
+   "n_gated": 24
+  },
+  "pythia-2-8b-deduped": {
+   "ok": true,
+   "coherence": 0.8826,
+   "n_gated": 32
   }
  }
 }

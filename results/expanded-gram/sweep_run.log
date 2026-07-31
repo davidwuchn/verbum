@@ -1,0 +1,148 @@
+[xgram] ===== Qwen/Qwen3-0.6B (cpu) =====
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:  97%|█████████▋| 302/311 [00:00<00:00, 3009.95it/s]Loading weights: 100%|██████████| 311/311 [00:00<00:00, 3057.86it/s]
+[xgram] qwen3-0-6b: 1400 probes x 28 layers
+[xgram] qwen3-0-6b: probe 200/1400
+[xgram] qwen3-0-6b: probe 400/1400
+[xgram] qwen3-0-6b: probe 600/1400
+[xgram] qwen3-0-6b: probe 800/1400
+[xgram] qwen3-0-6b: probe 1000/1400
+[xgram] qwen3-0-6b: probe 1200/1400
+[xgram] qwen3-0-6b: probe 1400/1400
+[xgram] qwen3-0-6b: gated_layers=28/28 coherence_r=0.7457
+[xgram] qwen3-0-6b: wrote /Users/mwhitford/src/verbum/results/expanded-gram/qwen3-0-6b/centroids.npz
+[xgram] qwen3-0-6b: wrote /Users/mwhitford/src/verbum/results/expanded-gram/qwen3-0-6b/expanded_gram.json
+[xgram] ===== Qwen/Qwen3-4B (mps) =====
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 29726.18it/s]
+[xgram] qwen3-4b: 1400 probes x 36 layers
+[xgram] qwen3-4b: probe 200/1400
+[xgram] qwen3-4b: probe 400/1400
+[xgram] qwen3-4b: probe 600/1400
+[xgram] qwen3-4b: probe 800/1400
+[xgram] qwen3-4b: probe 1000/1400
+[xgram] qwen3-4b: probe 1200/1400
+[xgram] qwen3-4b: probe 1400/1400
+[xgram] qwen3-4b: gated_layers=36/36 coherence_r=0.7602
+[xgram] qwen3-4b: wrote /Users/mwhitford/src/verbum/results/expanded-gram/qwen3-4b/centroids.npz
+[xgram] qwen3-4b: wrote /Users/mwhitford/src/verbum/results/expanded-gram/qwen3-4b/expanded_gram.json
+[xgram] ===== Qwen/Qwen3-14B (mps) =====
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights: 100%|██████████| 443/443 [00:00<00:00, 7067.64it/s]
+[xgram] qwen3-14b: 1400 probes x 40 layers
+[xgram] qwen3-14b: probe 200/1400
+[xgram] qwen3-14b: probe 400/1400
+[xgram] qwen3-14b: probe 600/1400
+[xgram] qwen3-14b: probe 800/1400
+[xgram] qwen3-14b: probe 1000/1400
+[xgram] qwen3-14b: probe 1200/1400
+[xgram] qwen3-14b: probe 1400/1400
+[xgram] qwen3-14b: gated_layers=40/40 coherence_r=0.748
+[xgram] qwen3-14b: wrote /Users/mwhitford/src/verbum/results/expanded-gram/qwen3-14b/centroids.npz
+[xgram] qwen3-14b: wrote /Users/mwhitford/src/verbum/results/expanded-gram/qwen3-14b/expanded_gram.json
+[xgram] ===== Qwen/Qwen3-32B (mps) =====
+Loading weights:   0%|          | 0/707 [00:00<?, ?it/s]Loading weights: 100%|██████████| 707/707 [00:00<00:00, 28851.09it/s]
+[xgram] qwen3-32b: 1400 probes x 64 layers
+[xgram] qwen3-32b: probe 200/1400
+[xgram] qwen3-32b: probe 400/1400
+[xgram] qwen3-32b: probe 600/1400
+[xgram] qwen3-32b: probe 800/1400
+[xgram] qwen3-32b: probe 1000/1400
+[xgram] qwen3-32b: probe 1200/1400
+[xgram] qwen3-32b: probe 1400/1400
+[xgram] qwen3-32b: gated_layers=64/64 coherence_r=0.7141
+[xgram] qwen3-32b: wrote /Users/mwhitford/src/verbum/results/expanded-gram/qwen3-32b/centroids.npz
+[xgram] qwen3-32b: wrote /Users/mwhitford/src/verbum/results/expanded-gram/qwen3-32b/expanded_gram.json
+[xgram] ===== Qwen/Qwen3.6-27B (mps) =====
+Fetching 15 files:   0%|          | 0/15 [00:00<?, ?it/s]Fetching 15 files: 100%|██████████| 15/15 [00:00<00:00, 59975.75it/s]
+The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+Loading weights:   0%|          | 0/851 [00:00<?, ?it/s]Loading weights:  97%|█████████▋| 823/851 [00:00<00:00, 8221.62it/s]Loading weights: 100%|██████████| 851/851 [00:00<00:00, 8251.79it/s]
+[xgram] qwen3-6-27b: 1400 probes x 64 layers
+[xgram] qwen3-6-27b: probe 200/1400
+[xgram] qwen3-6-27b: probe 400/1400
+[xgram] qwen3-6-27b: probe 600/1400
+[xgram] qwen3-6-27b: probe 800/1400
+[xgram] qwen3-6-27b: probe 1000/1400
+[xgram] qwen3-6-27b: probe 1200/1400
+[xgram] qwen3-6-27b: probe 1400/1400
+[xgram] qwen3-6-27b: gated_layers=64/64 coherence_r=0.7267
+[xgram] qwen3-6-27b: wrote /Users/mwhitford/src/verbum/results/expanded-gram/qwen3-6-27b/centroids.npz
+[xgram] qwen3-6-27b: wrote /Users/mwhitford/src/verbum/results/expanded-gram/qwen3-6-27b/expanded_gram.json
+[xgram] ===== google/gemma-4-31B-it (mps) =====
+Loading weights:   0%|          | 0/1188 [00:00<?, ?it/s]Loading weights:  68%|██████▊   | 809/1188 [00:00<00:00, 8074.03it/s]Loading weights: 100%|██████████| 1188/1188 [00:00<00:00, 8168.20it/s]
+[xgram] gemma-4-31b-it: 1400 probes x 60 layers
+[xgram] gemma-4-31b-it: probe 200/1400
+[xgram] gemma-4-31b-it: probe 400/1400
+[xgram] gemma-4-31b-it: probe 600/1400
+[xgram] gemma-4-31b-it: probe 800/1400
+[xgram] gemma-4-31b-it: probe 1000/1400
+[xgram] gemma-4-31b-it: probe 1200/1400
+[xgram] gemma-4-31b-it: probe 1400/1400
+[xgram] gemma-4-31b-it: gated_layers=60/60 coherence_r=0.7111
+[xgram] gemma-4-31b-it: wrote /Users/mwhitford/src/verbum/results/expanded-gram/gemma-4-31b-it/centroids.npz
+[xgram] gemma-4-31b-it: wrote /Users/mwhitford/src/verbum/results/expanded-gram/gemma-4-31b-it/expanded_gram.json
+[xgram] ===== allenai/OLMo-2-1124-13B (mps) =====
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:02<18:32,  2.52s/it]Loading weights:   0%|          | 2/443 [00:02<09:17,  1.26s/it]Loading weights:   8%|▊         | 36/443 [00:03<00:25, 15.81it/s]Loading weights:   9%|▉         | 39/443 [00:03<00:24, 16.23it/s]Loading weights:  10%|█         | 45/443 [00:04<00:23, 16.89it/s]Loading weights:  11%|█         | 48/443 [00:05<00:40,  9.66it/s]Loading weights:  11%|█▏        | 50/443 [00:05<00:39,  9.88it/s]Loading weights:  13%|█▎        | 56/443 [00:05<00:30, 12.74it/s]Loading weights:  13%|█▎        | 58/443 [00:06<00:52,  7.29it/s]Loading weights:  14%|█▎        | 60/443 [00:06<00:48,  7.84it/s]Loading weights:  16%|█▌        | 69/443 [00:07<00:38,  9.69it/s]Loading weights:  16%|█▌        | 71/443 [00:07<00:36, 10.32it/s]Loading weights:  18%|█▊        | 79/443 [00:07<00:22, 15.85it/s]Loading weights:  19%|█▊        | 82/443 [00:08<00:44,  8.14it/s]Loading weights:  20%|██        | 89/443 [00:09<00:33, 10.58it/s]Loading weights:  21%|██        | 91/443 [00:10<00:52,  6.65it/s]Loading weights:  21%|██        | 93/443 [00:10<00:52,  6.70it/s]Loading weights:  23%|██▎       | 100/443 [00:10<00:31, 10.85it/s]Loading weights:  23%|██▎       | 103/443 [00:11<00:50,  6.74it/s]Loading weights:  25%|██▌       | 112/443 [00:11<00:27, 11.89it/s]Loading weights:  26%|██▌       | 116/443 [00:12<00:39,  8.22it/s]Loading weights:  28%|██▊       | 123/443 [00:13<00:29, 10.71it/s]Loading weights:  28%|██▊       | 126/443 [00:14<00:43,  7.25it/s]Loading weights:  30%|███       | 133/443 [00:14<00:32,  9.41it/s]Loading weights:  30%|███       | 135/443 [00:15<00:46,  6.63it/s]Loading weights:  31%|███       | 137/443 [00:15<00:47,  6.47it/s]Loading weights:  33%|███▎      | 145/443 [00:15<00:26, 11.20it/s]Loading weights:  33%|███▎      | 148/443 [00:17<00:44,  6.69it/s]Loading weights:  35%|███▌      | 157/443 [00:18<00:38,  7.42it/s]Loading weights:  36%|███▌      | 159/443 [00:18<00:38,  7.41it/s]Loading weights:  37%|███▋      | 166/443 [00:18<00:25, 10.77it/s]Loading weights:  38%|███▊      | 168/443 [00:19<00:39,  6.97it/s]Loading weights:  38%|███▊      | 170/443 [00:19<00:41,  6.63it/s]Loading weights:  40%|████      | 178/443 [00:20<00:23, 11.17it/s]Loading weights:  41%|████      | 181/443 [00:21<00:37,  6.99it/s]Loading weights:  43%|████▎     | 189/443 [00:21<00:22, 11.53it/s]Loading weights:  44%|████▎     | 193/443 [00:21<00:26,  9.27it/s]Loading weights:  45%|████▌     | 201/443 [00:22<00:28,  8.58it/s]Loading weights:  46%|████▌     | 203/443 [00:23<00:26,  9.02it/s]Loading weights:  47%|████▋     | 210/443 [00:23<00:20, 11.56it/s]Loading weights:  48%|████▊     | 212/443 [00:24<00:31,  7.22it/s]Loading weights:  48%|████▊     | 214/443 [00:24<00:33,  6.78it/s]Loading weights:  50%|█████     | 222/443 [00:24<00:19, 11.24it/s]Loading weights:  51%|█████     | 224/443 [00:26<00:35,  6.25it/s]Loading weights:  53%|█████▎    | 234/443 [00:26<00:19, 10.89it/s]Loading weights:  55%|█████▍    | 243/443 [00:26<00:12, 16.66it/s]Loading weights:  56%|█████▌    | 248/443 [00:27<00:21,  9.06it/s]Loading weights:  58%|█████▊    | 255/443 [00:28<00:16, 11.69it/s]Loading weights:  58%|█████▊    | 258/443 [00:29<00:25,  7.30it/s]Loading weights:  60%|█████▉    | 265/443 [00:29<00:17,  9.90it/s]Loading weights:  60%|██████    | 268/443 [00:30<00:25,  6.79it/s]Loading weights:  63%|██████▎   | 277/443 [00:30<00:15, 11.06it/s]Loading weights:  63%|██████▎   | 281/443 [00:31<00:14, 10.93it/s]Loading weights:  65%|██████▌   | 289/443 [00:32<00:17,  8.56it/s]Loading weights:  66%|██████▌   | 291/443 [00:32<00:16,  9.01it/s]Loading weights:  67%|██████▋   | 298/443 [00:32<00:12, 12.06it/s]Loading weights:  68%|██████▊   | 301/443 [00:33<00:19,  7.22it/s]Loading weights:  68%|██████▊   | 303/443 [00:34<00:19,  7.25it/s]Loading weights:  70%|██████▉   | 309/443 [00:34<00:12, 10.69it/s]Loading weights:  70%|███████   | 312/443 [00:35<00:20,  6.28it/s]Loading weights:  72%|███████▏  | 321/443 [00:35<00:10, 11.32it/s]Loading weights:  73%|███████▎  | 325/443 [00:36<00:12,  9.22it/s]Loading weights:  75%|███████▌  | 333/443 [00:37<00:13,  7.98it/s]Loading weights:  76%|███████▌  | 336/443 [00:37<00:11,  8.95it/s]Loading weights:  77%|███████▋  | 342/443 [00:38<00:09, 10.66it/s]Loading weights:  78%|███████▊  | 344/443 [00:38<00:14,  6.89it/s]Loading weights:  78%|███████▊  | 346/443 [00:39<00:14,  6.50it/s]Loading weights:  80%|███████▉  | 354/443 [00:39<00:07, 11.29it/s]Loading weights:  81%|████████  | 357/443 [00:40<00:13,  6.46it/s]Loading weights:  83%|████████▎ | 366/443 [00:41<00:08,  8.57it/s]Loading weights:  85%|████████▍ | 375/443 [00:41<00:05, 13.27it/s]Loading weights:  86%|████████▌ | 379/443 [00:42<00:08,  7.68it/s]Loading weights:  87%|████████▋ | 386/443 [00:43<00:05, 10.02it/s]Loading weights:  88%|████████▊ | 389/443 [00:44<00:07,  7.11it/s]Loading weights:  88%|████████▊ | 391/443 [00:44<00:07,  7.26it/s]Loading weights:  90%|████████▉ | 397/443 [00:44<00:04,  9.91it/s]Loading weights:  90%|█████████ | 399/443 [00:45<00:06,  6.59it/s]Loading weights:  91%|█████████ | 401/443 [00:45<00:06,  6.64it/s]Loading weights:  93%|█████████▎| 410/443 [00:46<00:04,  7.65it/s]Loading weights:  95%|█████████▍| 419/443 [00:46<00:01, 12.51it/s]Loading weights:  95%|█████████▌| 422/443 [00:48<00:02,  7.63it/s]Loading weights:  96%|█████████▌| 425/443 [00:48<00:02,  8.50it/s]Loading weights:  97%|█████████▋| 430/443 [00:48<00:01, 10.26it/s]Loading weights:  98%|█████████▊| 432/443 [00:49<00:01,  6.39it/s]Loading weights:  98%|█████████▊| 434/443 [00:49<00:01,  6.54it/s]Loading weights: 100%|██████████| 443/443 [00:49<00:00,  8.89it/s]
+[xgram] olmo-2-1124-13b: 1400 probes x 40 layers
+[xgram] olmo-2-1124-13b: probe 200/1400
+[xgram] olmo-2-1124-13b: probe 400/1400
+[xgram] olmo-2-1124-13b: probe 600/1400
+[xgram] olmo-2-1124-13b: probe 800/1400
+[xgram] olmo-2-1124-13b: probe 1000/1400
+[xgram] olmo-2-1124-13b: probe 1200/1400
+[xgram] olmo-2-1124-13b: probe 1400/1400
+[xgram] olmo-2-1124-13b: gated_layers=40/40 coherence_r=0.7989
+[xgram] olmo-2-1124-13b: wrote /Users/mwhitford/src/verbum/results/expanded-gram/olmo-2-1124-13b/centroids.npz
+[xgram] olmo-2-1124-13b: wrote /Users/mwhitford/src/verbum/results/expanded-gram/olmo-2-1124-13b/expanded_gram.json
+[xgram] ===== EleutherAI/pythia-14m-deduped (cpu) =====
+Loading weights:   0%|          | 0/76 [00:00<?, ?it/s]Loading weights: 100%|██████████| 76/76 [00:00<00:00, 4951.49it/s]
+[xgram] pythia-14m-deduped: 1400 probes x 6 layers
+[xgram] pythia-14m-deduped: probe 200/1400
+[xgram] pythia-14m-deduped: probe 400/1400
+[xgram] pythia-14m-deduped: probe 600/1400
+[xgram] pythia-14m-deduped: probe 800/1400
+[xgram] pythia-14m-deduped: probe 1000/1400
+[xgram] pythia-14m-deduped: probe 1200/1400
+[xgram] pythia-14m-deduped: probe 1400/1400
+[xgram] pythia-14m-deduped: gated_layers=6/6 coherence_r=0.7456
+[xgram] pythia-14m-deduped: wrote /Users/mwhitford/src/verbum/results/expanded-gram/pythia-14m-deduped/centroids.npz
+[xgram] pythia-14m-deduped: wrote /Users/mwhitford/src/verbum/results/expanded-gram/pythia-14m-deduped/expanded_gram.json
+[xgram] ===== EleutherAI/pythia-160m-deduped (cpu) =====
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights:   1%|          | 1/148 [00:00<00:34,  4.31it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 477.56it/s]
+[xgram] pythia-160m-deduped: 1400 probes x 12 layers
+[xgram] pythia-160m-deduped: probe 200/1400
+[xgram] pythia-160m-deduped: probe 400/1400
+[xgram] pythia-160m-deduped: probe 600/1400
+[xgram] pythia-160m-deduped: probe 800/1400
+[xgram] pythia-160m-deduped: probe 1000/1400
+[xgram] pythia-160m-deduped: probe 1200/1400
+[xgram] pythia-160m-deduped: probe 1400/1400
+[xgram] pythia-160m-deduped: gated_layers=12/12 coherence_r=0.724
+[xgram] pythia-160m-deduped: wrote /Users/mwhitford/src/verbum/results/expanded-gram/pythia-160m-deduped/centroids.npz
+[xgram] pythia-160m-deduped: wrote /Users/mwhitford/src/verbum/results/expanded-gram/pythia-160m-deduped/expanded_gram.json
+[xgram] ===== EleutherAI/pythia-410m (cpu) =====
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:   0%|          | 1/292 [00:00<01:45,  2.76it/s]Loading weights:  38%|███▊      | 110/292 [00:00<00:00, 308.39it/s]Loading weights:  60%|█████▉    | 174/292 [00:00<00:00, 370.19it/s]Loading weights:  79%|███████▉  | 231/292 [00:00<00:00, 392.13it/s]Loading weights:  97%|█████████▋| 283/292 [00:00<00:00, 423.63it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 348.14it/s]
+[xgram] pythia-410m: 1400 probes x 24 layers
+[xgram] pythia-410m: probe 200/1400
+[xgram] pythia-410m: probe 400/1400
+[xgram] pythia-410m: probe 600/1400
+[xgram] pythia-410m: probe 800/1400
+[xgram] pythia-410m: probe 1000/1400
+[xgram] pythia-410m: probe 1200/1400
+[xgram] pythia-410m: probe 1400/1400
+[xgram] pythia-410m: gated_layers=24/24 coherence_r=0.7929
+[xgram] pythia-410m: wrote /Users/mwhitford/src/verbum/results/expanded-gram/pythia-410m/centroids.npz
+[xgram] pythia-410m: wrote /Users/mwhitford/src/verbum/results/expanded-gram/pythia-410m/expanded_gram.json
+[xgram] ===== EleutherAI/pythia-2.8b-deduped (mps) =====
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights:   0%|          | 1/388 [00:01<07:04,  1.10s/it]Loading weights:  10%|▉         | 38/388 [00:01<00:08, 42.18it/s]Loading weights:  14%|█▍        | 56/388 [00:01<00:06, 51.26it/s]Loading weights:  18%|█▊        | 69/388 [00:01<00:05, 55.83it/s]Loading weights:  21%|██        | 80/388 [00:01<00:05, 58.10it/s]Loading weights:  23%|██▎       | 90/388 [00:01<00:04, 61.19it/s]Loading weights:  26%|██▌       | 99/388 [00:02<00:04, 57.95it/s]Loading weights:  28%|██▊       | 108/388 [00:02<00:04, 60.56it/s]Loading weights:  31%|███       | 120/388 [00:02<00:04, 63.07it/s]Loading weights:  34%|███▍      | 132/388 [00:02<00:03, 70.07it/s]Loading weights:  36%|███▌      | 140/388 [00:02<00:03, 71.54it/s]Loading weights:  38%|███▊      | 148/388 [00:02<00:03, 67.12it/s]Loading weights:  40%|████      | 156/388 [00:03<00:03, 58.32it/s]Loading weights:  43%|████▎     | 168/388 [00:03<00:03, 68.55it/s]Loading weights:  45%|████▌     | 176/388 [00:03<00:03, 69.06it/s]Loading weights:  47%|████▋     | 184/388 [00:03<00:03, 67.07it/s]Loading weights:  49%|████▉     | 192/388 [00:03<00:03, 59.79it/s]Loading weights:  53%|█████▎    | 204/388 [00:03<00:02, 68.56it/s]Loading weights:  55%|█████▍    | 212/388 [00:03<00:02, 71.21it/s]Loading weights:  57%|█████▋    | 220/388 [00:03<00:02, 66.77it/s]Loading weights:  59%|█████▉    | 228/388 [00:04<00:02, 57.44it/s]Loading weights:  62%|██████▏   | 240/388 [00:04<00:02, 70.91it/s]Loading weights:  64%|██████▍   | 248/388 [00:04<00:01, 71.86it/s]Loading weights:  66%|██████▌   | 256/388 [00:04<00:01, 68.29it/s]Loading weights:  68%|██████▊   | 264/388 [00:04<00:02, 59.57it/s]Loading weights:  71%|███████   | 276/388 [00:04<00:01, 67.29it/s]Loading weights:  74%|███████▍  | 288/388 [00:04<00:01, 61.88it/s]Loading weights:  77%|███████▋  | 300/388 [00:05<00:01, 63.59it/s]Loading weights:  80%|████████  | 312/388 [00:05<00:01, 70.16it/s]Loading weights:  84%|████████▎ | 324/388 [00:05<00:00, 66.68it/s]Loading weights:  87%|████████▋ | 336/388 [00:05<00:00, 65.02it/s]Loading weights:  90%|████████▉ | 348/388 [00:05<00:00, 71.03it/s]Loading weights:  93%|█████████▎| 360/388 [00:06<00:00, 65.40it/s]Loading weights:  96%|█████████▌| 372/388 [00:06<00:00, 68.72it/s]Loading weights: 100%|██████████| 388/388 [00:06<00:00, 61.73it/s]
+[xgram] pythia-2-8b-deduped: 1400 probes x 32 layers
+[xgram] pythia-2-8b-deduped: probe 200/1400
+[xgram] pythia-2-8b-deduped: probe 400/1400
+[xgram] pythia-2-8b-deduped: probe 600/1400
+[xgram] pythia-2-8b-deduped: probe 800/1400
+[xgram] pythia-2-8b-deduped: probe 1000/1400
+[xgram] pythia-2-8b-deduped: probe 1200/1400
+[xgram] pythia-2-8b-deduped: probe 1400/1400
+[xgram] pythia-2-8b-deduped: gated_layers=32/32 coherence_r=0.8826
+[xgram] pythia-2-8b-deduped: wrote /Users/mwhitford/src/verbum/results/expanded-gram/pythia-2-8b-deduped/centroids.npz
+[xgram] pythia-2-8b-deduped: wrote /Users/mwhitford/src/verbum/results/expanded-gram/pythia-2-8b-deduped/expanded_gram.json
+[xgram] SWEEP DONE: {'qwen3-0-6b': {'ok': True, 'coherence': 0.7457, 'n_gated': 28}, 'qwen3-4b': {'ok': True, 'coherence': 0.7602, 'n_gated': 36}, 'qwen3-14b': {'ok': True, 'coherence': 0.748, 'n_gated': 40}, 'qwen3-32b': {'ok': True, 'coherence': 0.7141, 'n_gated': 64}, 'qwen3-6-27b': {'ok': True, 'coherence': 0.7267, 'n_gated': 64}, 'gemma-4-31b-it': {'ok': True, 'coherence': 0.7111, 'n_gated': 60}, 'olmo-2-1124-13b': {'ok': True, 'coherence': 0.7989, 'n_gated': 40}, 'pythia-14m-deduped': {'ok': True, 'coherence': 0.7456, 'n_gated': 6}, 'pythia-160m-deduped': {'ok': True, 'coherence': 0.724, 'n_gated': 12}, 'pythia-410m': {'ok': True, 'coherence': 0.7929, 'n_gated': 24}, 'pythia-2-8b-deduped': {'ok': True, 'coherence': 0.8826, 'n_gated': 32}}
