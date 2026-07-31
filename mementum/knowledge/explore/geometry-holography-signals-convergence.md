@@ -3,7 +3,7 @@ title: Geometry × holography × signals — one primitive, three registers
 status: designing
 category: explore
 tags: [holography, dsp, geometry, matched-filter, hopfield, hrr, rope,
-       capacity, pre-reg-candidate, s288]
+       capacity, pre-reg-candidate, fragment-test, s288, s289]
 related: [../michael/holographic-llm.md, types-are-compiled-probabilities,
           type-check-is-the-qk-bilinear, verbum-dsp-design,
           map-and-swap-resident-lisp, beamformer-theory]
@@ -97,13 +97,14 @@ predicts a SPECIFIC curve shape and width scaling; localized storage
 predicts a hard slot limit. The depth-budget/eval-stack arc is adjacent but
 never measured against a capacity curve.
 
-**P-HOLO-FRAG — fragment reconstruction** (cheapest decisive discriminator).
-Ablate RANDOM SUBSETS of heads/layers (fraction f swept), measure licensing/
-composition SNR. Holographic: smooth degradation ∝ f, every fragment
-reconstructs a degraded whole. Localized: cliffs at critical components.
-We have anecdotal grace everywhere (0/128, mixed routes); the pre-registered
-CURVE with a matched-random-subset null is the missing measurement. Extends
-s267/s269 plate-damage tolerance from weights to computation.
+**P-HOLO-FRAG — fragment reconstruction** (cheapest decisive discriminator;
+→ full pre-reg below, §P-HOLO-FRAG). Ablate RANDOM SUBSETS of heads/layers
+(fraction f swept), measure licensing/composition SNR. Holographic: smooth
+degradation ∝ f, every fragment reconstructs a degraded whole. Localized:
+cliffs at critical components. We have anecdotal grace everywhere (0/128,
+mixed routes); the pre-registered CURVE with a matched-random-subset null is
+the missing measurement. Extends s267/s269 plate-damage tolerance from
+weights to computation.
 
 **P-HOLO-XTERM — interference cross-terms.** Two operands installed in one
 slot should produce sum-and-difference structure (beats) with predictable
@@ -129,6 +130,129 @@ vs (b) raw centroid-diff vs (c) anti-passband (orthogonal complement) vs
 → every future swap gets cheaper/cleaner = the write-head of the LLM REPL
 matched to the measured antenna; (c) ≈ (d) is itself a second confirmation
 of the passband. Also the natural INSTRUMENT for P-HOLO-XTERM payloads.
+
+## P-HOLO-FRAG — fragment reconstruction (PRE-REG FROZEN s289, Michael approved — G1/LDI primary, 3-hop primary readout confirmed; 4B smoke leads, 32B verdict on GO)
+
+> The lynchpin of the whole frame: **hologram or not hologram?** Every other
+> holo pre-reg (CAP, XTERM, PROJ) *assumes* the frame and refines it. FRAG is
+> the one that can *break* it. It is the classic fragment test — cut a
+> photograph and you lose that region (a cliff, because the image is
+> *addressed*); cut a hologram and you get the whole image back at reduced
+> SNR (smooth, because every fragment carries the whole). We run that cut.
+
+**Hypothesis.** The type-check / composition compute is stored as distributed
+fringes with NO address (the holography reading of the four-way location
+null: 1b/1c/QK/JS ✗, v4 direction ✗, 0/128 heads). Therefore ablating a
+random fraction f of the computational medium in the band degrades the
+behavioral signal (a) SMOOTHLY (graceful, monotone, no cliff) and (b)
+LOCATION-INDEPENDENTLY (which random subset you remove does not matter — only
+*how much*). A localized/addressed representation degrades via CLIFFS (some
+random subsets hit critical components and crater the signal; others spare
+it) → location-DEPENDENT: high across-draw variance at fixed f, and a step in
+the mean curve.
+
+**Readout (behavioral SNR; teacher-forced, single forward pass per probe —
+no generation, hence "cheapest").** On a fixed probe bank, SNR = the
+correct-continuation logit margin that the compute produces clean:
+- **Primary bank: 3-hop composition** (operand_multihop3 geography chain,
+  the (e→t)→t machinery the joins carry) — margin(correct continent vs
+  competitor). Exercises the composition the hologram supposedly stores.
+- **Secondary bank: type-licensing crossover** (v3 name_pen, the JOIN-TYPED
+  filter's behavioral face) — margin(licensed vs ill-typed continuation).
+Clean model → SNR₀ per bank. Ablation → SNR(f). Both banks scored; the
+verdict is on the primary, the secondary corroborates (a hologram claim
+about the compute should hold for both faces of it).
+
+**Ablation (mean-ablation, not zero — off-distribution guard).** Replace a
+random fraction f of units in the band with their dataset-mean activation
+(computed over the probe bank). Two media arms (thesis: attention = beam,
+FFN = plates):
+- **Arm HEADS** — random fraction f of attention heads across the band.
+- **Arm MLP** — random fraction f of MLP hidden units across the band.
+- (advisory, coarse) **Arm LAYER** — whole-layer drops.
+Sweep f ∈ {0.1, 0.2, 0.35, 0.5, 0.65, 0.8} (fixed, a priori). R random draws
+per f (R=30 smoke / 100 verdict). Band = find_band / layer_geometry
+(verbum.dsp, 1a-v4 procedure, in-run).
+
+**The discriminator — TWO pre-registered signatures.**
+
+1. **G1 (primary, the ADDRESS test): Location-Dependence Index.** At each
+   fixed f, decompose SNR variance across the R draws. LDI(f) = (across-draw
+   SNR variance at f) / (probe-resampling noise variance at f). The
+   denominator is the pure measurement floor (bootstrap the probe bank at
+   fixed ablation). LDI ≈ 1 ⟺ *which* subset you removed explains nothing
+   beyond *how much* → **location-independent = holographic/no-address**.
+   LDI ≫ 1 ⟺ location matters → **addresses exist**. Band-aggregated,
+   permutation-gated against the probe-resampling null.
+2. **G2 (secondary, smoothness): cliff detection.** On the mean SNR(f) curve,
+   the largest single-step drop / total drop. Holographic ⟺ no step exceeds
+   the smooth-monotone null band (graceful ∝ f); Localized ⟺ one Δf step
+   dominates (a cliff). Reported with the null band; corroborates G1.
+3. **G3 (advisory, NEVER gated — λ yardstick): functional form.** The raw
+   SNR(f) shape reported verbatim against the a-priori (1−f) amplitude
+   reference; NOT fit-graded and NOT the verdict (the positive √(D/k)
+   capacity form is P-HOLO-CAP's job, not FRAG's). Recording the shape ≠
+   claiming it.
+
+**Nulls (mandatory, λ yardstick).**
+- **Probe-resampling null** (G1 denominator): bootstrap the probe bank at
+  fixed ablation → the SNR measurement-noise floor. This is what LDI is
+  measured *against*.
+- **Localized-planted null** (instrument calibration): a synthetic signal
+  carried by k=⌈√N⌉ critical units → predicts LDI ≫ 1 and a cliff. Proves
+  the instrument *can* see localization (so a low-LDI result is a real
+  negative for addresses, not a dead probe). Lives in `--validate`.
+- **Holographic-planted null** (instrument calibration): a signal spread
+  uniformly across all N units → predicts LDI ≈ 1, smooth. Proves the
+  instrument doesn't manufacture localization.
+- **Out-of-band / matched-fraction control**: ablate the same fraction f of
+  OUT-OF-BAND units → SNR should barely move; confirms the band carries the
+  signal and G1/G2 aren't reading generic capacity loss.
+
+**Gate-0 (headroom).** Clean SNR₀ must be expressed on both banks (margin
+significantly > 0). No headroom → no verdict (negative/inconclusive,
+reported honestly — the s283b M_eff-unexpressed lesson).
+
+**Verdict (freeze on GO).**
+- **HOLOGRAPHIC / DELOCALIZED** ⟺ G1 LDI within the probe-resampling null
+  (location-independent, p≥0.05 vs null) AND G2 no cliff, on the primary
+  bank. → fragment reconstruction confirmed; the frame SURVIVES; promotes to
+  **P-HOLO-CAP** for the *positive* √(D/k) capacity law.
+- **LOCALIZED / ADDRESSED** ⟺ G1 LDI beats the null (location-DEPENDENT,
+  p<0.05) OR G2 a cliff. → the hologram frame is **FALSIFIED** for this
+  compute; there are addresses; the four-way location null needs a different
+  account. This is the decisive-negative the lynchpin exists to deliver.
+- **negative / inconclusive** ⟺ gate-0 fails (SNR₀ within noise) → no verdict.
+
+**Registers (λ measure).** Claim = the *distribution* of the compute across
+the medium (holographic delocalization vs addressed locality); probe =
+behavioral SNR under random *structural* ablation = literally the
+reconstruct-from-a-fragment operation. Matched. G1 (across-draw variance) is
+the register-clean test of "no address"; it is NOT a geometry read (those
+were the four nulls) — it is a causal/behavioral read of location-dependence.
+
+**Honest scope (what FRAG can and cannot do).**
+- FRAG can **FALSIFY** the hologram (cliff or high-LDI → addressed → not a
+  hologram) and can **confirm DELOCALIZATION** (low-LDI + smooth → address-
+  free, consistent with a hologram). It CANNOT positively prove *hologram*:
+  a distributed-but-not-holographic net also degrades smoothly and
+  location-independently. The **positive** holographic claim (the √(D/k)
+  superposition capacity law) is **P-HOLO-CAP**. FRAG is the cheap decisive
+  *negative* + the delocalization confirmation that licenses running CAP.
+- Mean-ablation is off-distribution at large f; the f-sweep top end (0.8) is
+  advisory, the verdict rests on the low-mid range where the model stays on
+  its manifold.
+- Redundancy ≠ holography (stated above); G1 separates *addressed* from
+  *delocalized*, not *holographic* from *merely-distributed*.
+- 0/128 single-head prior coheres: FRAG is subset/aggregate by construction.
+
+**Host & order.** `--validate` (planted localized → high LDI + cliff; planted
+holographic → LDI≈1 + smooth; nulls flat) → Qwen3-4B contrast smoke (R=30,
+small bank, both arms) → verdict host Qwen3-32B on GO (R=100, full bank).
+Results → results/holo-frag/qwen3-{4b,32b}/. Instrument
+`scripts/explore/holo_frag.py` = verbum.dsp consumer (find_band,
+layer_geometry, nulls, readout imported from the substrate; reuse
+operand_multihop3 + v3 banks for the readout — no fork).
 
 ## Hypothesis-grade (needs measurement, ledgered honestly)
 
@@ -162,3 +286,12 @@ P-TYPE-SWAP JOIN-TYPED verdict, the compiled-probabilities synthesis, the
 verbum.dsp build, and the P-TYPE-OV passband verdict — all four of which the
 lens reorganizes; Michael's thesis doc updated in parallel with the
 one-sentence form; three pre-reg candidates parked unfrozen).
+
+s289 (§P-HOLO-FRAG full pre-reg drafted — Michael's "hologram or not
+hologram?" lynchpin: the fragment/address test. Location-Dependence Index
+(G1) is the decisive address probe; cliff detection (G2) corroborates;
+functional form (G3) advisory-only per λ yardstick. Scoped honestly as a
+decisive-NEGATIVE + delocalization-confirmation instrument — the positive
+√(D/k) capacity law stays P-HOLO-CAP's. FROZEN by Michael approval s289
+(G1/LDI primary confirmed, 3-hop primary readout confirmed); 4B smoke leads,
+32B verdict on GO. Build holo_frag.py next.).

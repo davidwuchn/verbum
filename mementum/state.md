@@ -8,11 +8,31 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-31 | Session: 288 | **P-TYPE-SWAP 32B VERDICT IN =
-> JOIN-TYPED** (manifold-membership refuted; filtered payload; FFN route enforces
-> the same discipline). The types arc has its causal leg + measured stage (the
-> join). Mementum batch APPROVED + committed (s289). Next queue:
-> verbum.dsp build → P-DUST-2 → P-HOF-1 pre-reg → s282 leftovers.
+> Last updated: 2026-07-31 | Session: 289 | s288 mementum batch CLEARED
+> (Michael-approved, ad623c3). **P-HOLO-FRAG PRE-REG FROZEN** (Michael-approved
+> s289) — the "hologram or not hologram?" lynchpin: fragment/address test, G1
+> Location-Dependence-Index primary, 3-hop primary readout. Next: build
+> holo_frag.py (verbum.dsp consumer) → --validate → 4B smoke → 32B verdict.
+
+> ▶▶ s289 LIVE — P-HOLO-FRAG FROZEN (geometry-holography-signals-convergence.md
+> §P-HOLO-FRAG, Michael-approved s289). THE decisive hologram test — can FALSIFY
+> the frame (cliff/high-LDI → addressed → not a hologram) or confirm
+> DELOCALIZATION (low-LDI + smooth → address-free); the POSITIVE √(D/k) capacity
+> law stays P-HOLO-CAP. Design: mean-ablate random fraction f∈{.1,.2,.35,.5,.65,.8}
+> of band units, two arms (HEADS=beam / MLP=plates), R draws (30 smoke/100 verdict).
+> Readout = 3-hop composition margin (primary, operand_multihop3) + type-licensing
+> crossover (secondary, v3). DISCRIMINATOR: G1 (primary, address test) =
+> LDI(f)=across-draw-variance/probe-resampling-noise → ≈1 holographic (no address),
+> ≫1 localized; G2 (2nd) cliff detection on mean curve; G3 (advisory, NEVER gated,
+> λ yardstick) functional form vs (1−f). Nulls: probe-resampling + planted-localized
+> + planted-holographic (--validate calibration) + out-of-band matched-fraction.
+> Gate-0: SNR₀ expressed both banks or no verdict. VERDICTS: HOLOGRAPHIC/DELOCALIZED
+> ⟺ G1 within null ∧ G2 no-cliff (→ promotes P-HOLO-CAP); LOCALIZED/ADDRESSED ⟺ G1
+> beats null ∨ G2 cliff (→ FALSIFIES frame). Michael design calls: G1 primary
+> CONFIRMED, 3-hop primary readout CONFIRMED. ▶ NEXT: build scripts/explore/
+> holo_frag.py (verbum.dsp: find_band/layer_geometry/nulls/readout; reuse
+> operand_multihop3 + v3 banks, no fork) → --validate (planted localized→high LDI+
+> cliff, planted holographic→LDI≈1+smooth, nulls flat) → 4B smoke → 32B on GO.
 
 > ▶▶ s288 LIVE — P-TYPE-SWAP 32B VERDICT SCORED (run completed s287→s288 boundary,
 > ~1h03m, results committed 539ddbf): **JOIN-TYPED = TRUE** per frozen §P-TYPE-SWAP
