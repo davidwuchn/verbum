@@ -1,0 +1,35 @@
+
+========================================================================
+  Loading Qwen/Qwen3-32B
+========================================================================
+
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/707 [00:00<?, ?it/s]Loading weights:   0%|          | 1/707 [00:01<21:15,  1.81s/it]Loading weights:   0%|          | 2/707 [00:01<09:33,  1.23it/s]Loading weights:   2%|▏         | 15/707 [00:02<00:52, 13.22it/s]Loading weights:   4%|▍         | 27/707 [00:02<00:26, 25.76it/s]Loading weights:   6%|▌         | 40/707 [00:02<00:16, 40.69it/s]Loading weights:   8%|▊         | 58/707 [00:02<00:10, 64.38it/s]Loading weights:  10%|█         | 71/707 [00:02<00:08, 74.33it/s]Loading weights:  12%|█▏        | 84/707 [00:02<00:07, 85.89it/s]Loading weights:  15%|█▍        | 103/707 [00:02<00:05, 105.64it/s]Loading weights:  17%|█▋        | 117/707 [00:02<00:05, 108.56it/s]Loading weights:  19%|█▉        | 136/707 [00:02<00:04, 123.74it/s]Loading weights:  21%|██        | 150/707 [00:03<00:04, 121.68it/s]Loading weights:  24%|██▍       | 169/707 [00:03<00:03, 134.61it/s]Loading weights:  26%|██▌       | 184/707 [00:03<00:03, 131.71it/s]Loading weights:  29%|██▊       | 202/707 [00:03<00:03, 139.25it/s]Loading weights:  31%|███       | 217/707 [00:03<00:03, 134.82it/s]Loading weights:  33%|███▎      | 235/707 [00:03<00:03, 141.79it/s]Loading weights:  35%|███▌      | 250/707 [00:03<00:03, 136.70it/s]Loading weights:  38%|███▊      | 268/707 [00:03<00:03, 142.16it/s]Loading weights:  40%|████      | 283/707 [00:03<00:03, 136.87it/s]Loading weights:  43%|████▎     | 301/707 [00:04<00:02, 142.53it/s]Loading weights:  45%|████▍     | 316/707 [00:04<00:02, 136.88it/s]Loading weights:  47%|████▋     | 334/707 [00:04<00:02, 142.30it/s]Loading weights:  49%|████▉     | 349/707 [00:04<00:02, 135.96it/s]Loading weights:  52%|█████▏    | 367/707 [00:04<00:02, 141.34it/s]Loading weights:  54%|█████▍    | 382/707 [00:04<00:02, 135.01it/s]Loading weights:  57%|█████▋    | 400/707 [00:04<00:02, 140.83it/s]Loading weights:  59%|█████▊    | 415/707 [00:04<00:02, 135.11it/s]Loading weights:  61%|██████    | 433/707 [00:05<00:01, 140.53it/s]Loading weights:  63%|██████▎   | 448/707 [00:05<00:01, 135.33it/s]Loading weights:  66%|██████▌   | 466/707 [00:05<00:01, 141.26it/s]Loading weights:  68%|██████▊   | 481/707 [00:05<00:01, 134.75it/s]Loading weights:  71%|███████   | 499/707 [00:05<00:01, 141.33it/s]Loading weights:  73%|███████▎  | 514/707 [00:05<00:01, 136.83it/s]Loading weights:  75%|███████▌  | 532/707 [00:05<00:01, 142.69it/s]Loading weights:  77%|███████▋  | 547/707 [00:05<00:01, 136.74it/s]Loading weights:  80%|███████▉  | 565/707 [00:05<00:00, 142.18it/s]Loading weights:  82%|████████▏ | 580/707 [00:06<00:00, 136.98it/s]Loading weights:  85%|████████▍ | 598/707 [00:06<00:00, 142.70it/s]Loading weights:  87%|████████▋ | 613/707 [00:06<00:00, 136.04it/s]Loading weights:  89%|████████▉ | 631/707 [00:06<00:00, 140.95it/s]Loading weights:  91%|█████████▏| 646/707 [00:06<00:00, 135.93it/s]Loading weights:  94%|█████████▍| 664/707 [00:06<00:00, 140.99it/s]Loading weights:  96%|█████████▌| 679/707 [00:06<00:00, 134.97it/s]Loading weights:  99%|█████████▊| 697/707 [00:06<00:00, 140.94it/s]Loading weights: 100%|██████████| 707/707 [00:06<00:00, 101.02it/s]
+  Loaded in 8.8s
+  Layers: 64  Heads: 64  KV heads: 8  d_model: 5120
+[js] host=Qwen/Qwen3-32B layers=64 depth_layers=[16, 32, 48] s270_config={'k': 32, 'm': 64, 'target_layer': 62, 'seed': 270}
+    sentence 1/56: The dog runs....
+    sentence 11/56: Alice runs....
+    sentence 21/56: The farmer finds the bird....
+    sentence 31/56: Some teacher laughs....
+    sentence 41/56: The old house stands....
+    sentence 51/56: The house is old....
+[js] labeled=263 skipped=0
+[js] geom L16 PR=4.22 p=0.01
+[js] geom L32 PR=4.73 p=0.02
+[js] geom L48 PR=4.79 p=0.04
+[js] building J-space bases on 56 prompts (k=32 m=64 target=L62)...
+[js] jbasis L16: k=32 d=5120 strength0=99.58
+[js] jbasis L32: k=32 d=5120 strength0=77.15
+[js] jbasis L48: k=32 d=5120 strength0=37.75
+[js] L16 fractions: bind=0.0041 comp=0.0019 rolenull=0.0084 entity=0.0021
+[js] L32 fractions: bind=0.0042 comp=0.0026 rolenull=0.0056 entity=0.0027
+[js] L48 fractions: bind=0.0059 comp=0.0062 rolenull=0.0131 entity=0.0066
+[js] AGG bind      frac=0.0047 shuf_null=0.0070 p_shuf=1.000 p_rand=0.8240
+[js] AGG comp      frac=0.0036 shuf_null=0.0038 p_shuf=0.825 p_rand=0.9780
+[js] AGG rolenull  frac=0.0091 shuf_null=0.0070 p_shuf=0.035 p_rand=0.0410
+[js] AGG entity    frac=0.0038 shuf_null=0.0038 p_shuf=0.255 p_rand=0.9690
+[js] baseline k/d=0.00625 rand_mean=0.00611
+[js] VERDICT: {'js_resident': False, 'js_specific': False, 'k_over_d_baseline': 0.00625, 'fractions': {'bind': 0.00475, 'comp': 0.00359, 'rolenull': 0.00907, 'entity': 0.00379}}
+[js] wrote /Users/mwhitford/src/verbum/results/type-jspace/qwen3-32b/type_jspace.json

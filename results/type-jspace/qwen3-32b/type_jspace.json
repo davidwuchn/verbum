@@ -1,0 +1,259 @@
+{
+  "experiment": "P-TYPE-JS",
+  "prereg": "mementum/knowledge/explore/types-are-the-well-formedness-of-reduction.md#p-type-js",
+  "model": "Qwen/Qwen3-32B",
+  "device": "mps",
+  "timestamp_utc": "2026-07-31T15:15:56.019181+00:00",
+  "git_sha": "7e39a5ce3452ad80d113f163c719486cb82dbd83",
+  "seed": 0,
+  "n_null": 200,
+  "n_rand": 1000,
+  "s270_config": {
+    "k": 32,
+    "m": 64,
+    "target_layer": 62,
+    "seed": 270
+  },
+  "depth_layers": [
+    16,
+    32,
+    48
+  ],
+  "n_labeled": 263,
+  "conds": {
+    "bind": [
+      "QUANT",
+      "DET"
+    ],
+    "comp": [
+      "MOD"
+    ],
+    "rolenull": [
+      "CONN",
+      "FUNC"
+    ],
+    "entity": [
+      "ENTITY"
+    ]
+  },
+  "basis_prompts": "LABELED_DATA sentences (pre-reg documented choice)",
+  "geometry": {
+    "16": {
+      "pr_real": 4.223,
+      "p_lowrank": 0.01
+    },
+    "32": {
+      "pr_real": 4.726,
+      "p_lowrank": 0.02
+    },
+    "48": {
+      "pr_real": 4.786,
+      "p_lowrank": 0.04
+    }
+  },
+  "jspace_strengths": {
+    "16": [
+      99.58,
+      81.38,
+      80.65,
+      70.13,
+      68.34,
+      65.11,
+      63.96,
+      62.99,
+      61.89,
+      60.77,
+      56.22,
+      53.97,
+      53.56,
+      52.77,
+      52.29,
+      51.38,
+      49.9,
+      48.63,
+      48.27,
+      47.72,
+      46.73,
+      46.41,
+      45.89,
+      45.02,
+      44.14,
+      43.24,
+      43.07,
+      42.65,
+      41.78,
+      41.13,
+      40.99,
+      40.62
+    ],
+    "32": [
+      77.15,
+      55.47,
+      53.04,
+      52.01,
+      49.46,
+      48.1,
+      45.26,
+      42.37,
+      41.26,
+      40.39,
+      38.96,
+      38.47,
+      37.65,
+      37.48,
+      37.1,
+      34.81,
+      34.22,
+      33.71,
+      32.74,
+      32.58,
+      31.93,
+      31.49,
+      31.04,
+      30.96,
+      30.25,
+      29.93,
+      29.58,
+      29.27,
+      28.91,
+      28.65,
+      28.55,
+      28.15
+    ],
+    "48": [
+      37.75,
+      30.12,
+      28.12,
+      25.59,
+      23.51,
+      23.22,
+      22.75,
+      21.07,
+      20.8,
+      19.54,
+      19.33,
+      18.99,
+      18.49,
+      18.19,
+      17.87,
+      17.72,
+      17.41,
+      17.35,
+      16.93,
+      16.76,
+      16.43,
+      16.25,
+      16.18,
+      15.98,
+      15.79,
+      15.74,
+      15.58,
+      15.44,
+      15.27,
+      15.16,
+      15.11,
+      15.0
+    ]
+  },
+  "per_layer_fractions": {
+    "16": {
+      "bind": 0.00414,
+      "comp": 0.00194,
+      "rolenull": 0.00843,
+      "entity": 0.00211
+    },
+    "32": {
+      "bind": 0.0042,
+      "comp": 0.00261,
+      "rolenull": 0.00564,
+      "entity": 0.00265
+    },
+    "48": {
+      "bind": 0.00591,
+      "comp": 0.00623,
+      "rolenull": 0.01315,
+      "entity": 0.0066
+    }
+  },
+  "aggregate": {
+    "bind": {
+      "fraction": 0.00475,
+      "null_shufflabel_mean": 0.00705,
+      "null_shufflabel_std": 0.001,
+      "p_vs_shufflabel": 1.0,
+      "p_vs_random": 0.824
+    },
+    "comp": {
+      "fraction": 0.00359,
+      "null_shufflabel_mean": 0.00381,
+      "null_shufflabel_std": 0.00056,
+      "p_vs_shufflabel": 0.825,
+      "p_vs_random": 0.978
+    },
+    "rolenull": {
+      "fraction": 0.00907,
+      "null_shufflabel_mean": 0.00702,
+      "null_shufflabel_std": 0.00099,
+      "p_vs_shufflabel": 0.035,
+      "p_vs_random": 0.041
+    },
+    "entity": {
+      "fraction": 0.00379,
+      "null_shufflabel_mean": 0.0038,
+      "null_shufflabel_std": 0.00041,
+      "p_vs_shufflabel": 0.255,
+      "p_vs_random": 0.969
+    }
+  },
+  "random_baseline": {
+    "k_over_d": 0.00625,
+    "mean": 0.00611,
+    "std": 0.00147
+  },
+  "opcode_family_fractions_s270": {
+    "16": {
+      "B": 0.007603,
+      "C": 0.011643,
+      "D": 0.013441,
+      "I": 0.006695,
+      "K": 0.011231,
+      "S": 0.01724,
+      "W": 0.00585,
+      "WHNF": 0.010132,
+      "Y": 0.011061
+    },
+    "32": {
+      "B": 0.009729,
+      "C": 0.010423,
+      "D": 0.009603,
+      "I": 0.006176,
+      "K": 0.005929,
+      "S": 0.007807,
+      "W": 0.006369,
+      "WHNF": 0.008579,
+      "Y": 0.009433
+    },
+    "48": {
+      "B": 0.01036,
+      "C": 0.026078,
+      "D": 0.025828,
+      "I": 0.007841,
+      "K": 0.023673,
+      "S": 0.021156,
+      "W": 0.010811,
+      "WHNF": 0.014857,
+      "Y": 0.021519
+    }
+  },
+  "verdict": {
+    "js_resident": false,
+    "js_specific": false,
+    "k_over_d_baseline": 0.00625,
+    "fractions": {
+      "bind": 0.00475,
+      "comp": 0.00359,
+      "rolenull": 0.00907,
+      "entity": 0.00379
+    }
+  }
+}
