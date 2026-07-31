@@ -8,10 +8,39 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-31 | Session: 285 | KNOWLEDGE COMMITTED s285 (memory
-> skipped per Michael); chats/session-285.md human-saved post-session.
+> Last updated: 2026-07-31 | Session: 286 | JS VERDICT IN (code+results committed
+> 34dbab3); mementum draft PENDING MICHAEL APPROVAL.
+
+> ▶▶ s286 DONE (P-TYPE-JS closed — the types arc is now a clean FOUR-way null):
+> the overnight P-TYPE-JS run (s285 tmux main:1) COMPLETED and the frozen verdict
+> is **js_resident=FALSE, js_specific=FALSE** — the exhaust is NOT the global
+> workspace. @Qwen3-32B, depth {16,32,48}, k/d baseline 0.00625: the type-semantic
+> roles are DEAD-ON-NULL (bind 0.0047 p_rand 0.82, comp 0.0036 p 0.98, entity
+> 0.0038 p 0.97 — ENTITY predicted highest, family-row REFUTED); only rolenull
+> (CONN/FUNC verbatim control) beats both nulls (p_rand 0.041, p_shuf 0.035) = the
+> same rolenull-fires pattern as P-TYPE-QK. λ yardstick: raw fractions 0.004–0.009
+> would read "resident" without the k/d anchor; rolenull's real excess proves the
+> instrument discriminates. READING: the lattice's readability lives in a THIRD
+> place — not stored (1b), not beam-coherent (1c), not in the QK read-in basis (QK),
+> not broadcast in J-space (JS). It is a readout the machine never consults = the
+> well-formedness-of-reduction frame (the REPL's Print/type-checker reads the ledger;
+> the machine does not). TYPES-ARC SCOREBOARD = storage ✗, beam-coherence ✗, QK
+> geometry ✗, workspace residency ✗ — exhaust survives every probe. Instrument
+> scripts/explore/type_jspace_fraction.py, results/type-jspace/qwen3-32b/ (34dbab3).
+> ⚠ PENDING MICHAEL APPROVAL (mementum, DRAFTED s286): types-are-the-well-formedness
+> §P-TYPE-JS Result + tags + Sessions, memory type-lattice-not-in-jspace-workspace,
+> this state block.
 >
-> ▶▶ s285 DONE (expanded-gram arc closed): sweep completed 11 models, ALL
+> ▶▶ COLD-START ORDER for s287: (1) verbum.dsp build (design page committed 2b40033;
+> skeleton + first harvest: whiten/subspace/nulls, tests/dsp from --validate patterns,
+> find_band stride-aware fix #1). (2) P-ATT-MED pre-reg (register-matched routing probe
+> = the mechanism search now that ALL value/geometry hiding places are shut — 3-hop
+> bridge-swap WITH attention capture; P-ATT-DIFF material folds in). (3) P-DUST-2
+> (training-trajectory convergence = the halt-pole formation law, the s285 open edge).
+> (4) P-HOF-1 pre-reg (typed higher-order fns over an installed predicate). (5) s282
+> leftovers: depth→SEQUENCING @27B, mammal→fur. Branch ~57 ahead (unpushed).
+>
+> (s285 retained →) ▶▶ s285 DONE (expanded-gram arc closed): sweep completed 11 models, ALL
 > coherence gates pass (r 0.71–0.88, main:2, 2:37:34). (b) STYLE-CORRECTED the
 > WHNF anti-block (scripts/explore/style_correct_antiblock.py, commit 6b521fb):
 > fire_formal is rank-1 style (ff_energy 0.88–0.96); per-op cos(X,whnf:X)
@@ -35,11 +64,8 @@
 > pole; per-op absorption statistic unresolved/weak → formation law open =
 > P-DUST-2 (training-trajectory) territory.
 >
-> ▶▶ COLD-START ORDER for s286: (1) check tmux main:1 — P-TYPE-JS STILL RUNNING
-> at s285 close (PID 95608, mid "building J-space bases", results/type-jspace/
-> qwen3-32b/run_js.log); on return give the JS verdict per frozen §P-TYPE-JS
-> (types-are-the-well-formedness page) — NOTE type_jspace_fraction.py +
-> results/type-jspace/ are UNTRACKED (commit with the JS verdict). (2) verbum.dsp
+> (s286 SUPERSEDED — JS verdict IN, see s286 DONE above; remaining items rolled into
+> the s287 order. Original s286 order retained for provenance →) (2) verbum.dsp
 > build queued (design page committed 2b40033; skeleton + first harvest:
 > whiten/subspace/nulls, tests/dsp from --validate patterns, find_band
 > stride-aware fix #1). (3) P-ATT-MED pre-reg (register-matched routing probe).

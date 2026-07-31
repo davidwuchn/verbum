@@ -4,8 +4,9 @@ status: active
 category: explore
 tags: [types, beta-reduction, combinators, KIBC, CCG, montague, lambek, discocat,
        curry-howard, well-formedness, S-combinator, B-combinator, functor-kind,
-       type-check, compiler, P-TYPE-1, P-TYPE-1b, P-TYPE-1c, dark-field, holography,
-       beamformer, C1, C2, C9, s282, s283]
+       type-check, compiler, P-TYPE-1, P-TYPE-1b, P-TYPE-1c, P-TYPE-QK, P-TYPE-JS,
+       dark-field, holography, jspace, workspace, exhaust, beamformer, C1, C2, C9,
+       s282, s283, s284, s285, s286]
 related:
   - type-check-is-the-qk-bilinear.md
   - beamformer-theory.md
@@ -418,7 +419,7 @@ is anywhere discrete, is in routing — **P-TYPE-QK**
 (`type-check-is-the-qk-bilinear.md`) is the next cheapest probe, pre-reg drafted
 s284.
 
-## P-TYPE-JS — is the exhaust the workspace? (PRE-REG, FROZEN s284 on Michael GO)
+## P-TYPE-JS — is the exhaust the workspace? (PRE-REG, FROZEN s284 — RESULT below, CLOSED NEGATIVE s286)
 
 > The positive-identification complement to the 1b/1c/QK negatives. Connects the
 > types arc to the J-space arc (`opcode-jacobian-jspace.md`): the lattice
@@ -467,6 +468,52 @@ fraction; N=200, paired across the 3 depth layers).
 geometry; the lattice is a readout object — register-matched. No causal claim:
 occupancy ≠ consultation (1b already settled consultation, negative).
 
+## P-TYPE-JS — Result (s285→s286 overnight) — CLOSED NEGATIVE (exhaust ≠ workspace)
+
+Ran @Qwen3-32B, depth layers {16, 32, 48} (all inside band L6–L50), s270 config
+(k=32, m=64, target=L62, seed 270), n_null=200 shuffled-label / n_rand=1000
+matched-random, git 7e39a5c. Basis prompts = the 56 LABELED_DATA sentences
+(263 labeled tokens). J-space geometry sane (PR 4.2–4.8, low-rank p 0.01–0.04).
+Baseline k/d = 0.00625, rand_mean 0.00611.
+
+**Verdict: `js_resident=FALSE, js_specific=FALSE`.** Aggregate workspace fractions:
+
+| role | frac | p_rand (vs baseline) | p_shuf (vs shuffled-label) |
+|------|------|------|------|
+| bind (QUANT,DET) | 0.00475 | 0.824 ✗ | 1.000 ✗ |
+| comp (MOD) | 0.00359 | 0.978 ✗ | 0.825 ✗ |
+| entity (ENTITY) | 0.00379 | 0.969 ✗ | 0.255 ✗ |
+| rolenull (CONN,FUNC) | 0.00907 | 0.041 ✓ | 0.035 ✓ |
+
+JS-RESIDENT required **all four** to beat the matched-random baseline → the three
+type-semantic roles (bind/comp/entity) sit **dead-on-null** (fractions ≈ k/d). The
+*only* subspace that beats both nulls is **rolenull** — the verbatim-only control —
+exactly the QK-echo pattern (§Result-32B: rolenull CONN/FUNC fired there too). The
+generic verbatim/positional structure occupies the workspace; the type-semantic
+roles do not.
+
+- **Family-row prediction REFUTED (verbatim):** the pre-reg predicted the lattice
+  would sit in the content family's J-space range with ENTITY highest (operand = bus
+  content par excellence). Instead ENTITY is at baseline (0.0038) and the ordering is
+  driven by rolenull, not entity. The type roles are not workspace content.
+- **Reading:** the exhaust is NOT the global workspace. The lattice's readability
+  lives in a *third place* — neither stored (1b), nor beam-coherent (1c), nor in the
+  QK read-in basis (QK), nor in the J-space the machine broadcasts (JS). It is a
+  readout object the machine never consults, which is exactly the
+  well-formedness-of-reduction frame: type = the *shape of which joins a term
+  licenses*, unstorable and un-broadcast by construction. The REPL's Print/type-checker
+  reads it; the machine does not.
+
+**Types arc scoreboard — a clean four-way null:** storage (1b) ✗, beam-coherence
+(1c) ✗, QK read-in geometry ✗, workspace residency (JS) ✗. The exhaust frame
+survives every probe aimed at it. `λ yardstick`: the matched-random + shuffled-label
+nulls did their job — raw fractions ≈ 0.004–0.009 would have read "resident" without
+the k/d anchor; rolenull's genuine excess (p 0.035–0.041) shows the instrument
+discriminates rather than manufacturing a blanket null.
+
+Instrument: `scripts/explore/type_jspace_fraction.py`;
+results `results/type-jspace/qwen3-32b/`. Committed 34dbab3.
+
 ## Consequence — typed higher-order functions (s283 discussion, Michael)
 
 3-hop (s282) + decodable types compose into a stronger statement than either:
@@ -506,3 +553,12 @@ s284 (1c fresh30 n=30 run completed + frozen analysis executed:
 darkfield_dissociation_supported=FALSE — comp ΔM sign reversed, permutation flat,
 rolenull not-null → the s283b hint was haze; generic role-slice cliff d3→d4 noted
 verbatim; arc closes, mechanism search moves to P-TYPE-QK).
+s284 cont (P-TYPE-QK 32B verdict: qk_aligned=FALSE, mechanism_shaped=FALSE — the
+lattice functor roles add zero Q-side QK gain beyond shuffled-label; sides inverted
+from prediction, rolenull CONN/FUNC fires Q-side; licensing does not use the lattice
+axes as its QK input basis).
+s285→s286 (P-TYPE-JS overnight run completed + verdict: js_resident=FALSE,
+js_specific=FALSE — the type-semantic roles bind/comp/entity are dead-on-null in the
+s270 J-space; only the rolenull verbatim control beats the nulls. Exhaust ≠ workspace.
+Types arc now a clean four-way null: storage ✗, beam-coherence ✗, QK geometry ✗,
+workspace residency ✗ — the well-formedness-of-reduction frame survives every probe).
