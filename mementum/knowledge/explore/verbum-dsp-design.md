@@ -1,6 +1,6 @@
 ---
 title: "verbum.dsp — the measurement substrate as a signal-chain library"
-status: designing
+status: active
 category: explore
 tags: [dsp, library, measurement, nulls, yardstick, whitening, subspace, gain,
        matched-filter, chain, registers, s284]
@@ -14,7 +14,7 @@ depends-on: []
 created: session 284
 ---
 
-# verbum.dsp — design (DRAFT s284 — PENDING MICHAEL APPROVAL)
+# verbum.dsp — design (approved 2b40033; BUILT s288 — commit eeb9d20)
 
 > Michael s284: "should we work on a DSP library to standardize our process and
 > code?" — collaborated design, three decisions locked (below). This page is the
@@ -142,3 +142,19 @@ unchanged (λ record).
 ## Sessions
 s284 (design collaborated + three decisions locked; page drafted pending
 approval; build queued behind P-TYPE-QK).
+s288 (BUILT + committed eeb9d20, Michael GO: src/verbum/dsp/{whiten, subspace,
+bands, gain, nulls, readout, chain} + tests/dsp (36 no-model tests, --validate
+pattern promoted; full suite 378 unbroken; ruff clean; verbum.dsp imports
+without touching torch). First harvest landed exactly per inventory:
+standardize/PR/centroids (1a), layer_geometry/role_subspace/subspace_energy/
+find_band (1b — find_band stride-aware = fix #1, stride-1 behavior identical),
+map_basis/head_gain_ratios (QK), gain_law/g_of (1c, de-experiment-ified:
+anchors passed as arrays, reference condition declared by caller). L1 gate():
+structural yardstick live — NullDraws + direction mandatory for any p; sign
+discipline no-rescue; Register warnings never mutate. Open questions resolved
+in-build: Gated.warnings = tuple[str] beside pristine fields (confirmed by
+test); matched_range written fresh from the λ yardstick spec (s247 φ-ladder
+refusal is a test case); provenance helpers deferred to a sibling (dsp stays
+measurement-only). Migration of frozen instruments NOT started (gate 2 —
+arcs must close first). Consumers unlocked: P-TYPE-PROB / P-TYPE-OV pre-regs
+(types-are-compiled-probabilities.md) want exactly this substrate.)

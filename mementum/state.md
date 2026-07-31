@@ -54,16 +54,26 @@
 > log-P; monotone tracking = compiled-probability, step = crisp typing) and
 > P-TYPE-OV (lattice axes through W_OV + MLP down-proj, QK's mirror — locates the
 > implementation if positive). Both want the verbum.dsp substrate → dsp build NOW.
-> ▶▶ NEXT (post-approval queue, unchanged from s287): (1) verbum.dsp build (design
-> 2b40033 — skeleton + first harvest: whiten/subspace/nulls, tests/dsp from
-> --validate patterns, find_band stride-aware fix #1). (2) P-DUST-2
-> (training-trajectory convergence = halt-pole formation law). (3) P-HOF-1 pre-reg
-> (typed higher-order fns over an installed predicate — theory page §Consequence;
-> NOTE: JOIN-TYPED strengthens its premise — the join filters by type, so a
-> quantifier-over-installed-predicate has a measured licensing substrate).
-> (4) s282 leftovers: depth→SEQUENCING @27B, mammal→fur. (5) pre-reg candidates
-> parked: what-computes-the-filter (QK negative says not lattice-axes read-in;
-> P-ATT-STEER still gated, needs aim-dominant). Branch ~70 ahead (unpushed).
+> ▶▶ s288 cont — VERBUM.DSP BUILT ✅ (Michael GO, code committed eeb9d20):
+> src/verbum/dsp/{whiten,subspace,bands,gain,nulls,readout,chain} + tests/dsp
+> (36 no-model tests = --validate pattern promoted; full suite 378 unbroken;
+> ruff clean; imports without torch). Harvest exactly per design inventory
+> (standardize/PR/centroids 1a; layer_geometry/role_subspace/subspace_energy/
+> find_band 1b; map_basis/head_gain_ratios QK; gain_law/g_of 1c
+> de-experiment-ified). FIX #1 landed: find_band stride-aware (stride-1
+> behavior identical). L1 gate() = structural yardstick live: no p without
+> declared NullDraws + direction; sign-discipline no-rescue; Register
+> warning-only (test-proven never-mutates). matched_range written fresh from
+> λ yardstick spec (φ-ladder refusal = test case). Frozen instruments
+> UNTOUCHED (migration gate 2 — arcs must close first). Design page → active.
+> ▶▶ NEXT: (1) P-TYPE-PROB + P-TYPE-OV pre-regs (types-are-compiled-
+> probabilities.md, unfrozen — the dsp substrate they wanted now exists;
+> P-TYPE-OV = what-computes-the-filter, the QK mirror through W_OV + MLP
+> down-proj; P-TYPE-PROB = monotone TE-vs-slot-log-P tracking). (2) P-DUST-2
+> (training-trajectory convergence = halt-pole formation law). (3) P-HOF-1
+> pre-reg (typed higher-order fns — JOIN-TYPED strengthens its premise).
+> (4) s282 leftovers: depth→SEQUENCING @27B, mammal→fur. (5) parked:
+> P-ATT-STEER (still gated, needs aim-dominant). Branch ~73 ahead (unpushed).
 
 > ▶▶ s287 LIVE — INDUCTIVE HAMMOCK → P-TYPE-SWAP ✅ APPROVED (Michael,
 > type-check-is-the-qk-bilinear.md §P-TYPE-SWAP; 4B smoke leads, 32B verdict on GO): Michael's induction = types-mechanism
