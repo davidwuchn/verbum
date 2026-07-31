@@ -132,6 +132,20 @@
 > pythia-14m scratch pairs, crystal-seeded vs random init, P-DUST-2-style
 > formation logging, ~1 GPU-day, tests levers 1+5 + yields the level-4
 > baseline regardless.
+> ▶▶ s288 CODA — ARTIFACT ARCHITECTURE CAPTURED (Michael-approved):
+> knowledge/explore/ternary-mirrors-and-the-vsm-tree.md — Michael's "ternary
+> plates using ternary mirrors plugged into a tree-of-VSM tensors" = the
+> thesis's ENGINEERING COROLLARY + the answer to the deferred S2
+> canonical-form questions. Ternary as literal optics (+1 transmit / −1
+> mirror≡π-phase / 0 stop); THREE SPLITS ARE ONE SPLIT (mirrors≡topology≡
+> functors extract cleanly 8.6× | plates≡magnitudes≡arguments need
+> re-exposure — s172/s174/s267/s268/s269 + Bonsai 18%-vs-3.5% + P-TYPE-OV,
+> three arcs one decomposition). Node = mirrors(S2/S3) + plates(S1) +
+> identity(S5) + passband interface; compose = plug passband→carrier;
+> crystal reducer node shareable (C2). **SEAM TEST = level-3 north star:
+> extract crystal-reducer + fact-plate nodes, run a 3-hop THROUGH the
+> composed seam — pass/fail.** Speculation flagged: MIXED-ROUTE interleaving
+> may resist node factorization; capacity = P-HOLO-CAP.
 > ▶▶ COLD-START s289: (1) P-PROJ-1 pre-reg (Michael-queued s288: the
 > holographic ARGUMENT projector — drive the measured entity passband;
 > TE/norm ladder passband-projected > centroid-diff ≫ anti-passband ≈
