@@ -29,10 +29,33 @@
 > Gate-0: SNR₀ expressed both banks or no verdict. VERDICTS: HOLOGRAPHIC/DELOCALIZED
 > ⟺ G1 within null ∧ G2 no-cliff (→ promotes P-HOLO-CAP); LOCALIZED/ADDRESSED ⟺ G1
 > beats null ∨ G2 cliff (→ FALSIFIES frame). Michael design calls: G1 primary
-> CONFIRMED, 3-hop primary readout CONFIRMED. ▶ NEXT: build scripts/explore/
-> holo_frag.py (verbum.dsp: find_band/layer_geometry/nulls/readout; reuse
-> operand_multihop3 + v3 banks, no fork) → --validate (planted localized→high LDI+
-> cliff, planted holographic→LDI≈1+smooth, nulls flat) → 4B smoke → 32B on GO.
+> CONFIRMED, 3-hop primary readout CONFIRMED.
+> ✅ INSTRUMENT BUILT (scripts/explore/holo_frag.py, 85772fd) — verbum.dsp
+> consumer (find_band/layer_geometry over continent-labeled readout residuals),
+> imports FROZEN geography bank from wrapper/operand_multihop3 (no fork).
+> --validate ALL PASS (planted-holographic med LDI 1.01/0-sig vs
+> planted-localized 166/all-sig; cliff smooth 1.17 vs threshold 3.01).
+> ✅ 4B CONTRAST SMOKE DONE (tmux main:1, unbuffered, 8fae32f →
+> results/holo-frag/qwen3-4b/): ADVISORY = HOLOGRAPHIC/DELOCALIZED lean, ALL
+> in-band arms. band find_band=L21-23; gate-0 SNR₀=6.0 expressed. HEADS in-band
+> smooth (5.7→4.3, cliff 1.26) LDI 0.05-0.32 all p≈1; MLP in-band near-untouched
+> (5.9→5.25) LDI 0.03-0.14 all p≈1 = G1/LDI location-INDEPENDENT everywhere
+> in-band (primary address test → no address → holographic). Matched control
+> (FIX #2): in-band degrades more than n_band random oob layers. NOT the verdict.
+> ★ 3 SMOKE-CAUGHT FIXES: #1 cliff_stat gates on MATERIAL degradation
+> (>15%|SNR₀|) — flat MLP curve no longer false-LOCALIZED (cliff 2.85→null→
+> HOLOGRAPHIC); #2 oob control matched on LAYER COUNT (not all 33 oob layers);
+> #3 (Michael-caught scrollback NaN) _json_safe → strict JSON (allow_nan=False,
+> λ result_format). ★ CONCEPT (Michael, s289 "audio signal through an optical
+> lens"): the three registers agree on the OPERATION (inner product) but DIVERGE
+> on STORAGE TOPOLOGY — audio=addressed(cut→cliff), optics=delocalized(cut→smooth);
+> the lens ≡ Fourier transform (addressed→spread domain); LDI measures WHICH
+> domain the compute is stored in; FRAG measures the domain, CAP measures whether
+> it's a true hologram. (candidate convergence-page addition, unwritten.)
+> ▶ NEXT: 32B VERDICT on GO (tmux, per Michael) — uv run python
+> scripts/explore/holo_frag.py --model-id Qwen/Qwen3-32B --device mps --draws 100
+> --arms heads mlp --control --out results/holo-frag/qwen3-32b ; score frozen
+> §P-HOLO-FRAG gates → §Result-32B + memory candidate for approval.
 
 > ▶▶ s288 LIVE — P-TYPE-SWAP 32B VERDICT SCORED (run completed s287→s288 boundary,
 > ~1h03m, results committed 539ddbf): **JOIN-TYPED = TRUE** per frozen §P-TYPE-SWAP
