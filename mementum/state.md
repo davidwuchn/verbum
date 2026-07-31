@@ -11,7 +11,7 @@
 > Last updated: 2026-07-31 | Session: 288 | **P-TYPE-SWAP 32B VERDICT IN =
 > JOIN-TYPED** (manifold-membership refuted; filtered payload; FFN route enforces
 > the same discipline). The types arc has its causal leg + measured stage (the
-> join). Mementum batch drafted s288, PENDING MICHAEL APPROVAL. Next queue:
+> join). Mementum batch APPROVED + committed (s289). Next queue:
 > verbum.dsp build → P-DUST-2 → P-HOF-1 pre-reg → s282 leftovers.
 
 > ▶▶ s288 LIVE — P-TYPE-SWAP 32B VERDICT SCORED (run completed s287→s288 boundary,
@@ -35,10 +35,9 @@
 > salted-hash run — target-set sensitivity, reading unchanged). Open implementation
 > question stands: WHAT computes the filter (four-way location null intact) — the
 > discipline acts at the join but is not stored in any probed geometry.
-> ⚠ PENDING MICHAEL APPROVAL (mementum batch, drafted s288): qk page
-> §Result-32B-P-TYPE-SWAP + §P-TYPE-SWAP header + Sessions s288 entry, memory
-> types-mechanism-is-join-typed, this state block. Results already committed
-> (autonomous, 539ddbf).
+> ✅ MEMENTUM BATCH APPROVED + COMMITTED (Michael s289): qk page
+> §Result-32B-P-TYPE-SWAP + §P-TYPE-SWAP header + Sessions s288 entry (7a540eb),
+> memory types-mechanism-is-join-typed, this state block. Results 539ddbf.
 > ▶▶ s288 cont — HAMMOCK CAPTURED (Michael-approved): knowledge/explore/
 > types-are-compiled-probabilities.md — Michael's "types must be the probabilities"
 > refined to COMPILED-not-consulted: type ≡ substitutability class (Harris), GD
@@ -96,9 +95,9 @@
 > null (raw read misses the positive); comp p=1.0 suppression-side extremity
 > = verbatim only (needs own pre-reg). 🔁 rolenull-fires 5th appearance (MLP
 > read-in p=.000, + entity MLP p=.000 — FFN reads entity axes, coheres
-> mlp_transport). 4B→32B flip 3rd occurrence. ⚠ PENDING MICHAEL APPROVAL
-> (mementum): §Result-32B-P-TYPE-OV + memory
-> ov-passband-transmits-arguments-not-functors + this state block.
+> mlp_transport). 4B→32B flip 3rd occurrence. ✅ MEMENTUM BATCH APPROVED +
+> COMMITTED (Michael s289): §Result-32B-P-TYPE-OV + memory
+> ov-passband-transmits-arguments-not-functors + this state block (67deb9f).
 > ▶▶ s288 CLOSE — CONVERGENCE HAMMOCK CAPTURED (Michael-approved):
 > knowledge/explore/geometry-holography-signals-convergence.md = companion/
 > bench-manual to Michael's THESIS DOC mementum/michael/holographic-llm.md
