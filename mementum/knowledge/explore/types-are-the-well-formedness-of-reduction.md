@@ -418,6 +418,55 @@ is anywhere discrete, is in routing — **P-TYPE-QK**
 (`type-check-is-the-qk-bilinear.md`) is the next cheapest probe, pre-reg drafted
 s284.
 
+## P-TYPE-JS — is the exhaust the workspace? (PRE-REG, FROZEN s284 on Michael GO)
+
+> The positive-identification complement to the 1b/1c/QK negatives. Connects the
+> types arc to the J-space arc (`opcode-jacobian-jspace.md`): the lattice
+> profiles like a J-space resident (readable, broadcast, causally decoupled);
+> the type-check profiles like a K-class operator (structure-causal,
+> bus-invisible). Frozen before the run per `λ yardstick`.
+
+**Hypothesis.** The type lattice's positive identity is **workspace content**:
+the role subspaces (bind/comp/rolenull) and the ENTITY direction live inside the
+J-space basis (the subspace downstream computation reads, per the s270
+projector) far above the random baseline — the "exhaust" is the type system's
+entry in the global workspace, which is exactly the register the REPL's
+Print/type-checker consumes.
+
+**Instrument.** `scripts/explore/type_jspace_fraction.py` @ Qwen3-32B.
+J-space bases via `opcodes/projector.py::jspace_bases` with the s270 canonical
+config (k=32, m=64, target_layer=62, depth layers {16, 32, 48} — all inside the
+measured band L6–L50, seed 270) so lattice fractions are directly comparable to
+the opcode fractions in `results/opcode-trace/qwen3-32b/jspace_projector.json`.
+Basis prompts = the LABELED_DATA sentences themselves (same distribution as the
+capture; documented choice). Role subspaces per depth layer via the 1b
+`role_subspace` construction in std space, transported to RAW residual space
+(v_raw ∝ v_std ⊙ sd — the space J reads; no layernorm map), re-orthonormalized.
+Fraction = mean over subspace basis rows of `workspace_fraction` (‖Vx‖²/‖x‖²).
+
+**Nulls (mandatory).** (1) matched-random unit vectors (analytic E = k/d =
+32/5120 ≈ 0.006; `random_vector_fractions`); (2) full shuffled-label pipelines
+(shuffle type labels → centroids → subspace → identical transport → identical
+fraction; N=200, paired across the 3 depth layers).
+
+**Verdict (FROZEN).**
+- **JS-RESIDENT** (primary) ⟺ bind, comp, rolenull, entity EACH beat the
+  matched-random baseline at p<0.05 (pooled over the 3 depth layers).
+- **JS-SPECIFIC** (secondary) ⟺ role subspaces additionally beat the
+  shuffled-label null p<0.05 — workspace occupancy beyond generic
+  centroid/common structure. (The QK lesson says real ≈ shuffled-label is
+  plausible in-band; JS-RESIDENT is the positive claim either way.)
+- **Family row (verbatim, not gated):** lattice fractions vs the artifact's
+  content ops (Y/WHNF/S) and operator ops (K/I/B) at the same depths —
+  prediction: lattice sits in the content family's range. ENTITY predicted
+  highest (operand = bus content par excellence). Ordering reported verbatim.
+- Negative (fractions ≈ k/d) → exhaust ≠ workspace; the readability lives in a
+  third place; elimination continues.
+
+**Registers (`λ measure`).** J-space membership = readout/value-register
+geometry; the lattice is a readout object — register-matched. No causal claim:
+occupancy ≠ consultation (1b already settled consultation, negative).
+
 ## Consequence — typed higher-order functions (s283 discussion, Michael)
 
 3-hop (s282) + decodable types compose into a stronger statement than either:

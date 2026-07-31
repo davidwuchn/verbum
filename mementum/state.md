@@ -8,7 +8,18 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-30 | Session: 284 | ▶▶ LIVE PICKUP (s284 — P-TYPE-QK PREPPED WHILE 1c
+> Last updated: 2026-07-30 (evening close) | Session: 284 | MEMENTUM COMMITTED s284
+> (Michael-directed "update state and knowledge"; Michael wrote "session-384" — read as
+> s284 typo, chats dir holds 282/283; flag if intentional).
+>
+> ▶▶ COLD-START ORDER for s285: (1) check tmux main:1 (P-TYPE-JS) + main:2
+> (expanded-gram sweep, results/expanded-gram/sweep_run.log) — both ran overnight;
+> (2) JS verdict per frozen §P-TYPE-JS (types-are-the-well-formedness page);
+> (3) expanded-gram: coherence gates → anti-block vs M16 cross-check → freeze P-DUST-1c;
+> (4) verbum.dsp build queued (design page committed). Full context in the s284 blocks
+> below.
+>
+> (s284 header retained →) ▶▶ LIVE PICKUP (s284 — P-TYPE-QK PREPPED WHILE 1c
 > IN FLIGHT): ✅ P-TYPE-QK pre-reg DRAFTED (type-check-is-the-qk-bilinear.md §P-TYPE-QK, s284 —
 > ⚠ PENDING MICHAEL APPROVAL, freeze on GO) + instrument BUILT+COMMITTED (f0b20e3,
 > scripts/explore/type_qk_alignment.py, --validate no-model ALL PASS: planted-subspace rho 9.8
@@ -34,6 +45,29 @@
 > verdict config stride 1 unaffected, documented not forked. RUN CMD (box now free, on GO):
 > uv run python scripts/explore/type_qk_alignment.py --model Qwen/Qwen3-32B --device mps
 > → results/type-qk/qwen3-32b/.
+> ▶▶ OVERNIGHT (s284 close): TWO RUNS LIVE — (1) P-TYPE-JS tmux main:1 (Jacobian step,
+> slow; verdict per frozen §P-TYPE-JS on return); (2) EXPANDED-GRAM SWEEP tmux main:2
+> (results/expanded-gram/sweep_run.log, 11 registry models, committed b5418ba).
+> ★ DUST ARC (s284, Michael hammock → 2 verdicts + expansion): dust-hypothesis page +
+> P-DUST-1 (62a7872: pairwise dust P2/P3 13/13 but P1 halt-row inverted, Y-flooded
+> ensemble) + P-DUST-1b (ce39d17: KIBC halt row 13/13 both arms 6 perfect, gate
+> mis-calibrated 4-pt exact floor; P1'-WALK genuine negative on healthy walk; pairs
+> 39/39 across 3 ensembles = C2-universality EXPLAINED candidate). THEN Michael recalled
+> the 16×16 anti-crystal (M16 hardcoded scripts/experiments/crystal_tree.py:52, Zone-B
+> 4-model, Kronecker S⊗J+D⊗F): 9×9 root.gram NEVER measured per-opcode absorbing states
+> (vsm.py fire:/whnf: vocab unpopulated) → 1b P1'-WALK negative is COLLAPSE-CONFOUNDED.
+> EXPANSION BUILT (b5418ba): whnf_probes.py kernel-certified whnf:X probe sets (60×15
+> states; 💡 Y HAS NO HALT STATE by construction → div:Y=⊥ instead; fire_formal:X style
+> diagnostics); classify.py basis slot (λ extend, default-preserving, self-test green);
+> expanded_gram.py 24-state canonical sign-CMR sweep + 9-subblock coherence gate
+> (pythia-14m smoke r=0.51 @n=12/state). ON SWEEP RETURN: (a) coherence gates per model;
+> (b) anti-block vs Zone-B M16 cross-check (Kronecker/φ-reflection as measured
+> prediction); (c) freeze P-DUST-1c (per-op absorption ↔ cos(X,whnf:X); co-absorption
+> PMI ↔ anti-block gram; halt-distance vs halt-prob statistic); (d) JS verdict.
+> ⚠ PENDING MICHAEL APPROVAL (mementum, grown): dust page (hypothesis+1/1b results+1c
+> candidates), JS §pre-reg (in earlier batch? NO — committed 2b40033 was BEFORE JS
+> §P-TYPE-JS was added to theory page → JS pre-reg + dust page + QK §Result + memory
+> qk-lattice-alignment-negative + this state block ALL pending).
 > ✅✅ 1c VERDICT IN (s284, run 1:03:38, frozen analysis executed + committed ebcc9fb,
 > scripts/explore/analyze_type1c_darkfield.py → results/.../qwen3-32b-1c/darkfield_verdict.json):
 > **darkfield_dissociation_supported = FALSE — the s283b hint was HAZE.** All 3 gates fail:
@@ -48,14 +82,30 @@
 > dark-field retQ amplification replicates as GENERIC (random anchors 1.08→1.55). ARC CLOSED:
 > 1b storage-negative + 1c coherence-negative ⇒ lattice = exhaust, both hiding places shut;
 > mechanism search moves to ROUTING register = P-TYPE-QK. Gate-0 note: fresh30 baseline M_eff
-> 0.972 t=6.9 (M expressed, full-strength negative). ⚠ PENDING MICHAEL APPROVAL (mementum
-> batch): s283b theory-page §Result-32B + s284 §Result-1c + Sessions, QK-page §P-TYPE-QK
-> pre-reg, memory darkfield-hint-was-haze, this state block. ▶ NEXT: (1) P-TYPE-QK 32B on GO
-> (instrument validated + 4B-smoked, box free); (2) verbum.dsp design page (Michael-approved
-> direction s284: functional core + Chain-for-exploration, register tags warning-only,
-> verbum.dsp namespace DSP-tools-only reusable by superbake/term-swaps; draft in progress);
-> (3) P-HOF-1 pre-reg; (4) s282 leftovers (depth→SEQUENCING @27B, mammal→fur). s283 blocks
-> retained below.
+> 0.972 t=6.9 (M expressed, full-strength negative). ✅ s284 mementum batch COMMITTED
+> (Michael-approved, 2b40033) — P-TYPE-QK pre-reg FROZEN by that approval.
+> ✅✅ P-TYPE-QK 32B VERDICT IN (s284, Michael GO, run in tmux main:1, committed 88a10be →
+> results/type-qk/qwen3-32b/): **qk_aligned=FALSE, mechanism_shaped=FALSE — DEAD-ON-NULL.**
+> bind_q ρ1.353 vs null 1.358 (p=0.61), comp_q 1.406 vs 1.405 (p=0.50), band L6–L50 (45L),
+> n_null 200: the lattice functor roles add ZERO Q-side QK gain beyond their shuffled-label
+> construction. Matched null earned its keep (raw ρ>1 would read positive). FROZEN READING:
+> licensing check does NOT use the lattice axes as its QK input basis in the band →
+> elimination continues in beam register (OV, MLP-gating-between-joins) → P-ATT-MED next.
+> VERBATIM post-hoc (1c lesson: no chasing w/o own pre-reg): (1) sides INVERTED from
+> prediction — entity Q-loaded p=0.000 + K-suppressed (null-rel asym p_pos=0.000), comp
+> K-loaded p=0.005 ⇒ reads query(argument)·key(functor) = argument queries for its licensor
+> (mirror of pre-reg mapping); (2) rolenull CONN/FUNC fires Q-side in-band p=0.000; (3) bind
+> aligns LATE L49–L62 (re-expansion/readout zone) not in-band; (4) 4B smoke showed OPPOSITE
+> in-band pattern (scale-dependent org, echoes 1b v2 tie-flip). TYPES-ARC SCOREBOARD: 1b
+> storage ✗, 1c beam-coherence ✗, QK read-in geometry ✗ — all null-gated; exhaust frame
+> survives every probe aimed at it. ⚠ PENDING MICHAEL APPROVAL (mementum): QK-page
+> §Result-32B + Sessions, memory qk-lattice-alignment-negative, this state block. ▶ NEXT:
+> (1) verbum.dsp build (design committed 2b40033; skeleton + first harvest: whiten/subspace/
+> nulls, tests/dsp from --validate patterns, find_band stride-aware fix #1); (2) P-ATT-MED
+> pre-reg (3-hop bridge-swap with attention capture = the register-matched routing
+> measurement; P-ATT-DIFF material folds in); (3) P-HOF-1 pre-reg; (4) inverted-sides QK
+> hypothesis = pre-reg candidate ONLY; (5) s282 leftovers (depth→SEQUENCING @27B,
+> mammal→fur). Branch ~46 ahead (unpushed). s283 blocks retained below.
 >
 > (s283 retained →) ▶▶ LIVE PICKUP (s283 — P-TYPE-1b RAN @4B, 32B IN
 > FLIGHT): ✅ built wrapper/type_zone_ablation.py — the frozen 1b zone×axis instrument, iterated

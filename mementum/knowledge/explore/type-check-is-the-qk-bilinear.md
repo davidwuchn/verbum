@@ -205,8 +205,56 @@ own capture (in-run band detection, procedure fixed — 1b precedent). (f) No
 single-head claims in either direction: aggregate statistics only (C2, 0/128
 pre-refuted).
 
+## P-TYPE-QK — Result @32B (s284) — CLOSED NEGATIVE at the frozen gates
+
+> Run of record: `results/type-qk/qwen3-32b/qk_alignment.json` (commit 88a10be;
+> instrument f0b20e3, 4B smoke 5ec3cf2). Band L6–L50 (45 layers), n_null 200,
+> seed 0, stride 1.
+
+**VERDICT: `qk_aligned = FALSE`, `mechanism_shaped = FALSE`.** P1 fails
+*dead-on-null*: bind_q ρ 1.353 vs shuffled-label null 1.358 (p=0.61); comp_q
+ρ 1.406 vs 1.405 (p=0.50). Beyond what any shuffled-label centroid subspace
+already carries (the shared dominant component), the functor role subspaces add
+**zero** query-side QK amplification across the band. The matched null did its
+job — raw ρ>1 without it would have read as a positive.
+
+**Frozen negative reading (from this page's pre-reg):** the licensing check does
+not read the lattice through the band's QK input maps. The elimination continues
+in the beam register — OV contributions and MLP gating between joins are the
+remaining routing homes; **P-ATT-MED** (3-hop with attention capture) is the
+next probe per the queue.
+
+**Verbatim structure (post-hoc register — hypothesis-generation ONLY, the 1c
+lesson applies; none of this counts without its own pre-reg):**
+1. **The sides look INVERTED from the prediction.** entity is Q-side loaded
+   (ρ 1.740 vs null 1.407, p=0.000) and K-side *suppressed* (below null,
+   p=0.99; null-relative asymmetry fully Q-shifted, p_pos=0.000); comp is
+   K-side loaded above null (p=0.005). Null-relative, the pattern reads
+   `query(argument) · key(functor)` — the argument queries for its licensor —
+   the mirror of the pre-registered mapping. If pursued: pre-reg the inverted
+   sides as the hypothesis, fresh capture items.
+2. **rolenull (CONN/FUNC) beats null Q-side in-band** (ρ 1.626 vs 1.360,
+   p=0.000) — the un-gated comparison row is the one that fires.
+3. **bind_q aligns LATE, not in-band**: p≤0.04 with ρ 0.9–1.5 across L49–L62
+   (→ attn L50–L63), the re-expansion/readout zone (1a: re-expand L52–63) —
+   coheres with the depth-schedule's late class→covering zone, verbatim only.
+4. Scale note: the 4B smoke showed the opposite in-band picture (bind_q
+   p=0.000 in-band) — like the lattice axes themselves (1b v2), QK-alignment
+   organization appears scale-dependent. Smoke-grade, stride-2, not comparable
+   as a verdict.
+
+**Honest scope recap:** geometric consistency probe only — a negative here does
+not preclude a QK-resident check built from non-lattice directions; it rules out
+the specific "lattice axes = the check's input basis" reading at the band.
+q_norm/k_norm proxy caveat and GQA K-side low power (8 heads) stand as
+pre-registered.
+
 ## Sessions
 s283b (page created from the attention-gap hammock; no experiments run;
 1c dark-field run in flight during discussion).
 s284 (P-TYPE-QK pre-reg DRAFTED + instrument built while the 1c run was in
 flight; pending Michael approval → freeze → run).
+s284 cont (pre-reg frozen on approval 2b40033; 32B run: qk_aligned=FALSE
+dead-on-null — lattice roles add no Q-side QK gain in the band; inverted-sides
++ rolenull-fires + late-bind structure reported verbatim, post-hoc; queue
+advances to P-ATT-MED).
