@@ -8,9 +8,11 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-31 | Session: 286 | JS + P-ATT-MED landed. P-ATT-FFN
-> APPROVED+built (4B smoke fixed a post-norm recon bug → 0.001); **32B verdict RUN IN
-> FLIGHT** (tmux main:1, Michael GO) — read it first next session.
+> Last updated: 2026-07-31 | Session: 287 | P-ATT-FFN 32B verdict IN = MIXED-ROUTE
+> (atoms=FFN + joins=attention BOTH measured; null-misses split). Inductive hammock →
+> P-TYPE-SWAP (ill-typed term) approved+built+4B-green (JOIN-TYPED advisory,
+> filtered-payload). **32B P-TYPE-SWAP verdict RUN IN FLIGHT** (tmux main:1, Michael
+> GO, --cells-from pinned) — read it first next session.
 
 > ▶▶ s287 LIVE — INDUCTIVE HAMMOCK → P-TYPE-SWAP ✅ APPROVED (Michael,
 > type-check-is-the-qk-bilinear.md §P-TYPE-SWAP; 4B smoke leads, 32B verdict on GO): Michael's induction = types-mechanism
@@ -25,8 +27,35 @@
 > (adjective,×2 banks)/random; 3-stage SURVIVAL→TRANSPORT(unprojected, slot-mass)→
 > REDUCTION decomposition; verdicts JOIN-TYPED / REDUCTION-TYPED / MANIFOLD; subsumes
 > P-ATT-DIFF causally; reuses P-ATT-MED cells/config 1:1 (4B smoke first, 32B on GO).
-> P-ATT-FFN 32B verdict STILL IN FLIGHT (tmux main:1, launched 11:00) — read
-> results/type-att-ffn/qwen3-32b/att_ffn.json when done, score frozen gates.
+> ✅✅ P-ATT-FFN 32B VERDICT IN (s287, ~2h, results committed a5276da): **MIXED-ROUTE-
+> MEASURED=TRUE, FFN-RETRIEVAL=FALSE (not clean).** 16/18 flip; 4 attn-dom / 12 mlp-dom;
+> mean mlp_frac 0.584 vs attn 0.414; BOTH channels beat the random-add null 15/16;
+> recon 0.002 (norm_f fix held). The null-misses SPLIT: Sphinx MLP-dominant 0.759
+> (Michael's fact-lookup reading CONFIRMED for the paradigm cell), Petronas
+> attention-dominant 0.596 (routing fully visible under a fresh edit). Route mix is
+> WITHIN-cell, not a partition of cells: atoms=FFN + joins=attention BOTH measured on
+> one causal handle. Scale-stable (4B mlp 0.586 / 32B 0.584). Attention channel
+> replicates P-ATT-MED content-dominance on 16 FRESH cells (0.756/0.174, p .006) —
+> free replication. ⚠ PROTOCOL DEVIATION recorded in §Result-32B: salted hash(lm) →
+> 16/18 tgt countries differ from the P-ATT-MED run of record (2 cells no-flip under
+> harder targets); --cells-from pins cells for all future runs. ✅ mementum batch
+> APPROVED (Michael s287) + committed: qk-page §Result-32B(P-ATT-FFN) + Sessions +
+> this state block.
+>
+> ▶▶ s287 CLOSE — 32B P-TYPE-SWAP VERDICT LAUNCHED (Michael GO, tmux main:1, PID
+> verified, ~2h est): --arms --route-decomp, install L9, swap L25, scale 2.0, 18
+> cells, n_null 200, --cells-from results/type-att-med/qwen3-32b/att_mediation.json
+> (1:1 cell pinning, the deviation fix) → results/type-swap/qwen3-32b/. ⚠ stdout
+> block-buffered through tee — silence ≡ still working; per-cell lines flush late.
+> ▶▶ COLD-START ORDER for s288: (1) read results/type-swap/qwen3-32b/type_swap.json
+> → score frozen §P-TYPE-SWAP gates (JOIN-TYPED ⟺ TE/slot-mass discriminates same vs
+> wrong-type both banks, permutation over cells p<0.05; REDUCTION-TYPED ⟺ transport
+> type-blind + reduction discriminates; MANIFOLD ⟺ no stage discriminates while both
+> beat random) + sortal ladder row + mlp_transport row (does the FFN route enforce
+> the discipline? = the P-ATT-FFN successor question) → draft §Result-32B + memory
+> candidate (types-mechanism-is-join-typed?) for approval; commit results.
+> (2) THEN the queue: verbum.dsp build (design 2b40033); P-DUST-2; P-HOF-1 pre-reg;
+> s282 leftovers (depth→SEQUENCING @27B, mammal→fur). Branch ~68 ahead (unpushed).
 > ✅ INSTRUMENT BUILT+COMMITTED (2f76812, --arms + --cells-from; --validate ALL PASS,
 > prior tests byte-identical; ⚠ found harness tgt-selection uses SALTED hash(lm) —
 > irreproducible across processes; arms use crc32; 32B verdict MUST use --cells-from

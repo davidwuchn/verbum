@@ -612,19 +612,71 @@ absolute total / reconstruction were wrong.
 Results `results/type-att-ffn/qwen3-4b/`. Verdict host = Qwen3-32B on GO (reuse the
 P-ATT-MED cells/config verbatim so the route split maps 1:1 onto its verdict cells).
 
-## P-ATT-FFN — Result @32B — RUN IN FLIGHT (s286, tmux main:1)
+## P-ATT-FFN — Result @32B (s287) — MIXED-ROUTE-MEASURED (FFN-RETRIEVAL not clean)
 
-Verdict launched on Michael GO (s286): Qwen3-32B, `--route-decomp`, install L9, swap L25,
-scale 2.0, reader L25–63, 18 cells, n_null 200 → `results/type-att-ffn/qwen3-32b/att_ffn.json`.
-Verified running (weights 707/707). **No verdict recorded yet.** On completion, read
-`aggregate.route` (n_attn_dominant vs n_mlp_dominant, `mlp_dominant_cells`,
-`mean_recon_err` must be small) and score the frozen gates: **FFN-RETRIEVAL-CONFIRMED**
-⟺ Sphinx AND Petronas MLP-dominant + MLP beats null; **MIXED-ROUTE-MEASURED** ⟺ both
-routes present + null-beating (the likely outcome per the 4B contrast, which put
-Sphinx/Petronas on the *attention* side); **negative** ⟺ null-misses MLP-negligible. Fill
-§Result-32B verbatim, no post-hoc route reassignment.
+> Run of record: `results/type-att-ffn/qwen3-32b/att_ffn.json` (launched s286 on
+> Michael GO, completed s287; ~2h MPS). Qwen3-32B, `--route-decomp`, install L9,
+> swap L25, scale 2.0, reader L25–63, 18 install-correct cells, n_null 200.
 
-## P-TYPE-SWAP — the ill-typed term (PRE-REG, APPROVED s287, Michael; 4B smoke leads, 32B verdict freezes on GO)
+**⚠ PROTOCOL DEVIATION (recorded, `λ measure`).** The pre-reg promised the
+P-ATT-MED cells 1:1. The harness's target-country selection uses Python's
+**salted** builtin `hash(lm)` — not stable across processes — so **16/18
+landmark→tgt pairs differ** from the P-ATT-MED run of record (e.g. Sphinx→India
+there, Sphinx→Greece here; discovered s287 while building P-TYPE-SWAP, which adds
+`--cells-from` to pin cells henceforth). Consequences: (i) the route-split verdict
+below is INTERNAL to this run and unaffected; (ii) the P1 cell-level dissociation
+gate ("the two P-ATT-MED null-misses") is scored on the same *landmarks* under
+*different* swap edits — flagged where it matters; (iii) 2 cells (Kaaba, Table
+Mountain) did not flip under their new, harder targets (16/18 flip vs 18/18).
+
+**VERDICT: `MIXED-ROUTE-MEASURED = TRUE`; `FFN-RETRIEVAL-CONFIRMED = FALSE` (not
+clean).** Reconstruction gate passes: mean_recon_err **0.002** (the s286 norm_f
+pre-hook fix held at 32B; direct ≈ 0 — the swap reaches the readout only via
+attention + MLP).
+
+| | attn-dominant | MLP-dominant | mean attn_frac | mean mlp_frac | attn beats null | MLP beats null |
+|---|---|---|---|---|---|---|
+| **16 flipped cells** | 4 | 12 | 0.414 | **0.584** | 15/16 | 15/16 |
+
+- **P1 — the clean two-cell dissociation FAILS.** Sphinx: **MLP-dominant** (mlp
+  0.759, p_mlp=0.0) — Michael's fact-lookup reading confirmed for the paradigm
+  null-miss cell. Petronas: **attention-dominant** (attn 0.596, p_attn=0.0,
+  p_mlp=0.01) — the opposite side, and its routing is fully visible this time
+  (under a different tgt: Italy→Zambia deviation caveat applies). The two
+  null-misses SPLIT rather than pairing, and 12 cells are MLP-dominant — the
+  route split is a property of the population, not of the two outlier cells.
+- **MIXED-ROUTE — both routes are real, and both do work.** The 3-hop flip is
+  carried ~58% by MLP and ~41% by attention on average, with BOTH channels
+  beating the matched random-add null in 15/16 cells (Medina is the shared miss,
+  p_mlp=0.155, recon 0.008). The map-and-swap decomposition — **atoms/facts =
+  FFN value-rows, joins/composition = attention** — is now MEASURED on the same
+  causal handle: the swap's flip flows through an FFN fact-map AND an attention
+  composition path simultaneously.
+- **Scale-stable route split (verbatim).** 4B: 11/14 MLP-dominant, mean mlp_frac
+  0.586. 32B: 12/16, 0.584. Nearly identical — the FFN-heavy mix is not a
+  capacity artifact.
+- **Free replication of P-ATT-MED (verbatim).** This run's attention-channel
+  decomposition on 16 FRESH swap edits: content 0.756 / aim 0.174 / inter 0.070,
+  content>aim throughout, mean p 0.006 — the content-dominant medium-handle
+  result replicates on different cells without being asked.
+- **P2 depth-order (verbatim; gated-with-P1, which failed).** composition_order
+  (country peak < continent peak) in 12/16; the violations cluster in
+  attn-dominant/low-magnitude cells (Petronas pk 8/54, Angkor 21/60) plus one
+  degenerate early continent peak — lens-artifact caveat, not interpreted.
+
+**Reading.** The predicted clean split (retrieval cells vs composition cells)
+is not how the machine divides the work: **each cell uses both routes**, with the
+FFN carrying the majority share nearly everywhere and attention carrying a real,
+null-beating composition share on top. "Retrieval vs composition" is a
+per-route decomposition WITHIN a cell, not a partition OF cells. The two
+P-ATT-MED null-misses were magnitude outliers of the attention channel, not a
+separate mechanism class — one (Sphinx) resolves as FFN-heavy, the other
+(Petronas) as attention-heavy under a fresh edit. Successor question (not
+pre-registered): does the MLP route enforce the same type discipline as the
+attention route? — exactly P-TYPE-SWAP's `mlp_transport` arm row, already in
+flight at 4B (§P-TYPE-SWAP).
+
+## P-TYPE-SWAP — the ill-typed term (PRE-REG, APPROVED s287, Michael; FROZEN on GO s287 — 32B verdict IN FLIGHT)
 
 > **The generating induction (s287, Michael).** For most of our positive experiments
 > to show what they show, the system must have types of some sort — v3 nonce
@@ -791,3 +843,22 @@ output register. → P-TYPE-SWAP pre-reg DRAFTED (§above): ill-typed-term arms
 with UNPROJECTED transport norms, subsumes P-ATT-DIFF with a causal handle; verdict
 names JOIN-TYPED / REDUCTION-TYPED / MANIFOLD. PENDING MICHAEL APPROVAL; P-ATT-FFN 32B
 verdict still in flight during drafting.)
+s287 cont (P-TYPE-SWAP APPROVED by Michael → header frozen-on-GO; instrument built
+2f76812 (--arms + --cells-from, --validate ALL PASS, prior tests byte-identical);
+4B smoke GREEN beside the 32B run (010bfb7): SURVIVAL flat across arms (medium
+type-blind) → TE ladder MONOTONE same 1.89 (p .033) > sortal 1.64 > wrong-type
+1.51/1.46 ≈ random null → slot_mass Δ≈0 all arms (edges never withdraw — refusal
+is content-side) → BREAK: same +18.9 flips 6/6, ill-typed arms ≈ null,
+preds-stay-src 15/18. Advisory: JOIN-TYPED signature, filtered-payload form;
+manifold-membership fails its 4B prediction. 32B verdict on GO with --cells-from.)
+s287 cont (P-ATT-FFN 32B VERDICT IN, ~2h: **MIXED-ROUTE-MEASURED** — 4 attn-dom /
+12 mlp-dom of 16 flipped, mean mlp_frac 0.584, both channels null-beating 15/16,
+recon 0.002. FFN-RETRIEVAL not clean: Sphinx MLP-dominant 0.759 (fact-lookup
+confirmed for the paradigm cell) but Petronas attention-dominant 0.596 — the two
+null-misses SPLIT; route mix is per-cell, not a partition of cells. Scale-stable
+(4B 0.586 / 32B 0.584). Attention channel replicates P-ATT-MED content-dominance
+on fresh cells (0.756/0.174) unasked. ⚠ PROTOCOL DEVIATION recorded: salted
+hash(lm) → 16/18 tgt countries differ from the P-ATT-MED run of record; 2 cells
+no-flip under harder targets; --cells-from (built s287) pins cells henceforth.
+§Result-32B drafted; successor question = does the MLP route enforce the same
+type discipline → P-TYPE-SWAP mlp_transport row.)
