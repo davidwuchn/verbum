@@ -1,0 +1,25 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/707 [00:00<?, ?it/s]Loading weights: 100%|██████████| 707/707 [00:00<00:00, 7558.36it/s]
+[att-med] Qwen/Qwen3-32B L=9 lb=25 scale=2.0 dev=mps H=64 n_kv=8 hd=128 layers=64 reader=25..63
+[att-med] using 18 install-correct cells: ['Colosseum', 'Louvre', 'Parthenon', 'Kremlin', 'Sagrada Familia', 'Brandenburg Gate', 'Taj Mahal', 'Kaaba', 'Petronas Towers', 'Angkor Wat', 'Tiananmen', 'Burj Khalifa', 'Pyramids', 'Sphinx', 'Karnak', 'Table Mountain', 'Medina', 'Victoria Falls']
+[att-med] Colosseum        flip=1 aim=0.006 content=0.966 inter=0.029 attn_tot=79.3104 p_vs_null=0.0
+[att-med] Louvre           flip=1 aim=0.043 content=0.886 inter=0.072 attn_tot=79.0861 p_vs_null=0.0
+[att-med] Parthenon        flip=1 aim=0.107 content=0.862 inter=0.031 attn_tot=69.9335 p_vs_null=0.0
+[att-med] Kremlin          flip=1 aim=0.211 content=0.698 inter=0.092 attn_tot=35.2964 p_vs_null=0.0
+[att-med] Sagrada Familia  flip=1 aim=0.31 content=0.652 inter=0.038 attn_tot=27.3482 p_vs_null=0.0
+[att-med] Brandenburg Gate flip=1 aim=0.023 content=0.855 inter=0.122 attn_tot=77.8722 p_vs_null=0.0
+[att-med] Taj Mahal        flip=1 aim=0.206 content=0.753 inter=0.041 attn_tot=56.9167 p_vs_null=0.0
+[att-med] Kaaba            flip=1 aim=0.409 content=0.505 inter=0.086 attn_tot=11.7681 p_vs_null=0.01
+[att-med] Petronas Towers  flip=1 aim=0.224 content=0.604 inter=0.172 attn_tot=14.9192 p_vs_null=0.11
+[att-med] Angkor Wat       flip=1 aim=0.15 content=0.839 inter=0.011 attn_tot=81.0104 p_vs_null=0.0
+[att-med] Tiananmen        flip=1 aim=0.174 content=0.7 inter=0.126 attn_tot=47.8625 p_vs_null=0.0
+[att-med] Burj Khalifa     flip=1 aim=0.29 content=0.632 inter=0.078 attn_tot=59.9774 p_vs_null=0.0
+[att-med] Pyramids         flip=1 aim=0.087 content=0.783 inter=0.13 attn_tot=45.0737 p_vs_null=0.0
+[att-med] Sphinx           flip=1 aim=0.475 content=0.519 inter=0.006 attn_tot=1.4925 p_vs_null=0.815
+[att-med] Karnak           flip=1 aim=0.17 content=0.751 inter=0.079 attn_tot=42.7138 p_vs_null=0.0
+[att-med] Table Mountain   flip=1 aim=0.169 content=0.798 inter=0.034 attn_tot=52.0367 p_vs_null=0.0
+[att-med] Medina           flip=1 aim=0.231 content=0.737 inter=0.032 attn_tot=13.867 p_vs_null=0.005
+[att-med] Victoria Falls   flip=1 aim=0.233 content=0.691 inter=0.076 attn_tot=72.3873 p_vs_null=0.0
+
+[att-med] AGG (flipped cells): aim=0.195 content=0.735 inter=0.07 content_dominant=True mean_p=0.052
+[att-med] wrote results/type-att-med/qwen3-32b/att_mediation.json
