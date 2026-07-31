@@ -78,10 +78,29 @@
 > rho≪1 — region generically low-gain); 🔁 rolenull-fires motif 4th
 > appearance (MLP read-in p=.000). ⚠ QK showed opposite 4B/32B patterns —
 > 32B decides. **32B VERDICT RUN LAUNCHED tmux main:1** (stride 1, n_null
-> 200, → results/type-ov/qwen3-32b/ + run log tee'd). ▶▶ COLD-START s289:
-> read results/type-ov/qwen3-32b/ov_alignment.json → score frozen
-> §P-TYPE-OV gates → §Result-32B + memory candidate + state for approval;
-> commit results. THEN queue below.
+> 200, → results/type-ov/qwen3-32b/ + run log tee'd).
+> ▶▶ s288 cont — **P-TYPE-OV 32B VERDICT IN: OV-TRANSMITTING = TRUE,
+> LATTICE-IN-PASSBAND = FALSE** (results committed c58c5ba; frozen gates
+> scored same session): entity rho 0.714 vs shuffled null 0.459±0.053
+> p=0.000 band-wide L6–L50 (same band as QK, 45 layers) — P1 PASSES; bind
+> p=.965 / comp p=1.0 — functors NOT in the passband. **The joins transmit
+> ARGUMENTS, not FUNCTORS** = first weight-geometry positive of the types
+> arc (after 1b/1c/QK/JS nulls); locates half the mechanism (payload
+> passband ∈ single-layer OV weights; functor licensing still
+> distributed/enacted — QK✗ OV✗). Coheres: JOIN-TYPED filtered payload
+> (transported content ≡ entity displacement), exhaust frame (bind/comp =
+> readout shadows), QK inverted-sides (argument aimed AND carried), Montague
+> (application passes the argument; functor = the operator). Resident-Lisp
+> sharpened: operands ride joins, combinators = frozen reducer;
+> homoiconicity bounded. λ yardstick ×2: entity rho<1 but +55% over matched
+> null (raw read misses the positive); comp p=1.0 suppression-side extremity
+> = verbatim only (needs own pre-reg). 🔁 rolenull-fires 5th appearance (MLP
+> read-in p=.000, + entity MLP p=.000 — FFN reads entity axes, coheres
+> mlp_transport). 4B→32B flip 3rd occurrence. ⚠ PENDING MICHAEL APPROVAL
+> (mementum): §Result-32B-P-TYPE-OV + memory
+> ov-passband-transmits-arguments-not-functors + this state block.
+> ▶▶ NEXT after approval: P-TYPE-PROB pre-reg (graded bank TE vs slot log-P
+> × entity-alignment — now sharpened by the passband result) ∨ queue below.
 > ▶▶ NEXT: (1) P-TYPE-PROB + P-TYPE-OV pre-regs (types-are-compiled-
 > probabilities.md, unfrozen — the dsp substrate they wanted now exists;
 > P-TYPE-OV = what-computes-the-filter, the QK mirror through W_OV + MLP

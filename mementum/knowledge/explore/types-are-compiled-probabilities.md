@@ -194,6 +194,57 @@ run decides. ▶ 32B VERDICT ON GO (freeze this pre-reg): uv run python
 scripts/explore/type_ov_alignment.py --model Qwen/Qwen3-32B --device mps
 → results/type-ov/qwen3-32b/.
 
+### Result-32B-P-TYPE-OV (verdict host, s288 — frozen gates scored)
+
+**VERDICT: OV-TRANSMITTING = TRUE; LATTICE-IN-PASSBAND = FALSE.** The
+passband is REAL and it is SELECTIVE: **the joins transmit arguments, not
+functors.** P1 passes — entity (the payload type e) rho 0.714 vs shuffled
+null 0.459±0.053, **p=0.000**, band-aggregated over L6–L50 (45 layers, the
+same band QK measured). P2 fails — bind p=0.965, comp p=1.0: the functor
+roles sit AT or BELOW their shuffled nulls; they are not in the passband.
+The deflationary fifth-location-null did NOT occur: this is the **first
+weight-geometry positive in the types arc** after 1b/1c/QK/JS, and it
+locates half the mechanism — the entity axis is physically in the
+single-layer OV transmission geometry.
+
+Run: Qwen3-32B, tmux main:1, stride 1, n_null 200, band in-run L6–L50.
+Results results/type-ov/qwen3-32b/ (committed c58c5ba). λ yardstick again:
+entity rho 0.714 < 1 — BELOW isotropic expectation — yet 55% above its
+matched null; the centroid region is generically low-gain in OV and only the
+null-relative excess counts. A raw-rho reading would have missed the positive
+entirely (and cried suppression at 4B).
+
+**The division of labor this measures.** The content channel carries the
+ARGUMENT; the functor lives in the weights. Coheres exactly with: (1)
+JOIN-TYPED filtered payload — what transported in every causal run was
+entity-class displacement, and entity is precisely the type in the passband;
+(2) the exhaust frame — bind/comp are readout shadows, not transported
+content; (3) QK's inverted-sides post-hoc (argument queries for its licensor)
+— the argument is aimed AND carried, the functor is neither; (4) Montague —
+application passes the argument to the functor; the functor IS the operator.
+Resident-Lisp sharpening: operands ride the joins; combinators are the frozen
+reducer. The homoiconicity question (selector≡operand) gets a boundary:
+functor-class directions are NOT passed as content through the lattice axes.
+
+**Verbatim rows.** comp rho 0.294 with p=1.0 (0/200 nulls below) — an
+extremity on the SUPPRESSION side; sign discipline: our prediction was
+'greater', so this is reported verbatim and would need its own pre-reg to
+count as active functor-suppression. rolenull OV silent (p=0.275 — the motif
+does NOT fire in transmission geometry) but rolenull AND entity both fire on
+the MLP read-in row p=0.000 (motif's 5th appearance; and the FFN route reads
+the entity axes — coheres with P-TYPE-SWAP's mlp_transport discrimination
+and an entity-keyed fact-map). L62→blk63 readout-adjacent blowup (rho 21–74)
+out-of-band, same shape as QK's last-layer inflation. 4B→32B flip again
+(entity dead at 4B, p=0.000 at 32B) — scale-dependent organization, third
+occurrence (1b tie-flip, QK, OV).
+
+**What is now located vs open.** Located: the argument/payload passband
+(single-layer OV weight geometry, band-wide). Open: what implements the
+LICENSING of the join — the functor side shows no single-layer weight home
+(QK read-in ✗, OV write-out ✗) and remains distributed/enacted. P-TYPE-PROB
+sharpens naturally: if transmission = compiled probability, graded-bank TE
+should track entity-subspace alignment × slot log-P.
+
 ## DSP convergence
 
 This is natively a DSP framing: joins = filters, types = passbands, TE excess =
