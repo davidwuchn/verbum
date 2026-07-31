@@ -110,6 +110,26 @@ slot should produce sum-and-difference structure (beats) with predictable
 geometry, not generic noise — superposed exposures interfere. The 3b/swap
 machinery + verbum.dsp subspace/null substrate measure this directly.
 
+**P-PROJ-1 — the holographic projector (Michael s288: "a holographic
+projector based on the signal"; QUEUED s288, the engineering flip).**
+We spent s288 READING the passband; the projector DRIVES it. Design:
+carrier = the measured entity passband (W_V·W_O subspace, band L6–L50);
+payload shaped INTO the passband before injection = impedance-matched
+drive (operand-insert/bridge-swap is the crude version — centroid diffs
+land in-band by luck, which is WHY swaps work and random is refused);
+reconstruction = the model's own diffraction (distributed licensing +
+FFN plates, which read the entity axes). Constraint the physics imposes:
+an ARGUMENT projector — functors are not in the passband, so programs are
+not projectable, only operands; program selection stays with which plates
+the content illuminates (content-driven steering per P-ATT-MED = projecting
+the right argument IS the program selection). TEST (cheap, att_mediation
+harness verbatim): TE per unit norm for (a) passband-projected displacement
+vs (b) raw centroid-diff vs (c) anti-passband (orthogonal complement) vs
+(d) matched random. Prediction: a > b ≫ c ≈ d, permutation-gated. Positive
+→ every future swap gets cheaper/cleaner = the write-head of the LLM REPL
+matched to the measured antenna; (c) ≈ (d) is itself a second confirmation
+of the passband. Also the natural INSTRUMENT for P-HOLO-XTERM payloads.
+
 ## Hypothesis-grade (needs measurement, ledgered honestly)
 
 - "GD writes fringes by interfering the distribution with itself" — a

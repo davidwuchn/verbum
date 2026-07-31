@@ -118,9 +118,13 @@
 > SNR curve = cheapest decisive discriminator), P-HOLO-XTERM (superposed
 > operands → interference beats). Artifact implication: extraction =
 > re-recording not excision (coheres s149 computed-beam + s268 Bonsai).
-> ▶▶ COLD-START s289: (1) P-TYPE-PROB pre-reg (graded bank TE vs slot log-P
-> × entity-alignment — sharpened by the passband result) ∨ (2) P-HOLO-FRAG
-> pre-reg (cheapest holography discriminator) ∨ queue below — Michael picks.
+> ▶▶ COLD-START s289: (1) P-PROJ-1 pre-reg (Michael-queued s288: the
+> holographic ARGUMENT projector — drive the measured entity passband;
+> TE/norm ladder passband-projected > centroid-diff ≫ anti-passband ≈
+> random; att_mediation harness verbatim; = the REPL write-head + a second
+> passband confirmation) ∨ (2) P-TYPE-PROB pre-reg (graded bank TE vs slot
+> log-P × entity-alignment) ∨ (3) P-HOLO-FRAG (cheapest holography
+> discriminator) ∨ queue below — Michael picks.
 > Session-288 chat log → knowledge/chats/session-288.md (human saves).
 > ▶▶ NEXT: (1) P-TYPE-PROB + P-TYPE-OV pre-regs (types-are-compiled-
 > probabilities.md, unfrozen — the dsp substrate they wanted now exists;
