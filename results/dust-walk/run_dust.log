@@ -1,0 +1,25 @@
+[dust] generating 100000 terms sizes (3, 9) seed=0
+[dust]   20000/100000
+[dust]   40000/100000
+[dust]   60000/100000
+[dust]   80000/100000
+[dust]   100000/100000
+[dust] halt_frac=0.6551 pi={'K': 0.021, 'I': 0.0784, 'B': 0.0205, 'C': 0.0281, 'S': 0.0235, 'D': 0.0587, 'W': 0.0648, 'Y': 0.6865, 'WHNF': 0.0184}
+[dust] h={'K': 0.2, 'I': 0.0588, 'B': 0.0301, 'C': 0.0158, 'S': 0.0132, 'D': 0.0328, 'W': 0.0139, 'Y': 0.0}
+[dust] grams loaded: 13 models
+[dust] bonsai-27b-unpacked        rho1=-0.262(p=0.742) rho2_pmi=+0.314(p=0.018) rho2_margins=+0.104
+[dust] bonsai27b-unpacked         rho1=-0.524(p=0.909) rho2_pmi=+0.284(p=0.031) rho2_margins=+0.099
+[dust] gemma-4-31b-it             rho1=-0.048(p=0.555) rho2_pmi=+0.328(p=0.015) rho2_margins=+0.102
+[dust] olmo-2-1124-13b            rho1=-0.309(p=0.778) rho2_pmi=+0.337(p=0.017) rho2_margins=+0.116
+[dust] pythia-14m-deduped         rho1=-0.357(p=0.812) rho2_pmi=+0.238(p=0.034) rho2_margins=+0.068
+[dust] pythia-160m-deduped        rho1=+0.048(p=0.467) rho2_pmi=+0.265(p=0.024) rho2_margins=+0.125
+[dust] pythia-2-8b-deduped        rho1=-0.524(p=0.909) rho2_pmi=+0.078(p=0.237) rho2_margins=+0.116
+[dust] pythia-410m                rho1=-0.357(p=0.812) rho2_pmi=+0.284(p=0.021) rho2_margins=+0.149
+[dust] qwen3-0-6b                 rho1=-0.238(p=0.726) rho2_pmi=+0.275(p=0.020) rho2_margins=+0.103
+[dust] qwen3-14b                  rho1=-0.500(p=0.897) rho2_pmi=+0.307(p=0.027) rho2_margins=+0.093
+[dust] qwen3-32b                  rho1=-0.333(p=0.795) rho2_pmi=+0.304(p=0.024) rho2_margins=+0.115
+[dust] qwen3-4b                   rho1=-0.238(p=0.726) rho2_pmi=+0.306(p=0.020) rho2_margins=+0.112
+[dust] qwen3-6-27b                rho1=-0.548(p=0.920) rho2_pmi=+0.245(p=0.048) rho2_margins=+0.099
+[dust] MEDIANS: rho1=-0.3333 (pooled_p=0.8075) | rho2_pmi=0.2839 (med_p=0.0237, pooled_p=0.0226) vs margins=0.104 | sign+ 13/13
+[dust] GATES: {'P1': False, 'P2': True, 'P3': True} -> dust_supported=False
+[dust] wrote /Users/mwhitford/src/verbum/results/dust-walk/dust_verdict.json
