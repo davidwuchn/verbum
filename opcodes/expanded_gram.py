@@ -125,7 +125,7 @@ def run_model(spec, n_per_state: int, out_root: Path) -> dict | None:
                                       basis=BASIS24)
     calib = clf.calibrate(gate_by_layer, labels_arr)
 
-    per_layer, gated_grams = {}, []
+    per_layer, gated_grams, gated_cents = {}, [], []
     for li in layers:
         cal = calib[li]
         g = gram_from_centroids(cal.centroids, BASIS24)
@@ -133,6 +133,7 @@ def run_model(spec, n_per_state: int, out_root: Path) -> dict | None:
                               "bearing": bool(cal.crystal_bearing)}
         if cal.crystal_bearing:
             gated_grams.append(g)
+            gated_cents.append(cal.centroids)           # [24, d] unit rows
     if not gated_grams:
         print(f"[xgram] {slug}: NO crystal-bearing layers — flagged",
               file=sys.stderr)
@@ -174,6 +175,17 @@ def run_model(spec, n_per_state: int, out_root: Path) -> dict | None:
                               if consensus is not None else None),
     }
     (out / "expanded_gram.json").write_text(json.dumps(payload, indent=1))
+    if gated_grams:
+        # per-gated-layer centroid stack [L, 24, d] (float16) — enables
+        # offline style-projection (fire_formal span) + any re-analysis
+        # without re-capturing. λ record: files are the record.
+        np.savez_compressed(
+            out / "centroids.npz",
+            basis=np.array(BASIS24),
+            layers=np.array([li for li in layers
+                             if calib[li].crystal_bearing]),
+            centroids=np.stack(gated_cents).astype(np.float16))
+        print(f"[xgram] {slug}: wrote {out}/centroids.npz", file=sys.stderr)
     print(f"[xgram] {slug}: wrote {out}/expanded_gram.json", file=sys.stderr)
     del gate_by_layer, feats
     gc.collect()
