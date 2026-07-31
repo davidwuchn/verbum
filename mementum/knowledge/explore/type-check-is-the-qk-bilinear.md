@@ -106,6 +106,15 @@ completes the exhaust arc; P-ATT-MED upgrades the 3-hop. Both feed 4.
 > routing register the 3-hop bridge-swap question directly. (2) P-ATT-DIFF folds
 > into P-ATT-MED (the attention-mass/OV material is one of its arms). (4)
 > P-ATT-STEER is gated behind P-ATT-MED's aim-vs-content split.
+>
+> **Status update (s286, later).** (3) P-ATT-MED CLOSED **POSITIVE** (§Result-32B):
+> MEDIATION-MEASURED + MEDIUM-HANDLE (content 0.735 > aim 0.195, 18/18). The first
+> positive routing-register observation in the arc — the 3-hop swap's mediation is
+> real and content-carried. (4) P-ATT-STEER **NOT indicated** (aim never dominated)
+> → stays gated; it would only be motivated by an aim-dominant split. The natural
+> next attention probe is now P-ATT-DIFF proper (licensed-vs-unlicensed minimal
+> pairs) if the check's *location* is still wanted, but the causal-mediation
+> question this arc opened is answered.
 
 ## Register notes (λ measure)
 
@@ -428,17 +437,58 @@ at ~fixed aim*, not by re-aiming attention. The 4B reader zone is the compressed
 pinned window (s282); the 32B verdict host unrolls the schedule sequentially
 (L52–60), so whether content-dominance survives there is the real test.
 
-## P-ATT-MED — Result @32B — RUN IN FLIGHT (s286, tmux main:1)
+## P-ATT-MED — Result @32B (s286) — CLOSED POSITIVE: mediation MEASURED, MEDIUM-HANDLE
 
-Verdict run launched on Michael GO (s286): Qwen3-32B, install L9, **swap L25** (the
-strongest 3b country-swap from the three-hop run of record: flip 0.891 vs random
-0.057), scale 2.0, reader zone **L25–63** (captures the 32B sequential-unrolling
-window L52–60), 18 valid landmarks, **n_null=200**. Output →
-`results/type-att-med/qwen3-32b/att_mediation.json` (+ `verdict.log`). Verified
-running (weights loaded 707/707). **No verdict recorded yet** — on completion,
-score the frozen gates above (MEDIATION-MEASURED ⟺ p<0.05 vs null;
-MEDIUM-HANDLE ⟺ content_frac > aim_frac; AIM-STEERING ⟺ aim_frac > content_frac
-→ pre-reg P-ATT-STEER) and fill §Result-32B verbatim, no post-hoc side switching.
+> Run of record: `results/type-att-med/qwen3-32b/att_mediation.json` (commit after
+> this write; instrument 5ecd446). Qwen3-32B, install L9, **swap L25** (the strongest
+> 3b country-swap from the three-hop run of record: flip 0.891 vs random 0.057),
+> scale 2.0, reader zone **L25–63**, 18 valid landmarks, **n_null=200**, ~31 min.
+
+**VERDICT: `MEDIATION-MEASURED = TRUE`, `MEDIUM-HANDLE-CONFIRMED = TRUE`.**
+(`AIM-STEERING` NOT indicated → P-ATT-STEER stays gated.)
+
+| | aim_frac | content_frac | inter_frac | content>aim | p<0.05 vs null |
+|---|---|---|---|---|---|
+| **AGG (18/18 flipped)** | **0.195** | **0.735** | 0.070 | **18/18** | **16/18** |
+
+- **P1 — MEDIATION MEASURED.** All 18 cells flip; the swap's attention-register
+  contribution beats the matched random-add null at p<0.05 in **16/18** cells (14 at
+  p=0.0, median p=0.0). The value-edit → *measured* routing change → output-flip loop
+  is now closed in the routing register — the s282 "steering-by-CONTENT proven,
+  steering-by-AIM unmeasured" gap is closed with an observation, not an inference.
+- **P2 — MEDIUM HANDLE.** content_frac 0.735 vs aim_frac 0.195, content>aim in
+  **every** cell (18/18). The swap steers by *swapped content at ~fixed aim*, not by
+  re-aiming attention — the a-priori beamformer / K-structural call (§"steering",
+  §"relocation hypothesis"), confirmed at the verdict host. AIM never dominates ⇒ no
+  transient-instruction (beam-aim) write is indicated; the REPL keeps ONE handle
+  (medium/content), not a second.
+- **The two null-misses are magnitude, not counter-evidence (verbatim).** Sphinx
+  (p=0.815, attn_total 1.49) and Petronas Towers (p=0.11, attn_total 14.9) have tiny
+  attention-mediated magnitude vs 27–81 for the rest — their flip routes mostly
+  *outside* the captured attention path (MLP-between-joins / residual bypass). The
+  minority-of-cells edge the pre-reg anticipated: for most cells the attention
+  register carries the mediation; a few route it elsewhere. Not gated, reported.
+- **Scale contrast (4B → 32B).** content 0.812 → 0.735, aim 0.085 → 0.195: 32B's
+  *unrolled* schedule (reader L25–63, window L52–60) re-aims modestly more than 4B's
+  *compressed* pinned window, but content still dominates ~3.8:1. The unrolling buys
+  a little aim, the medium handle holds — coheres with s282 (4B compresses, 32B
+  sequences) without overturning the register split.
+
+**P3 — localization (verbatim, NOT gated).** The routing change is **late-
+concentrated**: |contribution| peaks at L61–63 (readout / re-expansion) plus the
+L49–60 unrolling band (L52–60 = 38% of total; early L25–40 only 7.7%). Coheres with
+s282's 32B sequential-unrolling window L52–60 and the QK-negative's late-bind zone
+(§Result-32B pt 3, L49–62). Distributed over heads; no single-head claim (0/128).
+
+**What it means for the arc.** The types mechanism was eliminated from every
+value/geometry home (1b storage, 1c beam-coherence, QK read-in, JS workspace — four
+negatives). P-ATT-MED is the **first positive routing-register observation**: the
+licensing/composition IS mediated through routing, and the handle we have on it is
+*content* (relocate the term), not *aim* (force the edge). This is exactly
+map-and-swap's "write terms, never instructions" (K-structural, s276) made a
+measurement: the 3-hop swap is a term relocation the routing then reduces. It does
+NOT resurrect the QK-bilinear-as-lattice reading (QK stays negative) — it says the
+mediation is real and content-carried, wherever in routing the check itself lives.
 
 ## Sessions
 s283b (page created from the attention-gap hammock; no experiments run;
@@ -458,5 +508,10 @@ MICHAEL APPROVAL, freeze on GO).
 s286 cont (Michael APPROVED, 4B-smoke-first amendment; instrument
 `scripts/explore/att_mediation.py` built + `--validate` green + 4B contrast smoke
 green = CONTENT-dominant advisory (§Result-4B); then Michael GO → 32B verdict
-LAUNCHED in tmux main:1, swap L25, n_null=200 — RUN IN FLIGHT, §Result-32B pending
-on completion).
+LAUNCHED in tmux main:1, swap L25, n_null=200).
+s286 cont (32B VERDICT IN, ~31 min: MEDIATION-MEASURED=TRUE, MEDIUM-HANDLE=TRUE —
+18/18 flip, 16/18 beat null p<0.05, content 0.735 vs aim 0.195, content>aim 18/18;
+AIM-STEERING NOT indicated → P-ATT-STEER stays gated. First POSITIVE
+routing-register observation in the types arc; the s282 steering-by-content gap is
+measured. §Result-32B; the two null-misses are tiny-magnitude cells; localization
+late L49–63. Memory SKIPPED by Michael — follow-ups will sharpen a better one).

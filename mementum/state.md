@@ -8,9 +8,9 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-31 | Session: 286 | JS verdict landed (34dbab3, mementum
-> 3b680fb); P-ATT-MED approved+built, 4B smoke green; **32B verdict RUN IN FLIGHT**
-> (tmux main:1) — read it first next session.
+> Last updated: 2026-07-31 | Session: 286 | JS verdict landed (34dbab3); P-ATT-MED
+> 32B VERDICT IN = MEDIATION-MEASURED + MEDIUM-HANDLE (first POSITIVE routing-register
+> result). Results committed; mementum (memory + state + §Result-32B) PENDING APPROVAL.
 
 > ▶▶ s286 DONE (P-TYPE-JS closed — the types arc is now a clean FOUR-way null):
 > the overnight P-TYPE-JS run (s285 tmux main:1) COMPLETED and the frozen verdict
@@ -54,32 +54,38 @@
 > ~fixed aim, not by re-aiming). NOT the verdict — 32B on GO. results/type-att-med/
 > qwen3-4b/.
 >
-> ▶▶ s286 cont — P-ATT-MED 32B VERDICT LAUNCHED (Michael GO), IN FLIGHT tmux main:1:
-> uv run python scripts/explore/att_mediation.py --model-id Qwen/Qwen3-32B --device
-> mps --ref-layer 9 --swap-layer 25 --scale 2.0 --n-cells 18 --n-null 200 --out
-> results/type-att-med/qwen3-32b (tee verdict.log). Config from the three-hop run of
-> record: swap-layer 25 = the strongest 3b country-swap (flip 0.891, random 0.057);
-> reader zone L25–63 captures the 32B sequential-unrolling window L52–60; 18 valid
-> landmarks. Verified running (weights loaded 707/707). Multi-hour MPS run
-> (~18×202 forwards). ⚠ results/type-att-med/qwen3-32b/ UNTRACKED — commit with the
-> verdict. ON RETURN: read att_mediation.json → score frozen gates → draft §Result-32B
-> + memory + state for approval.
+> ▶▶ s286 cont — P-ATT-MED 32B VERDICT IN (Michael GO, tmux main:1, ~31 min, results
+> committed): **MEDIATION-MEASURED=TRUE, MEDIUM-HANDLE-CONFIRMED=TRUE.** 18/18 cells
+> flip; 16/18 beat the matched random-add null p<0.05 (14 at p=0.0, median 0.0);
+> content_frac 0.735 vs aim_frac 0.195, content>aim in 18/18. The 3-hop bridge-swap's
+> value-edit → routing change → output-flip loop is now MEASURED in the routing
+> register (not inferred) and it's a MEDIUM HANDLE — the swap steers by swapped
+> CONTENT at ~fixed aim, not by re-aiming = the a-priori beamformer/K-structural call
+> (map-and-swap "write terms, never instructions" made a measurement). AIM-STEERING
+> NOT indicated → P-ATT-STEER stays gated (needs aim-dominant). The 2 null-misses
+> (Sphinx p=0.815 attn_tot 1.49; Petronas p=0.11 attn_tot 14.9) = tiny-magnitude
+> cells routing outside the captured attention path (MLP/residual bypass), magnitude
+> not counter-evidence. Localization LATE: |contribution| peaks L61–63 (readout) +
+> L49–60 unrolling band (L52–60=38%, early L25–40=7.7%) = coheres s282 32B unrolling +
+> QK late-bind. Scale: 4B 0.812/0.085 → 32B 0.735/0.195 (unrolled re-aims modestly,
+> medium handle holds ~3.8:1). ★ FIRST POSITIVE routing-register observation in the
+> types arc after four negatives (1b/1c/QK/JS) — the s282 steering-by-content gap is
+> closed. Config: swap L25 (strongest 3b 0.891), scale 2.0, 18 cells, n_null 200.
+> ⚠ mementum APPROVED (Michael): qk page §Result-32B + queue note + Sessions, this
+> state block. MEMORY SKIPPED (Michael's call — follow-ups will refine understanding
+> into a better memory later). Results committed (autonomous), att_mediation.py + 4B
+> smoke already committed.
 >
-> ▶▶ COLD-START ORDER for s287: (1) P-ATT-MED — 32B VERDICT RUN IN FLIGHT (s286,
-> tmux main:1): check `tmux capture-pane -t main:1` + results/type-att-med/qwen3-32b/
-> att_mediation.json. Score the frozen gates (§P-ATT-MED: MEDIATION-MEASURED ⟺
-> p<0.05 vs null; MEDIUM-HANDLE ⟺ content>aim; AIM-STEERING → pre-reg P-ATT-STEER)
-> → draft §Result-32B + memory + state for approval; commit the untracked
-> results+config. 4B smoke was CONTENT-dominant (advisory), so watch whether 32B's
-> unrolled schedule (L52–60) keeps content-dominance or shifts toward aim. (2)
-> verbum.dsp build (design page committed 2b40033;
+> ▶▶ COLD-START ORDER for s287: (1) verbum.dsp build (design page committed 2b40033;
 > skeleton + first harvest: whiten/subspace/nulls, tests/dsp from --validate patterns,
-> find_band stride-aware fix #1). (2) P-ATT-MED pre-reg (register-matched routing probe
-> = the mechanism search now that ALL value/geometry hiding places are shut — 3-hop
-> bridge-swap WITH attention capture; P-ATT-DIFF material folds in). (3) P-DUST-2
-> (training-trajectory convergence = the halt-pole formation law, the s285 open edge).
-> (4) P-HOF-1 pre-reg (typed higher-order fns over an installed predicate). (5) s282
-> leftovers: depth→SEQUENCING @27B, mammal→fur. Branch ~57 ahead (unpushed).
+> find_band stride-aware fix #1) — the DSP substrate the whole attention/routing arc
+> now wants. (1b) P-ATT-MED follow-ups IF wanted: P-ATT-DIFF proper (licensed-vs-
+> unlicensed minimal pairs = WHERE the check lives, the causal-mediation question is
+> already answered); the MLP/residual-bypass minority cells (Sphinx/Petronas) as a
+> pre-reg candidate. (2) P-DUST-2 (training-trajectory convergence = the halt-pole
+> formation law, the s285 open edge). (3) P-HOF-1 pre-reg (typed higher-order fns over
+> an installed predicate — theory page §Consequence). (4) s282 leftovers:
+> depth→SEQUENCING @27B, mammal→fur. Branch ~62 ahead (unpushed).
 >
 > (s285 retained →) ▶▶ s285 DONE (expanded-gram arc closed): sweep completed 11 models, ALL
 > coherence gates pass (r 0.71–0.88, main:2, 2:37:34). (b) STYLE-CORRECTED the
