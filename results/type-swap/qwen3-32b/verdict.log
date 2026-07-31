@@ -1,0 +1,47 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/707 [00:00<?, ?it/s]Loading weights: 100%|██████████| 707/707 [00:00<00:00, 25130.49it/s]
+[att-med] Qwen/Qwen3-32B L=9 lb=25 scale=2.0 dev=mps H=64 n_kv=8 hd=128 layers=64 reader=25..63
+[type-swap] pinned 18 landmark→tgt cells from results/type-att-med/qwen3-32b/att_mediation.json
+[att-med] using 18 install-correct cells: ['Colosseum', 'Louvre', 'Parthenon', 'Kremlin', 'Sagrada Familia', 'Brandenburg Gate', 'Taj Mahal', 'Kaaba', 'Petronas Towers', 'Angkor Wat', 'Tiananmen', 'Burj Khalifa', 'Pyramids', 'Sphinx', 'Karnak', 'Table Mountain', 'Medina', 'Victoria Falls']
+[type-swap] Colosseum        te same=3.30 sortal=2.53 wtA=2.76 wtB=2.20 null=2.78 | smΔ s=+0.0082 a=-0.0016 | brk s=+0.31(p0.68) a=+1.62(p0.16) | pred Europe/Europe/Europe
+[att-ffn] Colosseum        flip=1 route=mlp  attn=0.341 mlp=0.658 direct=0.0 recon_err=0.0 p_mlp=0.0 pk=59/61
+[type-swap] Louvre           te same=4.16 sortal=2.39 wtA=2.39 wtB=2.62 null=2.73 | smΔ s=-0.0003 a=+0.0008 | brk s=+0.19(p0.49) a=+0.00(p0.69) | pred Europe/Europe/Europe
+[att-ffn] Louvre           flip=1 route=mlp  attn=0.385 mlp=0.614 direct=0.001 recon_err=0.001 p_mlp=0.0 pk=51/61
+[type-swap] Parthenon        te same=3.98 sortal=3.70 wtA=3.40 wtB=3.74 null=3.65 | smΔ s=+0.0002 a=-0.0035 | brk s=+1.50(p0.15) a=+1.69(p0.1) | pred Europe/Europe/Europe
+[att-ffn] Parthenon        flip=1 route=mlp  attn=0.267 mlp=0.732 direct=0.001 recon_err=0.001 p_mlp=0.0 pk=59/61
+[type-swap] Kremlin          te same=4.64 sortal=2.70 wtA=2.70 wtB=2.38 null=2.86 | smΔ s=+0.0005 a=+0.0046 | brk s=-0.38(p0.975) a=+0.31(p0.65) | pred Europe/Europe/Europe
+[att-ffn] Kremlin          flip=1 route=mlp  attn=0.481 mlp=0.514 direct=0.005 recon_err=0.005 p_mlp=0.0 pk=59/43
+[type-swap] Sagrada Familia  te same=2.99 sortal=2.38 wtA=2.15 wtB=2.67 null=2.89 | smΔ s=+0.0014 a=-0.0017 | brk s=+0.56(p0.45) a=+0.56(p0.45) | pred Europe/Europe/Europe
+[att-ffn] Sagrada Familia  flip=1 route=mlp  attn=0.355 mlp=0.643 direct=0.002 recon_err=0.002 p_mlp=0.0 pk=52/51
+[type-swap] Brandenburg Gate te same=4.13 sortal=3.32 wtA=3.24 wtB=4.17 null=4.00 | smΔ s=-0.0133 a=-0.0133 | brk s=-0.12(p0.38) a=+1.12(p0.095) | pred Europe/Europe/Europe
+[att-ffn] Brandenburg Gate flip=1 route=mlp  attn=0.435 mlp=0.565 direct=0.0 recon_err=0.0 p_mlp=0.0 pk=53/1
+[type-swap] Taj Mahal        te same=3.96 sortal=3.39 wtA=3.04 wtB=3.66 null=3.56 | smΔ s=+0.0040 a=+0.0009 | brk s=+0.31(p0.49) a=-0.38(p0.76) | pred Asia/Asia/Asia
+[att-ffn] Taj Mahal        flip=1 route=mlp  attn=0.359 mlp=0.638 direct=0.002 recon_err=0.002 p_mlp=0.0 pk=59/60
+[type-swap] Kaaba            te same=3.69 sortal=1.78 wtA=1.87 wtB=1.79 null=2.53 | smΔ s=-0.0031 a=-0.0048 | brk s=+0.00(p0.81) a=+0.75(p0.43) | pred Asia/Asia/Asia
+[att-ffn] Kaaba            flip=1 route=mlp  attn=0.134 mlp=0.863 direct=0.003 recon_err=0.003 p_mlp=0.0 pk=59/60
+[type-swap] Petronas Towers  te same=3.43 sortal=3.43 wtA=3.18 wtB=3.16 null=3.32 | smΔ s=+0.0002 a=-0.0020 | brk s=-1.75(p0.985) a=+1.50(p0.085) | pred Asia/Europe/Europe
+[att-ffn] Petronas Towers  flip=1 route=mlp  attn=0.316 mlp=0.682 direct=0.003 recon_err=0.003 p_mlp=0.025 pk=8/54
+[type-swap] Angkor Wat       te same=3.30 sortal=2.18 wtA=2.31 wtB=2.29 null=2.47 | smΔ s=+0.0005 a=+0.0005 | brk s=+0.44(p0.66) a=+0.31(p0.785) | pred Asia/Asia/Asia
+[att-ffn] Angkor Wat       flip=1 route=attn attn=0.521 mlp=0.479 direct=0.0 recon_err=0.0 p_mlp=0.0 pk=21/60
+[type-swap] Tiananmen        te same=3.08 sortal=2.54 wtA=2.37 wtB=2.50 null=2.88 | smΔ s=-0.0042 a=-0.0071 | brk s=-0.50(p0.73) a=-0.31(p0.635) | pred Asia/Asia/Asia
+[att-ffn] Tiananmen        flip=1 route=mlp  attn=0.485 mlp=0.511 direct=0.003 recon_err=0.003 p_mlp=0.0 pk=59/60
+[type-swap] Burj Khalifa     te same=3.38 sortal=3.06 wtA=2.51 wtB=2.98 null=2.88 | smΔ s=+0.0068 a=+0.0022 | brk s=-0.12(p0.82) a=+0.06(p0.7) | pred Asia/Asia/Asia
+[att-ffn] Burj Khalifa     flip=1 route=mlp  attn=0.426 mlp=0.573 direct=0.001 recon_err=0.001 p_mlp=0.0 pk=53/61
+[type-swap] Pyramids         te same=3.74 sortal=3.52 wtA=3.41 wtB=3.60 null=3.45 | smΔ s=-0.0020 a=-0.0016 | brk s=+3.12(p0.015) a=+0.19(p0.8) | pred Africa/Africa/Africa
+[att-ffn] Pyramids         flip=1 route=mlp  attn=0.357 mlp=0.642 direct=0.0 recon_err=0.0 p_mlp=0.0 pk=58/61
+[type-swap] Sphinx           te same=3.46 sortal=2.55 wtA=3.25 wtB=2.89 null=2.78 | smΔ s=-0.0033 a=-0.0045 | brk s=-0.62(p0.965) a=-0.25(p0.85) | pred Africa/Africa/Europe
+[att-ffn] Sphinx           flip=1 route=mlp  attn=0.05 mlp=0.943 direct=0.007 recon_err=0.007 p_mlp=0.0 pk=52/58
+[type-swap] Karnak           te same=3.28 sortal=2.26 wtA=1.91 wtB=2.38 null=2.60 | smΔ s=+0.0022 a=-0.0019 | brk s=+0.06(p0.61) a=+0.06(p0.61) | pred Africa/Africa/Africa
+[att-ffn] Karnak           flip=1 route=mlp  attn=0.364 mlp=0.632 direct=0.003 recon_err=0.003 p_mlp=0.0 pk=58/61
+[type-swap] Table Mountain   te same=3.24 sortal=2.66 wtA=2.13 wtB=2.47 null=2.52 | smΔ s=-0.0049 a=-0.0025 | brk s=+0.50(p0.1) a=+0.19(p0.32) | pred Africa/Africa/Africa
+[att-ffn] Table Mountain   flip=1 route=attn attn=0.531 mlp=0.465 direct=0.004 recon_err=0.004 p_mlp=0.0 pk=57/59
+[type-swap] Medina           te same=3.23 sortal=2.92 wtA=2.62 wtB=2.93 null=2.73 | smΔ s=-0.0042 a=-0.0029 | brk s=+1.25(p0.015) a=-0.31(p0.98) | pred Asia/Africa/Asia
+[att-ffn] Medina           flip=1 route=mlp  attn=0.37 mlp=0.627 direct=0.003 recon_err=0.003 p_mlp=0.0 pk=4/58
+[type-swap] Victoria Falls   te same=4.05 sortal=3.18 wtA=2.65 wtB=3.15 null=3.14 | smΔ s=+0.0026 a=-0.0013 | brk s=+0.56(p0.3) a=+0.06(p0.58) | pred Africa/Africa/Africa
+[att-ffn] Victoria Falls   flip=1 route=mlp  attn=0.496 mlp=0.503 direct=0.001 recon_err=0.001 p_mlp=0.0 pk=59/59
+
+[att-med] AGG (flipped cells): aim=0.195 content=0.735 inter=0.07 content_dominant=True mean_p=0.052
+[type-swap] ARM TE ladder: same=3.61 sortal=2.80 wrongtype_a=2.66 wrongtype_b=2.87 | ordering same>sortal>wrong = True
+[type-swap] ARM break: same=+4.86 sortal=+0.30 wrongtype_a=+0.40 wrongtype_b=+0.75 | preds-stay-src: same=0/18 sortal=17/18 wrongtype_a=17/18 wrongtype_b=15/18
+[att-ffn] ROUTE SPLIT: attn-dom=2 mlp-dom=16 mlp-cells=['Colosseum', 'Louvre', 'Parthenon', 'Kremlin', 'Sagrada Familia', 'Brandenburg Gate', 'Taj Mahal', 'Kaaba', 'Petronas Towers', 'Tiananmen', 'Burj Khalifa', 'Pyramids', 'Sphinx', 'Karnak', 'Medina', 'Victoria Falls'] mean_recon_err=0.002
+[p-type-swap] wrote results/type-swap/qwen3-32b/type_swap.json
