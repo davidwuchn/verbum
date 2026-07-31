@@ -1,0 +1,10 @@
+{
+ "timestamp_utc": "2026-07-31T00:29:48.602760+00:00",
+ "summary": {
+  "pythia-14m-deduped": {
+   "ok": true,
+   "coherence": 0.5098,
+   "n_gated": 6
+  }
+ }
+}

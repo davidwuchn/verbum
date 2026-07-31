@@ -67,20 +67,24 @@ def _unit_rows(X: np.ndarray) -> np.ndarray:
     return X / (np.linalg.norm(X, axis=1, keepdims=True) + 1e-30)
 
 
-def _centroids(X: np.ndarray, labels: np.ndarray) -> np.ndarray:
-    C = np.zeros((len(CRYSTAL), X.shape[1]), np.float64)
-    for j, c in enumerate(CRYSTAL):
+def _centroids(X: np.ndarray, labels: np.ndarray,
+               basis: list[str] | None = None) -> np.ndarray:
+    basis = CRYSTAL if basis is None else basis
+    C = np.zeros((len(basis), X.shape[1]), np.float64)
+    for j, c in enumerate(basis):
         m = labels == c
         if m.any():
             C[j] = X[m].mean(axis=0)
     return C
 
 
-def _silhouette(X: np.ndarray, labels: np.ndarray) -> float:
-    U = _unit_rows(_centroids(X, labels))
+def _silhouette(X: np.ndarray, labels: np.ndarray,
+                basis: list[str] | None = None) -> float:
+    basis = CRYSTAL if basis is None else basis
+    U = _unit_rows(_centroids(X, labels, basis))
     Xu = _unit_rows(X)
     sims = Xu @ U.T
-    li = np.array([CRYSTAL.index(c) for c in labels])
+    li = np.array([basis.index(c) for c in labels])
     rows = np.arange(len(labels))
     own = sims[rows, li]
     other = sims.copy()
@@ -89,11 +93,12 @@ def _silhouette(X: np.ndarray, labels: np.ndarray) -> float:
 
 
 def _silhouette_z(
-    X: np.ndarray, labels: np.ndarray, n_perm: int, rng: np.random.Generator
+    X: np.ndarray, labels: np.ndarray, n_perm: int, rng: np.random.Generator,
+    basis: list[str] | None = None,
 ) -> float:
-    obs = _silhouette(X, labels)
+    obs = _silhouette(X, labels, basis)
     null = np.array(
-        [_silhouette(X, rng.permutation(labels)) for _ in range(n_perm)]
+        [_silhouette(X, rng.permutation(labels), basis) for _ in range(n_perm)]
     )
     return float((obs - null.mean()) / (null.std() + 1e-30))
 
@@ -149,7 +154,9 @@ class RelationalCrystalClassifier:
         sil_z_thresh: float = 2.0,
         seed: int = 0,
         consensus_gram: np.ndarray | str | None = "auto",
+        basis: list[str] | None = None,
     ):
+        self.basis = list(basis) if basis is not None else list(CRYSTAL)
         self.layers = list(layers)
         self.n_perm = n_perm
         self.z_thresh = z_thresh
@@ -194,32 +201,32 @@ class RelationalCrystalClassifier:
             S = np.sign(G)
             common = S.mean(axis=0)                  # the common-mode (gauge)
             X = S - common                           # sign-CMR routing features
-            cents = _centroids(X, labels)
+            cents = _centroids(X, labels, self.basis)
             ucents = _unit_rows(cents)
             Xu = _unit_rows(X)
-            sims = Xu @ ucents.T                     # [N, 9] cos to centroids
-            li_idx = np.array([CRYSTAL.index(c) for c in labels])
-            nmean = np.zeros(len(CRYSTAL))
-            nstd = np.ones(len(CRYSTAL))
+            sims = Xu @ ucents.T                     # [N, n_basis] cos
+            li_idx = np.array([self.basis.index(c) for c in labels])
+            nmean = np.zeros(len(self.basis))
+            nstd = np.ones(len(self.basis))
             if null_gate_by_layer is not None:
                 # CROSS-TASK null: baseline tokens through the SAME sign-CMR
                 # transform onto each centroid.
                 B = np.asarray(null_gate_by_layer[li], dtype=np.float64)
                 Vb = np.sign(B) - common
                 Vbu = _unit_rows(Vb)
-                bsims = Vbu @ ucents.T               # [M, 9]
-                for j in range(len(CRYSTAL)):
+                bsims = Vbu @ ucents.T               # [M, n_basis]
+                for j in range(len(self.basis)):
                     col = bsims[:, j]
                     nmean[j] = col.mean()
                     nstd[j] = col.std() + 1e-9
             else:
                 # off-target null: NON-op probes projected onto op centroid
-                for j in range(len(CRYSTAL)):
+                for j in range(len(self.basis)):
                     off = sims[li_idx != j, j]
                     if off.size:
                         nmean[j] = off.mean()
                         nstd[j] = off.std() + 1e-9
-            sil_z = _silhouette_z(X, labels, self.n_perm, rng)
+            sil_z = _silhouette_z(X, labels, self.n_perm, rng, self.basis)
             gc = (
                 offdiag_corr(gram_from_centroids(cents), self.consensus_gram)
                 if self.consensus_gram is not None
