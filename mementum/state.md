@@ -44,9 +44,21 @@
 > scripts/explore/att_mediation.py (reuse operand_multihop3 helpers, no fork;
 > --validate no-model self-test first: planted attention → known AIM/CONTENT split,
 > null flat) → run 4B → results/type-att-med/qwen3-4b/.
+> ✅ INSTRUMENT BUILT + 4B SMOKE GREEN (committed): scripts/explore/att_mediation.py
+> (--validate passes: CONTENT-only→1.000, AIM-only→1.000, linearity Δ=9e-16, null
+> flat). 4B smoke (lb=20, reader L20–35, 6 install-correct cells, n_null=30, ~35s):
+> all 6 flip; AGG aim=0.085 content=0.812 inter=0.103 CONTENT-DOMINANT; p_vs_null=0.0
+> every cell (null does real work, instrument discriminates). ADVISORY = the
+> medium-handle a-priori call holds at 4B (swap flows through swapped content at
+> ~fixed aim, not by re-aiming). NOT the verdict — 32B on GO. results/type-att-med/
+> qwen3-4b/.
 >
-> ▶▶ COLD-START ORDER for s287: (1) P-ATT-MED — 4B smoke green? → on GO run the 32B
-> verdict (results/type-att-med/qwen3-32b/, frozen gates in §P-ATT-MED). (2)
+> ▶▶ COLD-START ORDER for s287: (1) P-ATT-MED — 4B smoke GREEN + content-dominant
+> (advisory); ON MICHAEL GO run the 32B verdict: uv run python
+> scripts/explore/att_mediation.py --model-id Qwen/Qwen3-32B --device mps
+> [--n-cells↑ --n-null 200] → results/type-att-med/qwen3-32b/ (frozen gates in
+> §P-ATT-MED: MEDIATION-MEASURED ⟺ p<0.05 vs null; MEDIUM-HANDLE ⟺ content>aim;
+> AIM-STEERING → pre-reg P-ATT-STEER). (2)
 > verbum.dsp build (design page committed 2b40033;
 > skeleton + first harvest: whiten/subspace/nulls, tests/dsp from --validate patterns,
 > find_band stride-aware fix #1). (2) P-ATT-MED pre-reg (register-matched routing probe
