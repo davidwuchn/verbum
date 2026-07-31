@@ -27,6 +27,26 @@
 > P-ATT-DIFF causally; reuses P-ATT-MED cells/config 1:1 (4B smoke first, 32B on GO).
 > P-ATT-FFN 32B verdict STILL IN FLIGHT (tmux main:1, launched 11:00) — read
 > results/type-att-ffn/qwen3-32b/att_ffn.json when done, score frozen gates.
+> ✅ INSTRUMENT BUILT+COMMITTED (2f76812, --arms + --cells-from; --validate ALL PASS,
+> prior tests byte-identical; ⚠ found harness tgt-selection uses SALTED hash(lm) —
+> irreproducible across processes; arms use crc32; 32B verdict MUST use --cells-from
+> results/type-att-med/qwen3-32b/att_mediation.json for the 1:1 cell mapping).
+> ✅ 4B ARMS SMOKE GREEN (job beside 32B run, ~4 min, results/type-swap/qwen3-4b/):
+> ADVISORY = the JOIN-TYPED signature, content-side: SURVIVAL flat across arms
+> (138–149, medium is type-blind) → TE ladder MONOTONE same=1.89 (p_te 0.033) >
+> sortal=1.64 (0.31) > wtA=1.51 (0.44) > wtB=1.46 (0.61) ≈ null → slot_mass Δ≈0
+> every arm (reader NEVER withdraws the edge — refusal is NOT aim-side) → BREAK:
+> same +18.9 flips 6/6 (p 0.000), ill-typed arms ≈ null (p 0.4–0.7), preds-stay-src
+> 15/18. Reading: fixed edges, FILTERED PAYLOAD — the OV/content channel delivers
+> well-typed displacement preferentially; ill-typed on-manifold content survives the
+> medium at full strength but transports at random-noise efficiency and is ignored
+> at the output. Manifold-membership account FAILS its 4B prediction (wrong-type ≁
+> content). Sortal sits BETWEEN (graded hierarchy hint, P3). NOT the verdict:
+> n=6, n_null=30, 4B host. ▶ 32B VERDICT ON GO (after P-ATT-FFN frees the box):
+> uv run python scripts/explore/att_mediation.py --model-id Qwen/Qwen3-32B --device
+> mps --arms --route-decomp --ref-layer 9 --swap-layer 25 --scale 2.0 --n-cells 18
+> --n-null 200 --cells-from results/type-att-med/qwen3-32b/att_mediation.json
+> --out results/type-swap/qwen3-32b.
 >
 > ▶▶ s286 DONE (P-TYPE-JS closed — the types arc is now a clean FOUR-way null):
 > the overnight P-TYPE-JS run (s285 tmux main:1) COMPLETED and the frozen verdict
