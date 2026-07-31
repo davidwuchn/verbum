@@ -56,6 +56,16 @@
 > mechanisms clearly. DO NOT synthesize to knowledge yet; convergence page
 > untouched. Open λ measure question retained (not a claim): is our
 > signal-register measurement register-matched to a holography-register claim?
+> ⚠ PHYSICS CORRECTION (s289, agent over-read #2): hologram ≢ Fourier transform.
+> DIFFRACTION / free-space propagation is the GENERAL mechanism that delocalizes
+> (every fragment holds the whole — Gabor/Leith-Upatnieks/Fresnel holograms use
+> NO lens); the FT is only the FAR-FIELD (Fraunhofer) special case, OR what a
+> lens computes exactly (front focal plane → back focal plane = optical FT, e.g.
+> Fourier holograms + the VanderLugt correlator, which the convergence page
+> cites). So FRAG's "fragment reconstructs the whole" ⟵ diffraction, NOT
+> necessarily an FT. The ONE place a literal phase/FT structure IS already
+> measured in-model = RoPE (position ≡ phase, translation→phase = FT shift
+> theorem); everything else FT-side stays premature/parked.
 > ▶ NEXT: 32B VERDICT on GO (tmux, per Michael) — uv run python
 > scripts/explore/holo_frag.py --model-id Qwen/Qwen3-32B --device mps --draws 100
 > --arms heads mlp --control --out results/holo-frag/qwen3-32b ; score frozen
