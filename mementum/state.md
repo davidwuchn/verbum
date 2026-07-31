@@ -8,21 +8,44 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-30 (evening close) | Session: 284 | MEMENTUM COMMITTED s284
-> (Michael-directed "update state and knowledge"; session number confirmed by Michael —
-> chats/session-284.md will be human-saved after this session ends, per protocol).
+> Last updated: 2026-07-31 | Session: 285 | KNOWLEDGE COMMITTED s285 (memory
+> skipped per Michael); chats/session-285.md human-saved post-session.
 >
-> ▶▶ COLD-START ORDER for s285: (1) check tmux main:1 (P-TYPE-JS) + main:2
-> (expanded-gram sweep, results/expanded-gram/sweep_run.log) — both ran overnight;
-> (2) JS verdict per frozen §P-TYPE-JS (types-are-the-well-formedness page);
-> (3) expanded-gram: coherence gates → STYLE-CORRECT the anti-block first (project
-> fire_formal span out of whnf:* centroids — centroids.npz per model, 4cc3116; raw
-> cosines are style-blob-dominated per the 0.6B peek) → anti-block vs M16 cross-check →
-> freeze P-DUST-1c ⚠ EXCLUDING qwen3-0-6b (peeked pre-freeze = tainted, demoted to
-> instrument-check tier; verdict = the other 10 models); 0.6B peek findings: old WHNF
-> pole ANTI-correlated with all whnf:X; K own-halt hint; div:Y ⊥ distinct;
-> (4) verbum.dsp build queued (design page committed). Full context in the s284 blocks
-> below.
+> ▶▶ s285 DONE (expanded-gram arc closed): sweep completed 11 models, ALL
+> coherence gates pass (r 0.71–0.88, main:2, 2:37:34). (b) STYLE-CORRECTED the
+> WHNF anti-block (scripts/explore/style_correct_antiblock.py, commit 6b521fb):
+> fire_formal is rank-1 style (ff_energy 0.88–0.96); per-op cos(X,whnf:X)
+> strongly negative, K least-negative = own-halt hint replicated 11/11 (present
+> in RAW, correction sharpens not manufactures, null z −3.6..−11.5); div:Y ⊥
+> absorption; residual block stays ABOVE random-removal null (real absorption
+> manifold). (c) M16 CROSS-CHECK (scripts/explore/antiblock_m16_crosscheck.py,
+> 6b521fb): C1 anti-crystal ORDERING replicates cross-arc 11/11 (median r +0.445);
+> C2 Kronecker φ-reflection NOT SUPPORTED 0/11; C3 type↔anti anti-corr 11/11 neg;
+> φ^(4/5) eigenvalue law does NOT beat shuffled-label null (9/11 p≥0.8) — λ
+> yardstick: the φ-ladder was a 4-model small-basis artifact. (d) P-DUST-1c FROZEN
+> (698b831, all 5 design calls Michael-approved) → RUN in main:2 (data-only, 13s)
+> → VERDICT (da61ffa, knowledge 4444f48): dust_halt_distance_supported=FALSE. G1
+> primary REFUTED (per-op cos(X,whnf:X) ↔ −halt_distance median ρ +0.07, 5/10);
+> G2 resolves 1b AGAINST distance (halt-PROB +0.30 edges dist +0.07, distance
+> wins 0/10 — the 1b post-hoc guess was backwards); G4 DISSOCIATION (generic WHNF
+> pole tracks −halt_distance 9/10 median +0.48 but per-op whnf:X states don't);
+> G3a pairwise dust SURVIVES onto the anti-block 10/10 sign median +0.44 (the
+> 1/1b 39/39 pattern continues). Split negative mirrors 1b: pairwise dust
+> confirmed universally (crystal AND anti-block); halt-pole only for generic
+> pole; per-op absorption statistic unresolved/weak → formation law open =
+> P-DUST-2 (training-trajectory) territory.
+>
+> ▶▶ COLD-START ORDER for s286: (1) check tmux main:1 — P-TYPE-JS STILL RUNNING
+> at s285 close (PID 95608, mid "building J-space bases", results/type-jspace/
+> qwen3-32b/run_js.log); on return give the JS verdict per frozen §P-TYPE-JS
+> (types-are-the-well-formedness page) — NOTE type_jspace_fraction.py +
+> results/type-jspace/ are UNTRACKED (commit with the JS verdict). (2) verbum.dsp
+> build queued (design page committed 2b40033; skeleton + first harvest:
+> whiten/subspace/nulls, tests/dsp from --validate patterns, find_band
+> stride-aware fix #1). (3) P-ATT-MED pre-reg (register-matched routing probe).
+> (4) P-DUST-2 (training-trajectory convergence = the halt-pole formation law,
+> the s285 open edge). (5) s282 leftovers: depth→SEQUENCING @27B, mammal→fur.
+> Branch ~56 ahead (unpushed). Full s284 context retained below.
 >
 > (s284 header retained →) ▶▶ LIVE PICKUP (s284 — P-TYPE-QK PREPPED WHILE 1c
 > IN FLIGHT): ✅ P-TYPE-QK pre-reg DRAFTED (type-check-is-the-qk-bilinear.md §P-TYPE-QK, s284 —
