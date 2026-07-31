@@ -39,6 +39,21 @@
 > §Result-32B-P-TYPE-SWAP + §P-TYPE-SWAP header + Sessions s288 entry, memory
 > types-mechanism-is-join-typed, this state block. Results already committed
 > (autonomous, 539ddbf).
+> ▶▶ s288 cont — HAMMOCK CAPTURED (Michael-approved): knowledge/explore/
+> types-are-compiled-probabilities.md — Michael's "types must be the probabilities"
+> refined to COMPILED-not-consulted: type ≡ substitutability class (Harris), GD
+> forced to discover them (P factorizes through classes); the check ≡ matched
+> FILTER whose passband = frozen residue of slot probabilities; TE excess ≡
+> likelihood amortized into geometry. Explains sortal granularity (probability
+> refuses "giraffe" regardless of syntax — evidence FOR over symbolic typing),
+> gradedness (floor + excess, not a gate), the four-way null (type lives in
+> WEIGHTS/transmission operator, not activations — nothing consulted because the
+> filter IS the join; 1a lattice = exhaust), and the QK negative (searched AIM
+> side; filter is CONTENT/OV side). TWO PRE-REG CANDIDATES (UNFROZEN): P-TYPE-PROB
+> (graded bank country>city>animal>adj>nonce>random; TE vs model's own slot
+> log-P; monotone tracking = compiled-probability, step = crisp typing) and
+> P-TYPE-OV (lattice axes through W_OV + MLP down-proj, QK's mirror — locates the
+> implementation if positive). Both want the verbum.dsp substrate → dsp build NOW.
 > ▶▶ NEXT (post-approval queue, unchanged from s287): (1) verbum.dsp build (design
 > 2b40033 — skeleton + first harvest: whiten/subspace/nulls, tests/dsp from
 > --validate patterns, find_band stride-aware fix #1). (2) P-DUST-2
