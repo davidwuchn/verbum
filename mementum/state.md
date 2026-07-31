@@ -66,6 +66,20 @@
 > necessarily an FT. The ONE place a literal phase/FT structure IS already
 > measured in-model = RoPE (position ≡ phase, translation→phase = FT shift
 > theorem); everything else FT-side stays premature/parked.
+> ⚠ METABOLIZE CANDIDATE (Michael s289, "LLM is a beamformer?"): beamformer
+> register is GROUNDED (softmax(QK)V ≡ adaptive content-addressed beamformer:
+> query=steering vector, values=token-cloud array, softmax=weights, output=beam
+> pointing at a cloud region; fwd pass = iterated refocus). BUT the s136 page
+> beamformer-theory.md is STALE on ONE point: it claims FFN = pure beta-reduction
+> operations, NO storage, token-cloud = only data. Our OWN later measurements
+> refuted the "no storage" half — P-ATT-FFN MIXED-ROUTE (atoms=FFN carry content,
+> Sphinx MLP-dominant fact-lookup) + P-TYPE-OV (entity fires MLP read-in row).
+> MEASURED picture = TWO channels: attention=beamformer(routing/joins) + FFN=
+> content-plates(atoms), not one. Also measured nuance: P-ATT-MED = CONTENT-
+> dominant steering (0.735/0.195 @32B, "medium handle") — an unusual beamformer
+> steered by what's in the medium not by re-aim (map-and-swap; P-PROJ-1 exploits).
+> ACTION: revise beamformer-theory.md §FFN-no-storage AFTER FRAG/CAP land (do not
+> rewrite now — premature); flagged, not silent (λ metabolize).
 > ▶ NEXT: 32B VERDICT on GO (tmux, per Michael) — uv run python
 > scripts/explore/holo_frag.py --model-id Qwen/Qwen3-32B --device mps --draws 100
 > --arms heads mlp --control --out results/holo-frag/qwen3-32b ; score frozen
