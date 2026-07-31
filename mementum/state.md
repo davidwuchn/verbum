@@ -8,11 +8,16 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-31 | Session: 289 | s288 mementum batch CLEARED
-> (Michael-approved, ad623c3). **P-HOLO-FRAG PRE-REG FROZEN** (Michael-approved
-> s289) — the "hologram or not hologram?" lynchpin: fragment/address test, G1
-> Location-Dependence-Index primary, 3-hop primary readout. Next: build
-> holo_frag.py (verbum.dsp consumer) → --validate → 4B smoke → 32B verdict.
+> Last updated: 2026-07-31 | Session: 290 | ⚠ SESSION-NUMBER CORRECTION
+> (Michael): this session is 290, NOT 289 — the s289 chat log predates it, so
+> the blocks/commits authored this session that say "s289" are MISLABELED (read
+> them as s290; git history keeps the wrong tag, not worth a rewrite). Session
+> number is 290 going forward. | s288 mementum batch CLEARED (Michael-approved,
+> ad623c3). **P-HOLO-FRAG PRE-REG FROZEN + INSTRUMENT BUILT + 4B SMOKE (advisory
+> HOLOGRAPHIC lean)**; 32B verdict RUNNING in tmux main:1 (draws=100, multi-hour).
+> The "hologram or not hologram?" lynchpin: fragment/address test, G1
+> Location-Dependence-Index primary, 3-hop primary readout. NEXT: score the 32B
+> §P-HOLO-FRAG gates on return → §Result-32B + memory candidate (approval).
 
 > ▶▶ s289 LIVE — P-HOLO-FRAG FROZEN (geometry-holography-signals-convergence.md
 > §P-HOLO-FRAG, Michael-approved s289). THE decisive hologram test — can FALSIFY
