@@ -74,6 +74,18 @@ N_TERMS = 100_000
 SIZES = (3, 9)          # leaves, inclusive
 SEED = 0
 
+# s269 statechart halt probabilities (EQUATIONS.md; KIBC only, model-derived)
+S269_HALT = {"K": 0.716, "I": 0.508, "B": 0.345, "C": 0.216}
+
+# P-DUST-1b arms (frozen): leaf label -> weight (None = uniform over labels)
+ARMS = {
+    "baseline": {"leaves": [*OPS, "atom"], "weights": None, "seed": 0},
+    "y-excluded": {"leaves": ["K", "I", "B", "C", "S", "D", "W", "atom"],
+                   "weights": None, "seed": 1},
+    "y-downweighted": {"leaves": [*OPS, "atom"],
+                       "weights": {"Y": 1 / 32}, "seed": 2},
+}
+
 
 # ── term model: ('a',) | ('c', name) | ('app', f, x) ──────────────────────────
 def app(f, x):
@@ -163,12 +175,29 @@ def trace(t, max_steps: int = MAX_STEPS) -> list[str]:
     return ev
 
 
-def gen_term(n_leaves: int, rng) -> tuple:
+def leaf_probs(arm: dict) -> tuple[list[str], np.ndarray]:
+    """Leaf label distribution for an arm: fixed weights for named labels,
+    remaining mass uniform over the rest (frozen 1b spec)."""
+    labels = arm["leaves"]
+    w = np.ones(len(labels)) / len(labels)
+    if arm["weights"]:
+        fixed = arm["weights"]
+        rem = 1.0 - sum(fixed.values())
+        others = [i for i, lab in enumerate(labels) if lab not in fixed]
+        for lab, wt in fixed.items():
+            w[labels.index(lab)] = wt
+        for i in others:
+            w[i] = rem / len(others)
+    return labels, w / w.sum()
+
+
+def gen_term(n_leaves: int, rng, labels: list[str], probs: np.ndarray) -> tuple:
     if n_leaves == 1:
-        i = int(rng.integers(0, 9))
-        return ATOM if i == 8 else ("c", OPS[i])
+        lab = labels[int(rng.choice(len(labels), p=probs))]
+        return ATOM if lab == "atom" else ("c", lab)
     k = int(rng.integers(1, n_leaves))
-    return app(gen_term(k, rng), gen_term(n_leaves - k, rng))
+    return app(gen_term(k, rng, labels, probs),
+               gen_term(n_leaves - k, rng, labels, probs))
 
 
 # ── walk statistics (frozen) ──────────────────────────────────────────────────
@@ -255,8 +284,95 @@ def spearman(x: np.ndarray, y: np.ndarray) -> float:
 
 # ── verdict analysis ──────────────────────────────────────────────────────────
 def offdiag_pairs(m: np.ndarray, order: list[int]) -> np.ndarray:
+    n = len(order)
     return np.array([m[order[i], order[j]]
-                     for i, j in combinations(range(9), 2)])
+                     for i, j in combinations(range(n), 2)])
+
+
+def exact_perms(n: int) -> list[np.ndarray]:
+    from itertools import permutations
+    return [np.array(p) for p in permutations(range(n))]
+
+
+def analyze_1b(stats: dict, grams: dict, active_ops: list[str],
+               n_perm: int, rng) -> dict:
+    """P-DUST-1b gates: P1-KIBC (s269 verbatim, exact 24) + P1'-WALK (exact
+    5040 over active non-Y ops) + P2/P3 replication on the sub-Gram."""
+    models = sorted(grams)
+    nodes = [*active_ops, "WHNF"]
+    kibc = ["K", "I", "B", "C"]
+    s269 = np.array([S269_HALT[o] for o in kibc])
+    h = np.array([stats["h"][ALL9.index(o)] for o in active_ops])
+    pmi_idx = [ALL9.index(o) for o in nodes]
+    pi = stats["pi"]
+    perms4 = exact_perms(4)
+    perms_a = exact_perms(len(active_ops))      # exact up to 8 (40320) is cheap
+
+    per_model = {}
+    rk_all, rw_all, r2_all, r2m_all = [], [], [], []
+    nullk_rows, nullw_rows = [], []
+    perms_pair = [rng.permutation(len(nodes)) for _ in range(n_perm)]
+
+    for name in models:
+        basis, g = grams[name]
+        w_i = basis.index("WHNF")
+        # P1-KIBC: cos(WHNF, op) vs s269 constants, exact 24
+        cos_k = np.array([g[w_i, basis.index(o)] for o in kibc])
+        rk = spearman(cos_k, s269)
+        nullk = np.array([spearman(cos_k, s269[p]) for p in perms4])
+        pk = float(np.mean(nullk >= rk))
+        # P1'-WALK: cos(WHNF, op) vs arm h over active ops, exact
+        cos_a = np.array([g[w_i, basis.index(o)] for o in active_ops])
+        rw = spearman(cos_a, h)
+        nullw = np.array([spearman(cos_a, h[p]) for p in perms_a])
+        pw = float(np.mean(nullw >= rw))
+        # P2 replication on sub-Gram
+        order = [basis.index(o) for o in nodes]
+        gv = offdiag_pairs(g, order)
+        sub_pmi = stats["pmi"][np.ix_(pmi_idx, pmi_idx)]
+        sub_m = (pi[pmi_idx][:, None] + pi[pmi_idx][None, :])
+        idn = list(range(len(nodes)))
+        r2 = spearman(gv, offdiag_pairs(sub_pmi, idn))
+        r2m = spearman(gv, offdiag_pairs(sub_m, idn))
+        null2 = np.array([spearman(gv, offdiag_pairs(sub_pmi, list(p)))
+                          for p in perms_pair])
+        p2 = float(np.mean(null2 >= r2))
+        per_model[name] = {"rho_kibc": round(rk, 4), "p_kibc_exact": pk,
+                           "rho_walk": round(rw, 4), "p_walk_exact": pw,
+                           "rho2_pmi": round(r2, 4), "p2": p2,
+                           "rho2_margins": round(r2m, 4)}
+        rk_all.append(rk)
+        rw_all.append(rw)
+        r2_all.append(r2)
+        r2m_all.append(r2m)
+        nullk_rows.append(nullk)
+        nullw_rows.append(nullw)
+
+    nullk_med = np.median(np.stack(nullk_rows), axis=0)
+    nullw_med = np.median(np.stack(nullw_rows), axis=0)
+    med_k, med_w = float(np.median(rk_all)), float(np.median(rw_all))
+    med_2, med_2m = float(np.median(r2_all)), float(np.median(r2m_all))
+    n13 = len(models)
+    need = max(n13 - 2, int(np.ceil(n13 * 11 / 13)))
+    pk_pool = float(np.mean(nullk_med >= med_k))
+    pw_pool = float(np.mean(nullw_med >= med_w))
+    n_pos_k = int(np.sum(np.array(rk_all) > 0))
+    n_pos_2 = int(np.sum(np.array(r2_all) > 0))
+
+    p1_kibc = bool(med_k > 0 and n_pos_k >= need and pk_pool < 0.05)
+    p1_walk = bool(med_w > 0 and pw_pool < 0.05)
+    p23_rep = bool(n_pos_2 >= need)
+    return {"models": models, "active_ops": active_ops,
+            "per_model": per_model,
+            "median_rho_kibc": round(med_k, 4), "pooled_p_kibc": pk_pool,
+            "n_models_kibc_positive": n_pos_k,
+            "median_rho_walk": round(med_w, 4), "pooled_p_walk": pw_pool,
+            "median_rho2_pmi": round(med_2, 4),
+            "median_rho2_margins": round(med_2m, 4),
+            "n_models_rho2_positive": n_pos_2,
+            "gates": {"P1_KIBC": p1_kibc, "P1_WALK": p1_walk,
+                      "P23_replication": p23_rep},
+            "dust_halt_supported": bool(p1_kibc and p1_walk)}
 
 
 def analyze(stats: dict, grams: dict, n_perm: int, rng) -> dict:
@@ -426,6 +542,24 @@ def validate() -> int:
           abs(spearman(np.array([1, 2, 3, 4.0]), np.array([8, 6, 4, 2.0])) + 1.0)
           < 1e-12)
 
+    # 1b arm machinery
+    labels_b, probs_b = leaf_probs(ARMS["y-excluded"])
+    labels_c, probs_c = leaf_probs(ARMS["y-downweighted"])
+    check("arm_b_no_y", "Y" not in labels_b and abs(probs_b.sum() - 1) < 1e-12,
+          f"(leaves={labels_b})")
+    check("arm_c_y_downweight",
+          abs(probs_c[labels_c.index("Y")] - 1 / 32) < 1e-12
+          and abs(probs_c.sum() - 1) < 1e-12,
+          f"(pY={probs_c[labels_c.index('Y')]:.4f})")
+    # planted P1-KIBC: gram row perfectly ordered like s269 -> rho=1, p=1/24
+    s269 = np.array([S269_HALT[o] for o in ["K", "I", "B", "C"]])
+    rho = spearman(s269 * 0.5 + 0.1, s269)
+    p24 = exact_perms(4)
+    pex = float(np.mean([spearman((s269 * 0.5 + 0.1), s269[p]) for p in p24]
+                        >= np.float64(rho)))
+    check("p1_kibc_exact", abs(rho - 1) < 1e-12 and abs(pex - 1 / 24) < 1e-9,
+          f"(rho={rho} p={pex:.4f})")
+
     print(f"[dust][validate] {'ALL PASS' if not fails else f'FAILURES: {fails}'}",
           file=sys.stderr)
     return 0 if not fails else 1
@@ -442,10 +576,12 @@ def git_sha():
 
 
 def main() -> None:
-    ap = argparse.ArgumentParser(description="P-DUST-1 geometry = occupation?")
+    ap = argparse.ArgumentParser(description="P-DUST-1/1b geometry = occupation?")
+    ap.add_argument("--arm", choices=list(ARMS), default="baseline")
     ap.add_argument("--n-terms", type=int, default=N_TERMS)
     ap.add_argument("--n-perm", type=int, default=10_000)
-    ap.add_argument("--seed", type=int, default=SEED)
+    ap.add_argument("--seed", type=int, default=None,
+                    help="default = the arm's frozen seed")
     ap.add_argument("--output", default=None)
     ap.add_argument("--validate", action="store_true")
     args = ap.parse_args()
@@ -453,14 +589,20 @@ def main() -> None:
     if args.validate:
         sys.exit(validate())
 
+    arm = ARMS[args.arm]
+    seed = arm["seed"] if args.seed is None else args.seed
+    labels, probs = leaf_probs(arm)
     sys.setrecursionlimit(200_000)
-    rng = np.random.default_rng(args.seed)
-    print(f"[dust] generating {args.n_terms} terms sizes {SIZES} seed={args.seed}",
+    rng = np.random.default_rng(seed)
+    print(f"[dust] arm={args.arm} leaves={labels} "
+          f"probs={[round(float(p), 4) for p in probs]} seed={seed}",
+          file=sys.stderr)
+    print(f"[dust] generating {args.n_terms} terms sizes {SIZES}",
           file=sys.stderr)
     traces = []
     for i in range(args.n_terms):
         n = int(rng.integers(SIZES[0], SIZES[1] + 1))
-        traces.append(trace(gen_term(n, rng)))
+        traces.append(trace(gen_term(n, rng, labels, probs)))
         if (i + 1) % 20_000 == 0:
             print(f"[dust]   {i + 1}/{args.n_terms}", file=sys.stderr)
     stats = walk_stats(traces)
@@ -476,29 +618,59 @@ def main() -> None:
         print("[dust] FATAL: no 9-combinator grams found", file=sys.stderr)
         sys.exit(1)
 
-    res = analyze(stats, grams, args.n_perm, rng)
-    for m in res["models"]:
-        r = res["per_model"][m]
-        print(f"[dust] {m:26s} rho1={r['rho1']:+.3f}(p={r['p1']:.3f}) "
-              f"rho2_pmi={r['rho2_pmi']:+.3f}(p={r['p2']:.3f}) "
-              f"rho2_margins={r['rho2_margins']:+.3f}", file=sys.stderr)
-    print(f"[dust] MEDIANS: rho1={res['median_rho1']} (pooled_p={res['pooled_p1']}) "
-          f"| rho2_pmi={res['median_rho2_pmi']} (med_p={res['median_p2']}, "
-          f"pooled_p={res['pooled_p2']}) vs margins={res['median_rho2_margins']} "
-          f"| sign+ {res['n_models_rho2_positive']}/{len(res['models'])}",
-          file=sys.stderr)
-    print(f"[dust] GATES: {res['gates']} -> dust_supported={res['dust_supported']}",
-          file=sys.stderr)
+    if args.arm == "baseline":
+        res = analyze(stats, grams, args.n_perm, rng)
+        for m in res["models"]:
+            r = res["per_model"][m]
+            print(f"[dust] {m:26s} rho1={r['rho1']:+.3f}(p={r['p1']:.3f}) "
+                  f"rho2_pmi={r['rho2_pmi']:+.3f}(p={r['p2']:.3f}) "
+                  f"rho2_margins={r['rho2_margins']:+.3f}", file=sys.stderr)
+        print(f"[dust] MEDIANS: rho1={res['median_rho1']} "
+              f"(pooled_p={res['pooled_p1']}) "
+              f"| rho2_pmi={res['median_rho2_pmi']} (med_p={res['median_p2']}, "
+              f"pooled_p={res['pooled_p2']}) vs margins="
+              f"{res['median_rho2_margins']} "
+              f"| sign+ {res['n_models_rho2_positive']}/{len(res['models'])}",
+              file=sys.stderr)
+        print(f"[dust] GATES: {res['gates']} -> "
+              f"dust_supported={res['dust_supported']}", file=sys.stderr)
+    else:
+        active = [lab for lab in arm["leaves"] if lab != "atom"]
+        res = analyze_1b(stats, grams, active, args.n_perm, rng)
+        for m in res["models"]:
+            r = res["per_model"][m]
+            print(f"[dust] {m:26s} "
+                  f"kibc={r['rho_kibc']:+.3f}(p={r['p_kibc_exact']:.3f}) "
+                  f"walk={r['rho_walk']:+.3f}(p={r['p_walk_exact']:.3f}) "
+                  f"pmi={r['rho2_pmi']:+.3f}(p={r['p2']:.3f})",
+                  file=sys.stderr)
+        print(f"[dust] MEDIANS: kibc={res['median_rho_kibc']} "
+              f"(pooled_p={res['pooled_p_kibc']}, "
+              f"sign+ {res['n_models_kibc_positive']}/{len(res['models'])}) | "
+              f"walk={res['median_rho_walk']} "
+              f"(pooled_p={res['pooled_p_walk']}) | "
+              f"pmi={res['median_rho2_pmi']} vs margins="
+              f"{res['median_rho2_margins']} "
+              f"(sign+ {res['n_models_rho2_positive']}/{len(res['models'])})",
+              file=sys.stderr)
+        print(f"[dust] GATES: {res['gates']} -> "
+              f"dust_halt_supported={res['dust_halt_supported']}",
+              file=sys.stderr)
 
-    out = Path(args.output) if args.output else _ROOT / "results" / "dust-walk"
+    out = (Path(args.output) if args.output
+           else _ROOT / "results" / "dust-walk" /
+           (args.arm if args.arm != "baseline" else ""))
     out.mkdir(parents=True, exist_ok=True)
     payload = {
-        "experiment": "P-DUST-1",
+        "experiment": "P-DUST-1" if args.arm == "baseline" else "P-DUST-1b",
+        "arm": args.arm,
         "prereg": ("mementum/knowledge/explore/"
                    "dust-hypothesis-geometry-is-occupation.md#p-dust-1"),
         "timestamp_utc": datetime.now(UTC).isoformat(),
         "git_sha": git_sha(),
-        "config": {"n_terms": args.n_terms, "sizes": SIZES, "seed": args.seed,
+        "config": {"n_terms": args.n_terms, "sizes": SIZES, "seed": seed,
+                   "leaves": labels,
+                   "leaf_probs": [round(float(p), 5) for p in probs],
                    "max_steps": MAX_STEPS, "size_cap": SIZE_CAP,
                    "n_perm": args.n_perm},
         "walk_stats": {

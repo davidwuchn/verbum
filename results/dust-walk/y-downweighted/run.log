@@ -1,0 +1,26 @@
+[dust] arm=y-downweighted leaves=['K', 'I', 'B', 'C', 'S', 'D', 'W', 'Y', 'atom'] probs=[0.1211, 0.1211, 0.1211, 0.1211, 0.1211, 0.1211, 0.1211, 0.0312, 0.1211] seed=2
+[dust] generating 100000 terms sizes (3, 9)
+[dust]   20000/100000
+[dust]   40000/100000
+[dust]   60000/100000
+[dust]   80000/100000
+[dust]   100000/100000
+[dust] halt_frac=0.8812 pi={'K': 0.0344, 'I': 0.1019, 'B': 0.0267, 'C': 0.0338, 'S': 0.0331, 'D': 0.0739, 'W': 0.0983, 'Y': 0.5364, 'WHNF': 0.0616}
+[dust] h={'K': 0.382, 'I': 0.1624, 'B': 0.0919, 'C': 0.0468, 'S': 0.0363, 'D': 0.0947, 'W': 0.0336, 'Y': 0.0}
+[dust] grams loaded: 13 models
+[dust] bonsai-27b-unpacked        kibc=+0.800(p=0.167) walk=-0.333(p=0.805) pmi=+0.248(p=0.036)
+[dust] bonsai27b-unpacked         kibc=+0.800(p=0.167) walk=-0.548(p=0.924) pmi=+0.220(p=0.054)
+[dust] gemma-4-31b-it             kibc=+0.800(p=0.167) walk=-0.143(p=0.648) pmi=+0.253(p=0.029)
+[dust] olmo-2-1124-13b            kibc=+0.800(p=0.167) walk=-0.333(p=0.805) pmi=+0.268(p=0.034)
+[dust] pythia-14m-deduped         kibc=+1.000(p=0.042) walk=-0.405(p=0.850) pmi=+0.160(p=0.088)
+[dust] pythia-160m-deduped        kibc=+1.000(p=0.042) walk=+0.000(p=0.512) pmi=+0.183(p=0.062)
+[dust] pythia-2-8b-deduped        kibc=+0.800(p=0.167) walk=-0.548(p=0.924) pmi=+0.025(p=0.382)
+[dust] pythia-410m                kibc=+1.000(p=0.042) walk=-0.405(p=0.850) pmi=+0.206(p=0.056)
+[dust] qwen3-0-6b                 kibc=+1.000(p=0.042) walk=-0.309(p=0.786) pmi=+0.196(p=0.053)
+[dust] qwen3-14b                  kibc=+1.000(p=0.042) walk=-0.524(p=0.915) pmi=+0.243(p=0.049)
+[dust] qwen3-32b                  kibc=+0.800(p=0.167) walk=-0.309(p=0.786) pmi=+0.244(p=0.043)
+[dust] qwen3-4b                   kibc=+1.000(p=0.042) walk=-0.309(p=0.786) pmi=+0.232(p=0.044)
+[dust] qwen3-6-27b                kibc=+0.800(p=0.167) walk=-0.524(p=0.915) pmi=+0.183(p=0.083)
+[dust] MEDIANS: kibc=0.8 (pooled_p=0.16666666666666666, sign+ 13/13) | walk=-0.3333 (pooled_p=0.816046626984127) | pmi=0.2196 vs margins=0.0178 (sign+ 13/13)
+[dust] GATES: {'P1_KIBC': False, 'P1_WALK': False, 'P23_replication': True} -> dust_halt_supported=False
+[dust] wrote /Users/mwhitford/src/verbum/results/dust-walk/y-downweighted/dust_verdict.json
