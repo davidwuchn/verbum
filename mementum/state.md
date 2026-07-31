@@ -8,8 +8,9 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> Last updated: 2026-07-31 | Session: 286 | JS VERDICT IN (code+results committed
-> 34dbab3); mementum draft PENDING MICHAEL APPROVAL.
+> Last updated: 2026-07-31 | Session: 286 | JS verdict landed (34dbab3, mementum
+> 3b680fb); P-ATT-MED approved+built, 4B smoke green; **32B verdict RUN IN FLIGHT**
+> (tmux main:1) — read it first next session.
 
 > ▶▶ s286 DONE (P-TYPE-JS closed — the types arc is now a clean FOUR-way null):
 > the overnight P-TYPE-JS run (s285 tmux main:1) COMPLETED and the frozen verdict
@@ -53,12 +54,24 @@
 > ~fixed aim, not by re-aiming). NOT the verdict — 32B on GO. results/type-att-med/
 > qwen3-4b/.
 >
-> ▶▶ COLD-START ORDER for s287: (1) P-ATT-MED — 4B smoke GREEN + content-dominant
-> (advisory); ON MICHAEL GO run the 32B verdict: uv run python
-> scripts/explore/att_mediation.py --model-id Qwen/Qwen3-32B --device mps
-> [--n-cells↑ --n-null 200] → results/type-att-med/qwen3-32b/ (frozen gates in
-> §P-ATT-MED: MEDIATION-MEASURED ⟺ p<0.05 vs null; MEDIUM-HANDLE ⟺ content>aim;
-> AIM-STEERING → pre-reg P-ATT-STEER). (2)
+> ▶▶ s286 cont — P-ATT-MED 32B VERDICT LAUNCHED (Michael GO), IN FLIGHT tmux main:1:
+> uv run python scripts/explore/att_mediation.py --model-id Qwen/Qwen3-32B --device
+> mps --ref-layer 9 --swap-layer 25 --scale 2.0 --n-cells 18 --n-null 200 --out
+> results/type-att-med/qwen3-32b (tee verdict.log). Config from the three-hop run of
+> record: swap-layer 25 = the strongest 3b country-swap (flip 0.891, random 0.057);
+> reader zone L25–63 captures the 32B sequential-unrolling window L52–60; 18 valid
+> landmarks. Verified running (weights loaded 707/707). Multi-hour MPS run
+> (~18×202 forwards). ⚠ results/type-att-med/qwen3-32b/ UNTRACKED — commit with the
+> verdict. ON RETURN: read att_mediation.json → score frozen gates → draft §Result-32B
+> + memory + state for approval.
+>
+> ▶▶ COLD-START ORDER for s287: (1) P-ATT-MED — 32B VERDICT RUN IN FLIGHT (s286,
+> tmux main:1): check `tmux capture-pane -t main:1` + results/type-att-med/qwen3-32b/
+> att_mediation.json. Score the frozen gates (§P-ATT-MED: MEDIATION-MEASURED ⟺
+> p<0.05 vs null; MEDIUM-HANDLE ⟺ content>aim; AIM-STEERING → pre-reg P-ATT-STEER)
+> → draft §Result-32B + memory + state for approval; commit the untracked
+> results+config. 4B smoke was CONTENT-dominant (advisory), so watch whether 32B's
+> unrolled schedule (L52–60) keeps content-dominance or shifts toward aim. (2)
 > verbum.dsp build (design page committed 2b40033;
 > skeleton + first harvest: whiten/subspace/nulls, tests/dsp from --validate patterns,
 > find_band stride-aware fix #1). (2) P-ATT-MED pre-reg (register-matched routing probe

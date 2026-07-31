@@ -406,6 +406,40 @@ decomposition + random-add null + permutation), results →
 no-model self-test first (planted attention pattern → known AIM/CONTENT split;
 random null flat), per the QK-instrument precedent.
 
+## P-ATT-MED — Result @4B (s286 contrast smoke; NOT the verdict host)
+
+Instrument `scripts/explore/att_mediation.py` (built s286, commit 5ecd446).
+`--validate` no-model self-test green: CONTENT-only → aim 0.000/content 1.000,
+AIM-only → aim 1.000/content 0.000, DLA linearity exact (|Δ|=9e-16), matched-norm
+random null flat (|mean/std|=0.002) — the decomposition recovers planted splits
+and discriminates. 4B smoke (Qwen3-4B, install L9, swap L20, reader L20–35, 6
+install-correct cells, n_null=30, ~35s), `results/type-att-med/qwen3-4b/`:
+
+| | aim_frac | content_frac | inter_frac | p_vs_null |
+|---|---|---|---|---|
+| AGG (6/6 flipped) | 0.085 | **0.812** | 0.103 | 0.000 |
+
+All six cells flip and are **content-dominant** (content 0.69–0.87, aim 0.01–0.17);
+`p_vs_null=0.0` every cell — the swap's attention-register contribution beats the
+matched random-add null decisively (the null does real work; the instrument
+discriminates). **Advisory reading (4B contrast, NOT the verdict):** the
+medium-handle a-priori call holds at 4B — the swap flows through *swapped content
+at ~fixed aim*, not by re-aiming attention. The 4B reader zone is the compressed
+pinned window (s282); the 32B verdict host unrolls the schedule sequentially
+(L52–60), so whether content-dominance survives there is the real test.
+
+## P-ATT-MED — Result @32B — RUN IN FLIGHT (s286, tmux main:1)
+
+Verdict run launched on Michael GO (s286): Qwen3-32B, install L9, **swap L25** (the
+strongest 3b country-swap from the three-hop run of record: flip 0.891 vs random
+0.057), scale 2.0, reader zone **L25–63** (captures the 32B sequential-unrolling
+window L52–60), 18 valid landmarks, **n_null=200**. Output →
+`results/type-att-med/qwen3-32b/att_mediation.json` (+ `verdict.log`). Verified
+running (weights loaded 707/707). **No verdict recorded yet** — on completion,
+score the frozen gates above (MEDIATION-MEASURED ⟺ p<0.05 vs null;
+MEDIUM-HANDLE ⟺ content_frac > aim_frac; AIM-STEERING ⟺ aim_frac > content_frac
+→ pre-reg P-ATT-STEER) and fill §Result-32B verbatim, no post-hoc side switching.
+
 ## Sessions
 s283b (page created from the attention-gap hammock; no experiments run;
 1c dark-field run in flight during discussion).
@@ -421,3 +455,8 @@ probe: rerun the 3-hop bridge-swap WITH attention capture + an aim-vs-content
 first-order decomposition, converting the strongest causal result into a
 routing-register measurement; P-ATT-DIFF material folds in as one arm; PENDING
 MICHAEL APPROVAL, freeze on GO).
+s286 cont (Michael APPROVED, 4B-smoke-first amendment; instrument
+`scripts/explore/att_mediation.py` built + `--validate` green + 4B contrast smoke
+green = CONTENT-dominant advisory (§Result-4B); then Michael GO → 32B verdict
+LAUNCHED in tmux main:1, swap L25, n_null=200 — RUN IN FLIGHT, §Result-32B pending
+on completion).
