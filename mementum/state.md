@@ -57,8 +57,34 @@
 > refusal rank — N×N acceptance matrix (swap harness), effective rank vs
 > tolerance ε; knee=symbolic inventory vs smooth=continuum, falsifiable both
 > ways; spectral corroborator via P-TYPE-OV instrument; start N~12–20.
-> ⚠ STILL PENDING APPROVAL in the s292 batch: §P-HOLO-CAP pre-reg text +
-> FIX#1 note on the convergence page (uncommitted).
+> (CAP pre-reg approved + committed 9fcaab6 same session.)
+> ★ s292 cont — **PROGRAM-PLATES + FUNCTION-INDEX + FRACTAL SEED CAPTURED**
+> (Michael-approved "capture to test"): new page knowledge/explore/
+> program-plates-and-the-function-index.md + SEED COPY knowledge/upstream/
+> verbum-theory-seed.md (first upstream generative seed — the convention was
+> waiting for it). The s292 hammock ascent: behavior trees ("runtime not
+> model" — BT status {Success,Failure,Running} ≅ ternary {+1,−1,0}, functors
+> unprojectable per P-TYPE-OV + no addresses per FRAG) → Michael correction
+> 1 ("we proved 3-hop") → boundary = INLINING RULE (model inlines sequences
+> ≤ depth budget, compiles conditions into joins, has no Running —
+> combinational not sequential; loop+KV are runtime-side) → Michael
+> correction 2 ("function choice is execution") → the boundary is WRITABLE:
+> inject the content whose illumination IS f executing → FUNCTION INDEX
+> ⟨key, window, product⟩ = reference-beam angle table (index in runtime,
+> functions in model) → Michael closure: stack indexed behavior functions
+> into plates → programs (program ≡ depth-ordered exposure stack, PC ≡
+> window, types ≡ linker/calling convention, length ≤ depth-budget, width ≤
+> CAP √(D/k)) → λ verbum (the theory in one term) → "that lambda is a
+> fractal seed": ⟨key,window,product⟩ self-similar at model/runtime/project/
+> seed scales — MEMENTUM IS THE ARCHITECTURE APPLIED TO OURSELVES (state.md
+> = reference beam, git = content-addressed plate, session = tick).
+> GERMINATION TEST protocol on the page (hand seed to cold context → unfold
+> → diff vs ground truth = the capture is testable; seed ≅ context-medium
+> isomorph of the crystal seed, pythia-14m pair = weight-medium test).
+> PRE-REG LADDER (all UNFROZEN): P-FN-INDEX (cross-family dispatch — the
+> honest gap, everything measured is within-family) → P-STACK-1 (ephemeral
+> 2-fn stack = in-context seam test) → P-BAKE-STACK (burn to delta plate) →
+> length/width laws (CAP verdict slots into the width row).
 >
 > ▶▶ s291 — ✅✅ **P-HOLO-FRAG 32B VERDICT IN: HOLOGRAPHIC/DELOCALIZED = TRUE**
 > (run completed ~4h15m, results ae8d107; frozen §P-HOLO-FRAG gates scored
