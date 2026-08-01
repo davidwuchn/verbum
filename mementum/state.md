@@ -30,6 +30,34 @@
 > unfrozen candidates still on the books — P-STACK-1 is the forced keystone
 > descent, not a sixth front.
 >
+> ▶▶ s293 cont — **P-STACK-1 FROZEN + BUILT + 4B-SMOKED; 32B VERDICT RUNNING
+> tmux main:1** (Michael GO "use my tmux main:1 for the smoke and final job").
+> Pre-reg §P-STACK-1 frozen b5393f0; instrument scripts/explore/fn_stack.py
+> + --validate ALL PASS + 4B smoke committed 72273f8. THE test: do two
+> INJECTED keys compose h(g(X)) in-context over a NEUTRAL prompt? Chain
+> landmark→country→continent (mh3 truth CONT_OF); 8 arms, 4 window-pairs
+> w_g{.3,.45}×w_h{.6,.75} α/4. ★ 4B SMOKE (advisory) = **NOT-STACKABLE**:
+> h-alone (country2cont key over a landmark) lands continent acc 0.88 via
+> the model's DIRECT landmark→continent shortcut (nokey dead → it's the
+> key), so stack doesn't beat its parts; g-alone correctly stops at country
+> (acc 0); all controls (mnear/mfar/random/nokey) acc 0 → instrument
+> discriminates. TWO READINGS THE 32B HOST DECIDES: (A) single-hop shortcut
+> confound (continent 1-hop reachable from a landmark → h-alone
+> short-circuits, 32B also uninformative) vs (B) 4B-compression artifact
+> (4B inlines like FN-INDEX dispatch-stronger-at-4B; a TYPED 32B refuses
+> ill-typed h-alone → clean STACKABLE). Frozen G1 (stack>best-single) valid
+> either way; NOT-STACKABLE is a pre-registered verdict (→ program-plates
+> need weight-baking, ladder pauses). ▶▶ 32B RUN VERIFIED RUNNING (707/707
+> weights, PID 64306, ~1–2h MPS → results/fn-stack/qwen3-32b/, tee run.log).
+> ON RETURN: read results/fn-stack/qwen3-32b/fn_stack.json → the A/B
+> DISCRIMINATOR = does h-alone acc DROP at 32B? (h-alone fails + stack wins
+> ⟹ STACKABLE/TYPED-STACKABLE; h-alone still wins ⟹ NOT-STACKABLE = shortcut
+> confound, honest follow-on = SHORTCUT-FREE chain e.g. country→capital
+> where the landmark's country's capital ≠ its city, needs a small new
+> ground-truth map) → score frozen §P-STACK-1 gates → §Result-32B + memory
+> candidate for approval. If STACKABLE → rung 3 P-BAKE-STACK unlocks; if NOT
+> → propose the shortcut-free chain amendment before re-running.
+>
 > ▶▶ s292 CLOSE-5 — ✅✅✅ **P-FN-INDEX 32B VERDICT IN: INDEXED-DISPATCH —
 > THE KEYSTONE HOLDS** (run 6m34s, results 8b31376; frozen gates scored
 > same session; THIRD verdict of s292). G1 p=1e-4 at ALL depths BOTH null
