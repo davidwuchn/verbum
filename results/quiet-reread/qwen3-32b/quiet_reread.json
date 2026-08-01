@@ -1,0 +1,157 @@
+{
+  "model_id": "Qwen/Qwen3-32B",
+  "pair": "19-38",
+  "n_cells": 10,
+  "loud_attractors": [
+    "Agra"
+  ],
+  "reads": {
+    "raw(stack)": {
+      "cap1": 2,
+      "cap3": 4,
+      "ct1": 0
+    },
+    "dark-field(BASELINE=operand)": {
+      "cap1": 2,
+      "cap3": 3,
+      "ct1": 0
+    },
+    "dark-field(g-alone)": {
+      "cap1": 1,
+      "cap3": 4,
+      "ct1": 0
+    },
+    "dark-field(h-alone)": {
+      "cap1": 4,
+      "cap3": 6,
+      "ct1": 0
+    },
+    "dark-field(stack)": {
+      "cap1": 3,
+      "cap3": 8,
+      "ct1": 0
+    },
+    "common-mode(stack-base)": {
+      "cap1": 1,
+      "cap3": 4,
+      "ct1": 0
+    },
+    "quiet-inj+dark-field": {
+      "cap1": 3,
+      "cap3": 7,
+      "ct1": 0
+    }
+  },
+  "detail": [
+    {
+      "landmark": "Sagrada Familia",
+      "raw": 8,
+      "baseline_df": 13,
+      "galone_df": 12,
+      "halone_df": 1,
+      "stack_df": 2,
+      "common_mode": 2,
+      "quiet_inj": 2,
+      "country_rank": 25
+    },
+    {
+      "landmark": "Taj Mahal",
+      "raw": 1,
+      "baseline_df": 3,
+      "galone_df": 2,
+      "halone_df": 1,
+      "stack_df": 1,
+      "common_mode": 3,
+      "quiet_inj": 1,
+      "country_rank": 16
+    },
+    {
+      "landmark": "Kaaba",
+      "raw": 29,
+      "baseline_df": 25,
+      "galone_df": 23,
+      "halone_df": 12,
+      "stack_df": 18,
+      "common_mode": 6,
+      "quiet_inj": 20,
+      "country_rank": 9
+    },
+    {
+      "landmark": "Angkor Wat",
+      "raw": 1,
+      "baseline_df": 1,
+      "galone_df": 2,
+      "halone_df": 1,
+      "stack_df": 1,
+      "common_mode": 3,
+      "quiet_inj": 1,
+      "country_rank": 23
+    },
+    {
+      "landmark": "Burj Khalifa",
+      "raw": 3,
+      "baseline_df": 5,
+      "galone_df": 3,
+      "halone_df": 1,
+      "stack_df": 1,
+      "common_mode": 1,
+      "quiet_inj": 1,
+      "country_rank": 8
+    },
+    {
+      "landmark": "Pyramids",
+      "raw": 5,
+      "baseline_df": 7,
+      "galone_df": 8,
+      "halone_df": 2,
+      "stack_df": 2,
+      "common_mode": 11,
+      "quiet_inj": 2,
+      "country_rank": 19
+    },
+    {
+      "landmark": "Sphinx",
+      "raw": 4,
+      "baseline_df": 10,
+      "galone_df": 5,
+      "halone_df": 6,
+      "stack_df": 2,
+      "common_mode": 5,
+      "quiet_inj": 2,
+      "country_rank": 24
+    },
+    {
+      "landmark": "Karnak",
+      "raw": 3,
+      "baseline_df": 5,
+      "galone_df": 5,
+      "halone_df": 5,
+      "stack_df": 2,
+      "common_mode": 7,
+      "quiet_inj": 4,
+      "country_rank": 12
+    },
+    {
+      "landmark": "Medina",
+      "raw": 30,
+      "baseline_df": 24,
+      "galone_df": 18,
+      "halone_df": 23,
+      "stack_df": 17,
+      "common_mode": 8,
+      "quiet_inj": 19,
+      "country_rank": 26
+    },
+    {
+      "landmark": "Victoria Falls",
+      "raw": 4,
+      "baseline_df": 1,
+      "galone_df": 1,
+      "halone_df": 2,
+      "stack_df": 2,
+      "common_mode": 23,
+      "quiet_inj": 2,
+      "country_rank": 20
+    }
+  ]
+}

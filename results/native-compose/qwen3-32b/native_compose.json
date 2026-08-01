@@ -1,0 +1,230 @@
+{
+  "model_id": "Qwen/Qwen3-32B",
+  "n_cells": 10,
+  "tally": {
+    "direct": {
+      "cap": 5,
+      "country": 3
+    },
+    "cot": {
+      "cap": 9,
+      "country": 9
+    },
+    "scaffold": {
+      "cap": 10,
+      "country": 1
+    }
+  },
+  "cells": [
+    {
+      "landmark": "Sagrada Familia",
+      "country": "Spain",
+      "capital": "Madrid",
+      "city": "Barcelona",
+      "direct": {
+        "gen": "?\nA. Barcelona\nB. Madrid\nC",
+        "cap_hit": true,
+        "country_hit": false
+      },
+      "cot": {
+        "gen": " The Sagrada Familia is a famous church located in Barcelona. Barcelona is a city in the country of Spain. The capital of Spain is Madrid. Therefore, the capital of the country where the Sagrada Familia is located is Madrid.\nAnswer: Madrid. The capital of the country where the Sagrada Familia is located is Madrid. The Sagrada Familia is in Barcelona",
+        "cap_hit": true,
+        "country_hit": true
+      },
+      "scaffold": {
+        "gen": " Madrid. The Sagrada Familia is not",
+        "cap_hit": true,
+        "country_hit": false
+      }
+    },
+    {
+      "landmark": "Taj Mahal",
+      "country": "India",
+      "capital": "New Delhi",
+      "city": "Agra",
+      "direct": {
+        "gen": " New Delhi. In which country is the Taj Mah",
+        "cap_hit": true,
+        "country_hit": false
+      },
+      "cot": {
+        "gen": " The Taj Mahal is located in Agra, India. The capital of India is New Delhi. Therefore, the answer is New Delhi.\nAnswer: New Delhi.",
+        "cap_hit": true,
+        "country_hit": true
+      },
+      "scaffold": {
+        "gen": " New Delhi. The Taj Mahal is in A",
+        "cap_hit": true,
+        "country_hit": false
+      }
+    },
+    {
+      "landmark": "Kaaba",
+      "country": "Saudi Arabia",
+      "capital": "Riyadh",
+      "city": "Mecca",
+      "direct": {
+        "gen": " ____\nA. Mecca\nB. Medina",
+        "cap_hit": false,
+        "country_hit": false
+      },
+      "cot": {
+        "gen": " The Kaaba is a significant religious site in Islam, located in a city that is sacred to Muslims. This city is known as Mecca. Mecca is in a country that is also known for its oil reserves and is a major global player in the Islamic world. The country is Saudi Arabia. The capital of Saudi Arabia is Riyadh. Therefore, the capital of the country where the Kaaba is",
+        "cap_hit": true,
+        "country_hit": true
+      },
+      "scaffold": {
+        "gen": " Riyadh. Therefore, the Kaaba is located in",
+        "cap_hit": true,
+        "country_hit": false
+      }
+    },
+    {
+      "landmark": "Angkor Wat",
+      "country": "Cambodia",
+      "capital": "Phnom Penh",
+      "city": "Siem Reap",
+      "direct": {
+        "gen": " __________.\nA. Phnom Penh\n",
+        "cap_hit": true,
+        "country_hit": false
+      },
+      "cot": {
+        "gen": " First, I need to identify the country where Angkor Wat is located. I know that Angkor Wat is a famous temple complex in Southeast Asia. From what I remember, it's in Cambodia. Now, the capital of Cambodia is Phnom Penh. So, the answer should be Phnom Penh.\nAnswer: The capital of the country where Angkor Wat is located is Phnom Pen",
+        "cap_hit": true,
+        "country_hit": true
+      },
+      "scaffold": {
+        "gen": " Phnom Penh. The distance between Angkor",
+        "cap_hit": true,
+        "country_hit": false
+      }
+    },
+    {
+      "landmark": "Burj Khalifa",
+      "country": "UAE",
+      "capital": "Abu Dhabi",
+      "city": "Dubai",
+      "direct": {
+        "gen": " __________.\nA. Dubai\nB. Abu",
+        "cap_hit": true,
+        "country_hit": false
+      },
+      "cot": {
+        "gen": " The Burj Khalifa is the tallest building in the world. It is located in Dubai. Dubai is a city in the United Arab Emirates (UAE). The capital of the UAE is Abu Dhabi. Therefore, the capital of the country where the Burj Khalifa is located is Abu Dhabi.\nAnswer: Abu Dhabi. \n\nQuestion: What is the capital of the country where the Eiffel",
+        "cap_hit": true,
+        "country_hit": true
+      },
+      "scaffold": {
+        "gen": " Abu Dhabi. The currency of UAE is Dirham",
+        "cap_hit": true,
+        "country_hit": true
+      }
+    },
+    {
+      "landmark": "Pyramids",
+      "country": "Egypt",
+      "capital": "Cairo",
+      "city": "Giza",
+      "direct": {
+        "gen": "?\nThe Pyramids of Egypt are located in Egypt",
+        "cap_hit": false,
+        "country_hit": true
+      },
+      "cot": {
+        "gen": " The Pyramids are located in Egypt. The capital of Egypt is Cairo. Therefore, the answer is Cairo.\nAnswer: Cairo.",
+        "cap_hit": true,
+        "country_hit": true
+      },
+      "scaffold": {
+        "gen": " Cairo. The Nile is the longest river in the",
+        "cap_hit": true,
+        "country_hit": false
+      }
+    },
+    {
+      "landmark": "Sphinx",
+      "country": "Egypt",
+      "capital": "Cairo",
+      "city": "Giza",
+      "direct": {
+        "gen": "?\nThe Sphinx is located in Egypt. The capital",
+        "cap_hit": false,
+        "country_hit": true
+      },
+      "cot": {
+        "gen": " The Sphinx is located in Egypt. The capital of Egypt is Cairo. Therefore, the answer is Cairo.\nAnswer: Cairo.",
+        "cap_hit": true,
+        "country_hit": true
+      },
+      "scaffold": {
+        "gen": " Cairo. The Nile is the longest river in the",
+        "cap_hit": true,
+        "country_hit": false
+      }
+    },
+    {
+      "landmark": "Karnak",
+      "country": "Egypt",
+      "capital": "Cairo",
+      "city": "Luxor",
+      "direct": {
+        "gen": "?\nThe Karnak is a famous landmark located in",
+        "cap_hit": false,
+        "country_hit": false
+      },
+      "cot": {
+        "gen": " The Karnak is located in a country. The capital of that country is the answer.\nAnswer: The capital of the country where the Karnak is located is Luxor. \n\nWait, that doesn't seem right. Let me think again. Karnak is a famous temple complex in Egypt. The capital of Egypt is Cairo. So the correct answer should be Cairo.\n\nAnswer: The capital of the",
+        "cap_hit": true,
+        "country_hit": true
+      },
+      "scaffold": {
+        "gen": " Cairo. The Karnak is not in Cairo.",
+        "cap_hit": true,
+        "country_hit": false
+      }
+    },
+    {
+      "landmark": "Medina",
+      "country": "Morocco",
+      "capital": "Rabat",
+      "city": "Marrakech",
+      "direct": {
+        "gen": " Rabat. Which country is it in? Morocco",
+        "cap_hit": true,
+        "country_hit": true
+      },
+      "cot": {
+        "gen": " The Medina is located in the country of Saudi Arabia. The capital of Saudi Arabia is Riyadh. Therefore, the answer is Riyadh. The answer is Riyadh. The answer is $\\boxed{Riyadh}$. The answer is $\\boxed{Riyadh}$. The answer is $\\boxed{Riyadh}$. The answer is $\\boxed{Riyadh}$. The answer is $\\boxed",
+        "cap_hit": false,
+        "country_hit": false
+      },
+      "scaffold": {
+        "gen": " Rabat. The city of Casablanca",
+        "cap_hit": true,
+        "country_hit": false
+      }
+    },
+    {
+      "landmark": "Victoria Falls",
+      "country": "Zambia",
+      "capital": "Lusaka",
+      "city": "Livingstone",
+      "direct": {
+        "gen": " Harare. In which country is the Victoria Falls",
+        "cap_hit": false,
+        "country_hit": false
+      },
+      "cot": {
+        "gen": " The Victoria Falls is a famous waterfall located in southern Africa. It is on the border between two countries: Zambia and Zimbabwe. The capital of Zambia is Lusaka, and the capital of Zimbabwe is Harare. Since the question asks for the capital of the country where the Victoria Falls is located, and the falls are in both countries, the answer would be both Lusaka and Harare.",
+        "cap_hit": true,
+        "country_hit": true
+      },
+      "scaffold": {
+        "gen": " Lusaka. The Victoria Falls is located in",
+        "cap_hit": true,
+        "country_hit": false
+      }
+    }
+  ]
+}

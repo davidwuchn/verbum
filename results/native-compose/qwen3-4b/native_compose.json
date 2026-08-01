@@ -1,0 +1,230 @@
+{
+  "model_id": "Qwen/Qwen3-4B",
+  "n_cells": 10,
+  "tally": {
+    "direct": {
+      "cap": 2,
+      "country": 3
+    },
+    "cot": {
+      "cap": 8,
+      "country": 9
+    },
+    "scaffold": {
+      "cap": 10,
+      "country": 1
+    }
+  },
+  "cells": [
+    {
+      "landmark": "Sagrada Familia",
+      "country": "Spain",
+      "capital": "Madrid",
+      "city": "Barcelona",
+      "direct": {
+        "gen": " ____\nA. Madrid\nB. Barcelona\n",
+        "cap_hit": true,
+        "country_hit": false
+      },
+      "cot": {
+        "gen": " First, I need to figure out where the Sagrada Familia is located. I remember that the Sagrada Familia is a famous cathedral. I think it's in Spain. Now, I need to recall which city in Spain is known for this cathedral. I believe it's in Barcelona. So, the capital of Spain is Madrid. Wait, but the question is asking for the capital",
+        "cap_hit": true,
+        "country_hit": true
+      },
+      "scaffold": {
+        "gen": " Madrid. So, the Sagrada Familia",
+        "cap_hit": true,
+        "country_hit": false
+      }
+    },
+    {
+      "landmark": "Taj Mahal",
+      "country": "India",
+      "capital": "New Delhi",
+      "city": "Agra",
+      "direct": {
+        "gen": "?\nThe Taj Mahal is located in Agra",
+        "cap_hit": false,
+        "country_hit": false
+      },
+      "cot": {
+        "gen": " First, I need to figure out where the Taj Mahal is located. I remember that the Taj Mahal is a famous monument in India. Now, I need to recall the capital of India. The capital of India is New Delhi. So, the answer should be New Delhi. Wait, but I should make sure that the Taj Mahal is indeed in India. Yes, it's located in",
+        "cap_hit": true,
+        "country_hit": true
+      },
+      "scaffold": {
+        "gen": " New Delhi. So, the Taj Mahal is",
+        "cap_hit": true,
+        "country_hit": false
+      }
+    },
+    {
+      "landmark": "Kaaba",
+      "country": "Saudi Arabia",
+      "capital": "Riyadh",
+      "city": "Mecca",
+      "direct": {
+        "gen": " ____\nA. Saudi Arabia\nB. Egypt",
+        "cap_hit": false,
+        "country_hit": true
+      },
+      "cot": {
+        "gen": " First, I need to figure out where the Kaaba is located. The Kaaba is a significant religious site in Islam, located in the city of Mecca. Mecca is a city in Saudi Arabia. So, the capital of Saudi Arabia is Riyadh. Therefore, the answer should be Riyadh. But wait, I should confirm that Mecca is indeed in Saudi Arabia and that Riyadh is the capital",
+        "cap_hit": true,
+        "country_hit": true
+      },
+      "scaffold": {
+        "gen": " Riyadh. So, the Kaaba is in Riyadh",
+        "cap_hit": true,
+        "country_hit": false
+      }
+    },
+    {
+      "landmark": "Angkor Wat",
+      "country": "Cambodia",
+      "capital": "Phnom Penh",
+      "city": "Siem Reap",
+      "direct": {
+        "gen": " ____\nA. Thailand\nB. Myanmar\n",
+        "cap_hit": false,
+        "country_hit": false
+      },
+      "cot": {
+        "gen": " First, I need to figure out where Angkor Wat is located. I remember that Angkor Wat is a famous temple complex in Cambodia. Now, the question is asking for the capital of the country where it is located. The capital of Cambodia is Phnom Penh. So, the answer should be Phnom Penh. Wait, but I should make sure that Angkor Wat is indeed in",
+        "cap_hit": true,
+        "country_hit": true
+      },
+      "scaffold": {
+        "gen": " Phnom Penh. So, the Angkor",
+        "cap_hit": true,
+        "country_hit": false
+      }
+    },
+    {
+      "landmark": "Burj Khalifa",
+      "country": "UAE",
+      "capital": "Abu Dhabi",
+      "city": "Dubai",
+      "direct": {
+        "gen": " ____\nA. Dubai\nB. Doha",
+        "cap_hit": false,
+        "country_hit": false
+      },
+      "cot": {
+        "gen": " First, I need to figure out where the Burj Khalifa is located. I remember that the Burj Khalifa is a skyscraper in Dubai. Now, Dubai is a city in the United Arab Emirates (UAE). So, the country is the United Arab Emirates. The capital of the UAE is Abu Dhabi. Therefore, the answer should be Abu Dhabi.\nAnswer: The capital of the",
+        "cap_hit": true,
+        "country_hit": true
+      },
+      "scaffold": {
+        "gen": " Abu Dhabi. So, the Burj Khalifa",
+        "cap_hit": true,
+        "country_hit": false
+      }
+    },
+    {
+      "landmark": "Pyramids",
+      "country": "Egypt",
+      "capital": "Cairo",
+      "city": "Giza",
+      "direct": {
+        "gen": " ____\nA. Egypt\nB. Turkey\n",
+        "cap_hit": false,
+        "country_hit": true
+      },
+      "cot": {
+        "gen": " First, I need to figure out which country the Pyramids are located in. The Pyramids of Giza are a famous landmark, and they are in Egypt. So the country is Egypt. Now, the capital of Egypt is Cairo. Therefore, the answer should be Cairo.\nAnswer: Cairo. The Pyramids are located in Egypt, and the capital of Egypt is Cairo. Therefore, the answer",
+        "cap_hit": true,
+        "country_hit": true
+      },
+      "scaffold": {
+        "gen": " Cairo. The Pyramids are located in Cairo.",
+        "cap_hit": true,
+        "country_hit": false
+      }
+    },
+    {
+      "landmark": "Sphinx",
+      "country": "Egypt",
+      "capital": "Cairo",
+      "city": "Giza",
+      "direct": {
+        "gen": " ____\nA. Cairo\nB. Alexandria\n",
+        "cap_hit": true,
+        "country_hit": false
+      },
+      "cot": {
+        "gen": " First, I need to figure out where the Sphinx is located. The Sphinx is a famous landmark, and I remember it's in Egypt. Now, the question is asking for the capital of the country where the Sphinx is located. Since the Sphinx is in Egypt, the capital of Egypt would be the answer. The capital of Egypt is Cairo. Therefore, the answer should be Cairo.\nAnswer: The",
+        "cap_hit": true,
+        "country_hit": true
+      },
+      "scaffold": {
+        "gen": " Cairo. The Sphinx is located near the capital of",
+        "cap_hit": true,
+        "country_hit": false
+      }
+    },
+    {
+      "landmark": "Karnak",
+      "country": "Egypt",
+      "capital": "Cairo",
+      "city": "Luxor",
+      "direct": {
+        "gen": ":\nA. Luxor\nB. Aswan",
+        "cap_hit": false,
+        "country_hit": false
+      },
+      "cot": {
+        "gen": " First, I need to figure out where the Karnak is located. I remember that Karnak is an ancient Egyptian temple complex. It's one of the most famous temples in Egypt. Now, Egypt is a country in Africa, specifically in the northeastern part of the continent. The capital of Egypt is Cairo. So, if Karnak is in Egypt, then the capital would be Cairo. Let me",
+        "cap_hit": true,
+        "country_hit": true
+      },
+      "scaffold": {
+        "gen": " Cairo. The Karnak is a temple complex.",
+        "cap_hit": true,
+        "country_hit": false
+      }
+    },
+    {
+      "landmark": "Medina",
+      "country": "Morocco",
+      "capital": "Rabat",
+      "city": "Marrakech",
+      "direct": {
+        "gen": " ____\nA. Saudi Arabia\nB. Egypt",
+        "cap_hit": false,
+        "country_hit": false
+      },
+      "cot": {
+        "gen": " First, I need to figure out where the Medina is located. Medina is a city in Saudi Arabia. Now, the capital of Saudi Arabia is Riyadh. So the answer should be Riyadh. But wait, I should make sure that Medina is indeed in Saudi Arabia. Yes, Medina is a major city in Saudi Arabia, known for the Prophet Muhammad's birthplace and the Hajj pilgrimage. Therefore,",
+        "cap_hit": false,
+        "country_hit": false
+      },
+      "scaffold": {
+        "gen": " Rabat. The capital of Morocco is also Marr",
+        "cap_hit": true,
+        "country_hit": true
+      }
+    },
+    {
+      "landmark": "Victoria Falls",
+      "country": "Zambia",
+      "capital": "Lusaka",
+      "city": "Livingstone",
+      "direct": {
+        "gen": " ____\nA. Zambia\nB. Zimbabwe\n",
+        "cap_hit": false,
+        "country_hit": true
+      },
+      "cot": {
+        "gen": " First, I need to figure out where Victoria Falls is located. I remember that Victoria Falls is a famous waterfall, and it's located on the border between two countries. I think it's between Zambia and Zimbabwe. Let me confirm that. Yes, Victoria Falls is on the Zambezi River, and it's a border between Zambia and Zimbabwe. Now, the question is asking for the capital of",
+        "cap_hit": false,
+        "country_hit": true
+      },
+      "scaffold": {
+        "gen": " Lusaka. So, the Victoria Falls is",
+        "cap_hit": true,
+        "country_hit": false
+      }
+    }
+  ]
+}
