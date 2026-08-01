@@ -104,6 +104,102 @@ scripts/v12/xm_etch_explore.py.
 §XM-COUPLING-SOURCE (teacher- vs student- vs hybrid-resolved coupling)
 stays queued, GATED on a port with real coupling ambiguity.
 
+## §XM-REVERSE-1 — Reverse-XM over the sign accumulator (PRE-REG, s297)
+
+> Status: FROZEN (s297, Michael-approved) — gates locked before the run.
+> Port 1 of the gated list. Attacks the s296 diagnosis at its stated
+> locus: the conflict lives ACROSS pairs in the sign-vote accumulator.
+> Forward-XM diversified the model side (jitter, deterministic pairs →
+> no per-pair ambiguity → refuted). Reverse-XM diversifies the DATA
+> side, which is where the multimodality actually is.
+
+### The mechanism it targets
+
+`holographic_etch` accumulates per-batch sign votes:
+`acc += sign(grad)` over N batches, then flips weights where
+`|acc|/N > 0.6`. **Contested weights** — where batches disagree so the
+net vote washes to ~0 — never cross threshold and stay frozen forever.
+Those contested weights ARE the multimodal ones (different pairs want
+different signs). Averaging (Forward/baseline) = mass-covering blur that
+leaves them stuck.
+
+### Reverse-XM operationalization ("explore WHICH pairs vote per round")
+
+A "voting unit" = one feature batch of `etch_batch` probes (default 8,
+smaller than the s115 32 so there are enough units for coalitions:
+50 probes → ~7 units, 800 → 100). Per round r, per layer, instead of
+all units voting:
+1. Build per-unit sign-vote vectors `V[b] ∈ {-1,0,+1}^W`, concatenated
+   over the layer's 4 plates.
+2. **Mode-coherent coalition** `S_r`: seed = least-covered unit (coverage
+   driver); take the **top f·nb units by signed cosine agreement to the
+   seed** (f = coalition fraction, frozen at 0.5). Top-fraction (not a
+   θ threshold) so the random null is EXACTLY size-matched.
+3. Flip confident-majority **within S_r only** (`|acc_{S_r}|/|S_r| > 0.6`)
+   → sharp mode-commit instead of washout. This is reverse-KL /
+   mode-seeking: the update commits to the coalition's mode.
+4. **Coverage constraint**: seed = least-covered unit each round, so
+   every unit leads across rounds (the per-epoch coverage term whose
+   absence collapses Reverse-XM to precision-only entrenchment).
+
+f frozen at 0.5; rounds R = 8 (recorded in meta). Beam training is
+IDENTICAL across arms (all units, distill loss) — the sole treatment is
+which units vote for plate flips.
+
+### Arms (× probe_counts {50, 800}, ≥3 init seeds each)
+
+- `baseline`     — all pairs vote every round (= current s115 etch)
+- `revxm`        — mode-coherent coalition + coverage (TREATMENT)
+- `revxm_rand`   — same-size coalition, RANDOMLY selected each round
+                   (the load-bearing null: isolates coherence vs mere
+                    subsetting)
+- `revxm_nocov`  — mode-seeking, NO coverage (same seed / greedy)
+                   (isolates the coverage term's contribution)
+
+### Frozen gates
+
+- **G1** revxm > baseline in oracle-recovery % (mode-commit resolves
+  contested weights → higher recovery). One-sided, α=0.05/3.
+- **G2** (λ yardstick, load-bearing) revxm > revxm_rand null: coherence,
+  not mere subsetting, must drive any gain. Fails ⟹ the effect is a
+  subsetting artifact, verdict void. α=0.05/3.
+- **G3** (mechanistic) contested-weight CORRECT-resolution toward the
+  ORACLE crystal: of weights contested at round 0 (`|acc_all|/N < 0.6`),
+  the fraction whose FINAL sign matches the oracle's `sign(W)` crystal
+  (`extract_crystal`) is higher for revxm than baseline. Tests whether
+  mode-commit resolves contested weights toward the TRUTH, not merely
+  moves them (any-flip resolution is near-ceiling ~66% for all arms, so
+  it can't discriminate; correct-resolution can). Diagnostics recorded:
+  `fixed_frac` (of init-wrong contested, fraction fixed to oracle),
+  `moved_frac` (legacy any-flip). Directly tests the s296 diagnosis.
+
+### Frozen verdicts
+
+- **REVERSE-COMPOSES** — G1 ∧ G2 pass ∧ G3 shows correct contested-weight
+  resolution toward the oracle: data-side exploration resolves the
+  accumulator tug-of-war toward the truth; port 1 is the right locus;
+  promotes coverage-constrained etching as a method.
+- **SUBSETTING-ARTIFACT** — G1 passes but G2 fails: any gain is from
+  voting on fewer/noisier pairs, not mode-coherence. Reverse-XM in this
+  form adds nothing; the accumulator conflict is not coherently modal.
+- **NO-RELIEF** — G1 fails: mode-commit does not beat mass-averaging;
+  the contested weights are genuinely irreducible at this scale (coheres
+  a deeper "the conflict is not exploration-shaped" reading, → student
+  latent / sampled-teacher ports).
+
+### Mandatory s296 reproducibility fixes (baked in)
+
+- Explicit `np.random.seed` AND `mx.random.seed` per arm×init — BOTH
+  needed: `TernaryLinear.__init__` uses global `np.random.choice` (a
+  second unseeded source beyond s296's `mx` note), nn.Linear uses `mx`.
+- Integer seeds passed explicitly (NO salted `hash()` — the s296 bug
+  that caused a 33pt launch-to-launch swing).
+- ≥3 init seeds per arm; report mean ± std; gates scored on the mean
+  with across-init variance as the noise floor (arm deltas must exceed
+  the init noise to count).
+- --validate reproduces identical logits/metrics on repeat with same
+  seed or ABORT.
+
 ## Open questions
 
 - Does the s115 50-beats-800 anomaly even exist? It did NOT reproduce
