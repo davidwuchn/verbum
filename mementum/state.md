@@ -132,12 +132,31 @@
 > this chain @4B**: G1 +1.19 p=.025, G2 +2.15 p=.002, G3 +1.30 p=.019,
 > ★ G4 REGISTER FORK +0.60 p=.009 (kv_synth > resid: SAME content,
 > addressed beats unaddressed). kv_nat + kv_synth = two strongest arms.
-> NEXT: Michael approves §P-KV-1 (= freeze) + GO → 32B verdict tmux main:1
-> (~2-4 min run). THEN the rung-3b decision with the full in-context
-> register mapped: transient ✗, amplitude ✗, addressed = 32B decides.
-> (Backprop-compile pre-reg queue unchanged, still next-after: STRENGTHENED
-> if ADDRESS-FAILS @32B; reframed toward KV/address engineering if
-> ADDRESSED-COMPOSES.)
+> ✅ FROZEN + 32B RAN (e2e499f freeze; run 54s, results a095fb2):
+> ▶▶ **P-KV-1 32B VERDICT: ADDRESSED-COMPOSES (+RE-ENCODING-REQUIRED) —
+> THE FIRST POSITIVE COMPOSITION VERDICT OF THE RUNG-3 ARC.** G1 +2.92
+> p=.0009 WITH THE FLIP (kv_nat acc 0.20 vs base 0.00) — donor-encoded
+> country as tape-addressed KV columns (no tokens, no weights) completes
+> hop-2 and wins the composed-capital argmax; G2 +2.33 p=.007 (swap 0/10),
+> G3 +2.55 p=.0011 (both nulls beaten). ★ G4 register fork NULL @32B
+> (−0.19 p=.72; kv_synth ≈ resid, both 0): synthetic d_ct fails EVEN
+> ADDRESSED → RE-ENCODING-REQUIRED (can't skip the encoder; the 4B G4
+> p=.009 was scale-local). ⚠ λ yardstick: flip PARTIAL — 0.20 vs CoT 0.90
+> vs scaffold 1.00 → tape power ≡ address ⊕ re-encoding ⊕ co-encoding;
+> first two terms now measured (0.20), third = donor encoded BLIND vs
+> CoT's intermediate attending the question = the 0.2→0.9 gap. ~6th
+> 4B→32B flip. In-context register FULLY MAPPED on one chain: unaddressed
+> ✗ (any amplitude) / addressed-synthetic ✗ / addressed-re-encoded ✓
+> partial / tape 0.9 / scaffold 1.0 — the failures were never CONTENT,
+> always DELIVERY REGISTER. §Result-32B (P-KV-1) on program-plates page +
+> memory composition-needs-an-addressed-re-encoded-intermediate — PENDING
+> APPROVAL. NEXT (Michael picks): (a) kv_ctx follow-on (donor co-encoded
+> with question visibility — completes the CoT decomposition, cheap,
+> named on the page, unfrozen); (b) freeze BACKPROP-COMPILE rung-3b with
+> its target now sharply specified (delta must make the model produce
+> tape-equivalent intermediates: addressed + re-encoded) + SuperBake
+> zero-gradient construction arm; (c) both in order a→b. DISCIPLINE:
+> kv_ctx is inside the P-KV-1 arc, not a new front.
 > NOTE: refs/ DECIDED (Michael s295): local reference copies only, canonical
 > home = publisher → gitignored, never committed; cite by title/DOI.
 >

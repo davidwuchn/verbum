@@ -1350,3 +1350,41 @@ data + bake_stack conventions + stack_error_domain classifier +
 verbum.dsp (no fork). `--validate` planted worlds discriminate all
 verdicts including both mechanism clauses. Cadence: --validate → 4B
 smoke (advisory) → 32B verdict on Michael GO (tmux main:1).
+
+### Result-32B — P-KV-1 (s295, verdict host, frozen gates scored; run 54s, mask self-check exact, results committed)
+
+**VERDICT: ADDRESSED-COMPOSES (+RE-ENCODING-REQUIRED) — the FIRST positive
+composition verdict of the rung-3 arc.** Gate-0 pass (self-check
+max|Δlogit|=0.0; 10 cells).
+- **G1 +2.916 p=0.0009 WITH THE FLIP** (kv_nat acc 0.20, base 0.00): a
+  donor-encoded country, delivered as tape-addressed KV columns — no token
+  generated, no weight touched — completes resident hop-2 and WINS the
+  argmax on the composed capital. G2 specificity +2.33 p=.007 (swap 0/10);
+  G3 not-any-KV +2.55 p=.0011. Both nulls beaten; the win is
+  content-specific and address-specific.
+- **G4 register fork does NOT replicate at 32B** (−0.19 p=.72; kv_synth ≈
+  resid, both acc 0): synthetic d_ct content fails EVEN WHEN ADDRESSED →
+  **RE-ENCODING-REQUIRED** — the address only works for content that
+  arrived through the layer stack (real K/V columns computed by the
+  encoder from real tokens). You cannot skip the encoder. (The 4B G4
+  margin signal p=.009 did not survive to the verdict host — 4B advisory,
+  scale-local.)
+- ⚠ λ yardstick: the flip is real but PARTIAL — kv_nat 0.20 vs CoT 0.90 vs
+  scaffold 1.00. The measured decomposition of the tape's power now reads:
+  **address + donor-encoding ≈ 0.20; + in-context co-encoding (the
+  intermediate attends to the question while being encoded) ≈ 0.90.** Our
+  donor is encoded blind; CoT's intermediate is not. ~6th 4B→32B flip
+  (4B: margins fire, no flip).
+
+**Meaning for the arc.** The two-register frame gets its causal
+completion: the in-context failure was never about the CONTENT (it is
+read, typed, specific everywhere) — it is about the DELIVERY REGISTER.
+Unaddressed residual content ✗ (any amplitude); addressed synthetic
+content ✗ (G4); addressed re-encoded content ✓ (partial). The tape's
+power decomposes into address ⊕ re-encoding ⊕ co-encoding, and we have
+now measured the first two terms separately. Rung-3b framing updates:
+the backprop-compile delta's job is to make the model produce
+TAPE-EQUIVALENT intermediates internally (addressed + re-encoded), and
+the named follow-on (unfrozen, ¬new-front) is **kv_ctx** — donor
+co-encoded WITH visibility of the test question, to measure the third
+term and complete the CoT decomposition.
