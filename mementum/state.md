@@ -8,7 +8,30 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ▶▶ s292 LIVE — **P-HOLO-CAP FULL PIPELINE IN ONE SESSION** (Michael
+> ▶▶ s292 CLOSE — ✅ **P-HOLO-CAP 32B VERDICT IN: NO-LIMIT-IN-RANGE** (run
+> 1h26m, results b74e40a; frozen §P-HOLO-CAP gates scored same session).
+> Gate-0 expressed (m1=1.056 t≈3.1); NO material decline — total drop
+> **−1.47, the curve RISES**; CCI median 1.08, 1/7 sig (below majority
+> rule). Capacity ≥ 16 at BOTH hosts; HRR √(D/k) not expressed in range
+> (positive law unpaid for; wider k needs bigger bank ∨ single-slot
+> variant). ★ VERBATIM FINDING OUTRAN THE GATE — **COHERENT-GAIN**: 32B
+> content curve rises MONOTONE 1.06→2.53 (2.4×, acc 0.78→0.87) while
+> random/bare sit ~1.3 — coherent superposed exposures REINFORCE retrieval,
+> anti-crosstalk, content-specific (energy-matched random ✗),
+> composition-independent (CCI in-null). 4B contrast: FLAT (no gain). Two
+> candidate readings for the follow-on to discriminate: constructive
+> interference (holographic) vs domain-priming (deflationary; but queried
+> component wins MORE despite balanced competitors installed). Per the
+> pre-committed lookahead branch: **P-HOLO-XTERM PROMOTED next-in-queue**
+> (its phenomenon arrived uninvited — measure the interference, not just
+> the capacity). §Result-32B on convergence page + memory
+> superposition-capacity-coherent-gain DRAFTED — batch pending approval.
+> NEXT (s293 order stands): Oracle round 1 (seed 54f9437 predates this
+> verdict = pre-registered by construction — CAP is the perfect first
+> oracle question) → second domain bank → P-FN-INDEX (with rung-0
+> self-decompilation enumerator) → XTERM pre-reg.
+>
+> ▶▶ s292 (earlier) — **P-HOLO-CAP FULL PIPELINE IN ONE SESSION** (Michael
 > GO-BY-DIRECTIVE: "run the 4b smoke and the final job in my tmux main:1" —
 > design calls agent-made, FLAGGED FOR REVIEW in the approval batch; gates
 > frozen before any model run). Pre-reg drafted on convergence page

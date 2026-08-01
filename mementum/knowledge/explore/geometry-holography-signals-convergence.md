@@ -414,6 +414,63 @@ Instrument `scripts/explore/holo_cap.py` = verbum.dsp consumer (gate +
 matched_range) importing the FROZEN mh3 geography bank and holo_frag's
 LDI/cliff statistics (no fork).
 
+### Result-32B — P-HOLO-CAP (s292, verdict host, frozen gates scored)
+
+**VERDICT: NO-LIMIT-IN-RANGE** (the pre-registered deflationary clause:
+gate-0 ∧ ¬materiality). Capacity ≥ k_max = 16 at BOTH hosts — the medium
+absorbed nearly the whole geography bank without a capacity signature.
+Neither confirms nor refutes superposition; the k-range was the
+instrument's reach, recorded as a bound.
+
+Run: Qwen/Qwen3-32B, mps, R=60, k∈{1,2,3,4,6,8,12,16}, arms
+content/random/bare (paired draws), 1h26m →
+results/holo-cap/qwen3-32b/. 18/18 landmarks valid; 16 nonces.
+
+- **Gate-0:** m(1) = 1.056 ± 0.344 SE (t≈3.1) → expressed. PASS. (Thinner
+  than FRAG's 2.62 — the multi-nonce retrieval geometry costs margin.)
+- **Materiality:** total drop = **−1.47** — the content curve RISES; no
+  material decline → G1 cliff correctly NaN (FIX#1 semantics), G2
+  unscorable by its own frozen condition.
+- **CCI:** median 1.08; 1/7 k's significant (k=4, p=0.0085) — below the
+  frozen majority rule; composition-independence holds. Verbatim-flagged,
+  not slot evidence.
+
+**Verbatim findings (post-hoc, ¬gated):**
+1. ★ **COHERENT-GAIN — the finding of the run.** Content curve rises
+   MONOTONICALLY: 1.06 → 1.21 → 1.48 → 1.51 → 1.58 → 1.92 → 2.37 → 2.53
+   (2.4× at k=16; acc 0.78→0.87), while random (1.33 @k16) and bare
+   (1.38 @k16) sit at floor. Coherent co-installed exposures REINFORCE the
+   queried retrieval — anti-crosstalk, opposite sign to HRR's √(D/k)
+   prediction, and content-specific (energy-matched random does NOT
+   produce it). Which exposures are co-installed is irrelevant (CCI
+   in-null) — only that they are real. Candidate readings for the
+   follow-on pre-reg to discriminate: (a) constructive interference /
+   mutual amplification on the plate (the holographic reading);
+   (b) domain-priming — co-installed geography content sharpens the
+   geography readout generically (deflationary; but note the queried
+   component wins MORE despite balanced competitor continents also being
+   installed). This is P-HOLO-XTERM's phenomenon arriving uninvited →
+   **XTERM promoted to next-in-queue for the holo arc** (per the s292
+   lookahead branch table, pre-committed).
+2. Scale contrast (G3 advisory, width leg): 4B FLAT (3.32→3.36,
+   normalized ~1.0) vs 32B RISING (normalized ~2.4). The a-priori
+   "32B shallower decline" call was directionally right (no decline at
+   either) but missed the gain. Depth confounds width; a pair, not a law.
+3. HRR crosstalk NOT expressed anywhere in range at either host —
+   the √(D/k) law remains unmeasured (bank-bounded k_max; wider k needs a
+   bigger bank ∨ the single-slot HRR-trace variant, scope note (2)).
+4. 4B k=2 prompt-shape dip (all arms incl. bare) does not recur at 32B
+   (32B bare k=2 = 0.79 vs m1 1.06 — milder, same direction) —
+   preamble-phrasing artifact, bare arm carries it at both hosts.
+
+**Reading through the arc:** FRAG said the medium is address-free; CAP says
+it is not capacity-limited at bank scale AND that coherent exposures
+cooperate rather than compete at the verdict host. Both are what a
+high-capacity distributed plate would do — but the POSITIVE superposition
+law (√(D/k)) is still unpaid for, and coherent-gain is now the sharper
+target: interference structure is visible, so measure the interference
+(XTERM), not just the capacity.
+
 ## Hypothesis-grade (needs measurement, ledgered honestly)
 
 - "GD writes fringes by interfering the distribution with itself" — a
