@@ -24,8 +24,9 @@
 > mechanisms scale differently). Keys were 3-exemplar hand-builds =
 > conservative floor; upgrades = rung-0 self-decompilation + P-PROJ-1.
 > §Result-32B on program-plates page + memory
-> function-choice-is-content-addressable DRAFTED — batch pending
-> approval. s293: FOUR sealed verdicts now postdate the seed (FRAG, CAP,
+> function-choice-is-content-addressable ✅ COMMITTED 002b144
+> (Michael-approved s292 — batch landed same session; no pending FN-INDEX
+> approval). s293: FOUR sealed verdicts now postdate the seed (FRAG, CAP,
 > XTERM, FN-INDEX = the Oracle exam); then P-STACK-1 pre-reg (Michael
 > gets first pick: stack vs beam-register vs oracle-first).
 >
