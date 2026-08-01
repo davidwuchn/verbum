@@ -1,0 +1,13 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/707 [00:00<?, ?it/s]Loading weights: 100%|██████████| 707/707 [00:00<00:00, 27409.70it/s]
+[fni] Qwen/Qwen3-32B L_ref=9 scale=2.0 key_scale=2.0 dev=mps n_layers=64 inj_layers=[19, 29, 38, 48]
+[fni] union candidates: 42 (dropped collisions: [])
+[fni] ceilings: geo 18/18 animal 18/18
+[fni] key norms @L19: {'city': 82.4, 'country': 85.2, 'continent': 99.7, 'class': 103.3, 'cover': 134.8}
+[fni] cells: 90
+[fni] L19: diag=-1.264 d_within=+4.408 (p=0.0001) d_union=+4.629 (p=0.0001) acc 0.39 vs nokey 0.06
+[fni] L29: diag=-2.618 d_within=+2.918 (p=0.0001) d_union=+3.441 (p=0.0001) acc 0.23 vs nokey 0.06
+[fni] L38: diag=-1.790 d_within=+3.719 (p=0.0001) d_union=+4.165 (p=0.0001) acc 0.24 vs nokey 0.06
+[fni] L48: diag=-0.483 d_within=+5.277 (p=0.0001) d_union=+5.814 (p=0.0001) acc 0.46 vs nokey 0.06
+[fni] best layer L48 (selection-corrected alpha=0.0125) -> VERDICT: INDEXED-DISPATCH
+[fni] wrote results/fn-index/qwen3-32b/fn_index.json
