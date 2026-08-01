@@ -1,0 +1,14 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/707 [00:00<?, ?it/s]Loading weights: 100%|██████████| 707/707 [00:00<00:00, 26352.08it/s]
+[enr] Qwen/Qwen3-32B L_ref=9 L_enrich=10 L_depthctl=38 scale=2.0 enrich_scale=2.0 dev=mps n_layers=64
+[enr] union candidates: 44 (dropped: [])
+[enr] ceilings: valid landmarks 10/18 gate0=True
+[enr] d_ct norms @L10: {'Cambodia': 111.5, 'Egypt': 82.2, 'India': 74.7, 'Morocco': 92.3, 'Saudi Arabia': 87.0, 'Spain': 77.7, 'UAE': 118.5, 'Zambia': 123.4}
+[enr] cells: 10
+[enr] means: {'base': -5.859, 'enrich': -5.271, 'wrong': -6.755, 'random': -6.542, 'pos_ctl': -5.654, 'depth_ctl': -5.09, 'enrich_hkey': -2.252}
+[enr] acc:   {'base': 0.0, 'enrich': 0.0, 'wrong': 0.0, 'random': 0.0, 'pos_ctl': 0.0, 'depth_ctl': 0.0, 'enrich_hkey': 0.1}
+[enr] G1 Δ=+0.588 (p=0.0963) flip=False | G2 Δ=+1.485 (p=0.0389) swap 0/10 vs true 0 | G3 Δ=+1.272 (p=0.0058)
+[enr] laws: pos Δ=+0.383 depth Δ=-0.181 hkey Δ=+3.019 (advisory)
+[enr] secondary operand-err shift Δ=+0.000 (p=1.0000)
+[enr] VERDICT: ENRICH-FAILS
+[enr] wrote results/enrich-compose/qwen3-32b/enrich_compose.json

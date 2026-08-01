@@ -1,0 +1,15 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/707 [00:00<?, ?it/s]Loading weights: 100%|██████████| 707/707 [00:00<00:00, 29208.01it/s]
+[bake3a] Qwen/Qwen3-32B L_ref=9 scale=2.0 key_scale=2.0 gain_cap=1.5 dev=mps n_layers=64 pairs=[(19, 38), (19, 48), (29, 38), (29, 48)]
+[bake3a] union candidates: 44 (dropped: [])
+[bake3a] ceilings: valid landmarks 10/18 (resident capital map ok) gate0=True
+[bake3a] key norms @L19: {'country': 91.1, 'country2cap': 91.1}
+[bake3a] detector L38: inn/own raw=0.524 whitened=-0.999 (active=whitened)
+[bake3a] detector L48: inn/own raw=0.437 whitened=-0.999 (active=whitened)
+[bake3a] cells: 10
+[bake3a] L19->L38: rebind Δop=-0.200 (p=1.0000) acc_prod=0.00 acc_nonce=0.20 g3=True gain s/ab=0.15/0.01 -> LINKER-FAILS
+[bake3a] L19->L48: rebind Δop=+0.000 (p=1.0000) acc_prod=0.00 acc_nonce=0.00 g3=True gain s/ab=0.17/0.01 -> LINKER-FAILS
+[bake3a] L29->L38: rebind Δop=+0.000 (p=1.0000) acc_prod=0.00 acc_nonce=0.00 g3=True gain s/ab=0.16/0.01 -> LINKER-FAILS
+[bake3a] L29->L48: rebind Δop=-0.100 (p=1.0000) acc_prod=0.00 acc_nonce=0.10 g3=True gain s/ab=0.08/0.01 -> LINKER-FAILS
+[bake3a] best pair 19-48 -> VERDICT: LINKER-FAILS
+[bake3a] wrote results/bake-stack-whiten/qwen3-32b/bake_stack.json
