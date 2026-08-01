@@ -1,0 +1,875 @@
+{
+  "model_id": "Qwen/Qwen3-32B",
+  "stage": "3a-product-keyed-hook",
+  "seed": 0,
+  "scale": 2.0,
+  "key_scale": 2.0,
+  "gain_cap": 1.5,
+  "ref_layer": 9,
+  "n_layers": 64,
+  "pairs": [
+    [
+      19,
+      38
+    ],
+    [
+      19,
+      48
+    ],
+    [
+      29,
+      38
+    ],
+    [
+      29,
+      48
+    ]
+  ],
+  "alpha": 0.05,
+  "valid": [
+    "Sagrada Familia",
+    "Taj Mahal",
+    "Kaaba",
+    "Angkor Wat",
+    "Burj Khalifa",
+    "Pyramids",
+    "Sphinx",
+    "Karnak",
+    "Medina",
+    "Victoria Falls"
+  ],
+  "union_size": 44,
+  "dropped_collisions": [],
+  "key_norms": {
+    "country": 91.06298065185547,
+    "country2cap": 91.06298065185547
+  },
+  "ref_proj": {
+    "38": 185.1866226196289,
+    "48": 234.44800720214843
+  },
+  "n_cells": 10,
+  "gate0": true,
+  "per_pair": {
+    "19-38": {
+      "rebinding": {
+        "name": "rebinding",
+        "value": -0.2,
+        "null_name": "paired_permutation",
+        "null_mean": -0.0009600000000000001,
+        "null_std": 0.14065233165504226,
+        "n_draws": 10000,
+        "predict": "greater",
+        "alpha": 0.05,
+        "p": 1.0,
+        "sign_ok": false,
+        "verdict": false,
+        "warnings": []
+      },
+      "g2_flip": false,
+      "g3_conditioning": false,
+      "acc": {
+        "product": 0.0,
+        "nonce": 0.2,
+        "base": 0.0,
+        "galone": 0.0,
+        "gablate": 0.0
+      },
+      "operand_frac": {
+        "product": 1.0,
+        "nonce": 0.8
+      },
+      "gain": {
+        "stack": 0.3372217732282098,
+        "gablate": 0.37259262957961015
+      },
+      "verdict": "LINKER-FAILS"
+    },
+    "19-48": {
+      "rebinding": {
+        "name": "rebinding",
+        "value": 0.0,
+        "null_name": "paired_permutation",
+        "null_mean": 0.0,
+        "null_std": 0.0,
+        "n_draws": 10000,
+        "predict": "greater",
+        "alpha": 0.05,
+        "p": 1.0,
+        "sign_ok": false,
+        "verdict": false,
+        "warnings": []
+      },
+      "g2_flip": false,
+      "g3_conditioning": false,
+      "acc": {
+        "product": 0.0,
+        "nonce": 0.0,
+        "base": 0.0,
+        "galone": 0.0,
+        "gablate": 0.1
+      },
+      "operand_frac": {
+        "product": 1.0,
+        "nonce": 1.0
+      },
+      "gain": {
+        "stack": 0.32162128716077154,
+        "gablate": 0.29949730307315864
+      },
+      "verdict": "LINKER-FAILS"
+    },
+    "29-38": {
+      "rebinding": {
+        "name": "rebinding",
+        "value": 0.0,
+        "null_name": "paired_permutation",
+        "null_mean": 0.0,
+        "null_std": 0.0,
+        "n_draws": 10000,
+        "predict": "greater",
+        "alpha": 0.05,
+        "p": 1.0,
+        "sign_ok": false,
+        "verdict": false,
+        "warnings": []
+      },
+      "g2_flip": false,
+      "g3_conditioning": false,
+      "acc": {
+        "product": 0.0,
+        "nonce": 0.0,
+        "base": 0.0,
+        "galone": 0.0,
+        "gablate": 0.0
+      },
+      "operand_frac": {
+        "product": 1.0,
+        "nonce": 1.0
+      },
+      "gain": {
+        "stack": 0.33426236161402356,
+        "gablate": 0.37259262957961015
+      },
+      "verdict": "LINKER-FAILS"
+    },
+    "29-48": {
+      "rebinding": {
+        "name": "rebinding",
+        "value": -0.1,
+        "null_name": "paired_permutation",
+        "null_mean": 0.0004799999999999998,
+        "null_std": 0.0999988479933644,
+        "n_draws": 10000,
+        "predict": "greater",
+        "alpha": 0.05,
+        "p": 1.0,
+        "sign_ok": false,
+        "verdict": false,
+        "warnings": []
+      },
+      "g2_flip": false,
+      "g3_conditioning": false,
+      "acc": {
+        "product": 0.0,
+        "nonce": 0.1,
+        "base": 0.0,
+        "galone": 0.0,
+        "gablate": 0.1
+      },
+      "operand_frac": {
+        "product": 1.0,
+        "nonce": 0.9
+      },
+      "gain": {
+        "stack": 0.22509376734119657,
+        "gablate": 0.29949730307315864
+      },
+      "verdict": "LINKER-FAILS"
+    }
+  },
+  "best_pair": "19-48",
+  "verdict": "LINKER-FAILS",
+  "cells": [
+    {
+      "landmark": "Sagrada Familia",
+      "truth": "Madrid",
+      "country": "Spain",
+      "city": "Barcelona",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.3526264666582704,
+      "gain_gablate": 0.3803625138792296,
+      "pair": [
+        19,
+        38
+      ]
+    },
+    {
+      "landmark": "Taj Mahal",
+      "truth": "New Delhi",
+      "country": "India",
+      "city": "Agra",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "New Delhi",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.3725818644348993,
+      "gain_gablate": 0.38275226888917263,
+      "pair": [
+        19,
+        38
+      ]
+    },
+    {
+      "landmark": "Kaaba",
+      "truth": "Riyadh",
+      "country": "Saudi Arabia",
+      "city": "Mecca",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.34270568337431134,
+      "gain_gablate": 0.401208827286828,
+      "pair": [
+        19,
+        38
+      ]
+    },
+    {
+      "landmark": "Angkor Wat",
+      "truth": "Phnom Penh",
+      "country": "Cambodia",
+      "city": "Siem Reap",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Phnom Penh",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.3606715687007599,
+      "gain_gablate": 0.38058704521743925,
+      "pair": [
+        19,
+        38
+      ]
+    },
+    {
+      "landmark": "Burj Khalifa",
+      "truth": "Abu Dhabi",
+      "country": "UAE",
+      "city": "Dubai",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Dubai",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.3667023568498393,
+      "gain_gablate": 0.37135913680430765,
+      "pair": [
+        19,
+        38
+      ]
+    },
+    {
+      "landmark": "Pyramids",
+      "truth": "Cairo",
+      "country": "Egypt",
+      "city": "Giza",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.3035075379290078,
+      "gain_gablate": 0.35546684988423866,
+      "pair": [
+        19,
+        38
+      ]
+    },
+    {
+      "landmark": "Sphinx",
+      "truth": "Cairo",
+      "country": "Egypt",
+      "city": "Giza",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.2747255866560985,
+      "gain_gablate": 0.367410433934208,
+      "pair": [
+        19,
+        38
+      ]
+    },
+    {
+      "landmark": "Karnak",
+      "truth": "Cairo",
+      "country": "Egypt",
+      "city": "Luxor",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.29113680875710124,
+      "gain_gablate": 0.3518161351185923,
+      "pair": [
+        19,
+        38
+      ]
+    },
+    {
+      "landmark": "Medina",
+      "truth": "Rabat",
+      "country": "Morocco",
+      "city": "Marrakech",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.33773573370105386,
+      "gain_gablate": 0.3619302625438758,
+      "pair": [
+        19,
+        38
+      ]
+    },
+    {
+      "landmark": "Victoria Falls",
+      "truth": "Lusaka",
+      "country": "Zambia",
+      "city": "Livingstone",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.3698241252207565,
+      "gain_gablate": 0.37303282223820994,
+      "pair": [
+        19,
+        38
+      ]
+    },
+    {
+      "landmark": "Sagrada Familia",
+      "truth": "Madrid",
+      "country": "Spain",
+      "city": "Barcelona",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.31687382067171965,
+      "gain_gablate": 0.30636303225493966,
+      "pair": [
+        19,
+        48
+      ]
+    },
+    {
+      "landmark": "Taj Mahal",
+      "truth": "New Delhi",
+      "country": "India",
+      "city": "Agra",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.31171530383836293,
+      "gain_gablate": 0.3078883709180017,
+      "pair": [
+        19,
+        48
+      ]
+    },
+    {
+      "landmark": "Kaaba",
+      "truth": "Riyadh",
+      "country": "Saudi Arabia",
+      "city": "Mecca",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.32972997226397827,
+      "gain_gablate": 0.3161821741386469,
+      "pair": [
+        19,
+        48
+      ]
+    },
+    {
+      "landmark": "Angkor Wat",
+      "truth": "Phnom Penh",
+      "country": "Cambodia",
+      "city": "Siem Reap",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Phnom Penh",
+      "gain_stack": 0.33127525914030714,
+      "gain_gablate": 0.28747724846074313,
+      "pair": [
+        19,
+        48
+      ]
+    },
+    {
+      "landmark": "Burj Khalifa",
+      "truth": "Abu Dhabi",
+      "country": "UAE",
+      "city": "Dubai",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.32183972172314085,
+      "gain_gablate": 0.3004122166476711,
+      "pair": [
+        19,
+        48
+      ]
+    },
+    {
+      "landmark": "Pyramids",
+      "truth": "Cairo",
+      "country": "Egypt",
+      "city": "Giza",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.3000950628360908,
+      "gain_gablate": 0.281340358002806,
+      "pair": [
+        19,
+        48
+      ]
+    },
+    {
+      "landmark": "Sphinx",
+      "truth": "Cairo",
+      "country": "Egypt",
+      "city": "Giza",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.3175764012988506,
+      "gain_gablate": 0.29203813244475946,
+      "pair": [
+        19,
+        48
+      ]
+    },
+    {
+      "landmark": "Karnak",
+      "truth": "Cairo",
+      "country": "Egypt",
+      "city": "Luxor",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.3065228457547007,
+      "gain_gablate": 0.2769544846076137,
+      "pair": [
+        19,
+        48
+      ]
+    },
+    {
+      "landmark": "Medina",
+      "truth": "Rabat",
+      "country": "Morocco",
+      "city": "Marrakech",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.32864053297564616,
+      "gain_gablate": 0.3066640778029521,
+      "pair": [
+        19,
+        48
+      ]
+    },
+    {
+      "landmark": "Victoria Falls",
+      "truth": "Lusaka",
+      "country": "Zambia",
+      "city": "Livingstone",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.3519439511049182,
+      "gain_gablate": 0.31965293545345247,
+      "pair": [
+        19,
+        48
+      ]
+    },
+    {
+      "landmark": "Sagrada Familia",
+      "truth": "Madrid",
+      "country": "Spain",
+      "city": "Barcelona",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.35419954557329053,
+      "gain_gablate": 0.3803625138792296,
+      "pair": [
+        29,
+        38
+      ]
+    },
+    {
+      "landmark": "Taj Mahal",
+      "truth": "New Delhi",
+      "country": "India",
+      "city": "Agra",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.33269788904699465,
+      "gain_gablate": 0.38275226888917263,
+      "pair": [
+        29,
+        38
+      ]
+    },
+    {
+      "landmark": "Kaaba",
+      "truth": "Riyadh",
+      "country": "Saudi Arabia",
+      "city": "Mecca",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.3740712281794163,
+      "gain_gablate": 0.401208827286828,
+      "pair": [
+        29,
+        38
+      ]
+    },
+    {
+      "landmark": "Angkor Wat",
+      "truth": "Phnom Penh",
+      "country": "Cambodia",
+      "city": "Siem Reap",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.3450551463386087,
+      "gain_gablate": 0.38058704521743925,
+      "pair": [
+        29,
+        38
+      ]
+    },
+    {
+      "landmark": "Burj Khalifa",
+      "truth": "Abu Dhabi",
+      "country": "UAE",
+      "city": "Dubai",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.3688981497422978,
+      "gain_gablate": 0.37135913680430765,
+      "pair": [
+        29,
+        38
+      ]
+    },
+    {
+      "landmark": "Pyramids",
+      "truth": "Cairo",
+      "country": "Egypt",
+      "city": "Giza",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.31103951376646954,
+      "gain_gablate": 0.35546684988423866,
+      "pair": [
+        29,
+        38
+      ]
+    },
+    {
+      "landmark": "Sphinx",
+      "truth": "Cairo",
+      "country": "Egypt",
+      "city": "Giza",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.2908107645349744,
+      "gain_gablate": 0.367410433934208,
+      "pair": [
+        29,
+        38
+      ]
+    },
+    {
+      "landmark": "Karnak",
+      "truth": "Cairo",
+      "country": "Egypt",
+      "city": "Luxor",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.32187041114077536,
+      "gain_gablate": 0.3518161351185923,
+      "pair": [
+        29,
+        38
+      ]
+    },
+    {
+      "landmark": "Medina",
+      "truth": "Rabat",
+      "country": "Morocco",
+      "city": "Marrakech",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.32885506609234433,
+      "gain_gablate": 0.3619302625438758,
+      "pair": [
+        29,
+        38
+      ]
+    },
+    {
+      "landmark": "Victoria Falls",
+      "truth": "Lusaka",
+      "country": "Zambia",
+      "city": "Livingstone",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.315125901725064,
+      "gain_gablate": 0.37303282223820994,
+      "pair": [
+        29,
+        38
+      ]
+    },
+    {
+      "landmark": "Sagrada Familia",
+      "truth": "Madrid",
+      "country": "Spain",
+      "city": "Barcelona",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.2373898720324397,
+      "gain_gablate": 0.30636303225493966,
+      "pair": [
+        29,
+        48
+      ]
+    },
+    {
+      "landmark": "Taj Mahal",
+      "truth": "New Delhi",
+      "country": "India",
+      "city": "Agra",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.19946498306263272,
+      "gain_gablate": 0.3078883709180017,
+      "pair": [
+        29,
+        48
+      ]
+    },
+    {
+      "landmark": "Kaaba",
+      "truth": "Riyadh",
+      "country": "Saudi Arabia",
+      "city": "Mecca",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.25041841458682085,
+      "gain_gablate": 0.3161821741386469,
+      "pair": [
+        29,
+        48
+      ]
+    },
+    {
+      "landmark": "Angkor Wat",
+      "truth": "Phnom Penh",
+      "country": "Cambodia",
+      "city": "Siem Reap",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Phnom Penh",
+      "product_arg": "Agra",
+      "gablate_arg": "Phnom Penh",
+      "gain_stack": 0.22372684287419167,
+      "gain_gablate": 0.28747724846074313,
+      "pair": [
+        29,
+        48
+      ]
+    },
+    {
+      "landmark": "Burj Khalifa",
+      "truth": "Abu Dhabi",
+      "country": "UAE",
+      "city": "Dubai",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.26061707692277053,
+      "gain_gablate": 0.3004122166476711,
+      "pair": [
+        29,
+        48
+      ]
+    },
+    {
+      "landmark": "Pyramids",
+      "truth": "Cairo",
+      "country": "Egypt",
+      "city": "Giza",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.2323077474187305,
+      "gain_gablate": 0.281340358002806,
+      "pair": [
+        29,
+        48
+      ]
+    },
+    {
+      "landmark": "Sphinx",
+      "truth": "Cairo",
+      "country": "Egypt",
+      "city": "Giza",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.19750680396782133,
+      "gain_gablate": 0.29203813244475946,
+      "pair": [
+        29,
+        48
+      ]
+    },
+    {
+      "landmark": "Karnak",
+      "truth": "Cairo",
+      "country": "Egypt",
+      "city": "Luxor",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.21282612058225667,
+      "gain_gablate": 0.2769544846076137,
+      "pair": [
+        29,
+        48
+      ]
+    },
+    {
+      "landmark": "Medina",
+      "truth": "Rabat",
+      "country": "Morocco",
+      "city": "Marrakech",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.24380410123028995,
+      "gain_gablate": 0.3066640778029521,
+      "pair": [
+        29,
+        48
+      ]
+    },
+    {
+      "landmark": "Victoria Falls",
+      "truth": "Lusaka",
+      "country": "Zambia",
+      "city": "Livingstone",
+      "base_arg": "Agra",
+      "galone_arg": "Agra",
+      "nonce_arg": "Agra",
+      "product_arg": "Agra",
+      "gablate_arg": "Agra",
+      "gain_stack": 0.19287571073401186,
+      "gain_gablate": 0.31965293545345247,
+      "pair": [
+        29,
+        48
+      ]
+    }
+  ]
+}

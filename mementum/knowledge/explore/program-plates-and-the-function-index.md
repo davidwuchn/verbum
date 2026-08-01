@@ -896,3 +896,70 @@ weight-serialize unlocks.
 (mementum candidate — the diagnostic, this pre-reg + smoke advisory are one
 approval batch; instrument `bake_stack.py` + `stack_error_domain.py` + 4B
 results pending commit.)
+
+### Result-32B — 3a product-keyed hook (s294, verdict host, frozen gates scored)
+
+**VERDICT: LINKER-FAILS — scale-invariant, and the REASON re-points the ladder.**
+Conditioning h on g's product does NOT install the rebinding wire in-context,
+at either scale, because **there is no addressable g-product in the residual to
+condition on.** Run: Qwen/Qwen3-32B, mps, 10 cells (gate0 10/10, resident
+capital map ok), 4 pairs → results/bake-stack/qwen3-32b/. Best pair L19→L48.
+
+| pair | Δop (G1) | acc PRODUCT | acc NONCE | g3 | gain stack/ablate |
+|---|---|---|---|---|---|
+| L19→L38 | −0.20 | 0.00 | **0.20** | ✗ | 0.34 / 0.37 |
+| L19→L48 | +0.00 | 0.00 | 0.00 | ✗ | 0.32 / 0.30 |
+| L29→L38 | +0.00 | 0.00 | 0.00 | ✗ | 0.33 / 0.37 |
+| L29→L48 | −0.10 | 0.00 | 0.10 | ✗ | 0.23 / 0.30 |
+
+**The robust, scale-invariant finding (independent of any gate):**
+1. **gain_stack ≈ gain_ablate at BOTH scales** (32B ~0.33/0.35; 4B ~0.53/0.65).
+   The country-class projection at the readout is INVARIANT to whether g's key
+   is injected → **there is no conditioning signal.** g adds no measurable
+   country-ness on top of the operand's own latent association.
+2. **g-alone lands on a CITY (Agra) for all 10 cells** — the injected g-key does
+   NOT materialize an addressable country intermediate. There is no country
+   product in the residual at the readout for a product-key to rebind to.
+3. **Instrument is faithful:** the NONCE arm reproduces §P-STACK-1b exactly
+   (Angkor→Phnom Penh, Taj→New Delhi at L19→L38, 0.20 acc); the PRODUCT arm is
+   strictly WEAKER because gain≈0.3 throttles h to ~30% strength.
+
+**⚠️ λ measure caveat (G1 confound, recorded).** G1 compares gain-modulated
+PRODUCT (h at ~0.3×) against unconditional NONCE (h at 1.0×) — not
+h-strength-matched, so the PRODUCT-loses margin is partly a throttle artifact.
+The CLEAN evidence for LINKER-FAILS is therefore the **G3-level conditioning
+signature** (gain invariant to g, scale-invariant) + **g-alone-produces-no-
+country**, NOT the G1 margin. A gain≈0.3 is not a mere miscalibration: it
+reflects that the injected state genuinely has only modest, g-invariant
+country-ness — recalibrating the scale would fire h equally in both arms (→ both
+become the nonce arm) without creating conditioning.
+
+**★ The deep reading — the intermediate is ADDRESS-FREE (coheres FRAG).** The
+in-context linker `product(g) ∈ key_passband(h)` cannot be installed by
+residual-gain conditioning because g's product is not written to a readable slot
+— it lives "in the light" during g's illumination (P-HOLO-FRAG: composition
+compute is address-free/delocalized), not in an addressed register. This is the
+same no-address result at the seam. The native model DOES compose 3-hop (mh3)
+— but in the address-free flow, not by materializing addressable intermediates.
+
+**Implication — re-points rung 3 (Michael's call).** A residual-WIRE linker is
+the wrong mechanism; the machine's only ADDRESSED memory is the tape (RoPE
+positions — §Thinking-is-expansion). To give the intermediate an address, page
+it onto the context (a thinking token) → the real "linker" is the autoregressive
+WRITEBACK (CoT ≡ auto-superbake), not a residual slot. So 3a's null re-points
+the ladder toward **P-THINK-1** (tape-addressed intermediate: does the model
+compose when the country is written to the tape and given a RoPE address?) rather
+than 3b weight-baking of a residual-keyed slot. Options for Michael: (a) accept
++ pivot to P-THINK-1 (the tape linker); (b) recalibrate 3a to h-strength-matched
+arms and rerun (removes the G1 confound; the G3 conditioning-absent finding
+stands → verdict unlikely to change); (c) reconceive 3b to bake the WRITEBACK,
+not a residual wire.
+
+**Honest scope.** n=10; hook-not-weight (3b never reached — 3a gated it, and
+3a did not fire); one chain (country→capital); the address-free reading is an
+interpretation grounded in FRAG + the conditioning-absent signature, not a
+separate causal measurement.
+
+**Sessions.** s294 (32B verdict scored same session; LINKER-FAILS scale-
+invariant; the injected intermediate is address-free → the linker lives on the
+tape, re-pointing rung 3 toward P-THINK-1).

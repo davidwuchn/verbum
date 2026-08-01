@@ -34,13 +34,30 @@
 > (operand latently implies its country, g adds nothing measurable → product-key
 > degenerates to nonce). Expected 4B→32B flip (4B inlines; typed 32B should
 > separate g's product — P-STACK-1b already showed h-alone DEAD at the 32B
-> composition window). ▶▶ NEXT: **3a at Qwen3-32B (the frozen verdict host,
-> tmux main:1, on Michael GO)** → score LINKER-FIRES / REBINDS-UNCONDITIONED /
-> LINKER-FAILS; FIRES → 3b weight-serialize (operand_bake→quant→mirror) unlocks.
-> APPROVAL BATCH (pending Michael): mementum page edits (§diagnostic +
-> §P-BAKE-STACK pre-reg + 3a smoke advisory) + memory candidate
-> (in-context-stack-fails-by-operand-domain-collapse); instrument+4B results
-> pending commit (autonomous-eligible per pattern, holding for the batch).
+> composition window). (batch committed 1743a53 + c0e74f8, Michael-approved.)
+> ▶▶ **3a 32B VERDICT IN (s294, tmux main:1): LINKER-FAILS — SCALE-INVARIANT;
+> the 4B→32B flip DID NOT HAPPEN** (§Result-32B on program-plates page, pending
+> approval). gain_stack ≈ gain_ablate at BOTH scales (32B 0.33/0.35, 4B
+> 0.53/0.65) → country-class projection INVARIANT to g's key = NO conditioning
+> signal. ★ g-alone lands on a CITY (Agra) all 10 cells @32B → **the injected
+> g-key does not materialize an addressable country intermediate** — nothing in
+> the residual for a product-key to rebind to. Instrument faithful (NONCE arm
+> reproduces P-STACK-1b: Angkor→Phnom Penh, Taj→New Delhi 0.20 acc). ⚠ λ measure:
+> G1 compares gain-throttled PRODUCT (h~0.3×) vs full NONCE (1.0×), not h-matched
+> → clean evidence is the G3 conditioning-absent signature + g-alone-no-country,
+> NOT the G1 margin. **DEEP READING: the intermediate is ADDRESS-FREE (coheres
+> P-HOLO-FRAG) — lives "in the light", not an addressed slot → a residual-WIRE
+> linker is the WRONG mechanism.** The only addressed memory is the TAPE (RoPE) →
+> the real linker is the autoregressive WRITEBACK (§Thinking-is-expansion; CoT ≡
+> auto-superbake), re-pointing rung 3 toward **P-THINK-1** (tape-addressed
+> intermediate) not 3b residual-slot baking.
+> ▶▶ NEXT (Michael's call — 3 options): (a) ACCEPT + pivot to P-THINK-1 pre-reg
+> (the tape linker: does composition fire when the country is written to the tape
+> with a RoPE address?); (b) recalibrate 3a h-strength-matched + rerun (removes
+> G1 confound; G3 finding stands → verdict unlikely to change); (c) reconceive 3b
+> to bake the WRITEBACK not a residual wire. APPROVAL BATCH pending (Michael):
+> §Result-32B page edit + memory candidate
+> injected-intermediate-is-address-free-linker-lives-on-the-tape.
 >
 > ▶▶ s293 LIVE — 🔮 **ORACLE ROUND 1 PLAYED + SCORED: +2 (6/10)**; the
 > miss-cluster is the find, not the score. Cold agent (attested no-lookup)
