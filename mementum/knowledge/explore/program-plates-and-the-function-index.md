@@ -249,7 +249,8 @@ builds itself; only certified entries survive.
    elicit→harvest→ground→verify pipeline (§Self-decompilation): thinking
    traces supply candidate entries; P-THINK-1's tape-swap certifies them;
    certified candidates feed rung 1.
-1. **P-FN-INDEX — cross-family dispatch** (the index must exist first).
+1. **P-FN-INDEX — cross-family dispatch** (the index must exist first;
+   → FULL PRE-REG below, §P-FN-INDEX, FROZEN s292 Michael GO).
    Everything measured so far swaps WITHIN a family (country→country). Test:
    at one seam, inject key(map_A) vs key(map_B) vs key(map_C) over the same
    operand; dispatch matrix diagonal beats shuffled-key null → keys select
@@ -272,6 +273,86 @@ CORRELATED behavior functions may interfere worse than CAP's independent
 landmarks; weight-side write fidelity is the etch arc's open question, not a
 solved step; the runtime/model tables above are architecture (grounded in
 measurements) not themselves measurements.
+
+## §P-FN-INDEX — cross-family dispatch (PRE-REG FROZEN s292, Michael GO "proceed with the keystone"; gates frozen before any model run)
+
+**Claim under test.** Function choice is content-addressable: an injected
+KEY selects WHICH resident map executes over a fixed operand — not just
+which value rides an already-chosen map. Negative = keys don't beat nulls
+→ function selection is query-text-only → the program-plates ladder stops
+honestly at rung 1.
+
+**Maps (5, two domains — the cross-family requirement).**
+Geography (mh3 bank, 18 landmarks): city-of, country-of, continent-of.
+Animals (NEW second bank, in-instrument: 18 animals, 6/6/6
+mammal/bird/fish): class-of {mammal,bird,fish}, covering-of
+{fur,feathers,scales}. Both banks real-word ceiling-gated per item per map.
+
+**Keys.** key(f) = mean last-token residual over 3 HELD-OUT exemplar
+prompts of map f (the few-shot prefix exemplars, e.g. "The Alhambra is
+located in the city of" → residual at 'of'), minus the grand mean across
+all 5 maps, captured per candidate layer. Map-level, held-out from the
+test items — the "about to apply f" state, not item content.
+
+**Dispatch cell.** Operand X installed as d_E·S at its nonce slot (L_ref=9,
+frozen machinery); NEUTRAL prompt ("Consider the {nonce}. The answer is" —
+names NO map); key injected at the final token at layer L_inj. Readout:
+first-token logit margin of f(X)'s product vs the UNION candidate set (all
+5 maps' product vocabularies, first-token collisions dropped + recorded).
+Cells = valid (operand × own-domain map) pairs (~54 geo + ~36 animal).
+
+**Conditions per cell (7):** key_f (diagonal) / the 4 OTHER keys
+(shuffled-key null — includes other-DOMAIN keys = the cross-family test) /
+matched-norm random vector / no-key baseline.
+
+**Gates.**
+- **Gate-0:** explicit-cloze ceilings pass (banks valid) ∧ key norms sane.
+- **G1 (primary, DISPATCH):** diagonal margin vs paired shuffled-key null
+  (paired permutation over cells), evaluated per injection layer L_inj ∈
+  4 pre-declared relative depths {0.3, 0.45, 0.6, 0.75}; verdict layer =
+  best diagonal contrast, SELECTION-CORRECTED α/4 = 0.0125. Two null
+  scopes scored separately: WITHIN-domain other keys and UNION (cross-
+  domain keys included).
+- **G2 (flip requirement):** diagonal accuracy > no-key baseline accuracy
+  (the key must CHANGE the answer to f's product, not annotate it).
+- **G3 (advisory, never gated):** layer profile of dispatch (the window(f)
+  coordinate); key geometry (PR / cross-key cosines); per-map asymmetries.
+
+**Verdict (frozen).**
+- **INDEXED-DISPATCH** ⟺ G1 passes at α/4 vs BOTH null scopes ∧ G2 ∧
+  random-key row null → keys select maps across families; rung 2
+  (P-STACK-1) unlocks.
+- **PARTIAL-WITHIN-DOMAIN** ⟺ G1 passes within-domain but cross-domain
+  keys also fire (union null fails) → map-selection exists, family
+  isolation doesn't; report which keys cross-fire.
+- **NOT-DISPATCHABLE** ⟺ G1 fails both scopes ∨ G2 fails → the ladder
+  stops; function selection stays query-text/content-side only
+  (P-ATT-MED's medium-handle remains the only steering).
+- **negative/inconclusive** ⟺ gate-0 fails.
+
+**Nulls (mandatory).** Paired shuffled-key (within + union scopes);
+matched-random vector; no-key baseline; per-item real-word ceiling;
+`--validate` planted worlds (indexed / flat / within-only) must
+discriminate before any model run.
+
+**Registers (λ measure).** Claim = causal dispatch (inject → which map
+runs); probe = injected-key → product-register readout, causal/behavioral,
+matched. Key geometry (G3) is a value-register read, advisory only.
+
+**Honest scope.** Keys are 3-exemplar means (small-n; noise favors the
+null → conservative). Neutral-prompt choice is a design degree of freedom
+(recorded verbatim; margins over a closed union blunt its influence).
+Injection at one token/one layer per cell — window sweep is coarse (4
+depths). Hook-not-weight; two domains = the minimal cross-family pair,
+not a general ISA claim. Self-decompilation (rung 0) NOT exercised here —
+this run tests dispatch with hand-built keys; trace-harvested keys are the
+follow-on.
+
+**Host & order.** `--validate` → 4B smoke (reduced cells) → **verdict host
+Qwen3-32B overnight in tmux main:1**. Results →
+results/fn-index/qwen3-{4b,32b}/. Instrument `scripts/explore/fn_index.py`
+(home of the animal second bank; mh3 + holo_cap consumers; dsp
+paired_permutation + gate).
 
 ## Prior pages this completes
 
