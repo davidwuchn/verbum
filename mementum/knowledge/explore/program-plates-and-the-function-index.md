@@ -1483,3 +1483,68 @@ finding:
   injection, take its own committed columns), splice those at the same
   post-question positions. Isolates own-state vs donor-state at matched
   layout — the last in-context discriminator before rung-3b backprop.
+
+## §P-KV-1c — the clause-width term (full-clause splice) (PRE-REG FROZEN s295, Michael "both approved"; gates frozen before the 32B verdict run; 4B smoke advisory only)
+
+> ★ REDUCTION (s295 hammock, design-refining): "own-state splice" as
+> originally named REDUCES under greedy decoding — the model's own
+> committed intermediate at matched text and visibility is
+> deterministically IDENTICAL to a donor writing the same text (same
+> tokens, same mask, same forward → same KV columns). 1b's kv_ctx already
+> spliced a question-visible true-country clause and it failed — but its
+> readout attended only the ENTITY columns. The irreducible residue of
+> the writeback hypothesis, in the splice register, is therefore
+> CLAUSE WIDTH: CoT's readout attends the WHOLE intermediate clause
+> ("It is located in the country of France"), not just "France". P-KV-1c
+> tests whether composition consumes the RELATION columns rather than
+> the entity columns. If even the full clause fails post-question, the
+> remaining CoT power is generation-path dynamics proper (and/or answer-
+> segment framing) and rung-3b's writeback target stands maximally
+> confirmed from in-context evidence.
+
+**Layout:** identical to P-KV-1b (A question w/ operand@nonce → B clause
+"It is located in the country of {x}" padded → C " The answer is");
+same mask machinery, same self-check.
+
+**Arms** (all: A rows causal; C attends A + selected B columns):
+
+| arm | B sees A | C sees of B | tests |
+|---|---|---|---|
+| base | — | nothing | floor |
+| **kv_full** | yes | ALL clause columns | CoT-visibility reconstruction |
+| kv_entity | yes | country columns only | 1b kv_ctx reproduced (paired) |
+| kv_full_blind | no | ALL clause columns | co-encoding at full width |
+| kv_full_wrong | yes | ALL (deranged country) | specificity |
+
+**Frozen gates** (α=0.05, paired perm; single layout):
+- **Gate-0**: inherited ceilings + mask self-check.
+- **G1 (primary, CLAUSE-WIDTH)**: margin(kv_full) > margin(kv_entity)
+  AND acc(kv_full) > acc(kv_entity).
+- **G2 (composition)**: kv_full > base with flip.
+- **G3 (specificity)**: kv_full > kv_full_wrong; advisory swap flag.
+- **G4 (co-encoding at full width, mechanism clause)**: kv_full >
+  kv_full_blind (margin; acc advisory).
+- **Advisory (never gated)**: CoT fraction acc(kv_full)/0.90; kv_entity
+  vs 1b kv_ctx 0.00 (drift check).
+
+**Frozen verdict table.**
+- **CLAUSE-CARRIES** ⟺ gate-0 ∧ G1 ∧ G2 ∧ G3 — composition consumes the
+  relation columns; the join wants the full clause, not the entity.
+  Clause: +CO-ENCODED if G4 (question-visible encoding required) else
+  +BLIND-OK (clause width alone suffices).
+- **STILL-DEAD** ⟺ ¬G2 — even full-clause, question-visible splices
+  fail post-question → the residual CoT power is generation-path
+  dynamics proper → rung-3b writeback target maximally confirmed.
+- **WIDTH-IRRELEVANT** ⟺ G2 ∧ ¬G1 — both widths compose (instrument-
+  drift suspect vs 1b; re-read 1b before interpreting).
+- **UNSPECIFIC-CLAUSE** ⟺ G1 ∧ G2 ∧ ¬G3.
+
+**Prediction ledger (a priori).** Open. For CLAUSE-CARRIES: the JOIN-
+TYPED arc says joins consume typed relational structure; a bare entity
+column is an untyped operand, the clause is a typed proposition. For
+STILL-DEAD: 1b's margins were already alive and specific at entity
+width yet nothing flipped — width may add margin without argmax.
+
+**Instrument.** `scripts/explore/kv_clause.py` (kv_ctx variant; same
+self-check; no fork). Cadence: --validate → 4B smoke (advisory) → 32B
+verdict on Michael GO (tmux main:1).
