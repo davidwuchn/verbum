@@ -115,11 +115,29 @@
 > §Result-32B (P-ENRICH-1) + §Result-32B (3a-whitened) + RE-READ note on
 > s294 3a result + memory hook-register-cannot-install-the-composition-wire
 > — ALL PENDING APPROVAL (page + state.md + memory uncommitted).
-> NEXT: freeze the **BACKPROP-COMPILE rung-3b pre-reg** (STRENGTHENED: the
-> in-context register is now exhausted with SuperBake-DSP-correct controls;
-> held-out landmarks = wire-vs-lookup gate; named alternative arm =
-> SuperBake-style zero-gradient construction — appended keyed neurons,
-> persistent writes — as the cheap-before-dear 3b variant).
+> ▶▶ s295 cont — **P-KV-1 DRAFTED + BUILT + 4B-SMOKED (Michael GO "yes
+> let's try P-KV-1").** The register fork: a KV-cache entry is
+> tape-addressed content WITHOUT tokens or weights — does hop-2 complete
+> when the intermediate has an ADDRESS? Implementation = donor+test single
+> forward w/ additive 4D attention mask (test rows see donor BOS + selected
+> columns only; donors padded for RoPE parity; eager attn; runtime
+> self-check: 4D path must reproduce plain logits or ABORT). Arms base /
+> kv_nat / kv_wrong / kv_rand(col-matched) / kv_synth(d_ct@donor-nonce,
+> addressed) / resid(P-ENRICH arm) — kv_synth vs resid ≡ same content,
+> addressed vs not. §P-KV-1 pre-reg on program-plates page (PENDING
+> APPROVAL = freeze); instrument 7efa3a7, --validate 6 worlds ALL PASS.
+> ★ 4B SMOKE (advisory, results committed): mask self-check EXACT PASS
+> (max|Δlogit|=0.0); verdict ADDRESS-FAILS @4B on the flip only (acc 0 =
+> standard 4B attractor) BUT **all four margin gates fire — first time on
+> this chain @4B**: G1 +1.19 p=.025, G2 +2.15 p=.002, G3 +1.30 p=.019,
+> ★ G4 REGISTER FORK +0.60 p=.009 (kv_synth > resid: SAME content,
+> addressed beats unaddressed). kv_nat + kv_synth = two strongest arms.
+> NEXT: Michael approves §P-KV-1 (= freeze) + GO → 32B verdict tmux main:1
+> (~2-4 min run). THEN the rung-3b decision with the full in-context
+> register mapped: transient ✗, amplitude ✗, addressed = 32B decides.
+> (Backprop-compile pre-reg queue unchanged, still next-after: STRENGTHENED
+> if ADDRESS-FAILS @32B; reframed toward KV/address engineering if
+> ADDRESSED-COMPOSES.)
 > NOTE: refs/ DECIDED (Michael s295): local reference copies only, canonical
 > home = publisher → gitignored, never committed; cite by title/DOI.
 >

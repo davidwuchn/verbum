@@ -1260,3 +1260,93 @@ s294 G3 LEG FLIPS: conditioning is PRESENT at both hosts.**
   residual-placed content (P-ENRICH-1 shows the read side fails even at
   full amplitude). The tape/backprop conclusion is unchanged — it now rests
   on presence-but-insufficiency instead of absence.
+
+## §P-KV-1 — addressed content without the tape (PRE-REG FROZEN s295, Michael "approved"; gates frozen before the 32B verdict run; 4B smoke advisory only)
+
+> The register fork the whole rung-3 arc points at. Everything transient and
+> unaddressed fails (keys, enrichment, both — P-STACK-1b/3a/P-ENRICH-1);
+> everything tape-addressed works (CoT 9/10, scaffold 10/10). Our standing
+> mechanistic claim: the tape (RoPE positions) is the machine's only
+> addressed memory, and the real linker is the autoregressive writeback. BUT
+> a KV-cache entry is ALSO tape-addressed — content sitting at a position,
+> attendable, without any token being generated or read. P-KV-1 delivers the
+> SAME intermediate in the ADDRESSED register and asks whether resident
+> hop-2 completes. Either branch cuts: composes → the address was the
+> missing linker (and CoT ≡ address-provision, not re-encoding); fails → the
+> tape's power is NOT mere addressability (it is in-context re-encoding /
+> the generation path), and the backprop rung is maximally strengthened —
+> content fails transient, persistent-amplitude, AND addressed.
+
+**Implementation (single forward, no cache surgery).** Donor segment +
+test segment concatenated in ONE forward with an additive 4D attention
+mask: donor tokens attend causally within the donor; test tokens attend
+causally within the test segment PLUS donor BOS (attention-sink parity,
+ALL arms including base) PLUS the selected donor columns only. This
+reproduces KV splicing exactly (the selected donor columns are encoded
+without seeing the test, at real RoPE positions, and are attendable by
+every test token) while staying robust to transformers Cache-API drift.
+Eager attention. **Runtime self-check (gate on instrument, not model):
+an all-visible 4D mask must reproduce the plain-forward logits within
+tolerance, else abort — no verdict from an unverified mask path.**
+
+**Chain, cells, readout:** inherited unchanged (shortcut-free
+landmark→country→capital, gate-0 ≥6 cells, union margins + argmax +
+s294 error classifier). Operand injected at the TEST nonce slot @ L_ref
+as always.
+
+**Arms** (what the test tokens can attend to, beyond BOS + themselves):
+
+| arm | donor columns visible | tests |
+|---|---|---|
+| base | none | floor (sink-parity with all arms) |
+| **kv_nat** | country tokens of `CC_FRAME(correct)` | THE address test: donor-encoded country, addressed |
+| kv_wrong | country tokens of `CC_FRAME(deranged)` | specificity + swap signature |
+| kv_rand | noun tokens of a prose donor ("flour") | any-attendable-columns / energy |
+| **kv_synth** | donor nonce column with d_ct(correct) hook-injected @L_e | P-ENRICH's exact content, given an ADDRESS |
+| resid | none; d_ct(correct) added at test subject @L_e | P-ENRICH-1 enrich arm reproduced in-instrument |
+
+kv_synth vs resid is the REGISTER FORK: identical injected content,
+addressed vs unaddressed, same forward geometry. (kv_city — attractor-
+domain KV — noted as follow-on, not an arm; no seventh front.)
+
+**Frozen gates** (α=0.05, paired permutation over cells; single mask
+policy + splice config → no selection correction):
+- **Gate-0**: ceilings as inherited; PLUS mask self-check pass.
+- **G1 (primary, ADDRESS-WORKS)**: margin(kv_nat) > margin(base) AND
+  acc(kv_nat) > acc(base).
+- **G2 (specificity/SWAP)**: kv_nat > kv_wrong; advisory SWAP-COHERENT
+  flag (kv_wrong argmax = injected country's capital more often than
+  truth's).
+- **G3 (not-any-KV)**: kv_nat > kv_rand.
+- **G4 (register fork, mechanism clause)**: kv_synth > resid (margin,
+  paired perm) — never decides the headline verdict alone; qualifies it.
+- **Secondary**: operand-domain error fraction kv_nat < base.
+
+**Frozen verdict table.**
+- **ADDRESSED-COMPOSES** ⟺ gate-0 ∧ G1 ∧ G2 ∧ G3. Mechanism clause:
+  +**ADDRESS-SUFFICIENT** if G4 fires and acc(kv_synth) > acc(resid)
+  (even synthetic content composes once addressed — strongest reading:
+  the address IS the linker) else +**RE-ENCODING-REQUIRED** (only
+  donor-encoded content composes — the address is necessary but the
+  content must arrive through the layer stack).
+- **KV-PRIMING** ⟺ G1 ∧ G3 ∧ ¬G2.
+- **ANY-KV-ARTIFACT** ⟺ G1 ∧ ¬G3.
+- **ADDRESS-FAILS** ⟺ ¬G1 → addressability is NOT what the tape
+  provides; CoT's power is the generation path itself → backprop-compile
+  proceeds with the in-context register exhausted in ALL THREE forms
+  (transient, amplitude-matched, addressed).
+
+**Prediction ledger (a priori, sealed with the pre-reg).** Genuinely
+open, bracketed by two measured anchors: scaffold (in-context tokens,
+fully co-encoded) = 10/10; P-ENRICH (unaddressed residual content) =
+null. kv_nat sits exactly between. If the two-register decomposition
+(addressed-tape / address-free-medium) is the right frame, kv_nat
+should recover a large fraction of scaffold. The theory does NOT
+predict kv_synth: ADDRESS-SUFFICIENT and RE-ENCODING-REQUIRED are both
+live.
+
+**Instrument.** `scripts/explore/kv_splice.py` — reuses fn_stack chain
+data + bake_stack conventions + stack_error_domain classifier +
+verbum.dsp (no fork). `--validate` planted worlds discriminate all
+verdicts including both mechanism clauses. Cadence: --validate → 4B
+smoke (advisory) → 32B verdict on Michael GO (tmux main:1).
