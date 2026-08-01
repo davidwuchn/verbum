@@ -963,3 +963,71 @@ separate causal measurement.
 **Sessions.** s294 (32B verdict scored same session; LINKER-FAILS scale-
 invariant; the injected intermediate is address-free → the linker lives on the
 tape, re-pointing rung 3 toward P-THINK-1).
+
+### §Addendum (s294) — two cheap checks that settled the rung-3 direction
+
+After 3a LINKER-FAILS, Michael pushed on the interpretation with two questions.
+Both were answered with cheap instruments (`scripts/explore/native_compose_check.py`,
+`scripts/explore/quiet_reread.py`); together they convert "maybe address-free" into
+a controlled, scale-consistent fact and set up the rung-3 backprop pre-reg
+(DEFERRED to a new session, Michael s294).
+
+**(1) Native-composition check — is the landmark→capital JOIN even in the weights,
+and does it fire one-shot or only via the tape?** Greedy generation, 10
+shortcut-free cells, three conditions (behavior register: does the correct
+capital string appear).
+
+| condition | 4B | 32B | tests |
+|---|---|---|---|
+| direct (one-shot, no chain) | 2/10 | **5/10** | join fires in one illumination? |
+| cot (model writes chain on the tape) | 8/10 | **9/10** | composes when intermediate is RoPE-addressed? |
+| scaffold (country handed in) | 10/10 | 10/10 | resident country→capital (control) |
+
+Verdict (scale-consistent): the wire is **latently present but not reliably
+one-shot** (direct 5/10 @32B, 2/10 @4B) and **fires reliably only on the tape**
+(cot 9/10). Not "exists one-shot", not "absent" → **address-free, needs the tape
+→ compile via backprop.** Also vindicates that bake_stack's g-alone→Agra was the
+injected proxy being too weak to *trigger*, not the model lacking the composition.
+
+**(2) Quieted re-read (Michael's DSP question: "did we not quiet the signal
+enough?") — was 3a a loud-channel artifact?** Dark-field (null the loud Agra +
+city attractors) + baseline/g-alone/h-alone controls, 32B composition-window pair
+L19→L38, capital *rank*.
+
+| arm (dark-field) | cap @1 | cap @≤3 |
+|---|---|---|
+| raw stack (reproduces bake_stack) | 2/10 | 4/10 |
+| baseline (operand only) | 2/10 | 3/10 |
+| g-alone | 1/10 | 4/10 |
+| h-alone | **4/10** | 6/10 |
+| stack (g+h) | 3/10 | **8/10** |
+| country @1 (g-alone intermediate) | — | **0/10** |
+
+**Michael was right about the READ:** dark-field recovers capital-ness (raw 4/10
+→ stack 8/10 top-3) — the raw argmax read straight into Agra, a near
+false-NEGATIVE. **But the controls rule out composition:** the recovered capital
+is the **h-key amplifying the operand's native-latent capital**, NOT a g→h hop —
+**h-alone alone gets 6/10 top-3, 4/10 rank-1**; stack ≈ h-alone and adding g
+makes rank-1 *worse* (4→3); g-alone ≈ baseline (g adds nothing); the intermediate
+country is absent (0/10) even fully quieted. (Corrects P-STACK-1b: h-alone was
+not "dead at L38" — it was **drowned by Agra**; under dark-field it is the
+strongest single arm.)
+
+**★ λ measure / λ yardstick lesson.** Dark-field alone nearly MANUFACTURED a
+false positive ("stack 8/10 top-3 → it composes!"); the **h-alone control is
+load-bearing** — it showed the 8/10 is single-key capital-amplification, not
+composition. Reading a composition claim through a loud-attractor channel
+confounds it in BOTH directions (raw → false-negative; naive dark-field →
+false-positive). The clean claim needs the single-key parts as nulls, quieted the
+same way. (Sibling of the s206 audit#5 near-false-refute scar.)
+
+**Net (firmer than 3a alone):** no in-context g→h composition (stack ≈ h-alone; g
+hurts rank-1; intermediate absent), confirmed with DSP hygiene + single-key
+controls. The capital that appears is the ~half-compiled native wire (native
+one-shot 5/10) amplified by the h-key and drowned by Agra in the raw read.
+**Reliable one-shot composition needs backprop** (compile the native half-wire)
+or the tape (native cot 9/10). ▶ NEXT SESSION: freeze the **backprop-compile
+rung-3 pre-reg** — a small trainable delta compiling the tape/native composition
+into a reliable one-shot wire; **held-out landmarks = the wire-vs-lookup gate**
+(a memorized 10-pair table fails held-out, a real join generalizes); the level-4
+door (pythia-14m seeded-scratch pair, delta-plate-lifecycle) is the same rung.

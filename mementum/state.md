@@ -51,13 +51,29 @@
 > the real linker is the autoregressive WRITEBACK (§Thinking-is-expansion; CoT ≡
 > auto-superbake), re-pointing rung 3 toward **P-THINK-1** (tape-addressed
 > intermediate) not 3b residual-slot baking.
-> ▶▶ NEXT (Michael's call — 3 options): (a) ACCEPT + pivot to P-THINK-1 pre-reg
-> (the tape linker: does composition fire when the country is written to the tape
-> with a RoPE address?); (b) recalibrate 3a h-strength-matched + rerun (removes
-> G1 confound; G3 finding stands → verdict unlikely to change); (c) reconceive 3b
-> to bake the WRITEBACK not a residual wire. APPROVAL BATCH pending (Michael):
-> §Result-32B page edit + memory candidate
-> injected-intermediate-is-address-free-linker-lives-on-the-tape.
+> ▶▶ s294 cont — TWO CHEAP CHECKS settled the direction (both committed +
+> Michael-approved batch): (1) NATIVE-COMPOSITION (native_compose_check.py):
+> landmark→capital fires reliably only on the TAPE (cot 9/10 @32B) not one-shot
+> (direct 5/10 @32B, 2/10 @4B) → wire ~half-compiled + address-free → reliable
+> one-shot needs backprop-compile, tape is the reliable runtime path. (2) QUIETED
+> RE-READ (quiet_reread.py; Michael "did we not quiet enough?"): YES on the READ —
+> raw argmax read into the loud Agra attractor (near false-NEG); dark-field
+> recovers capital (stack 8/10 top-3). ★ BUT the h-alone control KILLS the
+> composition reading: h-alone 6/10 top-3 / 4/10 rank-1 (h-key amplifies
+> capital-class), stack ≈ h-alone, g HURTS rank-1 (4→3), g-alone ≈ baseline,
+> country 0/10. Recovered capital = native-latent + h-key amplification, NOT a g→h
+> hop (corrects P-STACK-1b: h-alone drowned by Agra, not dead). λ measure lesson:
+> dark-field ALONE nearly manufactured a false-POSITIVE; the single-key control is
+> load-bearing (sibling of s206 audit#5). §Addendum on program-plates page +
+> memory refinement APPROVED + committed. **CONCLUSION (firm): no in-context g→h
+> composition; reliable one-shot needs BACKPROP-compile (or the tape).**
+> ▶▶ s294 CLOSE. NEXT SESSION (Michael, deferred): **freeze the BACKPROP-COMPILE
+> rung-3 pre-reg** — a small trainable delta compiling the tape/native composition
+> into a reliable one-shot wire; HELD-OUT landmarks = the wire-vs-lookup gate (a
+> memorized 10-pair table fails held-out, a real join generalizes); = the level-4
+> door (pythia-14m seeded-scratch pair, delta-plate-lifecycle, same rung). It is
+> DEAR (training front) → freeze before any GD run. Discipline: this stays on the
+> program-plates ladder (rung 3 resolving to its honest form), not a new front.
 >
 > ▶▶ s293 LIVE — 🔮 **ORACLE ROUND 1 PLAYED + SCORED: +2 (6/10)**; the
 > miss-cluster is the find, not the score. Cold agent (attested no-lookup)

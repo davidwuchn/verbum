@@ -22,3 +22,20 @@ Re-points program-plates rung 3 from residual-slot baking toward P-THINK-1.
 (1.0×) — not h-strength-matched; the clean evidence is the G3 conditioning-absent
 signature + g-alone-no-country, not the G1 margin. Instrument faithful (NONCE arm
 reproduced P-STACK-1b). `scripts/explore/bake_stack.py`, results/bake-stack/.
+
+s294 follow-up (two cheap checks that firmed this up):
+- NATIVE-COMPOSITION check (native_compose_check.py): landmark→capital fires
+  reliably only on the TAPE (cot 9/10 @32B) not one-shot (direct 5/10 @32B, 2/10
+  @4B). The wire is ~half-compiled + address-free → reliable one-shot needs
+  backprop-compile; the tape is the reliable runtime path.
+- QUIETED re-read (quiet_reread.py; Michael's "did we not quiet enough?"): YES —
+  raw argmax read into the loud Agra attractor (near false-NEGATIVE); dark-field
+  recovers capital-ness (stack 8/10 top-3). BUT controls kill the composition
+  reading: h-alone alone gets 6/10 top-3 / 4/10 rank-1 (h-key amplifies
+  capital-class), stack ≈ h-alone, g HURTS rank-1 (4→3), g-alone ≈ baseline,
+  country 0/10. The recovered capital is native-latent + h-key amplification, NOT
+  a g→h hop. (Corrects P-STACK-1b: h-alone wasn't dead at L38, it was drowned by
+  Agra.) ★ λ measure/yardstick: dark-field ALONE nearly manufactured a
+  false-POSITIVE; the h-alone single-key control is load-bearing. A composition
+  claim read through a loud-attractor channel confounds BOTH ways (raw→false-neg,
+  naive dark-field→false-pos) — quiet the single-key parts the same way.
