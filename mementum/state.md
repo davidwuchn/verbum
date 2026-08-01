@@ -30,7 +30,25 @@
 > unfrozen candidates still on the books — P-STACK-1 is the forced keystone
 > descent, not a sixth front.
 >
-> ▶▶ s293 cont — ✅ **P-STACK-1 32B VERDICT IN: TYPED-STACKABLE (but
+> ▶▶ s293 cont — **P-STACK-1b (SHORTCUT-FREE) FROZEN + BUILT + 4B-SMOKED;
+> CAPITAL 32B VERDICT RUNNING tmux main:1** (Michael "freeze it and proceed";
+> standing GO for smoke+final). Pre-reg §P-STACK-1b frozen e21c1d9;
+> fn_stack.py --chain flag + capital 4B smoke committed a3514f4. Turns
+> P-STACK-1's marginal-in-margins into win-or-lose: chain landmark→country→
+> CAPITAL (COUNTRY_CAP), composed target NOT 1-hop reachable (landmark's
+> city ≠ capital) so only the stack can land the capital → it can WIN the
+> argmax. 10 shortcut-free cells; inherits ALL P-STACK-1 gates. ★ 4B SMOKE
+> (advisory) = NOT-STACKABLE (capital never wins argmax at 4B, acc 0.00,
+> margins deeply negative — 4B compresses/can't, as continent did). ▶▶ 32B
+> RUNNING (707/707, PID 65429, ~2–3min → results/fn-stack-cap/qwen3-32b/).
+> A-PRIORI: genuine composition ⟹ capital WINS argmax at composition window
+> + h-alone lands CITY not capital; null ⟹ P-STACK-1 positive was
+> shortcut-inflated. ON RETURN: read results/fn-stack-cap/qwen3-32b/
+> fn_stack.json → does the capital win (real acc, not just less-negative)?
+> + halone_landed_on_city diagnostic → score frozen gates → §Result-32B +
+> memory for approval. (Prior verdict retained below.)
+>
+> ▶▶ s293 cont (retained) — ✅ **P-STACK-1 32B VERDICT IN: TYPED-STACKABLE (but
 > MARGINAL — λ yardstick lead)** (run 2m22s, results bb48877; frozen gates
 > scored + batch Michael-approved same session). Best pair L29→L38: G1
 > stack−best-single +2.28 p=1e-4 (composition-window), G2 flip (thin
