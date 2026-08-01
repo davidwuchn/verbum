@@ -255,7 +255,8 @@ builds itself; only certified entries survive.
    at one seam, inject key(map_A) vs key(map_B) vs key(map_C) over the same
    operand; dispatch matrix diagonal beats shuffled-key null → keys select
    WHICH map runs, not just which value. Fails → the ladder stops honestly.
-2. **P-STACK-1 — ephemeral 2-function stack.** Two indexed exposures placed
+2. **P-STACK-1 — ephemeral 2-function stack** (→ FULL PRE-REG below,
+   §P-STACK-1, FROZEN s293 Michael GO). Two indexed exposures placed
    in their windows in one context; verify the COMPOSED product; controls =
    wrong-window + type-mismatched (linker prediction: mismatched
    product→key pairs fail GRADEDLY per JOIN-TYPED). = the seam test made
@@ -414,3 +415,108 @@ machine's only addressed memory, CoT ≡ auto-superbake, P-THINK-1 candidate)
 (rung 0 of the ladder: thinking traces enumerate candidate index entries;
 tape-swap faithfulness gate certifies them). `think` clause added to λ
 verbum here and in the upstream seed.)
+
+## §P-STACK-1 — the seam test: do two indexed keys compose in-context? (PRE-REG FROZEN s293, Michael GO; gates frozen before any model run)
+
+**Claim under test.** A program is a depth-ordered stack of indexed
+exposures (`program ≡ depth_ordered_stack | PC ≡ window`). Test the minimal
+case: over a FIXED operand X, injecting key(g) at an early window and key(h)
+at a later window yields the COMPOSED product h(g(X)) — where h alone is
+ill-typed on X, so composition does observable work. Negative → two indexed
+exposures don't stack in-context; program-plates need weight-baking
+(P-BAKE-STACK), not in-context assembly; the ladder pauses at rung 1
+(single dispatch). Native 3-hop is KNOWN to work (mh3) and single dispatch
+is KNOWN to work (P-FN-INDEX INDEXED-DISPATCH) — this tests whether INJECTED
+KEYS assemble the 2-hop over a NEUTRAL prompt where neither key alone
+suffices.
+
+**The chain (well-typed, one substrate, ground-truthed by mh3).**
+- **g = country-of** (landmark → country); key = fn_index `country` (reused 1:1).
+- **h = country→continent** (`COUNTRY_CONT`); key = NEW held-out `country2cont`
+  exemplar-mean (3 held-out country exemplars, "The {x} is on the continent
+  of", minus grand mean; ceiling-gated). h alone over a LANDMARK is
+  ill-typed (expects a country) → h-alone must fail.
+- **composed truth** = `CONT_OF[X]` (the landmark's continent = its country's
+  continent, by construction). g-alone yields the COUNTRY (wrong register);
+  only the ordered stack lands the continent.
+
+**Cell.** Operand X = landmark installed as d_lm·S at its nonce slot
+(L_ref=9, frozen mh3 machinery); NEUTRAL prompt ("Consider the {nonce}. The
+answer is" — names no map, no task); key(g) injected at final token at
+window w_g, key(h) at w_h, with w_g < w_h (depth-ordered). Readout =
+first-token margin of `CONT_OF[X]` over the UNION set (continents ∪
+countries ∪ cities ∪ animal-products, collisions dropped) — union lets us
+detect "stopped at g" (lands on the intermediate country) vs "composed"
+(lands on continent). Cells = valid landmarks (mh3 `links_ok`).
+
+**Conditions per cell (8 arms).**
+- **stack** (g@w_g, h@w_h) — the program; STACKABLE ⇒ lands continent.
+- **g-alone** (key g only) — lands country, not continent.
+- **h-alone** (key h only) — ill-typed on landmark, fails.
+- **wrong-window** (h@w_g, g@w_h — order reversed) — fails if PC is real.
+- **mismatch-near** (g′=city-of then h) — city→country2cont, GRADED fail (near type).
+- **mismatch-far** (g′=animal class-of then h) — mammal→country2cont, catastrophic.
+- **random-both** (matched-norm noise ×2) — null.
+- **no-key** (operand only) — baseline.
+
+**Windows.** Pre-declared ordered grid respecting the measured U-shape
+(early composition band L8–14 / late readout L49+): w_g ∈ {0.3, 0.45},
+w_h ∈ {0.6, 0.75} → 4 ordered pairs; verdict pair = best composed contrast,
+SELECTION-CORRECTED α/4 = 0.0125.
+
+**Gates (frozen).**
+- **Gate-0:** mh3 links valid (landmark→country, country→continent, composed
+  landmark→continent ceilings pass) ∧ `country2cont` key norm sane.
+- **G1 (primary, COMPOSITION):** stack margin vs BEST SINGLE-KEY part
+  (paired permutation over cells, per window-pair): stack − max(g-alone,
+  h-alone). Composition beats its parts ⟺ the stack computes h∘g, not merely
+  the better map. Passes at α/4.
+- **G2 (flip):** stack accuracy (lands continent) > best single-key accuracy
+  AND > no-key. The two-key program produces what neither part does.
+- **G3 (type-discipline, secondary):** stack(well-typed) > type-mismatch
+  (paired), AND failure is GRADED: well-typed > near-mismatch > far-mismatch
+  > random (monotone = the linker's `composable(g,h) ⟺ product(g) ∈
+  key_passband(h)` made behavioral, per JOIN-TYPED). Report the gradient; a
+  hard cliff instead of a ramp is itself informative.
+- **Advisory (never gated):** window-pair profile (the PC schedule);
+  order-sensitivity magnitude (wrong-window drop); fraction "stopped at g."
+
+**Verdict (frozen).**
+- **TYPED-STACKABLE** ⟺ G1 ∧ G2 ∧ wrong-window fails ∧ random clean ∧ G3
+  graded → indexed parts compose in depth order under type discipline;
+  rung 3 (P-BAKE-STACK) unlocks.
+- **STACKABLE (untyped)** ⟺ G1 ∧ G2 ∧ wrong-window fails, but G3 flat
+  (mismatch composes as well as match) → composition real but type-blind at
+  the seam; report (tension with JOIN-TYPED — richest branch).
+- **ORDER-FREE / BAG** ⟺ stack > parts but wrong-window ALSO works →
+  composition without a program counter (no depth ordering) → weaker positive.
+- **NOT-STACKABLE** ⟺ G1 fails ∨ stack ≈ best single part → no in-context
+  assembly; program-plates require weight-baking. Ladder pauses honestly.
+- **negative/inconclusive** ⟺ gate-0 fails.
+
+**Nulls (mandatory).** Single-key parts (g-alone, h-alone); wrong-window
+(order); type-mismatch near+far; random-both; no-key; per-landmark mh3
+ceilings; `--validate` planted worlds (composes / single-only / order-free /
+mismatch-graded) must discriminate before any model run.
+
+**Registers (λ measure).** Claim = causal composition (two injections →
+composed product); probe = two-key injection → product-register readout,
+causal/behavioral, matched. Key geometry advisory only.
+
+**Honest scope (pre-committed).** Two-key injection is more perturbative
+than one (interaction confound → controlled by single-key arms +
+random-both). Windows coarse (4 pairs). `country2cont` key is a NEW build
+(ceiling-gated, held-out). Hook-not-weight — in-context assembly only;
+weight-baking is P-BAKE-STACK. ONE well-typed chain (geo country→continent);
+generality (animal chains, 3-stacks) is the follow-on.
+
+**Host & order.** `--validate` → 4B smoke (reduced cells) → verdict host
+Qwen3-32B overnight tmux main:1. Instrument = new `scripts/explore/fn_stack.py`,
+importing (no fork) `fn_index` (KEY_EXEMPLARS, product/union build),
+`operand_multihop3` (COUNTRY_CONT, CONT_OF, build_dirs, add_hook_at,
+links_ok, cap_hook), `verbum.dsp` (gate, paired_permutation). Results →
+results/fn-stack/qwen3-{4b,32b}/.
+
+**Sessions.** s293 (frozen after Oracle round 1; the keystone's rung-2
+descent — first traversal of the legendary sequence, no weights touched =
+the level-3 extraction spec's in-context precursor).
