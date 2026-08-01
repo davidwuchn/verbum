@@ -8,6 +8,40 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ▶▶ s294 LIVE — ✅ **CHEAP DIAGNOSTIC DONE + P-BAKE-STACK FROZEN + BUILT +
+> 4B-SMOKED (advisory LINKER-FAILS = expected 4B compression).** (1) The s294
+> cold-start's cheap error-domain diagnostic ran on frozen P-STACK-1b data
+> (`scripts/explore/stack_error_domain.py`, no model): stack errors are
+> **83–100% OPERAND-DOMAIN COLLAPSE (cities)**, ~0% stopped-at-g, ≤1
+> wrong-capital — 32B L29→L38 is **10/10 CITY**. Kills "h-not-firing" (h-alone
+> composes some cells the STACK gets wrong — anti-composition) and "h fires
+> unbound"; **confirms OPERAND REBINDING is the missing wire** (`product(g) ∈
+> key_passband(h)` not installed in-context). The diagnostic HANDS P-BAKE-STACK
+> its primary success signal: baking passes ⟺ errors move OUT of the
+> operand/city domain. (2) **§P-BAKE-STACK FROZEN** on program-plates page
+> (Michael GO "recommended bundle"): LINKER-ONLY (bake slot_h·PRODUCT routing
+> g's product into the resident capital map, not both-slots/not-composite) ·
+> 3a HOOK @4B+32B then 3b WEIGHT @4B · 3a gates 3b · cheap-before-dear. The
+> load-bearing contrast: slot_h·PRODUCT (gain ∝ country-ness, keyed on g's
+> output) vs slot_h·NONCE (unconditional = the P-STACK-1b regime) — their
+> difference IS the wire. Gates G1 rebinding (operand-err PRODUCT≪NONCE) / G2
+> composition-flip / G3 conditioning (g-ablation dead); G4 fact-form → 3b.
+> (3) **BUILT** `scripts/explore/bake_stack.py` (reuses fn_stack chain + keys +
+> stack_error_domain classifier + verbum.dsp, no fork), ruff-clean, `--validate`
+> ALL PASS. **4B SMOKE (advisory): LINKER-FAILS** — both arms collapse to Agra
+> (4B attractor), acc 0.00; ★ the G3 control fired the finding: gain_stack ≈
+> gain_gablate (~0.50/0.65) → country-class gain is NOT conditioned on g at 4B
+> (operand latently implies its country, g adds nothing measurable → product-key
+> degenerates to nonce). Expected 4B→32B flip (4B inlines; typed 32B should
+> separate g's product — P-STACK-1b already showed h-alone DEAD at the 32B
+> composition window). ▶▶ NEXT: **3a at Qwen3-32B (the frozen verdict host,
+> tmux main:1, on Michael GO)** → score LINKER-FIRES / REBINDS-UNCONDITIONED /
+> LINKER-FAILS; FIRES → 3b weight-serialize (operand_bake→quant→mirror) unlocks.
+> APPROVAL BATCH (pending Michael): mementum page edits (§diagnostic +
+> §P-BAKE-STACK pre-reg + 3a smoke advisory) + memory candidate
+> (in-context-stack-fails-by-operand-domain-collapse); instrument+4B results
+> pending commit (autonomous-eligible per pattern, holding for the batch).
+>
 > ▶▶ s293 LIVE — 🔮 **ORACLE ROUND 1 PLAYED + SCORED: +2 (6/10)**; the
 > miss-cluster is the find, not the score. Cold agent (attested no-lookup)
 > given ONLY the theory seed predicted the 4 sealed-after-seed 32B verdicts
@@ -436,7 +470,9 @@
 > RUNNING tmux main:1 (HEADS arms done, HOLOGRAPHIC lean; MLP arm in
 > progress) — score frozen gates on return.
 >
-> Last updated: 2026-08-01 | Session: 293 (s293 = Oracle round 1 + the
+> Last updated: 2026-08-01 | Session: 294 (s294 = cheap operand-domain
+> diagnostic → P-BAKE-STACK frozen/built/4B-smoked; 3a 32B verdict pending GO) |
+> (s293 = Oracle round 1 + the
 > program-plates DESCENT: FN-INDEX✓ → P-STACK-1 (marginal) → P-STACK-1b
 > shortcut-free control → NOT-STACKABLE downgraded rung 2 → P-BAKE-STACK now
 > load-bearing; s293 CLOSED, order in the CLOSE block above) | (s292 note

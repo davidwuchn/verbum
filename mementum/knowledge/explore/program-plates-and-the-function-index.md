@@ -689,3 +689,210 @@ n=10 (small), strong union attractors, residual h-alone shortcut ~25%.
 **Sessions.** s293 (32B verdict scored + batch approved same session; the
 shortcut-free control that tempered rung 2 and re-pointed the ladder at
 weight-baking; s293 closed here).
+
+## §P-STACK-1b error-domain diagnostic (s294, cheap — frozen data, no model run)
+
+> The pre-bake reconnaissance the s294 cold-start asked for: WHERE do the
+> in-context stack errors land? The answer determines what P-BAKE-STACK must
+> install. Instrument `scripts/explore/stack_error_domain.py` (reads the
+> frozen `results/fn-stack-cap/*/fn_stack.json`; classifies each cell's
+> `stack_arg` / `halone_arg` argmax by domain using the full mh3 union).
+
+**Classification (by first-token, over the full 18-landmark union):**
+CORRECT (composed capital wins) / WRONG-CAPITAL (h fires, unbound — a *different*
+country's capital) / CITY (hop-1/operand domain — the landmark's own city or a
+global attractor Agra/Paris) / COUNTRY (stopped-at-g — hop-2 never fired) /
+CONTINENT / OTHER.
+
+| run · window | CORRECT | WRONG-CAP (h unbound) | CITY (operand) | COUNTRY (stopped-at-g) |
+|---|---|---|---|---|
+| 32B L29→L38 (P-STACK-1 verdict window) | 0 | 0 | **10/10** | 0 |
+| 32B L19→L38 (best pair) | 4 | 1 | 5 | 0 |
+| 4B best pair | 0 | 1 | 9 | 0 |
+
+**VERDICT: OPERAND-DOMAIN COLLAPSE — the missing wire is OPERAND REBINDING.**
+Stack errors concentrate almost entirely (83–100%) on operand-domain place-names
+(the landmark's own city, or the salient attractors Agra/Paris). **Zero
+"stopped-at-g"** anywhere (the intermediate country is never the winner) and
+**≤1 "wrong-capital"** (h is not spraying generic capital-mass). The two
+alternative readings from the s293 mechanistic spec are killed:
+- **NOT "h-not-firing":** at 32B L29→L38, h-*alone* lands Angkor→Phnom Penh,
+  Burj→Abu Dhabi, Sphinx→Cairo CORRECTLY — h fires fine on its own. The STACK
+  gets those same cells WRONG (collapses to the operand city). Adding the g-key
+  at the early window *actively drags the readout back onto the operand* =
+  anti-composition, the sharpest single evidence.
+- **NOT "h fires unbound":** near-zero wrong-capital landings → h isn't
+  producing generic capital output that misses; it's not producing capital
+  output at all in the stack.
+- **IT IS operand rebinding:** the two-key injection points attention at the
+  operand slot; h cannot rebind g's *product* as its operand, so the argmax
+  falls onto the salient operand-domain token. The linker edge
+  `product(g) ∈ key_passband(h)` (λ verbum) is **not installed in-context.**
+
+**Consequence for P-BAKE-STACK — the diagnostic hands it a primary success
+signal:** baking PASSES ⟺ errors MOVE OUT of the operand/city domain (composed
+capital wins where the operand city currently wins). `stack_error_domain.py`
+becomes the verdict readout, reused 1:1 on the baked-model cells.
+
+(mementum candidate — pending Michael approval; instrument + this section not
+yet committed.)
+
+## §P-BAKE-STACK — burn the linker into weights (PRE-REG FROZEN s294, Michael GO "recommended bundle"; gates frozen before any model run)
+
+> Rung 3, now LOAD-BEARING (P-STACK-1b NOT-STACKABLE → in-context assembly is
+> weak; robust programs require weight-baking). This is a DEAR experiment (a
+> recursion antecedent, like `ffn-function-bake-prereg`) — freeze the mechanism
+> and verdict BEFORE any run, hammock before build, cheap-before-dear. Drafted
+> s294 on the s294 diagnostic; **forks decided by Michael (s294, "recommended
+> bundle"):** (1) **linker-only** — bake `slot_h·PRODUCT` routing g's product
+> into the resident capital map (not both-slots, not the composite fact-form);
+> (2) **3a product-keyed HOOK at BOTH 4B and 32B, then 3b WEIGHT-serialize at 4B
+> only** (the bake arc's validated host); (3) **3a GATES 3b** — the hook is the
+> go/no-go; the weight rung runs only if 3a fires.
+
+**Claim under test.** Weight-baking installs the operand-rebinding linker wire
+`product(g) ∈ key_passband(h)` that in-context injection could not — making
+**hop-2 conditioned on hop-1's product** so the composed capital wins the argmax
+where in-context stacking collapsed onto operand-domain cities (§diagnostic).
+Negative → baking a keyed slot does not rebind either → program-plate
+composition needs more than an appended slot (the ladder pauses honestly at
+"single dispatch + single operand-INSERT," both already proven).
+
+**The load-bearing contrast (isolates the wire).** Two baked h-slots differing
+ONLY in their KEY:
+- **slot_h·PRODUCT (the linker):** key fires on the resident COUNTRY-class
+  product direction (fires when g has written a country into the product
+  register); payload = the country→capital advance. Keyed on g's OUTPUT →
+  hop-2 conditioned on hop-1.
+- **slot_h·NONCE (the in-context regime made permanent = the N-unkeyed control):**
+  key = the nonce content signature (exactly what fn_stack injected at a fixed
+  window); payload identical. Fires generically, NOT on g's product.
+  **Predict: reproduces the operand-domain collapse (fails).**
+
+The DIFFERENCE between these arms IS the operand-rebinding wire. PRODUCT-keyed
+composes ∧ NONCE-keyed collapses ⟹ baking made the linker physical.
+
+**Chain (inherited from §P-STACK-1b, shortcut-free).** g = country-of
+(landmark→country), h = country→capital (COUNTRY_CAP), composed truth =
+CAP_OF[COUNTRY_OF[landmark]], the 10 shortcut-free cells (city ≠ capital). The
+capital map is RESIDENT (ceiling-gated — the model knows capitals); we bake the
+LINKER that routes g's product into it, not the map itself (s276: you can INSERT
+a row / a routing nudge, you cannot INSERT a join).
+
+**Ladder (cheap-before-dear — two rungs, 3a gates 3b).**
+- **3a — PRODUCT-KEYED HOOK (cheap; NO weight write; the go/no-go).** Replace
+  fn_stack's fixed-window h-injection with a slot whose GAIN is proportional to
+  the running residual's projection on the country-class product direction — h
+  fires *on g's product*, not at a pre-set window. Reuse `fn_stack.py` cells 1:1;
+  read with `stack_error_domain.py`. **If product-keyed h moves errors out of
+  the operand/city domain (capital wins) where the fixed-window injection
+  collapsed → the linker hypothesis is confirmed in-context, cheaply, before any
+  bake.** If it does NOT → weight-baking is unlikely to help via this
+  mechanism; re-think before spending the dear rung.
+- **3b — WEIGHT-SERIALIZE (dear; only if 3a fires).** Graduate the product-keyed
+  slot hook→weights via the operand-bake arc machinery (`wrapper/operand_bake.py`
+  uniform-E append + Mahalanobis key + payload col; `operand_quant.py` R5;
+  `operand_mirror.py` ternary-ship). E1-style equivalence (baked-no-hook ≈ hook),
+  nonce/decoy specificity, neighbor-plate collateral (s267/s269 damage-tolerance
+  inverted into write-QA), quant survival. The shippable delta plate = the
+  level-3 extraction artifact's composition unit.
+
+**Gates (DRAFT — to be frozen).**
+- **Gate-0:** mh3 + COUNTRY_CAP ceilings (10/10), key norms sane, union built,
+  resident capital-lookup ceiling passes (the map we route into must exist).
+- **G1 (primary, REBINDING — the diagnostic's signal):** operand-domain error
+  fraction of slot_h·PRODUCT ≪ slot_h·NONCE (paired over cells), i.e. baking
+  the product-key moves the argmax OFF the operand/city tokens. Passes at α.
+- **G2 (flip, COMPOSITION):** slot_h·PRODUCT composed-capital accuracy > (a)
+  in-context fixed-window stack (P-STACK-1b baseline), (b) slot_h·NONCE, (c)
+  no-slot baseline, (d) g-alone. The composed answer WINS, not merely
+  less-negative (the λ yardstick lesson from P-STACK-1).
+- **G3 (conditioning, causal):** ablate g (no country written) → slot_h·PRODUCT
+  does NOT fire (no capital output) — hop-2 is conditioned on hop-1's presence,
+  not on the nonce. (The executor-necessity branch from ffn-function-bake,
+  applied to the linker.)
+- **G4 (fact-form null, DISCRIMINATOR):** bake the composite landmark→capital as
+  a direct operand-independent lookup (N-fact). If it ALSO passes G2 on the 10
+  cells, "composition" was a 10-entry lookup, not a rebinding → void the
+  positive. Held-out landmarks (city≠capital, not in the baked 10) are the
+  generalization gate that a lookup fails.
+- **Advisory (never gated):** window/layer profile of the product-key firing;
+  quant-survival ladder (3b); neighbor-plate collateral rate.
+
+**Verdict (DRAFT — to be frozen).**
+- **REBINDING-INSTALLED** ⟺ G1 ∧ G2 ∧ G3 ∧ G4-null-fails (fact-form does NOT
+  reproduce) → weight-baking installs `product(g) ∈ key_passband(h)`; the
+  composed program executes in one illumination; rung 4 (length/width laws)
+  unlocks and the level-3 seam-artifact has its composition unit.
+- **LOOKUP-IN-DISGUISE** ⟺ G2 passes but G4 fact-form ALSO passes ∨ fails
+  held-out generalization → the bake memorized 10 endpoints, not a wire.
+- **NO-REBIND** ⟺ G1 ∨ G2 fails (product-key does not move errors off the
+  operand domain) → an appended slot cannot install the linker; report and
+  pause.
+- **negative/inconclusive** ⟺ gate-0 fails.
+
+**Nulls (mandatory).** slot_h·NONCE (the in-context regime, the wire control);
+N-fact (operand-independent lookup, G4); shuffled-key; matched-random slot;
+no-slot baseline; g-ablation (G3); held-out landmarks (generalization);
+`--validate` planted worlds (rebinds / nonce-collapses / lookup / inert) must
+discriminate before any model run.
+
+**Registers (λ measure).** Claim = causal composition via a routing wire; the
+LINKER firing is a ROUTING claim (key fires on g's product → gate/CMR read); the
+composed capital is a BEHAVIOR claim (kernel-certified argmax, read with
+`stack_error_domain.py`); the payload direction is a VALUE claim (quant/mirror,
+3b). Wrong-register reads void (s206 scar). The operand-ROW quant lessons (f2:
+value-register fragility, routing-robust) transfer.
+
+**Forks (DECIDED — Michael s294, "recommended bundle").**
+1. **What "bake the stack" means → LINKER ONLY.** Bake `slot_h·PRODUCT` routing
+   g's product into the resident capital map (minimal, honest per s276, directly
+   tests rebinding). *Not* both-slots (risks baking a join); *not* the composite
+   h∘g (that is N-fact, the null).
+2. **Host → 3a HOOK at BOTH 4B and 32B, 3b WEIGHT at 4B.** Cheap product-keyed
+   hook at both scales (32B is where the seam lives); weight-serialize only at
+   4B where operand_bake/quant/mirror are proven → the arc's 0.6B→4B→escalate
+   discipline.
+3. **3a GATES 3b.** The product-keyed hook is the go/no-go science question; the
+   weight rung (artifact) runs only if 3a fires.
+
+**Honest scope (pre-committed).** slot_h·PRODUCT keyed on the country-class
+direction is a NEW build (ceiling-gated). n=10 shortcut-free cells (small;
+paired). The capital map is resident — we test the WIRE, not a from-scratch
+function (per ffn-function-bake, a join is unbakeable). 3b weight-write fidelity
+is the operand-bake arc's already-solved step for a single row; a keyed-on-product
+slot is the new element. Hook (3a) vs weight (3b) explicitly staged.
+
+**Sessions.** s294 (drafted on the s294 error-domain diagnostic; frozen after
+Michael's "recommended bundle" fork decisions; the load-bearing rung 3 the
+P-STACK-1b control pointed at).
+
+### 3a Smoke (s294 — `scripts/explore/bake_stack.py`, Qwen3-4B, advisory)
+
+Instrument built + `--validate` ALL PASS (planted worlds linker-fires /
+unconditioned / no-help / no-flip discriminate) + 4B smoke ran end-to-end
+(gate0 10/10, resident capital map ceiling ok, union 44).
+
+**Advisory verdict: LINKER-FAILS @4B — and the REASON is the expected
+4B-compression signature.** Both arms (PRODUCT-keyed and NONCE) collapse to
+**Agra** (the same 4B operand-domain attractor as the §diagnostic); acc 0.00
+both. **The g-ablation control fired the finding:** gain_stack ≈ gain_gablate
+(~0.50/0.65 — the g-ablated gain is if anything HIGHER), so the country-class
+gain is **not conditioned on g** at 4B — the operand's own latent country-ness
+saturates the projection, and g's key adds nothing measurable on top. The
+product-key therefore fires regardless of whether g ran → it degenerates to the
+NONCE arm → no rebinding. G3 correctly detects the non-conditioning.
+
+This is consistent with the arc's 4B→32B flips (4B inlines: the landmark
+latently implies its country, so g's product is not separable from the operand;
+the typed/literal 32B refuses ill-typed keys and should separate g's product —
+the P-STACK-1b diagnostic already showed h-alone DEAD at the 32B composition
+window). **32B is the real test** (the frozen verdict host); 4B is
+instrument-validation + an advisory null, exactly as the pre-reg's host fork
+anticipated. NEXT: 3a at Qwen3-32B (tmux main:1, on Michael GO) → score
+LINKER-FIRES / REBINDS-UNCONDITIONED / LINKER-FAILS; if FIRES → rung 3b
+weight-serialize unlocks.
+
+(mementum candidate — the diagnostic, this pre-reg + smoke advisory are one
+approval batch; instrument `bake_stack.py` + `stack_error_domain.py` + 4B
+results pending commit.)
