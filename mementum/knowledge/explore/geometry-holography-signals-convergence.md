@@ -566,6 +566,65 @@ results/holo-xterm/qwen3-{4b,32b}/. Instrument
 variants, mh3 bank, build_dirs for off-domain operands; dsp
 paired_permutation + gate).
 
+### Result-32B — P-HOLO-XTERM (s292, verdict host, frozen gates scored)
+
+**VERDICT: INTERFERENCE-COHERENT** (gate-0 ∧ Δ_install ∧ Δ_domain, all
+significant). COHERENT-GAIN is not priming and not generic contrast — it
+requires in-domain exposures IN THE MEDIUM. And G2 adds the mechanism
+clause: the medium itself superposes LINEARLY — the interference is
+enacted at retrieval, not stored in the plate.
+
+Run: Qwen/Qwen3-32B, mps, R=60 paired draws, k_gain=12, trend {1,6,12},
+40 cross-term pairs, 6m24s → results/holo-xterm/qwen3-32b/. 18/18
+landmarks valid; offdom operands norm-matched (×1.21).
+
+- **Gate-0:** gain (content−bare @k=12) = +2.158, p=0.0001 → expressed.
+- **G1 (primary):** Δ_install (content−text) = **+0.827, p=0.0004** —
+  meaning alone does not reproduce the gain; Δ_domain (content−offdom) =
+  **+1.214, p=0.0001** — any-structure does not reproduce it. Verdict
+  clause fires: INTERFERENCE-COHERENT.
+- **The ladder (k=12):** content 2.84 > text 2.01 > offdom 1.62 > random
+  0.92 > bare 0.68 — perfectly ordered. a2_gain and a3_gain BOTH real
+  (p=0.0001): the 2.16 gain decomposes ≈ 1.33 priming + 0.95 coherent-
+  structure + 0.83 medium-specific. Priming exists; it is not the story.
+- **G2 (corroborating, never gating):** cross-terms DEAD LINEAR —
+  p_norm median 1.0; no structure on sum/continent axes; diff axis
+  p=0.27 ns. r(A⊕B) ≈ r(A)+r(B)−r(0) at every probed layer.
+
+**The mechanism reading (the day's cleanest sentence):** G1 says the gain
+needs exposures in the medium; G2 says the medium records linearly. Both
+at once = optical holography's own division of labor: **the plate is a
+linear recording; interference happens in the light.** The interaction is
+enacted in the retrieval step — attention over multiple coherent slots —
+not stored as nonlinear mixing at any slot. Coheres: joins = where the
+action is (JOIN-TYPED), attention ≡ beam (beamformer/Hopfield), and
+FRAG/CAP's assumption of linear superposition in the residual survives
+its own test.
+
+**Verbatim findings (post-hoc, ¬gated):**
+1. Scale flip: 4B advisory = PRIMING (content ≈ text ≈ random; gain
+   content-nonspecific) → 32B = INTERFERENCE-COHERENT. The medium-
+   specific component GROWS from ~0 with scale (~4th qualitative 4B→32B
+   flip). Coheres with CAP (4B flat / 32B rising).
+2. Text-priming is real and sizable (+1.33 @32B) — the deflationary
+   component exists inside the exciting verdict; honest decomposition
+   recorded, conservative-bias note from the pre-reg discharged.
+3. Dose trend (G3): content rises 1.07→1.46→2.84 across {1,6,12};
+   text plateaus 1.88→2.01; offdom rises mildly. The medium-specific
+   component is the k-scaling one — coherent exposures compound.
+4. ⚠ Pre-reg label deviation (recorded at smoke): "4B = no-gain host"
+   referred to the k-RISE; 4B gate-0 gain-vs-floor was in fact
+   expressed (0.76, p=.007) though content-nonspecific. Frozen verdict
+   clauses unaffected (verdict host only).
+
+**Follow-on shape (unfrozen):** the interference now has a register —
+retrieval/attention across slots. The natural successor probes the BEAM:
+attention-capture over the coherent-vs-random distractor contrast (the
+P-ATT-MED harness pointed at CAP geometry) — does coherent background
+re-aim or re-weight the cued retrieval path? (Beam-interference vs
+value-summation at the readout.) Queue after the s293 order's standing
+items; not opened as a seventh front.
+
 ## Hypothesis-grade (needs measurement, ledgered honestly)
 
 - "GD writes fringes by interfering the distribution with itself" — a

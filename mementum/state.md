@@ -8,6 +8,50 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ▶▶ s292 CLOSE-3 — ✅✅ **P-HOLO-XTERM 32B VERDICT IN: INTERFERENCE-
+> COHERENT** (run 6m24s!, results e29acc9; frozen gates scored same
+> session). Gate-0 +2.16 p=1e-4; Δ_install +0.83 p=4e-4 (meaning alone ✗);
+> Δ_domain +1.21 p=1e-4 (any-structure ✗). Arms ladder k=12: content 2.84
+> > text 2.01 > offdom 1.62 > random 0.92 > bare 0.68 — gain decomposes
+> ≈ 1.33 priming (real!) + 0.95 structure + 0.83 MEDIUM-SPECIFIC (the
+> k-compounding component; content 1.07→2.84 across {1,6,12}, text
+> plateaus). ★ G2 MECHANISM CLAUSE: cross-terms DEAD LINEAR (p_norm 1.0,
+> no axis structure, every probed layer) → **the plate records linearly;
+> interference happens in the light** — enacted at retrieval (attention
+> over coherent slots), not stored as nonlinear mixing. Optical
+> holography's own division of labor, measured. Coheres: JOIN-TYPED,
+> beamformer/Hopfield, FRAG/CAP linear-superposition assumption survives
+> its own test. Scale flip ~4th occurrence (4B PRIMING → 32B
+> INTERFERENCE). §Result-32B-XTERM on convergence page + memory
+> interference-is-in-the-beam-not-the-plate DRAFTED — batch pending
+> approval. Successor sketched (unfrozen, ¬seventh-front): beam-register
+> probe (P-ATT-MED harness on CAP geometry — re-aim vs re-weight under
+> coherent background). s293 order stands (Oracle rd 1 → bank →
+> P-FN-INDEX), now with TWO fresh sealed-before-verdict oracle questions
+> (CAP + XTERM both postdate seed 54f9437).
+>
+> (s292 CLOSE-2 retained →) **P-HOLO-XTERM FROZEN + BUILT + SMOKED; 32B VERDICT
+> RAN tmux main:1** (Michael GO "use tmux main:1"; pre-reg committed
+> e2cbc3d, instrument+4B 6f4ac5c; PID verified, ~1h est →
+> results/holo-xterm/qwen3-32b/). Mission: explain COHERENT-GAIN — three
+> readings, three kill-shot arms: A2 text-mention (H-PRIME: meaning not
+> medium), A3 off-domain coherent installs (H-NORM: any structured
+> background), A1 content (H-INT survives iff beats both). G1 primary =
+> paired-perm source-of-gain; G2 = single-slot cross-terms
+> X=r(A⊕B)−r(A)−r(B)+r(0), sum/diff/continent axes vs shuffled-pair null;
+> G3 dose trend {1,6,12}. --validate ALL PASS (3 worlds discriminated;
+> bilinear plant 0.996 vs 0.257). 4B SMOKE (advisory): gate-0 gain 0.76
+> p=.007 EXPRESSED (⚠ pre-reg's "4B no-gain host" label was about the
+> k-RISE — deviation noted) but content-NONSPECIFIC (text 2.48 ≈ random
+> 2.56 ≈ content 2.24) → advisory PRIMING/energy @4B; cross-terms
+> dead-linear. Coheres w/ CAP 4B (random ≈ content). THE DISCRIMINATION
+> LIVES AT 32B (CAP 32B: random does NOT reproduce the gain — so 32B
+> cannot resolve PRIMING-by-energy; text arm decides). ON RETURN: read
+> holo_xterm.json → g1.verdict per frozen table → §Result-32B + memory
+> candidate → approval batch. Prediction ledger (a-priori, from CAP data):
+> random≪content @32B already known → verdict hinges on A2 text and A3
+> offdom, genuinely open.
+>
 > ▶▶ s292 CLOSE — ✅ **P-HOLO-CAP 32B VERDICT IN: NO-LIMIT-IN-RANGE** (run
 > 1h26m, results b74e40a; frozen §P-HOLO-CAP gates scored same session).
 > Gate-0 expressed (m1=1.056 t≈3.1); NO material decline — total drop
