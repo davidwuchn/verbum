@@ -1,0 +1,386 @@
+======================================================================
+  XM REVERSE-EXPLORE  (xm-reverse-full)
+  arms=['baseline', 'revxm', 'revxm_rand', 'revxm_nocov'] probes=[50, 800] seeds=[1000, 1001, 1002, 1003, 1004] frac=0.5 rounds=8 gd=10500
+======================================================================
+
+  [oracle] training GD teacher (10500 steps)...
+    oracle acc=71.1% (65.7s)
+
+  probes=50: 7 voting units (etch_batch=8)
+      round 1: flips=15055 acc=2.9%
+      round 2: flips= 6902 acc=2.6%
+      round 3: flips= 8622 acc=17.4%
+      round 4: flips= 5494 acc=2.5%
+      round 5: flips= 5572 acc=1.9%
+      round 6: flips= 5826 acc=17.5%
+      round 7: flips= 4345 acc=1.8%
+      round 8: flips= 3979 acc=5.1%
+    [baseline_p50_s1000] best=76.4% (107.5%%oracle) g3=0.495 [52s]
+      round 1: flips=15136 acc=7.7%
+      round 2: flips= 6138 acc=0.8%
+      round 3: flips= 7940 acc=17.3%
+      round 4: flips= 6038 acc=8.3%
+      round 5: flips= 4916 acc=10.3%
+      round 6: flips= 5509 acc=14.7%
+      round 7: flips= 5842 acc=3.8%
+      round 8: flips= 5448 acc=3.2%
+    [baseline_p50_s1001] best=78.4% (110.3%%oracle) g3=0.486 [50s]
+      round 1: flips=14847 acc=2.8%
+      round 2: flips= 5824 acc=5.5%
+      round 3: flips= 7676 acc=21.4%
+      round 4: flips= 6250 acc=7.1%
+      round 5: flips= 5079 acc=22.0%
+      round 6: flips= 4723 acc=22.0%
+      round 7: flips= 4286 acc=3.2%
+      round 8: flips= 4620 acc=17.9%
+    [baseline_p50_s1002] best=59.5% (83.7%%oracle) g3=0.484 [58s]
+      round 1: flips=14796 acc=12.1%
+      round 2: flips= 6254 acc=1.1%
+      round 3: flips= 8270 acc=5.2%
+      round 4: flips= 6009 acc=2.9%
+      round 5: flips= 4525 acc=3.2%
+      round 6: flips= 5452 acc=1.0%
+      round 7: flips= 6539 acc=2.6%
+      round 8: flips= 5484 acc=2.6%
+    [baseline_p50_s1003] best=80.3% (112.9%%oracle) g3=0.498 [71s]
+      round 1: flips=14547 acc=6.9%
+      round 2: flips= 7245 acc=0.8%
+      round 3: flips= 7010 acc=1.8%
+      round 4: flips= 7161 acc=3.5%
+      round 5: flips= 4866 acc=1.8%
+      round 6: flips= 4120 acc=1.9%
+      round 7: flips= 5610 acc=4.8%
+      round 8: flips= 4509 acc=6.5%
+    [baseline_p50_s1004] best=86.2% (121.3%%oracle) g3=0.493 [56s]
+      round 1: flips=14063 acc=2.7%
+      round 2: flips= 7498 acc=17.4%
+      round 3: flips= 7262 acc=2.9%
+      round 4: flips= 5114 acc=0.2%
+      round 5: flips= 6325 acc=1.9%
+      round 6: flips= 3994 acc=10.1%
+      round 7: flips= 5136 acc=5.8%
+      round 8: flips= 4751 acc=16.9%
+    [revxm_p50_s1000] best=72.8% (102.4%%oracle) g3=0.478 [54s]
+      round 1: flips=14930 acc=8.2%
+      round 2: flips= 6335 acc=10.4%
+      round 3: flips=10121 acc=2.0%
+      round 4: flips= 7103 acc=9.3%
+      round 5: flips= 5461 acc=2.9%
+      round 6: flips= 5295 acc=2.3%
+      round 7: flips= 5239 acc=1.2%
+      round 8: flips= 5517 acc=6.1%
+    [revxm_p50_s1001] best=84.1% (118.3%%oracle) g3=0.487 [56s]
+      round 1: flips=13919 acc=1.7%
+      round 2: flips= 6521 acc=2.4%
+      round 3: flips= 6883 acc=5.3%
+      round 4: flips= 5914 acc=2.0%
+      round 5: flips= 4910 acc=9.6%
+      round 6: flips= 4475 acc=0.6%
+      round 7: flips= 6747 acc=10.9%
+      round 8: flips= 5358 acc=7.9%
+    [revxm_p50_s1002] best=80.4% (113.1%%oracle) g3=0.478 [74s]
+      round 1: flips=14560 acc=14.8%
+      round 2: flips= 6737 acc=18.9%
+      round 3: flips= 7043 acc=1.5%
+      round 4: flips= 6049 acc=2.9%
+      round 5: flips= 4239 acc=1.8%
+      round 6: flips= 5679 acc=2.1%
+      round 7: flips= 3840 acc=0.8%
+      round 8: flips= 5217 acc=1.9%
+    [revxm_p50_s1003] best=73.0% (102.6%%oracle) g3=0.497 [51s]
+      round 1: flips=13843 acc=0.2%
+      round 2: flips= 7074 acc=0.9%
+      round 3: flips= 8102 acc=3.7%
+      round 4: flips= 6703 acc=3.6%
+      round 5: flips= 4184 acc=4.8%
+      round 6: flips= 4839 acc=8.9%
+      round 7: flips= 5071 acc=5.5%
+      round 8: flips= 5308 acc=2.3%
+    [revxm_p50_s1004] best=70.7% (99.4%%oracle) g3=0.478 [75s]
+      round 1: flips=14020 acc=2.4%
+      round 2: flips= 7617 acc=2.9%
+      round 3: flips= 7327 acc=2.9%
+      round 4: flips= 5345 acc=17.4%
+      round 5: flips= 4658 acc=2.9%
+      round 6: flips= 3665 acc=10.3%
+      round 7: flips= 3081 acc=19.2%
+      round 8: flips= 3566 acc=3.9%
+    [revxm_rand_p50_s1000] best=84.7% (119.1%%oracle) g3=0.493 [52s]
+      round 1: flips=13712 acc=8.5%
+      round 2: flips= 5722 acc=0.3%
+      round 3: flips= 8207 acc=17.4%
+      round 4: flips= 5500 acc=9.1%
+      round 5: flips= 4214 acc=4.9%
+      round 6: flips= 4695 acc=0.5%
+      round 7: flips= 4178 acc=0.2%
+      round 8: flips= 3791 acc=1.4%
+    [revxm_rand_p50_s1001] best=76.3% (107.4%%oracle) g3=0.490 [60s]
+      round 1: flips=13830 acc=5.1%
+      round 2: flips= 6212 acc=0.0%
+      round 3: flips= 7367 acc=0.0%
+      round 4: flips= 4734 acc=0.1%
+      round 5: flips= 4286 acc=11.6%
+      round 6: flips= 2994 acc=0.6%
+      round 7: flips= 3653 acc=10.8%
+      round 8: flips= 4334 acc=7.3%
+    [revxm_rand_p50_s1002] best=86.8% (122.1%%oracle) g3=0.487 [51s]
+      round 1: flips=13570 acc=0.0%
+      round 2: flips= 6838 acc=2.7%
+      round 3: flips= 6164 acc=7.7%
+      round 4: flips= 5973 acc=2.7%
+      round 5: flips= 4524 acc=0.0%
+      round 6: flips= 4952 acc=2.4%
+      round 7: flips= 4295 acc=3.2%
+      round 8: flips= 4156 acc=2.6%
+    [revxm_rand_p50_s1003] best=87.4% (122.9%%oracle) g3=0.482 [60s]
+      round 1: flips=13375 acc=2.6%
+      round 2: flips= 6602 acc=2.7%
+      round 3: flips= 7121 acc=1.7%
+      round 4: flips= 4965 acc=8.1%
+      round 5: flips= 4890 acc=10.7%
+      round 6: flips= 4153 acc=5.2%
+      round 7: flips= 4695 acc=4.6%
+      round 8: flips= 3962 acc=4.6%
+    [revxm_rand_p50_s1004] best=80.0% (112.5%%oracle) g3=0.473 [51s]
+      round 1: flips=14063 acc=2.7%
+      round 2: flips= 7770 acc=2.4%
+      round 3: flips= 6393 acc=0.0%
+      round 4: flips= 5777 acc=12.6%
+      round 5: flips= 5418 acc=0.0%
+      round 6: flips= 3994 acc=5.9%
+      round 7: flips= 4435 acc=1.8%
+      round 8: flips= 5940 acc=2.8%
+    [revxm_nocov_p50_s1000] best=85.6% (120.4%%oracle) g3=0.489 [58s]
+      round 1: flips=14930 acc=8.2%
+      round 2: flips= 6050 acc=9.3%
+      round 3: flips= 8765 acc=2.7%
+      round 4: flips= 6420 acc=9.0%
+      round 5: flips= 6102 acc=2.4%
+      round 6: flips= 6057 acc=8.1%
+      round 7: flips= 4558 acc=6.1%
+      round 8: flips= 5106 acc=15.0%
+    [revxm_nocov_p50_s1001] best=59.3% (83.5%%oracle) g3=0.481 [51s]
+      round 1: flips=13919 acc=1.7%
+      round 2: flips= 6214 acc=2.7%
+      round 3: flips= 9338 acc=9.0%
+      round 4: flips= 6542 acc=2.7%
+      round 5: flips= 4875 acc=13.0%
+      round 6: flips= 5075 acc=7.5%
+      round 7: flips= 4251 acc=22.0%
+      round 8: flips= 5949 acc=22.0%
+    [revxm_nocov_p50_s1002] best=88.2% (124.1%%oracle) g3=0.487 [51s]
+      round 1: flips=14560 acc=14.8%
+      round 2: flips= 6874 acc=22.0%
+      round 3: flips= 6638 acc=2.0%
+      round 4: flips= 7451 acc=2.9%
+      round 5: flips= 3542 acc=2.9%
+      round 6: flips= 4714 acc=2.6%
+      round 7: flips= 5172 acc=1.9%
+      round 8: flips= 5734 acc=2.6%
+    [revxm_nocov_p50_s1003] best=86.1% (121.1%%oracle) g3=0.504 [57s]
+      round 1: flips=13843 acc=0.2%
+      round 2: flips= 6788 acc=4.4%
+      round 3: flips= 7821 acc=4.7%
+      round 4: flips= 6440 acc=4.0%
+      round 5: flips= 5098 acc=3.8%
+      round 6: flips= 4126 acc=17.3%
+      round 7: flips= 4772 acc=11.5%
+      round 8: flips= 3888 acc=13.0%
+    [revxm_nocov_p50_s1004] best=84.1% (118.2%%oracle) g3=0.498 [59s]
+
+  probes=800: 100 voting units (etch_batch=8)
+      round 1: flips=14421 acc=2.8%
+      round 2: flips= 6183 acc=3.0%
+      round 3: flips= 7577 acc=7.9%
+      round 4: flips= 5583 acc=2.9%
+      round 5: flips= 4365 acc=10.4%
+      round 6: flips= 4000 acc=7.9%
+      round 7: flips= 5149 acc=1.9%
+      round 8: flips= 4497 acc=5.8%
+    [baseline_p800_s1000] best=78.8% (110.8%%oracle) g3=0.503 [59s]
+      round 1: flips=14031 acc=7.7%
+      round 2: flips= 6668 acc=7.1%
+      round 3: flips= 8031 acc=3.2%
+      round 4: flips= 4712 acc=16.2%
+      round 5: flips= 4159 acc=3.9%
+      round 6: flips= 3313 acc=5.2%
+      round 7: flips= 3722 acc=2.0%
+      round 8: flips= 4109 acc=5.9%
+    [baseline_p800_s1001] best=74.1% (104.3%%oracle) g3=0.487 [53s]
+      round 1: flips=14164 acc=2.0%
+      round 2: flips= 6541 acc=3.8%
+      round 3: flips= 7144 acc=12.7%
+      round 4: flips= 5163 acc=22.0%
+      round 5: flips= 5920 acc=10.8%
+      round 6: flips= 2821 acc=7.7%
+      round 7: flips= 4424 acc=22.0%
+      round 8: flips= 4220 acc=11.5%
+    [baseline_p800_s1002] best=73.5% (103.4%%oracle) g3=0.496 [67s]
+      round 1: flips=13922 acc=3.2%
+      round 2: flips= 6232 acc=2.3%
+      round 3: flips= 7352 acc=2.8%
+      round 4: flips= 6693 acc=3.0%
+      round 5: flips= 5586 acc=2.6%
+      round 6: flips= 3509 acc=0.2%
+      round 7: flips= 5335 acc=1.2%
+      round 8: flips= 4508 acc=2.8%
+    [baseline_p800_s1003] best=78.7% (110.6%%oracle) g3=0.483 [67s]
+      round 1: flips=14104 acc=8.4%
+      round 2: flips= 5780 acc=2.7%
+      round 3: flips= 6104 acc=0.1%
+      round 4: flips= 4878 acc=2.8%
+      round 5: flips= 3336 acc=7.6%
+      round 6: flips= 4051 acc=11.2%
+      round 7: flips= 2853 acc=3.0%
+      round 8: flips= 3483 acc=0.0%
+    [baseline_p800_s1004] best=71.6% (100.8%%oracle) g3=0.487 [66s]
+      round 1: flips=14851 acc=2.6%
+      round 2: flips= 7292 acc=8.0%
+      round 3: flips= 8259 acc=3.7%
+      round 4: flips= 6480 acc=11.3%
+      round 5: flips= 5888 acc=2.6%
+      round 6: flips= 7220 acc=15.9%
+      round 7: flips= 6684 acc=0.0%
+      round 8: flips= 5501 acc=1.9%
+    [revxm_p800_s1000] best=82.9% (116.6%%oracle) g3=0.498 [63s]
+      round 1: flips=14821 acc=15.1%
+      round 2: flips= 6295 acc=0.2%
+      round 3: flips= 7434 acc=1.8%
+      round 4: flips= 6593 acc=1.9%
+      round 5: flips= 6625 acc=3.5%
+      round 6: flips= 5268 acc=15.9%
+      round 7: flips= 4724 acc=10.0%
+      round 8: flips= 5620 acc=1.0%
+    [revxm_p800_s1001] best=85.2% (119.8%%oracle) g3=0.485 [62s]
+      round 1: flips=14656 acc=1.3%
+      round 2: flips= 5895 acc=3.5%
+      round 3: flips= 7571 acc=18.2%
+      round 4: flips= 7348 acc=19.8%
+      round 5: flips= 5898 acc=6.1%
+      round 6: flips= 4783 acc=18.7%
+      round 7: flips= 6609 acc=8.4%
+      round 8: flips= 6003 acc=3.2%
+    [revxm_p800_s1002] best=78.0% (109.8%%oracle) g3=0.492 [65s]
+      round 1: flips=14725 acc=17.7%
+      round 2: flips= 6927 acc=0.0%
+      round 3: flips= 7689 acc=1.3%
+      round 4: flips= 6836 acc=0.6%
+      round 5: flips= 5477 acc=0.9%
+      round 6: flips= 4150 acc=1.3%
+      round 7: flips= 5269 acc=6.6%
+      round 8: flips= 6305 acc=2.9%
+    [revxm_p800_s1003] best=78.7% (110.7%%oracle) g3=0.491 [54s]
+      round 1: flips=14578 acc=1.6%
+      round 2: flips= 7027 acc=11.6%
+      round 3: flips= 6367 acc=2.5%
+      round 4: flips= 7231 acc=12.0%
+      round 5: flips= 7362 acc=10.9%
+      round 6: flips= 6960 acc=2.6%
+      round 7: flips= 5164 acc=9.8%
+      round 8: flips= 5273 acc=4.0%
+    [revxm_p800_s1004] best=91.4% (128.6%%oracle) g3=0.499 [76s]
+      round 1: flips=14329 acc=2.6%
+      round 2: flips= 7171 acc=2.6%
+      round 3: flips= 8640 acc=0.0%
+      round 4: flips= 5269 acc=3.3%
+      round 5: flips= 4212 acc=0.4%
+      round 6: flips= 5553 acc=2.7%
+      round 7: flips= 4535 acc=14.9%
+      round 8: flips= 4235 acc=6.0%
+    [revxm_rand_p800_s1000] best=87.6% (123.2%%oracle) g3=0.500 [53s]
+      round 1: flips=14002 acc=9.5%
+      round 2: flips= 6353 acc=6.0%
+      round 3: flips= 7732 acc=6.8%
+      round 4: flips= 6138 acc=7.7%
+      round 5: flips= 4291 acc=5.8%
+      round 6: flips= 2894 acc=7.9%
+      round 7: flips= 5359 acc=3.1%
+      round 8: flips= 5427 acc=1.8%
+    [revxm_rand_p800_s1001] best=90.7% (127.5%%oracle) g3=0.482 [60s]
+      round 1: flips=14173 acc=1.7%
+      round 2: flips= 6377 acc=2.7%
+      round 3: flips= 6504 acc=0.0%
+      round 4: flips= 4494 acc=6.8%
+      round 5: flips= 4204 acc=2.3%
+      round 6: flips= 4081 acc=1.0%
+      round 7: flips= 3213 acc=5.0%
+      round 8: flips= 3687 acc=21.7%
+    [revxm_rand_p800_s1002] best=75.6% (106.4%%oracle) g3=0.491 [72s]
+      round 1: flips=13894 acc=2.0%
+      round 2: flips= 5601 acc=1.1%
+      round 3: flips= 6594 acc=1.0%
+      round 4: flips= 5697 acc=4.1%
+      round 5: flips= 3174 acc=4.5%
+      round 6: flips= 5292 acc=1.6%
+      round 7: flips= 4219 acc=2.0%
+      round 8: flips= 5588 acc=3.1%
+    [revxm_rand_p800_s1003] best=77.5% (108.9%%oracle) g3=0.483 [53s]
+      round 1: flips=14097 acc=3.1%
+      round 2: flips= 7071 acc=3.0%
+      round 3: flips= 7824 acc=0.7%
+      round 4: flips= 5164 acc=3.4%
+      round 5: flips= 4409 acc=5.7%
+      round 6: flips= 3926 acc=4.8%
+      round 7: flips= 2986 acc=3.3%
+      round 8: flips= 5378 acc=4.6%
+    [revxm_rand_p800_s1004] best=77.8% (109.4%%oracle) g3=0.491 [52s]
+      round 1: flips=14851 acc=2.6%
+      round 2: flips= 6596 acc=1.6%
+      round 3: flips= 9702 acc=9.4%
+      round 4: flips= 6180 acc=5.3%
+      round 5: flips= 7020 acc=0.1%
+      round 6: flips= 5535 acc=10.8%
+      round 7: flips= 7338 acc=2.7%
+      round 8: flips= 5697 acc=17.4%
+    [revxm_nocov_p800_s1000] best=85.7% (120.6%%oracle) g3=0.492 [58s]
+      round 1: flips=14821 acc=15.1%
+      round 2: flips= 6784 acc=0.2%
+      round 3: flips=10343 acc=2.8%
+      round 4: flips= 5019 acc=10.5%
+      round 5: flips= 5646 acc=17.3%
+      round 6: flips= 5554 acc=4.0%
+      round 7: flips= 5667 acc=0.7%
+      round 8: flips= 5011 acc=7.9%
+    [revxm_nocov_p800_s1001] best=89.0% (125.2%%oracle) g3=0.500 [55s]
+      round 1: flips=14656 acc=1.3%
+      round 2: flips= 6021 acc=2.5%
+      round 3: flips= 7528 acc=2.0%
+      round 4: flips= 6698 acc=9.8%
+      round 5: flips= 5671 acc=20.4%
+      round 6: flips= 4590 acc=22.0%
+      round 7: flips= 7481 acc=18.7%
+      round 8: flips= 6015 acc=21.8%
+    [revxm_nocov_p800_s1002] best=76.5% (107.6%%oracle) g3=0.495 [78s]
+      round 1: flips=14725 acc=17.7%
+      round 2: flips= 6997 acc=2.8%
+      round 3: flips= 7889 acc=2.1%
+      round 4: flips= 7457 acc=14.2%
+      round 5: flips= 5173 acc=3.4%
+      round 6: flips= 4844 acc=4.4%
+      round 7: flips= 4732 acc=1.8%
+      round 8: flips= 4902 acc=2.8%
+    [revxm_nocov_p800_s1003] best=83.7% (117.8%%oracle) g3=0.483 [53s]
+      round 1: flips=14578 acc=1.6%
+      round 2: flips= 7322 acc=0.2%
+      round 3: flips= 6917 acc=7.2%
+      round 4: flips= 5836 acc=3.9%
+      round 5: flips= 5452 acc=3.3%
+      round 6: flips= 6243 acc=5.2%
+      round 7: flips= 7199 acc=6.4%
+      round 8: flips= 6096 acc=2.7%
+    [revxm_nocov_p800_s1004] best=76.4% (107.5%%oracle) g3=0.503 [52s]
+
+══════════════════════════════════════════════════════════════════════
+  GATE SCORING (oracle=71.1%)
+
+  probes=50:
+       G1 revxm-base: Δ=+0.0002 ±0.1960 t=+0.00 wins=2/5
+       G2 revxm-rand: Δ=-0.0963 ±0.1224 t=-1.76 wins=1/5
+        G3 contested: Δ=-0.0075 ±0.0086 t=-1.95 wins=1/5
+
+  probes=800:
+       G1 revxm-base: Δ=+0.1112 ±0.1086 t=+2.29 wins=5/5
+       G2 revxm-rand: Δ=+0.0202 ±0.1077 t=+0.42 wins=3/5
+        G3 contested: Δ=+0.0018 ±0.0078 t=+0.51 wins=2/5
+
+  saved -> results/xm-reverse-s297/results.json
