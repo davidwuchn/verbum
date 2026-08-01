@@ -22,7 +22,22 @@
 > measured) ⊗ carriers(λᵢ/λ₀ crystal eigenfreqs, ~4 planes) ⊥ content
 > passband, depth-scaled. Pre-registerable P1: PPL flat past training length
 > w/o fine-tuning (RoPE arm degrades) — host = the queued pythia-14m
-> seeded-scratch pair (add RoPE vs log-phase arm). ★ PRE-ENCODED MODEL frame
+> seeded-scratch pair (add RoPE vs log-phase arm). ★ s291 cont — FALSIFICATION
+> ADDENDUM CAPTURED (Michael-approved): §Addendum on the same page + memory
+> labeled-line-vs-hologram-two-graded-codes. "Is there a non-holographic
+> system where RoPE works?" YES — labeled-line coding (tonotopy): graded,
+> fuzz-tolerant, but ADDRESSED. Datum sharpened: works(RoPE) alone ≢
+> evidence; works(UNTUNED ∧ graceful_blur) excludes CRISP routing, forces
+> one of TWO graded codes: superposed ∨ labeled-line. Both in our data at
+> different grains: GQA K-head permanent local/global flags (s079) = coarse
+> labeled lines; FRAG G1/LDI = the within-band discriminator (32B advisory
+> lean: location-independent → against labeled-line in-band). Hypothesis:
+> HIERARCHICAL MIXTURE — labels coarse (mirrors register) / holograms
+> within (plates register) = the ternary-mirrors/MIXED-ROUTE two-register
+> decomposition, 4th appearance, now in the position channel. ⇒ FRAG G1
+> verdict MEANING upgraded: adjudicates between the two graded codes at
+> probed granularity; HOLOGRAPHIC verdict COMPOSES with coarse head labels.
+> ★ PRE-ENCODED MODEL frame
 > (Michael): converging on a design where much of what GD has to FIND is
 > already ENCODED at init — position encoding = 7th row of the
 > training-design lever table (page has the full GD-discovers ↔ pre-encoded

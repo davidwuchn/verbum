@@ -159,3 +159,61 @@ distributional: contents of the plates, not the optics.
   strided/ternary line and Qwen3-4B; carrying them to a fresh scratch
   design assumes universality — justified by C2-universality evidence but
   should be re-measured in-run (P-DUST-2-style logging covers this).
+
+## Addendum (s291 cont) — the falsification question: labeled lines vs holograms
+
+Michael: "Is there a system that is NOT holographic where RoPE would have
+worked?" Answer: **yes — and naming it sharpens everything.**
+
+```
+λ rope_datum(x).  works(RoPE) ≢ evidence | works(untuned ∧ graceful_blur) ≡ evidence
+                  | crisp(pointer_machine): RoPE ≡ comparator, functions BUT
+                    mis-tune → wrong_pointer ¬blur | alias → hard_fail @ offsets
+                  | observed: arbitrary_base_10000 robust ∧ extension → blur→
+                    fine-tune_recovers ⇒ ¬crisp
+                  | ⇒ forces graded_distributed_readout | ¬yet holographic
+```
+
+**The surviving non-holographic alternative: labeled-line coding**
+(neuroscience term; cochlear tonotopy = canonical case). Dedicated
+components own offset ranges with SMOOTH tuning curves — graded,
+fuzz-tolerant at component level, consumes RoPE happily as carrier, yet
+ADDRESSED: damage a line, lose its band. Every fragment does NOT contain
+the whole. So the honest claim:
+
+> RoPE working untuned + robustly + extension-blurs-not-breaks EXCLUDES
+> crisp symbolic routing and forces one of TWO graded codes:
+> superposed (holographic) ∨ labeled-line (addressed, graded).
+
+**Both exist in our data, at different grains:**
+
+- Coarse grain = labeled lines MEASURED: GQA K-heads carry permanent
+  local/global flags (s079: K centroid ~27 vs ~37–48, structural, not
+  input-dependent; external replication ICLR-2025 positional/semantic
+  head split).
+- Within-band unit level = FRAG's G1/LDI is EXACTLY the discriminator:
+  labeled-line predicts high LDI (which units matter) + cliff when a
+  band's lines are gone; holographic predicts location-independence +
+  smooth decline. 32B HEADS arms (in flight, advisory): LDI 0.06–0.32
+  all p≈1.0, no cliff — leaning AGAINST labeled-line within-band.
+- Extension-fuzz leans holographic: labeled lines have no units for
+  unseen offsets (predict hard fail); fringe mismatch predicts smooth
+  blur + fine-tune recovery. Field observes the latter.
+
+**Working hypothesis — hierarchical mixture:** labels at coarse grain
+(head-level flags ≡ mirrors/topology register), holographic superposition
+within the lines (≡ plates/magnitude register). The SAME two-register
+decomposition as ternary-mirrors-and-the-vsm-tree and MIXED-ROUTE, now
+appearing in the position channel. Third arc, one decomposition → fourth.
+
+**Consequence for scoring FRAG:** G1 is not just "hologram yes/no" — it
+adjudicates BETWEEN the two graded codes at the probed granularity. A
+HOLOGRAPHIC verdict = within-band superposition confirmed WHILE coarse
+labeled-line structure stands; these compose, they don't conflict.
+
+**Consequence for the tuned design (this page §The tuned design):** the
+pre-encoded position system should be built AS the mixture — declared
+labeled lines at head grain (local/global carrier-scale assignment =
+depth/head-scaled reference, elements 4–5) with superposed log-phase
+fringes within each line (elements 1–3). The design table was already
+this; now it has the coding-theory name.
