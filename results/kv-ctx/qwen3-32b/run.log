@@ -1,0 +1,14 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/707 [00:00<?, ?it/s]Loading weights: 100%|██████████| 707/707 [00:00<00:00, 25159.92it/s]
+[kvc] Qwen/Qwen3-32B L_ref=9 scale=2.0 dev=mps n_layers=64 eager
+[kvc] mask self-check: max|dlogit|=0.00000 argmax_same=True -> PASS
+[kvc] union candidates: 44 (dropped: [])
+[kvc] ceilings: valid landmarks 10/18 gate0=True
+[kvc] A=5 B(fixed)=12 C=3 | nonce pos 3
+[kvc] cells: 10
+[kvc] means: {'ctx_base': -7.409, 'kv_ctx': -4.545, 'kv_blind': -4.59, 'kv_ctx_wrong': -7.15, 'kv_ctx_rand': -6.968}
+[kvc] acc:   {'ctx_base': 0.0, 'kv_ctx': 0.0, 'kv_blind': 0.0, 'kv_ctx_wrong': 0.0, 'kv_ctx_rand': 0.0}
+[kvc] G1 co-encoding Δ=+0.046 (p=0.4147) flip=False | G2 Δ=+2.864 (p=0.0014) flip=False | G3 Δ=+2.606 (p=0.0021) swap 0/10 vs true 0
+[kvc] advisory: CoT fraction 0.00 (kv_ctx 0.00/0.9) | kv_blind 0.00 vs P-KV-1 kv_nat 0.2 | secondary Δ=+0.000 (p=1.0000)
+[kvc] VERDICT: LAYOUT-BREAKS
+[kvc] wrote results/kv-ctx/qwen3-32b/kv_ctx.json
