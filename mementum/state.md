@@ -8,6 +8,83 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ▶▶ s296 CLOSE — 💡❌ **XM PAPER READ IN FULL → HOLOGRAPHIC MAPPING →
+> EXPERIMENT FROZEN, RUN, REFUTED — the refutation is the finding.**
+> Artifacts: memories e298f63 (xm-exploration-is-angle-assignment) +
+> xm-forward-needs-coupling-ambiguity; knowledge/explorative-modeling.md
+> (full synthesis: paper core, teacher-as-reference-beam, Gram-delta
+> transport, gated next ports); script a5aa767; verdict+record b358144.
+> Cold-start next session: read knowledge/explorative-modeling.md —
+> it supersedes the inline detail below. Explorative Modeling (arXiv:2607.27372,
+> Gladstone/Ji/Du): factor the TRAINING loop not generation — best-of-K
+> candidate matches, train the winner; Forward XM = per-K maximum likelihood
+> of the candidate mixture (mass-covering), Reverse XM = reverse-KL minus own
+> entropy (collapses without coverage term); per-prediction expressivity is
+> the sharp concept; minibatch-OT HURTS (model-aligned coupling > geometric).
+> Holographic mapping (memory e298f63, Michael-approved): coupling ≡
+> write-angle assignment, blur ≡ cross-talk in linear medium (s292); our s115
+> etch loss is the M=1 regressor → candidate explanation for 50-beats-800;
+> teacher ≡ reference beam (heterodyne scoring in teacher space); tape ↔
+> exploration substitutable (their Fig 11 ↔ our s294 backprop-compile).
+> **§XM-ETCH-EXPLORE frozen pre-reg (a5aa767)**: Forward XM on the s115 etch,
+> K jittered beam angles, arms K∈{1,2,5,10}×probes{50,800} + jitter-only
+> control + shuffled-winner null; P1 monotone-in-K / P2 800>50 gains /
+> P3 depth-4 concentration. Smoke PASS; full sweep in **tmux main:1** →
+> checkpoints/xm-etch-explore/{run.log,results.json} (streams per-arm; ~30
+> min ETA from 11:15). ⚠ K1_s0 baseline does NOT reproduce s115 absolutes
+> (48.7% of oracle vs 91.3% then) — environment drift suspected; sweep is
+> internally controlled (all arms share pipeline) so K-comparisons stand;
+> grade P1/P2/P3 against K1_s0 + K1_j + K5_null, not s115 history.
+> **VERDICT IN (b358144, results/xm-etch-explore-s296/): PRE-REG REFUTED.**
+> P1 non-monotone/decreasing in K; P2 moot (gains negative; s115
+> 50-beats-800 did NOT reproduce — 800>50 at baseline this run); P3 no
+> d4 concentration. ★ THE NULL WON: shuffled-winner beat best-of-K at
+> BOTH probe counts (84.2 vs 74.2 @p50, 83.8 vs 72.0 @p800). ⚠ TWO
+> reproducibility bugs (❌): mx model init unseeded + jitter_seed via
+> salted hash() → 33pt between-launch swing on identical config → arm
+> deltas within init noise = UNDERPOWERED; directional lean is still
+> anti-best-of-K. STRUCTURAL DIAGNOSIS (the real finding): deterministic
+> teacher (input→output) pairs are ALREADY RESOLVED couplings — no
+> one-to-many ambiguity at the per-pair level for Forward XM to search;
+> the mode conflict lives ACROSS pairs in the sign-vote accumulator.
+> Min-loss winner ≈ smallest effective jitter → collapses variety;
+> random winner keeps variety (coheres burn-in-is-variety). XM applies
+> where coupling is AMBIGUOUS — correct next ports: (a) Reverse-XM over
+> the accumulator (explore WHICH pairs vote, coverage-constrained),
+> (b) give the student a latent so candidates can specialize (paper's
+> XMDLM discrete-embedding route), (c) LLM-teacher setting where teacher
+> sampling makes targets genuinely multimodal. Before ANY rerun: seed
+> mx.random per arm + explicit int seeds + ≥3 init seeds/arm for power.
+> §XM-COUPLING-SOURCE stays queued but is now GATED on a port with real
+> coupling ambiguity (its premise assumed selection>nulls — not shown). **QUEUED (designed, NOT frozen — s296 Michael yes):**
+> §XM-COUPLING-SOURCE follow-up arm, contingent on current sweep showing
+> selection>nulls: teacher-resolved coupling (winner per probe fixed once,
+> chosen by teacher-space distance = hologram COPYING, inherits master's
+> multiplexing scheme; ≡ rejection-sampling distillation) vs
+> student-resolved (current arms, co-adapting) vs hybrid (teacher prunes,
+> student's loss picks = paper's cheaper-scorer inverted). Measures
+> co-adaptation vs any-consistent-assignment = the OT-vs-XM question
+> inside our substrate. Also: teacher-space loss ℓ=||T(y_k)−T(x)||² keeps
+> the mode-commit mechanism but VOIDS the exact MLE reading (App F
+> normalizable-kernel assumption) — mark register if used.
+> **REFINED s296 (Michael, Gram-delta):** cross-geometry transport of
+> teacher-explored couplings via the 9×9 crystal Gram. (1) RELATIONAL
+> SCORING (basis-free): ℓ = ||g_S(y_k) − g_T(x)||², g_M(v) = 9-vector of
+> sims to M's OWN crystal vertices (KIBCSDWY+WHNF) — no Procrustes needed;
+> promotes relational_distill.py logic into the exploration loss; evidence
+> the signature transports: s269 per-vertex Gram fidelity 0.987 through
+> 1-bit binarization while weight cosine fell to 0.73. (2) PROCRUSTES
+> DELTA AS ROUTER: fit R on the 9 vertex pairs (probe_procrustes_lens);
+> residual after R = non-shared geometry → graded hybrid: transfer
+> coupling where content ∈ aligned subspace (hologram copying), re-explore
+> student-side where ∈ residual. Note: token target known → exploration
+> lives in PATH space (address-free intermediate, s294) — token register
+> unimodal, path register multimodal; best-of-K ≠ top-k (selector = loss
+> vs ground truth, mass-covering; NOT model's own probability rank).
+> GATES before trusting transfer: (a) rank-9 scope — Gram pins only the
+> crystal subspace, orthogonal complement re-explores by default;
+> (b) per-pair Procrustes fidelity ≥ threshold (s251: universality only
+> partially supported — Qwen3-14B alone beat shuffled-label null).
 > ▶▶ s294 LIVE — ✅ **CHEAP DIAGNOSTIC DONE + P-BAKE-STACK FROZEN + BUILT +
 > 4B-SMOKED (advisory LINKER-FAILS = expected 4B compression).** (1) The s294
 > cold-start's cheap error-domain diagnostic ran on frozen P-STACK-1b data
