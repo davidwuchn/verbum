@@ -254,6 +254,55 @@ Results → results/holo-frag/qwen3-{4b,32b}/. Instrument
 layer_geometry, nulls, readout imported from the substrate; reuse
 operand_multihop3 + v3 banks for the readout — no fork).
 
+### Result-32B — P-HOLO-FRAG (s291, verdict host, frozen gates scored)
+
+**VERDICT: HOLOGRAPHIC / DELOCALIZED = TRUE** (G1 within null ∧ G2 no-cliff,
+primary bank, BOTH arms). The falsification arm did not fire; the frame
+SURVIVES; **P-HOLO-CAP promoted** per the pre-reg's promotion clause.
+
+Run: Qwen/Qwen3-32B, mps, R=100 draws, f∈{.1,.2,.35,.5,.65,.8}, arms
+heads+mlp with matched-fraction oob controls, 18/18 landmarks valid,
+~4h15m → results/holo-frag/qwen3-32b/ (ae8d107). Band (find_band, in-run)
+= L8–L14 (7 layers).
+
+- **Gate-0:** SNR₀ = 2.622 ± 0.355 SE (t≈7.4) → expressed. PASS.
+- **G1 (primary, address test):** HEADS in-band LDI 0.03–0.09; MLP in-band
+  0.09–0.22; ALL p = 1.0 vs probe-resampling null. Across-draw variance
+  10–30× BELOW the noise floor (e.g. heads f=.1: v_across 0.004 vs v_noise
+  0.126). WHICH subset is removed is irrelevant. Within null → PASS.
+- **G2 (cliff):** no material degradation anywhere (max in-band drop 6.9%
+  < 15% materiality gate, smoke-FIX#1) → cliff stat correctly nulls.
+  No cliff → PASS.
+- **Controls:** in-band degrades (heads −5.8% @f=.5; mlp −6.9% @f=.35/.5)
+  while matched oob does NOT degrade → band carries the signal. Instrument
+  calibration stands (--validate: planted-localized LDI 166/all-sig vs
+  planted-holographic 1.01/0-sig).
+
+**Scope (the pre-reg's own):** confirms ADDRESS-FREE DELOCALIZATION; cannot
+positively prove hologram (redundancy ≠ holography). The positive √(D/k)
+law is P-HOLO-CAP — now licensed.
+
+**Verbatim findings (post-hoc, ¬gated):**
+1. 32B in-band degradation SHALLOW (≤7% vs 4B ~25%) and mildly U-shaped
+   (recovers toward f=.8; top-end pre-scoped advisory/off-manifold).
+   Massive in-band redundancy at scale; verdict rests on the emphatic G1.
+2. OOB ablation IMPROVES the margin, monotone to +12.8% (heads_oob f=.8) —
+   🔁 dark-field/contrast-rise motif (~4th appearance: 1b retQ, 1c generic
+   amplification, dark-field): removing out-of-band background sharpens.
+3. Band position differs across scale: 32B L8–L14 (early) vs 4B L21–23 —
+   band-geometry ledger note.
+4. ⚠ Protocol note: built instrument ran the PRIMARY bank only (18-landmark
+   3-hop); the v3 secondary bank in the design text was never in the frozen
+   instrument. Frozen verdict clause requires only the primary bank —
+   verdict unaffected; deviation recorded.
+
+**Reading through the two-graded-codes addendum
+(position-encoding-tuned-to-the-hologram.md §Addendum):** G1 adjudicated
+labeled-line vs hologram within-band — there are NO labeled lines inside
+the band at the verdict host; coarse head-labels stand at the grain above.
+The four-way location null (1b/1c/QK/JS) now has its CAUSAL account:
+nothing was found at any address because there are no addresses.
+
 ## Hypothesis-grade (needs measurement, ledgered honestly)
 
 - "GD writes fringes by interfering the distribution with itself" — a

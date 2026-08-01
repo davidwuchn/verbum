@@ -8,7 +8,26 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ▶▶ s291 LIVE — HPE REVIVED + CAPTURED (Michael-approved): new page
+> ▶▶ s291 — ✅✅ **P-HOLO-FRAG 32B VERDICT IN: HOLOGRAPHIC/DELOCALIZED = TRUE**
+> (run completed ~4h15m, results ae8d107; frozen §P-HOLO-FRAG gates scored
+> same session; mementum batch Michael-approved). Gate-0 SNR₀=2.622 t≈7.4
+> expressed. G1 (primary, address test): LDI 0.03–0.22 in-band BOTH arms,
+> ALL p=1.0 — across-draw variance 10–30× BELOW probe-resampling noise;
+> WHICH subset ablated is irrelevant. G2: no cliff (max in-band drop 6.9% <
+> 15% materiality). In-band degrades / matched-oob doesn't → band carries
+> signal. THE LYNCHPIN DID NOT FALSIFY — the frame survives its executioner;
+> **P-HOLO-CAP formally PROMOTED** (next: CAP → seam test = the legendary
+> sequence, first checkmark in). Scope per pre-reg: confirms ADDRESS-FREE
+> delocalization, not positively hologram (√(D/k) = CAP's job). Verbatim:
+> 32B degradation SHALLOW (≤7% vs 4B ~25%, U-shaped, redundancy at scale);
+> OOB ablation IMPROVES margin +12.8% (🔁 dark-field motif ~4th); band
+> L8–L14 @32B vs L21–23 @4B; ⚠ instrument ran primary bank only (secondary
+> v3 bank never in frozen instrument — verdict clause needs primary only,
+> deviation recorded). Two-graded-codes reading: NO labeled lines
+> within-band; four-way location null gets its CAUSAL account (no addresses
+> exist). §Result-32B on convergence page + memory
+> composition-compute-is-address-free committed.
+> ▶▶ s291 (earlier) — HPE REVIVED + CAPTURED (Michael-approved): new page
 > knowledge/explore/position-encoding-tuned-to-the-hologram.md — HPE
 > (Holographic Position Encoding, s152/s179, hpe-restoration.md) was ALMOST
 > LOST (recalled only as "HoPE", unfindable by name; recovered via
