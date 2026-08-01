@@ -579,3 +579,64 @@ seam EXISTS and is TYPED; it is WEAK in-context.
 **Sessions.** s293 (32B verdict scored same session; TYPED-STACKABLE with
 the λ-yardstick caveat leading; 4B smoke NOT-STACKABLE flipped via the
 composition-window shortcut death).
+
+## §P-STACK-1b — shortcut-free composition (PRE-REG FROZEN s293, Michael GO; gates inherited from §P-STACK-1)
+
+**Why.** P-STACK-1 landed TYPED-STACKABLE but MARGINAL: the composed target
+(continent) is single-hop reachable from a landmark, so the effect lived in
+sub-floor margins (~6% absolute) and the readout-window shortcut co-fired.
+A transitively-closed KB (geography city/country/continent) confounds
+composition tests — every 2-hop endpoint is also a direct 1-hop edge.
+§P-STACK-1b removes the shortcut so the composed answer can WIN the argmax.
+
+**Inherits verbatim from §P-STACK-1:** all gates (G1 stack>best-single;
+G2 flip; G3 graded type discipline well>near>far>random), all 8 arms
+(stack / g-alone / h-alone / wrong-window / mismatch-near / mismatch-far /
+random-both / no-key), all 4 ordered window-pairs (w_g{.3,.45}×w_h{.6,.75},
+α/4), all verdicts (TYPED-STACKABLE / STACKABLE / ORDER-FREE / NOT-STACKABLE
+/ inconclusive), nulls, registers.
+
+**Deltas.**
+- **Chain:** landmark →(country-of)→ country →(country→capital)→ capital.
+  Composed truth = CAP_OF[COUNTRY_OF[landmark]]. The capital is NOT a direct
+  attribute of the landmark (its city is a NON-capital city) → genuinely
+  2-hop-only; h-alone cannot reach it without first doing country-of.
+- **h = country→capital** (NEW ground-truth map COUNTRY_CAP; key from
+  held-out exemplars Portugal→Lisbon, Japan→Tokyo, Kenya→Nairobi).
+- **Landmark set (shortcut-free, city ≠ capital), n=10:** Sagrada Família
+  (Spain→Madrid), Taj Mahal (India→New Delhi), Kaaba (Saudi Arabia→Riyadh),
+  Angkor Wat (Cambodia→Phnom Penh), Burj Khalifa (UAE→Abu Dhabi), Pyramids +
+  Sphinx (Egypt→Cairo), Karnak (Egypt→Cairo), Medina (Morocco→Rabat),
+  Victoria Falls (Zambia→Lusaka). City=capital landmarks and multi-capital
+  South Africa excluded.
+- **Readout union** adds the 8 capitals, keeps the direct cities → THREE
+  distinguishable outcomes: composed = **capital** ✓; stopped-at-g =
+  **country**; **shortcut = the landmark's direct city** (now a separate
+  token from the answer). New advisory diagnostic `landed_on_city` (shortcut
+  rate) beside `stopped_at_g`.
+- **The clean discriminator P-STACK-1 lacked:** h-alone (country→capital key
+  over a landmark) can at most produce the direct CITY (shortcut), never the
+  CAPITAL — so ONLY the stack can land the capital, and it can WIN the argmax
+  (not merely be less-negative).
+
+**Instrument:** extend `fn_stack.py` with `--chain {continent,capital}`
+(open slot, addition — λ extend / λ one_way, no fork; `continent` reproduces
+frozen P-STACK-1 byte-for-byte). Multi-token capitals graded on first token
+(New/Phnom/Abu; collisions dropped). Host order: `--validate` → 4B smoke →
+32B verdict, tmux main:1. Results → results/fn-stack-cap/qwen3-{4b,32b}/.
+
+**Honest scope.** n=10 (< P-STACK-1's 18; paired permutation over 10 — the
+composition-window effect was p=1e-4 at 18, expected to survive but flagged).
+Egypt appears 3× (Cairo) — capital-token repetition; landmarks still
+distinct operands.
+
+**Prediction (a-priori).** If P-STACK-1's signal was genuine typed
+composition (not the shortcut), §P-STACK-1b shows the composed CAPITAL
+WINNING the argmax at the composition window (real accuracy, not just
+less-negative margin), with h-alone landing the CITY not the capital. A null
+result (capital never wins) would say the P-STACK-1 positive was
+shortcut-inflated — a clean falsification either way.
+
+**Sessions.** s293 (frozen immediately after P-STACK-1's marginal verdict —
+Michael's "strengthen the measurement before baking"; the shortcut-free
+rung between P-STACK-1 and P-BAKE-STACK).
