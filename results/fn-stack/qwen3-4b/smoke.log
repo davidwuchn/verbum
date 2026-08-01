@@ -1,0 +1,13 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 7664.59it/s]
+[stk] Qwen/Qwen3-4B L_ref=9 scale=2.0 key_scale=2.0 dev=mps n_layers=36 pairs=[(11, 22), (11, 27), (16, 22), (16, 27)]
+[stk] union candidates: 42 (dropped: [])
+[stk] ceilings: valid landmarks 17/18
+[stk] key norms @L11: {'country': 21.2, 'city': 19.5, 'class': 31.1, 'country2cont': 25.6}
+[stk] cells: 8
+[stk] L11->L22: stack=1.469 g1=+0.312 (p=0.2196) order=+3.727 typed=+2.766 graded=True acc 0.75 vs best 0.88 flip=False
+[stk] L11->L27: stack=-0.422 g1=+0.203 (p=0.0862) order=+0.570 typed=+0.453 graded=False acc 0.25 vs best 0.25 flip=False
+[stk] L16->L22: stack=1.703 g1=+0.547 (p=0.0313) order=+0.688 typed=+3.352 graded=False acc 0.75 vs best 0.88 flip=False
+[stk] L16->L27: stack=-0.234 g1=+0.391 (p=0.0791) order=+2.609 typed=+0.375 graded=False acc 0.38 vs best 0.25 flip=True
+[stk] best pair 16-22 (alpha_sel=0.0125) -> VERDICT: NOT-STACKABLE
+[stk] wrote results/fn-stack/qwen3-4b/fn_stack.json
