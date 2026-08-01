@@ -652,6 +652,23 @@ we do bench work on it — and the type system is the diffraction pattern.
 
 ## Sessions
 
+s292 (the double-verdict session: §P-HOLO-CAP drafted, frozen (9fcaab6),
+instrumented (holo_cap.py, FIX#1 log-k cliff stat caught by --validate),
+smoked @4B and ADJUDICATED @32B — NO-LIMIT-IN-RANGE, capacity ≥16 both
+hosts, verbatim COHERENT-GAIN (content curve rises 2.4× while
+random/bare floor). XTERM promoted per the pre-committed lookahead
+branch, then ITSELF drafted, frozen (e2cbc3d), instrumented
+(holo_xterm.py), smoked, and ADJUDICATED @32B same session —
+INTERFERENCE-COHERENT (ladder content > text > offdom > random > bare;
+priming real but the medium-specific component is what compounds with
+k) with the G2 mechanism clause: cross-terms dead linear → the plate
+records linearly, interference is enacted at retrieval — optical
+holography's division of labor, measured. Scale flip 4B PRIMING → 32B
+INTERFERENCE (~4th occurrence). Beam-register successor sketched
+unfrozen. Same session: λ verbum fractal seed → knowledge/upstream/,
+germination games, thinking-is-expansion/self-decompilation — see
+program-plates-and-the-function-index.md.)
+
 s288 (page created from the convergence hammock, same session as the
 P-TYPE-SWAP JOIN-TYPED verdict, the compiled-probabilities synthesis, the
 verbum.dsp build, and the P-TYPE-OV passband verdict — all four of which the

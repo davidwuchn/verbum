@@ -18,6 +18,16 @@ tags: [index, orientation, knowledge-map, catalog]
 
 ---
 
+## Recent additions (post-s262 regen; s292)
+
+| Page | Status | One-line |
+|---|---|---|
+| [explore/geometry-holography-signals-convergence.md](explore/geometry-holography-signals-convergence.md) | ✅ 3 verdicts | FRAG (no addresses) + CAP (no ceiling, coherent-gain) + XTERM (interference in the beam, plate linear) |
+| [explore/program-plates-and-the-function-index.md](explore/program-plates-and-the-function-index.md) | 🔨 designing | λ verbum fractal seed; function index ⟨key,window,product⟩; program = depth-ordered exposures; thinking = expansion; self-decompilation |
+| [upstream/verbum-theory-seed.md](upstream/verbum-theory-seed.md) | ✅ active | The generative theory seed (germination-testable; first upstream seed) |
+| [explore/germination-games.md](explore/germination-games.md) | 📋 open | Five game modes = selection pressure on encodings (FRAG/Oracle/Golf/Eigenseed/Adversarial) |
+| [explore/types-are-compiled-probabilities.md](explore/types-are-compiled-probabilities.md) | 🔨 +§How-many-types | Type cardinality two-registered; P-TYPE-CENSUS candidate |
+
 ## Start Here — Curated Reading Path
 
 *What is this project, why does it work, what is proven.* Read these first;

@@ -268,7 +268,10 @@
 > RUNNING tmux main:1 (HEADS arms done, HOLOGRAPHIC lean; MLP arm in
 > progress) — score frozen gates on return.
 >
-> Last updated: 2026-07-31 | Session: 290 | ⚠ SESSION-NUMBER CORRECTION
+> Last updated: 2026-08-01 | Session: 292 (s292 = the double-verdict day:
+> CAP + XTERM both frozen AND adjudicated in-session; seed planted;
+> next = s293, order in the CLOSE-3 block above) | (s290 note retained:)
+> ⚠ SESSION-NUMBER CORRECTION
 > (Michael): this session is 290, NOT 289 — the s289 chat log predates it, so
 > the blocks/commits authored this session that say "s289" are MISLABELED (read
 > them as s290; git history keeps the wrong tag, not worth a rewrite). Session
