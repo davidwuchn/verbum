@@ -58,6 +58,45 @@ CC_CALIB = ["France", "Germany", "Japan", "Brazil", "Kenya", "Canada",
             "Portugal", "Thailand", "Norway", "Chile"]
 CC_FRAME = "The landmark is located in the country of {x}"  # ends on the country
 
+# §3a-whitened (s295): multi-lighting country frames + innocents for the
+# whitened matched-filter detector (SuperBake whitening law: raw mean keys
+# measure the shared question subspace; Σ must include innocents).
+CC_FRAMES = [CC_FRAME,
+             "The treaty was signed by {x}",
+             "Many travelers dream of visiting {x}"]
+PROSE_INNOCENTS = [
+    "The recipe calls for two cups of flour",
+    "She closed the book and turned off the lamp",
+    "The meeting was rescheduled to next week",
+    "A gentle rain fell through the afternoon",
+    "The engine hummed as the train departed",
+    "He sharpened the pencil before the exam",
+]
+
+
+def whitened_filter(own: np.ndarray, innocents: np.ndarray, eps: float):
+    """SuperBake-law matched filter: k = Sigma_sh^-1(mean_own - mu_pop),
+    population = own + innocents; Sigma_sh = Sigma + eps*(tr/D)*I (ridge, n << D).
+    Returns (k, mu, theta, ref): theta = max innocent response (clearance
+    floor), ref = mean own response. Pure numpy; --validate exercises it."""
+    pop = np.vstack([own, innocents])
+    mu = pop.mean(axis=0)
+    xc = pop - mu
+    cov = (xc.T @ xc) / max(len(pop) - 1, 1)
+    d = cov.shape[0]
+    cov += eps * (np.trace(cov) / d) * np.eye(d)
+    k = np.linalg.solve(cov, own.mean(axis=0) - mu)
+    own_r = (own - mu) @ k
+    inn_r = (innocents - mu) @ k
+    return k, mu, float(np.max(inn_r)), float(np.mean(own_r))
+
+
+def detector_gain(r: np.ndarray, k: np.ndarray, mu: np.ndarray,
+                  theta: float, ref: float, cap: float) -> float:
+    """Unified gain: clip((proj - theta)/(ref - theta), 0, cap). Raw: theta=0."""
+    proj = float(np.dot(r - mu, k))
+    return float(np.clip((proj - theta) / max(ref - theta, 1e-9), 0.0, cap))
+
 
 # ══════════════════════════════════════════════════════════════════════════
 # Frozen verdict logic (pure; --validate exercises it)
@@ -135,8 +174,60 @@ def run_validate(alpha: float) -> int:
         good = call == want
         print(f"[V] {w}-world -> {call} (want {want}) {'OK' if good else 'FAIL'}")
         ok &= good
+    ok &= validate_whiten(rng)
     print(f"\n── --validate {'ALL PASS' if ok else 'FAIL'} ──")
     return 0 if ok else 1
+
+
+def validate_whiten(rng) -> bool:
+    """Planted detector world (§3a-whitened): a loud FRAME axis shared by the
+    harvest split (countries in frame-A, cities in frame-B) dominates the RAW
+    mean-diff detector, so it fires on runtime states with NO country content
+    (the s294 G3 signature: gain_stack ≈ gain_gablate). The WHITENED filter
+    (innocents in Σ) suppresses the frame axis and fires on country-ness only."""
+    D, n = 32, 40
+    frame = np.zeros(D)
+    frame[0] = 8.0                    # loud frame/prompt-shape axis
+    cdir = np.zeros(D)
+    cdir[1] = 1.0                     # quiet true country-ness axis
+    noise = 0.3
+
+    def draws(mu, n):
+        return mu[None, :] + rng.normal(0, noise, (n, D))
+
+    own = draws(frame + cdir, n)                    # countries, frame-A
+    cities = draws(-frame, n)                       # cities, frame-B
+    prose = draws(rng.normal(0, 0.5, D), n)         # innocents
+    # prompt-shaped innocents: ON the frame axis, NO country content — these
+    # break the frame<->country confound in Sigma (the nonce-prompt innocents'
+    # job in the real harvest; without them whitening collapses cdir weight)
+    prompt_like = draws(frame * 0.9, n)
+    inn = np.vstack([cities, prose, prompt_like])
+    # runtime states: nonce prompt sits ON the frame axis, with/without country
+    r_with = frame * 0.9 + cdir + rng.normal(0, noise, D)
+    r_without = frame * 0.9 + rng.normal(0, noise, D)
+
+    # RAW path (the 3a build): u = unit(mean_own - mean_city), mu = city mean
+    u = own.mean(0) - cities.mean(0)
+    u /= np.linalg.norm(u) + 1e-9
+    mu_c = cities.mean(0)
+    ref_raw = float(np.mean((own - mu_c) @ u))
+    g_raw = [detector_gain(r, u, mu_c, 0.0, ref_raw, 1.5)
+             for r in (r_with, r_without)]
+    # WHITENED path
+    k, mu, theta, ref = whitened_filter(own, inn, eps=0.1)
+    g_wh = [detector_gain(r, k, mu, theta, ref, 1.5) for r in (r_with, r_without)]
+
+    # criterion is SEPARATION, not absolute level: the clearance floor makes
+    # the whitened gain conservative (magnitude is the calibrator's job, per
+    # SuperBake; selectivity is the detector's job — that is what we assert)
+    raw_confounded = g_raw[1] > 0.5 * max(g_raw[0], 1e-9)   # fires w/o country
+    wh_separates = (g_wh[0] >= 0.25) and (g_wh[1] <= 0.2 * g_wh[0] + 0.02)
+    good = raw_confounded and wh_separates
+    print(f"[V] whiten-world -> raw gain w/wo country {g_raw[0]:.2f}/{g_raw[1]:.2f} "
+          f"(confounded={raw_confounded}) | whitened {g_wh[0]:.2f}/{g_wh[1]:.2f} "
+          f"(separates={wh_separates}) {'OK' if good else 'FAIL'}")
+    return good
 
 
 # ══════════════════════════════════════════════════════════════════════════
@@ -265,47 +356,67 @@ def run_model(args) -> int:
     print(f"[bake3a] key norms @L{key_layers[0]}: "
           f"{ {m: round(v, 1) for m, v in key_norms.items()} }")
 
-    # ── country-class product direction d_cc @ each h-layer + gain calibration ─
-    #    d_cc = unit(mean_country residual minus mean_city residual) at h-layer;
-    #    ref_proj = typical country-present projection (the gain=1 reference).
+    # ── country-class detector @ each h-layer + gain calibration ─────────────
+    #    raw (3a frozen): d_cc = unit(mean_country - mean_city), theta=0 (s294).
+    #    --whiten (s295, SuperBake law): k = Sigma_sh^-1(mean_country - mu_pop),
+    #    pop = countries(multi-frame) + innocents(cities, prose, nonce prompt);
+    #    clearance floor θ = max innocent response (SuperBake whitening law).
     h_layers = sorted({lh for (_, lh) in pair_layers})
-    d_cc, ref_proj = {}, {}
     city_calib = [mh3.CITY_OF[lm] for lm in mh3.LM_LIST]
+    det, det_diag = {}, {}
     for lh in h_layers:
-        c_res = [capture_hidden(CC_FRAME.format(x=c), [lh])[lh] for c in CC_CALIB]
-        city_res = [capture_hidden(f"The traveler visited {ct}", [lh])[lh]
-                    for ct in city_calib]
-        city_mu_np = np.mean(city_res, axis=0)
-        cc_raw = np.mean(c_res, axis=0) - city_mu_np
-        u = cc_raw / (np.linalg.norm(cc_raw) + 1e-9)
-        d_cc[lh] = u
-        # reference = mean country-present projection (city-mean subtracted)
-        proj = [float(np.dot(r - city_mu_np, u)) for r in c_res]
-        ref_proj[lh] = max(float(np.mean(proj)), 1e-6)
-    print(f"[bake3a] d_cc ref_proj: "
-          f"{ {lh: round(v, 2) for lh, v in ref_proj.items()} }")
+        cc_frames = CC_FRAMES if args.whiten else [CC_FRAME]
+        c_res = np.array([capture_hidden(fr.format(x=c), [lh])[lh]
+                          for fr in cc_frames for c in CC_CALIB])
+        city_res = np.array([capture_hidden(f"The traveler visited {ct}", [lh])[lh]
+                             for ct in city_calib])
+        prose_res = np.array([capture_hidden(p, [lh])[lh]
+                              for p in PROSE_INNOCENTS])
+        # prompt-shaped innocents: several nonce renders — they share the test
+        # prompt's frame WITHOUT country content, breaking the frame<->country
+        # confound in Sigma (validate_whiten shows whitening fails without them)
+        nonce_res = np.array([capture_hidden(NONCE_PROMPT.format(x=nc), [lh])[lh]
+                              for nc in NONCE_CANDS[:6]])
+        inn = np.vstack([city_res, prose_res, nonce_res])
+        # both detectors built for the DIAGNOSTIC; `det` holds the active one
+        city_mu_np = city_res.mean(axis=0)
+        u = c_res.mean(axis=0) - city_mu_np
+        u /= np.linalg.norm(u) + 1e-9
+        ref_raw = max(float(np.mean((c_res - city_mu_np) @ u)), 1e-6)
+        k, mu, theta, ref = whitened_filter(c_res, inn, eps=args.whiten_eps)
+
+        def resp(states, kk, mm):
+            return (states - mm) @ kk
+        diag = {  # the audit stat: max-innocent / mean-own response, per detector
+            "raw_inn_own": float(np.max(resp(inn, u, city_mu_np))
+                                 / max(np.mean(resp(c_res, u, city_mu_np)), 1e-9)),
+            "wh_inn_own": float(theta / max(ref, 1e-9))}
+        det_diag[lh] = diag
+        det[lh] = ((k, mu, theta, ref) if args.whiten
+                   else (u, city_mu_np, 0.0, ref_raw))
+        print(f"[bake3a] detector L{lh}: inn/own raw={diag['raw_inn_own']:.3f} "
+              f"whitened={diag['wh_inn_own']:.3f} "
+              f"(active={'whitened' if args.whiten else 'raw'})")
 
     # ── hooks ─────────────────────────────────────────────────────────────────
-    def gain_hook(vec_t, lh, city_mu_t):
+    def gain_hook(vec_t, lh):
         """Add vec_t at the FINAL token scaled by country-ness gain (product-keyed)."""
-        u_t = torch.tensor(d_cc[lh], dtype=torch.float32, device=dev)
+        k, mu, theta, ref = det[lh]
+        k_t = torch.tensor(k, dtype=torch.float32, device=dev)
+        mu_t = torch.tensor(mu, dtype=torch.float32, device=dev)
 
         def hook(_m, _i, out):
             h = out[0] if isinstance(out, tuple) else out
             last = h.shape[1] - 1
-            r = h[0, last, :].detach().float() - city_mu_t
-            proj = float(torch.dot(r, u_t).item())
-            gain = float(np.clip(proj / ref_proj[lh], 0.0, args.gain_cap))
+            r = h[0, last, :].detach().float() - mu_t
+            proj = float(torch.dot(r, k_t).item())
+            gain = float(np.clip((proj - theta) / max(ref - theta, 1e-9),
+                                 0.0, args.gain_cap))
             h[0, last, :] = h[0, last, :] + (vec_t * gain).to(h.dtype)
             hook.gain = gain
             return out
         hook.gain = 0.0
         return hook
-
-    city_mu = {lh: torch.tensor(
-        np.mean([capture_hidden(f"The traveler visited {ct}", [lh])[lh]
-                 for ct in city_calib], axis=0), dtype=torch.float32, device=dev)
-        for lh in h_layers}
 
     def cell_logits(lm, adds):
         """adds: (layer, vec, mode), mode in {fixed,gain}. Returns (logits, gain)."""
@@ -319,7 +430,7 @@ def run_model(args) -> int:
         for (li, vec, mode) in adds:
             kt = torch.tensor(vec * args.key_scale, dtype=torch.float32, device=dev)
             if mode == "gain":
-                hk = gain_hook(kt, li, city_mu[li])
+                hk = gain_hook(kt, li)
                 handles.append(dec[li].register_forward_hook(hk))
                 gain_hooks.append(hk)
             else:
@@ -400,7 +511,10 @@ def run_model(args) -> int:
         "gain_cap": args.gain_cap, "ref_layer": L, "n_layers": n_layers,
         "pairs": pair_layers, "alpha": alpha, "valid": valid,
         "union_size": len(union), "dropped_collisions": sorted(drop),
-        "key_norms": key_norms, "ref_proj": {str(k): v for k, v in ref_proj.items()},
+        "key_norms": key_norms,
+        "whiten": bool(args.whiten), "whiten_eps": args.whiten_eps,
+        "detector": {str(lh): {"theta": det[lh][2], "ref": det[lh][3],
+                               **det_diag[lh]} for lh in h_layers},
         "n_cells": len(cells), "gate0": gate0, "per_pair": per_pair,
         "best_pair": best_pair, "verdict": verdict, "cells": records}
     out = Path(args.out)
@@ -421,6 +535,9 @@ def main() -> int:
     ap.add_argument("--scale", type=float, default=2.0)
     ap.add_argument("--key-scale", type=float, default=2.0)
     ap.add_argument("--gain-cap", type=float, default=1.5)
+    ap.add_argument("--whiten", action="store_true",
+                    help="§3a-whitened detector (SuperBake whitening law)")
+    ap.add_argument("--whiten-eps", type=float, default=0.1)
     ap.add_argument("--n-cells", type=int, default=0)
     ap.add_argument("--alpha", type=float, default=0.05)
     ap.add_argument("--seed", type=int, default=0)
