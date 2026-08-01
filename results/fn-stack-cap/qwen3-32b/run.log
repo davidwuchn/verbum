@@ -1,0 +1,14 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/707 [00:00<?, ?it/s]Loading weights: 100%|██████████| 707/707 [00:00<00:00, 25629.84it/s]
+[stk] Qwen/Qwen3-32B L_ref=9 scale=2.0 key_scale=2.0 dev=mps n_layers=64 pairs=[(19, 38), (19, 48), (29, 38), (29, 48)]
+[stk] chain=capital h_key=country2cap
+[stk] union candidates: 50 (dropped: [])
+[stk] ceilings: valid landmarks 10/18
+[stk] key norms @L19: {'country': 91.8, 'city': 80.3, 'class': 96.9, 'country2cap': 112.7}
+[stk] cells: 10
+[stk] L19->L38: stack=-1.079 g1=+0.605 (p=0.0618) order=+3.419 typed=+0.723 graded=True acc 0.20 vs best 0.30 flip=False stopG=0.00 h->city=0.10
+[stk] L19->L48: stack=-2.206 g1=-0.095 (p=0.5477) order=+2.975 typed=-0.409 graded=False acc 0.00 vs best 0.20 flip=False stopG=0.00 h->city=0.00
+[stk] L29->L38: stack=-1.583 g1=+0.187 (p=0.4554) order=+2.684 typed=+0.789 graded=True acc 0.00 vs best 0.30 flip=False stopG=0.00 h->city=0.10
+[stk] L29->L48: stack=-2.250 g1=+0.032 (p=0.4831) order=+3.434 typed=+0.031 graded=True acc 0.10 vs best 0.20 flip=False stopG=0.00 h->city=0.00
+[stk] best pair 19-38 (alpha_sel=0.0125) -> VERDICT: NOT-STACKABLE
+[stk] wrote results/fn-stack-cap/qwen3-32b/fn_stack.json

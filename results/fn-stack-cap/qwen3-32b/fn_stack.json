@@ -1,0 +1,1157 @@
+{
+  "model_id": "Qwen/Qwen3-32B",
+  "chain": "capital",
+  "seed": 0,
+  "scale": 2.0,
+  "key_scale": 2.0,
+  "ref_layer": 9,
+  "n_layers": 64,
+  "pairs": [
+    [
+      19,
+      38
+    ],
+    [
+      19,
+      48
+    ],
+    [
+      29,
+      38
+    ],
+    [
+      29,
+      48
+    ]
+  ],
+  "alpha": 0.05,
+  "alpha_selection_corrected": 0.0125,
+  "valid": [
+    "Sagrada Familia",
+    "Taj Mahal",
+    "Kaaba",
+    "Angkor Wat",
+    "Burj Khalifa",
+    "Pyramids",
+    "Sphinx",
+    "Karnak",
+    "Medina",
+    "Victoria Falls"
+  ],
+  "union_size": 50,
+  "dropped_collisions": [],
+  "key_norms": {
+    "country": 91.7735824584961,
+    "city": 80.33489227294922,
+    "class": 96.89153289794922,
+    "country2cap": 112.70585632324219
+  },
+  "n_cells": 10,
+  "gate0": true,
+  "per_pair": {
+    "19-38": {
+      "gates": {
+        "compose_vs_parts": {
+          "name": "compose_vs_parts",
+          "value": 0.6046875,
+          "null_name": "paired_permutation",
+          "null_mean": -0.002778125,
+          "null_std": 0.38621268123468494,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 0.06179382061793821,
+          "sign_ok": true,
+          "verdict": false,
+          "warnings": []
+        },
+        "order_matters": {
+          "name": "order_matters",
+          "value": 3.41875,
+          "null_name": "paired_permutation",
+          "null_mean": -0.0013799999999999997,
+          "null_std": 1.1659216007502793,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 0.0013998600139986002,
+          "sign_ok": true,
+          "verdict": true,
+          "warnings": []
+        },
+        "vs_random": {
+          "name": "vs_random",
+          "value": 5.974609375,
+          "null_name": "paired_permutation",
+          "null_mean": 0.003316796875,
+          "null_std": 2.0036927663954773,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 0.0004999500049995,
+          "sign_ok": true,
+          "verdict": true,
+          "warnings": []
+        },
+        "type_discipline": {
+          "name": "type_discipline",
+          "value": 0.72265625,
+          "null_name": "paired_permutation",
+          "null_mean": -0.008242343749999999,
+          "null_std": 0.5796154042936633,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 0.12288771122887711,
+          "sign_ok": true,
+          "verdict": false,
+          "warnings": []
+        },
+        "graded": true,
+        "means": {
+          "stack": -1.07890625,
+          "near": -1.8015625,
+          "far": -2.06875,
+          "random": -7.053515625
+        },
+        "stack_mean": -1.07890625
+      },
+      "acc_stack": 0.2,
+      "acc_best_single": 0.3,
+      "acc_nokey": 0.0,
+      "g2_flip": false,
+      "stopped_at_g": 0.0,
+      "stack_landed_on_city": 0.1,
+      "halone_landed_on_city": 0.1
+    },
+    "19-48": {
+      "gates": {
+        "compose_vs_parts": {
+          "name": "compose_vs_parts",
+          "value": -0.09453125,
+          "null_name": "paired_permutation",
+          "null_mean": -0.0186871875,
+          "null_std": 0.6565755583541222,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 0.5477452254774523,
+          "sign_ok": false,
+          "verdict": false,
+          "warnings": []
+        },
+        "order_matters": {
+          "name": "order_matters",
+          "value": 2.974609375,
+          "null_name": "paired_permutation",
+          "null_mean": 0.01869859375,
+          "null_std": 1.0879520605606208,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 0.0013998600139986002,
+          "sign_ok": true,
+          "verdict": true,
+          "warnings": []
+        },
+        "vs_random": {
+          "name": "vs_random",
+          "value": 4.97421875,
+          "null_name": "paired_permutation",
+          "null_mean": -0.022475312499999997,
+          "null_std": 1.7744879534803208,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 0.0015998400159984002,
+          "sign_ok": true,
+          "verdict": true,
+          "warnings": []
+        },
+        "type_discipline": {
+          "name": "type_discipline",
+          "value": -0.40859375,
+          "null_name": "paired_permutation",
+          "null_mean": -0.005099531250000001,
+          "null_std": 0.5347469485469263,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 0.771022897710229,
+          "sign_ok": false,
+          "verdict": false,
+          "warnings": []
+        },
+        "graded": false,
+        "means": {
+          "stack": -2.20625,
+          "near": -1.79765625,
+          "far": -2.778125,
+          "random": -7.18046875
+        },
+        "stack_mean": -2.20625
+      },
+      "acc_stack": 0.0,
+      "acc_best_single": 0.2,
+      "acc_nokey": 0.0,
+      "g2_flip": false,
+      "stopped_at_g": 0.0,
+      "stack_landed_on_city": 0.2,
+      "halone_landed_on_city": 0.0
+    },
+    "29-38": {
+      "gates": {
+        "compose_vs_parts": {
+          "name": "compose_vs_parts",
+          "value": 0.18671875,
+          "null_name": "paired_permutation",
+          "null_mean": 0.0006490625000000001,
+          "null_std": 0.6663246693962307,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 0.45535446455354467,
+          "sign_ok": true,
+          "verdict": false,
+          "warnings": []
+        },
+        "order_matters": {
+          "name": "order_matters",
+          "value": 2.68359375,
+          "null_name": "paired_permutation",
+          "null_mean": -0.00025812500000000027,
+          "null_std": 0.9248475237359652,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 0.0010998900109989002,
+          "sign_ok": true,
+          "verdict": true,
+          "warnings": []
+        },
+        "vs_random": {
+          "name": "vs_random",
+          "value": 5.9984375,
+          "null_name": "paired_permutation",
+          "null_mean": -0.008289999999999992,
+          "null_std": 2.192275568108398,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 0.0013998600139986002,
+          "sign_ok": true,
+          "verdict": true,
+          "warnings": []
+        },
+        "type_discipline": {
+          "name": "type_discipline",
+          "value": 0.7890625,
+          "null_name": "paired_permutation",
+          "null_mean": -0.0019224999999999995,
+          "null_std": 0.6460322826637613,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 0.12218778122187782,
+          "sign_ok": true,
+          "verdict": false,
+          "warnings": []
+        },
+        "graded": true,
+        "means": {
+          "stack": -1.5828125,
+          "near": -2.371875,
+          "far": -3.45,
+          "random": -7.58125
+        },
+        "stack_mean": -1.5828125
+      },
+      "acc_stack": 0.0,
+      "acc_best_single": 0.3,
+      "acc_nokey": 0.0,
+      "g2_flip": false,
+      "stopped_at_g": 0.0,
+      "stack_landed_on_city": 0.3,
+      "halone_landed_on_city": 0.1
+    },
+    "29-48": {
+      "gates": {
+        "compose_vs_parts": {
+          "name": "compose_vs_parts",
+          "value": 0.03203125,
+          "null_name": "paired_permutation",
+          "null_mean": 0.004153281249999998,
+          "null_std": 0.6244557030402924,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 0.48305169483051696,
+          "sign_ok": true,
+          "verdict": false,
+          "warnings": []
+        },
+        "order_matters": {
+          "name": "order_matters",
+          "value": 3.43359375,
+          "null_name": "paired_permutation",
+          "null_mean": -6.765625000000313e-05,
+          "null_std": 1.355656078306439,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 0.0040995900409959,
+          "sign_ok": true,
+          "verdict": true,
+          "warnings": []
+        },
+        "vs_random": {
+          "name": "vs_random",
+          "value": 3.59765625,
+          "null_name": "paired_permutation",
+          "null_mean": 0.031155000000000002,
+          "null_std": 1.4983773180232027,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 0.005599440055994401,
+          "sign_ok": true,
+          "verdict": true,
+          "warnings": []
+        },
+        "type_discipline": {
+          "name": "type_discipline",
+          "value": 0.03125,
+          "null_name": "paired_permutation",
+          "null_mean": -0.0021250000000000006,
+          "null_std": 0.6404447795282587,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 0.48585141485851413,
+          "sign_ok": true,
+          "verdict": false,
+          "warnings": []
+        },
+        "graded": true,
+        "means": {
+          "stack": -2.25,
+          "near": -2.28125,
+          "far": -4.1109375,
+          "random": -5.84765625
+        },
+        "stack_mean": -2.25
+      },
+      "acc_stack": 0.1,
+      "acc_best_single": 0.2,
+      "acc_nokey": 0.0,
+      "g2_flip": false,
+      "stopped_at_g": 0.0,
+      "stack_landed_on_city": 0.1,
+      "halone_landed_on_city": 0.0
+    }
+  },
+  "best_pair": "19-38",
+  "verdict": "NOT-STACKABLE",
+  "cells": [
+    {
+      "pair": [
+        19,
+        38
+      ],
+      "landmark": "Sagrada Familia",
+      "truth": "Madrid",
+      "country": "Spain",
+      "city": "Barcelona",
+      "stack": -1.5625,
+      "galone": -5.484375,
+      "halone": -2.8125,
+      "wrong": -5.9375,
+      "mnear": -4.09375,
+      "mfar": -2.34375,
+      "random": -8.5,
+      "nokey": -7.625,
+      "stack_arg": "Barcelona",
+      "halone_arg": "Barcelona"
+    },
+    {
+      "pair": [
+        19,
+        38
+      ],
+      "landmark": "Taj Mahal",
+      "truth": "New Delhi",
+      "country": "India",
+      "city": "Agra",
+      "stack": 0.5,
+      "galone": -2.1171875,
+      "halone": -1.0625,
+      "wrong": -1.484375,
+      "mnear": 2.0,
+      "mfar": -4.0,
+      "random": -4.484375,
+      "nokey": -3.19140625,
+      "stack_arg": "New Delhi",
+      "halone_arg": "Paris"
+    },
+    {
+      "pair": [
+        19,
+        38
+      ],
+      "landmark": "Kaaba",
+      "truth": "Riyadh",
+      "country": "Saudi Arabia",
+      "city": "Mecca",
+      "stack": -1.1875,
+      "galone": -8.015625,
+      "halone": -3.171875,
+      "wrong": -6.9921875,
+      "mnear": -1.21875,
+      "mfar": -4.375,
+      "random": -10.875,
+      "nokey": -9.59375,
+      "stack_arg": "Paris",
+      "halone_arg": "Paris"
+    },
+    {
+      "pair": [
+        19,
+        38
+      ],
+      "landmark": "Angkor Wat",
+      "truth": "Phnom Penh",
+      "country": "Cambodia",
+      "city": "Siem Reap",
+      "stack": 0.0,
+      "galone": -3.59375,
+      "halone": 0.5,
+      "wrong": -2.25,
+      "mnear": 0.125,
+      "mfar": 1.75,
+      "random": -7.5625,
+      "nokey": -2.09375,
+      "stack_arg": "Phnom Penh",
+      "halone_arg": "Phnom Penh"
+    },
+    {
+      "pair": [
+        19,
+        38
+      ],
+      "landmark": "Burj Khalifa",
+      "truth": "Abu Dhabi",
+      "country": "UAE",
+      "city": "Dubai",
+      "stack": 0.5,
+      "galone": -2.5703125,
+      "halone": 1.0,
+      "wrong": -2.6875,
+      "mnear": -0.1875,
+      "mfar": 0.5625,
+      "random": -4.6875,
+      "nokey": -4.6875,
+      "stack_arg": "Abu Dhabi",
+      "halone_arg": "Abu Dhabi"
+    },
+    {
+      "pair": [
+        19,
+        38
+      ],
+      "landmark": "Pyramids",
+      "truth": "Cairo",
+      "country": "Egypt",
+      "city": "Giza",
+      "stack": -1.21875,
+      "galone": -5.859375,
+      "halone": -1.5625,
+      "wrong": -5.5,
+      "mnear": -0.6875,
+      "mfar": -0.25,
+      "random": -8.375,
+      "nokey": -7.6875,
+      "stack_arg": "Paris",
+      "halone_arg": "Agra"
+    },
+    {
+      "pair": [
+        19,
+        38
+      ],
+      "landmark": "Sphinx",
+      "truth": "Cairo",
+      "country": "Egypt",
+      "city": "Giza",
+      "stack": 0.0,
+      "galone": -5.0625,
+      "halone": 1.0,
+      "wrong": -3.40625,
+      "mnear": 0.5625,
+      "mfar": 0.5,
+      "random": -6.48828125,
+      "nokey": -4.8359375,
+      "stack_arg": "Cairo",
+      "halone_arg": "Cairo"
+    },
+    {
+      "pair": [
+        19,
+        38
+      ],
+      "landmark": "Karnak",
+      "truth": "Cairo",
+      "country": "Egypt",
+      "city": "Luxor",
+      "stack": -0.375,
+      "galone": -5.03125,
+      "halone": -1.625,
+      "wrong": -5.3125,
+      "mnear": -5.0,
+      "mfar": -2.0625,
+      "random": -7.375,
+      "nokey": -5.875,
+      "stack_arg": "Agra",
+      "halone_arg": "Agra"
+    },
+    {
+      "pair": [
+        19,
+        38
+      ],
+      "landmark": "Medina",
+      "truth": "Rabat",
+      "country": "Morocco",
+      "city": "Marrakech",
+      "stack": -5.2578125,
+      "galone": -7.1640625,
+      "halone": -8.0234375,
+      "wrong": -8.515625,
+      "mnear": -5.984375,
+      "mfar": -8.15625,
+      "random": -9.375,
+      "nokey": -9.75,
+      "stack_arg": "Agra",
+      "halone_arg": "Agra"
+    },
+    {
+      "pair": [
+        19,
+        38
+      ],
+      "landmark": "Victoria Falls",
+      "truth": "Lusaka",
+      "country": "Zambia",
+      "city": "Livingstone",
+      "stack": -2.1875,
+      "galone": -2.546875,
+      "halone": -1.9375,
+      "wrong": -2.890625,
+      "mnear": -3.53125,
+      "mfar": -2.3125,
+      "random": -2.8125,
+      "nokey": -3.25,
+      "stack_arg": "New Delhi",
+      "halone_arg": "Agra"
+    },
+    {
+      "pair": [
+        19,
+        48
+      ],
+      "landmark": "Sagrada Familia",
+      "truth": "Madrid",
+      "country": "Spain",
+      "city": "Barcelona",
+      "stack": -0.25,
+      "galone": -5.484375,
+      "halone": -3.875,
+      "wrong": -6.921875,
+      "mnear": -2.25,
+      "mfar": -3.5625,
+      "random": -7.703125,
+      "nokey": -7.625,
+      "stack_arg": "Barcelona",
+      "halone_arg": "Agra"
+    },
+    {
+      "pair": [
+        19,
+        48
+      ],
+      "landmark": "Taj Mahal",
+      "truth": "New Delhi",
+      "country": "India",
+      "city": "Agra",
+      "stack": -1.59375,
+      "galone": -2.1171875,
+      "halone": -1.03125,
+      "wrong": -2.03125,
+      "mnear": 1.09375,
+      "mfar": -2.34375,
+      "random": -5.5625,
+      "nokey": -3.19140625,
+      "stack_arg": "Paris",
+      "halone_arg": "Paris"
+    },
+    {
+      "pair": [
+        19,
+        48
+      ],
+      "landmark": "Kaaba",
+      "truth": "Riyadh",
+      "country": "Saudi Arabia",
+      "city": "Mecca",
+      "stack": -2.75,
+      "galone": -8.015625,
+      "halone": -3.8125,
+      "wrong": -7.01953125,
+      "mnear": -3.09375,
+      "mfar": -3.8125,
+      "random": -9.9375,
+      "nokey": -9.59375,
+      "stack_arg": "Agra",
+      "halone_arg": "Paris"
+    },
+    {
+      "pair": [
+        19,
+        48
+      ],
+      "landmark": "Angkor Wat",
+      "truth": "Phnom Penh",
+      "country": "Cambodia",
+      "city": "Siem Reap",
+      "stack": -0.625,
+      "galone": -3.59375,
+      "halone": 2.75,
+      "wrong": -2.5625,
+      "mnear": 1.0,
+      "mfar": -0.75,
+      "random": -9.875,
+      "nokey": -2.09375,
+      "stack_arg": "Agra",
+      "halone_arg": "Phnom Penh"
+    },
+    {
+      "pair": [
+        19,
+        48
+      ],
+      "landmark": "Burj Khalifa",
+      "truth": "Abu Dhabi",
+      "country": "UAE",
+      "city": "Dubai",
+      "stack": -0.6875,
+      "galone": -2.5703125,
+      "halone": -1.875,
+      "wrong": -2.5625,
+      "mnear": -0.4375,
+      "mfar": -1.0,
+      "random": -4.125,
+      "nokey": -4.6875,
+      "stack_arg": "Dubai",
+      "halone_arg": "Agra"
+    },
+    {
+      "pair": [
+        19,
+        48
+      ],
+      "landmark": "Pyramids",
+      "truth": "Cairo",
+      "country": "Egypt",
+      "city": "Giza",
+      "stack": -3.25,
+      "galone": -5.859375,
+      "halone": -2.375,
+      "wrong": -7.0625,
+      "mnear": -0.875,
+      "mfar": -2.25,
+      "random": -8.0625,
+      "nokey": -7.6875,
+      "stack_arg": "Agra",
+      "halone_arg": "Agra"
+    },
+    {
+      "pair": [
+        19,
+        48
+      ],
+      "landmark": "Sphinx",
+      "truth": "Cairo",
+      "country": "Egypt",
+      "city": "Giza",
+      "stack": -3.75,
+      "galone": -5.0625,
+      "halone": -1.25,
+      "wrong": -5.234375,
+      "mnear": -3.40625,
+      "mfar": -1.3125,
+      "random": -7.1015625,
+      "nokey": -4.8359375,
+      "stack_arg": "Beijing",
+      "halone_arg": "Paris"
+    },
+    {
+      "pair": [
+        19,
+        48
+      ],
+      "landmark": "Karnak",
+      "truth": "Cairo",
+      "country": "Egypt",
+      "city": "Luxor",
+      "stack": -1.9375,
+      "galone": -5.03125,
+      "halone": 0.0625,
+      "wrong": -5.75,
+      "mnear": 0.15625,
+      "mfar": -0.875,
+      "random": -6.375,
+      "nokey": -5.875,
+      "stack_arg": "Paris",
+      "halone_arg": "Cairo"
+    },
+    {
+      "pair": [
+        19,
+        48
+      ],
+      "landmark": "Medina",
+      "truth": "Rabat",
+      "country": "Morocco",
+      "city": "Marrakech",
+      "stack": -5.09375,
+      "galone": -7.1640625,
+      "halone": -8.75,
+      "wrong": -8.75,
+      "mnear": -6.5234375,
+      "mfar": -8.625,
+      "random": -10.875,
+      "nokey": -9.75,
+      "stack_arg": "Agra",
+      "halone_arg": "Agra"
+    },
+    {
+      "pair": [
+        19,
+        48
+      ],
+      "landmark": "Victoria Falls",
+      "truth": "Lusaka",
+      "country": "Zambia",
+      "city": "Livingstone",
+      "stack": -2.125,
+      "galone": -2.546875,
+      "halone": -4.53125,
+      "wrong": -3.9140625,
+      "mnear": -3.640625,
+      "mfar": -3.25,
+      "random": -2.1875,
+      "nokey": -3.25,
+      "stack_arg": "Agra",
+      "halone_arg": "Paris"
+    },
+    {
+      "pair": [
+        29,
+        38
+      ],
+      "landmark": "Sagrada Familia",
+      "truth": "Madrid",
+      "country": "Spain",
+      "city": "Barcelona",
+      "stack": -3.21875,
+      "galone": -6.78125,
+      "halone": -2.8125,
+      "wrong": -5.5,
+      "mnear": -5.5625,
+      "mfar": -4.03125,
+      "random": -10.78125,
+      "nokey": -7.625,
+      "stack_arg": "Barcelona",
+      "halone_arg": "Barcelona"
+    },
+    {
+      "pair": [
+        29,
+        38
+      ],
+      "landmark": "Taj Mahal",
+      "truth": "New Delhi",
+      "country": "India",
+      "city": "Agra",
+      "stack": -1.78125,
+      "galone": -2.9765625,
+      "halone": -1.0625,
+      "wrong": -2.625,
+      "mnear": 1.0,
+      "mfar": -2.78125,
+      "random": -3.375,
+      "nokey": -3.19140625,
+      "stack_arg": "Berlin",
+      "halone_arg": "Paris"
+    },
+    {
+      "pair": [
+        29,
+        38
+      ],
+      "landmark": "Kaaba",
+      "truth": "Riyadh",
+      "country": "Saudi Arabia",
+      "city": "Mecca",
+      "stack": -3.984375,
+      "galone": -8.0,
+      "halone": -3.171875,
+      "wrong": -6.6640625,
+      "mnear": -2.546875,
+      "mfar": -4.0,
+      "random": -14.71875,
+      "nokey": -9.59375,
+      "stack_arg": "Agra",
+      "halone_arg": "Paris"
+    },
+    {
+      "pair": [
+        29,
+        38
+      ],
+      "landmark": "Angkor Wat",
+      "truth": "Phnom Penh",
+      "country": "Cambodia",
+      "city": "Siem Reap",
+      "stack": -0.3125,
+      "galone": -2.453125,
+      "halone": 0.5,
+      "wrong": -5.0,
+      "mnear": -0.3125,
+      "mfar": 3.4375,
+      "random": -3.75,
+      "nokey": -2.09375,
+      "stack_arg": "Siem Reap",
+      "halone_arg": "Phnom Penh"
+    },
+    {
+      "pair": [
+        29,
+        38
+      ],
+      "landmark": "Burj Khalifa",
+      "truth": "Abu Dhabi",
+      "country": "UAE",
+      "city": "Dubai",
+      "stack": -0.3125,
+      "galone": -3.62109375,
+      "halone": 1.0,
+      "wrong": -2.3125,
+      "mnear": 0.25,
+      "mfar": -1.625,
+      "random": -4.5,
+      "nokey": -4.6875,
+      "stack_arg": "Dubai",
+      "halone_arg": "Abu Dhabi"
+    },
+    {
+      "pair": [
+        29,
+        38
+      ],
+      "landmark": "Pyramids",
+      "truth": "Cairo",
+      "country": "Egypt",
+      "city": "Giza",
+      "stack": -1.0,
+      "galone": -5.65625,
+      "halone": -1.5625,
+      "wrong": -3.5,
+      "mnear": -3.28125,
+      "mfar": -4.90625,
+      "random": -12.375,
+      "nokey": -7.6875,
+      "stack_arg": "Berlin",
+      "halone_arg": "Agra"
+    },
+    {
+      "pair": [
+        29,
+        38
+      ],
+      "landmark": "Sphinx",
+      "truth": "Cairo",
+      "country": "Egypt",
+      "city": "Giza",
+      "stack": -1.0,
+      "galone": -3.53125,
+      "halone": 1.0,
+      "wrong": -4.140625,
+      "mnear": -2.125,
+      "mfar": -3.1875,
+      "random": -7.59375,
+      "nokey": -4.8359375,
+      "stack_arg": "Agra",
+      "halone_arg": "Cairo"
+    },
+    {
+      "pair": [
+        29,
+        38
+      ],
+      "landmark": "Karnak",
+      "truth": "Cairo",
+      "country": "Egypt",
+      "city": "Luxor",
+      "stack": -0.90625,
+      "galone": -6.0625,
+      "halone": -1.625,
+      "wrong": -3.4375,
+      "mnear": -3.3125,
+      "mfar": -3.125,
+      "random": -8.0,
+      "nokey": -5.875,
+      "stack_arg": "Agra",
+      "halone_arg": "Agra"
+    },
+    {
+      "pair": [
+        29,
+        38
+      ],
+      "landmark": "Medina",
+      "truth": "Rabat",
+      "country": "Morocco",
+      "city": "Marrakech",
+      "stack": -2.125,
+      "galone": -9.48828125,
+      "halone": -8.0234375,
+      "wrong": -6.828125,
+      "mnear": -5.890625,
+      "mfar": -10.4375,
+      "random": -9.65625,
+      "nokey": -9.75,
+      "stack_arg": "Agra",
+      "halone_arg": "Agra"
+    },
+    {
+      "pair": [
+        29,
+        38
+      ],
+      "landmark": "Victoria Falls",
+      "truth": "Lusaka",
+      "country": "Zambia",
+      "city": "Livingstone",
+      "stack": -1.1875,
+      "galone": -2.6640625,
+      "halone": -1.9375,
+      "wrong": -2.65625,
+      "mnear": -1.9375,
+      "mfar": -3.84375,
+      "random": -1.0625,
+      "nokey": -3.25,
+      "stack_arg": "Cape Town",
+      "halone_arg": "Agra"
+    },
+    {
+      "pair": [
+        29,
+        48
+      ],
+      "landmark": "Sagrada Familia",
+      "truth": "Madrid",
+      "country": "Spain",
+      "city": "Barcelona",
+      "stack": -1.4375,
+      "galone": -6.78125,
+      "halone": -3.875,
+      "wrong": -8.2734375,
+      "mnear": -2.8125,
+      "mfar": -4.0,
+      "random": -6.25,
+      "nokey": -7.625,
+      "stack_arg": "Paris",
+      "halone_arg": "Agra"
+    },
+    {
+      "pair": [
+        29,
+        48
+      ],
+      "landmark": "Taj Mahal",
+      "truth": "New Delhi",
+      "country": "India",
+      "city": "Agra",
+      "stack": -5.625,
+      "galone": -2.9765625,
+      "halone": -1.03125,
+      "wrong": -3.875,
+      "mnear": -0.3125,
+      "mfar": -2.796875,
+      "random": -3.9609375,
+      "nokey": -3.19140625,
+      "stack_arg": "Paris",
+      "halone_arg": "Paris"
+    },
+    {
+      "pair": [
+        29,
+        48
+      ],
+      "landmark": "Kaaba",
+      "truth": "Riyadh",
+      "country": "Saudi Arabia",
+      "city": "Mecca",
+      "stack": -2.5625,
+      "galone": -8.0,
+      "halone": -3.8125,
+      "wrong": -8.0,
+      "mnear": -3.3125,
+      "mfar": -5.8125,
+      "random": -10.828125,
+      "nokey": -9.59375,
+      "stack_arg": "Paris",
+      "halone_arg": "Paris"
+    },
+    {
+      "pair": [
+        29,
+        48
+      ],
+      "landmark": "Angkor Wat",
+      "truth": "Phnom Penh",
+      "country": "Cambodia",
+      "city": "Siem Reap",
+      "stack": 1.5,
+      "galone": -2.453125,
+      "halone": 2.75,
+      "wrong": -2.5625,
+      "mnear": 0.375,
+      "mfar": 0.75,
+      "random": -2.5,
+      "nokey": -2.09375,
+      "stack_arg": "Phnom Penh",
+      "halone_arg": "Phnom Penh"
+    },
+    {
+      "pair": [
+        29,
+        48
+      ],
+      "landmark": "Burj Khalifa",
+      "truth": "Abu Dhabi",
+      "country": "UAE",
+      "city": "Dubai",
+      "stack": -0.25,
+      "galone": -3.62109375,
+      "halone": -1.875,
+      "wrong": -2.875,
+      "mnear": -1.375,
+      "mfar": -2.375,
+      "random": -5.5625,
+      "nokey": -4.6875,
+      "stack_arg": "Dubai",
+      "halone_arg": "Agra"
+    },
+    {
+      "pair": [
+        29,
+        48
+      ],
+      "landmark": "Pyramids",
+      "truth": "Cairo",
+      "country": "Egypt",
+      "city": "Giza",
+      "stack": -1.625,
+      "galone": -5.65625,
+      "halone": -2.375,
+      "wrong": -7.8125,
+      "mnear": -3.5,
+      "mfar": -6.4375,
+      "random": -7.3125,
+      "nokey": -7.6875,
+      "stack_arg": "Paris",
+      "halone_arg": "Agra"
+    },
+    {
+      "pair": [
+        29,
+        48
+      ],
+      "landmark": "Sphinx",
+      "truth": "Cairo",
+      "country": "Egypt",
+      "city": "Giza",
+      "stack": -1.8125,
+      "galone": -3.53125,
+      "halone": -1.25,
+      "wrong": -4.6875,
+      "mnear": -0.1875,
+      "mfar": -0.625,
+      "random": -5.75,
+      "nokey": -4.8359375,
+      "stack_arg": "Paris",
+      "halone_arg": "Paris"
+    },
+    {
+      "pair": [
+        29,
+        48
+      ],
+      "landmark": "Karnak",
+      "truth": "Cairo",
+      "country": "Egypt",
+      "city": "Luxor",
+      "stack": -0.3125,
+      "galone": -6.0625,
+      "halone": 0.0625,
+      "wrong": -5.125,
+      "mnear": -0.875,
+      "mfar": -3.0625,
+      "random": -5.5625,
+      "nokey": -5.875,
+      "stack_arg": "Paris",
+      "halone_arg": "Cairo"
+    },
+    {
+      "pair": [
+        29,
+        48
+      ],
+      "landmark": "Medina",
+      "truth": "Rabat",
+      "country": "Morocco",
+      "city": "Marrakech",
+      "stack": -6.6875,
+      "galone": -9.48828125,
+      "halone": -8.75,
+      "wrong": -9.375,
+      "mnear": -7.3125,
+      "mfar": -11.3125,
+      "random": -8.6875,
+      "nokey": -9.75,
+      "stack_arg": "Agra",
+      "halone_arg": "Agra"
+    },
+    {
+      "pair": [
+        29,
+        48
+      ],
+      "landmark": "Victoria Falls",
+      "truth": "Lusaka",
+      "country": "Zambia",
+      "city": "Livingstone",
+      "stack": -3.6875,
+      "galone": -2.6640625,
+      "halone": -4.53125,
+      "wrong": -4.25,
+      "mnear": -3.5,
+      "mfar": -5.4375,
+      "random": -2.0625,
+      "nokey": -3.25,
+      "stack_arg": "Agra",
+      "halone_arg": "Paris"
+    }
+  ]
+}
