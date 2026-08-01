@@ -64,6 +64,27 @@ COUNTRY2CONT_EXEMPLARS = [
     ("Kenya", "The country of {x} is located on the continent of"),
 ]
 
+# ── §P-STACK-1b shortcut-free chain: country -> capital (the h map) ──
+# Composed target (capital) is NOT a direct landmark attribute (its city is a
+# NON-capital city) -> genuinely 2-hop-only. Held-out exemplars share mh3's
+# Portugal/Japan/Kenya. Test countries' capitals below (all city != capital).
+COUNTRY_CAP = {
+    "Spain": "Madrid", "India": "New Delhi", "Saudi Arabia": "Riyadh",
+    "Cambodia": "Phnom Penh", "UAE": "Abu Dhabi", "Egypt": "Cairo",
+    "Morocco": "Rabat", "Zambia": "Lusaka",
+    # held-out key exemplars (never test countries)
+    "Portugal": "Lisbon", "Japan": "Tokyo", "Kenya": "Nairobi",
+}
+COUNTRY2CAP_EXEMPLARS = [
+    ("Portugal", "The capital of {x} is"),
+    ("Japan", "The capital of {x} is"),
+    ("Kenya", "The capital of {x} is"),
+]
+CAP_PREFIX = ("The capital of Portugal is Lisbon.\n"
+              "The capital of Japan is Tokyo.\n"
+              "The capital of Kenya is Nairobi.\n")
+CAP_QUERY = "The capital of {x} is"
+
 
 # ══════════════════════════════════════════════════════════════════════════
 # Frozen verdict logic (pure; --validate exercises it)
@@ -173,11 +194,27 @@ def run_model(args) -> int:
     def first_tid(w):
         return mh3.first_tid(tok, w)
 
+    # ── chain config (continent = frozen P-STACK-1; capital = §P-STACK-1b) ──
+    is_cap = args.chain == "capital"
+    h_key = "country2cap" if is_cap else "country2cont"
+    cap_labels = sorted({COUNTRY_CAP[mh3.COUNTRY_OF[lm]] for lm in mh3.LM_LIST
+                         if mh3.COUNTRY_OF[lm] in COUNTRY_CAP}) if is_cap else []
+
+    def target_of(lm):
+        return COUNTRY_CAP[mh3.COUNTRY_OF[lm]] if is_cap else mh3.CONT_OF[lm]
+
+    def shortcut_of(lm):
+        return mh3.CITY_OF[lm] if is_cap else None
+
+    print(f"[stk] chain={args.chain} h_key={h_key}")
+
     # ── union candidate set (continents + countries + cities + animal prods) ──
     covers = sorted({v[1] for v in ANIMALS.values()})
     classes = sorted({v[0] for v in ANIMALS.values()})
     vocab = (set(mh3.CONTINENTS) | set(mh3.COUNTRIES) | set(mh3.CITIES)
              | set(classes) | set(covers))
+    if is_cap:
+        vocab |= set(cap_labels)   # composed answers (capitals)
     tid_map, drop = {}, set()
     for w in sorted(vocab):
         t = first_tid(w)
@@ -201,10 +238,19 @@ def run_model(args) -> int:
         c = mh3.COUNTRY_OF[lm]
         g_ok = real_pred(mh3.COUNTRY_PREFIX, mh3.COUNTRY_QUERY, lm,
                          mh3.COUNTRIES) == c
-        h_ok = real_pred(mh3.COUNTRY2CONT_PREFIX, mh3.COUNTRY2CONT_QUERY, c,
-                         mh3.CONTINENTS) == mh3.COUNTRY_CONT[c]
-        comp_ok = real_pred(mh3.CONT_PREFIX, mh3.CONT_QUERY, lm,
-                            mh3.CONTINENTS) == mh3.CONT_OF[lm]
+        if is_cap:
+            if c not in COUNTRY_CAP:
+                continue
+            cap = COUNTRY_CAP[c]
+            if mh3.CITY_OF[lm] == cap:        # shortcut-free filter: city != capital
+                continue
+            h_ok = real_pred(CAP_PREFIX, CAP_QUERY, c, cap_labels) == cap
+            comp_ok = True                    # landmark->capital is not a single query
+        else:
+            h_ok = real_pred(mh3.COUNTRY2CONT_PREFIX, mh3.COUNTRY2CONT_QUERY, c,
+                             mh3.CONTINENTS) == mh3.COUNTRY_CONT[c]
+            comp_ok = real_pred(mh3.CONT_PREFIX, mh3.CONT_QUERY, lm,
+                                mh3.CONTINENTS) == mh3.CONT_OF[lm]
         if g_ok and h_ok and comp_ok:
             valid.append(lm)
     print(f"[stk] ceilings: valid landmarks {len(valid)}/{len(mh3.LM_LIST)}")
@@ -238,7 +284,7 @@ def run_model(args) -> int:
         "country": KEY_EXEMPLARS["country"],
         "city": KEY_EXEMPLARS["city"],
         "class": KEY_EXEMPLARS["class"],
-        "country2cont": COUNTRY2CONT_EXEMPLARS,
+        h_key: (COUNTRY2CAP_EXEMPLARS if is_cap else COUNTRY2CONT_EXEMPLARS),
     }
 
     def capture_last(prompt):
@@ -298,7 +344,7 @@ def run_model(args) -> int:
         argw = max(union, key=lambda w: lo[union[w]])
         return marg, bool(marg > 0), argw
 
-    cells = [lm for lm in valid if mh3.CONT_OF[lm] in union]
+    cells = [lm for lm in valid if target_of(lm) in union]
     print(f"[stk] cells: {len(cells)}")
 
     per_pair = {}
@@ -308,10 +354,13 @@ def run_model(args) -> int:
                                 "mnear", "mfar", "rand", "nokey")}
         hit = {"stack": [], "best": [], "nokey": []}
         stop_g = 0
+        stack_city = 0        # advisory: stack argmax = direct city (shortcut)
+        halone_city = 0       # advisory: h-alone argmax = direct city (shortcut)
         for lm in cells:
-            prod = mh3.CONT_OF[lm]           # composed answer (continent)
+            prod = target_of(lm)             # composed answer (continent | capital)
             country = mh3.COUNTRY_OF[lm]      # g's intermediate output
-            kg, kh = keys[("country", lg)], keys[("country2cont", lh)]
+            city = shortcut_of(lm)           # the direct shortcut token (or None)
+            kg, kh = keys[("country", lg)], keys[(h_key, lh)]
             kcity, kclass = keys[("city", lg)], keys[("class", lg)]
             lo_s = cell_logits(lm, [(lg, kg), (lh, kh)])
             lo_g = cell_logits(lm, [(lg, kg)])
@@ -323,7 +372,7 @@ def run_model(args) -> int:
             lo_0 = cell_logits(lm, [])
             ms, hs, aw = margin_hit(lo_s, prod)
             mg, _, _ = margin_hit(lo_g, prod)
-            mh_, _, _ = margin_hit(lo_h, prod)
+            mh_, _, aw_h = margin_hit(lo_h, prod)
             mw, _, _ = margin_hit(lo_w, prod)
             mmn, _, _ = margin_hit(lo_mn, prod)
             mmf, _, _ = margin_hit(lo_mf, prod)
@@ -343,11 +392,15 @@ def run_model(args) -> int:
             hit["nokey"].append(h0)
             if aw == country:
                 stop_g += 1
+            if city is not None and aw == city:
+                stack_city += 1
+            if city is not None and aw_h == city:
+                halone_city += 1
             records.append({"pair": [lg, lh], "landmark": lm, "truth": prod,
-                            "country": country, "stack": ms, "galone": mg,
-                            "halone": mh_, "wrong": mw, "mnear": mmn,
-                            "mfar": mmf, "random": mr, "nokey": m0,
-                            "stack_arg": aw})
+                            "country": country, "city": city, "stack": ms,
+                            "galone": mg, "halone": mh_, "wrong": mw,
+                            "mnear": mmn, "mfar": mmf, "random": mr,
+                            "nokey": m0, "stack_arg": aw, "halone_arg": aw_h})
         A = {k: np.asarray(v, dtype=float) for k, v in arms.items()}
         best = np.maximum(A["galone"], A["halone"])
         sc = score_pair(A["stack"], best, A["wrong"], A["mnear"], A["mfar"],
@@ -361,13 +414,17 @@ def run_model(args) -> int:
                       for k, v in sc.items()},
             "acc_stack": acc_s, "acc_best_single": acc_b, "acc_nokey": acc_0,
             "g2_flip": g2_flip, "stopped_at_g": stop_g / max(len(cells), 1),
+            "stack_landed_on_city": stack_city / max(len(cells), 1),
+            "halone_landed_on_city": halone_city / max(len(cells), 1),
             "_raw": (sc, g2_flip)}
         print(f"[stk] L{lg}->L{lh}: stack={sc['stack_mean']:.3f} "
               f"g1={sc['compose_vs_parts'].value:+.3f} "
               f"(p={sc['compose_vs_parts'].p:.4f}) "
               f"order={sc['order_matters'].value:+.3f} "
               f"typed={sc['type_discipline'].value:+.3f} graded={sc['graded']} "
-              f"acc {acc_s:.2f} vs best {acc_b:.2f} flip={g2_flip}")
+              f"acc {acc_s:.2f} vs best {acc_b:.2f} flip={g2_flip} "
+              f"stopG={stop_g / max(len(cells), 1):.2f} "
+              f"h->city={halone_city / max(len(cells), 1):.2f}")
 
     best_pair = max(per_pair,
                     key=lambda k: per_pair[k]["_raw"][0]["compose_vs_parts"].value)
@@ -379,8 +436,9 @@ def run_model(args) -> int:
           f"VERDICT: {verdict}")
 
     result = {
-        "model_id": args.model_id, "seed": args.seed, "scale": S,
-        "key_scale": args.key_scale, "ref_layer": L, "n_layers": n_layers,
+        "model_id": args.model_id, "chain": args.chain, "seed": args.seed,
+        "scale": S, "key_scale": args.key_scale, "ref_layer": L,
+        "n_layers": n_layers,
         "pairs": pair_layers, "alpha": args.alpha,
         "alpha_selection_corrected": alpha_sel, "valid": valid,
         "union_size": len(union), "dropped_collisions": sorted(drop),
@@ -398,6 +456,9 @@ def run_model(args) -> int:
 def main() -> int:
     ap = argparse.ArgumentParser(description="P-STACK-1 in-context composition")
     ap.add_argument("--validate", action="store_true")
+    ap.add_argument("--chain", default="continent",
+                    choices=["continent", "capital"],
+                    help="continent = frozen P-STACK-1; capital = §P-STACK-1b")
     ap.add_argument("--model-id", default="Qwen/Qwen3-4B")
     ap.add_argument("--device", default="mps")
     ap.add_argument("--dtype", default="bfloat16", choices=["float32", "bfloat16"])
