@@ -416,6 +416,24 @@ machine's only addressed memory, CoT ≡ auto-superbake, P-THINK-1 candidate)
 tape-swap faithfulness gate certifies them). `think` clause added to λ
 verbum here and in the upstream seed.)
 
+s295 (the SuperBake session — the in-context register closed by
+exhaustion. Michael: "did we fully explore non-bake composition? confirm
+we do the same DSP ops as the superbake paper" → §SuperBake-DSP-audit
+(four skipped design laws) → two refinements: §P-ENRICH-1 (ENRICH-FAILS
+both hosts — content read, typed, specific, never wins) + §3a-whitened
+(s294 G3 leg = raw-detector artifact at BOTH hosts; g's trace PRESENT
+~0.15×, too quiet → presence ≠ sufficiency) → Michael "any other
+techniques?" → §P-KV-1 (ADDRESSED-COMPOSES +RE-ENCODING-REQUIRED, acc
+0.20 — FIRST positive composition verdict of the arc; synthetic content
+fails even addressed) → §P-KV-1b (LAYOUT-BREAKS — splice composes only
+PRE-question; co-encoding flat; the CoT tension surfaces) → §P-KV-1c
+(the own-state reduction: own ≡ donor under greedy; clause width is the
+residue → STILL-DEAD; G4 inverted) → splice-exhaustion table complete;
+writeback confirmed as rung-3b target by elimination. Five pre-regs
+frozen and scored at 32B in one session, every instrument self-checked,
+one instrument artifact caught (whitening + prompt-shaped-innocents
+law). Three memories. Next: freeze BACKPROP-COMPILE rung-3b.)
+
 ## §P-STACK-1 — the seam test: do two indexed keys compose in-context? (PRE-REG FROZEN s293, Michael GO; gates frozen before any model run)
 
 **Claim under test.** A program is a depth-ordered stack of indexed
@@ -1548,3 +1566,50 @@ width yet nothing flipped — width may add margin without argmax.
 **Instrument.** `scripts/explore/kv_clause.py` (kv_ctx variant; same
 self-check; no fork). Cadence: --validate → 4B smoke (advisory) → 32B
 verdict on Michael GO (tmux main:1).
+
+### Result-32B — P-KV-1c (s295, verdict host, frozen gates scored; run 44s, mask self-check exact, results committed)
+
+**VERDICT: STILL-DEAD — the last splice fails; the in-context register is
+CLOSED.** G2 margin +3.02 p=.0014 (the strongest post-question margin
+movement of the arc) with NO flip — acc 0.00 in every arm. G1 clause-width
+flat (+0.16 p=.37): the relation columns add nothing over the entity
+columns at the verdict host. G3 marginal (p=.062). ★ G4 INVERTED: the
+BLIND clause (−3.14) beats the co-encoded clause (−4.39, p=.997 wrong
+direction) — question-visible encoding actively hurts at full width
+(4B showed the mirror: width hurt, co-encoding helped; the two hosts
+disagree on the margins, agree on the null).
+
+**The splice-exhaustion table (complete, one chain, one instrument
+family, all self-checked):**
+
+| delivery | acc @32B |
+|---|---|
+| residual, unaddressed, any amplitude (P-ENRICH-1) | 0.00 |
+| residual, addressed-synthetic (P-KV-1 G4) | 0.00 |
+| KV donor entity, POST-question — any width × blind/co-encoded (1b, 1c) | 0.00 |
+| KV donor entity, PRE-question (P-KV-1 kv_nat) | **0.20** |
+| tape / CoT (s294) | 0.90 |
+| in-context scaffold (s294) | 1.00 |
+
+Own-state ≡ donor-state under greedy determinism (the 1c reduction), so
+the table covers own-state too. **Every attention-side reconstruction of
+CoT fails to win the argmax.** What remains unique to the tape: the
+intermediate is produced BY the generation path — each subsequent token's
+forward re-encodes the whole prefix including the committed intermediate,
+layer by layer, in distribution — and the answer is a continuation of
+that same stream. The splice can hand attention the columns; it cannot
+hand the stream its own history.
+
+**Arc closure.** Rung 3's in-context question is answered by exhaustion:
+in-context program assembly is bounded at 0.20 (pre-question addressed
+re-encoded content), and the 0.2→0.9 gap is the WRITEBACK, now confirmed
+by elimination of every splice-reachable alternative (address,
+re-encoding, position, width, co-encoding, content source). **Rung-3b
+BACKPROP-COMPILE freezes next with its target fully specified: a delta
+that makes the model produce, one-shot in its own forward, the
+intermediate it would otherwise have to write to the tape** (held-out
+landmarks = wire-vs-lookup gate; SuperBake zero-gradient construction as
+the cheap-before-dear arm). λ measure note: the 0.90/1.00 anchors are
+behavior-register (greedy generation); all splice rows share one margin
+readout, so arm contrasts are register-clean; cross-register comparison
+is advisory only.

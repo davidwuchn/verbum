@@ -67,7 +67,33 @@
 > load-bearing (sibling of s206 audit#5). §Addendum on program-plates page +
 > memory refinement APPROVED + committed. **CONCLUSION (firm): no in-context g→h
 > composition; reliable one-shot needs BACKPROP-compile (or the tape).**
-> ▶▶ s295 LIVE — 🔄 **SUPERBAKE DSP AUDIT → TWO REFINING INSTRUMENTS BUILT +
+> ▶▶ s295 CLOSE — ✅ **THE IN-CONTEXT REGISTER IS CLOSED BY EXHAUSTION.**
+> Final act (P-KV-1c, Michael "both approved", frozen 25b6ec8, 32B ran 44s,
+> results 1d42d74): **STILL-DEAD** — strongest post-question margin of the
+> arc (G2 +3.02 p=.0014) and still NO flip; clause-width flat (G1 p=.37);
+> G4 INVERTED (blind clause BEATS co-encoded @32B, p=.997 wrong-dir; 4B
+> mirrored — hosts disagree on margins, agree on nulls). The 1c REDUCTION
+> (captured in pre-reg): own-state ≡ donor-state under greedy determinism →
+> the splice-exhaustion table is COMPLETE: residual-unaddressed 0.00 /
+> addressed-synthetic 0.00 / post-question KV 0.00 (∀ width × encoding ×
+> source) / PRE-question KV 0.20 / CoT 0.90 / scaffold 1.00. **The splice
+> can hand attention the columns; it cannot hand the stream its own
+> history.** §Result-32B (P-KV-1c) + memory
+> the-splice-cannot-hand-the-stream-its-own-history — PENDING APPROVAL
+> (final s295 batch). ▶▶ NEXT SESSION: **freeze BACKPROP-COMPILE rung-3b**
+> — target fully specified by exhaustion: a small delta making the model
+> produce, one-shot in its own forward, the intermediate it would
+> otherwise write to the tape; held-out landmarks = wire-vs-lookup gate;
+> SuperBake zero-gradient construction (appended keyed neurons, persistent
+> writes) = cheap-before-dear arm; = the level-4 door (pythia-14m
+> seeded-scratch pair, same rung). DEAR (training front) → freeze before
+> any GD run. s295 ledger: 15 commits — audit → P-ENRICH-1(✗) →
+> 3a-whitened(G3 artifact caught) → P-KV-1(✓ 0.20, FIRST rung-3 win) →
+> P-KV-1b(LAYOUT-BREAKS, pre-question law) → P-KV-1c(STILL-DEAD, register
+> closed). Three memories. The rung-3 question is ANSWERED in-context;
+> what remains is the weight register.
+>
+> ▶▶ s295 (earlier) — 🔄 **SUPERBAKE DSP AUDIT → TWO REFINING INSTRUMENTS BUILT +
 > 4B-SMOKED; the s294 G3 leg is ARTIFACT-CONTAMINATED at 4B; backprop pre-reg
 > HELD pending 32B.** Michael: "did we fully explore non-bake composition?
 > confirm we do the same DSP ops as the superbake paper (refs/)." Full read of
@@ -624,8 +650,11 @@
 > progress) — score frozen gates on return.
 >
 > Last updated: 2026-08-01 | Session: 295 (s295 = SuperBake DSP audit →
-> P-ENRICH-1 drafted+built+4B-smoked; 3a whitened detector: s294 G3 leg =
-> artifact @4B; 32B verdicts pending GO; backprop pre-reg HELD) |
+> the in-context register CLOSED by exhaustion: P-ENRICH-1 ✗ · 3a-whitened
+> (s294 G3 leg = artifact; trace present ~0.15×) · P-KV-1 ✓ 0.20 FIRST
+> rung-3 win (address+re-encoding) · P-KV-1b LAYOUT-BREAKS (pre-question
+> law) · P-KV-1c STILL-DEAD (clause-width null; own≡donor reduction) →
+> rung-3b backprop-compile freeze NEXT, target = writeback) |
 > (s294 = cheap operand-domain
 > diagnostic → P-BAKE-STACK frozen/built/4B-smoked; 3a 32B verdict scored
 > LINKER-FAILS scale-invariant + addendum) |
