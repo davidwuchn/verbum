@@ -1,0 +1,1652 @@
+{
+  "model_id": "Qwen/Qwen3-32B",
+  "seed": 0,
+  "scale": 2.0,
+  "key_scale": 2.0,
+  "ref_layer": 9,
+  "n_layers": 64,
+  "pairs": [
+    [
+      19,
+      38
+    ],
+    [
+      19,
+      48
+    ],
+    [
+      29,
+      38
+    ],
+    [
+      29,
+      48
+    ]
+  ],
+  "alpha": 0.05,
+  "alpha_selection_corrected": 0.0125,
+  "valid": [
+    "Colosseum",
+    "Louvre",
+    "Parthenon",
+    "Kremlin",
+    "Sagrada Familia",
+    "Brandenburg Gate",
+    "Taj Mahal",
+    "Kaaba",
+    "Petronas Towers",
+    "Angkor Wat",
+    "Tiananmen",
+    "Burj Khalifa",
+    "Pyramids",
+    "Sphinx",
+    "Karnak",
+    "Table Mountain",
+    "Medina",
+    "Victoria Falls"
+  ],
+  "union_size": 42,
+  "dropped_collisions": [],
+  "key_norms": {
+    "country": 74.53334045410156,
+    "city": 72.38456726074219,
+    "class": 108.6819076538086,
+    "country2cont": 87.9201431274414
+  },
+  "n_cells": 18,
+  "gate0": true,
+  "per_pair": {
+    "19-38": {
+      "gates": {
+        "compose_vs_parts": {
+          "name": "compose_vs_parts",
+          "value": 2.2565104166666665,
+          "null_name": "paired_permutation",
+          "null_mean": 0.001729253472222222,
+          "null_std": 0.6344957700591377,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 9.999000099990002e-05,
+          "sign_ok": true,
+          "verdict": true,
+          "warnings": []
+        },
+        "order_matters": {
+          "name": "order_matters",
+          "value": 1.8682725694444444,
+          "null_name": "paired_permutation",
+          "null_mean": 0.005609722222222222,
+          "null_std": 0.5560354569140197,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 9.999000099990002e-05,
+          "sign_ok": true,
+          "verdict": true,
+          "warnings": []
+        },
+        "vs_random": {
+          "name": "vs_random",
+          "value": 3.990017361111111,
+          "null_name": "paired_permutation",
+          "null_mean": 0.012708680555555551,
+          "null_std": 1.1251510824557283,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 9.999000099990002e-05,
+          "sign_ok": true,
+          "verdict": true,
+          "warnings": []
+        },
+        "type_discipline": {
+          "name": "type_discipline",
+          "value": 1.7040879991319444,
+          "null_name": "paired_permutation",
+          "null_mean": 0.0010839409722222223,
+          "null_std": 0.502408453637534,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 9.999000099990002e-05,
+          "sign_ok": true,
+          "verdict": true,
+          "warnings": []
+        },
+        "graded": true,
+        "means": {
+          "stack": -2.7495659722222223,
+          "near": -4.453653971354167,
+          "far": -6.254123263888889,
+          "random": -6.739583333333333
+        },
+        "stack_mean": -2.7495659722222223
+      },
+      "acc_stack": 0.05555555555555555,
+      "acc_best_single": 0.0,
+      "acc_nokey": 0.0,
+      "g2_flip": true,
+      "stopped_at_g": 0.1111111111111111
+    },
+    "19-48": {
+      "gates": {
+        "compose_vs_parts": {
+          "name": "compose_vs_parts",
+          "value": 0.13541666666666666,
+          "null_name": "paired_permutation",
+          "null_mean": -0.007666666666666665,
+          "null_std": 0.41538086234499194,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 0.37376262373762625,
+          "sign_ok": true,
+          "verdict": false,
+          "warnings": []
+        },
+        "order_matters": {
+          "name": "order_matters",
+          "value": 3.0043402777777777,
+          "null_name": "paired_permutation",
+          "null_mean": 0.000994618055555555,
+          "null_std": 0.9196790176577035,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 9.999000099990002e-05,
+          "sign_ok": true,
+          "verdict": true,
+          "warnings": []
+        },
+        "vs_random": {
+          "name": "vs_random",
+          "value": 5.326144748263889,
+          "null_name": "paired_permutation",
+          "null_mean": -0.005847851562500002,
+          "null_std": 1.425543505348223,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 0.00019998000199980003,
+          "sign_ok": true,
+          "verdict": true,
+          "warnings": []
+        },
+        "type_discipline": {
+          "name": "type_discipline",
+          "value": 0.59375,
+          "null_name": "paired_permutation",
+          "null_mean": 0.0029256944444444434,
+          "null_std": 0.4136818382596037,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 0.0807919208079192,
+          "sign_ok": true,
+          "verdict": false,
+          "warnings": []
+        },
+        "graded": true,
+        "means": {
+          "stack": -1.5520833333333333,
+          "near": -2.1458333333333335,
+          "far": -5.579861111111111,
+          "random": -6.878228081597222
+        },
+        "stack_mean": -1.5520833333333333
+      },
+      "acc_stack": 0.3888888888888889,
+      "acc_best_single": 0.2777777777777778,
+      "acc_nokey": 0.0,
+      "g2_flip": true,
+      "stopped_at_g": 0.0
+    },
+    "29-38": {
+      "gates": {
+        "compose_vs_parts": {
+          "name": "compose_vs_parts",
+          "value": 2.2803819444444446,
+          "null_name": "paired_permutation",
+          "null_mean": 0.004244618055555555,
+          "null_std": 0.659104256590063,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 9.999000099990002e-05,
+          "sign_ok": true,
+          "verdict": true,
+          "warnings": []
+        },
+        "order_matters": {
+          "name": "order_matters",
+          "value": 1.7881944444444444,
+          "null_name": "paired_permutation",
+          "null_mean": 0.0020672743055555557,
+          "null_std": 0.5322267932259311,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 9.999000099990002e-05,
+          "sign_ok": true,
+          "verdict": true,
+          "warnings": []
+        },
+        "vs_random": {
+          "name": "vs_random",
+          "value": 4.022786458333333,
+          "null_name": "paired_permutation",
+          "null_mean": -0.0056045138888888854,
+          "null_std": 1.0362063783554414,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 9.999000099990002e-05,
+          "sign_ok": true,
+          "verdict": true,
+          "warnings": []
+        },
+        "type_discipline": {
+          "name": "type_discipline",
+          "value": 2.5316840277777777,
+          "null_name": "paired_permutation",
+          "null_mean": 0.006689973958333331,
+          "null_std": 0.7015633573080258,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 9.999000099990002e-05,
+          "sign_ok": true,
+          "verdict": true,
+          "warnings": []
+        },
+        "graded": true,
+        "means": {
+          "stack": -2.6875,
+          "near": -5.219184027777778,
+          "far": -6.182291666666667,
+          "random": -6.710286458333333
+        },
+        "stack_mean": -2.6875
+      },
+      "acc_stack": 0.05555555555555555,
+      "acc_best_single": 0.0,
+      "acc_nokey": 0.0,
+      "g2_flip": true,
+      "stopped_at_g": 0.2222222222222222
+    },
+    "29-48": {
+      "gates": {
+        "compose_vs_parts": {
+          "name": "compose_vs_parts",
+          "value": 0.10416666666666667,
+          "null_name": "paired_permutation",
+          "null_mean": -0.0010180555555555561,
+          "null_std": 0.43049203767810135,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 0.414958504149585,
+          "sign_ok": true,
+          "verdict": false,
+          "warnings": []
+        },
+        "order_matters": {
+          "name": "order_matters",
+          "value": 3.9322916666666665,
+          "null_name": "paired_permutation",
+          "null_mean": -0.0020923611111111112,
+          "null_std": 1.2028774269951688,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 0.00019998000199980003,
+          "sign_ok": true,
+          "verdict": true,
+          "warnings": []
+        },
+        "vs_random": {
+          "name": "vs_random",
+          "value": 4.7880859375,
+          "null_name": "paired_permutation",
+          "null_mean": 0.019895768229166666,
+          "null_std": 1.2635032488435118,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 0.00019998000199980003,
+          "sign_ok": true,
+          "verdict": true,
+          "warnings": []
+        },
+        "type_discipline": {
+          "name": "type_discipline",
+          "value": 1.2604166666666667,
+          "null_name": "paired_permutation",
+          "null_mean": 0.0060458333333333345,
+          "null_std": 0.41801535518925254,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.0125,
+          "p": 0.00019998000199980003,
+          "sign_ok": true,
+          "verdict": true,
+          "warnings": []
+        },
+        "graded": true,
+        "means": {
+          "stack": -1.5833333333333333,
+          "near": -2.84375,
+          "far": -5.770833333333333,
+          "random": -6.371419270833333
+        },
+        "stack_mean": -1.5833333333333333
+      },
+      "acc_stack": 0.3333333333333333,
+      "acc_best_single": 0.2777777777777778,
+      "acc_nokey": 0.0,
+      "g2_flip": true,
+      "stopped_at_g": 0.0
+    }
+  },
+  "best_pair": "29-38",
+  "verdict": "TYPED-STACKABLE",
+  "cells": [
+    {
+      "pair": [
+        19,
+        38
+      ],
+      "landmark": "Colosseum",
+      "truth": "Europe",
+      "country": "Italy",
+      "stack": -1.9375,
+      "galone": -5.6875,
+      "halone": -4.625,
+      "wrong": -4.03125,
+      "mnear": -3.71875,
+      "mfar": -6.4375,
+      "random": -8.25,
+      "nokey": -6.625,
+      "stack_arg": "Rome"
+    },
+    {
+      "pair": [
+        19,
+        38
+      ],
+      "landmark": "Louvre",
+      "truth": "Europe",
+      "country": "France",
+      "stack": -1.6875,
+      "galone": -4.3125,
+      "halone": -5.75,
+      "wrong": -2.25,
+      "mnear": -4.4375,
+      "mfar": -6.0625,
+      "random": -3.875,
+      "nokey": -4.25,
+      "stack_arg": "Paris"
+    },
+    {
+      "pair": [
+        19,
+        38
+      ],
+      "landmark": "Parthenon",
+      "truth": "Europe",
+      "country": "Greece",
+      "stack": -2.5,
+      "galone": -5.75,
+      "halone": -4.25,
+      "wrong": -5.125,
+      "mnear": -3.78125,
+      "mfar": -4.46875,
+      "random": -4.734375,
+      "nokey": -5.03125,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        19,
+        38
+      ],
+      "landmark": "Kremlin",
+      "truth": "Europe",
+      "country": "Russia",
+      "stack": -2.40625,
+      "galone": -7.25,
+      "halone": -5.40625,
+      "wrong": -4.796875,
+      "mnear": -5.65625,
+      "mfar": -6.9375,
+      "random": -5.65625,
+      "nokey": -6.90625,
+      "stack_arg": "Russia"
+    },
+    {
+      "pair": [
+        19,
+        38
+      ],
+      "landmark": "Sagrada Familia",
+      "truth": "Europe",
+      "country": "Spain",
+      "stack": -2.28125,
+      "galone": -6.09375,
+      "halone": -4.8125,
+      "wrong": -3.9375,
+      "mnear": -4.09375,
+      "mfar": -5.375,
+      "random": -4.65625,
+      "nokey": -4.921875,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        19,
+        38
+      ],
+      "landmark": "Brandenburg Gate",
+      "truth": "Europe",
+      "country": "Germany",
+      "stack": -5.0,
+      "galone": -6.19140625,
+      "halone": -4.625,
+      "wrong": -5.87109375,
+      "mnear": -4.388427734375,
+      "mfar": -4.16796875,
+      "random": -7.375,
+      "nokey": -4.5546875,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        19,
+        38
+      ],
+      "landmark": "Taj Mahal",
+      "truth": "Asia",
+      "country": "India",
+      "stack": -0.34375,
+      "galone": -4.9140625,
+      "halone": -4.265625,
+      "wrong": -2.796875,
+      "mnear": -2.7421875,
+      "mfar": -6.0625,
+      "random": -6.140625,
+      "nokey": -5.4921875,
+      "stack_arg": "Africa"
+    },
+    {
+      "pair": [
+        19,
+        38
+      ],
+      "landmark": "Kaaba",
+      "truth": "Asia",
+      "country": "Saudi Arabia",
+      "stack": -5.046875,
+      "galone": -9.0,
+      "halone": -6.9375,
+      "wrong": -6.875,
+      "mnear": -6.78515625,
+      "mfar": -8.0625,
+      "random": -9.1875,
+      "nokey": -8.375,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        19,
+        38
+      ],
+      "landmark": "Petronas Towers",
+      "truth": "Asia",
+      "country": "Malaysia",
+      "stack": -4.9375,
+      "galone": -9.0,
+      "halone": -9.4375,
+      "wrong": -6.1875,
+      "mnear": -7.3125,
+      "mfar": -8.9375,
+      "random": -9.25,
+      "nokey": -10.125,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        19,
+        38
+      ],
+      "landmark": "Angkor Wat",
+      "truth": "Asia",
+      "country": "Cambodia",
+      "stack": 2.875,
+      "galone": -5.1875,
+      "halone": -3.25,
+      "wrong": -3.375,
+      "mnear": -2.25,
+      "mfar": -6.0,
+      "random": -9.375,
+      "nokey": -6.890625,
+      "stack_arg": "Asia"
+    },
+    {
+      "pair": [
+        19,
+        38
+      ],
+      "landmark": "Tiananmen",
+      "truth": "Asia",
+      "country": "China",
+      "stack": -3.0625,
+      "galone": -8.625,
+      "halone": -4.625,
+      "wrong": -5.0625,
+      "mnear": -5.0,
+      "mfar": -5.4375,
+      "random": -6.09375,
+      "nokey": -6.25,
+      "stack_arg": "China"
+    },
+    {
+      "pair": [
+        19,
+        38
+      ],
+      "landmark": "Burj Khalifa",
+      "truth": "Asia",
+      "country": "UAE",
+      "stack": -4.1875,
+      "galone": -6.8125,
+      "halone": -5.8125,
+      "wrong": -4.34375,
+      "mnear": -5.03125,
+      "mfar": -6.0625,
+      "random": -7.625,
+      "nokey": -6.3125,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        19,
+        38
+      ],
+      "landmark": "Pyramids",
+      "truth": "Africa",
+      "country": "Egypt",
+      "stack": -3.4375,
+      "galone": -8.3125,
+      "halone": -6.625,
+      "wrong": -5.25,
+      "mnear": -4.75,
+      "mfar": -6.0625,
+      "random": -7.4375,
+      "nokey": -6.75,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        19,
+        38
+      ],
+      "landmark": "Sphinx",
+      "truth": "Africa",
+      "country": "Egypt",
+      "stack": -1.40625,
+      "galone": -4.296875,
+      "halone": -3.34375,
+      "wrong": -2.8125,
+      "mnear": -1.75,
+      "mfar": -7.25,
+      "random": -5.21875,
+      "nokey": -5.193359375,
+      "stack_arg": "Asia"
+    },
+    {
+      "pair": [
+        19,
+        38
+      ],
+      "landmark": "Karnak",
+      "truth": "Africa",
+      "country": "Egypt",
+      "stack": -4.0,
+      "galone": -7.3125,
+      "halone": -4.5625,
+      "wrong": -4.375,
+      "mnear": -4.4375,
+      "mfar": -5.75,
+      "random": -8.6875,
+      "nokey": -5.4375,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        19,
+        38
+      ],
+      "landmark": "Table Mountain",
+      "truth": "Africa",
+      "country": "South Africa",
+      "stack": -6.6015625,
+      "galone": -9.125,
+      "halone": -6.5,
+      "wrong": -6.65625,
+      "mnear": -7.0,
+      "mfar": -8.3125,
+      "random": -5.0,
+      "nokey": -7.1875,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        19,
+        38
+      ],
+      "landmark": "Medina",
+      "truth": "Africa",
+      "country": "Morocco",
+      "stack": -1.21875,
+      "galone": -7.0625,
+      "halone": -3.5625,
+      "wrong": -5.125,
+      "mnear": -3.84375,
+      "mfar": -6.625,
+      "random": -6.0,
+      "nokey": -5.875,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        19,
+        38
+      ],
+      "landmark": "Victoria Falls",
+      "truth": "Africa",
+      "country": "Zambia",
+      "stack": -2.3125,
+      "galone": -6.0625,
+      "halone": -3.59375,
+      "wrong": -4.25,
+      "mnear": -3.1875,
+      "mfar": -4.5625,
+      "random": -6.75,
+      "nokey": -5.4375,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        19,
+        48
+      ],
+      "landmark": "Colosseum",
+      "truth": "Europe",
+      "country": "Italy",
+      "stack": 0.5,
+      "galone": -5.6875,
+      "halone": 0.5,
+      "wrong": -5.0625,
+      "mnear": 0.125,
+      "mfar": -5.9375,
+      "random": -7.25,
+      "nokey": -6.625,
+      "stack_arg": "Europe"
+    },
+    {
+      "pair": [
+        19,
+        48
+      ],
+      "landmark": "Louvre",
+      "truth": "Europe",
+      "country": "France",
+      "stack": 3.75,
+      "galone": -4.3125,
+      "halone": 0.75,
+      "wrong": -3.4375,
+      "mnear": 1.75,
+      "mfar": -2.125,
+      "random": -4.90625,
+      "nokey": -4.25,
+      "stack_arg": "Europe"
+    },
+    {
+      "pair": [
+        19,
+        48
+      ],
+      "landmark": "Parthenon",
+      "truth": "Europe",
+      "country": "Greece",
+      "stack": 0.25,
+      "galone": -5.75,
+      "halone": 1.25,
+      "wrong": -4.375,
+      "mnear": 2.25,
+      "mfar": -3.9375,
+      "random": -5.3125,
+      "nokey": -5.03125,
+      "stack_arg": "Europe"
+    },
+    {
+      "pair": [
+        19,
+        48
+      ],
+      "landmark": "Kremlin",
+      "truth": "Europe",
+      "country": "Russia",
+      "stack": 0.75,
+      "galone": -7.25,
+      "halone": -4.0,
+      "wrong": -5.875,
+      "mnear": -1.875,
+      "mfar": -3.1875,
+      "random": -9.3125,
+      "nokey": -6.90625,
+      "stack_arg": "Europe"
+    },
+    {
+      "pair": [
+        19,
+        48
+      ],
+      "landmark": "Sagrada Familia",
+      "truth": "Europe",
+      "country": "Spain",
+      "stack": 0.625,
+      "galone": -6.09375,
+      "halone": 0.375,
+      "wrong": -4.1875,
+      "mnear": -0.25,
+      "mfar": -6.1875,
+      "random": -7.96875,
+      "nokey": -4.921875,
+      "stack_arg": "Europe"
+    },
+    {
+      "pair": [
+        19,
+        48
+      ],
+      "landmark": "Brandenburg Gate",
+      "truth": "Europe",
+      "country": "Germany",
+      "stack": -2.25,
+      "galone": -6.19140625,
+      "halone": -0.75,
+      "wrong": -4.984375,
+      "mnear": -2.0,
+      "mfar": -3.875,
+      "random": -5.896484375,
+      "nokey": -4.5546875,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        19,
+        48
+      ],
+      "landmark": "Taj Mahal",
+      "truth": "Asia",
+      "country": "India",
+      "stack": -1.3125,
+      "galone": -4.9140625,
+      "halone": -2.875,
+      "wrong": -3.03125,
+      "mnear": -2.1875,
+      "mfar": -7.1875,
+      "random": -5.0,
+      "nokey": -5.4921875,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        19,
+        48
+      ],
+      "landmark": "Kaaba",
+      "truth": "Asia",
+      "country": "Saudi Arabia",
+      "stack": -4.125,
+      "galone": -9.0,
+      "halone": -4.1875,
+      "wrong": -6.375,
+      "mnear": -5.0,
+      "mfar": -8.1875,
+      "random": -10.53125,
+      "nokey": -8.375,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        19,
+        48
+      ],
+      "landmark": "Petronas Towers",
+      "truth": "Asia",
+      "country": "Malaysia",
+      "stack": -4.625,
+      "galone": -9.0,
+      "halone": -4.6875,
+      "wrong": -6.8125,
+      "mnear": -5.1875,
+      "mfar": -8.125,
+      "random": -10.3125,
+      "nokey": -10.125,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        19,
+        48
+      ],
+      "landmark": "Angkor Wat",
+      "truth": "Asia",
+      "country": "Cambodia",
+      "stack": 3.75,
+      "galone": -5.1875,
+      "halone": 2.75,
+      "wrong": -3.0625,
+      "mnear": 1.5625,
+      "mfar": -2.125,
+      "random": -3.6328125,
+      "nokey": -6.890625,
+      "stack_arg": "Asia"
+    },
+    {
+      "pair": [
+        19,
+        48
+      ],
+      "landmark": "Tiananmen",
+      "truth": "Asia",
+      "country": "China",
+      "stack": 0.75,
+      "galone": -8.625,
+      "halone": -1.4375,
+      "wrong": -4.5625,
+      "mnear": -3.8125,
+      "mfar": -2.9375,
+      "random": -6.4375,
+      "nokey": -6.25,
+      "stack_arg": "Asia"
+    },
+    {
+      "pair": [
+        19,
+        48
+      ],
+      "landmark": "Burj Khalifa",
+      "truth": "Asia",
+      "country": "UAE",
+      "stack": -2.75,
+      "galone": -6.8125,
+      "halone": -3.0,
+      "wrong": -4.6875,
+      "mnear": -2.625,
+      "mfar": -5.9375,
+      "random": -7.0625,
+      "nokey": -6.3125,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        19,
+        48
+      ],
+      "landmark": "Pyramids",
+      "truth": "Africa",
+      "country": "Egypt",
+      "stack": -5.5,
+      "galone": -8.3125,
+      "halone": -3.0625,
+      "wrong": -5.125,
+      "mnear": -2.9375,
+      "mfar": -7.3125,
+      "random": -7.6875,
+      "nokey": -6.75,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        19,
+        48
+      ],
+      "landmark": "Sphinx",
+      "truth": "Africa",
+      "country": "Egypt",
+      "stack": -4.5,
+      "galone": -4.296875,
+      "halone": -3.1875,
+      "wrong": -3.25,
+      "mnear": -3.0,
+      "mfar": -4.5625,
+      "random": -2.74755859375,
+      "nokey": -5.193359375,
+      "stack_arg": "Europe"
+    },
+    {
+      "pair": [
+        19,
+        48
+      ],
+      "landmark": "Karnak",
+      "truth": "Africa",
+      "country": "Egypt",
+      "stack": -2.9375,
+      "galone": -7.3125,
+      "halone": -1.0,
+      "wrong": -3.1875,
+      "mnear": -2.375,
+      "mfar": -6.6875,
+      "random": -8.0,
+      "nokey": -5.4375,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        19,
+        48
+      ],
+      "landmark": "Table Mountain",
+      "truth": "Africa",
+      "country": "South Africa",
+      "stack": -4.6875,
+      "galone": -9.125,
+      "halone": -3.3125,
+      "wrong": -5.75,
+      "mnear": -5.1875,
+      "mfar": -8.375,
+      "random": -5.1875,
+      "nokey": -7.1875,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        19,
+        48
+      ],
+      "landmark": "Medina",
+      "truth": "Africa",
+      "country": "Morocco",
+      "stack": -3.375,
+      "galone": -7.0625,
+      "halone": -2.125,
+      "wrong": -4.75,
+      "mnear": -4.75,
+      "mfar": -6.8125,
+      "random": -8.9375,
+      "nokey": -5.875,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        19,
+        48
+      ],
+      "landmark": "Victoria Falls",
+      "truth": "Africa",
+      "country": "Zambia",
+      "stack": -2.25,
+      "galone": -6.0625,
+      "halone": -2.375,
+      "wrong": -3.5,
+      "mnear": -3.125,
+      "mfar": -6.9375,
+      "random": -7.625,
+      "nokey": -5.4375,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        29,
+        38
+      ],
+      "landmark": "Colosseum",
+      "truth": "Europe",
+      "country": "Italy",
+      "stack": -0.5,
+      "galone": -5.4375,
+      "halone": -4.625,
+      "wrong": -3.8125,
+      "mnear": -6.1953125,
+      "mfar": -5.65625,
+      "random": -7.5625,
+      "nokey": -6.625,
+      "stack_arg": "Rome"
+    },
+    {
+      "pair": [
+        29,
+        38
+      ],
+      "landmark": "Louvre",
+      "truth": "Europe",
+      "country": "France",
+      "stack": -1.875,
+      "galone": -4.5625,
+      "halone": -5.75,
+      "wrong": -2.15625,
+      "mnear": -6.25,
+      "mfar": -4.4375,
+      "random": -5.125,
+      "nokey": -4.25,
+      "stack_arg": "France"
+    },
+    {
+      "pair": [
+        29,
+        38
+      ],
+      "landmark": "Parthenon",
+      "truth": "Europe",
+      "country": "Greece",
+      "stack": -3.875,
+      "galone": -5.65625,
+      "halone": -4.25,
+      "wrong": -3.546875,
+      "mnear": -4.640625,
+      "mfar": -5.0,
+      "random": -7.375,
+      "nokey": -5.03125,
+      "stack_arg": "Greece"
+    },
+    {
+      "pair": [
+        29,
+        38
+      ],
+      "landmark": "Kremlin",
+      "truth": "Europe",
+      "country": "Russia",
+      "stack": -4.875,
+      "galone": -6.109375,
+      "halone": -5.40625,
+      "wrong": -4.8125,
+      "mnear": -6.296875,
+      "mfar": -5.7890625,
+      "random": -6.078125,
+      "nokey": -6.90625,
+      "stack_arg": "Russia"
+    },
+    {
+      "pair": [
+        29,
+        38
+      ],
+      "landmark": "Sagrada Familia",
+      "truth": "Europe",
+      "country": "Spain",
+      "stack": -1.8125,
+      "galone": -4.125,
+      "halone": -4.8125,
+      "wrong": -3.375,
+      "mnear": -4.28125,
+      "mfar": -6.0,
+      "random": -6.88671875,
+      "nokey": -4.921875,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        29,
+        38
+      ],
+      "landmark": "Brandenburg Gate",
+      "truth": "Europe",
+      "country": "Germany",
+      "stack": -4.46875,
+      "galone": -6.953125,
+      "halone": -4.625,
+      "wrong": -5.2890625,
+      "mnear": -5.1953125,
+      "mfar": -4.67578125,
+      "random": -6.609375,
+      "nokey": -4.5546875,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        29,
+        38
+      ],
+      "landmark": "Taj Mahal",
+      "truth": "Asia",
+      "country": "India",
+      "stack": -2.09375,
+      "galone": -5.7890625,
+      "halone": -4.265625,
+      "wrong": -3.8046875,
+      "mnear": -3.1875,
+      "mfar": -5.87890625,
+      "random": -6.87890625,
+      "nokey": -5.4921875,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        29,
+        38
+      ],
+      "landmark": "Kaaba",
+      "truth": "Asia",
+      "country": "Saudi Arabia",
+      "stack": -6.4375,
+      "galone": -8.65625,
+      "halone": -6.9375,
+      "wrong": -6.65625,
+      "mnear": -6.71875,
+      "mfar": -7.75,
+      "random": -8.4375,
+      "nokey": -8.375,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        29,
+        38
+      ],
+      "landmark": "Petronas Towers",
+      "truth": "Asia",
+      "country": "Malaysia",
+      "stack": -3.0625,
+      "galone": -8.75,
+      "halone": -9.4375,
+      "wrong": -6.875,
+      "mnear": -7.0625,
+      "mfar": -8.9375,
+      "random": -9.4375,
+      "nokey": -10.125,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        29,
+        38
+      ],
+      "landmark": "Angkor Wat",
+      "truth": "Asia",
+      "country": "Cambodia",
+      "stack": 0.8125,
+      "galone": -6.125,
+      "halone": -3.25,
+      "wrong": -2.75,
+      "mnear": -3.0625,
+      "mfar": -6.75,
+      "random": -3.8125,
+      "nokey": -6.890625,
+      "stack_arg": "Asia"
+    },
+    {
+      "pair": [
+        29,
+        38
+      ],
+      "landmark": "Tiananmen",
+      "truth": "Asia",
+      "country": "China",
+      "stack": -4.125,
+      "galone": -11.96875,
+      "halone": -4.625,
+      "wrong": -6.1875,
+      "mnear": -5.25,
+      "mfar": -6.25,
+      "random": -5.0,
+      "nokey": -6.25,
+      "stack_arg": "China"
+    },
+    {
+      "pair": [
+        29,
+        38
+      ],
+      "landmark": "Burj Khalifa",
+      "truth": "Asia",
+      "country": "UAE",
+      "stack": -2.75,
+      "galone": -6.4375,
+      "halone": -5.8125,
+      "wrong": -3.75,
+      "mnear": -4.84375,
+      "mfar": -5.9375,
+      "random": -7.625,
+      "nokey": -6.3125,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        29,
+        38
+      ],
+      "landmark": "Pyramids",
+      "truth": "Africa",
+      "country": "Egypt",
+      "stack": -1.5,
+      "galone": -6.8125,
+      "halone": -6.625,
+      "wrong": -6.5,
+      "mnear": -6.75,
+      "mfar": -6.875,
+      "random": -7.9375,
+      "nokey": -6.75,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        29,
+        38
+      ],
+      "landmark": "Sphinx",
+      "truth": "Africa",
+      "country": "Egypt",
+      "stack": -0.5,
+      "galone": -5.9375,
+      "halone": -3.34375,
+      "wrong": -2.71875,
+      "mnear": -2.828125,
+      "mfar": -6.03125,
+      "random": -5.640625,
+      "nokey": -5.193359375,
+      "stack_arg": "Asia"
+    },
+    {
+      "pair": [
+        29,
+        38
+      ],
+      "landmark": "Karnak",
+      "truth": "Africa",
+      "country": "Egypt",
+      "stack": -2.375,
+      "galone": -7.03125,
+      "halone": -4.5625,
+      "wrong": -4.75,
+      "mnear": -4.625,
+      "mfar": -5.625,
+      "random": -7.75,
+      "nokey": -5.4375,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        29,
+        38
+      ],
+      "landmark": "Table Mountain",
+      "truth": "Africa",
+      "country": "South Africa",
+      "stack": -3.75,
+      "galone": -6.90625,
+      "halone": -6.5,
+      "wrong": -5.484375,
+      "mnear": -7.0,
+      "mfar": -6.875,
+      "random": -5.41015625,
+      "nokey": -7.1875,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        29,
+        38
+      ],
+      "landmark": "Medina",
+      "truth": "Africa",
+      "country": "Morocco",
+      "stack": -3.0625,
+      "galone": -7.0625,
+      "halone": -3.5625,
+      "wrong": -4.9375,
+      "mnear": -5.45703125,
+      "mfar": -7.5,
+      "random": -8.8125,
+      "nokey": -5.875,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        29,
+        38
+      ],
+      "landmark": "Victoria Falls",
+      "truth": "Africa",
+      "country": "Zambia",
+      "stack": -2.125,
+      "galone": -6.375,
+      "halone": -3.59375,
+      "wrong": -3.15625,
+      "mnear": -4.30078125,
+      "mfar": -5.3125,
+      "random": -4.40625,
+      "nokey": -5.4375,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        29,
+        48
+      ],
+      "landmark": "Colosseum",
+      "truth": "Europe",
+      "country": "Italy",
+      "stack": 0.125,
+      "galone": -5.4375,
+      "halone": 0.5,
+      "wrong": -6.4375,
+      "mnear": -0.75,
+      "mfar": -5.4375,
+      "random": -4.625,
+      "nokey": -6.625,
+      "stack_arg": "Europe"
+    },
+    {
+      "pair": [
+        29,
+        48
+      ],
+      "landmark": "Louvre",
+      "truth": "Europe",
+      "country": "France",
+      "stack": 3.875,
+      "galone": -4.5625,
+      "halone": 0.75,
+      "wrong": -4.6875,
+      "mnear": 2.625,
+      "mfar": -1.0,
+      "random": -4.375,
+      "nokey": -4.25,
+      "stack_arg": "Europe"
+    },
+    {
+      "pair": [
+        29,
+        48
+      ],
+      "landmark": "Parthenon",
+      "truth": "Europe",
+      "country": "Greece",
+      "stack": 0.375,
+      "galone": -5.65625,
+      "halone": 1.25,
+      "wrong": -6.375,
+      "mnear": 0.0,
+      "mfar": -3.6875,
+      "random": -4.0,
+      "nokey": -5.03125,
+      "stack_arg": "Europe"
+    },
+    {
+      "pair": [
+        29,
+        48
+      ],
+      "landmark": "Kremlin",
+      "truth": "Europe",
+      "country": "Russia",
+      "stack": 1.5,
+      "galone": -6.109375,
+      "halone": -4.0,
+      "wrong": -7.75,
+      "mnear": -2.25,
+      "mfar": -4.5,
+      "random": -7.365234375,
+      "nokey": -6.90625,
+      "stack_arg": "Europe"
+    },
+    {
+      "pair": [
+        29,
+        48
+      ],
+      "landmark": "Sagrada Familia",
+      "truth": "Europe",
+      "country": "Spain",
+      "stack": 1.625,
+      "galone": -4.125,
+      "halone": 0.375,
+      "wrong": -5.9375,
+      "mnear": -0.5,
+      "mfar": -6.6875,
+      "random": -5.890625,
+      "nokey": -4.921875,
+      "stack_arg": "Europe"
+    },
+    {
+      "pair": [
+        29,
+        48
+      ],
+      "landmark": "Brandenburg Gate",
+      "truth": "Europe",
+      "country": "Germany",
+      "stack": -1.125,
+      "galone": -6.953125,
+      "halone": -0.75,
+      "wrong": -5.5,
+      "mnear": -2.5625,
+      "mfar": -4.75,
+      "random": -6.75,
+      "nokey": -4.5546875,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        29,
+        48
+      ],
+      "landmark": "Taj Mahal",
+      "truth": "Asia",
+      "country": "India",
+      "stack": -4.8125,
+      "galone": -5.7890625,
+      "halone": -2.875,
+      "wrong": -3.6875,
+      "mnear": -4.1875,
+      "mfar": -6.625,
+      "random": -10.1328125,
+      "nokey": -5.4921875,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        29,
+        48
+      ],
+      "landmark": "Kaaba",
+      "truth": "Asia",
+      "country": "Saudi Arabia",
+      "stack": -4.0625,
+      "galone": -8.65625,
+      "halone": -4.1875,
+      "wrong": -9.21875,
+      "mnear": -6.3125,
+      "mfar": -8.5,
+      "random": -8.03125,
+      "nokey": -8.375,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        29,
+        48
+      ],
+      "landmark": "Petronas Towers",
+      "truth": "Asia",
+      "country": "Malaysia",
+      "stack": -3.8125,
+      "galone": -8.75,
+      "halone": -4.6875,
+      "wrong": -6.8125,
+      "mnear": -5.125,
+      "mfar": -7.8125,
+      "random": -11.0,
+      "nokey": -10.125,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        29,
+        48
+      ],
+      "landmark": "Angkor Wat",
+      "truth": "Asia",
+      "country": "Cambodia",
+      "stack": 1.375,
+      "galone": -6.125,
+      "halone": 2.75,
+      "wrong": -6.5,
+      "mnear": 1.5,
+      "mfar": -3.1875,
+      "random": -5.09375,
+      "nokey": -6.890625,
+      "stack_arg": "Asia"
+    },
+    {
+      "pair": [
+        29,
+        48
+      ],
+      "landmark": "Tiananmen",
+      "truth": "Asia",
+      "country": "China",
+      "stack": -1.75,
+      "galone": -11.96875,
+      "halone": -1.4375,
+      "wrong": -6.1875,
+      "mnear": -3.875,
+      "mfar": -1.5625,
+      "random": -6.546875,
+      "nokey": -6.25,
+      "stack_arg": "South Africa"
+    },
+    {
+      "pair": [
+        29,
+        48
+      ],
+      "landmark": "Burj Khalifa",
+      "truth": "Asia",
+      "country": "UAE",
+      "stack": -2.0,
+      "galone": -6.4375,
+      "halone": -3.0,
+      "wrong": -5.625,
+      "mnear": -4.125,
+      "mfar": -5.3125,
+      "random": -6.3125,
+      "nokey": -6.3125,
+      "stack_arg": "Europe"
+    },
+    {
+      "pair": [
+        29,
+        48
+      ],
+      "landmark": "Pyramids",
+      "truth": "Africa",
+      "country": "Egypt",
+      "stack": -3.625,
+      "galone": -6.8125,
+      "halone": -3.0625,
+      "wrong": -3.6875,
+      "mnear": -4.6875,
+      "mfar": -8.6875,
+      "random": -6.625,
+      "nokey": -6.75,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        29,
+        48
+      ],
+      "landmark": "Sphinx",
+      "truth": "Africa",
+      "country": "Egypt",
+      "stack": -4.5,
+      "galone": -5.9375,
+      "halone": -3.1875,
+      "wrong": -3.6875,
+      "mnear": -3.0,
+      "mfar": -4.1875,
+      "random": -5.0,
+      "nokey": -5.193359375,
+      "stack_arg": "Europe"
+    },
+    {
+      "pair": [
+        29,
+        48
+      ],
+      "landmark": "Karnak",
+      "truth": "Africa",
+      "country": "Egypt",
+      "stack": -3.4375,
+      "galone": -7.03125,
+      "halone": -1.0,
+      "wrong": -3.3125,
+      "mnear": -3.5,
+      "mfar": -8.25,
+      "random": -6.0,
+      "nokey": -5.4375,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        29,
+        48
+      ],
+      "landmark": "Table Mountain",
+      "truth": "Africa",
+      "country": "South Africa",
+      "stack": -2.5625,
+      "galone": -6.90625,
+      "halone": -3.3125,
+      "wrong": -5.625,
+      "mnear": -5.5625,
+      "mfar": -6.6875,
+      "random": -4.5,
+      "nokey": -7.1875,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        29,
+        48
+      ],
+      "landmark": "Medina",
+      "truth": "Africa",
+      "country": "Morocco",
+      "stack": -3.4375,
+      "galone": -7.0625,
+      "halone": -2.125,
+      "wrong": -4.125,
+      "mnear": -5.25,
+      "mfar": -8.75,
+      "random": -4.25,
+      "nokey": -5.875,
+      "stack_arg": "Agra"
+    },
+    {
+      "pair": [
+        29,
+        48
+      ],
+      "landmark": "Victoria Falls",
+      "truth": "Africa",
+      "country": "Zambia",
+      "stack": -2.25,
+      "galone": -6.375,
+      "halone": -2.375,
+      "wrong": -4.125,
+      "mnear": -3.625,
+      "mfar": -8.25,
+      "random": -8.1875,
+      "nokey": -5.4375,
+      "stack_arg": "Europe"
+    }
+  ]
+}
