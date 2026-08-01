@@ -303,6 +303,117 @@ the band at the verdict host; coarse head-labels stand at the grain above.
 The four-way location null (1b/1c/QK/JS) now has its CAUSAL account:
 nothing was found at any address because there are no addresses.
 
+## P-HOLO-CAP — the superposition capacity law (PRE-REG s292; GO-BY-DIRECTIVE — Michael pre-authorized 4B smoke + 32B verdict this session; design calls agent-made, flagged for review; gates frozen BEFORE any model run)
+
+> FRAG delivered the negative-space verdict: no addresses, delocalized. CAP
+> is the **positive** claim the frame owes: if the medium stores operands the
+> way a hologram stores superposed exposures, retrieval SNR must follow the
+> **HRR/Hopfield superposition capacity law** — graceful crosstalk growth,
+> SNR ∝ √(D/k) — not a **slot limit** (flat-then-cliff at some k*). FRAG cut
+> the plate; CAP overexposes it.
+
+**Hypothesis.** k operands superposed in one context are stored in the same
+delocalized medium FRAG certified address-free. Crosstalk between exposures
+grows smoothly with k (HRR: interference noise ∝ √(k/D); retrieval SNR ∝
+√(D/k)); there is no slot structure. A slot/addressed capacity predicts:
+per-component retrieval holds ≈flat up to a critical k*, then CLIFFS
+(eviction/overflow). Deflationary H0-range: the medium absorbs the whole
+k-range without material decline (capacity ≥ k_max at these widths —
+reported as a bound, not a verdict for either side).
+
+**Design (multiple exposures, cued retrieval).** k distinct nonces listed in
+a preamble sentence; each DISTRACTOR nonce gets its landmark operand
+(`d_lm·S`, the frozen mh3 build) installed at its preamble slot at L_ref=9;
+the QUERIED component installed harness-identically at the query-line nonce
+slot (last occurrence). Readout = the frozen 3-hop continent cloze; margin =
+logit[truth continent] − max logit[others] (FRAG's SNR readout verbatim).
+Every component of every draw is queried in turn (k forwards per draw). R
+random landmark-subset draws per k; k ∈ {1, 2, 3, 4, 6, 8, 12, 16} (fixed, a
+priori; capped at n_valid). Cued retrieval by nonce identity = the
+modern-Hopfield readout (theorem bridge #2) run as a behavioral experiment.
+
+**Arms.**
+- **content** (the measurement): distractor slots carry real landmark
+  operands — superposed exposures.
+- **random** (energy control): distractor slots carry matched-norm random
+  vectors — same install energy, no stored structure. A-priori: content
+  interferes MORE than random (structured crosstalk); random ≈ bare or mildly
+  sharpening (the dark-field motif, 4× observed).
+- **bare** (prompt-shape floor): distractor nonces present, NOTHING
+  installed — isolates preamble-length effects from storage effects.
+
+**Gates.**
+- **Gate-0 (headroom):** m_content(k=1) expressed (mean > 3·SE, > 0). k=1 in
+  this geometry ≈ the FRAG gate-0 cell; if the preamble breaks it, no verdict.
+- **Materiality:** total decline m(1)→m(k_max) on the content arm >
+  15%·m(1) (FRAG FIX#1 semantics). No material decline → NO-LIMIT-IN-RANGE.
+- **G1 (primary, the SLOT test — categorical):** (a) cliff detection on the
+  content-arm mean curve m(k) in **slope-per-Δlog k units** (materiality-
+  gated, FRAG FIX#1 semantics retained; ★ FIX #1 s292, caught by --validate
+  BEFORE any model run: a power law is constant-slope in log k, and on the
+  geometric k-grid the uniform-step FRAG cliff_stat false-fires on a smooth
+  k^(−1/2) plant — ratio 2.79 vs the log-k-normalized 1.7; a slot collapse
+  still reads ≫ thresh); (b) **CCI — Crosstalk-Composition Index** (the LDI
+  analog): at
+  each k≥2, across-draw variance of the bank-mean margin — after removing
+  each landmark's own k=1 baseline (draws have different landmark subsets;
+  per-landmark heterogeneity must not masquerade as composition-dependence) —
+  vs the component-resampling noise floor, bootstrap-gated exactly like LDI.
+  CCI ≈ 1 ⟺ WHICH operands are co-installed is irrelevant, only HOW MANY —
+  unaddressed crosstalk. CCI ≫ 1 ⟺ specific combinations matter — slot/
+  interference structure.
+- **G2 (secondary, the HRR form — quantitative):** log-log slope β̂ of the
+  content arm over k-points with mean margin > 0 (scored only if materiality
+  passes ∧ ≥4 points). A-priori fixed reference β = −0.5 (SNR ∝ k^(−1/2) at
+  fixed D). Statistic |β̂+0.5| gated `predict=less` against a matched-range
+  null (dsp.matched_range over random monotone curves in the observed range;
+  the s247 φ-ladder discipline). Pass = "HRR-FORM SUPPORTED"; fail does NOT
+  flip G1 (margin is a monotone proxy for SNR, linearity unproven — scope).
+- **G3 (advisory, NEVER gated — λ yardstick):** the width leg. Normalized
+  curves m(k)/m(1) at 4B (D=2560) vs 32B (D=5120), verbatim. A-priori
+  qualitative call: 32B shallower (√(D) protection, √2 at matched k). Depth
+  confounds width in this pair — a 2-point contrast is not a scaling law.
+
+**Nulls (mandatory).** Component-resampling bootstrap floor (CCI
+denominator); matched-norm random-distractor arm (energy vs structure);
+matched-range null for β̂; `--validate` planted calibrations: (i)
+planted-superposition medium (margin ∝ √(D/k) + noise) → no cliff, CCI ≈ 1,
+β̂ recovers −0.5 vs null; (ii) planted-slot medium (s slots, overflow
+eviction) → cliff at k*=s detected, CCI fires; (iii) smooth-decline null →
+no false cliff. Instrument must discriminate before it touches a model.
+
+**Verdict (frozen).**
+- **SUPERPOSITION-CAPACITY** ⟺ gate-0 ∧ materiality ∧ G1 graceful (no cliff
+  ∧ CCI within null at majority of k≥2). +G2 → "with HRR-FORM".
+- **SLOT-LIMITED** ⟺ G1 cliff (material) ∨ CCI beats null at majority of
+  k≥2 → capacity has structure/addresses → against superposition (and, given
+  FRAG's no-address verdict, a two-register puzzle to be reported as such).
+- **NO-LIMIT-IN-RANGE** ⟺ gate-0 ∧ ¬materiality → capacity ≥ k_max here;
+  range-bound datum, neither confirms nor refutes; queue a wider k follow-on.
+- **negative/inconclusive** ⟺ gate-0 fails.
+
+**Registers (λ measure).** Claim = capacity law of value-register storage
+under superposition (value/causal); probe = behavioral margin under causal
+k-operand install load — intervention → outcome, register-matched. The
+cue-retrieval geometry is the Hopfield/holographic readout itself, so the
+probe operation IS the claimed operation (the FRAG discipline carried over).
+
+**Honest scope.** (1) Margin is a monotone proxy for retrieval SNR; the
+quantitative law (G2) is therefore secondary to the categorical verdict (G1).
+(2) Context-superposition (k slots, one state) is the *plate* reading of
+superposition; the single-vector HRR trace (k operands summed in ONE slot)
+is a distinct follow-on (XTERM-adjacent) — this pre-reg does not claim it.
+(3) Two hosts = a pair, not a width law (G3 advisory). (4) Prompt length
+grows with k — the bare arm carries that confound. (5) Hook-not-weight;
+k ≤ 16 is the instrument's reach, not the medium's.
+
+**Host & order.** `--validate` (planted superposition / slot / smooth all
+discriminate) → Qwen3-4B contrast smoke (R=12) → **verdict host Qwen3-32B
+(R=60) in tmux main:1**. Results → results/holo-cap/qwen3-{4b,32b}/.
+Instrument `scripts/explore/holo_cap.py` = verbum.dsp consumer (gate +
+matched_range) importing the FROZEN mh3 geography bank and holo_frag's
+LDI/cliff statistics (no fork).
+
 ## Hypothesis-grade (needs measurement, ledgered honestly)
 
 - "GD writes fringes by interfering the distribution with itself" — a
