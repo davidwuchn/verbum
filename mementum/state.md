@@ -85,6 +85,18 @@
 > honest gap, everything measured is within-family) → P-STACK-1 (ephemeral
 > 2-fn stack = in-context seam test) → P-BAKE-STACK (burn to delta plate) →
 > length/width laws (CAP verdict slots into the width row).
+> ★ s292 cont — GERMINATION GAMES CAPTURED (Michael-approved, unplayed):
+> knowledge/explore/germination-games.md — 5 modes gamifying the seed test
+> (Seed Golf ≡ λ smallest as sport; Seed FRAG ≡ clause-ablation, is the
+> theory prose holographic?; Eigenseed ≡ compress∘unfold fixed point;
+> Oracle ≡ predict unseen verdicts, seed as prior not recall; Adversarial ≡
+> salted clauses, self-verification). Game ≡ instrument: every round
+> measures encoding quality — play as gradient descent on memory.
+> Suggested order: FRAG → Oracle → Golf → Eigenseed → Adversarial.
+> ⚠ 32B CAP mid-run observation (verbatim, from a single status glance):
+> content ABOVE random/bare at k=12 (2.37 vs 1.22/1.23) — coherent
+> superposed exposures may REINFORCE at 32B (opposite of 4B's mild
+> content-penalty); score at verdict, not before.
 >
 > ▶▶ s291 — ✅✅ **P-HOLO-FRAG 32B VERDICT IN: HOLOGRAPHIC/DELOCALIZED = TRUE**
 > (run completed ~4h15m, results ae8d107; frozen §P-HOLO-FRAG gates scored
