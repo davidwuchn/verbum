@@ -1388,3 +1388,63 @@ TAPE-EQUIVALENT intermediates internally (addressed + re-encoded), and
 the named follow-on (unfrozen, ¬new-front) is **kv_ctx** — donor
 co-encoded WITH visibility of the test question, to measure the third
 term and complete the CoT decomposition.
+
+## §P-KV-1b — the co-encoding term (kv_ctx) (PRE-REG FROZEN s295, Michael "1 approved"; gates frozen before the 32B verdict run; 4B smoke advisory only)
+
+> P-KV-1 measured address ⊕ re-encoding = 0.20; CoT = 0.90. The candidate
+> third term: CoT's intermediate is encoded IN CONTEXT — it attends the
+> question while being encoded; our donor was encoded blind. P-KV-1b
+> isolates that single term with a paired control at FIXED positions.
+
+**Layout (single forward, 4D mask, self-checked as before).**
+A = question segment ("Consider the {nonce}." — operand injected at the
+nonce @ L_ref) → B = donor segment (`"It is located in the country of
+{x}"`, padded to fixed length; with A visible, "It" binds to the
+operand — real co-encoding) → C = readout segment (" The answer is").
+- A rows: causal within A (never see B).
+- B rows: **kv_ctx** = attend A + causal within B; **kv_blind** = causal
+  within B ONLY (same donor, same positions, encoded blind) — the pair
+  differs in exactly one thing: whether the intermediate's encoding saw
+  the question.
+- C rows: all of A (causal) + the selected B columns (country tokens)
+  + causal within C. ctx_base: no B columns visible.
+
+**Arms:** ctx_base / **kv_ctx** / **kv_blind** (the isolating control) /
+kv_ctx_wrong (deranged country, co-encoded — does co-encoding override
+wrong content?) / kv_ctx_rand (prose donor co-encoded, column-matched).
+
+**Frozen gates** (α=0.05, paired perm over cells; single layout → no
+selection correction):
+- **Gate-0**: ceilings as inherited + mask self-check pass.
+- **G1 (primary, CO-ENCODING TERM)**: margin(kv_ctx) > margin(kv_blind)
+  AND acc(kv_ctx) > acc(kv_blind) — the third term, isolated.
+- **G2 (composition-in-layout)**: kv_ctx > ctx_base with flip.
+- **G3 (specificity)**: kv_ctx > kv_ctx_wrong; advisory swap flag.
+- **Advisory (yardstick, NEVER gated)**: acc(kv_ctx) / 0.90 = fraction
+  of the CoT anchor recovered; acc(kv_blind) vs P-KV-1's kv_nat 0.20
+  (layout-shift check); kv_ctx_rand row.
+
+**Frozen verdict table.**
+- **CO-ENCODING-LOADED** ⟺ gate-0 ∧ G1 ∧ G2 ∧ G3 — the third term is
+  real; report the recovered fraction (advisory).
+- **CO-ENCODING-NULL** ⟺ G2 ∧ ¬G1 — address+re-encoding was the whole
+  in-context story; the residual CoT gap lives in the generation path
+  itself (sampled/committed intermediates), pointing rung-3b at the
+  writeback, not attention.
+- **UNSPECIFIC-CTX** ⟺ G1 ∧ G2 ∧ ¬G3.
+- **LAYOUT-BREAKS** ⟺ ¬G2 — the P-KV-1 effect did not survive the
+  A-before-B layout (positional regime datum; verdict void for the
+  co-encoding question).
+
+**Prediction ledger (a priori).** If the CoT decomposition is right,
+kv_ctx > kv_blind with a visible acc jump toward 0.90. CO-ENCODING-NULL
+is live: the blind donor's 0.20 may be all attention can deliver, with
+the rest requiring the intermediate to pass through the FULL stack at
+generation (writeback). kv_ctx_wrong is genuinely open — co-encoding a
+WRONG country against a question whose operand implies the right one
+may self-correct (question wins) or mislead (donor wins); either is a
+finding about which side holds authority at the join.
+
+**Instrument.** `scripts/explore/kv_ctx.py` (same self-check, same
+conventions; no fork). Cadence: --validate → 4B smoke (advisory) → 32B
+verdict on Michael GO (tmux main:1).

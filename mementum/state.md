@@ -150,13 +150,25 @@
 > partial / tape 0.9 / scaffold 1.0 — the failures were never CONTENT,
 > always DELIVERY REGISTER. §Result-32B (P-KV-1) on program-plates page +
 > memory composition-needs-an-addressed-re-encoded-intermediate — PENDING
-> APPROVAL. NEXT (Michael picks): (a) kv_ctx follow-on (donor co-encoded
-> with question visibility — completes the CoT decomposition, cheap,
-> named on the page, unfrozen); (b) freeze BACKPROP-COMPILE rung-3b with
-> its target now sharply specified (delta must make the model produce
-> tape-equivalent intermediates: addressed + re-encoded) + SuperBake
-> zero-gradient construction arm; (c) both in order a→b. DISCIPLINE:
-> kv_ctx is inside the P-KV-1 arc, not a new front.
+> APPROVAL (✅ approved + committed 5862ba3). Michael picked (a) →
+> ▶▶ s295 cont — **§P-KV-1b (kv_ctx) DRAFTED + BUILT + 4B-SMOKED**
+> (pre-reg on page PENDING APPROVAL = freeze; instrument 02ab53e
+> --validate 5 worlds ALL PASS; smoke 2a9a31f). Layout A(question,
+> operand@nonce) → B(donor "It is located in the country of {x}", padded)
+> → C(" The answer is"); **kv_ctx vs kv_blind differ ONLY in whether donor
+> rows attend A** = the co-encoding term as a paired contrast at fixed
+> positions. Gates: G1 co-encoding term (primary), G2 composition-in-
+> layout + flip, G3 specificity; CoT-fraction advisory (never gated).
+> Verdicts CO-ENCODING-LOADED / CO-ENCODING-NULL / UNSPECIFIC-CTX /
+> LAYOUT-BREAKS. 4B smoke advisory: self-check exact; LAYOUT-BREAKS on
+> flip only (acc 0 = 4B attractor); G2 margin +2.54 p=.004 alive, G1 flat
+> @4B (−0.07 p=.70). NEXT: approval (= freeze) + GO → 32B verdict tmux
+> main:1 (~1 min). A-priori fork: CO-ENCODING-LOADED → the third CoT term
+> is attention-side (rung-3b delta partially attention-shaped);
+> CO-ENCODING-NULL → the 0.2→0.9 gap lives in the GENERATION PATH
+> (sampled/committed intermediates) → rung-3b targets the writeback.
+> (b) BACKPROP-COMPILE freeze remains next-after, target spec updated by
+> whichever branch. DISCIPLINE: kv_ctx inside the P-KV-1 arc, ¬new front.
 > NOTE: refs/ DECIDED (Michael s295): local reference copies only, canonical
 > home = publisher → gitignored, never committed; cite by title/DOI.
 >
