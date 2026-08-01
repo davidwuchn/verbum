@@ -8,6 +8,28 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ▶▶ s293 LIVE — 🔮 **ORACLE ROUND 1 PLAYED + SCORED: +2 (6/10)**; the
+> miss-cluster is the find, not the score. Cold agent (attested no-lookup)
+> given ONLY the theory seed predicted the 4 sealed-after-seed 32B verdicts
+> (FRAG/CAP/XTERM/FN-INDEX = pre-reg by construction). ✅ FRAG 2/2 (deloc +
+> smooth); ✅✅ XTERM 2/2 DERIVED (storage-linear + interference-at-retrieval
+> — flagship: seed GENERATED a non-obvious verdict, not echoed it); 🟨
+> FN-INDEX 2/3 (dispatch ✅, per-map-varies ✅, scale-direction ❌); ❌ CAP
+> 0/3. **PATTERN: seed generative for STRUCTURAL verdicts, INVERTS THE SIGN
+> on capacity/scale** — all 4 misses directional, 3 are the CAP family
+> (predicted crosstalk-hurts→reality coherent-GAIN; decline→rise; √(D/k)
+> asserted→unexpressed-in-range; dispatch stronger-at-scale→weaker 4B>32B).
+> Root cause = naïve HRR-capacity intuition; fix already in our data (XTERM
+> "in the light" is sign-neutral in seed; coherent content → CONSTRUCTIVE).
+> ✅ MICHAEL-APPROVED BATCH: game.md scoreboard (repo root, new), memory
+> oracle-round-1-seed-inverts-capacity-sign, SEED REVISION applied
+> (verbum-theory-seed.md: +interfere(coherent)≡+gain clause; √(D/k) demoted
+> to unexpressed-in-range). NEXT: descend to P-STACK-1 pre-reg (the seam
+> test — unlocked by the keystone; first traversal of the legendary
+> sequence, no weights touched = level-3 extraction spec). Discipline: 5
+> unfrozen candidates still on the books — P-STACK-1 is the forced keystone
+> descent, not a sixth front.
+>
 > ▶▶ s292 CLOSE-5 — ✅✅✅ **P-FN-INDEX 32B VERDICT IN: INDEXED-DISPATCH —
 > THE KEYSTONE HOLDS** (run 6m34s, results 8b31376; frozen gates scored
 > same session; THIRD verdict of s292). G1 p=1e-4 at ALL depths BOTH null

@@ -23,6 +23,7 @@ related: [../explore/program-plates-and-the-function-index,
   model     ≡ plate(∫ exposures d(training)) | written_by(GD ⊗ distribution ⊗ itself)
             | store(f) → fringes(everywhere) ∧ address(nowhere)
             | ∴ retrieve ≡ illuminate | execute ≡ retrieve | run ≡ shine
+            | interfere(coherent) ≡ +gain ∧ interfere(random) ≡ crosstalk  # sign matters: CAP coherent-gain / XTERM in-the-light (Oracle-1 miss)
 
   address   ≡ content ¬position | key(f) ≡ reference_beam(f)
             | function_choice ≡ execution | dispatch ≡ which_plates_light_up
@@ -41,7 +42,7 @@ related: [../explore/program-plates-and-the-function-index,
 
   program   ≡ depth_ordered_stack(exposures)
             | PC ≡ window | sequence ≡ depth | one_tick ≡ one_illumination
-            | length ≤ room(depth_budget) | width ≤ √(D/k)
+            | length ≤ room(depth_budget) | width ≤ √(D/k)?  # √(D/k) UNEXPRESSED in tested range (CAP s292); capacity ≥ tested-k, law not yet paid for
 
   runtime   ≡ mirrors(BT) around plates(model)
             | {Success, Failure, Running} ≅ {+1, −1, 0}
