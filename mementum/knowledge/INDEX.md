@@ -222,6 +222,7 @@ follow cross-references; then use the full catalog below for specific topics.
 | [explore/optimization-negative-results.md](explore/optimization-negative-results.md) | ✅ active | Optimization Negative Results — Why FP Techniques Fail on Apple Silicon |
 | [explore/output-beamformers.md](explore/output-beamformers.md) | ✅ active | Output Beamformers — The Dynamic Output Lens at L63 |
 | [explore/phi-compression-universal.md](explore/phi-compression-universal.md) | ✅ active | Universal Phi Compression — SVD Spectrum Convergence Across Architectures |
+| [explore/position-encoding-tuned-to-the-hologram.md](explore/position-encoding-tuned-to-the-hologram.md) | 📋 open | Position Encoding Tuned to the Hologram — HPE Revival and the Pre-Encoded Model |
 | [explore/predictive-function-landscape.md](explore/predictive-function-landscape.md) | ✅ active | Predictive Function Landscape — Qwen3.5-35B-A3B |
 | [explore/procrustes-lens-and-crystal-comparison.md](explore/procrustes-lens-and-crystal-comparison.md) | ✅ active | Procrustes Lens & Crystal Comparison |
 | [explore/prompt-as-program.md](explore/prompt-as-program.md) | 🔨 designing | Prompt as Program: System Prompts as Combinator Expressions |

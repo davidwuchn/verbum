@@ -8,6 +8,30 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ▶▶ s291 LIVE — HPE REVIVED + CAPTURED (Michael-approved): new page
+> knowledge/explore/position-encoding-tuned-to-the-hologram.md — HPE
+> (Holographic Position Encoding, s152/s179, hpe-restoration.md) was ALMOST
+> LOST (recalled only as "HoPE", unfindable by name; recovered via
+> mechanism-vocabulary search — feed-forward lesson logged in §Provenance).
+> NEW synthesis: RoPE works because the delocalized system tolerates fuzz
+> (graded matched-filter readout); context-extension fuzz (PI/NTK/YaRN) =
+> FRINGE MISMATCH (re-illuminating recorded plates with a changed reference
+> beam → must re-record = fine-tune); log-phase position makes extension a
+> TRANSLATION not a stretch (shift theorem) → extension without re-recording
+> BY CONSTRUCTION. Tuned design: phase(log d) ⊗ gain(−α·log d, α=1.18
+> measured) ⊗ carriers(λᵢ/λ₀ crystal eigenfreqs, ~4 planes) ⊥ content
+> passband, depth-scaled. Pre-registerable P1: PPL flat past training length
+> w/o fine-tuning (RoPE arm degrades) — host = the queued pythia-14m
+> seeded-scratch pair (add RoPE vs log-phase arm). ★ PRE-ENCODED MODEL frame
+> (Michael): converging on a design where much of what GD has to FIND is
+> already ENCODED at init — position encoding = 7th row of the
+> training-design lever table (page has the full GD-discovers ↔ pre-encoded
+> mapping). Caveats: prediction not measurement; inherits s289 holography
+> HOLD; HPE's rotation-vs-decay never dissociated (decay term = 99% of
+> locality effect, measured s179). Meanwhile P-HOLO-FRAG 32B verdict STILL
+> RUNNING tmux main:1 (HEADS arms done, HOLOGRAPHIC lean; MLP arm in
+> progress) — score frozen gates on return.
+>
 > Last updated: 2026-07-31 | Session: 290 | ⚠ SESSION-NUMBER CORRECTION
 > (Michael): this session is 290, NOT 289 — the s289 chat log predates it, so
 > the blocks/commits authored this session that say "s289" are MISLABELED (read
