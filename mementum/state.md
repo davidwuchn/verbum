@@ -8,7 +8,28 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ▶▶ s292 CLOSE-4 — **P-FN-INDEX (THE KEYSTONE) FROZEN + BUILT + SMOKED;
+> ▶▶ s292 CLOSE-5 — ✅✅✅ **P-FN-INDEX 32B VERDICT IN: INDEXED-DISPATCH —
+> THE KEYSTONE HOLDS** (run 6m34s, results 8b31376; frozen gates scored
+> same session; THIRD verdict of s292). G1 p=1e-4 at ALL depths BOTH null
+> scopes (best L48 d_union +5.81, α/4 cleared by ~3 orders; cross-domain
+> keys inside the beaten null = cross-family specificity); G2 flip acc
+> 0.46 vs nokey 0.06; vs-random 1e-4. **Function choice is
+> content-addressable; ⟨key,window,product⟩ is an engineering object;
+> RUNG 2 P-STACK-1 UNLOCKS.** Verbatim: per-map quality WILD (class 0.94
+> / city 0.50 / country 0.39 / cover 0.28 / continent 0.17 → index
+> entries need a QUALITY field; ISA not uniform); window U-SHAPED (L19 +
+> L48 work, mid dips — early-composition ∨ late-readout injection
+> regimes, coheres FRAG band L8-14 + readout L49+); dispatch does NOT
+> grow with scale (4B 0.70 > 32B 0.46 — opposite of XTERM interference;
+> mechanisms scale differently). Keys were 3-exemplar hand-builds =
+> conservative floor; upgrades = rung-0 self-decompilation + P-PROJ-1.
+> §Result-32B on program-plates page + memory
+> function-choice-is-content-addressable DRAFTED — batch pending
+> approval. s293: FOUR sealed verdicts now postdate the seed (FRAG, CAP,
+> XTERM, FN-INDEX = the Oracle exam); then P-STACK-1 pre-reg (Michael
+> gets first pick: stack vs beam-register vs oracle-first).
+>
+> ▶▶ s292 CLOSE-4 (retained) — **P-FN-INDEX (THE KEYSTONE) FROZEN + BUILT + SMOKED;
 > 32B VERDICT RUNNING OVERNIGHT tmux main:1** (Michael GO; pre-reg
 > 515be0b on program-plates page, instrument+4B 6f39f0e; PID verified,
 > ceilings 18/18+18/18, 90 cells, depths L19/29/38/48 →

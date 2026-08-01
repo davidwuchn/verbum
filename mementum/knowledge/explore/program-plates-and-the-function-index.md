@@ -354,6 +354,40 @@ results/fn-index/qwen3-{4b,32b}/. Instrument `scripts/explore/fn_index.py`
 (home of the animal second bank; mh3 + holo_cap consumers; dsp
 paired_permutation + gate).
 
+### Result-32B — P-FN-INDEX (s292 overnight, verdict host, frozen gates scored)
+
+**VERDICT: INDEXED-DISPATCH.** Function choice is content-addressable at
+the verdict host: injected keys select WHICH resident map executes over a
+fixed operand, with cross-domain keys inside the beaten null. The
+function index ⟨key, window, product⟩ is an engineering object. **Rung 2
+(P-STACK-1) unlocks.**
+
+Run: Qwen/Qwen3-32B, mps, 90 cells (18 geo × 3 maps + 18 animal × 2
+maps, ceilings 18/18 both), depths L19/29/38/48, 6m34s →
+results/fn-index/qwen3-32b/. Union readout 42 candidates, 0 collisions.
+
+- **Gate-0:** PASS (both banks at full ceiling).
+- **G1:** d_within and d_union p=0.0001 at ALL FOUR depths; best L48
+  d_union = +5.81 (selection-corrected α/4 = 0.0125 cleared by ~3 orders).
+- **G2 flip:** diag acc 0.46 vs no-key 0.06 → PASS. **vs random:** p=1e-4.
+
+**Verbatim findings (post-hoc, ¬gated):**
+1. **Per-map dispatch quality varies wildly:** class 0.94 / city 0.50 /
+   country 0.39 / cover 0.28 / continent 0.17 @best layer. Dispatch
+   strength is a PER-FUNCTION property → index entries need a QUALITY
+   field; the ISA is not uniform. (Continent weakest — possibly the
+   neutral prompt's default attractor absorbing it; needs its own look.)
+2. **The window coordinate is U-shaped:** contrast/acc peak at L19 AND
+   L48, dip mid-stack (0.23–0.24). Two injection regimes — early (into
+   composition) and late (into readout) — coheres with the 32B unrolling
+   geometry (early band L8–L14 per FRAG; readout L49+ per P-ATT-MED).
+3. **Dispatch does NOT strengthen with scale:** 4B smoke acc 0.70 > 32B
+   0.46 at matched relative depths — opposite of XTERM's interference
+   (which grew from ~0 at 4B). Different mechanisms, different scaling.
+4. Keys were 3-exemplar hand-builds (the pre-reg's conservative floor) —
+   rung-0 self-decompilation keys + P-PROJ-1 passband-projection are the
+   quality upgrade path.
+
 ## Prior pages this completes
 
 `continuations-as-composed-plates`, `ffn-function-bake-prereg`,
