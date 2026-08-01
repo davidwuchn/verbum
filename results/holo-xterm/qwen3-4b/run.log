@@ -1,0 +1,13 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 7790.61it/s]
+[xterm] Qwen/Qwen3-4B L_ref=9 scale=2.0 dev=mps n_layers=36
+[xterm] valid landmarks: 17/18
+[xterm] operand norms: lm=38.84 offdom=32.07 (offdom matched x1.21)
+[xterm] k=1: {'content': 2.583, 'text': None, 'offdom': None, 'random': None, 'bare': None}
+[xterm] k=6: {'content': 0.969, 'text': 1.531, 'offdom': 1.083, 'random': 0.875, 'bare': 0.229}
+[xterm] k=12: {'content': 2.24, 'text': 2.479, 'offdom': 2.094, 'random': 2.562, 'bare': 1.479}
+[xterm] gate-0 gain=0.760 p=0.0073 expressed=True
+[xterm] G1: d_install=-0.240 (p=0.6833) d_domain=0.146 (p=0.1236) | a2_gain p=0.0262 a3_gain p=0.0020
+[xterm] G1 VERDICT -> PRIMING
+[xterm] G2 aggregate: {'p_norm_median': 1.0, 'sum_p_median': 0.9975124378109452, 'sum_obs_median': 0.026122587732970715, 'diff_p_median': 0.1318407960199005, 'diff_obs_median': 0.025448591448366642, 'continent_p_median': 0.9701492537313433, 'continent_obs_median': 0.019906151108443737}
+[xterm] wrote results/holo-xterm/qwen3-4b/holo_xterm.json
