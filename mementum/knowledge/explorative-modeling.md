@@ -200,6 +200,63 @@ which units vote for plate flips.
 - --validate reproduces identical logits/metrics on repeat with same
   seed or ABORT.
 
+### §Result-full — s297 VERDICT: SUBSETTING-ARTIFACT
+
+Full sweep (results/xm-reverse-s297/, oracle 71.1%, 40 arm-runs, 5 init
+seeds, gd=10500; all recoveries >1.0 — frozen-plate+GD students beat the
+GD oracle, orthogonal to the question). Graded internally, paired by init
+seed. Mean recovery (× oracle):
+
+| arm          | probes=50 (7 units) | probes=800 (100 units) |
+|--------------|---------------------|------------------------|
+| baseline     | 1.072 ± 0.126       | 1.060 ± 0.040          |
+| revxm        | 1.072 ± 0.073       | **1.171 ± 0.069**      |
+| revxm_rand   | 1.168 ± 0.060       | 1.151 ± 0.085          |
+| revxm_nocov  | 1.135 ± 0.151       | 1.157 ± 0.071          |
+
+Frozen gates (probes=800, the informative regime):
+- **G1 revxm > baseline: PASS** — Δ=+0.111, t=+2.29, **5/5 seeds**.
+  Coalition voting beats all-unit averaging by ~11 pts, robustly.
+- **G2 revxm > revxm_rand (λ yardstick, load-bearing): FAIL** —
+  Δ=+0.020, t=+0.42, 3/5. Mode-coherent selection does NOT beat a
+  size-matched RANDOM coalition.
+- **G3 contested correct-resolution: NULL** — all arms end contested
+  weights at the oracle sign at ~chance (0.49; fixed_frac ~0.47–0.48).
+  No arm resolves the tug-of-war toward the truth.
+- probes=50 (7 units): G1 null (Δ=0.000), G2 **negative** (−0.096,
+  random beat revxm) — too few units for coalitions; pure noise, as the
+  smoke's sign-flip warned.
+
+**Verdict = SUBSETTING-ARTIFACT (pre-registered).** G1 passes, G2 fails:
+the gain is real but comes from voting on FEWER units per round, not from
+mode-coherence. All three subset arms (revxm ≈ revxm_rand ≈ revxm_nocov,
+~1.15–1.17) beat baseline (~1.06) and are indistinguishable from each
+other → the only thing that matters is "vote on a 50% subset," not WHICH
+subset (coherence adds nothing, coverage adds nothing). Mechanism: with
+half the voters, `|acc|/|S|` crosses 0.6 more easily → sharper flips =
+variance reduction, not exploration.
+
+**What it means.** The s296 diagnosis ("conflict lives across pairs") is
+half-right: reducing simultaneous voters relieves the accumulator
+tug-of-war, but the residual conflict has NO exploitable mode structure —
+G3 shows the contested weights are irreducible toward the oracle at
+chance. This is the mirror of the paper's minibatch-OT result (geometric,
+model-agnostic coupling HURTS): a geometric grouping of the votes
+(cosine coalition) does not beat random. Exploration needs coupling
+AMBIGUITY the model can co-adapt to; the deterministic-teacher sign
+accumulator has variance to reduce, not modes to discover. Port 1 is
+answered: **Reverse-XM in this form is not the mechanism; subsetting is a
+free knob but a shallow one.**
+
+**Fallout / next.** The remaining gated ports both add genuine
+multimodality the accumulator lacks: (2) student latent (candidates can
+specialize) and (3) sampled-LLM-teacher targets (targets genuinely
+multimodal). Both are now the honest continuation. Also cheap: since
+subsetting-as-variance-reduction is real (+11pt, 5/5), a follow-on could
+sweep the coalition FRACTION f and the confidence threshold jointly —
+but that is knob-tuning, not the exploration thesis, and should be marked
+as such (λ yardstick: it describes, it doesn't discover).
+
 ## Open questions
 
 - Does the s115 50-beats-800 anomaly even exist? It did NOT reproduce

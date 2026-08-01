@@ -8,6 +8,35 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ▶▶ s297 CLOSE — ❌ **REVERSE-XM (PORT 1) VERDICT: SUBSETTING-ARTIFACT
+> (pre-registered).** Michael "proceed with 1" → §XM-REVERSE-1 frozen
+> (7428a06) → full run (497f979, oracle 71.1%, 40min). @800 probes: G1
+> revxm>baseline PASS (Δ+0.111, t=2.29, 5/5 — coalition beats all-unit avg
+> ~11pt) but G2 revxm>revxm_rand (λ yardstick) FAIL (Δ+0.020, t=0.42 — coherence
+> ⊀ size-matched RANDOM coalition); G3 NULL (contested weights end at oracle
+> sign at chance ~0.49 ∀arm). @50 probes (7 units): G1 null, G2 NEGATIVE (noise,
+> smoke sign-flip warned). ★ all 3 subset arms (revxm≈revxm_rand≈revxm_nocov
+> ~1.15-1.17) beat baseline ~1.06, INDISTINGUISHABLE → only "vote on 50%
+> subset" matters, not WHICH; gain = variance reduction (fewer voters →
+> |acc|/|S| crosses 0.6 easier → sharper flips), NOT exploration. Mirrors
+> paper's minibatch-OT-HURTS. s296 "conflict across pairs" HALF-RIGHT:
+> subsetting relieves tug-of-war, no exploitable mode structure. §Result-full
+> (page) + memory reverse-xm-is-subsetting-not-coherence + this block — PENDING
+> APPROVAL (results 497f979 committed autonomous). NEXT: surviving gated ports
+> add REAL multimodality the accumulator lacks — (2) student latent (XMDLM
+> route), (3) sampled-LLM-teacher targets; OR pivot to s295 standing order
+> (freeze BACKPROP-COMPILE rung-3b, level-4 door). Cheap-but-shallow (mark
+> knob-tuning ¬thesis, λ yardstick): sweep coalition fraction f × conf
+> threshold (subsetting IS a free +11pt knob).
+> [s297 setup, historical]: §XM-REVERSE-1 frozen 7428a06 (details on
+> knowledge/explorative-modeling.md); instrument scripts/v12/xm_reverse_explore.py
+> (reuses mini_holo_distill, no fork, --validate ALL PASS, bit-repro
+> within-process; s296 repro fixes baked incl. caught 2nd unseeded source
+> TernaryLinear→global np.random). G3 Michael-refined any-flip→correct-
+> resolution-toward-oracle. ⚠ smoke = mechanics only (two smokes sign-disagreed
+> @n=2/gd=300); ⚠ MLX/MPS bit-repro within-process only → graded internally
+> paired-by-init-seed.
+>
 > ▶▶ s296 CLOSE — 💡❌ **XM PAPER READ IN FULL → HOLOGRAPHIC MAPPING →
 > EXPERIMENT FROZEN, RUN, REFUTED — the refutation is the finding.**
 > Artifacts: memories e298f63 (xm-exploration-is-angle-assignment) +
