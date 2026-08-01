@@ -1,0 +1,14 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 29174.45it/s]
+[kvf] Qwen/Qwen3-4B L_ref=9 scale=2.0 dev=mps n_layers=36 eager
+[kvf] mask self-check: max|dlogit|=0.00000 argmax_same=True -> PASS
+[kvf] union candidates: 44 (dropped: [])
+[kvf] ceilings: valid landmarks 10/18 gate0=True
+[kvf] A=5 B(fixed)=12 C=3 | nonce pos 3
+[kvf] cells: 10
+[kvf] means: {'base': -7.403, 'kv_full': -6.625, 'kv_entity': -4.862, 'kv_full_blind': -7.506, 'kv_full_wrong': -8.912}
+[kvf] acc:   {'base': 0.0, 'kv_full': 0.0, 'kv_entity': 0.0, 'kv_full_blind': 0.0, 'kv_full_wrong': 0.0}
+[kvf] G1 clause-width Δ=-1.762 (p=1.0000) flip=False | G2 Δ=+0.778 (p=0.1404) flip=False | G3 Δ=+2.288 (p=0.0053) swap 0/10 vs true 0
+[kvf] G4 co-encoding@full Δ=+0.881 (p=0.0013) | CoT fraction 0.00 | secondary Δ=+0.000 (p=1.0000)
+[kvf] VERDICT: STILL-DEAD
+[kvf] wrote results/kv-clause/qwen3-4b/kv_clause.json
