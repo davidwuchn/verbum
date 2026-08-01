@@ -1,0 +1,32 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/707 [00:00<?, ?it/s]Loading weights: 100%|██████████| 707/707 [00:00<00:00, 25788.77it/s]
+[cap] Qwen/Qwen3-32B L_ref=9 scale=2.0 dev=mps n_layers=64
+[cap] nonces usable: 16/20
+[cap] valid landmarks (ceiling): 18/18
+[cap] gate-0: m(1)=1.056 SE=0.344 expressed=True acc=0.78
+  [content] k=2 m=1.214 acc=0.78 CCI=0.86 p=0.771
+  [random] k=2 m=0.863 acc=0.67 CCI=0.68 p=0.979
+  [bare] k=2 m=0.785 acc=0.67 CCI=0.51 p=0.9995
+  [content] k=3 m=1.483 acc=0.72 CCI=1.22 p=0.1155
+  [random] k=3 m=1.093 acc=0.72 CCI=0.88 p=0.744
+  [bare] k=3 m=0.984 acc=0.71 CCI=0.78 p=0.878
+  [content] k=4 m=1.506 acc=0.78 CCI=1.48 p=0.0085
+  [random] k=4 m=1.125 acc=0.71 CCI=0.73 p=0.9345
+  [bare] k=4 m=1.021 acc=0.67 CCI=0.73 p=0.9355
+  [content] k=6 m=1.582 acc=0.79 CCI=1.27 p=0.072
+  [random] k=6 m=1.077 acc=0.67 CCI=0.44 p=1.0
+  [bare] k=6 m=1.212 acc=0.64 CCI=0.57 p=0.996
+  [content] k=8 m=1.922 acc=0.83 CCI=1.08 p=0.3115
+  [random] k=8 m=1.293 acc=0.71 CCI=0.46 p=1.0
+  [bare] k=8 m=1.294 acc=0.70 CCI=0.67 p=0.9775
+  [content] k=12 m=2.368 acc=0.85 CCI=0.65 p=0.981
+  [random] k=12 m=1.219 acc=0.75 CCI=0.53 p=0.9995
+  [bare] k=12 m=1.225 acc=0.71 CCI=0.53 p=1.0
+  [content] k=16 m=2.527 acc=0.87 CCI=0.15 p=1.0
+  [random] k=16 m=1.327 acc=0.70 CCI=0.23 p=1.0
+  [bare] k=16 m=1.375 acc=0.70 CCI=0.16 p=1.0
+
+[cap] content curve: k1=1.06 k2=1.21 k3=1.48 k4=1.51 k6=1.58 k8=1.92 k12=2.37 k16=2.53
+[cap] material=False cliff=nan median_CCI=1.08 beta=nan g2=n/a
+[cap] VERDICT -> NO-LIMIT-IN-RANGE
+[cap] wrote results/holo-cap/qwen3-32b/holo_cap.json
