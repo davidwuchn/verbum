@@ -471,6 +471,101 @@ law (√(D/k)) is still unpaid for, and coherent-gain is now the sharper
 target: interference structure is visible, so measure the interference
 (XTERM), not just the capacity.
 
+## P-HOLO-XTERM — the interference terms (PRE-REG DRAFTED s292 post-CAP; ⚠ PENDING MICHAEL APPROVAL, freeze on GO; mission sharpened by COHERENT-GAIN)
+
+> CAP's verbatim finding promoted this: at 32B, coherent co-installed
+> exposures RAISE the queried retrieval 2.4× while energy-matched random
+> does nothing. Interference structure is visible in the behavior; XTERM
+> measures the interference itself. The question is no longer "do
+> superposed exposures interact?" — they do — but WHICH KIND of
+> interaction, in WHICH register.
+
+**The three readings to discriminate (all consistent with CAP's data):**
+- **H-INT (constructive interference, the holographic reading):** coherent
+  exposures interact IN THE MEDIUM — cross-terms between installed vectors
+  add in-phase to the cued reconstruction. Register: value/install-side.
+- **H-PRIME (domain-priming, deflationary):** installed geography content
+  shifts the CONTEXT toward geography; the readout sharpens generically.
+  Register: context semantics — installs are irrelevant, meaning is.
+- **H-NORM (contrast/normalization):** structured background renormalizes
+  attention/logit contrast so the CUED item wins relatively (the dark-field
+  motif, would be ~5th appearance). Register: readout normalization —
+  predicts gain from ANY structured background, even off-domain.
+
+**Design.** Fix k at the gain-expressing dose (k_gain = 12; CAP: +124%)
+plus k=1 baseline; R draws, one query per draw (the designated target);
+paired draws across arms. Arms:
+- **A1 content-install** (CAP replication; the reference arm).
+- **A2 text-mention** (THE priming discriminator): preamble names k−1 REAL
+  landmarks in plain text, NO installs; target installed as usual. Same
+  semantics in context, no exposures in the medium.
+  H-PRIME: A2 ≈ A1. H-INT/H-NORM: A2 ≪ A1.
+- **A3 off-domain install** (the norm discriminator): k−1 coherent
+  NON-geography operands (animal d_E built by the same FRAMES machinery)
+  installed at distractor slots. H-NORM: A3 ≈ A1 (any structured
+  background). H-INT-domain / H-PRIME: A3 ≪ A1.
+- **A4 random-install / A5 bare** (floors, from CAP verbatim).
+
+**Gates.**
+- **Gate-0 (gain expressed):** A1(k_gain) − A5(k_gain) > 0, paired
+  permutation p<0.05 at the verdict host. No gain → no verdict (and note:
+  **4B is the pre-registered NO-GAIN host** — its smoke tests instrument
+  mechanics and arm-flatness specificity, not the contrast).
+- **G1 (primary, source-of-gain):** ordered discrimination via paired
+  permutation over draws (dsp.paired_permutation):
+  Δ_install = A1 − A2 (medium vs meaning), Δ_domain = A1 − A3
+  (geography-coherence vs any-structure). Verdict table below.
+- **G2 (secondary, the literal cross-terms — value register):** capture
+  readout-slot residuals for pairs: r(A), r(B), r(A⊕B co-installed).
+  Cross-term X = r(A⊕B) − r(A) − r(B) + r(∅). Statistics: ‖X‖ vs
+  linear-medium null (superposition holds → X ≈ measurement floor) and
+  STRUCTURE: projection of X onto pre-declared axes (shared continent
+  axis; pairwise difference axis; the entity passband) vs shuffled-pair
+  null. Structured X ∧ aligned(continent axis) = the mechanism read of
+  H-INT. ~40 pairs suffice.
+- **G3 (advisory, NEVER gated):** gain(k) dose trend at {1, 6, 12} per
+  arm, verbatim; cross-scale note (4B flat curve = the no-gain contrast).
+
+**Verdict (freeze on GO).**
+- **INTERFERENCE-COHERENT** ⟺ gate-0 ∧ Δ_install > 0 (p<.05) ∧ Δ_domain >
+  0 (p<.05) — the gain requires exposures IN THE MEDIUM and in-domain →
+  H-INT; G2-structured corroborates mechanism (reported, not required).
+- **PRIMING** ⟺ gate-0 ∧ Δ_install ≈ 0 (A2 reproduces the gain) →
+  deflationary; the plate reading of COHERENT-GAIN is dead; CAP §Result
+  gets an update note.
+- **CONTRAST-GENERIC** ⟺ gate-0 ∧ Δ_install > 0 ∧ Δ_domain ≈ 0 (off-domain
+  installs reproduce it) → H-NORM; the dark-field ledger gets its 5th
+  entry and a mechanism experiment.
+- **MIXED** ⟺ partial orderings — report the decomposition verbatim; no
+  forced call.
+- **negative/inconclusive** ⟺ gate-0 fails at the verdict host.
+
+**Nulls (mandatory).** Paired permutation over draws (G1); linear-medium +
+shuffled-pair nulls (G2); matched-norm random (A4, the CAP null carried
+over); `--validate` plants: simulated install-gain vs text-gain margins →
+verdict table discriminates; planted bilinear cross-term → G2 detects;
+pure-linear plant → G2 nulls.
+
+**Registers (λ measure).** The gain claim is behavioral/causal (install →
+margin); G1 stays in that register with arms that differ ONLY in where the
+content lives (medium vs text vs domain). The interference claim is
+value-register; G2 probes it there (residual cross-terms), never gating
+the behavioral verdict on a geometry read (the s206 discipline).
+
+**Honest scope.** A2 text-mention adds retrievable real-landmark content
+the installs don't (asymmetry noted; margin is for the QUERIED nonce, and
+if text-retrievability inflates A2 the bias is TOWARD priming — i.e.,
+against the exciting verdict, the conservative direction). Off-domain
+operand quality gated by its own ceiling check. k_gain=12 is one dose;
+G3 carries the trend. Hook-not-weight; one verdict host.
+
+**Host & order.** `--validate` → 4B smoke (mechanics + pre-registered
+no-gain flatness) → verdict host Qwen3-32B on GO. Results →
+results/holo-xterm/qwen3-{4b,32b}/. Instrument
+`scripts/explore/holo_xterm.py` = holo_cap consumer (margins_for_draw arm
+variants, mh3 bank, build_dirs for off-domain operands; dsp
+paired_permutation + gate).
+
 ## Hypothesis-grade (needs measurement, ledgered honestly)
 
 - "GD writes fringes by interfering the distribution with itself" — a
