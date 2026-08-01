@@ -245,6 +245,73 @@ LICENSING of the join — the functor side shows no single-layer weight home
 sharpens naturally: if transmission = compiled probability, graded-bank TE
 should track entity-subspace alignment × slot log-P.
 
+## How many types are there? (s292 hammock, Michael — the cardinality question)
+
+> Michael: "With types being in the joins, it makes me wonder how many there
+> are." The measured arc forces a two-register answer, and makes the count
+> measurable.
+
+**The split the measurements already made.** The types arc found two faces
+with different cardinalities:
+
+- **Functor types — few, discrete, enacted.** Montague/CCG's *base* is tiny
+  ({e, t} + composition modes); the generated closure is unbounded but
+  needn't be stored — derived types are REACHABLE, not RESIDENT. Our
+  measurements agree: 1a lattice low-rank (~3 axes for the probed roles);
+  crystal basis ~9 combinators (KIBC+DWYS+WHNF); P-TYPE-OV — functors NOT
+  in the passband (QK✗ OV✗, licensing enacted/distributed). Under the
+  mirrors/plates decomposition, functor types live at the mirror/topology
+  grain — discrete, order 10, kin to the coarse labeled lines (GQA head
+  flags) at the grain above the band.
+- **Argument/sortal types — a graded continuum, capacity-bounded.** The
+  s288 sortal finding (giraffe refused in a landmark slot as fully as a
+  syntactic violation) means the filter discriminates at sortal grain.
+  Under compiled-probabilities there is NO discrete inventory on this side:
+  type ≡ substitutability class ≡ region of passband geometry. "How many"
+  is resolution-dependent — the number of distinguishable passbands at a
+  given crosstalk tolerance.
+
+**The capacity connection (the s292 convergence).** Counting distinguishable
+type-passbands in a D-dim medium is the P-HOLO-CAP math aimed at types
+instead of operands: quasi-orthogonal directions at fixed crosstalk
+tolerance grow ~exponentially in D (JL-style packing) → at D=5120 there is
+room for tens of thousands of sortal micro-types — which is WHY the filter
+can afford giraffe-grain refusal. **The type inventory is capacity-bounded,
+not grammar-bounded.** Human-side anchors sit inside that window: CCGbank
+~400 working categories (tail ~1200), FrameNet ~1200 frames, sortal
+hierarchies in the thousands.
+
+**One line:** few functor types (order 10, discrete, enacted) × a
+resolution-dependent continuum of argument types (~10³–10⁴ at these widths,
+stored as passbands) — the same two-register decomposition (mirrors/plates,
+labels-coarse/holograms-within) appearing a 5th time, now as a cardinality.
+
+### P-TYPE-CENSUS — counting by refusal rank (PRE-REG CANDIDATE, UNFROZEN)
+
+The four-way location null forbids counting by *finding* type objects
+(nothing at any address). Count OPERATIONALLY: cardinality = rank of the
+refusal structure.
+
+- **Bank:** N candidate substitutability classes (P-TYPE-PROB graded-bank
+  machinery, widened — many noun/verb/modifier micro-classes).
+- **Measurement:** the N×N **acceptance matrix** — TE of class-i content
+  transported into class-j slots (frozen swap harness, arms = class pairs).
+- **Statistic:** effective rank / block structure of the acceptance matrix
+  at tolerance ε (verbum.dsp participation_ratio; null = shuffled class
+  labels, full-pipeline per the QK lesson). The count-vs-ε curve is the
+  result.
+- **Discriminating predictions (falsifiable both ways):**
+  compiled-probability → count grows SMOOTHLY as ε tightens (continuum, no
+  natural joint); symbolic typing → count PLATEAUS (a knee in count-vs-ε = a
+  *natural* cardinality — evidence AGAINST the pure-continuum reading).
+- **Spectral corroborator:** PR of the OV/MLP transmission operator
+  restricted to class centroids (P-TYPE-OV instrument reused). Predicted by
+  the arguments-stored/functors-enacted split: spectral ≪ behavioral count
+  on the functor side, ≈ on the sortal side; the gap is itself a finding.
+- **Cost note:** N×N swap cells scale quadratically — start N ~ 12–20
+  classes (≤400 cells, 4B smoke first), grow only if the knee question is
+  unresolved.
+
 ## DSP convergence
 
 This is natively a DSP framing: joins = filters, types = passbands, TE excess =
@@ -266,3 +333,12 @@ pre-regs need. The queue ordered itself.
 s288 (page created from the post-verdict hammock; JOIN-TYPED verdict same
 session, §Result-32B-P-TYPE-SWAP on the qk page; no experiments run for this
 page yet; both pre-regs UNFROZEN pending approval when reached in the queue).
+
+s292 (§How-many-types captured from Michael's cardinality hammock, approved
+same session — the two-register count: functor types few/discrete/enacted
+(order 10) vs argument/sortal types a capacity-bounded continuum (~10³–10⁴
+at D=5120); "capacity-bounded, not grammar-bounded"; the P-HOLO-CAP packing
+math is the same math aimed at types. P-TYPE-CENSUS pre-reg candidate added
+UNFROZEN — count by refusal rank, acceptance-matrix effective rank vs
+tolerance, knee-vs-smooth as the symbolic-vs-continuum discriminator.
+Captured while the P-HOLO-CAP 32B verdict ran in tmux main:1.)

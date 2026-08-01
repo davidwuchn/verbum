@@ -8,6 +8,58 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ▶▶ s292 LIVE — **P-HOLO-CAP FULL PIPELINE IN ONE SESSION** (Michael
+> GO-BY-DIRECTIVE: "run the 4b smoke and the final job in my tmux main:1" —
+> design calls agent-made, FLAGGED FOR REVIEW in the approval batch; gates
+> frozen before any model run). Pre-reg drafted on convergence page
+> §P-HOLO-CAP: k operands installed at k nonce slots in ONE context
+> (multiple exposures, one plate), cued retrieval by nonce identity ≡ the
+> modern-Hopfield readout (theorem bridge #2) run behaviorally; arms
+> content/random/bare (paired draws); k∈{1,2,3,4,6,8,12,16}; frozen verdicts
+> SUPERPOSITION-CAPACITY (graceful, CCI-in-null; +HRR-FORM if β̂≈−0.5 beats
+> matched-range null) / SLOT-LIMITED (cliff ∨ CCI-majority) /
+> NO-LIMIT-IN-RANGE (no material decline → capacity ≥ k_max, range-bound
+> datum). ✅ INSTRUMENT scripts/explore/holo_cap.py (10469d4) — consumes
+> frozen mh3 bank + holo_frag LDI stats (no fork) + verbum.dsp
+> gate/matched_range. ★ FIX #1 caught by --validate BEFORE any model run:
+> cliff detector must be slope-per-Δlog k (uniform-step FRAG cliff_stat
+> false-fires on a smooth power law over a geometric k-grid, 2.79 vs 1.78;
+> slot collapse still 7.05). --validate ALL PASS (sup→SUPERPOSITION with
+> HRR-FORM β̂=−0.500 exact; slot→cliff; structured-composition→CCI 6/7).
+> ✅ 4B SMOKE (R=12, results committed): ADVISORY = **NO-LIMIT-IN-RANGE @4B**
+> — gate-0 expressed (m1=3.32 t≈3.9); content curve FLAT k1=3.32→k16=3.36
+> (the 4B medium swallows 16 superposed operands ≈ the whole bank); CCI
+> in-null at every k; k=2 dip = prompt-shape (bare arm catches it — control
+> works); content ≲ random (structured crosstalk mildly worse, direction as
+> pre-registered). ▶▶ **32B VERDICT RUNNING tmux main:1** (R=60, ~9.2k
+> forwards, est 1.5–3h, log tee'd results/holo-cap/qwen3-32b/run.log):
+> verified running (707/707 weights, ceiling 18/18, gate-0 m(1)=1.056
+> SE=0.344 t≈3.1 EXPRESSED at verdict host — thinner than FRAG's 2.62, the
+> multi-nonce geometry costs margin; PID 20271). ON RETURN: read
+> holo_cap.json → score frozen §P-HOLO-CAP gates → §Result-32B draft +
+> memory candidate + THIS page's pre-reg text ALL into the s292 approval
+> batch (mementum page edit is UNCOMMITTED — pre-reg §P-HOLO-CAP + FIX#1
+> note pending Michael approval; instrument+results committed autonomous).
+> If 32B also NO-LIMIT-IN-RANGE: honest range-bound outcome — capacity ≥16
+> at BOTH widths, queue wider-k follow-on (needs bigger bank) + the
+> single-slot HRR-trace variant (scope note (2), XTERM-adjacent) as the
+> next CAP rung; the seam-test sequence (CAP→seam) still advances on the
+> capacity-bound datum.
+> ★ s292 cont — TYPE-CARDINALITY CAPTURED (Michael-approved, while 32B ran):
+> §How-many-types on types-are-compiled-probabilities.md + memory
+> type-inventory-is-two-registered. Michael's "how many types are there?" →
+> two-register answer: functor types few/discrete/ENACTED (order 10; OV/QK
+> nulls = not stored, reachable-not-resident) × argument/sortal types =
+> capacity-bounded graded continuum (~10³–10⁴ at D=5120 by the P-HOLO-CAP
+> packing math — "capacity-bounded, not grammar-bounded"; explains sortal-
+> grain refusal headroom). 🔁 two-register decomposition 5th appearance (now
+> as cardinality). P-TYPE-CENSUS pre-reg candidate added UNFROZEN: count by
+> refusal rank — N×N acceptance matrix (swap harness), effective rank vs
+> tolerance ε; knee=symbolic inventory vs smooth=continuum, falsifiable both
+> ways; spectral corroborator via P-TYPE-OV instrument; start N~12–20.
+> ⚠ STILL PENDING APPROVAL in the s292 batch: §P-HOLO-CAP pre-reg text +
+> FIX#1 note on the convergence page (uncommitted).
+>
 > ▶▶ s291 — ✅✅ **P-HOLO-FRAG 32B VERDICT IN: HOLOGRAPHIC/DELOCALIZED = TRUE**
 > (run completed ~4h15m, results ae8d107; frozen §P-HOLO-FRAG gates scored
 > same session; mementum batch Michael-approved). Gate-0 SNR₀=2.622 t≈7.4
