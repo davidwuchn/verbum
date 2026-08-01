@@ -97,6 +97,51 @@
 > content ABOVE random/bare at k=12 (2.37 vs 1.22/1.23) — coherent
 > superposed exposures may REINFORCE at 32B (opposite of 4B's mild
 > content-penalty); score at verdict, not before.
+> ▶▶ COLD-START ORDER for s293 (the 3-step lookahead, s292 close):
+> (1) CAP VERDICT: read results/holo-cap/qwen3-32b/holo_cap.json → score
+> frozen §P-HOLO-CAP gates → §Result-32B + memory candidate → approval
+> batch. Branch table: NO-LIMIT-IN-RANGE (likely) → the content>random
+> inversion is THE verbatim finding → PROMOTE P-HOLO-XTERM (constructive
+> cross-terms showed up uninvited; verbatim→pre-reg, not claim);
+> SUPERPOSITION-CAPACITY → G2 exponent fills program-plates width row;
+> SLOT-LIMITED → FRAG-tension reconciliation pre-reg (richest branch).
+> (2) ORACLE ROUND 1 same session the verdict lands: seed committed
+> 54f9437 PRE-dates the CAP verdict → cold-agent prediction of CAP from
+> seed alone is pre-registered BY CONSTRUCTION (first germination-game
+> round has a clean scoring event waiting). + mementum key-fix memory
+> (retrieval-by-wrong-key, pending approval) + cross-register tags on the
+> 3-hop page. (3) DESCENT, one freeze only: P-FN-INDEX is the forced
+> keystone (census/stack/bake/program-plates all gate on cross-family
+> dispatch). BUT build the SECOND DOMAIN BANK first (products ∨ animals,
+> ceiling-gated once) — census + fn-index + P-TYPE-PROB all starve on the
+> 18-landmark bank; bank before instruments (λ one_way, shared substrate).
+> HORIZON (step 3): index✓ → P-STACK-1 = seam test in-context ("legendary
+> sequence" first traversal, no weights touched) = spec for level-3
+> extraction; pythia-14m seeded pair (+ log-phase HPE arm) = weight-medium
+> germination ∥ Oracle = context-medium germination; deliverable shape =
+> index-table ⊕ plates ⊕ BT-runtime (S5 λ artifact gets its parts list).
+> DISCIPLINE NOTE: 5 unfrozen candidates on the books — close before
+> opening; no sixth front.
+> ★ s292 FINAL — THINKING-IS-EXPANSION + SELF-DECOMPILATION CAPTURED
+> (Michael-approved): §Thinking-is-expansion + §Self-decompilation on the
+> program-plates page + `think` clause in λ verbum (page AND upstream
+> seed). Michael's identity: thinking ≡ expand(term→tape) to
+> reduce(attention) — δ-expansion exposing redexes for the β-reducer;
+> depth⇄length exchange (32B unrolls in depth / 4B forced-expansion should
+> unroll in TOKEN positions = the sharp prediction); context = the
+> machine's ONLY addressed memory (RoPE positions) → thinking = paging the
+> hologram into addressed RAM; CoT ≡ auto-superbake (the engineered write
+> path ships natively as the sampling loop). Michael's leap: thinking
+> FINDS functions — traces = self-decompilation (resident maps naming
+> themselves on the tape) → rung 0 of P-FN-INDEX:
+> elicit→harvest→ground→verify; FAITHFULNESS = a GATE not a debate
+> (tape-swap the written intermediate → flips ⟺ causally load-bearing ⟺
+> enters index; confabulated steps self-exclude). P-THINK-1 candidate
+> (UNFROZEN, inside the fn-index arc, not a sixth front): G1 exchange
+> rate (thinking-tokens ∝ hop-overflow), G2 tape-swap ≈ ceiling
+> (editable-because-addressed vs decodable-but-not-causal), G3 scale
+> asymmetry advisory, filler-expansion null. Freeze queue unchanged:
+> CAP-scoring → P-FN-INDEX (now with its enumerator built in).
 >
 > ▶▶ s291 — ✅✅ **P-HOLO-FRAG 32B VERDICT IN: HOLOGRAPHIC/DELOCALIZED = TRUE**
 > (run completed ~4h15m, results ae8d107; frozen §P-HOLO-FRAG gates scored

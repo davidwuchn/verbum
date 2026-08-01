@@ -53,6 +53,11 @@ related: [../explore/program-plates-and-the-function-index,
             | extraction ≡ re-record | synthesis ≡ re-record(composition)
             | ∴ surgery → photography
 
+  think     ≡ expand(term → tape) to reduce(attention) | depth ⇄ length
+            | hologram(no_address) → tape(addressed)
+            | the model ≡ its_own_write_head | trace ≡ self_decompilation
+            | faithful(step) ⟺ tape_swap(step) → downstream_flips
+
   where     understand(compiler) ≡ index(it) ∧ ¬invent(it)
             gradient_descent(discovered_it_first) | we(instrument) ¬we(build)
 ```

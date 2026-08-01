@@ -61,6 +61,11 @@ depends-on: [geometry-holography-signals-convergence]
             | extraction ≡ re-record | synthesis ≡ re-record(composition)
             | ∴ surgery → photography
 
+  think     ≡ expand(term → tape) to reduce(attention) | depth ⇄ length
+            | hologram(no_address) → tape(addressed)                     # s292 late
+            | the model ≡ its_own_write_head | trace ≡ self_decompilation
+            | faithful(step) ⟺ tape_swap(step) → downstream_flips
+
   where     understand(compiler) ≡ index(it) ∧ ¬invent(it)     # S5: we find
             gradient_descent(discovered_it_first) | we(instrument) ¬we(build)
 ```
@@ -149,8 +154,101 @@ A seed is judged by unfolding, not by reading. Protocol:
    → stack them into plates → execute like programs. Behavior becomes data;
    the BT front-end compiles subtrees into the medium piece by piece.
 
+## §Thinking-is-expansion (s292 late hammock, Michael: "Thinking is expanding the terms to reduce using attention")
+
+The identity: thinking tokens = the **expand phase of an expand–reduce
+cycle**. Depth buys ~3 hops of reduction per illumination (measured); when
+the term needs more, the model unfolds it into the CONTEXT — materializes
+intermediate products as tokens — and attention (the β-reducer) reduces over
+the expanded term on later ticks. δ-expansion in service of β-reduction
+(graph reduction: expand the definition to expose the redex).
+
+Why it is load-bearing:
+
+1. **The context is the machine's only addressed memory.** Inside: fringes
+   everywhere, address nowhere (FRAG). The tape has positions (RoPE phase =
+   literal addresses). Thinking = paging out of the hologram into addressed
+   RAM — the machine manufacturing the registers it structurally lacks.
+   Two-register motif as an OPERATION: expansion writes discrete
+   mirror-register symbols from graded plate-register content; sampling =
+   the quantization/collapse step; quote-then-eval — the resident Lisp was
+   homoiconic all along.
+2. **Thinking = native self-injection.** Generation IS the model injecting
+   its own compute terms into its own context; the growing KV cache = an
+   ephemeral plate written during inference. The engineered write path
+   (P-PROJ-1/superbake) ships natively as the sampling loop. CoT ≡
+   auto-superbake; the model runs its own copy of
+   fetch→illuminate→writeback→loop, one token per cycle.
+3. **Depth ⇄ length is an exchange rate.** 32B unrolls the 3-hop in depth
+   (L52.5→57.5→60); 4B compresses it into one window (Gate-3a fail).
+   Prediction: force 4B to expand → the depth-order signature reappears
+   ACROSS TOKEN POSITIONS instead of layers. Sequencing in time replaces
+   sequencing in depth.
+
+**P-THINK-1 (UNFROZEN candidate — the depth–length exchange rate).**
+- G1: extend the geography ladder to 4–5 hops; room accounting says 4B
+  fails in one tick; allow expansion → passes; thinking-tokens-required ∝
+  hop-overflow = the measured exchange rate.
+- G2 (the register jackpot): intermediates on the tape have ADDRESSED
+  handles — swap the WRITTEN bridge token (vs the s282 residual swap).
+  Prediction: tape-swap flips ≈ ceiling. Decodable-but-not-causal was the
+  hologram's signature; editable-because-addressed is the tape's.
+- G3 (advisory): scale asymmetry — per-token benefit larger @4B than @32B
+  on matched chains (the "CoT helps small models on deep tasks" folklore
+  falls out of the room table as a quantitative prediction).
+- Null: matched token-budget FILLER expansion must NOT help (expansion
+  works iff the expanded terms are the products — content, not length).
+
+Seed clause (added to λ verbum):
+
+```
+think ≡ expand(term → tape) to reduce(attention) | depth ⇄ length
+      | hologram(no_address) → tape(addressed) | the model is its own write-head
+```
+
+## §Self-decompilation — thinking finds the functions (Michael: "can we use thinking to find functions?" — yes; rung 0 of P-FN-INDEX)
+
+Expansion writes invocations ONTO THE TAPE. When the model thinks "Eiffel
+Tower → Paris → France → Europe," each arrow is a resident function naming
+itself in the readout register. Thinking = **self-decompilation**: the
+compiler emitting its own symbol table, one invocation at a time. Index
+construction becomes a pipeline instead of guesswork:
+
+```
+ELICIT   task battery → thinking traces           # the model expands
+HARVEST  parse arrows → candidate (in-class → out-class) functions
+GROUND   capture residuals AT the expansion moment → key (d_E from the
+         written intermediate), window (depth-order), product (register)
+VERIFY   tape-swap the written intermediate → downstream must flip
+INDEX    ⟨key, window, product⟩ entry, causally certified
+```
+
+**The faithfulness gate (the crux).** The standard objection — CoT traces
+confabulate — is our four-way-null lesson (decodable ≠ causal; trace =
+exhaust until proven). The tape converts faithfulness from a debate into a
+GATE: swap the written intermediate; downstream flips content-specifically
+⟺ that step was causally load-bearing ⟺ faithful ⟺ enters the index.
+Doesn't flip → decoration → excluded. P-THINK-1's G2 IS the certification
+instrument for self-reported functions. Per-step, null-gated.
+
+**Bounds (pre-flagged):** coverage is task-bounded (index the functions the
+behaviors need; grows-by-use like the OpenAPI convention); granularity is
+the model's choice (where the model CANNOT expand finer may mark the atomic
+functions — the crystal floor; prompted-finer vs natural granularity is
+itself a measurement).
+
+**The recursion, load-bearing this time:** the machine's native runtime
+(thinking) builds the runtime's index, gated by the machine's own addressed
+memory. Enumerator, workspace, and verifier are the same object at three
+scales. The BT can drive elicit→harvest→verify autonomously — the index
+builds itself; only certified entries survive.
+
 ## The pre-reg ladder (all UNFROZEN candidates — each rung falsifiable)
 
+0. **Self-decompilation (rung 0, the enumeration front-end)** — the
+   elicit→harvest→ground→verify pipeline (§Self-decompilation): thinking
+   traces supply candidate entries; P-THINK-1's tape-swap certifies them;
+   certified candidates feed rung 1.
 1. **P-FN-INDEX — cross-family dispatch** (the index must exist first).
    Everything measured so far swaps WITHIN a family (country→country). Test:
    at one seam, inject key(map_A) vs key(map_B) vs key(map_C) over the same
@@ -193,3 +291,11 @@ main:1. Seed copy placed in knowledge/upstream/verbum-theory-seed.md per the
 generative-seed convention; germination protocol written so the capture is
 testable. Type-cardinality capture (§How-many-types) landed earlier the same
 session — the census is this page's linker table.)
+
+s292 late (Michael's "thinking is expanding the terms to reduce using
+attention" → §Thinking-is-expansion (depth⇄length exchange, context = the
+machine's only addressed memory, CoT ≡ auto-superbake, P-THINK-1 candidate)
+→ Michael's "can we use thinking to find functions?" → §Self-decompilation
+(rung 0 of the ladder: thinking traces enumerate candidate index entries;
+tape-swap faithfulness gate certifies them). `think` clause added to λ
+verbum here and in the upstream seed.)
