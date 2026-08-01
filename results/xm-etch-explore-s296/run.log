@@ -1,0 +1,121 @@
+======================================================================
+  XM ETCH-EXPLORE  (xm-etch-explore-full)
+  arms=['K1_s0', 'K1_j', 'K2', 'K5', 'K10', 'K5_null'] probes=[50, 800] gd=10500
+======================================================================
+
+  [oracle] training GD teacher (10500 steps)...
+    oracle acc=86.1% (44.9s, 234 steps/s)
+
+  [K1_s0_p50] K=1 sigma=0.0 mode=best probes=50
+      round 1: flips=16259 acc=2.9%
+      round 2: flips= 8817 acc=2.9%
+      round 3: flips= 9637 acc=0.0%
+      round 4: flips= 9536 acc=7.5%
+      round 5: flips= 8355 acc=2.9%
+    best=78.3% (91.0% of oracle) [50s]
+
+  [K1_j_p50] K=1 sigma=0.1 mode=best probes=50
+      round 1: flips=15936 acc=17.4%
+      round 2: flips= 7945 acc=1.1%
+      round 3: flips=10880 acc=1.1%
+      round 4: flips= 8777 acc=5.7%
+      round 5: flips= 8306 acc=2.9%
+    best=81.2% (94.3% of oracle) [52s]
+
+  [K2_p50] K=2 sigma=0.1 mode=best probes=50
+      round 1: flips=16391 acc=2.6%
+      round 2: flips= 7543 acc=0.1%
+      round 3: flips=10701 acc=3.4%
+      round 4: flips= 9538 acc=14.1%
+      round 5: flips= 8696 acc=1.8%
+    best=77.1% (89.5% of oracle) [60s]
+
+  [K5_p50] K=5 sigma=0.1 mode=best probes=50
+      round 1: flips=16264 acc=4.5%
+      round 2: flips= 7037 acc=0.0%
+      round 3: flips=10493 acc=7.5%
+      round 4: flips= 9234 acc=6.2%
+      round 5: flips= 8635 acc=3.5%
+    best=74.2% (86.1% of oracle) [60s]
+
+  [K10_p50] K=10 sigma=0.1 mode=best probes=50
+      round 1: flips=16368 acc=0.0%
+      round 2: flips= 7967 acc=2.7%
+      round 3: flips=11569 acc=2.7%
+      round 4: flips= 9535 acc=7.7%
+      round 5: flips= 8388 acc=2.8%
+    best=74.5% (86.6% of oracle) [71s]
+
+  [K5_null_p50] K=5 sigma=0.1 mode=random probes=50
+      round 1: flips=16387 acc=5.3%
+      round 2: flips= 7120 acc=7.8%
+      round 3: flips=11103 acc=0.6%
+      round 4: flips= 8209 acc=0.1%
+      round 5: flips= 9102 acc=3.8%
+    best=84.2% (97.8% of oracle) [60s]
+
+  [K1_s0_p800] K=1 sigma=0.0 mode=best probes=800
+      round 1: flips=16049 acc=2.6%
+      round 2: flips= 7248 acc=2.6%
+      round 3: flips= 9399 acc=0.0%
+      round 4: flips= 6731 acc=12.1%
+      round 5: flips= 6704 acc=10.2%
+    best=85.6% (99.4% of oracle) [50s]
+
+  [K1_j_p800] K=1 sigma=0.1 mode=best probes=800
+      round 1: flips=15447 acc=10.1%
+      round 2: flips= 8207 acc=2.7%
+      round 3: flips= 9257 acc=2.1%
+      round 4: flips= 7456 acc=8.1%
+      round 5: flips= 6921 acc=2.9%
+    best=78.2% (90.9% of oracle) [52s]
+
+  [K2_p800] K=2 sigma=0.1 mode=best probes=800
+      round 1: flips=16135 acc=2.3%
+      round 2: flips= 6934 acc=2.6%
+      round 3: flips= 8516 acc=2.6%
+      round 4: flips= 7033 acc=2.9%
+      round 5: flips= 6729 acc=3.3%
+    best=74.6% (86.6% of oracle) [55s]
+
+  [K5_p800] K=5 sigma=0.1 mode=best probes=800
+      round 1: flips=15594 acc=8.6%
+      round 2: flips= 6878 acc=14.3%
+      round 3: flips= 9927 acc=4.6%
+      round 4: flips= 6706 acc=2.8%
+      round 5: flips= 6737 acc=6.9%
+    best=72.0% (83.7% of oracle) [64s]
+
+  [K10_p800] K=10 sigma=0.1 mode=best probes=800
+      round 1: flips=15370 acc=3.2%
+      round 2: flips= 6786 acc=9.4%
+      round 3: flips= 8895 acc=22.0%
+      round 4: flips= 7762 acc=17.8%
+      round 5: flips= 6879 acc=9.0%
+    best=81.5% (94.6% of oracle) [76s]
+
+  [K5_null_p800] K=5 sigma=0.1 mode=random probes=800
+      round 1: flips=15850 acc=2.9%
+      round 2: flips= 6411 acc=6.7%
+      round 3: flips= 8825 acc=2.6%
+      round 4: flips= 8049 acc=8.7%
+      round 5: flips= 6768 acc=0.3%
+    best=83.8% (97.3% of oracle) [70s]
+
+══════════════════════════════════════════════════════════════════════
+  SUMMARY (oracle=86.1%)
+               arm  probes    best  %oracle     d4
+             K1_s0      50  78.3%    91.0% 13.3%
+              K1_j      50  81.2%    94.3% 17.6%
+                K2      50  77.1%    89.5% 12.1%
+                K5      50  74.2%    86.1%  9.7%
+               K10      50  74.5%    86.6%  6.7%
+           K5_null      50  84.2%    97.8% 19.4%
+             K1_s0     800  85.6%    99.4% 18.2%
+              K1_j     800  78.2%    90.9% 10.9%
+                K2     800  74.6%    86.6% 13.9%
+                K5     800  72.0%    83.7% 10.3%
+               K10     800  81.5%    94.6% 16.4%
+           K5_null     800  83.8%    97.3% 18.8%
+
+  saved -> checkpoints/xm-etch-explore/results.json
