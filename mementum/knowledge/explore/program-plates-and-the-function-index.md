@@ -1031,3 +1031,169 @@ rung-3 pre-reg** — a small trainable delta compiling the tape/native compositi
 into a reliable one-shot wire; **held-out landmarks = the wire-vs-lookup gate**
 (a memorized 10-pair table fails held-out, a real join generalizes); the level-4
 door (pythia-14m seeded-scratch pair, delta-plate-lifecycle) is the same rung.
+
+> ⚠ RE-READ (s295, SuperBake DSP audit): before freezing the dear backprop
+> rung, the s295 audit against `refs/superbake.pdf` found our in-context
+> instruments skip several of that paper's *measured design laws* (whitened
+> matched-filter keys; entity-content enrichment at SUBJECT tokens @0.16×
+> depth; competitor suppression; closed-loop magnitude calibration). Two
+> cheap refinements were ordered first: §P-ENRICH-1 (below) and the
+> whitened-detector re-run of 3a G3. The "needs backprop" conclusion is
+> HELD pending those, not withdrawn.
+
+## §SuperBake-DSP-audit (s295) — are we doing their operations? NO (four gaps)
+
+Michael's question: "we have the superbake paper in refs/ — confirm we are
+doing the same DSP operations they did to swap facts." Answer after a full
+read of `refs/superbake.txt` against `fn_stack.py` / `bake_stack.py`: **no.**
+SuperBake (Ruehlman 2026, zero-gradient fact installation, 91.3% vs 76.9%
+masked-SGD at zero prose cost) publishes a table of design laws, each "paid
+for with a refuted design." Four are load-bearing for our rung-3 verdicts:
+
+| law (theirs) | their operation | ours (s293–s294) |
+|---|---|---|
+| **Whitening** | keys = Mahalanobis matched filter `Σ⁻¹(x̄_f−μ)`, union covariance INCLUDING innocents; "raw mean keys measure the shared question subspace" (own 0.82 vs other 4.87 pre-whitening) | raw exemplar-mean − grand-mean (4 maps); no covariance, no innocents |
+| **Enrichment** (§3.8, composition) | add the ANSWER ENTITY'S OWN REPRESENTATION at the SUBJECT's tokens @0.16× depth; native machinery composes silently (2/12→11/12) | we injected FUNCTION keys at the FINAL token @0.3–0.75× depth; entity-content enrichment never tried |
+| **Payload survival / transport** | read payloads at write-layer+1; quiet dirs attenuate ~30×, loud arrive rotated; "manufacture separability (codes), never rely on found channels" | g@0.3× expected readable by h@0.6–0.75× (~20 blocks); found-channel keys throughout |
+| **Calibration + suppression** | closed-loop logit-gap calibration (f̂≈0.2–0.5 transfer); push answer AND suppress measured competitor (orthogonalized, top-4) | fixed key_scale grid, open-loop; no competitor suppression — and our dominant error IS the measured competitor (Agra/Paris) |
+
+Two consequences (both actioned s295):
+1. **The 3a G3 signature is suspect as instrument artifact:** `bake_stack.py`'s
+   PRODUCT arm gates h on `⟨residual, d_cc⟩` — a matched-filter DETECTOR built
+   raw (mean-diff, unwhitened, no innocent population). Per the whitening law,
+   an unwhitened detector largely measures the shared prompt subspace → fires
+   everywhere → `gain_stack ≈ gain_gablate` is exactly what a broken filter
+   produces, independent of whether conditioning exists. → whitened re-run.
+2. **Non-bake composition was NOT fully explored:** the §3.8 enrichment analog
+   (intermediate entity's rep, subject tokens, 0.16× depth — note 0.16×64≈L10,
+   inside our measured FRAG band L8–L14 @32B) is a genuinely untried in-context
+   operation, distinct from everything in P-STACK-1/1b/3a. → §P-ENRICH-1.
+
+Also registered: their mechanistic findings cohere with ours (no neuron
+contains its fact / storage collective / facts live in sub-threshold leak ≈
+our address-free/holographic verdicts; their transport laws ≈ LINKER-FAILS)
+— but their headline REFUTES the strong form of our s294 conclusion:
+zero-gradient CONSTRUCTION suffices for installation+composition when the
+DSP is right. Whether it suffices *in-context* (hooks, no appended neurons)
+is exactly what P-ENRICH-1 measures.
+
+## §P-ENRICH-1 — hop enrichment in-context (PRE-REG FROZEN s295, Michael approved "1 approve"; gates frozen before any 32B verdict run; 4B smoke advisory only)
+
+> The SuperBake §3.8 operation done as a pure activation hook (no weights, no
+> appended neurons): place the INTERMEDIATE ENTITY'S own representation at the
+> operand's tokens, early, and ask whether the model's resident hop-2 machinery
+> (country→capital) completes the composition one-shot. This is operand
+> rebinding tested in the CONTENT register (place the product) after s293–s294
+> falsified it in the ROUTING register (select the function). Either outcome
+> moves rung 3: composes → construction path opens, backprop-necessity claim
+> weakened; fails → hand-placed intermediates don't drive hop-2 even at the
+> native enrichment band → the tape/backprop rung is STRENGTHENED with the
+> strongest possible control behind it.
+
+**Question.** With the operand (landmark) injected at the nonce slot as usual,
+does adding `d_country(correct)` — the country's own entity direction, built
+exactly like the operand directions — at the SUBJECT (nonce) position at
+0.16× depth flip the readout to the composed CAPITAL?
+
+**Chain (inherited, shortcut-free §P-STACK-1b).** landmark→country→capital;
+`COUNTRY_CAP` cells where city ≠ capital; resident capital map verified per
+cell (gate-0 ≥ 6 valid cells, bake_stack convention).
+
+**Enrichment direction.** `d_ct[c]` = mean last-entity-token residual over
+`mh3.FRAMES` (multi-lighting, same frames as operands) at L_enrich, minus
+grand mean across test countries — the d_lm convention applied to countries.
+Scale: `--enrich-scale`, default = operand scale S (norms comparable by
+construction). L_enrich = round(0.16·n_layers) — PRE-REGISTERED SINGLE DEPTH
+(no selection correction needed); 4B→L6, 32B→L10 (inside FRAG band L8–L14).
+
+**Arms** (per cell; operand @ nonce slot @ L_ref in ALL arms; readout =
+capital first-token margin over the union set + argmax classified by
+`stack_error_domain`):
+
+| arm | addition | tests |
+|---|---|---|
+| base | none | floor |
+| **enrich** | d_ct(correct) @ subject pos @ L_e | THE operation (§3.8) |
+| wrong | d_ct(deranged country) @ subject @ L_e | specificity + swap signature |
+| random | norm-matched random @ subject @ L_e | energy/content |
+| pos_ctl | d_ct(correct) @ FINAL token @ L_e | their subject-token law |
+| depth_ctl | d_ct(correct) @ subject @ round(0.6·n) | their early-band law |
+| enrich+hkey | enrich + country2cap key @ final @ 0.6·n | rebinding with product hand-placed |
+
+**Frozen gates** (α=0.05; paired permutation over cells; primary depth only):
+- **Gate-0**: ≥6 valid cells (resident capital map, shortcut-free) or no verdict.
+- **G1 (primary, ENRICH-COMPOSES)**: margin_capital(enrich) > margin(base),
+  paired perm; AND acc(enrich) > acc(base).
+- **G2 (specificity/SWAP)**: margin_true(enrich) > margin_true(wrong), paired
+  perm. Advisory flag SWAP-COHERENT: in the wrong arm, argmax = capital(
+  INJECTED country) on more cells than capital(true country) — the fact-swap
+  signature; if it fires, the mechanism is native hop-2 consuming placed
+  content (the strongest possible mechanism read, never gated).
+- **G3 (content-not-energy)**: margin(enrich) > margin(random), paired perm.
+- **G4 (advisory laws, NEVER gated)**: enrich vs pos_ctl (position law),
+  enrich vs depth_ctl (depth law), enrich+hkey vs enrich (does a function key
+  help once the product is present — the linker edge with the operand
+  hand-bound).
+- **Secondary (error-domain)**: operand-domain error fraction (CITY ∪ COUNTRY
+  ∪ CONTINENT, s294 classifier) enrich < base, paired perm — the s294
+  diagnostic's success signal, now for enrichment.
+
+**Frozen verdict table.**
+- **ENRICH-COMPOSES** ⟺ gate-0 ∧ G1 ∧ G2 ∧ G3 → content-register placement
+  drives hop-2 one-shot; the s293–s294 failures were failures of the WRITE
+  (function-key routing), not of the read; in-context composition achievable
+  with correct DSP → rung-3 backprop reframes (construction candidate).
+- **UNSPECIFIC-PRIMING** ⟺ G1 ∧ G3 ∧ ¬G2 → capital-class amplification
+  (the quiet_reread h-alone mode, now content-side); not composition.
+- **ENERGY-ARTIFACT** ⟺ G1 ∧ ¬G3.
+- **ENRICH-FAILS** ⟺ ¬G1 → even the intermediate entity itself, hand-placed
+  at the native enrichment band at the subject position, does not drive
+  hop-2 → the intermediate must be TAPE-ADDRESSED → backprop-compile/tape
+  rung strengthened (pre-registered value of the null).
+
+**Prediction ledger (a priori, sealed with the pre-reg).** Genuinely open.
+For: scaffold control = 10/10 when the country is on the tape; resident
+hop-2 exists; SuperBake's 2/12→11/12 is the same operation one register over
+(weights vs hook). Against: quiet_reread found the intermediate ABSENT
+(country@1 0/10) under g-key injection — but never tested d_ct placement;
+FRAG says the medium is address-free, and enrichment does not create an
+address, it creates CONTENT — if hop-2 needs a tape address rather than
+residual content, enrich fails exactly like the keys did.
+
+**Instrument.** `scripts/explore/enrich_compose.py` — reuses fn_stack chain
+data + bake_stack conventions (union, gate-0, build_dirs) +
+stack_error_domain classifier + verbum.dsp gate/paired_permutation (no
+fork). `--validate` planted worlds must discriminate all four verdicts.
+Cadence: --validate → 4B smoke (advisory) → 32B verdict on Michael GO
+(tmux main:1).
+
+## §3a-whitened — whitened-detector re-run of P-BAKE-STACK G3 (s295, instrument refinement; not a new front)
+
+The 3a PRODUCT arm's `d_cc` detector, rebuilt per SuperBake's whitening law:
+`k_cc = Σ_sh⁻¹(x̄_country − μ_pop)` where the population = country states
+(multi-frame) ∪ INNOCENTS (city states + neutral prose + the nonce prompt
+itself), Σ_sh = Σ + ε·(trΣ/D)·I (shrinkage ridge; n ≪ D). Gain gets a
+CLEARANCE FLOOR (their thresholding law): θ = max innocent response;
+gain = clip((proj−θ)/(ref−θ), 0, cap) — zero on anything an innocent can
+reach. `--whiten` flag on bake_stack.py; `--validate` extends the planted
+worlds with a shared-loud-subspace world where the RAW detector fires on
+innocents (gain_stack ≈ gain_gablate, the s294 G3 signature) and the
+WHITENED detector separates. NOT a re-freeze of 3a: this is an instrument
+audit — if whitened G3 now shows conditioning, the s294 LINKER-FAILS
+verdict's G3 leg was an artifact and §Result-32B gets a re-read note; if it
+reproduces, LINKER-FAILS stands on a clean instrument.
+
+★ FIX #1, caught by --validate BEFORE any model run (s295): whitening
+ALONE does not rescue the detector — if country-ness and harvest-frame are
+perfectly correlated in the population (countries harvested in frame-A,
+cities in frame-B, nothing shares a frame across content), Σ⁻¹ treats the
+content axis as redundant with the loud frame axis and zeroes its weight
+(planted world: k_content 0.03 vs 1.5 expected). The cure is a harvest
+law: the innocent pool MUST contain PROMPT-SHAPED innocents — states that
+share the test prompt's frame WITHOUT the content (several nonce renders,
+`NONCE_CANDS[:6]`) — to break the frame↔content confound in Σ. This is
+SuperBake's multi-lighting law arriving from the covariance side. Planted
+world after fix: raw gain 0.96/0.94 with/without country (confounded, the
+s294 signature), whitened 0.35/0.00 (separates; level conservative because
+the clearance floor θ = max innocent — selectivity is the detector's job,
+magnitude is the calibrator's).

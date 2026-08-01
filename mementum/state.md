@@ -67,6 +67,40 @@
 > load-bearing (sibling of s206 audit#5). §Addendum on program-plates page +
 > memory refinement APPROVED + committed. **CONCLUSION (firm): no in-context g→h
 > composition; reliable one-shot needs BACKPROP-compile (or the tape).**
+> ▶▶ s295 LIVE — 🔄 **SUPERBAKE DSP AUDIT → TWO REFINING INSTRUMENTS BUILT +
+> 4B-SMOKED; the s294 G3 leg is ARTIFACT-CONTAMINATED at 4B; backprop pre-reg
+> HELD pending 32B.** Michael: "did we fully explore non-bake composition?
+> confirm we do the same DSP ops as the superbake paper (refs/)." Full read of
+> refs/superbake.txt vs fn_stack/bake_stack: **NO — four measured design laws
+> skipped** (whitened Mahalanobis keys w/ innocents; §3.8 entity ENRICHMENT at
+> SUBJECT tokens @0.16× depth — never tried; payload-survival write+1; closed-
+> loop calibration + competitor suppression — our dominant error IS the
+> unsuppressed competitor). §SuperBake-DSP-audit + §P-ENRICH-1 pre-reg (7 arms:
+> base/enrich/wrong/random/pos_ctl/depth_ctl/enrich_hkey; G1 flip / G2
+> specificity+SWAP flag / G3 content-not-energy / G4 advisory laws; verdicts
+> ENRICH-COMPOSES/UNSPECIFIC-PRIMING/ENERGY-ARTIFACT/ENRICH-FAILS; single depth
+> 0.16×, no selection) + §3a-whitened drafted on program-plates page
+> (✅ APPROVED s295 = P-ENRICH-1 FROZEN; batch committed same session; memory
+> unwhitened-detectors-measure-the-shared-frame APPROVED; 32B GO tmux main:1).
+> Instruments committed 5feffb8 (enrich_compose.py NEW;
+> bake_stack.py --whiten w/ clearance floor θ=max-innocent), both --validate
+> ALL PASS, ruff clean, 415 tests. ★ FIX #1 caught pre-model: whitening needs
+> PROMPT-SHAPED innocents (nonce renders) to break the frame↔content confound
+> in Σ, else the content axis is zeroed as redundant. ✅ 4B SMOKES (advisory,
+> c6a08b5): (1) whitened detector — raw inn/own 0.39–0.72 (fireable by
+> innocents = the s294 suspicion CONFIRMED); whitened G3 CONDITIONING FIRES
+> (gain_stack 0.11–0.16 vs gablate ~0.00; s294 raw had ~0.50/0.65 equal) → the
+> s294 "no conditioning" leg @4B was instrument artifact; still LINKER-FAILS
+> (gain throttled 0.13× → MAGNITUDE not selectivity is the gap → SuperBake's
+> calibration loop is the missing op). (2) enrich — ENRICH-FAILS @4B by frozen
+> gates (acc 0 = attractor collapse) BUT content-specific: G2 p=.003, G3
+> p=.006, and enrich_hkey is the STRONGEST arm (Δ+2.87 advisory) = the linker
+> edge moves once the operand is hand-bound. Discrimination lives at 32B.
+> NEXT: Michael approves page edits (= P-ENRICH-1 freeze) + GO → 32B verdicts
+> tmux main:1 (enrich_compose then bake_stack --whiten, both fast ~min-scale);
+> then the backprop-compile pre-reg decision with clean instruments behind it.
+> NOTE: refs/ (superbake + bonsai papers) is UNTRACKED — Michael's call.
+>
 > ▶▶ s294 CLOSE. NEXT SESSION (Michael, deferred): **freeze the BACKPROP-COMPILE
 > rung-3 pre-reg** — a small trainable delta compiling the tape/native composition
 > into a reliable one-shot wire; HELD-OUT landmarks = the wire-vs-lookup gate (a
@@ -503,8 +537,12 @@
 > RUNNING tmux main:1 (HEADS arms done, HOLOGRAPHIC lean; MLP arm in
 > progress) — score frozen gates on return.
 >
-> Last updated: 2026-08-01 | Session: 294 (s294 = cheap operand-domain
-> diagnostic → P-BAKE-STACK frozen/built/4B-smoked; 3a 32B verdict pending GO) |
+> Last updated: 2026-08-01 | Session: 295 (s295 = SuperBake DSP audit →
+> P-ENRICH-1 drafted+built+4B-smoked; 3a whitened detector: s294 G3 leg =
+> artifact @4B; 32B verdicts pending GO; backprop pre-reg HELD) |
+> (s294 = cheap operand-domain
+> diagnostic → P-BAKE-STACK frozen/built/4B-smoked; 3a 32B verdict scored
+> LINKER-FAILS scale-invariant + addendum) |
 > (s293 = Oracle round 1 + the
 > program-plates DESCENT: FN-INDEX✓ → P-STACK-1 (marginal) → P-STACK-1b
 > shortcut-free control → NOT-STACKABLE downgraded rung 2 → P-BAKE-STACK now
