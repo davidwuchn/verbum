@@ -1,0 +1,14 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/707 [00:00<?, ?it/s]Loading weights: 100%|██████████| 707/707 [00:00<00:00, 25139.44it/s]
+[kv1] Qwen/Qwen3-32B L_ref=9 L_enrich=10 scale=2.0 kv_scale=2.0 dev=mps n_layers=64 eager
+[kv1] mask self-check: max|dlogit|=0.00000 argmax_same=True -> PASS
+[kv1] union candidates: 44 (dropped: [])
+[kv1] ceilings: valid landmarks 10/18 gate0=True
+[kv1] donor length (fixed): 12 | test len: 8 | test nonce abs pos: 12 + 3
+[kv1] cells: 10
+[kv1] means: {'base': -6.198, 'kv_nat': -3.281, 'kv_wrong': -5.609, 'kv_rand': -5.833, 'kv_synth': -5.727, 'resid': -5.539}
+[kv1] acc:   {'base': 0.0, 'kv_nat': 0.2, 'kv_wrong': 0.1, 'kv_rand': 0.0, 'kv_synth': 0.0, 'resid': 0.0}
+[kv1] G1 Δ=+2.916 (p=0.0009) flip=True | G2 Δ=+2.328 (p=0.0070) swap 0/10 vs true 1 | G3 Δ=+2.552 (p=0.0011)
+[kv1] G4 register fork Δ=-0.188 (p=0.7155) synth_flip=False | secondary Δ=+0.200 (p=0.2549)
+[kv1] VERDICT: ADDRESSED-COMPOSES (+RE-ENCODING-REQUIRED)
+[kv1] wrote results/kv-splice/qwen3-32b/kv_splice.json
