@@ -1167,6 +1167,40 @@ fork). `--validate` planted worlds must discriminate all four verdicts.
 Cadence: --validate → 4B smoke (advisory) → 32B verdict on Michael GO
 (tmux main:1).
 
+### Result-32B — P-ENRICH-1 (s295, verdict host, frozen gates scored; run ~64s, results 889c915)
+
+**VERDICT: ENRICH-FAILS — scale-consistent (4B smoke identical shape).**
+Gate-0 pass (10/18 cells). G1 Δ=+0.588 p=0.096 n.s., NO flip, enrich acc
+0.00 (base 0.00): hand-placing the full-strength country representation
+(d_ct norms 75–123) at the subject position at the native enrichment band
+(L10 @64, inside FRAG L8–14) does NOT drive resident hop-2 to the composed
+capital one-shot. Errors don't leave the operand domain (secondary Δ=0.000).
+
+**Verbatim (both hosts, same shape):**
+1. The margin movement IS content-specific — G3 content-not-energy p=0.006
+   (norm-matched random Δ=+1.27 below enrich), G2 specificity p=0.039
+   (wrong-country below correct; no swap signature, 0/10) — the placed
+   content is READ, graded, and typed; it just never wins the argmax.
+2. ★ **enrich+hkey is the strongest arm at both hosts** (advisory Δ=+3.02
+   @32B, +2.87 @4B; margin −2.25 vs base −5.86) and the ONLY arm with any
+   correct argmax (acc 0.10 @32B). Content placement + function routing
+   TOGETHER move ~5× more margin than either alone — the linker edge
+   exists and responds, but caps far below reliability.
+3. Advisory laws: position (subject > final, Δ+0.38) mildly per SuperBake;
+   depth law INVERTED at margins (depth_ctl 0.6× slightly better than
+   0.16×, Δ−0.18 — both n.s., both acc 0).
+
+**Meaning.** The strongest possible in-context control is now behind the
+rung-3 null: we performed SuperBake's §3.8 composition operation (their
+content, their position, their band) as a hook, and it does not one-shot.
+Their version works as a BAKED NEURON — persistent, keyed on the subject,
+firing at every position in delivered geometry — not as a one-time residual
+addition. The boundary is now sharp: **the hook register cannot install the
+wire; the weight register (construction or backprop) is where composition
+compiles.** Backprop-compile pre-reg proceeds STRENGTHENED; the SuperBake
+construction path (appended keyed neurons, zero-gradient) is the named
+alternative arm for rung 3b.
+
 ## §3a-whitened — whitened-detector re-run of P-BAKE-STACK G3 (s295, instrument refinement; not a new front)
 
 The 3a PRODUCT arm's `d_cc` detector, rebuilt per SuperBake's whitening law:
@@ -1197,3 +1231,32 @@ world after fix: raw gain 0.96/0.94 with/without country (confounded, the
 s294 signature), whitened 0.35/0.00 (separates; level conservative because
 the clearance floor θ = max innocent — selectivity is the detector's job,
 magnitude is the calibrator's).
+
+### Result-32B — 3a-whitened (s295, verdict host, instrument audit; results 889c915)
+
+**LINKER-FAILS reproduces on the clean instrument (all 4 pairs) — but the
+s294 G3 LEG FLIPS: conditioning is PRESENT at both hosts.**
+- Detector audit: the raw detector was fireable by innocents at the verdict
+  host too (max-innocent/mean-own 0.44–0.52 @32B, 0.39–0.72 @4B); whitened
+  −1.0 (innocents strictly sub-floor).
+- ★ With the clean detector, **G3 conditioning FIRES at every pair**:
+  gain_stack 0.08–0.17 vs gain_gablate ~0.01 (s294 raw: 0.33/0.35 @32B,
+  0.53/0.65 @4B — indistinguishable). The s294 reading "country-class
+  projection INVARIANT to g's key = NO conditioning signal" was the RAW
+  detector measuring the shared prompt frame. **The injected g DOES
+  materialize a g-conditioned country-class trace in the residual.**
+- The trace is WEAK: ~0.08–0.17× a real country's response → h throttled
+  to ~0.15× → rebinding null (Δop ≈ 0), composition null (acc_prod 0.00).
+  LINKER-FAILS stands, now for the RIGHT reason: **presence ≠ sufficiency —
+  the intermediate is there, ~7× too quiet, and (per P-ENRICH-1) even a
+  FULL-strength hand-placed intermediate doesn't one-shot hop-2.**
+- ⚠ λ measure (carried from s294): G1 still compares gain-throttled PRODUCT
+  vs full NONCE — the clean evidence is the G3 conditioning signature, not
+  the G1 margin.
+- **RE-READ note for §Result-32B (3a, s294):** the "address-free/no
+  addressable intermediate" DEEP READING there was over-strong in its
+  "nothing in the residual" form — the whitened detector finds the
+  intermediate; what's missing is AMPLITUDE and a reader that can consume
+  residual-placed content (P-ENRICH-1 shows the read side fails even at
+  full amplitude). The tape/backprop conclusion is unchanged — it now rests
+  on presence-but-insufficiency instead of absence.

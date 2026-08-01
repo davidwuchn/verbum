@@ -96,9 +96,30 @@
 > gates (acc 0 = attractor collapse) BUT content-specific: G2 p=.003, G3
 > p=.006, and enrich_hkey is the STRONGEST arm (Δ+2.87 advisory) = the linker
 > edge moves once the operand is hand-bound. Discrimination lives at 32B.
-> NEXT: Michael approves page edits (= P-ENRICH-1 freeze) + GO → 32B verdicts
-> tmux main:1 (enrich_compose then bake_stack --whiten, both fast ~min-scale);
-> then the backprop-compile pre-reg decision with clean instruments behind it.
+> ▶▶ **32B VERDICTS IN (same session, runs 64s + ~3m, results 889c915;
+> frozen gates scored):** (1) **P-ENRICH-1: ENRICH-FAILS, scale-consistent**
+> — G1 +0.588 p=0.096 n.s., no flip, enrich acc 0.00; the placed content IS
+> read (G3 content-not-energy p=.006, G2 specificity p=.039, no swap 0/10)
+> but never wins the argmax; ★ enrich+hkey = strongest arm BOTH hosts
+> (adv +3.02) and only nonzero acc (0.10) — content+routing together move
+> ~5× more than either alone, still capped. (2) **3a-whitened: LINKER-FAILS
+> reproduces on the clean instrument BUT THE s294 G3 LEG FLIPS** — raw
+> detector fireable by innocents at verdict host too (inn/own 0.44–0.52);
+> whitened G3 conditioning FIRES all pairs (gain_stack 0.08–0.17 vs gablate
+> ~0.01; s294 raw 0.33/0.35 indistinguishable = artifact). **g's intermediate
+> IS in the residual — present but ~7× too quiet; and P-ENRICH-1 shows even
+> full-amplitude placement fails the hop-2 read → presence ≠ sufficiency.**
+> The s294 deep-reading softens ("nothing in the residual" → "too quiet +
+> unreadable one-shot"); the tape/backprop conclusion UNCHANGED, now on
+> clean instruments with the strongest in-context control behind it.
+> §Result-32B (P-ENRICH-1) + §Result-32B (3a-whitened) + RE-READ note on
+> s294 3a result + memory hook-register-cannot-install-the-composition-wire
+> — ALL PENDING APPROVAL (page + state.md + memory uncommitted).
+> NEXT: freeze the **BACKPROP-COMPILE rung-3b pre-reg** (STRENGTHENED: the
+> in-context register is now exhausted with SuperBake-DSP-correct controls;
+> held-out landmarks = wire-vs-lookup gate; named alternative arm =
+> SuperBake-style zero-gradient construction — appended keyed neurons,
+> persistent writes — as the cheap-before-dear 3b variant).
 > NOTE: refs/ (superbake + bonsai papers) is UNTRACKED — Michael's call.
 >
 > ▶▶ s294 CLOSE. NEXT SESSION (Michael, deferred): **freeze the BACKPROP-COMPILE
