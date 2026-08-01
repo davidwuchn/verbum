@@ -120,7 +120,8 @@
 > held-out landmarks = wire-vs-lookup gate; named alternative arm =
 > SuperBake-style zero-gradient construction — appended keyed neurons,
 > persistent writes — as the cheap-before-dear 3b variant).
-> NOTE: refs/ (superbake + bonsai papers) is UNTRACKED — Michael's call.
+> NOTE: refs/ DECIDED (Michael s295): local reference copies only, canonical
+> home = publisher → gitignored, never committed; cite by title/DOI.
 >
 > ▶▶ s294 CLOSE. NEXT SESSION (Michael, deferred): **freeze the BACKPROP-COMPILE
 > rung-3 pre-reg** — a small trainable delta compiling the tape/native composition

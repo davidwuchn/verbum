@@ -61,3 +61,7 @@ wrapper/build/
 wrapper/__pycache__/
 results/**/tap/
 results/**/prompts.txt
+
+# reference papers (local copies for convenience; canonical home = publisher.
+# cite by title/DOI in knowledge pages — do not commit third-party PDFs)
+refs/
