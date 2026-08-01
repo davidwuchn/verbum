@@ -1448,3 +1448,38 @@ finding about which side holds authority at the join.
 **Instrument.** `scripts/explore/kv_ctx.py` (same self-check, same
 conventions; no fork). Cadence: --validate → 4B smoke (advisory) → 32B
 verdict on Michael GO (tmux main:1).
+
+### Result-32B — P-KV-1b (s295, verdict host, frozen gates scored; run 44s, mask self-check exact, results committed)
+
+**VERDICT: LAYOUT-BREAKS** (pre-registered: the co-encoding question is
+VOID in this layout — G2's flip fails, so G1 cannot be read as the
+isolated term). But the pre-registered void carries a sharp verbatim
+finding:
+- **The splice composes only PRE-question.** kv_blind here = the SAME
+  register, content, and instrument family as P-KV-1's kv_nat — the only
+  change is donor position (after the question instead of before). Result:
+  0.00 vs 0.20. Margins stay alive and specific in the A-first layout
+  (G2 +2.86 p=.0014, G3 +2.61 p=.0021) but nothing wins the argmax.
+- G1 co-encoding advisory-flat at BOTH hosts (+0.05 p=.41 @32B; −0.07
+  @4B): letting the donor attend the question adds nothing measurable,
+  in margins or flips, in this layout.
+- ★ **THE TENSION THAT POINTS AT THE WRITEBACK:** CoT's intermediate is
+  ALSO post-question KV columns — and it drives 0.90. A donor-encoded
+  country at nearly the same positions drives 0.00. And co-encoding (the
+  donor attending the question) does NOT close that gap. What CoT has
+  that no splice has, in either layout: the intermediate is the model's
+  OWN state — produced by its own forward from its own context,
+  committed by sampling, in-distribution at that position. Structural
+  note: a splice cannot have both properties at once (composing wants
+  donor-first; co-encoding wants question-first) — CoT escapes the
+  exclusivity precisely because the writeback generates the intermediate
+  in place.
+- **Fork resolution for rung-3b: the generation path / WRITEBACK is the
+  target.** The attention-side story is now bounded: address +
+  re-encoding, pre-question only, 0.20 ceiling in our measurements.
+- Named follow-on candidate (UNFROZEN, inside this arc): **P-KV-1c
+  own-state splice** — let the model GENERATE the intermediate itself
+  ("Consider the {nonce}. It is located in the country of" + operand
+  injection, take its own committed columns), splice those at the same
+  post-question positions. Isolates own-state vs donor-state at matched
+  layout — the last in-context discriminator before rung-3b backprop.

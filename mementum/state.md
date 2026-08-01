@@ -162,13 +162,28 @@
 > Verdicts CO-ENCODING-LOADED / CO-ENCODING-NULL / UNSPECIFIC-CTX /
 > LAYOUT-BREAKS. 4B smoke advisory: self-check exact; LAYOUT-BREAKS on
 > flip only (acc 0 = 4B attractor); G2 margin +2.54 p=.004 alive, G1 flat
-> @4B (−0.07 p=.70). NEXT: approval (= freeze) + GO → 32B verdict tmux
-> main:1 (~1 min). A-priori fork: CO-ENCODING-LOADED → the third CoT term
-> is attention-side (rung-3b delta partially attention-shaped);
-> CO-ENCODING-NULL → the 0.2→0.9 gap lives in the GENERATION PATH
-> (sampled/committed intermediates) → rung-3b targets the writeback.
-> (b) BACKPROP-COMPILE freeze remains next-after, target spec updated by
-> whichever branch. DISCIPLINE: kv_ctx inside the P-KV-1 arc, ¬new front.
+> @4B (−0.07 p=.70). ✅ FROZEN (66899a9) + 32B RAN (44s, results 16efdf5):
+> ▶▶ **P-KV-1b 32B VERDICT: LAYOUT-BREAKS** (pre-registered void for the
+> co-encoding question — G2 flip fails) **with a sharp verbatim finding:
+> THE SPLICE COMPOSES ONLY PRE-QUESTION.** kv_blind (= P-KV-1's kv_nat
+> register, donor moved AFTER the question) 0.00 vs 0.20; margins alive +
+> specific (G2 +2.86 p=.0014, G3 +2.61 p=.0021) but no argmax; G1
+> co-encoding flat BOTH hosts (advisory) — donor-attends-question adds
+> nothing. ★ THE TENSION: CoT's intermediate is ALSO post-question KV and
+> drives 0.90 → what CoT has that no splice has (either layout): the
+> intermediate is the model's OWN committed state. Structural exclusivity:
+> a splice can't compose (donor-first) AND co-encode (question-first) at
+> once — CoT escapes because the writeback generates in place. **FORK
+> RESOLVED → rung-3b targets the WRITEBACK.** §Result-32B (P-KV-1b) on
+> page (pending approval batch). NEXT (Michael picks): (a) P-KV-1c
+> OWN-STATE SPLICE (named on page, unfrozen, inside arc): model generates
+> the intermediate itself, splice its own committed columns at the same
+> post-question positions — own-state vs donor-state at matched layout,
+> the LAST in-context discriminator; ~30 min build (kv_ctx variant), 1 min
+> runs; (b) freeze BACKPROP-COMPILE rung-3b now, target = writeback
+> (delta makes the model produce tape-equivalent OWN-state intermediates
+> one-shot; held-out landmarks = wire-vs-lookup; SuperBake construction
+> arm cheap-before-dear). DISCIPLINE: 1c inside the P-KV-1 arc.
 > NOTE: refs/ DECIDED (Michael s295): local reference copies only, canonical
 > home = publisher → gitignored, never committed; cite by title/DOI.
 >
