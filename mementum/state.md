@@ -30,23 +30,36 @@
 > unfrozen candidates still on the books — P-STACK-1 is the forced keystone
 > descent, not a sixth front.
 >
-> ▶▶ s293 cont — **P-STACK-1b (SHORTCUT-FREE) FROZEN + BUILT + 4B-SMOKED;
-> CAPITAL 32B VERDICT RUNNING tmux main:1** (Michael "freeze it and proceed";
-> standing GO for smoke+final). Pre-reg §P-STACK-1b frozen e21c1d9;
-> fn_stack.py --chain flag + capital 4B smoke committed a3514f4. Turns
-> P-STACK-1's marginal-in-margins into win-or-lose: chain landmark→country→
-> CAPITAL (COUNTRY_CAP), composed target NOT 1-hop reachable (landmark's
-> city ≠ capital) so only the stack can land the capital → it can WIN the
-> argmax. 10 shortcut-free cells; inherits ALL P-STACK-1 gates. ★ 4B SMOKE
-> (advisory) = NOT-STACKABLE (capital never wins argmax at 4B, acc 0.00,
-> margins deeply negative — 4B compresses/can't, as continent did). ▶▶ 32B
-> RUNNING (707/707, PID 65429, ~2–3min → results/fn-stack-cap/qwen3-32b/).
-> A-PRIORI: genuine composition ⟹ capital WINS argmax at composition window
-> + h-alone lands CITY not capital; null ⟹ P-STACK-1 positive was
-> shortcut-inflated. ON RETURN: read results/fn-stack-cap/qwen3-32b/
-> fn_stack.json → does the capital win (real acc, not just less-negative)?
-> + halone_landed_on_city diagnostic → score frozen gates → §Result-32B +
-> memory for approval. (Prior verdict retained below.)
+> ▶▶ s293 CLOSE — ✅ **P-STACK-1b (SHORTCUT-FREE) 32B VERDICT IN:
+> NOT-STACKABLE — THE CONTROL DOWNGRADES RUNG 2** (run 1m16s, results
+> 323c743; frozen gates scored + batch Michael-approved + s293 closed same
+> session). Best pair L19→L38: G1 stack−best-single +0.605 p=0.062 (n.s. at
+> α/4), flip FAILS (stack acc 0.20 ≤ h-alone 0.30); no pair passes; ceilings
+> 10/10. Chain landmark→country→CAPITAL (city≠capital → composed answer NOT
+> 1-hop reachable → must WIN the argmax). ★ THE A-PRIORI FIRED: the
+> §P-STACK-1b pre-reg committed (before the run) that a null ⟹ P-STACK-1's
+> TYPED-STACKABLE was shortcut/margin-inflated. NULL LANDED → **in-context
+> program assembly from injected keys is WEAK**: mechanism present (order
+> +2.7→+3.4 robust, wrong-window dead; typed-in-margins) but does NOT
+> reliably win the argmax once the answer isn't single-hop reachable.
+> Composition happens on SOME cells (Taj Mahal→New Delhi: stack wins where
+> h-alone fails) but not reliably (n=10, attractors Paris/Agra, h-alone
+> retains ~25% partial shortcut). The continent-chain flip WAS largely the
+> shortcut. ⇒ **weight-baking is NECESSARY not optional → P-BAKE-STACK is
+> the load-bearing next rung.** §Result-32B (P-STACK-1b) + RE-READ note on
+> P-STACK-1 §Result-32B + memory in-context-key-stacking-is-weak-needs-baking
+> APPROVED + committed. ~5th 4B→32B pattern (both chains NOT-STACKABLE @4B;
+> 32B split: continent→marginal, capital→null). s293 CLOSED.
+> ▶▶ COLD-START s294: the program-plates ladder stands at — rung 1
+> (FN-INDEX INDEXED-DISPATCH ✓), rung 2 (in-context stacking = WEAK, tempered
+> by its control), rung 3 P-BAKE-STACK = NOW LOAD-BEARING (burn the 2-fn
+> stack to a delta plate; does the baked composition execute reliably in one
+> illumination where in-context stacking did not?). OTHER OPEN FRONTS
+> (unfrozen, ¬sixth-front — pick one): Oracle round 2 (seed now has the
+> coherent-gain revision + 2 more sealed verdicts P-STACK-1/1b postdate it);
+> P-TYPE-CENSUS / P-TYPE-PROB / P-THINK-1 (all still on the books); the
+> pythia-14m seeded-scratch pair (level-4 door). DISCIPLINE: close before
+> opening. Branch far ahead (unpushed).
 >
 > ▶▶ s293 cont (retained) — ✅ **P-STACK-1 32B VERDICT IN: TYPED-STACKABLE (but
 > MARGINAL — λ yardstick lead)** (run 2m22s, results bb48877; frozen gates
@@ -404,9 +417,11 @@
 > RUNNING tmux main:1 (HEADS arms done, HOLOGRAPHIC lean; MLP arm in
 > progress) — score frozen gates on return.
 >
-> Last updated: 2026-08-01 | Session: 292 (s292 = the double-verdict day:
-> CAP + XTERM both frozen AND adjudicated in-session; seed planted;
-> next = s293, order in the CLOSE-3 block above) | (s290 note retained:)
+> Last updated: 2026-08-01 | Session: 293 (s293 = Oracle round 1 + the
+> program-plates DESCENT: FN-INDEX✓ → P-STACK-1 (marginal) → P-STACK-1b
+> shortcut-free control → NOT-STACKABLE downgraded rung 2 → P-BAKE-STACK now
+> load-bearing; s293 CLOSED, order in the CLOSE block above) | (s292 note
+> retained: the double-verdict day, CAP + XTERM) | (s290 note retained:)
 > ⚠ SESSION-NUMBER CORRECTION
 > (Michael): this session is 290, NOT 289 — the s289 chat log predates it, so
 > the blocks/commits authored this session that say "s289" are MISLABELED (read

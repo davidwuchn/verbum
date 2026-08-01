@@ -580,6 +580,13 @@ seam EXISTS and is TYPED; it is WEAK in-context.
 the λ-yardstick caveat leading; 4B smoke NOT-STACKABLE flipped via the
 composition-window shortcut death).
 
+> ⚠ RE-READ (s293, after §P-STACK-1b): this TYPED-STACKABLE verdict was
+> TEMPERED by its shortcut-free control (§P-STACK-1b → NOT-STACKABLE). Per
+> that control's a-priori pre-reg, the marginal-in-margins positive here was
+> largely SHORTCUT-INFLATED (continent is 1-hop reachable from a landmark).
+> Read rung 2 as: in-context stacking is WEAK — mechanism present (order +
+> typed-in-margins), but not reliable. See §Result-32B (P-STACK-1b).
+
 ## §P-STACK-1b — shortcut-free composition (PRE-REG FROZEN s293, Michael GO; gates inherited from §P-STACK-1)
 
 **Why.** P-STACK-1 landed TYPED-STACKABLE but MARGINAL: the composed target
@@ -640,3 +647,45 @@ shortcut-inflated — a clean falsification either way.
 **Sessions.** s293 (frozen immediately after P-STACK-1's marginal verdict —
 Michael's "strengthen the measurement before baking"; the shortcut-free
 rung between P-STACK-1 and P-BAKE-STACK).
+
+### Result-32B — P-STACK-1b (s293, verdict host, frozen gates scored)
+
+**VERDICT: NOT-STACKABLE.** With the shortcut removed and the composed
+answer required to WIN the argmax (not merely be less-negative), two-key
+in-context stacking does NOT reliably compose. Best pair L19→L38: G1
+stack−best-single +0.605, **p=0.062 (n.s. at α/4)**, flip FAILS (stack acc
+0.20 ≤ h-alone 0.30). No pair passes. Ceilings 10/10, gate-0 clean, union 50.
+
+Run: Qwen/Qwen3-32B, mps, 10 shortcut-free cells, 1m16s →
+results/fn-stack-cap/qwen3-32b/.
+
+**Per-cell (best pair) — composition happens but is UNRELIABLE:**
+- Genuine composition instances: Taj Mahal→**New Delhi** (stack lands it,
+  h-alone lands Paris — the stack composed where the single key failed);
+  Angkor→Phnom Penh; Burj→Abu Dhabi; Sphinx→Cairo.
+- Failures/noise: Sagrada→**Barcelona** (city shortcut); Kaaba/Pyramids→
+  Paris; Karnak/Medina→Agra (strong union attractors).
+- h-alone still reaches the capital 20–30% (residual partial shortcut — the
+  country→capital key over a landmark sometimes triggers the internal 2-hop).
+
+**Order-sensitivity IS real and robust** (order +2.7→+3.4, wrong-window
+dead) — the ordered injection does something; it just doesn't produce
+reliable composition wins.
+
+**★ The control did its job — rung 2 DOWNGRADED (a-priori-triggered).** The
+§P-STACK-1b pre-reg committed, before this run, that a null result means the
+P-STACK-1 "TYPED-STACKABLE" positive was shortcut/margin-inflated. The null
+landed. Honest re-read: **in-context assembly of programs from injected keys
+is WEAK** — the mechanism exists (order-sensitive, typed in the margins) but
+it does not reliably win the argmax once the answer is not single-hop
+reachable. The continent-chain flip to marginal-positive was, in large part,
+the shortcut.
+
+**Implication → weight-baking is NECESSARY, not optional.** The seam exists
+but is unreliable in-context; robust programs require burning the stack into
+weights → **P-BAKE-STACK is the load-bearing next rung.** Honest caveats:
+n=10 (small), strong union attractors, residual h-alone shortcut ~25%.
+
+**Sessions.** s293 (32B verdict scored + batch approved same session; the
+shortcut-free control that tempered rung 2 and re-pointed the ladder at
+weight-baking; s293 closed here).
