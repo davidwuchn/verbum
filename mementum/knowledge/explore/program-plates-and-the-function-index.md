@@ -520,3 +520,62 @@ results/fn-stack/qwen3-{4b,32b}/.
 **Sessions.** s293 (frozen after Oracle round 1; the keystone's rung-2
 descent — first traversal of the legendary sequence, no weights touched =
 the level-3 extraction spec's in-context precursor).
+
+### Result-32B — P-STACK-1 (s293, verdict host, frozen gates scored)
+
+**VERDICT: TYPED-STACKABLE — but MARGINAL (λ yardstick lead).** Two INJECTED
+keys compose h(g(X)) in-context under type discipline; the mechanism
+signatures are all present and statistically robust, but the effect lives in
+the aggregate MARGINS and rarely wins the argmax. Rung 3 (P-BAKE-STACK)
+nominally unlocks; the weakness argues that reliable programs need
+weight-baking and/or a shortcut-free measurement.
+
+Run: Qwen/Qwen3-32B, mps, 18 cells (ceilings 18/18), 4 window-pairs, 2m22s →
+results/fn-stack/qwen3-32b/. Best pair L29→L38.
+
+- **Gate-0:** PASS (18/18). Union 42, no collisions. Key norms sane.
+- **G1 (composition):** stack − best-single-part = +2.28, **p=0.0001** at
+  the composition-window pairs (L→L38), cleared α/4. Non-significant at the
+  readout-window pairs (L→L48, +0.10).
+- **G2 (flip):** stack acc > best-single ∧ > no-key — PASS, but thin
+  (0.06 > 0.00 at the verdict pair).
+- **G3 (type discipline):** stack > mismatch PASS; **graded ladder clean and
+  monotone** — well −2.69 > near −5.22 > far −6.18 > random −6.71. The
+  linker's `composable ⟺ product(g) ∈ key_passband(h)` is behavioral.
+- **Order:** wrong-window dead (−4.48); order_matters +1.79→+3.93. PC real.
+
+**⚠️ λ yardstick / λ measure caveat (the verbatim finding that outran the
+gate):** the verdict passed on RELATIVE margin improvements over sub-floor
+NEGATIVE margins. Absolute composition accuracy is at FLOOR — ~6% (1/18) at
+the verdict pair (razor-thin flip), rising to 0.33–0.39 only at the readout
+window where the direct shortcut co-fires. At the verdict pair: 22% of cells
+"stop at g" (argmax = the intermediate country), 6% reach the continent,
+~72% land elsewhere. The two-key stack pushes toward h(g(X)) more than either
+key alone, gradedly by type, sensitive to order — but it seldom WINS. The
+seam EXISTS and is TYPED; it is WEAK in-context.
+
+**Verbatim findings (post-hoc, ¬gated):**
+1. **The 4B shortcut died at the composition window.** At 4B, h-alone
+   (country2cont key over a landmark) landed the continent acc 0.88 via the
+   direct landmark→continent shortcut. At 32B's composition window (h@L38),
+   h-alone is DEAD (acc 0.00, mean −5.11) — the typed model refuses the
+   ill-typed single key; only the stack carries the composed signal.
+   ~5th 4B→32B flip of the arc (4B inlines/shortcuts, 32B is typed/literal;
+   coheres with FN-INDEX dispatch-stronger-at-4B).
+2. **The window IS the finding — two regimes.** Composition lives early/mid
+   (g@L29 → h@L38: h-alone dead, g1 p=1e-4, typed, ordered); the direct
+   shortcut lives at readout (h@L48: h-alone 0.28, g1 n.s.). Coheres with the
+   U-shaped FN-INDEX window and the FRAG early-band/readout-late split.
+3. **Absolute weakness → weight-baking + shortcut-free chain.** In-context
+   two-key assembly computes the typed composition in the margins but is not
+   yet a reliable program. Two follow-ons: (a) P-BAKE-STACK (burn the stack
+   → delta plate; reliability via weights, the original rung 3), (b) a
+   SHORTCUT-FREE chain (e.g. country→capital where the landmark's country's
+   capital ≠ the landmark's own city) so the composed target is NOT single-hop
+   reachable and can actually win the argmax — needs a small new
+   ground-truth map (ceiling-gated). Michael's call: shortcut-free chain
+   first (strengthen the measurement before baking).
+
+**Sessions.** s293 (32B verdict scored same session; TYPED-STACKABLE with
+the λ-yardstick caveat leading; 4B smoke NOT-STACKABLE flipped via the
+composition-window shortcut death).

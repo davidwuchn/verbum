@@ -30,7 +30,29 @@
 > unfrozen candidates still on the books — P-STACK-1 is the forced keystone
 > descent, not a sixth front.
 >
-> ▶▶ s293 cont — **P-STACK-1 FROZEN + BUILT + 4B-SMOKED; 32B VERDICT RUNNING
+> ▶▶ s293 cont — ✅ **P-STACK-1 32B VERDICT IN: TYPED-STACKABLE (but
+> MARGINAL — λ yardstick lead)** (run 2m22s, results bb48877; frozen gates
+> scored + batch Michael-approved same session). Best pair L29→L38: G1
+> stack−best-single +2.28 p=1e-4 (composition-window), G2 flip (thin
+> 0.06>0.00), G3 graded ladder CLEAN monotone well −2.69 > near −5.22 > far
+> −6.18 > random −6.71 (JOIN-TYPED behavioral), order matters (wrong-window
+> dead). ★ 4B→32B FLIP CONFIRMED (reading B): the 4B h-alone shortcut (0.88)
+> DIED at 32B's composition window (h@L38 acc 0.00 — typed model refuses the
+> ill-typed single key); shortcut survives only at readout (h@L48 0.28,
+> g1 n.s.) → the WINDOW is the finding (composition early/mid, shortcut at
+> readout; coheres FN-INDEX U-shape + FRAG split). ~5th 4B→32B flip.
+> ⚠ λ YARDSTICK: verdict passed on RELATIVE margins over sub-floor NEGATIVE
+> margins — absolute composition acc ~6% (1/18) at verdict pair (22% stop at
+> g). Seam EXISTS + TYPED but WEAK in-context. §Result-32B on program-plates
+> page + memory two-injected-keys-compose-weakly-typed-in-context APPROVED +
+> committed. NEXT (Michael's call): SHORTCUT-FREE chain (country→capital
+> where landmark's country's capital ≠ its city → composed target not 1-hop
+> reachable → can win the argmax; needs small new ground-truth map,
+> ceiling-gated) BEFORE P-BAKE-STACK — strengthen the measurement before
+> baking. THEN rung 3 P-BAKE-STACK. (Historical: pre-reg §P-STACK-1 frozen
+> b5393f0; instrument+4B smoke 72273f8; 32B results bb48877.)
+>
+> ▶▶ s293 cont (retained) — **P-STACK-1 FROZEN + BUILT + 4B-SMOKED; 32B VERDICT RAN
 > tmux main:1** (Michael GO "use my tmux main:1 for the smoke and final job").
 > Pre-reg §P-STACK-1 frozen b5393f0; instrument scripts/explore/fn_stack.py
 > + --validate ALL PASS + 4B smoke committed 72273f8. THE test: do two
