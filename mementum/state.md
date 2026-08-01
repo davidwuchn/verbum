@@ -54,7 +54,26 @@
 > (FN-INDEX INDEXED-DISPATCH ✓), rung 2 (in-context stacking = WEAK, tempered
 > by its control), rung 3 P-BAKE-STACK = NOW LOAD-BEARING (burn the 2-fn
 > stack to a delta plate; does the baked composition execute reliably in one
-> illumination where in-context stacking did not?). OTHER OPEN FRONTS
+> illumination where in-context stacking did not?).
+> ★ MECHANISTIC SPEC for P-BAKE-STACK (Michael's Q + agent synthesis, s293
+> post-close — interpretation grounded in diagnostics, ¬yet causally
+> measured): WHY in-context stacking is weak = the injected keys drive HOP-1
+> (g writes its output — 22% of continent-chain stacked cells STOP at the
+> intermediate country; order-sensitive so the g→h SEQUENCE is real) but
+> HOP-2 is NOT CONDITIONED on hop-1's output. h FIRES (adds generic
+> h-output-type mass) but can't apply to the SPECIFIC thing g produced →
+> readout collapses onto salient place-names (the direct-city shortcut, or
+> attractors Paris/Agra); the composed answer wins only on the ~4/10 cells
+> the model completes NATIVELY. THE MISSING PIECE = OPERAND REBINDING: an
+> injected key SELECTS a function (FN-INDEX ✓) but CANNOT rebind g's output
+> to be h's operand — the linker edge product(g) ∈ key_passband(h) isn't
+> installed. HYPOTHESIS: weight-baking installs that wire (linker made
+> physical) → P-BAKE-STACK must test = does baking make hop-2 CONDITIONED on
+> hop-1's product (composed answer wins where injection couldn't)?
+> CHEAP CHECK first: diagnostic on whether stack ERRORS concentrate in the
+> hop-1/operand domain (cities) vs the h-output domain (wrong capitals) =
+> confirms "conditioning failure" vs "h-not-firing" before baking.
+> OTHER OPEN FRONTS
 > (unfrozen, ¬sixth-front — pick one): Oracle round 2 (seed now has the
 > coherent-gain revision + 2 more sealed verdicts P-STACK-1/1b postdate it);
 > P-TYPE-CENSUS / P-TYPE-PROB / P-THINK-1 (all still on the books); the
