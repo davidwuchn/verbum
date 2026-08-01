@@ -1,0 +1,5208 @@
+{
+  "model_id": "Qwen/Qwen3-4B",
+  "seed": 0,
+  "scale": 2.0,
+  "ref_layer": 9,
+  "k_grid": [
+    1,
+    2,
+    3,
+    4,
+    6,
+    8,
+    12,
+    16
+  ],
+  "draws": 12,
+  "alpha": 0.05,
+  "cliff_thresh": 2.5,
+  "material_frac": 0.15,
+  "arms": [
+    "content",
+    "random",
+    "bare"
+  ],
+  "nonces": [
+    "zorp",
+    "flim",
+    "drax",
+    "quop",
+    "blint",
+    "snerp",
+    "glark",
+    "trazz",
+    "vonk",
+    "plaff",
+    "snib",
+    "yerm",
+    "clazz",
+    "frub",
+    "skell",
+    "grelm"
+  ],
+  "valid_landmarks": [
+    "Colosseum",
+    "Louvre",
+    "Parthenon",
+    "Kremlin",
+    "Sagrada Familia",
+    "Brandenburg Gate",
+    "Taj Mahal",
+    "Kaaba",
+    "Petronas Towers",
+    "Angkor Wat",
+    "Tiananmen",
+    "Burj Khalifa",
+    "Pyramids",
+    "Karnak",
+    "Table Mountain",
+    "Medina",
+    "Victoria Falls"
+  ],
+  "gate0": {
+    "m1": 3.3161764705882355,
+    "m1_se": 0.8424975485882215,
+    "expressed": true
+  },
+  "content_gates": {
+    "material": false,
+    "cliff": {
+      "cliff_ratio": null,
+      "steps_per_dlogk": [
+        3.446732821339503,
+        -4.461611471868474,
+        -1.9764053562433563,
+        0.6872251835267665,
+        2.330951355264111,
+        -1.39692969548665,
+        -1.529828268115086
+      ],
+      "total_drop": -0.045802696078431016,
+      "max_step": 3.446732821339503,
+      "material": false
+    },
+    "g2": null,
+    "beta_hat": null
+  },
+  "verdict": {
+    "gate0": true,
+    "material": false,
+    "slot_by_cliff": false,
+    "slot_by_cci": false,
+    "n_cci_sig": 0,
+    "n_cci_tested": 7,
+    "median_cci": 0.9540651471487207,
+    "call": "NO-LIMIT-IN-RANGE"
+  },
+  "arms_data": {
+    "content": {
+      "curve": {
+        "1": 3.3161764705882355,
+        "2": 0.9270833333333334,
+        "3": 2.736111111111111,
+        "4": 3.3046875,
+        "6": 3.0260416666666665,
+        "8": 2.35546875,
+        "12": 2.921875,
+        "16": 3.3619791666666665
+      },
+      "acc": {
+        "1": 0.8235294117647058,
+        "2": 0.625,
+        "3": 0.75,
+        "4": 0.8333333333333334,
+        "6": 0.75,
+        "8": 0.6875,
+        "12": 0.7222222222222222,
+        "16": 0.8072916666666666
+      },
+      "cci": {
+        "2": {
+          "ldi": 1.013734466971877,
+          "v_across": 0.7339015151515152,
+          "v_noise": 0.7239583333333334,
+          "p": 0.424,
+          "mean": -1.5208333333333333,
+          "n_draws": 12
+        },
+        "3": {
+          "ldi": 0.5575853940579968,
+          "v_across": 0.6595512415824916,
+          "v_noise": 1.1828703703703705,
+          "p": 0.8815,
+          "mean": -0.2743055555555556,
+          "n_draws": 12
+        },
+        "4": {
+          "ldi": 0.9540651471487207,
+          "v_across": 1.2123801491477273,
+          "v_noise": 1.270751953125,
+          "p": 0.489,
+          "mean": -0.5234375,
+          "n_draws": 12
+        },
+        "6": {
+          "ldi": 1.0363720436938393,
+          "v_across": 1.5159077756734007,
+          "v_noise": 1.4627061631944445,
+          "p": 0.424,
+          "mean": -0.8472222222222223,
+          "n_draws": 12
+        },
+        "8": {
+          "ldi": 1.1016921048045163,
+          "v_across": 0.8250843394886364,
+          "v_noise": 0.7489246186755953,
+          "p": 0.3625,
+          "mean": -0.7265625,
+          "n_draws": 12
+        },
+        "12": {
+          "ldi": 0.7871965718500057,
+          "v_across": 0.40711476746632996,
+          "v_noise": 0.5171704019360269,
+          "p": 0.6535,
+          "mean": -0.529513888888889,
+          "n_draws": 12
+        },
+        "16": {
+          "ldi": 0.04230529948841465,
+          "v_across": 0.02048376834753788,
+          "v_noise": 0.48418918185763893,
+          "p": 1.0,
+          "mean": -0.045572916666666664,
+          "n_draws": 12
+        }
+      },
+      "raw": {
+        "1": {
+          "Colosseum": 3.375,
+          "Louvre": 7.25,
+          "Parthenon": 1.125,
+          "Kremlin": 1.875,
+          "Sagrada Familia": 1.5,
+          "Brandenburg Gate": 4.0,
+          "Taj Mahal": 4.125,
+          "Kaaba": -0.25,
+          "Petronas Towers": -0.625,
+          "Angkor Wat": 8.0,
+          "Tiananmen": 2.0,
+          "Burj Khalifa": 5.625,
+          "Pyramids": 2.25,
+          "Karnak": 1.125,
+          "Table Mountain": 2.625,
+          "Medina": -0.375,
+          "Victoria Falls": 12.75
+        },
+        "2": {
+          "margins": [
+            [
+              -0.125,
+              0.5
+            ],
+            [
+              3.125,
+              1.875
+            ],
+            [
+              2.125,
+              1.875
+            ],
+            [
+              3.75,
+              -0.125
+            ],
+            [
+              -0.625,
+              0.375
+            ],
+            [
+              3.625,
+              0.625
+            ],
+            [
+              -0.75,
+              -1.875
+            ],
+            [
+              3.75,
+              -0.125
+            ],
+            [
+              1.5,
+              -0.375
+            ],
+            [
+              1.75,
+              -0.5
+            ],
+            [
+              0.125,
+              0.5
+            ],
+            [
+              1.75,
+              -0.5
+            ]
+          ],
+          "draws": [
+            [
+              "Karnak",
+              "Tiananmen"
+            ],
+            [
+              "Brandenburg Gate",
+              "Sagrada Familia"
+            ],
+            [
+              "Colosseum",
+              "Louvre"
+            ],
+            [
+              "Burj Khalifa",
+              "Karnak"
+            ],
+            [
+              "Petronas Towers",
+              "Tiananmen"
+            ],
+            [
+              "Burj Khalifa",
+              "Tiananmen"
+            ],
+            [
+              "Medina",
+              "Petronas Towers"
+            ],
+            [
+              "Burj Khalifa",
+              "Karnak"
+            ],
+            [
+              "Table Mountain",
+              "Taj Mahal"
+            ],
+            [
+              "Colosseum",
+              "Karnak"
+            ],
+            [
+              "Karnak",
+              "Parthenon"
+            ],
+            [
+              "Colosseum",
+              "Karnak"
+            ]
+          ]
+        },
+        "3": {
+          "margins": [
+            [
+              5.875,
+              -1.625,
+              3.875
+            ],
+            [
+              3.25,
+              -1.875,
+              3.0
+            ],
+            [
+              -0.375,
+              2.25,
+              3.125
+            ],
+            [
+              3.125,
+              -1.5,
+              13.25
+            ],
+            [
+              2.75,
+              -1.625,
+              12.625
+            ],
+            [
+              3.75,
+              1.25,
+              4.875
+            ],
+            [
+              3.125,
+              -1.375,
+              4.125
+            ],
+            [
+              -1.875,
+              1.375,
+              4.75
+            ],
+            [
+              8.125,
+              1.125,
+              3.375
+            ],
+            [
+              4.375,
+              -0.5,
+              3.25
+            ],
+            [
+              3.5,
+              -0.375,
+              3.375
+            ],
+            [
+              0.75,
+              2.625,
+              2.75
+            ]
+          ],
+          "draws": [
+            [
+              "Louvre",
+              "Petronas Towers",
+              "Sagrada Familia"
+            ],
+            [
+              "Colosseum",
+              "Medina",
+              "Parthenon"
+            ],
+            [
+              "Kaaba",
+              "Sagrada Familia",
+              "Tiananmen"
+            ],
+            [
+              "Brandenburg Gate",
+              "Kaaba",
+              "Victoria Falls"
+            ],
+            [
+              "Brandenburg Gate",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Burj Khalifa",
+              "Taj Mahal",
+              "Tiananmen"
+            ],
+            [
+              "Burj Khalifa",
+              "Petronas Towers",
+              "Table Mountain"
+            ],
+            [
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Taj Mahal"
+            ],
+            [
+              "Angkor Wat",
+              "Louvre",
+              "Table Mountain"
+            ],
+            [
+              "Brandenburg Gate",
+              "Petronas Towers",
+              "Sagrada Familia"
+            ],
+            [
+              "Brandenburg Gate",
+              "Kaaba",
+              "Pyramids"
+            ],
+            [
+              "Karnak",
+              "Kremlin",
+              "Sagrada Familia"
+            ]
+          ]
+        },
+        "4": {
+          "margins": [
+            [
+              3.875,
+              2.25,
+              3.375,
+              0.0
+            ],
+            [
+              5.375,
+              2.75,
+              7.625,
+              1.75
+            ],
+            [
+              -0.625,
+              0.375,
+              1.625,
+              -0.875
+            ],
+            [
+              8.625,
+              4.75,
+              9.5,
+              2.375
+            ],
+            [
+              8.0,
+              3.125,
+              -1.25,
+              10.875
+            ],
+            [
+              7.75,
+              2.125,
+              2.25,
+              3.0
+            ],
+            [
+              4.5,
+              -1.0,
+              -0.375,
+              1.25
+            ],
+            [
+              -0.625,
+              2.375,
+              0.125,
+              0.5
+            ],
+            [
+              7.625,
+              4.625,
+              3.375,
+              11.0
+            ],
+            [
+              1.375,
+              2.875,
+              2.25,
+              10.25
+            ],
+            [
+              3.875,
+              -0.75,
+              2.125,
+              1.5
+            ],
+            [
+              7.25,
+              1.875,
+              2.5,
+              1.5
+            ]
+          ],
+          "draws": [
+            [
+              "Colosseum",
+              "Louvre",
+              "Table Mountain",
+              "Taj Mahal"
+            ],
+            [
+              "Burj Khalifa",
+              "Kremlin",
+              "Louvre",
+              "Table Mountain"
+            ],
+            [
+              "Kaaba",
+              "Karnak",
+              "Parthenon",
+              "Petronas Towers"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kremlin"
+            ],
+            [
+              "Angkor Wat",
+              "Karnak",
+              "Louvre",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Karnak",
+              "Kremlin",
+              "Pyramids"
+            ],
+            [
+              "Louvre",
+              "Medina",
+              "Petronas Towers",
+              "Tiananmen"
+            ],
+            [
+              "Kaaba",
+              "Kremlin",
+              "Medina",
+              "Taj Mahal"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Karnak",
+              "Victoria Falls"
+            ],
+            [
+              "Medina",
+              "Pyramids",
+              "Taj Mahal",
+              "Victoria Falls"
+            ],
+            [
+              "Burj Khalifa",
+              "Kaaba",
+              "Kremlin",
+              "Louvre"
+            ],
+            [
+              "Angkor Wat",
+              "Karnak",
+              "Kremlin",
+              "Table Mountain"
+            ]
+          ]
+        },
+        "6": {
+          "margins": [
+            [
+              7.25,
+              4.0,
+              10.25,
+              1.75,
+              2.25,
+              0.0
+            ],
+            [
+              4.125,
+              -1.0,
+              0.25,
+              2.625,
+              2.25,
+              -0.625
+            ],
+            [
+              1.375,
+              3.0,
+              0.75,
+              1.625,
+              2.25,
+              0.25
+            ],
+            [
+              4.125,
+              0.75,
+              5.125,
+              -3.25,
+              -2.875,
+              10.625
+            ],
+            [
+              8.875,
+              4.0,
+              10.25,
+              3.875,
+              2.0,
+              0.875
+            ],
+            [
+              10.3125,
+              4.625,
+              -1.875,
+              -3.75,
+              3.125,
+              11.625
+            ],
+            [
+              -0.625,
+              2.0,
+              2.25,
+              -1.5,
+              -3.0,
+              11.25
+            ],
+            [
+              7.8125,
+              2.375,
+              4.75,
+              2.125,
+              0.0,
+              -0.375
+            ],
+            [
+              4.875,
+              -2.0,
+              2.0,
+              2.375,
+              -0.75,
+              -1.0
+            ],
+            [
+              7.875,
+              6.0,
+              -1.125,
+              2.875,
+              6.625,
+              1.5
+            ],
+            [
+              7.875,
+              3.0,
+              0.375,
+              4.875,
+              4.5,
+              11.375
+            ],
+            [
+              4.875,
+              4.25,
+              7.75,
+              -0.75,
+              2.75,
+              -0.125
+            ]
+          ],
+          "draws": [
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Karnak",
+              "Pyramids",
+              "Table Mountain"
+            ],
+            [
+              "Burj Khalifa",
+              "Kaaba",
+              "Medina",
+              "Parthenon",
+              "Sagrada Familia",
+              "Taj Mahal"
+            ],
+            [
+              "Karnak",
+              "Kremlin",
+              "Medina",
+              "Parthenon",
+              "Pyramids",
+              "Table Mountain"
+            ],
+            [
+              "Brandenburg Gate",
+              "Colosseum",
+              "Karnak",
+              "Louvre",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Louvre",
+              "Pyramids",
+              "Sagrada Familia"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Louvre",
+              "Taj Mahal",
+              "Victoria Falls"
+            ],
+            [
+              "Kaaba",
+              "Kremlin",
+              "Louvre",
+              "Sagrada Familia",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Louvre",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Tiananmen"
+            ],
+            [
+              "Brandenburg Gate",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Table Mountain",
+              "Taj Mahal"
+            ],
+            [
+              "Angkor Wat",
+              "Colosseum",
+              "Kaaba",
+              "Kremlin",
+              "Louvre",
+              "Sagrada Familia"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Karnak",
+              "Table Mountain",
+              "Victoria Falls"
+            ],
+            [
+              "Brandenburg Gate",
+              "Colosseum",
+              "Louvre",
+              "Medina",
+              "Sagrada Familia",
+              "Table Mountain"
+            ]
+          ]
+        },
+        "8": {
+          "margins": [
+            [
+              9.125,
+              1.375,
+              3.625,
+              0.375,
+              2.875,
+              -4.25,
+              -3.125,
+              10.625
+            ],
+            [
+              7.0,
+              4.375,
+              8.25,
+              -1.375,
+              -1.875,
+              -0.625,
+              2.875,
+              0.625
+            ],
+            [
+              4.125,
+              3.25,
+              -0.625,
+              2.875,
+              0.375,
+              0.75,
+              0.5,
+              1.0
+            ],
+            [
+              6.875,
+              3.125,
+              1.75,
+              -0.625,
+              2.75,
+              4.5,
+              -2.5,
+              10.75
+            ],
+            [
+              6.75,
+              4.875,
+              -0.125,
+              0.25,
+              2.5,
+              0.875,
+              0.75,
+              0.875
+            ],
+            [
+              8.125,
+              6.5,
+              8.125,
+              4.375,
+              -0.25,
+              -1.5,
+              2.375,
+              0.375
+            ],
+            [
+              7.125,
+              -0.625,
+              1.5,
+              3.0,
+              -0.5,
+              0.625,
+              0.5,
+              0.0
+            ],
+            [
+              -0.375,
+              1.875,
+              -2.625,
+              4.0,
+              -0.625,
+              -3.875,
+              -1.375,
+              10.375
+            ],
+            [
+              7.75,
+              2.625,
+              2.375,
+              -1.0,
+              -2.625,
+              -4.0,
+              -2.625,
+              10.5
+            ],
+            [
+              2.375,
+              -0.75,
+              3.5,
+              -2.625,
+              -2.375,
+              4.5,
+              -2.75,
+              10.5
+            ],
+            [
+              8.625,
+              7.125,
+              8.75,
+              4.75,
+              3.375,
+              4.25,
+              -1.5,
+              0.625
+            ],
+            [
+              4.75,
+              5.875,
+              8.625,
+              2.5,
+              -2.25,
+              1.125,
+              2.5,
+              -1.0
+            ]
+          ],
+          "draws": [
+            [
+              "Angkor Wat",
+              "Colosseum",
+              "Louvre",
+              "Medina",
+              "Pyramids",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Medina",
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Table Mountain"
+            ],
+            [
+              "Brandenburg Gate",
+              "Colosseum",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Tiananmen"
+            ],
+            [
+              "Angkor Wat",
+              "Karnak",
+              "Kremlin",
+              "Petronas Towers",
+              "Pyramids",
+              "Table Mountain",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Medina",
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Medina",
+              "Pyramids",
+              "Taj Mahal"
+            ],
+            [
+              "Angkor Wat",
+              "Kaaba",
+              "Karnak",
+              "Parthenon",
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Tiananmen"
+            ],
+            [
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Karnak",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Parthenon",
+              "Petronas Towers",
+              "Table Mountain",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kremlin",
+              "Louvre",
+              "Petronas Towers",
+              "Taj Mahal"
+            ],
+            [
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kremlin",
+              "Medina",
+              "Parthenon",
+              "Sagrada Familia",
+              "Taj Mahal"
+            ]
+          ]
+        },
+        "12": {
+          "margins": [
+            [
+              6.0,
+              5.875,
+              7.75,
+              3.75,
+              2.5,
+              0.625,
+              -1.375,
+              -1.0,
+              5.0,
+              -0.25,
+              0.625,
+              12.25
+            ],
+            [
+              8.25,
+              6.25,
+              8.0,
+              3.5,
+              -1.25,
+              -0.5,
+              0.25,
+              3.5,
+              5.125,
+              1.5,
+              -0.5,
+              12.125
+            ],
+            [
+              9.125,
+              6.25,
+              8.75,
+              6.0,
+              -1.375,
+              1.5,
+              7.375,
+              0.875,
+              4.375,
+              4.25,
+              1.0,
+              3.25
+            ],
+            [
+              9.375,
+              5.625,
+              8.125,
+              -1.375,
+              -0.25,
+              1.375,
+              -1.75,
+              1.5,
+              3.5,
+              3.875,
+              1.75,
+              -0.375
+            ],
+            [
+              3.5,
+              4.5,
+              -1.0,
+              2.875,
+              2.125,
+              -0.125,
+              -0.75,
+              -1.0,
+              -1.125,
+              2.5,
+              -1.375,
+              12.375
+            ],
+            [
+              3.875,
+              -0.125,
+              1.625,
+              1.625,
+              4.75,
+              0.5,
+              -1.25,
+              0.0,
+              4.25,
+              0.375,
+              -0.875,
+              12.875
+            ],
+            [
+              7.25,
+              4.25,
+              7.75,
+              2.25,
+              2.25,
+              0.25,
+              -0.625,
+              2.75,
+              2.5,
+              2.25,
+              -2.625,
+              12.125
+            ],
+            [
+              4.125,
+              5.5,
+              -0.375,
+              1.625,
+              2.625,
+              5.375,
+              -1.75,
+              2.5,
+              -2.375,
+              3.25,
+              0.625,
+              -1.25
+            ],
+            [
+              7.25,
+              5.875,
+              8.0,
+              4.0,
+              0.375,
+              0.125,
+              -1.0,
+              3.375,
+              5.25,
+              0.25,
+              0.625,
+              12.25
+            ],
+            [
+              9.0,
+              6.5,
+              8.375,
+              4.625,
+              -1.875,
+              1.5,
+              1.375,
+              -2.375,
+              3.0,
+              1.5,
+              -2.0,
+              13.0
+            ],
+            [
+              6.625,
+              3.375,
+              6.875,
+              -1.5,
+              1.125,
+              -0.5,
+              -0.875,
+              -0.625,
+              -1.25,
+              1.75,
+              2.875,
+              11.5
+            ],
+            [
+              3.75,
+              1.375,
+              1.5,
+              -1.0,
+              -2.0,
+              -1.25,
+              2.375,
+              -1.5,
+              3.375,
+              0.375,
+              2.25,
+              12.0
+            ]
+          ],
+          "draws": [
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Medina",
+              "Parthenon",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Parthenon",
+              "Pyramids",
+              "Sagrada Familia",
+              "Taj Mahal",
+              "Tiananmen"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Medina",
+              "Parthenon",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal"
+            ],
+            [
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Taj Mahal",
+              "Victoria Falls"
+            ],
+            [
+              "Burj Khalifa",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Karnak",
+              "Kremlin",
+              "Medina",
+              "Parthenon",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Victoria Falls"
+            ],
+            [
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Karnak",
+              "Louvre",
+              "Medina",
+              "Pyramids",
+              "Sagrada Familia",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Parthenon",
+              "Table Mountain",
+              "Taj Mahal",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Victoria Falls"
+            ],
+            [
+              "Brandenburg Gate",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ]
+          ]
+        },
+        "16": {
+          "margins": [
+            [
+              8.5,
+              5.875,
+              9.375,
+              4.5,
+              -0.75,
+              0.375,
+              1.375,
+              2.875,
+              4.25,
+              -0.625,
+              2.125,
+              4.75,
+              3.0,
+              -3.0,
+              0.75,
+              12.75
+            ],
+            [
+              8.5,
+              5.875,
+              9.375,
+              4.5,
+              -0.75,
+              0.375,
+              1.375,
+              2.875,
+              4.25,
+              -0.625,
+              2.125,
+              4.75,
+              3.0,
+              -3.0,
+              0.75,
+              12.75
+            ],
+            [
+              8.5,
+              5.875,
+              9.375,
+              4.5,
+              -0.75,
+              0.375,
+              1.375,
+              2.875,
+              4.25,
+              -0.625,
+              2.125,
+              4.75,
+              3.0,
+              -3.0,
+              0.75,
+              12.75
+            ],
+            [
+              7.25,
+              5.125,
+              7.875,
+              -0.5,
+              0.375,
+              1.625,
+              2.25,
+              0.875,
+              2.5,
+              -0.375,
+              2.375,
+              5.0,
+              3.25,
+              -3.5,
+              2.125,
+              13.0
+            ],
+            [
+              8.625,
+              5.0,
+              9.125,
+              -1.25,
+              0.375,
+              1.5,
+              2.25,
+              1.5,
+              4.125,
+              -0.625,
+              2.625,
+              5.125,
+              3.375,
+              -3.375,
+              0.375,
+              13.625
+            ],
+            [
+              8.5,
+              5.875,
+              9.375,
+              4.5,
+              -0.75,
+              0.375,
+              1.375,
+              2.875,
+              4.25,
+              -0.625,
+              2.125,
+              4.75,
+              3.0,
+              -3.0,
+              0.75,
+              12.75
+            ],
+            [
+              8.625,
+              5.0,
+              9.125,
+              -1.25,
+              0.375,
+              1.5,
+              2.25,
+              1.5,
+              4.125,
+              -0.625,
+              2.625,
+              5.125,
+              3.375,
+              -3.375,
+              0.375,
+              13.625
+            ],
+            [
+              8.625,
+              5.0,
+              9.125,
+              -1.25,
+              0.375,
+              1.5,
+              2.25,
+              1.5,
+              4.125,
+              -0.625,
+              2.625,
+              5.125,
+              3.375,
+              -3.375,
+              0.375,
+              13.625
+            ],
+            [
+              7.25,
+              5.125,
+              7.875,
+              -0.5,
+              0.375,
+              1.625,
+              2.25,
+              0.875,
+              2.5,
+              -0.375,
+              2.375,
+              5.0,
+              3.25,
+              -3.5,
+              2.125,
+              13.0
+            ],
+            [
+              8.625,
+              6.0,
+              9.0,
+              4.75,
+              -0.5,
+              0.625,
+              1.625,
+              3.5,
+              -1.5,
+              3.375,
+              -1.125,
+              3.0,
+              7.375,
+              3.125,
+              -0.5,
+              12.625
+            ],
+            [
+              7.25,
+              5.125,
+              7.875,
+              -0.5,
+              0.375,
+              1.625,
+              2.25,
+              0.875,
+              2.5,
+              -0.375,
+              2.375,
+              5.0,
+              3.25,
+              -3.5,
+              2.125,
+              13.0
+            ],
+            [
+              8.5,
+              5.875,
+              9.375,
+              4.5,
+              -0.75,
+              0.375,
+              1.375,
+              2.875,
+              4.25,
+              -0.625,
+              2.125,
+              4.75,
+              3.0,
+              -3.0,
+              0.75,
+              12.75
+            ]
+          ],
+          "draws": [
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ]
+          ]
+        }
+      }
+    },
+    "random": {
+      "curve": {
+        "1": 3.3161764705882355,
+        "2": 0.9791666666666666,
+        "3": 2.7118055555555554,
+        "4": 3.4505208333333335,
+        "6": 3.5590277777777777,
+        "8": 2.7532552083333335,
+        "12": 3.1801215277777777,
+        "16": 3.884765625
+      },
+      "acc": {
+        "1": 0.8235294117647058,
+        "2": 0.7083333333333334,
+        "3": 0.75,
+        "4": 0.8541666666666666,
+        "6": 0.8888888888888888,
+        "8": 0.7395833333333334,
+        "12": 0.7777777777777778,
+        "16": 0.7604166666666666
+      },
+      "cci": {
+        "2": {
+          "ldi": 0.9579263711495117,
+          "v_across": 0.7546164772727273,
+          "v_noise": 0.7877604166666666,
+          "p": 0.485,
+          "mean": -1.46875,
+          "n_draws": 12
+        },
+        "3": {
+          "ldi": 0.9117017003614939,
+          "v_across": 0.7164877946127945,
+          "v_noise": 0.7858796296296298,
+          "p": 0.5245,
+          "mean": -0.2986111111111111,
+          "n_draws": 12
+        },
+        "4": {
+          "ldi": 0.9204246510950271,
+          "v_across": 0.825720584753788,
+          "v_noise": 0.8971082899305555,
+          "p": 0.52,
+          "mean": -0.3776041666666667,
+          "n_draws": 12
+        },
+        "6": {
+          "ldi": 0.23615314715836322,
+          "v_across": 0.23875144675925927,
+          "v_noise": 1.0110026041666667,
+          "p": 0.9965,
+          "mean": -0.31423611111111105,
+          "n_draws": 12
+        },
+        "8": {
+          "ldi": 0.19379751774086934,
+          "v_across": 0.09584137887665721,
+          "v_noise": 0.49454389299665175,
+          "p": 0.9975,
+          "mean": -0.3287760416666667,
+          "n_draws": 12
+        },
+        "12": {
+          "ldi": 0.4864765783852533,
+          "v_across": 0.15571465797295875,
+          "v_noise": 0.3200866493713173,
+          "p": 0.9065,
+          "mean": -0.27126736111111116,
+          "n_draws": 12
+        },
+        "16": {
+          "ldi": 0.060816609161810815,
+          "v_across": 0.02307914965080492,
+          "v_noise": 0.3794876098632813,
+          "p": 1.0,
+          "mean": 0.4772135416666667,
+          "n_draws": 12
+        }
+      },
+      "raw": {
+        "1": {
+          "Colosseum": 3.375,
+          "Louvre": 7.25,
+          "Parthenon": 1.125,
+          "Kremlin": 1.875,
+          "Sagrada Familia": 1.5,
+          "Brandenburg Gate": 4.0,
+          "Taj Mahal": 4.125,
+          "Kaaba": -0.25,
+          "Petronas Towers": -0.625,
+          "Angkor Wat": 8.0,
+          "Tiananmen": 2.0,
+          "Burj Khalifa": 5.625,
+          "Pyramids": 2.25,
+          "Karnak": 1.125,
+          "Table Mountain": 2.625,
+          "Medina": -0.375,
+          "Victoria Falls": 12.75
+        },
+        "2": {
+          "margins": [
+            [
+              0.5,
+              0.0
+            ],
+            [
+              2.875,
+              2.125
+            ],
+            [
+              2.25,
+              1.375
+            ],
+            [
+              4.375,
+              0.25
+            ],
+            [
+              -1.25,
+              -0.25
+            ],
+            [
+              4.25,
+              0.125
+            ],
+            [
+              -0.625,
+              -1.375
+            ],
+            [
+              3.75,
+              -0.375
+            ],
+            [
+              1.375,
+              0.875
+            ],
+            [
+              1.375,
+              -0.625
+            ],
+            [
+              0.125,
+              0.875
+            ],
+            [
+              1.125,
+              0.375
+            ]
+          ],
+          "draws": [
+            [
+              "Karnak",
+              "Tiananmen"
+            ],
+            [
+              "Brandenburg Gate",
+              "Sagrada Familia"
+            ],
+            [
+              "Colosseum",
+              "Louvre"
+            ],
+            [
+              "Burj Khalifa",
+              "Karnak"
+            ],
+            [
+              "Petronas Towers",
+              "Tiananmen"
+            ],
+            [
+              "Burj Khalifa",
+              "Tiananmen"
+            ],
+            [
+              "Medina",
+              "Petronas Towers"
+            ],
+            [
+              "Burj Khalifa",
+              "Karnak"
+            ],
+            [
+              "Table Mountain",
+              "Taj Mahal"
+            ],
+            [
+              "Colosseum",
+              "Karnak"
+            ],
+            [
+              "Karnak",
+              "Parthenon"
+            ],
+            [
+              "Colosseum",
+              "Karnak"
+            ]
+          ]
+        },
+        "3": {
+          "margins": [
+            [
+              5.625,
+              -1.75,
+              3.875
+            ],
+            [
+              1.875,
+              -1.0,
+              1.25
+            ],
+            [
+              -0.625,
+              2.125,
+              2.875
+            ],
+            [
+              4.0,
+              -1.25,
+              13.375
+            ],
+            [
+              3.875,
+              0.625,
+              13.25
+            ],
+            [
+              4.25,
+              0.0,
+              2.25
+            ],
+            [
+              4.5,
+              -1.75,
+              3.25
+            ],
+            [
+              -1.625,
+              2.0,
+              5.25
+            ],
+            [
+              7.375,
+              1.625,
+              3.0
+            ],
+            [
+              3.625,
+              -1.25,
+              3.125
+            ],
+            [
+              4.125,
+              -1.0,
+              3.375
+            ],
+            [
+              1.0,
+              3.0,
+              3.375
+            ]
+          ],
+          "draws": [
+            [
+              "Louvre",
+              "Petronas Towers",
+              "Sagrada Familia"
+            ],
+            [
+              "Colosseum",
+              "Medina",
+              "Parthenon"
+            ],
+            [
+              "Kaaba",
+              "Sagrada Familia",
+              "Tiananmen"
+            ],
+            [
+              "Brandenburg Gate",
+              "Kaaba",
+              "Victoria Falls"
+            ],
+            [
+              "Brandenburg Gate",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Burj Khalifa",
+              "Taj Mahal",
+              "Tiananmen"
+            ],
+            [
+              "Burj Khalifa",
+              "Petronas Towers",
+              "Table Mountain"
+            ],
+            [
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Taj Mahal"
+            ],
+            [
+              "Angkor Wat",
+              "Louvre",
+              "Table Mountain"
+            ],
+            [
+              "Brandenburg Gate",
+              "Petronas Towers",
+              "Sagrada Familia"
+            ],
+            [
+              "Brandenburg Gate",
+              "Kaaba",
+              "Pyramids"
+            ],
+            [
+              "Karnak",
+              "Kremlin",
+              "Sagrada Familia"
+            ]
+          ]
+        },
+        "4": {
+          "margins": [
+            [
+              3.75,
+              1.875,
+              3.25,
+              0.0
+            ],
+            [
+              3.75,
+              3.75,
+              7.875,
+              2.125
+            ],
+            [
+              -0.875,
+              1.125,
+              3.75,
+              -0.375
+            ],
+            [
+              8.875,
+              3.5,
+              7.25,
+              2.25
+            ],
+            [
+              8.125,
+              0.875,
+              8.5,
+              8.125
+            ],
+            [
+              7.25,
+              1.125,
+              2.0,
+              2.75
+            ],
+            [
+              6.5,
+              0.375,
+              -0.5,
+              1.0
+            ],
+            [
+              -1.25,
+              2.625,
+              0.125,
+              1.125
+            ],
+            [
+              7.375,
+              5.375,
+              2.75,
+              10.875
+            ],
+            [
+              -0.5,
+              3.25,
+              5.375,
+              11.75
+            ],
+            [
+              4.5,
+              -1.125,
+              2.0,
+              1.25
+            ],
+            [
+              6.375,
+              1.125,
+              2.625,
+              2.0
+            ]
+          ],
+          "draws": [
+            [
+              "Colosseum",
+              "Louvre",
+              "Table Mountain",
+              "Taj Mahal"
+            ],
+            [
+              "Burj Khalifa",
+              "Kremlin",
+              "Louvre",
+              "Table Mountain"
+            ],
+            [
+              "Kaaba",
+              "Karnak",
+              "Parthenon",
+              "Petronas Towers"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kremlin"
+            ],
+            [
+              "Angkor Wat",
+              "Karnak",
+              "Louvre",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Karnak",
+              "Kremlin",
+              "Pyramids"
+            ],
+            [
+              "Louvre",
+              "Medina",
+              "Petronas Towers",
+              "Tiananmen"
+            ],
+            [
+              "Kaaba",
+              "Kremlin",
+              "Medina",
+              "Taj Mahal"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Karnak",
+              "Victoria Falls"
+            ],
+            [
+              "Medina",
+              "Pyramids",
+              "Taj Mahal",
+              "Victoria Falls"
+            ],
+            [
+              "Burj Khalifa",
+              "Kaaba",
+              "Kremlin",
+              "Louvre"
+            ],
+            [
+              "Angkor Wat",
+              "Karnak",
+              "Kremlin",
+              "Table Mountain"
+            ]
+          ]
+        },
+        "6": {
+          "margins": [
+            [
+              6.5,
+              3.75,
+              8.25,
+              1.625,
+              2.125,
+              0.25
+            ],
+            [
+              4.375,
+              -1.0,
+              0.375,
+              2.25,
+              3.0,
+              -1.0
+            ],
+            [
+              1.0,
+              3.625,
+              0.0,
+              4.0,
+              1.75,
+              0.5
+            ],
+            [
+              4.125,
+              6.625,
+              2.25,
+              1.5,
+              1.5,
+              11.0
+            ],
+            [
+              7.875,
+              4.875,
+              9.25,
+              2.125,
+              2.125,
+              1.375
+            ],
+            [
+              8.0,
+              5.625,
+              8.0,
+              2.0,
+              3.5,
+              10.625
+            ],
+            [
+              -1.25,
+              3.25,
+              7.625,
+              0.875,
+              2.25,
+              12.25
+            ],
+            [
+              8.125,
+              4.375,
+              3.75,
+              1.0,
+              -0.25,
+              0.125
+            ],
+            [
+              3.875,
+              -2.375,
+              4.375,
+              2.75,
+              0.375,
+              -1.5
+            ],
+            [
+              6.875,
+              4.875,
+              -1.625,
+              2.875,
+              5.125,
+              0.25
+            ],
+            [
+              8.125,
+              4.0,
+              8.625,
+              2.0,
+              0.375,
+              11.0
+            ],
+            [
+              4.875,
+              5.5,
+              7.125,
+              0.125,
+              1.875,
+              0.875
+            ]
+          ],
+          "draws": [
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Karnak",
+              "Pyramids",
+              "Table Mountain"
+            ],
+            [
+              "Burj Khalifa",
+              "Kaaba",
+              "Medina",
+              "Parthenon",
+              "Sagrada Familia",
+              "Taj Mahal"
+            ],
+            [
+              "Karnak",
+              "Kremlin",
+              "Medina",
+              "Parthenon",
+              "Pyramids",
+              "Table Mountain"
+            ],
+            [
+              "Brandenburg Gate",
+              "Colosseum",
+              "Karnak",
+              "Louvre",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Louvre",
+              "Pyramids",
+              "Sagrada Familia"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Louvre",
+              "Taj Mahal",
+              "Victoria Falls"
+            ],
+            [
+              "Kaaba",
+              "Kremlin",
+              "Louvre",
+              "Sagrada Familia",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Louvre",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Tiananmen"
+            ],
+            [
+              "Brandenburg Gate",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Table Mountain",
+              "Taj Mahal"
+            ],
+            [
+              "Angkor Wat",
+              "Colosseum",
+              "Kaaba",
+              "Kremlin",
+              "Louvre",
+              "Sagrada Familia"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Karnak",
+              "Table Mountain",
+              "Victoria Falls"
+            ],
+            [
+              "Brandenburg Gate",
+              "Colosseum",
+              "Louvre",
+              "Medina",
+              "Sagrada Familia",
+              "Table Mountain"
+            ]
+          ]
+        },
+        "8": {
+          "margins": [
+            [
+              7.5,
+              4.125,
+              9.5,
+              -0.5,
+              2.0,
+              0.25,
+              -0.375,
+              11.625
+            ],
+            [
+              8.25,
+              6.0,
+              8.5,
+              -3.0,
+              -1.625,
+              0.125,
+              2.875,
+              0.125
+            ],
+            [
+              4.0,
+              4.125,
+              -0.875,
+              2.75,
+              -0.5,
+              1.875,
+              0.25,
+              1.625
+            ],
+            [
+              7.5,
+              1.5,
+              1.75,
+              -0.25,
+              1.875,
+              2.125,
+              0.5,
+              11.125
+            ],
+            [
+              9.5,
+              5.625,
+              -0.375,
+              -0.25,
+              1.75,
+              1.625,
+              1.25,
+              -0.25
+            ],
+            [
+              9.8125,
+              5.75,
+              8.875,
+              3.375,
+              -2.625,
+              -1.0,
+              2.25,
+              0.125
+            ],
+            [
+              7.75,
+              -1.75,
+              1.25,
+              2.25,
+              -0.625,
+              0.625,
+              0.125,
+              -0.875
+            ],
+            [
+              -1.0,
+              1.875,
+              -0.25,
+              4.25,
+              1.75,
+              0.625,
+              0.875,
+              11.375
+            ],
+            [
+              9.625,
+              0.375,
+              0.0,
+              3.0,
+              -1.125,
+              0.375,
+              1.0,
+              11.125
+            ],
+            [
+              3.625,
+              -2.75,
+              0.5,
+              3.875,
+              -0.375,
+              1.0,
+              0.25,
+              12.0
+            ],
+            [
+              7.0,
+              7.125,
+              9.75,
+              3.5,
+              3.25,
+              3.25,
+              -1.0,
+              -1.125
+            ],
+            [
+              4.5,
+              5.5,
+              7.5,
+              2.625,
+              -1.875,
+              1.625,
+              2.875,
+              -1.125
+            ]
+          ],
+          "draws": [
+            [
+              "Angkor Wat",
+              "Colosseum",
+              "Louvre",
+              "Medina",
+              "Pyramids",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Medina",
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Table Mountain"
+            ],
+            [
+              "Brandenburg Gate",
+              "Colosseum",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Tiananmen"
+            ],
+            [
+              "Angkor Wat",
+              "Karnak",
+              "Kremlin",
+              "Petronas Towers",
+              "Pyramids",
+              "Table Mountain",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Medina",
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Medina",
+              "Pyramids",
+              "Taj Mahal"
+            ],
+            [
+              "Angkor Wat",
+              "Kaaba",
+              "Karnak",
+              "Parthenon",
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Tiananmen"
+            ],
+            [
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Karnak",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Parthenon",
+              "Petronas Towers",
+              "Table Mountain",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kremlin",
+              "Louvre",
+              "Petronas Towers",
+              "Taj Mahal"
+            ],
+            [
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kremlin",
+              "Medina",
+              "Parthenon",
+              "Sagrada Familia",
+              "Taj Mahal"
+            ]
+          ]
+        },
+        "12": {
+          "margins": [
+            [
+              7.0,
+              6.125,
+              9.25,
+              5.375,
+              1.875,
+              4.25,
+              -1.5,
+              -0.25,
+              2.875,
+              -0.125,
+              3.125,
+              13.3125
+            ],
+            [
+              7.125,
+              4.875,
+              9.875,
+              2.875,
+              -0.5,
+              -1.0,
+              1.75,
+              2.375,
+              3.75,
+              -0.125,
+              2.875,
+              12.0
+            ],
+            [
+              8.625,
+              5.5,
+              9.0,
+              2.625,
+              -0.25,
+              1.375,
+              7.5,
+              2.25,
+              1.125,
+              1.375,
+              0.125,
+              3.125
+            ],
+            [
+              8.0,
+              6.5,
+              9.625,
+              -1.125,
+              0.625,
+              1.125,
+              -1.5,
+              3.125,
+              2.125,
+              3.375,
+              1.25,
+              0.625
+            ],
+            [
+              5.625,
+              4.125,
+              -1.125,
+              1.25,
+              3.0,
+              3.75,
+              -1.625,
+              2.125,
+              -0.5,
+              2.0,
+              0.25,
+              12.6875
+            ],
+            [
+              5.625,
+              -1.0,
+              3.0,
+              2.5,
+              7.0,
+              -1.125,
+              -1.25,
+              3.625,
+              1.5,
+              1.0,
+              2.75,
+              12.125
+            ],
+            [
+              6.0,
+              4.375,
+              6.5,
+              1.875,
+              1.375,
+              -0.875,
+              2.625,
+              2.75,
+              4.125,
+              -0.125,
+              0.125,
+              12.125
+            ],
+            [
+              3.25,
+              3.25,
+              -0.625,
+              2.0,
+              2.375,
+              4.625,
+              -1.875,
+              2.625,
+              -1.0,
+              3.125,
+              0.75,
+              -0.125
+            ],
+            [
+              8.75,
+              6.625,
+              10.25,
+              2.375,
+              -1.125,
+              4.125,
+              -1.375,
+              1.75,
+              3.5,
+              -0.875,
+              0.5,
+              12.125
+            ],
+            [
+              5.125,
+              5.875,
+              8.25,
+              4.625,
+              -1.5,
+              1.0,
+              2.375,
+              5.125,
+              3.0,
+              0.375,
+              -0.5,
+              12.75
+            ],
+            [
+              7.375,
+              7.25,
+              7.75,
+              -1.625,
+              -0.5,
+              4.375,
+              -1.625,
+              2.5,
+              -1.5,
+              2.125,
+              0.875,
+              11.75
+            ],
+            [
+              3.625,
+              0.625,
+              1.375,
+              3.25,
+              -3.75,
+              -0.5,
+              2.125,
+              2.625,
+              1.625,
+              1.0,
+              1.75,
+              12.4375
+            ]
+          ],
+          "draws": [
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Medina",
+              "Parthenon",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Parthenon",
+              "Pyramids",
+              "Sagrada Familia",
+              "Taj Mahal",
+              "Tiananmen"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Medina",
+              "Parthenon",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal"
+            ],
+            [
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Taj Mahal",
+              "Victoria Falls"
+            ],
+            [
+              "Burj Khalifa",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Karnak",
+              "Kremlin",
+              "Medina",
+              "Parthenon",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Victoria Falls"
+            ],
+            [
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Karnak",
+              "Louvre",
+              "Medina",
+              "Pyramids",
+              "Sagrada Familia",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Parthenon",
+              "Table Mountain",
+              "Taj Mahal",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Victoria Falls"
+            ],
+            [
+              "Brandenburg Gate",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ]
+          ]
+        },
+        "16": {
+          "margins": [
+            [
+              8.75,
+              5.875,
+              10.125,
+              4.125,
+              -0.75,
+              1.125,
+              3.125,
+              8.75,
+              3.375,
+              -0.5,
+              3.0,
+              3.625,
+              -0.5,
+              -0.125,
+              5.875,
+              12.0
+            ],
+            [
+              8.875,
+              7.125,
+              11.0,
+              2.5,
+              -1.5,
+              -0.125,
+              1.125,
+              6.75,
+              3.125,
+              -0.25,
+              2.125,
+              5.75,
+              -0.375,
+              0.25,
+              6.625,
+              11.25
+            ],
+            [
+              10.1875,
+              4.375,
+              11.25,
+              3.75,
+              -0.625,
+              0.25,
+              1.875,
+              8.25,
+              3.0,
+              -0.25,
+              2.625,
+              4.0,
+              0.25,
+              0.25,
+              5.125,
+              11.75
+            ],
+            [
+              10.5,
+              5.0,
+              7.125,
+              -2.75,
+              -1.625,
+              1.375,
+              8.25,
+              -0.375,
+              2.25,
+              -0.25,
+              2.375,
+              2.375,
+              -0.25,
+              0.0,
+              6.75,
+              13.875
+            ],
+            [
+              9.625,
+              6.625,
+              10.875,
+              -2.375,
+              -0.75,
+              1.625,
+              8.375,
+              -0.875,
+              1.125,
+              -0.25,
+              2.5,
+              4.25,
+              -0.75,
+              -1.0,
+              8.75,
+              12.5
+            ],
+            [
+              7.375,
+              5.75,
+              11.125,
+              3.25,
+              -0.25,
+              -1.375,
+              2.75,
+              6.0,
+              2.75,
+              -0.375,
+              3.25,
+              4.25,
+              0.375,
+              0.625,
+              6.5,
+              11.875
+            ],
+            [
+              6.25,
+              5.875,
+              10.75,
+              -1.875,
+              -0.75,
+              1.5,
+              8.75,
+              0.375,
+              3.5,
+              1.25,
+              3.125,
+              4.0,
+              0.25,
+              0.625,
+              7.0,
+              11.875
+            ],
+            [
+              9.375,
+              6.0,
+              10.875,
+              -1.125,
+              0.0,
+              1.875,
+              7.125,
+              -0.375,
+              3.25,
+              0.0,
+              2.0,
+              3.125,
+              0.125,
+              -0.125,
+              6.5,
+              12.625
+            ],
+            [
+              8.875,
+              8.5,
+              8.625,
+              -1.75,
+              -0.75,
+              2.25,
+              7.25,
+              -0.625,
+              2.5,
+              0.25,
+              2.375,
+              3.125,
+              0.5,
+              0.375,
+              7.375,
+              11.5
+            ],
+            [
+              8.625,
+              5.625,
+              11.375,
+              3.25,
+              0.0,
+              2.25,
+              1.375,
+              7.625,
+              -2.0,
+              2.75,
+              -1.125,
+              2.25,
+              7.625,
+              0.25,
+              0.625,
+              12.375
+            ],
+            [
+              9.125,
+              6.125,
+              7.625,
+              -1.375,
+              -0.5,
+              1.75,
+              7.25,
+              -0.375,
+              3.25,
+              0.125,
+              2.0,
+              3.5,
+              0.0,
+              0.5,
+              5.25,
+              12.0
+            ],
+            [
+              10.8125,
+              5.0,
+              10.25,
+              3.125,
+              -1.75,
+              2.125,
+              2.125,
+              6.125,
+              4.0,
+              -0.625,
+              1.625,
+              5.125,
+              -0.25,
+              -0.125,
+              5.875,
+              12.25
+            ]
+          ],
+          "draws": [
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ]
+          ]
+        }
+      }
+    },
+    "bare": {
+      "curve": {
+        "1": 3.3161764705882355,
+        "2": 0.40625,
+        "3": 2.0,
+        "4": 2.7239583333333335,
+        "6": 2.1475694444444446,
+        "8": 1.38671875,
+        "12": 1.9939236111111112,
+        "16": 2.7591145833333335
+      },
+      "acc": {
+        "1": 0.8235294117647058,
+        "2": 0.4583333333333333,
+        "3": 0.75,
+        "4": 0.7916666666666666,
+        "6": 0.7222222222222222,
+        "8": 0.5729166666666666,
+        "12": 0.6597222222222222,
+        "16": 0.71875
+      },
+      "cci": {
+        "2": {
+          "ldi": 1.2528564331843022,
+          "v_across": 1.194128787878788,
+          "v_noise": 0.953125,
+          "p": 0.2515,
+          "mean": -2.0416666666666665,
+          "n_draws": 12
+        },
+        "3": {
+          "ldi": 0.8818591318591318,
+          "v_across": 0.5098248106060606,
+          "v_noise": 0.578125,
+          "p": 0.568,
+          "mean": -1.0104166666666667,
+          "n_draws": 12
+        },
+        "4": {
+          "ldi": 0.8035928828880371,
+          "v_across": 0.5542140151515151,
+          "v_noise": 0.6896701388888888,
+          "p": 0.648,
+          "mean": -1.1041666666666667,
+          "n_draws": 12
+        },
+        "6": {
+          "ldi": 0.8890873538551818,
+          "v_across": 0.5459937920875421,
+          "v_noise": 0.6141059027777779,
+          "p": 0.5535,
+          "mean": -1.7256944444444444,
+          "n_draws": 12
+        },
+        "8": {
+          "ldi": 0.4466631420553906,
+          "v_across": 0.127685546875,
+          "v_noise": 0.28586542038690477,
+          "p": 0.9375,
+          "mean": -1.6953125,
+          "n_draws": 12
+        },
+        "12": {
+          "ldi": 0.20437633148578335,
+          "v_across": 0.07326109401304715,
+          "v_noise": 0.3584617332175926,
+          "p": 0.998,
+          "mean": -1.457465277777778,
+          "n_draws": 12
+        },
+        "16": {
+          "ldi": 0.004045837046617822,
+          "v_across": 0.0012650923295454545,
+          "v_noise": 0.3126898871527778,
+          "p": 1.0,
+          "mean": -0.6484375,
+          "n_draws": 12
+        }
+      },
+      "raw": {
+        "1": {
+          "Colosseum": 3.375,
+          "Louvre": 7.25,
+          "Parthenon": 1.125,
+          "Kremlin": 1.875,
+          "Sagrada Familia": 1.5,
+          "Brandenburg Gate": 4.0,
+          "Taj Mahal": 4.125,
+          "Kaaba": -0.25,
+          "Petronas Towers": -0.625,
+          "Angkor Wat": 8.0,
+          "Tiananmen": 2.0,
+          "Burj Khalifa": 5.625,
+          "Pyramids": 2.25,
+          "Karnak": 1.125,
+          "Table Mountain": 2.625,
+          "Medina": -0.375,
+          "Victoria Falls": 12.75
+        },
+        "2": {
+          "margins": [
+            [
+              0.0,
+              -0.125
+            ],
+            [
+              1.75,
+              1.0
+            ],
+            [
+              0.875,
+              0.75
+            ],
+            [
+              2.125,
+              -0.125
+            ],
+            [
+              -0.875,
+              -0.125
+            ],
+            [
+              2.125,
+              -0.125
+            ],
+            [
+              -0.625,
+              -1.5
+            ],
+            [
+              2.125,
+              -0.125
+            ],
+            [
+              0.75,
+              -0.25
+            ],
+            [
+              0.875,
+              -0.125
+            ],
+            [
+              0.0,
+              0.625
+            ],
+            [
+              0.875,
+              -0.125
+            ]
+          ],
+          "draws": [
+            [
+              "Karnak",
+              "Tiananmen"
+            ],
+            [
+              "Brandenburg Gate",
+              "Sagrada Familia"
+            ],
+            [
+              "Colosseum",
+              "Louvre"
+            ],
+            [
+              "Burj Khalifa",
+              "Karnak"
+            ],
+            [
+              "Petronas Towers",
+              "Tiananmen"
+            ],
+            [
+              "Burj Khalifa",
+              "Tiananmen"
+            ],
+            [
+              "Medina",
+              "Petronas Towers"
+            ],
+            [
+              "Burj Khalifa",
+              "Karnak"
+            ],
+            [
+              "Table Mountain",
+              "Taj Mahal"
+            ],
+            [
+              "Colosseum",
+              "Karnak"
+            ],
+            [
+              "Karnak",
+              "Parthenon"
+            ],
+            [
+              "Colosseum",
+              "Karnak"
+            ]
+          ]
+        },
+        "3": {
+          "margins": [
+            [
+              3.125,
+              -1.375,
+              1.0
+            ],
+            [
+              1.5,
+              -0.875,
+              0.625
+            ],
+            [
+              -0.25,
+              1.0,
+              1.25
+            ],
+            [
+              3.125,
+              -0.875,
+              12.875
+            ],
+            [
+              3.125,
+              -0.25,
+              12.875
+            ],
+            [
+              3.75,
+              0.625,
+              1.25
+            ],
+            [
+              3.75,
+              -1.375,
+              2.125
+            ],
+            [
+              -1.5,
+              1.0,
+              3.125
+            ],
+            [
+              7.375,
+              1.125,
+              2.125
+            ],
+            [
+              3.125,
+              -1.375,
+              1.0
+            ],
+            [
+              3.125,
+              -0.875,
+              3.0
+            ],
+            [
+              0.25,
+              2.5,
+              1.0
+            ]
+          ],
+          "draws": [
+            [
+              "Louvre",
+              "Petronas Towers",
+              "Sagrada Familia"
+            ],
+            [
+              "Colosseum",
+              "Medina",
+              "Parthenon"
+            ],
+            [
+              "Kaaba",
+              "Sagrada Familia",
+              "Tiananmen"
+            ],
+            [
+              "Brandenburg Gate",
+              "Kaaba",
+              "Victoria Falls"
+            ],
+            [
+              "Brandenburg Gate",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Burj Khalifa",
+              "Taj Mahal",
+              "Tiananmen"
+            ],
+            [
+              "Burj Khalifa",
+              "Petronas Towers",
+              "Table Mountain"
+            ],
+            [
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Taj Mahal"
+            ],
+            [
+              "Angkor Wat",
+              "Louvre",
+              "Table Mountain"
+            ],
+            [
+              "Brandenburg Gate",
+              "Petronas Towers",
+              "Sagrada Familia"
+            ],
+            [
+              "Brandenburg Gate",
+              "Kaaba",
+              "Pyramids"
+            ],
+            [
+              "Karnak",
+              "Kremlin",
+              "Sagrada Familia"
+            ]
+          ]
+        },
+        "4": {
+          "margins": [
+            [
+              2.25,
+              1.125,
+              3.0,
+              1.0
+            ],
+            [
+              4.25,
+              2.625,
+              6.25,
+              1.25
+            ],
+            [
+              -0.5,
+              0.5,
+              1.25,
+              -0.75
+            ],
+            [
+              7.375,
+              2.25,
+              3.625,
+              2.0
+            ],
+            [
+              7.375,
+              0.5,
+              6.25,
+              9.75
+            ],
+            [
+              7.375,
+              0.5,
+              1.75,
+              2.875
+            ],
+            [
+              3.625,
+              -1.0,
+              -0.5,
+              -0.125
+            ],
+            [
+              -0.5,
+              2.625,
+              -0.25,
+              1.0
+            ],
+            [
+              7.375,
+              4.5,
+              0.0,
+              9.75
+            ],
+            [
+              -1.125,
+              2.0,
+              4.0,
+              9.75
+            ],
+            [
+              4.25,
+              -1.375,
+              1.75,
+              0.25
+            ],
+            [
+              7.375,
+              0.5,
+              1.75,
+              1.25
+            ]
+          ],
+          "draws": [
+            [
+              "Colosseum",
+              "Louvre",
+              "Table Mountain",
+              "Taj Mahal"
+            ],
+            [
+              "Burj Khalifa",
+              "Kremlin",
+              "Louvre",
+              "Table Mountain"
+            ],
+            [
+              "Kaaba",
+              "Karnak",
+              "Parthenon",
+              "Petronas Towers"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kremlin"
+            ],
+            [
+              "Angkor Wat",
+              "Karnak",
+              "Louvre",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Karnak",
+              "Kremlin",
+              "Pyramids"
+            ],
+            [
+              "Louvre",
+              "Medina",
+              "Petronas Towers",
+              "Tiananmen"
+            ],
+            [
+              "Kaaba",
+              "Kremlin",
+              "Medina",
+              "Taj Mahal"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Karnak",
+              "Victoria Falls"
+            ],
+            [
+              "Medina",
+              "Pyramids",
+              "Taj Mahal",
+              "Victoria Falls"
+            ],
+            [
+              "Burj Khalifa",
+              "Kaaba",
+              "Kremlin",
+              "Louvre"
+            ],
+            [
+              "Angkor Wat",
+              "Karnak",
+              "Kremlin",
+              "Table Mountain"
+            ]
+          ]
+        },
+        "6": {
+          "margins": [
+            [
+              5.5,
+              2.0,
+              3.5,
+              1.75,
+              2.0,
+              0.25
+            ],
+            [
+              3.75,
+              -2.0,
+              -0.375,
+              -1.375,
+              1.75,
+              -1.0
+            ],
+            [
+              0.375,
+              2.5,
+              -0.375,
+              -1.375,
+              2.0,
+              0.25
+            ],
+            [
+              3.125,
+              2.125,
+              0.375,
+              -0.125,
+              1.25,
+              11.375
+            ],
+            [
+              5.5,
+              2.0,
+              3.5,
+              -0.125,
+              2.0,
+              1.125
+            ],
+            [
+              5.5,
+              2.0,
+              3.5,
+              -0.125,
+              0.75,
+              11.375
+            ],
+            [
+              -0.75,
+              2.5,
+              7.125,
+              -1.375,
+              1.25,
+              11.375
+            ],
+            [
+              5.5,
+              1.5,
+              3.25,
+              -1.375,
+              -0.375,
+              -1.0
+            ],
+            [
+              3.125,
+              -2.0,
+              0.375,
+              1.5,
+              -0.375,
+              -1.0
+            ],
+            [
+              5.5,
+              2.125,
+              -2.25,
+              1.5,
+              5.125,
+              1.125
+            ],
+            [
+              5.5,
+              2.0,
+              3.5,
+              1.75,
+              -0.375,
+              11.375
+            ],
+            [
+              3.125,
+              2.125,
+              7.125,
+              -0.125,
+              1.75,
+              0.25
+            ]
+          ],
+          "draws": [
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Karnak",
+              "Pyramids",
+              "Table Mountain"
+            ],
+            [
+              "Burj Khalifa",
+              "Kaaba",
+              "Medina",
+              "Parthenon",
+              "Sagrada Familia",
+              "Taj Mahal"
+            ],
+            [
+              "Karnak",
+              "Kremlin",
+              "Medina",
+              "Parthenon",
+              "Pyramids",
+              "Table Mountain"
+            ],
+            [
+              "Brandenburg Gate",
+              "Colosseum",
+              "Karnak",
+              "Louvre",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Louvre",
+              "Pyramids",
+              "Sagrada Familia"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Louvre",
+              "Taj Mahal",
+              "Victoria Falls"
+            ],
+            [
+              "Kaaba",
+              "Kremlin",
+              "Louvre",
+              "Sagrada Familia",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Louvre",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Tiananmen"
+            ],
+            [
+              "Brandenburg Gate",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Table Mountain",
+              "Taj Mahal"
+            ],
+            [
+              "Angkor Wat",
+              "Colosseum",
+              "Kaaba",
+              "Kremlin",
+              "Louvre",
+              "Sagrada Familia"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Karnak",
+              "Table Mountain",
+              "Victoria Falls"
+            ],
+            [
+              "Brandenburg Gate",
+              "Colosseum",
+              "Louvre",
+              "Medina",
+              "Sagrada Familia",
+              "Table Mountain"
+            ]
+          ]
+        },
+        "8": {
+          "margins": [
+            [
+              4.75,
+              2.625,
+              6.125,
+              -1.25,
+              1.375,
+              -0.5,
+              0.125,
+              12.0
+            ],
+            [
+              4.75,
+              1.875,
+              2.625,
+              -2.5,
+              -2.625,
+              -0.125,
+              1.0,
+              -0.5
+            ],
+            [
+              2.625,
+              2.625,
+              -1.375,
+              -0.625,
+              -1.375,
+              0.875,
+              0.75,
+              -0.75
+            ],
+            [
+              4.75,
+              -0.375,
+              1.875,
+              -1.625,
+              1.375,
+              0.375,
+              0.125,
+              12.0
+            ],
+            [
+              4.75,
+              1.875,
+              -1.375,
+              -1.625,
+              1.375,
+              0.375,
+              1.0,
+              -0.75
+            ],
+            [
+              4.75,
+              3.75,
+              6.75,
+              -0.25,
+              -0.5,
+              -1.375,
+              2.5,
+              -0.375
+            ],
+            [
+              4.75,
+              -1.875,
+              -0.5,
+              -0.625,
+              -1.375,
+              0.875,
+              0.75,
+              -0.75
+            ],
+            [
+              -2.625,
+              1.25,
+              -0.625,
+              3.5,
+              1.375,
+              -0.5,
+              0.125,
+              12.0
+            ],
+            [
+              4.75,
+              -0.375,
+              -1.375,
+              -0.625,
+              -1.375,
+              -0.5,
+              0.125,
+              12.0
+            ],
+            [
+              2.0,
+              -1.875,
+              -0.5,
+              -0.625,
+              -1.375,
+              0.375,
+              0.125,
+              12.0
+            ],
+            [
+              4.75,
+              3.75,
+              6.75,
+              -0.25,
+              2.0,
+              0.875,
+              -2.125,
+              -0.375
+            ],
+            [
+              2.625,
+              1.875,
+              2.625,
+              1.75,
+              -2.625,
+              0.5,
+              1.0,
+              -0.375
+            ]
+          ],
+          "draws": [
+            [
+              "Angkor Wat",
+              "Colosseum",
+              "Louvre",
+              "Medina",
+              "Pyramids",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Medina",
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Table Mountain"
+            ],
+            [
+              "Brandenburg Gate",
+              "Colosseum",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Tiananmen"
+            ],
+            [
+              "Angkor Wat",
+              "Karnak",
+              "Kremlin",
+              "Petronas Towers",
+              "Pyramids",
+              "Table Mountain",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Medina",
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Medina",
+              "Pyramids",
+              "Taj Mahal"
+            ],
+            [
+              "Angkor Wat",
+              "Kaaba",
+              "Karnak",
+              "Parthenon",
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Tiananmen"
+            ],
+            [
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Karnak",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Parthenon",
+              "Petronas Towers",
+              "Table Mountain",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kremlin",
+              "Louvre",
+              "Petronas Towers",
+              "Taj Mahal"
+            ],
+            [
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kremlin",
+              "Medina",
+              "Parthenon",
+              "Sagrada Familia",
+              "Taj Mahal"
+            ]
+          ]
+        },
+        "12": {
+          "margins": [
+            [
+              5.125,
+              3.75,
+              9.125,
+              -0.125,
+              0.75,
+              1.75,
+              -3.0,
+              -0.625,
+              2.125,
+              0.5,
+              -0.875,
+              12.0
+            ],
+            [
+              5.125,
+              3.75,
+              9.125,
+              -0.125,
+              0.875,
+              -1.125,
+              1.125,
+              1.75,
+              2.125,
+              -1.25,
+              -0.875,
+              12.0
+            ],
+            [
+              5.125,
+              3.75,
+              9.125,
+              -0.125,
+              -0.875,
+              0.875,
+              6.625,
+              1.5,
+              0.875,
+              1.125,
+              -1.0,
+              0.125
+            ],
+            [
+              5.125,
+              3.75,
+              9.125,
+              -1.25,
+              -0.875,
+              0.875,
+              -3.0,
+              1.5,
+              0.875,
+              1.125,
+              -0.5,
+              -1.5
+            ],
+            [
+              4.375,
+              3.0,
+              -0.125,
+              0.625,
+              0.75,
+              1.75,
+              -3.0,
+              1.5,
+              -0.875,
+              1.125,
+              -1.0,
+              12.0
+            ],
+            [
+              4.375,
+              -0.25,
+              -1.25,
+              0.875,
+              5.25,
+              -1.125,
+              -1.125,
+              1.375,
+              0.5,
+              0.5,
+              -0.875,
+              12.0
+            ],
+            [
+              5.125,
+              3.75,
+              4.875,
+              0.625,
+              0.75,
+              -1.125,
+              1.125,
+              1.75,
+              2.125,
+              -1.25,
+              -1.0,
+              12.0
+            ],
+            [
+              2.25,
+              3.75,
+              -0.125,
+              0.625,
+              0.75,
+              1.75,
+              -3.0,
+              1.5,
+              -0.875,
+              1.125,
+              -0.5,
+              -1.5
+            ],
+            [
+              5.125,
+              3.75,
+              9.125,
+              -0.125,
+              -0.875,
+              1.75,
+              -3.0,
+              1.75,
+              2.125,
+              0.5,
+              -0.875,
+              12.0
+            ],
+            [
+              5.125,
+              3.75,
+              9.125,
+              -0.125,
+              0.875,
+              -0.375,
+              1.875,
+              3.875,
+              1.0,
+              -1.25,
+              -1.0,
+              12.0
+            ],
+            [
+              5.125,
+              3.75,
+              4.875,
+              -1.25,
+              -0.875,
+              1.75,
+              -3.0,
+              1.5,
+              -0.875,
+              1.125,
+              -0.5,
+              12.0
+            ],
+            [
+              2.25,
+              -0.875,
+              0.875,
+              1.125,
+              -2.25,
+              0.75,
+              1.75,
+              1.375,
+              0.5,
+              0.5,
+              -0.875,
+              12.0
+            ]
+          ],
+          "draws": [
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Medina",
+              "Parthenon",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Parthenon",
+              "Pyramids",
+              "Sagrada Familia",
+              "Taj Mahal",
+              "Tiananmen"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Medina",
+              "Parthenon",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal"
+            ],
+            [
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Taj Mahal",
+              "Victoria Falls"
+            ],
+            [
+              "Burj Khalifa",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Karnak",
+              "Kremlin",
+              "Medina",
+              "Parthenon",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Victoria Falls"
+            ],
+            [
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Karnak",
+              "Louvre",
+              "Medina",
+              "Pyramids",
+              "Sagrada Familia",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Parthenon",
+              "Table Mountain",
+              "Taj Mahal",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Victoria Falls"
+            ],
+            [
+              "Brandenburg Gate",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ]
+          ]
+        },
+        "16": {
+          "margins": [
+            [
+              6.625,
+              2.875,
+              10.0,
+              -0.375,
+              1.625,
+              -0.375,
+              1.75,
+              4.75,
+              0.625,
+              0.5,
+              0.625,
+              2.125,
+              -0.75,
+              -0.125,
+              5.375,
+              11.0
+            ],
+            [
+              6.625,
+              2.875,
+              10.0,
+              -0.375,
+              1.625,
+              -0.375,
+              1.75,
+              4.75,
+              0.625,
+              0.5,
+              0.625,
+              2.125,
+              -0.75,
+              -0.125,
+              5.375,
+              11.0
+            ],
+            [
+              6.625,
+              2.875,
+              10.0,
+              -0.375,
+              1.625,
+              -0.375,
+              1.75,
+              4.75,
+              0.625,
+              0.5,
+              0.625,
+              2.125,
+              -0.75,
+              -0.125,
+              5.375,
+              11.0
+            ],
+            [
+              6.625,
+              5.25,
+              5.5,
+              -0.5,
+              -1.25,
+              0.75,
+              6.875,
+              -1.25,
+              0.625,
+              0.5,
+              0.625,
+              2.125,
+              -0.75,
+              -0.125,
+              5.375,
+              11.0
+            ],
+            [
+              6.625,
+              2.875,
+              10.0,
+              -0.5,
+              -1.25,
+              0.75,
+              6.875,
+              -1.25,
+              0.625,
+              0.5,
+              0.625,
+              2.125,
+              -0.75,
+              -0.125,
+              5.375,
+              11.0
+            ],
+            [
+              6.625,
+              2.875,
+              10.0,
+              -0.375,
+              1.625,
+              -0.375,
+              1.75,
+              4.75,
+              0.625,
+              0.5,
+              0.625,
+              2.125,
+              -0.75,
+              -0.125,
+              5.375,
+              11.0
+            ],
+            [
+              6.625,
+              2.875,
+              10.0,
+              -0.5,
+              -1.25,
+              0.75,
+              6.875,
+              -1.25,
+              0.625,
+              0.5,
+              0.625,
+              2.125,
+              -0.75,
+              -0.125,
+              5.375,
+              11.0
+            ],
+            [
+              6.625,
+              2.875,
+              10.0,
+              -0.5,
+              -1.25,
+              0.75,
+              6.875,
+              -1.25,
+              0.625,
+              0.5,
+              0.625,
+              2.125,
+              -0.75,
+              -0.125,
+              5.375,
+              11.0
+            ],
+            [
+              6.625,
+              5.25,
+              5.5,
+              -0.5,
+              -1.25,
+              0.75,
+              6.875,
+              -1.25,
+              0.625,
+              0.5,
+              0.625,
+              2.125,
+              -0.75,
+              -0.125,
+              5.375,
+              11.0
+            ],
+            [
+              6.625,
+              2.875,
+              10.0,
+              -0.375,
+              1.625,
+              -0.375,
+              1.75,
+              4.75,
+              -1.0,
+              1.0,
+              -0.875,
+              2.625,
+              3.25,
+              0.5,
+              0.5,
+              11.0
+            ],
+            [
+              6.625,
+              5.25,
+              5.5,
+              -0.5,
+              -1.25,
+              0.75,
+              6.875,
+              -1.25,
+              0.625,
+              0.5,
+              0.625,
+              2.125,
+              -0.75,
+              -0.125,
+              5.375,
+              11.0
+            ],
+            [
+              6.625,
+              2.875,
+              10.0,
+              -0.375,
+              1.625,
+              -0.375,
+              1.75,
+              4.75,
+              0.625,
+              0.5,
+              0.625,
+              2.125,
+              -0.75,
+              -0.125,
+              5.375,
+              11.0
+            ]
+          ],
+          "draws": [
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Medina",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ],
+            [
+              "Angkor Wat",
+              "Brandenburg Gate",
+              "Burj Khalifa",
+              "Colosseum",
+              "Kaaba",
+              "Karnak",
+              "Kremlin",
+              "Louvre",
+              "Parthenon",
+              "Petronas Towers",
+              "Pyramids",
+              "Sagrada Familia",
+              "Table Mountain",
+              "Taj Mahal",
+              "Tiananmen",
+              "Victoria Falls"
+            ]
+          ]
+        }
+      }
+    }
+  }
+}
