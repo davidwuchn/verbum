@@ -8,6 +8,30 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ▶▶ s292 CLOSE-4 — **P-FN-INDEX (THE KEYSTONE) FROZEN + BUILT + SMOKED;
+> 32B VERDICT RUNNING OVERNIGHT tmux main:1** (Michael GO; pre-reg
+> 515be0b on program-plates page, instrument+4B 6f39f0e; PID verified,
+> ceilings 18/18+18/18, 90 cells, depths L19/29/38/48 →
+> results/fn-index/qwen3-32b/). THE question: do injected keys select
+> WHICH resident map executes over a fixed operand (function choice ≡
+> content-addressable)? 5 maps × 2 domains (geo city/country/continent +
+> NEW ANIMAL SECOND BANK — canonical home scripts/explore/fn_index.py, 18
+> items 6/6/6, ceiling 18/18 both maps @both hosts); keys = held-out
+> 3-exemplar residual means − grand mean; NEUTRAL prompt (names no map);
+> union first-token margins (42 candidates, 0 collisions); 7 conds/cell;
+> selection-corrected α/4. --validate ALL PASS (4 worlds). ★ 4B SMOKE
+> (advisory): **INDEXED-DISPATCH** — dispatch contrast p=0.0001 at EVERY
+> depth BOTH null scopes (d_union to +9.7); L22 diag acc 0.70 vs nokey
+> 0.00 = hand-built keys FLIP the neutral prompt to the correct map's
+> product, cross-domain keys in the null. If 32B confirms → rung 2
+> P-STACK-1 unlocks (programs from indexed parts). ON RETURN (s293):
+> read fn_index.json → frozen verdict table (INDEXED-DISPATCH /
+> PARTIAL-WITHIN-DOMAIN / NOT-DISPATCHABLE) → §Result-32B + memory
+> candidate → approval batch. THEN the standing order: Oracle rd 1 (now
+> THREE sealed verdicts postdate the seed: CAP, XTERM, FN-INDEX —
+> the oracle question set writes itself) → beam-register probe ∨
+> P-STACK-1 (Michael picks).
+>
 > ▶▶ s292 CLOSE-3 — ✅✅ **P-HOLO-XTERM 32B VERDICT IN: INTERFERENCE-
 > COHERENT** (run 6m24s!, results e29acc9; frozen gates scored same
 > session). Gate-0 +2.16 p=1e-4; Δ_install +0.83 p=4e-4 (meaning alone ✗);
