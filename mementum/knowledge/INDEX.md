@@ -22,6 +22,7 @@ tags: [index, orientation, knowledge-map, catalog]
 
 | Page | Status | One-line |
 |---|---|---|
+| [attention-holographic-readout.md](attention-holographic-readout.md) | ✅ active | s299: attention = readout beam; soft β ≡ holographic reconstruction; sinks/K/CoT derived; P-K-REGISTER falsifier |
 | [explore/geometry-holography-signals-convergence.md](explore/geometry-holography-signals-convergence.md) | ✅ 3 verdicts | FRAG (no addresses) + CAP (no ceiling, coherent-gain) + XTERM (interference in the beam, plate linear) |
 | [explore/program-plates-and-the-function-index.md](explore/program-plates-and-the-function-index.md) | 🔨 designing | λ verbum fractal seed; function index ⟨key,window,product⟩; program = depth-ordered exposures; thinking = expansion; self-decompilation |
 | [upstream/verbum-theory-seed.md](upstream/verbum-theory-seed.md) | ✅ active | The generative theory seed (germination-testable; first upstream seed) |
