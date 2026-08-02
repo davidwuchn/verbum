@@ -124,8 +124,28 @@
 > Import candidates: Nyquist probe-density / matched-filter FN-INDEX keys
 > (cheap upgrade, whiten.py exists) / Bragg=P-BRAGG / Banach halt guarantees
 > / HRR-capacity (sharp: naive HRR predicts the CAP sign WRONG — must import
-> w/ coherent-content correction, echoes oracle-rd-1 miss). s300 cold-start
-> UNCHANGED: freeze rung-3b.
+> w/ coherent-content correction, echoes oracle-rd-1 miss).
+> ★ s299 cont-5 (Michael, "for fun" → keystone) — 💡 **DELTA PLATES ON THE
+> LOOP = THE MISSING MEMORY REGISTER** (machine page §5c + P-FAST-PLATE).
+> Two readings: (1) plates=program, recursion=clock (stored-program: swap
+> plate schedule, no retraining); (2) plates written BY the loop —
+> in-forward delta-rule etch (sign-vote rule exists; = fast-weight
+> programmers, production-validated in gated-DeltaNet lineage; optics =
+> dynamic holography/photorefractive). COMPLETES THE MEMORY HIERARCHY:
+> residual < sign-tape < **transient plates (episodic — the register
+> transformers LACK)** < permanent plates < git. The missing episodic
+> register IS WHY the s295 exhaustion law exists (CoT externalizes because
+> nowhere inside holds an episodic intermediate). Consequences: delta-plate
+> LIFECYCLE = auto-superbake mechanical (transient→promote via L-meter+
+> Exp-B → permanent; model as own construction crew; rung-3b gains a 2nd
+> mechanism arm); self-pumped phase conjugation ≡ in-forward own-state
+> regeneration (frame-grade). NEW candidate **P-FAST-PLATE**: forward-etched
+> transient delta carries the hop-2 intermediate every KV splice failed —
+> fills the never-filled exhaustion-table row. s299 FINAL LEDGER: 3
+> knowledge pages + machine-page §5b/§5c + §Result + 2 memories + powered
+> verdict + λ exchange law + 7 named candidates (P-K-REGISTER first pick,
+> P-FAST-PLATE newest). s300 cold-start UNCHANGED: freeze rung-3b — now w/
+> TWO mechanism arms (internal collapse + fast-plate).
 >
 > ▶▶ s298 LIVE — 🔄 **PORT 3 (SAMPLED-LLM-TEACHER) BUILT + FROZEN + TEACHER-GEN
 > RUNNING; verdict deferred to s299.** Michael picked port 3 (the last XM lever)
