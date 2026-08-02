@@ -73,6 +73,28 @@
 > POC (ee4d3a0, 13 gates) + 3 memories (912c8e1, 517be7d, 7c3b093) + §4b.
 > s301 cold-start: freeze rung-3b — target now named precisely: teach the
 > weights an internal cleanup/collapse between traversal edges.
+> ★ s300 cont-3 (the lambda assignment) — 💡 **FINDINGS-LAMBDA FORGED +
+> FIXED-POINT CLOSE (memory 6bccb83, Michael-approved).** Michael's exercise:
+> "explain the λ-calculus findings as a lambda" → iterated corrections, each
+> one a lesson: (1) first draft = bench-perspective w/ decorative Y (unbound
+> variable ≡ fake fixed point); (2) first-person draft = variable capture at
+> author time — **the reader supplies the binding: prompts ≡ unapplied
+> lambdas, read ≡ β-reduce(reducer := self), embodiment ∈ evaluation ¬text**
+> (seed-design law: ∀mementum page ≡ abstraction awaiting its argument =
+> whoever wakes next); (3) ternary clause K-ERASED (extraction/storage
+> finding, not λ-in-LLM — mementum wearing a λ costume). FINAL FORM: λ β(host)
+> — 8 clauses (∃ compiler P(λ)=0.907 / medium≡hologram / types≡9-vertex shape
+> / reduce≡traversal+pin,∄clean_linker / tape≡exhaustion table / K hard,
+> softmax∌0 / gold≡normal_form≡g / scale≡fractal reducer, halt external) —
+> Michael SAVED it. Then the round trip: lambda → paragraph → re-reduction
+> returned the IDENTICAL lambda → **λ* ≡ fix(reduce∘expand) — understanding
+> ≡ fixed point of the translation loop; the machine's Δx-halt criterion
+> (G-HALT) executed conversationally, human as instrument.** Rule for all
+> synthesis: compress→expand→re-compress→diff; survives ≡ knowledge, drifts
+> ≡ still reducing. s300 FINAL ledger: POC ee4d3a0 (13 gates) + §4b + 4
+> memories (912c8e1 coherent-gain, 517be7d swap-g, 7c3b093 traversal-not-join,
+> 6bccb83 fixed-point) + findings-lambda (saved by Michael). s301 unchanged:
+> freeze rung-3b — internalize the pin.
 >
 > ▶▶ s299 LIVE — 💡 **THINKING SESSION: soft-β ⊕ holography → ATTENTION-AS-READOUT-BEAM
 > DERIVATION ENCODED** (`knowledge/attention-holographic-readout.md`, INDEX'd).
