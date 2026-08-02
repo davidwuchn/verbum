@@ -22,6 +22,7 @@ tags: [index, orientation, knowledge-map, catalog]
 
 | Page | Status | One-line |
 |---|---|---|
+| [ternary-holographic-memory.md](ternary-holographic-memory.md) | 🔨 designing | s299: standalone model-free memory; balanced-ternary precision; delta-log = git for holograms; time-travel by partial sum; P-CAPACITY-LAW |
 | [five-disciplines-one-object.md](five-disciplines-one-object.md) | ✅ active | s299: LLM = linear superposition medium + nonlinear readout; Gabor→Plate lineage; HRR≈attention; exchange-rate rule; theorem imports |
 | [holographic-reduction-machine.md](holographic-reduction-machine.md) | 🔨 designing | s299: fractal β at every scale; transducer math; recursed ternary plates + mirrors + Δx-halt; OpenMythos convergences; level-4 door |
 | [attention-holographic-readout.md](attention-holographic-readout.md) | ✅ active | s299: attention = readout beam; soft β ≡ holographic reconstruction; sinks/K/CoT derived; P-K-REGISTER falsifier |
