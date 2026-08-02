@@ -257,6 +257,97 @@ sweep the coalition FRACTION f and the confidence threshold jointly —
 but that is knob-tuning, not the exploration thesis, and should be marked
 as such (λ yardstick: it describes, it doesn't discover).
 
+## §XM-LATENT-1 — Student latent / XMDLM (PRE-REG, s298)
+
+> Status: DRAFT — frozen on Michael approval, before any model run.
+> Port 2 of the gated list, Design B (mixture-of-experts, marginalize
+> eval; Michael-approved s298). Attacks the REPRESENTATIONAL side that
+> s296/s297 exposed: the etch loss `||teacher−student||²` is direct
+> regression → per-prediction expressivity M=1 (minimizer = the mean =
+> blur). Forward-XM (s296) and Reverse-XM (s297) both had nothing to grab
+> because a single deterministic student can't REPRESENT multiple modes.
+> XMDLM gives the student K discrete latent embeddings → M raised 1→K.
+> The multimodality is real even for a deterministic token target: it
+> lives in PATH space (many internal configs produce the right output;
+> different pairs can use different paths — token register unimodal, path
+> register multimodal, s294/holographic-mapping).
+
+### Mechanism (Design B)
+
+- **Latent bank** `Z ∈ ℝ^{K × n_layers × d}`, K=4 (frozen), learnable.
+  Latent k injects a per-layer additive residual offset: in the full
+  forward, `x_{l+1} = student_layer_l(x_l) + Z[k, l]` (= a learnable
+  "mode vector" / reference-beam angle per candidate).
+- **Forward-XM best-of-K etch** (per round, per layer, per pair): candidate
+  k loss `= mean((layer(t_in) + Z[k] − t_out)²)`; winner = argmin_k
+  (mode="best") or random k (mode="rand", the null). Plate sign-votes
+  accumulate the WINNER's gradient (train the winner) → plates see a more
+  consistent target because Z absorbs the cross-pair (mode) variance.
+  Z is trained in the beam phase (Adam) with the same best-of-K loss.
+  This is s296's `explore_layer_loss` with candidates = learnable OUTPUT
+  offsets Z[k] instead of input jitter.
+- **Eval, 3 modes** (`LatentHoloModel.__call__` returns the marginal):
+  - **marginal** = `log(mean_k softmax(logits_k))` — the honest mixture,
+    no oracle. **GATED.**
+  - **argmax-latent** = per-input pick lowest-entropy latent — advisory
+    self-routing.
+  - **oracle-latent** = per-input best latent vs ground truth — advisory
+    CEILING (how much capacity exists if routing were solved).
+
+### Arms (× probe_counts {50, 800}, ≥5 init seeds)
+
+- `baseline`   — K=1, no latent selection (≡ s297 baseline + learnable bias)
+- `xmdlm`      — K=4, best-of-K assignment (TREATMENT)
+- `xmdlm_rand` — K=4, RANDOM per-pair assignment (param+training-matched
+                 NULL: same K experts, all trained, only assignment differs
+                 — isolates SPECIALIZATION vs merely having K experts to
+                 marginalize over). Load-bearing (G2).
+
+### Frozen gates
+
+- **G1** xmdlm(marginal) > baseline (oracle-recovery %). One-sided α=0.05/3.
+- **G2** (λ yardstick, load-bearing) xmdlm(marginal) > xmdlm_rand(marginal):
+  specialization, not K-expert-marginalization, must drive any gain.
+  Fails ⟹ marginalization artifact (parallels s297 subsetting-artifact).
+- **G3** (mechanistic) specialization is real — CAPACITY is the
+  load-bearing sub-test: **oracle-latent(xmdlm) > marginal(xmdlm)** AND
+  **oracle-latent(xmdlm) > oracle-latent(xmdlm_rand)** (specialized experts
+  route to higher per-expert capacity than randomly-assigned ones).
+  Assignment entropy H is reported ADVISORY only — H ≈ log K cannot
+  distinguish balanced specialization from interchangeable latents, so it
+  never gates; the oracle comparisons carry G3.
+  Latents are init distinct-by-construction (z_scale=0.2, high-d
+  ~orthogonal) so best-of-K is not tested from a collapsed strawman.
+
+### Frozen verdicts
+
+- **EXPRESSIVITY-UNBLOCKS** — G1 ∧ G2 pass ∧ G3 specialization: M=1 was
+  the blocker; latent expressivity + exploration finally helps the etch.
+  Promotes latent-scaffold distillation; the s295 backprop-compile /
+  level-4 collapse becomes the artifact-shrinking follow-on.
+- **MARGINALIZATION-ARTIFACT** — G1 passes, G2 fails: K experts help via
+  averaging/capacity, not specialization (mirror of s297). Latent adds
+  nothing exploration-shaped.
+- **CAPACITY-BUT-UNROUTED** — G1 FAILS (marginal) BUT oracle-latent(xmdlm)
+  beats baseline by a margin AND beats oracle-latent(xmdlm_rand): the
+  specialization created usable capacity that marginal routing WASTES.
+  Next = learn a router (input→latent) / the level-4 collapse. The
+  oracle-ceiling only DISAMBIGUATES this failure branch — it never
+  manufactures a G1 pass.
+- **STILL-BLOCKED** — G1 fails AND oracle-latent(xmdlm) ≈ baseline ≈
+  oracle-latent(xmdlm_rand): no capacity created even with latents → the
+  deterministic teacher has no capturable path-multimodality → port 3
+  (sampled-LLM-teacher, genuine multimodality) is the only remaining lever.
+
+### Reproducibility (s296/s297 fixes, mandatory)
+
+- `np.random.seed` AND `mx.random.seed` per arm×init (TernaryLinear init
+  uses global np.random; nn.Linear + Z init use mx).
+- integer seeds (NO salted hash()); ≥5 init seeds; grade INTERNALLY paired
+  by init seed (MLX/MPS bit-repro is within-process only — all arms share
+  one oracle per run). --validate asserts within-process bit-repro.
+- K=4, etch_batch=8, n_rounds=8, z_scale=0.2 frozen & recorded in meta.
+
 ## Open questions
 
 - Does the s115 50-beats-800 anomaly even exist? It did NOT reproduce
