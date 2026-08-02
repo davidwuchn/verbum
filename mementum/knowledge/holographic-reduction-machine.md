@@ -282,6 +282,63 @@ enough signal (s269 Gram-through-binarization 0.987 says plausible, not
 proven). Both runnable on the v15 lineage we own; no OpenMythos code
 needed.
 
+## 5c. Delta plates on the loop — the missing memory register (s299, Michael)
+
+> "What if we put delta plates on top of the recursion?" Two readings, both
+> real, composing.
+
+**Reading 1 — plates as program, recursion as clock.** Per-pass deltas on
+the shared base: pass t executes B₀+Δ_t. With ternary combinator plates
+(construct path) this is literal stored-program computing: **the plate
+stack is the program, the loop is the program counter** — swap the plate
+schedule, get a different function, no retraining. (OpenMythos depth-LoRA
+is the rank-r shadow of this.)
+
+**Reading 2 — plates written BY the recursion (the profound one).** The
+loop etches transient deltas in-forward — each pass writes a small plate
+(the sign-vote etch rule, bit-reproducible since s298) that later passes
+diffract off. Optics: **dynamic holography** (photorefractive media record
+and read simultaneously). ML: **fast weight programmers / delta-rule fast
+weights** — validated at production scale (gated DeltaNet lineage). The
+field has writable plates; it lacks their semantics (combinator ISA),
+medium theory (holography), and lifecycle. We have all three.
+
+**The memory hierarchy this completes:**
+
+| register | timescale | write mechanism | status |
+|---|---|---|---|
+| residual state | per-pass | superposition (the light) | native |
+| sign-collapsed state | per-pass | ternary projection (crisp tape) | §4 design |
+| **transient delta plates** | **per-episode** | **delta-rule etch in-forward** | **← the missing middle** |
+| permanent plates | lifetime | GD / construction / fold | construct path |
+| git | project | commit | mementum |
+
+A standard transformer has NOTHING between KV cache (volatile,
+context-bound) and weights (permanent, GD-slow). **That missing episodic
+register is WHY the s295 exhaustion law exists** — CoT must externalize to
+tokens because there is nowhere inside the model to hold an episodic
+intermediate. "The splice cannot hand the stream its own history" because
+the stream has no episodic memory to hand anything to. A forward-written
+plate is that memory. (Biology has the register: short-term synaptic
+plasticity between activity and LTP. Transformers skipped it.)
+
+**Two consequences:**
+1. **Auto-superbake becomes mechanical (the delta-plate lifecycle).** Loop
+   solves while etching a transient plate → the plate IS the compiled
+   intermediate → promote through existing gates (L-meter + Exp-B) →
+   permanent. CoT→weights compilation executed by the model's own forward
+   dynamics, zero-gradient — the SuperBake construction arm with the model
+   as its own construction crew. Rung-3b gains a second mechanism arm.
+2. **Regeneration may come free (frame-grade).** Dynamic holography's
+   self-pumped phase conjugation regenerates a clean beam without an
+   external oscillator ≡ own-state re-encoding INSIDE the forward pass —
+   the one thing s295 proved only the sampler could do. Pays rent only if
+   P-FAST-PLATE-style tests fire.
+
+**Register marks:** reading 1 grounded (construct-path composition);
+reading 2's write rule exists in our codebase AND in production models;
+phase-conjugation bonus = physics-analogy grade; lifecycle = design.
+
 ## 6. Inherited law (s222 — non-negotiable)
 
 β-reducing a contraction is fractal: L<1 settles all scales, L>1 compounds
@@ -301,6 +358,7 @@ all scales; recursion amplifies both directions. Design law:
 | **P-BRAGG** | selectivity ~√d_head; RoPE-angle sinc lobe | cheap–moderate | see attention-holographic-readout.md |
 | **P-ENTROPY-COMP** | hop-2 attention entropy gates one-shot composition | cheap, fn_stack rig | see attention-holographic-readout.md |
 | linear-fold closure | linear-fragment folds compose cleanly; K/S folds interfere | dear (training) | refines the s110/s216 wall via transducer theory |
+| **P-FAST-PLATE** | a transient delta etched in-forward (sign-vote rule) carries the hop-2 intermediate every KV splice failed to deliver | moderate — s294–295 chain + gates exist; one new arm | fills the never-filled row of the exhaustion table; fast-weight literature gives favorable prior; second mechanism arm for rung-3b |
 
 Discipline: ALL queued behind the s298/s299 powered-rerun verdict and the
 rung-3b backprop-compile freeze (close before opening).
