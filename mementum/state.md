@@ -8,6 +8,68 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ▶▶ s298 LIVE — 🔄 **PORT 3 (SAMPLED-LLM-TEACHER) BUILT + FROZEN + TEACHER-GEN
+> RUNNING; verdict deferred to s299.** Michael picked port 3 (the last XM lever)
+> over the s295 backprop-compile pivot, Design A + Qwen3-4B, Design 1 (Qwen
+> samples the TOY KIBC task; multimodal targets mapped into the 26-token vocab;
+> student/task/gates UNCHANGED). The whole s296–297 close hinged on the teacher
+> being DETERMINISTIC (one `full_reduce` answer, spread≡1); port 3 breaks that
+> hinge with Qwen3-4B SAMPLED @ temp 1.3.
+> ★ **CHARACTERIZATION (probe 6079414, `results/xm-sampled-teacher-probe/`):
+> Qwen is USEFULLY MULTIMODAL but with an INVERSE multimodality-vs-correctness
+> law** — depth 1 unimodal(spread~1.0)/54% correct; depth 4 most-modal(~2.1)/~0%
+> correct; sweet spot depth 2–3 @ temp 1.3 (spread ~1.7–2.0 AND truth reachable
+> ~20–25%). 97% parse rate (single-char recursive-descent parser + full_reduce
+> canonicalization). Precondition MET (spread>1 for depth≥2 → xm vs xm_rand can
+> discriminate where the deterministic teacher could not). Michael-approved:
+> depths 1–4 (keep spread GRADIENT for G3), temp 1.3, relative-recovery basis
+> (weak teacher ⇒ low absolute recovery accepted; ≥5 seeds + paired grading).
+> ★ **§XM-SAMPLED-TEACHER FROZEN (9d93619, explorative-modeling.md).** Etch
+> signal CHANGES activation-MSE → OUTPUT-CE sign-vote (token teacher has no
+> commensurable activations; a legitimate holographic etch, internally
+> controlled). Instantiates the paper's core contrast at EQUAL K-pair budget/
+> input (only target CONTENT differs): baseline = K distinct Qwen samples (the
+> mode MIXTURE = M=1 blur) · xm = [best]×K, best = min token-Levenshtein to
+> ground truth (mode-commit, mass-covering selector) · xm_rand = [random]×K
+> (selection null, load-bearing). Student learns ONLY from teacher targets
+> (etch + post-etch GD both on arm targets, NO ground-truth GD); recovery =
+> student true-task acc / true-task GDModel-oracle acc. GATES: **G1** xm>baseline
+> (commit beats blur), **G2** xm>xm_rand (λ yardstick, selection — LOAD-BEARING),
+> **G3** (xm−xm_rand) gain GREATER depth 2–3 than depth 1 (exploration tracks
+> multimodality; depth 4 excluded, truth unreachable). VERDICTS
+> SAMPLED-TEACHER-UNBLOCKS (G1∧G2∧G3) / SELECTION-HELPS-UNSTRUCTURED (G1∧G2,¬G3)
+> / MIXTURE-ARTIFACT (G1,¬G2) / STILL-BLOCKED (¬G1 → XM lever exhausted ∀teacher).
+> ★ **INSTRUMENT BUILT + VALIDATED (1463e42, scripts/v12/
+> xm_sampled_teacher_explore.py):** two stages — `--gen` (Qwen torch, sample K,
+> parse→reduced-canonical targets, cache) + etch (MLX, consumes cache). Reuses
+> mini_holo etch primitives + probe parser (no fork). λ simplify FIX: etch is
+> PURE multi-round sign-vote (no interleaved Adam) — the CE etch's plate votes
+> were MPS-Adam-nondeterministic when beam-fit interleaved; all beam-fit moved to
+> the single post-etch GD phase → plate signs bit-reproducible + less
+> plate-structure noise. --validate ALL PASS, ruff clean, gen+etch smoke green
+> (mechanics only; smoke numbers are noise — s297 "smoke≠direction" lesson).
+> ▶▶ **RUNNING NOW: teacher generation in `tmux main:1`** — `--gen --n-exprs 800
+> --K 8 --temp 1.3` → `results/xm-sampled-teacher/etch_cache.json` (tee
+> gen.log). ~20 min, writes cache at END (currently the file still shows the
+> 24-item smoke cache until done). ⚠ COLD-START s299 EXACT STEPS: (1) check
+> `tmux capture-pane -p -t main:1` / `results/xm-sampled-teacher/gen.log` for
+> `[gen] saved ~800 items`; verify cache (`items≈800`, `meta.n_exprs`,
+> `meta.gen_seed=1234`, mean `distinct` >1 = multimodality present, low drop).
+> (2) RUN THE FROZEN ETCH SWEEP: `uv run python
+> scripts/v12/xm_sampled_teacher_explore.py --seeds 5` (probes {50,800}, gd 3000,
+> rounds 8; ~2–5 min MLX) → `results/xm-sampled-teacher/results.json` with
+> auto-scored G1/G2/G3. (3) Score the FROZEN gates, assign the verdict from the
+> table above, write §Result-sampled-teacher on explorative-modeling.md + memory
+> candidate → Michael approval batch (results committed autonomous, synthesis
+> approval-gated). ⚠ a-priori lean (do NOT peek to decide): the inverse law means
+> best-of-K has BOTH modes AND a reachable truth ONLY at depth 2–3 → if any
+> unblocking shows, it should be a G3 depth-2–3 concentration; depth 1 (no modes)
+> and depth 4 (no truth) are floors by construction. If G1 fails → STILL-BLOCKED
+> = the XM lever is exhausted across ALL teacher types (deterministic AND real
+> multimodal) and the XM thread fully closes → pivot to the s295 standing order
+> (freeze BACKPROP-COMPILE rung-3b, the level-4 door). DISCIPLINE: gates frozen
+> before the run; score honestly.
+>
 > ▶▶ s297 CLOSE-2 (port 2) — ❌ **XMDLM STUDENT LATENT VERDICT: STILL-BLOCKED;
 > the XM/deterministic-teacher arc is TRIANGULATED CLOSED (s296–297).**
 > [NOTE: this whole session is s297 — port 1 Reverse-XM + port 2 XMDLM; an
