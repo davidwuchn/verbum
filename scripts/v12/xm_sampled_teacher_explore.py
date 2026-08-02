@@ -66,6 +66,7 @@ from mini_holo_d_sweep_v2 import (  # noqa: E402
     eval_by_depth,
     eval_model,
     generate_batch,
+    generate_example,
     masked_ce_loss,
 )
 from xm_sampled_teacher_probe import (  # noqa: E402
@@ -76,6 +77,8 @@ from xm_sampled_teacher_probe import (  # noqa: E402
     parse_expr,
     to_chat,
 )
+
+from verbum.dsp import Register, gate, paired_permutation  # noqa: E402
 
 PLATE_NAMES = ["attn.k_plate", "attn.v_plate", "attn.o_plate", "ffn_plate"]
 MAX_LEN = 40
@@ -210,6 +213,40 @@ def etch_from_batches(model, batches, n_rounds, confidence_threshold=0.6):
     return log
 
 
+def eval_depth_token_acc(model, rng, max_depth=4, n_per_depth=300):
+    """Per-depth TOKEN-level accuracy (stable G3 metric).
+
+    `eval_by_depth` is SEQUENCE-EXACT (breaks on first mismatch) → near-zero for
+    a weak student → degenerate G3 (dividing ~0 by a ~0 oracle depth-acc). This
+    mirrors eval_model's token-level accuracy but stratified by reduction depth,
+    giving a non-degenerate per-depth signal for the G3 depth contrast."""
+    out = {}
+    for depth in range(1, max_depth + 1):
+        pairs, attempts = [], 0
+        while len(pairs) < n_per_depth and attempts < n_per_depth * 5:
+            attempts += 1
+            res = generate_example(rng, max_depth=depth, max_input_tokens=32,
+                                   max_output_tokens=20)
+            if res is None:
+                continue
+            inp, out_toks, ad = res
+            if ad != depth:
+                continue
+            pairs.append((inp[1:-1], out_toks[:-1]))  # expr toks, normal-form toks
+        correct, tot = 0.0, 0.0
+        for i in range(0, len(pairs), 64):
+            ids, tgt, msk = build_batch_from_pairs(pairs[i:i + 64])
+            logits = model(ids)
+            mx.eval(logits)
+            preds = mx.argmax(logits, axis=-1)
+            c = (preds == tgt).astype(mx.float32) * msk
+            mx.eval(c)
+            correct += float(c.sum().item())
+            tot += float(msk.sum().item())
+        out[depth] = correct / max(tot, 1)
+    return out
+
+
 # ══════════════════════════════════════════════════════════════════════
 # Oracle (true-task yardstick) — identical to xm_latent train_oracle
 # ══════════════════════════════════════════════════════════════════════
@@ -283,31 +320,17 @@ def run_arm(items, arm, K, init_seed, n_probes, gd_steps, n_rounds,
 
     final = eval_model(model, np.random.RandomState(999), max_depth=max_depth)
     depth = eval_by_depth(model, np.random.RandomState(999), max_depth=max_depth)
+    depth_tok = eval_depth_token_acc(model, np.random.RandomState(999),
+                                     max_depth=max_depth)
     all_acc = ([e["accuracy"] for e in etch_log]
                + [e["accuracy"] for e in gd_log] + [final["accuracy"]])
     return {
         "arm": arm, "init_seed": init_seed, "n_probes": n_probes,
         "final_acc": final["accuracy"], "best_acc": max(all_acc),
         "depth_acc": {str(d): v["accuracy"] for d, v in depth.items()},
+        "depth_tok_acc": {str(d): v for d, v in depth_tok.items()},
         "n_pairs": npairs, "etch_log": etch_log, "gd_log": gd_log,
     }
-
-
-# ══════════════════════════════════════════════════════════════════════
-# Statistics
-# ══════════════════════════════════════════════════════════════════════
-
-def paired_delta(a, b):
-    a = np.asarray(a, dtype=np.float64)
-    b = np.asarray(b, dtype=np.float64)
-    d = a - b
-    n = len(d)
-    mean = float(d.mean())
-    std = float(d.std(ddof=1)) if n > 1 else 0.0
-    se = std / np.sqrt(n) if n > 1 else 0.0
-    return {"mean_delta": mean, "std": std,
-            "t": float(mean / se) if se > 0 else 0.0,
-            "n": n, "wins": int((d > 0).sum()), "per_seed": d.tolist()}
 
 
 # ══════════════════════════════════════════════════════════════════════
@@ -504,8 +527,9 @@ def main():
     # etch args
     ap.add_argument("--cache", default="results/xm-sampled-teacher/etch_cache.json")
     ap.add_argument("--gd-steps", type=int, default=3000)
+    ap.add_argument("--oracle-gd-steps", type=int, default=10500)
     ap.add_argument("--n-rounds", type=int, default=8)
-    ap.add_argument("--seeds", type=int, default=5)
+    ap.add_argument("--seeds", type=int, default=20)
     ap.add_argument("--checkpoint-dir", default="results/xm-sampled-teacher")
     args = ap.parse_args()
 
@@ -528,8 +552,9 @@ def main():
     items_all = cache["items"]
     K = cache["meta"]["K"]
     probe_counts = [50] if args.smoke else [50, 800]
-    n_seeds = 2 if args.smoke else args.seeds
+    n_seeds = 3 if args.smoke else args.seeds
     gd_steps = 200 if args.smoke else args.gd_steps
+    oracle_gd_steps = 200 if args.smoke else args.oracle_gd_steps
     n_rounds = 2 if args.smoke else args.n_rounds
     seeds = [3000 + i for i in range(n_seeds)]
 
@@ -544,12 +569,15 @@ def main():
         "timestamp": datetime.now(UTC).isoformat(), "git_sha": git_sha,
         "teacher_cache": str(cache_path), "teacher_meta": cache["meta"],
         "d_model": 48, "n_layers": 3, "K": K, "gd_steps": gd_steps,
-        "n_rounds": n_rounds,
+        "oracle_gd_steps": oracle_gd_steps, "n_rounds": n_rounds,
         "probe_counts": probe_counts, "arms": ARMS, "init_seeds": seeds,
+        "scoring_method": "verbum.dsp gate + paired_permutation (10k), "
+                          "Register.value; G3 on RAW per-depth token-acc gain "
+                          "(eval_by_depth is sequence-exact -> degenerate)",
         "preregistered": {
-            "G1": "xm > baseline (mode-commit beats blur)",
-            "G2": "xm > xm_rand [yardstick, selection]",
-            "G3": "(xm-xm_rand) gain depth2-3 > depth1",
+            "G1": "xm > baseline (mode-commit beats blur), alpha=0.05/3",
+            "G2": "xm > xm_rand [yardstick, selection], alpha=0.05/3",
+            "G3": "(xm-xm_rand) token-acc gain depth2-3 > depth1, alpha=0.05",
             "verdicts": ["SAMPLED-TEACHER-UNBLOCKS", "SELECTION-HELPS-UNSTRUCTURED",
                          "MIXTURE-ARTIFACT", "STILL-BLOCKED"]},
     }
@@ -563,10 +591,10 @@ def main():
           f"({cache['meta']['n_exprs']} exprs cached)")
     print("=" * 70, flush=True)
 
-    print(f"\n  [oracle] training true-task GD teacher ({gd_steps} steps)...",
-          flush=True)
+    print(f"\n  [oracle] training true-task GD teacher "
+          f"({oracle_gd_steps} steps)...", flush=True)
     t0 = time.time()
-    oracle = train_oracle(gd_steps)
+    oracle = train_oracle(oracle_gd_steps)
     oe = eval_model(oracle, np.random.RandomState(999))
     od = eval_by_depth(oracle, np.random.RandomState(999))
     print(f"    oracle acc={oe['accuracy']:.1%} ({time.time()-t0:.1f}s)",
@@ -592,37 +620,69 @@ def main():
                 with open(out_dir / "results.json", "w") as f:
                     json.dump(results, f, indent=2, default=str)
 
-    # ── gate scoring ──
-    print(f"\n{'═'*70}\n  GATE SCORING (oracle={oe['accuracy']:.1%})")
+    # ── gate scoring (verbum.dsp: paired_permutation null + gate) ──
+    print(f"\n{'═'*70}\n  GATE SCORING [verbum.dsp] (oracle={oe['accuracy']:.1%})")
+
+    def _gated_dict(g, extra=None):
+        d = {"value": g.value, "p": g.p, "verdict": g.verdict,
+             "sign_ok": g.sign_ok, "alpha": g.alpha, "null_mean": g.null_mean,
+             "null_std": g.null_std, "n_draws": g.n_draws, "predict": g.predict,
+             "null_name": g.null_name, "warnings": list(g.warnings)}
+        if extra:
+            d.update(extra)
+        return d
+
+    gen = np.random.default_rng(20260801)
     scoring = {}
     for n_probes in probe_counts:
         def rec(arm, n_probes=n_probes):
-            return [results[f"{arm}_p{n_probes}_s{s}"]["best_acc"]
-                    / oe["accuracy"] for s in seeds]
+            return np.array([results[f"{arm}_p{n_probes}_s{s}"]["best_acc"]
+                             / oe["accuracy"] for s in seeds])
 
-        def depth_rec(arm, d, n_probes=n_probes):
-            od_d = results["oracle"]["depth_acc"].get(str(d), 1.0) or 1.0
-            return [results[f"{arm}_p{n_probes}_s{s}"]["depth_acc"].get(str(d), 0.0)
-                    / od_d for s in seeds]
+        def tokacc(arm, d, n_probes=n_probes):
+            return np.array([results[f"{arm}_p{n_probes}_s{s}"]
+                             ["depth_tok_acc"][str(d)] for s in seeds])
 
-        g1 = paired_delta(rec("xm"), rec("baseline"))
-        g2 = paired_delta(rec("xm"), rec("xm_rand"))
-        # G3: (xm-xm_rand) gain in depth 2-3 vs depth 1
-        gain_d1 = np.array(depth_rec("xm", 1)) - np.array(depth_rec("xm_rand", 1))
-        gain_d2 = np.array(depth_rec("xm", 2)) - np.array(depth_rec("xm_rand", 2))
-        gain_d3 = np.array(depth_rec("xm", 3)) - np.array(depth_rec("xm_rand", 3))
-        gain_d23 = (gain_d2 + gain_d3) / 2
-        g3 = paired_delta(gain_d23.tolist(), gain_d1.tolist())
-        scoring[f"p{n_probes}"] = {"G1": g1, "G2": g2, "G3_depth23_vs_1": g3,
-                                   "gain_d1_mean": float(gain_d1.mean()),
-                                   "gain_d23_mean": float(gain_d23.mean())}
+        # G1/G2: overall recovery, paired sign-flip null, Register.value
+        xm, base, rand = rec("xm"), rec("baseline"), rec("xm_rand")
+        g1 = gate(float((xm - base).mean()),
+                  paired_permutation(xm, base, gen), "greater", alpha=0.05 / 3,
+                  name="G1_xm>baseline", claim_register=Register.value,
+                  probe_register=Register.value)
+        g2 = gate(float((xm - rand).mean()),
+                  paired_permutation(xm, rand, gen), "greater", alpha=0.05 / 3,
+                  name="G2_xm>xm_rand", claim_register=Register.value,
+                  probe_register=Register.value)
+        # G3: RAW per-depth token-acc gain (xm-xm_rand), depth 2-3 vs depth 1
+        gain_d1 = tokacc("xm", 1) - tokacc("xm_rand", 1)
+        gain_d23 = ((tokacc("xm", 2) - tokacc("xm_rand", 2))
+                    + (tokacc("xm", 3) - tokacc("xm_rand", 3))) / 2
+        g3 = gate(float((gain_d23 - gain_d1).mean()),
+                  paired_permutation(gain_d23, gain_d1, gen), "greater",
+                  alpha=0.05, name="G3_gain_d23>d1",
+                  claim_register=Register.value, probe_register=Register.value)
+        scoring[f"p{n_probes}"] = {
+            "G1": _gated_dict(g1, {"xm": float(xm.mean()),
+                                   "baseline": float(base.mean())}),
+            "G2": _gated_dict(g2, {"xm": float(xm.mean()),
+                                   "xm_rand": float(rand.mean())}),
+            "G3": _gated_dict(g3, {"gain_d1": float(gain_d1.mean()),
+                                   "gain_d23": float(gain_d23.mean())})}
         print(f"\n  probes={n_probes}:")
-        print(f"    G1 xm-baseline : Δ={g1['mean_delta']:+.4f} ±{g1['std']:.4f} "
-              f"t={g1['t']:+.2f} wins={g1['wins']}/{g1['n']}")
-        print(f"    G2 xm-xm_rand  : Δ={g2['mean_delta']:+.4f} ±{g2['std']:.4f} "
-              f"t={g2['t']:+.2f} wins={g2['wins']}/{g2['n']}")
-        print(f"    G3 gain d23>d1 : Δ={g3['mean_delta']:+.4f} t={g3['t']:+.2f} "
-              f"(gain_d1={gain_d1.mean():+.3f} gain_d23={gain_d23.mean():+.3f})")
+        print(f"    G1 xm>baseline : d={g1.value:+.4f} p={g1.p:.4f} "
+              f"(a={g1.alpha:.4f}) sign_ok={g1.sign_ok} -> {g1.verdict}")
+        print(f"    G2 xm>xm_rand  : d={g2.value:+.4f} p={g2.p:.4f} "
+              f"(a={g2.alpha:.4f}) sign_ok={g2.sign_ok} -> {g2.verdict}")
+        print(f"    G3 gain d23>d1 : d={g3.value:+.4f} p={g3.p:.4f} "
+              f"(a={g3.alpha:.2f}) gain_d1={gain_d1.mean():+.3f} "
+              f"gain_d23={gain_d23.mean():+.3f} -> {g3.verdict}")
+        v1, v2, v3 = g1.verdict, g2.verdict, g3.verdict
+        verdict = ("SAMPLED-TEACHER-UNBLOCKS" if v1 and v2 and v3 else
+                   "SELECTION-HELPS-UNSTRUCTURED" if v1 and v2 else
+                   "MIXTURE-ARTIFACT" if v1 and not v2 else
+                   "STILL-BLOCKED")
+        scoring[f"p{n_probes}"]["verdict"] = verdict
+        print(f"    → probes={n_probes} VERDICT: {verdict}")
     results["scoring"] = scoring
     with open(out_dir / "results.json", "w") as f:
         json.dump(results, f, indent=2, default=str)

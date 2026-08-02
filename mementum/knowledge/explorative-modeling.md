@@ -518,6 +518,38 @@ np.random; nn.Linear uses mx); integer seeds (no salted `hash()`); torch
 `manual_seed` for teacher generation, cached; `--validate` asserts within-process
 bit-repro or ABORT; K/temp/depths recorded in meta.
 
+### Scoring amendment (s298, frozen BEFORE the powered rerun)
+
+The s298 first run (5 seeds, results 5eae850) exposed two scoring defects and one
+power problem; the amendment corrects the SCORING (not the gates' direction or α)
+and re-runs. Frozen before the rerun; gate direction, α, and verdict table
+UNCHANGED. Motivation (from the s298 run, transparent):
+
+1. **Hand-rolled parametric t → verbum.dsp canon.** The first run scored G1–G3
+   with a parametric one-sided t-test; the project canon is `dsp.gate` +
+   `dsp.paired_permutation` (10k sign-flip null), with `Register.value` tags
+   (λ measure). Sign discipline is enforced by `gate` (wrong-sign extremity =
+   verdict False, never flipped).
+2. **n=5 is below the permutation floor.** A paired sign-flip null with 5 pairs
+   has p_min ≈ 1/2⁵ ≈ 0.031 > α=0.05/3 — G1/G2 CANNOT clear the Bonferroni bar
+   at n=5 regardless of effect size. Bump to **≥20 seeds** (compliant with the
+   frozen "≥5"); permutation floor ≈ 1/2²⁰, power restored.
+3. **G3 denominator was degenerate.** `eval_by_depth` is SEQUENCE-EXACT
+   (near-zero for a weak student); the frozen G3 divided student per-depth
+   sequence-acc by the oracle's near-zero per-depth sequence-acc → unstable
+   ratios (the s298 gain_d23≈+0.94 was a ~0/~0 artifact). Fix: score G3 on the
+   RAW per-depth **token-level** accuracy gain (`eval_depth_token_acc`), which is
+   non-degenerate. The CLAIM ("gain concentrates in the deep/multimodal band")
+   is unchanged; only the metric is de-degenerated.
+4. **Weak oracle yardstick.** Oracle trained only gd=3000 (51%, near-zero deep
+   per-depth acc). Strengthen to gd=10500 (~87%, matches prior XM runs) so the
+   yardstick is non-degenerate. G1/G2 p-values are scale-invariant to oracle
+   strength; this mainly stabilises interpretation + G3.
+
+s298 first-run direction (for the record, NOT the verdict): all gates POSITIVE
+(G1 Δ+0.10 5/5 wins, G2 Δ+0.089, G3 raw-depth supportive) but underpowered
+(parametric p 0.024–0.027 > α=0.0167). The powered dsp-scored rerun decides.
+
 ## Open questions
 
 - Does the s115 50-beats-800 anomaly even exist? It did NOT reproduce
