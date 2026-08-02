@@ -74,8 +74,30 @@
 > Ω) / G-TRACE (per-pass signature ≡ ground-truth reduction order). Hinges
 > untested: semantic Δx-halt; sign-collapse signal survival (s269 says
 > plausible). Artifact > argument (S5): tiny model passing G-BIND+G-TRACE =
-> reproducible interior measurement, the closed loop at level 4. Session
-> continues.
+> reproducible interior measurement, the closed loop at level 4.
+> ★ s299 cont-3 — ✅🟨 **POWERED VERDICT IN (d3e2dae,
+> results/xm-sampled-teacher-powered/, oracle 85.2%): SELECTION-HELPS-
+> UNSTRUCTURED** (pre-registered, @800 = frozen informative regime). **G1∧G2
+> SIGNIFICANT AT POWER — the FIRST selection win of the entire XM arc, nulls
+> finally beaten** (G1 xm>baseline Δ+0.034 p=.0118; G2 xm>xm_rand Δ+0.035
+> p=.0042; both < α=.0167, n=20, 10k paired-perm). G3 FAIL @800 (p=.404;
+> d1 gain 0.024 ≈ d2–3 0.027 — flat across the spread gradient) → mechanism
+> = generic target-cleanup/denoising, NOT proven mode-exploitation. @50
+> triple-passes (G3 p=.023) = secondary only (frozen rule names @800).
+> s296–297 close confirmed determinism-specific in its G1 half: real mixture
+> ⇒ selection pays. Frame note: selection ≡ collapse operator in the target
+> register — crisp-beats-blur survives its first weight-register test; the
+> depth-structure story does not. First-run record RESTORED to 5eae850 state
+> (a re-score had overwritten it; history preserved). §Result-sampled-teacher
+> (explorative-modeling.md) + memory
+> selection-beats-blur-but-not-via-multimodality — PENDING APPROVAL.
+> ▶▶ NEXT (Michael's call): (a) close the XM thread on this bounded positive
+> → pivot to the s295 standing order (freeze BACKPROP-COMPILE rung-3b, the
+> level-4 door — now doubly motivated: rung-3b ≡ "internal collapse" ≡ the
+> s299 machine's sign-projection hinge); (b) cheap-but-shallow selection-knob
+> characterization (mark knob-tuning ¬thesis). s299 THINKING session ledger:
+> 2 new knowledge pages + amendments + this verdict; 2 memories pending
+> approval (readout-beam + selection-beats-blur).
 >
 > ▶▶ s298 LIVE — 🔄 **PORT 3 (SAMPLED-LLM-TEACHER) BUILT + FROZEN + TEACHER-GEN
 > RUNNING; verdict deferred to s299.** Michael picked port 3 (the last XM lever)
