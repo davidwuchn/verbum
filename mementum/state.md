@@ -8,6 +8,31 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ▶▶ s299 LIVE — 💡 **THINKING SESSION: soft-β ⊕ holography → ATTENTION-AS-READOUT-BEAM
+> DERIVATION ENCODED** (`knowledge/attention-holographic-readout.md`, INDEX'd).
+> Michael's thread ("attention is a soft beta reduction" → "infer attention from
+> the holography"). Core: **soft β ≡ holographic reconstruction** (attention
+> weights ≡ diffraction efficiencies; a linear plate cannot return one exposure
+> → mixture is physics ¬softmax-quirk); axioms A1–A4 = measured s292/s294/s295
+> verdicts → 8 inferences. Free retrodiction: **attention sinks = zero-order
+> beam dump** (mass conservation). Sharpest new prediction: **P-K-REGISTER** — K
+> erasure must be destructive interference in the VALUE register (softmax has no
+> zero; optics erases only by π-shifted exposure) → anti-aligned value writes,
+> ¬near-zero attention; it is the FALSIFIER (true routing near-zeros would damage
+> the whole readout claim). Also: RoPE ≡ angular multiplexing (derives the s295
+> exhaustion table); CoT ≡ coherent relay w/ regeneration at sampler→embedding
+> (derives RE-ENCODING-REQUIRED + own-state); transformer ≡ linear optical medium
+> punctuated by detectors; **sampler = the only collapse operator** → rung-3b
+> backprop-compile ≡ teaching an internal collapse. Predictions PARKED unfrozen
+> (¬new-front): P-K-REGISTER / P-BRAGG (√d thickness law, sinc lobe) /
+> P-ENTROPY-COMP (fn_stack hop-2 entropy) — behind powered-rerun verdict +
+> rung-3b queue. Memory candidate
+> attention-is-the-readout-beam-of-a-linear-hologram PENDING APPROVAL (page
+> approved+committed; memory not yet). ⚠ powered rerun tmux main:1 verified
+> RUNNING at 20:52 (~34/120 arm-runs, no scoring yet) — s298 verdict scoring
+> remains the standing order when it signals. Session CONTINUES — Michael has
+> more to explore.
+>
 > ▶▶ s298 LIVE — 🔄 **PORT 3 (SAMPLED-LLM-TEACHER) BUILT + FROZEN + TEACHER-GEN
 > RUNNING; verdict deferred to s299.** Michael picked port 3 (the last XM lever)
 > over the s295 backprop-compile pivot, Design A + Qwen3-4B, Design 1 (Qwen
