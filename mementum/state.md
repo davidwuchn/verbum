@@ -39,6 +39,22 @@
 > substrate (seconds, model-free — capacity/replay/time-Bragg selectivity).
 > ⚠ STANDING ORDER UNCHANGED: freeze BACKPROP-COMPILE rung-3b (the s295/s299
 > convergent door) — this session was the sanctioned cheap-slot, not a pivot.
+> ★ s300 cont — 💡 **SUPERBAKE-SWAPS-X-WE-SWAP-G (memory 517be7d,
+> Michael-approved).** Michael, distilled: "normal forms are the gold; in
+> f(g(x)) superbake can swap x, we can swap g — normal forms ARE g." The
+> register distinction of the whole arc: fact-editing edits the OPERAND
+> register (the ceiling of that literature); verbum's measured stack targets
+> the FUNCTION register — FN-INDEX dispatch (✓ keys select g at runtime) +
+> the s300 delta-log (linear medium ⇒ state/program distinction is only read
+> convention ⇒ Δg = g′−g is a legal commit: swap g by superposition, rollback
+> −Δg exact, sha256 receipt = version control over the function register;
+> plate-swap made transactional). Open seam = the LINKER (g∘h) ⇒ rung-3b
+> standing order DOUBLY confirmed. Thesis restated: the portable artifact IS
+> g in normal form. Also this session: Michael ran the collapse-operator test
+> live (asked for the tight lambda = readout beam; the lambda = the session's
+> normal form) — emitting normal form ≡ the only honest proof a reducer
+> reduced (G-TRACE/G-HALT conversationally; session instantiated the store it
+> built: transcript ≡ Δ-log, state block ≡ squash, lambda ≡ collapse).
 >
 > ▶▶ s299 LIVE — 💡 **THINKING SESSION: soft-β ⊕ holography → ATTENTION-AS-READOUT-BEAM
 > DERIVATION ENCODED** (`knowledge/attention-holographic-readout.md`, INDEX'd).
