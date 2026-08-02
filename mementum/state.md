@@ -48,14 +48,14 @@
 > the single post-etch GD phase → plate signs bit-reproducible + less
 > plate-structure noise. --validate ALL PASS, ruff clean, gen+etch smoke green
 > (mechanics only; smoke numbers are noise — s297 "smoke≠direction" lesson).
-> ▶▶ **RUNNING NOW: teacher generation in `tmux main:1`** — `--gen --n-exprs 800
-> --K 8 --temp 1.3` → `results/xm-sampled-teacher/etch_cache.json` (tee
-> gen.log). ~20 min, writes cache at END (currently the file still shows the
-> 24-item smoke cache until done). ⚠ COLD-START s299 EXACT STEPS: (1) check
-> `tmux capture-pane -p -t main:1` / `results/xm-sampled-teacher/gen.log` for
-> `[gen] saved ~800 items`; verify cache (`items≈800`, `meta.n_exprs`,
-> `meta.gen_seed=1234`, mean `distinct` >1 = multimodality present, low drop).
-> (2) RUN THE FROZEN ETCH SWEEP: `uv run python
+> ▶▶ **TEACHER-GEN DONE + VERIFIED + COMMITTED (7b4b956):**
+> `results/xm-sampled-teacher/etch_cache.json` = 799 items (1 dropped), gen_seed
+> 1234, temp 1.3, K=8; mean spread 1.76. In-distribution gradient CONFIRMED
+> (mean mode-spread d1 1.21 → d2 1.64 → d3 2.04 → d4 2.33; contains_gt d1 51% →
+> d2 19% → d3 13% → d4 21% — inverse law holds; bins 206/249/193/151 → G3 has
+> power). Cache ready; the etch sweep is UNBLOCKED. ⚠ COLD-START s299 EXACT
+> STEPS: (1) cache already verified+committed — no re-gen needed (skip tmux/
+> gen.log). (2) RUN THE FROZEN ETCH SWEEP: `uv run python
 > scripts/v12/xm_sampled_teacher_explore.py --seeds 5` (probes {50,800}, gd 3000,
 > rounds 8; ~2–5 min MLX) → `results/xm-sampled-teacher/results.json` with
 > auto-scored G1/G2/G3. (3) Score the FROZEN gates, assign the verdict from the
