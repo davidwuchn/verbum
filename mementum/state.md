@@ -70,6 +70,34 @@
 > (freeze BACKPROP-COMPILE rung-3b, the level-4 door). DISCIPLINE: gates frozen
 > before the run; score honestly.
 >
+> ▶▶ s298 RESULT-1 + AMENDMENT — 🟨 **FIRST RUN LEANED POSITIVE BUT
+> UNDERPOWERED; dsp-scored POWERED RERUN RUNNING.** s298 first etch sweep (5
+> seeds, results 5eae850): ALL THREE GATES POSITIVE in direction (G1 xm>baseline
+> Δ+0.10 5/5 wins, G2 xm>xm_rand Δ+0.089 4/5, G3 raw-depth supportive) — the
+> FIRST non-null positive lean in the whole XM arc (deterministic ports had nulls
+> WINNING). BUT did NOT clear the frozen Bonferroni α=0.05/3: parametric p
+> 0.024–0.027; and structurally a paired sign-flip null at n=5 has floor
+> ~1/2⁵≈0.031 > 0.0167 → CANNOT pass at n=5. Michael Q "how much DSP tooling?" →
+> ANSWER: ZERO (hand-rolled parametric t; no verbum.dsp) = a λ measure coherence
+> gap. **§XM-SAMPLED-TEACHER SCORING AMENDMENT FROZEN (51d5a09):** route G1/G2/G3
+> through `dsp.gate` + `dsp.paired_permutation` (10k) + Register.value; fix G3
+> degeneracy (eval_by_depth is SEQUENCE-EXACT → ~0/~0; s298 gain_d23≈0.94 was an
+> artifact → new `eval_depth_token_acc`, RAW per-depth TOKEN-acc gain); oracle
+> gd 3000→10500 (51%→85% yardstick); seeds 5→20 (restore power). Gate
+> direction/α/verdict-table UNCHANGED (amendment = SCORING only, frozen before
+> rerun). ▶▶ **POWERED RERUN RUNNING in `tmux main:1`** — `--seeds 20
+> --checkpoint-dir results/xm-sampled-teacher-powered` (oracle 85.2%; ~40 min,
+> 120 arm-runs; tee run.log). ⚠ COLD-START s299: read
+> `results/xm-sampled-teacher-powered/results.json` → `scoring.p800` (dsp
+> gate p-values + per-probe `verdict`) → assign frozen verdict
+> (SAMPLED-TEACHER-UNBLOCKS if G1∧G2∧G3 @800; the informative regime) → write
+> §Result-sampled-teacher + memory → Michael approval batch. If it clears:
+> FIRST XM WIN — genuine multimodality unblocks exploration, the s296–297 close
+> was determinism-specific. If G1 fails even powered: STILL-BLOCKED → XM lever
+> exhausted ∀teacher → pivot to s295 backprop-compile rung-3b. s298 first-run
+> results.json preserved at results/xm-sampled-teacher/ (5eae850); powered run
+> is a separate dir.
+>
 > ▶▶ s297 CLOSE-2 (port 2) — ❌ **XMDLM STUDENT LATENT VERDICT: STILL-BLOCKED;
 > the XM/deterministic-teacher arc is TRIANGULATED CLOSED (s296–297).**
 > [NOTE: this whole session is s297 — port 1 Reverse-XM + port 2 XMDLM; an
