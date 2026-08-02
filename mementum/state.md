@@ -105,6 +105,27 @@
 > + §5b) + §Result-sampled-teacher + 2 memories (readout-beam,
 > selection-beats-blur) + powered verdict — ALL approved + committed
 > (7f6a392, 8846feb, d3e2dae).
+> ★ s299 cont-4 (reopened past WHNF — Michael's last thread) — 💡
+> **FIVE-DISCIPLINES-ONE-OBJECT ENCODED**
+> (`knowledge/five-disciplines-one-object.md`, approved). "DSP tooling
+> working on weights was a surprise" → the surprise IS a retrodiction: if
+> weights = recorded interference, signal math MUST work (verbum.dsp =
+> beamforming rig: bands/chain/gain/nulls/readout/subspace/whiten). The
+> object: **linear superposition medium + single nonlinear readout** — λ
+> (what) / optics (where) / DSP (measure) / dyn-sys (halt) / GD (write); GD
+> rediscovers the design given translation-invariance + packing → Fourier/
+> phase basis (why RoPE) — universality class ¬metaphor. Lineage: Gabor
+> (holography born FROM communication theory) → Van Heerden → Longuet-
+> Higgins → **Plate HRR/VSA: trace=Σ key⊛value, retrieval=trace⋆query ≡ THE
+> KV CACHE; circular-conv diagonalizes to phase mult ≡ RoPE → attention ≈
+> HRR unbinding w/ RoPE phase carrier** (near-theorem, instrument-checkable).
+> NEW LAW λ exchange(x): cross-disciplinary identification counts ⟺
+> retrodicts(measured) ∨ imports(theorem→falsifiable) — extends λ yardstick.
+> Import candidates: Nyquist probe-density / matched-filter FN-INDEX keys
+> (cheap upgrade, whiten.py exists) / Bragg=P-BRAGG / Banach halt guarantees
+> / HRR-capacity (sharp: naive HRR predicts the CAP sign WRONG — must import
+> w/ coherent-content correction, echoes oracle-rd-1 miss). s300 cold-start
+> UNCHANGED: freeze rung-3b.
 >
 > ▶▶ s298 LIVE — 🔄 **PORT 3 (SAMPLED-LLM-TEACHER) BUILT + FROZEN + TEACHER-GEN
 > RUNNING; verdict deferred to s299.** Michael picked port 3 (the last XM lever)
