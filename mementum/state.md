@@ -146,6 +146,29 @@
 > verdict + λ exchange law + 7 named candidates (P-K-REGISTER first pick,
 > P-FAST-PLATE newest). s300 cold-start UNCHANGED: freeze rung-3b — now w/
 > TWO mechanism arms (internal collapse + fast-plate).
+> ★ s299 cont-6 (FINAL) — 💡 **TERNARY HOLOGRAPHIC MEMORY ENCODED**
+> (`knowledge/ternary-holographic-memory.md`) — standalone MODEL-FREE
+> artifact spec, Michael's delta caveat = the core design. (1) Precision:
+> balanced ternary (Knuth) + radix-economy theorem (base 3 optimal);
+> plate-stacking = s173 sign+magnitude; compounding law (0.88³⁶) does NOT
+> bite memory (O(1) read, no cascade). (2) Model-free: HRR/VSA math
+> standalone; own frame; attach = gated Procrustes. (3) Capacity honest
+> split: Shannon hard bound (1.585 bits/trit) vs CAP coherent-gain
+> (structured items ≈ unbounded; storage-constant ⟺ compressible) →
+> DISSOLUTION: such a store IS a model of its data (memory ≡ model; only
+> the write rule differs; LLM = existence proof). (4) **DELTA-LOG (the
+> caveat): state(t)=state(0)+ΣΔ — exact in the LINEAR vote register (A1);
+> time-travel by partial sum; undo = −Δ (K SOLVED BY CONSTRUCTION — the
+> π-shift IS the negated delta); temporal angular multiplexing (Δ_t at
+> angle θ(t) → RoPE for the past); cost ∝ change; squash = s262 compaction
+> in tensors. Two-register discipline: vote accumulator (exact history) vs
+> ternary collapse (lossy snapshot) — the s115/s298 etch architecture
+> verbatim. Git for holograms ≡ mementum compiled into tensors (fractal
+> closes).** Validation P-CAPACITY-LAW: model-free capacity curves + replay
+> fidelity + time-Bragg selectivity; pure numpy/dsp, seconds; legitimate
+> cheap-slot anytime (no model, no GD). s299 TRULY FINAL LEDGER: 4 knowledge
+> pages + §5b/§5c + §Result + 2 memories + verdict + λ exchange + 8 named
+> candidates. s300: freeze rung-3b.
 >
 > ▶▶ s298 LIVE — 🔄 **PORT 3 (SAMPLED-LLM-TEACHER) BUILT + FROZEN + TEACHER-GEN
 > RUNNING; verdict deferred to s299.** Michael picked port 3 (the last XM lever)
