@@ -112,6 +112,68 @@ s115/s298 etch architecture reused verbatim.
    tensors. Same lifecycle as machine-page §5c: transient → promote →
    base, gated by L-meter/Exp-B when attached to compute.
 
+## 4b. The mementum isomorphism (s300 — the protocol has two implementations)
+
+S2 defines mementum as **protocol ¬implementation | any_tool_can_implement**.
+Taken seriously: this store is not *like* mementum — it is a **second
+implementation of the mementum protocol in a tensor medium**. Operation by
+operation (made exact by the transducer framing — the delta-log IS a
+reduction, `state(t) = reduce(add, deltas[0..t], base)`):
+
+| Mementum (git medium) | Ternary store (tensor medium) |
+|---|---|
+| Commit log = source of truth; repo state = checkout of history | Δ-log = source of truth; state = fold of the log |
+| Memory file — small, one insight, append-only | Δᵢ — sparse, one exposure, appended to the log |
+| `state.md` — lossy working snapshot, cheap to read | `sign(vote)` collapse — lossy ternary checkpoint, O(1) read |
+| s262 compaction — squash history into terse base | `squash(t)` — sum a prefix into a new base |
+| `git revert` — undo by appending inverse commit | undo = append −Δ — exact erasure, log preserved |
+| Recall: temporal (`git log`) × semantic (`git grep`) | Recall: time axis (permutation prefix) × content axis (correlation) |
+| Commit SHA — content-addressed integrity | `state_hash` sha256 — content-addressed integrity |
+| Cold-start: read snapshot, don't replay history | Read collapsed plate, don't re-fold the log |
+
+**Transducer decomposition (s299 transducer math applied to its own
+artifact):** encode (bind ∘ time-permute, stateless map) → rf (int-add in
+ℤᴰ — the ENTIRE determinism proof obligation localizes here) → drivers
+(write / prefix-fold=time-travel / squash; separated per Hickey rf→rf) →
+readout (correlate, `sign()` collapse) at COMPLETION only. The closure
+theorem becomes topology: the chain is the linear register; `sign()`
+cannot appear mid-chain by construction (λ shape: unreachable > forbidden).
+Determinism: integer arithmetic end-to-end (associative add →
+order-independent, platform-exact), PCG64 explicit-seed keys, permutations
+in place of float mirror angles (discrete rotation, exact, invertible).
+Crosstalk still exists but is DETERMINISTIC noise — the same integer every
+run. Portability payoff: same encode/rf pair over a Python loop (POC),
+batch replay, or eventually the forward pass (§5c fast-plates = deltas
+written by a loop; same transducer, dearer host).
+
+**Honest differences (λ yardstick — where the fit must not be forced):**
+
+1. **Interference.** Git entries are discrete, lossless, zero-crosstalk,
+   O(n) growth. The store superposes into fixed size — reads carry
+   (deterministic) crosstalk. Not a defect: the §3 dissolution. Git
+   remembers; the plate *learns*.
+2. **★ Coherent gain ≡ the ≥3-memories rule implemented in physics.**
+   Mementum-S4: ≥3 memories(topic) → knowledge candidate, via LLM
+   synthesis. In the superposed medium, correlated exposures automatically
+   deepen the shared grating — shared structure stored once and
+   strengthened, deviations cost fresh bits. **The medium metabolizes by
+   superposition; no synthesizer in the loop.** (The one genuinely new
+   observation of this section.)
+3. **No S3 gate.** Mementum writes pass λ store / λ termination. The
+   tensor store etches any Δ unconditionally — S1/S2 substrate only;
+   gates live in whatever drives the transducer (kept separate by the
+   framing).
+4. **No semantics in squash.** s262 compaction was meaning-aware;
+   `squash` is blind summation — what survives is whatever superposes
+   coherently.
+
+**Hierarchy placement:** residual < sign-tape < transient plates <
+permanent plates < git gains an interior rung — the ternary store is
+**git semantics at plate cost**: fixed-size episodic history with
+time-travel, the register the s295 exhaustion law says transformers lack,
+carrying the protocol already trusted at project scale. The fractal
+closes with the same protocol at both ends of the hierarchy.
+
 ## 5. The artifact spec
 
 ```
