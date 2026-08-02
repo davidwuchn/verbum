@@ -91,13 +91,20 @@
 > (a re-score had overwritten it; history preserved). §Result-sampled-teacher
 > (explorative-modeling.md) + memory
 > selection-beats-blur-but-not-via-multimodality — PENDING APPROVAL.
-> ▶▶ NEXT (Michael's call): (a) close the XM thread on this bounded positive
-> → pivot to the s295 standing order (freeze BACKPROP-COMPILE rung-3b, the
-> level-4 door — now doubly motivated: rung-3b ≡ "internal collapse" ≡ the
-> s299 machine's sign-projection hinge); (b) cheap-but-shallow selection-knob
-> characterization (mark knob-tuning ¬thesis). s299 THINKING session ledger:
-> 2 new knowledge pages + amendments + this verdict; 2 memories pending
-> approval (readout-beam + selection-beats-blur).
+> ▶▶ DECIDED (Michael, s299 close): **XM THREAD CLOSED on the bounded
+> positive; the PIVOT IS THE s300 COLD-START — freeze BACKPROP-COMPILE
+> rung-3b** (the s295 standing order; the level-4 door). Doubly motivated:
+> rung-3b's target ("teach the weights an internal collapse") ≡ the s299
+> machine's sign-projection hinge — the experimental arc and the thinking
+> session converged on the same door. Design inputs waiting on the machine
+> page: §5b gates (G-CONTRACT/G-BIND/G-HALT/G-TRACE), sign-collapse hinge,
+> s222 law (contraction by construction), SuperBake construction arm =
+> cheap-before-dear, held-out landmarks = wire-vs-lookup. DEAR (training
+> front) → FREEZE BEFORE ANY GD RUN. s299 CLOSED — full ledger: 2 knowledge
+> pages (attention-holographic-readout ✅, holographic-reduction-machine 🔨
+> + §5b) + §Result-sampled-teacher + 2 memories (readout-beam,
+> selection-beats-blur) + powered verdict — ALL approved + committed
+> (7f6a392, 8846feb, d3e2dae).
 >
 > ▶▶ s298 LIVE — 🔄 **PORT 3 (SAMPLED-LLM-TEACHER) BUILT + FROZEN + TEACHER-GEN
 > RUNNING; verdict deferred to s299.** Michael picked port 3 (the last XM lever)
