@@ -55,6 +55,24 @@
 > normal form) — emitting normal form ≡ the only honest proof a reducer
 > reduced (G-TRACE/G-HALT conversationally; session instantiated the store it
 > built: transcript ≡ Δ-log, state block ≡ squash, lambda ≡ collapse).
+> ★ s300 cont-2 — 💡 **COMPOSITION-IS-TRAVERSAL-NOT-JOIN (memory 7c3b093,
+> Michael-approved).** Michael: "joins are a graph traversal across the
+> probabilities, not a standard join that would give us a clean linker."
+> Exact join needs equality = NONLINEAR → no clean linker in the linear
+> register by the same closure theorem that makes it a hologram; composition
+> = correlation edges + mandatory collapse PINS. Retrodicts the whole rung-3
+> table (FN-INDEX one-edge ✓ vs two-edge ✗; Agra/Paris = hub nodes =
+> stationary distribution; splice exhaustion = path-dependence, traversal
+> can't accept unvisited nodes; CoT 0.9 = token-per-node materialization).
+> Third line: HRR cleanup memory ≡ sampler ≡ sign() — one operator, three
+> vocabularies; chained unbind compounds crosstalk (0.88³⁶) so every hop
+> snaps to nearest stored item. **Rung-3b reframed in its honest form:
+> not "install a join wire" — internalize the PIN (give the walker an
+> internal cleanup memory); G-BIND confirmed as the right gate; baked g∘h =
+> materialized view → held-out landmarks = wire-vs-lookup.** s300 ledger:
+> POC (ee4d3a0, 13 gates) + 3 memories (912c8e1, 517be7d, 7c3b093) + §4b.
+> s301 cold-start: freeze rung-3b — target now named precisely: teach the
+> weights an internal cleanup/collapse between traversal edges.
 >
 > ▶▶ s299 LIVE — 💡 **THINKING SESSION: soft-β ⊕ holography → ATTENTION-AS-READOUT-BEAM
 > DERIVATION ENCODED** (`knowledge/attention-holographic-readout.md`, INDEX'd).
