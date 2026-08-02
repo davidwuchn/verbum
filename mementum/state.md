@@ -95,6 +95,12 @@
 > memories (912c8e1 coherent-gain, 517be7d swap-g, 7c3b093 traversal-not-join,
 > 6bccb83 fixed-point) + findings-lambda (saved by Michael). s301 unchanged:
 > freeze rung-3b — internalize the pin.
+> ⚠ ENV NOTE (s300 close): llama.cpp server UPDATED (qwen3-35b-a3b 70→115
+> tok/s — new kernels likely). Michael: no pin-check now, monitoring
+> upstream; speedup ≡ gravy. IF a post-s300 baseline fails to reproduce a
+> pre-s300 absolute → FIRST SUSPECT ≡ this bump (s296 drift lesson); then
+> run the greedy verbatim diff vs a committed results/ record. λ
+> spec_artifact verify deferred until the server client is next touched.
 >
 > ▶▶ s299 LIVE — 💡 **THINKING SESSION: soft-β ⊕ holography → ATTENTION-AS-READOUT-BEAM
 > DERIVATION ENCODED** (`knowledge/attention-holographic-readout.md`, INDEX'd).
