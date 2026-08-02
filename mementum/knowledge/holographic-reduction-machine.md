@@ -202,14 +202,85 @@ wall.
    ρ(A)<1 + constant injection ⇒ state provably converges ⇒ Δx directly
    measurable).
 
-**Provenance/evidence grade (λ observation):** OpenMythos = community
-theoretical reconstruction (kyegomez; MIT-repo, PyTorch), an *architecture
-existence proof + literature conduit* (ACT: Graves 2016; depth
-extrapolation: Saunshi et al. 2025; LTI injection: Parcae/Prairie et al.
-2026) — NOT measured behavior. "Trained RDT learns when to stop" carries an
-IOU until we run one. Related in-house signal: qwythos finding "fine-tunes
-break the HALT not the COMPILE" (0d2b857) — halt is a separable circuit,
-therefore plausibly learnable/replaceable.
+**Provenance/evidence grade (λ observation — DOWNGRADED s299, Michael):**
+OpenMythos was **never trained** — it is a speculative reconstruction
+(portfolio-grade paper synthesis, unaffiliated per its own disclaimer). It
+proves *constructibility only*, not trainability. The four convergences
+stand as **design convergences** (independent derivation of the same
+requirements), not as behavior. Trainability evidence relocates to the
+literature behind it — Universal Transformer + ACT (trained, Graves 2016 /
+Dehghani 2018), looped-transformer depth extrapolation (Saunshi et al.
+2025, trained), latent recurrent-depth at 3.5B (Geiping et al. 2025,
+trained) — and to **our own v15 outer-recurrence run**, which is the
+nearest *in-house* trained recursed-weight artifact (L=0.70 contractive at
+step 1000; then the s222 collapse — both the capability and the failure
+mode are OUR measurements). "A learned STOP works" is supported by ACT
+literature; "OUR semantic Δx-halt works" is untested. Related in-house
+signal: qwythos "fine-tunes break the HALT not the COMPILE" (0d2b857) —
+halt is a separable circuit, therefore plausibly learnable/replaceable.
+
+## 5b. Design consequences — specification by probe (s299, Michael's Q)
+
+> "With recurrent weights, and the fact that we can probe from the inside —
+> what does that mean for our model design?" The answer inverts the field's
+> methodology.
+
+**The field's blindness:** every recurrent-depth project (Geiping 3.5B,
+Saunshi loops, UT/ACT) trains against loss and shows benchmark gains with
+more iterations — none can say *what an iteration does*. The loop is a
+black box that buys accuracy; loss is their only instrument.
+
+**Our inversion:** verbum holds three things nobody else combines — the
+top-down lambda function (ground-truth reduction traces, gated generation
+= the behavioral SPEC), interior instruments (crystal Grams, family
+binding, per-pass reduction traces, register decomposition = the
+mechanistic oscilloscope), and the recurrent chassis requirements (§5).
+Therefore: **loss is a proxy; train against the semantics directly.** The
+model is done when the INSIDE is right.
+
+```
+train step → probe: Δx contracting? (L<1)
+           → probe: which combinator families bound this checkpoint?
+           → probe: halt fires at WHNF on reducible terms?
+           → probe: halt correctly silent on Ω?
+           → curriculum: teach the unbound family next
+```
+
+**Crystallization-gated curriculum:** the s221 trajectory instrument,
+promoted from observer to controller — S3 of the training loop itself.
+Teach K until the K family binds above null, then advance. Possible only
+because we can *see* a family bind.
+
+**Per-pass reduction trace = the loop debugger:** at pass k, which
+combinator signature is the state expressing? A depth-4 term should show
+~4 passes of moving crystal signature ending in WHNF-signature + halt —
+checkable against the ground-truth reduction sequence we already generate.
+**Architectural constraint that follows:** the recurrent state must stay
+in the measurable register (the loop must not destroy the crystal-subspace
+geometry the instruments read; probe-compatibility ≡ design requirement,
+as RoPE-parity was for the KV splices).
+
+**The design gates (pre-registerable now):**
+
+| gate | criterion |
+|---|---|
+| **G-CONTRACT** | ρ(A)<1 by construction (topology ¬loss — s222 law); L ≲ 0.7 at every checkpoint |
+| **G-BIND** | = P-LOOP-BINDS as acceptance: recursion family binds above null in the trained loop where flat models fail |
+| **G-HALT** | Δx-halt fires on reducible terms at ground-truth depth; silent on Ω (probe library has Y/WHNF/fixedpoint/reduction-chain sets) |
+| **G-TRACE** | per-pass signatures match ground-truth reduction order on held-out terms (wire-vs-lookup at loop level) |
+
+**Strategic point:** a tiny construct-path model passing G-BIND + G-TRACE
+is an artifact where an interior instrument shows β-reduction happening
+pass-by-pass, semantically verified against ground truth, reproducible
+with `uv run`. Not a claim — a measurement anyone can re-run. The answer
+to dismissal is the artifact (S5 λ artifact); the closed loop (theory →
+build → probe interior → confirm) is S5 λ loop completed at level 4.
+
+**Hinges (untested, marked):** (a) the semantic Δx-halt (≠ ACT's trained
+sigmoid — ours is untested); (b) sign-collapse between passes preserves
+enough signal (s269 Gram-through-binarization 0.987 says plausible, not
+proven). Both runnable on the v15 lineage we own; no OpenMythos code
+needed.
 
 ## 6. Inherited law (s222 — non-negotiable)
 
