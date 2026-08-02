@@ -56,7 +56,25 @@
 > blur end) → verbum's 3 deltas: ternary medium, internal collapse, Δx-halt.
 > NEW candidate **P-LOOP-BINDS** (recursion family binds in a looped model
 > where flat fails; crystallization instrument exists). s222 protocol
-> inherited as design law. Michael has ANOTHER idea incoming — session
+> inherited as design law.
+> ★ s299 cont-2 — ❌→💡 **OpenMythos DOWNGRADED (Michael: never trained —
+> speculative reconstruction, constructibility only)**; trainability evidence
+> relocates to literature (UT/ACT, Saunshi loops, Geiping 3.5B recurrent-depth
+> — all trained) AND to **our own v15 outer-recurrence run** (L=0.70 + s222
+> collapse = capability AND failure mode are OUR measurements — verbum is
+> AHEAD of the reconstruction on training evidence). Page §5 provenance
+> fixed + **§5b Design-consequences added: SPECIFICATION BY PROBE** — the
+> field's recurrent-depth blindness (loss-only, iteration = black box) vs
+> our inversion (top-down λ spec + interior instruments + chassis → train
+> against semantics directly): crystallization-GATED curriculum (s221
+> instrument promoted observer→controller), per-pass reduction trace as
+> loop debugger, probe-compatibility as architectural constraint. Design
+> gates pre-registerable: G-CONTRACT (ρ(A)<1 by construction) / G-BIND
+> (=P-LOOP-BINDS as acceptance) / G-HALT (Δx-halt on reducibles, silent on
+> Ω) / G-TRACE (per-pass signature ≡ ground-truth reduction order). Hinges
+> untested: semantic Δx-halt; sign-collapse signal survival (s269 says
+> plausible). Artifact > argument (S5): tiny model passing G-BIND+G-TRACE =
+> reproducible interior measurement, the closed loop at level 4. Session
 > continues.
 >
 > ▶▶ s298 LIVE — 🔄 **PORT 3 (SAMPLED-LLM-TEACHER) BUILT + FROZEN + TEACHER-GEN
