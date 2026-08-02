@@ -550,6 +550,52 @@ s298 first-run direction (for the record, NOT the verdict): all gates POSITIVE
 (G1 Δ+0.10 5/5 wins, G2 Δ+0.089, G3 raw-depth supportive) but underpowered
 (parametric p 0.024–0.027 > α=0.0167). The powered dsp-scored rerun decides.
 
+### §Result-sampled-teacher — s299 POWERED VERDICT: SELECTION-HELPS-UNSTRUCTURED
+
+Powered rerun (20 seeds, dsp-scored per the frozen s298 amendment; results
+`results/xm-sampled-teacher-powered/`, d3e2dae; oracle gd=10500 → 85.2%).
+Scored against the frozen gates, @800 = the pre-registered informative regime:
+
+| gate | @50 | @800 (informative) |
+|---|---|---|
+| G1 xm>baseline | Δ+0.044, p=.0035 ✓ | Δ+0.034, p=.0118 ✓ (α=.0167) |
+| G2 xm>xm_rand | Δ+0.029, p=.0128 ✓ | Δ+0.035, p=.0042 ✓ |
+| G3 d2–3 > d1 | .041 vs .015, p=.023 ✓ | .027 vs .024, p=.404 ✗ |
+
+**Verdict: SELECTION-HELPS-UNSTRUCTURED** (G1∧G2, ¬G3 @800). Auto-scorer
+concurs per-probe (@50 alone would read SAMPLED-TEACHER-UNBLOCKS — recorded
+as secondary, NOT the verdict; the frozen rule names @800).
+
+**What is now established (first positive close of the XM arc):**
+- **G1∧G2 significant at power — the nulls finally lost.** Every prior port
+  (forward/reverse/latent) had nulls winning or tying; here mode-commit
+  beats the mixture-blur AND beats the size-matched random-commit null,
+  Bonferroni-cleared, 10k paired-permutation. The s296–297 close is
+  confirmed **determinism-specific in its G1 half**: a genuinely multimodal
+  teacher CAN be exploited by selection.
+- **The mechanism claim is NOT confirmed.** @800 the xm−rand gain is flat
+  across the spread gradient (d1 gain 0.024 ≈ d2–3 gain 0.027): selection
+  helps in the unimodal band too → the pre-registered reading is generic
+  **target-cleanup/denoising** (teacher only ~54% correct at d1; best-of-8
+  by token-Levenshtein picks cleaner targets even without modes), not
+  (proven) mode-exploitation. The @50 concentration (p=.023) keeps the
+  mechanism *alive* but the informative regime does not confirm it.
+- Absolute recovery: xm 0.392 / oracle 0.852 ≈ 46% relative — weak-teacher
+  regime as pre-accepted (relative-recovery basis).
+
+**Frame note (s299 theory, marked frame-grade):** selection ≡ a collapse
+operator applied in the *target* register — crisp-commit beating the
+soft-mixture mean is what `attention-holographic-readout.md` predicts for
+any linear-medium learner; G3's failure warns against over-reading the
+*multimodality-tracking* mechanism specifically. The dial is real; the
+depth-structure story is unproven.
+
+**XM thread disposition:** the lever WORKS as selection (positive, bounded);
+the thesis mechanism is unconfirmed at power. Options: (a) cheap-but-shallow
+— selection-knob characterization (mark knob-tuning ¬thesis); (b) close the
+XM thread on this bounded positive and pivot to the s295 standing order
+(freeze BACKPROP-COMPILE rung-3b). Michael's call.
+
 ## Open questions
 
 - Does the s115 50-beats-800 anomaly even exist? It did NOT reproduce
