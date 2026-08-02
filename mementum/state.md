@@ -8,7 +8,62 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ▶▶ s297 CLOSE — ❌ **REVERSE-XM (PORT 1) VERDICT: SUBSETTING-ARTIFACT
+> ▶▶ s297 CLOSE-2 (port 2) — ❌ **XMDLM STUDENT LATENT VERDICT: STILL-BLOCKED;
+> the XM/deterministic-teacher arc is TRIANGULATED CLOSED (s296–297).**
+> [NOTE: this whole session is s297 — port 1 Reverse-XM + port 2 XMDLM; an
+> earlier draft mis-labeled port 2 as "s298", corrected to s297 everywhere.]
+> Michael "proceed with 2" → Design
+> B (mixture-of-experts, marginalize eval) approved → §XM-LATENT-1 frozen
+> (10e4ee1). Attacks the REPRESENTATIONAL side s296/s297 exposed: etch loss is
+> direct regression (M=1, minimizer=mean=blur) → best-of-K had nothing to grab.
+> K=4 discrete latent embeddings raise per-prediction expressivity 1→K;
+> multimodality is real in PATH space even for deterministic token targets.
+> Latent bank Z(K,n_layers,d) as per-layer residual offsets; Forward-XM
+> best-of-K per-pair assignment during etch (winner trains, Z absorbs cross-pair
+> mode variance). Instrument scripts/v12/xm_latent_explore.py (LatentHoloModel
+> subclass, no fork, --validate ALL PASS, ruff, bit-repro within-process,
+> s296/s297 repro fixes). Arms baseline(K=1)/xmdlm/xmdlm_rand(param+training-
+> matched null) × probes{50,800} × 5 seeds. Eval marginal(GATED)/argmax-latent
+> (self-route)/oracle-latent(CEILING). Gates G1 xmdlm(marg)>baseline, G2 (λ
+> yardstick) xmdlm>xmdlm_rand, G3 specialization via ORACLE comparisons
+> (oracle>marginal ∧ oracle(xmdlm)>oracle(rand); assignment-entropy H demoted
+> ADVISORY — H≈logK can't tell balanced-specialization from interchangeable
+> latents). Verdicts EXPRESSIVITY-UNBLOCKS / MARGINALIZATION-ARTIFACT /
+> CAPACITY-BUT-UNROUTED (G1-fail BUT oracle-ceiling beats baseline+rand →
+> capacity exists, marginal routing wastes it → learn a router / level-4
+> collapse) / STILL-BLOCKED (no capacity even with latents → port 3 sampled-
+> teacher). Oracle-ceiling ONLY disambiguates a G1-fail, never manufactures a
+> pass. Distinct latent init z_scale=0.2 so best-of-K tested fairly (¬collapsed
+> strawman). ⚠ SMOKE = MECHANICS ONLY — two smokes disagree on G3 sign @n=2/gd=300
+> (noise, s297 lesson); direction NOT established. ★ consistent mechanic:
+> oracle-latent ~2-3pt > marginal (capacity signal live). ⚠ grade INTERNALLY
+> paired-by-init-seed (MLX/MPS bit-repro within-process only).
+> ▶▶ **VERDICT IN (38a2f91, results/xm-latent-s297/, oracle 87.4%, 42min):
+> STILL-BLOCKED (pre-registered).** G1 FAIL both (xmdlm BELOW baseline:
+> 0.858<0.967 @50, 0.930<0.962 @800); baseline K=1 is the BEST arm everywhere —
+> latent experts HURT. G2 FAIL/NULL (@50 −0.061; @800 +0.024 n.s.) —
+> specialization ≈ random (echo s297). G3 capacity NULL: oracle-latent ≈
+> marginal AND oracle-latent(xmdlm) itself BELOW baseline (Δ−0.115 @50, Δ−0.028
+> @800) → CAPACITY-BUT-UNROUTED RULED OUT (even perfect routing can't reach
+> baseline). ★ Raising M 1→4 did NOT unblock — the blocker was never
+> representational capacity; the deterministic teacher has no capturable
+> multimodality (token OR path space); extra experts fragment the etch signal
+> → weaker plates. ▶▶ **§XM-DETERMINISTIC-TEACHER — TRIANGULATED CLOSE
+> (s296–297):** Forward(REFUTED) + Reverse(SUBSETTING-ARTIFACT) +
+> XMDLM(STILL-BLOCKED) all agree — EXPLORATION CANNOT IMPROVE HOLOGRAPHIC
+> DISTILLATION FROM A DETERMINISTIC TEACHER; no multimodality to explore
+> (mirror of paper's minibatch-OT-HURTS: XM needs coupling AMBIGUITY the model
+> co-adapts to; deterministic map has none). §Result-latent +
+> §XM-DETERMINISTIC-TEACHER (page) + memory
+> xm-cannot-explore-a-deterministic-teacher + this block — PENDING APPROVAL
+> (results 38a2f91 committed autonomous). ▶▶ NEXT (XM thread's only remaining
+> lever): **port 3 sampled-LLM-teacher** (genuinely multimodal targets — where
+> the reference-beam + Gram-transport design becomes live). OR leave the XM
+> thread closed and pivot to the s295 standing order: freeze BACKPROP-COMPILE
+> rung-3b (the level-4 door, tape-writeback wire — a DISTINCT mechanism, not
+> XM). Michael's call.
+>
+> ▶▶ s297 CLOSE-1 (port 1) — ❌ **REVERSE-XM VERDICT: SUBSETTING-ARTIFACT
 > (pre-registered).** Michael "proceed with 1" → §XM-REVERSE-1 frozen
 > (7428a06) → full run (497f979, oracle 71.1%, 40min). @800 probes: G1
 > revxm>baseline PASS (Δ+0.111, t=2.29, 5/5 — coalition beats all-unit avg

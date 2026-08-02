@@ -257,11 +257,11 @@ sweep the coalition FRACTION f and the confidence threshold jointly —
 but that is knob-tuning, not the exploration thesis, and should be marked
 as such (λ yardstick: it describes, it doesn't discover).
 
-## §XM-LATENT-1 — Student latent / XMDLM (PRE-REG, s298)
+## §XM-LATENT-1 — Student latent / XMDLM (PRE-REG, s297)
 
 > Status: DRAFT — frozen on Michael approval, before any model run.
 > Port 2 of the gated list, Design B (mixture-of-experts, marginalize
-> eval; Michael-approved s298). Attacks the REPRESENTATIONAL side that
+> eval; Michael-approved s297). Attacks the REPRESENTATIONAL side that
 > s296/s297 exposed: the etch loss `||teacher−student||²` is direct
 > regression → per-prediction expressivity M=1 (minimizer = the mean =
 > blur). Forward-XM (s296) and Reverse-XM (s297) both had nothing to grab
@@ -347,6 +347,63 @@ as such (λ yardstick: it describes, it doesn't discover).
   by init seed (MLX/MPS bit-repro is within-process only — all arms share
   one oracle per run). --validate asserts within-process bit-repro.
 - K=4, etch_batch=8, n_rounds=8, z_scale=0.2 frozen & recorded in meta.
+
+### §Result-latent — s297 VERDICT: STILL-BLOCKED
+
+Full sweep (results/xm-latent-s297/, oracle 87.4%, 30 arm-runs, 5 init
+seeds, K=4, gd=10500). Graded internally, paired by init seed. Mean
+recovery (× oracle):
+
+| arm         | probes=50 marg / oracle-lat | probes=800 marg / oracle-lat |
+|-------------|-----------------------------|------------------------------|
+| baseline    | **0.967** / 0.962           | **0.962** / 0.962            |
+| xmdlm       | 0.858 / 0.852               | 0.930 / 0.934                |
+| xmdlm_rand  | 0.918 / 0.908               | 0.906 / 0.907                |
+
+Frozen gates:
+- **G1 xmdlm(marginal) > baseline: FAIL** both — xmdlm is *below* baseline
+  (Δ−0.110 @50, Δ−0.032 @800 n.s.). Baseline (K=1) is the best arm
+  everywhere; adding latent experts HURTS.
+- **G2 xmdlm > xmdlm_rand: FAIL/NULL** — @50 xmdlm < rand (Δ−0.061); @800
+  xmdlm ≈ rand (Δ+0.024, t=0.69, n.s.). Specialization ≈ random assignment
+  (echo of s297).
+- **G3 capacity: NULL** — oracle-latent barely exceeds marginal (Δ+0.006
+  @800, ~0 @50), and **oracle-latent(xmdlm) is itself BELOW baseline**
+  (Δ−0.115 @50, Δ−0.028 @800). Assignment H≈logK (advisory).
+
+**Branch:** G1 fails AND oracle-latent(xmdlm) < baseline (not > it) →
+CAPACITY-BUT-UNROUTED is ruled out (no usable capacity exists — even
+perfect per-input routing can't reach baseline). **Verdict = STILL-BLOCKED.**
+
+**What it means.** Raising per-prediction expressivity M from 1→4 did NOT
+unblock exploration — the blocker was never representational capacity. The
+deterministic teacher has no capturable multimodality for best-of-K to
+exploit, in token OR path space at this scale. The extra experts just
+fragment the etch signal (each sees fewer/assigned pairs → weaker shared
+plates) → recovery drops. Even oracle routing over specialized experts
+can't beat the plain single-config baseline.
+
+### §XM-DETERMINISTIC-TEACHER — the triangulated close (s296–s297)
+
+Three independent operationalizations of Explorative Modeling on the
+deterministic-teacher holographic etch now agree:
+- **s296 Forward-XM** (diversify the model, jittered candidates) — REFUTED;
+  deterministic pairs are pre-resolved couplings, no per-pair ambiguity.
+- **s297 Reverse-XM** (diversify the data, coalition voting) —
+  SUBSETTING-ARTIFACT; subsetting reduces variance (+11pt) but coherence
+  adds nothing over random; contested weights irreducible toward truth.
+- **s297 XMDLM** (diversify the student, K latent experts) — STILL-BLOCKED;
+  added expressivity doesn't help, even at the oracle-routing ceiling.
+
+**Convergent finding: exploration cannot improve holographic distillation
+from a DETERMINISTIC teacher — there is no multimodality to explore.** The
+mirror of the paper's minibatch-OT-HURTS: model-agnostic/geometric coupling
+fails; XM needs coupling AMBIGUITY the model co-adapts to, and a
+deterministic input→output map has none. The distillation ceiling is not an
+exploration problem — the deterministic etch already extracts what is
+extractable. **The only remaining XM lever is a genuinely multimodal target:
+port 3 (sampled-LLM-teacher).** Distinct mechanisms (e.g. the s295
+backprop-compile writeback wire) are separate research, not XM.
 
 ## Open questions
 
