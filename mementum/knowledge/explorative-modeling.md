@@ -405,6 +405,119 @@ extractable. **The only remaining XM lever is a genuinely multimodal target:
 port 3 (sampled-LLM-teacher).** Distinct mechanisms (e.g. the s295
 backprop-compile writeback wire) are separate research, not XM.
 
+## §XM-SAMPLED-TEACHER — Port 3, sampled-LLM-teacher (PRE-REG, s298)
+
+> Status: FROZEN (s298, Michael-approved) — gates locked before any etch run.
+> Port 3 of the gated list, the last remaining XM lever. Design 1 (Michael-
+> approved s298): keep the toy 26-token KIBC task + mini_holo student UNCHANGED;
+> source multimodality from a real LLM (Qwen3-4B) SAMPLED at temp>0.
+
+### The hinge it breaks
+
+The s296–297 triangulated close established that exploration cannot improve
+holographic distillation from a DETERMINISTIC teacher — no multimodality to
+explore. Port 3 replaces the deterministic GDModel oracle with **Qwen3-4B
+sampled at temp 1.3**, which the s298 characterization proved is genuinely
+multimodal on KIBC (mode spread > 1 for depth ≥ 2; the deterministic teacher
+had spread ≡ 1). This is the only remaining XM lever the arc identified.
+
+### Teacher characterization (s298, prerequisite, non-gated)
+
+`scripts/v12/xm_sampled_teacher_probe.py`, results
+`results/xm-sampled-teacher-probe/teacher_cache.json`. Qwen3-4B reduces
+combinator expressions, sampled K=8× per input; generations mapped back into
+the 26-token vocab (97% parse rate; single-char recursive-descent parser +
+`full_reduce` canonicalization). **Key finding — inverse relationship between
+multimodality and correctness:**
+
+| depth | mode spread | correct density | truth reachable (best-of-K ceiling) |
+|-------|-------------|-----------------|--------------------------------------|
+| 1 (easy) | ~1.0 unimodal | ~54% | ~54% |
+| 2 | ~1.7 | ~20% | ~20–25% |
+| 3 | ~1.8 | ~20% | ~20% |
+| 4 (hard) | ~2.1 most-modal | ~0% | ~0–10% |
+
+Where Qwen is confident (depth 1) it is unimodal (nothing to explore); where
+uncertain (depth 3–4) it is multimodal but the correct mode is rarely present.
+Sweet spot = depth 2–3 @ temp 1.3 (spread AND partial reachability). The
+precondition ("teacher provides genuinely multimodal targets") is MET, so xm
+vs xm_rand can now discriminate where the deterministic teacher could not.
+
+### Etch-signal change (necessary, noted)
+
+s296–297 distilled per-layer **activation-MSE** from the GDModel oracle. A
+sampled LLM emits TOKENS, not commensurable activations (that was Design 2,
+rejected). So port 3 distills via the **output-CE sign-vote etch**
+(`etch_plates`: accumulate `sign(∇ masked_ce_loss)` over target batches, flip
+plates where confidence > 0.6). The teacher's token outputs are the targets.
+This is a legitimate holographic etch and is internally controlled (all arms
+use it). It is a DIFFERENT etch signal than the deterministic-teacher arc; the
+internal baseline/xm/xm_rand contrast is what carries the verdict.
+
+### The paper's core contrast, instantiated
+
+Forward-XM's claim: best-of-K (mode-commit) beats direct regression (M=1 =
+mode-mixture blur). Mapped to the etch, per input we form **K training pairs**
+(equal data budget across arms; only target CONTENT differs):
+
+- **baseline (blur / mass-cover):** the K distinct Qwen samples — the etch sees
+  the full mode mixture; sign-votes average across modes (the M=1 blur).
+- **xm (best-of-K, mode-commit):** `[best] × K`, best = Qwen sample with min
+  token-distance to ground truth (mass-covering selector = loss vs truth, NOT
+  model probability rank).
+- **xm_rand (random mode-commit, load-bearing null):** `[random] × K` —
+  isolates selection-toward-truth vs merely committing to one mode.
+
+### Training & recovery
+
+The student learns ONLY from teacher-selected targets (etch + beam-fit both use
+the arm's targets; no ground-truth GD). Ground truth is used ONLY by (a) the
+best-of-K selector and (b) the eval. Recovery = student true-task acc /
+true-task GDModel-oracle acc (the oracle is the yardstick only, never a
+teacher). Teacher samples are generated once, seeded (torch), and cached —
+fixed data across all arms/seeds; init-seed varies only student init + etch RNG.
+
+### Frozen gates
+
+- **G1** `xm > baseline` — mode-commit beats the mode-mixture blur (the paper's
+  core claim). One-sided, α=0.05/3.
+- **G2** (λ yardstick, load-bearing) `xm > xm_rand` — selection toward truth,
+  not merely committing to one mode, drives the gain. Fails ⟹ selection-artifact
+  (parallels s297). α=0.05/3.
+- **G3** (mechanistic — the thesis) the `xm − xm_rand` recovery gain is GREATER
+  in the multimodal band (depth 2–3, mean spread ~1.8) than in the unimodal band
+  (depth 1, spread ~1.0), paired by seed. Tests that the exploration advantage
+  tracks available multimodality. Depth 4 (truth unreachable) excluded from the
+  contrast, reported advisory. Falsifiable both ways.
+
+### Frozen verdicts
+
+- **SAMPLED-TEACHER-UNBLOCKS** — G1 ∧ G2 ∧ G3: genuine multimodality unblocks
+  exploration; the s296–297 close was determinism-specific; XM helps with a real
+  multimodal teacher. Promotes sampled-teacher (STaR-like) holographic
+  distillation.
+- **SELECTION-HELPS-UNSTRUCTURED** — G1 ∧ G2, G3 fails: best-of-K helps but not
+  via the multimodality gradient (generic target-cleanup, e.g. shorter/cleaner
+  samples). Positive for XM-as-selection, does not confirm the mechanism.
+- **MIXTURE-ARTIFACT** — G1 passes, G2 fails: having K samples helps but
+  selection doesn't (mirror of s297 subsetting/marginalization).
+- **STILL-BLOCKED** — G1 fails: even a genuinely multimodal teacher doesn't
+  unblock; the holographic etch can't exploit multimodal token targets → the XM
+  lever is exhausted across all teacher types.
+
+### Config (frozen)
+
+temp 1.3, K=8, depths 1–4 (spread gradient), top_p 0.95, max_new_tokens 32;
+student d=48 / 3-layer; probe counts {50, 800}; ≥5 init seeds; graded internally
+paired by init seed; oracle = GDModel on ground truth.
+
+### Reproducibility (s296/s297 fixes, mandatory)
+
+`np.random.seed` AND `mx.random.seed` per arm×init (TernaryLinear uses global
+np.random; nn.Linear uses mx); integer seeds (no salted `hash()`); torch
+`manual_seed` for teacher generation, cached; `--validate` asserts within-process
+bit-repro or ABORT; K/temp/depths recorded in meta.
+
 ## Open questions
 
 - Does the s115 50-beats-800 anomaly even exist? It did NOT reproduce
