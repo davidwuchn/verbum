@@ -1,0 +1,300 @@
+======================================================================
+  XM LATENT-EXPLORE  (xm-latent-full)  K=4
+  arms=['baseline', 'xmdlm', 'xmdlm_rand'] probes=[50, 800] seeds=[2000, 2001, 2002, 2003, 2004] rounds=8 gd=10500
+======================================================================
+
+  [oracle] training GD teacher (10500 steps)...
+    oracle acc=87.4% (51.5s)
+
+  probes=50: 7 voting units
+      round 1: flips=14497 marg_acc=0.6%
+      round 2: flips= 6894 marg_acc=0.0%
+      round 3: flips= 7753 marg_acc=2.9%
+      round 4: flips= 8427 marg_acc=0.6%
+      round 5: flips= 7277 marg_acc=2.1%
+      round 6: flips= 6874 marg_acc=2.5%
+      round 7: flips= 6085 marg_acc=5.5%
+      round 8: flips= 5678 marg_acc=7.5%
+    [baseline_p50_s2000] marg=79.5% (90.9%%orc) orc_lat=79.5% H=-0.00/0.00 [54s]
+      round 1: flips=14651 marg_acc=0.0%
+      round 2: flips= 6758 marg_acc=0.0%
+      round 3: flips= 7078 marg_acc=2.6%
+      round 4: flips= 6882 marg_acc=1.1%
+      round 5: flips= 5293 marg_acc=2.4%
+      round 6: flips= 5094 marg_acc=20.4%
+      round 7: flips= 5484 marg_acc=2.6%
+      round 8: flips= 5765 marg_acc=3.0%
+    [baseline_p50_s2001] marg=79.6% (91.0%%orc) orc_lat=77.1% H=-0.00/0.00 [54s]
+      round 1: flips=12858 marg_acc=4.6%
+      round 2: flips= 6284 marg_acc=2.9%
+      round 3: flips= 8188 marg_acc=2.7%
+      round 4: flips= 7631 marg_acc=2.6%
+      round 5: flips= 6639 marg_acc=1.6%
+      round 6: flips= 4858 marg_acc=2.6%
+      round 7: flips= 5075 marg_acc=1.6%
+      round 8: flips= 5788 marg_acc=2.2%
+    [baseline_p50_s2002] marg=89.5% (102.4%%orc) orc_lat=89.5% H=-0.00/0.00 [54s]
+      round 1: flips=14146 marg_acc=4.8%
+      round 2: flips= 6874 marg_acc=14.1%
+      round 3: flips= 7421 marg_acc=3.9%
+      round 4: flips= 6823 marg_acc=2.9%
+      round 5: flips= 4996 marg_acc=0.0%
+      round 6: flips= 5774 marg_acc=2.2%
+      round 7: flips= 4971 marg_acc=12.6%
+      round 8: flips= 5593 marg_acc=4.2%
+    [baseline_p50_s2003] marg=84.4% (96.6%%orc) orc_lat=84.4% H=-0.00/0.00 [54s]
+      round 1: flips=13544 marg_acc=7.4%
+      round 2: flips= 6102 marg_acc=21.9%
+      round 3: flips= 6362 marg_acc=0.0%
+      round 4: flips= 5865 marg_acc=0.0%
+      round 5: flips= 4861 marg_acc=9.8%
+      round 6: flips= 6192 marg_acc=17.4%
+      round 7: flips= 3971 marg_acc=17.4%
+      round 8: flips= 5777 marg_acc=17.4%
+    [baseline_p50_s2004] marg=89.9% (102.8%%orc) orc_lat=89.9% H=-0.00/0.00 [54s]
+      round 1: flips=14500 marg_acc=0.1%
+      round 2: flips= 7022 marg_acc=1.2%
+      round 3: flips= 7455 marg_acc=0.0%
+      round 4: flips= 5959 marg_acc=1.5%
+      round 5: flips= 5394 marg_acc=1.4%
+      round 6: flips= 5816 marg_acc=2.7%
+      round 7: flips= 5466 marg_acc=0.7%
+      round 8: flips= 6288 marg_acc=0.5%
+    [xmdlm_p50_s2000] marg=78.5% (89.7%%orc) orc_lat=77.3% H=1.35/1.39 [93s]
+      round 1: flips=14652 marg_acc=1.8%
+      round 2: flips= 7226 marg_acc=0.0%
+      round 3: flips= 7033 marg_acc=2.6%
+      round 4: flips= 8317 marg_acc=2.9%
+      round 5: flips= 5708 marg_acc=0.0%
+      round 6: flips= 5843 marg_acc=2.5%
+      round 7: flips= 5950 marg_acc=2.9%
+      round 8: flips= 5675 marg_acc=2.7%
+    [xmdlm_p50_s2001] marg=70.6% (80.8%%orc) orc_lat=71.0% H=1.37/1.39 [93s]
+      round 1: flips=12852 marg_acc=0.0%
+      round 2: flips= 6178 marg_acc=2.6%
+      round 3: flips= 7835 marg_acc=2.6%
+      round 4: flips= 6797 marg_acc=2.8%
+      round 5: flips= 5954 marg_acc=2.2%
+      round 6: flips= 4534 marg_acc=2.4%
+      round 7: flips= 4187 marg_acc=1.6%
+      round 8: flips= 4412 marg_acc=2.4%
+    [xmdlm_p50_s2002] marg=75.6% (86.5%%orc) orc_lat=74.3% H=1.32/1.39 [93s]
+      round 1: flips=14164 marg_acc=7.7%
+      round 2: flips= 6913 marg_acc=14.1%
+      round 3: flips= 8234 marg_acc=17.1%
+      round 4: flips= 5584 marg_acc=14.3%
+      round 5: flips= 4504 marg_acc=17.3%
+      round 6: flips= 4689 marg_acc=4.1%
+      round 7: flips= 5320 marg_acc=7.8%
+      round 8: flips= 6223 marg_acc=8.0%
+    [xmdlm_p50_s2003] marg=87.0% (99.5%%orc) orc_lat=88.2% H=1.33/1.39 [99s]
+      round 1: flips=13541 marg_acc=6.5%
+      round 2: flips= 6206 marg_acc=7.8%
+      round 3: flips= 6844 marg_acc=17.4%
+      round 4: flips= 5877 marg_acc=16.9%
+      round 5: flips= 5796 marg_acc=16.5%
+      round 6: flips= 5614 marg_acc=17.4%
+      round 7: flips= 5255 marg_acc=15.5%
+      round 8: flips= 4733 marg_acc=17.4%
+    [xmdlm_p50_s2004] marg=63.2% (72.3%%orc) orc_lat=61.9% H=1.37/1.39 [92s]
+      round 1: flips=14509 marg_acc=7.4%
+      round 2: flips= 7637 marg_acc=4.1%
+      round 3: flips= 8969 marg_acc=1.4%
+      round 4: flips= 6922 marg_acc=1.5%
+      round 5: flips= 5551 marg_acc=1.7%
+      round 6: flips= 5334 marg_acc=1.5%
+      round 7: flips= 6876 marg_acc=14.7%
+      round 8: flips= 5795 marg_acc=5.7%
+    [xmdlm_rand_p50_s2000] marg=81.9% (93.6%%orc) orc_lat=81.9% H=1.38/1.39 [91s]
+      round 1: flips=14635 marg_acc=0.0%
+      round 2: flips= 6240 marg_acc=4.2%
+      round 3: flips= 7338 marg_acc=16.0%
+      round 4: flips= 7384 marg_acc=10.9%
+      round 5: flips= 5892 marg_acc=2.4%
+      round 6: flips= 4797 marg_acc=0.1%
+      round 7: flips= 5282 marg_acc=3.4%
+      round 8: flips= 6321 marg_acc=1.4%
+    [xmdlm_rand_p50_s2001] marg=84.6% (96.7%%orc) orc_lat=84.8% H=1.39/1.39 [93s]
+      round 1: flips=12847 marg_acc=3.2%
+      round 2: flips= 6857 marg_acc=2.6%
+      round 3: flips= 6407 marg_acc=3.0%
+      round 4: flips= 7464 marg_acc=2.7%
+      round 5: flips= 6382 marg_acc=1.8%
+      round 6: flips= 6849 marg_acc=2.8%
+      round 7: flips= 6425 marg_acc=1.9%
+      round 8: flips= 5244 marg_acc=2.6%
+    [xmdlm_rand_p50_s2002] marg=82.5% (94.3%%orc) orc_lat=82.7% H=1.38/1.39 [92s]
+      round 1: flips=14162 marg_acc=7.1%
+      round 2: flips= 7185 marg_acc=0.0%
+      round 3: flips= 8531 marg_acc=9.1%
+      round 4: flips= 5398 marg_acc=10.8%
+      round 5: flips= 5108 marg_acc=13.5%
+      round 6: flips= 5554 marg_acc=7.8%
+      round 7: flips= 5305 marg_acc=7.8%
+      round 8: flips= 4824 marg_acc=8.4%
+    [xmdlm_rand_p50_s2003] marg=79.4% (90.8%%orc) orc_lat=77.5% H=1.39/1.39 [92s]
+      round 1: flips=13545 marg_acc=2.9%
+      round 2: flips= 6650 marg_acc=7.8%
+      round 3: flips= 8019 marg_acc=17.4%
+      round 4: flips= 7945 marg_acc=0.0%
+      round 5: flips= 5008 marg_acc=13.4%
+      round 6: flips= 4778 marg_acc=17.4%
+      round 7: flips= 5246 marg_acc=17.4%
+      round 8: flips= 7233 marg_acc=0.0%
+    [xmdlm_rand_p50_s2004] marg=73.1% (83.6%%orc) orc_lat=70.1% H=1.39/1.39 [107s]
+
+  probes=800: 100 voting units
+      round 1: flips=13539 marg_acc=0.0%
+      round 2: flips= 7161 marg_acc=3.7%
+      round 3: flips= 6045 marg_acc=0.0%
+      round 4: flips= 5797 marg_acc=7.0%
+      round 5: flips= 5363 marg_acc=0.9%
+      round 6: flips= 4171 marg_acc=2.4%
+      round 7: flips= 4901 marg_acc=0.0%
+      round 8: flips= 6103 marg_acc=2.7%
+    [baseline_p800_s2000] marg=87.0% (99.5%%orc) orc_lat=87.0% H=-0.00/0.00 [57s]
+      round 1: flips=13877 marg_acc=0.0%
+      round 2: flips= 5680 marg_acc=7.5%
+      round 3: flips= 7002 marg_acc=7.0%
+      round 4: flips= 5221 marg_acc=3.3%
+      round 5: flips= 3929 marg_acc=7.5%
+      round 6: flips= 6212 marg_acc=2.3%
+      round 7: flips= 4693 marg_acc=7.0%
+      round 8: flips= 4188 marg_acc=2.9%
+    [baseline_p800_s2001] marg=82.7% (94.6%%orc) orc_lat=82.7% H=-0.00/0.00 [57s]
+      round 1: flips=11648 marg_acc=1.5%
+      round 2: flips= 5830 marg_acc=2.9%
+      round 3: flips= 6882 marg_acc=7.0%
+      round 4: flips= 4911 marg_acc=2.6%
+      round 5: flips= 5973 marg_acc=3.4%
+      round 6: flips= 4074 marg_acc=1.6%
+      round 7: flips= 4899 marg_acc=7.9%
+      round 8: flips= 4436 marg_acc=3.3%
+    [baseline_p800_s2002] marg=76.8% (87.8%%orc) orc_lat=76.8% H=-0.00/0.00 [57s]
+      round 1: flips=13208 marg_acc=12.0%
+      round 2: flips= 6586 marg_acc=14.1%
+      round 3: flips= 7643 marg_acc=4.9%
+      round 4: flips= 6114 marg_acc=6.8%
+      round 5: flips= 4615 marg_acc=7.4%
+      round 6: flips= 5490 marg_acc=17.7%
+      round 7: flips= 4492 marg_acc=8.8%
+      round 8: flips= 4819 marg_acc=1.9%
+    [baseline_p800_s2003] marg=93.5% (106.9%%orc) orc_lat=93.5% H=-0.00/0.00 [56s]
+      round 1: flips=12635 marg_acc=4.0%
+      round 2: flips= 5748 marg_acc=7.9%
+      round 3: flips= 5823 marg_acc=17.4%
+      round 4: flips= 4445 marg_acc=8.8%
+      round 5: flips= 6095 marg_acc=2.8%
+      round 6: flips= 4719 marg_acc=15.8%
+      round 7: flips= 4440 marg_acc=2.5%
+      round 8: flips= 5063 marg_acc=2.1%
+    [baseline_p800_s2004] marg=80.6% (92.2%%orc) orc_lat=80.6% H=-0.00/0.00 [56s]
+      round 1: flips=13530 marg_acc=0.0%
+      round 2: flips= 6961 marg_acc=2.6%
+      round 3: flips= 8220 marg_acc=2.9%
+      round 4: flips= 6196 marg_acc=0.4%
+      round 5: flips= 7051 marg_acc=1.2%
+      round 6: flips= 4833 marg_acc=6.9%
+      round 7: flips= 4696 marg_acc=1.6%
+      round 8: flips= 5677 marg_acc=0.0%
+    [xmdlm_p800_s2000] marg=92.0% (105.3%%orc) orc_lat=93.0% H=1.35/1.39 [95s]
+      round 1: flips=13873 marg_acc=0.0%
+      round 2: flips= 5918 marg_acc=0.0%
+      round 3: flips= 6466 marg_acc=2.5%
+      round 4: flips= 5805 marg_acc=2.6%
+      round 5: flips= 5125 marg_acc=2.7%
+      round 6: flips= 4359 marg_acc=2.7%
+      round 7: flips= 5280 marg_acc=2.5%
+      round 8: flips= 4722 marg_acc=1.5%
+    [xmdlm_p800_s2001] marg=80.7% (92.3%%orc) orc_lat=80.9% H=1.32/1.39 [95s]
+      round 1: flips=11647 marg_acc=2.6%
+      round 2: flips= 5718 marg_acc=2.7%
+      round 3: flips= 6401 marg_acc=1.6%
+      round 4: flips= 5347 marg_acc=2.6%
+      round 5: flips= 4893 marg_acc=2.6%
+      round 6: flips= 5162 marg_acc=1.4%
+      round 7: flips= 5636 marg_acc=1.5%
+      round 8: flips= 4919 marg_acc=1.7%
+    [xmdlm_p800_s2002] marg=82.3% (94.1%%orc) orc_lat=82.8% H=1.36/1.39 [104s]
+      round 1: flips=13207 marg_acc=4.4%
+      round 2: flips= 6338 marg_acc=14.1%
+      round 3: flips= 6353 marg_acc=10.1%
+      round 4: flips= 5237 marg_acc=7.8%
+      round 5: flips= 4262 marg_acc=10.3%
+      round 6: flips= 6056 marg_acc=15.9%
+      round 7: flips= 5192 marg_acc=4.6%
+      round 8: flips= 4075 marg_acc=8.1%
+    [xmdlm_p800_s2003] marg=81.6% (93.4%%orc) orc_lat=81.4% H=1.31/1.39 [95s]
+      round 1: flips=12647 marg_acc=5.1%
+      round 2: flips= 6279 marg_acc=0.0%
+      round 3: flips= 5677 marg_acc=17.4%
+      round 4: flips= 4429 marg_acc=16.7%
+      round 5: flips= 5136 marg_acc=0.5%
+      round 6: flips= 4914 marg_acc=17.4%
+      round 7: flips= 4863 marg_acc=10.5%
+      round 8: flips= 5893 marg_acc=17.4%
+    [xmdlm_p800_s2004] marg=69.9% (79.9%%orc) orc_lat=70.4% H=1.36/1.39 [98s]
+      round 1: flips=13538 marg_acc=0.0%
+      round 2: flips= 6716 marg_acc=7.6%
+      round 3: flips= 6535 marg_acc=0.6%
+      round 4: flips= 4640 marg_acc=1.3%
+      round 5: flips= 4499 marg_acc=0.0%
+      round 6: flips= 4738 marg_acc=0.0%
+      round 7: flips= 6447 marg_acc=0.0%
+      round 8: flips= 4372 marg_acc=1.0%
+    [xmdlm_rand_p800_s2000] marg=81.5% (93.2%%orc) orc_lat=81.8% H=1.39/1.39 [95s]
+      round 1: flips=13870 marg_acc=0.0%
+      round 2: flips= 5637 marg_acc=6.3%
+      round 3: flips= 5684 marg_acc=0.0%
+      round 4: flips= 5001 marg_acc=1.4%
+      round 5: flips= 4332 marg_acc=2.1%
+      round 6: flips= 4901 marg_acc=2.8%
+      round 7: flips= 5524 marg_acc=2.7%
+      round 8: flips= 5163 marg_acc=2.7%
+    [xmdlm_rand_p800_s2001] marg=78.2% (89.4%%orc) orc_lat=77.8% H=1.39/1.39 [95s]
+      round 1: flips=11640 marg_acc=1.3%
+      round 2: flips= 5342 marg_acc=2.1%
+      round 3: flips= 6755 marg_acc=2.9%
+      round 4: flips= 4625 marg_acc=2.6%
+      round 5: flips= 4695 marg_acc=1.6%
+      round 6: flips= 4510 marg_acc=1.6%
+      round 7: flips= 5259 marg_acc=1.6%
+      round 8: flips= 5243 marg_acc=2.6%
+    [xmdlm_rand_p800_s2002] marg=80.2% (91.7%%orc) orc_lat=80.7% H=1.39/1.39 [96s]
+      round 1: flips=13203 marg_acc=2.8%
+      round 2: flips= 6283 marg_acc=10.9%
+      round 3: flips= 7389 marg_acc=0.2%
+      round 4: flips= 5035 marg_acc=7.7%
+      round 5: flips= 5397 marg_acc=7.6%
+      round 6: flips= 3958 marg_acc=12.1%
+      round 7: flips= 5033 marg_acc=10.1%
+      round 8: flips= 4730 marg_acc=5.5%
+    [xmdlm_rand_p800_s2003] marg=77.6% (88.7%%orc) orc_lat=77.3% H=1.39/1.39 [101s]
+      round 1: flips=12651 marg_acc=3.9%
+      round 2: flips= 6035 marg_acc=6.4%
+      round 3: flips= 6084 marg_acc=2.8%
+      round 4: flips= 5624 marg_acc=8.1%
+      round 5: flips= 5728 marg_acc=12.9%
+      round 6: flips= 5361 marg_acc=2.3%
+      round 7: flips= 5956 marg_acc=16.7%
+      round 8: flips= 5465 marg_acc=17.4%
+    [xmdlm_rand_p800_s2004] marg=78.4% (89.7%%orc) orc_lat=78.7% H=1.39/1.39 [100s]
+
+══════════════════════════════════════════════════════════════════════
+  GATE SCORING (oracle=87.4%)
+
+  probes=50:
+    G1 xmdlm-base    : Δ=-0.1099 ±0.1320 t=-1.86 wins=1/5
+    G2 xmdlm-rand    : Δ=-0.0607 ±0.0936 t=-1.45 wins=1/5
+    G3 orc-marg      : Δ=+0.0006 t=+0.20
+    G3 orc xmdlm-rand: Δ=-0.0556 t=-1.17
+    xmdlm assign H   : 1.347 / logK=1.386
+
+  probes=800:
+    G1 xmdlm-base    : Δ=-0.0323 ±0.0950 t=-0.76 wins=2/5
+    G2 xmdlm-rand    : Δ=+0.0242 ±0.0786 t=+0.69 wins=4/5
+    G3 orc-marg      : Δ=+0.0053 t=+1.99
+    G3 orc xmdlm-rand: Δ=+0.0275 t=+0.77
+    xmdlm assign H   : 1.339 / logK=1.386
+
+  saved -> results/xm-latent-s298/results.json
