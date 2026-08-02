@@ -1,0 +1,7148 @@
+{
+  "meta": {
+    "run_id": "xm-sampled-teacher-probe-full",
+    "timestamp": "2026-08-02T01:53:39.005101+00:00",
+    "model": "Qwen/Qwen3-4B",
+    "dtype": "bfloat16",
+    "device": "mps",
+    "n_exprs": 60,
+    "k": 8,
+    "temps": [
+      0.7,
+      1.0,
+      1.3
+    ],
+    "top_p": 0.95,
+    "max_new_tokens": 32,
+    "max_depth": 4,
+    "seed": 1234,
+    "n_fewshot": 4,
+    "fewshot": [
+      [
+        "( ( C g ) e ) ( I z )",
+        "( g z ) e"
+      ],
+      [
+        "( ( C h ) ( ( K a ) e ) ) c",
+        "( h c ) a"
+      ],
+      [
+        "( ( B ( I ( ( ( C g ) c ) x ) ) ) g ) c",
+        "( ( g x ) c ) ( g c )"
+      ],
+      [
+        "I ( ( ( B h ) h ) ( ( ( B f ) h ) ( ( K y ) y ) ) )",
+        "h ( h ( f ( h y ) ) )"
+      ]
+    ],
+    "python": "3.12.10",
+    "torch": "2.11.0",
+    "note": "CHARACTERIZATION ONLY \u2014 no frozen gates, no verdict."
+  },
+  "per_temp": {
+    "t0.7": {
+      "summary": {
+        "temperature": 0.7,
+        "parse_rate": 0.9667,
+        "correct_density": 0.3021,
+        "mean_mode_spread": 1.467,
+        "contains_gt_rate": 0.3167,
+        "unimodal_rate": 0.7167,
+        "all_correct_rate": 0.3,
+        "all_wrong_rate": 0.6833,
+        "by_depth": {
+          "1": {
+            "parse_rate": 1.0,
+            "correct_density": 0.542,
+            "mean_spread": 1.0,
+            "contains_gt": 0.542,
+            "n": 24
+          },
+          "2": {
+            "parse_rate": 1.0,
+            "correct_density": 0.195,
+            "mean_spread": 1.62,
+            "contains_gt": 0.25,
+            "n": 16
+          },
+          "3": {
+            "parse_rate": 0.938,
+            "correct_density": 0.2,
+            "mean_spread": 1.8,
+            "contains_gt": 0.2,
+            "n": 10
+          },
+          "4": {
+            "parse_rate": 0.863,
+            "correct_density": 0.0,
+            "mean_spread": 2.0,
+            "contains_gt": 0.0,
+            "n": 10
+          }
+        }
+      },
+      "records": [
+        {
+          "expr": "( K a ) ( ( ( B ( ( K g ) ( ( ( C h ) x ) e ) ) ) h ) e )",
+          "depth": 1,
+          "gt": "a",
+          "raws": [
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a"
+          ],
+          "parsed": [
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a"
+          ],
+          "canons": [
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "I z",
+          "depth": 1,
+          "gt": "z",
+          "raws": [
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z"
+          ],
+          "parsed": [
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z"
+          ],
+          "canons": [
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( C ( ( K ( ( ( B h ) f ) d ) ) d ) ) b ) d",
+          "depth": 3,
+          "gt": "( ( h ( f d ) ) d ) b",
+          "raws": [
+            "Let's reduce the expression step by step:\n\nStart with:  \n**(C ((K ((B h) f) d)) d) b) d**\n\nApply",
+            "Let's reduce the expression step by step:\n\nStart with:  \n**(C ((K ((B h) f) d)) d) b) d**\n\nApply",
+            "Let's reduce the expression step by step:\n\nExpression:  \n`((C ((K ((B h) f) d)) d) b) d`\n\nStep",
+            "Let's reduce the expression step by step:\n\nStart with:  \n**(C ((K ((B h) f) d)) d) b) d**\n\nApply",
+            "Let's reduce the expression step by step:\n\nStart with:  \n`((C ((K ((B h) f) d)) d) b) d`\n\n",
+            "Let's reduce the expression step by step:\n\n**Original expression:**\n```\n( ( C ( ( K ( ( ( B h ) f ) d )",
+            "Let's reduce the expression step by step:\n\nStart with:  \n**((C ((K ((B h) f) d)) d) b) d**\n\n",
+            "Let's reduce the expression step by step:\n\nStart with:  \n`( ( C ( ( K ( ( ( B h ) f ) d ) ) d )"
+          ],
+          "parsed": [
+            null,
+            null,
+            "((C ((K ((B h) f) d)) d) b) d",
+            null,
+            "((C ((K ((B h) f) d)) d) b) d",
+            null,
+            "((C ((K ((B h) f) d)) d) b) d",
+            null
+          ],
+          "canons": [
+            "( ( h ( f b ) ) d ) d",
+            "( ( h ( f b ) ) d ) d",
+            "( ( h ( f b ) ) d ) d"
+          ],
+          "n_parse": 3,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C h ) d ) e",
+          "depth": 1,
+          "gt": "( h e ) d",
+          "raws": [
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e"
+          ],
+          "parsed": [
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e"
+          ],
+          "canons": [
+            "( h d ) e",
+            "( h d ) e",
+            "( h d ) e",
+            "( h d ) e",
+            "( h d ) e",
+            "( h d ) e",
+            "( h d ) e",
+            "( h d ) e"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C ( ( ( C h ) b ) y ) ) c ) d",
+          "depth": 2,
+          "gt": "( ( ( h y ) b ) d ) c",
+          "raws": [
+            "d",
+            "Let's reduce the expression step by step:\n\nStart with:  \n**(C ((C h) b) y) c d**\n\nApply the **C** rule",
+            "Let's reduce the expression step by step:\n\nStart with:  \n**(C ((C h) b) y) c d**\n\nApply the rule for **C",
+            "d",
+            "d",
+            "Let's reduce the expression step by step:\n\nStart with:  \n`( ( C ( ( ( C h ) b ) y ) ) c ) d`\n\nApply",
+            "Let's reduce the expression step by step:\n\nStart with:  \n**((C ((C h) b) y) c) d**\n\nApply **C**",
+            "c y d"
+          ],
+          "parsed": [
+            "d",
+            "(C ((C h) b) y) c d",
+            "(C ((C h) b) y) c d",
+            "d",
+            "d",
+            "( ( C ( ( ( C h ) b ) y ) ) c ) d",
+            "((C ((C h) b) y) c) d",
+            "c y d"
+          ],
+          "canons": [
+            "d",
+            "( ( ( h c ) b ) y ) d",
+            "( ( ( h c ) b ) y ) d",
+            "d",
+            "d",
+            "( ( ( h y ) b ) d ) c",
+            "( ( ( h c ) b ) y ) d",
+            "( c y ) d"
+          ],
+          "n_parse": 8,
+          "distinct": 4,
+          "correct": 1,
+          "contains_gt": 1
+        },
+        {
+          "expr": "I ( I ( ( K g ) e ) )",
+          "depth": 3,
+          "gt": "g",
+          "raws": [
+            "I g",
+            "I g",
+            "I g",
+            "I g",
+            "I g",
+            "I g",
+            "I g",
+            "I g"
+          ],
+          "parsed": [
+            "I g",
+            "I g",
+            "I g",
+            "I g",
+            "I g",
+            "I g",
+            "I g",
+            "I g"
+          ],
+          "canons": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( K b ) ( ( ( C g ) z ) b )",
+          "depth": 1,
+          "gt": "b",
+          "raws": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "parsed": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "canons": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( K f ) c",
+          "depth": 1,
+          "gt": "f",
+          "raws": [
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c"
+          ],
+          "parsed": [
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c"
+          ],
+          "canons": [
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C ( ( ( B g ) g ) ( I ( I h ) ) ) ) z ) z",
+          "depth": 4,
+          "gt": "( ( g ( g h ) ) z ) z",
+          "raws": [
+            "( g g h ) z",
+            "( g g ) z",
+            "z",
+            "( g z ) z",
+            "z",
+            "z",
+            "( g g ) z",
+            "( g g ) z"
+          ],
+          "parsed": [
+            "( g g h ) z",
+            "( g g ) z",
+            "z",
+            "( g z ) z",
+            "z",
+            "z",
+            "( g g ) z",
+            "( g g ) z"
+          ],
+          "canons": [
+            "( ( g g ) h ) z",
+            "( g g ) z",
+            "z",
+            "( g z ) z",
+            "z",
+            "z",
+            "( g g ) z",
+            "( g g ) z"
+          ],
+          "n_parse": 8,
+          "distinct": 4,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K ( ( ( B f ) f ) x ) ) h",
+          "depth": 2,
+          "gt": "f ( f x )",
+          "raws": [
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h"
+          ],
+          "parsed": [
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h"
+          ],
+          "canons": [
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C ( ( ( C f ) e ) ( I ( ( ( B f ) g ) b ) ) ) ) a ) y",
+          "depth": 4,
+          "gt": "( ( ( f ( f ( g b ) ) ) e ) y ) a",
+          "raws": [
+            "Let's reduce the expression step by step:\n\nExpression:  \n`((C ((C f) e) (I ((B f) g) b))) a",
+            "Let's reduce the expression step by step:\n\nStart with:  \n**(C ((C f) e) (I ((B f) g) b)) )",
+            "Let's reduce the expression step by step:\n\n**Original expression:**\n```\n( ( C ( ( ( C f ) e ) ( I ( ( (",
+            "Let's reduce the expression step by step:\n\nExpression:  \n**((C ((C f) e) (I ((B f) g) b)) )",
+            "Let's reduce the expression step by step:\n\nStart with:\n```\n( ( C ( ( ( C f ) e ) ( I ( ( ( B f",
+            "Let's reduce the expression step by step:\n\nStart with:\n```\n( ( C ( ( ( C f ) e ) ( I ( ( ( B f",
+            "Let's reduce the expression step by step:\n\nStart with:  \n**(C ((C f) e) (I ((B f) g) b)) )",
+            "Let's reduce the expression step by step:\n\nExpression:  \n`((C ((C f) e) (I ((B f) g) b))) a"
+          ],
+          "parsed": [
+            "((C ((C f) e) (I ((B f) g) b))) a",
+            null,
+            null,
+            "((C ((C f) e) (I ((B f) g) b)) )",
+            null,
+            null,
+            null,
+            "((C ((C f) e) (I ((B f) g) b))) a"
+          ],
+          "canons": [
+            "( ( f a ) e ) ( f ( g b ) )",
+            "( C ( ( C f ) e ) ) ( f ( g b ) )",
+            "( ( f a ) e ) ( f ( g b ) )"
+          ],
+          "n_parse": 3,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K b ) g",
+          "depth": 1,
+          "gt": "b",
+          "raws": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "parsed": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "canons": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "I ( ( ( C ( ( ( C h ) b ) ( ( K d ) z ) ) ) a ) b )",
+          "depth": 4,
+          "gt": "( ( ( h d ) b ) b ) a",
+          "raws": [
+            "I a b",
+            "h a",
+            "I a b",
+            "h a",
+            "I a b",
+            "h a",
+            "h a",
+            "h a"
+          ],
+          "parsed": [
+            "I a b",
+            "h a",
+            "I a b",
+            "h a",
+            "I a b",
+            "h a",
+            "h a",
+            "h a"
+          ],
+          "canons": [
+            "a b",
+            "h a",
+            "a b",
+            "h a",
+            "a b",
+            "h a",
+            "h a",
+            "h a"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "I ( ( ( B ( ( ( B g ) f ) d ) ) g ) x )",
+          "depth": 3,
+          "gt": "( g ( f d ) ) ( g x )",
+          "raws": [
+            "x",
+            "x",
+            "x",
+            "x",
+            "h ( g ( f d ) )",
+            "h ( g ( f d ) )",
+            "x",
+            "x"
+          ],
+          "parsed": [
+            "x",
+            "x",
+            "x",
+            "x",
+            "h ( g ( f d ) )",
+            "h ( g ( f d ) )",
+            "x",
+            "x"
+          ],
+          "canons": [
+            "x",
+            "x",
+            "x",
+            "x",
+            "h ( g ( f d ) )",
+            "h ( g ( f d ) )",
+            "x",
+            "x"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K z ) f",
+          "depth": 1,
+          "gt": "z",
+          "raws": [
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z"
+          ],
+          "parsed": [
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z"
+          ],
+          "canons": [
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "I ( I d )",
+          "depth": 2,
+          "gt": "d",
+          "raws": [
+            "I d",
+            "I d",
+            "I d",
+            "I d",
+            "I d",
+            "I d",
+            "I d",
+            "I d"
+          ],
+          "parsed": [
+            "I d",
+            "I d",
+            "I d",
+            "I d",
+            "I d",
+            "I d",
+            "I d",
+            "I d"
+          ],
+          "canons": [
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( K h ) ( ( ( B g ) g ) d )",
+          "depth": 1,
+          "gt": "h",
+          "raws": [
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d"
+          ],
+          "parsed": [
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d"
+          ],
+          "canons": [
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "I ( I h )",
+          "depth": 2,
+          "gt": "h",
+          "raws": [
+            "I h",
+            "I h",
+            "I h",
+            "I h",
+            "I h",
+            "I h",
+            "I h",
+            "I h"
+          ],
+          "parsed": [
+            "I h",
+            "I h",
+            "I h",
+            "I h",
+            "I h",
+            "I h",
+            "I h",
+            "I h"
+          ],
+          "canons": [
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( C f ) e ) e",
+          "depth": 1,
+          "gt": "( f e ) e",
+          "raws": [
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e"
+          ],
+          "parsed": [
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e"
+          ],
+          "canons": [
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K b ) h",
+          "depth": 1,
+          "gt": "b",
+          "raws": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "parsed": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "canons": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( C h ) ( ( ( C g ) z ) e ) ) d",
+          "depth": 2,
+          "gt": "( h d ) ( ( g e ) z )",
+          "raws": [
+            "h z d",
+            "h z e",
+            "h z e",
+            "h z d",
+            "h z d",
+            "h z d",
+            "h z d",
+            "h z d"
+          ],
+          "parsed": [
+            "h z d",
+            "h z e",
+            "h z e",
+            "h z d",
+            "h z d",
+            "h z d",
+            "h z d",
+            "h z d"
+          ],
+          "canons": [
+            "( h z ) d",
+            "( h z ) e",
+            "( h z ) e",
+            "( h z ) d",
+            "( h z ) d",
+            "( h z ) d",
+            "( h z ) d",
+            "( h z ) d"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( B g ) f ) ( ( ( B h ) h ) a )",
+          "depth": 2,
+          "gt": "g ( f ( h ( h a ) ) )",
+          "raws": [
+            "( g f ) ( h a )",
+            "( g f ) ( h a )",
+            "( g f ) ( h a )",
+            "g a",
+            "( g f ) ( h a )",
+            "g a",
+            "g ( h a )",
+            "g a"
+          ],
+          "parsed": [
+            "( g f ) ( h a )",
+            "( g f ) ( h a )",
+            "( g f ) ( h a )",
+            "g a",
+            "( g f ) ( h a )",
+            "g a",
+            "g ( h a )",
+            "g a"
+          ],
+          "canons": [
+            "( g f ) ( h a )",
+            "( g f ) ( h a )",
+            "( g f ) ( h a )",
+            "g a",
+            "( g f ) ( h a )",
+            "g a",
+            "g ( h a )",
+            "g a"
+          ],
+          "n_parse": 8,
+          "distinct": 3,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C f ) d ) ( I ( ( ( C f ) b ) ( ( ( B f ) h ) b ) ) )",
+          "depth": 4,
+          "gt": "( f ( ( f ( f ( h b ) ) ) b ) ) d",
+          "raws": [
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "Let's reduce the expression step by step:\n\n**Expression:**\n```\n( ( C f ) d ) ( I ( ( ( C f ) b )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )"
+          ],
+          "parsed": [
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            null,
+            "( f d ) ( I ( ( f b ) ( f h ) ) )"
+          ],
+          "canons": [
+            "( f d ) ( ( f b ) ( f h ) )",
+            "( f d ) ( ( f b ) ( f h ) )",
+            "( f d ) ( ( f b ) ( f h ) )",
+            "( f d ) ( ( f b ) ( f h ) )",
+            "( f d ) ( ( f b ) ( f h ) )",
+            "( f d ) ( ( f b ) ( f h ) )",
+            "( f d ) ( ( f b ) ( f h ) )"
+          ],
+          "n_parse": 7,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( B g ) g ) z",
+          "depth": 1,
+          "gt": "g ( g z )",
+          "raws": [
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z"
+          ],
+          "parsed": [
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z"
+          ],
+          "canons": [
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C g ) a ) a",
+          "depth": 1,
+          "gt": "( g a ) a",
+          "raws": [
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a"
+          ],
+          "parsed": [
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a"
+          ],
+          "canons": [
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C f ) ( ( ( B h ) g ) e ) ) x",
+          "depth": 2,
+          "gt": "( f x ) ( h ( g e ) )",
+          "raws": [
+            "f e x",
+            "f e x",
+            "f e x",
+            "f e x",
+            "f e x",
+            "f e x",
+            "f e x",
+            "f e x"
+          ],
+          "parsed": [
+            "f e x",
+            "f e x",
+            "f e x",
+            "f e x",
+            "f e x",
+            "f e x",
+            "f e x",
+            "f e x"
+          ],
+          "canons": [
+            "( f e ) x",
+            "( f e ) x",
+            "( f e ) x",
+            "( f e ) x",
+            "( f e ) x",
+            "( f e ) x",
+            "( f e ) x",
+            "( f e ) x"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K y ) ( ( K g ) b )",
+          "depth": 1,
+          "gt": "y",
+          "raws": [
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y"
+          ],
+          "parsed": [
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y"
+          ],
+          "canons": [
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( C ( I ( I f ) ) ) a ) a",
+          "depth": 3,
+          "gt": "( f a ) a",
+          "raws": [
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a"
+          ],
+          "parsed": [
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a"
+          ],
+          "canons": [
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "I ( I ( I ( ( K d ) a ) ) )",
+          "depth": 4,
+          "gt": "d",
+          "raws": [
+            "i a",
+            "I a",
+            "I a",
+            "i a",
+            "i a",
+            "I a",
+            "I a",
+            "I a"
+          ],
+          "parsed": [
+            null,
+            "I a",
+            "I a",
+            null,
+            null,
+            "I a",
+            "I a",
+            "I a"
+          ],
+          "canons": [
+            "a",
+            "a",
+            "a",
+            "a",
+            "a"
+          ],
+          "n_parse": 5,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C g ) e ) b",
+          "depth": 1,
+          "gt": "( g b ) e",
+          "raws": [
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b"
+          ],
+          "parsed": [
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b"
+          ],
+          "canons": [
+            "( g e ) b",
+            "( g e ) b",
+            "( g e ) b",
+            "( g e ) b",
+            "( g e ) b",
+            "( g e ) b",
+            "( g e ) b",
+            "( g e ) b"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K ( I ( I g ) ) ) g",
+          "depth": 3,
+          "gt": "g",
+          "raws": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "parsed": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "canons": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "I ( ( ( B ( ( ( C f ) a ) ( ( K z ) z ) ) ) g ) y )",
+          "depth": 4,
+          "gt": "( ( f z ) a ) ( g y )",
+          "raws": [
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y"
+          ],
+          "parsed": [
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y"
+          ],
+          "canons": [
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( B h ) h ) a",
+          "depth": 1,
+          "gt": "h ( h a )",
+          "raws": [
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a"
+          ],
+          "parsed": [
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a"
+          ],
+          "canons": [
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C f ) c ) ( ( ( B ( I ( ( K y ) d ) ) ) f ) z )",
+          "depth": 4,
+          "gt": "( f ( y ( f z ) ) ) c",
+          "raws": [
+            "( f c ) ( ( ( I ( K y ) ) d ) f ) z",
+            "( f c ) ( I ( K y ) )",
+            "( f c ) ( d z )",
+            "( f c ) ( ( ( I ( ( K y ) d ) ) f ) z )",
+            "( f c ) ( d z )",
+            "( f c ) ( d z )",
+            "( f c ) ( I d )",
+            "( f c ) ( d z )"
+          ],
+          "parsed": [
+            "( f c ) ( ( ( I ( K y ) ) d ) f ) z",
+            "( f c ) ( I ( K y ) )",
+            "( f c ) ( d z )",
+            "( f c ) ( ( ( I ( ( K y ) d ) ) f ) z )",
+            "( f c ) ( d z )",
+            "( f c ) ( d z )",
+            "( f c ) ( I d )",
+            "( f c ) ( d z )"
+          ],
+          "canons": [
+            "( ( f c ) ( y f ) ) z",
+            "( f c ) ( K y )",
+            "( f c ) ( d z )",
+            "( f c ) ( ( y f ) z )",
+            "( f c ) ( d z )",
+            "( f c ) ( d z )",
+            "( f c ) d",
+            "( f c ) ( d z )"
+          ],
+          "n_parse": 8,
+          "distinct": 5,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( B g ) g ) a",
+          "depth": 1,
+          "gt": "g ( g a )",
+          "raws": [
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a"
+          ],
+          "parsed": [
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a"
+          ],
+          "canons": [
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K z ) g",
+          "depth": 1,
+          "gt": "z",
+          "raws": [
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z"
+          ],
+          "parsed": [
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z"
+          ],
+          "canons": [
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( B g ) f ) ( ( ( B ( I ( I g ) ) ) f ) x )",
+          "depth": 4,
+          "gt": "g ( f ( g ( f x ) ) )",
+          "raws": [
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "Let's reduce the expression step by step:\n\nStart with:  \n`( ( B g ) f ) ( ( ( B ( I ( I g ) ) )",
+            "Let's reduce the expression step by step:\n\n**Expression:**  \n`( ( B g ) f ) ( ( ( B ( I ( I g ) ) )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )"
+          ],
+          "parsed": [
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            null,
+            null,
+            "( g f ) ( f x )",
+            "( g f ) ( f x )"
+          ],
+          "canons": [
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )"
+          ],
+          "n_parse": 6,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( B f ) f ) ( I ( ( K f ) ( I c ) ) )",
+          "depth": 3,
+          "gt": "f ( f f )",
+          "raws": [
+            "f ( f ( c ) )",
+            "f ( f c )",
+            "f ( f c )",
+            "f ( f ( c ) )",
+            "f ( f ( c ) )",
+            "f ( f ( c ) )",
+            "f c",
+            "f ( f c )"
+          ],
+          "parsed": [
+            "f ( f ( c ) )",
+            "f ( f c )",
+            "f ( f c )",
+            "f ( f ( c ) )",
+            "f ( f ( c ) )",
+            "f ( f ( c ) )",
+            "f c",
+            "f ( f c )"
+          ],
+          "canons": [
+            "f ( f c )",
+            "f ( f c )",
+            "f ( f c )",
+            "f ( f c )",
+            "f ( f c )",
+            "f ( f c )",
+            "f c",
+            "f ( f c )"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "I ( ( ( B h ) f ) e )",
+          "depth": 2,
+          "gt": "h ( f e )",
+          "raws": [
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e"
+          ],
+          "parsed": [
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e"
+          ],
+          "canons": [
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "I ( I b )",
+          "depth": 2,
+          "gt": "b",
+          "raws": [
+            "I b",
+            "I b",
+            "I b",
+            "I b",
+            "I b",
+            "I b",
+            "I b",
+            "I b"
+          ],
+          "parsed": [
+            "I b",
+            "I b",
+            "I b",
+            "I b",
+            "I b",
+            "I b",
+            "I b",
+            "I b"
+          ],
+          "canons": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( B ( ( ( C ( ( ( C h ) d ) d ) ) e ) c ) ) f ) c",
+          "depth": 3,
+          "gt": "( ( ( ( h d ) d ) c ) e ) ( f c )",
+          "raws": [
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c"
+          ],
+          "parsed": [
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c"
+          ],
+          "canons": [
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( B h ) g ) e",
+          "depth": 1,
+          "gt": "h ( g e )",
+          "raws": [
+            "( h ( g e ) )",
+            "h (g e)",
+            "( h ( g e ) )",
+            "h (g e)",
+            "h (g e)",
+            "h (g e)",
+            "( h ( g e ) )",
+            "( h ( g e ) )"
+          ],
+          "parsed": [
+            "( h ( g e ) )",
+            "h (g e)",
+            "( h ( g e ) )",
+            "h (g e)",
+            "h (g e)",
+            "h (g e)",
+            "( h ( g e ) )",
+            "( h ( g e ) )"
+          ],
+          "canons": [
+            "h ( g e )",
+            "h ( g e )",
+            "h ( g e )",
+            "h ( g e )",
+            "h ( g e )",
+            "h ( g e )",
+            "h ( g e )",
+            "h ( g e )"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( B h ) h ) ( I ( I h ) )",
+          "depth": 3,
+          "gt": "h ( h h )",
+          "raws": [
+            "h ( I h )",
+            "h h h",
+            "h h h",
+            "h ( I h )",
+            "h h h",
+            "h h h",
+            "h h h",
+            "h h h"
+          ],
+          "parsed": [
+            "h ( I h )",
+            "h h h",
+            "h h h",
+            "h ( I h )",
+            "h h h",
+            "h h h",
+            "h h h",
+            "h h h"
+          ],
+          "canons": [
+            "h h",
+            "( h h ) h",
+            "( h h ) h",
+            "h h",
+            "( h h ) h",
+            "( h h ) h",
+            "( h h ) h",
+            "( h h ) h"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K h ) ( I ( I f ) )",
+          "depth": 1,
+          "gt": "h",
+          "raws": [
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h"
+          ],
+          "parsed": [
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h"
+          ],
+          "canons": [
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( K g ) ( ( ( B h ) g ) ( ( ( B h ) g ) e ) )",
+          "depth": 1,
+          "gt": "g",
+          "raws": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "parsed": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "canons": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( C ( ( ( B ( I f ) ) h ) x ) ) z ) d",
+          "depth": 3,
+          "gt": "( ( f ( h x ) ) d ) z",
+          "raws": [
+            "( ( I f ) h ) x z d",
+            "z d",
+            "Let's reduce the expression step by step:\n\nStart with:  \n`((C ((B (I f) ) h) x) z) d`\n\nApply",
+            "( ( I f ) h ) z d",
+            "( ( I f ) h ) x d",
+            "Let's reduce the expression step by step:\n\nStart with:  \n**((C ((B (I f) ) h) x) z) d**\n\nApply",
+            "( ( I f ) h ) x d",
+            "Let's reduce the expression step by step:\n\nOriginal:  \n`((C ((B (I f) ) h) x) z) d`\n\nApply **"
+          ],
+          "parsed": [
+            "( ( I f ) h ) x z d",
+            "z d",
+            "((C ((B (I f) ) h) x) z) d",
+            "( ( I f ) h ) z d",
+            "( ( I f ) h ) x d",
+            "((C ((B (I f) ) h) x) z) d",
+            "( ( I f ) h ) x d",
+            "((C ((B (I f) ) h) x) z) d"
+          ],
+          "canons": [
+            "( ( ( f h ) x ) z ) d",
+            "z d",
+            "( ( f ( h z ) ) x ) d",
+            "( ( f h ) z ) d",
+            "( ( f h ) x ) d",
+            "( ( f ( h z ) ) x ) d",
+            "( ( f h ) x ) d",
+            "( ( f ( h z ) ) x ) d"
+          ],
+          "n_parse": 8,
+          "distinct": 5,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C h ) e ) ( ( ( B h ) h ) z )",
+          "depth": 2,
+          "gt": "( h ( h ( h z ) ) ) e",
+          "raws": [
+            "( h e ) z",
+            "h z",
+            "h z",
+            "( h e ) z",
+            "h z",
+            "( h e ) z",
+            "( h e ) z",
+            "( h e ) z"
+          ],
+          "parsed": [
+            "( h e ) z",
+            "h z",
+            "h z",
+            "( h e ) z",
+            "h z",
+            "( h e ) z",
+            "( h e ) z",
+            "( h e ) z"
+          ],
+          "canons": [
+            "( h e ) z",
+            "h z",
+            "h z",
+            "( h e ) z",
+            "h z",
+            "( h e ) z",
+            "( h e ) z",
+            "( h e ) z"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K ( ( K h ) g ) ) e",
+          "depth": 2,
+          "gt": "h",
+          "raws": [
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e"
+          ],
+          "parsed": [
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e"
+          ],
+          "canons": [
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( B ( I h ) ) f ) c",
+          "depth": 2,
+          "gt": "h ( f c )",
+          "raws": [
+            "h c",
+            "h f c",
+            "( h f ) c",
+            "( h f ) c",
+            "( h f ) c",
+            "h f c",
+            "h c",
+            "h c"
+          ],
+          "parsed": [
+            "h c",
+            "h f c",
+            "( h f ) c",
+            "( h f ) c",
+            "( h f ) c",
+            "h f c",
+            "h c",
+            "h c"
+          ],
+          "canons": [
+            "h c",
+            "( h f ) c",
+            "( h f ) c",
+            "( h f ) c",
+            "( h f ) c",
+            "( h f ) c",
+            "h c",
+            "h c"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C g ) c ) z",
+          "depth": 1,
+          "gt": "( g z ) c",
+          "raws": [
+            "g c z",
+            "g c z",
+            "g c z",
+            "g c z",
+            "g c z",
+            "g c z",
+            "g c z",
+            "g c z"
+          ],
+          "parsed": [
+            "g c z",
+            "g c z",
+            "g c z",
+            "g c z",
+            "g c z",
+            "g c z",
+            "g c z",
+            "g c z"
+          ],
+          "canons": [
+            "( g c ) z",
+            "( g c ) z",
+            "( g c ) z",
+            "( g c ) z",
+            "( g c ) z",
+            "( g c ) z",
+            "( g c ) z",
+            "( g c ) z"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( B ( ( ( C f ) d ) z ) ) g ) y",
+          "depth": 2,
+          "gt": "( ( f z ) d ) ( g y )",
+          "raws": [
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g"
+          ],
+          "parsed": [
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g"
+          ],
+          "canons": [
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "I ( I ( I ( ( ( C f ) y ) x ) ) )",
+          "depth": 4,
+          "gt": "( f x ) y",
+          "raws": [
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x"
+          ],
+          "parsed": [
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x"
+          ],
+          "canons": [
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "I ( I ( ( ( B g ) h ) b ) )",
+          "depth": 3,
+          "gt": "g ( h b )",
+          "raws": [
+            "h b",
+            "h b",
+            "h b",
+            "h b",
+            "h b",
+            "h ( g b )",
+            "h b",
+            "h b"
+          ],
+          "parsed": [
+            "h b",
+            "h b",
+            "h b",
+            "h b",
+            "h b",
+            "h ( g b )",
+            "h b",
+            "h b"
+          ],
+          "canons": [
+            "h b",
+            "h b",
+            "h b",
+            "h b",
+            "h b",
+            "h ( g b )",
+            "h b",
+            "h b"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( B f ) f ) b",
+          "depth": 1,
+          "gt": "f ( f b )",
+          "raws": [
+            "f b",
+            "f b",
+            "f b",
+            "f b",
+            "f b",
+            "f b",
+            "f b",
+            "f b"
+          ],
+          "parsed": [
+            "f b",
+            "f b",
+            "f b",
+            "f b",
+            "f b",
+            "f b",
+            "f b",
+            "f b"
+          ],
+          "canons": [
+            "f b",
+            "f b",
+            "f b",
+            "f b",
+            "f b",
+            "f b",
+            "f b",
+            "f b"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "I ( ( ( C g ) x ) y )",
+          "depth": 2,
+          "gt": "( g y ) x",
+          "raws": [
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "I x y",
+            "y",
+            "y"
+          ],
+          "parsed": [
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "I x y",
+            "y",
+            "y"
+          ],
+          "canons": [
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "x y",
+            "y",
+            "y"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C g ) ( ( ( B f ) h ) b ) ) z",
+          "depth": 2,
+          "gt": "( g z ) ( f ( h b ) )",
+          "raws": [
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b"
+          ],
+          "parsed": [
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b"
+          ],
+          "canons": [
+            "( g z ) b",
+            "( g z ) b",
+            "( g z ) b",
+            "( g z ) b",
+            "( g z ) b",
+            "( g z ) b",
+            "( g z ) b",
+            "( g z ) b"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K g ) b",
+          "depth": 1,
+          "gt": "g",
+          "raws": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "parsed": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "canons": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( B ( ( ( C f ) a ) b ) ) f ) e",
+          "depth": 2,
+          "gt": "( ( f b ) a ) ( f e )",
+          "raws": [
+            "( f b ) a",
+            "( f b ) a",
+            "( f b ) a",
+            "( f ( a b ) ) e",
+            "( f b ) a",
+            "( f b ) a",
+            "( f ( a b ) ) e",
+            "( f b ) a"
+          ],
+          "parsed": [
+            "( f b ) a",
+            "( f b ) a",
+            "( f b ) a",
+            "( f ( a b ) ) e",
+            "( f b ) a",
+            "( f b ) a",
+            "( f ( a b ) ) e",
+            "( f b ) a"
+          ],
+          "canons": [
+            "( f b ) a",
+            "( f b ) a",
+            "( f b ) a",
+            "( f ( a b ) ) e",
+            "( f b ) a",
+            "( f b ) a",
+            "( f ( a b ) ) e",
+            "( f b ) a"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K d ) ( I d )",
+          "depth": 1,
+          "gt": "d",
+          "raws": [
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d"
+          ],
+          "parsed": [
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d"
+          ],
+          "canons": [
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( B g ) f ) ( ( ( C ( ( K ( I z ) ) a ) ) z ) y )",
+          "depth": 4,
+          "gt": "g ( f ( ( z y ) z ) )",
+          "raws": [
+            "( g f ) y",
+            "( g f ) y",
+            "g y",
+            "g y",
+            "( g f ) y",
+            "g y",
+            "( g f ) y",
+            "( g f ) y"
+          ],
+          "parsed": [
+            "( g f ) y",
+            "( g f ) y",
+            "g y",
+            "g y",
+            "( g f ) y",
+            "g y",
+            "( g f ) y",
+            "( g f ) y"
+          ],
+          "canons": [
+            "( g f ) y",
+            "( g f ) y",
+            "g y",
+            "g y",
+            "( g f ) y",
+            "g y",
+            "( g f ) y",
+            "( g f ) y"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        }
+      ]
+    },
+    "t1.0": {
+      "summary": {
+        "temperature": 1.0,
+        "parse_rate": 0.9667,
+        "correct_density": 0.3,
+        "mean_mode_spread": 1.533,
+        "contains_gt_rate": 0.3,
+        "unimodal_rate": 0.6833,
+        "all_correct_rate": 0.3,
+        "all_wrong_rate": 0.7,
+        "by_depth": {
+          "1": {
+            "parse_rate": 1.0,
+            "correct_density": 0.542,
+            "mean_spread": 1.04,
+            "contains_gt": 0.542,
+            "n": 24
+          },
+          "2": {
+            "parse_rate": 1.0,
+            "correct_density": 0.188,
+            "mean_spread": 1.69,
+            "contains_gt": 0.188,
+            "n": 16
+          },
+          "3": {
+            "parse_rate": 0.938,
+            "correct_density": 0.2,
+            "mean_spread": 2.0,
+            "contains_gt": 0.2,
+            "n": 10
+          },
+          "4": {
+            "parse_rate": 0.863,
+            "correct_density": 0.0,
+            "mean_spread": 2.0,
+            "contains_gt": 0.0,
+            "n": 10
+          }
+        }
+      },
+      "records": [
+        {
+          "expr": "( K a ) ( ( ( B ( ( K g ) ( ( ( C h ) x ) e ) ) ) h ) e )",
+          "depth": 1,
+          "gt": "a",
+          "raws": [
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a"
+          ],
+          "parsed": [
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a"
+          ],
+          "canons": [
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "I z",
+          "depth": 1,
+          "gt": "z",
+          "raws": [
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z"
+          ],
+          "parsed": [
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z"
+          ],
+          "canons": [
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( C ( ( K ( ( ( B h ) f ) d ) ) d ) ) b ) d",
+          "depth": 3,
+          "gt": "( ( h ( f d ) ) d ) b",
+          "raws": [
+            "Let's reduce the expression step by step:\n\nOriginal:  \n`((C ((K ((B h) f) d)) d) b) d`\n\nStep",
+            "Let's reduce the expression step by step:\n\nOriginal expression:  \n**(C ((K ((B h) f) d)) d) b) d**\n\nStart",
+            "Let's reduce the expression step by step:\n\n**Expression:**  \n`( ( C ( ( K ( ( ( B h ) f ) d ) ) d )",
+            "Let's reduce the expression step by step:\n\nOriginal:  \n`((C ((K ((B h) f) d)) d) b) d`\n\nStep",
+            "Let's reduce the expression step by step:\n\nStart with:  \n**(C ((K ((B h) f) d)) d) b) d**\n\nApply",
+            "Let's reduce the expression step by step:\n\nStart with:  \n**(C ((K ((B h) f) d)) d) b) d**\n\nApply",
+            "Let's reduce the expression step by step:\n\nStart with:  \n**(C ( ( K ( ( ( B h ) f ) d ) ) d ) )",
+            "Let's reduce the expression step by step:\n\nStart with:  \n`( ( C ( ( K ( ( ( B h ) f ) d ) ) d )"
+          ],
+          "parsed": [
+            "((C ((K ((B h) f) d)) d) b) d",
+            null,
+            null,
+            "((C ((K ((B h) f) d)) d) b) d",
+            null,
+            null,
+            "(C ( ( K ( ( ( B h ) f ) d ) ) d ) )",
+            null
+          ],
+          "canons": [
+            "( ( h ( f b ) ) d ) d",
+            "( ( h ( f b ) ) d ) d",
+            "C ( h ( f d ) )"
+          ],
+          "n_parse": 3,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C h ) d ) e",
+          "depth": 1,
+          "gt": "( h e ) d",
+          "raws": [
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e"
+          ],
+          "parsed": [
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e"
+          ],
+          "canons": [
+            "( h d ) e",
+            "( h d ) e",
+            "( h d ) e",
+            "( h d ) e",
+            "( h d ) e",
+            "( h d ) e",
+            "( h d ) e",
+            "( h d ) e"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C ( ( ( C h ) b ) y ) ) c ) d",
+          "depth": 2,
+          "gt": "( ( ( h y ) b ) d ) c",
+          "raws": [
+            "d",
+            "( h b y ) d",
+            "Let's reduce the expression step by step:\n\nStart with:  \n`((C ((C h) b) y) c) d`\n\nApply the rule for",
+            "( h b ) y",
+            "I d",
+            "( h b y ) d",
+            "Let's reduce the expression step by step:\n\nStart with:  \n**(C ((C h) b) y) c d**\n\nApply the rule **C f",
+            "Let's reduce the expression step by step:\n\nStart with:  \n**((C ((C h) b) y) c) d**\n\nApply the rule **"
+          ],
+          "parsed": [
+            "d",
+            "( h b y ) d",
+            "((C ((C h) b) y) c) d",
+            "( h b ) y",
+            "I d",
+            "( h b y ) d",
+            "(C ((C h) b) y) c d",
+            "((C ((C h) b) y) c) d"
+          ],
+          "canons": [
+            "d",
+            "( ( h b ) y ) d",
+            "( ( ( h c ) b ) y ) d",
+            "( h b ) y",
+            "d",
+            "( ( h b ) y ) d",
+            "( ( ( h c ) b ) y ) d",
+            "( ( ( h c ) b ) y ) d"
+          ],
+          "n_parse": 8,
+          "distinct": 4,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "I ( I ( ( K g ) e ) )",
+          "depth": 3,
+          "gt": "g",
+          "raws": [
+            "I g",
+            "I g",
+            "I g",
+            "I g",
+            "I g",
+            "I g",
+            "I g",
+            "I g"
+          ],
+          "parsed": [
+            "I g",
+            "I g",
+            "I g",
+            "I g",
+            "I g",
+            "I g",
+            "I g",
+            "I g"
+          ],
+          "canons": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( K b ) ( ( ( C g ) z ) b )",
+          "depth": 1,
+          "gt": "b",
+          "raws": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "parsed": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "canons": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( K f ) c",
+          "depth": 1,
+          "gt": "f",
+          "raws": [
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c"
+          ],
+          "parsed": [
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c"
+          ],
+          "canons": [
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C ( ( ( B g ) g ) ( I ( I h ) ) ) ) z ) z",
+          "depth": 4,
+          "gt": "( ( g ( g h ) ) z ) z",
+          "raws": [
+            "z",
+            "z",
+            "z",
+            "( g z ) z",
+            "( g g h ) z",
+            "( g z ) z",
+            "z",
+            "( g g ) z"
+          ],
+          "parsed": [
+            "z",
+            "z",
+            "z",
+            "( g z ) z",
+            "( g g h ) z",
+            "( g z ) z",
+            "z",
+            "( g g ) z"
+          ],
+          "canons": [
+            "z",
+            "z",
+            "z",
+            "( g z ) z",
+            "( ( g g ) h ) z",
+            "( g z ) z",
+            "z",
+            "( g g ) z"
+          ],
+          "n_parse": 8,
+          "distinct": 4,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K ( ( ( B f ) f ) x ) ) h",
+          "depth": 2,
+          "gt": "f ( f x )",
+          "raws": [
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h"
+          ],
+          "parsed": [
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h"
+          ],
+          "canons": [
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C ( ( ( C f ) e ) ( I ( ( ( B f ) g ) b ) ) ) ) a ) y",
+          "depth": 4,
+          "gt": "( ( ( f ( f ( g b ) ) ) e ) y ) a",
+          "raws": [
+            "Let's reduce the expression step by step:\n\n**Original expression:**  \n`((C ((C f) e) (I ((B f) g) b",
+            "Let's reduce the expression step by step:\n\nOriginal:  \n`( ( C ( ( ( C f ) e ) ( I ( ( ( B f ) g",
+            "Let's reduce the expression step by step:\n\n**Original expression:**  \n`( ( C ( ( ( C f ) e ) ( I ( ( ( B f",
+            "( f y a )",
+            "Let's reduce the expression step by step:\n\nExpression:  \n`((C ((C f) e) (I ((B f) g) b))) a",
+            "( f y a )",
+            "Let's reduce the expression step by step:\n\nStart with:  \n`((C ((C f) e) (I ((B f) g) b)))",
+            "Let's reduce the expression step by step:\n\nStart with:  \n**(C ((C f) e) (I ((B f) g) b)) a"
+          ],
+          "parsed": [
+            null,
+            null,
+            null,
+            "( f y a )",
+            "((C ((C f) e) (I ((B f) g) b))) a",
+            "( f y a )",
+            "((C ((C f) e) (I ((B f) g) b)))",
+            "(C ((C f) e) (I ((B f) g) b)) a"
+          ],
+          "canons": [
+            "( f y ) a",
+            "( ( f a ) e ) ( f ( g b ) )",
+            "( f y ) a",
+            "( C ( ( C f ) e ) ) ( f ( g b ) )",
+            "( ( f a ) e ) ( f ( g b ) )"
+          ],
+          "n_parse": 5,
+          "distinct": 3,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K b ) g",
+          "depth": 1,
+          "gt": "b",
+          "raws": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "parsed": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "canons": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "I ( ( ( C ( ( ( C h ) b ) ( ( K d ) z ) ) ) a ) b )",
+          "depth": 4,
+          "gt": "( ( ( h d ) b ) b ) a",
+          "raws": [
+            "h a",
+            "I a b",
+            "I a b",
+            "I a b",
+            "I a b",
+            "h a",
+            "h a",
+            "h a"
+          ],
+          "parsed": [
+            "h a",
+            "I a b",
+            "I a b",
+            "I a b",
+            "I a b",
+            "h a",
+            "h a",
+            "h a"
+          ],
+          "canons": [
+            "h a",
+            "a b",
+            "a b",
+            "a b",
+            "a b",
+            "h a",
+            "h a",
+            "h a"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "I ( ( ( B ( ( ( B g ) f ) d ) ) g ) x )",
+          "depth": 3,
+          "gt": "( g ( f d ) ) ( g x )",
+          "raws": [
+            "h ( g d ) x",
+            "h ( g ( f d ) )",
+            "h ( g d ) x",
+            "x",
+            "x",
+            "h ( g ( f d ) )",
+            "h ( g ( f d ) )",
+            "x"
+          ],
+          "parsed": [
+            "h ( g d ) x",
+            "h ( g ( f d ) )",
+            "h ( g d ) x",
+            "x",
+            "x",
+            "h ( g ( f d ) )",
+            "h ( g ( f d ) )",
+            "x"
+          ],
+          "canons": [
+            "( h ( g d ) ) x",
+            "h ( g ( f d ) )",
+            "( h ( g d ) ) x",
+            "x",
+            "x",
+            "h ( g ( f d ) )",
+            "h ( g ( f d ) )",
+            "x"
+          ],
+          "n_parse": 8,
+          "distinct": 3,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K z ) f",
+          "depth": 1,
+          "gt": "z",
+          "raws": [
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z"
+          ],
+          "parsed": [
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z"
+          ],
+          "canons": [
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "I ( I d )",
+          "depth": 2,
+          "gt": "d",
+          "raws": [
+            "I d",
+            "I d",
+            "I d",
+            "I d",
+            "I d",
+            "I d",
+            "I d",
+            "I d"
+          ],
+          "parsed": [
+            "I d",
+            "I d",
+            "I d",
+            "I d",
+            "I d",
+            "I d",
+            "I d",
+            "I d"
+          ],
+          "canons": [
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( K h ) ( ( ( B g ) g ) d )",
+          "depth": 1,
+          "gt": "h",
+          "raws": [
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d"
+          ],
+          "parsed": [
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d"
+          ],
+          "canons": [
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "I ( I h )",
+          "depth": 2,
+          "gt": "h",
+          "raws": [
+            "I h",
+            "I h",
+            "I h",
+            "I h",
+            "I h",
+            "I h",
+            "I h",
+            "I h"
+          ],
+          "parsed": [
+            "I h",
+            "I h",
+            "I h",
+            "I h",
+            "I h",
+            "I h",
+            "I h",
+            "I h"
+          ],
+          "canons": [
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( C f ) e ) e",
+          "depth": 1,
+          "gt": "( f e ) e",
+          "raws": [
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e"
+          ],
+          "parsed": [
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e"
+          ],
+          "canons": [
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K b ) h",
+          "depth": 1,
+          "gt": "b",
+          "raws": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "parsed": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "canons": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( C h ) ( ( ( C g ) z ) e ) ) d",
+          "depth": 2,
+          "gt": "( h d ) ( ( g e ) z )",
+          "raws": [
+            "h z d",
+            "h z e",
+            "h z d",
+            "h z e",
+            "h z d",
+            "h z d",
+            "h z d",
+            "h z e"
+          ],
+          "parsed": [
+            "h z d",
+            "h z e",
+            "h z d",
+            "h z e",
+            "h z d",
+            "h z d",
+            "h z d",
+            "h z e"
+          ],
+          "canons": [
+            "( h z ) d",
+            "( h z ) e",
+            "( h z ) d",
+            "( h z ) e",
+            "( h z ) d",
+            "( h z ) d",
+            "( h z ) d",
+            "( h z ) e"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( B g ) f ) ( ( ( B h ) h ) a )",
+          "depth": 2,
+          "gt": "g ( f ( h ( h a ) ) )",
+          "raws": [
+            "g a",
+            "( g f ) ( h a )",
+            "( g f ) ( h a )",
+            "g a",
+            "( g f ) ( h a )",
+            "( g f ) ( h a )",
+            "( g f ) ( h a )",
+            "g a"
+          ],
+          "parsed": [
+            "g a",
+            "( g f ) ( h a )",
+            "( g f ) ( h a )",
+            "g a",
+            "( g f ) ( h a )",
+            "( g f ) ( h a )",
+            "( g f ) ( h a )",
+            "g a"
+          ],
+          "canons": [
+            "g a",
+            "( g f ) ( h a )",
+            "( g f ) ( h a )",
+            "g a",
+            "( g f ) ( h a )",
+            "( g f ) ( h a )",
+            "( g f ) ( h a )",
+            "g a"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C f ) d ) ( I ( ( ( C f ) b ) ( ( ( B f ) h ) b ) ) )",
+          "depth": 4,
+          "gt": "( f ( ( f ( f ( h b ) ) ) b ) ) d",
+          "raws": [
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )"
+          ],
+          "parsed": [
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )"
+          ],
+          "canons": [
+            "( f d ) ( ( f b ) ( f h ) )",
+            "( f d ) ( ( f b ) ( f h ) )",
+            "( f d ) ( ( f b ) ( f h ) )",
+            "( f d ) ( ( f b ) ( f h ) )",
+            "( f d ) ( ( f b ) ( f h ) )",
+            "( f d ) ( ( f b ) ( f h ) )",
+            "( f d ) ( ( f b ) ( f h ) )",
+            "( f d ) ( ( f b ) ( f h ) )"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( B g ) g ) z",
+          "depth": 1,
+          "gt": "g ( g z )",
+          "raws": [
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z"
+          ],
+          "parsed": [
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z"
+          ],
+          "canons": [
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C g ) a ) a",
+          "depth": 1,
+          "gt": "( g a ) a",
+          "raws": [
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a"
+          ],
+          "parsed": [
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a"
+          ],
+          "canons": [
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C f ) ( ( ( B h ) g ) e ) ) x",
+          "depth": 2,
+          "gt": "( f x ) ( h ( g e ) )",
+          "raws": [
+            "f e x",
+            "f e x",
+            "f e x",
+            "f e x",
+            "f e x",
+            "f e x",
+            "f e x",
+            "f e x"
+          ],
+          "parsed": [
+            "f e x",
+            "f e x",
+            "f e x",
+            "f e x",
+            "f e x",
+            "f e x",
+            "f e x",
+            "f e x"
+          ],
+          "canons": [
+            "( f e ) x",
+            "( f e ) x",
+            "( f e ) x",
+            "( f e ) x",
+            "( f e ) x",
+            "( f e ) x",
+            "( f e ) x",
+            "( f e ) x"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K y ) ( ( K g ) b )",
+          "depth": 1,
+          "gt": "y",
+          "raws": [
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y"
+          ],
+          "parsed": [
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y"
+          ],
+          "canons": [
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( C ( I ( I f ) ) ) a ) a",
+          "depth": 3,
+          "gt": "( f a ) a",
+          "raws": [
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a"
+          ],
+          "parsed": [
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a"
+          ],
+          "canons": [
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "I ( I ( I ( ( K d ) a ) ) )",
+          "depth": 4,
+          "gt": "d",
+          "raws": [
+            "i a",
+            "i a",
+            "I a",
+            "i a",
+            "i a",
+            "i a",
+            "I a",
+            "I a"
+          ],
+          "parsed": [
+            null,
+            null,
+            "I a",
+            null,
+            null,
+            null,
+            "I a",
+            "I a"
+          ],
+          "canons": [
+            "a",
+            "a",
+            "a"
+          ],
+          "n_parse": 3,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C g ) e ) b",
+          "depth": 1,
+          "gt": "( g b ) e",
+          "raws": [
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b"
+          ],
+          "parsed": [
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b"
+          ],
+          "canons": [
+            "( g e ) b",
+            "( g e ) b",
+            "( g e ) b",
+            "( g e ) b",
+            "( g e ) b",
+            "( g e ) b",
+            "( g e ) b",
+            "( g e ) b"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K ( I ( I g ) ) ) g",
+          "depth": 3,
+          "gt": "g",
+          "raws": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "parsed": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "canons": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "I ( ( ( B ( ( ( C f ) a ) ( ( K z ) z ) ) ) g ) y )",
+          "depth": 4,
+          "gt": "( ( f z ) a ) ( g y )",
+          "raws": [
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y"
+          ],
+          "parsed": [
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y"
+          ],
+          "canons": [
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( B h ) h ) a",
+          "depth": 1,
+          "gt": "h ( h a )",
+          "raws": [
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a"
+          ],
+          "parsed": [
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a"
+          ],
+          "canons": [
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C f ) c ) ( ( ( B ( I ( ( K y ) d ) ) ) f ) z )",
+          "depth": 4,
+          "gt": "( f ( y ( f z ) ) ) c",
+          "raws": [
+            "( f c ) ( ( ( I ( K y ) ) d ) f ) z )",
+            "( f c ) ( d z )",
+            "( f c ) ( d z )",
+            "( f c ) ( d z )",
+            "( f c ) ( ( ( I ( ( K y ) d ) ) f ) z )",
+            "( f c ) ( f d )",
+            "( f c ) ( d z )",
+            "( f c ) ( d z )"
+          ],
+          "parsed": [
+            null,
+            "( f c ) ( d z )",
+            "( f c ) ( d z )",
+            "( f c ) ( d z )",
+            "( f c ) ( ( ( I ( ( K y ) d ) ) f ) z )",
+            "( f c ) ( f d )",
+            "( f c ) ( d z )",
+            "( f c ) ( d z )"
+          ],
+          "canons": [
+            "( f c ) ( d z )",
+            "( f c ) ( d z )",
+            "( f c ) ( d z )",
+            "( f c ) ( ( y f ) z )",
+            "( f c ) ( f d )",
+            "( f c ) ( d z )",
+            "( f c ) ( d z )"
+          ],
+          "n_parse": 7,
+          "distinct": 3,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( B g ) g ) a",
+          "depth": 1,
+          "gt": "g ( g a )",
+          "raws": [
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a"
+          ],
+          "parsed": [
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a"
+          ],
+          "canons": [
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K z ) g",
+          "depth": 1,
+          "gt": "z",
+          "raws": [
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z"
+          ],
+          "parsed": [
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z"
+          ],
+          "canons": [
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( B g ) f ) ( ( ( B ( I ( I g ) ) ) f ) x )",
+          "depth": 4,
+          "gt": "g ( f ( g ( f x ) ) )",
+          "raws": [
+            "g x (f x)",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "Let's reduce the expression step by step:\n\n**Expression**:  \n`( ( B g ) f ) ( ( ( B ( I ( I g ) ) )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "Let's reduce the expression step-by-step:\n\nExpression:  \n`( ( B g ) f ) ( ( ( B ( I ( I g ) ) ) f"
+          ],
+          "parsed": [
+            "g x (f x)",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            null,
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            null
+          ],
+          "canons": [
+            "( g x ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )"
+          ],
+          "n_parse": 6,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( B f ) f ) ( I ( ( K f ) ( I c ) ) )",
+          "depth": 3,
+          "gt": "f ( f f )",
+          "raws": [
+            "f c",
+            "f ( f ( c ) )",
+            "f ( f ( c ) )",
+            "f ( f ( c ) )",
+            "f ( f ( c ) )",
+            "f ( f c )",
+            "f ( f ( c ) )",
+            "f ( f c )"
+          ],
+          "parsed": [
+            "f c",
+            "f ( f ( c ) )",
+            "f ( f ( c ) )",
+            "f ( f ( c ) )",
+            "f ( f ( c ) )",
+            "f ( f c )",
+            "f ( f ( c ) )",
+            "f ( f c )"
+          ],
+          "canons": [
+            "f c",
+            "f ( f c )",
+            "f ( f c )",
+            "f ( f c )",
+            "f ( f c )",
+            "f ( f c )",
+            "f ( f c )",
+            "f ( f c )"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "I ( ( ( B h ) f ) e )",
+          "depth": 2,
+          "gt": "h ( f e )",
+          "raws": [
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e"
+          ],
+          "parsed": [
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e"
+          ],
+          "canons": [
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "I ( I b )",
+          "depth": 2,
+          "gt": "b",
+          "raws": [
+            "I b",
+            "I b",
+            "I b",
+            "I b",
+            "I b",
+            "I b",
+            "I b",
+            "I b"
+          ],
+          "parsed": [
+            "I b",
+            "I b",
+            "I b",
+            "I b",
+            "I b",
+            "I b",
+            "I b",
+            "I b"
+          ],
+          "canons": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( B ( ( ( C ( ( ( C h ) d ) d ) ) e ) c ) ) f ) c",
+          "depth": 3,
+          "gt": "( ( ( ( h d ) d ) c ) e ) ( f c )",
+          "raws": [
+            "( h d e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c"
+          ],
+          "parsed": [
+            "( h d e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c"
+          ],
+          "canons": [
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( B h ) g ) e",
+          "depth": 1,
+          "gt": "h ( g e )",
+          "raws": [
+            "( h ( g e ) )",
+            "( h ( g e ) )",
+            "h (g e)",
+            "( h ( g e ) )",
+            "h (g e)",
+            "( h ( g e ) )",
+            "( h ( g e ) )",
+            "h (g e)"
+          ],
+          "parsed": [
+            "( h ( g e ) )",
+            "( h ( g e ) )",
+            "h (g e)",
+            "( h ( g e ) )",
+            "h (g e)",
+            "( h ( g e ) )",
+            "( h ( g e ) )",
+            "h (g e)"
+          ],
+          "canons": [
+            "h ( g e )",
+            "h ( g e )",
+            "h ( g e )",
+            "h ( g e )",
+            "h ( g e )",
+            "h ( g e )",
+            "h ( g e )",
+            "h ( g e )"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( B h ) h ) ( I ( I h ) )",
+          "depth": 3,
+          "gt": "h ( h h )",
+          "raws": [
+            "h h h",
+            "h h h",
+            "h h h",
+            "h h h",
+            "h h h",
+            "h h h",
+            "h h h",
+            "h h h"
+          ],
+          "parsed": [
+            "h h h",
+            "h h h",
+            "h h h",
+            "h h h",
+            "h h h",
+            "h h h",
+            "h h h",
+            "h h h"
+          ],
+          "canons": [
+            "( h h ) h",
+            "( h h ) h",
+            "( h h ) h",
+            "( h h ) h",
+            "( h h ) h",
+            "( h h ) h",
+            "( h h ) h",
+            "( h h ) h"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K h ) ( I ( I f ) )",
+          "depth": 1,
+          "gt": "h",
+          "raws": [
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h"
+          ],
+          "parsed": [
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h"
+          ],
+          "canons": [
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( K g ) ( ( ( B h ) g ) ( ( ( B h ) g ) e ) )",
+          "depth": 1,
+          "gt": "g",
+          "raws": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "parsed": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "canons": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( C ( ( ( B ( I f ) ) h ) x ) ) z ) d",
+          "depth": 3,
+          "gt": "( ( f ( h x ) ) d ) z",
+          "raws": [
+            "z d",
+            "( ( I f ) h ) x z",
+            "Let's reduce the expression step by step:\n\nStart with:  \n**((C ((B (I f) ) h) x) z) d**\n\nApply",
+            "( ( g x ) z ) d",
+            "( ( I f ) h ) x z d",
+            "( ( I f ) h ) x z d",
+            "z d",
+            "( ( I f ) h ) x"
+          ],
+          "parsed": [
+            "z d",
+            "( ( I f ) h ) x z",
+            "((C ((B (I f) ) h) x) z) d",
+            "( ( g x ) z ) d",
+            "( ( I f ) h ) x z d",
+            "( ( I f ) h ) x z d",
+            "z d",
+            "( ( I f ) h ) x"
+          ],
+          "canons": [
+            "z d",
+            "( ( f h ) x ) z",
+            "( ( f ( h z ) ) x ) d",
+            "( ( g x ) z ) d",
+            "( ( ( f h ) x ) z ) d",
+            "( ( ( f h ) x ) z ) d",
+            "z d",
+            "( f h ) x"
+          ],
+          "n_parse": 8,
+          "distinct": 6,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C h ) e ) ( ( ( B h ) h ) z )",
+          "depth": 2,
+          "gt": "( h ( h ( h z ) ) ) e",
+          "raws": [
+            "h z",
+            "h z",
+            "( h e ) z",
+            "h z",
+            "h z",
+            "( h e ) z",
+            "h z",
+            "h z"
+          ],
+          "parsed": [
+            "h z",
+            "h z",
+            "( h e ) z",
+            "h z",
+            "h z",
+            "( h e ) z",
+            "h z",
+            "h z"
+          ],
+          "canons": [
+            "h z",
+            "h z",
+            "( h e ) z",
+            "h z",
+            "h z",
+            "( h e ) z",
+            "h z",
+            "h z"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K ( ( K h ) g ) ) e",
+          "depth": 2,
+          "gt": "h",
+          "raws": [
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e"
+          ],
+          "parsed": [
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e"
+          ],
+          "canons": [
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( B ( I h ) ) f ) c",
+          "depth": 2,
+          "gt": "h ( f c )",
+          "raws": [
+            "( h f ) c",
+            "h c",
+            "h f c",
+            "( h f ) c",
+            "h c",
+            "h c",
+            "h c",
+            "( h f ) c"
+          ],
+          "parsed": [
+            "( h f ) c",
+            "h c",
+            "h f c",
+            "( h f ) c",
+            "h c",
+            "h c",
+            "h c",
+            "( h f ) c"
+          ],
+          "canons": [
+            "( h f ) c",
+            "h c",
+            "( h f ) c",
+            "( h f ) c",
+            "h c",
+            "h c",
+            "h c",
+            "( h f ) c"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C g ) c ) z",
+          "depth": 1,
+          "gt": "( g z ) c",
+          "raws": [
+            "g z",
+            "g c z",
+            "g c z",
+            "g c z",
+            "g c z",
+            "g c z",
+            "g c z",
+            "g c z"
+          ],
+          "parsed": [
+            "g z",
+            "g c z",
+            "g c z",
+            "g c z",
+            "g c z",
+            "g c z",
+            "g c z",
+            "g c z"
+          ],
+          "canons": [
+            "g z",
+            "( g c ) z",
+            "( g c ) z",
+            "( g c ) z",
+            "( g c ) z",
+            "( g c ) z",
+            "( g c ) z",
+            "( g c ) z"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( B ( ( ( C f ) d ) z ) ) g ) y",
+          "depth": 2,
+          "gt": "( ( f z ) d ) ( g y )",
+          "raws": [
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( ( f ( d z ) ) g ) y",
+            "( f ( d z ) ) g"
+          ],
+          "parsed": [
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( ( f ( d z ) ) g ) y",
+            "( f ( d z ) ) g"
+          ],
+          "canons": [
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( ( f ( d z ) ) g ) y",
+            "( f ( d z ) ) g"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "I ( I ( I ( ( ( C f ) y ) x ) ) )",
+          "depth": 4,
+          "gt": "( f x ) y",
+          "raws": [
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x"
+          ],
+          "parsed": [
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x"
+          ],
+          "canons": [
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "I ( I ( ( ( B g ) h ) b ) )",
+          "depth": 3,
+          "gt": "g ( h b )",
+          "raws": [
+            "h b",
+            "h b",
+            "h b",
+            "h b",
+            "h b",
+            "h b",
+            "h ( g b )",
+            "h b"
+          ],
+          "parsed": [
+            "h b",
+            "h b",
+            "h b",
+            "h b",
+            "h b",
+            "h b",
+            "h ( g b )",
+            "h b"
+          ],
+          "canons": [
+            "h b",
+            "h b",
+            "h b",
+            "h b",
+            "h b",
+            "h b",
+            "h ( g b )",
+            "h b"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( B f ) f ) b",
+          "depth": 1,
+          "gt": "f ( f b )",
+          "raws": [
+            "f b",
+            "f b",
+            "f b",
+            "f b",
+            "f b",
+            "f b",
+            "f b",
+            "f b"
+          ],
+          "parsed": [
+            "f b",
+            "f b",
+            "f b",
+            "f b",
+            "f b",
+            "f b",
+            "f b",
+            "f b"
+          ],
+          "canons": [
+            "f b",
+            "f b",
+            "f b",
+            "f b",
+            "f b",
+            "f b",
+            "f b",
+            "f b"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "I ( ( ( C g ) x ) y )",
+          "depth": 2,
+          "gt": "( g y ) x",
+          "raws": [
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y"
+          ],
+          "parsed": [
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y"
+          ],
+          "canons": [
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C g ) ( ( ( B f ) h ) b ) ) z",
+          "depth": 2,
+          "gt": "( g z ) ( f ( h b ) )",
+          "raws": [
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b"
+          ],
+          "parsed": [
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b"
+          ],
+          "canons": [
+            "( g z ) b",
+            "( g z ) b",
+            "( g z ) b",
+            "( g z ) b",
+            "( g z ) b",
+            "( g z ) b",
+            "( g z ) b",
+            "( g z ) b"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K g ) b",
+          "depth": 1,
+          "gt": "g",
+          "raws": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "parsed": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "canons": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( B ( ( ( C f ) a ) b ) ) f ) e",
+          "depth": 2,
+          "gt": "( ( f b ) a ) ( f e )",
+          "raws": [
+            "( f b ) a",
+            "( f a b ) e",
+            "( f a ) b",
+            "( f b ) a",
+            "( f b ) a",
+            "( f b ) a",
+            "( f ( a b ) ) e",
+            "( f b ) a"
+          ],
+          "parsed": [
+            "( f b ) a",
+            "( f a b ) e",
+            "( f a ) b",
+            "( f b ) a",
+            "( f b ) a",
+            "( f b ) a",
+            "( f ( a b ) ) e",
+            "( f b ) a"
+          ],
+          "canons": [
+            "( f b ) a",
+            "( ( f a ) b ) e",
+            "( f a ) b",
+            "( f b ) a",
+            "( f b ) a",
+            "( f b ) a",
+            "( f ( a b ) ) e",
+            "( f b ) a"
+          ],
+          "n_parse": 8,
+          "distinct": 4,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K d ) ( I d )",
+          "depth": 1,
+          "gt": "d",
+          "raws": [
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d"
+          ],
+          "parsed": [
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d"
+          ],
+          "canons": [
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( B g ) f ) ( ( ( C ( ( K ( I z ) ) a ) ) z ) y )",
+          "depth": 4,
+          "gt": "g ( f ( ( z y ) z ) )",
+          "raws": [
+            "( g f ) y",
+            "g y",
+            "g y",
+            "g y",
+            "( g f ) y",
+            "( g f ) y",
+            "( g f ) y",
+            "( g f ) y"
+          ],
+          "parsed": [
+            "( g f ) y",
+            "g y",
+            "g y",
+            "g y",
+            "( g f ) y",
+            "( g f ) y",
+            "( g f ) y",
+            "( g f ) y"
+          ],
+          "canons": [
+            "( g f ) y",
+            "g y",
+            "g y",
+            "g y",
+            "( g f ) y",
+            "( g f ) y",
+            "( g f ) y",
+            "( g f ) y"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        }
+      ]
+    },
+    "t1.3": {
+      "summary": {
+        "temperature": 1.3,
+        "parse_rate": 0.9667,
+        "correct_density": 0.3063,
+        "mean_mode_spread": 1.567,
+        "contains_gt_rate": 0.35,
+        "unimodal_rate": 0.6333,
+        "all_correct_rate": 0.3,
+        "all_wrong_rate": 0.65,
+        "by_depth": {
+          "1": {
+            "parse_rate": 1.0,
+            "correct_density": 0.547,
+            "mean_spread": 1.12,
+            "contains_gt": 0.583,
+            "n": 24
+          },
+          "2": {
+            "parse_rate": 1.0,
+            "correct_density": 0.195,
+            "mean_spread": 1.88,
+            "contains_gt": 0.25,
+            "n": 16
+          },
+          "3": {
+            "parse_rate": 0.9,
+            "correct_density": 0.2,
+            "mean_spread": 1.6,
+            "contains_gt": 0.2,
+            "n": 10
+          },
+          "4": {
+            "parse_rate": 0.9,
+            "correct_density": 0.013,
+            "mean_spread": 2.1,
+            "contains_gt": 0.1,
+            "n": 10
+          }
+        }
+      },
+      "records": [
+        {
+          "expr": "( K a ) ( ( ( B ( ( K g ) ( ( ( C h ) x ) e ) ) ) h ) e )",
+          "depth": 1,
+          "gt": "a",
+          "raws": [
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a"
+          ],
+          "parsed": [
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a"
+          ],
+          "canons": [
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "I z",
+          "depth": 1,
+          "gt": "z",
+          "raws": [
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z"
+          ],
+          "parsed": [
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z"
+          ],
+          "canons": [
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( C ( ( K ( ( ( B h ) f ) d ) ) d ) ) b ) d",
+          "depth": 3,
+          "gt": "( ( h ( f d ) ) d ) b",
+          "raws": [
+            "Let's reduce the expression step by step:\n\nStart with:  \n`((C ((K ((B h) f) d)) d) b) d`\n\n",
+            "Let's reduce the expression step by step:\n\nOriginal expression:\n```\n( ( C ( ( K ( ( ( B h ) f ) d ) ) d",
+            "Let's reduce the expression step by step:\n\nStart with:  \n**(C ((K ((B h) f) d)) d) b) d**\n\n1",
+            "Let's reduce the expression step by step:\n\n**Expression:**  \n`( ( C ( ( K ( ( ( B h ) f ) d ) ) d )",
+            "Let's reduce the expression step by step.\n\nStart with:\n\n**((C ((K ((B h) f) d)) d) b) d**\n\nApply",
+            "Let's reduce the expression step by step:\n\nExpression:  \n**(C ((K ((B h) f) d)) d) b) d**\n\nStep ",
+            "Let's reduce the expression step by step:\n\nStart with:  \n**(C ((K ((B h) f) d)) d) b) d**\n\nApply",
+            "Let's reduce the expression step by step:\n\nStart with:\n\n```\n( ( C ( ( K ( ( ( B h ) f ) d ) ) d"
+          ],
+          "parsed": [
+            "((C ((K ((B h) f) d)) d) b) d",
+            null,
+            null,
+            null,
+            "((C ((K ((B h) f) d)) d) b) d",
+            null,
+            null,
+            null
+          ],
+          "canons": [
+            "( ( h ( f b ) ) d ) d",
+            "( ( h ( f b ) ) d ) d"
+          ],
+          "n_parse": 2,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C h ) d ) e",
+          "depth": 1,
+          "gt": "( h e ) d",
+          "raws": [
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e"
+          ],
+          "parsed": [
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e",
+            "h d e"
+          ],
+          "canons": [
+            "( h d ) e",
+            "( h d ) e",
+            "( h d ) e",
+            "( h d ) e",
+            "( h d ) e",
+            "( h d ) e",
+            "( h d ) e",
+            "( h d ) e"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C ( ( ( C h ) b ) y ) ) c ) d",
+          "depth": 2,
+          "gt": "( ( ( h y ) b ) d ) c",
+          "raws": [
+            "( h b ) y",
+            "c y d",
+            "Let's reduce the expression step by step:\n\nStart with:  \n**((C ((C h) b) y) c) d**\n\nApply the **C",
+            "( h b y ) d",
+            "Let's reduce the expression step by step:\n\nStart with:  \n`( ( C ( ( ( C h ) b ) y ) ) c ) d`\n\nApply",
+            "( h b y ) d",
+            "d",
+            "h y c d"
+          ],
+          "parsed": [
+            "( h b ) y",
+            "c y d",
+            "((C ((C h) b) y) c) d",
+            "( h b y ) d",
+            "( ( C ( ( ( C h ) b ) y ) ) c ) d",
+            "( h b y ) d",
+            "d",
+            "h y c d"
+          ],
+          "canons": [
+            "( h b ) y",
+            "( c y ) d",
+            "( ( ( h c ) b ) y ) d",
+            "( ( h b ) y ) d",
+            "( ( ( h y ) b ) d ) c",
+            "( ( h b ) y ) d",
+            "d",
+            "( ( h y ) c ) d"
+          ],
+          "n_parse": 8,
+          "distinct": 7,
+          "correct": 1,
+          "contains_gt": 1
+        },
+        {
+          "expr": "I ( I ( ( K g ) e ) )",
+          "depth": 3,
+          "gt": "g",
+          "raws": [
+            "I g",
+            "I g",
+            "I g",
+            "I g",
+            "I g",
+            "I g",
+            "I g",
+            "I g"
+          ],
+          "parsed": [
+            "I g",
+            "I g",
+            "I g",
+            "I g",
+            "I g",
+            "I g",
+            "I g",
+            "I g"
+          ],
+          "canons": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( K b ) ( ( ( C g ) z ) b )",
+          "depth": 1,
+          "gt": "b",
+          "raws": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "parsed": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "canons": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( K f ) c",
+          "depth": 1,
+          "gt": "f",
+          "raws": [
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c"
+          ],
+          "parsed": [
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c"
+          ],
+          "canons": [
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c",
+            "c"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C ( ( ( B g ) g ) ( I ( I h ) ) ) ) z ) z",
+          "depth": 4,
+          "gt": "( ( g ( g h ) ) z ) z",
+          "raws": [
+            "( g z ) z",
+            "Let's reduce the expression step by step:\n\nStart with:\n```\n( ( C ( ( ( B g ) g ) ( I ( I h ) )",
+            "z",
+            "z",
+            "z",
+            "( g z ) z",
+            "( g g ) z",
+            "Let's reduce the expression step by step:\n\nStart with:\n```\n( ( C ( ( ( B g ) g ) ( I ( I h ) )"
+          ],
+          "parsed": [
+            "( g z ) z",
+            null,
+            "z",
+            "z",
+            "z",
+            "( g z ) z",
+            "( g g ) z",
+            null
+          ],
+          "canons": [
+            "( g z ) z",
+            "z",
+            "z",
+            "z",
+            "( g z ) z",
+            "( g g ) z"
+          ],
+          "n_parse": 6,
+          "distinct": 3,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K ( ( ( B f ) f ) x ) ) h",
+          "depth": 2,
+          "gt": "f ( f x )",
+          "raws": [
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h"
+          ],
+          "parsed": [
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h"
+          ],
+          "canons": [
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C ( ( ( C f ) e ) ( I ( ( ( B f ) g ) b ) ) ) ) a ) y",
+          "depth": 4,
+          "gt": "( ( ( f ( f ( g b ) ) ) e ) y ) a",
+          "raws": [
+            "g a y",
+            "Let's reduce the expression step by step:\n\nOriginal expression:  \n**(C ((C f) e) (I ((B f) g) b)) )",
+            "Let's reduce the expression step by step:\n\nStart with:  \n`((C ((C f) e) (I ((B f) g) b)))",
+            "Let's reduce the expression step by step:\n\nStart with:  \n**(C ((C f) e) (I ((B f) g) b)) )",
+            "Let's reduce the expression step by step:\n\nOriginal expression:  \n**(C ((C f) e) (I ((B f) g) b)) )",
+            "Let's reduce the expression step by step:\n\n**Original:**  \n`((C ((C f) e) (I ((B f) g) b)))",
+            "Let's reduce the expression step by step:\n\nExpression:  \n`((C ((C f) e) (I ((B f) g) b))) a",
+            "Let's reduce the expression step by step:\n\nExpression:  \n`((C ((C f) e) (I ((B f) g) b))) a"
+          ],
+          "parsed": [
+            "g a y",
+            null,
+            "((C ((C f) e) (I ((B f) g) b)))",
+            null,
+            null,
+            "((C ((C f) e) (I ((B f) g) b)))",
+            "((C ((C f) e) (I ((B f) g) b))) a",
+            "((C ((C f) e) (I ((B f) g) b))) a"
+          ],
+          "canons": [
+            "( g a ) y",
+            "( C ( ( C f ) e ) ) ( f ( g b ) )",
+            "( C ( ( C f ) e ) ) ( f ( g b ) )",
+            "( ( f a ) e ) ( f ( g b ) )",
+            "( ( f a ) e ) ( f ( g b ) )"
+          ],
+          "n_parse": 5,
+          "distinct": 3,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K b ) g",
+          "depth": 1,
+          "gt": "b",
+          "raws": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "parsed": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "canons": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "I ( ( ( C ( ( ( C h ) b ) ( ( K d ) z ) ) ) a ) b )",
+          "depth": 4,
+          "gt": "( ( ( h d ) b ) b ) a",
+          "raws": [
+            "h a",
+            "I a b",
+            "h a",
+            "I a b",
+            "h a",
+            "h a",
+            "h a",
+            "I ( ( ( C ( ( ( C h ) b ) ( ( K d ) z ) ) ) a ) b )"
+          ],
+          "parsed": [
+            "h a",
+            "I a b",
+            "h a",
+            "I a b",
+            "h a",
+            "h a",
+            "h a",
+            "I ( ( ( C ( ( ( C h ) b ) ( ( K d ) z ) ) ) a ) b )"
+          ],
+          "canons": [
+            "h a",
+            "a b",
+            "h a",
+            "a b",
+            "h a",
+            "h a",
+            "h a",
+            "( ( ( h d ) b ) b ) a"
+          ],
+          "n_parse": 8,
+          "distinct": 3,
+          "correct": 1,
+          "contains_gt": 1
+        },
+        {
+          "expr": "I ( ( ( B ( ( ( B g ) f ) d ) ) g ) x )",
+          "depth": 3,
+          "gt": "( g ( f d ) ) ( g x )",
+          "raws": [
+            "h ( g ( f d ) )",
+            "x",
+            "x",
+            "h ( g ( f d ) )",
+            "h ( g ( f d ) )",
+            "h ( g ( f d ) )",
+            "h ( g ( f d ) )",
+            "h ( g ( f d ) )"
+          ],
+          "parsed": [
+            "h ( g ( f d ) )",
+            "x",
+            "x",
+            "h ( g ( f d ) )",
+            "h ( g ( f d ) )",
+            "h ( g ( f d ) )",
+            "h ( g ( f d ) )",
+            "h ( g ( f d ) )"
+          ],
+          "canons": [
+            "h ( g ( f d ) )",
+            "x",
+            "x",
+            "h ( g ( f d ) )",
+            "h ( g ( f d ) )",
+            "h ( g ( f d ) )",
+            "h ( g ( f d ) )",
+            "h ( g ( f d ) )"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K z ) f",
+          "depth": 1,
+          "gt": "z",
+          "raws": [
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z"
+          ],
+          "parsed": [
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z"
+          ],
+          "canons": [
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "I ( I d )",
+          "depth": 2,
+          "gt": "d",
+          "raws": [
+            "I d",
+            "I d",
+            "I d",
+            "I d",
+            "I d",
+            "I d",
+            "I d",
+            "I d"
+          ],
+          "parsed": [
+            "I d",
+            "I d",
+            "I d",
+            "I d",
+            "I d",
+            "I d",
+            "I d",
+            "I d"
+          ],
+          "canons": [
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( K h ) ( ( ( B g ) g ) d )",
+          "depth": 1,
+          "gt": "h",
+          "raws": [
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h",
+            "h d"
+          ],
+          "parsed": [
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h",
+            "h d"
+          ],
+          "canons": [
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h d",
+            "h",
+            "h d"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 1,
+          "contains_gt": 1
+        },
+        {
+          "expr": "I ( I h )",
+          "depth": 2,
+          "gt": "h",
+          "raws": [
+            "I h",
+            "I h",
+            "I h",
+            "I h",
+            "I h",
+            "I h",
+            "I h",
+            "I h"
+          ],
+          "parsed": [
+            "I h",
+            "I h",
+            "I h",
+            "I h",
+            "I h",
+            "I h",
+            "I h",
+            "I h"
+          ],
+          "canons": [
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( C f ) e ) e",
+          "depth": 1,
+          "gt": "( f e ) e",
+          "raws": [
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e"
+          ],
+          "parsed": [
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e"
+          ],
+          "canons": [
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K b ) h",
+          "depth": 1,
+          "gt": "b",
+          "raws": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "parsed": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "canons": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( C h ) ( ( ( C g ) z ) e ) ) d",
+          "depth": 2,
+          "gt": "( h d ) ( ( g e ) z )",
+          "raws": [
+            "h z e",
+            "h z d",
+            "h z e",
+            "h z e",
+            "h z d",
+            "h z d",
+            "h z e",
+            "h z e"
+          ],
+          "parsed": [
+            "h z e",
+            "h z d",
+            "h z e",
+            "h z e",
+            "h z d",
+            "h z d",
+            "h z e",
+            "h z e"
+          ],
+          "canons": [
+            "( h z ) e",
+            "( h z ) d",
+            "( h z ) e",
+            "( h z ) e",
+            "( h z ) d",
+            "( h z ) d",
+            "( h z ) e",
+            "( h z ) e"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( B g ) f ) ( ( ( B h ) h ) a )",
+          "depth": 2,
+          "gt": "g ( f ( h ( h a ) ) )",
+          "raws": [
+            "( g f ) ( h a )",
+            "( g f ) ( h a )",
+            "( g f ) ( h a )",
+            "g a",
+            "( g f ) ( h a )",
+            "( g f ) ( h a )",
+            "g a",
+            "( g f ) ( h a )"
+          ],
+          "parsed": [
+            "( g f ) ( h a )",
+            "( g f ) ( h a )",
+            "( g f ) ( h a )",
+            "g a",
+            "( g f ) ( h a )",
+            "( g f ) ( h a )",
+            "g a",
+            "( g f ) ( h a )"
+          ],
+          "canons": [
+            "( g f ) ( h a )",
+            "( g f ) ( h a )",
+            "( g f ) ( h a )",
+            "g a",
+            "( g f ) ( h a )",
+            "( g f ) ( h a )",
+            "g a",
+            "( g f ) ( h a )"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C f ) d ) ( I ( ( ( C f ) b ) ( ( ( B f ) h ) b ) ) )",
+          "depth": 4,
+          "gt": "( f ( ( f ( f ( h b ) ) ) b ) ) d",
+          "raws": [
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "Let's reduce the expression step by step:\n\n**Original expression:**\n```\n( ( C f ) d ) ( I ( ( ( C f ) b",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )"
+          ],
+          "parsed": [
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            null,
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )",
+            "( f d ) ( I ( ( f b ) ( f h ) ) )"
+          ],
+          "canons": [
+            "( f d ) ( ( f b ) ( f h ) )",
+            "( f d ) ( ( f b ) ( f h ) )",
+            "( f d ) ( ( f b ) ( f h ) )",
+            "( f d ) ( ( f b ) ( f h ) )",
+            "( f d ) ( ( f b ) ( f h ) )",
+            "( f d ) ( ( f b ) ( f h ) )",
+            "( f d ) ( ( f b ) ( f h ) )"
+          ],
+          "n_parse": 7,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( B g ) g ) z",
+          "depth": 1,
+          "gt": "g ( g z )",
+          "raws": [
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z"
+          ],
+          "parsed": [
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z"
+          ],
+          "canons": [
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z",
+            "g z"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C g ) a ) a",
+          "depth": 1,
+          "gt": "( g a ) a",
+          "raws": [
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a"
+          ],
+          "parsed": [
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a"
+          ],
+          "canons": [
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C f ) ( ( ( B h ) g ) e ) ) x",
+          "depth": 2,
+          "gt": "( f x ) ( h ( g e ) )",
+          "raws": [
+            "f x e",
+            "f e x",
+            "f e x",
+            "( f e ) x",
+            "( f e ) x",
+            "f e x",
+            "f e x",
+            "f e x"
+          ],
+          "parsed": [
+            "f x e",
+            "f e x",
+            "f e x",
+            "( f e ) x",
+            "( f e ) x",
+            "f e x",
+            "f e x",
+            "f e x"
+          ],
+          "canons": [
+            "( f x ) e",
+            "( f e ) x",
+            "( f e ) x",
+            "( f e ) x",
+            "( f e ) x",
+            "( f e ) x",
+            "( f e ) x",
+            "( f e ) x"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K y ) ( ( K g ) b )",
+          "depth": 1,
+          "gt": "y",
+          "raws": [
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y"
+          ],
+          "parsed": [
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y"
+          ],
+          "canons": [
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( C ( I ( I f ) ) ) a ) a",
+          "depth": 3,
+          "gt": "( f a ) a",
+          "raws": [
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a"
+          ],
+          "parsed": [
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a"
+          ],
+          "canons": [
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a",
+            "a a"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "I ( I ( I ( ( K d ) a ) ) )",
+          "depth": 4,
+          "gt": "d",
+          "raws": [
+            "I a",
+            "I a",
+            "I a",
+            "I a",
+            "I a",
+            "I a",
+            "I a",
+            "i a"
+          ],
+          "parsed": [
+            "I a",
+            "I a",
+            "I a",
+            "I a",
+            "I a",
+            "I a",
+            "I a",
+            null
+          ],
+          "canons": [
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a",
+            "a"
+          ],
+          "n_parse": 7,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C g ) e ) b",
+          "depth": 1,
+          "gt": "( g b ) e",
+          "raws": [
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b"
+          ],
+          "parsed": [
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b",
+            "g e b"
+          ],
+          "canons": [
+            "( g e ) b",
+            "( g e ) b",
+            "( g e ) b",
+            "( g e ) b",
+            "( g e ) b",
+            "( g e ) b",
+            "( g e ) b",
+            "( g e ) b"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K ( I ( I g ) ) ) g",
+          "depth": 3,
+          "gt": "g",
+          "raws": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "parsed": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "canons": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "I ( ( ( B ( ( ( C f ) a ) ( ( K z ) z ) ) ) g ) y )",
+          "depth": 4,
+          "gt": "( ( f z ) a ) ( g y )",
+          "raws": [
+            "y",
+            "h ( g y )",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y"
+          ],
+          "parsed": [
+            "y",
+            "h ( g y )",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y"
+          ],
+          "canons": [
+            "y",
+            "h ( g y )",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( B h ) h ) a",
+          "depth": 1,
+          "gt": "h ( h a )",
+          "raws": [
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a"
+          ],
+          "parsed": [
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a"
+          ],
+          "canons": [
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a",
+            "h a"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C f ) c ) ( ( ( B ( I ( ( K y ) d ) ) ) f ) z )",
+          "depth": 4,
+          "gt": "( f ( y ( f z ) ) ) c",
+          "raws": [
+            "( f c ) ( I ( K y ) d )",
+            "( f c ) z",
+            "( f c ) ( d z )",
+            "( f c ) ( d z )",
+            "( f c ) ( d z )",
+            "( f c ) ( d z )",
+            "( f c ) ( f d )",
+            "( f c ) z"
+          ],
+          "parsed": [
+            "( f c ) ( I ( K y ) d )",
+            "( f c ) z",
+            "( f c ) ( d z )",
+            "( f c ) ( d z )",
+            "( f c ) ( d z )",
+            "( f c ) ( d z )",
+            "( f c ) ( f d )",
+            "( f c ) z"
+          ],
+          "canons": [
+            "( f c ) y",
+            "( f c ) z",
+            "( f c ) ( d z )",
+            "( f c ) ( d z )",
+            "( f c ) ( d z )",
+            "( f c ) ( d z )",
+            "( f c ) ( f d )",
+            "( f c ) z"
+          ],
+          "n_parse": 8,
+          "distinct": 4,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( B g ) g ) a",
+          "depth": 1,
+          "gt": "g ( g a )",
+          "raws": [
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a"
+          ],
+          "parsed": [
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a"
+          ],
+          "canons": [
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a",
+            "g a"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K z ) g",
+          "depth": 1,
+          "gt": "z",
+          "raws": [
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z"
+          ],
+          "parsed": [
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z"
+          ],
+          "canons": [
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z",
+            "z"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( B g ) f ) ( ( ( B ( I ( I g ) ) ) f ) x )",
+          "depth": 4,
+          "gt": "g ( f ( g ( f x ) ) )",
+          "raws": [
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )"
+          ],
+          "parsed": [
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )"
+          ],
+          "canons": [
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )",
+            "( g f ) ( f x )"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( B f ) f ) ( I ( ( K f ) ( I c ) ) )",
+          "depth": 3,
+          "gt": "f ( f f )",
+          "raws": [
+            "f ( f ( c ) )",
+            "f ( f ( c ) )",
+            "f ( f ( c ) )",
+            "f ( f ( c ) )",
+            "f ( I ( I c ) )",
+            "f ( f c )",
+            "f ( f c )",
+            "f ( f ( c ) )"
+          ],
+          "parsed": [
+            "f ( f ( c ) )",
+            "f ( f ( c ) )",
+            "f ( f ( c ) )",
+            "f ( f ( c ) )",
+            "f ( I ( I c ) )",
+            "f ( f c )",
+            "f ( f c )",
+            "f ( f ( c ) )"
+          ],
+          "canons": [
+            "f ( f c )",
+            "f ( f c )",
+            "f ( f c )",
+            "f ( f c )",
+            "f c",
+            "f ( f c )",
+            "f ( f c )",
+            "f ( f c )"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "I ( ( ( B h ) f ) e )",
+          "depth": 2,
+          "gt": "h ( f e )",
+          "raws": [
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e"
+          ],
+          "parsed": [
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e"
+          ],
+          "canons": [
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e",
+            "h e"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "I ( I b )",
+          "depth": 2,
+          "gt": "b",
+          "raws": [
+            "I b",
+            "I b",
+            "I b",
+            "I b",
+            "I b",
+            "I b",
+            "I b",
+            "I b"
+          ],
+          "parsed": [
+            "I b",
+            "I b",
+            "I b",
+            "I b",
+            "I b",
+            "I b",
+            "I b",
+            "I b"
+          ],
+          "canons": [
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b",
+            "b"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( B ( ( ( C ( ( ( C h ) d ) d ) ) e ) c ) ) f ) c",
+          "depth": 3,
+          "gt": "( ( ( ( h d ) d ) c ) e ) ( f c )",
+          "raws": [
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( h d e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c"
+          ],
+          "parsed": [
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( h d e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c"
+          ],
+          "canons": [
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c",
+            "( ( h d ) e ) c"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( B h ) g ) e",
+          "depth": 1,
+          "gt": "h ( g e )",
+          "raws": [
+            "( h ( g e ) )",
+            "( h ( g e ) )",
+            "( h ( g e ) )",
+            "( h ( g e ) )",
+            "h (g e)",
+            "h (g e)",
+            "h (g e)",
+            "( h ( g e ) )"
+          ],
+          "parsed": [
+            "( h ( g e ) )",
+            "( h ( g e ) )",
+            "( h ( g e ) )",
+            "( h ( g e ) )",
+            "h (g e)",
+            "h (g e)",
+            "h (g e)",
+            "( h ( g e ) )"
+          ],
+          "canons": [
+            "h ( g e )",
+            "h ( g e )",
+            "h ( g e )",
+            "h ( g e )",
+            "h ( g e )",
+            "h ( g e )",
+            "h ( g e )",
+            "h ( g e )"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( B h ) h ) ( I ( I h ) )",
+          "depth": 3,
+          "gt": "h ( h h )",
+          "raws": [
+            "h h h",
+            "h h h",
+            "h ( I h )",
+            "h ( I h )",
+            "h ( I h )",
+            "h h h",
+            "h ( I h )",
+            "h h h"
+          ],
+          "parsed": [
+            "h h h",
+            "h h h",
+            "h ( I h )",
+            "h ( I h )",
+            "h ( I h )",
+            "h h h",
+            "h ( I h )",
+            "h h h"
+          ],
+          "canons": [
+            "( h h ) h",
+            "( h h ) h",
+            "h h",
+            "h h",
+            "h h",
+            "( h h ) h",
+            "h h",
+            "( h h ) h"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K h ) ( I ( I f ) )",
+          "depth": 1,
+          "gt": "h",
+          "raws": [
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h"
+          ],
+          "parsed": [
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h"
+          ],
+          "canons": [
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h",
+            "h"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( K g ) ( ( ( B h ) g ) ( ( ( B h ) g ) e ) )",
+          "depth": 1,
+          "gt": "g",
+          "raws": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "parsed": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "canons": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( C ( ( ( B ( I f ) ) h ) x ) ) z ) d",
+          "depth": 3,
+          "gt": "( ( f ( h x ) ) d ) z",
+          "raws": [
+            "( ( g x ) z ) d",
+            "( ( I f ) h ) x z d",
+            "Let's reduce the expression step by step:\n\nOriginal:  \n**(C ((B (I f) ) h) x) z) d**\n\nStep 1",
+            "( ( I f ) h ) x z d",
+            "Let's reduce the expression step by step:\n\nStart with:\n\n```\n( ( C ( ( ( B ( I f ) ) h ) x ) ) z",
+            "( ( g x ) z ) d",
+            "( ( I f ) h ) x z",
+            "( ( I f ) h ) x z"
+          ],
+          "parsed": [
+            "( ( g x ) z ) d",
+            "( ( I f ) h ) x z d",
+            null,
+            "( ( I f ) h ) x z d",
+            null,
+            "( ( g x ) z ) d",
+            "( ( I f ) h ) x z",
+            "( ( I f ) h ) x z"
+          ],
+          "canons": [
+            "( ( g x ) z ) d",
+            "( ( ( f h ) x ) z ) d",
+            "( ( ( f h ) x ) z ) d",
+            "( ( g x ) z ) d",
+            "( ( f h ) x ) z",
+            "( ( f h ) x ) z"
+          ],
+          "n_parse": 6,
+          "distinct": 3,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C h ) e ) ( ( ( B h ) h ) z )",
+          "depth": 2,
+          "gt": "( h ( h ( h z ) ) ) e",
+          "raws": [
+            "( h e ) z",
+            "h z",
+            "( h e ) z",
+            "( h e ) z",
+            "h z",
+            "( h e ) z",
+            "h z",
+            "h z"
+          ],
+          "parsed": [
+            "( h e ) z",
+            "h z",
+            "( h e ) z",
+            "( h e ) z",
+            "h z",
+            "( h e ) z",
+            "h z",
+            "h z"
+          ],
+          "canons": [
+            "( h e ) z",
+            "h z",
+            "( h e ) z",
+            "( h e ) z",
+            "h z",
+            "( h e ) z",
+            "h z",
+            "h z"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K ( ( K h ) g ) ) e",
+          "depth": 2,
+          "gt": "h",
+          "raws": [
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e"
+          ],
+          "parsed": [
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e"
+          ],
+          "canons": [
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e",
+            "e"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( B ( I h ) ) f ) c",
+          "depth": 2,
+          "gt": "h ( f c )",
+          "raws": [
+            "h f c",
+            "( h f ) c",
+            "( h f ) c",
+            "( h f ) c",
+            "c",
+            "h f c",
+            "( h f ) c",
+            "( h f ) c"
+          ],
+          "parsed": [
+            "h f c",
+            "( h f ) c",
+            "( h f ) c",
+            "( h f ) c",
+            "c",
+            "h f c",
+            "( h f ) c",
+            "( h f ) c"
+          ],
+          "canons": [
+            "( h f ) c",
+            "( h f ) c",
+            "( h f ) c",
+            "( h f ) c",
+            "c",
+            "( h f ) c",
+            "( h f ) c",
+            "( h f ) c"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C g ) c ) z",
+          "depth": 1,
+          "gt": "( g z ) c",
+          "raws": [
+            "g c z",
+            "g c z",
+            "g c z",
+            "g c z",
+            "g c z",
+            "g z",
+            "g c z",
+            "g c z"
+          ],
+          "parsed": [
+            "g c z",
+            "g c z",
+            "g c z",
+            "g c z",
+            "g c z",
+            "g z",
+            "g c z",
+            "g c z"
+          ],
+          "canons": [
+            "( g c ) z",
+            "( g c ) z",
+            "( g c ) z",
+            "( g c ) z",
+            "( g c ) z",
+            "g z",
+            "( g c ) z",
+            "( g c ) z"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( B ( ( ( C f ) d ) z ) ) g ) y",
+          "depth": 2,
+          "gt": "( ( f z ) d ) ( g y )",
+          "raws": [
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( ( f ( d z ) ) g ) y",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g"
+          ],
+          "parsed": [
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( ( f ( d z ) ) g ) y",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g"
+          ],
+          "canons": [
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( ( f ( d z ) ) g ) y",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g",
+            "( f ( d z ) ) g"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "I ( I ( I ( ( ( C f ) y ) x ) ) )",
+          "depth": 4,
+          "gt": "( f x ) y",
+          "raws": [
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x"
+          ],
+          "parsed": [
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x"
+          ],
+          "canons": [
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x",
+            "x"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "I ( I ( ( ( B g ) h ) b ) )",
+          "depth": 3,
+          "gt": "g ( h b )",
+          "raws": [
+            "h ( g b )",
+            "h b",
+            "h b",
+            "h ( g b )",
+            "h b",
+            "h b",
+            "h ( g b )",
+            "h b"
+          ],
+          "parsed": [
+            "h ( g b )",
+            "h b",
+            "h b",
+            "h ( g b )",
+            "h b",
+            "h b",
+            "h ( g b )",
+            "h b"
+          ],
+          "canons": [
+            "h ( g b )",
+            "h b",
+            "h b",
+            "h ( g b )",
+            "h b",
+            "h b",
+            "h ( g b )",
+            "h b"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( B f ) f ) b",
+          "depth": 1,
+          "gt": "f ( f b )",
+          "raws": [
+            "f b",
+            "f b",
+            "f b",
+            "b",
+            "b",
+            "f b",
+            "f b",
+            "f b"
+          ],
+          "parsed": [
+            "f b",
+            "f b",
+            "f b",
+            "b",
+            "b",
+            "f b",
+            "f b",
+            "f b"
+          ],
+          "canons": [
+            "f b",
+            "f b",
+            "f b",
+            "b",
+            "b",
+            "f b",
+            "f b",
+            "f b"
+          ],
+          "n_parse": 8,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "I ( ( ( C g ) x ) y )",
+          "depth": 2,
+          "gt": "( g y ) x",
+          "raws": [
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y"
+          ],
+          "parsed": [
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y"
+          ],
+          "canons": [
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y",
+            "y"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( ( C g ) ( ( ( B f ) h ) b ) ) z",
+          "depth": 2,
+          "gt": "( g z ) ( f ( h b ) )",
+          "raws": [
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b"
+          ],
+          "parsed": [
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b",
+            "g z b"
+          ],
+          "canons": [
+            "( g z ) b",
+            "( g z ) b",
+            "( g z ) b",
+            "( g z ) b",
+            "( g z ) b",
+            "( g z ) b",
+            "( g z ) b",
+            "( g z ) b"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K g ) b",
+          "depth": 1,
+          "gt": "g",
+          "raws": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "parsed": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "canons": [
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g",
+            "g"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( B ( ( ( C f ) a ) b ) ) f ) e",
+          "depth": 2,
+          "gt": "( ( f b ) a ) ( f e )",
+          "raws": [
+            "( f b ) a",
+            "( f ( a b ) ) e",
+            "f a b",
+            "( f ( a b ) ) e",
+            "( f ( a b ) ) e",
+            "( f a ) b",
+            "( f a ) b",
+            "( f ( a b ) ) e"
+          ],
+          "parsed": [
+            "( f b ) a",
+            "( f ( a b ) ) e",
+            "f a b",
+            "( f ( a b ) ) e",
+            "( f ( a b ) ) e",
+            "( f a ) b",
+            "( f a ) b",
+            "( f ( a b ) ) e"
+          ],
+          "canons": [
+            "( f b ) a",
+            "( f ( a b ) ) e",
+            "( f a ) b",
+            "( f ( a b ) ) e",
+            "( f ( a b ) ) e",
+            "( f a ) b",
+            "( f a ) b",
+            "( f ( a b ) ) e"
+          ],
+          "n_parse": 8,
+          "distinct": 3,
+          "correct": 0,
+          "contains_gt": 0
+        },
+        {
+          "expr": "( K d ) ( I d )",
+          "depth": 1,
+          "gt": "d",
+          "raws": [
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d"
+          ],
+          "parsed": [
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d"
+          ],
+          "canons": [
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d",
+            "d"
+          ],
+          "n_parse": 8,
+          "distinct": 1,
+          "correct": 8,
+          "contains_gt": 1
+        },
+        {
+          "expr": "( ( B g ) f ) ( ( ( C ( ( K ( I z ) ) a ) ) z ) y )",
+          "depth": 4,
+          "gt": "g ( f ( ( z y ) z ) )",
+          "raws": [
+            "( g f ) y",
+            "( g f ) y",
+            "( g f ) y",
+            "g y",
+            "g y",
+            "g y",
+            "( g f ) y",
+            "Let's reduce the expression step-by-step:\n\nStart with:\n```\n( ( B g ) f ) ( ( ( C ( ( K ( I z )"
+          ],
+          "parsed": [
+            "( g f ) y",
+            "( g f ) y",
+            "( g f ) y",
+            "g y",
+            "g y",
+            "g y",
+            "( g f ) y",
+            null
+          ],
+          "canons": [
+            "( g f ) y",
+            "( g f ) y",
+            "( g f ) y",
+            "g y",
+            "g y",
+            "g y",
+            "( g f ) y"
+          ],
+          "n_parse": 7,
+          "distinct": 2,
+          "correct": 0,
+          "contains_gt": 0
+        }
+      ]
+    }
+  }
+}
