@@ -8,6 +8,38 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ▶▶ s300 LIVE — ✅ **CHEAP-SLOT TAKEN (Michael-directed): DETERMINISTIC TERNARY
+> HOLOGRAPHIC MEMORY POC BUILT + GREEN** — the s299 ternary-holographic-memory
+> artifact realized in pure numpy, no model, no GD. (1) SYNTHESIS FIRST
+> (912c8e1, Michael-approved): page §4b — **the store is a SECOND IMPLEMENTATION
+> of the mementum protocol in a tensor medium** (Δ-log ≡ commit log w/ state =
+> fold; sign-collapse ≡ state.md; squash ≡ s262 compaction; undo=−Δ ≡ git
+> revert; correlation×permutation-prefix ≡ grep×log; sha256 ≡ commit SHA) +
+> memory coherent-gain-is-automatic-synthesis (★ CAP coherent gain ≡ the
+> ≥3-memories rule implemented in physics — the medium metabolizes by
+> superposition, no synthesizer in the loop). Honest limits kept: deterministic
+> crosstalk (git remembers, plate learns), no S3 gate (lives in the driver),
+> blind squash. Hierarchy rung: git semantics at plate cost = the episodic
+> register transformers lack (s295 exhaustion law). (2) BUILD:
+> `src/verbum/memory/` as the s299 TRANSDUCER decomposition — encode.py
+> (PCG64 keygen, ±1 bind, PERMUTATION time-address replacing float mirror
+> angles), fold.py (rf = int64 add — the ENTIRE determinism proof obligation
+> localizes in one associative op; DeltaLog: append/state(t')/undo/squash),
+> readout.py (unbind/recover/correlate/collapse/state_hash) — integer register
+> ENFORCED at the boundary (floats raise TypeError → sign() unreachable
+> mid-chain, λ shape). (3) GATES GREEN: tests/memory/test_gates.py 13/13
+> (G-DET incl. write-order-permutation + deterministic-crosstalk; G-UNDO incl.
+> K-solved-by-construction; G-REPLAY time-travel + squash-preserves-head;
+> G-COMPOSE closure-as-pytest; register boundary) — 428 total suite green,
+> ruff clean; ★ cross-PROCESS sha256 witness identical (c2a4634d…). λ yardstick
+> lesson en route: recover-fidelity test first used magic threshold 0.75 →
+> failed honestly at k=8 (agree 0.59 = the crosstalk law, not a bug) → regraded
+> vs matched wrong-key null (absolute fidelity-vs-k is P-CAPACITY-LAW's
+> business, not a unit test's). NEXT: P-CAPACITY-LAW curves can now run ON this
+> substrate (seconds, model-free — capacity/replay/time-Bragg selectivity).
+> ⚠ STANDING ORDER UNCHANGED: freeze BACKPROP-COMPILE rung-3b (the s295/s299
+> convergent door) — this session was the sanctioned cheap-slot, not a pivot.
+>
 > ▶▶ s299 LIVE — 💡 **THINKING SESSION: soft-β ⊕ holography → ATTENTION-AS-READOUT-BEAM
 > DERIVATION ENCODED** (`knowledge/attention-holographic-readout.md`, INDEX'd).
 > Michael's thread ("attention is a soft beta reduction" → "infer attention from
