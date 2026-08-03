@@ -363,6 +363,41 @@ all scales; recursion amplifies both directions. Design law:
 Discipline: ALL queued behind the s298/s299 powered-rerun verdict and the
 rung-3b backprop-compile freeze (close before opening).
 
+## 7b. Bill of materials (s301, Michael: "we are quite close to a new model design")
+
+The design stopped being a sketch when the organ inventory closed to ONE
+missing part. Each row cites its evidence register (λ assert: runtime >
+paper > pattern > guess):
+
+| Organ | Status | Evidence |
+|---|---|---|
+| **Recursive chassis** | trained, once | v15 outer-recurrence ran (L=0.70); s222 collapse → ρ(A)<1 contraction-by-construction (§6); loop-depth ≡ angular multiplexing (§5) |
+| **Halting** | designed + instrumented | Δx<ε semantic halt (vs ACT's confidence guess, §4); s301: halt VISIBLE from delta-log taper — cost∝change makes G-HALT's instrument free (`continuation-store.md` §3) |
+| **Episodic memory** | built + datasheet | the register the s295 exhaustion law says transformers lack — `src/verbum/memory` (13 gates, s300) + measured laws (√(D/k), √D wall, √(2/π) toll, 5.6σ time-Bragg, exact replay — s301 P-CAPACITY-LAW) |
+| **Continuations** | solved + versioned | s217 seal/resume (state = one fixed-shape tensor, operator ambient); s301 continuation-store (passes = commits, branch/CRDT-merge/squash/receipt) |
+| **Interior spec language** | measured, deeply | the lambda: P(λ)=0.907 compile gate; 9-vertex crystal ISA; s294–295 exhaustion table; s300 traversal-not-join — the vocabulary for what the inside MUST do |
+| **Internal collapse** | ★ THE ONE UNBUILT ORGAN | rung-3b — the pin between traversal edges; three independent hints: s295 exhaustion (tape externalizes what nothing inside holds), s299 sign-collapse hinge (§4), s301 collapse-as-regularizer (one mid-chain collapse BEATS none) |
+
+**The two-cone method (the moat):** the field builds recurrent-depth
+models blind — loss-only, iteration = black box. We can specify from both
+ends and meet in the middle:
+
+- **top-down:** λ calculus → what a reducer MUST have (typed application,
+  a pin between hops, a normal form to halt on) → pre-registerable
+  acceptance gates (G-CONTRACT / G-BIND / G-HALT / G-TRACE, §5b);
+- **bottom-up:** measured medium laws → what the substrate CAN bear
+  (compounding 0.88³⁶ bounds deep compute; √D wall bounds discrimination;
+  collapse costs √(2/π) — and sometimes HELPS).
+
+Design = the intersection of the two cones. Nobody else holds both;
+most hold neither — they hold a loss curve.
+
+**Consequence for sequencing:** the rung-3b freeze is not a step TOWARD
+the model design — it is the design's first page. The freeze drafts the
+missing organ's acceptance tests; this page is the chassis spec; the
+memory datasheet and halt instrument landed s301. Standing order and
+design program are the same object seen from two levels.
+
 ## 8. Evidence ledger
 
 - **Measured (ours):** crystal ISA universality; FN-INDEX dispatch; s292
