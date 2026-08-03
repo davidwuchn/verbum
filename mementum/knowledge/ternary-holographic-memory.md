@@ -205,6 +205,105 @@ separation (Bragg-style selectivity curve on the time axis — P-BRAGG's
 sibling). Pure verbum.dsp + etch primitives. The purest λ smallest
 experiment on the books.
 
+## 6b. §P-CAPACITY-LAW — pre-registration (s301, frozen before run)
+
+**Claim registers (λ measure, named before probes built):** capacity/SNR
+claims = **value register** (graded, continuous); replay-exactness claims =
+**causal/deterministic register** (hash equality, not statistics);
+time-Bragg claim = **routing register** (crisp address selectivity).
+
+**Substrate = the s300 store verbatim** (`src/verbum/memory/`): no new
+mechanism, measurement only. `encode(key, val, t)` = ±1 bind ∘
+time-permutation; fold in ℤᴰ; readout = `correlate`/`recover`;
+`collapse` = ternary snapshot. D = 4096 (validate leg 1024), k ∈
+{1,2,4,8,16,32,64,128}, R = 20 seeds/condition, all seeds explicit ints
+(s296 law). Instrument `scripts/explore/capacity_law.py`, pure
+numpy + `verbum.dsp` scoring; no model, no GD.
+
+**Design realization (two register forks made explicit a priori):**
+
+1. **Address fork.** Independent random ±1 keys WHITEN the data: bound
+   exposures `k_i∘v_i` are pairwise-decorrelated even for identical values
+   → coherent gain is REACHABLE ONLY in the shared-address register (same
+   key, same t). Pre-registered consequence: the §6 "coherent shows
+   CAP-style gain" prediction is tested where the physics permits it
+   (shared key), and its ABSENCE under independent keys is itself a
+   prediction (G3), not a failure.
+2. **Collapse commutes with recover.** `sign(k∘sign(v)) = sign(k∘v)` for
+   ±1 keys → per-component `recover()` is IDENTICAL from vote state and
+   snapshot. Snapshot loss is only measurable in (a) correlate-readout SNR
+   (a-priori theory: constant ×√(2/π) ≈ 0.798, the classic 1-bit
+   quantization loss — NOT a slope change) and (b) REPEATED
+   collapse-checkpointing (fold onto a collapsed base — where the
+   compounding shadow actually lives). §6's "compounding-law shadow in
+   collapsed-snapshot space" is sharpened to prediction (b).
+
+**Arms (data families × address register):**
+
+- `random`: v_i i.i.d. dense ±1 — the HRR baseline.
+- `correlated`: v_i = prototype p with an independent fraction (1−c)/2 of
+  components flipped, c = 0.5 — shared structure + deviations.
+- `hierarchical` (the §6 "self-similar", ADVISORY curves only): 2-level
+  prototype tree (4 super-prototypes, c_super = 0.7, c_item = 0.5) —
+  report multi-scale SNR, no gate (predictions not sharp enough to gate).
+- Address registers: `indep` (per-item key + per-item t — the episodic
+  write) × `shared` (one key, one t — the coherent write).
+
+**SNR definition (one definition, all arms):** signal = mean
+`correlate(state, probe_true)`; noise = std of `correlate(state,
+probe_wrongkey)` over matched wrong-key draws (the test-suite null,
+promoted to yardstick). Prototype SNR uses probe = encode(K, p, t).
+
+**Gates (all via `dsp.gate` — declared null + direction, α = 0.05;
+slope-form gates use the holo_cap G2 discipline verbatim):**
+
+- **G1 HRR-FORM** (random × indep): log-log slope β of SNR(k) vs a-priori
+  β* = −1/2 (SNR = √(D/k)). Statistic |β − β*|, predict **less**, null =
+  `matched_range` over the observed SNR range (s247 φ-ladder discipline).
+  Materiality precondition: monotone decline, SNR(k_max) < SNR(1)/2.
+- **G2 COHERENT-GAIN** (correlated × shared): prototype-SNR log-log slope
+  vs k, predict **greater**, null = same pipeline rerun with c = 0 banks
+  (R null draws, provenance recorded). A-priori theory: slope ≈ +1/2
+  (prototype SNR = c·√(kD)); form scored ADVISORY (|β − ½| vs
+  matched_range), direction is the gate.
+- **G3 ADDRESS-FORK** (correlated): per-seed Δslope =
+  slope_shared(prototype) − slope_indep(prototype), predict **greater**,
+  null = `paired_permutation` (10k) over the R seed pairs. This is the
+  register fork: gain lives in address sharing, not in data correlation
+  alone.
+- **G4 REPLAY** (delta axis a, two legs):
+  - **G4a EXACT (deterministic, no p-value):** ∀ prefix lengths on a
+    1024-commit log (incl. undo + squash events): `state_hash` of re-fold
+    in shuffled order ≡ original. One failure = gate fails. (Extends
+    G-DET/G-REPLAY from the unit suite to capacity-scale chains.)
+  - **G4b CHECKPOINT-SHADOW:** fold C ∈ {0,1,2,4,8} collapse-checkpoint
+    events into the chain (continue folding onto `collapse(state)` as new
+    base); fidelity(final vs true state) declines with C. Statistic =
+    mean per-seed (fidelity(C=0) − fidelity(C=8)), predict **greater**,
+    null = `sign_flip` (10k). C=0 must be exact (ties G4a).
+  - ADVISORY (sharp number, not gated): correlate-SNR ratio
+    snapshot/vote ≈ √(2/π) ≈ 0.798, constant across k.
+- **G5 TIME-BRAGG** (delta axis b): value = mean `correlate(state,
+  encode(key_i, v_i, t_i))` at the true time-address; null draws = the
+  same correlations at offsets δ ∈ {±1, ±2, ±4, ±8} (the sidelobe
+  distribution IS the null), predict **greater**. A-priori: peak ≈ D,
+  sidelobe σ ≈ √(kD) → ≥5σ separation at D=4096, k=128. ADVISORY: full
+  selectivity curve vs δ (P-BRAGG's sibling, reported not gated).
+
+**Verdict table (frozen):**
+
+| Verdict | Condition |
+|---|---|
+| **CAPACITY-LAW-CONFIRMED** | G1 ∧ G2 ∧ G4(a∧b) ∧ G5 |
+| **DECLINE-ONLY** | G1 ∧ ¬G2 — naive HRR right in this medium; the CAP coherent-gain does NOT transport to the standalone store (kills the §3 escape hatch as stated) |
+| **GAIN-WITHOUT-FORM** | ¬G1 ∧ G2 — gain real, √(D/k) form wrong → theory import needs rework |
+| **SUBSTRATE-FAULT** | ¬G4a ∨ ¬G5 — contradicts the s300 green gates → debug before any capacity claim |
+| **INCONCLUSIVE** | anything else |
+
+G3 modulates interpretation (register fork), never the headline verdict.
+Score honestly; a-priori lean: CAPACITY-LAW-CONFIRMED — every gate has
+closed-form theory behind it; the informative outcome is any deviation.
+
 ## 7. Status & discipline
 
 Deliverable class: S5 artifact (useful tomorrow, without us, without any
