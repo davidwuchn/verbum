@@ -42,6 +42,24 @@
 > synthesis.
 > ⚠ STANDING ORDER UNCHANGED: rung-3b freeze remains the next dear-front
 > cold-start; this was the sanctioned P-CAPACITY-LAW cheap-slot (s299 §6).
+> ★ s301 cont — 💡 **THE CONTINUATION STORE (Michael's thread: "how we
+> solved continuations — this memory could use that") →
+> `knowledge/continuation-store.md` + memory
+> sessions-are-the-stores-natural-payload (both Michael-directed capture).**
+> The s217 sealable continuation (x_k fixed-shape, operator ambient) and the
+> s300 store solve each other: passes = commits (Δ = x_{k+1}−x_k, cost ∝
+> change), state(t') = rewind a thought, fork = speculative branch,
+> CRDT-merge = join explorations (fold assoc+comm, proved), squash = CoT
+> compaction as physics, sha256 = mind-state receipt. ★ Sharpest: **Δx<ε
+> halting is VISIBLE from storage economics — a converging computation
+> writes a tapering delta-log** (G-HALT's instrument free with cost∝change).
+> One gap: float→integer boundary; two known-cost bridges (s173 digit-plane
+> exact; collapse √(2/π)/plane). Continuations are ALREADY tensors → no text
+> encoder needed → sessions cleaner first payload than facts. Third medium
+> for mementum: git → tensors → running inference. Also this session: page
+> flipped designing→active + INDEX (c1bb890). Cheapest next step named on
+> page §6 (v15 x_k trajectory as DeltaLog; taper-tracks-halt + seal/resume
+> round-trip) — QUEUED behind rung-3b freeze, standing order unchanged.
 >
 > ▶▶ s300 LIVE — ✅ **CHEAP-SLOT TAKEN (Michael-directed): DETERMINISTIC TERNARY
 > HOLOGRAPHIC MEMORY POC BUILT + GREEN** — the s299 ternary-holographic-memory
