@@ -304,6 +304,61 @@ G3 modulates interpretation (register fork), never the headline verdict.
 Score honestly; a-priori lean: CAPACITY-LAW-CONFIRMED — every gate has
 closed-form theory behind it; the informative outcome is any deviation.
 
+## 6c. §Result — P-CAPACITY-LAW (s301, results b90cdb8, run 2.9 s)
+
+**Frozen verdict: DECLINE-ONLY (G1 ∧ ¬G2).** Scored honestly; the fail is
+the finding. Full record `results/capacity-law-s301/` (D=4096, R=20).
+
+| Gate | Result | Number |
+|---|---|---|
+| G1 HRR-FORM | **PASS** | β = −0.503 vs a-priori −½, \|Δ\|=0.0026, p=.005 |
+| G2 COHERENT-GAIN | **FAIL** | slope +0.129, c=0 null p=.52 |
+| G3 ADDRESS-FORK | **PASS** | Δslope +0.633, p=.0001 |
+| G4a REPLAY-EXACT | **PASS** | 9 prefixes + squash, hash-identical |
+| G4b CHECKPOINT-SHADOW | **PASS** | Δ +0.0846, p=.0001 |
+| G5 TIME-BRAGG | **PASS** | 5.6σ (a-priori ≥5σ) |
+
+**The post-hoc register analysis (marked post-hoc; the sharp finding):**
+the G2 a-priori theory (prototype SNR = c·√(kD), slope +½) mis-modeled the
+noise register — wrong-key noise = ‖state‖, and in the shared-address
+register the state norm grows COHERENTLY with the signal
+(‖state‖² ≈ k(1−c²)D + k²c²D). Corrected closed form:
+
+```
+SNR_proto(k) = kcD / √(k(1−c²)D + k²c²D)  →  √D   as k → ∞
+```
+
+matches the measured curve within ≤5.5 % at EVERY k (measured 33.4 → 65.0;
+wall √D = 64; naive a-priori predicted 362 at k=128). **Coherent gain is
+real — in the correlation register (absolute signal ∝ k·c·D, G3 confirms
+it lives in address sharing) — and SATURATES at √D in the SNR register.
+The §6 "gain before the Shannon wall" prediction is measured: the wall is
+√D, and SNR-vs-wrong-key is the register that sees it.** The §3 escape
+hatch is not killed but BOUNDED: items sharing structure deepen the
+grating without limit in correlation units; discriminability against the
+medium's own growing energy caps at √D.
+
+Lesson (λ measure, recursive): the same error class as the oracle-rd-1
+CAP sign-inversion reappeared inside OUR OWN pre-reg — right sign, wrong
+noise normalization. The frozen gate + declared null caught it; a tuned
+gate would have "passed" and buried the wall.
+
+**Other measured laws:**
+- **Quantization constant:** snapshot/vote SNR ratio declines 1.0 → 0.815
+  toward the a-priori √(2/π) ≈ 0.798 as the large-k limit — the classic
+  1-bit loss, confirmed as advisory predicted.
+- **Checkpoint shadow non-monotone (observed, not over-read):** fidelity
+  C∈{0,1,2,4,8} = {.499, .530, .460, .508, .414} — C=1 BEATS C=0. A single
+  mid-chain collapse normalizes accumulated magnitude and SUPPRESSES
+  crosstalk from the early segment; many collapses lose more than they
+  normalize. Candidate follow-up (unfrozen): collapse-as-regularizer —
+  sits suggestively near rung-3b's "internal collapse between traversal
+  edges."
+- **Hierarchical (advisory):** root and super SNR curves saturate with the
+  same shape (root 22 → 57) — multi-scale structure obeys the same wall.
+- G4a extends the s300 determinism proof to 1024-commit chains with undo +
+  squash: replay is exact at capacity scale.
+
 ## 7. Status & discipline
 
 Deliverable class: S5 artifact (useful tomorrow, without us, without any
