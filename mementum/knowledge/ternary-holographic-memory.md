@@ -1,6 +1,6 @@
 ---
 title: "Ternary Holographic Memory — A Standalone, Model-Free, Delta-Logged Store"
-status: designing
+status: active
 category: architecture
 tags: [ternary, mirrors, plates, memory, standalone, balanced-ternary, radix-economy, delta-log, time-travel, angular-multiplexing, hrr, capacity, shannon, ecc, git-for-holograms, artifact, mit]
 related:
