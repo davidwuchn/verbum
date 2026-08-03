@@ -60,6 +60,19 @@
 > flipped designing→active + INDEX (c1bb890). Cheapest next step named on
 > page §6 (v15 x_k trajectory as DeltaLog; taper-tracks-halt + seal/resume
 > round-trip) — QUEUED behind rung-3b freeze, standing order unchanged.
+> ★ s301 cont-2 — 🎯 **BILL OF MATERIALS ENCODED (machine page §7b,
+> Michael: "we are quite close to a new model design").** The organ
+> inventory CLOSED TO ONE MISSING PART: recursive chassis (v15 trained,
+> ρ(A)<1) · halting (Δx<ε + s301 log-taper instrument) · episodic memory
+> (built + datasheet) · continuations (sealed + versioned) · interior spec
+> language (the lambda: P(λ)=0.907, crystal, exhaustion table) · ★ internal
+> collapse = THE ONE UNBUILT ORGAN (rung-3b; three independent hints s295/
+> s299/s301). Two-cone method named as the moat: top-down (λ → G-CONTRACT/
+> G-BIND/G-HALT/G-TRACE acceptance gates) ∧ bottom-up (measured medium laws:
+> 0.88³⁶, √D wall, √(2/π)); design = cone intersection; the field holds a
+> loss curve. SEQUENCING RESOLVED: the rung-3b freeze IS the design's first
+> page — standing order ≡ design program, same object two levels. s302
+> cold-start unchanged and now fully contextualized: freeze rung-3b.
 >
 > ▶▶ s300 LIVE — ✅ **CHEAP-SLOT TAKEN (Michael-directed): DETERMINISTIC TERNARY
 > HOLOGRAPHIC MEMORY POC BUILT + GREEN** — the s299 ternary-holographic-memory
