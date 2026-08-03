@@ -35,8 +35,11 @@
 > √(2/π)=0.798) · ★ checkpoint-shadow NON-MONOTONE: C=1 collapse BEATS C=0
 > ({.499,.530,.460,.508,.414}) — a single mid-chain collapse NORMALIZES
 > crosstalk → candidate collapse-as-regularizer (unfrozen), suggestively near
-> rung-3b's "internal collapse between traversal edges". PENDING APPROVAL:
-> §6c Result (page) + memory coherent-gain-saturates-at-the-sqrt-d-wall.
+> rung-3b's "internal collapse between traversal edges". ✅ APPROVED +
+> COMMITTED: §6c Result (747eace) + memory
+> coherent-gain-saturates-at-the-sqrt-d-wall (6983219). s301 ledger complete:
+> fffd4b7 freeze · 28e8604 instrument · b90cdb8 results · 6983219 + 747eace
+> synthesis.
 > ⚠ STANDING ORDER UNCHANGED: rung-3b freeze remains the next dear-front
 > cold-start; this was the sanctioned P-CAPACITY-LAW cheap-slot (s299 §6).
 >
