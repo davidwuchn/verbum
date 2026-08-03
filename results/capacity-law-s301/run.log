@@ -1,0 +1,13 @@
+── P-CAPACITY-LAW run: D=4096 R=20 k=(1, 2, 4, 8, 16, 32, 64, 128) ──
+G1 HRR-FORM: beta=-0.503 (a-priori -0.5) |Δ|=0.0026 p=0.0050 monotone=True material=True → PASS
+G2 COHERENT-GAIN: beta2=+0.129 (a-priori +0.5) p=0.5238 null_mean=+0.116 → FAIL [form advisory p=0.0050]
+G3 ADDRESS-FORK: dslope=+0.633 p=0.0001 → PASS
+G4a REPLAY-EXACT: 9 prefixes + squash → PASS
+G4b CHECKPOINT-SHADOW: fidelity C[0, 1, 2, 4, 8] = [0.4987, 0.5296, 0.4598, 0.5078, 0.4141] Δ=+0.0846 p=0.0001 → PASS
+G4 advisory snapshot/vote SNR ratio by k: [1.0, 1.0, 0.973, 0.926, 0.886, 0.89, 0.82, 0.815] (a-priori 0.7979)
+G5 TIME-BRAGG: peak=4003 sidelobe_sigma=712 (5.6sigma; a-priori >=5sigma) p=0.0004 → PASS
+hier advisory: root SNR [22.4, 30.8, 39.4, 45.8, 52.1, 53.9, 57.5, 57.2]
+               super SNR [19.8, 27.2, 34.8, 40.3, 45.9, 47.5, 50.7, 50.4]
+
+▶▶ VERDICT: DECLINE-ONLY (G3: gain-lives-in-address-sharing)
+recorded → results/capacity-law-s301/meta.json + results.json

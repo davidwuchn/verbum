@@ -1,0 +1,51 @@
+{
+  "run_id": "capacity-law-s301",
+  "timestamp": "2026-08-03T14:56:34.461300+00:00",
+  "prereg": "ternary-holographic-memory.md \u00a76b (frozen fffd4b7)",
+  "git_sha": "28e8604231db13a0dcc806ccececeedc83a11014",
+  "numpy": "2.4.4",
+  "python": "3.12.10",
+  "params": {
+    "dim": 4096,
+    "seeds": 20,
+    "k_grid": [
+      1,
+      2,
+      4,
+      8,
+      16,
+      32,
+      64,
+      128
+    ],
+    "c": 0.5,
+    "c_super": 0.7,
+    "c_grid": [
+      0,
+      1,
+      2,
+      4,
+      8
+    ],
+    "bragg_offsets": [
+      -8,
+      -4,
+      -2,
+      -1,
+      1,
+      2,
+      4,
+      8
+    ],
+    "snr_floor": 0.001,
+    "alpha": 0.05,
+    "seed_scheme": {
+      "bank": 10000,
+      "keys": 20000,
+      "wrong": 30000,
+      "nullbank": 40000,
+      "score": 777
+    }
+  },
+  "model": null
+}
