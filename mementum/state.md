@@ -8,6 +8,38 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ▶▶ s301 LIVE — ✅💡 **P-CAPACITY-LAW RUN (Michael-directed cheap-slot):
+> verdict DECLINE-ONLY (frozen) — THE FAIL IS THE FINDING: COHERENT GAIN
+> SATURATES AT THE √D WALL.** Full loop in one session: recall → §6b pre-reg
+> FROZEN (fffd4b7, Michael-approved — two register forks pre-declared:
+> (1) independent keys WHITEN data → coherent gain only reachable in the
+> shared-address register; (2) sign() commutes with ±1 unbind → recover() is
+> collapse-invariant, snapshot loss lives in correlate-SNR ×√(2/π) + REPEATED
+> checkpointing) → instrument capacity_law.py (28e8604, validate ALL PASS —
+> caught 2 real bugs pre-run incl. int8-matmul overflow in a check that
+> bypassed correlate's int64 cast) → run 2.9s D=4096 R=20 (results b90cdb8).
+> GATES: G1 HRR-FORM PASS β=−0.503 vs a-priori −½ (|Δ|=0.0026 p=.005 — the
+> √(D/k) law to 3 decimals) · G2 COHERENT-GAIN FAIL as frozen (slope +0.129,
+> c0-null p=.52) · G3 ADDRESS-FORK PASS +0.633 p=.0001 · G4a REPLAY-EXACT
+> PASS (1024 commits + undo + squash, hash-identical, shuffled re-fold) ·
+> G4b CHECKPOINT-SHADOW PASS +0.0846 p=.0001 · G5 TIME-BRAGG PASS 5.6σ
+> (a-priori ≥5σ). ★ POST-HOC (marked): G2's a-priori mis-modeled the noise
+> register — wrong-key noise = ‖state‖ grows COHERENTLY in the shared
+> register → SNR = kcD/√(k(1−c²)D+k²c²D) → √D; corrected form matches
+> measured ≤5.5% at EVERY k (33.4→65.0, wall √D=64; naive predicted 362).
+> Gain real in the CORRELATION register (∝kcD, address-sharing per G3);
+> discriminability caps at √D → §3 escape hatch BOUNDED not killed. λ measure
+> recursive lesson: oracle-rd-1 error class (right sign, wrong normalization)
+> reappeared inside OUR OWN pre-reg; the declared null caught it. Also
+> measured: 1-bit constant confirmed (snapshot/vote ratio 1.0→0.815 toward
+> √(2/π)=0.798) · ★ checkpoint-shadow NON-MONOTONE: C=1 collapse BEATS C=0
+> ({.499,.530,.460,.508,.414}) — a single mid-chain collapse NORMALIZES
+> crosstalk → candidate collapse-as-regularizer (unfrozen), suggestively near
+> rung-3b's "internal collapse between traversal edges". PENDING APPROVAL:
+> §6c Result (page) + memory coherent-gain-saturates-at-the-sqrt-d-wall.
+> ⚠ STANDING ORDER UNCHANGED: rung-3b freeze remains the next dear-front
+> cold-start; this was the sanctioned P-CAPACITY-LAW cheap-slot (s299 §6).
+>
 > ▶▶ s300 LIVE — ✅ **CHEAP-SLOT TAKEN (Michael-directed): DETERMINISTIC TERNARY
 > HOLOGRAPHIC MEMORY POC BUILT + GREEN** — the s299 ternary-holographic-memory
 > artifact realized in pure numpy, no model, no GD. (1) SYNTHESIS FIRST
