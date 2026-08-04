@@ -441,6 +441,127 @@ a shuffled one; TWN sparsity sane; verdict logic) → smoke (`--n-cells`,
 mechanics only, s297 law: direction unread) → Michael GO → full run tmux main:1
 → frozen scoring → §Result-ternarize-delta + memory candidate → approval batch.
 
+## §P-FAST-PLATE — pre-reg (the last construction door; FROZEN s305, before any run; s222 law)
+
+> The s304 triangulation closed static construction in BOTH registers (construct
+> magnitude INERT + routing_write routing INERT; gd_cd gradient WIRE). The one
+> untested door (§5c of `holographic-reduction-machine.md`): a plate written **by**
+> the forward pass, the only mechanism with access to the intermediate the pass
+> materializes. Michael GO (s305) on mechanization = **cleanup-and-reinject**
+> (over a delta-rule capital-relay), with a read-only materialization pre-gate as
+> a hard stop and a `static_reinject` arm to isolate the collapse. Freeze before
+> touching the model; the run only fills numbers.
+
+**Question.** Can an in-forward **cleanup-and-reinject** plate (no gradient)
+install the operand→capital linker by *materializing* the country intermediate
+the one-shot pass leaves latent — the door static plates provably cannot reach?
+
+**The mechanistic edge over routing_write (why this is genuinely different).**
+routing_write read at L23 in **named-country geometry** (where the one-shot
+landmark prompt does not materialize the country) and wrote the **capital**
+directly → INERT. P-FAST-PLATE inverts both moves: **read where the country is
+materialized-from-landmark, write the country in the geometry the host's own
+h-hop reads, and let the host produce the capital.** Two operations a static
+appended neuron cannot do: (1) nonlinear winner-take-all **collapse** (the s300
+"pin between traversal edges" / §4 internal-collapse organ); (2) read-geometry ≠
+write-geometry (decouple recognition from reinjection). Because the plate stores
+only *country* (not capital), **B2 (held-country) generalizes free** — the host
+knows all capitals via its native h-hop.
+
+**MATERIALIZATION SCAN — read-only pre-gate M (TRAIN-only, FROZEN, hard stop).**
+On TRAIN landmark DIRECT_PROMPTs, capture last-token post-attention-layernorm at
+every layer; measure leave-one-landmark-out country-decodability per layer against
+a **deranged-label null** (verbum.dsp gate).
+- **M fails** (no layer's decodability beats the null at α) → the country is
+  *never* linearly materialized on the one-shot prompt → **STILL-EXTERNAL-BY-
+  MEASUREMENT**: the s295 exhaustion law is *mechanical*, not incidental; the
+  in-forward door is closed by measurement. STOP (do not run the plate arms). A
+  real finding either way — the scan makes the experiment informative even in
+  failure.
+- **M passes** → `L*` = frozen selection rule: the highest-decodability layer in
+  the **lower ⅔ of the stack** (leaves h-hop room downstream). Ties → lowest layer.
+
+**THE PLATE (single forward hook at L*, last token position).** For the live
+activation `a`:
+1. **Whiten** `a` with the shared-Σ from the scan → `â`.
+2. **Recognize** `c* = argmax_c (â · k_c)` over all 16 country keys `{k_c}` built
+   from country-NAME frames (CC_FRAMES) at L* — with an **innocent-null confidence
+   floor**: fire only if the top projection exceeds the max innocent projection
+   (PROSE_INNOCENTS + NONCE_CANDS at L*). No fire on innocents → protects F5.
+3. **Reinject** `S · unit(v_{c*})` into the residual at L*, where `v_{c*}` = the
+   country **named**-geometry prototype at L* and `S` = median native down_proj
+   column-norm at L* (register-matched, as routing_write — no calibration loop).
+4. Host continues → capital via native h-hop.
+
+**Arms** (re-scored on the frozen 53 gate-0 cells; per-seed shuffle):
+- `base` — floor (must reproduce 0.200 / 0.125 / 0.545).
+- `fast_plate` — the cleanup-reinject above (hard argmax collapse + confidence floor).
+- `fast_plate_shuffle` — **λ yardstick**: recognize `c*`, reinject `v_{derange(c*)}`
+  (matched strength/geometry, routing destroyed). ≥3 derangement seeds. Must fail.
+- `static_reinject` — **collapse-isolation**: a soft, always-on write
+  `Σ_c softmax(â·k_c) · S · unit(v_c)` (same read/write geometry, NO hard collapse,
+  NO confidence gate). If `fast_plate > static_reinject`, the nonlinear collapse is
+  load-bearing.
+- `construct_lookup` — inherited materialized-view null for F2 (must fail B2).
+
+**Gates** (verbum.dsp `gate` + `paired_permutation` 10k; primaries Bonferroni α/3;
+F1–F3 routing register, F5 value register — inherited from §P-WRITEBACK-1):
+- **F1 WIRE** : `fast_plate > base`, with flip on B1 AND B2.
+- **F2 NOT-LOOKUP** : `fast_plate > construct_lookup` on B2.
+- **F3 SPECIFICITY** : `fast_plate > fast_plate_shuffle` on held-out (B1 ∪ B2) —
+  the load-bearing gate (λ yardstick).
+- **F5 SURVIVE** : innocent CE ≤ 2% rel base; native g/h accs within 0.10 of base.
+
+**Reports (advisory, NOT gates; λ observation).**
+- `collapse_delta` = `fast_plate` − `static_reinject` on held-out (is the hard
+  collapse load-bearing?) — the COLLAPSE-LOAD-BEARING vs GEOMETRY-SUFFICES fork.
+- `decodability(L*)`, per-layer decodability curve, and `L*` — the materialization
+  profile (WHERE the country lives on the one-shot prompt).
+- landmark-vs-name prototype cosine at L* — did routing_write fail on *geometry*
+  (low cos) or on *layer/target* (high cos)?
+- TRAIN recognition accuracy of the argmax collapse.
+
+**Verdicts (FROZEN).**
+- **STILL-EXTERNAL-BY-MEASUREMENT** : ¬M → country never materialized one-shot; the
+  exhaustion law is mechanical; the in-forward door is closed by measurement.
+- **FAST-PLATE-WIRES (+COLLAPSE-LOAD-BEARING)** : F1∧F2∧F3∧F5 ∧ `collapse_delta`>0
+  significant → the in-forward cleanup installs the wire AND the nonlinear collapse
+  is what does it (the s300 pin / §4 internal-collapse organ demonstrated in a real
+  model).
+- **FAST-PLATE-WIRES (+GEOMETRY-SUFFICES)** : F1∧F2∧F3∧F5 but `fast_plate` ≈
+  `static_reinject` → the win is read-where-materialized / write-where-host-reads;
+  collapse not required. Resolves routing_write's INERT as a **layer+target error**,
+  not a fundamental wall.
+- **FAST-PLATE-INERT** : M passes but ¬F1 → even reading at the materialized layer,
+  writing the country, and collapsing does NOT install the wire → construction is
+  insufficient even in-forward → **gradient is uniquely required** (the strongest
+  form of the s304 resolution; the last door closed).
+- **UNSPECIFIC** : F1∧F2 but ¬F3 (∼ shuffle) → moves, but not via the routing map.
+- **HOST-DAMAGED** : ¬F5 → the reinject corrupts innocents.
+
+**A-priori lean (grounded; do NOT peek to decide).** I lean slightly toward
+**STILL-EXTERNAL-BY-MEASUREMENT** (~45%): gate-0's `g_ok` used a country-*eliciting*
+prompt (G_QUERY, "…is located in" → country), far easier than the DIRECT prompt
+materializing the country unbidden; the whole s295 exhaustion law predicts the
+one-shot prompt holds no episodic intermediate. If M *passes*, that is itself the
+surprise and the finding. Then FAST-PLATE-WIRES ~35% (split collapse-load-bearing
+vs geometry-suffices), FAST-PLATE-INERT ~20%. **Either M-branch is a real finding.**
+
+**Frozen recipe (s222 law).** Reuse `import writeback_compile as wb` + the
+`routing_register` helpers (`ternarize_vec`, `unit`, gate scoring) — NO fork
+(λ one_way, λ simplify). Frozen 53 gate-0 cells loaded from
+`results/writeback-compile/qwen3-4b/gate0.json`; L* from the frozen scan rule
+(no peeking at held splits); S register-matched; ≥3 derangement seeds for the
+shuffle null; Qwen3-4B, MPS, dtype bfloat16. Score paired-by-cell exactly as
+§Result-4B did.
+
+**Cadence.** build `scripts/explore/fast_plate.py` (reuse, no fork) → `--validate`
+(planted worlds: scan finds a planted materialized layer + rejects a null;
+cleanup recognizes + reinjects; shuffle destroys; verdict logic) → smoke
+(`--n-cells`, mechanics only, s297 law: direction unread) → Michael GO → full run
+tmux main:1 → frozen scoring → §Result-fast-plate + memory candidate → approval
+batch.
+
 ## Sessions
 s303 (discussion captured — Michael's "why train the parent at all" thread,
 following the WIRE-COMPILES verdict and the topology-routing-not-magnitudes
@@ -478,3 +599,18 @@ weight-collapse does not transfer to a rank-16 delta; low-rank sign structure is
 ternary-aligned) — honest refinement, null still held. Artifact-size tension
 surfaced (370M-trit expanded plate ≈73MB > ~5M factored float params) → TERNARIZE-FACTORS-1
 candidate (ternarize the factors, not the product). See §Result-ternarize-delta.
+
+s305 — P-FAST-PLATE picked (Michael's call: front (a), the last construction
+door). Mechanization = cleanup-and-reinject (Michael GO over the delta-rule
+capital-relay). §P-FAST-PLATE pre-reg FROZEN before any run: a read-only
+MATERIALIZATION SCAN as a hard-stop pre-gate M (is the country linearly
+decodable anywhere on the one-shot DIRECT prompt?) → if ¬M, STILL-EXTERNAL-BY-
+MEASUREMENT (exhaustion law is mechanical); if M, an in-forward hook at L* reads
+the materialized country, argmax-collapses to the nearest of 16 name-frame
+country keys (confidence-floored), reinjects the country in named geometry, host
+h-hop makes the capital (B2 free). Arms base / fast_plate / fast_plate_shuffle
+(λ yardstick, ≥3 seeds) / static_reinject (collapse-isolation) / construct_lookup.
+Gates F1 wire / F2 not-lookup / F3 specificity / F5 survive. A-priori lean
+STILL-EXTERNAL-BY-MEASUREMENT (~45%) — gate-0 g_ok used a country-eliciting
+prompt, easier than the DIRECT prompt materializing it unbidden. Instrument
+(fast_plate.py) + run pending. Both M-branches are real findings.
