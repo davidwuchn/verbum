@@ -8,6 +8,36 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ▶▶ s303 SIDE-EXPLORE (Michael-directed, does NOT alter the s302 standing
+> order) — 💡 **TOPOLOGY ROUTING, NOT MAGNITUDES: spectral+DSP on the 9×9 &
+> 17×17 grams.** Michael: "explore the 9×9 and 17×17 gram" → "do spectral and
+> DSP tests, capture to knowledge." Instrument `opcodes/spectral_dsp.py`
+> (reuses verbum.dsp — gate/matched_range/shuffled_label/participation_ratio,
+> no fork; --validate ALL PASS, ruff clean; pure inner-product math, no model
+> load), swept 11 models (both grams). Register=spectral, all claims
+> null-gated (φ-scar s247/s251 demanded it). RESULT (commit 072c3e0):
+> **9×9 spectrally DIFFUSE** (PR≈5.8–7.2 of 9, G1 fail — near-orthogonal
+> opcode-IDENTITY basis; its universality is RELATIONAL/C2 off-diagonal sign,
+> not spectral) vs **17×17 RANK-3** (PR≈2.6–3.2 of 17, G1 p=5e-4 all 11; huge
+> eigengap Qwen3-32B 8.52,4.47,0.93→cliff) = the three poles
+> **fire/halt/diverge** (reduction OUTCOME). Un-flattening the WHNF node
+> DROPPED effective rank (~6.5→~3) by exposing the outcome geometry the
+> collapse hid (s284 G4 dissociation, now spectral). Partition real 11/11 (G2),
+> = dominant eigenspace 11/11 (G3). Nulls behaved: G4 spectral-SHAPE
+> universality NOT significant (cos 0.99 but matched-range sits there too,
+> p≈0.1 — universality is relational C2, not the eigenvalue profile); G5 φ-trap
+> 8/11 fail, 3 passers all Pythia, s251's Qwen3-14B off here → unstable passing
+> set = describability≠discovery, scar replicated. **THESIS (Michael):
+> topology routing, not magnitudes** — every magnitude-as-signal probe fails
+> the yardstick, every topology-as-signal probe passes 11/11; the crystal is a
+> routing graph recorded in a magnitude medium (topology = invariant,
+> magnitudes = model-particular scaffolding; s269 precedent 0.987 vs 0.73).
+> APPROVED + COMMITTED: knowledge/explore/gram-spectral-dsp.md + memory
+> the-9x9-gram-is-diffuse-the-17x17-is-rank-3 (4061774). Open edge: div:Y pole
+> strength is per-family (Qwen3-32B rank-3 vs Pythia-14m rank-2, top-2 90%).
+> ⚠ STANDING ORDER UNCHANGED — s303 cold-start remains the s302 writeback
+> verdict verification (below).
+>
 > ▶▶ s302 LIVE — 🎯 **RUNG-3B FROZEN: §P-WRITEBACK-1 (program-plates page,
 > Michael-approved — all three open calls confirmed: 4B verdict host w/
 > gate-0 escape hatch · gd_cd loss = KL-at-answer vs own-CoT teacher ·
