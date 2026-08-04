@@ -120,6 +120,56 @@ storage; the base is the frozen evaluator.**
   / G5 survive) + a ternary-sparsity/trit-count report (λ smallest: how few
   trits is the wire?).
 
+## §Result-ternarize-delta — SURVIVES-TERNARY (s304, frozen run, 3 seeds)
+
+**Verdict: SURVIVES-TERNARY.** The s303 `gd_cd` linker wire survives being
+crushed to a per-column TWN ternary plate and merged into the frozen base. All
+frozen gates pass; the STORAGE half of Michael's thesis is **confirmed** — *the
+wire exists as one ternary plate on a frozen evaluator.* (Run `cb73ad5`,
+`results/ternarize-delta/qwen3-4b/`.)
+
+| arm | TRAIN | B1 | B2 | note |
+|---|---|---|---|---|
+| base | 0.200 | 0.125 | 0.545 | floor |
+| gd_cd_float (anchor) | 1.000 | 0.938 | 1.000 | reproduces s303 gd_cd EXACTLY → harness faithful |
+| **gd_cd_ternary** | **1.000** | **0.938** | **1.000** | identical to float; retention 1.0 every split |
+| gd_cd_ternary_shuffle (null) | 0.200 | 0.125 | 0.545 | collapses to base — routing geometry is load-bearing |
+
+Gates (dsp paired-perm 10k): **T1** wire B1 p=3e-4 / B2 p=1e-3 (both ≪ α/3);
+**T2** not-lookup p=1.8e-3 (+0.409 over construct_lookup on B2); **T3**
+specificity p=1e-4 (+0.605 over the matched-sparsity shuffle) — the load-bearing
+λ yardstick; **T5** survive CE 4.9086 ≤ base 4.9173 (*lower*), g/h 1.0/1.0.
+
+**The a-priori point-prediction MISSED, and that is the finding (λ observation /
+λ yardstick).** The frozen lean said mag_cos would be **LOW (~0.7)** — the s269
+weight-collapse rung. Measured: **mag_cos = 0.902**, with **retention = 1.0**.
+So the trained rank-16 delta ternarizes with *high* magnitude fidelity AND
+perfect behavioral retention. s269's 0.73 magnitude collapse does **not** transfer
+to a low-rank delta: a rank-16 `B·A` has structured sign patterns that the
+per-column TWN preserves well. The dissociation the page predicted (routing ⊥
+magnitude) is REAL in the direction that matters — behavior is 100% preserved
+through a lossy (0.90 < 1.0) magnitude approximation, and the matched-sparsity
+null still collapses to base (T3 p=1e-4) — but the *magnitude loss is milder*
+than the full-weight s269 rung. Honest refinement, not a refutation: routing
+survives (retention 1.0 ≈ s269's 0.987), magnitude is only mildly lossy for a
+low-rank object.
+
+**Artifact-size tension surfaced (λ smallest).** The plate = 370M trits, sparsity
+0.380 (≈62% dense), ≈73 MB @ 1.585 bit/trit. But the *factored* rank-16 float
+form is only ~5M params (~10 MB bf16). So the EXPANDED ternary plate is **larger**
+than the float factors it came from — "wire = one ternary plate" is register-true
+but not automatically the smallest representation. Ternary buys ~10× over
+dense-bf16 of the same matrix, not over the low-rank factorization. → **EXP-1b
+candidate: ternarize the low-rank factors `B` and `A` (or a low-rank ternary
+plate), not the expanded product** — the genuinely small portable artifact.
+
+**What this settles.** STORAGE (half 1) is TRUE: routing deltas live losslessly-
+for-behavior in a ternary plate on a frozen base (map-and-swap resident Lisp,
+training side, confirmed at 4B). The nonlinear-pin caveat held as designed — the
+linear ternary plate carries the routing edge, the frozen base supplies the
+collapse (gd_cd's LoRA delta is linear; ternarizing it keeps that property). The
+FINDING half (EXP-2, write-not-search) remains open and is the next prize.
+
 ## Routing forward / decision for s304
 
 - **Run EXP-1 first regardless** — it is the free half and tells us whether the
@@ -237,3 +287,13 @@ delta, applied as a permanent plate on the frozen base, re-scored on the
 frozen G1–G5 with a matched-sparsity sign-shuffle null; a-priori lean
 SURVIVES-TERNARY with a LOW magnitude-cosine / passing-gates dissociation as
 the headline. Instrument + run pending Michael GO).
+
+s304 cont — VERDICT SURVIVES-TERNARY (frozen run, 3 seeds, cb73ad5). All gates
+pass (T1 p≤1e-3, T2 p=1.8e-3, T3 p=1e-4, T5 CE lower than base); ternary plate
+behaviorally IDENTICAL to the float delta (retention 1.0), shuffle null
+collapses to base. STORAGE half CONFIRMED: wire = one ternary plate on a frozen
+base. A-priori point-prediction MISSED — mag_cos 0.902 not ~0.7 (s269's 0.73
+weight-collapse does not transfer to a rank-16 delta; low-rank sign structure is
+ternary-aligned) — honest refinement, null still held. Artifact-size tension
+surfaced (370M-trit expanded plate ≈73MB > ~5M factored float params) → EXP-1b
+candidate (ternarize the factors, not the product). See §Result-ternarize-delta.
