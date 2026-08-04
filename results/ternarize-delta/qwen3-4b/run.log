@@ -1,0 +1,64 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 25614.27it/s]
+[td] Qwen/Qwen3-4B dev=mps n_layers=36 band=L22..L29 valid=53 splits={'TRAIN': 15, 'B1': 16, 'B2': 22} seeds=3 steps=500 gate0_ok=True
+[td] ── base ──
+    TRAIN: acc 0.200
+    B1: acc 0.125
+    B2: acc 0.545
+[td] ── seed 0 (train gd_cd) ──
+    step    0 loss 5.0311
+    step  100 loss 0.2560
+    step  200 loss 0.2532
+    step  300 loss 0.2523
+    step  400 loss 0.2519
+    step  499 loss 0.2516
+    gd_cd_float            TRAIN: acc 1.000
+    gd_cd_float            B1: acc 0.938
+    gd_cd_float            B2: acc 1.000
+    gd_cd_ternary          TRAIN: acc 1.000
+    gd_cd_ternary          B1: acc 0.938
+    gd_cd_ternary          B2: acc 1.000
+    gd_cd_ternary_shuffle  TRAIN: acc 0.200
+    gd_cd_ternary_shuffle  B1: acc 0.125
+    gd_cd_ternary_shuffle  B2: acc 0.545
+[td] ── seed 1 (train gd_cd) ──
+    step    0 loss 5.0364
+    step  100 loss 0.2560
+    step  200 loss 0.2533
+    step  300 loss 0.2523
+    step  400 loss 0.2519
+    step  499 loss 0.2516
+    gd_cd_float            TRAIN: acc 1.000
+    gd_cd_float            B1: acc 0.938
+    gd_cd_float            B2: acc 1.000
+    gd_cd_ternary          TRAIN: acc 1.000
+    gd_cd_ternary          B1: acc 0.938
+    gd_cd_ternary          B2: acc 1.000
+    gd_cd_ternary_shuffle  TRAIN: acc 0.200
+    gd_cd_ternary_shuffle  B1: acc 0.125
+    gd_cd_ternary_shuffle  B2: acc 0.545
+[td] ── seed 2 (train gd_cd) ──
+    step    0 loss 5.0137
+    step  100 loss 0.2559
+    step  200 loss 0.2532
+    step  300 loss 0.2522
+    step  400 loss 0.2518
+    step  499 loss 0.2516
+    gd_cd_float            TRAIN: acc 1.000
+    gd_cd_float            B1: acc 0.938
+    gd_cd_float            B2: acc 1.000
+    gd_cd_ternary          TRAIN: acc 1.000
+    gd_cd_ternary          B1: acc 0.938
+    gd_cd_ternary          B2: acc 1.000
+    gd_cd_ternary_shuffle  TRAIN: acc 0.200
+    gd_cd_ternary_shuffle  B1: acc 0.125
+    gd_cd_ternary_shuffle  B2: acc 0.545
+
+[td] ════ VERDICT: SURVIVES-TERNARY ════
+  T1=True T2=True T3=True T5=True
+  mag_cos_pooled=0.902 trits=370362339 sparsity=0.380
+  retention={'TRAIN': 1.0, 'B1': 1.0, 'B2': 1.0}
+  TRAIN: base 0.200 float 1.000 ternary 1.000
+  B1: base 0.125 float 0.938 ternary 0.938
+  B2: base 0.545 float 1.000 ternary 1.000
+[td] wrote results/ternarize-delta/qwen3-4b/results.json
