@@ -67,10 +67,34 @@
 > fails → the trajectory loss (not the band) closes the pin. Predicts: wires ∧ G4
 > closes ∧ ternarizes (s304) = the wire made legible AND portable. A-priori ~50%
 > +PIN-LEGIBLE / ~35% WIRES-BUT-OPAQUE / ~15% NO-WIRE. This is a DEAR (GD) front —
-> freeze DONE; NEXT is build instrument (reuse writeback_compile gd_cd loop + LoRA +
-> readout; add per-depth trajectory loss, wide band, G4 gate, arms) → --validate →
-> smoke → Michael GO → run tmux main:1 (~1-3h MPS).
-> ⚠ COLD-START s306: (1) if HHOP synthesis not committed, commit it (done: 5eea373).
+> freeze DONE.
+> ▶▶ **s306 — INSTRUMENT BUILT + --validate ALL PASS + SMOKE GREEN (9624cd7,
+> autonomous code commit). HOLDING FOR MICHAEL GO ON THE FULL RUN.**
+> `scripts/explore/trajectory_compile.py` reuses writeback_compile as a module
+> (no fork): wb BANK/Cell/prompts/LoRALinear + frozen gate0.json cells +
+> construct_lookup B2 baseline (cells IDENTICAL to the gd_cd score); ternarize_delta
+> reused for the advisory TWN plate. Loss = KL_answer + λ·Σ_L w(L)·(1−cos(student_last
+> [L], teacher_last[L])) to the frozen base on its own CoT; w(L)=SuperBake schedule
+> (floor 0.2 + Gaussian bumps enrich L6 + readout L25, σ=2, Σ=1); wide LoRA band
+> L5–L27; arms base/traj_compile/gd_cd_wide/traj_shuffle/construct_lookup; G4 GATING
+> (g4a rises ∧ g4b tracks @L6). --validate ALL PASS (7 verdict worlds, w-schedule,
+> wide band, cosine descent, G4 rise+track, score-integration); ruff clean; no
+> diagnostics. Smoke green (6 cells, mechanics only, s297 — direction NOT read):
+> trajectory loss active for traj_compile (0.154→0.120) and EXACTLY 0.0 for
+> gd_cd_wide (control differs by design); all 5 arms + scoring + 4 advisory reports
+> (loss curves, money plot 11 layers, G4@L23 rise 0.78 vs 0.58, ternary retention
+> 1.0 mag_cos 0.93) + results.json, no traceback; delta merge/restore verified.
+> ★ HONEST CAVEAT (documented, not a bug): at 6 cells traj got ALL held correct →
+> G4b sep=nan (legibility untestable with no incorrect class); the full 53-cell run
+> has base B1≈0.125 → incorrect held cells exist → G4b becomes testable.
+> ⚠ NEXT (s306): **Michael GO → full frozen run** `uv run python -u
+> scripts/explore/trajectory_compile.py 2>&1 | tee results/trajectory-compile/
+> qwen3-4b/run.log` (53 cells, 5 arms, 3 seeds × 500 steps, ~1–3h MPS) → auto-scored
+> frozen F1–F3+G4+F5 + verdict → results.json. Then commit results/ + run.log
+> AUTONOMOUS; §Result-trajectory-compile on the page + memory candidate + state block
+> → MICHAEL APPROVAL BATCH (synthesis approval-gated).
+> ⚠ COLD-START s306 (prior, now superseded by the build above): (1) if HHOP synthesis
+> not committed, commit it (done: 5eea373).
 > (2) P-TRAJECTORY-COMPILE is FROZEN (page committed) — BUILD the instrument next
 > (task #2), then validate/smoke → Michael GO → run. This front SUPERSEDES the
 > "pick next front" menu below (Michael already picked the SuperBake+GTSM synthesis).
