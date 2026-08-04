@@ -60,7 +60,7 @@ import argparse
 import json
 import sys
 import unicodedata
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, is_dataclass
 from pathlib import Path
 
 import numpy as np
@@ -181,7 +181,7 @@ CE_TEXTS = [*PROSE_INNOCENTS,
 # construct-arm calibration (frozen): mean capital-logit boost target on
 # COUNTRY frames (pair-free closed loop; 2 linear iterations, clamped)
 DELTA_TARGET = 3.0
-GAIN_CLAMP = (0.01, 2.0)
+GAIN_CLAMP = (0.01, 8.0)   # s302 smoke: 2.0 ceiling clamped the closed loop
 BAND = (0.60, 0.80)        # LoRA band, fractional depth (frozen recipe)
 INSTALL_DEPTH = 0.65       # construct install / detector layer
 
@@ -925,12 +925,22 @@ def run_model(args) -> int:
         print(f"[wb] partial arms ({sorted(set(results))}) — no verdict "
               f"(needs {sorted(needed)})")
 
+    def _degate(o):
+        """Recursively convert Gated (and any dataclass) for JSON dump."""
+        if is_dataclass(o) and not isinstance(o, type):
+            return asdict(o)
+        if isinstance(o, dict):
+            return {k: _degate(v) for k, v in o.items()}
+        if isinstance(o, (list, tuple)):
+            return [_degate(v) for v in o]
+        return o
+
     payload = {"model_id": args.model_id, "config": vars(args),
                "install_layer": li_star, "band": band,
                "gate0": {"ok": gate0_ok, "splits": ns, "cot_rate": cot_rate},
                "arms": results, "scoring": scoring}
     (out_dir / "results.json").write_text(
-        json.dumps(_json_safe(payload), indent=2))
+        json.dumps(_json_safe(_degate(payload)), indent=2))
     print(f"[wb] wrote {out_dir}/results.json")
     return 0
 
