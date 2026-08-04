@@ -87,21 +87,37 @@
 > A-priori ~50% +PIN-LEGIBLE MISSED → landed WIRES-BUT-OPAQUE (the ~35% branch);
 > answered the pre-reg's sharp Q: full-residual match does NOT force early
 > materialization (λ yardstick, not tuned).
-> ⚠ COLD-START s307: (1) if the s306 synthesis batch is not committed, commit the
-> Michael-approved batch (trajectory-compile §Result + register-theory-of-quantization
-> update + memory the-wire-forms-late-even-under-an-early-enrichment-trajectory-loss +
-> this block). (2) PICK THE NEXT FRONT (Michael's call): (a) **REGISTER-COMPANDING
-> QUANTIZER** — the s306-discussed idea (Michael): tail→ternary routing / body→int4
-> value / floor→0, SELECTOR = gradient sign-consistency/coherence NOT magnitude
-> (s171 coherence⊥magnitude Jaccard 0.17; ρ(grad,weight)→0 past L4). Tests whether
-> base-weight outlier MAGNITUDE is disposable (register theory) vs salient (AWQ/SpQR)
-> → would extend register-theory-of-quantization from delta→base-weights (closes its
-> frontier). Cheap-slot (weight-level, forward + coherence calib, NO long training).
-> Canonical home = ratio-gradient-quantization.md; freeze a pre-reg first (s222). (b)
-> **COUNTRY-SUBSPACE trajectory fork** — the indicated s306 next refinement (target
-> the country subspace at L6, not the full residual; attacks the opaque G4 directly).
-> (c) cheap-slots TERNARIZE-FACTORS-1 / gd_cd@32B. s306 ledger: 9624cd7 instrument ·
-> dd1bf99 results (autonomous) · 6daae42 quant knowledge page · synthesis batch pending.
+> ▶▶ **s306 cont — 🎯 REGISTER-COMPANDING QUANTIZER FRONT PICKED (Michael) +
+> §P-COMPANDING-QUANT pre-reg FROZEN** (in its canonical home
+> `explore/ratio-gradient-quantization.md`, status open→designing;
+> register-theory-of-quantization.md pointer added). The s306 quant discussion,
+> pre-registered: post-hoc WEIGHT quant of Qwen3-4B FFN (sidesteps the s223
+> acquisition-middle catch — no training). Register = ROUTING, measured by downstream
+> CE, gated on a SHUFFLED-TAIL null (never ‖W−Q(W)‖). ★ s171 CORRECTION folded in:
+> two SEPARABLE questions — Q1 STORAGE (keep tail as ternary SIGN vs fp16 = is
+> base-weight outlier MAGNITUDE VALUE disposable? the register-theory primary) and
+> Q2 SELECTOR (coherence vs magnitude tail pick — s171 Exp-3 proved MAGNITUDE WINS at
+> micro, coherence maturity-dependent → 4B answers s171's open-Q1). The register bet
+> is on STORAGE not on beating magnitude selection. Arms int_uniform / twn /
+> outlier_mag_fp16 (Q1 control) / companding_mag (PRIMARY) / companding_coh /
+> companding_shuffle (yardstick); B-sweep {2,2.5,3,4} → CE-vs-bits PARETO frontier;
+> C1 scheme-works / C2 magnitude-disposable / C3 selector / C4 specificity / C5
+> host-sane. Verdicts MAGNITUDE-DISPOSABLE(+COHERENCE/+MAGNITUDE-SELECTS) /
+> MAGNITUDE-SALIENT (register clash, bounds thesis to deltas) / SCHEME-INERT /
+> UNSPECIFIC / HOST-DAMAGED. A-priori ~55% MAGNITUDE-DISPOSABLE (likely +MAGNITUDE-
+> SELECTS), ~25% MAGNITUDE-SALIENT; NOT tuned. ⚠ LOAD-BEARING FROZEN CHOICES (amend
+> before ANY arm runs, s302 precedent): band=all 36 layers; τ tail fraction; B-sweep
+> set; ε for C2; fp16-tail = the SpQR control. ⚠ NEXT (s307): BUILD the harness
+> (reuse scripts/experiments/gradient_zero_map.py calibration + writeback/ternarize
+> apply-restore + ce/gh eval; add tiers + Pareto sweep) → --validate → smoke
+> (--n-layers, mechanics only) → Michael GO → run. Canonical home holds the pre-reg.
+> ⚠ COLD-START s307: (1) if the pre-reg freeze commit is not in, commit it (pages
+> ratio-gradient-quantization.md + register-theory-of-quantization.md + this block).
+> (2) BUILD the §P-COMPANDING-QUANT harness (task above). Alternative fronts still
+> live if Michael redirects: (b) **COUNTRY-SUBSPACE trajectory fork** (attacks the
+> opaque G4 — target the country subspace at L6, not full residual); (c) cheap-slots
+> TERNARIZE-FACTORS-1 / gd_cd@32B. s306 ledger: 9624cd7 instrument · dd1bf99 results ·
+> 6daae42 quant page · 80c6cf9 synthesis batch · §P-COMPANDING-QUANT freeze (this).
 > ▶▶ (build record, superseded by the verdict above) INSTRUMENT BUILT + --validate
 > ALL PASS + SMOKE GREEN (9624cd7).
 > `scripts/explore/trajectory_compile.py` reuses writeback_compile as a module

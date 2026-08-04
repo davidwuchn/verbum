@@ -1,6 +1,6 @@
 ---
 title: "Ratio Gradient Quantization — Companding the Heavy-Tailed Gradient (Spend Bits on the Ends, Derive the Ratio)"
-status: open
+status: designing
 category: strategy
 tags: [quantization, gradient, compression, companding, mu-law, precision-inversion, error-feedback, bimodal, heavy-tail, phi, distributed, delta, rate-distortion]
 related:
@@ -126,6 +126,100 @@ middle (the one failure mode to instrument for, catch #1).
 is a ratio (log) code whose ratio the project can derive from the precision inversion
 — but keep error feedback and protect the acquisition middle, or the elegant code
 freezes learning.
+
+## §P-COMPANDING-QUANT — pre-reg (FROZEN s306, before any run; s222 law)
+
+> s306, Michael: "could we use our understanding of magnitudes and soft-routing to
+> inform a quantization algorithm? Shave off the highest and lowest gradients,
+> translate them into ternary routing, then quant the rest?" This is the **post-hoc
+> WEIGHT** instance of this page's Open-Lead #2 (the 2-axis quantizer) — and the test
+> of `register-theory-of-quantization.md`'s open frontier (base-weight-wide). Being
+> post-hoc, it SIDESTEPS catch #1 (protect the acquisition middle — that only applies
+> during training); error-feedback (catch #2) also n/a (no accumulation over steps).
+
+**Register (λ measure, declared first).** The claim is **routing** — does the
+quantized matrix preserve the edge graph so the FUNCTION survives — so the metric is
+**downstream behavior** (held-text CE + the operand→capital g/h composition accuracy),
+gated against a **shuffled-tail null**. NEVER ‖W−Q(W)‖ / mag_cos (that measures the
+disposable register; λ yardstick).
+
+**Two separable questions (the s171 correction folded in).**
+- **Q1 — STORAGE (the register-theory primary).** Keep the outlier tail as ternary
+  SIGN (1.58 b) vs high-precision fp16/int8. Is base-weight outlier *magnitude value*
+  disposable-for-routing (register theory) or salient (AWQ/SpQR)?
+- **Q2 — SELECTOR (answers `gradient-zero-map.md` open-Q1 at scale).** Pick the tail by
+  **coherence** (gradient sign-consistency) vs **magnitude** (|w|). s171 Exp-3 proved
+  **magnitude wins at MICRO scale** (6.00 vs 6.12; combined HURT) because coherence
+  degenerates when undertrained (89–95% oscillators). Qwen3-4B is mature → the signal
+  should exist → this is exactly s171's untested open question.
+
+**Target.** FFN weights (gate/up/down) of Qwen3-4B, post-hoc, static, NO training.
+Band = all 36 layers (advisory depth split: Zone-A L0–3 where ρ(grad,weight)≈0.8 vs
+Zone-B/C L5+ where ≈0, per s171). Base model frozen; each arm quantizes → eval →
+restore (the writeback/ternarize apply/restore pattern).
+
+**Calibration (reuse, no fork).** `scripts/experiments/gradient_zero_map.py` already
+emits per-weight gradient stats over diverse text → **magnitude** |w| (static, free)
+and **coherence** = sign-consistency |Σ∇|/Σ|∇| (dynamic; one backward per calib batch,
+accumulated). Noise-floor from a shuffled-batch control (s171: 0.057).
+
+**Arms** (each hits a target average-bits B via its one free precision knob; we sweep
+B and compare Pareto frontiers, not a single point):
+- `int_uniform` — RTN int-b everything (outliers stretch the grid). FLOOR.
+- `twn` — per-column ternary everything. FLOOR.
+- `outlier_mag_fp16` — top-τ by |w| kept fp16, rest ternary (SpQR/AWQ "outliers are
+  salient / keep magnitude"). The Q1 control.
+- `companding_mag` — **PRIMARY**: top-τ by |w| → ternary sign·γ_col; body → int-b′;
+  floor (bottom coherence∧amplitude) → 0. Q1 = `companding_mag` vs `outlier_mag_fp16`
+  (same selection, ternary-sign vs fp16 storage).
+- `companding_coh` — top-τ by **coherence** → ternary; body int-b′; floor → 0. Q2 =
+  `companding_coh` vs `companding_mag` (advisory: Jaccard of the two tail sets, s171
+  predicts ≈0.17).
+- `companding_shuffle` — **λ yardstick**: the tail POSITIONS shuffled (matched count +
+  matched per-column γ), body unchanged. MUST fail. ≥3 shuffle seeds.
+
+**Bit-budget protocol (FROZEN).** Sweep B ∈ {2.0, 2.5, 3.0, 4.0} effective bits/weight
+(effective = Σ per-tier bits incl. the tail-index overhead, reported by the arm). Each
+arm's free knob (body int level b′, or the fp16-tail's low-precision level) is set to
+match B ± 0.1. The comparison object is the **CE-vs-bits Pareto frontier** per arm;
+verdicts read frontier DOMINANCE, not one budget.
+
+**Gates** (downstream CE on held innocents, paired over text chunks, 10k bootstrap;
+g/h composition acc; Bonferroni across the primary contrasts; null = shuffled-tail):
+- **C1 SCHEME-WORKS** : min over companding arms dominates `int_uniform` on the frontier.
+- **C2 MAGNITUDE-DISPOSABLE** (register-theory primary) : `companding_mag` frontier ≥
+  `outlier_mag_fp16` frontier (within ε) → the ternary-sign tail matches the fp16 tail
+  → outlier magnitude value disposable. If `outlier_mag_fp16` strictly dominates →
+  **MAGNITUDE-SALIENT** (register clash on base weights; AWQ right here).
+- **C3 SELECTOR** : sign of (`companding_coh` − `companding_mag`) frontier gap →
+  COHERENCE-SELECTS vs MAGNITUDE-SELECTS at 4B (answers s171 open-Q1).
+- **C4 SPECIFICITY** (yardstick) : the winning companding arm dominates
+  `companding_shuffle` (else the tail choice was inert / the win was budget-only).
+- **C5 HOST-SANE** : the winner's CE within a fixed rel-tolerance of fp16 at B=4.0.
+
+**Verdicts (FROZEN).**
+- **MAGNITUDE-DISPOSABLE (+COHERENCE-SELECTS / +MAGNITUDE-SELECTS)** : C1∧C2∧C4∧C5 →
+  register theory reaches BASE WEIGHTS (the frontier closes); C3 sub-tags the selector.
+  ★ the target result — outlier magnitude is scaffolding at the weight level too.
+- **MAGNITUDE-SALIENT** : ¬C2 (`outlier_mag_fp16` dominates) → base-weight outliers need
+  their magnitude; the register theory is delta-only (a real bound on the thesis).
+- **SCHEME-INERT** : ¬C1 → the 3-tier code doesn't beat uniform (companding not worth it).
+- **UNSPECIFIC** (¬C4) / **HOST-DAMAGED** (¬C5).
+
+**A-priori lean (honest, s171-grounded; do NOT tune).** Magnitude is the PROVEN
+selector (s171 Exp-3); coherence is untested at 4B. The register-theory bet is on Q1
+(STORAGE): ~55% MAGNITUDE-DISPOSABLE (ternary sign suffices for the tail), most likely
+paired with **+MAGNITUDE-SELECTS** (coherence loses/ties as a selector even at 4B); the
+register-theory upside is +COHERENCE-SELECTS; the register-refuting downside is
+MAGNITUDE-SALIENT (~25%). Every branch is publishable: it either extends
+`register-theory-of-quantization` to base weights, bounds it to deltas, or answers
+s171's open question. Not tuned to pass (B-sweep, τ, arms frozen a priori).
+
+**Cadence.** THIS is the frozen pre-reg. Next: build the harness (reuse
+`gradient_zero_map.py` calibration + writeback/ternarize apply-restore + ce/gh eval;
+add the tiers + Pareto sweep) → `--validate` (planted: budget-match, tier masks,
+shuffle-tail null, verdict worlds) → smoke (`--n-layers`, mechanics only, s297) →
+Michael GO → run.
 
 ## Open leads (declare register first)
 

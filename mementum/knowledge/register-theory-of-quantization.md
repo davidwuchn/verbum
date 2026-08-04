@@ -155,6 +155,14 @@ Routing survives, magnitude only 0.90 — the register split holds on a wire tra
 a different objective. Still one model, still trained deltas; base-weight-wide remains
 open (`explore/trajectory-compile-gtsm-superbake.md`).
 
+**The base-weight frontier is now a frozen experiment:** §P-COMPANDING-QUANT
+(`explore/ratio-gradient-quantization.md`, s306) tests whether a base-weight outlier's
+*magnitude value* is disposable-for-routing — keep the tail as ternary SIGN vs fp16, at
+matched bit budget, gated on downstream CE. **MAGNITUDE-DISPOSABLE** extends this thesis
+to base weights; **MAGNITUDE-SALIENT** bounds it to trained deltas. (Honest prior, from
+`gradient-zero-map.md` s171: magnitude is the proven *selector*; the register bet is on
+*storage*, not on beating magnitude selection.)
+
 ## Where this compounds
 
 - Sits atop `two-registers-of-topology.md` (the register split) and
