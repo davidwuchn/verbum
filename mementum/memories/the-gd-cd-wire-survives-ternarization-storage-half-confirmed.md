@@ -16,7 +16,7 @@ s269's 0.987) but magnitude is only mildly lossy for a low-rank object. The null
 still held — the point-prediction was wrong, the gate was honest.
 (2) λ smallest tension: the expanded plate is 370M trits ≈73MB > the ~5M
 factored float params (~10MB). Ternary wins ~10× over dense-bf16, NOT over the
-low-rank factorization → EXP-1b: ternarize the factors B,A, not the product.
+low-rank factorization → TERNARIZE-FACTORS-1: ternarize the factors B,A, not the product.
 
 WHERE: results/ternarize-delta/qwen3-4b/ (cb73ad5), instrument
 scripts/explore/ternarize_delta.py (60e0c1f), pre-reg + §Result on

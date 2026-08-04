@@ -61,7 +61,7 @@
 > FINDING=gradient-oracle). PICK THE NEXT FRONT (Michael's call): (a) **P-FAST-PLATE**
 > — the one untested construction door (forward-etched transient plate; the only
 > mechanism with in-forward access to the materialized intermediate; s299 §5c). (b)
-> **EXP-1b** — ternarize the low-rank FACTORS B,A not the expanded product (the
+> **TERNARIZE-FACTORS-1** — ternarize the low-rank FACTORS B,A not the expanded product (the
 > genuinely-small portable artifact; closes the λ smallest tension; cheap). (c)
 > **gd_cd @32B** — does backprop-compile install the wire in the typed larger
 > model? (d) **G4 mechanism probe** — close the s303 HOW gap (whitened intermediate
@@ -107,7 +107,7 @@
 > s269's 0.73 weight-collapse does NOT transfer to a rank-16 delta (low-rank sign
 > structure is ternary-aligned); null still held → point-prediction wrong, gate
 > honest (λ yardstick). (2) λ smallest tension: expanded plate 370M trits ≈73MB >
-> ~5M factored float params ≈10MB → **EXP-1b candidate: ternarize the factors B,A,
+> ~5M factored float params ≈10MB → **TERNARIZE-FACTORS-1 candidate: ternarize the factors B,A,
 > not the product**. Results committed autonomous (cb73ad5).
 > ⚠ SYNTHESIS PENDING MICHAEL APPROVAL: §Result-ternarize-delta (page) + memory
 > the-gd-cd-wire-survives-ternarization-storage-half-confirmed + Sessions entry +
@@ -118,7 +118,7 @@
 > PRIZE: HRR/sign-vote ternary bind-plate Δ=Σ key⊛value from measured whitened key
 > geometry, frozen base, NO gradient; §TERNARIZE-DELTA / EXP-2 on this page —
 > construct FAILED at 4B only in the MAGNITUDE register, the ROUTING-register write
-> is untested). (b) **EXP-1b — ternarize the low-rank factors** (the genuinely
+> is untested). (b) **TERNARIZE-FACTORS-1 — ternarize the low-rank factors** (the genuinely
 > small artifact; cheap, closes the λ smallest tension). (c) gd_cd @32B (does
 > backprop-compile install the wire in the typed larger model?). (d) the G4
 > pin-mechanism probe (close the s303 HOW gap). s304 ledger: f4e7ba5 pre-reg ·

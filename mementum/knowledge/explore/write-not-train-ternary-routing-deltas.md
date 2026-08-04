@@ -159,7 +159,7 @@ low-rank object.
 form is only ~5M params (~10 MB bf16). So the EXPANDED ternary plate is **larger**
 than the float factors it came from — "wire = one ternary plate" is register-true
 but not automatically the smallest representation. Ternary buys ~10× over
-dense-bf16 of the same matrix, not over the low-rank factorization. → **EXP-1b
+dense-bf16 of the same matrix, not over the low-rank factorization. → **TERNARIZE-FACTORS-1
 candidate: ternarize the low-rank factors `B` and `A` (or a low-rank ternary
 plate), not the expanded product** — the genuinely small portable artifact.
 
@@ -476,5 +476,5 @@ collapses to base. STORAGE half CONFIRMED: wire = one ternary plate on a frozen
 base. A-priori point-prediction MISSED — mag_cos 0.902 not ~0.7 (s269's 0.73
 weight-collapse does not transfer to a rank-16 delta; low-rank sign structure is
 ternary-aligned) — honest refinement, null still held. Artifact-size tension
-surfaced (370M-trit expanded plate ≈73MB > ~5M factored float params) → EXP-1b
+surfaced (370M-trit expanded plate ≈73MB > ~5M factored float params) → TERNARIZE-FACTORS-1
 candidate (ternarize the factors, not the product). See §Result-ternarize-delta.
