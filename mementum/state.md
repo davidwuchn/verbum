@@ -33,6 +33,40 @@
 > (reuse fn_stack/bake_stack/stack_error_domain/whitened_filter, no
 > fork) → --validate → gate-0 sweep @4B (commit cell list) → Michael GO
 > → arms (tmux main:1, ~1–2h MPS) → score frozen gates.
+> ★ s302 cont — ✅ **INSTRUMENT BUILT + GATE-0 PASSED @4B; SMOKE RUNNING.**
+> (1) `scripts/explore/writeback_compile.py` (5988a5f): real SwiGLU neuron
+> surgery (append gate/up rows + down col, equivalence-validated on/off-key),
+> whitened shared-Σ country keys (prompt-shaped innocents law), pair-free
+> closed-loop gain calibration (boost→3.0 target, 2 linear iters, clamp),
+> manual LoRA (init-identity + grad-isolation validated), frozen G1–G5
+> scoring via dsp + 7 planted verdict worlds — --validate ALL PASS, ruff
+> clean. (2) ❌→✅ FIRST GATE-0 FAILED IN THE MEASUREMENT REGISTER (8edac96):
+> cot_rate 0.652 — but inspection showed 80-token budget TRUNCATED verbose
+> reasoning mid-chain + "Brasília"-vs-ASCII accent false-negative; host
+> competence was visible in the truncated text (λ measure sibling of s294
+> dark-field). Amended PRE-RUN (no arm executed): COT_TOKENS 80→200,
+> unicode fold, +8 B1 landmarks (pool was exactly the minimum). Genuine
+> g-fails correctly filtered (St. Mary's Basilica, Golden Bridge —
+> ambiguous names). (3) ✅ GATE-0 PASS (0455b09): 53/56 cells, splits
+> 15/16/22 (≥8 ✓), cot_rate 0.981 ≥ 0.7 — 4B composes on the tape ≈
+> perfectly; verdict host CONFIRMED; frozen cell list = gate0.json.
+> (4) ▶ MECHANICS SMOKE RUNNING tmux main:1 (--n-cells 3 --steps 60
+> --seeds 1 → results/writeback-compile/smoke{,.log}; ~15–25 min; smoke ≡
+> mechanics only, direction UNREAD — s297 law). ⚠ COLD-START NEXT SESSION:
+> (1) check smoke: `tail results/writeback-compile/smoke.log` — want: gain
+> in clamp, surgery apply+restore clean, 3 GD arms train (loss falling) +
+> unwrap, results.json written, NO verdict printed (partial-arm guard);
+> accs = noise, do not read. (2) If mechanics green → Michael GO → FULL
+> FROZEN RUN in tmux main:1: `uv run python
+> scripts/explore/writeback_compile.py 2>&1 | tee
+> results/writeback-compile/qwen3-4b/run.log` (~1–2h MPS; all 7 arms,
+> auto-scored gates + verdict → results/writeback-compile/qwen3-4b/
+> results.json). (3) Score = read scoring.verdict + per-arm G1–G5, commit
+> results autonomous, write §Result-4B on program-plates page + memory
+> candidate → Michael approval batch. Memory candidate PENDING
+> (unproposed): gate-0-fails-in-the-measurement-register-first (the 0.652
+> near-false-FAIL). s302 ledger: 5fd3e0d freeze · ff95978 state · 5988a5f
+> instrument · 8edac96 amendments · 0455b09 gate-0 PASS.
 >
 > ▶▶ s301 CLOSED — ✅💡 **P-CAPACITY-LAW RUN (Michael-directed cheap-slot):
 > verdict DECLINE-ONLY (frozen) — THE FAIL IS THE FINDING: COHERENT GAIN

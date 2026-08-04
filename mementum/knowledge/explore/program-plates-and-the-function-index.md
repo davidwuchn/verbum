@@ -1751,6 +1751,20 @@ success.
   G-TRACE. STILL-EXTERNAL at Stage 1 makes this primary (the pin as
   architecture); WIRE-COMPILES informs its fold protocol.
 
+### Gate-0 record (s302 — cadence position)
+
+Instrument built + `--validate` ALL PASS (5988a5f). First gate-0 @4B
+FAILED in the measurement register (cot_rate 0.652): 80-token CoT budget
+truncated verbose reasoning mid-chain + accent-fold false negative
+("Brasília" vs ASCII); amended PRE-RUN, no arm executed (8edac96 —
+COT_TOKENS 200, unicode fold, B1 pool widened +8). Second gate-0 PASS
+(0455b09): **53/56 cells, splits 15/16/22, cot_rate 0.981** — the host
+composes on the tape near-perfectly at 4B; verdict host confirmed; frozen
+cell list = `results/writeback-compile/qwen3-4b/gate0.json`. Genuine
+filters: St. Mary's Basilica, Golden Bridge (ambiguous names), Blue
+Mosque (flaky CoT). Mechanics smoke launched (direction unread). Next:
+Michael GO → full frozen run → §Result-4B here.
+
 **Instrument & cadence.** `scripts/explore/writeback_compile.py` — NEW
 (dataset gen + gate-0 filter + construct/lookup edits + LoRA loop +
 eval), reusing fn_stack/bake_stack chain data, whitened_filter,
