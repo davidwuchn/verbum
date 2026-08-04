@@ -527,7 +527,7 @@ def run_model(args) -> int:
         p.requires_grad_(False)
     dec, _norm, lm_head = mh3.resolve_parts(model)
     n_layers = len(dec)
-    out_dir = Path(args.out)
+    out_dir = Path(args.out or f"results/{args.experiment}/qwen3-4b")
     out_dir.mkdir(parents=True, exist_ok=True)
     rec = Path(args.record_dir)
 
@@ -1060,7 +1060,8 @@ def main() -> int:
                     help="smoke: cap eval cells per split (mechanics only)")
     ap.add_argument("--record-dir",
                     default="results/writeback-compile/qwen3-4b")
-    ap.add_argument("--out", default="results/fast-plate/qwen3-4b")
+    ap.add_argument("--out", default=None,
+                    help="default results/{experiment}/qwen3-4b (per-experiment)")
     args = ap.parse_args()
     if args.validate:
         return run_validate(args.alpha)
