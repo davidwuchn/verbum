@@ -8,6 +8,56 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ▶▶ s304 cont-2 LIVE — 🎯 **ROUTING-REGISTER-1 (EXP-2, the FINDING half / "why
+> train the parent at all") FROZEN + BUILT + LAUNCHED.** TERNARIZE-DELTA-1 closed
+> SURVIVES-TERNARY (STORAGE ✓, synthesis approved+committed 13f1ed4); Michael GO
+> on EXP-2, named ROUTING-REGISTER-1. Question: can the operand→capital linker be
+> WRITTEN (no gradient, no calibration) as a ternary bind-plate on the frozen base
+> and install a WIRE? Design (grounded via explorer + runtime): construct went
+> INERT because it wrote the MAGNITUDE register (calibrated gain throttled to
+> ≈0.3); the country key FIRED (s294). FIX: keep the MEASURED whitened country key
+> as a faithful address, write the value in the ROUTING register — ternary sign,
+> register-matched full strength (S = median native down_proj col-norm at L23, NO
+> gain loop). 16 appended FFN neurons at install L23 (0.65×36; Qwen3-4B=36 layers).
+> Arms base / routing_write / routing_shuffle (deranged capitals, 3 seeds) /
+> construct_lookup. Gates G1 wire / G2 not-lookup / G3 specificity / G5 survive;
+> advisory boost + trit-count + key-separation. Verdicts WRITE-SUFFICES (thesis
+> confirmed, never train parent) / WRITE-DEGRADES / WRITE-INERT (→ gradient-finds/
+> ternary-stores) / HOST-DAMAGED. A-priori ~60/40 toward WRITE-INERT/DEGRADES (∄
+> clean linear linker, s300; country unmaterialized on landmark prompts); 40% hope
+> = the key already fires (construct failed on throttle not firing).
+> ⚠ SMOKE FLAG (9 cells, NOT the verdict, s297 law): keys separate strongly (min
+> 8.87), achieved boost 0.877 >> construct's 0.3 (register write DOES land harder),
+> BUT routing_write == base == shuffle on the task cells → WRITE-INERT in smoke.
+> Mechanistically the predicted wall: the key fires on country-NAME frames but the
+> one-shot LANDMARK prompt has the country only latent. The FULL 53-cell scored run
+> is the verdict. Did NOT tune to pass (λ yardstick).
+> ▶▶ **FULL RUN LAUNCHED tmux main:1** — `uv run python -u
+> scripts/explore/routing_register.py --seeds 3 2>&1 | tee
+> results/routing-register/qwen3-4b/run.log`; verified running (model loaded,
+> install L23, valid=53, gate0_ok=True, keys built, base eval started). FAST (no
+> GD — key-build + eval + 3 shuffle seeds, ~5–15 min MPS).
+> ⚠ COLD-START s305 (run should be done): (1) verify clean exit: `tail -30
+> results/routing-register/qwen3-4b/run.log` — want "VERDICT:" + "wrote
+> …results.json", no traceback. (2) READ THE FROZEN VERDICT: results.json →
+> `scoring.verdict` + `scoring.gates` (G1/G2/G3/G5 + _detail p-values) +
+> `scoring.stats` (boost, key_sep_min, trits, sparsity) + `scoring.anchor`
+> (per-split base/write/shuffle). (3) Commit results/ + run.log AUTONOMOUS; write
+> §Result-routing-register on the page (under §ROUTING-REGISTER-1) + memory
+> candidate + state block → MICHAEL APPROVAL BATCH. Report the boost (did the write
+> land?) + key-separation to attribute the verdict (weak-write vs no-routing).
+> (4) Verdict routes: WRITE-SUFFICES → Michael's thesis FULLY confirmed (write
+> routing deltas, apply to frozen base, never train parent) → the portable-artifact
+> pipeline is closed-form; next = scale/compose (tree-of-VSM plates, 32B). WRITE-
+> INERT/DEGRADES (a-priori favored) → FINDING resolves to "gradient FINDS, ternary
+> STORES"; EXP-1 already secured storage → the artifact path is the s299 auto-
+> superbake lifecycle (train→ternarize→keep plate) and/or the GTSM-trajectory-loss
+> thread (finds a more routing-faithful delta that ternarizes better + closes G4).
+> Then pick next front: EXP-1b (ternarize the factors, the genuinely-small
+> artifact) / gd_cd @32B / G4 mechanism probe — Michael's call.
+> s304 cont-2 ledger: 283a239 pre-reg freeze · 57db0ed instrument · run launched
+> (this block). The TERNARIZE-DELTA-1 (EXP-1) closed block is below.
+>
 > ▶▶ s304 LIVE — 🔄 **TERNARIZE-DELTA-1 (EXP-1, the STORAGE half) FROZEN + BUILT
 > + LAUNCHED.** Michael GO on the s304 named lead (does the s303 gd_cd wire
 > survive being crushed to a ternary plate?). Full loop this session: (1) grounded
