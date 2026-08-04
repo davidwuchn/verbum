@@ -8,6 +8,38 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ▶▶ s303 cont-FINAL — 💡🎯 **"WHY TRAIN THE PARENT AT ALL?" — WRITE ROUTING
+> DELTAS INTO TERNARY PLATES, APPLY TO A FROZEN BASE (Michael thesis, captured
+> for s304 pickup).** New page `knowledge/explore/write-not-train-ternary-
+> routing-deltas.md` (designing) + memory
+> write-routing-deltas-as-ternary-plates-dont-train-the-parent. REFRAME: we
+> ALREADY freeze the parent — gd_cd is LoRA (base frozen, only rank-16 B·A
+> moved), so the wire is already a linear delta on a frozen base. Real questions
+> = STORAGE (float LoRA → ternary plate?) and FINDING (write vs search?), not
+> train-vs-not. STORAGE (high conf): wire=routing (s303); ternary=routing
+> register; s269 routing survives ternary 0.987 vs magnitude cosine 0.73 →
+> ternarizes losslessly-for-routing; + delta-log (s299/s300) = git-for-weights.
+> FINDING (open): construct FAILED but in the MAGNITUDE register (hand-guessed
+> product-key gain) → NOT proof gradient is required; the untested experiment =
+> a ROUTING-register construct (HRR/sign-vote ternary bind-plate Δ=Σ key⊛value
+> from measured key geometry, frozen base, no grad). CAVEAT: ternary plates =
+> LINEAR storage; the pin is nonlinear (s300 ∄ clean linear linker) → plate
+> carries the routing EDGE, frozen base supplies the collapse (gd_cd linear LoRA
+> already proves edge-on-frozen-nonlinearity). This IS map-and-swap resident
+> Lisp on the training side (frozen base=universal reducer; plate=program).
+> ⚠ COLD-START s304: read that page → run **EXP-1 (ternarize-the-delta =
+> STORAGE test, cheap, FIRST)**: retrain gd_cd once, dump B·A, ternarize
+> (sign+per-col γ), apply frozen base, re-score frozen G1–G5 (null: sign-shuffle
+> matched sparsity). If survives → wire = one ternary plate = the portable
+> artifact. THEN Michael-decision: gradient-as-discovery-oracle (train→ternarize→
+> keep plate, s299 auto-superbake lifecycle) vs pure closed-form write (**EXP-2
+> routing-register construct** = the real "why train" prize). Complements (not
+> rivals) the GTSM-trajectory-loss idea (s303, one turn earlier): if a search is
+> needed, a trajectory loss finds a more routing-faithful/legible delta that
+> ternarizes better + closes the G4 gap. Freeze a pre-reg before any run (s222).
+> This SUPERSEDES the generic "pick next front" guidance in the block below —
+> the ternary-write thread is the named s304 lead.
+>
 > ▶▶ s303 LIVE — ✅ **WIRE-COMPILES (+GD-REQUIRED) @4B: the s295 backprop-compile
 > door (rung-3b) answered POSITIVE — the standing order is RESOLVED.** The
 > frozen writeback-compile run completed clean; verdict read + results committed

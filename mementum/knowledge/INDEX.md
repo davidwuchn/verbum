@@ -282,6 +282,8 @@ follow cross-references; then use the full catalog below for specific topics.
 | [explore/taxonomy-extraction.md](explore/taxonomy-extraction.md) | 📋 open | Taxonomy Extraction — Cross-Model Function Library Assembly |
 | [explore/ternary-descent.md](explore/ternary-descent.md) | ✅ active | TernaryDescent — Gradient Descent for Discrete Sign Topology |
 | [explore/ternary-flip-flop-not-overloading.md](explore/ternary-flip-flop-not-overloading.md) | ✅ active | Ternary Sign Flip-Flop ≠ Category Overloading — CAT-Q ST vs TernaryDescent on micro (null-gated) |
+| [explore/gram-spectral-dsp.md](explore/gram-spectral-dsp.md) | ✅ active | Gram spectral+DSP — 9×9 diffuse / 17×17 rank-3 (three poles); topology routing not magnitudes (s303, null-gated) |
+| [explore/write-not-train-ternary-routing-deltas.md](explore/write-not-train-ternary-routing-deltas.md) | 🔨 designing | Write don't train — routing deltas as ternary plates on a frozen base; EXP-1 ternarize-the-delta / EXP-2 routing-register construct (s303 thesis, s304 pickup) |
 | [explore/topology-magnitude-duality.md](explore/topology-magnitude-duality.md) | ✅ active | Topology-Magnitude Duality |
 | [explore/type-directed-composition.md](explore/type-directed-composition.md) | ✅ active | Type-Directed Composition — the behavioural test (composition follows TYPE, not just POSITION) |
 | [explore/type-is-decodable-readout-not-causal-direction.md](explore/type-is-decodable-readout-not-causal-direction.md) | ✅ active | Types are a decodable readout of a distributed type-application compute — not a stored direction (3-register + low-rank lattice, s282) |
