@@ -134,6 +134,94 @@ storage; the base is the frozen evaluator.**
   mechanism gap too). Write-not-train and trajectory-loss are complementary, not
   rival.
 
+## §TERNARIZE-DELTA-1 — pre-reg (FROZEN s304, before any run; s222 law)
+
+> This is EXP-1 (the STORAGE half), named TERNARIZE-DELTA-1. The FINDING half
+> (EXP-2, routing-register construct) is deferred. Freeze this before touching
+> the model. Gates/verdicts fixed here; the run only fills numbers.
+
+**Question.** Does the s303 `gd_cd` linker wire — a float rank-16 LoRA delta on
+a frozen base — SURVIVE being crushed to a ternary `{−1,0,+1}×γ` plate? If yes,
+the portable artifact exists: *the wire = one small ternary plate on a frozen
+evaluator* (map-and-swap resident Lisp, training side).
+
+**A-priori lean (grounded; do NOT peek to decide).** s269 says the
+routing/relational structure survives 1-bit/ternary at fidelity **0.987** while
+magnitude (weight cosine) collapses to **0.73**. s303 `gram-spectral-dsp` says
+the wire is a **routing** object. So the prediction is **SURVIVES-TERNARY**, and
+— the sharp, falsifiable part — the *magnitude* cosine between the float and
+ternary delta should be **LOW (~0.7)** while the behavioral gates **hold**. That
+dissociation (low magnitude fidelity ∧ passing gates) IS the finding: routing ⊥
+magnitude, measured on a trained wire. If instead the gates die, s269 does not
+transfer to trained deltas — a real surprise worth the run.
+
+**Ternarize recipe (FROZEN — TWN, Li & Liu 2016, per-column γ).** For each FFN
+proj delta `W_Δ = scale · B·A` (scale = α/r = 2), per input column `j`:
+- threshold `Δ_j = 0.7 · mean_i |W_Δ[i,j]|` (the TWN 0.7 rule; frozen),
+- mask `m_ij = 1[ |W_Δ[i,j]| > Δ_j ]` → the trit is `±1` where 1, else `0`,
+- scale `γ_j = mean_{i: m_ij=1} |W_Δ[i,j]|` (per-column magnitude),
+- plate `T[i,j] = γ_j · sign(W_Δ[i,j]) · m_ij` ∈ `{−γ_j, 0, +γ_j}`.
+
+The plate is **added directly to the frozen base proj weight** (permanent merge,
+not a LoRA wrapper — a delta-plate on a frozen evaluator), evaluated, then
+subtracted to restore. Register-correct: sign = routing, γ = the one magnitude
+DOF ternary keeps, `0` = π-shift/erasure (s299).
+
+**Arms** (all re-scored in ONE process, on the SAME gate-0 valid cells;
+per-seed float delta → its own ternary plate → its own shuffle):
+- `base` — floor (re-scored fresh; must reproduce 0.200 / 0.125 / 0.545).
+- `gd_cd_float` — the float LoRA delta, applied (ANCHOR: must reproduce the
+  frozen s303 gd_cd ≈ 1.000 / 0.938 / 1.000; if it does not, the harness is
+  broken, halt).
+- `gd_cd_ternary` — the SAME per-seed delta, ternarized by the recipe above.
+- `gd_cd_ternary_shuffle` — **the null (λ yardstick)**: permute the sign×mask
+  pattern within each plate (matched trit-count / matched per-column γ), so the
+  routing GEOMETRY is destroyed but the sparsity/magnitude budget is identical.
+  Must fail.
+- `construct_lookup` — inherited materialized-view null for G2 (cheap, no GD;
+  must fail B2).
+
+**Gates** (verbum.dsp `gate` + `paired_permutation` 10k; primaries Bonferroni
+α/3; T1–T3 routing register, T5 value register — inherited from §P-WRITEBACK-1):
+- **T1 WIRE-SURVIVES** : `gd_cd_ternary > base`, with flip on B1 AND B2.
+- **T2 NOT-LOOKUP**    : `gd_cd_ternary > construct_lookup` on B2.
+- **T3 SPECIFICITY**   : `gd_cd_ternary > gd_cd_ternary_shuffle` on held-out
+  (B1 ∪ B2) — the matched-sparsity null, the load-bearing gate.
+- **T5 SURVIVE**       : ternary-plate innocent CE ≤ 2% rel base; native g/h
+  accs within 0.10 absolute of base.
+
+**Reports (advisory, NOT gates; λ observation / λ smallest).**
+- `mag_cos` = cosine(`W_Δ_float`, `T`) per proj, pooled — the s269 magnitude
+  rung (expect LOW ~0.7; the dissociation vs passing gates is the headline).
+- `retention` = `gd_cd_ternary` acc / `gd_cd_float` acc per split (behavioral
+  fidelity; the s269 0.987-analogue in the routing register).
+- `trits` = Σ nonzero entries over all plates; `bits = trits · log2(3)`; and
+  `sparsity` per proj — the artifact size (how few trits is the wire?).
+
+**Verdicts (FROZEN).**
+- **SURVIVES-TERNARY** : T1 ∧ T2 ∧ T3 ∧ T5. → the wire IS one ternary plate; the
+  portable artifact exists. Report the magnitude-cosine dissociation.
+- **DEGRADES-TERNARY** : T1 (beats base, flips) but ¬T3 (∼ shuffle) or ¬T2
+  (lookup-like) → routing partially survives but not cleanly; per-column γ or
+  the 0.7 threshold may be lossy; note as the knob to revisit.
+- **DIES-TERNARY**     : ¬T1 → ternarization destroys the wire; s269 does not
+  transfer to trained deltas (surprise; the FINDING flips to "float storage
+  required" and EXP-2's premise weakens).
+- **HOST-DAMAGED**     : ¬T5 → the plate corrupts innocents (the merge, not the
+  routing, is the failure).
+
+**Frozen recipe (s222 law).** Reuse `writeback_compile.py` gd_cd training
+VERBATIM: LoRA r=16 α=32 FFN-only, band 0.6–0.8 depth, ≤500 steps, lr 1e-4, KL
+at answer vs own committed CoT teacher, **≥3 seeds**, Qwen3-4B, MPS, dtype
+bfloat16. Gate-0 (cot_rate ≥ 0.7, ≥8/split) inherited unchanged; VOID if it
+fails. Score paired-by-cell across seeds exactly as §Result-4B did.
+
+**Cadence.** build `scripts/explore/ternarize_delta.py` (reuse, no fork) →
+`--validate` (planted worlds: ternarize preserves a strong-signal matrix, kills
+a shuffled one; TWN sparsity sane; verdict logic) → smoke (`--n-cells`,
+mechanics only, s297 law: direction unread) → Michael GO → full run tmux main:1
+→ frozen scoring → §Result-ternarize-delta + memory candidate → approval batch.
+
 ## Sessions
 s303 (discussion captured — Michael's "why train the parent at all" thread,
 following the WIRE-COMPILES verdict and the topology-routing-not-magnitudes
@@ -142,3 +230,10 @@ map-and-swap resident Lisp on the training side. Two experiments pre-scoped
 (EXP-1 ternarize-the-delta = storage, cheap, first; EXP-2 routing-register
 construct = finding, the real test). Nonlinear-pin caveat named. NOT yet run —
 s304 pickup).
+
+s304 (EXP-1 named TERNARIZE-DELTA-1 by Michael; §TERNARIZE-DELTA-1 pre-reg
+FROZEN before any run — TWN per-column ternarize of the s303 gd_cd float LoRA
+delta, applied as a permanent plate on the frozen base, re-scored on the
+frozen G1–G5 with a matched-sparsity sign-shuffle null; a-priori lean
+SURVIVES-TERNARY with a LOW magnitude-cosine / passing-gates dissociation as
+the headline. Instrument + run pending Michael GO).
