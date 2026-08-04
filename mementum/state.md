@@ -50,25 +50,46 @@
 > ambiguous names). (3) ✅ GATE-0 PASS (0455b09): 53/56 cells, splits
 > 15/16/22 (≥8 ✓), cot_rate 0.981 ≥ 0.7 — 4B composes on the tape ≈
 > perfectly; verdict host CONFIRMED; frozen cell list = gate0.json.
-> (4) ▶ MECHANICS SMOKE RUNNING tmux main:1 (--n-cells 3 --steps 60
-> --seeds 1 → results/writeback-compile/smoke{,.log}; ~15–25 min; smoke ≡
-> mechanics only, direction UNREAD — s297 law). ⚠ COLD-START NEXT SESSION:
-> (1) check smoke: `tail results/writeback-compile/smoke.log` — want: gain
-> in clamp, surgery apply+restore clean, 3 GD arms train (loss falling) +
-> unwrap, results.json written, NO verdict printed (partial-arm guard);
-> accs = noise, do not read. (2) If mechanics green → Michael GO → FULL
-> FROZEN RUN in tmux main:1: `uv run python -u
-> scripts/explore/writeback_compile.py 2>&1 | tee
-> results/writeback-compile/qwen3-4b/run.log` (-u REQUIRED: stdout is
-> block-buffered through tee — smoke log looked empty mid-run; buffer
-> flushes only at exit) (~1–2h MPS; all 7 arms,
-> auto-scored gates + verdict → results/writeback-compile/qwen3-4b/
-> results.json). (3) Score = read scoring.verdict + per-arm G1–G5, commit
-> results autonomous, write §Result-4B on program-plates page + memory
-> candidate → Michael approval batch. Memory candidate PENDING
-> (unproposed): gate-0-fails-in-the-measurement-register-first (the 0.652
-> near-false-FAIL). s302 ledger: 5fd3e0d freeze · ff95978 state · 5988a5f
-> instrument · 8edac96 amendments · 0455b09 gate-0 PASS.
+> (4) ✅ TWO MECHANICS SMOKES (s297 law: direction unread): smoke #1 ran
+> end-to-end and CAUGHT two real bugs — Gated dataclass not
+> JSON-serializable (crash at the final dump) + gain calibration clamped
+> at the 2.0 ceiling w/ boost 1.6 < target 3.0 → fixed (4341dc7:
+> recursive _degate() dump sanitizer; GAIN_CLAMP ceiling 8.0, G5 stays
+> the safety gate); plus detach+flush in the GD print and `python -u`
+> REQUIRED (stdout block-buffers through tee — log looks empty mid-run;
+> 4c89b08). Smoke #2 ALL GREEN: gains converge 3.6/3.1/3.1 @ boost
+> 2.99≈3.0 target, keys separate (min 8.87 raw own-inn), all 7 arms +
+> scoring + verdict machinery + results.json written. Michael GO given.
+> (5) ▶▶ **FULL FROZEN RUN LAUNCHED tmux main:1** (Michael GO): `uv run
+> python -u scripts/explore/writeback_compile.py 2>&1 | tee
+> results/writeback-compile/qwen3-4b/run.log` — 53 cells, 7 arms, 3
+> seeds × 500 steps GD, ~1–2h MPS; auto-scored frozen G1–G5 + verdict →
+> results/writeback-compile/qwen3-4b/results.json.
+> ⚠ COLD-START s303 (run should be done): (1) verify clean exit:
+> `tail -30 results/writeback-compile/qwen3-4b/run.log` — want
+> "VERDICT:" + "wrote …results.json", no traceback (crash → fix +
+> relaunch; gates unchanged). (2) READ THE FROZEN VERDICT: results.json
+> → scoring.verdict + per-arm G1/G2/G3/G5 (+ _detail p-values) +
+> detector_g4 + gains + ce/gh. Frozen table (5fd3e0d): WIRE-COMPILES
+> (+CONSTRUCTION-SUFFICES/+GD-REQUIRED/+BOTH) / LOOKUP-ONLY /
+> UNSPECIFIC / HOST-DAMAGED / STILL-EXTERNAL / VOID-if-lookup-null-
+> moves-B2. A-priori leans (pre-run, do NOT peek to decide): construct
+> reaches B1+B2 iff the persistence property is real; gd_cd-vs-gd_sft
+> genuinely open (tape-trajectory vs gradient-pressure); construct_lookup
+> MUST fail B2 else task-shortcut VOID. (3) Commit results/ + run.log
+> AUTONOMOUS; write §Result-4B on program-plates page (under
+> §P-WRITEBACK-1, after §Gate-0 record) + memory candidate + state block
+> → MICHAEL APPROVAL BATCH (synthesis approval-gated). (4) Verdict
+> routes: WIRE-COMPILES → 32B construct transfer advisory (--arms
+> base,construct,construct_shuffle,construct_lookup --model-id
+> Qwen/Qwen3-32B) + Stage-2/3 sequencing question; STILL-EXTERNAL → pin
+> needs dynamics → Stage 2 P-FAST-PLATE / Stage 3 chassis (machine page
+> §5b) become primary; LOOKUP-ONLY → same routing + the memorization
+> datum. Memory 30ec938 (gate-0-measurement-register) already committed.
+> s302 ledger: 5fd3e0d freeze · ff95978 state · 5988a5f instrument ·
+> 8edac96 gate-0 amendments · 0455b09 gate-0 PASS 0.981 · 8c6edae
+> checkpoint · 30ec938 memory · 4c89b08 cosmetics · 4341dc7 smoke fixes
+> · full frozen run launched (this block).
 >
 > ▶▶ s301 CLOSED — ✅💡 **P-CAPACITY-LAW RUN (Michael-directed cheap-slot):
 > verdict DECLINE-ONLY (frozen) — THE FAIL IS THE FINDING: COHERENT GAIN
