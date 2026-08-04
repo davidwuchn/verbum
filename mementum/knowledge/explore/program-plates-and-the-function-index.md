@@ -1613,3 +1613,151 @@ the cheap-before-dear arm). λ measure note: the 0.90/1.00 anchors are
 behavior-register (greedy generation); all splice rows share one margin
 readout, so arm contrasts are register-clean; cross-register comparison
 is advisory only.
+
+## §P-WRITEBACK-1 — rung 3b, BACKPROP-COMPILE: internalize the pin (PRE-REG FROZEN s302, Michael-approved — host 4B gated / CD-loss KL-at-answer / ~48 cells all confirmed; gates frozen before any GD run)
+
+> The design's first page (machine page §7b): the one unbuilt organ is
+> the INTERNAL COLLAPSE — the pin between traversal edges. The
+> splice-exhaustion table (above) specifies the target by elimination:
+> the 0.20→0.90 gap is the writeback — the generation path producing,
+> committing, and re-encoding the intermediate in its own stream. This
+> section freezes the first attempt to install that capability in the
+> WEIGHT register of a pretrained host. Three independent hints say a
+> single collapse point is the right target: s295 exhaustion (the tape
+> externalizes what nothing inside holds), s299 sign-collapse hinge
+> (machine page §4), s301 collapse-as-regularizer (one mid-chain
+> collapse BEATS none). Design inputs inherited: held-out landmarks =
+> wire-vs-lookup (s300: baked g∘h = materialized view — the null we
+> must beat); SuperBake construction = cheap-before-dear arm (s295:
+> "persistent keyed neurons, not one-time additions" is the honest
+> form); s222 law (freeze topology before descending; never churn while
+> reducing); traversal-not-join (s300: the pin is a cleanup memory, not
+> a join wire).
+
+**Claim under test.** The hop-2 composition that the host can only
+perform via the tape (CoT 0.90) can be compiled into a small persistent
+weight delta such that the one-shot forward produces the intermediate
+internally and wins the argmax on the composed target — as a WIRE
+(generalizing to landmarks and countries never paired in the delta's
+construction), not a LOOKUP (a materialized g∘h table).
+
+**Task & chain (reuse, no fork).** The shortcut-free chain of
+§P-STACK-1b: landmark →g(country-of)→ country →h(capital-of)→ capital,
+where the landmark's own city is a NON-capital city (composed target is
+never a direct landmark attribute). Dataset EXTENDED for training:
+target ~16 countries × ~3 landmarks each (~48 cells), generated with
+the shortcut-free property, then FILTERED by gate-0 (a cell enters only
+if the host natively passes g one-shot, h one-shot, and CoT-composed on
+that cell). The committed cell list ships with the instrument.
+
+**Splits (the load-bearing design).**
+
+| split | content | tests |
+|---|---|---|
+| TRAIN | ~8 countries × ~2 landmarks | what the delta is built from |
+| HELD-LM (B1) | NEW landmarks of TRAIN countries | landmark-lookup vs wire (weak) |
+| HELD-CTRY (B2) | all landmarks of ~8 NEVER-TRAINED countries | **the wire gate (sharp)** — no g∘h pair involving these cells ever seen |
+
+Minimums after gate-0 filtering: ≥8 cells per split, else
+UNDERPOWERED-VOID (no verdict; extend dataset first).
+
+**Verdict host.** Qwen3-4B (the only locally-trainable host), GATED:
+gate-0 requires pooled CoT-composed ≥0.7 at 4B on the filtered cells —
+if 4B fails host-competence, the freeze is VOID at 4B and re-targets
+(8B-class) before any run. 32B enters only as a construction-arm
+transfer check (advisory — no GD at 32B; zero-gradient edits port).
+Prior datum: hosts disagree on margins, agree on nulls (P-KV-1b/1c).
+
+**Arms** (all evaluated on the ONE-SHOT direct prompt, greedy,
+first-token argmax over the union candidate set + generation check;
+readout classification reuses `stack_error_domain.py` 1:1):
+
+| arm | register | what it installs | built from |
+|---|---|---|---|
+| `base` | — | nothing (floor) | — |
+| `construct` | weights, zero-gradient | appended FFN neurons in the frozen band: key = whitened country-class filter (per-country, prompt-shaped innocents law), value = capital enrichment for that country — `product(g) ∈ key_passband(h)` made PERSISTENT (the property no hook had: fires during generation of every later token) | country list ONLY (all 16 — installs h keyed on g's product; never sees a landmark→capital pair) |
+| `construct_lookup` | weights, zero-gradient | matched-budget neurons keyed on LANDMARK tokens writing the capital directly (the materialized view) | TRAIN pairs only — **the load-bearing null**: fails B1/B2 by construction if the wire reading is right |
+| `gd_cd` | weights, LoRA | **backprop-compile proper**: self-distillation — teacher = SAME host given its own committed CoT prefix; student = delta'd host on the one-shot prompt; KL at the answer position (+ advisory hidden-state alignment at the band) | TRAIN pairs (tape trajectories) |
+| `gd_sft` | weights, LoRA | matched-budget direct answer CE (no tape) — isolates whether the TAPE's trajectory, not the answer token, is what compiles the wire | TRAIN pairs (answers only) |
+| `gd_shuffle` | weights, LoRA | gd_cd with deranged capitals | specificity null (λ yardstick) |
+
+**Frozen delta topology (s222 law — declared before any descent):**
+LoRA r=16 on FFN projections only (the plate register), band = the
+measured composition window (fractional depth 0.6–0.8; the w_h band of
+the ladder; 32B equivalent L29→L38). ≤500 steps, ≥3 delta seeds per GD
+arm. No topology churn mid-run; one recipe, frozen here.
+
+**Frozen gates** (verbum.dsp `gate` + `paired_permutation` 10k,
+item-paired; primaries G1–G3 Bonferroni α=0.05/3; registers named per
+λ measure — G1–G3 routing register (acc/flips; margins advisory),
+G4 value register, G5 value register):
+
+- **Gate-0 (validity):** per-cell native ceilings (g, h, CoT) filter;
+  split minimums; host competence ≥0.7 pooled CoT; instrument
+  self-check (--validate) green.
+- **G1 (WIRE, primary):** composed one-shot acc: arm > base with flip
+  on B1 AND on B2, for arm ∈ {construct, gd_cd}. B2 is the sharp term.
+- **G2 (NOT-LOOKUP, primary):** arm gain on B2 > its matched lookup
+  null's gain on B2 (construct vs construct_lookup; gd_cd vs gd_sft
+  advisory + gd_cd vs construct_lookup). Report generalization ratio
+  gain(B2)/gain(TRAIN) (advisory; ≈0 ≡ pure lookup signature).
+- **G3 (SPECIFICITY, primary):** gd_cd > gd_shuffle on held-out;
+  construct > value-deranged construct.
+- **G4 (PIN, mechanism, value register):** post-delta, the whitened
+  intermediate readout (country-ness at the band, one-shot prompt)
+  rises on held-out items vs base, AND item-level readout separates
+  composed-correct from composed-wrong (permutation). G4b: composed
+  errors move OUT of the operand domain (CITY/COUNTRY/CONTINENT
+  fraction drops — the s294 diagnostic reused). Mechanism clause —
+  reported with the verdict, never gates it alone.
+- **G5 (SURVIVE):** host CE on unrelated text within 2% relative of
+  base; native g and h one-shot accs unharmed (within noise). The
+  SuperBake payload-survival law; ¬G5 → HOST-DAMAGED, verdict void for
+  that arm.
+
+**Frozen verdict table.**
+- **WIRE-COMPILES** ⟺ gate-0 ∧ G1 ∧ G2 ∧ G3 ∧ G5 for ≥1 arm — clause
+  +CONSTRUCTION-SUFFICES (construct passes: the pin installs
+  zero-gradient), +GD-REQUIRED (only gd_cd passes), +BOTH. Report G4.
+- **LOOKUP-ONLY** ⟺ TRAIN improves ∧ (¬G1 ∨ ¬G2) on B2 — deltas at
+  this scale memorize the view; the pin does not install as a small
+  static delta.
+- **UNSPECIFIC** ⟺ G1 ∧ G2 ∧ ¬G3.
+- **HOST-DAMAGED** ⟺ ¬G5 (arm void; re-recipe before re-run).
+- **STILL-EXTERNAL** ⟺ no arm moves held-out at all — the writeback
+  cannot be reached by any static-delta class tried → the pin needs
+  dynamics, not weights → Stage 2/3 become primary.
+
+**Prediction ledger (a priori — do not peek to decide).** Open, with
+leans: `construct` reaches B1 and B2 by construction IF the whitened
+key fires on g's product during generation (the untested property —
+every prior test was a one-time hook; persistence is exactly what
+changed). `gd_cd` vs `gd_sft` is genuinely open — if the tape's
+trajectory is what carries the wire, CD generalizes where SFT
+memorizes; if gradient pressure through the g-circuit suffices, SFT
+generalizes too (and the tape reading weakens). construct_lookup MUST
+fail B2 — if it passes, the task has a shortcut and the freeze is void
+(gate-0 missed something). s301's collapse-as-regularizer hints the
+mechanism is cleanup/normalization, favoring G4's readout rising with
+success.
+
+**Staging (named, NOT frozen here — close before opening):**
+- **Stage 2 — P-FAST-PLATE** (machine page §5c/§7): the transient
+  in-forward etch (sign-vote rule) carrying the intermediate — the
+  episodic-register mechanism; fills the never-filled exhaustion row.
+  Frozen only after Stage 1's verdict.
+- **Stage 3 — the chassis** (machine page §5b): v15-lineage loop +
+  internal sign-collapse between passes + G-CONTRACT/G-BIND/G-HALT/
+  G-TRACE. STILL-EXTERNAL at Stage 1 makes this primary (the pin as
+  architecture); WIRE-COMPILES informs its fold protocol.
+
+**Instrument & cadence.** `scripts/explore/writeback_compile.py` — NEW
+(dataset gen + gate-0 filter + construct/lookup edits + LoRA loop +
+eval), reusing fn_stack/bake_stack chain data, whitened_filter,
+stack_error_domain classifier, verbum.dsp (no fork). torch, single
+process (train + eval in one runtime, λ simplify). Cadence: --validate
+→ gate-0 sweep (commit cell list) → Michael GO → arms @4B (tmux main:1,
+tee, checkpoint dir per λ runtime; ~1–2h MPS total for 3 GD arms × 3
+seeds; construct arms minutes) → score frozen gates → 32B construct
+transfer (advisory) → results committed per λ result_format; synthesis
+approval-gated.
