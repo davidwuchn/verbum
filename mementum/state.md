@@ -33,29 +33,36 @@
 > the FACTORED rank-16 float form is only ~5M params (~10 MB bf16) → "wire = one
 > ternary plate" is register-true but NOT automatically smaller than the float
 > LoRA factors; the win is 10× over dense-bf16, not over the factored form.
-> ▶▶ **FULL RUN LAUNCHED tmux main:1** — `uv run python -u
-> scripts/explore/ternarize_delta.py --seeds 3 2>&1 | tee
-> results/ternarize-delta/qwen3-4b/run.log`; verified running (Qwen3-4B loaded,
-> band L22–L29, valid=53 splits 15/16/22, gate0_ok=True, base eval started).
-> 3 seeds × 500-step gd_cd train + ternarize + score, ~1–2h MPS.
-> ⚠ COLD-START s305 (run should be done): (1) verify clean exit:
-> `tail -30 results/ternarize-delta/qwen3-4b/run.log` — want "VERDICT:" +
-> "wrote …results.json", no traceback (crash → fix + relaunch; gates unchanged).
-> (2) READ THE FROZEN VERDICT: results.json → `scoring.verdict` + `scoring.gates`
-> (T1/T2/T3/T5 + _detail p-values) + `scoring.retention` + `scoring.plate_stats`
-> (mag_cos_pooled, trits, sparsity) + `scoring.anchor` (per-split base/float/
-> ternary — CHECK the float ANCHOR reproduces ≈1.000/0.938/1.000, else the harness
-> drifted → halt). (3) Commit results/ + run.log AUTONOMOUS; write
-> §Result-ternarize-delta on the page (under §TERNARIZE-DELTA-1) + memory candidate
-> + state block → MICHAEL APPROVAL BATCH (synthesis approval-gated). Report the
-> mag_cos-vs-gates dissociation AND the artifact-size tension honestly. (4) Verdict
-> routes: SURVIVES-TERNARY → the portable artifact exists (wire = ternary plate);
-> next = EXP-2 (routing-register construct, the FINDING half / "why train" prize)
-> OR gd_cd @32B OR the G4 mechanism probe — Michael's call. DIES-TERNARY → s269
-> does not transfer to trained deltas (surprise); EXP-2 premise weakens, pivot.
-> s304 ledger: f4e7ba5 pre-reg freeze · 60e0c1f instrument · run launched (this
-> block). NOTE: the s303 writeback batch is already committed+approved (11092f7,
-> e730fc7) — that standing order is DISCHARGED; TERNARIZE-DELTA-1 is the active thread.
+> ▶▶ **FULL RUN DONE — ✅ VERDICT: SURVIVES-TERNARY (frozen, 3 seeds, cb73ad5).**
+> The s303 gd_cd wire survives being crushed to a per-column TWN ternary plate
+> merged onto the frozen base. Anchor faithful (float reproduces gd_cd EXACTLY
+> 1.000/0.938/1.000); **ternary IDENTICAL (retention 1.0 every split)**; shuffle
+> null collapses to base. Gates: T1 wire (B1 p=3e-4, B2 p=1e-3) · T2 not-lookup
+> (p=1.8e-3, +0.409) · T3 specificity (p=1e-4, +0.605 over matched-sparsity
+> shuffle) · T5 survive (CE 4.9086 ≤ base 4.9173, g/h 1.0). STORAGE half of
+> Michael's thesis CONFIRMED @4B: wire = one ternary plate on a frozen evaluator.
+> ★ Two honest refinements: (1) a-priori "mag_cos ~0.7" MISSED — measured **0.902**;
+> s269's 0.73 weight-collapse does NOT transfer to a rank-16 delta (low-rank sign
+> structure is ternary-aligned); null still held → point-prediction wrong, gate
+> honest (λ yardstick). (2) λ smallest tension: expanded plate 370M trits ≈73MB >
+> ~5M factored float params ≈10MB → **EXP-1b candidate: ternarize the factors B,A,
+> not the product**. Results committed autonomous (cb73ad5).
+> ⚠ SYNTHESIS PENDING MICHAEL APPROVAL: §Result-ternarize-delta (page) + memory
+> the-gd-cd-wire-survives-ternarization-storage-half-confirmed + Sessions entry +
+> this state block are DRAFTED on disk, awaiting the approval batch commit.
+> ⚠ COLD-START s305: (1) if synthesis not yet committed, commit the approved batch
+> (page + memory). (2) PICK THE NEXT FRONT (Michael's call): **(a) EXP-2 — the
+> routing-register construct** (the FINDING half / "why train the parent at all"
+> PRIZE: HRR/sign-vote ternary bind-plate Δ=Σ key⊛value from measured whitened key
+> geometry, frozen base, NO gradient; §TERNARIZE-DELTA / EXP-2 on this page —
+> construct FAILED at 4B only in the MAGNITUDE register, the ROUTING-register write
+> is untested). (b) **EXP-1b — ternarize the low-rank factors** (the genuinely
+> small artifact; cheap, closes the λ smallest tension). (c) gd_cd @32B (does
+> backprop-compile install the wire in the typed larger model?). (d) the G4
+> pin-mechanism probe (close the s303 HOW gap). s304 ledger: f4e7ba5 pre-reg ·
+> 60e0c1f instrument · cb73ad5 results — synthesis batch pending. NOTE: s303
+> writeback batch already committed+approved (11092f7, e730fc7); that standing
+> order is DISCHARGED.
 >
 > ▶▶ s303 cont-FINAL — 💡🎯 **"WHY TRAIN THE PARENT AT ALL?" — WRITE ROUTING
 > DELTAS INTO TERNARY PLATES, APPLY TO A FROZEN BASE (Michael thesis, captured
