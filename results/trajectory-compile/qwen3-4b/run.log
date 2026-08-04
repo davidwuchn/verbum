@@ -1,0 +1,91 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 19810.04it/s]
+[tc] Qwen/Qwen3-4B dev=mps N=36 band=L5..L27 enrich=L6 readout=L25 install=L23 valid=53 splits={'TRAIN': 15, 'B1': 16, 'B2': 22} seeds=3 steps=500 λ=1.0 gate0=True
+[tc] building whitened country keys (base, L6)...
+[tc] ── base ──
+    TRAIN: acc 0.200
+    B1: acc 0.125
+    B2: acc 0.545
+[tc] ── traj_compile (traj, wide band) ──
+[tc]   seed 0
+    step    0 kl 5.0356 traj 0.1653
+    step  100 kl 0.2537 traj 0.0670
+    step  200 kl 0.2517 traj 0.0357
+    step  300 kl 0.2514 traj 0.0283
+    step  400 kl 0.2513 traj 0.0254
+    step  499 kl 0.2521 traj 0.0236
+[tc]   seed 1
+    step    0 kl 5.0356 traj 0.1653
+    step  100 kl 0.2539 traj 0.0680
+    step  200 kl 0.2518 traj 0.0361
+    step  300 kl 0.2516 traj 0.0285
+    step  400 kl 0.2515 traj 0.0255
+    step  499 kl 0.2515 traj 0.0236
+[tc]   seed 2
+    step    0 kl 5.0356 traj 0.1653
+    step  100 kl 0.2538 traj 0.0666
+    step  200 kl 0.2517 traj 0.0357
+    step  300 kl 0.2514 traj 0.0284
+    step  400 kl 0.2513 traj 0.0253
+    step  499 kl 0.2523 traj 0.0235
+    TRAIN: acc 1.000
+    B1: acc 1.000
+    B2: acc 0.970
+[tc] ── gd_cd_wide (kl, wide band) ──
+[tc]   seed 0
+    step    0 kl 5.0356 traj 0.0000
+    step  100 kl 0.2543 traj 0.0000
+    step  200 kl 0.2523 traj 0.0000
+    step  300 kl 0.2518 traj 0.0000
+    step  400 kl 0.2515 traj 0.0000
+    step  499 kl 0.2514 traj 0.0000
+[tc]   seed 1
+    step    0 kl 5.0356 traj 0.0000
+    step  100 kl 0.2546 traj 0.0000
+    step  200 kl 0.2525 traj 0.0000
+    step  300 kl 0.2518 traj 0.0000
+    step  400 kl 0.2516 traj 0.0000
+    step  499 kl 0.2514 traj 0.0000
+[tc]   seed 2
+    step    0 kl 5.0356 traj 0.0000
+    step  100 kl 0.2545 traj 0.0000
+    step  200 kl 0.2524 traj 0.0000
+    step  300 kl 0.2518 traj 0.0000
+    step  400 kl 0.2516 traj 0.0000
+    step  499 kl 0.2518 traj 0.0000
+    TRAIN: acc 1.000
+    B1: acc 0.896
+    B2: acc 0.985
+[tc] ── traj_shuffle (deranged-country teacher) ──
+[tc]   shuffle seed 0
+    step    0 kl 12.2967 traj 0.1852
+    step  100 kl 0.6368 traj 0.1363
+    step  200 kl 0.6292 traj 0.0738
+    step  300 kl 0.6292 traj 0.0492
+    step  400 kl 0.6284 traj 0.0396
+    step  499 kl 0.6271 traj 0.0346
+[tc]   shuffle seed 1
+    step    0 kl 12.1598 traj 0.1840
+    step  100 kl 0.6372 traj 0.1217
+    step  200 kl 0.6345 traj 0.0637
+    step  300 kl 0.6312 traj 0.0427
+    step  400 kl 0.6304 traj 0.0349
+    step  499 kl 0.6305 traj 0.0309
+[tc]   shuffle seed 2
+    step    0 kl 11.5233 traj 0.1796
+    step  100 kl 0.5971 traj 0.1262
+    step  200 kl 0.5930 traj 0.0622
+    step  300 kl 0.5875 traj 0.0418
+    step  400 kl 0.5868 traj 0.0339
+    step  499 kl 0.5866 traj 0.0298
+    TRAIN: acc 0.000
+    B1: acc 0.250
+    B2: acc 0.561
+
+[tc] ════ VERDICT: WIRES-BUT-OPAQUE ════
+  F1=True F2=True F3=True G4_traj=False G4_wide=False F5=True
+  G4a rise: traj -0.1519 vs base -0.2430; G4b sep -0.41267716642972585
+  TRAIN: base 0.200 traj 1.000 wide 1.000 shuf 0.000
+  B1: base 0.125 traj 1.000 wide 0.896 shuf 0.250
+  B2: base 0.545 traj 0.970 wide 0.985 shuf 0.561
+[tc] wrote results/trajectory-compile/qwen3-4b/results.json

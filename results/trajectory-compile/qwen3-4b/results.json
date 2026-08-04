@@ -1,0 +1,5172 @@
+{
+  "model_id": "Qwen/Qwen3-4B",
+  "config": {
+    "validate": false,
+    "model_id": "Qwen/Qwen3-4B",
+    "device": "mps",
+    "dtype": "bfloat16",
+    "seeds": 3,
+    "steps": 500,
+    "lr": 0.0001,
+    "lora_r": 16,
+    "whiten_eps": 0.1,
+    "alpha": 0.05,
+    "seed": 0,
+    "n_cells": 0,
+    "record_dir": "results/writeback-compile/qwen3-4b",
+    "out": "results/trajectory-compile/qwen3-4b"
+  },
+  "n_layers": 36,
+  "band": [
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27
+  ],
+  "enrich_layer": 6,
+  "readout_layer": 25,
+  "w_schedule": [
+    0.012256715111720039,
+    0.01416266265140933,
+    0.019469132537866838,
+    0.030460643224683247,
+    0.046826126252628116,
+    0.06284836914515521,
+    0.0696704469030039,
+    0.06284836914515521,
+    0.04682612625262813,
+    0.030460643224683982,
+    0.01946913253790226,
+    0.014162662652738722,
+    0.012256715150570523,
+    0.01173874493790036,
+    0.011631233349908404,
+    0.011614283654472837,
+    0.011614283654472837,
+    0.011631233349908404,
+    0.01173874493790036,
+    0.012256715150570523,
+    0.014162662652738722,
+    0.019469132537902265,
+    0.030460643224683982,
+    0.04682612625262813,
+    0.06284836914515521,
+    0.0696704469030039,
+    0.06284836914515521,
+    0.046826126252628116,
+    0.030460643224683247,
+    0.019469132537866838,
+    0.01416266265140933,
+    0.012256715111720039,
+    0.011738744053667448,
+    0.011631217676505006,
+    0.011614067289812876,
+    0.011611957515160611
+  ],
+  "gate0": {
+    "ok": true,
+    "splits": {
+      "TRAIN": 15,
+      "B1": 16,
+      "B2": 22
+    }
+  },
+  "arms": {
+    "base": {
+      "seeds": [
+        [
+          {
+            "landmark": "Sagrada Familia",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 0.875
+          },
+          {
+            "landmark": "Alhambra",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 1.0
+          },
+          {
+            "landmark": "Park Guell",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Barcelona",
+            "correct": 0.0,
+            "margin": -0.75
+          },
+          {
+            "landmark": "Seville Cathedral",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Seville",
+            "correct": 0.0,
+            "margin": -4.8125
+          },
+          {
+            "landmark": "Taj Mahal",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "Agra",
+            "correct": 0.0,
+            "margin": -0.375
+          },
+          {
+            "landmark": "Charminar",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "Hyderabad",
+            "correct": 0.0,
+            "margin": -3.125
+          },
+          {
+            "landmark": "Mysore Palace",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "Mysore",
+            "correct": 0.0,
+            "margin": -4.0625
+          },
+          {
+            "landmark": "Hawa Mahal",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 0.4375
+          },
+          {
+            "landmark": "Karnak Temple",
+            "country": "Egypt",
+            "split": "TRAIN",
+            "truth": "Cairo",
+            "arg": "Agra",
+            "correct": 0.0,
+            "margin": -2.1875
+          },
+          {
+            "landmark": "Abu Simbel",
+            "country": "Egypt",
+            "split": "TRAIN",
+            "truth": "Cairo",
+            "arg": "Aswan",
+            "correct": 0.0,
+            "margin": -4.5625
+          },
+          {
+            "landmark": "Valley of the Kings",
+            "country": "Egypt",
+            "split": "B1",
+            "truth": "Cairo",
+            "arg": "Agra",
+            "correct": 0.0,
+            "margin": -2.1875
+          },
+          {
+            "landmark": "Bibliotheca Alexandrina",
+            "country": "Egypt",
+            "split": "B1",
+            "truth": "Cairo",
+            "arg": "Alexandria",
+            "correct": 0.0,
+            "margin": -2.9375
+          },
+          {
+            "landmark": "Burj Khalifa",
+            "country": "UAE",
+            "split": "TRAIN",
+            "truth": "Abu Dhabi",
+            "arg": "Dubai",
+            "correct": 0.0,
+            "margin": -2.5
+          },
+          {
+            "landmark": "Palm Jumeirah",
+            "country": "UAE",
+            "split": "TRAIN",
+            "truth": "Abu Dhabi",
+            "arg": "Dubai",
+            "correct": 0.0,
+            "margin": -1.875
+          },
+          {
+            "landmark": "Burj Al Arab",
+            "country": "UAE",
+            "split": "B1",
+            "truth": "Abu Dhabi",
+            "arg": "Dubai",
+            "correct": 0.0,
+            "margin": -1.5
+          },
+          {
+            "landmark": "Dubai Fountain",
+            "country": "UAE",
+            "split": "B1",
+            "truth": "Abu Dhabi",
+            "arg": "Dubai",
+            "correct": 0.0,
+            "margin": -5.1875
+          },
+          {
+            "landmark": "Koutoubia Mosque",
+            "country": "Morocco",
+            "split": "TRAIN",
+            "truth": "Rabat",
+            "arg": "Marrakech",
+            "correct": 0.0,
+            "margin": 0.0
+          },
+          {
+            "landmark": "Hassan II Mosque",
+            "country": "Morocco",
+            "split": "TRAIN",
+            "truth": "Rabat",
+            "arg": "Morocco",
+            "correct": 0.0,
+            "margin": -1.0625
+          },
+          {
+            "landmark": "Jemaa el-Fnaa",
+            "country": "Morocco",
+            "split": "B1",
+            "truth": "Rabat",
+            "arg": "Agra",
+            "correct": 0.0,
+            "margin": -1.0
+          },
+          {
+            "landmark": "Majorelle Garden",
+            "country": "Morocco",
+            "split": "B1",
+            "truth": "Rabat",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -3.6875
+          },
+          {
+            "landmark": "Leaning Tower of Pisa",
+            "country": "Italy",
+            "split": "TRAIN",
+            "truth": "Rome",
+            "arg": "Florence",
+            "correct": 0.0,
+            "margin": -1.25
+          },
+          {
+            "landmark": "Rialto Bridge",
+            "country": "Italy",
+            "split": "TRAIN",
+            "truth": "Rome",
+            "arg": "Rome",
+            "correct": 1.0,
+            "margin": 2.125
+          },
+          {
+            "landmark": "Duomo di Milano",
+            "country": "Italy",
+            "split": "B1",
+            "truth": "Rome",
+            "arg": "Milan",
+            "correct": 0.0,
+            "margin": -2.0
+          },
+          {
+            "landmark": "Ponte Vecchio",
+            "country": "Italy",
+            "split": "B1",
+            "truth": "Rome",
+            "arg": "Florence",
+            "correct": 0.0,
+            "margin": -1.75
+          },
+          {
+            "landmark": "Christ the Redeemer",
+            "country": "Brazil",
+            "split": "TRAIN",
+            "truth": "Brasilia",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -1.8125
+          },
+          {
+            "landmark": "Sugarloaf Mountain",
+            "country": "Brazil",
+            "split": "TRAIN",
+            "truth": "Brasilia",
+            "arg": "Rio de Janeiro",
+            "correct": 0.0,
+            "margin": -1.375
+          },
+          {
+            "landmark": "Copacabana Beach",
+            "country": "Brazil",
+            "split": "B1",
+            "truth": "Brasilia",
+            "arg": "Rio de Janeiro",
+            "correct": 0.0,
+            "margin": -3.75
+          },
+          {
+            "landmark": "Maracana Stadium",
+            "country": "Brazil",
+            "split": "B1",
+            "truth": "Brasilia",
+            "arg": "Rio de Janeiro",
+            "correct": 0.0,
+            "margin": -5.0625
+          },
+          {
+            "landmark": "Hagia Sophia",
+            "country": "Turkey",
+            "split": "TRAIN",
+            "truth": "Ankara",
+            "arg": "Istanbul",
+            "correct": 0.0,
+            "margin": -2.6875
+          },
+          {
+            "landmark": "Galata Tower",
+            "country": "Turkey",
+            "split": "B1",
+            "truth": "Ankara",
+            "arg": "Istanbul",
+            "correct": 0.0,
+            "margin": -1.375
+          },
+          {
+            "landmark": "Pamukkale",
+            "country": "Turkey",
+            "split": "B1",
+            "truth": "Ankara",
+            "arg": "Ankara",
+            "correct": 1.0,
+            "margin": 0.4375
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 4.4375
+          },
+          {
+            "landmark": "Palace of Versailles",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 3.25
+          },
+          {
+            "landmark": "Pont du Gard",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Agra",
+            "correct": 0.0,
+            "margin": -0.875
+          },
+          {
+            "landmark": "Neuschwanstein Castle",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Agra",
+            "correct": 0.0,
+            "margin": -0.125
+          },
+          {
+            "landmark": "Cologne Cathedral",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Cologne",
+            "correct": 0.0,
+            "margin": -0.125
+          },
+          {
+            "landmark": "Heidelberg Castle",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Heidelberg",
+            "correct": 0.0,
+            "margin": -1.9375
+          },
+          {
+            "landmark": "CN Tower",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Toronto",
+            "correct": 0.0,
+            "margin": -0.125
+          },
+          {
+            "landmark": "Stanley Park",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 0.125
+          },
+          {
+            "landmark": "Mount Royal",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 0.125
+          },
+          {
+            "landmark": "Sydney Opera House",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Sydney",
+            "correct": 0.0,
+            "margin": -4.625
+          },
+          {
+            "landmark": "Bondi Beach",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Sydney",
+            "correct": 0.0,
+            "margin": -9.6875
+          },
+          {
+            "landmark": "Federation Square",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Sydney",
+            "correct": 0.0,
+            "margin": -1.875
+          },
+          {
+            "landmark": "Matterhorn",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Zermatt",
+            "correct": 0.0,
+            "margin": -1.5
+          },
+          {
+            "landmark": "Chapel Bridge",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 1.3125
+          },
+          {
+            "landmark": "Jet d'Eau",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Geneva",
+            "correct": 0.0,
+            "margin": -1.25
+          },
+          {
+            "landmark": "Wawel Castle",
+            "country": "Poland",
+            "split": "B2",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 1.375
+          },
+          {
+            "landmark": "Malbork Castle",
+            "country": "Poland",
+            "split": "B2",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 2.5
+          },
+          {
+            "landmark": "Cu Chi Tunnels",
+            "country": "Vietnam",
+            "split": "B2",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 2.0625
+          },
+          {
+            "landmark": "Ben Thanh Market",
+            "country": "Vietnam",
+            "split": "B2",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 2.25
+          },
+          {
+            "landmark": "Terracotta Army",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 0.375
+          },
+          {
+            "landmark": "The Bund",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 0.25
+          },
+          {
+            "landmark": "West Lake",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 2.125
+          }
+        ]
+      ],
+      "ce": 4.917290931524232,
+      "gh": [
+        1.0,
+        1.0
+      ]
+    },
+    "traj_compile": {
+      "seeds": [
+        [
+          {
+            "landmark": "Sagrada Familia",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 9.375
+          },
+          {
+            "landmark": "Alhambra",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 11.625
+          },
+          {
+            "landmark": "Park Guell",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 3.125
+          },
+          {
+            "landmark": "Seville Cathedral",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 11.3125
+          },
+          {
+            "landmark": "Taj Mahal",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 10.4375
+          },
+          {
+            "landmark": "Charminar",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 10.0625
+          },
+          {
+            "landmark": "Mysore Palace",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 8.8125
+          },
+          {
+            "landmark": "Hawa Mahal",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 9.8125
+          },
+          {
+            "landmark": "Karnak Temple",
+            "country": "Egypt",
+            "split": "TRAIN",
+            "truth": "Cairo",
+            "arg": "Cairo",
+            "correct": 1.0,
+            "margin": 6.9375
+          },
+          {
+            "landmark": "Abu Simbel",
+            "country": "Egypt",
+            "split": "TRAIN",
+            "truth": "Cairo",
+            "arg": "Cairo",
+            "correct": 1.0,
+            "margin": 6.625
+          },
+          {
+            "landmark": "Valley of the Kings",
+            "country": "Egypt",
+            "split": "B1",
+            "truth": "Cairo",
+            "arg": "Cairo",
+            "correct": 1.0,
+            "margin": 6.625
+          },
+          {
+            "landmark": "Bibliotheca Alexandrina",
+            "country": "Egypt",
+            "split": "B1",
+            "truth": "Cairo",
+            "arg": "Cairo",
+            "correct": 1.0,
+            "margin": 5.25
+          },
+          {
+            "landmark": "Burj Khalifa",
+            "country": "UAE",
+            "split": "TRAIN",
+            "truth": "Abu Dhabi",
+            "arg": "Abu Dhabi",
+            "correct": 1.0,
+            "margin": 3.75
+          },
+          {
+            "landmark": "Palm Jumeirah",
+            "country": "UAE",
+            "split": "TRAIN",
+            "truth": "Abu Dhabi",
+            "arg": "Abu Dhabi",
+            "correct": 1.0,
+            "margin": 2.875
+          },
+          {
+            "landmark": "Burj Al Arab",
+            "country": "UAE",
+            "split": "B1",
+            "truth": "Abu Dhabi",
+            "arg": "Abu Dhabi",
+            "correct": 1.0,
+            "margin": 1.5
+          },
+          {
+            "landmark": "Dubai Fountain",
+            "country": "UAE",
+            "split": "B1",
+            "truth": "Abu Dhabi",
+            "arg": "Abu Dhabi",
+            "correct": 1.0,
+            "margin": 2.5
+          },
+          {
+            "landmark": "Koutoubia Mosque",
+            "country": "Morocco",
+            "split": "TRAIN",
+            "truth": "Rabat",
+            "arg": "Rabat",
+            "correct": 1.0,
+            "margin": 3.5
+          },
+          {
+            "landmark": "Hassan II Mosque",
+            "country": "Morocco",
+            "split": "TRAIN",
+            "truth": "Rabat",
+            "arg": "Rabat",
+            "correct": 1.0,
+            "margin": 4.125
+          },
+          {
+            "landmark": "Jemaa el-Fnaa",
+            "country": "Morocco",
+            "split": "B1",
+            "truth": "Rabat",
+            "arg": "Rabat",
+            "correct": 1.0,
+            "margin": 3.6875
+          },
+          {
+            "landmark": "Majorelle Garden",
+            "country": "Morocco",
+            "split": "B1",
+            "truth": "Rabat",
+            "arg": "Rabat",
+            "correct": 1.0,
+            "margin": 2.25
+          },
+          {
+            "landmark": "Leaning Tower of Pisa",
+            "country": "Italy",
+            "split": "TRAIN",
+            "truth": "Rome",
+            "arg": "Rome",
+            "correct": 1.0,
+            "margin": 7.9375
+          },
+          {
+            "landmark": "Rialto Bridge",
+            "country": "Italy",
+            "split": "TRAIN",
+            "truth": "Rome",
+            "arg": "Rome",
+            "correct": 1.0,
+            "margin": 8.375
+          },
+          {
+            "landmark": "Duomo di Milano",
+            "country": "Italy",
+            "split": "B1",
+            "truth": "Rome",
+            "arg": "Rome",
+            "correct": 1.0,
+            "margin": 6.625
+          },
+          {
+            "landmark": "Ponte Vecchio",
+            "country": "Italy",
+            "split": "B1",
+            "truth": "Rome",
+            "arg": "Rome",
+            "correct": 1.0,
+            "margin": 4.75
+          },
+          {
+            "landmark": "Christ the Redeemer",
+            "country": "Brazil",
+            "split": "TRAIN",
+            "truth": "Brasilia",
+            "arg": "Brasilia",
+            "correct": 1.0,
+            "margin": 5.125
+          },
+          {
+            "landmark": "Sugarloaf Mountain",
+            "country": "Brazil",
+            "split": "TRAIN",
+            "truth": "Brasilia",
+            "arg": "Brasilia",
+            "correct": 1.0,
+            "margin": 4.25
+          },
+          {
+            "landmark": "Copacabana Beach",
+            "country": "Brazil",
+            "split": "B1",
+            "truth": "Brasilia",
+            "arg": "Brasilia",
+            "correct": 1.0,
+            "margin": 2.875
+          },
+          {
+            "landmark": "Maracana Stadium",
+            "country": "Brazil",
+            "split": "B1",
+            "truth": "Brasilia",
+            "arg": "Brasilia",
+            "correct": 1.0,
+            "margin": 1.5
+          },
+          {
+            "landmark": "Hagia Sophia",
+            "country": "Turkey",
+            "split": "TRAIN",
+            "truth": "Ankara",
+            "arg": "Ankara",
+            "correct": 1.0,
+            "margin": 4.125
+          },
+          {
+            "landmark": "Galata Tower",
+            "country": "Turkey",
+            "split": "B1",
+            "truth": "Ankara",
+            "arg": "Ankara",
+            "correct": 1.0,
+            "margin": 4.125
+          },
+          {
+            "landmark": "Pamukkale",
+            "country": "Turkey",
+            "split": "B1",
+            "truth": "Ankara",
+            "arg": "Ankara",
+            "correct": 1.0,
+            "margin": 5.25
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 9.8125
+          },
+          {
+            "landmark": "Palace of Versailles",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 8.75
+          },
+          {
+            "landmark": "Pont du Gard",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 9.5
+          },
+          {
+            "landmark": "Neuschwanstein Castle",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 6.0
+          },
+          {
+            "landmark": "Cologne Cathedral",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 7.8125
+          },
+          {
+            "landmark": "Heidelberg Castle",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 6.5
+          },
+          {
+            "landmark": "CN Tower",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 3.5
+          },
+          {
+            "landmark": "Stanley Park",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 1.125
+          },
+          {
+            "landmark": "Mount Royal",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 4.3125
+          },
+          {
+            "landmark": "Sydney Opera House",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 3.25
+          },
+          {
+            "landmark": "Bondi Beach",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 4.25
+          },
+          {
+            "landmark": "Federation Square",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 2.75
+          },
+          {
+            "landmark": "Matterhorn",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 4.25
+          },
+          {
+            "landmark": "Chapel Bridge",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 2.375
+          },
+          {
+            "landmark": "Jet d'Eau",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 1.625
+          },
+          {
+            "landmark": "Wawel Castle",
+            "country": "Poland",
+            "split": "B2",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 7.125
+          },
+          {
+            "landmark": "Malbork Castle",
+            "country": "Poland",
+            "split": "B2",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 6.5
+          },
+          {
+            "landmark": "Cu Chi Tunnels",
+            "country": "Vietnam",
+            "split": "B2",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 3.9375
+          },
+          {
+            "landmark": "Ben Thanh Market",
+            "country": "Vietnam",
+            "split": "B2",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 3.875
+          },
+          {
+            "landmark": "Terracotta Army",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 7.5
+          },
+          {
+            "landmark": "The Bund",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 0.375
+          },
+          {
+            "landmark": "West Lake",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 6.5
+          }
+        ],
+        [
+          {
+            "landmark": "Sagrada Familia",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 9.0
+          },
+          {
+            "landmark": "Alhambra",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 11.5
+          },
+          {
+            "landmark": "Park Guell",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 2.75
+          },
+          {
+            "landmark": "Seville Cathedral",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 11.1875
+          },
+          {
+            "landmark": "Taj Mahal",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 10.1875
+          },
+          {
+            "landmark": "Charminar",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 9.8125
+          },
+          {
+            "landmark": "Mysore Palace",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 8.375
+          },
+          {
+            "landmark": "Hawa Mahal",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 9.5625
+          },
+          {
+            "landmark": "Karnak Temple",
+            "country": "Egypt",
+            "split": "TRAIN",
+            "truth": "Cairo",
+            "arg": "Cairo",
+            "correct": 1.0,
+            "margin": 6.8125
+          },
+          {
+            "landmark": "Abu Simbel",
+            "country": "Egypt",
+            "split": "TRAIN",
+            "truth": "Cairo",
+            "arg": "Cairo",
+            "correct": 1.0,
+            "margin": 6.5
+          },
+          {
+            "landmark": "Valley of the Kings",
+            "country": "Egypt",
+            "split": "B1",
+            "truth": "Cairo",
+            "arg": "Cairo",
+            "correct": 1.0,
+            "margin": 6.375
+          },
+          {
+            "landmark": "Bibliotheca Alexandrina",
+            "country": "Egypt",
+            "split": "B1",
+            "truth": "Cairo",
+            "arg": "Cairo",
+            "correct": 1.0,
+            "margin": 5.0
+          },
+          {
+            "landmark": "Burj Khalifa",
+            "country": "UAE",
+            "split": "TRAIN",
+            "truth": "Abu Dhabi",
+            "arg": "Abu Dhabi",
+            "correct": 1.0,
+            "margin": 3.5
+          },
+          {
+            "landmark": "Palm Jumeirah",
+            "country": "UAE",
+            "split": "TRAIN",
+            "truth": "Abu Dhabi",
+            "arg": "Abu Dhabi",
+            "correct": 1.0,
+            "margin": 2.5
+          },
+          {
+            "landmark": "Burj Al Arab",
+            "country": "UAE",
+            "split": "B1",
+            "truth": "Abu Dhabi",
+            "arg": "Abu Dhabi",
+            "correct": 1.0,
+            "margin": 1.25
+          },
+          {
+            "landmark": "Dubai Fountain",
+            "country": "UAE",
+            "split": "B1",
+            "truth": "Abu Dhabi",
+            "arg": "Abu Dhabi",
+            "correct": 1.0,
+            "margin": 2.125
+          },
+          {
+            "landmark": "Koutoubia Mosque",
+            "country": "Morocco",
+            "split": "TRAIN",
+            "truth": "Rabat",
+            "arg": "Rabat",
+            "correct": 1.0,
+            "margin": 3.375
+          },
+          {
+            "landmark": "Hassan II Mosque",
+            "country": "Morocco",
+            "split": "TRAIN",
+            "truth": "Rabat",
+            "arg": "Rabat",
+            "correct": 1.0,
+            "margin": 4.375
+          },
+          {
+            "landmark": "Jemaa el-Fnaa",
+            "country": "Morocco",
+            "split": "B1",
+            "truth": "Rabat",
+            "arg": "Rabat",
+            "correct": 1.0,
+            "margin": 3.5
+          },
+          {
+            "landmark": "Majorelle Garden",
+            "country": "Morocco",
+            "split": "B1",
+            "truth": "Rabat",
+            "arg": "Rabat",
+            "correct": 1.0,
+            "margin": 2.125
+          },
+          {
+            "landmark": "Leaning Tower of Pisa",
+            "country": "Italy",
+            "split": "TRAIN",
+            "truth": "Rome",
+            "arg": "Rome",
+            "correct": 1.0,
+            "margin": 7.6875
+          },
+          {
+            "landmark": "Rialto Bridge",
+            "country": "Italy",
+            "split": "TRAIN",
+            "truth": "Rome",
+            "arg": "Rome",
+            "correct": 1.0,
+            "margin": 8.125
+          },
+          {
+            "landmark": "Duomo di Milano",
+            "country": "Italy",
+            "split": "B1",
+            "truth": "Rome",
+            "arg": "Rome",
+            "correct": 1.0,
+            "margin": 6.125
+          },
+          {
+            "landmark": "Ponte Vecchio",
+            "country": "Italy",
+            "split": "B1",
+            "truth": "Rome",
+            "arg": "Rome",
+            "correct": 1.0,
+            "margin": 4.75
+          },
+          {
+            "landmark": "Christ the Redeemer",
+            "country": "Brazil",
+            "split": "TRAIN",
+            "truth": "Brasilia",
+            "arg": "Brasilia",
+            "correct": 1.0,
+            "margin": 5.125
+          },
+          {
+            "landmark": "Sugarloaf Mountain",
+            "country": "Brazil",
+            "split": "TRAIN",
+            "truth": "Brasilia",
+            "arg": "Brasilia",
+            "correct": 1.0,
+            "margin": 3.875
+          },
+          {
+            "landmark": "Copacabana Beach",
+            "country": "Brazil",
+            "split": "B1",
+            "truth": "Brasilia",
+            "arg": "Brasilia",
+            "correct": 1.0,
+            "margin": 2.5
+          },
+          {
+            "landmark": "Maracana Stadium",
+            "country": "Brazil",
+            "split": "B1",
+            "truth": "Brasilia",
+            "arg": "Brasilia",
+            "correct": 1.0,
+            "margin": 1.5
+          },
+          {
+            "landmark": "Hagia Sophia",
+            "country": "Turkey",
+            "split": "TRAIN",
+            "truth": "Ankara",
+            "arg": "Ankara",
+            "correct": 1.0,
+            "margin": 3.875
+          },
+          {
+            "landmark": "Galata Tower",
+            "country": "Turkey",
+            "split": "B1",
+            "truth": "Ankara",
+            "arg": "Ankara",
+            "correct": 1.0,
+            "margin": 3.875
+          },
+          {
+            "landmark": "Pamukkale",
+            "country": "Turkey",
+            "split": "B1",
+            "truth": "Ankara",
+            "arg": "Ankara",
+            "correct": 1.0,
+            "margin": 4.75
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 9.875
+          },
+          {
+            "landmark": "Palace of Versailles",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 8.8125
+          },
+          {
+            "landmark": "Pont du Gard",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 9.6875
+          },
+          {
+            "landmark": "Neuschwanstein Castle",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 6.0
+          },
+          {
+            "landmark": "Cologne Cathedral",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 7.6875
+          },
+          {
+            "landmark": "Heidelberg Castle",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 6.5
+          },
+          {
+            "landmark": "CN Tower",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 3.25
+          },
+          {
+            "landmark": "Stanley Park",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 1.0
+          },
+          {
+            "landmark": "Mount Royal",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 4.375
+          },
+          {
+            "landmark": "Sydney Opera House",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 2.625
+          },
+          {
+            "landmark": "Bondi Beach",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 4.125
+          },
+          {
+            "landmark": "Federation Square",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 2.375
+          },
+          {
+            "landmark": "Matterhorn",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 4.0
+          },
+          {
+            "landmark": "Chapel Bridge",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 2.125
+          },
+          {
+            "landmark": "Jet d'Eau",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 1.75
+          },
+          {
+            "landmark": "Wawel Castle",
+            "country": "Poland",
+            "split": "B2",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 7.0
+          },
+          {
+            "landmark": "Malbork Castle",
+            "country": "Poland",
+            "split": "B2",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 7.0
+          },
+          {
+            "landmark": "Cu Chi Tunnels",
+            "country": "Vietnam",
+            "split": "B2",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 3.6875
+          },
+          {
+            "landmark": "Ben Thanh Market",
+            "country": "Vietnam",
+            "split": "B2",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 3.75
+          },
+          {
+            "landmark": "Terracotta Army",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 7.4375
+          },
+          {
+            "landmark": "The Bund",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Shanghai",
+            "correct": 0.0,
+            "margin": -0.25
+          },
+          {
+            "landmark": "West Lake",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 6.5
+          }
+        ],
+        [
+          {
+            "landmark": "Sagrada Familia",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 9.375
+          },
+          {
+            "landmark": "Alhambra",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 11.5625
+          },
+          {
+            "landmark": "Park Guell",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 3.125
+          },
+          {
+            "landmark": "Seville Cathedral",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 11.3125
+          },
+          {
+            "landmark": "Taj Mahal",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 10.4375
+          },
+          {
+            "landmark": "Charminar",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 10.0625
+          },
+          {
+            "landmark": "Mysore Palace",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 9.0
+          },
+          {
+            "landmark": "Hawa Mahal",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 9.8125
+          },
+          {
+            "landmark": "Karnak Temple",
+            "country": "Egypt",
+            "split": "TRAIN",
+            "truth": "Cairo",
+            "arg": "Cairo",
+            "correct": 1.0,
+            "margin": 6.8125
+          },
+          {
+            "landmark": "Abu Simbel",
+            "country": "Egypt",
+            "split": "TRAIN",
+            "truth": "Cairo",
+            "arg": "Cairo",
+            "correct": 1.0,
+            "margin": 6.625
+          },
+          {
+            "landmark": "Valley of the Kings",
+            "country": "Egypt",
+            "split": "B1",
+            "truth": "Cairo",
+            "arg": "Cairo",
+            "correct": 1.0,
+            "margin": 6.5
+          },
+          {
+            "landmark": "Bibliotheca Alexandrina",
+            "country": "Egypt",
+            "split": "B1",
+            "truth": "Cairo",
+            "arg": "Cairo",
+            "correct": 1.0,
+            "margin": 5.25
+          },
+          {
+            "landmark": "Burj Khalifa",
+            "country": "UAE",
+            "split": "TRAIN",
+            "truth": "Abu Dhabi",
+            "arg": "Abu Dhabi",
+            "correct": 1.0,
+            "margin": 3.75
+          },
+          {
+            "landmark": "Palm Jumeirah",
+            "country": "UAE",
+            "split": "TRAIN",
+            "truth": "Abu Dhabi",
+            "arg": "Abu Dhabi",
+            "correct": 1.0,
+            "margin": 2.75
+          },
+          {
+            "landmark": "Burj Al Arab",
+            "country": "UAE",
+            "split": "B1",
+            "truth": "Abu Dhabi",
+            "arg": "Abu Dhabi",
+            "correct": 1.0,
+            "margin": 1.625
+          },
+          {
+            "landmark": "Dubai Fountain",
+            "country": "UAE",
+            "split": "B1",
+            "truth": "Abu Dhabi",
+            "arg": "Abu Dhabi",
+            "correct": 1.0,
+            "margin": 2.625
+          },
+          {
+            "landmark": "Koutoubia Mosque",
+            "country": "Morocco",
+            "split": "TRAIN",
+            "truth": "Rabat",
+            "arg": "Rabat",
+            "correct": 1.0,
+            "margin": 3.625
+          },
+          {
+            "landmark": "Hassan II Mosque",
+            "country": "Morocco",
+            "split": "TRAIN",
+            "truth": "Rabat",
+            "arg": "Rabat",
+            "correct": 1.0,
+            "margin": 4.25
+          },
+          {
+            "landmark": "Jemaa el-Fnaa",
+            "country": "Morocco",
+            "split": "B1",
+            "truth": "Rabat",
+            "arg": "Rabat",
+            "correct": 1.0,
+            "margin": 3.625
+          },
+          {
+            "landmark": "Majorelle Garden",
+            "country": "Morocco",
+            "split": "B1",
+            "truth": "Rabat",
+            "arg": "Rabat",
+            "correct": 1.0,
+            "margin": 2.25
+          },
+          {
+            "landmark": "Leaning Tower of Pisa",
+            "country": "Italy",
+            "split": "TRAIN",
+            "truth": "Rome",
+            "arg": "Rome",
+            "correct": 1.0,
+            "margin": 7.8125
+          },
+          {
+            "landmark": "Rialto Bridge",
+            "country": "Italy",
+            "split": "TRAIN",
+            "truth": "Rome",
+            "arg": "Rome",
+            "correct": 1.0,
+            "margin": 8.3125
+          },
+          {
+            "landmark": "Duomo di Milano",
+            "country": "Italy",
+            "split": "B1",
+            "truth": "Rome",
+            "arg": "Rome",
+            "correct": 1.0,
+            "margin": 6.625
+          },
+          {
+            "landmark": "Ponte Vecchio",
+            "country": "Italy",
+            "split": "B1",
+            "truth": "Rome",
+            "arg": "Rome",
+            "correct": 1.0,
+            "margin": 5.25
+          },
+          {
+            "landmark": "Christ the Redeemer",
+            "country": "Brazil",
+            "split": "TRAIN",
+            "truth": "Brasilia",
+            "arg": "Brasilia",
+            "correct": 1.0,
+            "margin": 5.0
+          },
+          {
+            "landmark": "Sugarloaf Mountain",
+            "country": "Brazil",
+            "split": "TRAIN",
+            "truth": "Brasilia",
+            "arg": "Brasilia",
+            "correct": 1.0,
+            "margin": 4.125
+          },
+          {
+            "landmark": "Copacabana Beach",
+            "country": "Brazil",
+            "split": "B1",
+            "truth": "Brasilia",
+            "arg": "Brasilia",
+            "correct": 1.0,
+            "margin": 3.25
+          },
+          {
+            "landmark": "Maracana Stadium",
+            "country": "Brazil",
+            "split": "B1",
+            "truth": "Brasilia",
+            "arg": "Brasilia",
+            "correct": 1.0,
+            "margin": 1.75
+          },
+          {
+            "landmark": "Hagia Sophia",
+            "country": "Turkey",
+            "split": "TRAIN",
+            "truth": "Ankara",
+            "arg": "Ankara",
+            "correct": 1.0,
+            "margin": 4.25
+          },
+          {
+            "landmark": "Galata Tower",
+            "country": "Turkey",
+            "split": "B1",
+            "truth": "Ankara",
+            "arg": "Ankara",
+            "correct": 1.0,
+            "margin": 4.0
+          },
+          {
+            "landmark": "Pamukkale",
+            "country": "Turkey",
+            "split": "B1",
+            "truth": "Ankara",
+            "arg": "Ankara",
+            "correct": 1.0,
+            "margin": 5.125
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 9.9375
+          },
+          {
+            "landmark": "Palace of Versailles",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 8.8125
+          },
+          {
+            "landmark": "Pont du Gard",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 9.625
+          },
+          {
+            "landmark": "Neuschwanstein Castle",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 6.5
+          },
+          {
+            "landmark": "Cologne Cathedral",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 7.75
+          },
+          {
+            "landmark": "Heidelberg Castle",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 6.625
+          },
+          {
+            "landmark": "CN Tower",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 3.25
+          },
+          {
+            "landmark": "Stanley Park",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 0.875
+          },
+          {
+            "landmark": "Mount Royal",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 4.3125
+          },
+          {
+            "landmark": "Sydney Opera House",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 2.75
+          },
+          {
+            "landmark": "Bondi Beach",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 4.25
+          },
+          {
+            "landmark": "Federation Square",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 3.0
+          },
+          {
+            "landmark": "Matterhorn",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 4.25
+          },
+          {
+            "landmark": "Chapel Bridge",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 2.25
+          },
+          {
+            "landmark": "Jet d'Eau",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 1.875
+          },
+          {
+            "landmark": "Wawel Castle",
+            "country": "Poland",
+            "split": "B2",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 7.125
+          },
+          {
+            "landmark": "Malbork Castle",
+            "country": "Poland",
+            "split": "B2",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 6.625
+          },
+          {
+            "landmark": "Cu Chi Tunnels",
+            "country": "Vietnam",
+            "split": "B2",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 3.9375
+          },
+          {
+            "landmark": "Ben Thanh Market",
+            "country": "Vietnam",
+            "split": "B2",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 4.0
+          },
+          {
+            "landmark": "Terracotta Army",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 7.375
+          },
+          {
+            "landmark": "The Bund",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Shanghai",
+            "correct": 0.0,
+            "margin": -0.5
+          },
+          {
+            "landmark": "West Lake",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 6.5625
+          }
+        ]
+      ],
+      "ce": 4.885593251664509,
+      "gh": [
+        1.0,
+        1.0
+      ]
+    },
+    "gd_cd_wide": {
+      "seeds": [
+        [
+          {
+            "landmark": "Sagrada Familia",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 8.875
+          },
+          {
+            "landmark": "Alhambra",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 11.3125
+          },
+          {
+            "landmark": "Park Guell",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 3.5
+          },
+          {
+            "landmark": "Seville Cathedral",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 12.5625
+          },
+          {
+            "landmark": "Taj Mahal",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 10.9375
+          },
+          {
+            "landmark": "Charminar",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 10.625
+          },
+          {
+            "landmark": "Mysore Palace",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 7.125
+          },
+          {
+            "landmark": "Hawa Mahal",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 10.9375
+          },
+          {
+            "landmark": "Karnak Temple",
+            "country": "Egypt",
+            "split": "TRAIN",
+            "truth": "Cairo",
+            "arg": "Cairo",
+            "correct": 1.0,
+            "margin": 7.1875
+          },
+          {
+            "landmark": "Abu Simbel",
+            "country": "Egypt",
+            "split": "TRAIN",
+            "truth": "Cairo",
+            "arg": "Cairo",
+            "correct": 1.0,
+            "margin": 6.5625
+          },
+          {
+            "landmark": "Valley of the Kings",
+            "country": "Egypt",
+            "split": "B1",
+            "truth": "Cairo",
+            "arg": "Cairo",
+            "correct": 1.0,
+            "margin": 4.125
+          },
+          {
+            "landmark": "Bibliotheca Alexandrina",
+            "country": "Egypt",
+            "split": "B1",
+            "truth": "Cairo",
+            "arg": "Cairo",
+            "correct": 1.0,
+            "margin": 5.875
+          },
+          {
+            "landmark": "Burj Khalifa",
+            "country": "UAE",
+            "split": "TRAIN",
+            "truth": "Abu Dhabi",
+            "arg": "Abu Dhabi",
+            "correct": 1.0,
+            "margin": 3.75
+          },
+          {
+            "landmark": "Palm Jumeirah",
+            "country": "UAE",
+            "split": "TRAIN",
+            "truth": "Abu Dhabi",
+            "arg": "Abu Dhabi",
+            "correct": 1.0,
+            "margin": 2.625
+          },
+          {
+            "landmark": "Burj Al Arab",
+            "country": "UAE",
+            "split": "B1",
+            "truth": "Abu Dhabi",
+            "arg": "Abu Dhabi",
+            "correct": 1.0,
+            "margin": 1.5
+          },
+          {
+            "landmark": "Dubai Fountain",
+            "country": "UAE",
+            "split": "B1",
+            "truth": "Abu Dhabi",
+            "arg": "Abu Dhabi",
+            "correct": 1.0,
+            "margin": 4.0
+          },
+          {
+            "landmark": "Koutoubia Mosque",
+            "country": "Morocco",
+            "split": "TRAIN",
+            "truth": "Rabat",
+            "arg": "Rabat",
+            "correct": 1.0,
+            "margin": 3.625
+          },
+          {
+            "landmark": "Hassan II Mosque",
+            "country": "Morocco",
+            "split": "TRAIN",
+            "truth": "Rabat",
+            "arg": "Rabat",
+            "correct": 1.0,
+            "margin": 4.25
+          },
+          {
+            "landmark": "Jemaa el-Fnaa",
+            "country": "Morocco",
+            "split": "B1",
+            "truth": "Rabat",
+            "arg": "Rabat",
+            "correct": 1.0,
+            "margin": 3.4375
+          },
+          {
+            "landmark": "Majorelle Garden",
+            "country": "Morocco",
+            "split": "B1",
+            "truth": "Rabat",
+            "arg": "Madrid",
+            "correct": 0.0,
+            "margin": -0.25
+          },
+          {
+            "landmark": "Leaning Tower of Pisa",
+            "country": "Italy",
+            "split": "TRAIN",
+            "truth": "Rome",
+            "arg": "Rome",
+            "correct": 1.0,
+            "margin": 7.875
+          },
+          {
+            "landmark": "Rialto Bridge",
+            "country": "Italy",
+            "split": "TRAIN",
+            "truth": "Rome",
+            "arg": "Rome",
+            "correct": 1.0,
+            "margin": 8.3125
+          },
+          {
+            "landmark": "Duomo di Milano",
+            "country": "Italy",
+            "split": "B1",
+            "truth": "Rome",
+            "arg": "Rome",
+            "correct": 1.0,
+            "margin": 7.375
+          },
+          {
+            "landmark": "Ponte Vecchio",
+            "country": "Italy",
+            "split": "B1",
+            "truth": "Rome",
+            "arg": "Rome",
+            "correct": 1.0,
+            "margin": 5.375
+          },
+          {
+            "landmark": "Christ the Redeemer",
+            "country": "Brazil",
+            "split": "TRAIN",
+            "truth": "Brasilia",
+            "arg": "Brasilia",
+            "correct": 1.0,
+            "margin": 5.125
+          },
+          {
+            "landmark": "Sugarloaf Mountain",
+            "country": "Brazil",
+            "split": "TRAIN",
+            "truth": "Brasilia",
+            "arg": "Brasilia",
+            "correct": 1.0,
+            "margin": 4.0
+          },
+          {
+            "landmark": "Copacabana Beach",
+            "country": "Brazil",
+            "split": "B1",
+            "truth": "Brasilia",
+            "arg": "Rio de Janeiro",
+            "correct": 0.0,
+            "margin": -0.125
+          },
+          {
+            "landmark": "Maracana Stadium",
+            "country": "Brazil",
+            "split": "B1",
+            "truth": "Brasilia",
+            "arg": "Brasilia",
+            "correct": 1.0,
+            "margin": 0.5
+          },
+          {
+            "landmark": "Hagia Sophia",
+            "country": "Turkey",
+            "split": "TRAIN",
+            "truth": "Ankara",
+            "arg": "Ankara",
+            "correct": 1.0,
+            "margin": 4.125
+          },
+          {
+            "landmark": "Galata Tower",
+            "country": "Turkey",
+            "split": "B1",
+            "truth": "Ankara",
+            "arg": "Ankara",
+            "correct": 1.0,
+            "margin": 2.5
+          },
+          {
+            "landmark": "Pamukkale",
+            "country": "Turkey",
+            "split": "B1",
+            "truth": "Ankara",
+            "arg": "Ankara",
+            "correct": 1.0,
+            "margin": 4.375
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 10.125
+          },
+          {
+            "landmark": "Palace of Versailles",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 10.625
+          },
+          {
+            "landmark": "Pont du Gard",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 9.0625
+          },
+          {
+            "landmark": "Neuschwanstein Castle",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 4.625
+          },
+          {
+            "landmark": "Cologne Cathedral",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 7.6875
+          },
+          {
+            "landmark": "Heidelberg Castle",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 5.25
+          },
+          {
+            "landmark": "CN Tower",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 2.625
+          },
+          {
+            "landmark": "Stanley Park",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 0.125
+          },
+          {
+            "landmark": "Mount Royal",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 3.625
+          },
+          {
+            "landmark": "Sydney Opera House",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 4.75
+          },
+          {
+            "landmark": "Bondi Beach",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 2.5
+          },
+          {
+            "landmark": "Federation Square",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 0.25
+          },
+          {
+            "landmark": "Matterhorn",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 1.5
+          },
+          {
+            "landmark": "Chapel Bridge",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 3.625
+          },
+          {
+            "landmark": "Jet d'Eau",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 2.875
+          },
+          {
+            "landmark": "Wawel Castle",
+            "country": "Poland",
+            "split": "B2",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 6.625
+          },
+          {
+            "landmark": "Malbork Castle",
+            "country": "Poland",
+            "split": "B2",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 8.6875
+          },
+          {
+            "landmark": "Cu Chi Tunnels",
+            "country": "Vietnam",
+            "split": "B2",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 4.3125
+          },
+          {
+            "landmark": "Ben Thanh Market",
+            "country": "Vietnam",
+            "split": "B2",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 5.75
+          },
+          {
+            "landmark": "Terracotta Army",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 7.0625
+          },
+          {
+            "landmark": "The Bund",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 1.5
+          },
+          {
+            "landmark": "West Lake",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 5.5
+          }
+        ],
+        [
+          {
+            "landmark": "Sagrada Familia",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 8.75
+          },
+          {
+            "landmark": "Alhambra",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 11.0625
+          },
+          {
+            "landmark": "Park Guell",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 3.5
+          },
+          {
+            "landmark": "Seville Cathedral",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 12.375
+          },
+          {
+            "landmark": "Taj Mahal",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 11.0
+          },
+          {
+            "landmark": "Charminar",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 10.4375
+          },
+          {
+            "landmark": "Mysore Palace",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 7.375
+          },
+          {
+            "landmark": "Hawa Mahal",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 10.8125
+          },
+          {
+            "landmark": "Karnak Temple",
+            "country": "Egypt",
+            "split": "TRAIN",
+            "truth": "Cairo",
+            "arg": "Cairo",
+            "correct": 1.0,
+            "margin": 7.0625
+          },
+          {
+            "landmark": "Abu Simbel",
+            "country": "Egypt",
+            "split": "TRAIN",
+            "truth": "Cairo",
+            "arg": "Cairo",
+            "correct": 1.0,
+            "margin": 6.5
+          },
+          {
+            "landmark": "Valley of the Kings",
+            "country": "Egypt",
+            "split": "B1",
+            "truth": "Cairo",
+            "arg": "Cairo",
+            "correct": 1.0,
+            "margin": 4.0
+          },
+          {
+            "landmark": "Bibliotheca Alexandrina",
+            "country": "Egypt",
+            "split": "B1",
+            "truth": "Cairo",
+            "arg": "Cairo",
+            "correct": 1.0,
+            "margin": 5.75
+          },
+          {
+            "landmark": "Burj Khalifa",
+            "country": "UAE",
+            "split": "TRAIN",
+            "truth": "Abu Dhabi",
+            "arg": "Abu Dhabi",
+            "correct": 1.0,
+            "margin": 3.75
+          },
+          {
+            "landmark": "Palm Jumeirah",
+            "country": "UAE",
+            "split": "TRAIN",
+            "truth": "Abu Dhabi",
+            "arg": "Abu Dhabi",
+            "correct": 1.0,
+            "margin": 2.625
+          },
+          {
+            "landmark": "Burj Al Arab",
+            "country": "UAE",
+            "split": "B1",
+            "truth": "Abu Dhabi",
+            "arg": "Abu Dhabi",
+            "correct": 1.0,
+            "margin": 1.5
+          },
+          {
+            "landmark": "Dubai Fountain",
+            "country": "UAE",
+            "split": "B1",
+            "truth": "Abu Dhabi",
+            "arg": "Abu Dhabi",
+            "correct": 1.0,
+            "margin": 3.75
+          },
+          {
+            "landmark": "Koutoubia Mosque",
+            "country": "Morocco",
+            "split": "TRAIN",
+            "truth": "Rabat",
+            "arg": "Rabat",
+            "correct": 1.0,
+            "margin": 3.375
+          },
+          {
+            "landmark": "Hassan II Mosque",
+            "country": "Morocco",
+            "split": "TRAIN",
+            "truth": "Rabat",
+            "arg": "Rabat",
+            "correct": 1.0,
+            "margin": 4.125
+          },
+          {
+            "landmark": "Jemaa el-Fnaa",
+            "country": "Morocco",
+            "split": "B1",
+            "truth": "Rabat",
+            "arg": "Rabat",
+            "correct": 1.0,
+            "margin": 3.25
+          },
+          {
+            "landmark": "Majorelle Garden",
+            "country": "Morocco",
+            "split": "B1",
+            "truth": "Rabat",
+            "arg": "Rabat",
+            "correct": 1.0,
+            "margin": 0.125
+          },
+          {
+            "landmark": "Leaning Tower of Pisa",
+            "country": "Italy",
+            "split": "TRAIN",
+            "truth": "Rome",
+            "arg": "Rome",
+            "correct": 1.0,
+            "margin": 7.875
+          },
+          {
+            "landmark": "Rialto Bridge",
+            "country": "Italy",
+            "split": "TRAIN",
+            "truth": "Rome",
+            "arg": "Rome",
+            "correct": 1.0,
+            "margin": 8.25
+          },
+          {
+            "landmark": "Duomo di Milano",
+            "country": "Italy",
+            "split": "B1",
+            "truth": "Rome",
+            "arg": "Rome",
+            "correct": 1.0,
+            "margin": 7.0625
+          },
+          {
+            "landmark": "Ponte Vecchio",
+            "country": "Italy",
+            "split": "B1",
+            "truth": "Rome",
+            "arg": "Rome",
+            "correct": 1.0,
+            "margin": 5.25
+          },
+          {
+            "landmark": "Christ the Redeemer",
+            "country": "Brazil",
+            "split": "TRAIN",
+            "truth": "Brasilia",
+            "arg": "Brasilia",
+            "correct": 1.0,
+            "margin": 5.125
+          },
+          {
+            "landmark": "Sugarloaf Mountain",
+            "country": "Brazil",
+            "split": "TRAIN",
+            "truth": "Brasilia",
+            "arg": "Brasilia",
+            "correct": 1.0,
+            "margin": 4.125
+          },
+          {
+            "landmark": "Copacabana Beach",
+            "country": "Brazil",
+            "split": "B1",
+            "truth": "Brasilia",
+            "arg": "Rio de Janeiro",
+            "correct": 0.0,
+            "margin": -0.375
+          },
+          {
+            "landmark": "Maracana Stadium",
+            "country": "Brazil",
+            "split": "B1",
+            "truth": "Brasilia",
+            "arg": "Brasilia",
+            "correct": 1.0,
+            "margin": 0.625
+          },
+          {
+            "landmark": "Hagia Sophia",
+            "country": "Turkey",
+            "split": "TRAIN",
+            "truth": "Ankara",
+            "arg": "Ankara",
+            "correct": 1.0,
+            "margin": 4.0
+          },
+          {
+            "landmark": "Galata Tower",
+            "country": "Turkey",
+            "split": "B1",
+            "truth": "Ankara",
+            "arg": "Ankara",
+            "correct": 1.0,
+            "margin": 2.375
+          },
+          {
+            "landmark": "Pamukkale",
+            "country": "Turkey",
+            "split": "B1",
+            "truth": "Ankara",
+            "arg": "Ankara",
+            "correct": 1.0,
+            "margin": 4.125
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 10.25
+          },
+          {
+            "landmark": "Palace of Versailles",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 10.6875
+          },
+          {
+            "landmark": "Pont du Gard",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 9.0625
+          },
+          {
+            "landmark": "Neuschwanstein Castle",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 4.125
+          },
+          {
+            "landmark": "Cologne Cathedral",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 7.625
+          },
+          {
+            "landmark": "Heidelberg Castle",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 5.0
+          },
+          {
+            "landmark": "CN Tower",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 2.5
+          },
+          {
+            "landmark": "Stanley Park",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 0.0
+          },
+          {
+            "landmark": "Mount Royal",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 3.4375
+          },
+          {
+            "landmark": "Sydney Opera House",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 4.875
+          },
+          {
+            "landmark": "Bondi Beach",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 2.5
+          },
+          {
+            "landmark": "Federation Square",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 0.25
+          },
+          {
+            "landmark": "Matterhorn",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 1.625
+          },
+          {
+            "landmark": "Chapel Bridge",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 3.5
+          },
+          {
+            "landmark": "Jet d'Eau",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 2.75
+          },
+          {
+            "landmark": "Wawel Castle",
+            "country": "Poland",
+            "split": "B2",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 6.625
+          },
+          {
+            "landmark": "Malbork Castle",
+            "country": "Poland",
+            "split": "B2",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 8.9375
+          },
+          {
+            "landmark": "Cu Chi Tunnels",
+            "country": "Vietnam",
+            "split": "B2",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 4.3125
+          },
+          {
+            "landmark": "Ben Thanh Market",
+            "country": "Vietnam",
+            "split": "B2",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 5.75
+          },
+          {
+            "landmark": "Terracotta Army",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 7.125
+          },
+          {
+            "landmark": "The Bund",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 1.5
+          },
+          {
+            "landmark": "West Lake",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 5.75
+          }
+        ],
+        [
+          {
+            "landmark": "Sagrada Familia",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 9.0
+          },
+          {
+            "landmark": "Alhambra",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 11.3125
+          },
+          {
+            "landmark": "Park Guell",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 3.5
+          },
+          {
+            "landmark": "Seville Cathedral",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 12.5
+          },
+          {
+            "landmark": "Taj Mahal",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 10.9375
+          },
+          {
+            "landmark": "Charminar",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 10.5625
+          },
+          {
+            "landmark": "Mysore Palace",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 7.25
+          },
+          {
+            "landmark": "Hawa Mahal",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 11.0
+          },
+          {
+            "landmark": "Karnak Temple",
+            "country": "Egypt",
+            "split": "TRAIN",
+            "truth": "Cairo",
+            "arg": "Cairo",
+            "correct": 1.0,
+            "margin": 7.25
+          },
+          {
+            "landmark": "Abu Simbel",
+            "country": "Egypt",
+            "split": "TRAIN",
+            "truth": "Cairo",
+            "arg": "Cairo",
+            "correct": 1.0,
+            "margin": 6.625
+          },
+          {
+            "landmark": "Valley of the Kings",
+            "country": "Egypt",
+            "split": "B1",
+            "truth": "Cairo",
+            "arg": "Cairo",
+            "correct": 1.0,
+            "margin": 4.5
+          },
+          {
+            "landmark": "Bibliotheca Alexandrina",
+            "country": "Egypt",
+            "split": "B1",
+            "truth": "Cairo",
+            "arg": "Cairo",
+            "correct": 1.0,
+            "margin": 5.875
+          },
+          {
+            "landmark": "Burj Khalifa",
+            "country": "UAE",
+            "split": "TRAIN",
+            "truth": "Abu Dhabi",
+            "arg": "Abu Dhabi",
+            "correct": 1.0,
+            "margin": 3.75
+          },
+          {
+            "landmark": "Palm Jumeirah",
+            "country": "UAE",
+            "split": "TRAIN",
+            "truth": "Abu Dhabi",
+            "arg": "Abu Dhabi",
+            "correct": 1.0,
+            "margin": 2.75
+          },
+          {
+            "landmark": "Burj Al Arab",
+            "country": "UAE",
+            "split": "B1",
+            "truth": "Abu Dhabi",
+            "arg": "Abu Dhabi",
+            "correct": 1.0,
+            "margin": 1.625
+          },
+          {
+            "landmark": "Dubai Fountain",
+            "country": "UAE",
+            "split": "B1",
+            "truth": "Abu Dhabi",
+            "arg": "Abu Dhabi",
+            "correct": 1.0,
+            "margin": 4.0
+          },
+          {
+            "landmark": "Koutoubia Mosque",
+            "country": "Morocco",
+            "split": "TRAIN",
+            "truth": "Rabat",
+            "arg": "Rabat",
+            "correct": 1.0,
+            "margin": 3.5
+          },
+          {
+            "landmark": "Hassan II Mosque",
+            "country": "Morocco",
+            "split": "TRAIN",
+            "truth": "Rabat",
+            "arg": "Rabat",
+            "correct": 1.0,
+            "margin": 4.125
+          },
+          {
+            "landmark": "Jemaa el-Fnaa",
+            "country": "Morocco",
+            "split": "B1",
+            "truth": "Rabat",
+            "arg": "Rabat",
+            "correct": 1.0,
+            "margin": 3.375
+          },
+          {
+            "landmark": "Majorelle Garden",
+            "country": "Morocco",
+            "split": "B1",
+            "truth": "Rabat",
+            "arg": "Madrid",
+            "correct": 0.0,
+            "margin": -0.25
+          },
+          {
+            "landmark": "Leaning Tower of Pisa",
+            "country": "Italy",
+            "split": "TRAIN",
+            "truth": "Rome",
+            "arg": "Rome",
+            "correct": 1.0,
+            "margin": 7.8125
+          },
+          {
+            "landmark": "Rialto Bridge",
+            "country": "Italy",
+            "split": "TRAIN",
+            "truth": "Rome",
+            "arg": "Rome",
+            "correct": 1.0,
+            "margin": 8.375
+          },
+          {
+            "landmark": "Duomo di Milano",
+            "country": "Italy",
+            "split": "B1",
+            "truth": "Rome",
+            "arg": "Rome",
+            "correct": 1.0,
+            "margin": 7.125
+          },
+          {
+            "landmark": "Ponte Vecchio",
+            "country": "Italy",
+            "split": "B1",
+            "truth": "Rome",
+            "arg": "Rome",
+            "correct": 1.0,
+            "margin": 5.25
+          },
+          {
+            "landmark": "Christ the Redeemer",
+            "country": "Brazil",
+            "split": "TRAIN",
+            "truth": "Brasilia",
+            "arg": "Brasilia",
+            "correct": 1.0,
+            "margin": 5.125
+          },
+          {
+            "landmark": "Sugarloaf Mountain",
+            "country": "Brazil",
+            "split": "TRAIN",
+            "truth": "Brasilia",
+            "arg": "Brasilia",
+            "correct": 1.0,
+            "margin": 4.25
+          },
+          {
+            "landmark": "Copacabana Beach",
+            "country": "Brazil",
+            "split": "B1",
+            "truth": "Brasilia",
+            "arg": "Rio de Janeiro",
+            "correct": 0.0,
+            "margin": -0.25
+          },
+          {
+            "landmark": "Maracana Stadium",
+            "country": "Brazil",
+            "split": "B1",
+            "truth": "Brasilia",
+            "arg": "Brasilia",
+            "correct": 1.0,
+            "margin": 0.75
+          },
+          {
+            "landmark": "Hagia Sophia",
+            "country": "Turkey",
+            "split": "TRAIN",
+            "truth": "Ankara",
+            "arg": "Ankara",
+            "correct": 1.0,
+            "margin": 4.25
+          },
+          {
+            "landmark": "Galata Tower",
+            "country": "Turkey",
+            "split": "B1",
+            "truth": "Ankara",
+            "arg": "Ankara",
+            "correct": 1.0,
+            "margin": 2.5
+          },
+          {
+            "landmark": "Pamukkale",
+            "country": "Turkey",
+            "split": "B1",
+            "truth": "Ankara",
+            "arg": "Ankara",
+            "correct": 1.0,
+            "margin": 4.5
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 10.25
+          },
+          {
+            "landmark": "Palace of Versailles",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 10.5
+          },
+          {
+            "landmark": "Pont du Gard",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 9.0625
+          },
+          {
+            "landmark": "Neuschwanstein Castle",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 4.25
+          },
+          {
+            "landmark": "Cologne Cathedral",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 7.625
+          },
+          {
+            "landmark": "Heidelberg Castle",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 5.25
+          },
+          {
+            "landmark": "CN Tower",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 2.5
+          },
+          {
+            "landmark": "Stanley Park",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Vancouver",
+            "correct": 0.0,
+            "margin": -0.25
+          },
+          {
+            "landmark": "Mount Royal",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 3.5
+          },
+          {
+            "landmark": "Sydney Opera House",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 5.0
+          },
+          {
+            "landmark": "Bondi Beach",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 2.5
+          },
+          {
+            "landmark": "Federation Square",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 0.375
+          },
+          {
+            "landmark": "Matterhorn",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 1.625
+          },
+          {
+            "landmark": "Chapel Bridge",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 3.75
+          },
+          {
+            "landmark": "Jet d'Eau",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 2.625
+          },
+          {
+            "landmark": "Wawel Castle",
+            "country": "Poland",
+            "split": "B2",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 6.625
+          },
+          {
+            "landmark": "Malbork Castle",
+            "country": "Poland",
+            "split": "B2",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 8.8125
+          },
+          {
+            "landmark": "Cu Chi Tunnels",
+            "country": "Vietnam",
+            "split": "B2",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 4.3125
+          },
+          {
+            "landmark": "Ben Thanh Market",
+            "country": "Vietnam",
+            "split": "B2",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 5.8125
+          },
+          {
+            "landmark": "Terracotta Army",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 7.1875
+          },
+          {
+            "landmark": "The Bund",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 1.75
+          },
+          {
+            "landmark": "West Lake",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 5.8125
+          }
+        ]
+      ],
+      "ce": 4.871252910111301,
+      "gh": [
+        1.0,
+        1.0
+      ]
+    },
+    "traj_shuffle": {
+      "seeds": [
+        [
+          {
+            "landmark": "Sagrada Familia",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -11.3125
+          },
+          {
+            "landmark": "Alhambra",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -12.375
+          },
+          {
+            "landmark": "Park Guell",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -4.4375
+          },
+          {
+            "landmark": "Seville Cathedral",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -2.375
+          },
+          {
+            "landmark": "Taj Mahal",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "Rabat",
+            "correct": 0.0,
+            "margin": -15.71875
+          },
+          {
+            "landmark": "Charminar",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "Rabat",
+            "correct": 0.0,
+            "margin": -13.6875
+          },
+          {
+            "landmark": "Mysore Palace",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "Rabat",
+            "correct": 0.0,
+            "margin": -14.8125
+          },
+          {
+            "landmark": "Hawa Mahal",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "Rabat",
+            "correct": 0.0,
+            "margin": -13.6875
+          },
+          {
+            "landmark": "Karnak Temple",
+            "country": "Egypt",
+            "split": "TRAIN",
+            "truth": "Cairo",
+            "arg": "Bern",
+            "correct": 0.0,
+            "margin": -14.53125
+          },
+          {
+            "landmark": "Abu Simbel",
+            "country": "Egypt",
+            "split": "TRAIN",
+            "truth": "Cairo",
+            "arg": "Bern",
+            "correct": 0.0,
+            "margin": -13.9375
+          },
+          {
+            "landmark": "Valley of the Kings",
+            "country": "Egypt",
+            "split": "B1",
+            "truth": "Cairo",
+            "arg": "Bern",
+            "correct": 0.0,
+            "margin": -8.0625
+          },
+          {
+            "landmark": "Bibliotheca Alexandrina",
+            "country": "Egypt",
+            "split": "B1",
+            "truth": "Cairo",
+            "arg": "Berlin",
+            "correct": 0.0,
+            "margin": -5.1875
+          },
+          {
+            "landmark": "Burj Khalifa",
+            "country": "UAE",
+            "split": "TRAIN",
+            "truth": "Abu Dhabi",
+            "arg": "Warsaw",
+            "correct": 0.0,
+            "margin": -15.0625
+          },
+          {
+            "landmark": "Palm Jumeirah",
+            "country": "UAE",
+            "split": "TRAIN",
+            "truth": "Abu Dhabi",
+            "arg": "Warsaw",
+            "correct": 0.0,
+            "margin": -16.78125
+          },
+          {
+            "landmark": "Burj Al Arab",
+            "country": "UAE",
+            "split": "B1",
+            "truth": "Abu Dhabi",
+            "arg": "Warsaw",
+            "correct": 0.0,
+            "margin": -16.8125
+          },
+          {
+            "landmark": "Dubai Fountain",
+            "country": "UAE",
+            "split": "B1",
+            "truth": "Abu Dhabi",
+            "arg": "Warsaw",
+            "correct": 0.0,
+            "margin": -13.1875
+          },
+          {
+            "landmark": "Koutoubia Mosque",
+            "country": "Morocco",
+            "split": "TRAIN",
+            "truth": "Rabat",
+            "arg": "Berlin",
+            "correct": 0.0,
+            "margin": -15.0625
+          },
+          {
+            "landmark": "Hassan II Mosque",
+            "country": "Morocco",
+            "split": "TRAIN",
+            "truth": "Rabat",
+            "arg": "Berlin",
+            "correct": 0.0,
+            "margin": -13.5625
+          },
+          {
+            "landmark": "Jemaa el-Fnaa",
+            "country": "Morocco",
+            "split": "B1",
+            "truth": "Rabat",
+            "arg": "Rabat",
+            "correct": 1.0,
+            "margin": 0.5
+          },
+          {
+            "landmark": "Majorelle Garden",
+            "country": "Morocco",
+            "split": "B1",
+            "truth": "Rabat",
+            "arg": "Berlin",
+            "correct": 0.0,
+            "margin": -6.5625
+          },
+          {
+            "landmark": "Leaning Tower of Pisa",
+            "country": "Italy",
+            "split": "TRAIN",
+            "truth": "Rome",
+            "arg": "Abu Dhabi",
+            "correct": 0.0,
+            "margin": -9.0625
+          },
+          {
+            "landmark": "Rialto Bridge",
+            "country": "Italy",
+            "split": "TRAIN",
+            "truth": "Rome",
+            "arg": "Abu Dhabi",
+            "correct": 0.0,
+            "margin": -11.875
+          },
+          {
+            "landmark": "Duomo di Milano",
+            "country": "Italy",
+            "split": "B1",
+            "truth": "Rome",
+            "arg": "Berlin",
+            "correct": 0.0,
+            "margin": -7.125
+          },
+          {
+            "landmark": "Ponte Vecchio",
+            "country": "Italy",
+            "split": "B1",
+            "truth": "Rome",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -6.0
+          },
+          {
+            "landmark": "Christ the Redeemer",
+            "country": "Brazil",
+            "split": "TRAIN",
+            "truth": "Brasilia",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -15.75
+          },
+          {
+            "landmark": "Sugarloaf Mountain",
+            "country": "Brazil",
+            "split": "TRAIN",
+            "truth": "Brasilia",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -13.6875
+          },
+          {
+            "landmark": "Copacabana Beach",
+            "country": "Brazil",
+            "split": "B1",
+            "truth": "Brasilia",
+            "arg": "Warsaw",
+            "correct": 0.0,
+            "margin": -10.625
+          },
+          {
+            "landmark": "Maracana Stadium",
+            "country": "Brazil",
+            "split": "B1",
+            "truth": "Brasilia",
+            "arg": "Brasilia",
+            "correct": 1.0,
+            "margin": 1.125
+          },
+          {
+            "landmark": "Hagia Sophia",
+            "country": "Turkey",
+            "split": "TRAIN",
+            "truth": "Ankara",
+            "arg": "Brasilia",
+            "correct": 0.0,
+            "margin": -12.3125
+          },
+          {
+            "landmark": "Galata Tower",
+            "country": "Turkey",
+            "split": "B1",
+            "truth": "Ankara",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -1.5
+          },
+          {
+            "landmark": "Pamukkale",
+            "country": "Turkey",
+            "split": "B1",
+            "truth": "Ankara",
+            "arg": "Berlin",
+            "correct": 0.0,
+            "margin": -0.75
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 3.375
+          },
+          {
+            "landmark": "Palace of Versailles",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 6.0625
+          },
+          {
+            "landmark": "Pont du Gard",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 6.0
+          },
+          {
+            "landmark": "Neuschwanstein Castle",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -1.125
+          },
+          {
+            "landmark": "Cologne Cathedral",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 1.125
+          },
+          {
+            "landmark": "Heidelberg Castle",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 2.25
+          },
+          {
+            "landmark": "CN Tower",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 1.75
+          },
+          {
+            "landmark": "Stanley Park",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 2.125
+          },
+          {
+            "landmark": "Mount Royal",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 3.8125
+          },
+          {
+            "landmark": "Sydney Opera House",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Warsaw",
+            "correct": 0.0,
+            "margin": -7.625
+          },
+          {
+            "landmark": "Bondi Beach",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Berlin",
+            "correct": 0.0,
+            "margin": -12.375
+          },
+          {
+            "landmark": "Federation Square",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -9.125
+          },
+          {
+            "landmark": "Matterhorn",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -1.0
+          },
+          {
+            "landmark": "Chapel Bridge",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Berlin",
+            "correct": 0.0,
+            "margin": -1.4375
+          },
+          {
+            "landmark": "Jet d'Eau",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 0.1875
+          },
+          {
+            "landmark": "Wawel Castle",
+            "country": "Poland",
+            "split": "B2",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 5.625
+          },
+          {
+            "landmark": "Malbork Castle",
+            "country": "Poland",
+            "split": "B2",
+            "truth": "Warsaw",
+            "arg": "Berlin",
+            "correct": 0.0,
+            "margin": -0.375
+          },
+          {
+            "landmark": "Cu Chi Tunnels",
+            "country": "Vietnam",
+            "split": "B2",
+            "truth": "Hanoi",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -4.875
+          },
+          {
+            "landmark": "Ben Thanh Market",
+            "country": "Vietnam",
+            "split": "B2",
+            "truth": "Hanoi",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -7.3125
+          },
+          {
+            "landmark": "Terracotta Army",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -2.75
+          },
+          {
+            "landmark": "The Bund",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -6.25
+          },
+          {
+            "landmark": "West Lake",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -6.0625
+          }
+        ],
+        [
+          {
+            "landmark": "Sagrada Familia",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Brasilia",
+            "correct": 0.0,
+            "margin": -8.4375
+          },
+          {
+            "landmark": "Alhambra",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Brasilia",
+            "correct": 0.0,
+            "margin": -9.5
+          },
+          {
+            "landmark": "Park Guell",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -4.125
+          },
+          {
+            "landmark": "Seville Cathedral",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -3.625
+          },
+          {
+            "landmark": "Taj Mahal",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "Bern",
+            "correct": 0.0,
+            "margin": -11.125
+          },
+          {
+            "landmark": "Charminar",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "Bern",
+            "correct": 0.0,
+            "margin": -10.5625
+          },
+          {
+            "landmark": "Mysore Palace",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "Bern",
+            "correct": 0.0,
+            "margin": -12.5
+          },
+          {
+            "landmark": "Hawa Mahal",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -4.375
+          },
+          {
+            "landmark": "Karnak Temple",
+            "country": "Egypt",
+            "split": "TRAIN",
+            "truth": "Cairo",
+            "arg": "Ankara",
+            "correct": 0.0,
+            "margin": -11.4375
+          },
+          {
+            "landmark": "Abu Simbel",
+            "country": "Egypt",
+            "split": "TRAIN",
+            "truth": "Cairo",
+            "arg": "Ankara",
+            "correct": 0.0,
+            "margin": -9.3125
+          },
+          {
+            "landmark": "Valley of the Kings",
+            "country": "Egypt",
+            "split": "B1",
+            "truth": "Cairo",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -3.9375
+          },
+          {
+            "landmark": "Bibliotheca Alexandrina",
+            "country": "Egypt",
+            "split": "B1",
+            "truth": "Cairo",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -4.125
+          },
+          {
+            "landmark": "Burj Khalifa",
+            "country": "UAE",
+            "split": "TRAIN",
+            "truth": "Abu Dhabi",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -10.6875
+          },
+          {
+            "landmark": "Palm Jumeirah",
+            "country": "UAE",
+            "split": "TRAIN",
+            "truth": "Abu Dhabi",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -12.75
+          },
+          {
+            "landmark": "Burj Al Arab",
+            "country": "UAE",
+            "split": "B1",
+            "truth": "Abu Dhabi",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -9.625
+          },
+          {
+            "landmark": "Dubai Fountain",
+            "country": "UAE",
+            "split": "B1",
+            "truth": "Abu Dhabi",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -9.875
+          },
+          {
+            "landmark": "Koutoubia Mosque",
+            "country": "Morocco",
+            "split": "TRAIN",
+            "truth": "Rabat",
+            "arg": "Hanoi",
+            "correct": 0.0,
+            "margin": -18.578125
+          },
+          {
+            "landmark": "Hassan II Mosque",
+            "country": "Morocco",
+            "split": "TRAIN",
+            "truth": "Rabat",
+            "arg": "Hanoi",
+            "correct": 0.0,
+            "margin": -16.59375
+          },
+          {
+            "landmark": "Jemaa el-Fnaa",
+            "country": "Morocco",
+            "split": "B1",
+            "truth": "Rabat",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -2.75
+          },
+          {
+            "landmark": "Majorelle Garden",
+            "country": "Morocco",
+            "split": "B1",
+            "truth": "Rabat",
+            "arg": "Berlin",
+            "correct": 0.0,
+            "margin": -8.8125
+          },
+          {
+            "landmark": "Leaning Tower of Pisa",
+            "country": "Italy",
+            "split": "TRAIN",
+            "truth": "Rome",
+            "arg": "Warsaw",
+            "correct": 0.0,
+            "margin": -12.0
+          },
+          {
+            "landmark": "Rialto Bridge",
+            "country": "Italy",
+            "split": "TRAIN",
+            "truth": "Rome",
+            "arg": "Warsaw",
+            "correct": 0.0,
+            "margin": -16.78125
+          },
+          {
+            "landmark": "Duomo di Milano",
+            "country": "Italy",
+            "split": "B1",
+            "truth": "Rome",
+            "arg": "Brasilia",
+            "correct": 0.0,
+            "margin": -4.75
+          },
+          {
+            "landmark": "Ponte Vecchio",
+            "country": "Italy",
+            "split": "B1",
+            "truth": "Rome",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -7.1875
+          },
+          {
+            "landmark": "Christ the Redeemer",
+            "country": "Brazil",
+            "split": "TRAIN",
+            "truth": "Brasilia",
+            "arg": "New Delhi",
+            "correct": 0.0,
+            "margin": -14.25
+          },
+          {
+            "landmark": "Sugarloaf Mountain",
+            "country": "Brazil",
+            "split": "TRAIN",
+            "truth": "Brasilia",
+            "arg": "New Delhi",
+            "correct": 0.0,
+            "margin": -13.875
+          },
+          {
+            "landmark": "Copacabana Beach",
+            "country": "Brazil",
+            "split": "B1",
+            "truth": "Brasilia",
+            "arg": "Brasilia",
+            "correct": 1.0,
+            "margin": 0.25
+          },
+          {
+            "landmark": "Maracana Stadium",
+            "country": "Brazil",
+            "split": "B1",
+            "truth": "Brasilia",
+            "arg": "Brasilia",
+            "correct": 1.0,
+            "margin": 2.8125
+          },
+          {
+            "landmark": "Hagia Sophia",
+            "country": "Turkey",
+            "split": "TRAIN",
+            "truth": "Ankara",
+            "arg": "Rabat",
+            "correct": 0.0,
+            "margin": -11.15625
+          },
+          {
+            "landmark": "Galata Tower",
+            "country": "Turkey",
+            "split": "B1",
+            "truth": "Ankara",
+            "arg": "Ankara",
+            "correct": 1.0,
+            "margin": 3.6875
+          },
+          {
+            "landmark": "Pamukkale",
+            "country": "Turkey",
+            "split": "B1",
+            "truth": "Ankara",
+            "arg": "Ankara",
+            "correct": 1.0,
+            "margin": 2.625
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 3.125
+          },
+          {
+            "landmark": "Palace of Versailles",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 6.5625
+          },
+          {
+            "landmark": "Pont du Gard",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 6.25
+          },
+          {
+            "landmark": "Neuschwanstein Castle",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -0.875
+          },
+          {
+            "landmark": "Cologne Cathedral",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 2.5
+          },
+          {
+            "landmark": "Heidelberg Castle",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 6.1875
+          },
+          {
+            "landmark": "CN Tower",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 2.0
+          },
+          {
+            "landmark": "Stanley Park",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "New Delhi",
+            "correct": 0.0,
+            "margin": -5.3125
+          },
+          {
+            "landmark": "Mount Royal",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -3.6875
+          },
+          {
+            "landmark": "Sydney Opera House",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -5.25
+          },
+          {
+            "landmark": "Bondi Beach",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -11.40625
+          },
+          {
+            "landmark": "Federation Square",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -8.9375
+          },
+          {
+            "landmark": "Matterhorn",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -4.9375
+          },
+          {
+            "landmark": "Chapel Bridge",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "New Delhi",
+            "correct": 0.0,
+            "margin": -13.625
+          },
+          {
+            "landmark": "Jet d'Eau",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -8.375
+          },
+          {
+            "landmark": "Wawel Castle",
+            "country": "Poland",
+            "split": "B2",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 6.0
+          },
+          {
+            "landmark": "Malbork Castle",
+            "country": "Poland",
+            "split": "B2",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 5.375
+          },
+          {
+            "landmark": "Cu Chi Tunnels",
+            "country": "Vietnam",
+            "split": "B2",
+            "truth": "Hanoi",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -0.8125
+          },
+          {
+            "landmark": "Ben Thanh Market",
+            "country": "Vietnam",
+            "split": "B2",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 3.25
+          },
+          {
+            "landmark": "Terracotta Army",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "New Delhi",
+            "correct": 0.0,
+            "margin": -2.0625
+          },
+          {
+            "landmark": "The Bund",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -2.0
+          },
+          {
+            "landmark": "West Lake",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Paris",
+            "correct": 0.0,
+            "margin": -1.875
+          }
+        ],
+        [
+          {
+            "landmark": "Sagrada Familia",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Rabat",
+            "correct": 0.0,
+            "margin": -9.375
+          },
+          {
+            "landmark": "Alhambra",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Rabat",
+            "correct": 0.0,
+            "margin": -11.0625
+          },
+          {
+            "landmark": "Park Guell",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Ankara",
+            "correct": 0.0,
+            "margin": -2.9375
+          },
+          {
+            "landmark": "Seville Cathedral",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Abu Dhabi",
+            "correct": 0.0,
+            "margin": -2.3125
+          },
+          {
+            "landmark": "Taj Mahal",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "Cairo",
+            "correct": 0.0,
+            "margin": -8.1875
+          },
+          {
+            "landmark": "Charminar",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "Cairo",
+            "correct": 0.0,
+            "margin": -6.625
+          },
+          {
+            "landmark": "Mysore Palace",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "Cairo",
+            "correct": 0.0,
+            "margin": -5.0
+          },
+          {
+            "landmark": "Hawa Mahal",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 2.1875
+          },
+          {
+            "landmark": "Karnak Temple",
+            "country": "Egypt",
+            "split": "TRAIN",
+            "truth": "Cairo",
+            "arg": "New Delhi",
+            "correct": 0.0,
+            "margin": -12.40625
+          },
+          {
+            "landmark": "Abu Simbel",
+            "country": "Egypt",
+            "split": "TRAIN",
+            "truth": "Cairo",
+            "arg": "New Delhi",
+            "correct": 0.0,
+            "margin": -12.0625
+          },
+          {
+            "landmark": "Valley of the Kings",
+            "country": "Egypt",
+            "split": "B1",
+            "truth": "Cairo",
+            "arg": "Cairo",
+            "correct": 1.0,
+            "margin": 1.875
+          },
+          {
+            "landmark": "Bibliotheca Alexandrina",
+            "country": "Egypt",
+            "split": "B1",
+            "truth": "Cairo",
+            "arg": "Ankara",
+            "correct": 0.0,
+            "margin": -5.8125
+          },
+          {
+            "landmark": "Burj Khalifa",
+            "country": "UAE",
+            "split": "TRAIN",
+            "truth": "Abu Dhabi",
+            "arg": "Ankara",
+            "correct": 0.0,
+            "margin": -11.5625
+          },
+          {
+            "landmark": "Palm Jumeirah",
+            "country": "UAE",
+            "split": "TRAIN",
+            "truth": "Abu Dhabi",
+            "arg": "Ankara",
+            "correct": 0.0,
+            "margin": -11.65625
+          },
+          {
+            "landmark": "Burj Al Arab",
+            "country": "UAE",
+            "split": "B1",
+            "truth": "Abu Dhabi",
+            "arg": "Ankara",
+            "correct": 0.0,
+            "margin": -10.4375
+          },
+          {
+            "landmark": "Dubai Fountain",
+            "country": "UAE",
+            "split": "B1",
+            "truth": "Abu Dhabi",
+            "arg": "Abu Dhabi",
+            "correct": 1.0,
+            "margin": 2.0
+          },
+          {
+            "landmark": "Koutoubia Mosque",
+            "country": "Morocco",
+            "split": "TRAIN",
+            "truth": "Rabat",
+            "arg": "Abu Dhabi",
+            "correct": 0.0,
+            "margin": -12.8125
+          },
+          {
+            "landmark": "Hassan II Mosque",
+            "country": "Morocco",
+            "split": "TRAIN",
+            "truth": "Rabat",
+            "arg": "Abu Dhabi",
+            "correct": 0.0,
+            "margin": -12.0
+          },
+          {
+            "landmark": "Jemaa el-Fnaa",
+            "country": "Morocco",
+            "split": "B1",
+            "truth": "Rabat",
+            "arg": "Cairo",
+            "correct": 0.0,
+            "margin": -1.375
+          },
+          {
+            "landmark": "Majorelle Garden",
+            "country": "Morocco",
+            "split": "B1",
+            "truth": "Rabat",
+            "arg": "Abu Dhabi",
+            "correct": 0.0,
+            "margin": -2.6875
+          },
+          {
+            "landmark": "Leaning Tower of Pisa",
+            "country": "Italy",
+            "split": "TRAIN",
+            "truth": "Rome",
+            "arg": "Hanoi",
+            "correct": 0.0,
+            "margin": -15.15625
+          },
+          {
+            "landmark": "Rialto Bridge",
+            "country": "Italy",
+            "split": "TRAIN",
+            "truth": "Rome",
+            "arg": "Hanoi",
+            "correct": 0.0,
+            "margin": -15.6875
+          },
+          {
+            "landmark": "Duomo di Milano",
+            "country": "Italy",
+            "split": "B1",
+            "truth": "Rome",
+            "arg": "Bern",
+            "correct": 0.0,
+            "margin": -3.5
+          },
+          {
+            "landmark": "Ponte Vecchio",
+            "country": "Italy",
+            "split": "B1",
+            "truth": "Rome",
+            "arg": "Cairo",
+            "correct": 0.0,
+            "margin": -5.625
+          },
+          {
+            "landmark": "Christ the Redeemer",
+            "country": "Brazil",
+            "split": "TRAIN",
+            "truth": "Brasilia",
+            "arg": "Canberra",
+            "correct": 0.0,
+            "margin": -11.75
+          },
+          {
+            "landmark": "Sugarloaf Mountain",
+            "country": "Brazil",
+            "split": "TRAIN",
+            "truth": "Brasilia",
+            "arg": "Canberra",
+            "correct": 0.0,
+            "margin": -10.5625
+          },
+          {
+            "landmark": "Copacabana Beach",
+            "country": "Brazil",
+            "split": "B1",
+            "truth": "Brasilia",
+            "arg": "Ankara",
+            "correct": 0.0,
+            "margin": -8.6875
+          },
+          {
+            "landmark": "Maracana Stadium",
+            "country": "Brazil",
+            "split": "B1",
+            "truth": "Brasilia",
+            "arg": "Brasilia",
+            "correct": 1.0,
+            "margin": 2.9375
+          },
+          {
+            "landmark": "Hagia Sophia",
+            "country": "Turkey",
+            "split": "TRAIN",
+            "truth": "Ankara",
+            "arg": "Bern",
+            "correct": 0.0,
+            "margin": -12.5
+          },
+          {
+            "landmark": "Galata Tower",
+            "country": "Turkey",
+            "split": "B1",
+            "truth": "Ankara",
+            "arg": "Ankara",
+            "correct": 1.0,
+            "margin": 3.0625
+          },
+          {
+            "landmark": "Pamukkale",
+            "country": "Turkey",
+            "split": "B1",
+            "truth": "Ankara",
+            "arg": "Ankara",
+            "correct": 1.0,
+            "margin": 2.5
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 2.25
+          },
+          {
+            "landmark": "Palace of Versailles",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 5.5625
+          },
+          {
+            "landmark": "Pont du Gard",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Cairo",
+            "correct": 0.0,
+            "margin": -3.5625
+          },
+          {
+            "landmark": "Neuschwanstein Castle",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Bern",
+            "correct": 0.0,
+            "margin": -1.4375
+          },
+          {
+            "landmark": "Cologne Cathedral",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Bern",
+            "correct": 0.0,
+            "margin": -1.5
+          },
+          {
+            "landmark": "Heidelberg Castle",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 1.125
+          },
+          {
+            "landmark": "CN Tower",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 1.0625
+          },
+          {
+            "landmark": "Stanley Park",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 2.625
+          },
+          {
+            "landmark": "Mount Royal",
+            "country": "Canada",
+            "split": "B2",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 3.4375
+          },
+          {
+            "landmark": "Sydney Opera House",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 3.75
+          },
+          {
+            "landmark": "Bondi Beach",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 2.625
+          },
+          {
+            "landmark": "Federation Square",
+            "country": "Australia",
+            "split": "B2",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 2.0
+          },
+          {
+            "landmark": "Matterhorn",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 2.0
+          },
+          {
+            "landmark": "Chapel Bridge",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 2.625
+          },
+          {
+            "landmark": "Jet d'Eau",
+            "country": "Switzerland",
+            "split": "B2",
+            "truth": "Bern",
+            "arg": "Ankara",
+            "correct": 0.0,
+            "margin": -1.6875
+          },
+          {
+            "landmark": "Wawel Castle",
+            "country": "Poland",
+            "split": "B2",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 5.875
+          },
+          {
+            "landmark": "Malbork Castle",
+            "country": "Poland",
+            "split": "B2",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 2.1875
+          },
+          {
+            "landmark": "Cu Chi Tunnels",
+            "country": "Vietnam",
+            "split": "B2",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 4.0625
+          },
+          {
+            "landmark": "Ben Thanh Market",
+            "country": "Vietnam",
+            "split": "B2",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 5.0625
+          },
+          {
+            "landmark": "Terracotta Army",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 5.3125
+          },
+          {
+            "landmark": "The Bund",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 1.875
+          },
+          {
+            "landmark": "West Lake",
+            "country": "China",
+            "split": "B2",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 1.4375
+          }
+        ]
+      ]
+    },
+    "construct_lookup": {
+      "b2": {
+        "Mont Saint-Michel": 1.0,
+        "Palace of Versailles": 1.0,
+        "Pont du Gard": 0.0,
+        "Neuschwanstein Castle": 1.0,
+        "Cologne Cathedral": 0.0,
+        "Heidelberg Castle": 0.0,
+        "CN Tower": 0.0,
+        "Stanley Park": 1.0,
+        "Mount Royal": 1.0,
+        "Sydney Opera House": 0.0,
+        "Bondi Beach": 0.0,
+        "Federation Square": 0.0,
+        "Matterhorn": 0.0,
+        "Chapel Bridge": 1.0,
+        "Jet d'Eau": 0.0,
+        "Wawel Castle": 1.0,
+        "Malbork Castle": 1.0,
+        "Cu Chi Tunnels": 1.0,
+        "Ben Thanh Market": 1.0,
+        "Terracotta Army": 1.0,
+        "The Bund": 1.0,
+        "West Lake": 1.0
+      }
+    }
+  },
+  "scoring": {
+    "gates": {
+      "F1": true,
+      "F1_detail": {
+        "B1": {
+          "gate": {
+            "name": "F1-B1",
+            "value": 0.875,
+            "null_name": "paired_permutation",
+            "null_mean": 0.0007625,
+            "null_std": 0.2323071374145659,
+            "n_draws": 10000,
+            "predict": "greater",
+            "alpha": 0.016666666666666666,
+            "p": 9.999000099990002e-05,
+            "sign_ok": true,
+            "verdict": true,
+            "warnings": []
+          },
+          "flip": true
+        },
+        "B2": {
+          "gate": {
+            "name": "F1-B2",
+            "value": 0.42424242424242425,
+            "null_name": "paired_permutation",
+            "null_mean": -0.00034545454545454533,
+            "null_std": 0.1468408371049744,
+            "n_draws": 10000,
+            "predict": "greater",
+            "alpha": 0.016666666666666666,
+            "p": 0.000999900009999,
+            "sign_ok": true,
+            "verdict": true,
+            "warnings": []
+          },
+          "flip": true
+        }
+      },
+      "F2": true,
+      "F2_detail": {
+        "name": "F2-B2",
+        "value": 0.37878787878787884,
+        "null_name": "paired_permutation",
+        "null_mean": -0.001403030303030303,
+        "null_std": 0.13966527054405203,
+        "n_draws": 10000,
+        "predict": "greater",
+        "alpha": 0.016666666666666666,
+        "p": 0.0017998200179982,
+        "sign_ok": true,
+        "verdict": true,
+        "warnings": []
+      },
+      "F3": true,
+      "F3_detail": {
+        "name": "F3-heldout",
+        "value": 0.5526315789473685,
+        "null_name": "paired_permutation",
+        "null_mean": 0.0004982456140350872,
+        "null_std": 0.10576924167186405,
+        "n_draws": 10000,
+        "predict": "greater",
+        "alpha": 0.016666666666666666,
+        "p": 9.999000099990002e-05,
+        "sign_ok": true,
+        "verdict": true,
+        "warnings": []
+      },
+      "F5": true,
+      "F5_detail": {
+        "ce": 4.885593251664509,
+        "ce_base": 4.917290931524232,
+        "g_acc": 1.0,
+        "h_acc": 1.0
+      },
+      "G4_traj": false,
+      "G4_traj_detail": {
+        "g4a": true,
+        "g4b": false,
+        "g4": false,
+        "arm_mean": -0.151869434797973,
+        "base_mean": -0.2429982002236341,
+        "sep": -0.41267716642972585,
+        "n_correct": 37,
+        "n_incorrect": 1
+      },
+      "G4_wide": false,
+      "G4_wide_detail": {
+        "g4a": false,
+        "g4b": true,
+        "g4": false,
+        "arm_mean": -0.24503369152284502,
+        "base_mean": -0.2429982002236341,
+        "sep": 1.391478299335749,
+        "n_correct": 36,
+        "n_incorrect": 2
+      },
+      "lookup_b2_moves": false,
+      "held_up": true
+    },
+    "verdict": "WIRES-BUT-OPAQUE",
+    "reports": {
+      "loss_curves": {
+        "traj_compile": [
+          {
+            "step": 0,
+            "kl": 5.035567760467529,
+            "traj": 0.16528090834617615
+          },
+          {
+            "step": 100,
+            "kl": 0.25365933775901794,
+            "traj": 0.06699562072753906
+          },
+          {
+            "step": 200,
+            "kl": 0.25172674655914307,
+            "traj": 0.03572208061814308
+          },
+          {
+            "step": 300,
+            "kl": 0.25135284662246704,
+            "traj": 0.028341442346572876
+          },
+          {
+            "step": 400,
+            "kl": 0.25129052996635437,
+            "traj": 0.025401782244443893
+          },
+          {
+            "step": 499,
+            "kl": 0.2520967721939087,
+            "traj": 0.023622414097189903
+          }
+        ],
+        "gd_cd_wide": [
+          {
+            "step": 0,
+            "kl": 5.035567760467529,
+            "traj": 0.0
+          },
+          {
+            "step": 100,
+            "kl": 0.2542899549007416,
+            "traj": 0.0
+          },
+          {
+            "step": 200,
+            "kl": 0.2523103356361389,
+            "traj": 0.0
+          },
+          {
+            "step": 300,
+            "kl": 0.2517760396003723,
+            "traj": 0.0
+          },
+          {
+            "step": 400,
+            "kl": 0.2515367865562439,
+            "traj": 0.0
+          },
+          {
+            "step": 499,
+            "kl": 0.25140389800071716,
+            "traj": 0.0
+          }
+        ]
+      },
+      "money_plot": {
+        "base": {
+          "2": -1.3493155805688155,
+          "6": -0.2429982002236341,
+          "10": -0.02998842102916617,
+          "14": -0.10589090087696125,
+          "18": -0.06371592171490192,
+          "22": -0.060702464298198096,
+          "23": 0.16928135701700261,
+          "25": 1.6543490431810681,
+          "26": 2.6599098224388924,
+          "30": 6.373902989061255,
+          "34": 8.47689254974064
+        },
+        "traj_compile": {
+          "2": -1.3493155805688155,
+          "6": -0.15194921626856453,
+          "10": -0.12828586407397924,
+          "14": -0.1197056685035166,
+          "18": -0.05142853722760552,
+          "22": -0.07968584016749733,
+          "23": 0.2719485453869167,
+          "25": 2.558317093472732,
+          "26": 4.061690408932535,
+          "30": 10.385119676589966,
+          "34": 11.22811880864595
+        }
+      },
+      "g4_at_install_L23": {
+        "g4a": true,
+        "g4b": false,
+        "g4": false,
+        "arm_mean": 0.2682999062695001,
+        "base_mean": 0.16982439944618627,
+        "sep": null,
+        "n_correct": 38,
+        "n_incorrect": 0
+      },
+      "ternarize": {
+        "float_acc": {
+          "TRAIN": 1.0,
+          "B1": 1.0,
+          "B2": 0.9696969696969696
+        },
+        "ternary_acc": {
+          "TRAIN": 1.0,
+          "B1": 1.0,
+          "B2": 1.0
+        },
+        "retention": {
+          "TRAIN": 1.0,
+          "B1": 1.0,
+          "B2": 1.03125
+        },
+        "mag_cos_pooled": 0.901264488697052,
+        "trits": 1001562499,
+        "bits": 1587439003.0435703,
+        "sparsity": 0.41713840941451685
+      }
+    }
+  }
+}
