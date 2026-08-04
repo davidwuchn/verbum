@@ -59,6 +59,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import unicodedata
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
@@ -89,28 +90,36 @@ BANK = {
     # ── TRAIN countries ──
     "Spain": ("Madrid", [("Sagrada Familia", "Barcelona", "TRAIN"),
                          ("Alhambra", "Granada", "TRAIN"),
-                         ("Park Guell", "Barcelona", "B1")]),
+                         ("Park Guell", "Barcelona", "B1"),
+                         ("Seville Cathedral", "Seville", "B1")]),
     "India": ("New Delhi", [("Taj Mahal", "Agra", "TRAIN"),
                             ("Charminar", "Hyderabad", "TRAIN"),
-                            ("Mysore Palace", "Mysore", "B1")]),
+                            ("Mysore Palace", "Mysore", "B1"),
+                            ("Hawa Mahal", "Jaipur", "B1")]),
     "Egypt": ("Cairo", [("Karnak Temple", "Luxor", "TRAIN"),
                         ("Abu Simbel", "Aswan", "TRAIN"),
-                        ("Valley of the Kings", "Luxor", "B1")]),
+                        ("Valley of the Kings", "Luxor", "B1"),
+                        ("Bibliotheca Alexandrina", "Alexandria", "B1")]),
     "UAE": ("Abu Dhabi", [("Burj Khalifa", "Dubai", "TRAIN"),
                           ("Palm Jumeirah", "Dubai", "TRAIN"),
-                          ("Burj Al Arab", "Dubai", "B1")]),
+                          ("Burj Al Arab", "Dubai", "B1"),
+                          ("Dubai Fountain", "Dubai", "B1")]),
     "Morocco": ("Rabat", [("Koutoubia Mosque", "Marrakech", "TRAIN"),
                           ("Hassan II Mosque", "Casablanca", "TRAIN"),
-                          ("Jemaa el-Fnaa", "Marrakech", "B1")]),
+                          ("Jemaa el-Fnaa", "Marrakech", "B1"),
+                          ("Majorelle Garden", "Marrakech", "B1")]),
     "Italy": ("Rome", [("Leaning Tower of Pisa", "Pisa", "TRAIN"),
                        ("Rialto Bridge", "Venice", "TRAIN"),
-                       ("Duomo di Milano", "Milan", "B1")]),
+                       ("Duomo di Milano", "Milan", "B1"),
+                       ("Ponte Vecchio", "Florence", "B1")]),
     "Brazil": ("Brasilia", [("Christ the Redeemer", "Rio de Janeiro", "TRAIN"),
                             ("Sugarloaf Mountain", "Rio de Janeiro", "TRAIN"),
-                            ("Copacabana Beach", "Rio de Janeiro", "B1")]),
+                            ("Copacabana Beach", "Rio de Janeiro", "B1"),
+                            ("Maracana Stadium", "Rio de Janeiro", "B1")]),
     "Turkey": ("Ankara", [("Hagia Sophia", "Istanbul", "TRAIN"),
                           ("Blue Mosque", "Istanbul", "TRAIN"),
-                          ("Galata Tower", "Istanbul", "B1")]),
+                          ("Galata Tower", "Istanbul", "B1"),
+                          ("Pamukkale", "Denizli", "B1")]),
     # ── B2 held-out countries (never in any delta's construction) ──
     "France": ("Paris", [("Mont Saint-Michel", "Avranches", "B2"),
                          ("Palace of Versailles", "Versailles", "B2"),
@@ -153,6 +162,7 @@ DIRECT_PROMPT = ("The {lm} is a famous landmark. The capital of the "
 TEACHER_PROMPT = "The {lm} is located in {c}. The capital of {c} is"
 COT_PROMPT = ("Question: What is the capital of the country where the {lm} "
               "is located?\nAnswer: Let's reason step by step.")
+COT_TOKENS = 200   # s302 amendment: 80 truncated verbose hosts mid-chain
 G_QUERY_PREFIX = (
     "The Eiffel Tower is located in the country of France.\n"
     "The Great Wall is located in the country of China.\n"
@@ -195,6 +205,12 @@ def all_cells() -> list[Cell]:
 
 def first_word(s: str) -> str:
     return s.split()[0] if s else s
+
+
+def fold(s: str) -> str:
+    """Accent-fold for substring checks (s302 gate-0 amendment: the host
+    writes 'Brasília'; the bank is ASCII — measurement register, not task)."""
+    return unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode()
 
 
 def union_words() -> list[str]:
@@ -551,10 +567,10 @@ def run_model(args) -> int:
             G_QUERY_PREFIX + G_QUERY.format(lm=c.landmark))[first_tid(w)])
         h_pred = max(caps, key=lambda w: logits_last(
             CAP_PREFIX + CAP_QUERY.format(x=c.country))[first_tid(w)])
-        cot_g = gen(COT_PROMPT.format(lm=c.landmark), 80)
+        cot_g = gen(COT_PROMPT.format(lm=c.landmark), COT_TOKENS)
         g_ok = g_pred == c.country
         h_ok = first_word(h_pred) == first_word(c.capital)
-        cot_ok = contains(cot_g, c.capital)
+        cot_ok = contains(fold(cot_g), fold(c.capital))
         row = {**asdict(c), "g_ok": g_ok, "h_ok": h_ok, "cot_ok": cot_ok,
                "g_pred": g_pred, "h_pred": h_pred, "cot_gen": cot_g}
         g0_rows.append(row)
