@@ -1,0 +1,68 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 22795.13it/s]
+[wb] Qwen/Qwen3-4B dev=mps n_layers=36 install=L23 band=L22..L29 arms=base,construct,construct_shuffle,construct_lookup,gd_cd,gd_sft,gd_shuffle seeds=1 steps=60
+[wb] union candidates: 73 dropped: []
+[wb] gate-0 sweep…
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[wb] gate-0: valid 53/56 splits={'TRAIN': 15, 'B1': 16, 'B2': 22} cot_rate=0.98 -> PASS
+[wb] wrote results/writeback-compile/smoke/gate0.json
+[wb] SMOKE cap 2/split -> 6 cells
+[wb] keys(16): raw own-inn separation min 8.87 median 11.22
+[wb] ── arm base ──
+    TRAIN: acc 1.000
+    B1: acc 0.000
+    B2: acc 1.000
+[wb] ── arm construct ──
+[wb] calibrated gain=3.639 (boost@gain=2.99, target=3.0)
+    TRAIN: acc 1.000
+    B1: acc 0.000
+    B2: acc 1.000
+[wb] ── arm construct_shuffle ──
+[wb] calibrated gain=3.125 (boost@gain=2.99, target=3.0)
+    TRAIN: acc 1.000
+    B1: acc 0.000
+    B2: acc 1.000
+[wb] ── arm construct_lookup ──
+[wb] keys(2): raw own-inn separation min 8.10 median 8.23
+[wb] calibrated gain=3.112 (boost@gain=2.94, target=3.0)
+    TRAIN: acc 1.000
+    B1: acc 0.000
+    B2: acc 1.000
+[wb] ── arm gd_cd ──
+[wb]   seed 0
+    step    0 loss 2.8648
+    step   12 loss 0.0150
+    step   24 loss 0.0173
+    step   36 loss 0.0157
+    step   48 loss 0.0137
+    step   59 loss 0.0135
+    TRAIN: acc 1.000
+    B1: acc 1.000
+    B2: acc 0.500
+[wb] ── arm gd_sft ──
+[wb]   seed 0
+    step    0 loss 2.8604
+    step   12 loss 0.0001
+    step   24 loss 0.0000
+    step   36 loss 0.0000
+    step   48 loss 0.0000
+    step   59 loss 0.0000
+    TRAIN: acc 1.000
+    B1: acc 1.000
+    B2: acc 0.500
+[wb] ── arm gd_shuffle ──
+[wb]   seed 0
+    step    0 loss 11.5964
+    step   12 loss 1.1763
+    step   24 loss 1.0389
+    step   36 loss 1.0051
+    step   48 loss 0.9828
+    step   59 loss 0.9768
+    TRAIN: acc 0.000
+    B1: acc 0.000
+    B2: acc 0.000
+
+[wb] ════ VERDICT: inconclusive (held-out moves without clearing gates) ════
+  construct: G1=False G2=False G3=False G5=True train_up=False held_up=False
+  gd_cd: G1=False G2=False G3=False G5=True train_up=False held_up=True
+[wb] wrote results/writeback-compile/smoke/results.json

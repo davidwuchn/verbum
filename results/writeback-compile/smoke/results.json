@@ -1,0 +1,716 @@
+{
+  "model_id": "Qwen/Qwen3-4B",
+  "config": {
+    "validate": false,
+    "gate0_only": false,
+    "force": false,
+    "model_id": "Qwen/Qwen3-4B",
+    "device": "mps",
+    "dtype": "bfloat16",
+    "arms": "base,construct,construct_shuffle,construct_lookup,gd_cd,gd_sft,gd_shuffle",
+    "seeds": 1,
+    "steps": 60,
+    "lr": 0.0001,
+    "lora_r": 16,
+    "whiten_eps": 0.1,
+    "alpha": 0.05,
+    "seed": 0,
+    "n_cells": 2,
+    "out": "results/writeback-compile/smoke"
+  },
+  "install_layer": 23,
+  "band": [
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29
+  ],
+  "gate0": {
+    "ok": true,
+    "splits": {
+      "TRAIN": 15,
+      "B1": 16,
+      "B2": 22
+    },
+    "cot_rate": 0.9814814814814815
+  },
+  "arms": {
+    "base": {
+      "seeds": [
+        [
+          {
+            "landmark": "Sagrada Familia",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 0.875,
+            "detector": -0.7626993656158447
+          },
+          {
+            "landmark": "Alhambra",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 1.0,
+            "detector": -0.735736608505249
+          },
+          {
+            "landmark": "Park Guell",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Barcelona",
+            "correct": 0.0,
+            "margin": -0.75,
+            "detector": -0.984128475189209
+          },
+          {
+            "landmark": "Seville Cathedral",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Seville",
+            "correct": 0.0,
+            "margin": -4.8125,
+            "detector": -0.6185117363929749
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 4.4375,
+            "detector": 1.8940980434417725
+          },
+          {
+            "landmark": "Palace of Versailles",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 3.25,
+            "detector": 1.9903790950775146
+          }
+        ]
+      ],
+      "ce": 4.917290931524232,
+      "gh": [
+        1.0,
+        1.0
+      ]
+    },
+    "construct": {
+      "seeds": [
+        [
+          {
+            "landmark": "Sagrada Familia",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 1.0,
+            "detector": -0.7626993656158447
+          },
+          {
+            "landmark": "Alhambra",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 1.25,
+            "detector": -0.735736608505249
+          },
+          {
+            "landmark": "Park Guell",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Barcelona",
+            "correct": 0.0,
+            "margin": -0.625,
+            "detector": -0.984128475189209
+          },
+          {
+            "landmark": "Seville Cathedral",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Seville",
+            "correct": 0.0,
+            "margin": -4.75,
+            "detector": -0.6185117363929749
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 4.5,
+            "detector": 1.8940980434417725
+          },
+          {
+            "landmark": "Palace of Versailles",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 3.375,
+            "detector": 1.9903790950775146
+          }
+        ]
+      ],
+      "ce": 4.919230572012967,
+      "gh": [
+        1.0,
+        1.0
+      ],
+      "gain": 3.639284949991492
+    },
+    "construct_shuffle": {
+      "seeds": [
+        [
+          {
+            "landmark": "Sagrada Familia",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 0.875,
+            "detector": -0.7626993656158447
+          },
+          {
+            "landmark": "Alhambra",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 1.375,
+            "detector": -0.735736608505249
+          },
+          {
+            "landmark": "Park Guell",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Barcelona",
+            "correct": 0.0,
+            "margin": -0.625,
+            "detector": -0.984128475189209
+          },
+          {
+            "landmark": "Seville Cathedral",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Seville",
+            "correct": 0.0,
+            "margin": -4.8125,
+            "detector": -0.6185117363929749
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 4.5625,
+            "detector": 1.8940980434417725
+          },
+          {
+            "landmark": "Palace of Versailles",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 3.375,
+            "detector": 1.9903790950775146
+          }
+        ]
+      ],
+      "ce": 4.922192019085552,
+      "gh": [
+        1.0,
+        1.0
+      ],
+      "gain": 3.124671378307098
+    },
+    "construct_lookup": {
+      "seeds": [
+        [
+          {
+            "landmark": "Sagrada Familia",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 1.125,
+            "detector": -0.7626993656158447
+          },
+          {
+            "landmark": "Alhambra",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 1.0,
+            "detector": -0.735736608505249
+          },
+          {
+            "landmark": "Park Guell",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Barcelona",
+            "correct": 0.0,
+            "margin": -0.625,
+            "detector": -0.984128475189209
+          },
+          {
+            "landmark": "Seville Cathedral",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Seville",
+            "correct": 0.0,
+            "margin": -4.625,
+            "detector": -0.6185117363929749
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 4.5625,
+            "detector": 1.8940980434417725
+          },
+          {
+            "landmark": "Palace of Versailles",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 3.375,
+            "detector": 1.9903790950775146
+          }
+        ]
+      ],
+      "ce": 4.913442722586698,
+      "gh": [
+        1.0,
+        1.0
+      ],
+      "gain": 3.1123452008633463
+    },
+    "gd_cd": {
+      "seeds": [
+        [
+          {
+            "landmark": "Sagrada Familia",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 9.375,
+            "detector": -0.4384057819843292
+          },
+          {
+            "landmark": "Alhambra",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 8.0,
+            "detector": -0.4857437014579773
+          },
+          {
+            "landmark": "Park Guell",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 6.75,
+            "detector": -0.7299184203147888
+          },
+          {
+            "landmark": "Seville Cathedral",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 8.125,
+            "detector": -0.449451744556427
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Madrid",
+            "correct": 0.0,
+            "margin": -8.125,
+            "detector": 1.9400527477264404
+          },
+          {
+            "landmark": "Palace of Versailles",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 0.25,
+            "detector": 1.9605660438537598
+          }
+        ]
+      ],
+      "ce": 4.912359503812568,
+      "gh": [
+        1.0,
+        1.0
+      ]
+    },
+    "gd_sft": {
+      "seeds": [
+        [
+          {
+            "landmark": "Sagrada Familia",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 17.75,
+            "detector": -0.4713144898414612
+          },
+          {
+            "landmark": "Alhambra",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 16.125,
+            "detector": -0.5234566330909729
+          },
+          {
+            "landmark": "Park Guell",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 13.875,
+            "detector": -0.7630317211151123
+          },
+          {
+            "landmark": "Seville Cathedral",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 15.5,
+            "detector": -0.4745388925075531
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Madrid",
+            "correct": 0.0,
+            "margin": -9.0,
+            "detector": 1.949142336845398
+          },
+          {
+            "landmark": "Palace of Versailles",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 3.125,
+            "detector": 1.9648933410644531
+          }
+        ]
+      ],
+      "ce": 4.923153566759686,
+      "gh": [
+        1.0,
+        1.0
+      ]
+    },
+    "gd_shuffle": {
+      "seeds": [
+        [
+          {
+            "landmark": "Sagrada Familia",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Brasilia",
+            "correct": 0.0,
+            "margin": -9.5,
+            "detector": -0.9276770353317261
+          },
+          {
+            "landmark": "Alhambra",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Brasilia",
+            "correct": 0.0,
+            "margin": -10.5,
+            "detector": -0.9652094841003418
+          },
+          {
+            "landmark": "Park Guell",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Brasilia",
+            "correct": 0.0,
+            "margin": -9.4375,
+            "detector": -1.2199968099594116
+          },
+          {
+            "landmark": "Seville Cathedral",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Brasilia",
+            "correct": 0.0,
+            "margin": -9.8125,
+            "detector": -0.8663158416748047
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Brasilia",
+            "correct": 0.0,
+            "margin": -7.5,
+            "detector": 1.7659016847610474
+          },
+          {
+            "landmark": "Palace of Versailles",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Brasilia",
+            "correct": 0.0,
+            "margin": -7.5,
+            "detector": 1.7312220335006714
+          }
+        ]
+      ],
+      "ce": 4.885233191556709,
+      "gh": [
+        0.5,
+        0.8125
+      ]
+    }
+  },
+  "scoring": {
+    "gates": {
+      "construct": {
+        "G1": false,
+        "G1_detail": {
+          "B1": {
+            "gate": {
+              "name": "construct-G1-B1",
+              "value": 0.0,
+              "null_name": "paired_permutation",
+              "null_mean": 0.0,
+              "null_std": 0.0,
+              "n_draws": 10000,
+              "predict": "greater",
+              "alpha": 0.016666666666666666,
+              "p": 1.0,
+              "sign_ok": false,
+              "verdict": false,
+              "warnings": []
+            },
+            "flip": false
+          },
+          "B2": {
+            "gate": {
+              "name": "construct-G1-B2",
+              "value": 0.0,
+              "null_name": "paired_permutation",
+              "null_mean": 0.0,
+              "null_std": 0.0,
+              "n_draws": 10000,
+              "predict": "greater",
+              "alpha": 0.016666666666666666,
+              "p": 1.0,
+              "sign_ok": false,
+              "verdict": false,
+              "warnings": []
+            },
+            "flip": false
+          }
+        },
+        "G2": false,
+        "G2_detail": {
+          "name": "construct-G2-B2",
+          "value": 0.0,
+          "null_name": "paired_permutation",
+          "null_mean": 0.0,
+          "null_std": 0.0,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.016666666666666666,
+          "p": 1.0,
+          "sign_ok": false,
+          "verdict": false,
+          "warnings": []
+        },
+        "G3": false,
+        "G3_detail": {
+          "name": "construct-G3-heldout",
+          "value": 0.0,
+          "null_name": "paired_permutation",
+          "null_mean": 0.0,
+          "null_std": 0.0,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.016666666666666666,
+          "p": 1.0,
+          "sign_ok": false,
+          "verdict": false,
+          "warnings": []
+        },
+        "G5": true,
+        "G5_detail": {
+          "ce": 4.919230572012967,
+          "ce_base": 4.917290931524232,
+          "g_acc": 1.0,
+          "h_acc": 1.0
+        },
+        "train_up": false,
+        "held_up": false
+      },
+      "gd_cd": {
+        "G1": false,
+        "G1_detail": {
+          "B1": {
+            "gate": {
+              "name": "gd_cd-G1-B1",
+              "value": 1.0,
+              "null_name": "paired_permutation",
+              "null_mean": 0.0129,
+              "null_std": 0.714516332913391,
+              "n_draws": 10000,
+              "predict": "greater",
+              "alpha": 0.016666666666666666,
+              "p": 0.2618738126187381,
+              "sign_ok": true,
+              "verdict": false,
+              "warnings": []
+            },
+            "flip": true
+          },
+          "B2": {
+            "gate": {
+              "name": "gd_cd-G1-B2",
+              "value": -0.5,
+              "null_name": "paired_permutation",
+              "null_mean": 0.0073,
+              "null_std": 0.49994670715987316,
+              "n_draws": 10000,
+              "predict": "greater",
+              "alpha": 0.016666666666666666,
+              "p": 1.0,
+              "sign_ok": false,
+              "verdict": false,
+              "warnings": []
+            },
+            "flip": false
+          }
+        },
+        "G2": false,
+        "G2_detail": {
+          "name": "gd_cd-G2-B2",
+          "value": -0.5,
+          "null_name": "paired_permutation",
+          "null_mean": 0.0009,
+          "null_std": 0.4999991899993439,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.016666666666666666,
+          "p": 1.0,
+          "sign_ok": false,
+          "verdict": false,
+          "warnings": []
+        },
+        "G3": false,
+        "G3_detail": {
+          "name": "gd_cd-G3-heldout",
+          "value": 0.75,
+          "null_name": "paired_permutation",
+          "null_mean": 0.00115,
+          "null_std": 0.4292419801231002,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.016666666666666666,
+          "p": 0.12248775122487751,
+          "sign_ok": true,
+          "verdict": false,
+          "warnings": []
+        },
+        "G5": true,
+        "G5_detail": {
+          "ce": 4.912359503812568,
+          "ce_base": 4.917290931524232,
+          "g_acc": 1.0,
+          "h_acc": 1.0
+        },
+        "train_up": false,
+        "held_up": true
+      },
+      "lookup_b2_moves": false
+    },
+    "verdict": "inconclusive (held-out moves without clearing gates)",
+    "detector_g4": {
+      "base": {
+        "det_mean": 0.5704592317342758
+      },
+      "construct": {
+        "det_mean": 0.5704592317342758
+      },
+      "gd_cd": {
+        "det_mean": 0.6803121566772461
+      }
+    }
+  }
+}

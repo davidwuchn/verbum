@@ -1,0 +1,109 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 20750.72it/s]
+[wb] Qwen/Qwen3-4B dev=mps n_layers=36 install=L23 band=L22..L29 arms=base,construct,construct_shuffle,construct_lookup,gd_cd,gd_sft,gd_shuffle seeds=3 steps=500
+[wb] union candidates: 73 dropped: []
+[wb] gate-0 sweep…
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[wb] gate-0: valid 53/56 splits={'TRAIN': 15, 'B1': 16, 'B2': 22} cot_rate=0.98 -> PASS
+[wb] wrote results/writeback-compile/qwen3-4b/gate0.json
+[wb] keys(16): raw own-inn separation min 8.87 median 11.22
+[wb] ── arm base ──
+    TRAIN: acc 0.200
+    B1: acc 0.125
+    B2: acc 0.545
+[wb] ── arm construct ──
+[wb] calibrated gain=3.639 (boost@gain=2.99, target=3.0)
+    TRAIN: acc 0.200
+    B1: acc 0.125
+    B2: acc 0.545
+[wb] ── arm construct_shuffle ──
+[wb] calibrated gain=3.125 (boost@gain=2.99, target=3.0)
+    TRAIN: acc 0.200
+    B1: acc 0.125
+    B2: acc 0.591
+[wb] ── arm construct_lookup ──
+[wb] keys(15): raw own-inn separation min 4.15 median 5.49
+[wb] calibrated gain=3.422 (boost@gain=2.99, target=3.0)
+    TRAIN: acc 0.267
+    B1: acc 0.125
+    B2: acc 0.591
+[wb] ── arm gd_cd ──
+[wb]   seed 0
+    step    0 loss 5.0311
+    step  100 loss 0.2560
+    step  200 loss 0.2532
+    step  300 loss 0.2523
+    step  400 loss 0.2519
+    step  499 loss 0.2516
+[wb]   seed 1
+    step    0 loss 5.0311
+    step  100 loss 0.2560
+    step  200 loss 0.2532
+    step  300 loss 0.2523
+    step  400 loss 0.2518
+    step  499 loss 0.2517
+[wb]   seed 2
+    step    0 loss 5.0311
+    step  100 loss 0.2559
+    step  200 loss 0.2532
+    step  300 loss 0.2523
+    step  400 loss 0.2519
+    step  499 loss 0.2516
+    TRAIN: acc 1.000
+    B1: acc 0.938
+    B2: acc 1.000
+[wb] ── arm gd_sft ──
+[wb]   seed 0
+    step    0 loss 5.0675
+    step  100 loss 0.0001
+    step  200 loss 0.0001
+    step  300 loss 0.0001
+    step  400 loss 0.0000
+    step  499 loss 0.0000
+[wb]   seed 1
+    step    0 loss 5.0675
+    step  100 loss 0.0001
+    step  200 loss 0.0001
+    step  300 loss 0.0001
+    step  400 loss 0.0000
+    step  499 loss 0.0000
+[wb]   seed 2
+    step    0 loss 5.0675
+    step  100 loss 0.0001
+    step  200 loss 0.0001
+    step  300 loss 0.0001
+    step  400 loss 0.0000
+    step  499 loss 0.0000
+    TRAIN: acc 1.000
+    B1: acc 0.958
+    B2: acc 0.955
+[wb] ── arm gd_shuffle ──
+[wb]   seed 0
+    step    0 loss 12.1690
+    step  100 loss 0.6484
+    step  200 loss 0.6372
+    step  300 loss 0.6344
+    step  400 loss 0.6334
+    step  499 loss 0.6323
+[wb]   seed 1
+    step    0 loss 12.1690
+    step  100 loss 0.6491
+    step  200 loss 0.6371
+    step  300 loss 0.6346
+    step  400 loss 0.6340
+    step  499 loss 0.6337
+[wb]   seed 2
+    step    0 loss 12.1690
+    step  100 loss 0.6477
+    step  200 loss 0.6368
+    step  300 loss 0.6356
+    step  400 loss 0.6328
+    step  499 loss 0.6322
+    TRAIN: acc 0.000
+    B1: acc 0.167
+    B2: acc 0.167
+
+[wb] ════ VERDICT: WIRE-COMPILES (+GD-REQUIRED) ════
+  construct: G1=False G2=False G3=False G5=True train_up=False held_up=False
+  gd_cd: G1=True G2=True G3=True G5=True train_up=True held_up=True
+[wb] wrote results/writeback-compile/qwen3-4b/results.json
