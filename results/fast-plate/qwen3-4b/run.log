@@ -1,0 +1,38 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 31542.08it/s]
+[fp] Qwen/Qwen3-4B dev=mps n_layers=36 valid=53 splits={'TRAIN': 15, 'B1': 16, 'B2': 22} shuffle_seeds=3 gate0_ok=True
+[fp] scan: 48 name frames, 9 innocents, 15 TRAIN landmarks across 36 layers
+[fp] scan: L*=24 decodability=0.933 (p=0.0005) M=PASS lm-name-cos=-0.108
+[fp] decodability curve (cand layers): L0:0.07 L1:0.07 L2:0.07 L3:0.00 L4:0.07 L5:0.00 L6:0.13 L7:0.13 L8:0.13 L9:0.27 L10:0.33 L11:0.20 L12:0.13 L13:0.00 L14:0.00 L15:0.00 L16:0.07 L17:0.00 L18:0.07 L19:0.07 L20:0.07 L21:0.00 L22:0.00 L23:0.13 L24:0.93
+[fp] register scale S = median native down col-norm at L24 = 1.1851
+[fp] ── base ──
+    TRAIN: acc 0.200
+    B1: acc 0.125
+    B2: acc 0.545
+[fp] ── fast_plate ──
+    TRAIN: acc 0.200
+    B1: acc 0.125
+    B2: acc 0.545
+[fp] ── static_reinject ──
+    TRAIN: acc 0.267
+    B1: acc 0.125
+    B2: acc 0.591
+[fp] ── fast_plate_shuffle (3 derangement seeds) ──
+    seed 0 TRAIN: acc 0.200
+    seed 0 B1: acc 0.125
+    seed 0 B2: acc 0.545
+    seed 1 TRAIN: acc 0.267
+    seed 1 B1: acc 0.125
+    seed 1 B2: acc 0.545
+    seed 2 TRAIN: acc 0.200
+    seed 2 B1: acc 0.125
+    seed 2 B2: acc 0.591
+[fp] reinject_landed (held-out correct-capital logit shift) = 0.072
+
+[fp] ════ VERDICT: FAST-PLATE-INERT ════
+  F1=False F2=False F3=False F5=True collapse_sig=False (Δ=-0.026)
+  L*=24 decodability=0.933 lm-name-cos=-0.108 reinject_landed=0.072 S=1.185
+  TRAIN: base 0.200 fast 0.200 static 0.267 shuffle 0.222
+  B1: base 0.125 fast 0.125 static 0.125 shuffle 0.125
+  B2: base 0.545 fast 0.545 static 0.591 shuffle 0.561
+[fp] wrote results/fast-plate/qwen3-4b/results.json
