@@ -43,10 +43,38 @@
 > per-experiment default (results/{experiment}/qwen3-4b).
 > ⚠ SYNTHESIS PENDING MICHAEL APPROVAL (no memory, per s305 steer): §Result-hhop-
 > write (page) + Sessions entry + this state block DRAFTED on disk.
-> ⚠ COLD-START s307: (1) if synthesis not committed, commit the approved batch
-> (page §Result-hhop-write only). (2) CONSTRUCTION STILL OPEN — s306 gave a new,
-> sharper lead: the failure is (also) a DEPTH-TIMING overlap, not just geometry.
-> PICK THE NEXT FRONT (Michael's call): (a) **in-forward RE-ENCODING relay** — reset
+> ★ s306 cont — 🎯 **P-TRAJECTORY-COMPILE FROZEN (Michael-directed: "we have the
+> GTSM loss + you just found a depth-timing measurement; the SuperBake paper in
+> refs/ may inform a design").** Read refs/superbake.txt: it PROVES our depth-timing
+> law from the other side — "the network is the kernel, and it is upstream" (early
+> deposits ride ~19 amplifying layers; late single-layer solve plateaus 58%;
+> enrichment at 0.16× depth ≈L6); our reinject_landed 0.033 = their transport law.
+> But SuperBake composes KNOWN facts early (a lookup); our wire needs the model's
+> own INFERRED country → construction hits the depth wall (their §8 boundary). GTSM:
+> endpoint KL admits compensating-error solutions → why gd_cd's G4 pin was UNMET;
+> dense per-depth match removes the degeneracy (Prop F.6 spike-where-it-matters,
+> SuperBake supplies WHERE). DESIGN: take the one thing that WIRED (gd_cd gradient),
+> (a) WIDEN its LoRA band L22-29 → L5-27 so gradient reshapes the EARLY layers, (b)
+> replace endpoint KL with a GTSM depth-dense trajectory loss (full-residual cosine
+> per depth to own-CoT teacher, w(L) spiked at enrichment L6 + readout L25). New page
+> trajectory-compile-gtsm-superbake.md + INDEX; §P-TRAJECTORY-COMPILE FROZEN (approved
+> commit above this state write). G4 PROMOTED TO GATING (Michael's call — legibility:
+> held-cell enrichment-band country readout must RISE and TRACK correctness). Arms
+> base / traj_compile (primary) / gd_cd_wide (control: isolates loss vs band) /
+> traj_shuffle (yardstick) / construct_lookup. Verdicts TRAJECTORY-COMPILES
+> (+PIN-LEGIBLE, +LOSS-CAUSAL | BAND-SUFFICES) / WIRES-BUT-OPAQUE / NO-WIRE /
+> UNSPECIFIC / HOST-DAMAGED. KILLER CONTROL: traj_compile passes G4 where gd_cd_wide
+> fails → the trajectory loss (not the band) closes the pin. Predicts: wires ∧ G4
+> closes ∧ ternarizes (s304) = the wire made legible AND portable. A-priori ~50%
+> +PIN-LEGIBLE / ~35% WIRES-BUT-OPAQUE / ~15% NO-WIRE. This is a DEAR (GD) front —
+> freeze DONE; NEXT is build instrument (reuse writeback_compile gd_cd loop + LoRA +
+> readout; add per-depth trajectory loss, wide band, G4 gate, arms) → --validate →
+> smoke → Michael GO → run tmux main:1 (~1-3h MPS).
+> ⚠ COLD-START s307: (1) if HHOP synthesis not committed, commit it (done: 5eea373).
+> (2) P-TRAJECTORY-COMPILE is FROZEN (page committed) — BUILD the instrument next
+> (task #2), then validate/smoke → Michael GO → run. This front SUPERSEDES the
+> "pick next front" menu below (Michael already picked the SuperBake+GTSM synthesis).
+> Prior menu retained for reference: (a) **in-forward RE-ENCODING relay** — reset
 > the country's depth (the CoT lesson made structural: recognize @L*, re-emit at an
 > EARLY depth so the native h-hop runs with full runway); the delta-plate/fast-weight
 > relay aimed at the TIMING finding. (b) **earlier g-hop** — materialize the country
