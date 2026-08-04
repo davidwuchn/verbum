@@ -1,0 +1,32 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 25899.60it/s]
+[rr] Qwen/Qwen3-4B dev=mps n_layers=36 install=L23 valid=53 splits={'TRAIN': 15, 'B1': 16, 'B2': 22} shuffle_seeds=3 gate0_ok=True
+[rr] register scale S = median native down col-norm = 1.1696
+[rr] keys(16): own-inn separation min 8.87 median 11.22
+[rr] ── base ──
+    TRAIN: acc 0.200
+    B1: acc 0.125
+    B2: acc 0.545
+[rr] ── routing_write ──
+[rr] achieved capital-logit boost on country frames = 0.877 (construct throttled to ~0.3)
+    TRAIN: acc 0.200
+    B1: acc 0.125
+    B2: acc 0.545
+[rr] ── routing_shuffle (3 derangement seeds) ──
+    seed 0 TRAIN: acc 0.200
+    seed 0 B1: acc 0.125
+    seed 0 B2: acc 0.545
+    seed 1 TRAIN: acc 0.200
+    seed 1 B1: acc 0.125
+    seed 1 B2: acc 0.545
+    seed 2 TRAIN: acc 0.200
+    seed 2 B1: acc 0.125
+    seed 2 B2: acc 0.545
+
+[rr] ════ VERDICT: WRITE-INERT ════
+  G1=False G2=False G3=False G5=True
+  boost=0.877 key_sep_min=8.87 trits=23785 sparsity=0.419
+  TRAIN: base 0.200 write 0.200 shuffle 0.200
+  B1: base 0.125 write 0.125 shuffle 0.125
+  B2: base 0.545 write 0.545 shuffle 0.545
+[rr] wrote results/routing-register/qwen3-4b/results.json
