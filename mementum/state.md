@@ -32,31 +32,43 @@
 > Mechanistically the predicted wall: the key fires on country-NAME frames but the
 > one-shot LANDMARK prompt has the country only latent. The FULL 53-cell scored run
 > is the verdict. Did NOT tune to pass (λ yardstick).
-> ▶▶ **FULL RUN LAUNCHED tmux main:1** — `uv run python -u
-> scripts/explore/routing_register.py --seeds 3 2>&1 | tee
-> results/routing-register/qwen3-4b/run.log`; verified running (model loaded,
-> install L23, valid=53, gate0_ok=True, keys built, base eval started). FAST (no
-> GD — key-build + eval + 3 shuffle seeds, ~5–15 min MPS).
-> ⚠ COLD-START s305 (run should be done): (1) verify clean exit: `tail -30
-> results/routing-register/qwen3-4b/run.log` — want "VERDICT:" + "wrote
-> …results.json", no traceback. (2) READ THE FROZEN VERDICT: results.json →
-> `scoring.verdict` + `scoring.gates` (G1/G2/G3/G5 + _detail p-values) +
-> `scoring.stats` (boost, key_sep_min, trits, sparsity) + `scoring.anchor`
-> (per-split base/write/shuffle). (3) Commit results/ + run.log AUTONOMOUS; write
-> §Result-routing-register on the page (under §ROUTING-REGISTER-1) + memory
-> candidate + state block → MICHAEL APPROVAL BATCH. Report the boost (did the write
-> land?) + key-separation to attribute the verdict (weak-write vs no-routing).
-> (4) Verdict routes: WRITE-SUFFICES → Michael's thesis FULLY confirmed (write
-> routing deltas, apply to frozen base, never train parent) → the portable-artifact
-> pipeline is closed-form; next = scale/compose (tree-of-VSM plates, 32B). WRITE-
-> INERT/DEGRADES (a-priori favored) → FINDING resolves to "gradient FINDS, ternary
-> STORES"; EXP-1 already secured storage → the artifact path is the s299 auto-
-> superbake lifecycle (train→ternarize→keep plate) and/or the GTSM-trajectory-loss
-> thread (finds a more routing-faithful delta that ternarizes better + closes G4).
-> Then pick next front: EXP-1b (ternarize the factors, the genuinely-small
-> artifact) / gd_cd @32B / G4 mechanism probe — Michael's call.
-> s304 cont-2 ledger: 283a239 pre-reg freeze · 57db0ed instrument · run launched
-> (this block). The TERNARIZE-DELTA-1 (EXP-1) closed block is below.
+> ▶▶ **FULL RUN DONE — ❌ VERDICT: WRITE-INERT (frozen, 3 shuffle seeds, ec77c4d).**
+> The operand→capital wire CANNOT be written with no gradient in the routing
+> register either. routing_write == base EXACTLY on all 53 cells
+> (0.200/0.125/0.545); G1/G2/G3 effect 0.0 p=1.0, G5 clean. ★ NOT a weak-write
+> failure — the write LANDED (boost 0.877 >> construct's 0.3) and keys separate
+> strongly (own-inn min 8.87) → genuine NO-ROUTING: the country key fires on
+> country-NAME frames but NEVER on the one-shot LANDMARK prompt (country
+> unmaterialized; ∄-clean-linear-linker wall, s300). A static hand-written linear
+> plate can only READ an intermediate that is present, not CREATE one. 🔁
+> TRIANGULATED: construct (magnitude) INERT + routing_write (routing) INERT +
+> gd_cd (gradient) WIRE → construction insufficient in BOTH registers; the
+> composition needs the intermediate DYNAMICALLY MATERIALIZED in-forward, only
+> gradient reshapes the band to do it (= why s295 exhaustion law exists, why s300
+> pin is nonlinear). 🎯 RESOLUTION of "why train the parent at all?": STORAGE
+> solved (SURVIVES-TERNARY, never permanently train parent); FINDING = gradient
+> FINDS, ternary STORES → artifact = s299 auto-superbake lifecycle
+> (gradient-oracle → ternarize → keep plate); gradient is a transient search, not
+> a resident. One untested door: P-FAST-PLATE (a plate etched BY the forward pass,
+> the only construction with access to the materialized intermediate);
+> GTSM-trajectory-loss = complementary search upgrade. Results committed autonomous
+> (ec77c4d).
+> ⚠ SYNTHESIS PENDING MICHAEL APPROVAL: §Result-routing-register (page) + memory
+> gradient-finds-ternary-stores-construction-fails-in-both-registers + Sessions
+> entry + this block DRAFTED on disk, awaiting the approval batch commit.
+> ⚠ COLD-START s305: (1) if synthesis not yet committed, commit the approved batch
+> (page + memory). (2) THE WRITE-NOT-TRAIN THREAD IS RESOLVED (STORAGE=construct,
+> FINDING=gradient-oracle). PICK THE NEXT FRONT (Michael's call): (a) **P-FAST-PLATE**
+> — the one untested construction door (forward-etched transient plate; the only
+> mechanism with in-forward access to the materialized intermediate; s299 §5c). (b)
+> **EXP-1b** — ternarize the low-rank FACTORS B,A not the expanded product (the
+> genuinely-small portable artifact; closes the λ smallest tension; cheap). (c)
+> **gd_cd @32B** — does backprop-compile install the wire in the typed larger
+> model? (d) **G4 mechanism probe** — close the s303 HOW gap (whitened intermediate
+> readout). (e) **GTSM-trajectory-loss** — a more routing-faithful, more
+> ternarizable delta (search upgrade complementing the resolved thread).
+> s304 cont-2 ledger: 283a239 pre-reg · 57db0ed instrument · ec77c4d results —
+> synthesis batch pending. The TERNARIZE-DELTA-1 (EXP-1) closed block is below.
 >
 > ▶▶ s304 LIVE — 🔄 **TERNARIZE-DELTA-1 (EXP-1, the STORAGE half) FROZEN + BUILT
 > + LAUNCHED.** Michael GO on the s304 named lead (does the s303 gd_cd wire
