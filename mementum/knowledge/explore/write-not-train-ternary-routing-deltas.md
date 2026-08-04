@@ -271,6 +271,74 @@ country-not-materialized world goes inert; shuffle kills specificity; verdict
 logic) → smoke (mechanics only, s297 law) → Michael GO → run → frozen scoring →
 §Result-routing-register + memory → approval batch.
 
+## §Result-routing-register — WRITE-INERT (s304, frozen run, 3 shuffle seeds)
+
+**Verdict: WRITE-INERT.** The operand→capital wire **cannot be written** in the
+routing register with no gradient — even at native strength with well-separated
+keys. `routing_write` is byte-identical-in-behavior to base on all 53 cells; all
+primaries fail with effect 0.0. The FINDING half resolves against pure
+closed-form write. (Run `ec77c4d`, `results/routing-register/qwen3-4b/`.)
+
+| arm | TRAIN | B1 | B2 |
+|---|---|---|---|
+| base | 0.200 | 0.125 | 0.545 |
+| **routing_write** | **0.200** | **0.125** | **0.545** |
+| routing_shuffle (null) | 0.200 | 0.125 | 0.545 |
+
+Gates: G1 effect 0.0 (p=1.0) B1 & B2 · G2 fail · G3 effect 0.0 (p=1.0) · G5 clean
+(CE 4.9149 ≤ base, g/h 1.0). trits 23,785 (16 neurons, sparsity 0.419).
+
+**The attribution is the value here (λ observation).** This is **NOT** a
+weak-write failure — the write LANDED and the address is good:
+- achieved capital-logit boost on country frames = **0.877** (vs construct's
+  throttled 0.3 — the register-matched full-strength write did land ~3× harder);
+- per-country key separation own_ref − inn_max = **8.87 min / 11.22 median**
+  (the whitened country keys separate country frames from innocents cleanly).
+
+So the key is a good address AND the write is strong — yet the plate is inert on
+the task. The diagnosis is **NO-ROUTING**: the country key fires when the country
+*name* is in the prompt (the boost frames), but the one-shot *landmark* prompt
+never activates it — **the country is an unmaterialized intermediate**, so there
+is no residual for the key to address. A static, hand-written linear plate cannot
+create the intermediate; it can only read one that is already present.
+
+**This is the ∄-clean-linear-linker wall (s300) made concrete, and it triangulates
+the construction question closed.** Three independent constructions now agree:
+
+| construction | register | result |
+|---|---|---|
+| `construct` (s303) | magnitude (calibrated gain) | INERT |
+| **`routing_write` (this run)** | **routing (ternary sign, native strength)** | **INERT** |
+| `gd_cd` (s303) | gradient | WIRE (generalizes) |
+
+Construction is insufficient in **both** registers. The bottleneck was never
+write-strength or address-quality — it is that the composition requires the
+intermediate to be **dynamically materialized in-forward**, and only gradient
+reshapes the band to do that. This is *why* the s295 exhaustion law exists (no
+episodic register holds the intermediate) and *why* s300 says the pin is
+nonlinear: the linker is not a stored edge you can address, it is a
+materialization the forward pass must perform.
+
+**Resolution of the "why train the parent at all?" thesis.** The honest,
+triangulated answer splits cleanly:
+- **STORAGE — solved by construction.** SURVIVES-TERNARY: the wire lives
+  losslessly-for-behavior as a ternary plate on a frozen base. You never
+  permanently train the parent; the artifact is a ternary plate.
+- **FINDING — gradient FINDS, ternary STORES.** The delta must be *searched*
+  (gradient reshapes the band to materialize the intermediate); it cannot be
+  *written* from measured geometry in either register. The artifact pipeline is
+  therefore the s299 **auto-superbake lifecycle**: a throwaway gradient run as a
+  *discovery oracle* → ternarize (EXP-1) → keep the plate. The parent is never
+  a permanent training target; gradient is a transient search, not a resident.
+
+**What could still write it (the one untested door).** The only construction that
+might install the wire is one written **BY** the forward pass, not before it —
+**P-FAST-PLATE** (s299): a transient delta etched in-forward at generation time,
+which is the only mechanism that has access to the materialized intermediate. A
+static plate (this run) provably cannot; a forward-etched plate is the open
+candidate. The GTSM-trajectory-loss thread is the complementary *search* upgrade
+(a more routing-faithful, more ternarizable delta that also closes the G4 gap).
+
 ## Routing forward / decision for s304
 
 - **Run EXP-1 first regardless** — it is the free half and tells us whether the
@@ -388,6 +456,18 @@ delta, applied as a permanent plate on the frozen base, re-scored on the
 frozen G1–G5 with a matched-sparsity sign-shuffle null; a-priori lean
 SURVIVES-TERNARY with a LOW magnitude-cosine / passing-gates dissociation as
 the headline. Instrument + run pending Michael GO).
+
+s304 cont-2 — EXP-2 named ROUTING-REGISTER-1, frozen + run: VERDICT WRITE-INERT
+(ec77c4d). The wire cannot be written with no gradient in the routing register
+either — routing_write == base on all 53 cells. NOT weak-write (boost 0.877 >>
+construct's 0.3, key sep min 8.87) → genuine no-routing: the country key fires on
+country-NAME frames but never on the one-shot LANDMARK prompt (country
+unmaterialized; ∄-clean-linear-linker wall, s300). Triangulated: construct
+(magnitude) INERT + routing_write (routing) INERT + gd_cd (gradient) WIRE →
+construction insufficient in BOTH registers. RESOLUTION: gradient FINDS, ternary
+STORES; artifact = s299 auto-superbake lifecycle (gradient-oracle → ternarize →
+keep plate). One untested door: P-FAST-PLATE (forward-etched plate). See
+§Result-routing-register.
 
 s304 cont — VERDICT SURVIVES-TERNARY (frozen run, 3 seeds, cb73ad5). All gates
 pass (T1 p≤1e-3, T2 p=1.8e-3, T3 p=1e-4, T5 CE lower than base); ternary plate
