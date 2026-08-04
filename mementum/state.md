@@ -8,6 +8,55 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ▶▶ s304 LIVE — 🔄 **TERNARIZE-DELTA-1 (EXP-1, the STORAGE half) FROZEN + BUILT
+> + LAUNCHED.** Michael GO on the s304 named lead (does the s303 gd_cd wire
+> survive being crushed to a ternary plate?). Full loop this session: (1) grounded
+> in `writeback_compile.py` + the frozen s303 record (gd_cd = 1.000/0.938/1.000,
+> base = 0.200/0.125/0.545, LoRA r=16 α=32 FFN-only band L22–L29, scale=2). (2)
+> §TERNARIZE-DELTA-1 pre-reg FROZEN on `knowledge/explore/write-not-train-ternary-
+> routing-deltas.md` (f4e7ba5, Michael-approved, 3 seeds): TWN per-column
+> ternarize (thr 0.7, per-col γ) of `scale·B·A`, merge as a REAL delta-plate on
+> the frozen base (not a LoRA wrapper), re-score frozen gates — **T1** wire (>base,
+> flip B1∧B2) / **T2** not-lookup (>construct_lookup B2) / **T3** specificity
+> (>matched-sparsity sign-shuffle null, load-bearing λ yardstick) / **T5** survive
+> (CE ≤2%, g/h ≤0.10); advisory mag_cos + retention + trit-count (λ smallest).
+> Verdicts SURVIVES-TERNARY / DEGRADES-TERNARY / DIES-TERNARY / HOST-DAMAGED.
+> A-priori lean (frozen, do NOT peek): **SURVIVES-TERNARY, headline = LOW
+> magnitude-cosine (~0.7) ∧ passing gates** = routing ⊥ magnitude on a trained
+> wire (s269-grounded 0.987 vs 0.73). (3) `scripts/explore/ternarize_delta.py`
+> BUILT (60e0c1f) — reuses writeback_compile as a module (no fork), loads the
+> frozen gate-0 valid cells + construct_lookup B2 baseline (cells IDENTICAL to the
+> gd_cd score); --validate ALL PASS, ruff clean, smoke green (float-merge
+> reproduces gd_cd; caught+fixed the Gated JSON-dump bug via recursive _degate).
+> ★ SMOKE SURFACED an honest artifact-size tension (for §Result, λ smallest): the
+> EXPANDED ternary plate is ~399M trits (~80 MB @1.585 bit/trit, ~67% dense) while
+> the FACTORED rank-16 float form is only ~5M params (~10 MB bf16) → "wire = one
+> ternary plate" is register-true but NOT automatically smaller than the float
+> LoRA factors; the win is 10× over dense-bf16, not over the factored form.
+> ▶▶ **FULL RUN LAUNCHED tmux main:1** — `uv run python -u
+> scripts/explore/ternarize_delta.py --seeds 3 2>&1 | tee
+> results/ternarize-delta/qwen3-4b/run.log`; verified running (Qwen3-4B loaded,
+> band L22–L29, valid=53 splits 15/16/22, gate0_ok=True, base eval started).
+> 3 seeds × 500-step gd_cd train + ternarize + score, ~1–2h MPS.
+> ⚠ COLD-START s305 (run should be done): (1) verify clean exit:
+> `tail -30 results/ternarize-delta/qwen3-4b/run.log` — want "VERDICT:" +
+> "wrote …results.json", no traceback (crash → fix + relaunch; gates unchanged).
+> (2) READ THE FROZEN VERDICT: results.json → `scoring.verdict` + `scoring.gates`
+> (T1/T2/T3/T5 + _detail p-values) + `scoring.retention` + `scoring.plate_stats`
+> (mag_cos_pooled, trits, sparsity) + `scoring.anchor` (per-split base/float/
+> ternary — CHECK the float ANCHOR reproduces ≈1.000/0.938/1.000, else the harness
+> drifted → halt). (3) Commit results/ + run.log AUTONOMOUS; write
+> §Result-ternarize-delta on the page (under §TERNARIZE-DELTA-1) + memory candidate
+> + state block → MICHAEL APPROVAL BATCH (synthesis approval-gated). Report the
+> mag_cos-vs-gates dissociation AND the artifact-size tension honestly. (4) Verdict
+> routes: SURVIVES-TERNARY → the portable artifact exists (wire = ternary plate);
+> next = EXP-2 (routing-register construct, the FINDING half / "why train" prize)
+> OR gd_cd @32B OR the G4 mechanism probe — Michael's call. DIES-TERNARY → s269
+> does not transfer to trained deltas (surprise); EXP-2 premise weakens, pivot.
+> s304 ledger: f4e7ba5 pre-reg freeze · 60e0c1f instrument · run launched (this
+> block). NOTE: the s303 writeback batch is already committed+approved (11092f7,
+> e730fc7) — that standing order is DISCHARGED; TERNARIZE-DELTA-1 is the active thread.
+>
 > ▶▶ s303 cont-FINAL — 💡🎯 **"WHY TRAIN THE PARENT AT ALL?" — WRITE ROUTING
 > DELTAS INTO TERNARY PLATES, APPLY TO A FROZEN BASE (Michael thesis, captured
 > for s304 pickup).** New page `knowledge/explore/write-not-train-ternary-
