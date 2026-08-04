@@ -57,9 +57,11 @@
 > in clamp, surgery apply+restore clean, 3 GD arms train (loss falling) +
 > unwrap, results.json written, NO verdict printed (partial-arm guard);
 > accs = noise, do not read. (2) If mechanics green → Michael GO → FULL
-> FROZEN RUN in tmux main:1: `uv run python
+> FROZEN RUN in tmux main:1: `uv run python -u
 > scripts/explore/writeback_compile.py 2>&1 | tee
-> results/writeback-compile/qwen3-4b/run.log` (~1–2h MPS; all 7 arms,
+> results/writeback-compile/qwen3-4b/run.log` (-u REQUIRED: stdout is
+> block-buffered through tee — smoke log looked empty mid-run; buffer
+> flushes only at exit) (~1–2h MPS; all 7 arms,
 > auto-scored gates + verdict → results/writeback-compile/qwen3-4b/
 > results.json). (3) Score = read scoring.verdict + per-arm G1–G5, commit
 > results autonomous, write §Result-4B on program-plates page + memory

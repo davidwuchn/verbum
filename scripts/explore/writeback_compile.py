@@ -800,7 +800,8 @@ def run_model(args) -> int:
             loss.backward()
             opt.step()
             if step % max(args.steps // 5, 1) == 0 or step == args.steps - 1:
-                print(f"    step {step:4d} loss {float(loss):.4f}")
+                print(f"    step {step:4d} loss {float(loss.detach()):.4f}",
+                      flush=True)
         def unwrap():
             for m, name, orig in wrapped:
                 setattr(m, name, orig)
