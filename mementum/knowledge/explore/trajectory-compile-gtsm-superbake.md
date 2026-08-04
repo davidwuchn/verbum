@@ -3,29 +3,29 @@ title: "Trajectory-compile — GTSM loss + SuperBake bands to make gd_cd's wire 
 status: designing
 category: explore
 tags: [trajectory-compile, gtsm, superbake, gd_cd, backprop-compile, depth-timing,
-       enrichment-band, pin, g4, legibility, ternary, prereg, s306]
+       enrichment-band, pin, g4, legibility, ternary, prereg, s305]
 related:
   - gtsm-search-space.md
   - write-not-train-ternary-routing-deltas.md
   - holographic-reduction-machine.md
 depends-on:
   - gtsm-search-space.md
-created: session 306
+created: session 305
 ---
 
 # Trajectory-compile — make the wire legible and portable
 
-> s306, Michael: "we have the GTSM loss function, and you just found a depth-timing
+> s305, Michael: "we have the GTSM loss function, and you just found a depth-timing
 > measurement. If you look at the SuperBake paper in refs/ it may inform a design."
 > This page is the synthesis and the frozen pre-reg it produced.
 
 ## The convergence (three independent lines on one design)
 
-1. **s306 depth-timing (measured, ours).** The country materializes on the one-shot
+1. **s305 depth-timing (measured, ours).** The country materializes on the one-shot
    landmark prompt only at L24 (the s305 decodability cliff), while the native h-hop
    has already consumed its input by then (capital_leak 0.62 at L24 on a clean
    country prompt). The two hops **overlap in depth** → no static write at L24 can
-   route (five constructions inert, s303–s306).
+   route (five constructions inert, s303–s305).
 
 2. **SuperBake (`refs/superbake.txt`, Ruehlman 2026) — the law from the other side.**
    *"a single-layer linear map fights with only the layers above it, while SGD's early
@@ -55,7 +55,7 @@ closes), the wire generalizes (F1–F3), and it ternarizes to a portable plate (
 This is the s299 auto-superbake lifecycle made precise: **construction laws shape the
 trajectory targets; gradient (the GTSM search) finds the legible, portable delta.**
 
-## §P-TRAJECTORY-COMPILE — pre-reg (FROZEN s306, before any run; s222 law)
+## §P-TRAJECTORY-COMPILE — pre-reg (FROZEN s305, before any run; s222 law)
 
 > Michael GO on the direction and on **G4 as a GATING clause** (make the mechanism
 > legible, not just the behavior). Trajectory target = **full residual, cosine per
@@ -83,7 +83,7 @@ L = KL_answer(student ‖ teacher)                      # gd_cd terminal anchor
 - cosine-per-depth = the ‖·‖_D proxy (per gtsm-search-space.md; SDE→transformer
   idealization caveat inherited — narrowing transfers, literal Pθ=P* does not).
 
-**Structural change (forced by s306 + SuperBake).** LoRA band widened from gd_cd's
+**Structural change (forced by s305 + SuperBake).** LoRA band widened from gd_cd's
 late **L22–29** to **L5–L27** (≈0.14–0.75 depth, FFN-only, r=16, α=32) so gradient can
 reshape the EARLY layers — *"the network is the kernel, and it is upstream."* lr 1e-4,
 ≤500 steps, bf16, Qwen3-4B, ≥3 seeds. Gate-0 (the frozen 53 cells) inherited; VOID if
@@ -151,7 +151,7 @@ G4 rise+track, verdict worlds) → smoke (`--n-cells`, mechanics only, s297) →
 batch.
 
 ## Sessions
-s306 (this thread. Michael pointed at the SuperBake paper after the HHOP-INERT
+s305 (this thread. Michael pointed at the SuperBake paper after the HHOP-INERT
 depth-timing finding + the GTSM loss. Synthesis: SuperBake proves "the network is the
 kernel and it is upstream" (our depth-timing law from the other side) and shows
 construction can't wire an inferred intermediate; GTSM removes the compensating-error

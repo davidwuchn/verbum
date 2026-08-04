@@ -8,7 +8,7 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ▶▶ s306 LIVE — 🎯 **P-HHOP-WRITE (avenue 1: write the MEASURED h-hop geometry +
+> ▶▶ s305 LIVE — 🎯 **P-HHOP-WRITE (avenue 1: write the MEASURED h-hop geometry +
 > Michael's gram routing filter) FROZEN + BUILT + RUN → ❌ HHOP-INERT.** After the
 > s305 FAST-PLATE-INERT diagnosed the miss (wrong reinject geometry), Michael GO'd
 > avenue 1, then opened the gram thread ("can the 9×9/17×17 grams guide/filter our
@@ -43,7 +43,7 @@
 > per-experiment default (results/{experiment}/qwen3-4b).
 > ⚠ SYNTHESIS PENDING MICHAEL APPROVAL (no memory, per s305 steer): §Result-hhop-
 > write (page) + Sessions entry + this state block DRAFTED on disk.
-> ★ s306 cont — 🎯 **P-TRAJECTORY-COMPILE FROZEN (Michael-directed: "we have the
+> ★ s305 cont — 🎯 **P-TRAJECTORY-COMPILE FROZEN (Michael-directed: "we have the
 > GTSM loss + you just found a depth-timing measurement; the SuperBake paper in
 > refs/ may inform a design").** Read refs/superbake.txt: it PROVES our depth-timing
 > law from the other side — "the network is the kernel, and it is upstream" (early
@@ -70,7 +70,7 @@
 > freeze DONE; NEXT is build instrument (reuse writeback_compile gd_cd loop + LoRA +
 > readout; add per-depth trajectory loss, wide band, G4 gate, arms) → --validate →
 > smoke → Michael GO → run tmux main:1 (~1-3h MPS).
-> ⚠ COLD-START s307: (1) if HHOP synthesis not committed, commit it (done: 5eea373).
+> ⚠ COLD-START s306: (1) if HHOP synthesis not committed, commit it (done: 5eea373).
 > (2) P-TRAJECTORY-COMPILE is FROZEN (page committed) — BUILD the instrument next
 > (task #2), then validate/smoke → Michael GO → run. This front SUPERSEDES the
 > "pick next front" menu below (Michael already picked the SuperBake+GTSM synthesis).
@@ -82,7 +82,7 @@
 > in-register write** — reinject_landed 0.033 is weak; multi-neuron native-strength
 > routing write. (d) **GTSM-trajectory-loss** — search that reveals correct write +
 > timing (non-construction lever). (e) cheap-slots TERNARIZE-FACTORS-1 / gd_cd@32B.
-> s306 ledger: 44b14f4 pre-reg · 28987f3 instrument · ee8a5bb fix+results (autonomous)
+> s305 ledger: 44b14f4 pre-reg · 28987f3 instrument · ee8a5bb fix+results (autonomous)
 > · §Result + state PENDING APPROVAL. The s305 FAST-PLATE-INERT block below is the
 > prior front (also NOT a construction closure).
 >
@@ -151,7 +151,7 @@
 > §Result-fast-plate (page, reframed: this construction inert + OPEN construction
 > avenues) + Sessions entry + this state block DRAFTED on disk, awaiting the
 > approval batch commit.
-> ⚠ COLD-START s306: (1) if synthesis not yet committed, commit the approved batch
+> ⚠ COLD-START s305: (1) if synthesis not yet committed, commit the approved batch
 > (page §Result-fast-plate only; no memory). (2) THE WRITE-NOT-TRAIN THREAD IS
 > STILL OPEN on the construction side — s305 gave concrete next constructions, NOT
 > a closure. PICK THE NEXT FRONT (Michael's call): (a) **write the MEASURED h-hop

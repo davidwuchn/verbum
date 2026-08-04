@@ -647,7 +647,7 @@ routing-register filter; FROZEN s305, before any run; s222 law)
 > s305 diagnosed the fast_plate miss: the country IS materialized (M✓, L*=24,
 > decodability 0.933) but we reinjected the WRONG geometry (name prototype,
 > `lm_name_cos = −0.108`) at native single-unit strength. This pre-reg attacks that
-> directly (Michael GO, front s306): (1) reinject the country in the geometry the
+> directly (Michael GO, front s305): (1) reinject the country in the geometry the
 > host's OWN h-hop consumes, MEASURED from CAP_QUERY (avenue 1); (2) — Michael's
 > gram thread — additionally strip the magnitude scaffolding by projecting onto the
 > country gram's LOW-RANK ROUTING subspace, a direct construction-side test of
@@ -752,7 +752,7 @@ routing projection beats a random subspace on a planted world; L_cap scan; verdi
 worlds) → smoke (`--n-cells`, mechanics only, s297) → Michael GO → run tmux main:1
 → frozen scoring → §Result-hhop-write + approval batch.
 
-## §Result-hhop-write — HHOP-INERT (s306, frozen run, 3 shuffle seeds)
+## §Result-hhop-write — HHOP-INERT (s305, frozen run, 3 shuffle seeds)
 
 **Verdict: HHOP-INERT — for this construction.** Writing the country in the
 geometry the host's h-hop consumes — raw OR projected onto the country gram's
@@ -795,13 +795,13 @@ and the soft/nonlinear routing, not a single clean wall.)
 | `construct` (s303) | magnitude, static | INERT |
 | `routing_write` (s304) | routing sign, static, name-geom, capital-write | INERT |
 | `fast_plate` (s305) | routing, in-forward, name-geom read+write, hard collapse | INERT |
-| `hhop_raw` (s306) | in-forward, MEASURED h-hop geometry, hard collapse | INERT |
-| `hhop_routing` (s306) | in-forward, h-hop geometry × gram low-rank ROUTING filter | INERT |
+| `hhop_raw` (s305) | in-forward, MEASURED h-hop geometry, hard collapse | INERT |
+| `hhop_routing` (s305) | in-forward, h-hop geometry × gram low-rank ROUTING filter | INERT |
 | `gd_cd` (s303) | gradient | **WIRE** |
 
 Five constructions inert; gradient wires. But the *reasons* are now specific and
 compounding, not a blanket wall: wrong geometry (s305) → measured-right geometry
-still inert because of (s306) **depth-timing overlap + weak native write + soft
+still inert because of (s305) **depth-timing overlap + weak native write + soft
 routing**. Each narrows what a working construction must do.
 
 **Open construction avenues (this result opens, does not close, construction).**
@@ -907,7 +907,7 @@ fast_plate.py --reinject-geometry {name,hhop,hhop_routing} (option>fork). A-prio
 ~35 WIRES / 25 LOOKUP / 40 INERT; every branch a real finding. Instrument + run
 pending.
 
-s306 cont — VERDICT HHOP-INERT for this construction (frozen run, 3 shuffle seeds,
+s305 cont — VERDICT HHOP-INERT for this construction (frozen run, 3 shuffle seeds,
 tmux main:1). Writing the MEASURED h-hop geometry (raw OR gram-routing-filtered)
 does not wire it: hhop_routing ≈ base (B2 p=0.499; F1-F4 fail, F5 clean). ★
 Michael's gram routing filter got a fair test and did NOT help HERE
