@@ -170,6 +170,107 @@ linear ternary plate carries the routing edge, the frozen base supplies the
 collapse (gd_cd's LoRA delta is linear; ternarizing it keeps that property). The
 FINDING half (EXP-2, write-not-search) remains open and is the next prize.
 
+## §ROUTING-REGISTER-1 — pre-reg (EXP-2, the FINDING half; FROZEN s304, before any run)
+
+> EXP-2, named ROUTING-REGISTER-1. STORAGE is settled (SURVIVES-TERNARY). This
+> tests FINDING: can the wire be **written with no gradient** when written in the
+> **routing register**? `construct` failed — but in the MAGNITUDE register. This
+> is the untested experiment. Freeze before building.
+
+**Question.** Can the operand→capital linker be **written** (closed-form, no
+gradient, no calibration loop) as a ternary bind-plate on the frozen base, and
+install a WIRE (generalizes to held-out landmarks AND held-out countries)?
+
+**Why `construct` went inert (the failure this must fix).** `construct` placed a
+continuous product-keyed neuron per country with a **calibrated gain** that
+throttled to ≈0.3 → byte-identical to base. The key **fired** (s294: the
+landmark's own latent country-ness triggers the whitened country filter); the
+*magnitude* value write, throttled by the gain loop, never installed the edge.
+s303 `gram-spectral-dsp`: wires are routing, not magnitude. So the fix is to
+keep the **measured** key as a faithful address and write the value in the
+**routing register**: ternary sign, **register-matched full strength, NO gain
+calibration** (the exact failure point removed).
+
+**The write recipe (FROZEN; no gradient, no calibration).** At the install layer
+**L23** (`INSTALL_DEPTH=0.65 × 36`; runtime truth Qwen3-4B = 36 layers, band
+L22–L29), append one FFN neuron **per country c** (all 16 — the Σ of
+`key⊛value` realized as parallel FFN neurons; ⊛ = the FFN key→value neuron
+structure, not literal circular convolution):
+- **address (gate/up rows)** = the MEASURED whitened country filter
+  `k_c = Σ⁻¹(x̄_c − μ)` (shared-Σ over all countries + prompt-shaped innocents,
+  `build_keys`), normalized as `construct` did (`gate=(4/ref_c)·k_c`,
+  `up=(1/ref_c)·k_c`) so the neuron fires when country-ness is present. This is
+  READ geometry — measured, kept continuous (we test writing a routing EDGE, not
+  ternary addressing).
+- **content (down col)** = `S · ternary(v_c)`, where `v_c` = capital unembed
+  direction (`unembed_dir`), `ternary(·)` = per-element TWN {−1,0,+1} (thr 0.7),
+  and **S = the median native `down_proj` column L2-norm at L23** — a MEASURED
+  host-register scale ("write as strongly as the host writes its own neurons"),
+  **not** a gain tuned to a logit target. This is the routing-register,
+  gradient-free, calibration-free content write.
+
+**Arms** (deterministic write; re-scored on the frozen s303 gate-0 valid cells):
+- `base` — floor (0.200 / 0.125 / 0.545).
+- `routing_write` — the ternary bind-plate above, all 16 countries.
+- `routing_shuffle` — **the null (λ yardstick)**: deranged capital values
+  (`v_c → v_{π(c)}`, no fixed point), SAME keys + SAME S + SAME sparsity. Must
+  fail — isolates routing (which key→which value) from generic write energy.
+- `construct_lookup` — inherited materialized-view null (landmark-keyed → capital
+  value; must fail B2 by construction), loaded from the frozen s303 record.
+
+**Gates** (verbum.dsp `gate` + `paired_permutation` 10k; primaries Bonferroni
+α/3; G1–G3 routing register, G5 value register — inherited from §P-WRITEBACK-1):
+- **G1 WIRE**       : `routing_write > base`, flip on B1 AND B2.
+- **G2 NOT-LOOKUP** : `routing_write > construct_lookup` on B2.
+- **G3 SPECIFICITY**: `routing_write > routing_shuffle` on held-out (B1 ∪ B2) —
+  the load-bearing gate (routing, not write-energy).
+- **G5 SURVIVE**    : innocent CE ≤ 2% rel base; native g/h within 0.10 abs.
+- **Reports (advisory).** achieved capital-logit boost on country frames (did the
+  write LAND, vs construct's 0.3 throttle?); trit-count / bits / sparsity of the
+  plate (λ smallest); per-country key separation (own-frame − innocent-max) so an
+  INERT verdict can be attributed (weak-write vs no-routing).
+
+**Verdicts (FROZEN).**
+- **WRITE-SUFFICES** : G1 ∧ G2 ∧ G3 ∧ G5. → the wire can be WRITTEN with no
+  gradient; **Michael's thesis fully confirmed** — write routing deltas into
+  ternary storage, apply to a frozen base, never train the parent.
+- **WRITE-DEGRADES** : G1 (beats base, flips) but ¬G3 (∼ shuffle) or ¬G2
+  (lookup-like) → a written edge moves the needle but not cleanly / not
+  compositionally.
+- **WRITE-INERT**    : ¬G1 (≈ base) → construct's fate repeats even at native
+  strength in the routing register → **FINDING resolves to "gradient FINDS,
+  ternary STORES"** (EXP-1 already secured storage; the s299 auto-superbake
+  lifecycle train→ternarize→keep-plate is the artifact path).
+- **HOST-DAMAGED**   : ¬G5 → S too strong; the write corrupts innocents.
+
+**A-priori lean (grounded; do NOT peek).** ∄ a clean linker in the linear
+register (s300 traversal-not-join): the country is an *unmaterialized*
+intermediate, so a linear bind-plate carries only the routing EDGE while the
+frozen base must supply the nonlinear pin. gd_cd worked because gradient reshaped
+the whole band to materialize the composition; a hand-written edge cannot do that
+reshaping. **Lean ≈ 60/40 toward WRITE-INERT or WRITE-DEGRADES.** The 40% thread
+of hope is specific and real: s294 showed the country key already fires from the
+landmark's latent country-ness, and construct failed on gain-throttle (0.3), not
+on firing — a native-strength routing write (no throttle) is genuinely untested
+and might install the edge. **WRITE-SUFFICES is the high-value surprise;
+WRITE-INERT is still a finding** (it closes the FINDING half onto
+gradient-finds/ternary-stores and elevates the GTSM-trajectory-loss thread).
+
+**Frozen recipe (s222 law).** The write is deterministic given the model; the
+only stochastic element is the shuffle derangement → **≥3 derangement seeds** for
+the null. S, thr (0.7), keys (build_keys shared-Σ), install L23, all frozen here.
+Gate-0 valid cells + construct_lookup baseline loaded from the frozen s303 record
+(identical cells). Score paired-by-cell exactly as §Result-4B / §Result-ternarize.
+
+**Cadence.** build `scripts/explore/routing_register.py` (reuse writeback_compile
++ ternarize_delta building blocks — whitened_filter, CC_FRAMES, the validated
+neuron-surgery pattern, the ternarize/score helpers; if a shared harness proves
+worth extracting, note it, do not destabilize the frozen s303 generator) →
+`--validate` (planted worlds: a firing-key world installs the edge; a
+country-not-materialized world goes inert; shuffle kills specificity; verdict
+logic) → smoke (mechanics only, s297 law) → Michael GO → run → frozen scoring →
+§Result-routing-register + memory → approval batch.
+
 ## Routing forward / decision for s304
 
 - **Run EXP-1 first regardless** — it is the free half and tells us whether the
