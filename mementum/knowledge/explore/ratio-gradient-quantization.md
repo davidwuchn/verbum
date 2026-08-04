@@ -163,8 +163,15 @@ emits per-weight gradient stats over diverse text → **magnitude** |w| (static,
 and **coherence** = sign-consistency |Σ∇|/Σ|∇| (dynamic; one backward per calib batch,
 accumulated). Noise-floor from a shuffled-batch control (s171: 0.057).
 
-**Arms** (each hits a target average-bits B via its one free precision knob; we sweep
-B and compare Pareto frontiers, not a single point):
+**Tail fraction (FROZEN, s306 amendment).** τ = **1%** of weights per matrix
+(SpQR-standard; keeps the tail a genuine outlier set — big enough to matter, small
+enough not to dominate the fp16 control's budget). Advisory robustness at τ ∈
+{0.5%, 2%}. The floor (→0) fraction z is a per-arm budget knob (set jointly with the
+body int level b′ to hit B).
+
+**Arms** (each hits a target average-bits B via its free precision knob(s) — body int
+level b′ and floor fraction z, τ fixed; we sweep B and compare Pareto frontiers, not a
+single point):
 - `int_uniform` — RTN int-b everything (outliers stretch the grid). FLOOR.
 - `twn` — per-column ternary everything. FLOOR.
 - `outlier_mag_fp16` — top-τ by |w| kept fp16, rest ternary (SpQR/AWQ "outliers are
@@ -187,9 +194,12 @@ verdicts read frontier DOMINANCE, not one budget.
 **Gates** (downstream CE on held innocents, paired over text chunks, 10k bootstrap;
 g/h composition acc; Bonferroni across the primary contrasts; null = shuffled-tail):
 - **C1 SCHEME-WORKS** : min over companding arms dominates `int_uniform` on the frontier.
-- **C2 MAGNITUDE-DISPOSABLE** (register-theory primary) : `companding_mag` frontier ≥
-  `outlier_mag_fp16` frontier (within ε) → the ternary-sign tail matches the fp16 tail
-  → outlier magnitude value disposable. If `outlier_mag_fp16` strictly dominates →
+- **C2 MAGNITUDE-DISPOSABLE** (register-theory primary; s306 amendment — NULL TEST, not
+  a magic ε) : `outlier_mag_fp16` does NOT significantly dominate `companding_mag` on
+  the frontier — per-budget paired CE bootstrap (10k, α=0.05, Bonferroni over the
+  B-sweep). Disposable = we CANNOT reject ternary-sign ≈ fp16 for the tail (λ
+  yardstick: an equality we fail to reject beats a hand-picked tolerance). If
+  `outlier_mag_fp16` SIGNIFICANTLY dominates at the usable budgets (B ≥ 2.5) →
   **MAGNITUDE-SALIENT** (register clash on base weights; AWQ right here).
 - **C3 SELECTOR** : sign of (`companding_coh` − `companding_mag`) frontier gap →
   COHERENCE-SELECTS vs MAGNITUDE-SELECTS at 4B (answers s171 open-Q1).

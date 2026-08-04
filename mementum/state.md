@@ -105,9 +105,11 @@
 > host-sane. Verdicts MAGNITUDE-DISPOSABLE(+COHERENCE/+MAGNITUDE-SELECTS) /
 > MAGNITUDE-SALIENT (register clash, bounds thesis to deltas) / SCHEME-INERT /
 > UNSPECIFIC / HOST-DAMAGED. A-priori ~55% MAGNITUDE-DISPOSABLE (likely +MAGNITUDE-
-> SELECTS), ~25% MAGNITUDE-SALIENT; NOT tuned. ⚠ LOAD-BEARING FROZEN CHOICES (amend
-> before ANY arm runs, s302 precedent): band=all 36 layers; τ tail fraction; B-sweep
-> set; ε for C2; fp16-tail = the SpQR control. ⚠ NEXT (s307): BUILD the harness
+> SELECTS), ~25% MAGNITUDE-SALIENT; NOT tuned. ✅ AMENDED (Michael-approved, pre-build,
+> no arm run): τ PINNED 1% (+adv 0.5%/2%); C2 = per-budget paired-CE BOOTSTRAP NULL
+> TEST (α=0.05 Bonferroni, "cannot reject ternary≈fp16") NOT a magic ε. Still-open-to-
+> amend (no arm run): band=all 36, B-sweep {2,2.5,3,4}, fp16 SpQR control.
+> ⚠ NEXT (s307): BUILD the harness
 > (reuse scripts/experiments/gradient_zero_map.py calibration + writeback/ternarize
 > apply-restore + ce/gh eval; add tiers + Pareto sweep) → --validate → smoke
 > (--n-layers, mechanics only) → Michael GO → run. Canonical home holds the pre-reg.
