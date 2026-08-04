@@ -98,6 +98,7 @@ follow cross-references; then use the full catalog below for specific topics.
 | [function-discovery.md](function-discovery.md) | ✅ active | Function Discovery — Two-Level Program Architecture in Moiré Space |
 | [gradient-zero-map.md](gradient-zero-map.md) | ✅ active | Gradient-Zero Convergence Map — Do Gradient Zeros Guide Ternary Placement? |
 | [gtsm-search-space.md](gtsm-search-space.md) | ✅ active | GTSM and the Search Space — Why Trajectory Matching Beats Endpoint Matching |
+| [explore/trajectory-compile-gtsm-superbake.md](explore/trajectory-compile-gtsm-superbake.md) | 🔨 designing | s306: GTSM loss + SuperBake enrichment-band schedule to make gd_cd's wire legible (G4 gating) + portable; §P-TRAJECTORY-COMPILE frozen — the depth-timing fix |
 | [head-combinator-isa.md](head-combinator-isa.md) | ✅ active | Head→Combinator ISA: Shared Hardware, Not Dedicated Circuits |
 | [hologram-reader-vsm.md](hologram-reader-vsm.md) | 🔨 designing | Hologram Reader VSM — Reading the Full Opcode Map from a Teacher |
 | [holographic-computer.md](holographic-computer.md) | ✅ active | The Holographic Computer — Unified Theory of LLM Computation |
