@@ -8,7 +8,90 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ▶▶ s304 cont-2 LIVE — 🎯 **ROUTING-REGISTER-1 (EXP-2, the FINDING half / "why
+> ▶▶ s305 LIVE — 🎯 **P-FAST-PLATE (front (a), the LAST construction door)
+> FROZEN + BUILT + LAUNCHED.** Michael picked front (a) after the s304 write-not-
+> train thread resolved (STORAGE=construct-survives-ternary, FINDING=gradient-
+> oracle). Mechanization (Michael GO): **cleanup-and-reinject** (over a delta-rule
+> capital-relay). REFRAME grounding forced: the s304 arms went INERT because the
+> country is UNMATERIALIZED at L23 on the one-shot LANDMARK prompt, and
+> routing_write read in NAMED geometry + wrote the CAPITAL. P-FAST-PLATE inverts:
+> READ where the country is materialized-from-landmark, argmax-COLLAPSE to nearest
+> of 16 name-frame keys (confidence-floored = internal collapse, the s300 pin /
+> §4 organ), REINJECT the country in named geometry, host's OWN h-hop makes the
+> capital (plate stores only COUNTRY → B2 free). Two static-plate-impossible ops:
+> nonlinear WTA collapse + read-geom ≠ write-geom.
+> §P-FAST-PLATE pre-reg FROZEN (f07fbc7, Michael-approved, s222): a read-only
+> MATERIALIZATION SCAN = hard-stop pre-gate M (per-layer shared-Σ name-keys
+> argmax-classify TRAIN landmark acts, decodability vs shuffled-label null, max
+> over cand layers = mult-comp safe). ¬M → STILL-EXTERNAL-BY-MEASUREMENT (the
+> s295 exhaustion law is MECHANICAL). M → L*=highest-decodability layer in lower
+> ⅔. Plate = one forward hook on dec[L*] (all positions, residual space): fire iff
+> proj>inn_max floor; reinject S·proto (S=median native down col-norm, register-
+> matched, NO calibration). Arms base / fast_plate / static_reinject (collapse-
+> isolation) / fast_plate_shuffle (λ yardstick, 3 seeds) / construct_lookup.
+> Gates F1 wire / F2 not-lookup / F3 specificity / F5 survive (Bonferroni α/3).
+> Verdicts STILL-EXTERNAL-BY-MEASUREMENT (¬M) / FAST-PLATE-WIRES (+COLLAPSE-LOAD-
+> BEARING | +GEOMETRY-SUFFICES) / FAST-PLATE-INERT (M∧¬F1 → gradient uniquely
+> required, last door closed) / UNSPECIFIC / HOST-DAMAGED.
+> Instrument scripts/explore/fast_plate.py BUILT (bc01a86) — reuses wb +
+> operand_multihop3, NO fork; --validate ALL PASS (6 verdict worlds + scan + hook
+> mechanics), ruff clean. Smoke green: mechanics CORRECT (arms produce distinct
+> per-cell deltas, keys fire key_sep_min 39.2, results.json written; direction
+> unread per s297, smoke cap does NOT touch the scan = full TRAIN).
+> ★ SMOKE ALREADY DETERMINED THE PRE-GATE (scan is frozen, full-TRAIN, not
+> n-cells-capped): **M PASSES — the country IS linearly materialized at L*=24
+> (decodability 0.933, p=0.0005).** This REFUTES the a-priori STILL-EXTERNAL lean
+> (~45%): the one-shot prompt DOES hold the country latent; the exhaustion law is
+> NOT airtight here. The run now tests whether cleanup-reinject at L24 routes it.
+> ⚠ HONEST CAVEAT (mechanics, not direction, λ observation): the register-matched
+> write lands WEAKLY (~0.1-0.25 logit shifts vs base ~18) — BY DESIGN (native
+> routing strength, not tuned magnitude). If verdict = FAST-PLATE-INERT with small
+> reinject_landed, the reading is "at native routing strength the injected country
+> doesn't route one-shot" — do NOT crank S (that reverts to the magnitude register
+> we rejected as construct). reinject_landed is the frozen attribution advisory.
+> ▶▶ **FULL FROZEN RUN DONE — ❌ VERDICT: FAST-PLATE-INERT for THIS construction
+> (frozen, 3 shuffle seeds, ran in Michael's tmux main:1, results committed
+> 420ffe3 autonomous).** NOT a closure of construction (Michael: other avenues
+> remain; everything we learn gets us closer to the mechanism). This SPECIFIC plate
+> (static linear read → argmax collapse → name-proto reinject at native strength)
+> == base EXACTLY on all splits (0.200/0.125/0.545; F1 B1 p=1.0 B2 p=1.0); F2
+> p=1.0, F3 p=0.62, F5 clean (CE 4.927 ≤ base 4.917, g/h 1.0). ★ THE HEADLINE IS A
+> REFINEMENT: pre-gate M **PASSED** — the country IS linearly materialized at
+> L*=24 (decodability 0.933, p=5e-4), REFUTING the s304 "unmaterialized" reading
+> (register-specific: absent at L23-named, present at L24-whitened). The
+> intermediate is PRESENT and readable, yet THIS write doesn't route it →
+> **DECODABILITY ≠ USABILITY (yet)** — the problem moves from *existence* to *how
+> to make it functional* (more tractable). Attribution = concrete LEADS: reinject_
+> landed 0.072 (weak native single-unit write), lm_name_cos −0.108 (we wrote the
+> WRONG geometry — name proto, not what the h-hop reads; the sharpest lead),
+> collapse (this form) hurts (Δ −0.026), keys fire hard (key_sep_min 39.2). The
+> three inert constructions (construct/routing_write/fast_plate) SHARE name-geometry
+> + native single-unit strength; gradient likely wins by discovering the correct
+> write-geometry + distributing the write — both constructible once measured. We are
+> CLOSER to the mechanism, not at a wall.
+> ⚠ SYNTHESIS PENDING MICHAEL APPROVAL (memory DROPPED per Michael — too final):
+> §Result-fast-plate (page, reframed: this construction inert + OPEN construction
+> avenues) + Sessions entry + this state block DRAFTED on disk, awaiting the
+> approval batch commit.
+> ⚠ COLD-START s306: (1) if synthesis not yet committed, commit the approved batch
+> (page §Result-fast-plate only; no memory). (2) THE WRITE-NOT-TRAIN THREAD IS
+> STILL OPEN on the construction side — s305 gave concrete next constructions, NOT
+> a closure. PICK THE NEXT FRONT (Michael's call): (a) **write the MEASURED h-hop
+> geometry** — build the reinject direction from the residual the host consumes when
+> it DOES do country→capital (TEACHER_PROMPT / g-query answer position), not the
+> name proto; directly attacks lm_name_cos −0.108; cheapest, closest lead, a
+> construction. (b) **read≠write layer** — read L24 (materialized) but write an
+> earlier layer for h-hop room (the late-materialization cliff motivates it); new
+> pre-reg, construction. (c) **distributed in-register / delta-rule capital-relay**
+> — several native-strength neurons or a cross-layer relay, staying in the routing
+> register (the deferred mechanization). (d) **GTSM-trajectory-loss** — a search
+> that can REVEAL the correct write-geometry for (a); also closes the s303 G4 gap.
+> (e) cheap-slot options TERNARIZE-FACTORS-1 / gd_cd@32B still available.
+> s305 ledger: f07fbc7 pre-reg · bc01a86 instrument · 420ffe3 results (autonomous)
+> · §Result + state PENDING APPROVAL. The s304 cont-2 WRITE-INERT block below is a
+> prior front (also NOT a construction closure).
+>
+> ▶▶ s304 cont-2 — 🎯 **ROUTING-REGISTER-1 (EXP-2, the FINDING half / "why
 > train the parent at all") FROZEN + BUILT + LAUNCHED.** TERNARIZE-DELTA-1 closed
 > SURVIVES-TERNARY (STORAGE ✓, synthesis approved+committed 13f1ed4); Michael GO
 > on EXP-2, named ROUTING-REGISTER-1. Question: can the operand→capital linker be

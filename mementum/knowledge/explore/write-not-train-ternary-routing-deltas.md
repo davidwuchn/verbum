@@ -562,6 +562,85 @@ cleanup recognizes + reinjects; shuffle destroys; verdict logic) → smoke
 tmux main:1 → frozen scoring → §Result-fast-plate + memory candidate → approval
 batch.
 
+## §Result-fast-plate — FAST-PLATE-INERT (s305, frozen run, 3 shuffle seeds)
+
+**Verdict: FAST-PLATE-INERT — for THIS construction.** The specific plate we froze
+(static linear read → argmax collapse → name-prototype reinject at native routing
+strength) does not install the wire: `fast_plate == base` **exactly** on all splits
+(0.200 / 0.125 / 0.545; F1 B1 p=1.0, B2 p=1.0). F2 fail (p=1.0), F3 fail (p=0.62 vs
+shuffle), F5 clean (CE 4.927 ≤ base 4.917 · 1.02; native g/h 1.0). Ran clean in
+tmux main:1; results committed autonomous. **This is a datum about one
+construction, not a closure of construction** — and the mechanism it exposes is
+the useful part: it points at concrete next constructions (see below).
+
+**★ The headline is a refinement, not the a-priori.** The pre-gate M **PASSED**:
+the country is linearly decodable at **L\*=24 (decodability 0.933, p=5e-4)** on the
+one-shot DIRECT prompt. This **refutes the "unmaterialized" reading** carried from
+s304 (§Result-routing-register said "the country key fires on country-NAME frames
+but never on the one-shot LANDMARK prompt (country unmaterialized)"). It was
+register-specific: at **L23 in named geometry** the country is absent; at **L24 in
+the whitened-discriminant geometry** it is strongly present. So the intermediate is
+**there** — and this plate is still INERT. The correct statement is not *absent*
+but **present-yet-not-usable-by-this-write: decodability ≠ usability (yet).** That
+"yet" is the whole point — knowing the intermediate is present relocates the
+problem from *existence* to *how to make it functional*, which is a more tractable
+(and more mechanistically informative) question.
+
+**Why present-yet-inert (the frozen advisories attribute it cleanly — and each
+attribution is a lead).**
+1. **Weak native write.** `reinject_landed = 0.072` — the register-matched write
+   (S = 1.185, median native down-col-norm at L24) moves the correct-capital logit
+   only ~0.07 against base logits ~18. We did NOT crank S (cranking = the magnitude
+   register rejected as `construct`), but a *distributed* in-register write
+   (multiple neurons / higher rank at native per-unit strength) is untested.
+2. **Geometry mismatch (the sharpest lead).** `lm_name_cos = −0.108` — the
+   landmark-materialized country direction is *anti-aligned* with the reinjectable
+   **name** prototype. A whitened linear probe reads the country (0.93), but the
+   direction the host's h-hop actually consumes is **not** the name prototype we
+   injected. Read-geometry ≠ write-geometry was the design's edge; we picked the
+   wrong write-geometry. Measuring the geometry the h-hop truly reads (from a
+   context where the host DOES route country→capital) and writing *that* is a live,
+   untested construction.
+3. **Collapse (this form) does not help — it hurts.** `collapse_delta = −0.026`
+   (fast < static): the hard argmax + confidence floor made it strictly worse than
+   the soft always-on `static_reinject` (which nudged a couple of cells: 0.267 /
+   0.591). An *externally hand-written* collapse op is not the pin — but that speaks
+   to this op, not to collapse in general. (Keys fire hard — `key_sep_min = 39.2` —
+   so this is not a recognition failure.)
+
+**Where the constructions stand (a running ledger, not a verdict on construction).**
+
+| construction | register / mechanism | access to intermediate | result |
+|---|---|---|---|
+| `construct` (s303) | magnitude, static | none (pre-forward) | INERT |
+| `routing_write` (s304) | routing, static, name-geom, capital-write | none (pre-forward) | INERT |
+| `fast_plate` (s305) | routing, in-forward, name-geom read+write, hard collapse | YES (reads materialized L24) | INERT |
+| `gd_cd` (s303) | gradient | — | **WIRE** (generalizes) |
+
+What these three inert constructions share is now visible and is a *guide*: all
+wrote in **name geometry** and at **native single-unit strength**, and none used
+the geometry the h-hop actually reads. The s305 measurements say the intermediate
+is present (M✓) and identify *why* the write missed (wrong geometry, `lm_name_cos`
+< 0; weak single-unit magnitude). Gradient's advantage is likely that it discovers
+the correct write-geometry and distributes the write — both of which are
+constructible in principle once measured. **We are closer to the mechanism, not at
+a wall.**
+
+**Open construction avenues (this result opens, does not close, construction).**
+1. **Write in the measured h-hop geometry.** Build the reinject direction from the
+   representation the host consumes when it *does* do country→capital (e.g. the
+   answer-position residual of `TEACHER_PROMPT` / the g-query), not the name-frame
+   prototype. Directly attacks `lm_name_cos = −0.108`. Cheap, closest lead.
+2. **Read≠write layer.** The decodability cliff (near-chance L0–L23, 0.93 at L24)
+   says the country materializes *late*; a plate that READS L24 but WRITES an
+   earlier layer gives the h-hop room to route. New pre-reg, still a construction.
+3. **Distributed in-register write / multi-layer relay** (the deferred delta-rule
+   capital-relay mechanization): several native-strength neurons or a cross-layer
+   relay, staying in the routing register (not magnitude cranking).
+4. **GTSM-trajectory-loss** — complementary *search* upgrade (a more
+   routing-faithful, ternarizable delta; also closes the s303 G4 gap). Not a
+   construction, but it can *reveal* the correct write-geometry for (1).
+
 ## Sessions
 s303 (discussion captured — Michael's "why train the parent at all" thread,
 following the WIRE-COMPILES verdict and the topology-routing-not-magnitudes
@@ -614,3 +693,19 @@ Gates F1 wire / F2 not-lookup / F3 specificity / F5 survive. A-priori lean
 STILL-EXTERNAL-BY-MEASUREMENT (~45%) — gate-0 g_ok used a country-eliciting
 prompt, easier than the DIRECT prompt materializing it unbidden. Instrument
 (fast_plate.py) + run pending. Both M-branches are real findings.
+
+s305 cont — VERDICT FAST-PLATE-INERT for THIS construction (frozen run, 3
+shuffle seeds, ran in Michael's tmux main:1). ★ pre-gate M PASSED — the country
+IS linearly materialized at L*=24 (decodability 0.933, p=5e-4), REFUTING the
+s304 "unmaterialized" reading (register-specific: absent at L23-named, present
+at L24-whitened). Yet this plate == base EXACTLY on all splits (F1 p=1.0 both)
+→ decodability ≠ usability (yet): the intermediate is present; this write
+doesn't route it. Attribution = concrete leads, not a wall: reinject_landed
+0.072 (weak native single-unit write), lm_name_cos −0.108 (we wrote the WRONG
+geometry — name proto, not what the h-hop reads), collapse (this form) hurts
+(Δ −0.026), keys fire hard (key_sep_min 39.2), F5 clean. A DATUM about one
+construction, not a closure of construction — the mechanism it exposes points
+at next constructions: write the MEASURED h-hop geometry (attacks lm_name_cos),
+read≠write layer (late materialization), distributed in-register / relay write.
+Michael: not a final verdict; other construction avenues remain. See
+§Result-fast-plate open-avenues list.
