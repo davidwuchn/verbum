@@ -148,10 +148,12 @@ per-layer ternarization compounds error (0.88/layer → garbage at 36 layers), s
 "routing survives" is a claim about the *right* projection (per-column γ, delta-scoped,
 null-gated), not about careless rounding.
 
-**Next datum (in flight, s306):** the `traj_compile` run drops another
-ternary-retention measurement on a *differently-trained* (GTSM trajectory-loss) wire —
-a second independent test of exactly this claim
-(`explore/trajectory-compile-gtsm-superbake.md`).
+**Second datum (CONFIRMED, s306):** the `traj_compile` wire — a *differently-trained*
+(GTSM trajectory-loss, wide band) linker, verdict WIRES-BUT-OPAQUE — **ternarizes
+losslessly**: retention 1.0/1.0/1.031, mag_cos **0.901**, sparsity 0.417 (`dd1bf99`).
+Routing survives, magnitude only 0.90 — the register split holds on a wire trained by
+a different objective. Still one model, still trained deltas; base-weight-wide remains
+open (`explore/trajectory-compile-gtsm-superbake.md`).
 
 ## Where this compounds
 

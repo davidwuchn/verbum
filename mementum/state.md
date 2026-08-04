@@ -68,8 +68,42 @@
 > closes ∧ ternarizes (s304) = the wire made legible AND portable. A-priori ~50%
 > +PIN-LEGIBLE / ~35% WIRES-BUT-OPAQUE / ~15% NO-WIRE. This is a DEAR (GD) front —
 > freeze DONE.
-> ▶▶ **s306 — INSTRUMENT BUILT + --validate ALL PASS + SMOKE GREEN (9624cd7,
-> autonomous code commit). HOLDING FOR MICHAEL GO ON THE FULL RUN.**
+> ▶▶ **s306 — RUN DONE ❌ VERDICT: WIRES-BUT-OPAQUE @4B (frozen, 3 seeds, tmux
+> main:1, results dd1bf99 autonomous; §Result + quant-page update + memory + this
+> block PENDING MICHAEL APPROVAL).** The wide-band GTSM trajectory loss installs a
+> generalizing wire like s303 gd_cd — F1 wire (B1 val=0.875 p=1e-4, B2 val=0.424
+> p=1e-3) / F2 not-lookup (p=1.8e-3, B2 0.970 vs lookup 0.591) / F3 specificity
+> (p=1e-4) / F5 survive (CE 4.886 ≤ 4.917, g/h 1.0) ALL PASS; traj_compile
+> 0.2→1.0 / 0.125→1.0 / 0.545→0.970 — but **G4 pin FAILS (G4_traj ∧ G4_wide both
+> False) → OPAQUE**, the s303 legibility gap NOT closed. ★ MONEY PLOT = the finding:
+> the loss amplified the country readout LATE (L25 2.56 vs 1.65, L34 11.2 vs 8.5) but
+> NOT early (L6 −0.152 vs −0.243) — **SuperBake's "materialize early" did not take;
+> the wire still forms late**. Full-residual answer-position match shapes the LATE
+> readout → next fork = COUNTRY-SUBSPACE-targeted trajectory at L6 (not full residual).
+> Weak dissociation: traj raised L6 where wide-KL-only did not (loss ≠ band). G4b
+> ceiling-limited (37/38 held correct = near-powerless, s303 caveat replicated). ★
+> SIDE-WIN: the traj wire ternarizes losslessly (retention 1.0/1.0/1.031, mag_cos
+> 0.901) = 2nd datum for register-theory-of-quantization.md (confirmed on the page).
+> A-priori ~50% +PIN-LEGIBLE MISSED → landed WIRES-BUT-OPAQUE (the ~35% branch);
+> answered the pre-reg's sharp Q: full-residual match does NOT force early
+> materialization (λ yardstick, not tuned).
+> ⚠ COLD-START s307: (1) if the s306 synthesis batch is not committed, commit the
+> Michael-approved batch (trajectory-compile §Result + register-theory-of-quantization
+> update + memory the-wire-forms-late-even-under-an-early-enrichment-trajectory-loss +
+> this block). (2) PICK THE NEXT FRONT (Michael's call): (a) **REGISTER-COMPANDING
+> QUANTIZER** — the s306-discussed idea (Michael): tail→ternary routing / body→int4
+> value / floor→0, SELECTOR = gradient sign-consistency/coherence NOT magnitude
+> (s171 coherence⊥magnitude Jaccard 0.17; ρ(grad,weight)→0 past L4). Tests whether
+> base-weight outlier MAGNITUDE is disposable (register theory) vs salient (AWQ/SpQR)
+> → would extend register-theory-of-quantization from delta→base-weights (closes its
+> frontier). Cheap-slot (weight-level, forward + coherence calib, NO long training).
+> Canonical home = ratio-gradient-quantization.md; freeze a pre-reg first (s222). (b)
+> **COUNTRY-SUBSPACE trajectory fork** — the indicated s306 next refinement (target
+> the country subspace at L6, not the full residual; attacks the opaque G4 directly).
+> (c) cheap-slots TERNARIZE-FACTORS-1 / gd_cd@32B. s306 ledger: 9624cd7 instrument ·
+> dd1bf99 results (autonomous) · 6daae42 quant knowledge page · synthesis batch pending.
+> ▶▶ (build record, superseded by the verdict above) INSTRUMENT BUILT + --validate
+> ALL PASS + SMOKE GREEN (9624cd7).
 > `scripts/explore/trajectory_compile.py` reuses writeback_compile as a module
 > (no fork): wb BANK/Cell/prompts/LoRALinear + frozen gate0.json cells +
 > construct_lookup B2 baseline (cells IDENTICAL to the gd_cd score); ternarize_delta

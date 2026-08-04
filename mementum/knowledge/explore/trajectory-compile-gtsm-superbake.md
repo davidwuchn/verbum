@@ -150,7 +150,61 @@ G4 rise+track, verdict worlds) → smoke (`--n-cells`, mechanics only, s297) →
 → run tmux main:1 (~1–3h MPS) → frozen scoring → §Result-trajectory-compile + approval
 batch.
 
+## §Result-trajectory-compile — WIRES-BUT-OPAQUE @4B (FROZEN, 3 seeds, s306)
+
+Verdict **WIRES-BUT-OPAQUE** (the ~35% a-priori branch). Results `dd1bf99`;
+instrument `9624cd7`.
+
+**Behavioral wire installs and generalizes — all four behavioral gates pass.**
+F1 WIRE (B1 flip val=0.875 p=1e-4, B2 val=0.424 p=1e-3) · F2 NOT-LOOKUP (p=1.8e-3,
+traj B2 0.970 vs lookup 0.591) · F3 SPECIFICITY (p=1e-4 vs traj_shuffle) · F5
+SURVIVE (CE 4.886 ≤ base 4.917, g/h 1.0). traj_compile: TRAIN 0.2→1.0, B1
+0.125→1.0, B2 0.545→0.970. gd_cd_wide also wires (1.0/0.896/0.985). Yardstick held
+(traj_shuffle ≈ base: 0.0/0.25/0.561). The wide-band trajectory loss REPLICATES
+the s303 gd_cd wire.
+
+**G4 pin FAILS → opaque.** G4_traj False, G4_wide False → neither the loss nor the
+band made the mechanism legible on held cells. So the s303 G4 gap is NOT closed by
+this design.
+
+**Money plot = the finding (why it stayed opaque).** The trajectory loss amplified
+the country readout **LATE**, not early: L25 2.56 vs base 1.65 · L30 10.4 vs 6.4 ·
+L34 11.2 vs 8.5 — but at the enrichment band **L6 it barely moved** (−0.152 vs
+−0.243), and at L10/L14 it was flat-to-lower. **SuperBake's "materialize early" did
+NOT take** — the wire still forms late (the same upper-stack region gd_cd already
+lived in). The full-residual answer-position match produced a behavioral wire + a
+late-readout amplification, not early legible materialization. → the deferred
+**country/capital-subspace-targeted trajectory** fork is the indicated next
+refinement (target the country subspace at L6, not the full residual).
+
+**One honest dissociation (weak causal hint).** The *trajectory loss* raised the L6
+readout (G4a True: −0.152 > −0.243) where the *wide-band-KL-only* control did NOT
+(G4a False: −0.245 ≈ base) → the loss ≠ the band, it does touch the early
+representation — just not enough to materialize the country legibly-early. **G4b is
+ceiling-limited**: traj got 37/38 held cells correct (1 incorrect) → "tracks
+correct vs incorrect" is near-powerless (the exact s303 ceiling caveat, replicated;
+G4-as-gating cannot be fairly adjudicated at this competence).
+
+**★ Advisory WIN for the quantization thesis.** The trajectory-loss wire
+**ternarizes losslessly** — retention 1.0/1.0/1.031, mag_cos 0.901, sparsity 0.417
+— the **second independent ternary-retention datum** (after s304's gd_cd) on a
+*differently-trained* wire. Routing survives, magnitude only 0.90: confirms
+`register-theory-of-quantization.md` on a new wire.
+
+**A-priori honesty (λ yardstick).** Predicted ~50% +PIN-LEGIBLE; landed
+WIRES-BUT-OPAQUE. The sharp pre-registered open question — "does the FULL-residual
+answer-position match force early country-specific materialization or just surface
+mimicry?" — is answered: **not early**; the depth-dense answer-position match shaped
+the *late* readout. Not tuned to pass (λ, w, band frozen a priori).
+
 ## Sessions
+s306 (the full frozen run. WIRES-BUT-OPAQUE: the wide-band GTSM trajectory loss
+installs a generalizing wire like s303 gd_cd but does NOT make the pin legible; the
+money plot shows the country readout is amplified late, not materialized early —
+SuperBake's early-write did not take on the full-residual target. G4b additionally
+ceiling-limited. The trajectory-loss wire ternarizes losslessly (2nd retention
+datum). Next fork: country-subspace-targeted trajectory at L6. Results dd1bf99,
+synthesis pending Michael approval).
 s305 (this thread. Michael pointed at the SuperBake paper after the HHOP-INERT
 depth-timing finding + the GTSM loss. Synthesis: SuperBake proves "the network is the
 kernel and it is upstream" (our depth-timing law from the other side) and shows
