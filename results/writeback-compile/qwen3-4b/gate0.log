@@ -1,0 +1,8 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 23789.84it/s]
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[wb] Qwen/Qwen3-4B dev=mps n_layers=36 install=L23 band=L22..L29 arms=base,construct,construct_shuffle,construct_lookup,gd_cd,gd_sft,gd_shuffle seeds=3 steps=500
+[wb] union candidates: 73 dropped: []
+[wb] gate-0 sweep…
+[wb] gate-0: valid 53/56 splits={'TRAIN': 15, 'B1': 16, 'B2': 22} cot_rate=0.98 -> PASS
+[wb] wrote results/writeback-compile/qwen3-4b/gate0.json
