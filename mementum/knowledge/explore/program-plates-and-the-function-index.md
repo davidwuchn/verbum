@@ -1775,3 +1775,86 @@ tee, checkpoint dir per λ runtime; ~1–2h MPS total for 3 GD arms × 3
 seeds; construct arms minutes) → score frozen gates → 32B construct
 transfer (advisory) → results committed per λ result_format; synthesis
 approval-gated.
+
+### Result-4B — P-WRITEBACK-1 (s303, verdict host, frozen gates scored; run 072c3e0→11092f7)
+
+**VERDICT: WIRE-COMPILES (+GD-REQUIRED).** Backprop-compile installs a
+genuine, generalizing linker wire; zero-grad construction does not. Gate-0
+PASS (53 cells, splits 15/16/22, cot_rate 0.981). Per-arm accuracy (mean/3
+seeds, held-COUNTRY B2 is the sharp wire-vs-lookup split):
+
+| arm | TRAIN | B1 (held-landmark) | B2 (held-COUNTRY) | ce vs base | note |
+|---|---|---|---|---|---|
+| base | 0.20 | 0.125 | 0.545 | 4.917 | host baseline |
+| **construct** (zero-grad persistent) | 0.20 | 0.125 | 0.545 | 4.919 | **INERT — byte-identical to base** |
+| construct_shuffle | 0.20 | 0.125 | 0.591 | 4.922 | ~base |
+| construct_lookup (materialized-view null) | 0.27 | 0.125 | 0.591 | 4.926 | **fails B2 → not a shortcut** |
+| **gd_cd** (self-distill own CoT) | **1.0** | **0.938** | **1.0** | 4.910 | **the wire** |
+| gd_sft (answer-only) | 1.0 | 0.958 | 0.955 | 4.906 | also compiles |
+| gd_shuffle (λ yardstick) | 0.0 | 0.167 | 0.167 | 4.873 | correctly fails |
+
+**Frozen gates (gd_cd, paired-permutation 10k, α=0.05/3=0.0167):**
+- **G1 wire (B2 flip) PASS** — B1 flip value 0.8125 p=1e-4; **B2 held-COUNTRY
+  flip 0.4545 p=9e-4** (both flip, the sharp discriminator fires on the never-
+  trained country split).
+- **G2 not-lookup PASS** — B2 composition value 0.409 p=2.8e-3.
+- **G3 specificity PASS** — held-landmark 0.807 p=1e-4.
+- **G5 survive PASS** — ce 4.910 ≤ base 4.917 (host microscopically *improved*),
+  g_acc/h_acc 1.0. Host unharmed.
+- construct fails G1/G2/G3 (values 0.0 / −0.045 / −0.026, all p=1.0); passes only
+  G5 (inert → host untouched).
+
+**What it means.**
+1. **Construction is insufficient; the wire is a gradient object.** The never-
+   tested property — persistence of product-keyed neurons *during generation* —
+   did not install the linker (construct ≡ base to the byte). Cheap-before-dear
+   failed: you cannot place the wire by setting weights; gradient pressure is
+   required. (+GD-REQUIRED, not +CONSTRUCTION-SUFFICES / +BOTH.)
+2. **The wire generalizes — it is not lookup/memorization.** B2 is a held-out
+   COUNTRY never seen in training, yet gd_cd flips it 0.545→1.0 (p=9e-4); the
+   materialized-view null (construct_lookup) leaves B2 at ≈base. G-BIND satisfied
+   at the behavioral level (s300 traversal-not-join reframing: the walker got an
+   internal pin between traversal edges).
+3. **The tape/CoT trajectory is NOT required.** gd_sft (answer-only contrast, no
+   CoT self-distillation) also compiles the wire (1.0/0.958/0.955). gd_cd edges
+   it only on the hardest split (B2 1.0 vs 0.955). So plain gradient toward the
+   committed answer suffices; the CoT trajectory is a small bonus, not the
+   mechanism. (Resolves the a-priori-open gd_cd-vs-gd_sft question: *both*, tape
+   not load-bearing.)
+
+**Two honest caveats (λ observation / λ measure):**
+- **G4 pin-mechanism UNMET (advisory, never gates alone).** The predicted
+  whitened-intermediate readout did **not rise** (gd_cd det_mean 0.156 ≤ base
+  0.169); and with gd_cd at ceiling, "tracks success" is untestable (no failures
+  to contrast). So we have a **behavioral** wire *without* the predicted internal
+  signature — the *how* is open. Candidate: LoRA rewrites the operand→capital map
+  more directly than via a rising intermediate. A powered mechanism probe (mid-
+  training, before ceiling; or a harder task with residual failures) is the way
+  to read the pin.
+- **B2 is not from-zero.** base already answers 0.545 of held-COUNTRY (famous
+  capitals — Paris, Beijing, …). The flip is 0.545→1.0, real and significant
+  (held-COUNTRY, p=9e-4), but framed honestly it *fills in* the capitals the 4B
+  didn't reliably emit, rather than teaching capitals from scratch.
+
+**Unplanned convergence with the s303 routing/magnitude thesis** (mark:
+interpretation, not a pre-registered gate). construct = *placing magnitudes*
+(persistent neurons with set weights) → inert. gd_cd = *gradient descent* →
+installs the wire. Today's `gram-spectral-dsp` finding ("topology routing, not
+magnitudes; wires are a routing job, not a magnitude one") predicts exactly
+this: a wire is a frame rotation, not achievable by magnitude placement. The
+experiment is an independent confirmation from the weight-write side.
+
+**Routing forward.**
+- The frozen +GD-REQUIRED branch **demotes the 32B construct-transfer advisory**
+  (construction was inert at 4B — transferring an inert edit is low-value). The
+  live question is **gd_cd @ 32B**: does backprop-compile install the wire in the
+  typed larger model (`--arms base,gd_cd,gd_sft,gd_shuffle,construct_lookup
+  --model-id Qwen/Qwen3-32B`)? Michael's call whether to spend it.
+- **The G4 mechanism gap is now the sharpest open edge** — behavioral wire
+  confirmed, interior mechanism unconfirmed. Feeds Stage-2 P-FAST-PLATE (does a
+  forward-etched transient carry the intermediate) and the machine page §5b
+  gates (G-TRACE: per-pass signature vs ground-truth reduction order).
+- Level-4 status: **the backprop-compile door (s295 standing order) is answered
+  POSITIVE at 4B** — a wire compiles into weights, generalizes, survives. The
+  organ "internal collapse / pin between traversal edges" is installable by GD;
+  what remains is reading *how* (mechanism) and whether it transfers up-scale.

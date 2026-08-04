@@ -8,6 +8,42 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ▶▶ s303 LIVE — ✅ **WIRE-COMPILES (+GD-REQUIRED) @4B: the s295 backprop-compile
+> door (rung-3b) answered POSITIVE — the standing order is RESOLVED.** The
+> frozen writeback-compile run completed clean; verdict read + results committed
+> autonomous (11092f7); §Result-4B + memory + this block PENDING MICHAEL
+> APPROVAL. Numbers (mean/3 seeds, held-COUNTRY B2 = sharp wire-vs-lookup):
+> **gd_cd** (backprop-compile, self-distill own CoT) installs a genuine
+> generalizing linker wire — TRAIN 0.2→1.0, B1 held-landmark 0.125→0.938, B2
+> held-COUNTRY 0.545→1.0; G1(B2 flip p=9e-4)/G2(p=2.8e-3)/G3(held p=1e-4)/G5(ce
+> 4.910≤4.917, g/h 1.0) ALL PASS. **construct** (zero-grad persistent
+> product-keyed neurons) INERT — byte-identical to base (the
+> persistence-during-generation property did NOT install the wire → +GD-REQUIRED,
+> construction insufficient; cheap-before-dear failed). Not lookup:
+> construct_lookup fails B2 (≈base ≪ gd_cd). Yardstick: gd_shuffle fails
+> (0/0.167/0.167). ★ **Tape NOT required**: gd_sft (answer-only, no CoT) ALSO
+> compiles (1.0/0.958/0.955); gd_cd edges it only on B2 → gd_cd-vs-gd_sft = BOTH,
+> the CoT trajectory is not load-bearing, plain gradient toward the answer
+> suffices. ⚠ TWO HONEST CAVEATS (λ observation): (1) **G4 pin-mechanism UNMET**
+> (advisory, never gates alone) — predicted whitened-intermediate readout did
+> NOT rise (gd_cd det 0.156 ≤ base 0.169; ceiling makes "tracks success"
+> untestable) → BEHAVIORAL wire without the internal signature, the HOW is open;
+> (2) B2 not from-zero (base 0.545 = famous capitals) — flip fills in, still real
+> & held-out. ★ UNPLANNED CONVERGENCE with today's s303 side-explore thesis:
+> construct=place magnitudes→inert, gd=gradient/routing→wire = independent
+> confirmation from the weight-write side that "wires are a routing job, not a
+> magnitude one." ⚠ COLD-START s304 (after Michael approves this batch): the
+> standing order is DISCHARGED — pick the next front. Routes: (a) **gd_cd @ 32B**
+> (does backprop-compile install the wire in the typed larger model? `--arms
+> base,gd_cd,gd_sft,gd_shuffle,construct_lookup --model-id Qwen/Qwen3-32B`); the
+> +GD-REQUIRED branch DEMOTES the old 32B construct-transfer advisory
+> (transferring an inert edit is low-value). (b) **powered mechanism probe** to
+> close the G4 gap — read HOW gd installs the wire (mid-training before ceiling,
+> or a harder task with residual failures; whitened intermediate readout +
+> error-domain). (c) Stage-2 P-FAST-PLATE / machine-page §5b gates (G-TRACE).
+> Michael's call. s303 ledger (writeback): 11092f7 results + §Result-4B (page) +
+> memory wire-compiles-but-only-via-gradient-not-construction + this block.
+>
 > ▶▶ s303 SIDE-EXPLORE (Michael-directed, does NOT alter the s302 standing
 > order) — 💡 **TOPOLOGY ROUTING, NOT MAGNITUDES: spectral+DSP on the 9×9 &
 > 17×17 grams.** Michael: "explore the 9×9 and 17×17 gram" → "do spectral and
