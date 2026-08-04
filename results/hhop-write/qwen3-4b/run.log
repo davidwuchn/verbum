@@ -1,0 +1,50 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 23308.52it/s]
+[fp] Qwen/Qwen3-4B dev=mps n_layers=36 valid=53 splits={'TRAIN': 15, 'B1': 16, 'B2': 22} shuffle_seeds=3 gate0_ok=True
+[fp] scan: 48 name frames, 9 innocents, 15 TRAIN landmarks across 36 layers
+[fp] scan: L*=24 decodability=0.933 (p=0.0005) M=PASS lm-name-cos=-0.108
+[fp] decodability curve (cand layers): L0:0.07 L1:0.07 L2:0.07 L3:0.00 L4:0.07 L5:0.00 L6:0.13 L7:0.13 L8:0.13 L9:0.27 L10:0.33 L11:0.20 L12:0.13 L13:0.00 L14:0.00 L15:0.00 L16:0.07 L17:0.00 L18:0.07 L19:0.07 L20:0.07 L21:0.00 L22:0.00 L23:0.13 L24:0.93
+[fp] register scale S = median native down col-norm at L24 = 1.1851
+[fp] ── base ──
+    TRAIN: acc 0.200
+    B1: acc 0.125
+    B2: acc 0.545
+[fp] === HHOP-WRITE (measured h-hop geometry + routing filter) ===
+[fp] CAP scan: L_cap=24 country_present=1.00 capital_leak=0.62 (L*=24)
+[fp] country gram: k=2 (eigengap) top eigs [3.131 3.08  1.574 1.287 1.159] cos(v_raw,cap)=0.138
+[fp] ── hhop_routing (primary) ──
+    routing TRAIN: acc 0.200
+    routing B1: acc 0.125
+    routing B2: acc 0.591
+[fp] ── hhop_raw ──
+    raw TRAIN: acc 0.200
+    raw B1: acc 0.125
+    raw B2: acc 0.545
+[fp] ── static_reinject (soft routing) ──
+    static TRAIN: acc 0.200
+    static B1: acc 0.125
+    static B2: acc 0.545
+[fp] ── routing_randsub (F4 null) ──
+    randsub TRAIN: acc 0.200
+    randsub B1: acc 0.125
+    randsub B2: acc 0.545
+[fp] ── hhop_shuffle (3 derangement seeds) ──
+    shuf0 TRAIN: acc 0.267
+    shuf0 B1: acc 0.125
+    shuf0 B2: acc 0.545
+    shuf1 TRAIN: acc 0.200
+    shuf1 B1: acc 0.125
+    shuf1 B2: acc 0.545
+    shuf2 TRAIN: acc 0.200
+    shuf2 B1: acc 0.125
+    shuf2 B2: acc 0.591
+[fp] reinject_landed (held-out capital-logit shift) = 0.033
+
+[fp] ════ VERDICT: HHOP-INERT ════
+  F1=False F2=False F3=False F4=False F5=True
+  routing_advantage=+0.026 (sig=False) collapse_delta=+0.026
+  L*=24 L_cap=24 gram_k=2 reinject_landed=0.033 cos_capital=0.138
+  TRAIN: base 0.200 routing 0.200 raw 0.200 randsub 0.200 shuffle 0.222
+  B1: base 0.125 routing 0.125 raw 0.125 randsub 0.125 shuffle 0.125
+  B2: base 0.545 routing 0.591 raw 0.545 randsub 0.545 shuffle 0.561
+[fp] wrote results/fast-plate/qwen3-4b/results.json
