@@ -8,7 +8,27 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ▶▶ s305 LIVE — 🎯 **P-HHOP-WRITE (avenue 1: write the MEASURED h-hop geometry +
+> ▶▶ **s306 LIVE — THIS SESSION.** Arc: (1) trajectory-compile (s305 pre-reg) BUILT +
+> RAN → ❌ **WIRES-BUT-OPAQUE** (wire installs & generalizes, pin illegible, money plot
+> shows it forms LATE not early; results dd1bf99, synthesis 80c6cf9). (2) 💡
+> **register-theory-of-quantization.md** created (6daae42) — quantization = a projection
+> onto the ROUTING register (ternary is its alphabet, not a codec); the traj_compile
+> wire's lossless ternarization = the 2nd confirming datum. (3) 🎯 **REGISTER-COMPANDING
+> QUANTIZER** front (Michael): §P-COMPANDING-QUANT pre-reg FROZEN (6337744) + amended
+> (3ab18d5: τ=1%, C2=bootstrap null test) + harness BUILT/validated/smoke-green
+> (a1a0ee6) → ▶▶ **FULL RUN LAUNCHED tmux main:1** (all 36 FFN layers, τ=1%, 6 arms,
+> body {2,3,4}; auto-scored C1–C5 + verdict). ⚠ WHEN IT SIGNALS (this session 306, or
+> s307 if a fresh session): tail run.log for `VERDICT:` + `restore_max_dev=0` (no
+> traceback) → read results.json — **Q1 MAGNITUDE-DISPOSABLE vs MAGNITUDE-SALIENT is the
+> headline** (does base-weight outlier magnitude matter? extends the thesis to base
+> weights or bounds it to deltas); **Q2 selector read CAUTIOUSLY** (calib is thin: 12
+> texts ×4 → coherence may be inflated) → commit results/ AUTONOMOUS → draft §Result on
+> ratio-gradient-quantization.md + register-theory-of-quantization update + memory +
+> state → MICHAEL APPROVAL BATCH. Detailed s306 blocks are below.
+> s306 ledger: dd1bf99 traj results · 80c6cf9 traj synthesis · 6daae42 quant page ·
+> 6337744 pre-reg freeze · 3ab18d5 amendment · a1a0ee6 harness · 62906e5 state.
+>
+> ▶▶ s305 (CLOSED) — 🎯 **P-HHOP-WRITE (avenue 1: write the MEASURED h-hop geometry +
 > Michael's gram routing filter) FROZEN + BUILT + RUN → ❌ HHOP-INERT.** After the
 > s305 FAST-PLATE-INERT diagnosed the miss (wrong reinject geometry), Michael GO'd
 > avenue 1, then opened the gram thread ("can the 9×9/17×17 grams guide/filter our
@@ -123,18 +143,11 @@
 > CPU). If RAM-bound: (a) --n-layers a band, (b) add fp16 accumulation (~10GB), or
 > (c) band-chunk the calibration. Magnitude arms (the register PRIMARY, Q1) are grad-
 > free and fine at all 36; only companding_coh / Jaccard (Q2, secondary) need the
-> calibration. ⚠ NEXT (s307): Michael GO → full run `uv run python -u
-> scripts/experiments/companding_quant.py 2>&1 | tee results/companding-quant/
-> qwen3-4b/run.log` → auto-scored C1–C5 + verdict → results.json → commit autonomous
-> → §Result on ratio-gradient-quantization.md + register-theory-of-quantization
-> update + memory + state → MICHAEL APPROVAL BATCH.
-> ⚠ COLD-START s307: (1) if the pre-reg freeze commit is not in, commit it (pages
-> ratio-gradient-quantization.md + register-theory-of-quantization.md + this block).
-> (2) BUILD the §P-COMPANDING-QUANT harness (task above). Alternative fronts still
-> live if Michael redirects: (b) **COUNTRY-SUBSPACE trajectory fork** (attacks the
-> opaque G4 — target the country subspace at L6, not full residual); (c) cheap-slots
-> TERNARIZE-FACTORS-1 / gd_cd@32B. s306 ledger: 9624cd7 instrument · dd1bf99 results ·
-> 6daae42 quant page · 80c6cf9 synthesis batch · §P-COMPANDING-QUANT freeze (this).
+> calibration. ⚠ RUN LAUNCHED (s306, Michael GO, tmux main:1) — status + on-signal
+> steps are in the s306 LIVE header at the TOP of this file. Alternative fronts still
+> live if Michael redirects after the verdict: (b) **COUNTRY-SUBSPACE trajectory fork**
+> (attacks the opaque G4 — target the country subspace at L6, not full residual); (c)
+> cheap-slots TERNARIZE-FACTORS-1 / gd_cd@32B.
 > ▶▶ (build record, superseded by the verdict above) INSTRUMENT BUILT + --validate
 > ALL PASS + SMOKE GREEN (9624cd7).
 > `scripts/explore/trajectory_compile.py` reuses writeback_compile as a module
