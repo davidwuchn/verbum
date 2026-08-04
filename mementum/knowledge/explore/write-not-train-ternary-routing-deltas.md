@@ -641,6 +641,117 @@ a wall.**
    routing-faithful, ternarizable delta; also closes the s303 G4 gap). Not a
    construction, but it can *reveal* the correct write-geometry for (1).
 
+## §P-HHOP-WRITE — pre-reg (avenue 1: write the MEASURED h-hop geometry, + the
+routing-register filter; FROZEN s305, before any run; s222 law)
+
+> s305 diagnosed the fast_plate miss: the country IS materialized (M✓, L*=24,
+> decodability 0.933) but we reinjected the WRONG geometry (name prototype,
+> `lm_name_cos = −0.108`) at native single-unit strength. This pre-reg attacks that
+> directly (Michael GO, front s306): (1) reinject the country in the geometry the
+> host's OWN h-hop consumes, MEASURED from CAP_QUERY (avenue 1); (2) — Michael's
+> gram thread — additionally strip the magnitude scaffolding by projecting onto the
+> country gram's LOW-RANK ROUTING subspace, a direct construction-side test of
+> "topology routing, not magnitudes" (`gram-spectral-dsp.md`, s303). Recognition is
+> unchanged (name-keys at L*, decodability 0.93 — it works). Freeze before touching
+> the model; the run only fills numbers.
+
+**Question.** Does writing the country in the geometry the host's h-hop consumes —
+and especially its low-rank ROUTING subspace (topology, not magnitude) — install
+the linker where the raw name-prototype (s305) did not?
+
+**Recognition (unchanged from fast_plate, reused).** At **L\* = 24** (the s305
+materialization scan) recognize `c* = argmax_c (â·k_c)` over 16 name-frame keys with
+the innocent-null confidence floor. This read works (0.93, keys fire at 39.2).
+
+**CAPTURE-LAYER SCAN — where the h-hop reads the country (NEW, FROZEN, host-only).**
+On `CAP_PREFIX + CAP_QUERY` (*"…The capital of {c} is"*) for all 16 countries,
+capture the last-token residual at every layer L. Per layer measure:
+- `country_dec(L)` — country linearly decodable (shared-Σ keys, argmax) vs a
+  shuffled-label null;
+- `capital_leak(L)` — capital already formed: mean argmax over capitals of
+  `residual_L · unembed(cap)` == true capital.
+Frozen rule: **L_cap = argmax over L ≥ L\* of `country_dec(L) − capital_leak(L)`**
+(the layer where the country is present but the capital has NOT yet formed → a
+*country* geometry, not a capital one; L_cap ≥ L\* keeps recognition-before-inject
+causal). If `country_dec` beats its null at no layer ≥ L\*, or `capital_leak` is
+high everywhere → flag LOOKUP risk (the h-hop completes before we can write).
+
+**REINJECT VALUE — two geometries, at L_cap.** For the recognized `c*`, add the
+country direction into the residual at **L_cap** (host layers > L_cap then run the
+native h-hop → capital; B2 free). Scale `S` = median native down_proj col-norm at
+L_cap (register-matched, no loop). Two constructions of the direction:
+- **raw** (`hhop_plate`): `v_c = unit(r_c − mean_c r_c)`, `r_c` = CAP_QUERY
+  last-token residual at L_cap (population-centered → country-specific, strips the
+  shared "capital of X is" subspace).
+- **routing** (`hhop_routing_plate`, PRIMARY — Michael's gram filter): build the
+  **16×16 country gram** `G = R̂R̂ᵀ` from the centered unit `r̂_c` at L_cap; take its
+  low-rank routing subspace `U_k` (columns = top-k eigenvectors), **k set by the
+  largest relative eigengap** in the top eigenvalues (the 17×17 cliff-finder, NOT a
+  forced rank); reinject `v_c^routing = unit(U_k U_kᵀ (r_c − mean))` — the country
+  with magnitude scaffolding projected out, a routing-register write.
+
+**Arms** (re-scored on the frozen 53 gate-0 cells; per-seed shuffle):
+- `base` — floor (0.200 / 0.125 / 0.545).
+- `hhop_routing_plate` — **PRIMARY** (gram-filtered h-hop geometry).
+- `hhop_plate` — raw h-hop geometry (contrast: is the routing projection needed?).
+- `static_reinject` — soft always-on routing write (collapse-isolation).
+- `hhop_shuffle` — recognize `c*`, reinject `v_{derange(c*)}^routing` — **λ
+  yardstick** (matched geometry/strength, routing destroyed). ≥3 derangement seeds.
+- `construct_lookup` — inherited materialized-view null (F2 baseline).
+
+**Gates** (verbum.dsp, Bonferroni α/3 on F1–F3; primary arm = `hhop_routing_plate`):
+- **F1 WIRE** : primary > base, flip on B1 AND B2.
+- **F2 NOT-LOOKUP** : primary > construct_lookup on B2.
+- **F3 SPECIFICITY** : primary > hhop_shuffle on held-out (load-bearing).
+- **F4 SUBSPACE-REAL** (routing-specific null, λ yardstick): the chosen `U_k` beats
+  a **matched-rank RANDOM subspace** — primary(U_k) > primary(U_random-k) on
+  held-out (so the low-rank projection is discovery, not describability).
+- **F5 SURVIVE** : innocent CE ≤ 2% rel base; native g/h within 0.10.
+
+**Reports (advisory, NOT gates).** `routing_advantage` = `hhop_routing_plate` −
+`hhop_plate` on held-out (does the topology filter help? the thesis fork) ·
+`collapse_delta` (vs static) · `cos(v_c^raw, name_proto)` and `cos(v_c^raw,
+capital_unembed)` (confirm geometry changed / lookup-risk gauge) · the gram
+spectrum + chosen `k` + eigengap · `L_cap`, `country_dec`/`capital_leak` curves ·
+`reinject_landed`.
+
+**Verdicts (FROZEN).**
+- **HHOP-WIRES (+ROUTING-REGISTER)** : F1∧F2∧F3∧F4∧F5 ∧ `routing_advantage` > 0
+  significant → writing the country in its low-rank routing subspace installs the
+  wire, and the topology filter is the ingredient → **"topology routing, not
+  magnitudes" confirmed on the CONSTRUCTION side** (mirror of s269/s303). ★ big.
+- **HHOP-WIRES (+RAW-SUFFICES)** : F1∧F2∧F3∧F5 but `routing ≈ raw` (F4 or
+  routing_advantage n.s.) → the measured h-hop geometry alone suffices; the filter
+  is not load-bearing. Still: avenue 1 works, construction succeeds.
+- **LOOKUP-VIA-GEOMETRY** : F1∧¬F2 (or `cos(v_c, capital_unembed)` high) → the
+  captured geometry at L_cap is capital-like → a lookup, not a wire (the h-hop
+  completes before we can write the country).
+- **HHOP-INERT** : ¬F1 → even the routing-register h-hop geometry does not route →
+  the routing is SOFT/nonlinear, not a linear-subspace write (sharpens s300: only
+  GD lays the soft topology routing). NOT a closure — points to the relay / soft
+  constructions.
+- **UNSPECIFIC** (F1∧¬F3) / **HOST-DAMAGED** (¬F5).
+
+**A-priori lean (grounded; do NOT peek).** Genuinely uncertain — this is the
+sharpest attack on the diagnosed miss. If the h-hop reads country in a clean
+low-rank subspace at some L_cap ≥ 24 → HHOP-WIRES (and I'd bet +ROUTING-REGISTER
+over +RAW, since the raw prototype already failed and s269/s303 say the routing
+subspace is the robust part). If the capital forms by L24 on CAP_QUERY →
+LOOKUP-VIA-GEOMETRY. If country geometry is present but a linear write still can't
+drive the host → HHOP-INERT (the soft-routing / s300 reading). Rough split ~35%
+WIRES / ~25% LOOKUP / ~40% INERT. Every branch is a real finding.
+
+**Frozen recipe (s222).** Extend `fast_plate.py` with `--reinject-geometry
+{name,hhop,hhop_routing}` (option > fork; λ one_way) — NO new script. Reuse `wb`
+CAP_PREFIX/CAP_QUERY, the s305 materialization scan for L\*, frozen 53 gate-0 cells.
+Gram eigengap `k` and L_cap chosen by the frozen rules above (host-only, no held
+peeking). Qwen3-4B, MPS, bf16, ≥3 derangement seeds. Score paired-by-cell as before.
+
+**Cadence.** extend + `--validate` (planted: gram eigengap picks a planted rank;
+routing projection beats a random subspace on a planted world; L_cap scan; verdict
+worlds) → smoke (`--n-cells`, mechanics only, s297) → Michael GO → run tmux main:1
+→ frozen scoring → §Result-hhop-write + approval batch.
+
 ## Sessions
 s303 (discussion captured — Michael's "why train the parent at all" thread,
 following the WIRE-COMPILES verdict and the topology-routing-not-magnitudes
@@ -709,3 +820,22 @@ at next constructions: write the MEASURED h-hop geometry (attacks lm_name_cos),
 read≠write layer (late materialization), distributed in-register / relay write.
 Michael: not a final verdict; other construction avenues remain. See
 §Result-fast-plate open-avenues list.
+
+s305 cont-2 — §P-HHOP-WRITE pre-reg FROZEN (avenue 1, Michael GO). Attacks the
+s305 miss (wrong geometry) directly: recognize the country at L*=24 (name-keys,
+reused), SCAN CAP_QUERY for the country-not-capital layer L_cap≥L* (where the
+h-hop reads country before the capital forms), reinject the country there in the
+geometry the host's h-hop consumes. ★ Michael's gram thread folded in: the PRIMARY
+arm reinjects the country projected onto the 16×16 country gram's LOW-RANK ROUTING
+subspace (k by eigengap, the 17×17 cliff-finder, NOT forced rank; gated F4 vs a
+matched-rank RANDOM subspace) — a construction-side test of "topology routing, not
+magnitudes" (s303 gram thesis, s269 parallel). Arms base / hhop_routing (primary)
+/ hhop_raw (contrast) / static_reinject / hhop_shuffle (λ yardstick) /
+construct_lookup. Gates F1 wire / F2 not-lookup / F3 specificity / F4 subspace-real
+/ F5 survive. routing_advantage (routing − raw) advisory = the thesis fork.
+Verdicts HHOP-WIRES (+ROUTING-REGISTER = thesis confirmed on construction side |
++RAW-SUFFICES) / LOOKUP-VIA-GEOMETRY (F1∧¬F2) / HHOP-INERT (¬F1 → routing is
+soft/nonlinear, only GD, sharpens s300) / UNSPECIFIC / HOST-DAMAGED. Extend
+fast_plate.py --reinject-geometry {name,hhop,hhop_routing} (option>fork). A-priori
+~35 WIRES / 25 LOOKUP / 40 INERT; every branch a real finding. Instrument + run
+pending.
