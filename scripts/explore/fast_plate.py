@@ -196,6 +196,102 @@ def verdict_of(gate0_ok: bool, m_pass: bool, r: dict) -> str:
 
 
 # ══════════════════════════════════════════════════════════════════════════
+# HHOP-WRITE (avenue 1): gram routing subspace (Michael's filter) + scoring
+# ══════════════════════════════════════════════════════════════════════════
+def eigengap_rank(eig: np.ndarray, top: int = 8) -> int:
+    """k = position of the largest relative eigengap in the top eigenvalues
+    (the 17x17 cliff-finder; NOT a forced rank; λ yardstick)."""
+    e = np.sort(np.asarray(eig, float))[::-1][:top]
+    if len(e) < 2:
+        return 1
+    ratios = e[:-1] / (e[1:] + 1e-12)
+    return int(np.argmax(ratios) + 1)
+
+
+def routing_subspace(centered: np.ndarray):
+    """centered: (n, D) rows = r_c - mean. Returns (Vk (k,D), k, gram_eigs).
+    Vk = top-k right singular vectors (feature-space routing subspace); k by the
+    eigengap of the n-by-n country gram eigenvalues (= squared singular vals)."""
+    rn = centered / (np.linalg.norm(centered, axis=1, keepdims=True) + 1e-12)
+    _u, s, vt = np.linalg.svd(rn, full_matrices=False)
+    eig = s ** 2
+    k = eigengap_rank(eig)
+    return vt[:k].astype(np.float32), k, eig
+
+
+def random_subspace(k: int, d: int, rng: np.random.Generator) -> np.ndarray:
+    """Matched-rank random orthonormal subspace (k, D) — the F4 null."""
+    q, _ = np.linalg.qr(rng.standard_normal((d, k)))
+    return q[:, :k].T.astype(np.float32)
+
+
+def project_rows(centered: np.ndarray, V: np.ndarray) -> np.ndarray:
+    """Project each row onto span(V) (V: (k,D)); return unit rows."""
+    proj = centered @ V.T @ V
+    return np.stack([unit(proj[i]) for i in range(len(proj))]).astype(np.float32)
+
+
+def score_hhop(acc: dict, ce: dict, gh: dict, rng, alpha: float) -> dict:
+    a3 = alpha / 3.0
+    arm, base = "hhop_routing", "base"
+    r = {}
+    g1 = {}
+    for sp in ("B1", "B2"):
+        gg = _g(acc[arm][sp], acc[base][sp], rng, a3, f"F1-{sp}")
+        g1[sp] = {"gate": gg,
+                  "flip": bool(acc[arm][sp].mean() > acc[base][sp].mean())}
+    r["F1"] = bool(all(g1[sp]["gate"].verdict and g1[sp]["flip"]
+                       for sp in ("B1", "B2")))
+    r["F1_detail"] = g1
+    g2 = _g(acc[arm]["B2"], acc["construct_lookup"]["B2"], rng, a3, "F2-B2")
+    r["F2"] = bool(g2.verdict)
+    r["F2_detail"] = g2
+    held = np.concatenate([acc[arm]["B1"], acc[arm]["B2"]])
+    held_sh = np.concatenate([acc["hhop_shuffle"]["B1"], acc["hhop_shuffle"]["B2"]])
+    g3 = _g(held, held_sh, rng, a3, "F3-heldout")
+    r["F3"] = bool(g3.verdict)
+    r["F3_detail"] = g3
+    held_rand = np.concatenate([acc["routing_randsub"]["B1"],
+                                acc["routing_randsub"]["B2"]])
+    g4 = _g(held, held_rand, rng, alpha, "F4-subspace-real")
+    r["F4"] = bool(g4.verdict)
+    r["F4_detail"] = g4
+    held_raw = np.concatenate([acc["hhop_raw"]["B1"], acc["hhop_raw"]["B2"]])
+    ga = _g(held, held_raw, rng, alpha, "routing_advantage")
+    r["routing_advantage"] = float(held.mean() - held_raw.mean())
+    r["routing_adv_sig"] = bool(ga.verdict)
+    r["routing_adv_detail"] = ga
+    held_st = np.concatenate([acc["static_reinject"]["B1"],
+                              acc["static_reinject"]["B2"]])
+    r["collapse_delta"] = float(held.mean() - held_st.mean())
+    ce_ok = ce[arm] <= ce[base] * 1.02
+    g_ok = gh[arm][0] >= gh[base][0] - 0.10
+    h_ok = gh[arm][1] >= gh[base][1] - 0.10
+    r["F5"] = bool(ce_ok and g_ok and h_ok)
+    r["F5_detail"] = {"ce": ce[arm], "ce_base": ce[base],
+                      "g_acc": gh[arm][0], "h_acc": gh[arm][1]}
+    return r
+
+
+def verdict_hhop(gate0_ok: bool, m_pass: bool, r: dict) -> str:
+    if not gate0_ok:
+        return "VOID (gate-0)"
+    if not m_pass:
+        return "STILL-EXTERNAL-BY-MEASUREMENT"
+    if not r["F5"]:
+        return "HOST-DAMAGED"
+    if not r["F1"]:
+        return "HHOP-INERT"
+    if not r["F2"]:
+        return "LOOKUP-VIA-GEOMETRY"
+    if not r["F3"]:
+        return "UNSPECIFIC"
+    if r["F4"] and r["routing_adv_sig"]:
+        return "HHOP-WIRES (+ROUTING-REGISTER)"
+    return "HHOP-WIRES (+RAW-SUFFICES)"
+
+
+# ══════════════════════════════════════════════════════════════════════════
 # --validate (no model)
 # ══════════════════════════════════════════════════════════════════════════
 def run_validate(alpha: float) -> int:
@@ -339,6 +435,74 @@ def run_validate(alpha: float) -> int:
                 fp=(.95, .92, .95), base=(.2, .12, .3), shuf=(.2, .12, .2),
                 stat=(.4, .3, .35), lookup=(.27, .12, .35), ce_bad=True)
 
+    # 6. HHOP-WRITE gram routing filter mechanics
+    #    planted rank-3 country data: eigengap picks 3; projection preserves the
+    #    in-subspace signal and kills the out-of-subspace part; random subspace
+    #    of matched rank does NOT preserve it.
+    basis = np.linalg.qr(rng.standard_normal((D, 3)))[0][:, :3]    # (D,3)
+    coeffs = rng.normal(size=(16, 3))                             # isotropic 3D
+    noise = rng.normal(size=(16, D)) * 0.05
+    reps = coeffs @ basis.T + noise
+    centered = reps - reps.mean(0)
+    vk, gram_k, _gram_eig = routing_subspace(centered)
+    v_routing = project_rows(centered, vk)
+    vrand = random_subspace(gram_k, D, rng)
+    v_randsub = project_rows(centered, vrand)
+    # signal retained by routing subspace vs random subspace (mean |cos| to raw)
+    v_raw = np.stack([unit(centered[i]) for i in range(16)])
+    ret_routing = float(np.mean([abs(v_routing[i] @ v_raw[i]) for i in range(16)]))
+    ret_rand = float(np.mean([abs(v_randsub[i] @ v_raw[i]) for i in range(16)]))
+    good = (gram_k == 3 and vk.shape == (3, D) and ret_routing > 0.9
+            and ret_rand < 0.5)
+    print(f"[V] gram: eigengap k={gram_k} (want 3) retain routing "
+          f"{ret_routing:.2f} random {ret_rand:.2f} {'OK' if good else 'FAIL'}")
+    ok &= good
+
+    # 7. hhop verdict planted worlds
+    def hworld(name, want, m_pass, routing, base, raw, static, randsub, shuf,
+               lookup, ce_bad=False):
+        rngw = np.random.default_rng(hash(name) & 0xFFFF)
+
+        def arr(p, n=64):
+            return (rngw.random(n) < p).astype(float)
+
+        acc = {a: {sp: arr(v[i]) for i, sp in enumerate(SPLITS)}
+               for a, v in {"base": base, "hhop_routing": routing,
+                            "hhop_raw": raw, "static_reinject": static,
+                            "routing_randsub": randsub, "hhop_shuffle": shuf,
+                            "construct_lookup": lookup}.items()}
+        ce = {a: (1.10 if (ce_bad and a == "hhop_routing") else 1.0) for a in acc}
+        gh = {a: (0.95, 0.95) for a in acc}
+        r = score_hhop(acc, ce, gh, np.random.default_rng(5), alpha)
+        v = verdict_hhop(True, m_pass, r)
+        hit = want in v
+        print(f"[V] {name}-world -> {v} (want {want}) {'OK' if hit else 'FAIL'}")
+        return hit
+
+    # args: name, want, m_pass, routing, base, raw, static, randsub, shuf, lookup
+    ok &= hworld("wires-routing", "+ROUTING-REGISTER", True,
+                 (.95, .92, .95), (.2, .12, .3), (.5, .4, .45),
+                 (.4, .3, .35), (.4, .3, .35), (.2, .12, .2), (.27, .12, .35))
+    ok &= hworld("wires-raw", "+RAW-SUFFICES", True,
+                 (.95, .92, .95), (.2, .12, .3), (.94, .91, .94),
+                 (.4, .3, .35), (.94, .91, .94), (.2, .12, .2), (.27, .12, .35))
+    ok &= hworld("lookup", "LOOKUP-VIA-GEOMETRY", True,
+                 (.95, .92, .95), (.2, .12, .3), (.9, .9, .9),
+                 (.4, .3, .35), (.4, .3, .35), (.2, .12, .2), (.27, .12, .95))
+    ok &= hworld("inert", "HHOP-INERT", True,
+                 (.2, .12, .3), (.2, .12, .3), (.2, .12, .3),
+                 (.2, .12, .3), (.2, .12, .3), (.2, .12, .28), (.27, .12, .35))
+    ok &= hworld("unspecific", "UNSPECIFIC", True,
+                 (.95, .92, .95), (.2, .12, .3), (.5, .4, .45),
+                 (.4, .3, .35), (.4, .3, .35), (.96, .93, .96), (.27, .12, .35))
+    ok &= hworld("still-ext", "STILL-EXTERNAL-BY-MEASUREMENT", False,
+                 (.2, .12, .3), (.2, .12, .3), (.2, .12, .3),
+                 (.2, .12, .3), (.2, .12, .3), (.2, .12, .3), (.27, .12, .35))
+    ok &= hworld("host-dmg", "HOST-DAMAGED", True,
+                 (.95, .92, .95), (.2, .12, .3), (.5, .4, .45),
+                 (.4, .3, .35), (.4, .3, .35), (.2, .12, .2), (.27, .12, .35),
+                 ce_bad=True)
+
     print(f"\n── --validate {'ALL PASS' if ok else 'FAIL'} ──")
     return 0 if ok else 1
 
@@ -361,7 +525,7 @@ def run_model(args) -> int:
         args.model_id, dtype=getattr(torch, args.dtype)).to(dev).eval()
     for p in model.parameters():
         p.requires_grad_(False)
-    dec, _norm, _lm_head = mh3.resolve_parts(model)
+    dec, _norm, lm_head = mh3.resolve_parts(model)
     n_layers = len(dec)
     out_dir = Path(args.out)
     out_dir.mkdir(parents=True, exist_ok=True)
@@ -596,6 +760,182 @@ def run_model(args) -> int:
         print(f"[fp] wrote {out_dir}/results.json")
         return 0
 
+    # ══════════════════════════════════════════════════════════════════════
+    # HHOP-WRITE experiment (avenue 1: measured h-hop geometry + gram filter).
+    # Recognize @L* (name-keys), reinject @L_cap in the geometry the host's
+    # h-hop consumes; PRIMARY arm projects onto the country gram's low-rank
+    # routing subspace. Branch returns; fast-plate arms below stay unchanged.
+    # ══════════════════════════════════════════════════════════════════════
+    if args.experiment == "hhop-write":
+        print("[fp] === HHOP-WRITE (measured h-hop geometry + routing filter) ===")
+        # (a) CAP_QUERY residuals at every layer (host-only, no held peeking)
+        cap_prompts = [wb.CAP_PREFIX + wb.CAP_QUERY.format(x=c) for c in countries]
+        cap_caps = capture_all(cap_prompts)                       # L -> (16, D)
+        cap_unembed = np.stack([
+            unit(lm_head.weight[first_tid(wb.BANK[c][0])].float().cpu().numpy())
+            for c in countries])                                  # (16, D)
+        # (b) capture-layer scan: country present (name-keys) but capital not yet
+        cand = [L for L in range(n_layers) if L >= li]
+        cpres, cleak = {}, {}
+        n_c = len(countries)
+        for L in cand:
+            km = np.stack([keys_by_L[L][c]["k"] for c in countries])
+            pred = ((cap_caps[L] - mu_by_L[L]) @ km.T).argmax(1)
+            cpres[L] = float(np.mean(pred == np.arange(n_c)))
+            capred = (cap_caps[L] @ cap_unembed.T).argmax(1)
+            cleak[L] = float(np.mean(capred == np.arange(n_c)))
+        lc = max(cand, key=lambda L: cpres[L] - cleak[L])
+        print(f"[fp] CAP scan: L_cap={lc} country_present={cpres[lc]:.2f} "
+              f"capital_leak={cleak[lc]:.2f} (L*={li})")
+        # (c) reinject directions at L_cap
+        centered = cap_caps[lc] - cap_caps[lc].mean(0)
+        v_raw = np.stack([unit(centered[i]) for i in range(n_c)]).astype(np.float32)
+        vk, gram_k, gram_eig = routing_subspace(centered)
+        v_routing = project_rows(centered, vk)
+        vrand = random_subspace(gram_k, centered.shape[1],
+                                np.random.default_rng(args.seed + 11))
+        v_randsub = project_rows(centered, vrand)
+        cos_cap = float(np.mean([abs(float(v_raw[i] @ cap_unembed[i]))
+                                 for i in range(n_c)]))
+        top_eig = np.round(np.sort(gram_eig)[::-1][:5], 3)
+        print(f"[fp] country gram: k={gram_k} (eigengap) top eigs {top_eig} "
+              f"cos(v_raw,cap)={cos_cap:.3f}")
+
+        # (d) two-hook arms: recognize @L* (store P), reinject @L_cap
+        def run_hhop_arm(proto_mat, mode):
+            proto_t = torch.tensor(proto_mat, dtype=torch.float32, device=dev)
+            store: dict = {}
+
+            def read_hook(_m, _i, out):
+                h = out[0] if isinstance(out, tuple) else out
+                store["P"] = (h[0].float() - mu_t) @ kmat_t.T
+                return out
+
+            def write_hook(_m, _i, out):
+                h = out[0] if isinstance(out, tuple) else out
+                p = store["P"]
+                if mode == "soft":
+                    delta = S * (torch.softmax(p, dim=1) @ proto_t)
+                else:
+                    pmax, cstar = p.max(dim=1)
+                    fired = (pmax > innmax_t[cstar]).float()
+                    delta = S * proto_t[cstar] * fired[:, None]
+                h[0].add_(delta.to(h.dtype))
+                return out
+
+            hr = dec[li].register_forward_hook(read_hook)
+            hw = dec[lc].register_forward_hook(write_hook)
+            rows, ce_, gh_ = eval_cells(), ce_innocents(), gh_accs()
+            hr.remove()
+            hw.remove()
+            return rows, ce_, gh_
+
+        def show(tag, rows):
+            for sp in SPLITS:
+                print(f"    {tag} {sp}: acc "
+                      f"{np.mean([r['correct'] for r in rows if r['split']==sp]):.3f}")
+
+        print("[fp] ── hhop_routing (primary) ──")
+        hr_rows, hr_ce, hr_gh = run_hhop_arm(v_routing, "hard")
+        show("routing", hr_rows)
+        print("[fp] ── hhop_raw ──")
+        raw_rows, raw_ce, raw_gh = run_hhop_arm(v_raw, "hard")
+        show("raw", raw_rows)
+        print("[fp] ── static_reinject (soft routing) ──")
+        st_rows, st_ce, st_gh = run_hhop_arm(v_routing, "soft")
+        show("static", st_rows)
+        print("[fp] ── routing_randsub (F4 null) ──")
+        rs_rows, rs_ce, rs_gh = run_hhop_arm(v_randsub, "hard")
+        show("randsub", rs_rows)
+        print(f"[fp] ── hhop_shuffle ({args.seeds} derangement seeds) ──")
+        sh_rows_all, sh_ce, sh_gh = [], [], []
+        for s in range(args.seeds):
+            d = wb.derangement(countries, np.random.default_rng(2000 + s))
+            proto_sh = np.stack([v_routing[countries.index(d[c])]
+                                 for c in countries])
+            rr, cc, gg = run_hhop_arm(proto_sh, "hard")
+            sh_rows_all.append(rr)
+            sh_ce.append(cc)
+            sh_gh.append(gg)
+            show(f"shuf{s}", rr)
+
+        def held_cap(rows):
+            return np.array([r["cap_logit"] for r in rows
+                             if r["split"] in ("B1", "B2")])
+        reinject_landed = float(held_cap(hr_rows).mean() - held_cap(base_rows).mean())
+        print(f"[fp] reinject_landed (held-out capital-logit shift) "
+              f"= {reinject_landed:.3f}")
+
+        arms.update({
+            "hhop_routing": {"seeds": [hr_rows], "ce": hr_ce, "gh": hr_gh},
+            "hhop_raw": {"seeds": [raw_rows], "ce": raw_ce, "gh": raw_gh},
+            "static_reinject": {"seeds": [st_rows], "ce": st_ce, "gh": st_gh},
+            "routing_randsub": {"seeds": [rs_rows], "ce": rs_ce, "gh": rs_gh},
+            "hhop_shuffle": {"seeds": sh_rows_all, "ce": float(np.mean(sh_ce)),
+                             "gh": tuple(np.mean(sh_gh, axis=0))},
+        })
+        order = {sp: [c.landmark for c in valid_eval if c.split == sp]
+                 for sp in SPLITS}
+        labels = ("base", "hhop_routing", "hhop_raw", "static_reinject",
+                  "routing_randsub", "hhop_shuffle")
+
+        def acc_arrays(label):
+            per = {}
+            for sp in SPLITS:
+                mat = []
+                for rows in arms[label]["seeds"]:
+                    bym = {r["landmark"]: r["correct"] for r in rows
+                           if r["split"] == sp}
+                    mat.append([bym[lm] for lm in order[sp]])
+                per[sp] = np.mean(np.array(mat), axis=0)
+            return per
+
+        acc = {a: acc_arrays(a) for a in labels}
+        acc["construct_lookup"] = {
+            "B2": np.array([lookup_b2[lm] for lm in order["B2"]]),
+            "B1": np.zeros(len(order["B1"])),
+            "TRAIN": np.zeros(len(order["TRAIN"])),
+        }
+        ce = {"base": base_ce, "hhop_routing": hr_ce}
+        gh = {"base": base_gh, "hhop_routing": hr_gh}
+        r = score_hhop(acc, ce, gh, np.random.default_rng(args.seed + 777),
+                       args.alpha)
+        v = verdict_hhop(gate0_ok, m_pass, r)
+        anchor = {sp: {a: float(acc[a][sp].mean()) for a in labels}
+                  for sp in SPLITS}
+        stats.update({
+            "reinject_landed": reinject_landed, "L_cap": lc,
+            "country_present": cpres[lc], "capital_leak": cleak[lc],
+            "gram_k": int(gram_k), "cos_capital": cos_cap,
+            "gram_eig": [float(x) for x in np.sort(gram_eig)[::-1][:8]],
+            "anchor": anchor,
+            "cap_scan": {str(L): {"cpres": cpres[L], "cleak": cleak[L]}
+                         for L in cand}})
+
+        print(f"\n[fp] ════ VERDICT: {v} ════")
+        print(f"  F1={r['F1']} F2={r['F2']} F3={r['F3']} F4={r['F4']} "
+              f"F5={r['F5']}")
+        print(f"  routing_advantage={r['routing_advantage']:+.3f} "
+              f"(sig={r['routing_adv_sig']}) collapse_delta="
+              f"{r['collapse_delta']:+.3f}")
+        print(f"  L*={li} L_cap={lc} gram_k={gram_k} "
+              f"reinject_landed={reinject_landed:.3f} cos_capital={cos_cap:.3f}")
+        for sp in SPLITS:
+            print(f"  {sp}: base {anchor[sp]['base']:.3f} routing "
+                  f"{anchor[sp]['hhop_routing']:.3f} raw "
+                  f"{anchor[sp]['hhop_raw']:.3f} randsub "
+                  f"{anchor[sp]['routing_randsub']:.3f} shuffle "
+                  f"{anchor[sp]['hhop_shuffle']:.3f}")
+        scoring = {"gates": r, "verdict": v, "stats": stats, "m_pass": m_pass}
+        payload = {"model_id": args.model_id, "config": vars(args),
+                   "install_layer": li, "reinject_layer": lc,
+                   "gate0": {"ok": gate0_ok, "splits": ns},
+                   "arms": arms, "scoring": scoring}
+        (out_dir / "results.json").write_text(
+            json.dumps(_json_safe(_degate(payload)), indent=2))
+        print(f"[fp] wrote {out_dir}/results.json")
+        return 0
+
     # ══ plate arms (M passed) ══
     print("[fp] ── fast_plate ──")
     fp_rows, fp_ce, fp_gh = run_arm(make_hook("fast", proto_np))
@@ -704,6 +1044,9 @@ def _degate(o):
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--validate", action="store_true")
+    ap.add_argument("--experiment", default="fast-plate",
+                    choices=["fast-plate", "hhop-write"],
+                    help="fast-plate (s305) or hhop-write (s306, avenue 1)")
     ap.add_argument("--model-id", default="Qwen/Qwen3-4B")
     ap.add_argument("--device", default="mps")
     ap.add_argument("--dtype", default="bfloat16",
