@@ -1,0 +1,69 @@
+{
+ "timestamp_utc": "2026-08-04T15:34:36.171242+00:00",
+ "git_sha": "a47fc8d7076fb9ecc49f3f8e6d91cc98de5357ad",
+ "seed": 20250804,
+ "n_iter_null": 2000,
+ "alpha": 0.05,
+ "basis9": [
+  "K",
+  "I",
+  "B",
+  "C",
+  "S",
+  "D",
+  "W",
+  "Y",
+  "WHNF"
+ ],
+ "basis17": [
+  "K",
+  "I",
+  "B",
+  "C",
+  "S",
+  "D",
+  "W",
+  "Y",
+  "WHNF",
+  "whnf:K",
+  "whnf:I",
+  "whnf:B",
+  "whnf:C",
+  "whnf:S",
+  "whnf:D",
+  "whnf:W",
+  "div:Y"
+ ],
+ "partition17": [
+  "fire",
+  "fire",
+  "fire",
+  "fire",
+  "fire",
+  "fire",
+  "fire",
+  "fire",
+  "fire",
+  "halt",
+  "halt",
+  "halt",
+  "halt",
+  "halt",
+  "halt",
+  "halt",
+  "div"
+ ],
+ "phi_45_reference": 1.4695694401751822,
+ "register": "spectral (+ relational-geometry value)",
+ "gates": {
+  "G1": "PR(eigs) vs matched_range(offdiag); predict LESS",
+  "G2": "block_contrast(fire/halt/div) vs shuffled_label; predict GREATER",
+  "G3": "fire-halt contrast energy in top-3 eigenspace vs shuffled_label; predict GREATER",
+  "G4": "mean pairwise cos of normalized spectra vs matched_range per-model; predict GREATER",
+  "G5": "closeness of lambda0/lambda1 to phi^(4/5) vs matched_range; predict GREATER (EXPECTED FAIL)"
+ },
+ "sources": {
+  "9x9": "results/opcode-trace/{slug}/model_vsm.json:root.gram",
+  "17x17": "results/expanded-gram/{slug}/expanded_gram.json:consensus_gram_24[BASIS17]"
+ }
+}
