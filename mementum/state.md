@@ -8,7 +8,57 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ▶▶ s305 LIVE — 🎯 **P-FAST-PLATE (front (a), the LAST construction door)
+> ▶▶ s306 LIVE — 🎯 **P-HHOP-WRITE (avenue 1: write the MEASURED h-hop geometry +
+> Michael's gram routing filter) FROZEN + BUILT + RUN → ❌ HHOP-INERT.** After the
+> s305 FAST-PLATE-INERT diagnosed the miss (wrong reinject geometry), Michael GO'd
+> avenue 1, then opened the gram thread ("can the 9×9/17×17 grams guide/filter our
+> system? — GD lays a soft topology routing"). Resolution: the crystal grams are
+> λ-reduction-domain (can't literally filter country residuals) but the METHOD
+> transfers — build the TASK-NATIVE country gram, write in its low-rank ROUTING
+> subspace (strip magnitude scaffolding). Folded a `hhop_routing` primary arm in.
+> §P-HHOP-WRITE FROZEN (44b14f4, Michael-approved): recognize country @L*=24
+> (name-keys, reused), CAP_QUERY capture-layer scan → L_cap≥L* (country present,
+> capital not yet formed), reinject the country there in h-hop geometry via
+> two-hook read≠write; PRIMARY projects onto the 16×16 country gram's low-rank
+> routing subspace (k by eigengap = 17×17 cliff-finder, F4-gated vs matched-rank
+> RANDOM subspace). Arms base / hhop_routing / hhop_raw / static / routing_randsub
+> / hhop_shuffle. Instrument = fast_plate.py --experiment hhop-write (28987f3, no
+> fork; --validate ALL PASS incl gram eigengap + 7 verdict worlds; smoke green).
+> ▶▶ **VERDICT HHOP-INERT (frozen, 3 seeds, tmux main:1, results ee8a5bb autonomous).**
+> hhop_routing ≈ base (B2 0.591 vs 0.545, F1 B2 p=0.499; F1-F4 fail, F5 clean).
+> ★ Michael's gram filter got a FAIR test and did NOT help here (routing_advantage
+> +0.026, p=0.491; gram_k=2, cos_capital 0.138 = not lookup) — does NOT refute
+> topology-routing; this failure isn't a register miss a projection fixes.
+> ★ NEW MECHANISM (the CAP scan): NO country-present/capital-absent layer ≥ L*
+> exists — capital_leak already 0.62 at L24 (=L*, the s305 cliff) → 1.0 by L33. The
+> g-hop finishes LATE (L24) exactly as the h-hop has consumed its input → the two
+> hops OVERLAP in depth on a one-shot prompt = a phase/SCHEDULING face of the s295
+> re-encoding law (CoT resets the country's depth to 0), complementary to s300's
+> nonlinear pin. Weak native write again (reinject_landed 0.033). NOT a closure
+> (Michael's steer): five constructions now inert but for SPECIFIC compounding
+> reasons (wrong-geom → right-geom still inert via depth-timing + weak write + soft
+> routing), each narrowing what a working construction must do.
+> ⚠ PROCESS ❌ (fixed): the run launched without --out overwrote the s305
+> results.json (recovered from git 420ffe3); hardened fast_plate --out to a
+> per-experiment default (results/{experiment}/qwen3-4b).
+> ⚠ SYNTHESIS PENDING MICHAEL APPROVAL (no memory, per s305 steer): §Result-hhop-
+> write (page) + Sessions entry + this state block DRAFTED on disk.
+> ⚠ COLD-START s307: (1) if synthesis not committed, commit the approved batch
+> (page §Result-hhop-write only). (2) CONSTRUCTION STILL OPEN — s306 gave a new,
+> sharper lead: the failure is (also) a DEPTH-TIMING overlap, not just geometry.
+> PICK THE NEXT FRONT (Michael's call): (a) **in-forward RE-ENCODING relay** — reset
+> the country's depth (the CoT lesson made structural: recognize @L*, re-emit at an
+> EARLY depth so the native h-hop runs with full runway); the delta-plate/fast-weight
+> relay aimed at the TIMING finding. (b) **earlier g-hop** — materialize the country
+> before L24 (stronger/two-stage recognition) to beat the overlap. (c) **distributed
+> in-register write** — reinject_landed 0.033 is weak; multi-neuron native-strength
+> routing write. (d) **GTSM-trajectory-loss** — search that reveals correct write +
+> timing (non-construction lever). (e) cheap-slots TERNARIZE-FACTORS-1 / gd_cd@32B.
+> s306 ledger: 44b14f4 pre-reg · 28987f3 instrument · ee8a5bb fix+results (autonomous)
+> · §Result + state PENDING APPROVAL. The s305 FAST-PLATE-INERT block below is the
+> prior front (also NOT a construction closure).
+>
+> ▶▶ s305 — 🎯 **P-FAST-PLATE (front (a), the LAST construction door)
 > FROZEN + BUILT + LAUNCHED.** Michael picked front (a) after the s304 write-not-
 > train thread resolved (STORAGE=construct-survives-ternary, FINDING=gradient-
 > oracle). Mechanization (Michael GO): **cleanup-and-reinject** (over a delta-rule

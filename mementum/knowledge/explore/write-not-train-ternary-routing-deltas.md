@@ -752,6 +752,73 @@ routing projection beats a random subspace on a planted world; L_cap scan; verdi
 worlds) → smoke (`--n-cells`, mechanics only, s297) → Michael GO → run tmux main:1
 → frozen scoring → §Result-hhop-write + approval batch.
 
+## §Result-hhop-write — HHOP-INERT (s306, frozen run, 3 shuffle seeds)
+
+**Verdict: HHOP-INERT — for this construction.** Writing the country in the
+geometry the host's h-hop consumes — raw OR projected onto the country gram's
+low-rank routing subspace — does not install the wire: `hhop_routing` (primary) ≈
+base (B2 0.591 vs 0.545, F1 B2 p=0.499; F1/F2/F3/F4 fail, F5 clean, CE 4.914 ≤ base
+4.917, g/h 1.0). Ran clean in tmux main:1; results committed autonomous. As with
+s305, a datum about one construction, not a closure — and the scan hands us a
+sharper mechanism.
+
+**★ Michael's gram routing filter got a fair test — and did not help *here*.**
+`routing_advantage = +0.026, p=0.491` (n.s.): the topology-projected write is
+statistically indistinguishable from the raw write, and both ≈ base. `gram_k = 2`
+(the country routing subspace at L24 is genuinely rank-2, by its own eigengap;
+`cos(v_c, capital) = 0.138` so it is not a capital lookup). This does **not**
+refute "topology routing, not magnitudes" — it says *this* failure is not a
+geometry-register miss that a projection can fix. The register filter would matter
+if the write landed and the geometry were the blocker; here neither holds.
+
+**★ The scan reveals a depth-TIMING factor (the new mechanism).** The
+capture-layer scan could find no clean "country-present, capital-absent" layer
+≥ L\*: `country_present = 1.0` at every layer (the country is a token on CAP_QUERY),
+but `capital_leak` is **already 0.62 at L24** (= L\*) and climbs monotonically to
+1.0 by L33. So on the clean country prompt the host's h-hop is *well underway by
+the very layer where the landmark-inferred country first materializes* (the s305
+decodability cliff at L24). **The two hops overlap in depth on a one-shot prompt:**
+g (landmark→country) finishes late (L24); h (country→capital) has largely consumed
+its input by then. This is a **phase/scheduling face of the s295 re-encoding law**
+— CoT works because emitting the country as a fresh token resets its depth to 0 for
+the next hop — and it is complementary to s300's "the pin is nonlinear": even where
+a linear write *could* act, the intermediate arrives out of phase with its consumer.
+(Caveat, λ observation: layers 25–35 do still advance capital 0.62→1.0 on CAP_QUERY,
+so there is residual h-hop capacity above L24; the failure is a *combination* of
+out-of-phase arrival, a weak register-matched write — `reinject_landed = 0.033` —
+and the soft/nonlinear routing, not a single clean wall.)
+
+**Where the constructions stand (running ledger).**
+
+| construction | register / mechanism | result |
+|---|---|---|
+| `construct` (s303) | magnitude, static | INERT |
+| `routing_write` (s304) | routing sign, static, name-geom, capital-write | INERT |
+| `fast_plate` (s305) | routing, in-forward, name-geom read+write, hard collapse | INERT |
+| `hhop_raw` (s306) | in-forward, MEASURED h-hop geometry, hard collapse | INERT |
+| `hhop_routing` (s306) | in-forward, h-hop geometry × gram low-rank ROUTING filter | INERT |
+| `gd_cd` (s303) | gradient | **WIRE** |
+
+Five constructions inert; gradient wires. But the *reasons* are now specific and
+compounding, not a blanket wall: wrong geometry (s305) → measured-right geometry
+still inert because of (s306) **depth-timing overlap + weak native write + soft
+routing**. Each narrows what a working construction must do.
+
+**Open construction avenues (this result opens, does not close, construction).**
+1. **Reset the phase (the CoT lesson, made structural).** An in-forward
+   *re-encoding* relay: recognize the country at L\*, re-emit it at an EARLY depth
+   (position/depth reset) so the native h-hop runs on it with full runway. This is
+   the delta-plate / fast-weight relay (deferred mechanization) aimed at the timing
+   finding, not just the geometry.
+2. **Earlier g-hop.** Make the landmark→country hop complete before L24 (a stronger
+   recognition write, or a two-stage plate that materializes the country early),
+   giving the native h-hop room. Attacks the overlap directly.
+3. **Stronger in-register write.** `reinject_landed = 0.033` is weak; a distributed
+   multi-neuron routing-register write (still native per-unit strength, not
+   magnitude cranking) may clear the ambient residual — pairs with (1)/(2).
+4. **GTSM-trajectory-loss** — a search that reveals the correct write *and* timing,
+   and remains the complementary non-construction lever.
+
 ## Sessions
 s303 (discussion captured — Michael's "why train the parent at all" thread,
 following the WIRE-COMPILES verdict and the topology-routing-not-magnitudes
@@ -839,3 +906,19 @@ soft/nonlinear, only GD, sharpens s300) / UNSPECIFIC / HOST-DAMAGED. Extend
 fast_plate.py --reinject-geometry {name,hhop,hhop_routing} (option>fork). A-priori
 ~35 WIRES / 25 LOOKUP / 40 INERT; every branch a real finding. Instrument + run
 pending.
+
+s306 cont — VERDICT HHOP-INERT for this construction (frozen run, 3 shuffle seeds,
+tmux main:1). Writing the MEASURED h-hop geometry (raw OR gram-routing-filtered)
+does not wire it: hhop_routing ≈ base (B2 p=0.499; F1-F4 fail, F5 clean). ★
+Michael's gram routing filter got a fair test and did NOT help HERE
+(routing_advantage +0.026, p=0.491; gram_k=2, cos_capital 0.138 = not lookup) —
+does NOT refute topology-routing; the failure isn't a register miss a projection
+fixes. ★ NEW MECHANISM from the CAP scan: no country-present/capital-absent layer
+≥ L* exists — capital_leak already 0.62 at L24 (=L*, the s305 cliff) → 1.0 by L33.
+The g-hop finishes late (L24) exactly as the h-hop has consumed its input → the two
+hops OVERLAP in depth on a one-shot prompt = a phase/scheduling face of the s295
+re-encoding law, complementary to s300's nonlinear pin. Weak native write again
+(reinject_landed 0.033). NOT a closure — opens: in-forward re-encoding relay (reset
+the phase, the CoT lesson structural), earlier g-hop, distributed in-register
+write, GTSM search. Also fixed a --out footgun (per-experiment default; the run had
+overwritten the s305 results.json, recovered from git). See §Result-hhop-write.
