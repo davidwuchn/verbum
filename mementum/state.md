@@ -109,10 +109,25 @@
 > no arm run): τ PINNED 1% (+adv 0.5%/2%); C2 = per-budget paired-CE BOOTSTRAP NULL
 > TEST (α=0.05 Bonferroni, "cannot reject ternary≈fp16") NOT a magic ε. Still-open-to-
 > amend (no arm run): band=all 36, B-sweep {2,2.5,3,4}, fp16 SpQR control.
-> ⚠ NEXT (s307): BUILD the harness
-> (reuse scripts/experiments/gradient_zero_map.py calibration + writeback/ternarize
-> apply-restore + ce/gh eval; add tiers + Pareto sweep) → --validate → smoke
-> (--n-layers, mechanics only) → Michael GO → run. Canonical home holds the pre-reg.
+> ✅ HARNESS BUILT + --validate ALL PASS + SMOKE GREEN (a1a0ee6, autonomous code
+> commit). scripts/experiments/companding_quant.py: signed per-row RTN int (body
+> scale from body-only → outliers pulled out of the grid), per-row TWN, tier
+> assembly tail→ternary-sign|fp16 / body→int-b'; inline coherence calibration
+> (per-weight grad sign-consistency); 6 arms; per-chunk CE metric (register=routing,
+> never ‖W−Q‖) + task acc + Jaccard(coh,mag). --validate ALL PASS (round-trips, tier
+> grid-tightening, fp16-exact/ternary-lossy, 6 verdict worlds); smoke green (2 layers,
+> s297 — direction NOT read): calibration + all arms + bit-exact restore (max|W−W0|=0)
+> + C2 null test powered (detects fp16-vs-ternary tail delta). HOLDING FOR MICHAEL GO.
+> ⚠ RESOURCE CAVEAT for the FULL run (band=all 36): coherence calibration accumulates
+> per-weight fp32 grad stats on CPU (~sum_g + sum_abs over ~2.5B FFN params ≈ 20GB
+> CPU). If RAM-bound: (a) --n-layers a band, (b) add fp16 accumulation (~10GB), or
+> (c) band-chunk the calibration. Magnitude arms (the register PRIMARY, Q1) are grad-
+> free and fine at all 36; only companding_coh / Jaccard (Q2, secondary) need the
+> calibration. ⚠ NEXT (s307): Michael GO → full run `uv run python -u
+> scripts/experiments/companding_quant.py 2>&1 | tee results/companding-quant/
+> qwen3-4b/run.log` → auto-scored C1–C5 + verdict → results.json → commit autonomous
+> → §Result on ratio-gradient-quantization.md + register-theory-of-quantization
+> update + memory + state → MICHAEL APPROVAL BATCH.
 > ⚠ COLD-START s307: (1) if the pre-reg freeze commit is not in, commit it (pages
 > ratio-gradient-quantization.md + register-theory-of-quantization.md + this block).
 > (2) BUILD the §P-COMPANDING-QUANT harness (task above). Alternative fronts still
