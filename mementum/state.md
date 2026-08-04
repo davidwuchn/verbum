@@ -8,7 +8,33 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ▶▶ s301 LIVE — ✅💡 **P-CAPACITY-LAW RUN (Michael-directed cheap-slot):
+> ▶▶ s302 LIVE — 🎯 **RUNG-3B FROZEN: §P-WRITEBACK-1 (program-plates page,
+> Michael-approved — all three open calls confirmed: 4B verdict host w/
+> gate-0 escape hatch · gd_cd loss = KL-at-answer vs own-CoT teacher ·
+> ~48 cells ≥8/split).** The standing order executed: the s295-by-elimination
+> target (a delta producing the tape's intermediate one-shot in-forward)
+> pre-registered as the design's first page (§7b sequencing). Load-bearing
+> design: 3-way split TRAIN / B1 held-landmark / B2 held-COUNTRY (sharp
+> wire-vs-lookup); 6 arms — base · construct (zero-grad persistent
+> product-keyed neurons, cheap-before-dear; the never-tested property =
+> PERSISTENCE during generation) · construct_lookup (materialized-view
+> null, must fail B2) · gd_cd (backprop-compile proper: self-distill own
+> committed CoT → one-shot) · gd_sft (answer-only contrast: does the TAPE
+> trajectory carry the wire?) · gd_shuffle (λ yardstick). Gates G1 wire
+> (B2 flip) / G2 not-lookup / G3 specificity (primaries α/3, dsp 10k
+> paired-perm) + G4 pin-mechanism (whitened intermediate readout rises +
+> tracks success; error-domain exits operand classes — value register,
+> never gates alone) + G5 survive (CE ≤2%, g/h unharmed). Frozen recipe
+> (s222 law): LoRA r=16 FFN-only, band 0.6–0.8 depth, ≤500 steps, ≥3
+> seeds. Verdicts WIRE-COMPILES(+CONSTRUCTION-SUFFICES/+GD-REQUIRED/
+> +BOTH) / LOOKUP-ONLY / UNSPECIFIC / HOST-DAMAGED / STILL-EXTERNAL
+> (→ pin needs dynamics → Stage 2 P-FAST-PLATE / Stage 3 chassis §5b
+> become primary). NEXT: build `scripts/explore/writeback_compile.py`
+> (reuse fn_stack/bake_stack/stack_error_domain/whitened_filter, no
+> fork) → --validate → gate-0 sweep @4B (commit cell list) → Michael GO
+> → arms (tmux main:1, ~1–2h MPS) → score frozen gates.
+>
+> ▶▶ s301 CLOSED — ✅💡 **P-CAPACITY-LAW RUN (Michael-directed cheap-slot):
 > verdict DECLINE-ONLY (frozen) — THE FAIL IS THE FINDING: COHERENT GAIN
 > SATURATES AT THE √D WALL.** Full loop in one session: recall → §6b pre-reg
 > FROZEN (fffd4b7, Michael-approved — two register forks pre-declared:
