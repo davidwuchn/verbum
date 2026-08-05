@@ -70,7 +70,8 @@ the first place).
 
 **Open parameters.** Which matrices are switches vs plates (first cut: QK
 projections + SwiGLU gate path = switches; OV + up/down value paths + embeddings
-= plates); plate precision (8-bit? bf16?); trit training scheme.
+= plates); plate precision (8-bit? bf16?); trit training scheme → **M8** (the
+straight-through hand-wave is retired; routing gets its own process).
 
 ### M2 — Explicit switch/plate factorization
 
@@ -156,6 +157,60 @@ must not foreclose, not as a spec.
 opcode identity (the type structure is notation-invariant). Honest status:
 the least-measured component — the machine can be built without it, and
 probing whether types EMERGE in M1–M6's registers is itself the experiment.
+
+### M8 — The routing optimizer (Michael's insight, s308 close: GD has two jobs and hates one)
+
+**The observation.** Gradient descent writes VALUES (continuous — its native
+register) and ROUTING (discrete sign/topology decisions — done by *accident*,
+as a slow byproduct of magnitude drift). Separate routing into its own
+gradient-descent-like process, native to trits, and *finding* and *storing*
+collapse into one register: no float scaffolding, no develop-then-discard.
+Training becomes off-axis by construction. This is the machine's engine, not
+just a component.
+
+**Forced by (the two-jobs evidence, assembled).**
+- K-acquisition chaos law — the combinator needing a *hard* decision is the
+  one GD acquires chaotically; discrete fights the smooth prior.
+- XM (s296–298) — mixture-mean losses inert where commitment is needed; GD's
+  continuous relaxation is a category mismatch to discrete choice.
+- The S5 tug-of-war clause, optimizer-side: `shared_weights ∧ ¬type_awareness
+  → tug_of_war → plateau`. The base's magnitude-salient superposition
+  (s306/s307) is what three trillion tokens of that tug-of-war froze into.
+- **The smoking gun (s307/s308, 27ce260):** mag_cos 0.839 discarded at zero
+  retention cost. GD moved ~9.4 MB of float precision to deliver ~600 KB of
+  decisions (~1.6 bits/weight through a channel thousands of float updates
+  wide). GD *can* do routing (s303 — it is the only thing that found the
+  wire) but does it by expensive accident.
+
+**Design space (three importable ancestors — CGH is the discipline that
+already builds discrete-plate optimizers).**
+- **(a) GS-with-quantization-projection** (how kinoforms are designed):
+  alternate continuous value-fit ⇄ discrete routing projection until both
+  constraints hold. Our current pipeline (train float LoRA → TWN once) is
+  ONE iteration of this loop; the optimizer is the loop itself. Lineage:
+  `holographic-untangling-methods.md` §2.
+- **(b) Direct Binary Search** (CGH classic): propose one trit flip, keep iff
+  loss improves; gradient-free; viable exactly because M2 makes the switch
+  fabric small (switches ≪ plates).
+- **(c) Evidence-gated flips** (signSGD/SPRT-shaped): accumulate per-trit
+  gradient-sign statistics across batches; commit a flip only past an
+  evidence threshold. Routing edits become discrete, loggable, revertible
+  COMMIT EVENTS → merges with M5's delta-log (git-for-weights down into the
+  optimizer step). Biology precedent: continuous synaptic change vs discrete
+  structural plasticity, separate processes on separate timescales.
+
+**Validation gate — §SIGN-COMMITMENT-CURVE (sketch, NOT frozen; the cheapest
+probe on the whole board).** One logging hook on `writeback_compile`: TWN-
+project the delta at every checkpoint step, measure trit-pattern stability
+over training. Prediction: **signs freeze early (~50 steps), magnitudes
+polish late** — GD's two jobs directly imaged at two timescales, and the
+routing job's true compute cost measured (calibrates (c)'s evidence
+threshold). SUBSUMES the k-step sweep (holographic-untangling (ii)): the
+sweep asks "when is the wire installed?"; the curve asks "when is each
+REGISTER of the wire installed?". Falsifier: if signs churn to the end, the
+two-process design takes named damage before anything is built. Next rung
+after the curve: prototype (c) — train the gd_cd wire directly in trit space
+vs GD+TWN at matched compute, frozen gates.
 
 ## The first build — §P-ASYM-TERNARY (sketch, NOT frozen)
 
