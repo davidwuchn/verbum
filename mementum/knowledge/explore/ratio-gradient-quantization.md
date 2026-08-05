@@ -285,7 +285,118 @@ magnitude (fp16/int), i.e. it converges to SpQR, not to a ternary routing tail.
 run relabels cleanly HOST-DAMAGED → MAGNITUDE-SALIENT (no new info; the gates already
 decide); (b) a broad-corpus coherence calib to firm Q2; (c) the register bet MIGHT
 still hold on a WEIGHT-DELTA against a mean/low-rank base (untested) — the delta-vs-base
-line predicts it would.
+line predicts it would. **(c) is now pre-registered below as §P-DELTA-QUANT.**
+
+## §P-DELTA-QUANT — pre-reg (DELTA-vs-BASE, FROZEN s307, before any run; s222 law)
+
+> s307, Michael GO on cold-start front (a). §P-COMPANDING-QUANT found base-weight
+> outliers **MAGNITUDE-SALIENT** → routing⊥magnitude does *not* extend from trained
+> deltas to raw matrices; the thesis was scoped "quantize the delta, keep the base."
+> The register-theory mechanism blames **superposition**: "a base matrix superposes
+> routing AND value in the same magnitudes" (`register-theory-of-quantization.md`).
+> This test asks whether that superposition is **algebraically separable** —
+> decompose each FFN matrix `W = B + D` (B = value base kept fp16, D = residual),
+> then ternarize **the residual**. If the residual ternarizes losslessly-for-routing
+> where raw-W did not, the register split reaches base weights *via decomposition*.
+> (This is the LoftQ / LQ-LoRA init move, **register-interpreted and null-gated** —
+> those methods assume the residual is quantizable but never null-test the register.)
+
+**Register (λ measure, declared first).** The claim is **routing** — does the
+decomposed-and-quantized matrix preserve the edge graph so the FUNCTION survives — so
+the metric is **downstream CE** on held innocent text (+ advisory factual task acc),
+gated against a **random-base null**. NEVER ‖W−Q(W)‖ / mag_cos (the disposable
+register; λ yardstick).
+
+**Target.** FFN gate/up/down of Qwen3-4B, all 36 layers, post-hoc, static, **NO
+training**. Base frozen; each arm decomposes → quantizes → eval → restore exactly
+(reuse the `companding_quant` apply/restore + CE/gate machinery, no fork).
+
+**Base constructions (the structural knob).**
+- **lowrank-k** — B = SVD rank-k truncation per matrix (top-energy = the smooth
+  magnitude/value directions), fp16. Sweep **k ∈ {16, 64, 128}**. PRIMARY.
+- **mean** — B = per-output-row mean (rank-1 DC), fp16. Cheap floor.
+- **coherence-k** — B = SVD rank-k of the **low-coherence** content `W ⊙ (1 − ĉ)`
+  (ĉ = per-weight gradient sign-consistency, normalized to [0,1]; the incoherent =
+  value/noise-floor magnitude, s171), fp16. Same k-sweep. The literal register test:
+  if routing = coherent, absorbing the *incoherent value* into the base leaves a
+  purer coherent-routing residual → should ternarize ≥ the energy base. (Reuses the
+  `companding_quant` coherence calibration; the s306 resource caveat applies —
+  per-weight fp32 grad stats on CPU; magnitude/energy arms are grad-free.)
+
+**Delta quantizer.** D → per-row TWN **full ternary** (reuse `ternary_all`) — the
+sharpest "does the residual live in the routing register" test; no body-int tiering
+(that would muddy the register claim).
+
+**Arms** (each reports effective bits; base fp16 + ternary residual):
+- `twn` — raw per-row ternary of W (k=0 FLOOR; = the §Result-companding twn).
+- `int_uniform` — raw signed RTN int-b (budget-matched FLOOR; also the D4 host anchor).
+- `companding_mag` — the s306 PRIMARY (raw tail→ternary + body int-b) = the
+  MAGNITUDE-SALIENT baseline, **reproduced** as the "no-decomposition" reference.
+- `delta_lowrank` — **PRIMARY**: B = SVD_k fp16 + ternary(W−B). Sweep k.
+- `delta_mean` — B = row-mean fp16 + ternary(W−B). floor.
+- `delta_coherence` — B = coherence-k fp16 + ternary(W−B). The selector arm
+  (energy-base vs coherence-base). Same k-sweep.
+- `delta_random` — B = **random** rank-k subspace (matched budget, matched per-row
+  γ on the residual) + ternary(W−B). **λ yardstick**, ≥3 seeds. MUST fail vs
+  `delta_lowrank`.
+
+**Bit-budget protocol (FROZEN).** effective b/w = `[16·k·(m+n) + 1.585·m·n] / (m·n)`
+(rank-k base fp16 + ternary residual; exact m,n read at build). For Qwen3-4B FFN
+(~2560 × ~9728) rank-64 ≈ **+0.5 b/w**, rank-128 ≈ **+1.0 b/w** over the 1.585
+ternary floor. The k-sweep IS the `delta_lowrank` CE-vs-bits **frontier**; verdicts
+read frontier dominance, not a single point. `delta_random` is matched to
+`delta_lowrank` at each k (same base rank = same bits).
+
+**Gates** (downstream CE on held innocents, paired over text chunks, 10k bootstrap;
+Bonferroni across the primary contrasts; null = random-base):
+- **D1 SCHEME-WORKS** : `delta_lowrank` (best k) beats raw `twn` → removing a value
+  base + ternarizing the residual beats raw ternary at all. Precondition.
+- **D2 VALUE-SEPARABLE** (register PRIMARY, λ yardstick) : `delta_lowrank` SIG beats
+  `delta_random` (matched-rank random base, ≥3 seeds) at ≥1 budget → the *specific*
+  SVD value subspace absorbed the salient magnitude (not just "more fp16 bits"). ¬D2
+  → any win was budget-only.
+- **D3 HOLDS-vs-SALIENT** (headline) : `delta_lowrank` (best k) reaches within
+  HOST_TOL of `int_uniform` at matched budget **AND** beats `companding_mag` (s306's
+  raw tail→ternary) → the register split reaches base weights where s306 said it could
+  not.
+- **D4 HOST-SANE** (fixed anchor, *fixes the s306 C5 mis-anchor*) : `int_uniform`@b4
+  (NEUTRAL arm) within HOST_TOL of the unquantized ref.
+
+**Selector sub-tag (advisory, parallels s306 C3).** At best k, sign of
+(`delta_coherence` − `delta_lowrank`) CE → the VALUE-SEPARABLE verdict carries
+**+ENERGY-BASE** (magnitude/SVD separates value better) or **+COHERENCE-BASE**
+(coherence separates it better — would flip s306's MAGNITUDE-SELECTS at the
+decomposition level). Advisory: does NOT gate pass/fail.
+
+**Verdicts (FROZEN).**
+- **VALUE-SEPARABLE (+ENERGY-BASE / +COHERENCE-BASE)** : D1∧D2∧D3 → subtracting a
+  low-rank value base makes the residual ternarize; base-weight magnitude WAS
+  separable (low-rank value + routing-sign residual) → register theory reaches base
+  weights via explicit decomposition (a partial walk-back from the s306 bound). ★ the
+  positive.
+- **STILL-SALIENT** : ¬D2 ∨ ¬D3 → base-weight magnitude is NOT algebraically separable
+  by low-rank decomposition; the register split is strictly a **gradient-written-delta**
+  property (the s306 bound *hardens* — not even SVD rescues it). ★ the bound-hardening
+  negative.
+- **DECOMP-INERT** (¬D1) / **HOST-DAMAGED** (¬D4).
+
+**A-priori lean (honest, do NOT tune).** Genuinely open. The delta-property read
+predicts **VALUE-SEPARABLE** (a low-rank base should absorb the smooth value/gain
+scaffolding, leaving routing sign in the residual — the LoftQ/LQ-LoRA assumption,
+register-interpreted). But s306 (outliers salient) + the chance that base-weight
+outliers are **isolated full-rank spikes** (which a low-rank base cannot absorb, so
+they stay in the ternarized residual and are destroyed) argues **STILL-SALIENT**. ≈
+**45% VALUE-SEPARABLE / 45% STILL-SALIENT / 10% messy**. Selector sub-tag likely
+**+ENERGY-BASE** (s306 MAGNITUDE-SELECTS precedent), but coherence untested at the
+decomposition level. Every branch publishable: extends the register theory to base
+weights, hardens the gradient-only bound, or flips the selector. Frozen a priori:
+base constructions, k-sweep, arms, null, gates.
+
+**Cadence.** THIS is the frozen pre-reg. Next: build `scripts/experiments/
+delta_quant.py` (reuse `companding_quant` quantizers/CE/gate/calibration + add SVD /
+mean / coherence base decomposition + random-base null; C5→D4 neutral anchor) →
+`--validate` (planted: base decomposition exactness, budget accounting, random-base
+null, verdict worlds) → smoke (`--n-layers`, mechanics only, s297) → Michael GO → run.
 
 ## Open leads (declare register first)
 

@@ -173,6 +173,18 @@ converges with the field on base weights while remaining unique on deltas. (Q2:
 coherence lost to magnitude as the selector too — MAGNITUDE-SELECTS, matching s171;
 calib was thin but the gap was decisive.)
 
+**Open frontier — is the base-weight magnitude *algebraically* separable? (s307,
+pre-registered §P-DELTA-QUANT in `explore/ratio-gradient-quantization.md`).** The
+s306 bound says base matrices superpose routing AND value in the same magnitudes. If
+that superposition is separable by a cheap decomposition — `W = B + D`, B a low-rank
+(or coherence-informed) value base kept fp16, D the residual — then ternarizing the
+**residual** should be lossless-for-routing where ternarizing raw-W was not. VALUE-
+SEPARABLE would extend the register theory to base weights via explicit decomposition
+(a partial walk-back from the s306 bound); STILL-SALIENT (residual ≈ random-base null,
+or fails to reach int-uniform) would *harden* the bound to gradient-written deltas
+only — the register split needs a gradient, not algebra. Null-gated on a matched-rank
+random base (the LoftQ/LQ-LoRA move made falsifiable).
+
 ## Where this compounds
 
 - Sits atop `two-registers-of-topology.md` (the register split) and
