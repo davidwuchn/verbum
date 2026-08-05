@@ -1,0 +1,63 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 25170.88it/s]
+[sc] Qwen/Qwen3-4B dev=mps band=L22..L29 train_cells=15 seeds=3 steps=500
+[sc] log schedule (15): [0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 499]
+[sc] ── seed 0 ──
+    step    0 loss 5.0311 [logged]
+    step    1 loss 4.8521 [logged]
+    step    2 loss 4.0890 [logged]
+    step    3 loss 3.1484 [logged]
+    step    5 loss 1.4876 [logged]
+    step    8 loss 0.4774 [logged]
+    step   13 loss 0.4118 [logged]
+    step   21 loss 0.3800 [logged]
+    step   34 loss 0.3018 [logged]
+    step   55 loss 0.2640 [logged]
+    step   89 loss 0.2567 [logged]
+    step  144 loss 0.2543 [logged]
+    step  233 loss 0.2528 [logged]
+    step  377 loss 0.2519 [logged]
+    step  499 loss 0.2516 [logged]
+    seed 0: final mag_cos 0.902 sparsity 0.380
+[sc] ── seed 1 ──
+    step    0 loss 5.0311 [logged]
+    step    1 loss 4.8597 [logged]
+    step    2 loss 4.1514 [logged]
+    step    3 loss 3.2099 [logged]
+    step    5 loss 1.5109 [logged]
+    step    8 loss 0.4788 [logged]
+    step   13 loss 0.4108 [logged]
+    step   21 loss 0.3800 [logged]
+    step   34 loss 0.3017 [logged]
+    step   55 loss 0.2641 [logged]
+    step   89 loss 0.2570 [logged]
+    step  144 loss 0.2544 [logged]
+    step  233 loss 0.2528 [logged]
+    step  377 loss 0.2519 [logged]
+    step  499 loss 0.2517 [logged]
+    seed 1: final mag_cos 0.901 sparsity 0.380
+[sc] ── seed 2 ──
+    step    0 loss 5.0311 [logged]
+    step    1 loss 4.8847 [logged]
+    step    2 loss 4.1990 [logged]
+    step    3 loss 3.2924 [logged]
+    step    5 loss 1.5701 [logged]
+    step    8 loss 0.4856 [logged]
+    step   13 loss 0.4104 [logged]
+    step   21 loss 0.3799 [logged]
+    step   34 loss 0.3012 [logged]
+    step   55 loss 0.2638 [logged]
+    step   89 loss 0.2567 [logged]
+    step  144 loss 0.2543 [logged]
+    step  233 loss 0.2528 [logged]
+    step  377 loss 0.2519 [logged]
+    step  499 loss 0.2516 [logged]
+    seed 2: final mag_cos 0.902 sparsity 0.381
+[sc] pooled tracked trits: 1440000 × 15 snaps
+
+[sc] ════ VERDICT: SIGN-CHURN ════
+  G1_sign_early=False G2_two_timescale=False G3_null_beats=True G4_wire_sane=True
+  med_commit=5.0 (frac 0.010) t_sign=144 t_mag=55 ratio=0.38 CI=(0.38, 0.38)
+  S(0.25T)=0.886 S(T⁻)=0.970 flip_last=0.0295 p_null=0.0004
+  final mag_cos=0.901 sparsity=0.380
+[sc] wrote results/sign-commitment/qwen3-4b/results.json
