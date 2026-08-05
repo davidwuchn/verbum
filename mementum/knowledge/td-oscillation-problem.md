@@ -10,6 +10,14 @@ session: 191
 
 # TD Oscillation Problem
 
+> **RE-DIAGNOSED s308** (register theory + "Adam is a routing optimizer in
+> disguise"): the oscillation is plausibly a REGISTER violation — all-ternary
+> v15 forced plate-class (value-register) positions to settle in ternary,
+> which they cannot; plus two uncoordinated routing optimizers; plus
+> clock-driven commits. See `explore/ternary-descent.md` §Fresh-eyes (TD-v2
+> spec + §TD-REGISTER-SPLIT micro-probe). ⚠ The raw flip map was lost with
+> the s308 checkpoint deletion — the tables BELOW are the surviving baseline.
+
 Session 191. Analysis of the v15-td flip map at step 1500 reveals that
 TernaryDescent is preventing the model from achieving phase transitions
 needed to break through the loss plateau at 6.7-6.8.

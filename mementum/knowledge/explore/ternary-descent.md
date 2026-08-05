@@ -281,3 +281,90 @@ Periodically:
    continuous information into ternary. Needs empirical validation.
    Measure: what fraction of the model can become ternary while maintaining
    loss? 90%? 95%? Where does the residual live?
+
+## §Fresh-eyes s308 — Adam is a routing optimizer in disguise (Michael); the re-diagnosis and TD-v2
+
+> s308 (Michael: "Look at TernaryDescent with fresh eyes now. Adam is a
+> routing optimizer in disguise."). The s303–s308 register/optics arc
+> (register-theory-of-quantization, holographic-untangling-methods,
+> the-verbum-machine M8) re-reads this page and the TD failure record
+> (s148 gnorm escalation, s180 topology-gradient-separation, s191
+> td-oscillation-problem) and finds that TD was the machine's engine built
+> before its theory. The theory has now caught up.
+
+### The identity (visible in this page's own table)
+
+TD's `confidence = |direction|/√magnitude` IS Adam's `|m|/√v` — the exact
+quantity Adam multiplies lr by. TD was constructed by renaming Adam's moments
+and adding a commit rule. Therefore TD and Adam are **one algorithm at two
+commitment limits**:
+
+- **Adam = TD with infinite staging.** It accumulates sign-evidence forever
+  and never commits; the float "weight" is the evidence accumulator's
+  integral. Commitment happens once, at extraction — TWN's threshold is the
+  confidence gate, and ternary 0 = "insufficient evidence to wire."
+- **TD-as-run = Adam with clock-forced commits** (flip_interval), ripe or not.
+
+Corollaries: Adam's dominance on transformers = the field empirically
+converging on a routing optimizer for a routing-dominated architecture
+(Lion — pure sign-of-momentum, beating Adam — is the same convergence,
+nakeder). And gd_cd→TWN (s303–s308, retention 1.0 twice) is the SAME
+statistic with commitment deferred to the end — the control experiment for
+the s191 failure, run unknowingly, and it worked.
+
+### The three-cut re-diagnosis of the oscillation record
+
+1. **s180's "two optimizers fighting" = two ROUTING optimizers fighting.**
+   Adam-on-gammas does soft routing (drive magnitude→0 ≡ soft delete — the
+   "soft topology" section of topology-gradient-separation.md says so
+   verbatim). v15 ran hard routing (TD) and soft routing (Adam) on the same
+   job, uncoordinated → osc_frac 0→0.56 = an S2 failure between optimizers.
+2. **The all-ternary architecture violated the register split.** v13/v15
+   ternarized switches AND plates. Register theory (s306–s308): plate
+   positions carry genuinely continuous magnitude-salient information —
+   they CANNOT settle in ternary. Re-read s191's own words: 94.5% perpetual
+   flip-candidates; worst positions are ones "the model genuinely wants to
+   use the same weight in two ways depending on input" = routing+value
+   SUPERPOSITION observed from the training side, before we had the
+   vocabulary. The oscillation problem is plausibly the register theory's
+   earliest and largest dataset, mislabeled as an optimizer bug. This also
+   answers Open Question 5: the residual lives in the VALUE register — the
+   ternarizable fraction is the switch fraction.
+3. **Commitment cadence was clock-driven, not evidence-driven.** s148:
+   every-step flips → gnorm 11→113, moments permanently stale; s180's
+   punctuated-equilibrium prescription was right but lacked the trigger.
+
+### TD-v2 (the M8 synthesis — three changes)
+
+1. **Register split first (verbum-machine M1).** TD only ever touches
+   switch-class parameters (QK, gate paths); plates stay float under Adam
+   permanently. The two optimizers stop sharing a job.
+2. **Evidence-triggered commits (Schmitt trigger).** Commit when |m|/√v
+   crosses threshold WITH hysteresis; the zero-staging of v1 was groping
+   toward this. Threshold calibrated by the §SIGN-COMMITMENT-CURVE
+   (the-verbum-machine M8) — readable directly from Adam optimizer state.
+3. **GS staging with the fold mechanic (already built, already exact).**
+   Adam float on a staging delta → project to ternary → fold (base ⊙ delta)
+   → reset → repeat. TD becomes the extraction SCHEDULE, not Adam's live
+   rival — the Gerchberg–Saxton quantization-projection loop
+   (holographic-untangling-methods §2) implemented with s136 machinery.
+
+### §TD-REGISTER-SPLIT — prospective micro-probe (sketch, NOT frozen; s222)
+
+⚠ **Provenance note:** the raw v15-td flip map (flip_map_latest.npz) and
+optimizer states were LOST with the ~50G checkpoint deletion (s308). The
+s191 summary tables baked into td-oscillation-problem.md are the surviving
+baseline — the mementum receipt: synthesis and generators crossed the
+boundary, raw state did not. The retrospective position-level re-analysis is
+dead; this prospective probe replaces it and is the stronger design anyway.
+
+**Sketch.** Micro-scale TD training (v15 scripts survive in git), two arms
+with flip-map logging: **TD-v1** (all-ternary, as-was; s191 tables = the
+historical anchor for sanity) vs **TD-v2** (register split: TD on switches
+only, Adam on float plates). Optional third arm: v2 + evidence-triggered
+commits. **Predictions:** perpetual-candidate fraction COLLAPSES in v2;
+v1's residual oscillators concentrate in plate-class modules; v2 breaks the
+B→K phase-transition wall that v1's oscillation prevented (s191 §phase).
+**Falsifier:** v2 oscillates as hard as v1 → the register re-diagnosis is
+wrong and the two-jobs story needs revision. Regenerates the lost dataset
+and tests the fix in one run.

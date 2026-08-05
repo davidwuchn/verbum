@@ -182,6 +182,16 @@ just a component.
   wide). GD *can* do routing (s303 — it is the only thing that found the
   wire) but does it by expensive accident.
 
+**⚠ Prior art in-house (s308 discovery, Michael: "Adam is a routing optimizer
+in disguise"):** M8 was already built once — **TernaryDescent** (s136,
+`explore/ternary-descent.md`, `scripts/v13/td.py` + v14/v15), whose confidence
+statistic |direction|/√magnitude IS Adam's |m|/√v: TD ≈ Adam with discrete
+commits; Adam ≈ TD with infinite staging (the float weight = evidence
+accumulator; TWN = the deferred commit). TD stalled at s191 (oscillation)
+for reasons the s306–s308 register theory now explains — see the fresh-eyes
+section + TD-v2 spec + §TD-REGISTER-SPLIT micro-probe on the TD page. M8's
+design space below should be read as TD-v2's ancestry.
+
 **Design space (three importable ancestors — CGH is the discipline that
 already builds discrete-plate optimizers).**
 - **(a) GS-with-quantization-projection** (how kinoforms are designed):

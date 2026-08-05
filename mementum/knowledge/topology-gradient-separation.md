@@ -9,6 +9,13 @@ depends-on: [crystal-universality.md, extraction-sign-accuracy.md]
 
 # Topology-Gradient Separation
 
+> **RE-READ s308:** the "two optimizers fighting" were two ROUTING
+> optimizers — Adam's soft topology (magnitude→0 ≡ soft delete) IS routing
+> in the magnitude register; TD ≈ Adam with discrete commits (same |m|/√v
+> statistic). Punctuated equilibrium was right; the missing piece was the
+> EVIDENCE-driven trigger + the register split. See
+> `explore/ternary-descent.md` §Fresh-eyes.
+>
 > **The core insight of session 180:** Discrete topology changes (TD)
 > and continuous optimization (GD) cannot run at the same timescale.
 > The topology must be frozen for GD to build the soft structure that
