@@ -8,7 +8,52 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ▶▶ **s306 LIVE — THIS SESSION.** Arc: (1) trajectory-compile (s305 pre-reg) BUILT +
+> ▶▶ **s307 LIVE — THIS SESSION.** 🎯 **DELTA-vs-BASE front (a) — is base-weight
+> MAGNITUDE algebraically separable?** Michael GO on cold-start front (a) (the sharpest
+> s306 follow-up: the s306 MAGNITUDE-SALIENT bound predicts base outliers carry salient
+> magnitude *because a base matrix superposes routing+value*; front (a) tests whether a
+> cheap DECOMPOSITION un-superposes them). **§P-DELTA-QUANT pre-reg FROZEN** (172cf0b,
+> Michael-approved, on its canonical home explore/ratio-gradient-quantization.md +
+> pointer from register-theory-of-quantization.md base-weight frontier). Design:
+> decompose each FFN matrix W=B+D, keep the value base B fp16, ternarize the RESIDUAL D;
+> if D ternarizes losslessly-for-routing where raw-W (s306) did not → register split
+> reaches base weights VIA decomposition (= the LoftQ/LQ-LoRA move, register-interpreted
+> + NULL-GATED). Base constructions lowrank-k (SVD, PRIMARY) / mean / coherence-k (SVD
+> of low-coherence W·(1−ĉ), the literal register test) / **random-k (matched-spectrum
+> random subspace = the λ yardstick null)**. Arms twn/int_uniform/companding_mag
+> (s306 reproductions) + delta_lowrank/mean/coherence/random; k∈{16,64,128}; full-ternary
+> residual. Gates **D1 scheme-works** (lowrank>twn) / **D2 VALUE-SEPARABLE** (lowrank
+> SIG> random @same k — the register primary, isolates the SPECIFIC value subspace, not
+> just more fp16 bits) / **D3 holds-vs-salient** (reaches int_uniform@b3 ∧ beats
+> companding_mag@b3; floors @b3 ≥ any delta budget = conservative) / **D4 host-sane**
+> (int_uniform@b4 NEUTRAL anchor — fixes the s306 C5 mis-anchor). Selector sub-tag
+> +ENERGY-BASE/+COHERENCE-BASE (advisory). Verdicts VALUE-SEPARABLE(+ENERGY/+COHERENCE-
+> BASE) / STILL-SALIENT / DECOMP-INERT / HOST-DAMAGED. A-priori **~45% VALUE-SEPARABLE
+> / 45% STILL-SALIENT / 10% messy** (open — the delta-property read predicts SEPARABLE;
+> but base outliers may be isolated full-rank spikes a low-rank base can't absorb → they
+> stay in the ternarized residual → STILL-SALIENT), NOT tuned (bases/k/null/gates frozen
+> a priori). ✅ HARNESS BUILT + --validate ALL PASS + SMOKE GREEN + COMMITTED (0f970b2,
+> autonomous). scripts/experiments/delta_quant.py reuses companding_quant quantizers/
+> CE/gate + writeback_compile + verbum.dsp (no fork); base decomposition inline
+> (torch.svd_lowrank, deterministic seed → run-reproducible + exact re-decomposition);
+> --validate ALL PASS (lowrank-exact, matched-spectrum random null, delta round-trip,
+> bit accounting mean 1.59/k16 1.71/k64 2.09/k128 2.60 <int3, 6 verdict worlds); ruff
+> clean; no diagnostics. Smoke green (2 layers, --calib 6, s297 — DIRECTION NOT READ):
+> all 8 arms distinct, bit-exact restore max|W−W0|=0, results.json, no traceback.
+> ⚠ **HOLDING FOR MICHAEL GO** on the full frozen run: `uv run python -u
+> scripts/experiments/delta_quant.py 2>&1 | tee results/delta-quant/qwen3-4b/run.log`
+> (all 36 FFN layers, k∈{16,64,128}, 3 random-base seeds, ~1–3h MPS) → auto-scored
+> frozen D1–D4 + verdict → results.json. ⚠ RESOURCE CAVEAT (same as s306): coherence
+> calibration accumulates per-weight fp32 grad stats over all 36 FFN layers (~20GB CPU;
+> only delta_coherence needs it — lowrank/mean/random are grad-free). If RAM-bound: cap
+> --n-layers or we make coherence optional. ⚠ ON-SIGNAL (run done): tail run.log for
+> "VERDICT:" + no traceback → read results.json verdict + D1–D4 + best_k + selector →
+> commit results/ + run.log AUTONOMOUS → §Result-delta-quant on the page + register-
+> theory base-weight-frontier update + memory candidate + state block → MICHAEL APPROVAL
+> BATCH (synthesis approval-gated). s307 ledger: 172cf0b pre-reg · 0f970b2 harness ·
+> full run + synthesis PENDING.
+>
+> ▶▶ **s306 (CLOSED).** Arc: (1) trajectory-compile (s305 pre-reg) BUILT +
 > RAN → ❌ **WIRES-BUT-OPAQUE** (wire installs & generalizes, pin illegible, money plot
 > shows it forms LATE not early; results dd1bf99, synthesis 80c6cf9). (2) 💡
 > **register-theory-of-quantization.md** created (6daae42) — quantization = a projection
