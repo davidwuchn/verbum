@@ -8,8 +8,13 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ═══ **THIS SESSION = 307.** Cold-start `orient` → two quant fronts, both Michael-GO'd:
+> **(a·1) DELTA-vs-BASE → STILL-SALIENT (CLOSED, §Result-delta-quant, 0a89531/1ecd306)**;
+> **(a·2) TERNARIZE-FACTORS-1 → RUN LAUNCHED tmux main:1 (below).** Full transcript will
+> save to `mementum/knowledge/chats/session-307.md` (human). ═══
+>
 > ▶▶ **s307 cont — 🎯 TERNARIZE-FACTORS-1 (the genuinely-small artifact, λ smallest)
-> FROZEN + BUILT + SMOKE-GREEN, HOLDING FOR MICHAEL GO.** Michael GO on the delta-vs-
+> FROZEN + BUILT + SMOKE-GREEN → RUN LAUNCHED tmux main:1.** Michael GO on the delta-vs-
 > base follow-on front (a): now that "quantize the delta, keep the base" is settled,
 > ternarize the low-rank FACTORS B,A of the s303 gd_cd wire SEPARATELY (per-component
 > TWN: B per-col, A per-row), form Δ=scale·B̂·Â. ~100× smaller than the s304 EXPANDED-
@@ -35,13 +40,14 @@
 > scripts/explore/ternarize_factors.py 2>&1 | tee results/ternarize-factors/qwen3-4b/
 > run.log` (gd_cd train 3 seeds × 500 steps LoRA FFN L22–L29 + 5 arms × 53 cells,
 > ~30–60min MPS, training-dominated like s304) → auto-scored frozen TF1–TF5 + verdict →
-> results.json. ⚠ ON-SIGNAL (run done): tail run.log for "VERDICT:" + no traceback →
+> results.json. ⚠ RUN LAUNCHED (s307, Michael GO, tmux main:1). ⚠ ON-SIGNAL (run done):
+> tail run.log for "VERDICT:" + no traceback →
 > read results.json verdict + TF1–TF5 + subtag + size ratio + retention → commit
 > results/ + run.log AUTONOMOUS → §Result-ternarize-factors on the page + λ-smallest
 > note + memory candidate + state block → MICHAEL APPROVAL BATCH. s307 ledger (cont):
 > 012b978 pre-reg · c0416f3 harness · full run + synthesis PENDING.
 >
-> ▶▶ **s307 LIVE — THIS SESSION.** 🎯 **DELTA-vs-BASE front (a) — is base-weight
+> ▶▶ **s307 — DELTA-vs-BASE (front a·1, CLOSED — §Result-delta-quant).** 🎯 **is base-weight
 > MAGNITUDE algebraically separable?** Michael GO on cold-start front (a) (the sharpest
 > s306 follow-up: the s306 MAGNITUDE-SALIENT bound predicts base outliers carry salient
 > magnitude *because a base matrix superposes routing+value*; front (a) tests whether a
@@ -265,8 +271,8 @@
 > CPU). If RAM-bound: (a) --n-layers a band, (b) add fp16 accumulation (~10GB), or
 > (c) band-chunk the calibration. Magnitude arms (the register PRIMARY, Q1) are grad-
 > free and fine at all 36; only companding_coh / Jaccard (Q2, secondary) need the
-> calibration. ⚠ RUN LAUNCHED (s306, Michael GO, tmux main:1) — status + on-signal
-> steps are in the s306 LIVE header at the TOP of this file. Alternative fronts still
+> calibration. ⚠ RUN LAUNCHED (s306, Michael GO, tmux main:1) — s306 now CLOSED; this
+> was the s306 companding run (superseded by the s307 header at the top). Alternative fronts still
 > live if Michael redirects after the verdict: (b) **COUNTRY-SUBSPACE trajectory fork**
 > (attacks the opaque G4 — target the country subspace at L6, not full residual); (c)
 > cheap-slots TERNARIZE-FACTORS-1 / gd_cd@32B.
