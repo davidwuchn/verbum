@@ -122,7 +122,7 @@ sign-structured, energy-compact, redundant — so **the optimal quantizer for th
 hologram IS the DSP quantizer.** The field succeeded because it was unknowingly
 compressing a signal-processing medium with signal-processing tools.
 
-## Corollary — the lane this opens (the s307 test)
+## Corollary — the lane this opens (the s307 test, RESOLVED)
 
 Every method above operates in the **magnitude register on BASE weights** — correctly,
 per the s306 companding result (base-weight outlier magnitude is salient; AWQ/SpQR
@@ -134,12 +134,29 @@ can be quantized to nothing. That is the delta-vs-base ternary test in one sente
 quantize the DELTA to ternary routing, keep the base (and its salient outliers) in
 magnitude (`register-theory-of-quantization.md`).
 
+**s307 RESOLVED the boundary — and it SHARPENS the frame (`0a89531`,
+§Result-delta-quant).** The obvious shortcut — algebraically decompose a base matrix
+`W = B + D` (low-rank / mean / coherence value base kept fp16) and ternarize the
+residual — does **not** rescue base weights: STILL-SALIENT across all three
+decomposition families (delta_lowrank@k64 CE 11.19 ≫ int4 5.40 ≈ ref 5.11; the low-rank
+value subspace is real but *partial* — it beats a matched-spectrum random base — while
+the salient magnitude is **high-rank / distributed**, isolated spikes a rank≤128 base
+can't absorb). So the envelope-stripping that makes the carrier ternarizable is **not an
+algebraic operation SVD can perform — it is what the GRADIENT does**: it writes the
+routing edge into a sign structure separable from magnitude, which energy-SVD cannot
+recover. The DSP "modulated carrier" reading therefore holds for a **gradient-written
+(trained) delta**, not for any algebraic base-matrix residual — scoped, not a general
+closure (SpQR-style sparse-plus-low-rank untested). *(In flight, s307: ternarize the
+trained delta's low-rank FACTORS B,A directly = the genuinely small ~1 MB artifact —
+TERNARIZE-FACTORS-1, `write-not-train-ternary-routing-deltas.md`.)*
+
 ## Trust chain
 
 MEASURED: s303 topology-routing / rank-3 gram (`gram-spectral-dsp.md`, 4061774);
 s269 routing 0.987 vs magnitude 0.73; s304/s306 delta ternary retention ~1.0
-(cb73ad5, dd1bf99); s306 base-weight MAGNITUDE-SALIENT (4b89726); s171 heavy-tailed
-weight/grad stats. MODEL (holographic reading, measured support but not proven):
+(cb73ad5, dd1bf99); s306 base-weight MAGNITUDE-SALIENT (4b89726); s307 delta-vs-base
+STILL-SALIENT — a base matrix's algebraic (SVD/mean/coherence) residual does NOT
+ternarize (0a89531); s171 heavy-tailed weight/grad stats. MODEL (holographic reading, measured support but not proven):
 linear-superposition averaging / processing gain; SuperBake noise-gate. STANDARD DSP:
 companding, Lloyd–Max, Sigma-Delta noise shaping, transform coding/KLT, block floating
 point, vector quantization, matched filter — cited as field knowledge, not verbum
