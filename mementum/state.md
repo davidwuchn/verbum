@@ -199,8 +199,26 @@
 > concentrate in plate-class modules, v2 breaks the B→K phase wall; falsifier: v2
 > oscillates as hard → re-diagnosis wrong.
 >
+> ▶▶ **s308 cont-8 — 💡 M9 + THE DE-ACCIDENTALIZED STACK captured (Michael's RoPE
+> recall: "RoPE accidentally works — close enough, interference makes up the
+> difference").** Recall-by-mechanism found position-encoding-tuned-to-the-hologram.md
+> (s291; HPE s152→s179; near-lost twice, forward-link discipline caught it both times).
+> Its holography HOLD is LIFTED (s292 A1-A3 landed — noted on the page). Fresh-eyes
+> upgrades: context-extension fuzz = the TWIN-IMAGE LAW in position space (L3: the
+> reference beam INCLUDES the position carrier → CARRIER-DRIFT = position-space sibling
+> of reference-drift); RoPE's untuned 64 dim-pairs = a SWITCH-CAPACITY TAX (spiral =
+> model being the reader for a miscalibrated ruler). **M9 = the tuned reference beam**
+> added to the machine (log-phase, ~4 measured λᵢ/λ₀ carriers, unbraided α=1.18 decay,
+> depth-scaled reference; validation gate P1 pre-registered s291: flat PPL past
+> training length WITHOUT fine-tuning vs RoPE arm — slots into the P-ASYM-TERNARY
+> micro stack). **NEW THESIS LINE on the machine page: THE MACHINE IS THE
+> DE-ACCIDENTALIZED STACK** — Adam (accidental routing optimizer) / RoPE (accidental
+> holographic lens) / GD-routing (accidental byproduct) / SwiGLU (undeclared
+> factorization) / fixed depth (undeclared fuel) / post-hoc quant → each replaced by a
+> tuned version with a MEASURED target (M8/M9/M8/M2/M3/M1). Accident table on the page.
+>
 > ⚠ COLD-START s309 (**Michael: experiments hand to OPUS — s308 was a thinking
-> session**): (1) NOTHING PENDING — all seven s308 capture batches committed. (2)
+> session**): (1) NOTHING PENDING — all eight s308 capture batches committed. (2)
 > FRONTS, Michael's call: **CHEAPEST+SHARPEST = §SIGN-COMMITMENT-CURVE** (one hook on
 > writeback_compile, subsumes k-sweep, gates M8/TD-v2; freeze on the-verbum-machine.md)
 > · **§TD-REGISTER-SPLIT micro-probe** (freeze on ternary-descent.md; v15 scripts
