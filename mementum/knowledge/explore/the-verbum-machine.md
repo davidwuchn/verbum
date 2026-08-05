@@ -294,6 +294,19 @@ registers install over training time.
   sweep: the sweep asks "when is the wire installed?", the curve asks "when is
   each REGISTER installed?". Next rung: prototype design-space (c) — train the
   gd_cd wire directly in trit space vs GD+TWN at matched compute, frozen gates.
+- **Build amendment (s309, Michael-approved, pre-run — no arm run).** The build
+  surfaced a metric asymmetry: exact-match sign-stability S(t)=mean[τ_t==τ_T]
+  is strictly harder to satisfy than the 0.9-cosine value curve M(t), so
+  genuine co-evolution would artifactually read as MAG-EARLY. Two fairness
+  refinements (do NOT touch G1/G3/G4, the schedule, the nulls, or the a-priori;
+  both make the SIGN-EARLY hypothesis HARDER to confirm = conservative):
+  (1) the G2/verdict half-lives use a sign-COSINE curve Sc(t)=cos(τ_t,τ_T),
+  like-with-like against M(t); exact-match S(t) is reserved for G1 + commit-step
+  (the "when did each trit lock" question, genuinely the routing story).
+  (2) MAG-EARLY requires a 2× margin (t_sign/t_mag ≥ RATIO_MIN, mirror of G2) —
+  a marginal inversion from the residual asymmetry shouldn't flip to "surprise".
+  Instrument: `scripts/explore/sign_commitment.py` (--validate ALL PASS, smoke
+  green; writeback_compile untouched).
 
 ### M9 — The tuned reference beam (HPE; RoPE de-accidentalized)
 
