@@ -238,18 +238,62 @@ already builds discrete-plate optimizers).**
   optimizer step). Biology precedent: continuous synaptic change vs discrete
   structural plasticity, separate processes on separate timescales.
 
-**Validation gate — §SIGN-COMMITMENT-CURVE (sketch, NOT frozen; the cheapest
-probe on the whole board).** One logging hook on `writeback_compile`: TWN-
-project the delta at every checkpoint step, measure trit-pattern stability
-over training. Prediction: **signs freeze early (~50 steps), magnitudes
-polish late** — GD's two jobs directly imaged at two timescales, and the
-routing job's true compute cost measured (calibrates (c)'s evidence
-threshold). SUBSUMES the k-step sweep (holographic-untangling (ii)): the
-sweep asks "when is the wire installed?"; the curve asks "when is each
-REGISTER of the wire installed?". Falsifier: if signs churn to the end, the
-two-process design takes named damage before anything is built. Next rung
-after the curve: prototype (c) — train the gd_cd wire directly in trit space
-vs GD+TWN at matched compute, frozen gates.
+**Validation gate — §SIGN-COMMITMENT-CURVE (FROZEN s309, Michael-approved;
+the cheapest probe on the whole board).** One logging hook on the gd_cd
+training: TWN-project the delta at a fixed step schedule and image how the two
+registers install over training time.
+
+- **Question.** In gd_cd wire training (s303 — the wire that ternarizes
+  near-losslessly, s304/s308 retention ~1.0), does GD commit the ROUTING
+  register (trit *signs*) EARLIER than it polishes the VALUE register
+  (per-column *magnitudes*)? I.e. are GD's two jobs separable in TIME?
+- **Instrument.** Reuse the gd_cd recipe verbatim: LoRA r=16, FFN band
+  L22–L29 (0.6–0.8 depth, Qwen3-4B), lr 1e-4, 500 steps, KL to the frozen
+  host on its own committed CoT, 3 seeds; train_cells from the frozen
+  `gate0.json` (no re-sweep). At each t in the FIXED schedule L =
+  {0,1,2,3,5,8,13,21,34,55,89,144,233,377,499} (fibonacci — dense early where
+  the action is predicted; schedule fixed a priori, λ yardstick), for every
+  wrapped FFN matrix form Δ_t = scale·B_tA_t, TWN-project (`ternarize_twn`,
+  reused, thr 0.7): trit state **τ_t = sign·mask ∈ {−1,0,+1}** (routing
+  register), per-column **γ_t** and continuous **|Δ_t|** (value register).
+- **Metrics** (pooled over all trits, all band layers × 3 seeds). Sign-
+  stability S(t)=mean[τ_t==τ_T]; per-trit commit-step c_i = last t with
+  τ_t≠τ_T (fraction of T; median/IQR/p90); value convergence
+  M(t)=magnitude-cosine(|Δ_t|,|Δ_T|) and γ-cosine(γ_t,γ_T); flip-rate
+  f(t)=mean[τ_t≠τ_prev]; half-lives t*_sign(θ)=first t with S(t)≥θ,
+  t*_mag(θ)=first t with M(t)≥θ (θ=0.9 primary, 0.95 secondary).
+- **Nulls (λ yardstick).** N1 TIME-SHUFFLE: permute the per-step trit sequence
+  in time (same states, scrambled order) → commit-steps spread ~uniform;
+  measured median-commit must beat it (bootstrap 10k over trits, one-sided
+  p<0.05). N2 (primary, paired within-run): t*_mag(0.9) > t*_sign(0.9),
+  bootstrap CI over resampled trit-columns excludes equality.
+- **Gates (frozen).** G1 SIGN-EARLY: median commit-step ≤ 0.25·T AND
+  S(0.25·T) ≥ 0.90. G2 TWO-TIMESCALE: t*_mag(0.9)/t*_sign(0.9) ≥ 2.0, bootstrap
+  ratio-CI excludes 1.0. G3 NULL-BEATS: median-commit earlier than N1 (p<0.05).
+  G4 (advisory) FINAL-WIRE-SANE: final-delta mag_cos ∈ [0.80,0.95] + sparsity
+  in the s304 band (anchors that we measured the REAL wire; reported, never
+  gates).
+- **Verdicts.** **TWO-TIMESCALE (+SIGN-EARLY)** G1∧G2∧G3 → routing commits
+  early, value polishes late; M8/TD-v2 evidence-gated commits VALIDATED, the
+  commit-step calibrates (c)'s SPRT threshold; the cheapest board-probe closes
+  FOR the two-process engine. **SIGN-EARLY-ONLY** G1∧G3∧¬G2 → both registers
+  freeze on one fast timescale; routing-commit still usable, TIME-separation
+  unsupported. **SINGLE-TIMESCALE** ¬G1 → registers co-evolve; no temporal
+  handle (design-neutral). **SIGN-CHURN (falsifier)** S(T⁻)<0.9 ∨ flip-rate
+  won't decay ∨ ¬G3 → the two-process design takes NAMED DAMAGE. **MAG-EARLY
+  (surprise)** t*_mag<t*_sign → inverts the register-timescale story;
+  investigate.
+- **A-priori (NOT tuned).** ~55% TWO-TIMESCALE(+SIGN-EARLY) / ~20%
+  SIGN-EARLY-ONLY / ~15% SINGLE-TIMESCALE / ~8% SIGN-CHURN / ~2% MAG-EARLY.
+  Rationale: s304/s308 prove the FINAL delta ternarizes near-losslessly
+  (routing⊥magnitude at convergence); OPEN is whether that split exists DURING
+  training or only at the end — K-chaos + XM say discrete choice is made under
+  duress, which could push signs late/churny (the ~23% ¬SIGN-EARLY mass).
+- **Cost.** One gd_cd training (3 seeds × 500 steps) + cheap per-step TWN on
+  the tiny r=16 delta; ~one s304 arm (~10–20 min MPS). SUBSUMES the k-step
+  sweep: the sweep asks "when is the wire installed?", the curve asks "when is
+  each REGISTER installed?". Next rung: prototype design-space (c) — train the
+  gd_cd wire directly in trit space vs GD+TWN at matched compute, frozen gates.
 
 ### M9 — The tuned reference beam (HPE; RoPE de-accidentalized)
 
