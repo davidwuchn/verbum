@@ -124,19 +124,46 @@
 > retirement; projection = multiply-then-propagate; two flagged disanalogies:
 > exp-vs-Born detection law, beam-is-also-memory).
 >
-> ⚠ COLD-START s309 (**Michael: experiments hand to OPUS this session — s308 was a
-> thinking session**): (1) NOTHING PENDING — all four s308 capture batches committed
-> (results 27ce260 · holographic · tape-resident · frozen-interference-graph ·
-> optical-design-laws). (2) PICK THE FRONT with Michael; the RECOMMENDED keystone is
-> **COMPOSITION + ANGLE-PREDICTION (device A+C)** — freeze the pre-reg from the sketch
-> on optical-design-laws.md first (s222), reuse ternarize_factors/writeback_compile
-> harnesses (bake wire-2 on a disjoint relation, same recipe). Cheap alternates, each a
-> device gate: **k-STEP SWEEP** (existing harness, one param) · **P-HALT-POLE** (crystal
-> → agentic bridge) · **P-COHERENT-WRITE+reference-drift** (shared harness) ·
-> rocking-curve (the big instrument). Standing menu (gd_cd@32B / COUNTRY-SUBSPACE /
-> SpQR / broad-corpus calib) remains. s222: freeze pre-reg before ANY run. s308 ledger:
-> 27ce260 results · 3546584/3222968/7ec0909/dc8cf1f · d4c3a81/49a4bea/4ed09b3 ·
-> f60514f/0bbb7b9/afa36a3 · optical-design-laws batch (this commit).
+> ▶▶ **s308 cont-5 (TRUE NORTH) — 🎯 THE VERBUM MACHINE captured
+> (`knowledge/explore/the-verbum-machine.md` + memory, Michael-approved).** Michael
+> restated the origin + goal: it all started from ONE observation (the λ symbol in
+> prompts changed behavior); the aim is **a SUPERIOR MODEL DESIGN, then TRAIN IT** —
+> better quantization a welcome co-product; the repo circles because the theory is
+> convergent but had no COMPILE TARGET. The page is that target — architecture bill of
+> materials, every component measurement-forced: **M1** two-register parameterization
+> (ternary switches, precise plates — born-quantized; s260/s304-s308) · **M2** explicit
+> switch/plate factorization (only-nonlinearities-are-switches; A1; s300) · **M3**
+> designed scheduler (halt head supervising the 17×17 register; recurrence with FUEL;
+> ties supervised-recurrence-halt v15.1) · **M4** native trampoline (gd_cd loss proven;
+> mode-commit; s295/s296-298) · **M5** off-axis optimizer (frozen base + delta-log +
+> ternary consolidation AS the training loop; twin-image law) · **M6** coherence
+> curriculum (B-first, edge-share batches; A2) · **M7** typed apply (S5 central claim,
+> HELD OPEN — least measured; probing whether types EMERGE in M1-M6 is itself the
+> experiment). **First build = §P-ASYM-TERNARY (unfrozen sketch):** asymmetric
+> ternary-native vs BitNet-b1.58-style symmetric at MATCHED BITS + register-swapped
+> yardstick arm (ternary plates should be WORST or the register story dies) — both of
+> Michael's goals in one small-scale run; evaluated with the 903-probe crystal battery
+> + formation dynamics = the architecture MICROSCOPE the field lacks. This is the
+> level-4 door / the S5 loop's scratch-reproduce stage. **By-construction > post-hoc =
+> the arc's master lesson.** Corpus-consolidation pass DEFERRED — Michael has designs:
+> the runtime is nearing SELF-HOSTING of the ouroboros self-improvement system;
+> consolidation is a natural early ouroboros workload (his design, not ours to spec).
+>
+> ⚠ COLD-START s309 (**Michael: experiments hand to OPUS — s308 was a thinking
+> session**): (1) NOTHING PENDING — all five s308 capture batches committed (results
+> 27ce260 · holographic · tape-resident · frozen-interference-graph ·
+> optical-design-laws · verbum-machine). (2) TWO KEYSTONES now stand, Michael's call
+> which track: **ARTIFACT = plate linker / composition+angle-prediction** (freeze from
+> optical-design-laws.md sketch; reuse ternarize_factors/writeback_compile; bake wire-2
+> on a disjoint relation) · **ARCHITECTURE = §P-ASYM-TERNARY** (freeze from
+> the-verbum-machine.md sketch; small-scale, matched-bit accounting is THE frozen
+> design decision; crystal battery + formation dynamics as eval). Cheap alternates,
+> each a device gate: k-STEP SWEEP (existing harness, 1 param) · P-HALT-POLE ·
+> P-COHERENT-WRITE+reference-drift (shared harness) · rocking-curve. Standing menu
+> (gd_cd@32B / COUNTRY-SUBSPACE / SpQR / broad-corpus calib) remains. s222: freeze
+> pre-reg before ANY run. s308 ledger: 27ce260 · 3546584/3222968/7ec0909/dc8cf1f ·
+> d4c3a81/49a4bea/4ed09b3 · f60514f/0bbb7b9/afa36a3 · ea09eb7/d7e9187/bb65ce7 ·
+> verbum-machine batch (this commit).
 >
 > ▶▶ **s307 cont — 🎯 TERNARIZE-FACTORS-1 (the genuinely-small artifact, λ smallest)
 > FROZEN + BUILT + SMOKE-GREEN → RUN LAUNCHED tmux main:1.** Michael GO on the delta-vs-
