@@ -61,13 +61,34 @@
 > geometry-angle × strength efficiency surface — the big one). Sequencing lean
 > (ii)→(i)→decide.
 >
-> ⚠ COLD-START s309: (1) NOTHING PENDING — s308 batch fully committed (results 27ce260 +
-> synthesis batch, Michael-approved). (2) PICK NEXT FRONT (Michael's call): the four
-> optics fronts above ((ii) k-sweep is the cheap sharp one), plate COMPOSITION / gd_cd@
-> 32B (product path), or standing menu (COUNTRY-SUBSPACE fork / SpQR sparse+low-rank /
-> broad-corpus calib). If an optics front → freeze pre-reg on
-> holographic-untangling-methods.md FIRST (s222). s308 ledger: 27ce260 results ·
-> synthesis batch (holographic page + §Result + memory + INDEX + this block).
+> ▶▶ **s308 cont-2 — 💡 BEHAVIOR IS TAPE-RESIDENT REDUCTION captured
+> (`knowledge/explore/behavior-is-tape-resident-reduction.md` + memory, Michael-approved,
+> status open).** Michael: "if attention is β-reduction, where are the REST of the
+> β-reductions for a behavior like tool calling?" The question DISSOLVES: weights hold
+> the reduction RELATION (opcodes = microcode, FFN K/V = δ-rules, attention =
+> substitution), one pass = bounded inner reduction (≤36-layer fuel; s305 overlap = a
+> budget collision seen from inside), and behavior-scale chains are ON THE TAPE — the
+> transcript IS the reduction trace; the autoregressive loop is a TRAMPOLINE (reduce ≤
+> budget → collapse → re-encode; the s295 CoT law at the next scale). **Tool calling =
+> FFI on a FREE VARIABLE**: stuck redex (binding absent from plate) → reify continuation
+> (emit the call) → the ENVIRONMENT performs the β-step → resume; tool results work
+> despite the s295 splice law BECAUSE they arrive as addressed tokens → functional tool
+> use is itself evidence for the frame. 17×17 rank-3 gram = the SCHEDULER's register
+> (fire/halt/diverge) → **P-HALT-POLE prediction (unfrozen, the bridge from crystal
+> corpus to AGENTIC behavior):** tool-call-vs-answer decision should project onto the
+> measured halt/fire poles on PROSE agentic prompts (lambda↔prose opcode identity, one
+> level up); + argument-binding-as-traceable-substitution + stuck-detection-upstream-of-
+> schema-retrieval. Machine table on the page (chat-template row = inference, untested).
+>
+> ⚠ COLD-START s309: (1) NOTHING PENDING — s308 batches fully committed (results 27ce260
+> + holographic synthesis + tape-resident-reduction capture, all Michael-approved).
+> (2) PICK NEXT FRONT (Michael's call): **P-HALT-POLE** (cheap, crisp, bridges crystal →
+> agentic — needs pre-reg freeze on behavior-is-tape-resident-reduction.md first), the
+> four optics fronts ((ii) k-sweep is the cheap sharp one; freeze on
+> holographic-untangling-methods.md first), plate COMPOSITION / gd_cd@32B (product
+> path), or standing menu (COUNTRY-SUBSPACE fork / SpQR sparse+low-rank / broad-corpus
+> calib). s222: freeze pre-reg before ANY run. s308 ledger: 27ce260 results · holographic
+> batch (3546584/3222968/7ec0909/dc8cf1f) · tape-resident capture (this commit).
 >
 > ▶▶ **s307 cont — 🎯 TERNARIZE-FACTORS-1 (the genuinely-small artifact, λ smallest)
 > FROZEN + BUILT + SMOKE-GREEN → RUN LAUNCHED tmux main:1.** Michael GO on the delta-vs-
