@@ -1,6 +1,6 @@
 ---
 title: "Consolidation Session Protocol — Wizard-of-Oz Prototyping of the Missing Runtime Functions"
-status: active
+status: draft # sharpen once the lambdas run in an agent (Michael, s308)
 category: protocol
 tags: [mementum, consolidation, session-types, wizard-of-oz, ouroboros, runtime,
        recall, cues, techniques, lambdas, methodology]
