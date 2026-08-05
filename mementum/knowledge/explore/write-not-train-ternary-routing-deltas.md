@@ -923,6 +923,16 @@ the phase, the CoT lesson structural), earlier g-hop, distributed in-register
 write, GTSM search. Also fixed a --out footgun (per-experiment default; the run had
 overwritten the s305 results.json, recovered from git). See §Result-hhop-write.
 
+s307/s308 — TERNARIZE-FACTORS-1 frozen (§ below, 012b978) + built (c0416f3,
+imports ternarize_delta pure helpers, frozen s304 generator untouched) + full
+run: VERDICT **FACTORS-SURVIVE (+FACTORING-FREE)** (27ce260). Ternarizing B and A
+separately retains 1.0 on every split — identical to float AND to the product
+plate; shuffle collapses to base; all gates pass. 3.01M trits ≈ 600 KB = 123×
+under the product plate → the ~1 MB portable wire exists, λ smallest closed.
+mag_cos 0.839 @ retention 1.0 → phase-only/kinoform storage reading, fed into
+the s308 optics-methods synthesis (`holographic-untangling-methods.md`). See
+§Result-ternarize-factors.
+
 ## §TERNARIZE-FACTORS-1 — pre-reg (the genuinely-small artifact, λ smallest; FROZEN s307, before any run; s222 law)
 
 > s307, Michael GO (front (a) after the delta-vs-base result settled "quantize the
@@ -1013,3 +1023,50 @@ as §Result-ternarize-delta.
 round-trip, size accounting factors ≪ product, shuffle null, verdict worlds) → smoke
 (`--n-cells`, mechanics only, s297) → Michael GO → full run tmux main:1 → frozen scoring →
 §Result-ternarize-factors + memory candidate → approval batch.
+
+## §Result-ternarize-factors — FACTORS-SURVIVE (+FACTORING-FREE) (s307/s308, frozen run, 3 seeds)
+
+> Full frozen run (tmux main:1, ~24 min MPS, all 53 gate-0 cells, 3 gd_cd seeds ×
+> 3 shuffle seeds). Results committed `27ce260`
+> (`results/ternarize-factors/qwen3-4b/`). Scored exactly as pre-registered.
+> Restore bit-exact (max|W−W0| = 0.00e+00).
+
+**VERDICT: FACTORS-SURVIVE (+FACTORING-FREE).** The genuinely small artifact
+exists. Ternarizing the rank-16 factors **B, A separately** (per-component TWN —
+the doubly-lossy op with no central-limit smoothing) costs **nothing**:
+
+| split | base | gd_cd_float | product_ternary | **factors_ternary** | factors_shuffle |
+|---|---|---|---|---|---|
+| TRAIN | 0.200 | 1.000 | 1.000 | **1.000** | 0.222 |
+| B1 held-landmark | 0.125 | 0.938 | 0.938 | **0.938** | 0.125 |
+| B2 held-COUNTRY | 0.545 | 1.000 | 1.000 | **1.000** | 0.545 |
+
+- **Gates (all pass, Bonferroni α/3):** TF1 wire — B1 +0.813 flip p=3.0e-4, B2
+  +0.455 flip p=1.0e-3 · TF2 not-lookup — B2 +0.409 p=1.8e-3 · TF3 specificity —
+  held-out +0.605 over the matched-budget per-component shuffle, p=1.0e-4 (the
+  load-bearing λ yardstick; shuffle collapses to base EXACTLY) · TF5 survive —
+  innocent CE 4.9099 ≤ base 4.9173, native g/h 1.0/1.0.
+- **Retention 1.0 on every split, for BOTH factors and product** →
+  sub-tag **+FACTORING-FREE** (a-priori lean was +FACTORING-COSTS — factoring was
+  expected to cost some retention; it cost none. Honest better-than-point; the
+  null still binds the claim).
+- **Size (λ smallest, CLOSED):** factor trits 3.01M (4.78 Mbit ≈ **600 KB** @
+  log₂3 bits/trit, sparsity 0.36) vs product 370M trits → **123×** smaller than
+  the s304 expanded plate, ~16× under the fp16 factors (~4.7M params ≈ 9.4 MB).
+  The **~1 MB portable wire** is real: a 500-step LoRA skill, crushed to ternary
+  factors, installs a verified generalizing capability on a frozen 4B base at
+  retention 1.0, null-gated.
+- **mag_cos_factors 0.839** (vs product's 0.902) with retention 1.000 — the
+  sharpest routing⊥magnitude datum yet: we discarded the amplitude record of
+  both factors and kept only quantized sign structure, and reconstruction is
+  perfect. **Kinoform reading:** the wire is a *phase-only hologram* (ternary =
+  binary-phase + absence; Oppenheim phase-dominance in weights). Captured with
+  the full optics mapping in `holographic-untangling-methods.md` (s308).
+
+**What this closes / opens.** Closes the s304 λ-smallest tension (the artifact
+is now smaller than every alternative form of the same wire). Completes the
+STORAGE story: gradient FINDS (s303) → ternary factors STORE (s307/s308) →
+~600 KB ships. Opens the productization questions (do independently-baked
+plates COMPOSE on one base? does the wire install @32B?) and feeds the s308
+holographic-untangling front (reference-drift prediction: retention should
+degrade as the recording reference drifts).
