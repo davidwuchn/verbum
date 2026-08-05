@@ -8,7 +8,51 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ═══ **THIS SESSION = 308.** Cold-start `orient` → TERNARIZE-FACTORS-1 run (launched
+> ═══ **THIS SESSION = 309.** Cold-start `orient` → Michael "we need to run experiments"
+> → picked **§SIGN-COMMITMENT-CURVE** (M8 validation gate, the cheapest board-probe) →
+> s222 freeze → build → --validate → smoke-green → Michael GO → **RUN LAUNCHED tmux
+> main:1** (in flight at state-write). s308 was a typed consolidation session; s309 is
+> back to MEASURE. Full transcript saves to `mementum/knowledge/chats/session-309.md`
+> (human). Prior header (s308) retained below. ═══
+>
+> ▶▶ **s309 — 🎯 §SIGN-COMMITMENT-CURVE FROZEN + BUILT + SMOKE-GREEN → RUN LAUNCHED
+> (tmux main:1, in flight).** Front picked by Michael (cheapest+sharpest on the board;
+> subsumes the k-step sweep; gates M8/TD-v2's evidence-gated commits). **Question:** in
+> gd_cd wire training (s303 — the wire that ternarizes near-losslessly, s304/s308
+> retention ~1.0), does GD commit the ROUTING register (trit SIGNS) EARLIER than it
+> polishes the VALUE register (per-column MAGNITUDES)? Are GD's two jobs separable in
+> TIME? **Instrument** `scripts/explore/sign_commitment.py`: reuses the gd_cd recipe
+> verbatim (LoRA r=16, FFN L22–L29, lr 1e-4, 500 steps, KL-on-CoT-teacher, 3 seeds,
+> frozen gate0.json = 15 TRAIN cells) + `ternarize_twn` (writeback_compile UNTOUCHED;
+> ~20 gd_cd lines re-expressed, Michael-approved, to add the per-step TWN observation
+> the frozen generator omits). Logs TWN(Δ_t)=scale·B_tA_t at a FIXED fibonacci schedule
+> {0,1,2,3,5,8,13,21,34,55,89,144,233,377,499}; tracks a seeded subsample (N_TRACK=20k
+> coords/matrix; full trit history ~9GB) → pooled ~480k trits × 15 snaps. **Metrics:**
+> sign-stability S(t)=mean[τ_t==τ_T], sign-COSINE Sc(t)=cos(τ_t,τ_T), value-cosine
+> M(t)=cos(|Δ_t|,|Δ_T|), commit-step, flip-rate, half-lives. **Nulls (λ yardstick):**
+> N1 time-shuffle (permute intermediate snaps, keep real final → commit spreads) + N2
+> paired within-run bootstrap. **Gates (frozen):** G1 SIGN-EARLY (median commit ≤0.25T
+> ∧ S(0.25T)≥0.9) · G2 TWO-TIMESCALE (t*_mag/t*_sign ≥2.0, bootstrap CI excludes 1) ·
+> G3 NULL-BEATS (p<0.05 vs N1) · G4 advisory FINAL-WIRE-SANE. **Verdicts:** TWO-TIMESCALE
+> (+SIGN-EARLY) / SIGN-EARLY-ONLY / SINGLE-TIMESCALE / SIGN-CHURN (falsifier → M8/TD-v2
+> named damage) / MAG-EARLY (surprise). **A-priori (NOT tuned):** ~55/20/15/8/2 — the
+> FINAL delta already ternarizes losslessly (s304/s308); OPEN is whether the register
+> split exists DURING training or only at convergence. **⚠ BUILD AMENDMENT (Michael-
+> approved, pre-run, no arm):** exact-match S(t) is stricter than 0.9-cosine M(t) → genuine
+> co-evolution would misread as MAG-EARLY; fix (conservative for SIGN-EARLY): G2/verdict
+> half-lives use sign-COSINE Sc(t) (like-with-like vs M), exact S reserved for
+> G1/commit; MAG-EARLY needs a 2× margin. Gates G1/G3/G4, schedule, nulls, a-priori
+> UNCHANGED. --validate ALL PASS (5 verdict worlds + primitives), ruff clean, no diags;
+> smoke green (1 seed/30 steps/4 cells: loss 3.95→0.057, all snaps logged, final mag_cos
+> 0.953, restore trivially bit-exact — LoRA only adds, base never mutated).
+> ⚠ ON-SIGNAL (run done, tmux main:1): tail run.log for "VERDICT:" + no traceback → read
+> results.json verdict + G1–G4 + t*_sign/t*_mag + commit-step + final mag_cos → commit
+> results/sign-commitment/qwen3-4b/ + run.log AUTONOMOUS → §Result-sign-commitment on
+> the-verbum-machine.md (M8 section) + memory candidate + state block → MICHAEL APPROVAL
+> BATCH (synthesis approval-gated). s309 ledger: b347f6b freeze · ffccbc5 instrument ·
+> 8eda1ff amendment · run + synthesis PENDING.
+>
+> ═══ **(prior) SESSION 308.** Cold-start `orient` → TERNARIZE-FACTORS-1 run (launched
 > s307) finished → ✅ **FACTORS-SURVIVE (+FACTORING-FREE)** (CLOSED, §Result-ternarize-
 > factors, 27ce260) → Michael thread "we've learned so much, little to show — what would
 > optics do to untangle a holographic plate?" → 💡 **holographic-untangling-methods.md**
