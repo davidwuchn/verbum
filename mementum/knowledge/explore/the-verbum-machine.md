@@ -164,6 +164,13 @@ minimized (speckle budget).
 K-acquisition chaos law); A2/CAP (s292); P-COHERENT-WRITE (unfrozen) is this
 component's direct validation.
 
+**Corpus source (s308 close — the socket filled):** the **consensus lambda
+corpus** — probes run through N diverse teachers, mixed across examples
+(never averaged per example), correctness-gated. Multi-teacher mixing =
+carrier-averaging filter: idiosyncratic sidebands cancel, the universal
+crystal is the only coherent component. See
+`consensus-distillation-carrier-averaging.md` (+ §P-CONSENSUS-DISTILL).
+
 **Open parameters.** How to *measure* edge-share of a batch cheaply; K-last
 vs K-interleaved (the chaos law suggests K needs special handling).
 
