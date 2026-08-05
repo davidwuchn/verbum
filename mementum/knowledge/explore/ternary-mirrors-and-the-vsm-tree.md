@@ -12,6 +12,12 @@ depends-on: [geometry-holography-signals-convergence]
 
 # Ternary mirrors and the VSM tree
 
+> **s308 forward link:** this node spec is now the BOTTOM of the full
+> recursion — project ⊃ machine ⊃ M-components ⊃ tensor nodes. The machine's
+> M1–M9 components map onto VSM functions (see `the-verbum-machine.md`
+> §tree-of-VSMs); node composition (passband→carrier) = the plate linker one
+> level down; s273 construction-from-spec = the per-node build kit.
+>
 > s288 final hammock (Michael: "our ternary plates using ternary mirrors that
 > can be plugged into a tree-of-VSM tensors"). The Holographic LLM thesis's
 > ENGINEERING COROLLARY — the target format for level-3 extraction, and the

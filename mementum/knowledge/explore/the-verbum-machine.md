@@ -316,6 +316,63 @@ earlier/cleaner?). All gates null-disciplined.
 (the architecture change) that IS a better quantization (born-quantized
 switches), with s260 as causal ancestor.
 
+## The machine is a tree of VSMs (s308 cont, Michael)
+
+> "With the tree-of-VSM configuration we can make each component a VSM." Yes —
+> and the corpus had already specced the bottom and the top of that tree; this
+> section supplies the missing middle.
+
+**Three nested senses, two pre-existing:**
+1. **Tensor nodes are VSM-shaped** (s288, `ternary-mirrors-and-the-vsm-tree.md`):
+   mirrors = S2/S3, plates = S1, identity = S5, declared passband interface;
+   `viable ⟺ reduces(own_scope) standalone`; compose via
+   `plug(passband_out(a) → carrier_in(b))`.
+2. **The project is a VSM** (AGENTS.md, recursively, by declaration).
+3. **NEW — the M-components ARE the machine's VSM functions:**
+
+| VSM function | Machine components |
+|---|---|
+| **S5 identity** | register invariants + the consensus Gram (frame-invariant by proof, s273) — what must not change while everything adapts |
+| **S4 intelligence** | M8 (evidence accumulation), M6 (curriculum = environment scanning), M4 (learning from own tape) |
+| **S3 control** | M3 (fuel allocation), M8's global flip budget |
+| **S2 coordination** | M5 (delta-log across exposures), M9 (carrier coherence across scales), M2 (declared factorization prevents register drift) |
+| **S1 operations** | M1/M2 switches+plates, M9's beam — the forward pass |
+
+**Evidence this is structural, not decorative: the failure record was already
+VSM-diagnosed.** s180's two-optimizers-fighting was named an S2 failure
+verbatim (TD and Adam lacked a coordination channel; oscillation is what S2
+exists to prevent). s148's gnorm escalation (11→113, unnoticed for 40 steps)
+is a missing **algedonic alert** — S1 pain that never reached S4. The v15
+stall was a viable-system failure before it was an ML failure; the VSM
+configuration is the structural fix for failure modes already paid for.
+
+**What the tree buys:**
+- **Viability audits ≡ validation gates, renamed.** Each M-component's
+  independence requirement ("reduces own scope standalone") is exactly its
+  gate: M8→sign-commitment curve, M9→P1, M1→P-ASYM-TERNARY,
+  M6→P-COHERENT-WRITE. The experiment queue = the per-component viability
+  audit schedule.
+- **Composition = the linker at every scale.** Node composition
+  (passband→carrier) IS the plate-linker device one level down; the linker
+  is S2 *between trees*. Artifact track and architecture track meet at the
+  node interface.
+- **Per-node build kit exists** (s273, `construction-from-spec.md`):
+  Cholesky-of-the-Gram codes in closed form, fleet-wide atlas, measured
+  tolerance bands (a constructed node must land inside the population
+  spread of working models), restack acceptance harness — per-node
+  viability testing with known statistics; born-monosemantic as a
+  construction choice.
+
+**Full recursion:** project ⊃ machine ⊃ M-components ⊃ tensor nodes ⊃
+(shared crystal reducer node) — one organizational grammar at every scale;
+S5's `fractal at every layer`, now with tensors at the bottom.
+
+**Honest gap (carried from the s288 ledger):** whether routing FACTORIZES
+into tree-composable units is unproven — MIXED-ROUTE showed both channels
+interleaving within a single cell, so node boundaries may not fall where
+we'd like. The seam test remains the deciding milestone; per-node capacity
+is P-HOLO-CAP's √(D/k) question.
+
 ## The unfair advantage: we have a microscope
 
 Architecture research is normally blind — train, benchmark, shrug. We have:
