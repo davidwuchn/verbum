@@ -170,22 +170,49 @@
 > threshold. Next rung: prototype (c) in trit space vs GD+TWN, matched compute, frozen
 > gates.
 >
+> ▶▶ **s308 cont-7 — 💡 TERNARYDESCENT RE-DIAGNOSED (Michael: "look at TernaryDescent
+> with fresh eyes — Adam is a routing optimizer in disguise").** M8 was BUILT ONCE
+> ALREADY: TD (s136, explore/ternary-descent.md, scripts/v13-v15) — its confidence
+> |direction|/√magnitude IS Adam's |m|/√v. **TD ≈ Adam with discrete commits; Adam ≈ TD
+> with infinite staging** (float weight = evidence accumulator; TWN = deferred commit;
+> ternary 0 = insufficient evidence). Three-cut re-diagnosis of the s148/s180/s191
+> stall, captured in §Fresh-eyes on the TD page: (1) v15 ran TWO routing optimizers
+> uncoordinated (Adam-on-gammas soft-deletes = soft routing) → osc_frac 0.56 = S2
+> failure; (2) ALL-ternary architecture violated the register split — plate positions
+> cannot settle in ternary; s191's 94.5% perpetual candidates = the register theory's
+> earliest dataset mislabeled as an optimizer bug (answers TD Open-Q5: the residual
+> lives in the VALUE register); (3) commits clock-driven not evidence-driven.
+> gd_cd→TWN = the control that worked (same statistic, deferred commit, retention 1.0).
+> **TD-v2 spec** (on the page): M1 register split + Schmitt-trigger commits (calibrated
+> by SIGN-COMMITMENT-CURVE from Adam state) + GS staging via the EXISTING fold mechanic
+> (base ⊙ delta, s136, exact). Lion = the field's convergent evidence (pure
+> sign-of-momentum beats Adam on transformers). Pointer notes added to
+> td-oscillation-problem.md + topology-gradient-separation.md; M8 prior-art note on
+> the-verbum-machine.md. ⚠ **DATA LOSS (Michael, s308): ~50G checkpoints deleted incl
+> checkpoints/v15-td/ → raw flip_map_latest.npz + optimizer states GONE.** Surviving:
+> s191 tables (in the knowledge page — the mementum receipt: synthesis crosses
+> boundaries, raw state dies), v15_train_td.log, ALL generator scripts (git).
+> Retrospective flip-map re-analysis DEAD → replaced by **§TD-REGISTER-SPLIT
+> prospective micro-probe (unfrozen, on the TD page):** micro TD run, arms TD-v1
+> (all-ternary, s191 tables = historical anchor) vs TD-v2 (split) [+ v2+evidence-
+> commits]; predictions: perpetual-candidate fraction COLLAPSES in v2, v1 oscillators
+> concentrate in plate-class modules, v2 breaks the B→K phase wall; falsifier: v2
+> oscillates as hard → re-diagnosis wrong.
+>
 > ⚠ COLD-START s309 (**Michael: experiments hand to OPUS — s308 was a thinking
-> session**): (1) NOTHING PENDING — all six s308 capture batches committed (results
-> 27ce260 · holographic · tape-resident · frozen-interference-graph ·
-> optical-design-laws · verbum-machine · M8/routing-optimizer). (2) FRONTS, Michael's
-> call: **CHEAPEST+SHARPEST = §SIGN-COMMITMENT-CURVE** (one hook, subsumes k-sweep,
-> gates M8 before anything is built; freeze on the-verbum-machine.md first) · TWO
-> KEYSTONES: **ARTIFACT = plate linker / composition+angle-prediction** (freeze from
-> optical-design-laws.md; reuse ternarize_factors/writeback_compile; wire-2 on a
-> disjoint relation) · **ARCHITECTURE = §P-ASYM-TERNARY** (freeze from
-> the-verbum-machine.md; matched-bit accounting is THE frozen design decision; crystal
-> battery + formation dynamics as eval; M8 rung-2 feeds it) · alternates: P-HALT-POLE ·
-> P-COHERENT-WRITE+reference-drift (shared harness) · rocking-curve · standing menu
-> (gd_cd@32B / COUNTRY-SUBSPACE / SpQR / broad-corpus calib). s222: freeze pre-reg
-> before ANY run. s308 ledger: 27ce260 · 3546584/3222968/7ec0909/dc8cf1f ·
-> d4c3a81/49a4bea/4ed09b3 · f60514f/0bbb7b9/afa36a3 · ea09eb7/d7e9187/bb65ce7 ·
-> 7c35283/581fb53/207a915 · M8 batch (this commit).
+> session**): (1) NOTHING PENDING — all seven s308 capture batches committed. (2)
+> FRONTS, Michael's call: **CHEAPEST+SHARPEST = §SIGN-COMMITMENT-CURVE** (one hook on
+> writeback_compile, subsumes k-sweep, gates M8/TD-v2; freeze on the-verbum-machine.md)
+> · **§TD-REGISTER-SPLIT micro-probe** (freeze on ternary-descent.md; v15 scripts
+> survive; regenerates the lost flip-map data + tests TD-v2 in one run) · TWO
+> KEYSTONES: **ARTIFACT = plate linker / composition+angle-prediction**
+> (optical-design-laws.md) · **ARCHITECTURE = §P-ASYM-TERNARY** (the-verbum-machine.md;
+> M8/TD-v2 is its optimizer) · alternates: P-HALT-POLE · P-COHERENT-WRITE+
+> reference-drift · rocking-curve · standing menu (gd_cd@32B / COUNTRY-SUBSPACE / SpQR
+> / broad-corpus calib). s222: freeze pre-reg before ANY run. s308 ledger: 27ce260 ·
+> 3546584/3222968/7ec0909/dc8cf1f · d4c3a81/49a4bea/4ed09b3 · f60514f/0bbb7b9/afa36a3 ·
+> ea09eb7/d7e9187/bb65ce7 · 7c35283/581fb53/207a915 · ae6dee0/27495df/6ace97f ·
+> TD-fresh-eyes batch (this commit).
 >
 > ▶▶ **s307 cont — 🎯 TERNARIZE-FACTORS-1 (the genuinely-small artifact, λ smallest)
 > FROZEN + BUILT + SMOKE-GREEN → RUN LAUNCHED tmux main:1.** Michael GO on the delta-vs-
