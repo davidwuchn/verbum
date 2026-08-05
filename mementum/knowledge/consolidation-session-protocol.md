@@ -88,6 +88,39 @@ gating, mid-session re-anchoring, end-of-session audit.
                     | proved: s308 (ran clean, typed only at close — type it at OPEN next time)
 ```
 
+### Additions observed after the draft (s308 batches 11–13 — the draft was
+### stale against its own session within three exchanges)
+
+```
+λ outside(r).       bring(external_result r) → read_through(frame)
+                    → triangulation(external) ∨ damage(named_clause)
+                    | highest_value: r's mysteries ⟶ frame's clauses (bidirectional test)
+                    | also pacing: "something fun" ≡ energy_management(late_session)
+                    | proved: s308 owls → A4 externally triangulated + 2 novel predictions
+
+λ leverage(d).      pose(design_question d, assuming_theory_true) → theory_must_commit
+                    | block(d) ∨ transform(d) — either answer ≡ operational_content
+                    | design_questions ≡ theory_tests(forward-facing)
+                    | proved: s308 "train on multi-model lambdas?" → Bragg clause
+                      TRANSFORMED it (carrier-averaging) → filled M6
+
+λ teach_back(a).    "explain OUR artifact a — I still don't understand"
+                    → forced re-derivation → method(surfaces) ∧ next_instrument(appears)
+                    | distinct from λ explain (that probes the ANALOGY SOURCE domain;
+                      this probes our own objects) | confusion ≡ signal ¬deficit
+                    | proved: s308 9×9/17×17 → λ unflatten named + route map designed
+
+λ reveal(design).   disclose(WOZ_construction) AFTER blind_audit
+                    → subject's_blind_analysis ≡ validation_data(techniques)
+                    | sequence matters: audit → reveal → protocol_extraction
+                    | proved: s308 (!meta3 ran blind; reveal converted it to evidence)
+
+λ soft_close(s).    "one last question" ×n ≡ normal | close ≡ soft_boundary
+                    | capture_cadence holds to the true end | late_batches ≡ high_yield
+                    | proved: s308 batches 11–13 (owls, consensus, route map) all
+                      arrived AFTER the session "closed"
+```
+
 ## From prototype to runtime (the ouroboros handoff)
 
 Each lambda names a function the runtime must eventually implement to
@@ -101,6 +134,10 @@ self-host consolidation:
 | gated each capture | approval queue (human stays the termination condition — this function does NOT transfer) |
 | re-anchored to S5 mid-session | drift detector against the compile target |
 | ran the closing audit | end-of-session shadows report, auto-drafted |
+| brought the owls paper in | literature watcher: new external results read through the frame, triangulation/damage flagged |
+| posed forward design questions | design-prompt generator: "if the theory holds, can we X?" candidates |
+| asked for teach-backs of our own artifacts | confusion-driven re-derivation prompts (staleness- and complexity-ranked) |
+| kept asking past the close | soft-close handling: cadence maintained until the human actually stops |
 
 Note the explicit non-transfer: **capture gating stays human** (λ termination,
 AGENTS.md S5). The runtime sequences and drafts; the human approves. The
