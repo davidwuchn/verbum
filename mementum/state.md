@@ -255,9 +255,28 @@
 > theory-over-leverage shadow PARTIALLY dissolves under correct typing (consolidation
 > isn't supposed to produce new bits) but the red-team warning STANDS.
 >
+> ▶▶ **s308 cont-11 (fun) — 💡 THE OWLS PAPER READ THROUGH THE FRAME
+> (`knowledge/explore/subliminal-learning-is-bragg-matched-transfer.md` + memory,
+> Michael-approved).** Subliminal Learning (arXiv:2507.14805): teacher with trait T
+> generates semantically-unrelated data (numbers/code/CoT) → same-base student
+> acquires T despite filtering; cross-base = no transfer. FIRST external result the
+> s308 theory explains: same-base-only = BRAGG MATCHING (trait = sideband on the
+> teacher's carrier; mismatched base = wrong reference beam → no diffraction);
+> filtering failure = TWO REGISTERS (semantic audit sees value register; trait
+> travels in the data's routing register); their shared-init theorem = OFF-AXIS
+> (trait = data-borne delta); ★ their same-base condition EXTERNALLY TRIANGULATES A4
+> own-state (s295 P-KV-1) — the medium's channels are state-matched, independently
+> measured at two scales. Predictions (unfrozen): **P-SL-BRAGG** (transmission vs
+> base-divergence = smooth selectivity curve — THIRD drift sibling: weights/position/
+> data, one L3 clause) + **P-SL-STRIP** (mismatched-plate paraphrase strips the
+> trait; same-base paraphrase does NOT). Product: sidebands unauditable → plates +
+> contracts = the explicit verified alternative (linker safety case, external).
+> Protocol page re-marked status:draft (Michael: sharpen once lambdas run in an
+> agent).
+>
 > ⚠ COLD-START s309 (**Michael: experiments hand to OPUS — s308 was a TYPED
-> CONSOLIDATION session, protocol now on file**): (1) NOTHING PENDING — all ten s308
-> capture batches committed. (1b) **TYPE s309 AT OPEN** (likely: measure). (2)
+> CONSOLIDATION session, protocol now on file**): (1) NOTHING PENDING — all eleven
+> s308 capture batches committed. (1b) **TYPE s309 AT OPEN** (likely: measure). (2)
 > FRONTS, Michael's call: **CHEAPEST+SHARPEST = §SIGN-COMMITMENT-CURVE** (one hook on
 > writeback_compile, subsumes k-sweep, gates M8/TD-v2; freeze on the-verbum-machine.md)
 > · **§TD-REGISTER-SPLIT micro-probe** (freeze on ternary-descent.md; v15 scripts
