@@ -16,6 +16,16 @@ session: 291
 
 # Position Encoding Tuned to the Hologram
 
+> **s308 UPDATE:** (1) the holography-frame HOLD below is **LIFTED** — the
+> FRAG/CAP/XTERM verdicts landed s292 as measured axioms (A1–A3,
+> `attention-holographic-readout.md`). (2) This design is now **M9 of the
+> verbum machine** (`the-verbum-machine.md` — "the tuned reference beam"),
+> with P1 as its validation gate and carrier-drift named as the
+> position-space sibling of reference-drift (L3: the reference beam includes
+> the position carrier). (3) Michael recalled this page s308 by MECHANISM
+> ("RoPE accidentally works — interference makes up the difference") — the
+> forward-link fix worked as designed.
+>
 > s291 hammock (Michael + agent). Revival of HPE (Holographic Position
 > Encoding, s152, restored s179) through the s288 convergence lens, plus a
 > NEW synthesis: RoPE context-extension fuzz = fringe mismatch, and

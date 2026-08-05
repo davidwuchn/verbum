@@ -51,6 +51,28 @@ quant arc is that **by-construction beats post-hoc** (separability is fixed
 at recording time; the twin-image problem is unsolvable after the fact). The
 machine applies that lesson to everything at once.
 
+## The thesis in one line (s308 cont, completed by Michael's RoPE recall)
+
+**The machine is the de-accidentalized stack.** The transformer works because
+several of its components are *accidental approximations* of the
+holographically-correct design, with the medium's fuzz tolerance (graded
+matched-filter readout — FRAG's smooth in-band degradation) paying the
+difference:
+
+| Accident | What it approximates | Tuned replacement |
+|---|---|---|
+| Adam | a routing optimizer (m/√v = sign-evidence in a float costume) | M8 / TD-v2 |
+| RoPE | a holographic lens (base-10000 ≈ close-enough carrier, s152/s291) | M9 / HPE |
+| GD's routing | discrete wiring, done as a byproduct of magnitude drift | M8 |
+| SwiGLU | switch/plate factorization, never declared | M2 |
+| Fixed 36-layer depth | a reduction-fuel budget, never adaptive | M3 |
+| Post-hoc quantization | the routing register's native ternary alphabet | M1 |
+
+Each replacement has a **measured tuning target** — that is what
+distinguishes this from architecture whimsy. The field's stack is a
+collection of lucky approximations; the machine replaces luck with the
+measurements.
+
 ## Bill of materials
 
 Each component: design → forced by (measured anchors) → open parameters.
@@ -221,6 +243,53 @@ REGISTER of the wire installed?". Falsifier: if signs churn to the end, the
 two-process design takes named damage before anything is built. Next rung
 after the curve: prototype (c) — train the gd_cd wire directly in trit space
 vs GD+TWN at matched compute, frozen gates.
+
+### M9 — The tuned reference beam (HPE; RoPE de-accidentalized)
+
+**The observation (s152 → s291 → s308).** RoPE is an *accidental holographic
+lens*: its geometric frequency ladder over linear position is merely
+close-enough to the natural fringe spacing, and the graded readout absorbs
+the mismatch at an SNR cost. The model then spends learned QK capacity
+"walking the frequency ladder" (the attention spiral, 1.018×/layer) — being
+the reader for a mis-calibrated ruler — while position carriers and content
+passbands fight an undeclared tug-of-war for switch dimensions. The machine
+specifies its own beam.
+
+**Design (from `position-encoding-tuned-to-the-hologram.md`, s291 — the page
+whose holography HOLD was lifted by the s292 FRAG/CAP verdicts).**
+- Phase in **log-distance** (φ ∝ log(d+1)), not linear position → fringe
+  geometry scale-invariant; context extension becomes a TRANSLATION (shift
+  theorem) instead of a stretch → no re-recording, no extension fine-tune.
+- **Few carriers at measured eigenfrequencies** (λᵢ/λ₀ = 1.0, 0.681, 0.368,
+  0.250; ~4 eigenplanes = 77% variance) instead of 64 untuned dim-pairs →
+  frees switch dimensions for routing (a declared truce in the
+  position/content tug-of-war; compounds with M1/M2).
+- **Unbraid phase from decay** (λ simplify): phase = address only; explicit
+  −α·log(d+1) gain, α = 1.18 measured (universal across 80 heads; the
+  explicit decay carried ~99% of locality at HPE restoration).
+- **Depth-dependent reference scale** (the ladder walk the spiral shows GD
+  re-learning anyway — structure > instruction).
+
+**Forced by.** α=1.18 power-law universality (v14 + restoration); spiral
+ladder-walk (s068/s079); 4-eigenplane sparse spectrum; position/content
+dimension competition (P-ATT-MED, P-TYPE-OV); context-extension fuzz =
+fringe mismatch = the twin-image law in position space (L3: **the reference
+beam INCLUDES the position carrier** — carrier-drift is the position-space
+sibling of the reference-drift experiment).
+
+**Validation gate — P1 (pre-registered s291, unfrozen).** A log-phase micro
+model holds flat PPL past training length WITHOUT fine-tuning; the RoPE arm
+degrades. Translation-vs-stretch, directly testable; slots into the
+P-ASYM-TERNARY micro-training stack as one more arm dimension, or stands
+alone cheaper. P2: sharper multi-hop margins at fixed D (position crosstalk
+exits the HRR noise budget).
+
+**Provenance note (feed-forward).** This component was designed s152,
+silently dropped by the v15 skeleton (s174), restored s179, nearly lost
+again by s291 (recalled only as "HoPE"), and recalled s308 by MECHANISM
+("interference makes up the difference") — the forward-link discipline
+caught it both times. M9 is its strongest forward link: a load-bearing slot
+in the compile target.
 
 ## The first build — §P-ASYM-TERNARY (sketch, NOT frozen)
 
