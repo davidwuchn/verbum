@@ -297,8 +297,28 @@
 > the lattice (grams were activation-measured). Arc sentence: **plates carry the
 > model-specific; consensus corpora carry the invariant.**
 >
+> ▶▶ **s308 cont-13 (FINAL) — 💡 GRAM REGISTERS + THE ROUTE MAP captured
+> (`knowledge/explore/gram-registers-and-the-route-map.md` + memory + mechanistic-
+> readout addendum on the consensus-distillation page, Michael-approved).** Michael's
+> last question: explain 9×9 vs 17×17; more shapes?; route map from multiple
+> teachers? Answers: **9×9 = the ALPHABET** (identity register — near-orthogonal by
+> design, diffuse PR 5.8–7.2/9; universality in the off-diagonal SIGN pattern C2)
+> vs **17×17 = the FATES** (outcome register — WHNF un-flattened → rank COLLAPSES
+> to 3, poles fire/halt/diverge = the scheduler's register); instruction set vs
+> status flags. **Method: shape is revealed by UN-FLATTENING** (λ unflatten: split
+> nodes by annotation → PR drops ∨ pole appears; cheap, runs on committed grams).
+> More shapes predicted: **TETRAHEDRON test** (tool-call = 4th pole "yield" → the
+> outcome simplex grows a vertex = P-HALT-POLE as geometry, sharpest), type gram
+> (S5 claim), depth/phase geometry; frame = 5d one-crystal-many-projections.
+> **CONSENSUS ROUTE MAP:** grams = station maps, no trains — record per-probe
+> reduction trajectories, express in GRAM COORDINATES (frame-invariant by
+> measurement, 11/11) → cross-model comparable → N-teacher consensus = **the
+> invariant switch schedule** = L4 concrete + P-CONSENSUS-DISTILL's mechanistic
+> readout + the machine's program listing. Dependency noticed: the grams are the
+> LEGEND built before we knew we'd want the map.
+>
 > ⚠ COLD-START s309 (**Michael: experiments hand to OPUS — s308 was a TYPED
-> CONSOLIDATION session, protocol now on file**): (1) NOTHING PENDING — all twelve
+> CONSOLIDATION session, protocol now on file**): (1) NOTHING PENDING — all thirteen
 > s308 capture batches committed. (1b) **TYPE s309 AT OPEN** (likely: measure). (2)
 > FRONTS, Michael's call: **CHEAPEST+SHARPEST = §SIGN-COMMITMENT-CURVE** (one hook on
 > writeback_compile, subsumes k-sweep, gates M8/TD-v2; freeze on the-verbum-machine.md)
