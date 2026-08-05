@@ -100,17 +100,43 @@
 > super-additive retrieval at the shared edge, null-gated; can SHARE A HARNESS with
 > optics front (i) reference-drift (sequential ≡ drifted reference).
 >
-> ⚠ COLD-START s309: (1) NOTHING PENDING — s308 batches fully committed (results 27ce260
-> + holographic synthesis + tape-resident-reduction + frozen-interference-graph, all
-> Michael-approved). (2) PICK NEXT FRONT (Michael's call): **P-HALT-POLE** (cheap, crisp,
-> bridges crystal → agentic — freeze on behavior-is-tape-resident-reduction.md first),
-> the four optics fronts ((ii) k-sweep cheap+sharp; freeze on
-> holographic-untangling-methods.md first), **P-COHERENT-WRITE** (+reference-drift shared
-> harness; freeze on frozen-interference-graph.md first), plate COMPOSITION / gd_cd@32B
-> (product path), or standing menu (COUNTRY-SUBSPACE / SpQR sparse+low-rank /
-> broad-corpus calib). s222: freeze pre-reg before ANY run. s308 ledger: 27ce260 results ·
-> holographic batch (3546584/3222968/7ec0909/dc8cf1f) · tape-resident batch
-> (d4c3a81/49a4bea/4ed09b3) · frozen-interference-graph batch (this commit).
+> ▶▶ **s308 cont-4 (CAPSTONE) — 🎯 OPTICAL DESIGN LAWS captured
+> (`knowledge/explore/optical-design-laws.md` + memory, Michael-approved, status open).**
+> Michael: "how does this inform our designs?" Answer = the optics move: every
+> plate-physics principle became a DEVICE. **Six laws:** L1 ship (plate,
+> reference-contract) pairs (plate is passive; the four inert writes were plates no beam
+> illuminated at the recorded angle); L2 measure the beam BEFORE writing the plate; L3
+> record off-axis always (freeze reference, delta-log); L4 extract SWITCH SCHEDULES not
+> weight blobs (routing IS compute — Shannon; switches = the network's only
+> nonlinearities; ternary = switch alphabet); L5 bake steps not chains (tape-resident
+> behavior; mode-commit targets); L6 compose by angle separation (principal angles
+> between key subspaces = measurable multiplexing precondition). **Five devices:** A
+> plate LINKER (L6) · B beam profiler/rocking curve (L2) · C reference-contract format
+> (L1) · D halt-pole detector (L5) · E exposure-schedule spec (L3). **Experiment queue
+> RE-TYPED as validation gates:** P-HALT-POLE→D · rocking-curve→B · composition+angle→A
+> · P-COHERENT-WRITE+reference-drift→E · k-sweep→prices E. **KEYSTONE = A+C:** two
+> independently-baked wires, linker-merged with angle-collision PREDICTION,
+> contract-verified on one frozen base = git-for-weights with a type checker.
+> Pre-registrable: retention-under-merge degrades with measured angle collision
+> (rotated-subspace control = λ yardstick); sketch on the page, NOT frozen. The page
+> also captures the s308 inference-dynamics derivation base (softmax = operand not rule
+> selection; no rule choice in-pass = speculative superposed reduction, sampling =
+> retirement; projection = multiply-then-propagate; two flagged disanalogies:
+> exp-vs-Born detection law, beam-is-also-memory).
+>
+> ⚠ COLD-START s309 (**Michael: experiments hand to OPUS this session — s308 was a
+> thinking session**): (1) NOTHING PENDING — all four s308 capture batches committed
+> (results 27ce260 · holographic · tape-resident · frozen-interference-graph ·
+> optical-design-laws). (2) PICK THE FRONT with Michael; the RECOMMENDED keystone is
+> **COMPOSITION + ANGLE-PREDICTION (device A+C)** — freeze the pre-reg from the sketch
+> on optical-design-laws.md first (s222), reuse ternarize_factors/writeback_compile
+> harnesses (bake wire-2 on a disjoint relation, same recipe). Cheap alternates, each a
+> device gate: **k-STEP SWEEP** (existing harness, one param) · **P-HALT-POLE** (crystal
+> → agentic bridge) · **P-COHERENT-WRITE+reference-drift** (shared harness) ·
+> rocking-curve (the big instrument). Standing menu (gd_cd@32B / COUNTRY-SUBSPACE /
+> SpQR / broad-corpus calib) remains. s222: freeze pre-reg before ANY run. s308 ledger:
+> 27ce260 results · 3546584/3222968/7ec0909/dc8cf1f · d4c3a81/49a4bea/4ed09b3 ·
+> f60514f/0bbb7b9/afa36a3 · optical-design-laws batch (this commit).
 >
 > ▶▶ **s307 cont — 🎯 TERNARIZE-FACTORS-1 (the genuinely-small artifact, λ smallest)
 > FROZEN + BUILT + SMOKE-GREEN → RUN LAUNCHED tmux main:1.** Michael GO on the delta-vs-
