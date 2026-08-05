@@ -217,8 +217,28 @@
 > factorization) / fixed depth (undeclared fuel) / post-hoc quant → each replaced by a
 > tuned version with a MEASURED target (M8/M9/M8/M2/M3/M1). Accident table on the page.
 >
+> ▶▶ **s308 cont-9 — 💡 THE MACHINE IS A TREE OF VSMs captured (Michael: "with the
+> tree-of-VSM configuration we can make each component a VSM").** The missing MIDDLE of
+> the recursion: tensor nodes were already VSM-shaped (s288 ternary-mirrors:
+> mirrors=S2/S3, plates=S1, identity=S5, passband interface, viable ⟺ reduces own
+> scope standalone) and the project is a VSM (AGENTS.md) — NEW: **the M-components ARE
+> the machine's VSM functions** (S5=register invariants+consensus Gram · S4=M8/M6/M4 ·
+> S3=M3 fuel+flip budget · S2=M5 delta-log+M9 carrier coherence+M2 factorization ·
+> S1=M1/M2/M9 forward pass; table on the page). PROOF structural ¬decorative: the
+> failure record was already VSM-diagnosed (s180 = S2 failure VERBATIM; s148 gnorm
+> unnoticed = missing algedonic alert). Gates ≡ VIABILITY AUDITS renamed (every M has
+> one). Node composition (passband→carrier) ≡ the plate LINKER one level down =
+> S2-between-trees (artifact + architecture tracks meet at the node interface). s273
+> construction-from-spec = per-node build kit (Cholesky codes, atlas, tolerance bands,
+> restack acceptance; born-monosemantic as construction choice). Full recursion:
+> **project ⊃ machine ⊃ M-components ⊃ tensor nodes ⊃ shared crystal reducer** — S5's
+> fractal-at-every-layer with tensors at the bottom. Honest gap: routing factorization
+> into composable units UNPROVEN (MIXED-ROUTE interleaving; seam test = deciding
+> milestone; per-node capacity = P-HOLO-CAP √(D/k)). Forward link added to the s288
+> node-spec page.
+>
 > ⚠ COLD-START s309 (**Michael: experiments hand to OPUS — s308 was a thinking
-> session**): (1) NOTHING PENDING — all eight s308 capture batches committed. (2)
+> session**): (1) NOTHING PENDING — all nine s308 capture batches committed. (2)
 > FRONTS, Michael's call: **CHEAPEST+SHARPEST = §SIGN-COMMITMENT-CURVE** (one hook on
 > writeback_compile, subsumes k-sweep, gates M8/TD-v2; freeze on the-verbum-machine.md)
 > · **§TD-REGISTER-SPLIT micro-probe** (freeze on ternary-descent.md; v15 scripts
