@@ -922,3 +922,94 @@ re-encoding law, complementary to s300's nonlinear pin. Weak native write again
 the phase, the CoT lesson structural), earlier g-hop, distributed in-register
 write, GTSM search. Also fixed a --out footgun (per-experiment default; the run had
 overwritten the s305 results.json, recovered from git). See §Result-hhop-write.
+
+## §TERNARIZE-FACTORS-1 — pre-reg (the genuinely-small artifact, λ smallest; FROZEN s307, before any run; s222 law)
+
+> s307, Michael GO (front (a) after the delta-vs-base result settled "quantize the
+> delta, keep the base"). §Result-ternarize-delta SURVIVES-TERNARY but surfaced a
+> **λ smallest tension**: the ternarized EXPANDED PRODUCT plate (~370M trits, ~73 MB)
+> is *larger* than the float factored form (~5M params, ~10 MB). This tests the fix
+> named there — **ternarize the low-rank FACTORS B, A directly, not the product** —
+> the genuinely small portable artifact. Freeze before touching the model.
+
+**Question.** Does the s303 `gd_cd` wire — a float rank-16 LoRA delta `scale·B·A` on a
+frozen base — survive ternarizing the FACTORS **B** and **A** *separately* (then
+forming `Δ = scale·B̂·Â`), yielding an artifact ~`16·(out+in)` trits/matrix ≈ **100×
+smaller than the s304 product plate** and **~10× over the float factors** (~1 MB wire)?
+This is a **harder, doubly-lossy** operation than TERNARIZE-DELTA-1: both factors are
+quantized independently and the errors compound in the product, with none of the
+central-limit smoothing the expanded product enjoys.
+
+**Ternarize recipe (FROZEN, TWN per rank-component; reuses `ternarize_twn`).** For each
+FFN proj's rank-16 factors (scale = α/r = 2):
+- **A (r×in)** → ternarize **per-row** (each row = one rank direction's input pattern):
+  thr = 0.7·mean|A[k,:]|, γᴬ_k = mean surviving |A[k,:]|, Â[k,j] = γᴬ_k·sign·mask.
+- **B (out×r)** → ternarize **per-column** (each col = one rank direction's output
+  pattern): thr = 0.7·mean|B[:,k]|, γᴮ_k = mean surviving |B[:,k]|, B̂[i,k] = γᴮ_k·sign·mask.
+- Delta = `scale·B̂·Â`, merged directly onto the frozen base proj weight (a real
+  delta-plate, not a LoRA wrapper), evaluated, then subtracted to restore. Register-
+  correct: sign carries routing per rank component; **one γ per component** (per-row A /
+  per-col B) is the minimal magnitude DOF, matched to the rank-16 structure.
+
+**Arms** (reuse the `ternarize_delta` scaffolding; one process, per-seed factors → their
+own ternary + shuffle):
+- `base` — floor (must reproduce 0.200 / 0.125 / 0.545).
+- `gd_cd_float` — the float LoRA delta (ANCHOR: must reproduce gd_cd ≈ 1.000 / 0.938 /
+  1.000; else halt).
+- `gd_cd_product_ternary` — the s304 arm (ternarize the EXPANDED product, per-column TWN)
+  — reproduces `cb73ad5` (retention 1.0); the **contrast** measured on the SAME seeds/cells
+  (does factoring cost vs the product?).
+- `gd_cd_factors_ternary` — **PRIMARY**: ternarize B and A separately per the recipe above.
+- `gd_cd_factors_shuffle` — **the null (λ yardstick)**: per-component sign×mask shuffle of
+  each ternary factor (matched trit-count + matched per-component γ), routing geometry
+  destroyed, budget identical. ≥3 seeds. MUST fail.
+- `construct_lookup` — inherited materialized-view null (G2 baseline, loaded frozen).
+
+**Gates** (verbum.dsp `gate` + `paired_permutation` 10k; primaries Bonferroni α/3;
+TF1–TF3 routing register, TF5 value register — inherited shape from §TERNARIZE-DELTA-1):
+- **TF1 WIRE-SURVIVES** : `gd_cd_factors_ternary > base`, flip on B1 AND B2.
+- **TF2 NOT-LOOKUP**    : `gd_cd_factors_ternary > construct_lookup` on B2.
+- **TF3 SPECIFICITY**   : `gd_cd_factors_ternary > gd_cd_factors_shuffle` on held-out
+  (B1 ∪ B2) — the load-bearing λ yardstick.
+- **TF5 SURVIVE**       : innocent CE ≤ 2% rel base; native g/h within 0.10 abs.
+
+**Sub-tag TF4 FACTORING-COST (advisory, NOT a gate).** Retention(factors) vs
+retention(product) on held-out: **+FACTORING-FREE** if factors ≈ product; **+FACTORING-COSTS**
+if factors < product but TF1 ∧ TF3 ∧ TF5 still pass (the wire survives at a retention cost).
+
+**Reports (advisory, λ smallest / λ observation).** factors trits `Σ(out·r + r·in)` vs
+product trits `Σ(out·in)` → the SIZE WIN (≈100×); `bits = trits·log2(3)`; float-factors
+(16 b) vs ternary-factors (1.585 b) ≈ 10×. `mag_cos(scale·B̂Â, scale·BA)` pooled;
+`retention` (factors acc / float acc) per split.
+
+**Verdicts (FROZEN).**
+- **FACTORS-SURVIVE (+FACTORING-FREE / +FACTORING-COSTS)** : TF1 ∧ TF2 ∧ TF3 ∧ TF5 → the
+  genuinely small artifact exists (ternary factors); λ smallest closed. ★ the target —
+  the ~1 MB portable wire (level-4 artifact).
+- **FACTORS-DEGRADE** : TF1 (beats base, flips) but ¬TF3 (∼ shuffle) or ¬TF2 (lookup-like)
+  → double-ternarization partially survives; the product plate is the practical floor.
+- **FACTORS-DIE** : ¬TF1 → factor-ternary destroys the wire; the small artifact needs
+  float factors or the (larger) product plate — a real bound on λ smallest.
+- **HOST-DAMAGED** : ¬TF5 → the merge corrupts innocents.
+
+**A-priori lean (grounded; do NOT peek to decide).** s304's product ternarized at
+retention 1.0, mag_cos 0.902 (mild magnitude loss). Factoring is *more aggressive* (both
+factors quantized, no averaging), but the wire is rank-16 **routing** carried by the factor
+**sign** structure, which ternary preserves. Genuinely open: **~50% FACTORS-SURVIVE**
+(likely **+FACTORING-COSTS** — some retention drop but passing), ~35% FACTORS-DEGRADE,
+~15% FACTORS-DIE. The prize is the ~1 MB portable wire. Not tuned (recipe, arms, null,
+gates frozen a priori).
+
+**Frozen recipe (s222 law).** Reuse `writeback_compile` gd_cd training VERBATIM (LoRA r=16
+α=32 FFN-only, band 0.6–0.8 depth = L22–L29 @ Qwen3-4B, ≤500 steps, lr 1e-4, KL-at-answer
+vs own committed CoT teacher, **≥3 seeds**, MPS, bf16). Gate-0 valid cells + construct_lookup
+baseline loaded from the frozen s303 record (identical cells). Score paired-by-cell exactly
+as §Result-ternarize-delta.
+
+**Cadence.** Build `scripts/explore/ternarize_factors.py` — import the pure helpers from
+`ternarize_delta` (`ternarize_twn` / `shuffle_plate` / `plate_stats` / `score`) + reuse
+`writeback_compile` training primitives; **do NOT modify the frozen s304 generator** (its
+`cb73ad5` result must stand) → `--validate` (planted: per-component TWN on a factor, factor
+round-trip, size accounting factors ≪ product, shuffle null, verdict worlds) → smoke
+(`--n-cells`, mechanics only, s297) → Michael GO → full run tmux main:1 → frozen scoring →
+§Result-ternarize-factors + memory candidate → approval batch.
