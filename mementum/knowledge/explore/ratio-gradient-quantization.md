@@ -398,6 +398,76 @@ mean / coherence base decomposition + random-base null; C5→D4 neutral anchor) 
 `--validate` (planted: base decomposition exactness, budget accounting, random-base
 null, verdict worlds) → smoke (`--n-layers`, mechanics only, s297) → Michael GO → run.
 
+## §Result-delta-quant — STILL-SALIENT @4B (base-weight magnitude is not algebraically separable, s307)
+
+Full run: all 36 FFN layers of Qwen3-4B, k∈{16,64,128}, 3 random-base seeds,
+full-ternary residual, per-chunk CE. Results `0a89531` (clean: restore_max_dev=0, no
+traceback). ref_ce 5.108, ref_task 1.000.
+
+**Verdict = STILL-SALIENT** (D1=T, D2=T, D3=**F**, D4=T; best_k=64, selector=ENERGY-BASE).
+Decomposing `W = B + D` (low-rank value base B kept fp16) and ternarizing the residual
+D does **not** rescue base weights.
+
+| arm | eff-bits | CE | task |
+|---|---|---|---|
+| ref (unquantized) | 16 | 5.11 | 1.00 |
+| int_uniform b4 | 4.0 | **5.40** | 1.00 |
+| companding_mag b3 | 3.05 | 7.34 | 1.00 |
+| companding_mag b4 | 4.04 | 7.12 | 1.00 |
+| **delta_lowrank k64 (best)** | 2.09 | **11.19** | 0.06 |
+| delta_lowrank k128 | 2.60 | 11.79 | 0.13 |
+| delta_lowrank k16 | 1.71 | 12.57 | 0.06 |
+| delta_random k64 | 2.09 | 13.25 | 0.06 |
+| delta_coherence k64 | 2.09 | 13.11 | 0.19 |
+| delta_mean | 1.59 | 13.30 | 0.06 |
+| twn | 1.58 | 12.91 | 0.06 |
+| int_uniform b3 | 3.0 | 12.06 | 0.00 |
+
+- **D1 TRUE, D2 TRUE — the low-rank value subspace is REAL but partial.** delta_lowrank
+  @k64 (11.19) beats raw `twn` (12.91, D1) and beats the matched-spectrum **random** base
+  (13.25 @k64, 14.04 @k128; D2 — the SVD directions specifically absorb *some* value, not
+  just fp16 budget). Removing a low-rank base helps the residual ternarize — a little.
+- **D3 FALSE — nowhere near enough.** delta_lowrank@best (11.19) is catastrophically worse
+  than `companding_mag`@b3 (7.34, the s306 MAGNITUDE-SALIENT *loser*), than `int_uniform`@b4
+  (5.40), and than the host (5.11); task_acc collapses to 0.06 (vs 1.0 for int4). The
+  ternarized residual still destroys load-bearing magnitude.
+- **Mechanism (a-priori hypothesis CONFIRMED): the salient magnitude is HIGH-RANK /
+  distributed**, not confined to a rank ≤128 subspace. A low-rank base absorbs the smooth
+  value directions (D2) but the outliers behave as isolated ~full-rank spikes that stay in
+  the residual and die under ternary — exactly the pre-registered "isolated full-rank spikes
+  a low-rank base can't absorb" branch. Non-monotone: k64 < k128 (more rank made the residual
+  *worse* — the base pulled out structure the per-row TWN residual needed).
+- **Selector = +ENERGY-BASE** (delta_lowrank 11.19 < delta_coherence 13.11): the
+  coherence-informed base is worse, matching s306's MAGNITUDE-SELECTS. Coherence does not
+  separate value better even at the decomposition level.
+
+**λ measure note (honest, sibling of the s306 C5 lesson).** The D3a "reaches
+int_uniform@b3" sub-gate passed only because `int_uniform`@b3 is ITSELF broken on this model
+(12.06, task 0.000 — Qwen3-4B FFN does not survive naive int3; it needs int4). D3 correctly
+failed via the `companding_mag`@b3 sub-gate, so the verdict is robust — but the b3 anchor was
+coincidentally weak; `int_uniform`@b4 (5.40, task 1.0) is the meaningful host floor and
+delta_lowrank misses it by >5 nats. (A future harness should anchor "reaches host" on int4.)
+
+**The read (scoped to what we tried — NOT a closure).** Three decomposition families —
+low-rank SVD, per-row mean, and a coherence-informed base — all fail to make the base-weight
+residual ternarize (STILL-SALIENT). The low-rank value subspace is real (D2) but the salient
+magnitude is high-rank/distributed (isolated spikes), so removing a rank ≤128 base isn't
+enough. This is *evidence* that base-weight magnitude is hard to separate from routing by a
+cheap linear decomposition — consistent with routing⊥magnitude being a property of a
+**gradient-written** delta rather than a raw matrix (the gradient may write routing into a
+sign structure that is separable from magnitude in a way energy-SVD is not). But it is **NOT
+a general closure** — only three decomposition families were tested. Still open / untested:
+per-channel scale migration (SmoothQuant-style), **sparse-plus-low-rank** (SpQR keeps outliers
+as a sparse fp16 set — exactly the isolated-spike structure this run implicates), iterative
+LoftQ, and larger rank. Honest scope: *these* decompositions don't rescue base weights, so
+"quantize the delta, keep the base" remains the safe prescription; the general separability
+question stays open.
+
+**A clean, scoped negative.** It landed the frozen ~45% STILL-SALIENT branch, confirmed the
+isolated-spike mechanism, and closes *these three* decomposition doors — leaving the
+SpQR-style sparse-plus-low-rank and per-channel-scale doors open. Not tuned (bases, k-sweep,
+null, gates frozen a priori).
+
 ## Open leads (declare register first)
 
 1. **Companding-quant harness** (register: functional): μ-law / power-α gradient

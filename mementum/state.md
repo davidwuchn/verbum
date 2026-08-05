@@ -40,18 +40,47 @@
 > bit accounting mean 1.59/k16 1.71/k64 2.09/k128 2.60 <int3, 6 verdict worlds); ruff
 > clean; no diagnostics. Smoke green (2 layers, --calib 6, s297 — DIRECTION NOT READ):
 > all 8 arms distinct, bit-exact restore max|W−W0|=0, results.json, no traceback.
-> ⚠ **HOLDING FOR MICHAEL GO** on the full frozen run: `uv run python -u
-> scripts/experiments/delta_quant.py 2>&1 | tee results/delta-quant/qwen3-4b/run.log`
-> (all 36 FFN layers, k∈{16,64,128}, 3 random-base seeds, ~1–3h MPS) → auto-scored
-> frozen D1–D4 + verdict → results.json. ⚠ RESOURCE CAVEAT (same as s306): coherence
-> calibration accumulates per-weight fp32 grad stats over all 36 FFN layers (~20GB CPU;
-> only delta_coherence needs it — lowrank/mean/random are grad-free). If RAM-bound: cap
-> --n-layers or we make coherence optional. ⚠ ON-SIGNAL (run done): tail run.log for
-> "VERDICT:" + no traceback → read results.json verdict + D1–D4 + best_k + selector →
-> commit results/ + run.log AUTONOMOUS → §Result-delta-quant on the page + register-
-> theory base-weight-frontier update + memory candidate + state block → MICHAEL APPROVAL
-> BATCH (synthesis approval-gated). s307 ledger: 172cf0b pre-reg · 0f970b2 harness ·
-> full run + synthesis PENDING.
+> ▶▶ **FULL RUN DONE — ❌ VERDICT: STILL-SALIENT (frozen, all 36 FFN layers, 3
+> random-base seeds, tmux main:1, results 0a89531 autonomous, clean restore=0).**
+> Decomposing base FFN weights W=B+D (low-rank value base fp16) + ternarizing the
+> residual does NOT rescue them. D1=T D2=T D3=F D4=T; best_k=64, selector=ENERGY-BASE.
+> ★ **THE READ:** the low-rank value subspace is REAL but PARTIAL — delta_lowrank@k64
+> CE 11.19 beats the matched-spectrum RANDOM base 13.25 (D2: SVD absorbs *some* value)
+> and beats raw twn 12.91 (D1), BUT 11.19 ≫ companding_mag@b3 7.34 ≫ int_uniform@b4
+> 5.40 ≈ ref 5.11 (task 0.06 vs 1.0 → D3 FAILS). The salient base-weight magnitude is
+> **HIGH-RANK / distributed** (isolated ~full-rank spikes a rank≤128 base can't absorb →
+> stay in the residual, die under ternary) — the pre-registered ~45% STILL-SALIENT
+> branch + its isolated-spike mechanism CONFIRMED. Non-monotone k64<k128 (more rank made
+> the residual worse). Coherence base worse (+ENERGY-BASE, matches s306 MAGNITUDE-
+> SELECTS). ★ **scoped read (Michael steer — NOT a closure):** three decomposition
+> families (SVD low-rank / mean / coherence) fail → EVIDENCE that base-weight magnitude
+> resists cheap LINEAR separation from routing, consistent with routing⊥magnitude being a
+> gradient-written-delta property — but only three families tested. UNTESTED / OPEN:
+> SpQR-style sparse-plus-low-rank (a sparse fp16 outlier set = exactly the isolated-spike
+> structure this run implicates), per-channel scale migration, iterative LoftQ, larger
+> rank. "Quantize the delta, keep the base" remains the safe prescription; general
+> base-weight separability stays OPEN. λ measure note: D3a "reaches int_uniform@b3" passed
+> only because int3 is ITSELF broken on this model (12.06, task 0.0 — Qwen3-4B FFN needs
+> int4); D3 correctly failed via the companding_mag@b3 sub-gate → verdict robust; future
+> harness should anchor host-reach on int4.
+> ⚠ MEMORY DROPPED (Michael steer: premature — only a couple of decomposition techniques
+> proven; a durable "not algebraically separable" claim over-closes). Synthesis committed
+> = §Result-delta-quant (page) + register-theory base-weight-frontier scoped-evidence
+> update + this block. NO memory.
+> ⚠ COLD-START s308: (1) synthesis batch committed (page §Result + register update + state;
+> no memory). (2) PICK NEXT FRONT. The delta-vs-base result is a SCOPED negative (three
+> linear decompositions fail), NOT a closure — SpQR-style sparse+low-rank & per-channel
+> scale remain untested if we want to re-open base-weight separability. The s306/s307 quant
+> arc's safe prescription: quantize the DELTA to ternary routing, keep the base in fp16.
+> Standing menu: (a) **TERNARIZE-FACTORS-1** — ternarize the low-rank FACTORS B,A of a
+> trained delta not the expanded product (the genuinely-small portable artifact; closes the
+> λ smallest tension; cheap; natural next quant step); (b) **gd_cd @32B** — does the trained
+> wire + its ternary storage install in the typed larger model?; (c) COUNTRY-SUBSPACE
+> trajectory fork (attacks the opaque s306 G4 — target the country subspace at L6, not full
+> residual); (d) broad-corpus coherence calib to firm s306 Q2; (e) **SpQR-style sparse+low-rank
+> delta-base** (re-open base-weight separability with the untested decomposition this run
+> implicates). s307 ledger: 172cf0b pre-reg · 0f970b2 harness · e27e3fa state · 0a89531
+> results (autonomous) · synthesis batch (this commit).
 >
 > ▶▶ **s306 (CLOSED).** Arc: (1) trajectory-compile (s305 pre-reg) BUILT +
 > RAN → ❌ **WIRES-BUT-OPAQUE** (wire installs & generalizes, pin illegible, money plot

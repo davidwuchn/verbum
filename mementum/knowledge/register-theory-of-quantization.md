@@ -4,7 +4,7 @@ status: active
 category: compression
 tags: [quantization, ternary, twn, routing, magnitude, two-registers, register-projection,
        yardstick, sign-shuffle-null, delta, lora, frozen-base, git-for-weights, bitnet,
-       lambda-smallest, s269, s303, s304, s306, synthesis]
+       lambda-smallest, s269, s303, s304, s306, s307, synthesis]
 related:
   - two-registers-of-topology.md
   - topology-magnitude-duality.md
@@ -173,17 +173,26 @@ converges with the field on base weights while remaining unique on deltas. (Q2:
 coherence lost to magnitude as the selector too — MAGNITUDE-SELECTS, matching s171;
 calib was thin but the gap was decisive.)
 
-**Open frontier — is the base-weight magnitude *algebraically* separable? (s307,
-pre-registered §P-DELTA-QUANT in `explore/ratio-gradient-quantization.md`).** The
-s306 bound says base matrices superpose routing AND value in the same magnitudes. If
-that superposition is separable by a cheap decomposition — `W = B + D`, B a low-rank
-(or coherence-informed) value base kept fp16, D the residual — then ternarizing the
-**residual** should be lossless-for-routing where ternarizing raw-W was not. VALUE-
-SEPARABLE would extend the register theory to base weights via explicit decomposition
-(a partial walk-back from the s306 bound); STILL-SALIENT (residual ≈ random-base null,
-or fails to reach int-uniform) would *harden* the bound to gradient-written deltas
-only — the register split needs a gradient, not algebra. Null-gated on a matched-rank
-random base (the LoftQ/LQ-LoRA move made falsifiable).
+**Base-weight frontier — first evidence, scoped (s307, §P-DELTA-QUANT §Result-delta-quant
+in `explore/ratio-gradient-quantization.md`, `0a89531`).** The s306 bound says base
+matrices superpose routing AND value in the same magnitudes. s307 tested whether that
+superposition is separable by a cheap decomposition — `W = B + D`, B a low-rank (mean /
+coherence-informed) value base kept fp16, D the residual ternarized — across all 36 FFN
+layers, null-gated on a matched-rank random base (the LoftQ/LQ-LoRA move made falsifiable).
+**Verdict STILL-SALIENT for all three decomposition families:** the low-rank value subspace
+is real but partial (delta_lowrank@k64 CE 11.19 beats the matched-spectrum random base 13.25
+→ D2 passes; SVD absorbs *some* value) yet nowhere near enough (11.19 ≫ companding_mag@b3
+7.34 ≫ int_uniform@b4 5.40 ≈ ref 5.11; task 0.06 vs 1.0 → D3 fails). The salient magnitude
+is **HIGH-RANK / distributed** (isolated ~full-rank spikes a rank ≤128 base cannot absorb —
+they remain in the residual and die under ternary). The coherence base is worse (+ENERGY-BASE,
+matches s306 MAGNITUDE-SELECTS). **The scoped read (NOT a closure):** this is evidence that
+base-weight magnitude resists cheap *linear* separation from routing — consistent with
+routing⊥magnitude being a property of a gradient-written delta rather than a raw matrix — but
+only three decomposition families were tested. Untested and open: **SpQR-style
+sparse-plus-low-rank** (a sparse fp16 outlier set is exactly the isolated-spike structure this
+run implicates), per-channel scale migration, iterative LoftQ, larger rank. So "quantize the
+delta, keep the base" remains the safe prescription; the general base-weight separability
+question stays open.
 
 ## Where this compounds
 
