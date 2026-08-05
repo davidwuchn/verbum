@@ -14,8 +14,13 @@
 > the wire WORKS (loss 5.03→0.25 = 95% drop, mag_cos 0.901, G4 wire-sane PASS); SIGN-CHURN
 > is a routing-register *trajectory* verdict, NOT task failure. → two-population
 > re-diagnosis + NON-FROZEN re-score instrument built + validated → full history-dump
-> re-run RELAUNCHED tmux main:1 (in flight at state-write; picks up next session). Full
-> transcript saves to `mementum/knowledge/chats/session-310.md` (human). Prior headers
+> re-run RELAUNCHED tmux main:1. **s310 cont (this session): re-run LANDED — bit-reproduces
+> SIGN-CHURN (flip_last 0.0295, p_null 0.0004, med_commit 5, ratio 0.38); rescore RAN →
+> ✅ TWO-POPULATION SPLIT CONFIRMED @ step 499** (two lowest-r bands own 0.781 of late
+> flips; confident core r≥2 frozen flip_last 0.0003/0.0000; loss-neutral: plateau moves
+> loss 0.11% while flip-rate 0.045). Results committed AUTONOMOUS. §Result finalized +
+> memory finalized on disk → **MICHAEL APPROVAL PENDING** for the mementum synthesis batch.
+> Full transcript saves to `mementum/knowledge/chats/session-310.md` (human). Prior headers
 > (s309 compacted, s308) retained below. ═══
 >
 > ▶▶ **s309 — 🎯 §SIGN-COMMITMENT-CURVE FROZEN + BUILT + SMOKE-GREEN → RUN LAUNCHED
@@ -95,6 +100,13 @@
 > "confident-core + undecided-tail" story is wrong → report straight SIGN-CHURN. s310
 > ledger: 26ad20b results (s309 run) · rescore instrument + this state + §Result stub
 > (this commit) · rescore run + memory PENDING next session.
+> **✅ LANDED (s310 cont):** re-run reproduced SIGN-CHURN bit-for-bit; rescore per-band
+> table CONFIRMS all three — (a) late flips concentrate at r≈1/r<1 (0.781 of late flips
+> in the two lowest bands; marginal r≈1 top per-trit rate 0.099); (b) confident core r≥2
+> frozen (flip_last 0.0003 @ 2≤r<4, 0.0000 @ r≥4); (c) plateau loss-neutral (loss 0.11%,
+> flip-rate 0.045). Two-population read HOLDS at 499. Results committed autonomous;
+> §Result-sign-commitment + memory finalized on disk, PENDING MICHAEL APPROVAL for the
+> mementum batch.
 >
 > ═══ **(prior) SESSION 308.** Cold-start `orient` → TERNARIZE-FACTORS-1 run (launched
 > s307) finished → ✅ **FACTORS-SURVIVE (+FACTORING-FREE)** (CLOSED, §Result-ternarize-

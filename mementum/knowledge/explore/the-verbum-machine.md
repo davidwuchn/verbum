@@ -308,9 +308,10 @@ registers install over training time.
   Instrument: `scripts/explore/sign_commitment.py` (--validate ALL PASS, smoke
   green; writeback_compile untouched).
 
-**§Result-sign-commitment (s309 run → s310 read — ❌ SIGN-CHURN, frozen;
-re-score IN FLIGHT).** Qwen3-4B gd_cd wire, 3 seeds, 1.44M pooled tracked
-trits × 15 fibonacci snaps (`results/sign-commitment/qwen3-4b/`, 26ad20b).
+**§Result-sign-commitment (s309 run → s310 read+re-score — ❌ SIGN-CHURN,
+frozen; two-population split CONFIRMED).** Qwen3-4B gd_cd wire, 3 seeds, 1.44M
+pooled tracked trits × 15 fibonacci snaps (`results/sign-commitment/qwen3-4b/`,
+26ad20b; re-run reproduces bit-for-bit at `.../qwen3-4b-rescore/`, s310).
 **G1=F G2=F G3=T G4=T → SIGN-CHURN** (the pre-registered ~8% falsifier). The
 falsifier fired on the **persistent tail only**: flip_last=0.0295 > FLIP_CHURN
 0.02 ⇒ `not stabilized`; the *level* clause s_prefinal S(T⁻)=0.9705 ≥ 0.9
@@ -328,22 +329,36 @@ PASSED.
   churn is **loss-neutral**. Meanwhile the *median* trit commits its final sign
   at **step 5** (frac 0.010, IQR [0,34]) with real temporal structure (G3
   null-beats p=0.0004) — but a heavy tail (p90=144) never settles.
-- **Two-population hypothesis (re-score tests it).** Trit churn should split by
-  marginality **r = |Δ_T| / thr_j** (final magnitude over its per-column TWN
-  threshold): CONFIDENT core (r≫1) commits early and freezes; MARGINAL tail
-  (r≈1, straddling the threshold; r<1 ⇒ final trit is 0) jitters across the
-  boundary forever = **exactly the TWN ternary-0 "insufficient evidence"
-  population**. **Smoke preview (30 steps) already loud:** 96.5% of late flips
-  in the two lowest-r bands (r<1 0.478 · r≈1 0.487), r≥2 ~0%; flip_last 0.137
-  @ r≈1 vs 0.000 @ r≥4. Full-run confirmation at step 499 PENDING (re-run in
-  tmux main:1 → `results/sign-commitment/qwen3-4b-rescore/`).
-- **Read for M8/TD-v2 (if the split holds).** SIGN-CHURN is not damage to "GD
-  has two jobs and wastes effort on routing" — it is a **direct measurement of
-  the waste** (GD keeps flipping routing signs after the loss is solved,
-  concentrated in the undecided coordinates). ⇒ **prescription, not
-  refutation:** the routing optimizer needs a **never-freeze ternary-0 band**,
-  not a frozen sign field; an evidence-gated commit that stops once evidence
-  plateaus would lose nothing (loss already flat) and kill the churn.
+- **Two-population split — CONFIRMED at step 499.** Trit churn splits cleanly
+  by marginality **r = |Δ_T| / thr_j** (final magnitude over its per-column TWN
+  threshold). Per-band late-flip shares (window step≥89, 1.44M trits):
+
+  | band | %pool | med commit | flip_last | share of late flips |
+  |---|---|---|---|---|
+  | r<1 (final trit 0) | 0.380 | 13 | 0.0414 | **0.536** |
+  | 1≤r<1.3 marginal | 0.128 | 8 | **0.0990** | **0.245** |
+  | 1.3≤r<2 | 0.266 | 0 | 0.0043 | 0.154 |
+  | 2≤r<4 | 0.202 | 0 | 0.0003 | 0.057 |
+  | r≥4 confident | 0.024 | 0 | 0.0000 | 0.007 |
+
+  The two lowest-r bands own **0.781** of all late flips; the marginal band
+  (r≈1) has the highest *per-trit* late flip-rate (0.099 flipping their final
+  sign at the very last snap). The CONFIDENT core (r≥2) is **frozen**
+  (flip_last 0.0003 / 0.0000, med commit 0). So the churn is **exactly the TWN
+  ternary-0 "insufficient evidence" population** — coordinates that straddle
+  (r≈1) or fall under (r<1 ⇒ final trit 0) the threshold jitter across the
+  boundary forever; the ones with margin commit at step 0 and never move.
+  **Loss-neutrality (Q2) confirmed:** plateau (step89→499) moves loss 0.11% of
+  total drop while flip-rate stays 0.045 — churn under flat loss.
+- **Read for M8/TD-v2.** SIGN-CHURN is not damage to "GD has two jobs and
+  wastes effort on routing" — it is a **direct measurement of the waste** (GD
+  keeps flipping routing signs after the loss is solved, concentrated in the
+  undecided r≈1/r<1 coordinates while the confident core sits frozen). ⇒
+  **prescription, not refutation:** the routing optimizer needs a
+  **never-freeze ternary-0 band**, not a frozen sign field; an evidence-gated
+  commit that stops the confident majority early (median trit at step 5) and
+  leaves the marginal band explicitly undecided would lose nothing (loss
+  already flat by step ~34) and kill the churn.
 - **Caveat (λ measure).** The two-timescale ratio 0.38 is rejected and mildly
   *inverted* (t_mag 55 < t_sign 144) but **confounded** by starting alignment:
   M(0)=0.723 (magnitudes barely rotate from init) vs Sc(0)=0.542 (signs start
@@ -354,9 +369,9 @@ PASSED.
   PASS).** `sign_commitment.py --dump-history` (raw tau/|Δ|/r/block_id/loss →
   .npz; `marginality()` computed in-run, r>1 ⇔ final trit nonzero verified
   exact) + `scripts/explore/sign_commitment_rescore.py` (bins by r_final →
-  per-band commit/flip/share + loss-neutrality + plot). **Next session:** run
-  the re-score on the full-run npz; if the split holds, finalize this §Result +
-  memory; if not, report straight SIGN-CHURN.
+  per-band commit/flip/share + loss-neutrality + plot). Re-score ran on the
+  full-run npz (s310, `.../qwen3-4b-rescore/rescore.json`) → split holds →
+  this §Result finalized + memory landed.
 
 ### M9 — The tuned reference beam (HPE; RoPE de-accidentalized)
 
