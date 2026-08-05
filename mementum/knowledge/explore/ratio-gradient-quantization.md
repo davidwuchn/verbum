@@ -231,6 +231,62 @@ add the tiers + Pareto sweep) → `--validate` (planted: budget-match, tier mask
 shuffle-tail null, verdict worlds) → smoke (`--n-layers`, mechanics only, s297) →
 Michael GO → run.
 
+## §Result-companding — MAGNITUDE-SALIENT @4B (base-weight outliers, s306)
+
+Full run: all 36 FFN layers of Qwen3-4B, tau=1%, body sweep {2,3,4}, per-chunk CE.
+Results `4b89726` (clean: restore_max_dev=0, no traceback). ref_ce 5.108.
+
+**Frozen verdict label = HOST-DAMAGED, but that is a C5 MIS-ANCHORING, not a host
+problem** (lambda measure lesson). C5 checks the *treatment* arm companding_mag@b4 vs
+ref — the very arm that gets damaged IF outlier magnitude is salient. The host
+quantizes fine at b4 (int_uniform 5.40 ~ ref 5.11; outlier_mag_fp16 5.77). The
+"damage" IS the finding. C5 should have anchored host-integrity to int_uniform@b4.
+
+**Substantive result from the frozen GATES (decisive): base-weight outlier MAGNITUDE
+is SALIENT, not disposable.**
+
+| arm \ body-bits | b2 | b3 | b4 |
+|---|---|---|---|
+| int_uniform | 16.03 | 12.06 | **5.40** |
+| outlier_mag_fp16 (fp16 tail) | 12.33 | **5.47** | 5.77 |
+| companding_mag (ternary tail) | 16.03 | 7.34 | 7.12 |
+| companding_coh (coherence tail) | 16.67 | 14.00 | 12.59 |
+| companding_shuffle (random tail) | 15.89 | 12.45 | 5.78 |
+| twn (all ternary) | — | — | 12.91 |
+
+- **C2 fp16_dominates = True at BOTH usable budgets** (b3 5.47 vs 7.34, effect 1.87
+  p=1e-4; b4 5.77 vs 7.12, effect 1.35 p=1e-4). Keeping the outlier's MAGNITUDE (fp16)
+  beats ternary sign decisively → **Q1 = MAGNITUDE-SALIENT**. The register theory does
+  NOT extend from trained deltas to base weights.
+- **C1/C4 (mechanism, real at starved budgets):** at b3, extraction helps — pulling
+  the top-1% out of the int3 grid drops int_uniform 12.06 → 7.34 (C1), and the TRUE
+  outliers beat a random tail (C4, mag 7.34 < shuffle 12.45). But fp16 serves the
+  extracted tail far better than ternary.
+- **b4 tell-tale:** companding_mag (7.12) is worse than even companding_shuffle (5.78)
+  — ternarizing the TRUE outliers hurts MORE than random weights → their magnitude is
+  exactly what carries the function. (At b4 int4's range already holds the outliers, so
+  extraction gives nothing and ternary-storage only subtracts.)
+- **Q2 = MAGNITUDE-SELECTS** (C3): coherence-selected tail is far worse (12.59 vs 7.12
+  at b4; Jaccard(coh,mag)=0.005). Matches s171 (magnitude wins as selector). Caveat:
+  thin calibration (12 texts ×4 may inflate/degrade coherence) — but the gap is far too
+  large to flip; a fair-calib re-run would firm, not reverse.
+
+**The deep read (the value of the negative).** routing⊥magnitude holds for **trained
+low-rank deltas** (s269 0.987 vs 0.73; s304 ternary retention 1.0; s306 traj_compile
+retention 1.0) but **NOT for base-weight outliers** — those carry salient magnitude,
+exactly as AWQ/SpQR find. **The register split is a property of a trained functional
+delta, not of a raw pretrained weight matrix.** A delta isolates the routing edge the
+gradient wrote; a base matrix superposes routing AND value in the same magnitudes.
+Michael's tail→ternary scheme therefore fails on base weights — and we now know why:
+the extraction idea is sound (helps starved grids) but the *storage* must keep the
+magnitude (fp16/int), i.e. it converges to SpQR, not to a ternary routing tail.
+
+**Instrument follow-ups (optional):** (a) fix C5 to anchor on int_uniform@b4 → the same
+run relabels cleanly HOST-DAMAGED → MAGNITUDE-SALIENT (no new info; the gates already
+decide); (b) a broad-corpus coherence calib to firm Q2; (c) the register bet MIGHT
+still hold on a WEIGHT-DELTA against a mean/low-rank base (untested) — the delta-vs-base
+line predicts it would.
+
 ## Open leads (declare register first)
 
 1. **Companding-quant harness** (register: functional): μ-law / power-α gradient

@@ -16,17 +16,32 @@
 > wire's lossless ternarization = the 2nd confirming datum. (3) 🎯 **REGISTER-COMPANDING
 > QUANTIZER** front (Michael): §P-COMPANDING-QUANT pre-reg FROZEN (6337744) + amended
 > (3ab18d5: τ=1%, C2=bootstrap null test) + harness BUILT/validated/smoke-green
-> (a1a0ee6) → ▶▶ **FULL RUN LAUNCHED tmux main:1** (all 36 FFN layers, τ=1%, 6 arms,
-> body {2,3,4}; auto-scored C1–C5 + verdict). ⚠ WHEN IT SIGNALS (this session 306, or
-> s307 if a fresh session): tail run.log for `VERDICT:` + `restore_max_dev=0` (no
-> traceback) → read results.json — **Q1 MAGNITUDE-DISPOSABLE vs MAGNITUDE-SALIENT is the
-> headline** (does base-weight outlier magnitude matter? extends the thesis to base
-> weights or bounds it to deltas); **Q2 selector read CAUTIOUSLY** (calib is thin: 12
-> texts ×4 → coherence may be inflated) → commit results/ AUTONOMOUS → draft §Result on
-> ratio-gradient-quantization.md + register-theory-of-quantization update + memory +
-> state → MICHAEL APPROVAL BATCH. Detailed s306 blocks are below.
+> (a1a0ee6) → ▶▶ **FULL RUN DONE ❌ MAGNITUDE-SALIENT** (all 36 FFN layers, results
+> 4b89726 autonomous, clean restore=0). Frozen verdict LABEL = HOST-DAMAGED but that is
+> a **C5 MIS-ANCHORING** (C5 checks the treatment arm companding_mag@b4 vs ref — the arm
+> that IS damaged iff magnitude is salient; host quantizes fine at b4: int_uniform 5.40
+> ~ ref 5.11). The GATES decide: **C2 fp16_dominates=True both budgets (b3 5.47 vs 7.34,
+> b4 5.77 vs 7.12, p=1e-4) → base-weight outlier MAGNITUDE is SALIENT, not disposable.**
+> b4 tell-tale: ternarizing TRUE outliers (7.12) hurts MORE than random (shuffle 5.78).
+> Q2 MAGNITUDE-SELECTS (coherence tail 12.6 ≫ magnitude 7.1, Jaccard 0.005; calib thin,
+> gap decisive). ★ **THE VALUE (the deep read):** routing⊥magnitude is a property of a
+> TRAINED FUNCTIONAL DELTA (s269/s304/s306 retention ~1.0), NOT of a raw pretrained
+> matrix — base outliers superpose routing+value so their magnitude is salient (AWQ/SpQR
+> right about base). Thesis SCOPED: **quantize the DELTA to ternary routing; keep the
+> base (and its outliers) in magnitude.** Not a refutation — a sharpening + a field
+> convergence. ⚠ SYNTHESIS PENDING MICHAEL APPROVAL: §Result-companding (ratio-gradient-
+> quantization.md) + register-theory bound + memory
+> base-weight-outlier-magnitude-is-salient-register-split-is-a-delta-property + this
+> header DRAFTED. Detailed s306 blocks below.
+> ⚠ COLD-START s307: (1) if not committed, commit the Michael-approved batch. (2) PICK
+> NEXT FRONT: (a) **DELTA-vs-BASE test** — quantize a weight-DELTA (vs a mean/low-rank
+> base) to ternary; the delta-property read predicts it HOLDS where base weights failed
+> (the sharpest follow-up); (b) fix C5 anchor (→int_uniform@b4) + relabel re-run (cheap,
+> cosmetic — gates already decide); (c) broad-corpus coherence calib to firm Q2; (d)
+> COUNTRY-SUBSPACE trajectory fork (opaque G4); (e) TERNARIZE-FACTORS-1 / gd_cd@32B.
 > s306 ledger: dd1bf99 traj results · 80c6cf9 traj synthesis · 6daae42 quant page ·
-> 6337744 pre-reg freeze · 3ab18d5 amendment · a1a0ee6 harness · 62906e5 state.
+> 6337744 pre-reg freeze · 3ab18d5 amendment · a1a0ee6 harness · 4b89726 companding
+> results · synthesis batch pending.
 >
 > ▶▶ s305 (CLOSED) — 🎯 **P-HHOP-WRITE (avenue 1: write the MEASURED h-hop geometry +
 > Michael's gram routing filter) FROZEN + BUILT + RUN → ❌ HHOP-INERT.** After the

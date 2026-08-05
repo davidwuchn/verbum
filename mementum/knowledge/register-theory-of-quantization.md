@@ -155,13 +155,23 @@ Routing survives, magnitude only 0.90 — the register split holds on a wire tra
 a different objective. Still one model, still trained deltas; base-weight-wide remains
 open (`explore/trajectory-compile-gtsm-superbake.md`).
 
-**The base-weight frontier is now a frozen experiment:** §P-COMPANDING-QUANT
-(`explore/ratio-gradient-quantization.md`, s306) tests whether a base-weight outlier's
-*magnitude value* is disposable-for-routing — keep the tail as ternary SIGN vs fp16, at
-matched bit budget, gated on downstream CE. **MAGNITUDE-DISPOSABLE** extends this thesis
-to base weights; **MAGNITUDE-SALIENT** bounds it to trained deltas. (Honest prior, from
-`gradient-zero-map.md` s171: magnitude is the proven *selector*; the register bet is on
-*storage*, not on beating magnitude selection.)
+**The base-weight frontier is RESOLVED — and it BOUNDS the thesis (s306,
+§P-COMPANDING-QUANT, `4b89726`).** On base FFN weights of Qwen3-4B, keeping the top-1%
+outliers as ternary SIGN vs fp16 (matched budget, downstream CE): **fp16 decisively
+beats ternary at every usable budget (b3 5.47 vs 7.34, b4 5.77 vs 7.12, both p=1e-4) →
+MAGNITUDE-SALIENT.** Base-weight outliers carry load-bearing magnitude (AWQ/SpQR are
+right about base weights); ternarizing the true outliers hurts even more than
+ternarizing random weights.
+
+**So the register split is a property of a TRAINED FUNCTIONAL DELTA, not of a raw
+pretrained weight matrix.** A gradient-written delta isolates the routing edge (sign
+carries it → ternarizes losslessly: s269 0.987, s304/s306 retention 1.0); a base matrix
+superposes routing AND value in the same magnitudes, so its outliers are salient. The
+thesis is therefore SCOPED: **quantize the DELTA to ternary routing; keep the base
+(and its outliers) in magnitude.** This is not a refutation — it sharpens the claim and
+converges with the field on base weights while remaining unique on deltas. (Q2:
+coherence lost to magnitude as the selector too — MAGNITUDE-SELECTS, matching s171;
+calib was thin but the gap was decisive.)
 
 ## Where this compounds
 
