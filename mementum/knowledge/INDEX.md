@@ -22,6 +22,7 @@ tags: [index, orientation, knowledge-map, catalog]
 
 | Page | Status | One-line |
 |---|---|---|
+| [quantization-is-dsp-on-a-hologram.md](quantization-is-dsp-on-a-hologram.md) | ✅ active | s306: every good quantizer is a renamed DSP tool (companding/noise-shaping/KLT/block-float); they work because weights are holographic signals — rate-distortion universality + sign-register protection + SuperBake processing gain; corollary = quantize the delta not the base |
 | [register-theory-of-quantization.md](register-theory-of-quantization.md) | ✅ active | s306: quantization = projection onto the routing register (ternary is its alphabet, not a codec); losslessness by construction; correct metric = sign-shuffle null not ‖W−Q(W)‖; quantize the delta; ternary-is-semantic; honest scope (1 wire @4B + s269/s303) |
 | [ternary-holographic-memory.md](ternary-holographic-memory.md) | ✅ active | s299→s301: standalone model-free memory BUILT (src/verbum/memory, 13 gates) + laws MEASURED (P-CAPACITY-LAW: √(D/k) decline, √D wall, exact replay, √(2/π) 1-bit loss, 5.6σ time-Bragg) |
 | [continuation-store.md](continuation-store.md) | 🔨 designing | s301: sealed continuations (s217) as the store's native payload — passes = commits, rewind/branch/CRDT-merge/squash thoughts; Δx-halt visible as tapering commit size; precision bridge s173/√(2/π) |
