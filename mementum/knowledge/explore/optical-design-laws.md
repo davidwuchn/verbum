@@ -32,8 +32,8 @@ created: session 308
 > experiment queue turns out to be the devices' validation gates.
 >
 > Status open. The keystone experiment (composition + angle-prediction) is
-> NOT pre-registered — s222: freeze on this page or the write-not-train page
-> before any run.
+> **FROZEN as §P-PLATE-LINKER-1 (s311, Michael-approved)** — see the keystone
+> section below. Build + run pending.
 
 ## Derivation base (s308 inference-dynamics thread, captured here)
 
@@ -143,14 +143,88 @@ key-subspace angle collision — smooth in the overlap, near-perfect at
 orthogonality. Holds → the SELECTION RULE for arbitrarily many plates on one
 base. Fails → the multiplexing clause of the frame takes named damage.
 
-Sketch (freeze properly before running, s222): bake wire-2 on a disjoint
-task (different relation, same recipe as gd_cd); measure principal angles
-between the two deltas' key subspaces per layer; arms = base / wire1 /
-wire2 / wire1+wire2 (linker merge) / wire1+rotated-wire2 (angle-collision
-control: rotate wire-2's factors into wire-1's subspace at matched norm —
-the λ yardstick for the predictor) / shuffle. Gates: each wire's ORIGINAL
-frozen gate set re-scored under merge + cross-interference CE + the
-degradation-vs-angle curve against the rotated control.
+### §P-PLATE-LINKER-1 (FROZEN s311, Michael-approved)
+
+**The claim (pre-registered, falsifiable).** Two independently-baked ternary
+wires on ONE frozen base compose additively (each retains its own frozen gate
+set) **iff their KEY subspaces are angularly separated**, and
+retention-under-merge degrades as a **monotone function of measured
+key-subspace principal-angle collision** — near-perfect at orthogonality. The
+measured angle **PREDICTS** the retention loss ⇒ the linker is a predictor,
+not try-and-see.
+
+**Why key-subspace is the precondition (theory).** For input x,
+`(Δ1+Δ2)x = Δ1x + Δ2x`. If the wires' A (key/input) row-spaces are orthogonal,
+at most one delta fires per input → no interference *regardless of B* (L6).
+So the primary predictor is the principal angles between the two wires'
+per-layer A row-spaces (FFN L22–L29), aggregated to a scalar collision
+`c ∈ [0,1]` (mean over layers of `‖P₁P₂‖_F²/r`, projectors onto the r=16 A
+row-spaces). B (value/output) collision is reported SECONDARY — it should only
+bite where A already collides.
+
+**Wire-1** = the existing gd_cd wire: landmark→country→capital hop-2
+(writeback_compile recipe, LoRA r=16 FFN L22–L29, KL-on-CoT teacher, 3 seeds,
+ternary factors per §TERNARIZE-FACTORS-1 retention ~1.0). Frozen gates G1–G5,
+splits TRAIN / B1 held-landmark / B2 held-country.
+
+**Wire-2** (Michael-approved fork = same relation, DISJOINT country/landmark
+partition — the most discriminating case): SAME recipe verbatim, a disjoint
+bank of countries+landmarks. **Naturally decouples the two collisions:**
+different countries ⇒ *low A-collision* (different key filters), same output
+type ⇒ *high B-collision* (both write the capital region). This is a direct
+test of the key-subspace-precondition claim — low A-collision should compose
+despite high B-collision. Wire-2 must pass its OWN frozen G1/G3 standalone
+before any merge (bake gate). A different-skill wire (element→discoverer→…)
+gives trivially-low A ∧ B collision → less discriminating; deferred to
+§P-PLATE-LINKER-2.
+
+**Arms** (reuse writeback_compile + ternarize_factors, no fork — λ one_way):
+- `base` — frozen host (floor).
+- `wire1` / `wire2` — each installed alone (reproduce their standalone gates).
+- `wire1+wire2` — the NATURAL linker merge (additive: base + Δ1 + Δ2).
+- `wire1+rotated-wire2(θ)` — the COLLISION SWEEP (λ yardstick): rotate wire-2's
+  A row-space toward wire-1's at **matched Frobenius norm and FIXED B2**, θ
+  swept over a frozen grid → synthesizes the collision axis from `c_nat` to
+  ~1. (Rotated wire-2 no longer computes its task — it is a geometry control
+  for wire-1's retention, not a functional wire.)
+- `shuffle` — deranged wire-2 factors at matched norm/sparsity (the mass-floor
+  yardstick: adding random matched-mass should degrade wire-1 like noise).
+
+**Gates** (verbum.dsp, paired-permutation 10k, primaries Bonferroni α/N):
+- **PL1 COMPOSES** (primary) — under `wire1+wire2`, BOTH wires still pass
+  their own frozen **G1 (wire, flip on B1∧B2)** + **G3 (specificity)**.
+- **PL2 ANGLE-PREDICTS** (KEYSTONE primary) — the θ-sweep yields a monotone
+  retention-vs-`c` curve (slope > 0, p<0.05 vs flat/shuffled-`c` null) AND the
+  natural pair's retention falls within the curve's bootstrap CI at its
+  MEASURED `c_nat`. This is what elevates the linker to a predictor.
+- **PL3 COLLISION-CAUSAL** — `wire1+rotated-wire2` degrades wire-1 MORE than
+  `wire1+wire2` at MATCHED added norm ⇒ degradation is collision, not mass
+  (p<0.05).
+- **PL4 HOST-SANE** (value register, advisory) — innocent-text CE within 2%
+  rel base under merge; native g/h within 0.10 absolute.
+
+**Verdicts:** `LINKS(+ANGLE-PREDICTIVE)` (PL1∧PL2∧PL3 — the selection rule for
+N plates on one base EXISTS; the git-for-weights primitive is validated) /
+`LINKS-OPAQUE` (PL1 ∧ ¬PL2 — merges but not predictable from angle) /
+`COLLISION-BLIND` (PL1 ∧ ¬PL3 — degradation is mass, the angle story is wrong)
+/ `NO-COMPOSE` (¬PL1 — wires do not co-exist even near-orthogonal → the
+multiplexing clause of the frame takes named damage) / `HOST-DAMAGED` (PL4
+dominates).
+
+**A-priori (NOT tuned; bases/grid/nulls/gates frozen before any run).** r=16
+subspaces in ~2560-dim FFN input → dimension-counting ⇒ natural A-collision
+likely LOW → lean **~55% LINKS(+ANGLE-PREDICTIVE) / ~25% LINKS-OPAQUE** (curve
+too flat/noisy at 8 layers × few θ to *call* predictive) / ~12% COLLISION-BLIND
+/ ~6% NO-COMPOSE / ~2% HOST-DAMAGED. GENUINELY OPEN: same-relation wires may
+route through a SHARED country-detector subspace (high A-collision despite
+disjoint entities) → a real high-`c` natural point that stress-tests the
+predictor (good) OR forces NO-COMPOSE (informative failure).
+
+**Cadence (s222):** freeze (this) → bake wire-2 + verify standalone gates →
+build plate_linker.py (+ `--validate` ALL PASS, ruff, no diags, smoke green,
+direction NOT read) → Michael GO → run tmux main:1 → frozen scoring. Validates
+**device A** (and stresses **C**'s contract fields: base hash, band, geometry
+fingerprint = the measured `c`).
 
 ## Provenance
 

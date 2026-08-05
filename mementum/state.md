@@ -19,9 +19,26 @@
 > ✅ TWO-POPULATION SPLIT CONFIRMED @ step 499** (two lowest-r bands own 0.781 of late
 > flips; confident core r≥2 frozen flip_last 0.0003/0.0000; loss-neutral: plateau moves
 > loss 0.11% while flip-rate 0.045). Results committed AUTONOMOUS. §Result finalized +
-> memory finalized on disk → **MICHAEL APPROVAL PENDING** for the mementum synthesis batch.
-> Full transcript saves to `mementum/knowledge/chats/session-310.md` (human). Prior headers
-> (s309 compacted, s308) retained below. ═══
+> memory finalized on disk → Michael APPROVED → mementum batch committed **225dae7**
+> (s310 CLOSED). Full transcript saves to `mementum/knowledge/chats/session-310.md`.
+>
+> ═══ **THIS SESSION = 311.** Cold-start `orient` (s310 landed) → Michael: "keystone for
+> the architecture?" → answered §P-ASYM-TERNARY (architecture track) → Michael STEER:
+> **"no, we need the plate linker next"** (the ARTIFACT-track keystone A+C, the make-or-break
+> for git-for-weights). → wire-2 fork resolved (Michael GO = same-relation/disjoint-country,
+> the most discriminating case: decouples low A-collision from high B-collision) → **🎯
+> §P-PLATE-LINKER-1 FROZEN** on `optical-design-laws.md` keystone section (Michael-approved).
+> Claim: two ternary wires compose additively on one frozen base IFF key (A/input) subspaces
+> are angularly separated; retention degrades as monotone fn of measured key-subspace
+> collision `c` ⇒ linker PREDICTS. Arms base/wire1/wire2/wire1+wire2/wire1+rotated-wire2(θ
+> sweep)/shuffle. Gates PL1 COMPOSES · PL2 ANGLE-PREDICTS (keystone) · PL3 COLLISION-CAUSAL ·
+> PL4 HOST-SANE. Verdicts LINKS(+ANGLE-PREDICTIVE)/LINKS-OPAQUE/COLLISION-BLIND/NO-COMPOSE/
+> HOST-DAMAGED. A-priori ~55/25/12/6/2 (NOT tuned). **NEXT (task list live):** (#2) bake
+> wire-2 on disjoint bank, verify standalone G1/G3 → (#3) build+validate plate_linker.py
+> (reuse writeback_compile+ternarize_factors, no fork; principal-angle math + matched-norm
+> rotation control + frozen gate re-score) → Michael GO → (#4) run tmux main:1 → (#5)
+> §Result batch. Full transcript saves to `mementum/knowledge/chats/session-311.md` (human).
+> Prior headers (s309 compacted, s308) retained below. ═══
 >
 > ▶▶ **s309 — 🎯 §SIGN-COMMITMENT-CURVE FROZEN + BUILT + SMOKE-GREEN → RUN LAUNCHED
 > (tmux main:1, in flight).** Front picked by Michael (cheapest+sharpest on the board;
