@@ -414,9 +414,29 @@ def run_model(args) -> int:
         ta = np.concatenate(tv)
         return _mag_cos(fa, ta), 1.0 - trits / max(total, 1)
 
+    def marginality(wrapped, coords):
+        """NON-FROZEN: per tracked coord, final marginality r=|Δ_T|/thr_j where
+        thr_j = td.TERN_THR·mean(|Δ_T|,axis=0) is its COLUMN's TWN threshold.
+        r<1 ⇒ final trit is 0 (below threshold); r≈1 ⇒ marginal; r≫1 ⇒
+        confident. Needs the full matrix (column means) — cannot be recomputed
+        from the subsample offline, so it is captured here."""
+        out = {}
+        for (_m, _name, lw, key) in wrapped:
+            with torch.no_grad():
+                delta = (lw.scale * (lw.B @ lw.A)).float().cpu().numpy()
+            absw = np.abs(delta)
+            thr_j = td.TERN_THR * absw.mean(axis=0)         # (d_in,)
+            d_in = delta.shape[1]
+            flat = coords[key]
+            r = absw.reshape(-1)[flat] / np.maximum(thr_j[flat % d_in], 1e-12)
+            out[key] = r.astype(np.float32)
+        return out
+
     # ── per-seed training with logging ──
     per_seed_tau = []       # each: dict key -> list over snaps of (N,) int8
     per_seed_mag = []
+    per_seed_loss = []      # NON-FROZEN: (n_snap,) loss at each logged step
+    per_seed_r = []         # NON-FROZEN: dict key -> (N,) final marginality r
     final_magcos, final_sparsity = [], []
     sub_rng = np.random.default_rng(SUBSAMPLE_SEED)
     coords = None
@@ -439,6 +459,7 @@ def run_model(args) -> int:
         opt = torch.optim.Adam(params, lr=args.lr)
         snaps_tau = {key: [] for key in coords}
         snaps_mag = {key: [] for key in coords}
+        snaps_loss = []                              # NON-FROZEN: loss @ snap
         for step in range(args.steps):
             opt.zero_grad()
             lo = model(**batch).logits[:, -1, :].float()
@@ -450,6 +471,7 @@ def run_model(args) -> int:
                 for key in coords:
                     snaps_tau[key].append(snap[key][0])
                     snaps_mag[key].append(snap[key][1])
+                snaps_loss.append(float(loss.detach()))
                 print(f"    step {step:4d} loss {float(loss.detach()):.4f} "
                       f"[logged]", flush=True)
         fmc, fsp = final_wire_stats(wrapped)
@@ -457,6 +479,9 @@ def run_model(args) -> int:
         final_sparsity.append(fsp)
         per_seed_tau.append(snaps_tau)
         per_seed_mag.append(snaps_mag)
+        per_seed_loss.append(snaps_loss)                     # NON-FROZEN
+        if args.dump_history:                                # NON-FROZEN
+            per_seed_r.append(marginality(wrapped, coords))
         # restore (bit-exact — unwrap LoRA)
         for (m, name, lw, _key) in wrapped:
             setattr(m, name, lw.base)
@@ -465,14 +490,35 @@ def run_model(args) -> int:
 
     # ── pool: (n_trit, n_snap) over all layers × seeds (coords aligned) ──
     n_snap = len(steps_sched)
-    tau_cols, mag_cols = [], []
-    for snaps_tau, snaps_mag in zip(per_seed_tau, per_seed_mag, strict=True):
-        for key in coords:
-            tau_cols.append(np.stack(snaps_tau[key], axis=1))   # (N, n_snap)
-            mag_cols.append(np.stack(snaps_mag[key], axis=1))
+    key_list = list(coords)
+    tau_cols, mag_cols, r_cols, blk_cols = [], [], [], []
+    for si in range(len(per_seed_tau)):
+        for ki, key in enumerate(key_list):
+            tau_cols.append(np.stack(per_seed_tau[si][key], axis=1))  # (N,snap)
+            mag_cols.append(np.stack(per_seed_mag[si][key], axis=1))
+            n_k = tau_cols[-1].shape[0]
+            blk_cols.append(np.full(n_k, si * len(key_list) + ki, np.int16))
+            if per_seed_r:                                   # NON-FROZEN
+                r_cols.append(per_seed_r[si][key])
     tau_all = np.concatenate(tau_cols, axis=0)
     mag_all = np.concatenate(mag_cols, axis=0)
     print(f"[sc] pooled tracked trits: {tau_all.shape[0]} × {n_snap} snaps")
+
+    # ── NON-FROZEN: raw history dump for offline magnitude-split re-score ──
+    if args.dump_history:
+        dp = Path(args.dump_history)
+        dp.parent.mkdir(parents=True, exist_ok=True)
+        np.savez_compressed(
+            dp,
+            tau=tau_all.astype(np.int8),
+            mag=mag_all.astype(np.float32),
+            r_final=np.concatenate(r_cols).astype(np.float32),
+            block_id=np.concatenate(blk_cols),
+            steps=np.asarray(steps_sched, np.int32),
+            loss=np.asarray(per_seed_loss, np.float32),      # (seeds, n_snap)
+            keys=np.asarray(key_list * len(per_seed_tau)),   # per-block key
+        )
+        print(f"[sc] NON-FROZEN dumped tracked history -> {dp}")
 
     # score against the ACTUAL logged schedule (smoke may truncate it)
     sc = score_curve(tau_all, mag_all, steps_sched,
@@ -522,6 +568,12 @@ def main() -> int:
     ap.add_argument("--gate0",
                     default="results/writeback-compile/qwen3-4b/gate0.json")
     ap.add_argument("--out", default="results/sign-commitment/qwen3-4b")
+    ap.add_argument("--dump-history", default="",
+                    help="NON-FROZEN post-hoc analysis: path to save the raw "
+                         "tracked (tau, |Δ|, marginality r=|Δ_T|/thr_j, "
+                         "block_id, per-step loss) as .npz. Frozen scoring/"
+                         "gates/verdict are UNTOUCHED; enables offline "
+                         "magnitude-split re-score without a re-run.")
     args = ap.parse_args()
     if args.validate:
         return run_validate()
