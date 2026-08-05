@@ -1,0 +1,35 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 31835.02it/s]
+[dq] Qwen/Qwen3-4B dev=mps N=36 band=0..35 k_sweep=(16, 64, 128) floors=(2, 3, 4)
+[dq] calibrating coherence (grad sign-consistency)…
+[dq]   calib 1/48 loss 4.884
+[dq]   calib 13/48 loss 4.884
+[dq]   calib 25/48 loss 4.884
+[dq]   calib 37/48 loss 4.884
+[dq] unquantized ref: CE 5.1082 task_acc 1.000
+[dq]   twn                    eff1.58 CE 12.9121 task 0.062
+[dq]   int_uniform b2         eff2.00 CE 16.0340 task 0.062
+[dq]   int_uniform b3         eff3.00 CE 12.0563 task 0.000
+[dq]   int_uniform b4         eff4.00 CE 5.3997 task 1.000
+[dq]   companding_mag b2      eff2.06 CE 16.0350 task 0.062
+[dq]   companding_mag b3      eff3.05 CE 7.3384 task 1.000
+[dq]   companding_mag b4      eff4.04 CE 7.1188 task 1.000
+[dq]   delta_lowrank k16      eff1.71 CE 12.5687 task 0.062
+[dq]   delta_lowrank k64      eff2.09 CE 11.1892 task 0.062
+[dq]   delta_lowrank k128     eff2.60 CE 11.7859 task 0.125
+[dq]   delta_mean k128        eff1.59 CE 13.2967 task 0.062
+[dq]   delta_coherence k16    eff1.71 CE 13.5520 task 0.062
+[dq]   delta_coherence k64    eff2.09 CE 13.1119 task 0.188
+[dq]   delta_coherence k128   eff2.60 CE 14.7683 task 0.062
+[dq]   delta_random k16       eff1.71 CE 12.6668 task 0.125
+[dq]   delta_random k64       eff2.09 CE 13.2494 task 0.062
+[dq]   delta_random k128      eff2.60 CE 14.0443 task 0.062
+[dq] restore check: max|W-W0| = 0.00e+00
+
+[dq] ════ VERDICT: STILL-SALIENT ════
+  D1=True D2=True D3=False D4=True selector=ENERGY-BASE best_k=64
+  k16: lowrank 12.5687 random 12.6668 coherence 13.5520
+  k64: lowrank 11.1892 random 13.2494 coherence 13.1119
+  k128: lowrank 11.7859 random 14.0443 coherence 14.7683
+  floors b3: int 12.0563 companding_mag 7.3384 twn 12.9121
+[dq] wrote results/delta-quant/qwen3-4b/results.json
