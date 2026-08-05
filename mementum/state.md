@@ -80,15 +80,37 @@
 > level up); + argument-binding-as-traceable-substitution + stuck-detection-upstream-of-
 > schema-retrieval. Machine table on the page (chat-template row = inference, untested).
 >
+> ▶▶ **s308 cont-3 — 💡 FROZEN INTERFERENCE GRAPH captured
+> (`knowledge/explore/frozen-interference-graph.md` + memory, Michael-approved, status
+> open).** Michael's four-clause model confirmed/refined against corpus: **the LLM is a
+> GRAPH RECORDED IN A WAVE MEDIUM.** (1) "frozen signal" = frozen INTERFERENCE record —
+> a PHASE record (mag_cos 0.839 @ retention 1.0, kinoform clause); (2) "accumulates
+> where edges match" = A2 coherent gain MEASURED (CAP s292); medium accumulates
+> amplitude/log-evidence, probability only at collapse (ties
+> types-are-compiled-probabilities); mismatched exposures → SPECKLE = polysemanticity;
+> (3) "edges form a lattice" = the crystal — 9×9 universality is RELATIONAL sign
+> structure 11/11 models (s303), the lattice = what survives discarding magnitudes;
+> (4) "relations are joins" two-registered: edge EXISTENCE = sign/phase coherence
+> (routing, invariant, survives ternary) vs edge WEIGHT = readout magnitudes (value,
+> model-particular). Corollaries slot in: traversal fuel-bounded (→ tape/trampoline),
+> formation dynamics already observed (B-first, K-chaos), quant scope falls out (delta =
+> off-axis few-edge record → clean; base = in-line all-edge record → superposed). GAP
+> named: write-time interference never directly observed → **P-COHERENT-WRITE candidate
+> (unfrozen):** two skill datasets sharing one edge, together vs sequential vs no-share →
+> super-additive retrieval at the shared edge, null-gated; can SHARE A HARNESS with
+> optics front (i) reference-drift (sequential ≡ drifted reference).
+>
 > ⚠ COLD-START s309: (1) NOTHING PENDING — s308 batches fully committed (results 27ce260
-> + holographic synthesis + tape-resident-reduction capture, all Michael-approved).
-> (2) PICK NEXT FRONT (Michael's call): **P-HALT-POLE** (cheap, crisp, bridges crystal →
-> agentic — needs pre-reg freeze on behavior-is-tape-resident-reduction.md first), the
-> four optics fronts ((ii) k-sweep is the cheap sharp one; freeze on
-> holographic-untangling-methods.md first), plate COMPOSITION / gd_cd@32B (product
-> path), or standing menu (COUNTRY-SUBSPACE fork / SpQR sparse+low-rank / broad-corpus
-> calib). s222: freeze pre-reg before ANY run. s308 ledger: 27ce260 results · holographic
-> batch (3546584/3222968/7ec0909/dc8cf1f) · tape-resident capture (this commit).
+> + holographic synthesis + tape-resident-reduction + frozen-interference-graph, all
+> Michael-approved). (2) PICK NEXT FRONT (Michael's call): **P-HALT-POLE** (cheap, crisp,
+> bridges crystal → agentic — freeze on behavior-is-tape-resident-reduction.md first),
+> the four optics fronts ((ii) k-sweep cheap+sharp; freeze on
+> holographic-untangling-methods.md first), **P-COHERENT-WRITE** (+reference-drift shared
+> harness; freeze on frozen-interference-graph.md first), plate COMPOSITION / gd_cd@32B
+> (product path), or standing menu (COUNTRY-SUBSPACE / SpQR sparse+low-rank /
+> broad-corpus calib). s222: freeze pre-reg before ANY run. s308 ledger: 27ce260 results ·
+> holographic batch (3546584/3222968/7ec0909/dc8cf1f) · tape-resident batch
+> (d4c3a81/49a4bea/4ed09b3) · frozen-interference-graph batch (this commit).
 >
 > ▶▶ **s307 cont — 🎯 TERNARIZE-FACTORS-1 (the genuinely-small artifact, λ smallest)
 > FROZEN + BUILT + SMOKE-GREEN → RUN LAUNCHED tmux main:1.** Michael GO on the delta-vs-
