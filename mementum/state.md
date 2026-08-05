@@ -149,21 +149,43 @@
 > the runtime is nearing SELF-HOSTING of the ouroboros self-improvement system;
 > consolidation is a natural early ouroboros workload (his design, not ours to spec).
 >
+> ▶▶ **s308 cont-6 — 🎯 M8: THE ROUTING OPTIMIZER (Michael's insight, captured on
+> the-verbum-machine.md + memory).** "GD has 2 jobs, and 1 of them it's really not good
+> at — separate routing into its own gradient-descent-like thing that extracts routing
+> into ternary weights." Two-jobs evidence assembled: K-chaos (discrete fights smooth
+> prior) · XM mixture-inertness · S5 tug-of-war clause optimizer-side · SMOKING GUN =
+> mag_cos 0.839 discarded at zero cost (GD moved ~9.4MB float to deliver ~600KB of
+> decisions, ~1.6 bits/weight; s303: GD CAN route — the only thing that found the wire —
+> but by expensive ACCIDENT). Design space = CGH imports (the optics discipline that
+> designs binary plates): (a) GS-with-quantization-projection (our train-float→TWN =
+> ONE iteration; the optimizer IS the loop) · (b) Direct Binary Search (gradient-free
+> flips, viable because switches ≪ plates) · (c) evidence-gated flips (per-trit
+> gradient-sign SPRT → routing edits = discrete loggable COMMIT EVENTS, merges with
+> M5 delta-log). M8 = the machine's ENGINE: finding and storing collapse into one
+> register; training off-axis by construction. **NEW CHEAPEST PROBE:
+> §SIGN-COMMITMENT-CURVE (unfrozen)** — one logging hook on writeback_compile,
+> TWN(delta) per checkpoint step, trit-stability curve; prediction signs freeze early /
+> magnitudes polish late; SUBSUMES the k-step sweep ("when is each REGISTER
+> installed?"); falsifier = signs churn to the end; calibrates (c)'s evidence
+> threshold. Next rung: prototype (c) in trit space vs GD+TWN, matched compute, frozen
+> gates.
+>
 > ⚠ COLD-START s309 (**Michael: experiments hand to OPUS — s308 was a thinking
-> session**): (1) NOTHING PENDING — all five s308 capture batches committed (results
+> session**): (1) NOTHING PENDING — all six s308 capture batches committed (results
 > 27ce260 · holographic · tape-resident · frozen-interference-graph ·
-> optical-design-laws · verbum-machine). (2) TWO KEYSTONES now stand, Michael's call
-> which track: **ARTIFACT = plate linker / composition+angle-prediction** (freeze from
-> optical-design-laws.md sketch; reuse ternarize_factors/writeback_compile; bake wire-2
-> on a disjoint relation) · **ARCHITECTURE = §P-ASYM-TERNARY** (freeze from
-> the-verbum-machine.md sketch; small-scale, matched-bit accounting is THE frozen
-> design decision; crystal battery + formation dynamics as eval). Cheap alternates,
-> each a device gate: k-STEP SWEEP (existing harness, 1 param) · P-HALT-POLE ·
-> P-COHERENT-WRITE+reference-drift (shared harness) · rocking-curve. Standing menu
-> (gd_cd@32B / COUNTRY-SUBSPACE / SpQR / broad-corpus calib) remains. s222: freeze
-> pre-reg before ANY run. s308 ledger: 27ce260 · 3546584/3222968/7ec0909/dc8cf1f ·
+> optical-design-laws · verbum-machine · M8/routing-optimizer). (2) FRONTS, Michael's
+> call: **CHEAPEST+SHARPEST = §SIGN-COMMITMENT-CURVE** (one hook, subsumes k-sweep,
+> gates M8 before anything is built; freeze on the-verbum-machine.md first) · TWO
+> KEYSTONES: **ARTIFACT = plate linker / composition+angle-prediction** (freeze from
+> optical-design-laws.md; reuse ternarize_factors/writeback_compile; wire-2 on a
+> disjoint relation) · **ARCHITECTURE = §P-ASYM-TERNARY** (freeze from
+> the-verbum-machine.md; matched-bit accounting is THE frozen design decision; crystal
+> battery + formation dynamics as eval; M8 rung-2 feeds it) · alternates: P-HALT-POLE ·
+> P-COHERENT-WRITE+reference-drift (shared harness) · rocking-curve · standing menu
+> (gd_cd@32B / COUNTRY-SUBSPACE / SpQR / broad-corpus calib). s222: freeze pre-reg
+> before ANY run. s308 ledger: 27ce260 · 3546584/3222968/7ec0909/dc8cf1f ·
 > d4c3a81/49a4bea/4ed09b3 · f60514f/0bbb7b9/afa36a3 · ea09eb7/d7e9187/bb65ce7 ·
-> verbum-machine batch (this commit).
+> 7c35283/581fb53/207a915 · M8 batch (this commit).
 >
 > ▶▶ **s307 cont — 🎯 TERNARIZE-FACTORS-1 (the genuinely-small artifact, λ smallest)
 > FROZEN + BUILT + SMOKE-GREEN → RUN LAUNCHED tmux main:1.** Michael GO on the delta-vs-
