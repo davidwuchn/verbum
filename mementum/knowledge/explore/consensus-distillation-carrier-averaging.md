@@ -92,6 +92,12 @@ activations; shared difficulty orderings (K-chaos universal) should ride
 the data, but the behavioral channel's transfer bandwidth is unknown. That
 is the point of running it.
 
+**Mechanistic readout (s308 addendum):** the **consensus route map**
+(`gram-registers-and-the-route-map.md`) — check not just that the student's
+gram walks to the consensus root, but that its reduction ROUTES (expressed
+in frame-invariant gram coordinates) converge to the N-teacher consensus
+switch schedule.
+
 ## The arc sentence
 
 The session opened with the wire as a ~600KB artifact requiring a matched
