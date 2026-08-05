@@ -274,8 +274,31 @@
 > Protocol page re-marked status:draft (Michael: sharpen once lambdas run in an
 > agent).
 >
+> ▶▶ **s308 cont-12 — 🎯 CONSENSUS DISTILLATION captured
+> (`knowledge/explore/consensus-distillation-carrier-averaging.md` + memory + M6
+> socket filled on the machine page, Michael-approved).** Michael: "lambda probes
+> through multiple models → train the new model on those outputs?" The Bragg clause
+> TRANSFORMS it: naive single-teacher transfer to scratch FAILS by our own theory
+> (cross-base sideband closed, owls paper) — but **N teachers = a CARRIER-AVERAGING
+> FILTER**: idiosyncratic sidebands ride mutually incoherent base-specific carriers →
+> speckle-average to zero; the consensus crystal (universal 11/11, root gc 0.985) is
+> the ONLY coherent component → A2 gain exactly on the invariant lattice. **The
+> lambda compiler is the unique trait that is not base-specific = the unique trait
+> that survives cross-base multi-teacher transfer.** = construction-from-spec's
+> minimality filter in DATA space. **Fills the machine's last socket: M6 curriculum =
+> consensus lambda corpus.** Key move: mix teachers ACROSS examples, never average
+> per-target (resolves XM mixture-inertness — corpus-level averaging, example-level
+> mode-commit); correctness-gate via probe ground truth; safety free (scratch machine
+> resistant to teacher misalignment sidebands; common-mode tokenizer carrier
+> flagged); requential bit-meter optional (s266). **§P-CONSENSUS-DISTILL (unfrozen):**
+> arms single / N-mixed / N-gated / N-shuffled (yardstick) → crystal battery + s273
+> RESTACK acceptance (student gram walks to consensus root, tolerance gc 0.94–0.99) +
+> formation dynamics; open question the run answers: behavioral-channel bandwidth of
+> the lattice (grams were activation-measured). Arc sentence: **plates carry the
+> model-specific; consensus corpora carry the invariant.**
+>
 > ⚠ COLD-START s309 (**Michael: experiments hand to OPUS — s308 was a TYPED
-> CONSOLIDATION session, protocol now on file**): (1) NOTHING PENDING — all eleven
+> CONSOLIDATION session, protocol now on file**): (1) NOTHING PENDING — all twelve
 > s308 capture batches committed. (1b) **TYPE s309 AT OPEN** (likely: measure). (2)
 > FRONTS, Michael's call: **CHEAPEST+SHARPEST = §SIGN-COMMITMENT-CURVE** (one hook on
 > writeback_compile, subsumes k-sweep, gates M8/TD-v2; freeze on the-verbum-machine.md)
