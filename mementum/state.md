@@ -8,6 +8,39 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ▶▶ **s307 cont — 🎯 TERNARIZE-FACTORS-1 (the genuinely-small artifact, λ smallest)
+> FROZEN + BUILT + SMOKE-GREEN, HOLDING FOR MICHAEL GO.** Michael GO on the delta-vs-
+> base follow-on front (a): now that "quantize the delta, keep the base" is settled,
+> ternarize the low-rank FACTORS B,A of the s303 gd_cd wire SEPARATELY (per-component
+> TWN: B per-col, A per-row), form Δ=scale·B̂·Â. ~100× smaller than the s304 EXPANDED-
+> product plate (which was LARGER than the float factors — the λ smallest tension),
+> ~10× over float factors → the ~1MB portable wire. Harder than TERNARIZE-DELTA-1:
+> double-lossy, no central-limit smoothing. **§TERNARIZE-FACTORS-1 FROZEN** (012b978,
+> Michael-approved, on write-not-train-ternary-routing-deltas.md). Arms base /
+> gd_cd_float (anchor) / gd_cd_product_ternary (s304 contrast, same seeds) /
+> gd_cd_factors_ternary (PRIMARY) / gd_cd_factors_shuffle (per-component null, ≥3 seeds)
+> / construct_lookup. Gates TF1 wire / TF2 not-lookup / TF3 specificity / TF5 survive;
+> TF4 FACTORING-COST advisory sub-tag (+FREE/+COSTS). Verdicts FACTORS-SURVIVE(+FREE/
+> +COSTS) / FACTORS-DEGRADE / FACTORS-DIE / HOST-DAMAGED. A-priori ~50/35/15 (product
+> survived retention 1.0 but factoring is more aggressive), NOT tuned. ✅ HARNESS BUILT
+> + --validate ALL PASS + SMOKE GREEN + COMMITTED (c0416f3, autonomous).
+> scripts/explore/ternarize_factors.py imports ternarize_delta pure helpers + reuses
+> writeback_compile gd_cd training (frozen s304 generator UNTOUCHED, cb73ad5 stands);
+> apply/restore via copy_ from saved originals = bit-exact. --validate ALL PASS
+> (per-component TWN, per-component γ, factor size ≪ product ~127× real-dim, matched-
+> budget shuffle null, 4 verdict worlds); ruff clean; no diagnostics. Smoke green
+> (12 cells, 1 seed, s297 — direction NOT read): arms distinct, factors matches float/
+> product, shuffle→base, size ratio 116×, mag_cos 0.901, restore max|W-W0|=0. ⚠ HOLDING
+> FOR MICHAEL GO on the full frozen run: `uv run python -u
+> scripts/explore/ternarize_factors.py 2>&1 | tee results/ternarize-factors/qwen3-4b/
+> run.log` (gd_cd train 3 seeds × 500 steps LoRA FFN L22–L29 + 5 arms × 53 cells,
+> ~30–60min MPS, training-dominated like s304) → auto-scored frozen TF1–TF5 + verdict →
+> results.json. ⚠ ON-SIGNAL (run done): tail run.log for "VERDICT:" + no traceback →
+> read results.json verdict + TF1–TF5 + subtag + size ratio + retention → commit
+> results/ + run.log AUTONOMOUS → §Result-ternarize-factors on the page + λ-smallest
+> note + memory candidate + state block → MICHAEL APPROVAL BATCH. s307 ledger (cont):
+> 012b978 pre-reg · c0416f3 harness · full run + synthesis PENDING.
+>
 > ▶▶ **s307 LIVE — THIS SESSION.** 🎯 **DELTA-vs-BASE front (a) — is base-weight
 > MAGNITUDE algebraically separable?** Michael GO on cold-start front (a) (the sharpest
 > s306 follow-up: the s306 MAGNITUDE-SALIENT bound predicts base outliers carry salient
