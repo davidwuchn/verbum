@@ -308,6 +308,56 @@ registers install over training time.
   Instrument: `scripts/explore/sign_commitment.py` (--validate ALL PASS, smoke
   green; writeback_compile untouched).
 
+**§Result-sign-commitment (s309 run → s310 read — ❌ SIGN-CHURN, frozen;
+re-score IN FLIGHT).** Qwen3-4B gd_cd wire, 3 seeds, 1.44M pooled tracked
+trits × 15 fibonacci snaps (`results/sign-commitment/qwen3-4b/`, 26ad20b).
+**G1=F G2=F G3=T G4=T → SIGN-CHURN** (the pre-registered ~8% falsifier). The
+falsifier fired on the **persistent tail only**: flip_last=0.0295 > FLIP_CHURN
+0.02 ⇒ `not stabilized`; the *level* clause s_prefinal S(T⁻)=0.9705 ≥ 0.9
+PASSED.
+
+- **Michael's correction (recorded — I over-read the verdict).** SIGN-CHURN is
+  a routing-register *trajectory* verdict; it is **NOT task failure**. The wire
+  WORKS: loss 5.031→**0.252** (95% drop, 90% of it by step 8), final mag_cos
+  0.901, G4 wire-sane PASS, and this is the same wire that ternarizes at
+  retention ~1.0 (s304/s308). "Named damage" was the pre-reg gloss for the
+  branch; carried over too literally.
+- **The decoupling = the finding.** Loss is functionally converged by step
+  ~34–89 (step 89→499 is 410 of 500 steps and loss moves only 0.257→0.252, a
+  2% wiggle), **yet signs keep flipping 3–5%/snap to the end** ⇒ the residual
+  churn is **loss-neutral**. Meanwhile the *median* trit commits its final sign
+  at **step 5** (frac 0.010, IQR [0,34]) with real temporal structure (G3
+  null-beats p=0.0004) — but a heavy tail (p90=144) never settles.
+- **Two-population hypothesis (re-score tests it).** Trit churn should split by
+  marginality **r = |Δ_T| / thr_j** (final magnitude over its per-column TWN
+  threshold): CONFIDENT core (r≫1) commits early and freezes; MARGINAL tail
+  (r≈1, straddling the threshold; r<1 ⇒ final trit is 0) jitters across the
+  boundary forever = **exactly the TWN ternary-0 "insufficient evidence"
+  population**. **Smoke preview (30 steps) already loud:** 96.5% of late flips
+  in the two lowest-r bands (r<1 0.478 · r≈1 0.487), r≥2 ~0%; flip_last 0.137
+  @ r≈1 vs 0.000 @ r≥4. Full-run confirmation at step 499 PENDING (re-run in
+  tmux main:1 → `results/sign-commitment/qwen3-4b-rescore/`).
+- **Read for M8/TD-v2 (if the split holds).** SIGN-CHURN is not damage to "GD
+  has two jobs and wastes effort on routing" — it is a **direct measurement of
+  the waste** (GD keeps flipping routing signs after the loss is solved,
+  concentrated in the undecided coordinates). ⇒ **prescription, not
+  refutation:** the routing optimizer needs a **never-freeze ternary-0 band**,
+  not a frozen sign field; an evidence-gated commit that stops once evidence
+  plateaus would lose nothing (loss already flat) and kill the churn.
+- **Caveat (λ measure).** The two-timescale ratio 0.38 is rejected and mildly
+  *inverted* (t_mag 55 < t_sign 144) but **confounded** by starting alignment:
+  M(0)=0.723 (magnitudes barely rotate from init) vs Sc(0)=0.542 (signs start
+  near chance), so the 0.9-crossing half-life is not like-for-like. The s309
+  build amendment's 2× margin correctly withheld MAG-EARLY. Does NOT read as
+  "value leads routing."
+- **Instrument (NON-FROZEN; frozen gates/verdict UNTOUCHED, --validate ALL
+  PASS).** `sign_commitment.py --dump-history` (raw tau/|Δ|/r/block_id/loss →
+  .npz; `marginality()` computed in-run, r>1 ⇔ final trit nonzero verified
+  exact) + `scripts/explore/sign_commitment_rescore.py` (bins by r_final →
+  per-band commit/flip/share + loss-neutrality + plot). **Next session:** run
+  the re-score on the full-run npz; if the split holds, finalize this §Result +
+  memory; if not, report straight SIGN-CHURN.
+
 ### M9 — The tuned reference beam (HPE; RoPE de-accidentalized)
 
 **The observation (s152 → s291 → s308).** RoPE is an *accidental holographic

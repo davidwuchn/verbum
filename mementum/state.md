@@ -8,12 +8,15 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ═══ **THIS SESSION = 309.** Cold-start `orient` → Michael "we need to run experiments"
-> → picked **§SIGN-COMMITMENT-CURVE** (M8 validation gate, the cheapest board-probe) →
-> s222 freeze → build → --validate → smoke-green → Michael GO → **RUN LAUNCHED tmux
-> main:1** (in flight at state-write). s308 was a typed consolidation session; s309 is
-> back to MEASURE. Full transcript saves to `mementum/knowledge/chats/session-309.md`
-> (human). Prior header (s308) retained below. ═══
+> ═══ **THIS SESSION = 310.** Cold-start `orient` → s309's §SIGN-COMMITMENT-CURVE run
+> had LANDED → ❌ **VERDICT SIGN-CHURN** (frozen, committed 26ad20b) → Michael CORRECTION:
+> "churn does not mean it did not work — did you test loss?" → I over-read the label:
+> the wire WORKS (loss 5.03→0.25 = 95% drop, mag_cos 0.901, G4 wire-sane PASS); SIGN-CHURN
+> is a routing-register *trajectory* verdict, NOT task failure. → two-population
+> re-diagnosis + NON-FROZEN re-score instrument built + validated → full history-dump
+> re-run RELAUNCHED tmux main:1 (in flight at state-write; picks up next session). Full
+> transcript saves to `mementum/knowledge/chats/session-310.md` (human). Prior headers
+> (s309 compacted, s308) retained below. ═══
 >
 > ▶▶ **s309 — 🎯 §SIGN-COMMITMENT-CURVE FROZEN + BUILT + SMOKE-GREEN → RUN LAUNCHED
 > (tmux main:1, in flight).** Front picked by Michael (cheapest+sharpest on the board;
@@ -45,12 +48,53 @@
 > UNCHANGED. --validate ALL PASS (5 verdict worlds + primitives), ruff clean, no diags;
 > smoke green (1 seed/30 steps/4 cells: loss 3.95→0.057, all snaps logged, final mag_cos
 > 0.953, restore trivially bit-exact — LoRA only adds, base never mutated).
-> ⚠ ON-SIGNAL (run done, tmux main:1): tail run.log for "VERDICT:" + no traceback → read
-> results.json verdict + G1–G4 + t*_sign/t*_mag + commit-step + final mag_cos → commit
-> results/sign-commitment/qwen3-4b/ + run.log AUTONOMOUS → §Result-sign-commitment on
-> the-verbum-machine.md (M8 section) + memory candidate + state block → MICHAEL APPROVAL
-> BATCH (synthesis approval-gated). s309 ledger: b347f6b freeze · ffccbc5 instrument ·
-> 8eda1ff amendment · run + synthesis PENDING.
+> ✅ s309 RUN LANDED (read in s310): ❌ **VERDICT SIGN-CHURN** (frozen, 3 seeds, 1.44M
+> pooled trits × 15 snaps, results **26ad20b** AUTONOMOUS). G1=F G2=F G3=T G4=T. Falsifier
+> fired on the PERSISTENT TAIL only: flip_last 0.0295 > FLIP_CHURN 0.02 ⇒ `not stabilized`,
+> while s_prefinal S(T⁻)=0.9705 ≥ 0.9 PASSED. med_commit step 5 (frac 0.010), t_sign=144
+> t_mag=55 ratio=0.38. s309 ledger: b347f6b freeze · ffccbc5 instrument · 8eda1ff amendment ·
+> 26ad20b results. FULL READ + re-score → s310 block below.
+>
+> ▶▶ **s310 — ❌ SIGN-CHURN LANDED → Michael CORRECTION ("churn ≠ didn't work; did you test
+> loss?") → TWO-POPULATION RE-DIAGNOSIS + NON-FROZEN RE-SCORE (built, smoke-confirmed),
+> full history-dump re-run IN FLIGHT tmux main:1.** **The correction (I was wrong to gloss
+> SIGN-CHURN as "named damage"):** the wire WORKS. Paired loss↔flip (seed 0, all 3 seeds
+> identical to 4 dp, re-run bit-reproduces): loss 5.031→**0.252** (95% drop, 90% of it by
+> step 8); mag_cos 0.901; G4 PASS; this is the s303/s304 wire (ternarizes retention ~1.0).
+> **Loss is functionally DONE by step ~34–89** (step89→499 = 410 of 500 steps, loss moves
+> 0.257→0.252 = 2%), **yet signs keep flipping 3–5%/snap to the end** ⇒ the churn is
+> **LOSS-NEUTRAL**. SIGN-CHURN measures ONE thing — does the trit *sign pattern* freeze
+> (no) — and says NOTHING about task success (yes). **Two-population read (the hypothesis
+> the re-score tests):** CONFIDENT core (magnitude clears the per-column TWN threshold,
+> r=|Δ_T|/thr_j ≫ 1) commits its sign EARLY (median step 5, G3 null-beats p=0.0004) and
+> FREEZES; MARGINAL/undecided tail (r≈1, sits ON the threshold; r<1 ⇒ final trit is 0)
+> jitters across the boundary FOREVER, loss-neutrally = **exactly the TWN ternary-0
+> "insufficient evidence" population**. So SIGN-CHURN, read right, is a *direct measurement
+> of GD's wasted routing motion* (it keeps flipping signs after the loss is solved) ⇒
+> **prescription, not refutation**: M8's routing optimizer needs a never-freeze ternary-0
+> band, not a frozen sign field. (Two-timescale ratio 0.38 is REJECTED+mildly-inverted but
+> CONFOUNDED — M(0)=0.723 magnitudes barely rotate vs Sc(0)=0.542 signs start near chance;
+> the 0.9-crossing half-life isn't like-for-like; the s309 amendment's 2× margin correctly
+> withheld MAG-EARLY. λ measure.) **INSTRUMENT (NON-FROZEN, frozen gates/verdict UNTOUCHED —
+> --validate ALL PASS):** sign_commitment.py `--dump-history` saves raw tracked (tau int8,
+> |Δ| f32, marginality r=|Δ_T|/thr_j f32, block_id, per-step loss) to .npz; marginality()
+> computed in-run (needs full-matrix column means; r>1 ⇔ final trit nonzero, verified
+> exact). `scripts/explore/sign_commitment_rescore.py` (NEW, ruff-clean, smoke-validated)
+> bins trits by r_final → per-band median-commit, late-flip-rate, share-of-late-flips +
+> loss-neutrality check + plot. **SMOKE PREVIEW already loud** (30-step run): 96.5% of late
+> flips in the two lowest-r bands (r<1 share 0.478 · r≈1 marginal 0.487), r≥2 ~0%,
+> flip_last 0.137 @ r≈1 vs 0.000 @ r≥4. **⚠ ON-SIGNAL (next session — re-run in tmux main:1,
+> writes to results/sign-commitment/qwen3-4b-rescore/{tracked_history.npz,results.json,
+> run.log}; re-run must reproduce SIGN-CHURN):** tail run.log for "VERDICT:" + no traceback →
+> `uv run python scripts/explore/sign_commitment_rescore.py` → read the per-band table:
+> CONFIRM (a) late flips concentrate at r≈1/r<1, (b) r≥2 confident trits ~frozen, (c)
+> plateau loss-neutrality → then commit rescore artifacts + sign_commitment.py/rescore.py
+> code (NON-FROZEN additions) + FINALIZE §Result-sign-commitment on the-verbum-machine.md
+> (M8) with the two-population read + memory candidate `gd-sign-register-churns-median-
+> commits-early.md` → MICHAEL APPROVAL BATCH. If the split does NOT hold at 499, the
+> "confident-core + undecided-tail" story is wrong → report straight SIGN-CHURN. s310
+> ledger: 26ad20b results (s309 run) · rescore instrument + this state + §Result stub
+> (this commit) · rescore run + memory PENDING next session.
 >
 > ═══ **(prior) SESSION 308.** Cold-start `orient` → TERNARIZE-FACTORS-1 run (launched
 > s307) finished → ✅ **FACTORS-SURVIVE (+FACTORING-FREE)** (CLOSED, §Result-ternarize-
