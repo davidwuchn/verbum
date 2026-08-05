@@ -1,0 +1,37 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 13427.82it/s]
+[cq] Qwen/Qwen3-4B dev=mps N=36 band=0..35 tau=0.01 body_bits=(2, 3, 4) calib=48
+[cq] calibrating coherence (grad sign-consistency)…
+/Users/mwhitford/src/verbum/scripts/experiments/companding_quant.py:467: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /Users/runner/work/pytorch/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:837.)
+  print(f"[cq]   calib {i+1}/{len(texts)} loss {float(out.loss):.3f}",
+[cq]   calib 1/48 loss 4.884
+[cq]   calib 13/48 loss 4.884
+[cq]   calib 25/48 loss 4.884
+[cq]   calib 37/48 loss 4.884
+[cq] Jaccard(coh-tail, mag-tail) = 0.005 (s171 predicts ~0.17)
+[cq] unquantized ref: CE 5.1082 task_acc 1.000
+[cq]   int_uniform        b2 eff2.00 CE 16.0340 task 0.062
+[cq]   int_uniform        b3 eff3.00 CE 12.0563 task 0.000
+[cq]   int_uniform        b4 eff4.00 CE 5.3997 task 1.000
+[cq]   twn                b4 eff1.58 CE 12.9121 task 0.062
+[cq]   outlier_mag_fp16   b2 eff2.21 CE 12.3333 task 0.062
+[cq]   outlier_mag_fp16   b3 eff3.20 CE 5.4680 task 1.000
+[cq]   outlier_mag_fp16   b4 eff4.19 CE 5.7676 task 1.000
+[cq]   companding_mag     b2 eff2.06 CE 16.0350 task 0.062
+[cq]   companding_mag     b3 eff3.05 CE 7.3384 task 1.000
+[cq]   companding_mag     b4 eff4.04 CE 7.1188 task 1.000
+[cq]   companding_coh     b2 eff2.06 CE 16.6699 task 0.125
+[cq]   companding_coh     b3 eff3.05 CE 14.0032 task 0.250
+[cq]   companding_coh     b4 eff4.04 CE 12.5942 task 0.438
+[cq]   companding_shuffle b2 eff2.06 CE 15.8919 task 0.062
+[cq]   companding_shuffle b3 eff3.05 CE 12.4494 task 0.000
+[cq]   companding_shuffle b4 eff4.04 CE 5.7789 task 1.000
+[cq] restore check: max|W-W0| = 0.00e+00
+
+[cq] ════ VERDICT: HOST-DAMAGED ════
+  C1=True C2=False(fp16_dom=True) C3=MAGNITUDE-SELECTS C4=True C5=False
+  b2: int 16.0340 mag 16.0350 fp16 12.3333 coh 16.6699 shuf 15.8919
+  b3: int 12.0563 mag 7.3384 fp16 5.4680 coh 14.0032 shuf 12.4494
+  b4: int 5.3997 mag 7.1188 fp16 5.7676 coh 12.5942 shuf 5.7789
+[cq] wrote results/companding-quant/qwen3-4b/results.json
