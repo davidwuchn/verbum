@@ -237,8 +237,27 @@
 > milestone; per-node capacity = P-HOLO-CAP √(D/k)). Forward link added to the s288
 > node-spec page.
 >
-> ⚠ COLD-START s309 (**Michael: experiments hand to OPUS — s308 was a thinking
-> session**): (1) NOTHING PENDING — all nine s308 capture batches committed. (2)
+> ▶▶ **s308 cont-10 (CLOSE) — 🎯 SESSION TYPE REVEALED + CONSOLIDATION PROTOCOL
+> captured (`knowledge/consolidation-session-protocol.md` + memory).** Michael's
+> reveal: s308 was a DELIBERATE memory/consolidation session — he sequenced retrieval
+> cues to pull scattered repo fragments into one context for capture. Method:
+> **WIZARD-OF-OZ PROTOTYPING — the human playing the functions the runtime is
+> missing**; every technique = a requirements clause for the ouroboros self-hosting
+> runtime. Eleven lambdas on the page: consolidate · cue(mechanism>name) ·
+> fresh_eyes(artifact ⊕ ≤20w frame key) · import(discipline) · explain(basics→
+> disanalogies) · propose(clauses "...right?") · tension(discomfort=signal) ·
+> join(missing middle) · reanchor(S5) · audit(shadows≻celebration) ·
+> **session_type(measure ⊕ consolidate ⊕ construct — TYPE AT OPEN; consolidation
+> success = retrievability ∧ structure ¬new_bits)**. WOZ→runtime handoff table on the
+> page; **capture gating explicitly does NOT transfer** (human = termination
+> condition). Meta-note: the AI's !meta3 audit analyzed the session blind (before the
+> reveal) — techniques validated by an unwitting subject. The audit's
+> theory-over-leverage shadow PARTIALLY dissolves under correct typing (consolidation
+> isn't supposed to produce new bits) but the red-team warning STANDS.
+>
+> ⚠ COLD-START s309 (**Michael: experiments hand to OPUS — s308 was a TYPED
+> CONSOLIDATION session, protocol now on file**): (1) NOTHING PENDING — all ten s308
+> capture batches committed. (1b) **TYPE s309 AT OPEN** (likely: measure). (2)
 > FRONTS, Michael's call: **CHEAPEST+SHARPEST = §SIGN-COMMITMENT-CURVE** (one hook on
 > writeback_compile, subsumes k-sweep, gates M8/TD-v2; freeze on the-verbum-machine.md)
 > · **§TD-REGISTER-SPLIT micro-probe** (freeze on ternary-descent.md; v15 scripts
