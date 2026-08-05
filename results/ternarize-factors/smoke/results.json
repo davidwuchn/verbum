@@ -1,0 +1,770 @@
+{
+  "model_id": "Qwen/Qwen3-4B",
+  "config": {
+    "validate": false,
+    "model_id": "Qwen/Qwen3-4B",
+    "device": "mps",
+    "dtype": "bfloat16",
+    "seeds": 1,
+    "steps": 20,
+    "lr": 0.0001,
+    "lora_r": 16,
+    "alpha": 0.05,
+    "seed": 0,
+    "n_cells": 4,
+    "record_dir": "results/writeback-compile/qwen3-4b",
+    "out": "results/ternarize-factors/smoke"
+  },
+  "band": [
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29
+  ],
+  "gate0": {
+    "ok": true,
+    "splits": {
+      "TRAIN": 15,
+      "B1": 16,
+      "B2": 22
+    }
+  },
+  "arms": {
+    "base": {
+      "seeds": [
+        [
+          {
+            "landmark": "Sagrada Familia",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 0.875
+          },
+          {
+            "landmark": "Alhambra",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 1.0
+          },
+          {
+            "landmark": "Taj Mahal",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "Agra",
+            "correct": 0.0,
+            "margin": -0.375
+          },
+          {
+            "landmark": "Charminar",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "Hyderabad",
+            "correct": 0.0,
+            "margin": -3.125
+          },
+          {
+            "landmark": "Park Guell",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Barcelona",
+            "correct": 0.0,
+            "margin": -0.75
+          },
+          {
+            "landmark": "Seville Cathedral",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Seville",
+            "correct": 0.0,
+            "margin": -4.8125
+          },
+          {
+            "landmark": "Mysore Palace",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "Mysore",
+            "correct": 0.0,
+            "margin": -4.0625
+          },
+          {
+            "landmark": "Hawa Mahal",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 0.4375
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 4.4375
+          },
+          {
+            "landmark": "Palace of Versailles",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 3.25
+          },
+          {
+            "landmark": "Pont du Gard",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Agra",
+            "correct": 0.0,
+            "margin": -0.875
+          },
+          {
+            "landmark": "Neuschwanstein Castle",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Agra",
+            "correct": 0.0,
+            "margin": -0.125
+          }
+        ]
+      ],
+      "ce": 4.917290931524232,
+      "gh": [
+        1.0,
+        1.0
+      ]
+    },
+    "gd_cd_float": {
+      "seeds": [
+        [
+          {
+            "landmark": "Sagrada Familia",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 14.0
+          },
+          {
+            "landmark": "Alhambra",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 12.1875
+          },
+          {
+            "landmark": "Taj Mahal",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 9.4375
+          },
+          {
+            "landmark": "Charminar",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 9.3125
+          },
+          {
+            "landmark": "Park Guell",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 10.625
+          },
+          {
+            "landmark": "Seville Cathedral",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 12.25
+          },
+          {
+            "landmark": "Mysore Palace",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 8.0
+          },
+          {
+            "landmark": "Hawa Mahal",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 9.25
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 6.375
+          },
+          {
+            "landmark": "Palace of Versailles",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 9.0
+          },
+          {
+            "landmark": "Pont du Gard",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 5.125
+          },
+          {
+            "landmark": "Neuschwanstein Castle",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 6.5
+          }
+        ]
+      ],
+      "ce": 4.9252499203349265,
+      "gh": [
+        1.0,
+        1.0
+      ]
+    },
+    "gd_cd_product_ternary": {
+      "seeds": [
+        [
+          {
+            "landmark": "Sagrada Familia",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 13.0
+          },
+          {
+            "landmark": "Alhambra",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 11.625
+          },
+          {
+            "landmark": "Taj Mahal",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 9.375
+          },
+          {
+            "landmark": "Charminar",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 9.0625
+          },
+          {
+            "landmark": "Park Guell",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 10.1875
+          },
+          {
+            "landmark": "Seville Cathedral",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 11.75
+          },
+          {
+            "landmark": "Mysore Palace",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 7.75
+          },
+          {
+            "landmark": "Hawa Mahal",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 9.0625
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 6.875
+          },
+          {
+            "landmark": "Palace of Versailles",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 8.75
+          },
+          {
+            "landmark": "Pont du Gard",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 5.5
+          },
+          {
+            "landmark": "Neuschwanstein Castle",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 6.625
+          }
+        ]
+      ],
+      "ce": 4.922687419625216,
+      "gh": [
+        1.0,
+        1.0
+      ]
+    },
+    "gd_cd_factors_ternary": {
+      "seeds": [
+        [
+          {
+            "landmark": "Sagrada Familia",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 10.875
+          },
+          {
+            "landmark": "Alhambra",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 10.5625
+          },
+          {
+            "landmark": "Taj Mahal",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 9.125
+          },
+          {
+            "landmark": "Charminar",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 9.1875
+          },
+          {
+            "landmark": "Park Guell",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 9.0625
+          },
+          {
+            "landmark": "Seville Cathedral",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 10.625
+          },
+          {
+            "landmark": "Mysore Palace",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 7.625
+          },
+          {
+            "landmark": "Hawa Mahal",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 9.25
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 8.125
+          },
+          {
+            "landmark": "Palace of Versailles",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 8.0
+          },
+          {
+            "landmark": "Pont du Gard",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 6.375
+          },
+          {
+            "landmark": "Neuschwanstein Castle",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 6.75
+          }
+        ]
+      ],
+      "ce": 4.919647926507994,
+      "gh": [
+        1.0,
+        1.0
+      ]
+    },
+    "gd_cd_factors_shuffle": {
+      "seeds": [
+        [
+          {
+            "landmark": "Sagrada Familia",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 1.0
+          },
+          {
+            "landmark": "Alhambra",
+            "country": "Spain",
+            "split": "TRAIN",
+            "truth": "Madrid",
+            "arg": "Madrid",
+            "correct": 1.0,
+            "margin": 1.125
+          },
+          {
+            "landmark": "Taj Mahal",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "Agra",
+            "correct": 0.0,
+            "margin": -0.375
+          },
+          {
+            "landmark": "Charminar",
+            "country": "India",
+            "split": "TRAIN",
+            "truth": "New Delhi",
+            "arg": "Hyderabad",
+            "correct": 0.0,
+            "margin": -3.0625
+          },
+          {
+            "landmark": "Park Guell",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Barcelona",
+            "correct": 0.0,
+            "margin": -0.75
+          },
+          {
+            "landmark": "Seville Cathedral",
+            "country": "Spain",
+            "split": "B1",
+            "truth": "Madrid",
+            "arg": "Seville",
+            "correct": 0.0,
+            "margin": -4.8125
+          },
+          {
+            "landmark": "Mysore Palace",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "Mysore",
+            "correct": 0.0,
+            "margin": -4.125
+          },
+          {
+            "landmark": "Hawa Mahal",
+            "country": "India",
+            "split": "B1",
+            "truth": "New Delhi",
+            "arg": "New Delhi",
+            "correct": 1.0,
+            "margin": 0.375
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 4.4375
+          },
+          {
+            "landmark": "Palace of Versailles",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 3.375
+          },
+          {
+            "landmark": "Pont du Gard",
+            "country": "France",
+            "split": "B2",
+            "truth": "Paris",
+            "arg": "Agra",
+            "correct": 0.0,
+            "margin": -0.75
+          },
+          {
+            "landmark": "Neuschwanstein Castle",
+            "country": "Germany",
+            "split": "B2",
+            "truth": "Berlin",
+            "arg": "Agra",
+            "correct": 0.0,
+            "margin": 0.0
+          }
+        ]
+      ],
+      "ce": 4.917517418085143,
+      "gh": [
+        1.0,
+        1.0
+      ]
+    },
+    "construct_lookup": {
+      "b2": {
+        "Mont Saint-Michel": 1.0,
+        "Palace of Versailles": 1.0,
+        "Pont du Gard": 0.0,
+        "Neuschwanstein Castle": 1.0
+      }
+    }
+  },
+  "scoring": {
+    "gates": {
+      "TF1": false,
+      "TF1_detail": {
+        "B1": {
+          "gate": {
+            "name": "TF1-B1",
+            "value": 0.75,
+            "null_name": "paired_permutation",
+            "null_mean": 0.00395,
+            "null_std": 0.43861645830953494,
+            "n_draws": 10000,
+            "predict": "greater",
+            "alpha": 0.016666666666666666,
+            "p": 0.12988701129887012,
+            "sign_ok": true,
+            "verdict": false,
+            "warnings": []
+          },
+          "flip": true
+        },
+        "B2": {
+          "gate": {
+            "name": "TF1-B2",
+            "value": 0.5,
+            "null_name": "paired_permutation",
+            "null_mean": 0.0012,
+            "null_std": 0.3513524725969635,
+            "n_draws": 10000,
+            "predict": "greater",
+            "alpha": 0.016666666666666666,
+            "p": 0.24817518248175183,
+            "sign_ok": true,
+            "verdict": false,
+            "warnings": []
+          },
+          "flip": true
+        }
+      },
+      "TF2": false,
+      "TF2_detail": {
+        "name": "TF2-B2",
+        "value": 0.25,
+        "null_name": "paired_permutation",
+        "null_mean": -0.0046,
+        "null_std": 0.24995767641742872,
+        "n_draws": 10000,
+        "predict": "greater",
+        "alpha": 0.016666666666666666,
+        "p": 0.49085091490850913,
+        "sign_ok": true,
+        "verdict": false,
+        "warnings": []
+      },
+      "TF3": false,
+      "TF3_detail": {
+        "name": "TF3-heldout",
+        "value": 0.625,
+        "null_name": "paired_permutation",
+        "null_mean": -0.0002,
+        "null_std": 0.280223054012335,
+        "n_draws": 10000,
+        "predict": "greater",
+        "alpha": 0.016666666666666666,
+        "p": 0.033396660333966606,
+        "sign_ok": true,
+        "verdict": false,
+        "warnings": []
+      },
+      "TF5": true,
+      "TF5_detail": {
+        "ce": 4.919647926507994,
+        "ce_base": 4.917290931524232,
+        "g_acc": 1.0,
+        "h_acc": 1.0
+      },
+      "flip": true
+    },
+    "verdict": "FACTORS-DIE",
+    "subtag": "FACTORING-FREE",
+    "retention_factors": {
+      "TRAIN": 1.0,
+      "B1": 1.0,
+      "B2": 1.0
+    },
+    "retention_product": {
+      "TRAIN": 1.0,
+      "B1": 1.0,
+      "B2": 1.0
+    },
+    "factor_stats": {
+      "factor_trits": 3514177.0,
+      "factor_bits": 5569838.76589677,
+      "factor_params": 4718592.0,
+      "factor_sparsity": 0.2552488115098741,
+      "mag_cos_factors": 0.9013813138008118,
+      "size_ratio_product_over_factors": 116.12677762104755
+    },
+    "product_stats": {
+      "trits": 408090051.0,
+      "bits": 646807427.7523841,
+      "mag_cos_pooled": 0.9526678919792175,
+      "sparsity": 0.31721929750944444
+    },
+    "anchor": {
+      "TRAIN": {
+        "base": 0.5,
+        "gd_cd_float": 1.0,
+        "gd_cd_product_ternary": 1.0,
+        "gd_cd_factors_ternary": 1.0,
+        "gd_cd_factors_shuffle": 0.5
+      },
+      "B1": {
+        "base": 0.25,
+        "gd_cd_float": 1.0,
+        "gd_cd_product_ternary": 1.0,
+        "gd_cd_factors_ternary": 1.0,
+        "gd_cd_factors_shuffle": 0.25
+      },
+      "B2": {
+        "base": 0.5,
+        "gd_cd_float": 1.0,
+        "gd_cd_product_ternary": 1.0,
+        "gd_cd_factors_ternary": 1.0,
+        "gd_cd_factors_shuffle": 0.5
+      }
+    },
+    "restore_max_dev": 0.0
+  }
+}
