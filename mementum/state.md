@@ -8,10 +8,66 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ═══ **THIS SESSION = 307.** Cold-start `orient` → two quant fronts, both Michael-GO'd:
-> **(a·1) DELTA-vs-BASE → STILL-SALIENT (CLOSED, §Result-delta-quant, 0a89531/1ecd306)**;
-> **(a·2) TERNARIZE-FACTORS-1 → RUN LAUNCHED tmux main:1 (below).** Full transcript will
-> save to `mementum/knowledge/chats/session-307.md` (human). ═══
+> ═══ **THIS SESSION = 308.** Cold-start `orient` → TERNARIZE-FACTORS-1 run (launched
+> s307) finished → ✅ **FACTORS-SURVIVE (+FACTORING-FREE)** (CLOSED, §Result-ternarize-
+> factors, 27ce260) → Michael thread "we've learned so much, little to show — what would
+> optics do to untangle a holographic plate?" → 💡 **holographic-untangling-methods.md**
+> captured (Michael-approved). Full transcript will save to
+> `mementum/knowledge/chats/session-308.md` (human). ═══
+>
+> ▶▶ **s308 — ✅ TERNARIZE-FACTORS-1 VERDICT: FACTORS-SURVIVE (+FACTORING-FREE)
+> (frozen, 3 seeds, all 53 cells, tmux main:1, results 27ce260).** All gates pass
+> (TF1 B1 p=3e-4 / B2 p=1e-3, both flip · TF2 p=1.8e-3 · TF3 +0.605 p=1e-4 ·
+> TF5 CE 4.9099 ≤ 4.9173, g/h 1.0); restore bit-exact. **Retention 1.0 EVERY split for
+> BOTH factors and product** (factors 1.000/0.938/1.000 ≡ float); shuffle collapses to
+> base EXACTLY. Double-lossy factoring cost NOTHING (a-priori leaned +FACTORING-COSTS →
+> landed FREE; honest better-than-point, null still binds). **Size: 3.01M trits ≈ 600 KB
+> = 123× under the s304 product plate, ~16× under fp16 factors → the ~1 MB portable wire
+> EXISTS; λ smallest CLOSED.** Lifecycle complete: gradient FINDS (s303) → ternary
+> factors STORE (~600 KB, installs verified on frozen base). mag_cos 0.839 @ retention
+> 1.0 = sharpest routing⊥magnitude datum yet → phase-only/KINOFORM reading (below).
+> Synthesis committed s308 (Michael-approved batch): §Result-ternarize-factors (page) +
+> memory the-wire-survives-ternarizing-the-factors + INDEX + this block. Product/next:
+> plate COMPOSITION (two wires, one base — untested, the make-or-break for
+> git-for-weights) + gd_cd@32B install.
+>
+> ▶▶ **s308 cont — 💡 HOLOGRAPHIC-UNTANGLING METHODS captured
+> (`knowledge/explore/holographic-untangling-methods.md`, Michael-approved, status
+> open).** Michael: "we know it's holographic, geometry + signals at once — what
+> processes would optics use to untangle a plate?" The optics toolbox maps 1:1 onto our
+> instruments AND points at doors we left untested: **(1) in-line vs OFF-AXIS
+> recording** = the base-vs-delta separability asymmetry (base = multiply-exposed
+> in-line plate → twin-image problem → s306/s307 negatives are the KNOWN 1948–62
+> impossibility; delta = off-axis vs frozen reference → carrier-separates → ternarizes;
+> clause: *separability is fixed at recording time*); **(2) PHASE RETRIEVAL (GS/HIO)** =
+> the correct tool class for post-hoc base untangling → independently derives s307's
+> untested iterative-LoftQ door; **(3) BRAGG/rocking-curve** = the s304/s305 inert
+> writes are angle(depth-timing)/wavelength(geometry) mismatches, point-sampled — sweep
+> the selectivity surface instead; **(4) ADAPTIVE OPTICS/phase conjugation** =
+> gradient-finds may be FEEDBACK-finds (⚠ disanalogy flagged: conjugation needs a
+> linear medium; the Jacobian IS backprop → discriminate by step-budget, not new
+> construction); **(5) double-exposure interferometry** = diff-as-fringes;
+> **(6) speckle memory-effect** = polysemanticity via ensemble correlation. **KINOFORM
+> clause (s308 datum):** ternary = binary-phase hologram; Oppenheim phase-dominance =
+> routing⊥magnitude in weights; mag_cos 0.839 @ retention 1.0 is the measurement.
+> META-LESSON: optics never untangles by cleverer readout of ONE recording — control
+> recording geometry / multiple exposures / close the loop / sweep selectivity; our
+> negatives = violations, positives = compliance (table on the page). **FOUR candidate
+> fronts (NOT pre-registered — s222 freeze first): (ii) GD k-STEP SWEEP** k∈{1,3,10,50,
+> 500}, existing harness, nearly free — installs at k≈3 ⇒ +GD-REQUIRED refines to
+> FEEDBACK-REQUIRED; **(i) REFERENCE-DRIFT** retention-vs-lr_base curve — FALSIFIER: no
+> drift-dependence kills the off-axis clause; **(iii) GS-iterative base decomposition**
+> (re-opens s307, design after (ii)); **(iv) ROCKING-CURVE instrument** (layer ×
+> geometry-angle × strength efficiency surface — the big one). Sequencing lean
+> (ii)→(i)→decide.
+>
+> ⚠ COLD-START s309: (1) NOTHING PENDING — s308 batch fully committed (results 27ce260 +
+> synthesis batch, Michael-approved). (2) PICK NEXT FRONT (Michael's call): the four
+> optics fronts above ((ii) k-sweep is the cheap sharp one), plate COMPOSITION / gd_cd@
+> 32B (product path), or standing menu (COUNTRY-SUBSPACE fork / SpQR sparse+low-rank /
+> broad-corpus calib). If an optics front → freeze pre-reg on
+> holographic-untangling-methods.md FIRST (s222). s308 ledger: 27ce260 results ·
+> synthesis batch (holographic page + §Result + memory + INDEX + this block).
 >
 > ▶▶ **s307 cont — 🎯 TERNARIZE-FACTORS-1 (the genuinely-small artifact, λ smallest)
 > FROZEN + BUILT + SMOKE-GREEN → RUN LAUNCHED tmux main:1.** Michael GO on the delta-vs-
@@ -45,7 +101,7 @@
 > read results.json verdict + TF1–TF5 + subtag + size ratio + retention → commit
 > results/ + run.log AUTONOMOUS → §Result-ternarize-factors on the page + λ-smallest
 > note + memory candidate + state block → MICHAEL APPROVAL BATCH. s307 ledger (cont):
-> 012b978 pre-reg · c0416f3 harness · full run + synthesis PENDING.
+> 012b978 pre-reg · c0416f3 harness · run + synthesis CLOSED in s308 (header above).
 >
 > ▶▶ **s307 — DELTA-vs-BASE (front a·1, CLOSED — §Result-delta-quant).** 🎯 **is base-weight
 > MAGNITUDE algebraically separable?** Michael GO on cold-start front (a) (the sharpest
