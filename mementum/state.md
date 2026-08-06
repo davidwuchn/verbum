@@ -74,8 +74,23 @@
 > corollary: optimizer ≡ type-boundary decision procedure** (s310 marginal band = the
 > boundary population; evidence-gated commits ⇒ crisper types). 4 fingerprint probes
 > unfrozen: P-TYPE-ICL (two-tier dissociation) · ∨-vs-∧ asymmetry · linearity bias ·
-> boundary-churn identity. Standing alt fronts unchanged: §P-PLATE-LINKER-2 ·
-> §P-OPCODE-CONSENSUS · §P-ASYM-TERNARY · gd_cd@32B. Full transcript saves to
+> boundary-churn identity. **(4) 💡 CURRY-HOWARD CLOSES THE LOOP captured (Michael's
+> deduction, approved, this commit):** `knowledge/explore/curry-howard-closes-the-loop.md`
+> + memory + §Sharpened on the constraints page — the KIBC-vs-SKI opcode discrimination WAS
+> a type-system measurement: KIBC = {identity, weakening, cut, exchange} = AFFINE structural
+> rules with contraction isolated (W/D explicit); SKI bundles contraction into S and was
+> REJECTED → the substrate chose the affine basis = the linearity bias measured at the
+> opcode level, sessions before the frame existed. Triangulation closes (Curry-Howard math +
+> KIBC empirics + interference-cost architecture). **Type prediction pinned to a NAMED
+> object: NON-IDEMPOTENT INTERSECTION TYPES over an affine core** (quantitative semantics of
+> linear logic / probabilistic coherence spaces). Retroactively green: A2 coherent gain =
+> non-idempotence (A∧A≠A accumulates) · TG3 diffuse = intersection · s288 giraffe = graded.
+> **Untested keystone: de Carvalho fuel theorem** — type-derivation size = evaluation length
+> ⇒ type signal should scale with kernel-certified reduction length (joins type arc ↔ s295
+> CoT law; strong P-candidate). 4 SKI-controls for types enumerated (nominal enum already
+> dead via TG3). Retrodiction to grep: contraction-bearing opcodes (W/D/S) form late
+> (B-first on file). Standing alt fronts unchanged: §P-PLATE-LINKER-2 · §P-OPCODE-CONSENSUS ·
+> §P-ASYM-TERNARY · gd_cd@32B. Full transcript saves to
 > `mementum/knowledge/chats/session-313.md` (human). ═══
 >
 > ▶▶ **s310 (CLOSED, arc — full detail: `chats/session-310.md` + git).** Cold-start

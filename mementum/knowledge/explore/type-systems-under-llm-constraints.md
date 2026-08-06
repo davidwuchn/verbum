@@ -133,6 +133,23 @@ decision procedure. **The machine's optimizer and its type system are
 the same design problem.** (Pointer belongs on the-verbum-machine.md
 when M8 next revised.)
 
+## 5b. §Sharpened (s313, same session) — the composite has a NAME
+
+> `curry-howard-closes-the-loop.md`: Michael's deduction — the
+> KIBC-vs-SKI opcode discrimination was already a type-system
+> measurement. KIBC = {identity, weakening, cut, exchange} = affine
+> structural rules with contraction isolated (W, D explicit); SKI (which
+> bundles contraction into S) was REJECTED by the data — the substrate
+> chose the affine basis, independently confirming this page's
+> linearity-bias clause. Curry-Howard then pins §5's composite to
+> **non-idempotent intersection types over an affine core**
+> (quantitative semantics of linear logic / probabilistic coherence
+> spaces). Retroactively green: A2 coherent gain = non-idempotence; TG3
+> diffuse = intersection; s288 = graded. Untested keystone: de
+> Carvalho's fuel theorem (type-derivation size = evaluation length →
+> joins the s295 CoT law). SKI-controls for the type claim enumerated
+> on that page.
+
 ## 6. Fingerprint probes (ALL unfrozen, s222)
 
 - **P-TYPE-ICL** — two-tier dissociation: nonce type defined by tape
