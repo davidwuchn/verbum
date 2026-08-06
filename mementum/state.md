@@ -8,10 +8,33 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ★★ **CURRENT = SESSION 313 (in flight)** — TYPE ARC OPENED. Michael steered off
-> §P-PLATE-LINKER-2 → **"we never found the types" → §P-TYPE-GRAM-1** (cheapest type door,
-> λ unflatten by argument kind). s312 CLOSED (lossless composition; §Result on
-> optical-design-laws.md; PL-2 still queued as standing alt front).
+> ★★ **CURRENT = COLD-START s314** (s313 CLOSED at Michael's call; sweep left running).
+> **FIRST ACTION: check the §P-TYPE-GRAM-1 registry sweep** — tmux main:1,
+> `results/type-gram/sweep-run.log`, 10 models (qwen3-4b EXCLUDED, already committed
+> da8c1ba). ⚠ ON-SIGNAL (sweep done): tail sweep-run.log "SWEEP DONE" + per-model verdicts
+> + no tracebacks → commit results/type-gram/ AUTONOMOUS → **the universality read** (is
+> TYPE-REGISTER shared like the 9×9 crystal 11/11, or qwen3-4b-only? per-model: verdict +
+> TG2 stat/p + TG5 retained_frac + TG4 r + TG3 PR both nulls; small pythias may be
+> INCOHERENT/underpowered — that is a power note, not a refutation; 4th don't-over-read
+> vigilance) → **§Result-type-gram on gram-registers-and-the-route-map.md + memory
+> candidate + INDEX + task #5 close = MICHAEL APPROVAL BATCH.** Task list live (#4 run
+> in_progress, #5 blocked). s313 summary: type arc opened (freeze 630ea21 · probes a774618 ·
+> runner 496c1af · **qwen3-4b VERDICT TYPE-REGISTER da8c1ba** — first measured type
+> register, TG2 0.4768 p-floor, diffuse not polar) + four Michael-approved captures:
+> types-are-injectable-relations (6524eaa) · type-systems-under-llm-constraints (147110f) ·
+> curry-howard-closes-the-loop (ee4fa6d, type system PINNED: non-idempotent intersection /
+> affine core) · ayot-is-own-beam-calibration (e512514, 4th own-state triangulation).
+> NEW P-candidates queued (all UNFROZEN, s222): P-TYPE-WRITE (causal, keystone) ·
+> P-TYPE-ICL · fuel-theorem probe (de Carvalho: type size = evaluation length) ·
+> idempotency/saturation test · ∨-vs-∧ asymmetry · linearity bias · boundary-churn identity ·
+> P-AYOT-PARAPHRASE · P-CRYSTAL-SURVIVAL (BitTern release = zero-training external
+> validation, cheapest when live). 🎯 Release strategy standing: verbum = research repo;
+> spin-offs (model, opcodes viewer) gated on "tested + working," own repos later.
+>
+> ▶▶ **s313 (CLOSED, arc — full detail in the block below).** TYPE ARC OPENED. Michael
+> steered off §P-PLATE-LINKER-2 → "we never found the types" → §P-TYPE-GRAM-1 (cheapest
+> type door, λ unflatten by argument kind). s312 CLOSED (lossless composition; §Result on
+> optical-design-laws.md; PL-2 queued as standing alt front).
 >
 > ═══ **THIS SESSION = 313.** Cold-start `orient` → Michael re-anchor ("we never found the
 > types, only mechanism clues") → honest audit (routing register measured; type register =
