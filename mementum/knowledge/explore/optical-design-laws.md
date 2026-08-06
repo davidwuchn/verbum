@@ -31,9 +31,12 @@ created: session 308
 > theory licenses a specific device. Six laws → five devices → the existing
 > experiment queue turns out to be the devices' validation gates.
 >
-> Status open. The keystone experiment (composition + angle-prediction) is
-> **FROZEN as §P-PLATE-LINKER-1 (s311, Michael-approved)** — see the keystone
-> section below. Build + run pending.
+> Status open. The keystone experiment (composition + angle-prediction) was
+> **FROZEN as §P-PLATE-LINKER-1 (s311, Michael-approved)** and **RAN s312** — see
+> `§Result-plate-linker` below: two ternary wires compose **losslessly** on one
+> frozen base (device A co-existence validated), but the angle-predictor keystone
+> is **untestable** in this no-interference regime → queued as `§P-PLATE-LINKER-2`
+> (force an interference regime, then test angle-predicts-onset).
 
 ## Derivation base (s308 inference-dynamics thread, captured here)
 
@@ -225,6 +228,73 @@ build plate_linker.py (+ `--validate` ALL PASS, ruff, no diags, smoke green,
 direction NOT read) → Michael GO → run tmux main:1 → frozen scoring. Validates
 **device A** (and stresses **C**'s contract fields: base hash, band, geometry
 fingerprint = the measured `c`).
+
+## §Result-plate-linker (s312) — LOSSLESS COMPOSITION; keystone untestable here
+
+**Frozen verdict: `NO-COMPOSE`** (3 seeds × 500 steps × two wires, 7-point θ-grid,
+`scripts/explore/plate_linker.py`, results `0576a3f`, restore bit-exact
+`max|W-W0|=0.0`). **But that label is a G3-saturation MISLABEL** — the third
+"don't over-read the label" instance on this arc (s310 `SIGN-CHURN`, s311
+`LOOKUP-ONLY`, now this). The data says the opposite of the label:
+
+**The wires COMPOSE — losslessly.** Both pass their own frozen **G1 under the
+additive merge** (`base + Δ1 + Δ2`) with strong significance:
+
+| wire | B1 lift (p) | B2 lift (p) |
+|------|-------------|-------------|
+| wire-1 | +0.812 (3e-4) | +0.455 (1e-3) |
+| wire-2 | +1.00 (1.5e-3) | +0.391 (2.3e-3) |
+
+Retention is **~1.0 for BOTH wires on every split** (`merge == solo`
+everywhere). Two independently-baked ternary wires co-exist on one frozen base
+with **zero measurable interference**. **Device A's co-existence claim is
+validated; the git-for-weights primitive works.** `c_nat = 0.0072` confirms the
+a-priori (disjoint countries → near-orthogonal key subspaces); `mag_cos 0.839`
+(routing⊥magnitude datum, consistent with s304/s308).
+
+**Why the verdict fell to `NO-COMPOSE`.** `PL1 = G1 ∧ G3` for both wires; it
+fails **only on G3** (specificity: `merge` vs `merge_shuf_self = base +
+shuffle(Δ_self) + Δ_other`): gap +0.079 p=0.13 (wire-1) / +0.031 p=0.50
+(wire-2). G3 **saturates precisely because composition is lossless** — there is
+no retention gap for the specificity control to detect. (Also: keeping `Δ_other`
+in the shuffle control may itself contaminate specificity — a harness note for
+§P-PLATE-LINKER-2, but it is not the driver here.)
+
+**The keystone (PL2 ANGLE-PREDICTS) is UNTESTABLE in this regime.** `nat_deg =
+0.0`: there is **no retention loss to predict**. Even rotating wire-2's key
+subspace to **forced full collision `c=1.0`** at matched Frobenius norm (θ-sweep
+spans `c: 0.007 → 0.084 → 0.244 → 0.532 → 0.809 → 0.95 → 1.0`, fixed B2),
+wire-1's retention stays **1.0** (`rot_maxc == solo`; `rot_deg = shuffle_deg =
+0.0`). The additive merge is **lossless across the ENTIRE collision axis** — the
+angle-predictor has nothing to work with (`PL2 corr` is noise on a zero signal;
+`PL3` degenerate).
+
+**Read (banked positive, Michael option A).** This is **stronger** than the
+pre-registered claim (which expected degradation *rising* with collision): at
+r=16 in a ~2560-dim FFN band the capacity is so ample that even full key-subspace
+collision costs **nothing**. So the linker doesn't *need* an angle predictor in
+this regime — there is no collision cost to price. Honest shape: the mirror-image
+of the s311 headroom saga — there the *base* was too competent (no lift headroom
+for G1); here *composition is too clean* (no interference headroom for the
+predictor). L6 ("compose by angle separation") is **confirmed sufficient but not
+yet shown necessary** — separation was so easy it never had to be invoked.
+
+### §P-PLATE-LINKER-2 (queued s312, NOT frozen — Michael option C)
+
+The keystone (does angle PREDICT the onset of interference?) needs a regime where
+composition actually **costs retention**. Lever = **force an interference
+regime**, then test angle-predicts-onset:
+
+- **stack N wires** on one base (N=2,3,4,… until retention degrades) — the most
+  direct route to a capacity wall, and the truest git-for-weights stress test;
+- **raise rank** (r=16 → 64 → 128) so each wire fills more of the band;
+- **narrow the band** (fewer layers) so wires contend for the same capacity;
+- **scale the matched norm** of the collision control past the wire's SNR margin.
+
+Then re-run the θ-sweep in the degrading regime and ask whether measured `c`
+predicts the retention drop (PL2). Also fix the G3 control (drop `Δ_other` from
+the self-shuffle, or add a base+shuffle(Δ_self)-only arm). Design in a new
+session; s222 freeze before any run.
 
 ## Provenance
 

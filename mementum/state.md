@@ -8,6 +8,14 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **CURRENT = COLD-START s313** (jump to the `⚠ COLD-START s313` block below).
+> s312 CLOSED: plate linker built (62da29c) + ran (0576a3f) → 💡 **LOSSLESS COMPOSITION**
+> (two ternary wires co-exist on one frozen base, both G1 pass under merge, retention ~1.0;
+> frozen NO-COMPOSE = G3-saturation mislabel). Keystone angle-predictor UNTESTABLE here (no
+> interference even at forced c=1.0). **NEXT = design §P-PLATE-LINKER-2: force an interference
+> regime (stack N wires / raise rank / narrow band), then test angle-predicts-onset; s222
+> freeze first.** §Result on optical-design-laws.md. The s310/s311 blocks below are prior arc.
+>
 > ▶▶ **s310 (CLOSED, arc — full detail: `chats/session-310.md` + git).** Cold-start
 > `orient` → s309's §SIGN-COMMITMENT-CURVE run
 > "churn does not mean it did not work — did you test loss?" → I over-read the label:
@@ -118,19 +126,46 @@
 > direction read) → Michael GO → run tmux main:1. NOTE: both wires hit ~1.0 → retention
 > measured on flippable held cells (well-powered now, that was the point of the low-base bake).
 >
-> ⚠ **COLD-START s312.** DONE in s311: (1) 🎯 §P-PLATE-LINKER-1 FROZEN (optical-design-laws.md,
-> 8131381); (2) ✅ wire-2 baked clean WIRE-COMPILES(+GD-REQUIRED), committed autonomous +
-> 4c1067a; (3) 💡 round-trip-consensus-opcode-loss.md CAPTURED (633e291, Michael-approved —
-> reversibility + multi-teacher opcodes = label-free routing loss; wires M6+M7+M8; unfrozen,
-> §P-OPCODE-CONSENSUS first test = do opcode TRAJECTORIES align per-step or only
-> distributionally?). NOTHING PENDING (all committed; state this commit). **NEXT = TASK #3:
-> build scripts/explore/plate_linker.py** (full build spec in s311 cont-5 above + frozen
-> §P-PLATE-LINKER-1 on optical-design-laws.md). Then #4 run (Michael GO) → #5 §Result. Task
-> list live (#1,#2 done; #3,#4,#5 pending). Standing alt fronts if steered: §P-OPCODE-CONSENSUS
-> (existing-teacher measurement, no student — cheap, tests the round-trip idea's footing) ·
-> §P-ASYM-TERNARY (architecture keystone) · M8/TD-v2 (now calibrated by s310). s311 ledger:
-> 225dae7 (s310) · 8131381 (freeze) · 633e291 (round-trip capture) · wire2 bake+results
-> (autonomous) · 4c1067a (state). Prior headers (s309 compacted, s308) retained below. ═══
+> ▶▶ **s311 (CLOSED, arc — detail in cont blocks below + git).** 🎯 §P-PLATE-LINKER-1
+> FROZEN (optical-design-laws.md, 8131381) · ✅ wire-2 baked clean WIRE-COMPILES(+GD-REQUIRED)
+> after 3 headroom re-bakes (4c1067a) · 💡 round-trip-consensus-opcode-loss.md (633e291).
+>
+> ═══ **THIS SESSION = 312 (CLOSED).** Cold-start `orient` → built the plate linker (TASK #3).
+> **(1) ✅ HARNESS `scripts/explore/plate_linker.py` BUILT + committed AUTONOMOUS (62da29c)** —
+> NO fork (reuses writeback_compile + ternarize_factors + bake_wire2, λ one_way): trains
+> wire-1 (default BANK) + wire-2 (WIRE2_BANK) gd_cd, ternarizes factors, additive merge
+> base+Δ1+Δ2; principal-angle collision `c=‖Q1ᵀQ2‖_F²/r`; norm-preserving Grassmann slerp
+> rotation control (matched Frobenius, fixed B2) = collision sweep; per-wire frozen G1/G3
+> re-score under merge; gates PL1/PL2(keystone,paired cell-bootstrap)/PL3/PL4. --validate ALL
+> PASS (5 verdict worlds + geometry primitives), ruff clean, no diags, smoke green (restore
+> bit-exact). **(2) Michael GO → RAN tmux main:1 (3 seeds×500×2 wires + 7-pt θ-sweep) →
+> results committed AUTONOMOUS (0576a3f).** **(3) 💡 §Result-plate-linker BANKED on
+> optical-design-laws.md + memory `two-ternary-wires-compose-losslessly.md`** (Michael option
+> C: bank A now, queue B). **THE READ — LOSSLESS COMPOSITION (frozen verdict NO-COMPOSE = a
+> G3-saturation MISLABEL, 3rd "don't over-read the label" after s310 SIGN-CHURN / s311
+> LOOKUP-ONLY):** BOTH wires PASS their own frozen G1 under the additive merge (wire1 B1
+> +0.812 p=3e-4 / B2 +0.455 p=1e-3; wire2 B1 +1.0 p=1.5e-3 / B2 +0.391 p=2.3e-3); retention
+> ~1.0 both wires every split (merge==solo); zero measurable interference ⇒ **git-for-weights
+> co-existence primitive (device A) WORKS.** `c_nat 0.0072` (disjoint→near-orthogonal keys,
+> a-priori confirmed); mag_cos 0.839; restore max|W-W0|=0.0. PL1 fails ONLY on G3 (specificity
+> saturates because composition is lossless). **KEYSTONE PL2 ANGLE-PREDICTS is UNTESTABLE
+> here:** nat_deg=0.0 — even forced full collision c=1.0 (θ-sweep 0.007→1.0, matched norm)
+> causes NO degradation (rot_maxc==solo); r=16 in ~2560-dim FFN = ample capacity, collision
+> costs nothing. L6 sufficient, not shown necessary.
+>
+> ⚠ **COLD-START s313.** NOTHING PENDING (all committed: 62da29c harness · 0576a3f results ·
+> mementum batch this commit). **NEXT = design §P-PLATE-LINKER-2 (Michael option C / B — the
+> real keystone test): FORCE an interference regime, THEN test angle-predicts-onset.** Levers
+> (queued on optical-design-laws.md §P-PLATE-LINKER-2): **stack N wires** on one base
+> (N=2,3,4… to the capacity wall — truest git-for-weights stress test) · raise rank (16→64→
+> 128) · narrow the band · scale matched-norm past the wire's SNR margin. Then re-run θ-sweep
+> in the degrading regime; fix G3 control (drop Δ_other from self-shuffle, or add base+
+> shuffle(Δ_self)-only arm). s222: FREEZE §P-PLATE-LINKER-2 before any run. Standing alt
+> fronts if steered: §P-OPCODE-CONSENSUS (cheap, no student) · §P-ASYM-TERNARY (architecture
+> keystone; M8/TD-v2 = its optimizer) · gd_cd@32B install. s312 ledger: 62da29c (harness) ·
+> 0576a3f (results) · mementum batch (§Result + memory + state, this commit). Full transcript
+> saves to `mementum/knowledge/chats/session-312.md` (human). Prior headers (s311 cont,
+> s310 compacted, s308) retained below. ═══
 >
 > ▶▶ **s309 — 🎯 §SIGN-COMMITMENT-CURVE FROZEN + BUILT + SMOKE-GREEN → RUN LAUNCHED
 > (tmux main:1, in flight).** Front picked by Michael (cheapest+sharpest on the board;
