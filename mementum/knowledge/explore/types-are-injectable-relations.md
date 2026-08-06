@@ -24,9 +24,10 @@ created: session 313
 > of the same type are linked on the graph." The join of the two arcs —
 > the wire arc (relations are writable) and the type arc (types are
 > nowhere-addressable) — at exactly the point where both were stuck.
-> Captured same session, Michael-approved. §P-TYPE-WRITE is an UNFROZEN
-> sketch (s222 applies). The §P-TYPE-GRAM-1 run was in flight when this
-> was captured; its verdict bears on §5 either way.
+> Captured same session, Michael-approved. §P-TYPE-WRITE is now **FROZEN
+> in §8** (s314, Michael GO); §6 is the origin sketch. The §P-TYPE-GRAM-1
+> run landed (s314: TYPE-REGISTER 7/11, family-clean; §5 confirmed at the
+> constructor grain for capable-recipe models).
 
 ## 1. The claim: types are relations, not objects
 
@@ -113,7 +114,7 @@ routing geometry). **NO-TYPE-SIGNAL would NOT kill types-as-relations** —
 it would push constructor-grain classes wholly to the enacted/slot side,
 which the bipartite refinement half-expects. Either verdict feeds §3.
 
-## 6. §P-TYPE-WRITE — write a type and watch it act (UNFROZEN sketch)
+## 6. §P-TYPE-WRITE — write a type and watch it act (origin sketch; FROZEN in §8)
 
 The payoff experiment this frame unlocks (reuses the wire harness; only
 the bank changes):
@@ -156,6 +157,91 @@ Mere similarity clustering predicts none of the transfer effects.
 > composite gradual-intersection-structural system; adds the two-tier
 > (weights vs tape) split and P-TYPE-ICL, the session-scoped converse of
 > §P-TYPE-WRITE.
+
+## 8. §P-TYPE-WRITE — FROZEN (s314, Michael-approved GO)
+
+The causal S5 keystone: bake nonce→class **membership** into weights,
+never the licensing behavior; measure **held-frame licensing transfer**.
+The wire arc proved baking generalizes to held members (B2 countries);
+the nonce arc proved in-context typing is real but weak (s293 marginal).
+Open: does **baked membership generalize to LICENSING** in frames never
+trained? Create the relation → observe the type check.
+
+**Construction (two disjoint sortal classes, for a specificity crossover):**
+
+- **Class A = ANIMAL**, **Class B = VEHICLE** — crisp selectional
+  predicates, each is the other's anti-class.
+- **N nonce tokens** — novel, single-token (frequency + transitive-closure
+  confounds dead by construction, the s293 geography-KB trap avoided),
+  split A/B.
+- **MEMBERSHIP_BANK (the wire; gd_cd LoRA, FFN band 0.60–0.80, the
+  writeback_compile recipe UNTOUCHED):** train ONLY classificatory
+  statements — `"A {nonce} is an animal."`, co-hyponym lists
+  (`"the {nonce}, the dog, and the cat"`) — NEVER a held licensing
+  predicate. Inject membership, not behavior.
+
+**Licensing readout (HELD frames, disjoint from training):**
+subject-predicate frames (the s239 strong locus; avoid universal-donor
+determiner slots). Per nonce `n` with true class `c(n)`:
+
+```
+L(n) = surprisal(anti-class-predicate | n)  −  surprisal(own-class-predicate | n)
+```
+
+`L>0` ⟺ own-class predicate cheaper ⟺ nonce licensed as a class member.
+Within-token (subtracts nonce idiosyncrasy); sign fixed by true class.
+Aggregate = mean L over nonces + both off-diagonal cells (A-pred|B-nonce
+etc.) for TW4.
+
+**Gates (frozen):**
+
+- **TW1 LICENSING-TRANSFER** — mean held-frame `L > 0`, beats null
+  (shuffle-membership wire ∨ pre-bake base), p<0.05, permutation. The core.
+- **TW2 GRADED** — `L` scales with trained edge strength (nonce sub-groups
+  trained at graded step/strength → monotone; ∨ per-nonce `L` correlates
+  with per-nonce membership-recall margin, Spearman > 0, CI excludes 0).
+- **TW3 SHUFFLE-NULL** — matched-budget wire with membership assignment
+  deranged → mean `L ≈ 0` (mislicensing not manufactured by wire energy).
+- **TW4 CLASS-SPECIFIC** — A-nonces license A-slots AND refuse B-slots
+  (the off-diagonal is not licensed): specificity, not generic salience.
+- **TW5 HOST-SANE (advisory)** — real members (dog→animal, car→vehicle)
+  still licensed post-bake; base PPL on neutral text preserved; restore
+  bit-exact (LoRA adds only).
+
+**Verdicts (frozen tree):**
+
+- **TYPE-WRITTEN (+GRADED)** — TW1 ∧ TW3 ∧ TW4 (∧ TW5 sane); TW2 adds the
+  subtag. Membership was written and produces held-frame licensing =
+  types are injectable relations, causally.
+- **WRITTEN-OPAQUE** — TW1 ∧ ¬TW2: licenses but not graded.
+- **CONTEXT-ONLY** — membership recall passes in TRAINED frames but ¬TW1
+  (no held transfer). **The falsifier:** types are enacted per-frame, not
+  stored as an injectable relation. Informative, not a bug.
+- **NO-WRITE** — ¬membership-recall even in trained frames: the wire
+  didn't bake (power/recipe), not a claim refutation.
+- **HOST-DAMAGED** — ¬TW5.
+
+**A-priori (declared s314, NOT tuned):** ~45 TYPE-WRITTEN / 20
+WRITTEN-OPAQUE / 20 CONTEXT-ONLY / 10 NO-WRITE / 5 HOST-DAMAGED. The wire
+arc baked relations reliably with held generalization, and in-context
+nonce typing already licenses (s239) → lean TYPE-WRITTEN; but
+membership≠behavior is a stronger ask than the landmark→country wire
+(which baked the behavior directly), so CONTEXT-ONLY is a live falsifier.
+
+**Confound guards (prior lessons):** shortcut-free (nonces have no prior
+edges — s293 transitive-closure trap dead); predicate-argument frame not
+determiner (s239 universal-donor asymmetry); single-token nonces + fixed
+multi-token predicate scoring (first-token ∨ full-seq logprob,
+consistently). Model: **qwen3-4b only** (the type-register carrier; the
+pythia negative is already supplied by the s314 sweep — no separate
+control run).
+
+**Harness (λ one_way, no fork):** `scripts/explore/type_write.py` imports
+`writeback_compile` (train_gd, LoRALinear, ternarize, BAND, verdict
+pattern) + follows the `bake_wire2` swap-the-BANK pattern
+(BANK→MEMBERSHIP_BANK; new gate/verdict funcs). `--validate` 5 planted
+verdict worlds + primitives, ruff clean, smoke (NO direction read) →
+Michael GO → run tmux main:1.
 
 ## Provenance
 
