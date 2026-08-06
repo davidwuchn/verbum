@@ -149,6 +149,14 @@ discriminating commitments:
 
 Mere similarity clustering predicts none of the transfer effects.
 
+> **Forward link (s313, same session):**
+> `type-systems-under-llm-constraints.md` derives WHICH type systems can
+> implement this frame under the substrate's constraints (judgment=overlap,
+> frozen weights/writable tape, GD-learnability, capacity, fuel) → the
+> composite gradual-intersection-structural system; adds the two-tier
+> (weights vs tape) split and P-TYPE-ICL, the session-scoped converse of
+> §P-TYPE-WRITE.
+
 ## Provenance
 
 - s313 hammock, Michael's join ("what if the types are relations...

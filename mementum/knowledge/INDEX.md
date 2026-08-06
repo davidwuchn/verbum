@@ -46,6 +46,7 @@ tags: [index, orientation, knowledge-map, catalog]
 | [explore/germination-games.md](explore/germination-games.md) | 📋 open | Five game modes = selection pressure on encodings (FRAG/Oracle/Golf/Eigenseed/Adversarial) |
 | [explore/types-are-compiled-probabilities.md](explore/types-are-compiled-probabilities.md) | 🔨 +§How-many-types | Type cardinality two-registered; P-TYPE-CENSUS candidate |
 | [explore/types-are-injectable-relations.md](explore/types-are-injectable-relations.md) | 📋 open | s313: types = RELATIONS (nowhere-addressable ≡ stored-in-joins) · linkage SLOT-MEDIATED (bipartite; s312 c_nat 0.0072 datum reread; type = reference angle) · wire arc ⇒ types INJECTABLE · P-TYPE-WRITE candidate (causal S5 test, unfrozen) |
+| [explore/type-systems-under-llm-constraints.md](explore/type-systems-under-llm-constraints.md) | 📋 open | s313: reachable type-system design space derived from C1-C5 (judgment=overlap · frozen-weights/writable-tape · GD-learnable · capacity · fuel) → ONE composite: two-tier two-registered GRADUAL-INTERSECTION-STRUCTURAL · substrate linearity-biased · nominal-on-tape · TG3 diffuse shape fits intersection not enum · M8 corollary: optimizer ≡ type-boundary decision procedure · 4 fingerprint probes unfrozen |
 
 ## Start Here — Curated Reading Path
 

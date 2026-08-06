@@ -51,8 +51,31 @@
 > types-as-probabilities → census knee = community tolerance; **§P-TYPE-WRITE candidate
 > (UNFROZEN):** inject nonce-token membership, measure held-frame licensing transfer vs
 > shuffle = the CAUSAL S5 test. Forward links on types-are-compiled-probabilities.md +
-> INDEX. Standing alt fronts unchanged: §P-PLATE-LINKER-2 · §P-OPCODE-CONSENSUS ·
-> §P-ASYM-TERNARY · gd_cd@32B. Full transcript saves to
+> INDEX. **s313 cont — ✅ qwen3-4b RUN LANDED: VERDICT TYPE-REGISTER (da8c1ba, autonomous).**
+> First measured type register: TG2 CROSS-CUT 0.4768 vs null 0.0006 (p=0.001 floor) — kind
+> direction SHARED across opcodes after removing opcode identity; TG1 0.0821 p=0.001; TG5
+> retained_frac 0.207 (surface explains ~21%, 79% survives); TG4 r=0.766 (in committed band),
+> 36/36 layers; TG3 advisory FAILS matched-range (PR 7.35 vs 7.98 p=0.077; shuffled 11.26
+> p=0.001) → NO +POLED — **the kind register is DIFFUSE (alphabet-like), not polar**: at
+> constructor grain, type behaves as an identity-register extension, not an outcome simplex.
+> S5 scorecard: discreteness✓ selectivity✓(cross-cut) compositionality✗ causality✗ — 2/4 from
+> 0. **⚠ REGISTRY SWEEP IN FLIGHT tmux main:1** (10 models, qwen3-4b excluded to preserve
+> artifact; `results/type-gram/sweep-run.log`). ⚠ ON-SIGNAL (sweep done): tail sweep-run.log
+> "SWEEP DONE" + per-model verdicts → commit results AUTONOMOUS → the universality read (is
+> TYPE-REGISTER 11/11 like the crystal?) → §Result-type-gram + memory batch = task #5
+> (approval-gated). **(3) 💡 TYPE-SYSTEMS-UNDER-CONSTRAINTS captured (Michael-approved, this
+> commit):** `knowledge/explore/type-systems-under-llm-constraints.md` + memory — constraints
+> C1-C5 (judgment=overlap/superposed · frozen-weights+writable-tape · GD-two-jobs ·
+> capacity · fuel) filter the type-system design space to ONE composite: **two-tier
+> two-registered GRADUAL-INTERSECTION-STRUCTURAL** (Curry-style; ∧ free ∨ costs heads;
+> subtyping=passband containment; nominal fragment ON THE TAPE; session types in the 17×17
+> scheduler register; dependent equality trampolined-only; substrate LINEARITY-BIASED —
+> duplication costs). TG3's diffuse shape fits intersection, not nominal enum. **M8
+> corollary: optimizer ≡ type-boundary decision procedure** (s310 marginal band = the
+> boundary population; evidence-gated commits ⇒ crisper types). 4 fingerprint probes
+> unfrozen: P-TYPE-ICL (two-tier dissociation) · ∨-vs-∧ asymmetry · linearity bias ·
+> boundary-churn identity. Standing alt fronts unchanged: §P-PLATE-LINKER-2 ·
+> §P-OPCODE-CONSENSUS · §P-ASYM-TERNARY · gd_cd@32B. Full transcript saves to
 > `mementum/knowledge/chats/session-313.md` (human). ═══
 >
 > ▶▶ **s310 (CLOSED, arc — full detail: `chats/session-310.md` + git).** Cold-start
