@@ -1,0 +1,295 @@
+{
+  "model_id": "Qwen/Qwen3-4B",
+  "config": {
+    "validate": false,
+    "model_id": "Qwen/Qwen3-4B",
+    "device": "mps",
+    "dtype": "bfloat16",
+    "seeds": 3,
+    "steps": 500,
+    "lr": 0.0001,
+    "lora_r": 16,
+    "alpha": 0.05,
+    "seed": 0,
+    "n_cells": 0,
+    "theta_grid": "0,0.15,0.3,0.5,0.7,0.85,1.0",
+    "wire1_record": "results/writeback-compile/qwen3-4b",
+    "wire2_record": "results/plate-linker/wire2-bake/qwen3-4b",
+    "out": "results/plate-linker/link/qwen3-4b"
+  },
+  "band": [
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29
+  ],
+  "gate0": {
+    "ok": true,
+    "wire1": {
+      "TRAIN": 15,
+      "B1": 16,
+      "B2": 22
+    },
+    "wire2": {
+      "TRAIN": 16,
+      "B1": 9,
+      "B2": 23
+    }
+  },
+  "collision": {
+    "c_nat": 0.00721708460100575,
+    "c_grid": [
+      0.007217084595443637,
+      0.08376721154891238,
+      0.24441890954016085,
+      0.5320755423220453,
+      0.8091078051276851,
+      0.9497379875042234,
+      0.9999999999999991
+    ],
+    "thetas": [
+      0.0,
+      0.15,
+      0.3,
+      0.5,
+      0.7,
+      0.85,
+      1.0
+    ]
+  },
+  "mag_cos": 0.8394146958986918,
+  "restore_max_dev": 0.0,
+  "anchor": {
+    "wire1": {
+      "base": {
+        "TRAIN": 0.2,
+        "B1": 0.125,
+        "B2": 0.5454545454545454
+      },
+      "solo": {
+        "TRAIN": 1.0,
+        "B1": 0.9375,
+        "B2": 1.0
+      },
+      "merge": {
+        "TRAIN": 1.0,
+        "B1": 0.9375,
+        "B2": 1.0
+      },
+      "merge_shuf_self": {
+        "TRAIN": 0.8666666666666667,
+        "B1": 0.75,
+        "B2": 1.0
+      },
+      "shuffle2": {
+        "TRAIN": 1.0,
+        "B1": 0.9375,
+        "B2": 1.0
+      },
+      "rot_maxc": {
+        "TRAIN": 1.0,
+        "B1": 0.9375,
+        "B2": 1.0
+      }
+    },
+    "wire2": {
+      "base": {
+        "TRAIN": 0.75,
+        "B1": 0.0,
+        "B2": 0.6086956521739131
+      },
+      "solo": {
+        "TRAIN": 1.0,
+        "B1": 0.8888888888888888,
+        "B2": 1.0
+      },
+      "merge": {
+        "TRAIN": 1.0,
+        "B1": 1.0,
+        "B2": 1.0
+      },
+      "merge_shuf_self": {
+        "TRAIN": 1.0,
+        "B1": 0.8888888888888888,
+        "B2": 1.0
+      }
+    }
+  },
+  "scoring": {
+    "PL1": {
+      "wire1": {
+        "G1": true,
+        "G1_detail": {
+          "B1": {
+            "gate": {
+              "name": "wire1-PL1-G1-B1",
+              "value": 0.8125,
+              "null_name": "paired_permutation",
+              "null_mean": 0.00065,
+              "null_std": 0.22380142425820262,
+              "n_draws": 10000,
+              "predict": "greater",
+              "alpha": 0.016666666666666666,
+              "p": 0.00029997000299970003,
+              "sign_ok": true,
+              "verdict": true,
+              "warnings": []
+            },
+            "flip": true
+          },
+          "B2": {
+            "gate": {
+              "name": "wire1-PL1-G1-B2",
+              "value": 0.45454545454545453,
+              "null_name": "paired_permutation",
+              "null_mean": -0.0003454545454545455,
+              "null_std": 0.14377972017598412,
+              "n_draws": 10000,
+              "predict": "greater",
+              "alpha": 0.016666666666666666,
+              "p": 0.000999900009999,
+              "sign_ok": true,
+              "verdict": true,
+              "warnings": []
+            },
+            "flip": true
+          }
+        },
+        "G3": false,
+        "G3_detail": {
+          "name": "wire1-PL1-G3",
+          "value": 0.07894736842105263,
+          "null_name": "paired_permutation",
+          "null_mean": 0.00027368421052631584,
+          "null_std": 0.0457614239555291,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.016666666666666666,
+          "p": 0.128987101289871,
+          "sign_ok": true,
+          "verdict": false,
+          "warnings": []
+        }
+      },
+      "wire2": {
+        "G1": true,
+        "G1_detail": {
+          "B1": {
+            "gate": {
+              "name": "wire2-PL1-G1-B1",
+              "value": 1.0,
+              "null_name": "paired_permutation",
+              "null_mean": -0.005222222222222223,
+              "null_std": 0.32910261449006684,
+              "n_draws": 10000,
+              "predict": "greater",
+              "alpha": 0.016666666666666666,
+              "p": 0.0014998500149985001,
+              "sign_ok": true,
+              "verdict": true,
+              "warnings": []
+            },
+            "flip": true
+          },
+          "B2": {
+            "gate": {
+              "name": "wire2-PL1-G1-B2",
+              "value": 0.391304347826087,
+              "null_name": "paired_permutation",
+              "null_mean": 0.0006086956521739128,
+              "null_std": 0.1311387092303456,
+              "n_draws": 10000,
+              "predict": "greater",
+              "alpha": 0.016666666666666666,
+              "p": 0.0022997700229977,
+              "sign_ok": true,
+              "verdict": true,
+              "warnings": []
+            },
+            "flip": true
+          }
+        },
+        "G3": false,
+        "G3_detail": {
+          "name": "wire2-PL1-G3",
+          "value": 0.03125,
+          "null_name": "paired_permutation",
+          "null_mean": 0.00018125,
+          "null_std": 0.03124947437057942,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.016666666666666666,
+          "p": 0.5029497050294971,
+          "sign_ok": true,
+          "verdict": false,
+          "warnings": []
+        }
+      },
+      "ok": false
+    },
+    "PL2": {
+      "PL2": false,
+      "corr": -0.5550190180307835,
+      "p": 0.9174,
+      "mono_ok": false,
+      "within_ci": true,
+      "diff_ci": [
+        0.0,
+        0.0016431899742069087
+      ],
+      "nat_deg": 0.0,
+      "c_nat": 0.00721708460100575,
+      "c_grid": [
+        0.007217084595443637,
+        0.08376721154891238,
+        0.24441890954016085,
+        0.5320755423220453,
+        0.8091078051276851,
+        0.9497379875042234,
+        0.9999999999999991
+      ],
+      "deg_grid": [
+        0.0,
+        0.0,
+        0.0,
+        -0.008771929824561403,
+        -0.008771929824561403,
+        -0.008771929824561403,
+        0.0
+      ]
+    },
+    "PL3": {
+      "PL3": false,
+      "detail": {
+        "name": "PL3-rot>shuffle",
+        "value": 0.0,
+        "null_name": "paired_permutation",
+        "null_mean": 0.0,
+        "null_std": 0.0,
+        "n_draws": 10000,
+        "predict": "greater",
+        "alpha": 0.016666666666666666,
+        "p": 1.0,
+        "sign_ok": false,
+        "verdict": false,
+        "warnings": []
+      },
+      "rot_deg": 0.0,
+      "shuffle_deg": 0.0,
+      "nat_deg": 0.0,
+      "more_than_nat": false
+    },
+    "PL4": {
+      "PL4": true,
+      "ce": 4.910595221112865,
+      "ce_base": 4.917290931524232,
+      "g_acc": 1.0,
+      "h_acc": 1.0
+    },
+    "verdict": "NO-COMPOSE"
+  }
+}
