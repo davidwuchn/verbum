@@ -8,8 +8,8 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ═══ **THIS SESSION = 310.** Cold-start `orient` → s309's §SIGN-COMMITMENT-CURVE run
-> had LANDED → ❌ **VERDICT SIGN-CHURN** (frozen, committed 26ad20b) → Michael CORRECTION:
+> ▶▶ **s310 (CLOSED, arc — full detail: `chats/session-310.md` + git).** Cold-start
+> `orient` → s309's §SIGN-COMMITMENT-CURVE run
 > "churn does not mean it did not work — did you test loss?" → I over-read the label:
 > the wire WORKS (loss 5.03→0.25 = 95% drop, mag_cos 0.901, G4 wire-sane PASS); SIGN-CHURN
 > is a routing-register *trajectory* verdict, NOT task failure. → two-population
@@ -117,7 +117,20 @@
 > COLLISION-BLIND/NO-COMPOSE/HOST-DAMAGED. --validate (planted worlds) + ruff + smoke (no
 > direction read) → Michael GO → run tmux main:1. NOTE: both wires hit ~1.0 → retention
 > measured on flippable held cells (well-powered now, that was the point of the low-base bake).
-> Prior headers (s309 compacted, s308) retained below. ═══
+>
+> ⚠ **COLD-START s312.** DONE in s311: (1) 🎯 §P-PLATE-LINKER-1 FROZEN (optical-design-laws.md,
+> 8131381); (2) ✅ wire-2 baked clean WIRE-COMPILES(+GD-REQUIRED), committed autonomous +
+> 4c1067a; (3) 💡 round-trip-consensus-opcode-loss.md CAPTURED (633e291, Michael-approved —
+> reversibility + multi-teacher opcodes = label-free routing loss; wires M6+M7+M8; unfrozen,
+> §P-OPCODE-CONSENSUS first test = do opcode TRAJECTORIES align per-step or only
+> distributionally?). NOTHING PENDING (all committed; state this commit). **NEXT = TASK #3:
+> build scripts/explore/plate_linker.py** (full build spec in s311 cont-5 above + frozen
+> §P-PLATE-LINKER-1 on optical-design-laws.md). Then #4 run (Michael GO) → #5 §Result. Task
+> list live (#1,#2 done; #3,#4,#5 pending). Standing alt fronts if steered: §P-OPCODE-CONSENSUS
+> (existing-teacher measurement, no student — cheap, tests the round-trip idea's footing) ·
+> §P-ASYM-TERNARY (architecture keystone) · M8/TD-v2 (now calibrated by s310). s311 ledger:
+> 225dae7 (s310) · 8131381 (freeze) · 633e291 (round-trip capture) · wire2 bake+results
+> (autonomous) · 4c1067a (state). Prior headers (s309 compacted, s308) retained below. ═══
 >
 > ▶▶ **s309 — 🎯 §SIGN-COMMITMENT-CURVE FROZEN + BUILT + SMOKE-GREEN → RUN LAUNCHED
 > (tmux main:1, in flight).** Front picked by Michael (cheapest+sharpest on the board;
