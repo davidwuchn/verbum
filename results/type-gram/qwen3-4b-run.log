@@ -1,0 +1,18 @@
+[tgram] ===== Qwen/Qwen3-4B (mps) =====
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 21146.59it/s]
+[tgram] qwen3-4b: 1760 probes x 36 layers
+[tgram] qwen3-4b: probe 200/1760
+[tgram] qwen3-4b: probe 400/1760
+[tgram] qwen3-4b: probe 600/1760
+[tgram] qwen3-4b: probe 800/1760
+[tgram] qwen3-4b: probe 1000/1760
+[tgram] qwen3-4b: probe 1200/1760
+[tgram] qwen3-4b: probe 1400/1760
+[tgram] qwen3-4b: probe 1600/1760
+[tgram] qwen3-4b: gated=36/36 coherence_r=0.7661 tg4=PASS
+[tgram] qwen3-4b: scoring 36 layer kernels x 1000 nulls
+[tgram] qwen3-4b: VERDICT: TYPE-REGISTER
+[tgram] qwen3-4b: wrote /Users/mwhitford/src/verbum/results/type-gram/qwen3-4b/results.json
+[tgram] SWEEP DONE: {'qwen3-4b': {'ok': True, 'verdict': 'TYPE-REGISTER', 'coherence': 0.7661, 'n_gated': 36}}
