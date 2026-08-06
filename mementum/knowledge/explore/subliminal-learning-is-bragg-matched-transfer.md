@@ -92,6 +92,13 @@ demonstrated why capability transfer should be **explicit, inspectable,
 verified** — the safety case for the plate linker (optical-design-laws
 device A+C) written by someone else's negative result.
 
+> **Forward link (s313):** a SECOND external triangulation of the same
+> clause landed — `ayot-is-own-beam-calibration.md` (arXiv 2608.01078v1,
+> Intel Labs ScaleQ-1.58): ternary PTQ calibration transfers
+> same-carrier only (own CoT +25.5 vs stronger-model CoT +2.6). The
+> own-state clause now has four scales: inference / recording geometry /
+> training data (this page) / quantization calibration.
+
 ## Provenance
 
 - External: Cloud, Le, et al., "Subliminal Learning: Language models

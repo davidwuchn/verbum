@@ -89,9 +89,29 @@
 > ⇒ type signal should scale with kernel-certified reduction length (joins type arc ↔ s295
 > CoT law; strong P-candidate). 4 SKI-controls for types enumerated (nominal enum already
 > dead via TG3). Retrodiction to grep: contraction-bearing opcodes (W/D/S) form late
-> (B-first on file). Standing alt fronts unchanged: §P-PLATE-LINKER-2 · §P-OPCODE-CONSENSUS ·
-> §P-ASYM-TERNARY · gd_cd@32B. Full transcript saves to
-> `mementum/knowledge/chats/session-313.md` (human). ═══
+> (B-first on file). **(5) 🎯 RELEASE STRATEGY (Michael, standing decision):** verbum
+> stays the RESEARCH repo — release research here continuously; NO productization pressure.
+> Spin-off gate = "tested and working the way Michael wants" → dedicated project repo per
+> artifact. Two named future spin-offs: (a) THE MODEL (the Verbum machine, once built +
+> gated), (b) THE OPCODES VIEWER (once it shows what we want to show). The s313
+> capabilities inventory (verified fact-packs / crystal stethoscope / register-scoped quant
+> audit / type-checked merges / halt-pole monitor / trait-stripping) = a map of what is
+> BECOMING spinnable, not a to-do list. **(6) 💡 AYOT PAPER READ + CAPTURED (Michael found
+> refs/2608.01078v1.pdf → `ayot-is-own-beam-calibration.md` + memory, approved, this
+> commit):** Intel ScaleQ-1.58 = **4th own-state/Bragg triangulation at a 4th scale
+> (quantization calibration)** — ternary PTQ of Qwen3-4B: generic-text calib ~0-3%
+> (collapse), STRONGER-model CoT (R1-671B) 20.1%, OWN self-generated CoT 45.6% ⇒ carrier ≫
+> content (+2.6 vs +25.5). AYOT = L2 industrialized (calib context = illumination for
+> saliency); CoT-in-context requirement = tape-resident reasoning confirmed from the PTQ
+> side; low-bit-only gains = selectivity budget (low-bit quant ≡ beam-relative routing
+> extraction); residual gap (58.4 vs 96.8 Math-500) = twin-image (post-hoc ¬un-superpose;
+> our off-axis delta = retention 1.0 contrast). Discriminators unfrozen: P-AYOT-PARAPHRASE
+> (carrier vs their capability-mimicry story) · **P-CRYSTAL-SURVIVAL (run stethoscope on
+> BitTern releases: crystal+type register survive AYOT, die under C4 = bit-free quant
+> metric — zero-training external validation of our instruments)**. Broad-corpus-calib menu
+> item partially answered externally (broad = wrong for low-bit). Standing alt fronts:
+> §P-PLATE-LINKER-2 · §P-OPCODE-CONSENSUS · §P-ASYM-TERNARY · gd_cd@32B. Full transcript
+> saves to `mementum/knowledge/chats/session-313.md` (human). ═══
 >
 > ▶▶ **s310 (CLOSED, arc — full detail: `chats/session-310.md` + git).** Cold-start
 > `orient` → s309's §SIGN-COMMITMENT-CURVE run
