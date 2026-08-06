@@ -1,0 +1,65 @@
+{
+ "timestamp_utc": "2026-08-06T14:31:09.470022+00:00",
+ "summary": {
+  "qwen3-0-6b": {
+   "ok": true,
+   "verdict": "TYPE-REGISTER+POLED",
+   "coherence": 0.7638,
+   "n_gated": 28
+  },
+  "qwen3-14b": {
+   "ok": true,
+   "verdict": "TYPE-REGISTER+POLED",
+   "coherence": 0.746,
+   "n_gated": 40
+  },
+  "qwen3-32b": {
+   "ok": true,
+   "verdict": "TYPE-REGISTER+POLED",
+   "coherence": 0.7221,
+   "n_gated": 64
+  },
+  "qwen3-6-27b": {
+   "ok": true,
+   "verdict": "TYPE-REGISTER",
+   "coherence": 0.728,
+   "n_gated": 64
+  },
+  "gemma-4-31b-it": {
+   "ok": true,
+   "verdict": "TYPE-REGISTER",
+   "coherence": 0.7263,
+   "n_gated": 60
+  },
+  "olmo-2-1124-13b": {
+   "ok": true,
+   "verdict": "TYPE-REGISTER+POLED",
+   "coherence": 0.7983,
+   "n_gated": 40
+  },
+  "pythia-14m-deduped": {
+   "ok": true,
+   "verdict": "OPCODE-FLAVOR-ONLY",
+   "coherence": 0.7195,
+   "n_gated": 6
+  },
+  "pythia-160m-deduped": {
+   "ok": true,
+   "verdict": "OPCODE-FLAVOR-ONLY",
+   "coherence": 0.6911,
+   "n_gated": 12
+  },
+  "pythia-410m": {
+   "ok": true,
+   "verdict": "OPCODE-FLAVOR-ONLY",
+   "coherence": 0.7643,
+   "n_gated": 24
+  },
+  "pythia-2-8b-deduped": {
+   "ok": true,
+   "verdict": "OPCODE-FLAVOR-ONLY",
+   "coherence": 0.867,
+   "n_gated": 32
+  }
+ }
+}

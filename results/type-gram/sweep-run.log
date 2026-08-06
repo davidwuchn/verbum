@@ -1,0 +1,155 @@
+[tgram] ===== Qwen/Qwen3-0.6B (cpu) =====
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/311 [00:00<?, ?it/s]Loading weights:   0%|          | 1/311 [00:00<04:26,  1.16it/s]Loading weights:  47%|████▋     | 147/311 [00:00<00:00, 206.12it/s]Loading weights:  72%|███████▏  | 225/311 [00:01<00:00, 250.19it/s]Loading weights:  91%|█████████▏| 284/311 [00:01<00:00, 273.42it/s]Loading weights: 100%|██████████| 311/311 [00:01<00:00, 217.62it/s]
+[tgram] qwen3-0-6b: 1760 probes x 28 layers
+[tgram] qwen3-0-6b: probe 200/1760
+[tgram] qwen3-0-6b: probe 400/1760
+[tgram] qwen3-0-6b: probe 600/1760
+[tgram] qwen3-0-6b: probe 800/1760
+[tgram] qwen3-0-6b: probe 1000/1760
+[tgram] qwen3-0-6b: probe 1200/1760
+[tgram] qwen3-0-6b: probe 1400/1760
+[tgram] qwen3-0-6b: probe 1600/1760
+[tgram] qwen3-0-6b: gated=28/28 coherence_r=0.7638 tg4=PASS
+[tgram] qwen3-0-6b: scoring 28 layer kernels x 1000 nulls
+[tgram] qwen3-0-6b: VERDICT: TYPE-REGISTER+POLED
+[tgram] qwen3-0-6b: wrote /Users/mwhitford/src/verbum/results/type-gram/qwen3-0-6b/results.json
+[tgram] ===== Qwen/Qwen3-14B (mps) =====
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights: 100%|██████████| 443/443 [00:00<00:00, 7553.43it/s]
+[tgram] qwen3-14b: 1760 probes x 40 layers
+[tgram] qwen3-14b: probe 200/1760
+[tgram] qwen3-14b: probe 400/1760
+[tgram] qwen3-14b: probe 600/1760
+[tgram] qwen3-14b: probe 800/1760
+[tgram] qwen3-14b: probe 1000/1760
+[tgram] qwen3-14b: probe 1200/1760
+[tgram] qwen3-14b: probe 1400/1760
+[tgram] qwen3-14b: probe 1600/1760
+[tgram] qwen3-14b: gated=40/40 coherence_r=0.746 tg4=PASS
+[tgram] qwen3-14b: scoring 40 layer kernels x 1000 nulls
+[tgram] qwen3-14b: VERDICT: TYPE-REGISTER+POLED
+[tgram] qwen3-14b: wrote /Users/mwhitford/src/verbum/results/type-gram/qwen3-14b/results.json
+[tgram] ===== Qwen/Qwen3-32B (mps) =====
+Loading weights:   0%|          | 0/707 [00:00<?, ?it/s]Loading weights: 100%|██████████| 707/707 [00:00<00:00, 7194.54it/s]
+[tgram] qwen3-32b: 1760 probes x 64 layers
+[tgram] qwen3-32b: probe 200/1760
+[tgram] qwen3-32b: probe 400/1760
+[tgram] qwen3-32b: probe 600/1760
+[tgram] qwen3-32b: probe 800/1760
+[tgram] qwen3-32b: probe 1000/1760
+[tgram] qwen3-32b: probe 1200/1760
+[tgram] qwen3-32b: probe 1400/1760
+[tgram] qwen3-32b: probe 1600/1760
+[tgram] qwen3-32b: gated=64/64 coherence_r=0.7221 tg4=PASS
+[tgram] qwen3-32b: scoring 64 layer kernels x 1000 nulls
+[tgram] qwen3-32b: VERDICT: TYPE-REGISTER+POLED
+[tgram] qwen3-32b: wrote /Users/mwhitford/src/verbum/results/type-gram/qwen3-32b/results.json
+[tgram] ===== Qwen/Qwen3.6-27B (mps) =====
+Fetching 15 files:   0%|          | 0/15 [00:00<?, ?it/s]Fetching 15 files: 100%|██████████| 15/15 [00:00<00:00, 126081.28it/s]
+The fast path is not available because one of the required library is not installed. Falling back to torch implementation. To install follow https://github.com/fla-org/flash-linear-attention#installation and https://github.com/Dao-AILab/causal-conv1d
+Loading weights:   0%|          | 0/851 [00:00<?, ?it/s]Loading weights:  94%|█████████▍| 799/851 [00:00<00:00, 7985.76it/s]Loading weights: 100%|██████████| 851/851 [00:00<00:00, 8028.54it/s]
+[tgram] qwen3-6-27b: 1760 probes x 64 layers
+[tgram] qwen3-6-27b: probe 200/1760
+[tgram] qwen3-6-27b: probe 400/1760
+[tgram] qwen3-6-27b: probe 600/1760
+[tgram] qwen3-6-27b: probe 800/1760
+[tgram] qwen3-6-27b: probe 1000/1760
+[tgram] qwen3-6-27b: probe 1200/1760
+[tgram] qwen3-6-27b: probe 1400/1760
+[tgram] qwen3-6-27b: probe 1600/1760
+[tgram] qwen3-6-27b: gated=64/64 coherence_r=0.728 tg4=PASS
+[tgram] qwen3-6-27b: scoring 64 layer kernels x 1000 nulls
+[tgram] qwen3-6-27b: VERDICT: TYPE-REGISTER
+[tgram] qwen3-6-27b: wrote /Users/mwhitford/src/verbum/results/type-gram/qwen3-6-27b/results.json
+[tgram] ===== google/gemma-4-31B-it (mps) =====
+Loading weights:   0%|          | 0/1188 [00:00<?, ?it/s]Loading weights:  71%|███████▏  | 847/1188 [00:00<00:00, 8445.58it/s]Loading weights: 100%|██████████| 1188/1188 [00:00<00:00, 8568.00it/s]
+[tgram] gemma-4-31b-it: 1760 probes x 60 layers
+[tgram] gemma-4-31b-it: probe 200/1760
+[tgram] gemma-4-31b-it: probe 400/1760
+[tgram] gemma-4-31b-it: probe 600/1760
+[tgram] gemma-4-31b-it: probe 800/1760
+[tgram] gemma-4-31b-it: probe 1000/1760
+[tgram] gemma-4-31b-it: probe 1200/1760
+[tgram] gemma-4-31b-it: probe 1400/1760
+[tgram] gemma-4-31b-it: probe 1600/1760
+[tgram] gemma-4-31b-it: gated=60/60 coherence_r=0.7263 tg4=PASS
+[tgram] gemma-4-31b-it: scoring 60 layer kernels x 1000 nulls
+[tgram] gemma-4-31b-it: VERDICT: TYPE-REGISTER
+[tgram] gemma-4-31b-it: wrote /Users/mwhitford/src/verbum/results/type-gram/gemma-4-31b-it/results.json
+[tgram] ===== allenai/OLMo-2-1124-13B (mps) =====
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   0%|          | 1/443 [00:02<18:58,  2.58s/it]Loading weights:   0%|          | 2/443 [00:02<09:17,  1.26s/it]Loading weights:   8%|▊         | 36/443 [00:03<00:28, 14.18it/s]Loading weights:  10%|█         | 45/443 [00:04<00:25, 15.41it/s]Loading weights:  11%|█         | 47/443 [00:05<00:37, 10.56it/s]Loading weights:  11%|█         | 49/443 [00:05<00:41,  9.59it/s]Loading weights:  13%|█▎        | 58/443 [00:06<00:41,  9.30it/s]Loading weights:  13%|█▎        | 59/443 [00:06<00:45,  8.47it/s]Loading weights:  16%|█▌        | 69/443 [00:07<00:38,  9.71it/s]Loading weights:  18%|█▊        | 79/443 [00:08<00:27, 13.27it/s]Loading weights:  18%|█▊        | 81/443 [00:09<00:43,  8.37it/s]Loading weights:  20%|██        | 89/443 [00:09<00:34, 10.25it/s]Loading weights:  21%|██        | 91/443 [00:10<00:48,  7.32it/s]Loading weights:  21%|██        | 92/443 [00:10<00:47,  7.46it/s]Loading weights:  21%|██        | 93/443 [00:10<00:53,  6.58it/s]Loading weights:  23%|██▎       | 101/443 [00:11<00:27, 12.26it/s]Loading weights:  23%|██▎       | 104/443 [00:12<00:49,  6.85it/s]Loading weights:  26%|██▌       | 113/443 [00:13<00:42,  7.75it/s]Loading weights:  28%|██▊       | 122/443 [00:13<00:26, 12.27it/s]Loading weights:  28%|██▊       | 126/443 [00:14<00:41,  7.73it/s]Loading weights:  30%|███       | 133/443 [00:14<00:30, 10.22it/s]Loading weights:  31%|███       | 136/443 [00:15<00:43,  7.11it/s]Loading weights:  31%|███       | 138/443 [00:16<00:40,  7.45it/s]Loading weights:  33%|███▎      | 144/443 [00:16<00:30,  9.81it/s]Loading weights:  33%|███▎      | 146/443 [00:17<00:45,  6.52it/s]Loading weights:  33%|███▎      | 148/443 [00:17<00:43,  6.71it/s]Loading weights:  35%|███▌      | 157/443 [00:18<00:35,  7.95it/s]Loading weights:  36%|███▌      | 159/443 [00:18<00:36,  7.83it/s]Loading weights:  37%|███▋      | 166/443 [00:18<00:23, 11.99it/s]Loading weights:  38%|███▊      | 169/443 [00:19<00:39,  6.87it/s]Loading weights:  40%|███▉      | 177/443 [00:20<00:27,  9.55it/s]Loading weights:  40%|████      | 179/443 [00:21<00:39,  6.61it/s]Loading weights:  41%|████      | 181/443 [00:21<00:38,  6.87it/s]Loading weights:  43%|████▎     | 190/443 [00:21<00:21, 11.72it/s]Loading weights:  43%|████▎     | 192/443 [00:22<00:27,  9.19it/s]Loading weights:  45%|████▌     | 200/443 [00:22<00:16, 15.10it/s]Loading weights:  46%|████▌     | 204/443 [00:23<00:27,  8.83it/s]Loading weights:  47%|████▋     | 210/443 [00:23<00:23,  9.96it/s]Loading weights:  48%|████▊     | 213/443 [00:24<00:31,  7.28it/s]Loading weights:  49%|████▊     | 215/443 [00:25<00:33,  6.79it/s]Loading weights:  50%|█████     | 223/443 [00:26<00:29,  7.36it/s]Loading weights:  51%|█████     | 225/443 [00:26<00:29,  7.40it/s]Loading weights:  53%|█████▎    | 234/443 [00:26<00:17, 11.64it/s]Loading weights:  55%|█████▌    | 245/443 [00:27<00:16, 11.80it/s]Loading weights:  56%|█████▌    | 247/443 [00:28<00:19, 10.23it/s]Loading weights:  58%|█████▊    | 255/443 [00:28<00:13, 14.11it/s]Loading weights:  58%|█████▊    | 257/443 [00:29<00:23,  7.97it/s]Loading weights:  60%|█████▉    | 265/443 [00:29<00:15, 11.24it/s]Loading weights:  60%|██████    | 267/443 [00:30<00:25,  7.03it/s]Loading weights:  61%|██████    | 269/443 [00:30<00:23,  7.54it/s]Loading weights:  63%|██████▎   | 278/443 [00:31<00:14, 11.37it/s]Loading weights:  65%|██████▌   | 288/443 [00:31<00:08, 18.09it/s]Loading weights:  66%|██████▌   | 292/443 [00:32<00:15,  9.69it/s]Loading weights:  67%|██████▋   | 298/443 [00:32<00:12, 11.37it/s]Loading weights:  68%|██████▊   | 301/443 [00:33<00:18,  7.60it/s]Loading weights:  68%|██████▊   | 303/443 [00:34<00:18,  7.55it/s]Loading weights:  70%|██████▉   | 309/443 [00:34<00:12, 10.78it/s]Loading weights:  70%|███████   | 312/443 [00:35<00:19,  6.70it/s]Loading weights:  72%|███████▏  | 321/443 [00:35<00:10, 11.86it/s]Loading weights:  73%|███████▎  | 325/443 [00:36<00:12,  9.11it/s]Loading weights:  75%|███████▌  | 333/443 [00:37<00:13,  8.11it/s]Loading weights:  76%|███████▌  | 335/443 [00:37<00:12,  8.48it/s]Loading weights:  77%|███████▋  | 342/443 [00:37<00:08, 11.67it/s]Loading weights:  78%|███████▊  | 345/443 [00:38<00:13,  7.38it/s]Loading weights:  78%|███████▊  | 347/443 [00:38<00:12,  7.78it/s]Loading weights:  80%|███████▉  | 353/443 [00:39<00:07, 11.30it/s]Loading weights:  80%|████████  | 356/443 [00:40<00:12,  6.72it/s]Loading weights:  82%|████████▏ | 364/443 [00:40<00:06, 11.46it/s]Loading weights:  83%|████████▎ | 368/443 [00:41<00:08,  8.87it/s]Loading weights:  85%|████████▍ | 376/443 [00:41<00:04, 13.94it/s]Loading weights:  86%|████████▌ | 380/443 [00:42<00:07,  7.98it/s]Loading weights:  87%|████████▋ | 386/443 [00:42<00:05, 10.60it/s]Loading weights:  88%|████████▊ | 389/443 [00:43<00:07,  6.79it/s]Loading weights:  88%|████████▊ | 392/443 [00:43<00:06,  8.04it/s]Loading weights:  90%|████████▉ | 397/443 [00:44<00:04,  9.94it/s]Loading weights:  90%|█████████ | 400/443 [00:45<00:06,  6.53it/s]Loading weights:  92%|█████████▏| 409/443 [00:45<00:02, 11.81it/s]Loading weights:  93%|█████████▎| 413/443 [00:46<00:03,  7.99it/s]Loading weights:  95%|█████████▍| 420/443 [00:46<00:02, 10.29it/s]Loading weights:  95%|█████████▌| 423/443 [00:47<00:02,  7.29it/s]Loading weights:  97%|█████████▋| 430/443 [00:47<00:01,  9.53it/s]Loading weights:  98%|█████████▊| 432/443 [00:48<00:01,  6.44it/s]Loading weights:  98%|█████████▊| 434/443 [00:49<00:01,  6.64it/s]Loading weights: 100%|██████████| 443/443 [00:49<00:00,  9.01it/s]
+[tgram] olmo-2-1124-13b: 1760 probes x 40 layers
+[tgram] olmo-2-1124-13b: probe 200/1760
+[tgram] olmo-2-1124-13b: probe 400/1760
+[tgram] olmo-2-1124-13b: probe 600/1760
+[tgram] olmo-2-1124-13b: probe 800/1760
+[tgram] olmo-2-1124-13b: probe 1000/1760
+[tgram] olmo-2-1124-13b: probe 1200/1760
+[tgram] olmo-2-1124-13b: probe 1400/1760
+[tgram] olmo-2-1124-13b: probe 1600/1760
+[tgram] olmo-2-1124-13b: gated=40/40 coherence_r=0.7983 tg4=PASS
+[tgram] olmo-2-1124-13b: scoring 40 layer kernels x 1000 nulls
+[tgram] olmo-2-1124-13b: VERDICT: TYPE-REGISTER+POLED
+[tgram] olmo-2-1124-13b: wrote /Users/mwhitford/src/verbum/results/type-gram/olmo-2-1124-13b/results.json
+[tgram] ===== EleutherAI/pythia-14m-deduped (cpu) =====
+Loading weights:   0%|          | 0/76 [00:00<?, ?it/s]Loading weights: 100%|██████████| 76/76 [00:00<00:00, 3236.81it/s]
+[tgram] pythia-14m-deduped: 1760 probes x 6 layers
+[tgram] pythia-14m-deduped: probe 200/1760
+[tgram] pythia-14m-deduped: probe 400/1760
+[tgram] pythia-14m-deduped: probe 600/1760
+[tgram] pythia-14m-deduped: probe 800/1760
+[tgram] pythia-14m-deduped: probe 1000/1760
+[tgram] pythia-14m-deduped: probe 1200/1760
+[tgram] pythia-14m-deduped: probe 1400/1760
+[tgram] pythia-14m-deduped: probe 1600/1760
+[tgram] pythia-14m-deduped: gated=6/6 coherence_r=0.7195 tg4=PASS
+[tgram] pythia-14m-deduped: scoring 6 layer kernels x 1000 nulls
+[tgram] pythia-14m-deduped: VERDICT: OPCODE-FLAVOR-ONLY
+[tgram] pythia-14m-deduped: wrote /Users/mwhitford/src/verbum/results/type-gram/pythia-14m-deduped/results.json
+[tgram] ===== EleutherAI/pythia-160m-deduped (cpu) =====
+Loading weights:   0%|          | 0/148 [00:00<?, ?it/s]Loading weights:   1%|          | 1/148 [00:00<00:37,  3.93it/s]Loading weights: 100%|██████████| 148/148 [00:00<00:00, 461.88it/s]
+[tgram] pythia-160m-deduped: 1760 probes x 12 layers
+[tgram] pythia-160m-deduped: probe 200/1760
+[tgram] pythia-160m-deduped: probe 400/1760
+[tgram] pythia-160m-deduped: probe 600/1760
+[tgram] pythia-160m-deduped: probe 800/1760
+[tgram] pythia-160m-deduped: probe 1000/1760
+[tgram] pythia-160m-deduped: probe 1200/1760
+[tgram] pythia-160m-deduped: probe 1400/1760
+[tgram] pythia-160m-deduped: probe 1600/1760
+[tgram] pythia-160m-deduped: gated=12/12 coherence_r=0.6911 tg4=PASS
+[tgram] pythia-160m-deduped: scoring 12 layer kernels x 1000 nulls
+[tgram] pythia-160m-deduped: VERDICT: OPCODE-FLAVOR-ONLY
+[tgram] pythia-160m-deduped: wrote /Users/mwhitford/src/verbum/results/type-gram/pythia-160m-deduped/results.json
+[tgram] ===== EleutherAI/pythia-410m (cpu) =====
+Loading weights:   0%|          | 0/292 [00:00<?, ?it/s]Loading weights:   0%|          | 1/292 [00:00<01:37,  2.98it/s]Loading weights:  37%|███▋      | 108/292 [00:00<00:00, 305.26it/s]Loading weights:  58%|█████▊    | 168/292 [00:00<00:00, 388.24it/s]Loading weights:  77%|███████▋  | 225/292 [00:00<00:00, 413.38it/s]Loading weights:  95%|█████████▌| 278/292 [00:00<00:00, 430.10it/s]Loading weights: 100%|██████████| 292/292 [00:00<00:00, 365.46it/s]
+[tgram] pythia-410m: 1760 probes x 24 layers
+[tgram] pythia-410m: probe 200/1760
+[tgram] pythia-410m: probe 400/1760
+[tgram] pythia-410m: probe 600/1760
+[tgram] pythia-410m: probe 800/1760
+[tgram] pythia-410m: probe 1000/1760
+[tgram] pythia-410m: probe 1200/1760
+[tgram] pythia-410m: probe 1400/1760
+[tgram] pythia-410m: probe 1600/1760
+[tgram] pythia-410m: gated=24/24 coherence_r=0.7643 tg4=PASS
+[tgram] pythia-410m: scoring 24 layer kernels x 1000 nulls
+[tgram] pythia-410m: VERDICT: OPCODE-FLAVOR-ONLY
+[tgram] pythia-410m: wrote /Users/mwhitford/src/verbum/results/type-gram/pythia-410m/results.json
+[tgram] ===== EleutherAI/pythia-2.8b-deduped (mps) =====
+Loading weights:   0%|          | 0/388 [00:00<?, ?it/s]Loading weights:   0%|          | 1/388 [00:01<06:31,  1.01s/it]Loading weights:  10%|▉         | 38/388 [00:01<00:07, 44.50it/s]Loading weights:  14%|█▍        | 54/388 [00:01<00:05, 58.34it/s]Loading weights:  18%|█▊        | 69/388 [00:01<00:05, 60.19it/s]Loading weights:  21%|██        | 81/388 [00:01<00:04, 63.61it/s]Loading weights:  24%|██▎       | 92/388 [00:01<00:04, 62.93it/s]Loading weights:  26%|██▌       | 101/388 [00:01<00:04, 64.69it/s]Loading weights:  28%|██▊       | 110/388 [00:02<00:04, 60.37it/s]Loading weights:  31%|███       | 120/388 [00:02<00:04, 66.69it/s]Loading weights:  34%|███▍      | 132/388 [00:02<00:03, 69.39it/s]Loading weights:  37%|███▋      | 144/388 [00:02<00:03, 76.86it/s]Loading weights:  39%|███▉      | 153/388 [00:02<00:03, 73.96it/s]Loading weights:  42%|████▏     | 164/388 [00:02<00:03, 71.46it/s]Loading weights:  44%|████▍     | 172/388 [00:02<00:03, 68.42it/s]Loading weights:  47%|████▋     | 182/388 [00:03<00:02, 73.07it/s]Loading weights:  49%|████▉     | 192/388 [00:03<00:02, 65.87it/s]Loading weights:  53%|█████▎    | 204/388 [00:03<00:02, 72.84it/s]Loading weights:  56%|█████▌    | 216/388 [00:03<00:02, 72.25it/s]Loading weights:  59%|█████▉    | 228/388 [00:03<00:02, 66.22it/s]Loading weights:  62%|██████▏   | 240/388 [00:03<00:02, 71.28it/s]Loading weights:  65%|██████▍   | 252/388 [00:04<00:01, 74.30it/s]Loading weights:  68%|██████▊   | 264/388 [00:04<00:01, 69.63it/s]Loading weights:  71%|███████   | 276/388 [00:04<00:01, 72.01it/s]Loading weights:  74%|███████▍  | 288/388 [00:04<00:01, 75.01it/s]Loading weights:  76%|███████▋  | 296/388 [00:04<00:01, 72.10it/s]Loading weights:  79%|███████▉  | 308/388 [00:04<00:01, 72.45it/s]Loading weights:  81%|████████▏ | 316/388 [00:04<00:01, 71.13it/s]Loading weights:  84%|████████▍ | 326/388 [00:05<00:00, 69.77it/s]Loading weights:  87%|████████▋ | 336/388 [00:05<00:00, 71.52it/s]Loading weights:  90%|████████▉ | 348/388 [00:05<00:00, 71.07it/s]Loading weights:  93%|█████████▎| 360/388 [00:05<00:00, 74.65it/s]Loading weights:  96%|█████████▌| 372/388 [00:05<00:00, 71.96it/s]Loading weights: 100%|██████████| 388/388 [00:05<00:00, 66.25it/s]
+[tgram] pythia-2-8b-deduped: 1760 probes x 32 layers
+[tgram] pythia-2-8b-deduped: probe 200/1760
+[tgram] pythia-2-8b-deduped: probe 400/1760
+[tgram] pythia-2-8b-deduped: probe 600/1760
+[tgram] pythia-2-8b-deduped: probe 800/1760
+[tgram] pythia-2-8b-deduped: probe 1000/1760
+[tgram] pythia-2-8b-deduped: probe 1200/1760
+[tgram] pythia-2-8b-deduped: probe 1400/1760
+[tgram] pythia-2-8b-deduped: probe 1600/1760
+[tgram] pythia-2-8b-deduped: gated=32/32 coherence_r=0.867 tg4=PASS
+[tgram] pythia-2-8b-deduped: scoring 32 layer kernels x 1000 nulls
+[tgram] pythia-2-8b-deduped: VERDICT: OPCODE-FLAVOR-ONLY
+[tgram] pythia-2-8b-deduped: wrote /Users/mwhitford/src/verbum/results/type-gram/pythia-2-8b-deduped/results.json
+[tgram] SWEEP DONE: {'qwen3-0-6b': {'ok': True, 'verdict': 'TYPE-REGISTER+POLED', 'coherence': 0.7638, 'n_gated': 28}, 'qwen3-14b': {'ok': True, 'verdict': 'TYPE-REGISTER+POLED', 'coherence': 0.746, 'n_gated': 40}, 'qwen3-32b': {'ok': True, 'verdict': 'TYPE-REGISTER+POLED', 'coherence': 0.7221, 'n_gated': 64}, 'qwen3-6-27b': {'ok': True, 'verdict': 'TYPE-REGISTER', 'coherence': 0.728, 'n_gated': 64}, 'gemma-4-31b-it': {'ok': True, 'verdict': 'TYPE-REGISTER', 'coherence': 0.7263, 'n_gated': 60}, 'olmo-2-1124-13b': {'ok': True, 'verdict': 'TYPE-REGISTER+POLED', 'coherence': 0.7983, 'n_gated': 40}, 'pythia-14m-deduped': {'ok': True, 'verdict': 'OPCODE-FLAVOR-ONLY', 'coherence': 0.7195, 'n_gated': 6}, 'pythia-160m-deduped': {'ok': True, 'verdict': 'OPCODE-FLAVOR-ONLY', 'coherence': 0.6911, 'n_gated': 12}, 'pythia-410m': {'ok': True, 'verdict': 'OPCODE-FLAVOR-ONLY', 'coherence': 0.7643, 'n_gated': 24}, 'pythia-2-8b-deduped': {'ok': True, 'verdict': 'OPCODE-FLAVOR-ONLY', 'coherence': 0.867, 'n_gated': 32}}
