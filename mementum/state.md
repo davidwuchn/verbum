@@ -8,28 +8,57 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ★★ **CURRENT = s314 IN PROGRESS.** ✅ SWEEP LANDED + read + results committed AUTONOMOUS.
-> **⏳ AWAITING MICHAEL APPROVAL** for the mementum batch (§Result-type-gram + memory + INDEX
-> + this state). **THE UNIVERSALITY READ — TYPE-REGISTER is REAL but NOT universal, 7/11,
-> FAMILY-CLEAN split:** TYPE-REGISTER = all Qwen3 (0.6B→32B) + OLMo-2-13B + Gemma;
-> OPCODE-FLAVOR-ONLY = the ENTIRE Pythia ladder (14m/160m/410m/2.8b). NOT the 9×9 crystal's
-> 11/11 → the type register is TRAINING-CONTINGENT, not architecture-universal → types are
-> LEARNED on the universal reducer = direct evidence for M7 (typed apply is emergent, not
-> given). pythia-2.8b = a GENUINE well-powered negative (n_gated 32, coherence 0.867 highest
-> in sweep, TG1 passes = kind separable, TG2 CROSS-CUT FAILS p=0.17 = kind is opcode-bound
-> not an independent register); small pythias underpowered but land the SAME verdict as
-> well-powered siblings (4th don't-over-read: negative read from the powered members).
-> +POLED sub-split is weak/model-specific (0.6b/14b/32b/olmo POLED; 4b/27b/gemma diffuse;
-> NOT monotone in scale) — core verdict robust, POLED not over-read. S5 scorecard 2/4:
-> discreteness✓ selectivity✓(now cross-FAMILY 7/11) compositionality✗ causality✗.
-> **ON APPROVAL:** commit the mementum batch, complete task #1 (was #5), s314 CLOSE.
-> **NEXT FRONTS (all UNFROZEN, s222 freeze-first):** §P-TYPE-WRITE (causal keystone —
-> nonce-membership injection → held-frame licensing transfer) · fuel-theorem probe
-> (de Carvalho: type size = evaluation length → compositionality test) · idempotency/
-> saturation · ∨-vs-∧ asymmetry · linearity bias · P-CRYSTAL-SURVIVAL (BitTern release,
-> zero-training external validation). Standing alt fronts: §P-PLATE-LINKER-2 ·
-> §P-OPCODE-CONSENSUS · §P-ASYM-TERNARY · gd_cd@32B. Ledger: results commit (s314, autonomous)
-> · mementum batch PENDING approval. s313 summary: type arc opened (freeze 630ea21 · probes a774618 ·
+> ★★ **CURRENT = s314 (THE TYPE ARC DEEPENS).** Two milestones DONE + committed, one run
+> IN FLIGHT. **FIRST ACTION next session: check the §P-TYPE-WRITE run** — tmux main:1,
+> `results/type-write/qwen3-4b-run.log`. ⚠ ON-SIGNAL (run done): tail run.log for `VERDICT:`
+> + no traceback → read TW1–TW5 gates in results.json → **commit results/type-write/
+> AUTONOMOUS** (task #3) → then **§Result-type-write on types-are-injectable-relations.md +
+> memory candidate + INDEX + task #4 close = MICHAEL APPROVAL BATCH.** Task list live (#3
+> run in_progress, #4 blocked). If VERDICT=NO-WRITE → the wire didn't bake (power/recipe),
+> NOT a claim refutation (re-check loss dropped); CONTEXT-ONLY = the falsifier (recall in
+> trained frames but no held transfer = types enacted per-frame, not injectable).
+>
+> **① ✅ §P-TYPE-GRAM-1 SWEEP CLOSED (bd58e71).** THE UNIVERSALITY READ — TYPE-REGISTER is
+> REAL but NOT universal, **7/11, FAMILY-CLEAN split:** TYPE-REGISTER = all Qwen3 (0.6B→32B)
+> + OLMo-2-13B + Gemma; OPCODE-FLAVOR-ONLY = the ENTIRE Pythia ladder (14m/160m/410m/2.8b).
+> NOT the 9×9 crystal's 11/11 → the type register is TRAINING-CONTINGENT, not
+> architecture-universal → types are LEARNED on the universal reducer = direct evidence for
+> M7 (typed apply is emergent, not given). pythia-2.8b = a GENUINE well-powered negative
+> (n_gated 32, coherence 0.867 highest in sweep, TG1 passes = kind separable, TG2 CROSS-CUT
+> FAILS p=0.17 = kind opcode-bound not an independent register); small pythias underpowered
+> but land the SAME verdict as well-powered siblings (4th don't-over-read: negative read
+> from the powered members). +POLED sub-split weak/model-specific (0.6b/14b/32b/olmo POLED;
+> 4b/27b/gemma diffuse; NOT monotone in scale) — core verdict robust, POLED not over-read.
+> S5 scorecard 2/4: discreteness✓ selectivity✓(cross-FAMILY 7/11) compositionality✗ causality✗.
+> Ledger: results (s314 autonomous) · §Result-type-gram + memory `type-register-is-training-
+> contingent-not-universal.md` + INDEX (bd58e71, Michael-approved).
+>
+> **② ✅ §P-TYPE-WRITE FROZEN (ee1359a) + HARNESS BUILT (committed).** The causal S5 keystone
+> — bake nonce→class MEMBERSHIP into an FFN-band LoRA (classificatory statements ONLY, never
+> a licensing predicate), measure HELD-FRAME licensing transfer = create the relation →
+> observe the type check. FROZEN §8 on types-are-injectable-relations.md (Michael GO:
+> ANIMAL/VEHICLE sortals, qwen3-4b only — pythia null already from the sweep). Metric
+> `L(w)=surprisal(anti-pred|"The w")−surprisal(own-pred|"The w")`, within-token, sign fixed
+> by true class. Gates TW1 LICENSING-TRANSFER (label-perm null) / TW2 GRADED (Spearman) /
+> TW3 SHUFFLE-NULL (deranged-membership wire) / TW4 CLASS-SPECIFIC (paired own>anti) / TW5
+> HOST-SANE. Verdicts TYPE-WRITTEN(+GRADED)/WRITTEN-OPAQUE/CONTEXT-ONLY(falsifier)/NO-WRITE/
+> HOST-DAMAGED. A-priori 45/20/20/10/5 (not tuned). **✅ `scripts/explore/type_write.py`
+> BUILT** (reuses writeback_compile.LoRALinear + operand_multihop3, no fork; membership-LM
+> CE objective on the frozen band 0.60–0.80/r=16/lr1e-4/500steps/3seeds recipe): --validate
+> 5 planted worlds + primitives ALL PASS, ruff clean, no diags, qwen3-4b smoke green
+> (**gate-0 real-member licensing margin 2.538 = metric VALID**; load/train/eval/restore ok;
+> no direction read). **⚠ RUN IN FLIGHT (Michael GO): tmux main:1**, `uv run python -u
+> scripts/explore/type_write.py --out results/type-write/qwen3-4b 2>&1 | tee
+> results/type-write/qwen3-4b-run.log` (20 nonces 10+10, 3 seeds × 2 arms × 500 steps,
+> ~1–2h). Verified running (wire seed0 training). See ON-SIGNAL above.
+>
+> **NEXT FRONTS (all UNFROZEN, s222 freeze-first):** fuel-theorem probe (de Carvalho: type
+> size = evaluation length → compositionality test, joins type arc ↔ s295 CoT law) ·
+> idempotency/saturation · ∨-vs-∧ asymmetry · linearity bias · boundary-churn identity ·
+> P-AYOT-PARAPHRASE · P-CRYSTAL-SURVIVAL (BitTern release, zero-training external validation).
+> Standing alt fronts: §P-PLATE-LINKER-2 · §P-OPCODE-CONSENSUS · §P-ASYM-TERNARY · gd_cd@32B.
+> s314 ledger: bd58e71 (sweep §Result batch) · ee1359a (P-TYPE-WRITE freeze) · type_write.py
+> harness commit · results/type-write PENDING run. s313 summary: type arc opened (freeze 630ea21 · probes a774618 ·
 > runner 496c1af · **qwen3-4b VERDICT TYPE-REGISTER da8c1ba** — first measured type
 > register, TG2 0.4768 p-floor, diffuse not polar) + four Michael-approved captures:
 > types-are-injectable-relations (6524eaa) · type-systems-under-llm-constraints (147110f) ·
