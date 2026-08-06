@@ -45,6 +45,7 @@ tags: [index, orientation, knowledge-map, catalog]
 | [upstream/verbum-theory-seed.md](upstream/verbum-theory-seed.md) | ✅ active | The generative theory seed (germination-testable; first upstream seed) |
 | [explore/germination-games.md](explore/germination-games.md) | 📋 open | Five game modes = selection pressure on encodings (FRAG/Oracle/Golf/Eigenseed/Adversarial) |
 | [explore/types-are-compiled-probabilities.md](explore/types-are-compiled-probabilities.md) | 🔨 +§How-many-types | Type cardinality two-registered; P-TYPE-CENSUS candidate |
+| [explore/types-are-injectable-relations.md](explore/types-are-injectable-relations.md) | 📋 open | s313: types = RELATIONS (nowhere-addressable ≡ stored-in-joins) · linkage SLOT-MEDIATED (bipartite; s312 c_nat 0.0072 datum reread; type = reference angle) · wire arc ⇒ types INJECTABLE · P-TYPE-WRITE candidate (causal S5 test, unfrozen) |
 
 ## Start Here — Curated Reading Path
 

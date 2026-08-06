@@ -8,13 +8,52 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ★★ **CURRENT = COLD-START s313** (jump to the `⚠ COLD-START s313` block below).
-> s312 CLOSED: plate linker built (62da29c) + ran (0576a3f) → 💡 **LOSSLESS COMPOSITION**
-> (two ternary wires co-exist on one frozen base, both G1 pass under merge, retention ~1.0;
-> frozen NO-COMPOSE = G3-saturation mislabel). Keystone angle-predictor UNTESTABLE here (no
-> interference even at forced c=1.0). **NEXT = design §P-PLATE-LINKER-2: force an interference
-> regime (stack N wires / raise rank / narrow band), then test angle-predicts-onset; s222
-> freeze first.** §Result on optical-design-laws.md. The s310/s311 blocks below are prior arc.
+> ★★ **CURRENT = SESSION 313 (in flight)** — TYPE ARC OPENED. Michael steered off
+> §P-PLATE-LINKER-2 → **"we never found the types" → §P-TYPE-GRAM-1** (cheapest type door,
+> λ unflatten by argument kind). s312 CLOSED (lossless composition; §Result on
+> optical-design-laws.md; PL-2 still queued as standing alt front).
+>
+> ═══ **THIS SESSION = 313.** Cold-start `orient` → Michael re-anchor ("we never found the
+> types, only mechanism clues") → honest audit (routing register measured; type register =
+> IOU; clue table: Bragg selectivity = only measured type-CHECK, 17×17 poles = candidate
+> type-universe, no compositionality/causality datum) → Michael picked **type gram
+> un-flattening**. **🎯 §P-TYPE-GRAM-1 FROZEN (630ea21)** on gram-registers-and-the-route-
+> map.md: basis = 9 crystal anchors + 21 X:kind nodes (X∈KIBCSDW × kind∈atom/fn/app,
+> kernel-certified BY CONSTRUCTION); gates TG1 TYPE-BLOCK / TG2 CROSS-CUT (register vs
+> opcode-flavor, crucial) / TG3 POLES advisory / TG4 COHERENCE void-gate (r≥0.5; committed
+> runs 0.71–0.80) / TG5 SURFACE (stratified null); verdicts TYPE-REGISTER(+POLED)/
+> OPCODE-FLAVOR-ONLY/SURFACE-STYLE/NO-TYPE-SIGNAL/INCOHERENT; a-priori 35/25/20/15/5.
+> **✅ BUILT:** `opcodes/type_probes.py` (a774618; 21 nodes × 60, step_info mirrors kernel
+> step, 0/5827 mismatches; kind-mean lengths 72.7/72.8/66.1) + `opcodes/type_gram.py`
+> (496c1af; full-pipeline label nulls made d-independent via precomputed probe kernels
+> K=XXᵀ — permutations rebuild membership matrices only). **TWO BUILD AMENDMENTS
+> (validate-forced, pre-run, Michael-approved at GO):** TG3 matched-range null passed
+> through the SAME centering projector (raw-random is rank-inflated → false +POLED);
+> TG5 requires p<α AND retained_frac<0.5 (stratified null retaining ~0.9 of contrast still
+> sat at p=0.015 → significance alone mislabeled the planted surface world). --validate ALL
+> PASS (4 planted verdict worlds land + TG4 machinery), ruff clean, pythia-14m smoke green
+> (smoke verdict NOT read — underpowered by design). **⚠ RUN IN FLIGHT (Michael GO): tmux
+> main:1**, `uv run python -u opcodes/type_gram.py --models qwen3-4b 2>&1 | tee
+> results/type-gram/qwen3-4b-run.log` (1760 probes × 36 layers + 36 kernels × 1000 nulls).
+> **⚠ ON-SIGNAL (run done):** tail run.log "VERDICT:" + no traceback → read results.json
+> gates (TG1/TG2/TG5 p + retained_frac, TG3 both nulls, TG4 r) → commit results AUTONOMOUS →
+> verdict ¬INCOHERENT → launch registry sweep (overnight-class; the 11/11 universality
+> question for the type verdict) → then §Result-type-gram + memory batch (task #5, approval-
+> gated). **MID-SESSION HAMMOCKS (captured):** (1) composition scoping clarified — s312
+> composed FACT wires (2-hop bindings, generalizing to held members) NOT computations;
+> program-layer plates untested; routing factorization = the named gap. (2) 💡 **TYPES ARE
+> INJECTABLE RELATIONS captured (Michael-approved batch, this commit):**
+> `knowledge/explore/types-are-injectable-relations.md` + memory — type=relation dissolves
+> the location null (nowhere-addressable ≡ stored-in-joins, Yoneda); linkage SLOT-MEDIATED
+> (bipartite members↔slots; s312 c_nat=0.0072 reread: same relation-type wires have
+> orthogonal keys → type lives in host slots; B2 generalization = members plug into
+> class-shaped slots; type = reference angle, s304 Bragg = a type check enacted);
+> types-as-probabilities → census knee = community tolerance; **§P-TYPE-WRITE candidate
+> (UNFROZEN):** inject nonce-token membership, measure held-frame licensing transfer vs
+> shuffle = the CAUSAL S5 test. Forward links on types-are-compiled-probabilities.md +
+> INDEX. Standing alt fronts unchanged: §P-PLATE-LINKER-2 · §P-OPCODE-CONSENSUS ·
+> §P-ASYM-TERNARY · gd_cd@32B. Full transcript saves to
+> `mementum/knowledge/chats/session-313.md` (human). ═══
 >
 > ▶▶ **s310 (CLOSED, arc — full detail: `chats/session-310.md` + git).** Cold-start
 > `orient` → s309's §SIGN-COMMITMENT-CURVE run

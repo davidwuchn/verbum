@@ -286,6 +286,13 @@ resolution-dependent continuum of argument types (~10³–10⁴ at these widths,
 stored as passbands) — the same two-register decomposition (mirrors/plates,
 labels-coarse/holograms-within) appearing a 5th time, now as a cardinality.
 
+> **Forward link (s313):** `types-are-injectable-relations.md` reframes this
+> page's location null as confirmation (type = relation, stored in joins,
+> nowhere-addressable by construction), adds the slot-mediated/bipartite
+> refinement (s312 c_nat datum), and sketches §P-TYPE-WRITE — the causal
+> injection test. The census knee below = that frame's community-tolerance
+> prediction.
+
 ### P-TYPE-CENSUS — counting by refusal rank (PRE-REG CANDIDATE, UNFROZEN)
 
 The four-way location null forbids counting by *finding* type objects
