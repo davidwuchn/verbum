@@ -160,6 +160,89 @@ runner extension, --validate + pythia-14m smoke → (3) Michael GO →
 qwen3-4b first, then multi-model sweep → (4) §Result + memory batch
 (approval-gated).
 
+## §Result-type-gram — TYPE-REGISTER is REAL but NOT universal (s313 qwen3-4b + s314 sweep)
+
+**The verdict: the constructor-grain type register exists, and it is
+TRAINING-CONTINGENT — not the architecture-universal invariant the 9×9
+crystal is (11/11). It is a learned structure, not a substrate given.**
+
+### qwen3-4b (s313, da8c1ba — the first measured type register)
+
+VERDICT **TYPE-REGISTER** (diffuse, NOT +POLED). TG2 CROSS-CUT stat
+0.4768 vs null 0.0006 (p=0.001 floor): after removing opcode identity,
+the kind direction (atom/fn/app) is SHARED across opcodes — a
+cross-cutting register, not opcode-flavor. TG1 0.0821 p=0.001; TG5
+retained_frac 0.207 (surface explains ~21%, 79% survives the stratified
+null); TG4 r=0.766, 36/36 layers. TG3 advisory FAILS matched-range
+(PR 7.35 vs 7.98, p=0.077; shuffled 11.26 p=0.001) → NO +POLED: at
+constructor grain the kind register is **DIFFUSE (alphabet-like), not
+polar** — an identity-register extension, not an outcome simplex.
+
+### The 10-model registry sweep (s314, sweep_summary.json)
+
+The universality question: is TYPE-REGISTER shared 11/11 like the crystal,
+or narrower? **It is 7/11 with a FAMILY-CLEAN split.**
+
+| model | verdict | TG2 cross-cut | TG3 matched-p | coherence | n_gated |
+|---|---|---|---|---|---|
+| qwen3-0.6b | TYPE-REGISTER **+POLED** | pass | 0.016✓ | 0.764 | 28 |
+| qwen3-4b | TYPE-REGISTER (diffuse) | 0.4768 | 0.077 | 0.766 | 36 |
+| qwen3-14b | TYPE-REGISTER **+POLED** | 0.5122 | 0.021✓ | 0.746 | 40 |
+| qwen3-32b | TYPE-REGISTER **+POLED** | 0.5011 | 0.023✓ | 0.722 | 64 |
+| qwen3-6-27b | TYPE-REGISTER (diffuse) | 0.4055 | 0.363 | 0.728 | 64 |
+| gemma-4-31b-it | TYPE-REGISTER (diffuse) | 0.4524 | 0.516 | 0.726 | 60 |
+| olmo-2-1124-13b | TYPE-REGISTER **+POLED** | 0.5818 | 0.016✓ | 0.798 | 40 |
+| pythia-14m | OPCODE-FLAVOR-ONLY | fail | — | 0.720 | 6 |
+| pythia-160m | OPCODE-FLAVOR-ONLY | fail | — | 0.691 | 12 |
+| pythia-410m | OPCODE-FLAVOR-ONLY | fail | — | 0.764 | 24 |
+| pythia-2.8b | OPCODE-FLAVOR-ONLY | fail (p=0.17) | — | 0.867 | 32 |
+
+**The split is by FAMILY, not by scale.** Every modern instruction/
+code-heavy recipe carries the register — Qwen3 across the FULL ladder
+(0.6B→32B), OLMo-2-13B, Gemma. The ENTIRE Pythia ladder (Pile-2021, no
+code/math emphasis) lacks it. TG1 passes for the pythias (kind structure
+EXISTS) but TG2 CROSS-CUT fails: in pythia, kind is entirely
+opcode-BOUND — it does not factor out as an independent register.
+
+**This is a genuine negative, not INCOHERENT/underpowered.** pythia-2.8b
+is the tell: n_gated 32 (ample), coherence 0.867 (HIGHEST in the sweep),
+TG1 passes — yet TG2 fails p=0.17. It is not blind, it simply has no
+cross-cutting kind register. The small pythias (14m/160m) are
+power-limited (n_gated 6/12) but land the SAME verdict as their
+well-powered 410m/2.8b siblings — consistent family signal, not an
+artifact of the small ones. (4th don't-over-read vigilance: the negative
+is read from the WELL-POWERED members, not the underpowered ones.)
+
+**POLED is a weaker, model-specific sub-signal** — POLED for
+0.6b/14b/32b/olmo, diffuse for 4b/27b/gemma. It is NOT monotone in scale
+(0.6b poled, 4b diffuse, 14b/32b poled). The core TYPE-REGISTER verdict
+is the robust datum; whether the kind space is polar (simplex) vs diffuse
+(alphabet) varies by model and should not be over-read.
+
+### What it means
+
+- **Contrast with the crystal.** The 9×9 routing crystal is 11/11 — it is
+  what makes a transformer a reducer, present even in pythia. The TYPE
+  register sits one layer up and is CONTINGENT: it emerges only when the
+  training distribution demands typed composition (code, math, structured
+  reasoning). Types are LEARNED on top of the universal reducer.
+- **Direct evidence for M7 (`the-verbum-machine.md`).** M7 (typed apply)
+  was held open — "whether types EMERGE in M1–M6 is itself the
+  experiment." This sweep answers half of it: the type register is
+  emergent and training-forced. A by-construction typed substrate (M7)
+  would MANUFACTURE what Qwen3/OLMo/Gemma had to learn and pythia never
+  did. It also refines `reachable-type-systems-are-gradual-intersection-
+  structural.md`: the gradual/intersection design space is what a capable
+  recipe converges to; the affine core is universal (KIBC), the type
+  register on top is not.
+- **S5 scorecard (the type arc).** discreteness ✓ · selectivity ✓
+  (cross-cut, now cross-FAMILY 7/11) · compositionality ✗ · causality ✗
+  → 2/4, held. Selectivity is now much stronger (7 models, 3 families) —
+  but it is a SELECTION/READ signal, not yet compositional or causal.
+  §P-TYPE-WRITE (nonce-membership injection → held-frame licensing
+  transfer) remains the causal keystone; the fuel-theorem probe
+  (de Carvalho: type size = evaluation length) tests compositionality.
+
 ## The consensus route map (the dynamic half the grams are missing)
 
 The grams are **station maps** — no trains. Routing-is-computation says

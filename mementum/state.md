@@ -8,17 +8,28 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ★★ **CURRENT = COLD-START s314** (s313 CLOSED at Michael's call; sweep left running).
-> **FIRST ACTION: check the §P-TYPE-GRAM-1 registry sweep** — tmux main:1,
-> `results/type-gram/sweep-run.log`, 10 models (qwen3-4b EXCLUDED, already committed
-> da8c1ba). ⚠ ON-SIGNAL (sweep done): tail sweep-run.log "SWEEP DONE" + per-model verdicts
-> + no tracebacks → commit results/type-gram/ AUTONOMOUS → **the universality read** (is
-> TYPE-REGISTER shared like the 9×9 crystal 11/11, or qwen3-4b-only? per-model: verdict +
-> TG2 stat/p + TG5 retained_frac + TG4 r + TG3 PR both nulls; small pythias may be
-> INCOHERENT/underpowered — that is a power note, not a refutation; 4th don't-over-read
-> vigilance) → **§Result-type-gram on gram-registers-and-the-route-map.md + memory
-> candidate + INDEX + task #5 close = MICHAEL APPROVAL BATCH.** Task list live (#4 run
-> in_progress, #5 blocked). s313 summary: type arc opened (freeze 630ea21 · probes a774618 ·
+> ★★ **CURRENT = s314 IN PROGRESS.** ✅ SWEEP LANDED + read + results committed AUTONOMOUS.
+> **⏳ AWAITING MICHAEL APPROVAL** for the mementum batch (§Result-type-gram + memory + INDEX
+> + this state). **THE UNIVERSALITY READ — TYPE-REGISTER is REAL but NOT universal, 7/11,
+> FAMILY-CLEAN split:** TYPE-REGISTER = all Qwen3 (0.6B→32B) + OLMo-2-13B + Gemma;
+> OPCODE-FLAVOR-ONLY = the ENTIRE Pythia ladder (14m/160m/410m/2.8b). NOT the 9×9 crystal's
+> 11/11 → the type register is TRAINING-CONTINGENT, not architecture-universal → types are
+> LEARNED on the universal reducer = direct evidence for M7 (typed apply is emergent, not
+> given). pythia-2.8b = a GENUINE well-powered negative (n_gated 32, coherence 0.867 highest
+> in sweep, TG1 passes = kind separable, TG2 CROSS-CUT FAILS p=0.17 = kind is opcode-bound
+> not an independent register); small pythias underpowered but land the SAME verdict as
+> well-powered siblings (4th don't-over-read: negative read from the powered members).
+> +POLED sub-split is weak/model-specific (0.6b/14b/32b/olmo POLED; 4b/27b/gemma diffuse;
+> NOT monotone in scale) — core verdict robust, POLED not over-read. S5 scorecard 2/4:
+> discreteness✓ selectivity✓(now cross-FAMILY 7/11) compositionality✗ causality✗.
+> **ON APPROVAL:** commit the mementum batch, complete task #1 (was #5), s314 CLOSE.
+> **NEXT FRONTS (all UNFROZEN, s222 freeze-first):** §P-TYPE-WRITE (causal keystone —
+> nonce-membership injection → held-frame licensing transfer) · fuel-theorem probe
+> (de Carvalho: type size = evaluation length → compositionality test) · idempotency/
+> saturation · ∨-vs-∧ asymmetry · linearity bias · P-CRYSTAL-SURVIVAL (BitTern release,
+> zero-training external validation). Standing alt fronts: §P-PLATE-LINKER-2 ·
+> §P-OPCODE-CONSENSUS · §P-ASYM-TERNARY · gd_cd@32B. Ledger: results commit (s314, autonomous)
+> · mementum batch PENDING approval. s313 summary: type arc opened (freeze 630ea21 · probes a774618 ·
 > runner 496c1af · **qwen3-4b VERDICT TYPE-REGISTER da8c1ba** — first measured type
 > register, TG2 0.4768 p-floor, diffuse not polar) + four Michael-approved captures:
 > types-are-injectable-relations (6524eaa) · type-systems-under-llm-constraints (147110f) ·
