@@ -38,6 +38,85 @@
 > (reuse writeback_compile+ternarize_factors, no fork; principal-angle math + matched-norm
 > rotation control + frozen gate re-score) → Michael GO → (#4) run tmux main:1 → (#5)
 > §Result batch. Full transcript saves to `mementum/knowledge/chats/session-311.md` (human).
+> **s311 cont — WIRE-2 BAKE IN FLIGHT (tmux main:1).** #2 started: wrote
+> `scripts/explore/bake_wire2.py` (NO fork — imports writeback_compile, swaps ONLY
+> WIRE2_BANK; wire-1 generator + s303/s304/s307/s309 stay bit-reproducible). WIRE2_BANK =
+> same landmark→country→capital relation, DISJOINT entities: TRAIN = wire-1's vetted B2
+> countries (France/Germany/Canada/Australia/Switzerland/Poland/Vietnam/China, re-tagged
+> 2×TRAIN+1×B1) + 8 fresh B2 held-out (Portugal/Greece/Sweden/Argentina/Japan/Thailand/
+> Kenya/Peru). --validate ALL PASS (TRAIN 16/B1 9/B2 24, shortcut-free, first-word-unique);
+> gate-0 PASS empirically (valid 46/49, TRAIN 16/B1 9/B2 21, cot_rate 0.96 — host knows the
+> facts). Fixed 2 cells from first gate-0: Poland B1 Main-Market-Square→Wieliczka Salt Mine,
+> Vietnam TRAIN Golden-Bridge(→China confuse)→Ha Long Bay; +Marienplatz/Munich B1 margin.
+> BAKE launched (arms base,construct,construct_shuffle,construct_lookup,gd_cd,gd_shuffle;
+> 3 seeds × 500 steps; → `results/plate-linker/wire2-bake/qwen3-4b/{bake.log,results.json,
+> gate0.json}`). **⚠ ON-SIGNAL (bake done):** tail bake.log for "VERDICT:" + no traceback →
+> BAKE GATE = gd_cd must pass its own G1 (wire, flip B1∧B2) + G3 (specificity vs gd_shuffle)
+> = "WIRE-COMPILES (+GD-REQUIRED)" (construct arms may also pass; only gd_cd is required for
+> the linker). PASS → commit bake_wire2.py + results AUTONOMOUS, complete task #2, proceed
+> #3 (build plate_linker.py: principal-angle math + matched-norm rotation control + merge +
+> frozen gate re-score; --validate + smoke; import WIRE2_BANK from bake_wire2). FAIL → wire-2
+> won't bake on this bank → report + re-curate before the linker.
+> **s311 cont-2 — BAKE #1 ❌ LOOKUP-ONLY (G1 underpowered, NOT a wire failure).** gd_cd
+> lifted TRAIN 0.625→1.0, B1 0.667→1.0, **B2 held-country 0.762→0.952** (shuffle 0/0/0.19,
+> G3✓ G5✓) — a real generalizing wire, but G1 permutation FAILED (B1 p=0.13, B2 p=0.11 >
+> α/3) because Qwen3-4B's BASE competence on wire-2's famous landmarks is too high (0.76)
+> → few flippable cells → underpowered (wire-1's base was 0.20/0.125/0.545 = headroom).
+> Verdict tree mislabeled it LOOKUP-ONLY (but it generalizes to held COUNTRIES → not a
+> lookup). Same "don't over-read the label" as s310. **Michael chose OPTION A: re-curate
+> harder landmarks (same disjoint countries) to restore base headroom.** Built WIRE2_POOL
+> (~5 candidates/country) + `--select` mode in bake_wire2.py: runs base+gate-0 on the pool,
+> keeps per country the gate-0-valid landmarks with LOWEST base 2-hop (headroom); selection
+> on BASE ONLY (measurability, never post-training). **SELECT PASS IN FLIGHT (tmux main:1
+> → results/plate-linker/wire2-select/qwen3-4b/{select.log,results.json,gate0.json,
+> selected_bank.json}).** ⚠ ON-SIGNAL (select done): tail select.log for "[select] final
+> bank base-2hop mean" (want ~0.2-0.5) + the printed WIRE2_BANK literal → paste it over
+> WIRE2_BANK in bake_wire2.py → --validate + re-bake (arms base..gd_shuffle) → expect gd_cd
+> G1 now clears. Then commit bake_wire2.py + results, complete #2, build #3 plate_linker.py.
+> **s311 cont-3 — SELECT DONE → RE-BAKE IN FLIGHT (tmux main:1).** Select pass (10:55min,
+> 80-cell pool) → selected low-base bank (base-2hop mean 0.489 vs 0.63; TRAIN 16/B1 8/B2 23,
+> Argentina only 2 valid — fine, ≥8 gate). Selected WIRE2_BANK pasted into bake_wire2.py
+> (harder landmarks: Chambord/Chillon/Grossmunster/Leshan Buddha/Li River/Palamidi/Visby/
+> Chan Chan…), --validate ALL PASS, ruff clean. **RE-BAKE LAUNCHED** (arms base,construct,
+> construct_shuffle,construct_lookup,gd_cd,gd_shuffle; 3 seeds×500; →
+> results/plate-linker/wire2-bake/qwen3-4b/{bake.log,results.json}). ⚠ ON-SIGNAL (re-bake
+> done): tail bake.log "VERDICT:" + no traceback → check gd_cd G1 (want PASS now that base
+> ~0.49 gives power) + G3. PASS → commit bake_wire2.py + WIRE2_POOL/select machinery +
+> results + gate0 AUTONOMOUS, complete #2, build #3 plate_linker.py (principal-angle math +
+> matched-norm rotation control + merge + frozen gate re-score; import WIRE2_BANK from
+> bake_wire2). Still G1-underpowered → consider option B (functional bake gate, pre-merge,
+> documented) w/ Michael.
+> **s311 cont-4 — BAKE #2 ❌ still G1 (B1 power) → RE-BAKE #3 IN FLIGHT (Michael: "nail it
+> fully, no caveats").** Bake #2: gd_cd → 1.0 ALL splits, shuffle 0/0/0.13, G2✓ G3✓ G5✓,
+> **G1-B2 held-country CLEARED (0.609→1.0, p=0.0024)** — only G1-B1 failed (base B1=0.75,
+> n=8, p=0.25). Root cause: base competence BIMODAL per country (France/Poland/Vietnam
+> base-1.0 = zero headroom; Germany/Canada/Australia/Switzerland/China base-0 = headroom);
+> selection scattered B1 across all → 6/8 B1 cells base-correct. FIX: fixed select_bank bug
+> (had tagged HIGHEST-base as B1) → B1 now drawn ONLY from base-0 headroom countries
+> (Cologne/Heidelberg/Butchart/CN Tower/Bondi/Federation Sq/Chillon/Grossmunster/Leshan),
+> re-derived OFFLINE via --reselect (no model run). TRAIN 16/B1 9(all base-0)/B2 23,
+> --validate PASS. RE-BAKE #3 LAUNCHED (→ results/plate-linker/wire2-bake/qwen3-4b/).
+> ⚠ ON-SIGNAL (done): tail bake.log "VERDICT:" + no traceback → gd_cd G1 should PASS now
+> (B1 base-0 cells flip → power) → WIRE-COMPILES(+GD-REQUIRED). PASS → commit bake_wire2.py
+> + WIRE2_POOL/select machinery + results + gate0 AUTONOMOUS, complete #2, build #3
+> plate_linker.py.
+> **s311 cont-5 — ✅ WIRE-2 BAKED CLEAN (bake #3): WIRE-COMPILES (+GD-REQUIRED), full G1 no
+> caveats.** gd_cd G1✓ (B1 p=0.0039, B2 p=0.0023) G2✓ G3✓ G5✓; base B1 0.0→gd 0.889, B2
+> held-country 0.609→1.0, TRAIN 0.75→1.0, shuffle 0/0/0.087. Committed autonomous
+> (bake_wire2.py + WIRE2_POOL/--select/--reselect + results/plate-linker/). **TASK #2 DONE.**
+> ▶▶ **NEXT = TASK #3: build scripts/explore/plate_linker.py** (per frozen §P-PLATE-LINKER-1
+> on optical-design-laws.md). Reuse (no fork): import writeback_compile (wire-1 default BANK)
+> + bake_wire2 (WIRE2_BANK) + ternarize_factors (per-component TWN). Steps: (a) train wire-1
+> + wire-2 gd_cd, extract per-layer LoRA factors A(r×in key-subspace)/B(out×r)/scale for band
+> L22-29; (b) principal-angle collision c = mean_L ‖P1P2‖_F²/r on A row-spaces; (c) additive
+> merge base+Δ1+Δ2; (d) rotation control: rotate wire-2 A into wire-1 A-subspace at matched
+> Frobenius norm, FIXED B2, θ-sweep → collision axis; (e) re-score EACH wire's frozen G1/G3
+> under merge (retention); (f) gates PL1 COMPOSES / PL2 ANGLE-PREDICTS (θ-curve slope>0 vs
+> flat null ∧ natural pair within CI at c_nat) / PL3 COLLISION-CAUSAL (rotated>natural degrade
+> at matched norm) / PL4 HOST-SANE; verdicts LINKS(+ANGLE-PREDICTIVE)/LINKS-OPAQUE/
+> COLLISION-BLIND/NO-COMPOSE/HOST-DAMAGED. --validate (planted worlds) + ruff + smoke (no
+> direction read) → Michael GO → run tmux main:1. NOTE: both wires hit ~1.0 → retention
+> measured on flippable held cells (well-powered now, that was the point of the low-base bake).
 > Prior headers (s309 compacted, s308) retained below. ═══
 >
 > ▶▶ **s309 — 🎯 §SIGN-COMMITMENT-CURVE FROZEN + BUILT + SMOKE-GREEN → RUN LAUNCHED
