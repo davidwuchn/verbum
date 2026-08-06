@@ -39,6 +39,26 @@ measures the float gd wire.
 Model: Qwen3-4B only (the type-register carrier; the pythia negative is already
 supplied by the s314 §P-TYPE-GRAM-1 sweep — no separate control run).
 
+AMENDMENT (s315, Michael-approved, post-run-1 HOST-DAMAGED — instrument-side
+only; gates/metric/verdicts/a-priori UNCHANGED): run 1 baked the wire (recall
+p=5e-4) but burned the host (CE +2.3 nats, real-member licensing inverted
++2.538 -> -0.624) — plain CE on a tiny corpus lacked the host anchor gd_cd had
+implicitly via its teacher KL. Two changes:
+  (1) HOST-ANCHORED OBJECTIVE: loss = CE(membership) + kl_weight *
+      KL(base || wire) on cached neutral REPLAY_TEXTS (disjoint from CE_TEXTS
+      — never train on the measurement). Base is frozen, so teacher
+      distributions are cached once. LoRA B init is zero => KL(step 0)=0 with
+      zero grad, so kl_weight is a fixed CLI weight (default 1.0), both
+      components logged per snap.
+  (2) EVIDENCE-GATED STOP (wire arm): at fibonacci snaps log membership CE +
+      host CE drift; stop on plateau (rel improvement < plateau_tol at snaps
+      >= min_stop) or on host-CE drift > ce_budget (rollback to last good
+      snap). Run-1 curve: learning done by ~step 200; steps 200-500 bought
+      only damage. The SHUFFLE arm runs the wire's per-seed stop step exactly
+      (no own stop rule) => TW3 stays matched-budget by construction.
+      TW5 ce_ok becomes enforced-by-mechanism (budget 0.10 < CE_TOL 0.5);
+      real_ok stays the live, unoptimized host check.
+
 License: MIT (lambda provenance).
 """
 from __future__ import annotations
@@ -101,6 +121,23 @@ CE_TEXTS = [
     "Rain fell steadily against the window through the night.",
 ]
 
+# Replay anchor (s315 amendment): neutral prose for KL(base||wire).
+# DISJOINT from CE_TEXTS (never train on the measurement) and free of
+# class members / held predicates (the anchor must not fight the write).
+REPLAY_TEXTS = [
+    "The library reopened after months of renovation and new lighting.",
+    "He measured the shelf twice before cutting the board.",
+    "Prices at the market rose slightly toward the end of summer.",
+    "The orchestra tuned quietly while the hall filled with guests.",
+    "A cool wind moved through the orchard just before dawn.",
+    "The report summarized three years of survey data in ten pages.",
+    "She planted basil and thyme in the window box outside the kitchen.",
+    "The bridge closed for inspection during the early morning hours.",
+]
+
+# Evidence-gated stop (s315 amendment): fibonacci snap schedule (s309 lineage).
+FIB_SNAPS = (0, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 499)
+
 # Recipe (writeback_compile-frozen apparatus).
 BAND_FRAC = (0.60, 0.80)
 CE_TOL = 0.5           # advisory: host CE may rise at most this (nats/token)
@@ -140,6 +177,32 @@ def _spearman(x: np.ndarray, y: np.ndarray) -> float:
     ry -= ry.mean()
     denom = np.sqrt((rx @ rx) * (ry @ ry))
     return float(rx @ ry / denom) if denom > 0 else 0.0
+
+
+def _stop_decision(steps_hist: list, mem_hist: list, drift_hist: list,
+                   budget: float, tol: float, min_stop: int) -> tuple:
+    """Evidence-gated stop (s315 amendment). Pure; validate-tested.
+
+    Scans per-snap history in order; first firing rule wins. Returns
+    (n_steps_to_keep, reason):
+      ce_budget_rollback — host-CE drift exceeded budget at a snap; keep only
+                           steps up to the PREVIOUS (good) snap.
+      plateau            — membership CE rel-improvement between consecutive
+                           snaps < tol at a snap >= min_stop; keep current.
+      max_steps          — no rule fired; keep everything.
+    Used incrementally in-loop (called on the growing history each snap) and
+    wholesale in --validate on planted curves — same code path (λ one_way)."""
+    prev_mem = None
+    for i, (s, m, d) in enumerate(zip(steps_hist, mem_hist, drift_hist,
+                                      strict=True)):
+        if d > budget:
+            keep = 0 if i == 0 else steps_hist[i - 1] + 1
+            return keep, "ce_budget_rollback"
+        if (prev_mem is not None and s >= min_stop
+                and (prev_mem - m) / max(prev_mem, 1e-9) < tol):
+            return s + 1, "plateau"
+        prev_mem = m
+    return (steps_hist[-1] + 1 if steps_hist else 0), "max_steps"
 
 
 def compute_gates(b: dict, rng: np.random.Generator, alpha: float = 0.05,
@@ -368,6 +431,40 @@ def run_validate(alpha: float) -> int:
     prim2 = abs(r - 1.0) < 1e-9
     ok &= prim2
     print(f"  primitive _spearman monotone      {'✓' if prim2 else '✗ FAIL'}")
+
+    # ── s315 amendment: evidence-gated stop on planted curves ──
+    snaps = list(FIB_SNAPS)
+    zero_drift = [0.0] * len(snaps)
+    # healthy: mem keeps improving >tol per snap, no drift -> run to end
+    mem_healthy = [5.0 / (1 + i) for i in range(len(snaps))]
+    got = _stop_decision(snaps, mem_healthy, zero_drift, 0.10, 0.01, 55)
+    good = got == (500, "max_steps")
+    ok &= good
+    print(f"  stop: healthy world               {got} "
+          f"{'✓' if good else '✗ FAIL expect (500, max_steps)'}")
+    # plateau: big drops until step 55, then flat -> stop at snap 89 (keep 90)
+    mem_plat = [5.0, 4.0, 3.2, 2.6, 2.1, 1.7, 1.3, 1.0, 0.8, 0.5,
+                0.499, 0.498, 0.497, 0.496, 0.495]
+    got = _stop_decision(snaps, mem_plat, zero_drift, 0.10, 0.01, 55)
+    good = got == (90, "plateau")
+    ok &= good
+    print(f"  stop: plateau world               {got} "
+          f"{'✓' if good else '✗ FAIL expect (90, plateau)'}")
+    # runaway drift: budget crossed at snap idx 7 (step 21) -> keep prev+1=14
+    drift_run = [0.0, 0.01, 0.02, 0.03, 0.04, 0.05, 0.08, 0.15,
+                 0.3, 0.5, 0.8, 1.0, 1.5, 2.0, 2.3]
+    got = _stop_decision(snaps, mem_healthy, drift_run, 0.10, 0.01, 55)
+    good = got == (14, "ce_budget_rollback")
+    ok &= good
+    print(f"  stop: drift-budget world          {got} "
+          f"{'✓' if good else '✗ FAIL expect (14, ce_budget_rollback)'}")
+    # edge: first snap already over budget -> keep 0 (zero-delta rollback)
+    got = _stop_decision([0], [5.0], [0.5], 0.10, 0.01, 55)
+    good = got == (0, "ce_budget_rollback")
+    ok &= good
+    print(f"  stop: step-0 over budget          {got} "
+          f"{'✓' if good else '✗ FAIL expect (0, ce_budget_rollback)'}")
+
     print(f"\n── --validate {'ALL PASS' if ok else 'FAIL'} ──")
     return 0 if ok else 1
 
@@ -506,8 +603,24 @@ def run_model(args) -> int:
     base = eval_members(nonces, labels)
     ce_base = ce_host()
 
-    # ── wire trainer (LoRA on FFN band; membership-LM objective) ──
-    def train_wire(train_labels: np.ndarray, seed: int):
+    # ── replay anchor cache (s315): base distribution on neutral prose ──
+    # Base is frozen -> teacher cached ONCE, before any LoRA wrap.
+    rb = tok(REPLAY_TEXTS, return_tensors="pt", padding=True).to(dev)
+    with torch.no_grad():
+        base_lo = model(**rb).logits.float()
+        p_base_replay = torch.softmax(base_lo, dim=-1)              # [B,T,V]
+        h_base_replay = -(p_base_replay
+                          * F.log_softmax(base_lo, dim=-1)).sum(-1)  # [B,T]
+    replay_mask = rb.attention_mask.float()
+    del base_lo
+    print(f"[tw] replay anchor cached: {len(REPLAY_TEXTS)} texts, "
+          f"{int(replay_mask.sum())} positions, kl_weight={args.kl_weight}")
+
+    # ── wire trainer (LoRA on FFN band; host-anchored membership objective) ──
+    def train_wire(train_labels: np.ndarray, seed: int,
+                   stop_at: int | None = None):
+        """stop_at=None: evidence-gated stop live (wire arm).
+        stop_at=k: train exactly k steps (shuffle arm — matched budget)."""
         torch.manual_seed(seed)
         wrapped = []
         params = []
@@ -524,7 +637,16 @@ def run_model(args) -> int:
                  for s in _member_stmts(w, int(lb))]
         batch = tok(stmts, return_tensors="pt", padding=True).to(dev)
         ids, attn = batch.input_ids, batch.attention_mask
-        for step in range(args.steps):
+        snap_set = {s for s in FIB_SNAPS if s < args.steps}
+        hist: dict = {"step": [], "mem_ce": [], "kl": [],
+                      "host_ce": [], "drift": []}
+        n_steps = args.steps if stop_at is None else stop_at
+        stop_step, stop_reason = n_steps, ("max_steps" if stop_at is None
+                                           else "matched_budget")
+        # last-good = zero-delta start (B=0): rollback target if snap 0 burns
+        last_good = [p.detach().clone() for p in params]
+        last_good_step = -1
+        for step in range(n_steps):
             opt.zero_grad()
             lo = model(input_ids=ids, attention_mask=attn).logits.float()
             shift_lo = lo[:, :-1, :]
@@ -533,49 +655,96 @@ def run_model(args) -> int:
             ce = F.cross_entropy(
                 shift_lo.reshape(-1, shift_lo.shape[-1]),
                 shift_tg.reshape(-1), reduction="none").reshape(shift_tg.shape)
-            loss = (ce * shift_m).sum() / shift_m.sum().clamp_min(1.0)
+            mem_ce = (ce * shift_m).sum() / shift_m.sum().clamp_min(1.0)
+            # KL(base||wire) on replay (writeback_compile teacher convention,
+            # minus cached base entropy -> true KL, 0.0 at zero delta)
+            lo_r = model(**rb).logits.float()
+            lq = F.log_softmax(lo_r, dim=-1)
+            kl = ((-(p_base_replay * lq).sum(-1) - h_base_replay)
+                  * replay_mask).sum() / replay_mask.sum()
+            loss = mem_ce + args.kl_weight * kl
             loss.backward()
             opt.step()
-            if step % max(args.steps // 5, 1) == 0 or step == args.steps - 1:
-                print(f"    seed{seed} step {step:4d} loss "
-                      f"{float(loss.detach()):.4f}", flush=True)
+            if step in snap_set:
+                ce_h = ce_host()
+                hist["step"].append(step)
+                hist["mem_ce"].append(float(mem_ce.detach()))
+                hist["kl"].append(float(kl.detach()))
+                hist["host_ce"].append(ce_h)
+                hist["drift"].append(ce_h - ce_base)
+                print(f"    seed{seed} snap {step:4d} mem "
+                      f"{hist['mem_ce'][-1]:.4f} kl {hist['kl'][-1]:.4f} "
+                      f"host_ce {ce_h:.4f} drift {hist['drift'][-1]:+.4f}",
+                      flush=True)
+                if stop_at is None:
+                    keep, reason = _stop_decision(
+                        hist["step"], hist["mem_ce"], hist["drift"],
+                        args.ce_budget, args.plateau_tol, args.min_stop)
+                    if reason == "plateau":
+                        stop_step, stop_reason = keep, reason
+                        print(f"    seed{seed} STOP plateau @ step {step} "
+                              f"(keep {keep})", flush=True)
+                        break
+                    if reason == "ce_budget_rollback":
+                        with torch.no_grad():
+                            for p, g in zip(params, last_good, strict=True):
+                                p.copy_(g)
+                        stop_step, stop_reason = keep, reason
+                        print(f"    seed{seed} STOP ce-budget @ step {step} "
+                              f"-> rollback to step {last_good_step} "
+                              f"(keep {keep})", flush=True)
+                        break
+                    # snap is good -> becomes the rollback target
+                    last_good = [p.detach().clone() for p in params]
+                    last_good_step = step
 
         def unwrap():
             for m, name, orig in wrapped:
                 setattr(m, name, orig)
-        return unwrap
+        info = {"stop_step": int(stop_step), "stop_reason": stop_reason,
+                "seed": seed, "history": hist}
+        return unwrap, info
 
-    def accum(train_labels, tag):
+    def accum(train_labels, tag, stops=None):
         acc = {k: [] for k in ("sA", "sV", "rA", "rV")}
         real_L = []
         ce_w = []
+        infos = []
         for sd in range(args.seeds):
-            unwrap = train_wire(train_labels, sd)
+            unwrap, info = train_wire(
+                train_labels, sd,
+                stop_at=None if stops is None else stops[sd])
+            infos.append(info)
             e = eval_members(nonces, labels)   # eval always TRUE labels
             for k in acc:
                 acc[k].append(e[k])
             if sd == 0:
-                rb = eval_members(real_members, real_labels)
+                rme = eval_members(real_members, real_labels)
                 real_L.append(float(np.mean(
-                    _signed_L(rb["sA"], rb["sV"], real_labels))))
+                    _signed_L(rme["sA"], rme["sV"], real_labels))))
                 ce_w.append(ce_host())
             unwrap()
-            print(f"[tw] {tag} seed{sd} done", flush=True)
+            print(f"[tw] {tag} seed{sd} done "
+                  f"(stop {info['stop_step']} {info['stop_reason']})",
+                  flush=True)
         return ({k: np.mean(acc[k], axis=0) for k in acc},
                 (real_L[0] if real_L else np.nan),
-                (ce_w[0] if ce_w else np.nan))
+                (ce_w[0] if ce_w else np.nan),
+                infos)
 
     print("[tw] arm wire (true membership) …")
-    wire, real_L_wire, ce_wire = accum(labels, "wire")
+    wire, real_L_wire, ce_wire, wire_infos = accum(labels, "wire")
+    wire_stops = [i["stop_step"] for i in wire_infos]
 
-    print("[tw] arm shuffle (deranged membership) …")
+    print(f"[tw] arm shuffle (deranged membership, matched budget "
+          f"{wire_stops}) …")
     # derange class labels (matched budget), ensure no fixed point
     perm = labels.copy()
     for _ in range(64):
         perm = rng.permutation(labels)
         if np.any(perm != labels):
             break
-    shuf, _, _ = accum(perm, "shuffle")
+    shuf, _, _, shuf_infos = accum(perm, "shuffle", stops=wire_stops)
 
     # ── restore check: base eval must reproduce (LoRA fully removed) ──
     base2 = eval_members(nonces[:2], labels[:2])
@@ -598,7 +767,14 @@ def run_model(args) -> int:
         "nonces": nonces, "labels": labels.tolist(),
         "real_margin_base": real_margin, "ce_base": ce_base, "ce_wire": ce_wire,
         "real_L_wire": real_L_wire, "restore_ok": restore_ok,
+        # s315 amendment (instrument-side; frozen gates untouched)
+        "kl_weight": args.kl_weight, "ce_budget": args.ce_budget,
+        "plateau_tol": args.plateau_tol, "min_stop": args.min_stop,
+        "n_replay": len(REPLAY_TEXTS),
+        "wire_stops": wire_stops,
+        "wire_stop_reasons": [i["stop_reason"] for i in wire_infos],
     }
+    res["training"] = {"wire": wire_infos, "shuffle": shuf_infos}
     res["per_nonce"] = {
         "L_wire": _signed_L(wire["sA"], wire["sV"], labels).tolist(),
         "L_base": _signed_L(base["sA"], base["sV"], labels).tolist(),
@@ -635,6 +811,14 @@ def main() -> int:
     ap.add_argument("--lr", type=float, default=1e-4)
     ap.add_argument("--lora-r", type=int, default=16)
     ap.add_argument("--min-class", type=int, default=8)
+    ap.add_argument("--kl-weight", type=float, default=1.0,
+                    help="s315: weight of KL(base||wire) replay anchor")
+    ap.add_argument("--ce-budget", type=float, default=0.10,
+                    help="s315: max host-CE drift (nats) before rollback-stop")
+    ap.add_argument("--plateau-tol", type=float, default=0.01,
+                    help="s315: rel mem-CE improvement below this = plateau")
+    ap.add_argument("--min-stop", type=int, default=55,
+                    help="s315: plateau stop only at snaps >= this step")
     ap.add_argument("--alpha", type=float, default=0.05)
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--n-nonce", type=int, default=0,
