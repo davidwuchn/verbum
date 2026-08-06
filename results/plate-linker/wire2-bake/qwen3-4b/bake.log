@@ -1,0 +1,84 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 24880.88it/s]
+[wb] Qwen/Qwen3-4B dev=mps n_layers=36 install=L23 band=L22..L29 arms=base,construct,construct_shuffle,construct_lookup,gd_cd,gd_shuffle seeds=3 steps=500
+[wb] union candidates: 74 dropped: ['Kalabaka', 'Kalmar', 'Mendoza', 'Mombasa']
+[wb] gate-0 sweep…
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[wb] gate-0: valid 48/48 splits={'TRAIN': 16, 'B1': 9, 'B2': 23} cot_rate=1.00 -> PASS
+[wb] wrote results/plate-linker/wire2-bake/qwen3-4b/gate0.json
+[wb] keys(16): raw own-inn separation min 9.55 median 10.88
+[wb] ── arm base ──
+    TRAIN: acc 0.750
+    B1: acc 0.000
+    B2: acc 0.609
+[wb] ── arm construct ──
+[wb] calibrated gain=3.756 (boost@gain=2.99, target=3.0)
+    TRAIN: acc 0.750
+    B1: acc 0.111
+    B2: acc 0.652
+[wb] ── arm construct_shuffle ──
+[wb] calibrated gain=3.183 (boost@gain=3.00, target=3.0)
+    TRAIN: acc 0.750
+    B1: acc 0.000
+    B2: acc 0.609
+[wb] ── arm construct_lookup ──
+[wb] keys(16): raw own-inn separation min 4.57 median 5.80
+[wb] calibrated gain=3.556 (boost@gain=2.98, target=3.0)
+    TRAIN: acc 0.750
+    B1: acc 0.111
+    B2: acc 0.609
+[wb] ── arm gd_cd ──
+[wb]   seed 0
+    step    0 loss 3.7605
+    step  100 loss 0.3829
+    step  200 loss 0.3779
+    step  300 loss 0.3768
+    step  400 loss 0.3764
+    step  499 loss 0.3761
+[wb]   seed 1
+    step    0 loss 3.7605
+    step  100 loss 0.3825
+    step  200 loss 0.3775
+    step  300 loss 0.3767
+    step  400 loss 0.3763
+    step  499 loss 0.3768
+[wb]   seed 2
+    step    0 loss 3.7605
+    step  100 loss 0.3833
+    step  200 loss 0.3781
+    step  300 loss 0.3767
+    step  400 loss 0.3763
+    step  499 loss 0.3760
+    TRAIN: acc 1.000
+    B1: acc 0.889
+    B2: acc 1.000
+[wb] ── arm gd_shuffle ──
+[wb]   seed 0
+    step    0 loss 12.9408
+    step  100 loss 0.5859
+    step  200 loss 0.5756
+    step  300 loss 0.5727
+    step  400 loss 0.5710
+    step  499 loss 0.5693
+[wb]   seed 1
+    step    0 loss 12.9408
+    step  100 loss 0.5845
+    step  200 loss 0.5769
+    step  300 loss 0.5713
+    step  400 loss 0.5700
+    step  499 loss 0.5691
+[wb]   seed 2
+    step    0 loss 12.9408
+    step  100 loss 0.5834
+    step  200 loss 0.5746
+    step  300 loss 0.5724
+    step  400 loss 0.5712
+    step  499 loss 0.5687
+    TRAIN: acc 0.000
+    B1: acc 0.000
+    B2: acc 0.087
+
+[wb] ════ VERDICT: WIRE-COMPILES (+GD-REQUIRED) ════
+  construct: G1=False G2=False G3=False G5=True train_up=False held_up=True
+  gd_cd: G1=True G2=True G3=True G5=True train_up=False held_up=True
+[wb] wrote results/plate-linker/wire2-bake/qwen3-4b/results.json

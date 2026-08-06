@@ -1,0 +1,322 @@
+{
+  "France": [
+    "Paris",
+    [
+      [
+        "Chateau de Chambord",
+        "Blois",
+        "TRAIN"
+      ],
+      [
+        "Mont Saint-Michel",
+        "Avranches",
+        "TRAIN"
+      ]
+    ]
+  ],
+  "Germany": [
+    "Berlin",
+    [
+      [
+        "Marienplatz",
+        "Munich",
+        "TRAIN"
+      ],
+      [
+        "Zwinger Palace",
+        "Dresden",
+        "TRAIN"
+      ],
+      [
+        "Cologne Cathedral",
+        "Cologne",
+        "B1"
+      ],
+      [
+        "Heidelberg Castle",
+        "Heidelberg",
+        "B1"
+      ]
+    ]
+  ],
+  "Canada": [
+    "Ottawa",
+    [
+      [
+        "Mount Royal",
+        "Montreal",
+        "TRAIN"
+      ],
+      [
+        "Stanley Park",
+        "Vancouver",
+        "TRAIN"
+      ],
+      [
+        "Butchart Gardens",
+        "Victoria",
+        "B1"
+      ],
+      [
+        "CN Tower",
+        "Toronto",
+        "B1"
+      ]
+    ]
+  ],
+  "Australia": [
+    "Canberra",
+    [
+      [
+        "Story Bridge",
+        "Brisbane",
+        "TRAIN"
+      ],
+      [
+        "Sydney Opera House",
+        "Sydney",
+        "TRAIN"
+      ],
+      [
+        "Bondi Beach",
+        "Sydney",
+        "B1"
+      ],
+      [
+        "Federation Square",
+        "Melbourne",
+        "B1"
+      ]
+    ]
+  ],
+  "Switzerland": [
+    "Bern",
+    [
+      [
+        "Chapel Bridge",
+        "Lucerne",
+        "TRAIN"
+      ],
+      [
+        "Jet d'Eau",
+        "Geneva",
+        "TRAIN"
+      ],
+      [
+        "Chillon Castle",
+        "Montreux",
+        "B1"
+      ],
+      [
+        "Grossmunster",
+        "Zurich",
+        "B1"
+      ]
+    ]
+  ],
+  "Poland": [
+    "Warsaw",
+    [
+      [
+        "Malbork Castle",
+        "Malbork",
+        "TRAIN"
+      ],
+      [
+        "Old Market Square",
+        "Poznan",
+        "TRAIN"
+      ]
+    ]
+  ],
+  "Vietnam": [
+    "Hanoi",
+    [
+      [
+        "Ben Thanh Market",
+        "Ho Chi Minh City",
+        "TRAIN"
+      ],
+      [
+        "Cu Chi Tunnels",
+        "Ho Chi Minh City",
+        "TRAIN"
+      ]
+    ]
+  ],
+  "China": [
+    "Beijing",
+    [
+      [
+        "Li River",
+        "Guilin",
+        "TRAIN"
+      ],
+      [
+        "Terracotta Army",
+        "Xian",
+        "TRAIN"
+      ],
+      [
+        "Leshan Giant Buddha",
+        "Leshan",
+        "B1"
+      ]
+    ]
+  ],
+  "Portugal": [
+    "Lisbon",
+    [
+      [
+        "Bom Jesus do Monte",
+        "Braga",
+        "B2"
+      ],
+      [
+        "Dom Luis I Bridge",
+        "Porto",
+        "B2"
+      ],
+      [
+        "Pena Palace",
+        "Sintra",
+        "B2"
+      ]
+    ]
+  ],
+  "Greece": [
+    "Athens",
+    [
+      [
+        "Palamidi Fortress",
+        "Nafplio",
+        "B2"
+      ],
+      [
+        "Meteora Monasteries",
+        "Kalabaka",
+        "B2"
+      ],
+      [
+        "Palace of Knossos",
+        "Heraklion",
+        "B2"
+      ]
+    ]
+  ],
+  "Sweden": [
+    "Stockholm",
+    [
+      [
+        "Uppsala Cathedral",
+        "Uppsala",
+        "B2"
+      ],
+      [
+        "Visby Ring Wall",
+        "Visby",
+        "B2"
+      ],
+      [
+        "Kalmar Castle",
+        "Kalmar",
+        "B2"
+      ]
+    ]
+  ],
+  "Argentina": [
+    "Buenos Aires",
+    [
+      [
+        "Mount Aconcagua",
+        "Mendoza",
+        "B2"
+      ],
+      [
+        "Perito Moreno Glacier",
+        "El Calafate",
+        "B2"
+      ]
+    ]
+  ],
+  "Japan": [
+    "Tokyo",
+    [
+      [
+        "Itsukushima Shrine",
+        "Hiroshima",
+        "B2"
+      ],
+      [
+        "Nagoya Castle",
+        "Nagoya",
+        "B2"
+      ],
+      [
+        "Osaka Castle",
+        "Osaka",
+        "B2"
+      ]
+    ]
+  ],
+  "Thailand": [
+    "Bangkok",
+    [
+      [
+        "Ayutthaya Historical Park",
+        "Ayutthaya",
+        "B2"
+      ],
+      [
+        "Phi Phi Islands",
+        "Krabi",
+        "B2"
+      ],
+      [
+        "Sukhothai Historical Park",
+        "Sukhothai",
+        "B2"
+      ]
+    ]
+  ],
+  "Kenya": [
+    "Nairobi",
+    [
+      [
+        "Hell's Gate",
+        "Naivasha",
+        "B2"
+      ],
+      [
+        "Fort Jesus",
+        "Mombasa",
+        "B2"
+      ],
+      [
+        "Lake Nakuru",
+        "Nakuru",
+        "B2"
+      ]
+    ]
+  ],
+  "Peru": [
+    "Lima",
+    [
+      [
+        "Machu Picchu",
+        "Cusco",
+        "B2"
+      ],
+      [
+        "Chan Chan",
+        "Trujillo",
+        "B2"
+      ],
+      [
+        "Colca Canyon",
+        "Arequipa",
+        "B2"
+      ]
+    ]
+  ]
+}

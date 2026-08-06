@@ -1,0 +1,5093 @@
+{
+  "model_id": "Qwen/Qwen3-4B",
+  "config": {
+    "validate": false,
+    "gate0_only": false,
+    "force": false,
+    "model_id": "Qwen/Qwen3-4B",
+    "device": "mps",
+    "dtype": "bfloat16",
+    "arms": "base,construct,construct_shuffle,construct_lookup,gd_cd,gd_shuffle",
+    "seeds": 3,
+    "steps": 500,
+    "lr": 0.0001,
+    "lora_r": 16,
+    "whiten_eps": 0.1,
+    "alpha": 0.05,
+    "seed": 0,
+    "n_cells": 0,
+    "out": "results/plate-linker/wire2-bake/qwen3-4b"
+  },
+  "install_layer": 23,
+  "band": [
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29
+  ],
+  "gate0": {
+    "ok": true,
+    "splits": {
+      "TRAIN": 16,
+      "B1": 9,
+      "B2": 23
+    },
+    "cot_rate": 1.0
+  },
+  "arms": {
+    "base": {
+      "seeds": [
+        [
+          {
+            "landmark": "Chateau de Chambord",
+            "country": "France",
+            "split": "TRAIN",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 6.3125,
+            "detector": 1.907409906387329
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "TRAIN",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 3.625,
+            "detector": 2.1739959716796875
+          },
+          {
+            "landmark": "Marienplatz",
+            "country": "Germany",
+            "split": "TRAIN",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 1.125,
+            "detector": -0.2908666133880615
+          },
+          {
+            "landmark": "Zwinger Palace",
+            "country": "Germany",
+            "split": "TRAIN",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 2.1875,
+            "detector": -0.251448392868042
+          },
+          {
+            "landmark": "Cologne Cathedral",
+            "country": "Germany",
+            "split": "B1",
+            "truth": "Berlin",
+            "arg": "Cologne",
+            "correct": 0.0,
+            "margin": -0.125,
+            "detector": -0.38439416885375977
+          },
+          {
+            "landmark": "Heidelberg Castle",
+            "country": "Germany",
+            "split": "B1",
+            "truth": "Berlin",
+            "arg": "Heidelberg",
+            "correct": 0.0,
+            "margin": -1.9375,
+            "detector": -0.04220545291900635
+          },
+          {
+            "landmark": "Mount Royal",
+            "country": "Canada",
+            "split": "TRAIN",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 0.125,
+            "detector": 1.5469563007354736
+          },
+          {
+            "landmark": "Stanley Park",
+            "country": "Canada",
+            "split": "TRAIN",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 0.125,
+            "detector": 1.0896753072738647
+          },
+          {
+            "landmark": "Butchart Gardens",
+            "country": "Canada",
+            "split": "B1",
+            "truth": "Ottawa",
+            "arg": "Victoria",
+            "correct": 0.0,
+            "margin": -5.9375,
+            "detector": 1.095962643623352
+          },
+          {
+            "landmark": "CN Tower",
+            "country": "Canada",
+            "split": "B1",
+            "truth": "Ottawa",
+            "arg": "Toronto",
+            "correct": 0.0,
+            "margin": -0.125,
+            "detector": 1.1589947938919067
+          },
+          {
+            "landmark": "Story Bridge",
+            "country": "Australia",
+            "split": "TRAIN",
+            "truth": "Canberra",
+            "arg": "Sydney",
+            "correct": 0.0,
+            "margin": -1.9375,
+            "detector": -0.2818453311920166
+          },
+          {
+            "landmark": "Sydney Opera House",
+            "country": "Australia",
+            "split": "TRAIN",
+            "truth": "Canberra",
+            "arg": "Sydney",
+            "correct": 0.0,
+            "margin": -4.625,
+            "detector": -0.17199945449829102
+          },
+          {
+            "landmark": "Bondi Beach",
+            "country": "Australia",
+            "split": "B1",
+            "truth": "Canberra",
+            "arg": "Sydney",
+            "correct": 0.0,
+            "margin": -9.6875,
+            "detector": -0.09229415655136108
+          },
+          {
+            "landmark": "Federation Square",
+            "country": "Australia",
+            "split": "B1",
+            "truth": "Canberra",
+            "arg": "Sydney",
+            "correct": 0.0,
+            "margin": -1.875,
+            "detector": -0.07768762111663818
+          },
+          {
+            "landmark": "Chapel Bridge",
+            "country": "Switzerland",
+            "split": "TRAIN",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 0.75,
+            "detector": -1.2545421123504639
+          },
+          {
+            "landmark": "Jet d'Eau",
+            "country": "Switzerland",
+            "split": "TRAIN",
+            "truth": "Bern",
+            "arg": "Geneva",
+            "correct": 0.0,
+            "margin": -1.25,
+            "detector": 0.2087693214416504
+          },
+          {
+            "landmark": "Chillon Castle",
+            "country": "Switzerland",
+            "split": "B1",
+            "truth": "Bern",
+            "arg": "Geneva",
+            "correct": 0.0,
+            "margin": -4.875,
+            "detector": -1.0293060541152954
+          },
+          {
+            "landmark": "Grossmunster",
+            "country": "Switzerland",
+            "split": "B1",
+            "truth": "Bern",
+            "arg": "Zurich",
+            "correct": 0.0,
+            "margin": -0.75,
+            "detector": -0.8506311774253845
+          },
+          {
+            "landmark": "Malbork Castle",
+            "country": "Poland",
+            "split": "TRAIN",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 2.5,
+            "detector": -0.03561779856681824
+          },
+          {
+            "landmark": "Old Market Square",
+            "country": "Poland",
+            "split": "TRAIN",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 2.5625,
+            "detector": -0.1489715278148651
+          },
+          {
+            "landmark": "Ben Thanh Market",
+            "country": "Vietnam",
+            "split": "TRAIN",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 2.25,
+            "detector": -0.7758476138114929
+          },
+          {
+            "landmark": "Cu Chi Tunnels",
+            "country": "Vietnam",
+            "split": "TRAIN",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 2.0625,
+            "detector": -0.7066139578819275
+          },
+          {
+            "landmark": "Li River",
+            "country": "China",
+            "split": "TRAIN",
+            "truth": "Beijing",
+            "arg": "Nafplio",
+            "correct": 0.0,
+            "margin": -1.625,
+            "detector": -1.4314812421798706
+          },
+          {
+            "landmark": "Terracotta Army",
+            "country": "China",
+            "split": "TRAIN",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 1.0,
+            "detector": -1.7535085678100586
+          },
+          {
+            "landmark": "Leshan Giant Buddha",
+            "country": "China",
+            "split": "B1",
+            "truth": "Beijing",
+            "arg": "Leshan",
+            "correct": 0.0,
+            "margin": -6.6875,
+            "detector": -1.1052665710449219
+          },
+          {
+            "landmark": "Bom Jesus do Monte",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Lisbon",
+            "correct": 1.0,
+            "margin": 2.5625,
+            "detector": -0.42154043912887573
+          },
+          {
+            "landmark": "Dom Luis I Bridge",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Lisbon",
+            "correct": 1.0,
+            "margin": 2.75,
+            "detector": 0.1822628378868103
+          },
+          {
+            "landmark": "Pena Palace",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Lisbon",
+            "correct": 1.0,
+            "margin": 3.3125,
+            "detector": 0.06242954730987549
+          },
+          {
+            "landmark": "Palamidi Fortress",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Athens",
+            "correct": 1.0,
+            "margin": 2.5625,
+            "detector": -0.5210099220275879
+          },
+          {
+            "landmark": "Meteora Monasteries",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Athens",
+            "correct": 1.0,
+            "margin": 6.625,
+            "detector": -0.4841289818286896
+          },
+          {
+            "landmark": "Palace of Knossos",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Athens",
+            "correct": 1.0,
+            "margin": 1.0625,
+            "detector": -0.6055921316146851
+          },
+          {
+            "landmark": "Uppsala Cathedral",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Uppsala",
+            "correct": 0.0,
+            "margin": -3.25,
+            "detector": 0.3873414397239685
+          },
+          {
+            "landmark": "Visby Ring Wall",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Visby",
+            "correct": 0.0,
+            "margin": -6.375,
+            "detector": 0.2246938943862915
+          },
+          {
+            "landmark": "Kalmar Castle",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Stockholm",
+            "correct": 1.0,
+            "margin": 2.75,
+            "detector": 0.9799003601074219
+          },
+          {
+            "landmark": "Mount Aconcagua",
+            "country": "Argentina",
+            "split": "B2",
+            "truth": "Buenos Aires",
+            "arg": "Buenos Aires",
+            "correct": 1.0,
+            "margin": 2.5625,
+            "detector": -0.7199918031692505
+          },
+          {
+            "landmark": "Perito Moreno Glacier",
+            "country": "Argentina",
+            "split": "B2",
+            "truth": "Buenos Aires",
+            "arg": "Buenos Aires",
+            "correct": 1.0,
+            "margin": 3.75,
+            "detector": -0.6475114822387695
+          },
+          {
+            "landmark": "Itsukushima Shrine",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Hiroshima",
+            "correct": 0.0,
+            "margin": -1.0,
+            "detector": 0.7484240531921387
+          },
+          {
+            "landmark": "Nagoya Castle",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Nagoya",
+            "correct": 0.0,
+            "margin": -4.3125,
+            "detector": 0.5028052926063538
+          },
+          {
+            "landmark": "Osaka Castle",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Osaka",
+            "correct": 0.0,
+            "margin": -2.75,
+            "detector": 0.9880459308624268
+          },
+          {
+            "landmark": "Ayutthaya Historical Park",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Thailand",
+            "correct": 0.0,
+            "margin": -2.4375,
+            "detector": 1.8987548351287842
+          },
+          {
+            "landmark": "Phi Phi Islands",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Bangkok",
+            "correct": 1.0,
+            "margin": 1.3125,
+            "detector": 1.2226314544677734
+          },
+          {
+            "landmark": "Sukhothai Historical Park",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Sukhothai",
+            "correct": 0.0,
+            "margin": -4.3125,
+            "detector": 0.7490555047988892
+          },
+          {
+            "landmark": "Hell's Gate",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Leshan",
+            "correct": 0.0,
+            "margin": -0.0625,
+            "detector": 0.9602195024490356
+          },
+          {
+            "landmark": "Fort Jesus",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Nairobi",
+            "correct": 1.0,
+            "margin": 1.8125,
+            "detector": 1.3941775560379028
+          },
+          {
+            "landmark": "Lake Nakuru",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Nairobi",
+            "correct": 1.0,
+            "margin": 1.875,
+            "detector": 0.8132338523864746
+          },
+          {
+            "landmark": "Machu Picchu",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Cusco",
+            "correct": 0.0,
+            "margin": -0.5,
+            "detector": 0.21841168403625488
+          },
+          {
+            "landmark": "Chan Chan",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Lima",
+            "correct": 1.0,
+            "margin": 0.125,
+            "detector": 0.19592586159706116
+          },
+          {
+            "landmark": "Colca Canyon",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Lima",
+            "correct": 1.0,
+            "margin": 1.875,
+            "detector": 0.414388507604599
+          }
+        ]
+      ],
+      "ce": 4.917290931524232,
+      "gh": [
+        1.0,
+        1.0
+      ]
+    },
+    "construct": {
+      "seeds": [
+        [
+          {
+            "landmark": "Chateau de Chambord",
+            "country": "France",
+            "split": "TRAIN",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 6.375,
+            "detector": 1.907409906387329
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "TRAIN",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 3.625,
+            "detector": 2.1739959716796875
+          },
+          {
+            "landmark": "Marienplatz",
+            "country": "Germany",
+            "split": "TRAIN",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 1.1875,
+            "detector": -0.2908666133880615
+          },
+          {
+            "landmark": "Zwinger Palace",
+            "country": "Germany",
+            "split": "TRAIN",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 2.25,
+            "detector": -0.251448392868042
+          },
+          {
+            "landmark": "Cologne Cathedral",
+            "country": "Germany",
+            "split": "B1",
+            "truth": "Berlin",
+            "arg": "Cologne",
+            "correct": 0.0,
+            "margin": -0.125,
+            "detector": -0.38439416885375977
+          },
+          {
+            "landmark": "Heidelberg Castle",
+            "country": "Germany",
+            "split": "B1",
+            "truth": "Berlin",
+            "arg": "Heidelberg",
+            "correct": 0.0,
+            "margin": -2.0,
+            "detector": -0.04220545291900635
+          },
+          {
+            "landmark": "Mount Royal",
+            "country": "Canada",
+            "split": "TRAIN",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 0.0,
+            "detector": 1.5469563007354736
+          },
+          {
+            "landmark": "Stanley Park",
+            "country": "Canada",
+            "split": "TRAIN",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 0.25,
+            "detector": 1.0896753072738647
+          },
+          {
+            "landmark": "Butchart Gardens",
+            "country": "Canada",
+            "split": "B1",
+            "truth": "Ottawa",
+            "arg": "Victoria",
+            "correct": 0.0,
+            "margin": -5.8125,
+            "detector": 1.095962643623352
+          },
+          {
+            "landmark": "CN Tower",
+            "country": "Canada",
+            "split": "B1",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 0.0,
+            "detector": 1.1589947938919067
+          },
+          {
+            "landmark": "Story Bridge",
+            "country": "Australia",
+            "split": "TRAIN",
+            "truth": "Canberra",
+            "arg": "Sydney",
+            "correct": 0.0,
+            "margin": -1.8125,
+            "detector": -0.2818453311920166
+          },
+          {
+            "landmark": "Sydney Opera House",
+            "country": "Australia",
+            "split": "TRAIN",
+            "truth": "Canberra",
+            "arg": "Sydney",
+            "correct": 0.0,
+            "margin": -4.5,
+            "detector": -0.17199945449829102
+          },
+          {
+            "landmark": "Bondi Beach",
+            "country": "Australia",
+            "split": "B1",
+            "truth": "Canberra",
+            "arg": "Sydney",
+            "correct": 0.0,
+            "margin": -9.5,
+            "detector": -0.09229415655136108
+          },
+          {
+            "landmark": "Federation Square",
+            "country": "Australia",
+            "split": "B1",
+            "truth": "Canberra",
+            "arg": "Sydney",
+            "correct": 0.0,
+            "margin": -2.0,
+            "detector": -0.07768762111663818
+          },
+          {
+            "landmark": "Chapel Bridge",
+            "country": "Switzerland",
+            "split": "TRAIN",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 0.75,
+            "detector": -1.2545421123504639
+          },
+          {
+            "landmark": "Jet d'Eau",
+            "country": "Switzerland",
+            "split": "TRAIN",
+            "truth": "Bern",
+            "arg": "Geneva",
+            "correct": 0.0,
+            "margin": -1.25,
+            "detector": 0.2087693214416504
+          },
+          {
+            "landmark": "Chillon Castle",
+            "country": "Switzerland",
+            "split": "B1",
+            "truth": "Bern",
+            "arg": "Geneva",
+            "correct": 0.0,
+            "margin": -4.75,
+            "detector": -1.0293060541152954
+          },
+          {
+            "landmark": "Grossmunster",
+            "country": "Switzerland",
+            "split": "B1",
+            "truth": "Bern",
+            "arg": "Zurich",
+            "correct": 0.0,
+            "margin": -0.625,
+            "detector": -0.8506311774253845
+          },
+          {
+            "landmark": "Malbork Castle",
+            "country": "Poland",
+            "split": "TRAIN",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 2.75,
+            "detector": -0.03561779856681824
+          },
+          {
+            "landmark": "Old Market Square",
+            "country": "Poland",
+            "split": "TRAIN",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 2.5,
+            "detector": -0.1489715278148651
+          },
+          {
+            "landmark": "Ben Thanh Market",
+            "country": "Vietnam",
+            "split": "TRAIN",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 2.375,
+            "detector": -0.7758476138114929
+          },
+          {
+            "landmark": "Cu Chi Tunnels",
+            "country": "Vietnam",
+            "split": "TRAIN",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 2.0625,
+            "detector": -0.7066139578819275
+          },
+          {
+            "landmark": "Li River",
+            "country": "China",
+            "split": "TRAIN",
+            "truth": "Beijing",
+            "arg": "Nafplio",
+            "correct": 0.0,
+            "margin": -1.625,
+            "detector": -1.4314812421798706
+          },
+          {
+            "landmark": "Terracotta Army",
+            "country": "China",
+            "split": "TRAIN",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 1.125,
+            "detector": -1.7535085678100586
+          },
+          {
+            "landmark": "Leshan Giant Buddha",
+            "country": "China",
+            "split": "B1",
+            "truth": "Beijing",
+            "arg": "Leshan",
+            "correct": 0.0,
+            "margin": -6.5,
+            "detector": -1.1052665710449219
+          },
+          {
+            "landmark": "Bom Jesus do Monte",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Lisbon",
+            "correct": 1.0,
+            "margin": 2.6875,
+            "detector": -0.42154043912887573
+          },
+          {
+            "landmark": "Dom Luis I Bridge",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Lisbon",
+            "correct": 1.0,
+            "margin": 2.8125,
+            "detector": 0.1822628378868103
+          },
+          {
+            "landmark": "Pena Palace",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Lisbon",
+            "correct": 1.0,
+            "margin": 3.5,
+            "detector": 0.06242954730987549
+          },
+          {
+            "landmark": "Palamidi Fortress",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Athens",
+            "correct": 1.0,
+            "margin": 2.875,
+            "detector": -0.5210099220275879
+          },
+          {
+            "landmark": "Meteora Monasteries",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Athens",
+            "correct": 1.0,
+            "margin": 6.75,
+            "detector": -0.4841289818286896
+          },
+          {
+            "landmark": "Palace of Knossos",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Athens",
+            "correct": 1.0,
+            "margin": 1.25,
+            "detector": -0.6055921316146851
+          },
+          {
+            "landmark": "Uppsala Cathedral",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Uppsala",
+            "correct": 0.0,
+            "margin": -3.125,
+            "detector": 0.3873414397239685
+          },
+          {
+            "landmark": "Visby Ring Wall",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Visby",
+            "correct": 0.0,
+            "margin": -6.25,
+            "detector": 0.2246938943862915
+          },
+          {
+            "landmark": "Kalmar Castle",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Stockholm",
+            "correct": 1.0,
+            "margin": 2.8125,
+            "detector": 0.9799003601074219
+          },
+          {
+            "landmark": "Mount Aconcagua",
+            "country": "Argentina",
+            "split": "B2",
+            "truth": "Buenos Aires",
+            "arg": "Buenos Aires",
+            "correct": 1.0,
+            "margin": 2.5625,
+            "detector": -0.7199918031692505
+          },
+          {
+            "landmark": "Perito Moreno Glacier",
+            "country": "Argentina",
+            "split": "B2",
+            "truth": "Buenos Aires",
+            "arg": "Buenos Aires",
+            "correct": 1.0,
+            "margin": 3.75,
+            "detector": -0.6475114822387695
+          },
+          {
+            "landmark": "Itsukushima Shrine",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Hiroshima",
+            "correct": 0.0,
+            "margin": -0.875,
+            "detector": 0.7484240531921387
+          },
+          {
+            "landmark": "Nagoya Castle",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Nagoya",
+            "correct": 0.0,
+            "margin": -4.25,
+            "detector": 0.5028052926063538
+          },
+          {
+            "landmark": "Osaka Castle",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Osaka",
+            "correct": 0.0,
+            "margin": -2.5,
+            "detector": 0.9880459308624268
+          },
+          {
+            "landmark": "Ayutthaya Historical Park",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Thailand",
+            "correct": 0.0,
+            "margin": -2.3125,
+            "detector": 1.8987548351287842
+          },
+          {
+            "landmark": "Phi Phi Islands",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Bangkok",
+            "correct": 1.0,
+            "margin": 1.4375,
+            "detector": 1.2226314544677734
+          },
+          {
+            "landmark": "Sukhothai Historical Park",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Sukhothai",
+            "correct": 0.0,
+            "margin": -4.0625,
+            "detector": 0.7490555047988892
+          },
+          {
+            "landmark": "Hell's Gate",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Nairobi",
+            "correct": 1.0,
+            "margin": 0.0625,
+            "detector": 0.9602195024490356
+          },
+          {
+            "landmark": "Fort Jesus",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Nairobi",
+            "correct": 1.0,
+            "margin": 1.8125,
+            "detector": 1.3941775560379028
+          },
+          {
+            "landmark": "Lake Nakuru",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Nairobi",
+            "correct": 1.0,
+            "margin": 1.875,
+            "detector": 0.8132338523864746
+          },
+          {
+            "landmark": "Machu Picchu",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Cusco",
+            "correct": 0.0,
+            "margin": -0.375,
+            "detector": 0.21841168403625488
+          },
+          {
+            "landmark": "Chan Chan",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Lima",
+            "correct": 1.0,
+            "margin": 0.25,
+            "detector": 0.19592586159706116
+          },
+          {
+            "landmark": "Colca Canyon",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Lima",
+            "correct": 1.0,
+            "margin": 2.125,
+            "detector": 0.414388507604599
+          }
+        ]
+      ],
+      "ce": 4.926152695057004,
+      "gh": [
+        1.0,
+        1.0
+      ],
+      "gain": 3.7561230338151956
+    },
+    "construct_shuffle": {
+      "seeds": [
+        [
+          {
+            "landmark": "Chateau de Chambord",
+            "country": "France",
+            "split": "TRAIN",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 6.375,
+            "detector": 1.907409906387329
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "TRAIN",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 3.625,
+            "detector": 2.1739959716796875
+          },
+          {
+            "landmark": "Marienplatz",
+            "country": "Germany",
+            "split": "TRAIN",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 1.1875,
+            "detector": -0.2908666133880615
+          },
+          {
+            "landmark": "Zwinger Palace",
+            "country": "Germany",
+            "split": "TRAIN",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 2.375,
+            "detector": -0.251448392868042
+          },
+          {
+            "landmark": "Cologne Cathedral",
+            "country": "Germany",
+            "split": "B1",
+            "truth": "Berlin",
+            "arg": "Cologne",
+            "correct": 0.0,
+            "margin": -0.25,
+            "detector": -0.38439416885375977
+          },
+          {
+            "landmark": "Heidelberg Castle",
+            "country": "Germany",
+            "split": "B1",
+            "truth": "Berlin",
+            "arg": "Heidelberg",
+            "correct": 0.0,
+            "margin": -1.875,
+            "detector": -0.04220545291900635
+          },
+          {
+            "landmark": "Mount Royal",
+            "country": "Canada",
+            "split": "TRAIN",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 0.125,
+            "detector": 1.5469563007354736
+          },
+          {
+            "landmark": "Stanley Park",
+            "country": "Canada",
+            "split": "TRAIN",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 0.125,
+            "detector": 1.0896753072738647
+          },
+          {
+            "landmark": "Butchart Gardens",
+            "country": "Canada",
+            "split": "B1",
+            "truth": "Ottawa",
+            "arg": "Victoria",
+            "correct": 0.0,
+            "margin": -5.8125,
+            "detector": 1.095962643623352
+          },
+          {
+            "landmark": "CN Tower",
+            "country": "Canada",
+            "split": "B1",
+            "truth": "Ottawa",
+            "arg": "Toronto",
+            "correct": 0.0,
+            "margin": -0.125,
+            "detector": 1.1589947938919067
+          },
+          {
+            "landmark": "Story Bridge",
+            "country": "Australia",
+            "split": "TRAIN",
+            "truth": "Canberra",
+            "arg": "Sydney",
+            "correct": 0.0,
+            "margin": -1.875,
+            "detector": -0.2818453311920166
+          },
+          {
+            "landmark": "Sydney Opera House",
+            "country": "Australia",
+            "split": "TRAIN",
+            "truth": "Canberra",
+            "arg": "Sydney",
+            "correct": 0.0,
+            "margin": -4.625,
+            "detector": -0.17199945449829102
+          },
+          {
+            "landmark": "Bondi Beach",
+            "country": "Australia",
+            "split": "B1",
+            "truth": "Canberra",
+            "arg": "Sydney",
+            "correct": 0.0,
+            "margin": -9.5,
+            "detector": -0.09229415655136108
+          },
+          {
+            "landmark": "Federation Square",
+            "country": "Australia",
+            "split": "B1",
+            "truth": "Canberra",
+            "arg": "Sydney",
+            "correct": 0.0,
+            "margin": -2.0,
+            "detector": -0.07768762111663818
+          },
+          {
+            "landmark": "Chapel Bridge",
+            "country": "Switzerland",
+            "split": "TRAIN",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 0.625,
+            "detector": -1.2545421123504639
+          },
+          {
+            "landmark": "Jet d'Eau",
+            "country": "Switzerland",
+            "split": "TRAIN",
+            "truth": "Bern",
+            "arg": "Geneva",
+            "correct": 0.0,
+            "margin": -1.25,
+            "detector": 0.2087693214416504
+          },
+          {
+            "landmark": "Chillon Castle",
+            "country": "Switzerland",
+            "split": "B1",
+            "truth": "Bern",
+            "arg": "Geneva",
+            "correct": 0.0,
+            "margin": -4.875,
+            "detector": -1.0293060541152954
+          },
+          {
+            "landmark": "Grossmunster",
+            "country": "Switzerland",
+            "split": "B1",
+            "truth": "Bern",
+            "arg": "Zurich",
+            "correct": 0.0,
+            "margin": -0.75,
+            "detector": -0.8506311774253845
+          },
+          {
+            "landmark": "Malbork Castle",
+            "country": "Poland",
+            "split": "TRAIN",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 2.5,
+            "detector": -0.03561779856681824
+          },
+          {
+            "landmark": "Old Market Square",
+            "country": "Poland",
+            "split": "TRAIN",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 2.375,
+            "detector": -0.1489715278148651
+          },
+          {
+            "landmark": "Ben Thanh Market",
+            "country": "Vietnam",
+            "split": "TRAIN",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 2.25,
+            "detector": -0.7758476138114929
+          },
+          {
+            "landmark": "Cu Chi Tunnels",
+            "country": "Vietnam",
+            "split": "TRAIN",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 2.0625,
+            "detector": -0.7066139578819275
+          },
+          {
+            "landmark": "Li River",
+            "country": "China",
+            "split": "TRAIN",
+            "truth": "Beijing",
+            "arg": "Nafplio",
+            "correct": 0.0,
+            "margin": -1.625,
+            "detector": -1.4314812421798706
+          },
+          {
+            "landmark": "Terracotta Army",
+            "country": "China",
+            "split": "TRAIN",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 1.125,
+            "detector": -1.7535085678100586
+          },
+          {
+            "landmark": "Leshan Giant Buddha",
+            "country": "China",
+            "split": "B1",
+            "truth": "Beijing",
+            "arg": "Leshan",
+            "correct": 0.0,
+            "margin": -6.625,
+            "detector": -1.1052665710449219
+          },
+          {
+            "landmark": "Bom Jesus do Monte",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Lisbon",
+            "correct": 1.0,
+            "margin": 2.5625,
+            "detector": -0.42154043912887573
+          },
+          {
+            "landmark": "Dom Luis I Bridge",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Lisbon",
+            "correct": 1.0,
+            "margin": 2.8125,
+            "detector": 0.1822628378868103
+          },
+          {
+            "landmark": "Pena Palace",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Lisbon",
+            "correct": 1.0,
+            "margin": 3.4375,
+            "detector": 0.06242954730987549
+          },
+          {
+            "landmark": "Palamidi Fortress",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Athens",
+            "correct": 1.0,
+            "margin": 2.6875,
+            "detector": -0.5210099220275879
+          },
+          {
+            "landmark": "Meteora Monasteries",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Athens",
+            "correct": 1.0,
+            "margin": 6.75,
+            "detector": -0.4841289818286896
+          },
+          {
+            "landmark": "Palace of Knossos",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Athens",
+            "correct": 1.0,
+            "margin": 1.25,
+            "detector": -0.6055921316146851
+          },
+          {
+            "landmark": "Uppsala Cathedral",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Uppsala",
+            "correct": 0.0,
+            "margin": -3.0,
+            "detector": 0.3873414397239685
+          },
+          {
+            "landmark": "Visby Ring Wall",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Visby",
+            "correct": 0.0,
+            "margin": -6.25,
+            "detector": 0.2246938943862915
+          },
+          {
+            "landmark": "Kalmar Castle",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Stockholm",
+            "correct": 1.0,
+            "margin": 2.8125,
+            "detector": 0.9799003601074219
+          },
+          {
+            "landmark": "Mount Aconcagua",
+            "country": "Argentina",
+            "split": "B2",
+            "truth": "Buenos Aires",
+            "arg": "Buenos Aires",
+            "correct": 1.0,
+            "margin": 2.625,
+            "detector": -0.7199918031692505
+          },
+          {
+            "landmark": "Perito Moreno Glacier",
+            "country": "Argentina",
+            "split": "B2",
+            "truth": "Buenos Aires",
+            "arg": "Buenos Aires",
+            "correct": 1.0,
+            "margin": 3.8125,
+            "detector": -0.6475114822387695
+          },
+          {
+            "landmark": "Itsukushima Shrine",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Hiroshima",
+            "correct": 0.0,
+            "margin": -1.0,
+            "detector": 0.7484240531921387
+          },
+          {
+            "landmark": "Nagoya Castle",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Nagoya",
+            "correct": 0.0,
+            "margin": -4.25,
+            "detector": 0.5028052926063538
+          },
+          {
+            "landmark": "Osaka Castle",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Osaka",
+            "correct": 0.0,
+            "margin": -2.625,
+            "detector": 0.9880459308624268
+          },
+          {
+            "landmark": "Ayutthaya Historical Park",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Thailand",
+            "correct": 0.0,
+            "margin": -2.3125,
+            "detector": 1.8987548351287842
+          },
+          {
+            "landmark": "Phi Phi Islands",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Bangkok",
+            "correct": 1.0,
+            "margin": 1.25,
+            "detector": 1.2226314544677734
+          },
+          {
+            "landmark": "Sukhothai Historical Park",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Sukhothai",
+            "correct": 0.0,
+            "margin": -4.25,
+            "detector": 0.7490555047988892
+          },
+          {
+            "landmark": "Hell's Gate",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Leshan",
+            "correct": 0.0,
+            "margin": -0.125,
+            "detector": 0.9602195024490356
+          },
+          {
+            "landmark": "Fort Jesus",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Nairobi",
+            "correct": 1.0,
+            "margin": 1.8125,
+            "detector": 1.3941775560379028
+          },
+          {
+            "landmark": "Lake Nakuru",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Nairobi",
+            "correct": 1.0,
+            "margin": 1.9375,
+            "detector": 0.8132338523864746
+          },
+          {
+            "landmark": "Machu Picchu",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Cusco",
+            "correct": 0.0,
+            "margin": -0.375,
+            "detector": 0.21841168403625488
+          },
+          {
+            "landmark": "Chan Chan",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Lima",
+            "correct": 1.0,
+            "margin": 0.125,
+            "detector": 0.19592586159706116
+          },
+          {
+            "landmark": "Colca Canyon",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Lima",
+            "correct": 1.0,
+            "margin": 2.125,
+            "detector": 0.414388507604599
+          }
+        ]
+      ],
+      "ce": 4.923789756242619,
+      "gh": [
+        1.0,
+        1.0
+      ],
+      "gain": 3.182556529744359
+    },
+    "construct_lookup": {
+      "seeds": [
+        [
+          {
+            "landmark": "Chateau de Chambord",
+            "country": "France",
+            "split": "TRAIN",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 6.4375,
+            "detector": 1.907409906387329
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "TRAIN",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 4.25,
+            "detector": 2.1739959716796875
+          },
+          {
+            "landmark": "Marienplatz",
+            "country": "Germany",
+            "split": "TRAIN",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 1.5625,
+            "detector": -0.2908666133880615
+          },
+          {
+            "landmark": "Zwinger Palace",
+            "country": "Germany",
+            "split": "TRAIN",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 2.5,
+            "detector": -0.251448392868042
+          },
+          {
+            "landmark": "Cologne Cathedral",
+            "country": "Germany",
+            "split": "B1",
+            "truth": "Berlin",
+            "arg": "Cologne",
+            "correct": 0.0,
+            "margin": -0.125,
+            "detector": -0.38439416885375977
+          },
+          {
+            "landmark": "Heidelberg Castle",
+            "country": "Germany",
+            "split": "B1",
+            "truth": "Berlin",
+            "arg": "Heidelberg",
+            "correct": 0.0,
+            "margin": -1.625,
+            "detector": -0.04220545291900635
+          },
+          {
+            "landmark": "Mount Royal",
+            "country": "Canada",
+            "split": "TRAIN",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 0.125,
+            "detector": 1.5469563007354736
+          },
+          {
+            "landmark": "Stanley Park",
+            "country": "Canada",
+            "split": "TRAIN",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 0.375,
+            "detector": 1.0896753072738647
+          },
+          {
+            "landmark": "Butchart Gardens",
+            "country": "Canada",
+            "split": "B1",
+            "truth": "Ottawa",
+            "arg": "Victoria",
+            "correct": 0.0,
+            "margin": -5.4375,
+            "detector": 1.095962643623352
+          },
+          {
+            "landmark": "CN Tower",
+            "country": "Canada",
+            "split": "B1",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 0.0,
+            "detector": 1.1589947938919067
+          },
+          {
+            "landmark": "Story Bridge",
+            "country": "Australia",
+            "split": "TRAIN",
+            "truth": "Canberra",
+            "arg": "Sydney",
+            "correct": 0.0,
+            "margin": -1.5625,
+            "detector": -0.2818453311920166
+          },
+          {
+            "landmark": "Sydney Opera House",
+            "country": "Australia",
+            "split": "TRAIN",
+            "truth": "Canberra",
+            "arg": "Sydney",
+            "correct": 0.0,
+            "margin": -4.5,
+            "detector": -0.17199945449829102
+          },
+          {
+            "landmark": "Bondi Beach",
+            "country": "Australia",
+            "split": "B1",
+            "truth": "Canberra",
+            "arg": "Sydney",
+            "correct": 0.0,
+            "margin": -9.375,
+            "detector": -0.09229415655136108
+          },
+          {
+            "landmark": "Federation Square",
+            "country": "Australia",
+            "split": "B1",
+            "truth": "Canberra",
+            "arg": "Sydney",
+            "correct": 0.0,
+            "margin": -1.75,
+            "detector": -0.07768762111663818
+          },
+          {
+            "landmark": "Chapel Bridge",
+            "country": "Switzerland",
+            "split": "TRAIN",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 0.875,
+            "detector": -1.2545421123504639
+          },
+          {
+            "landmark": "Jet d'Eau",
+            "country": "Switzerland",
+            "split": "TRAIN",
+            "truth": "Bern",
+            "arg": "Geneva",
+            "correct": 0.0,
+            "margin": -1.125,
+            "detector": 0.2087693214416504
+          },
+          {
+            "landmark": "Chillon Castle",
+            "country": "Switzerland",
+            "split": "B1",
+            "truth": "Bern",
+            "arg": "Geneva",
+            "correct": 0.0,
+            "margin": -5.0,
+            "detector": -1.0293060541152954
+          },
+          {
+            "landmark": "Grossmunster",
+            "country": "Switzerland",
+            "split": "B1",
+            "truth": "Bern",
+            "arg": "Zurich",
+            "correct": 0.0,
+            "margin": -0.625,
+            "detector": -0.8506311774253845
+          },
+          {
+            "landmark": "Malbork Castle",
+            "country": "Poland",
+            "split": "TRAIN",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 2.5,
+            "detector": -0.03561779856681824
+          },
+          {
+            "landmark": "Old Market Square",
+            "country": "Poland",
+            "split": "TRAIN",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 2.75,
+            "detector": -0.1489715278148651
+          },
+          {
+            "landmark": "Ben Thanh Market",
+            "country": "Vietnam",
+            "split": "TRAIN",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 2.4375,
+            "detector": -0.7758476138114929
+          },
+          {
+            "landmark": "Cu Chi Tunnels",
+            "country": "Vietnam",
+            "split": "TRAIN",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 2.1875,
+            "detector": -0.7066139578819275
+          },
+          {
+            "landmark": "Li River",
+            "country": "China",
+            "split": "TRAIN",
+            "truth": "Beijing",
+            "arg": "Nafplio",
+            "correct": 0.0,
+            "margin": -1.125,
+            "detector": -1.4314812421798706
+          },
+          {
+            "landmark": "Terracotta Army",
+            "country": "China",
+            "split": "TRAIN",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 1.625,
+            "detector": -1.7535085678100586
+          },
+          {
+            "landmark": "Leshan Giant Buddha",
+            "country": "China",
+            "split": "B1",
+            "truth": "Beijing",
+            "arg": "Leshan",
+            "correct": 0.0,
+            "margin": -6.5625,
+            "detector": -1.1052665710449219
+          },
+          {
+            "landmark": "Bom Jesus do Monte",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Lisbon",
+            "correct": 1.0,
+            "margin": 2.625,
+            "detector": -0.42154043912887573
+          },
+          {
+            "landmark": "Dom Luis I Bridge",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Lisbon",
+            "correct": 1.0,
+            "margin": 2.9375,
+            "detector": 0.1822628378868103
+          },
+          {
+            "landmark": "Pena Palace",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Lisbon",
+            "correct": 1.0,
+            "margin": 3.375,
+            "detector": 0.06242954730987549
+          },
+          {
+            "landmark": "Palamidi Fortress",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Athens",
+            "correct": 1.0,
+            "margin": 2.8125,
+            "detector": -0.5210099220275879
+          },
+          {
+            "landmark": "Meteora Monasteries",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Athens",
+            "correct": 1.0,
+            "margin": 6.6875,
+            "detector": -0.4841289818286896
+          },
+          {
+            "landmark": "Palace of Knossos",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Athens",
+            "correct": 1.0,
+            "margin": 1.5,
+            "detector": -0.6055921316146851
+          },
+          {
+            "landmark": "Uppsala Cathedral",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Uppsala",
+            "correct": 0.0,
+            "margin": -3.125,
+            "detector": 0.3873414397239685
+          },
+          {
+            "landmark": "Visby Ring Wall",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Visby",
+            "correct": 0.0,
+            "margin": -6.1875,
+            "detector": 0.2246938943862915
+          },
+          {
+            "landmark": "Kalmar Castle",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Stockholm",
+            "correct": 1.0,
+            "margin": 2.75,
+            "detector": 0.9799003601074219
+          },
+          {
+            "landmark": "Mount Aconcagua",
+            "country": "Argentina",
+            "split": "B2",
+            "truth": "Buenos Aires",
+            "arg": "Buenos Aires",
+            "correct": 1.0,
+            "margin": 2.5625,
+            "detector": -0.7199918031692505
+          },
+          {
+            "landmark": "Perito Moreno Glacier",
+            "country": "Argentina",
+            "split": "B2",
+            "truth": "Buenos Aires",
+            "arg": "Buenos Aires",
+            "correct": 1.0,
+            "margin": 3.75,
+            "detector": -0.6475114822387695
+          },
+          {
+            "landmark": "Itsukushima Shrine",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Hiroshima",
+            "correct": 0.0,
+            "margin": -0.875,
+            "detector": 0.7484240531921387
+          },
+          {
+            "landmark": "Nagoya Castle",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Nagoya",
+            "correct": 0.0,
+            "margin": -4.1875,
+            "detector": 0.5028052926063538
+          },
+          {
+            "landmark": "Osaka Castle",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Osaka",
+            "correct": 0.0,
+            "margin": -2.5,
+            "detector": 0.9880459308624268
+          },
+          {
+            "landmark": "Ayutthaya Historical Park",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Ayutthaya",
+            "correct": 0.0,
+            "margin": -2.1875,
+            "detector": 1.8987548351287842
+          },
+          {
+            "landmark": "Phi Phi Islands",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Bangkok",
+            "correct": 1.0,
+            "margin": 1.3125,
+            "detector": 1.2226314544677734
+          },
+          {
+            "landmark": "Sukhothai Historical Park",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Sukhothai",
+            "correct": 0.0,
+            "margin": -4.25,
+            "detector": 0.7490555047988892
+          },
+          {
+            "landmark": "Hell's Gate",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Leshan",
+            "correct": 0.0,
+            "margin": 0.0,
+            "detector": 0.9602195024490356
+          },
+          {
+            "landmark": "Fort Jesus",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Nairobi",
+            "correct": 1.0,
+            "margin": 1.875,
+            "detector": 1.3941775560379028
+          },
+          {
+            "landmark": "Lake Nakuru",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Nairobi",
+            "correct": 1.0,
+            "margin": 2.0,
+            "detector": 0.8132338523864746
+          },
+          {
+            "landmark": "Machu Picchu",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Cusco",
+            "correct": 0.0,
+            "margin": -0.25,
+            "detector": 0.21841168403625488
+          },
+          {
+            "landmark": "Chan Chan",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Lima",
+            "correct": 1.0,
+            "margin": 0.125,
+            "detector": 0.19592586159706116
+          },
+          {
+            "landmark": "Colca Canyon",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Lima",
+            "correct": 1.0,
+            "margin": 2.0,
+            "detector": 0.414388507604599
+          }
+        ]
+      ],
+      "ce": 4.92532335325729,
+      "gh": [
+        1.0,
+        1.0
+      ],
+      "gain": 3.5556390023518705
+    },
+    "gd_cd": {
+      "seeds": [
+        [
+          {
+            "landmark": "Chateau de Chambord",
+            "country": "France",
+            "split": "TRAIN",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 12.5,
+            "detector": 2.1782097816467285
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "TRAIN",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 11.75,
+            "detector": 2.309314727783203
+          },
+          {
+            "landmark": "Marienplatz",
+            "country": "Germany",
+            "split": "TRAIN",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 10.3125,
+            "detector": -0.4965803921222687
+          },
+          {
+            "landmark": "Zwinger Palace",
+            "country": "Germany",
+            "split": "TRAIN",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 9.0,
+            "detector": -0.4621182084083557
+          },
+          {
+            "landmark": "Cologne Cathedral",
+            "country": "Germany",
+            "split": "B1",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 6.75,
+            "detector": -0.4868782162666321
+          },
+          {
+            "landmark": "Heidelberg Castle",
+            "country": "Germany",
+            "split": "B1",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 6.875,
+            "detector": -0.2095842957496643
+          },
+          {
+            "landmark": "Mount Royal",
+            "country": "Canada",
+            "split": "TRAIN",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 5.75,
+            "detector": 1.8985595703125
+          },
+          {
+            "landmark": "Stanley Park",
+            "country": "Canada",
+            "split": "TRAIN",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 3.875,
+            "detector": 1.548264980316162
+          },
+          {
+            "landmark": "Butchart Gardens",
+            "country": "Canada",
+            "split": "B1",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 3.625,
+            "detector": 1.3928463459014893
+          },
+          {
+            "landmark": "CN Tower",
+            "country": "Canada",
+            "split": "B1",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 3.0,
+            "detector": 1.5263744592666626
+          },
+          {
+            "landmark": "Story Bridge",
+            "country": "Australia",
+            "split": "TRAIN",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 6.5,
+            "detector": -0.47370100021362305
+          },
+          {
+            "landmark": "Sydney Opera House",
+            "country": "Australia",
+            "split": "TRAIN",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 9.25,
+            "detector": -0.17193704843521118
+          },
+          {
+            "landmark": "Bondi Beach",
+            "country": "Australia",
+            "split": "B1",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 5.125,
+            "detector": -0.12355205416679382
+          },
+          {
+            "landmark": "Federation Square",
+            "country": "Australia",
+            "split": "B1",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 6.5,
+            "detector": -0.2969242334365845
+          },
+          {
+            "landmark": "Chapel Bridge",
+            "country": "Switzerland",
+            "split": "TRAIN",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 1.5,
+            "detector": -0.9095848202705383
+          },
+          {
+            "landmark": "Jet d'Eau",
+            "country": "Switzerland",
+            "split": "TRAIN",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 1.625,
+            "detector": 0.2294585108757019
+          },
+          {
+            "landmark": "Chillon Castle",
+            "country": "Switzerland",
+            "split": "B1",
+            "truth": "Bern",
+            "arg": "Geneva",
+            "correct": 0.0,
+            "margin": -1.0,
+            "detector": -0.8558857440948486
+          },
+          {
+            "landmark": "Grossmunster",
+            "country": "Switzerland",
+            "split": "B1",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 1.0,
+            "detector": -0.6900469064712524
+          },
+          {
+            "landmark": "Malbork Castle",
+            "country": "Poland",
+            "split": "TRAIN",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 11.3125,
+            "detector": 0.20432184636592865
+          },
+          {
+            "landmark": "Old Market Square",
+            "country": "Poland",
+            "split": "TRAIN",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 10.375,
+            "detector": -0.18313491344451904
+          },
+          {
+            "landmark": "Ben Thanh Market",
+            "country": "Vietnam",
+            "split": "TRAIN",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 4.75,
+            "detector": -0.4338371753692627
+          },
+          {
+            "landmark": "Cu Chi Tunnels",
+            "country": "Vietnam",
+            "split": "TRAIN",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 4.5,
+            "detector": -0.3828514814376831
+          },
+          {
+            "landmark": "Li River",
+            "country": "China",
+            "split": "TRAIN",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 13.0625,
+            "detector": -1.4967925548553467
+          },
+          {
+            "landmark": "Terracotta Army",
+            "country": "China",
+            "split": "TRAIN",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 10.75,
+            "detector": -1.8371331691741943
+          },
+          {
+            "landmark": "Leshan Giant Buddha",
+            "country": "China",
+            "split": "B1",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 13.9375,
+            "detector": -1.1674139499664307
+          },
+          {
+            "landmark": "Bom Jesus do Monte",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Lisbon",
+            "correct": 1.0,
+            "margin": 6.25,
+            "detector": -0.040721118450164795
+          },
+          {
+            "landmark": "Dom Luis I Bridge",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Lisbon",
+            "correct": 1.0,
+            "margin": 8.0625,
+            "detector": 0.4144396483898163
+          },
+          {
+            "landmark": "Pena Palace",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Lisbon",
+            "correct": 1.0,
+            "margin": 6.3125,
+            "detector": 0.19324854016304016
+          },
+          {
+            "landmark": "Palamidi Fortress",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Athens",
+            "correct": 1.0,
+            "margin": 9.9375,
+            "detector": -0.5608227252960205
+          },
+          {
+            "landmark": "Meteora Monasteries",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Athens",
+            "correct": 1.0,
+            "margin": 10.75,
+            "detector": -0.25659143924713135
+          },
+          {
+            "landmark": "Palace of Knossos",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Athens",
+            "correct": 1.0,
+            "margin": 10.8125,
+            "detector": -0.46048635244369507
+          },
+          {
+            "landmark": "Uppsala Cathedral",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Stockholm",
+            "correct": 1.0,
+            "margin": 6.5,
+            "detector": 0.6071106791496277
+          },
+          {
+            "landmark": "Visby Ring Wall",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Stockholm",
+            "correct": 1.0,
+            "margin": 6.9375,
+            "detector": 0.4238855242729187
+          },
+          {
+            "landmark": "Kalmar Castle",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Stockholm",
+            "correct": 1.0,
+            "margin": 7.0,
+            "detector": 1.1184868812561035
+          },
+          {
+            "landmark": "Mount Aconcagua",
+            "country": "Argentina",
+            "split": "B2",
+            "truth": "Buenos Aires",
+            "arg": "Buenos Aires",
+            "correct": 1.0,
+            "margin": 3.75,
+            "detector": -0.40286681056022644
+          },
+          {
+            "landmark": "Perito Moreno Glacier",
+            "country": "Argentina",
+            "split": "B2",
+            "truth": "Buenos Aires",
+            "arg": "Buenos Aires",
+            "correct": 1.0,
+            "margin": 6.5625,
+            "detector": -0.22595176100730896
+          },
+          {
+            "landmark": "Itsukushima Shrine",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Tokyo",
+            "correct": 1.0,
+            "margin": 8.25,
+            "detector": 1.0316879749298096
+          },
+          {
+            "landmark": "Nagoya Castle",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Tokyo",
+            "correct": 1.0,
+            "margin": 7.375,
+            "detector": 0.6976805329322815
+          },
+          {
+            "landmark": "Osaka Castle",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Tokyo",
+            "correct": 1.0,
+            "margin": 6.0,
+            "detector": 1.1170458793640137
+          },
+          {
+            "landmark": "Ayutthaya Historical Park",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Bangkok",
+            "correct": 1.0,
+            "margin": 5.0,
+            "detector": 2.2213423252105713
+          },
+          {
+            "landmark": "Phi Phi Islands",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Bangkok",
+            "correct": 1.0,
+            "margin": 6.9375,
+            "detector": 1.2555813789367676
+          },
+          {
+            "landmark": "Sukhothai Historical Park",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Bangkok",
+            "correct": 1.0,
+            "margin": 6.25,
+            "detector": 0.9748333692550659
+          },
+          {
+            "landmark": "Hell's Gate",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Nairobi",
+            "correct": 1.0,
+            "margin": 4.875,
+            "detector": 1.0482919216156006
+          },
+          {
+            "landmark": "Fort Jesus",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Nairobi",
+            "correct": 1.0,
+            "margin": 5.75,
+            "detector": 1.5155168771743774
+          },
+          {
+            "landmark": "Lake Nakuru",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Nairobi",
+            "correct": 1.0,
+            "margin": 5.5,
+            "detector": 0.9666673541069031
+          },
+          {
+            "landmark": "Machu Picchu",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Lima",
+            "correct": 1.0,
+            "margin": 5.875,
+            "detector": 0.38035309314727783
+          },
+          {
+            "landmark": "Chan Chan",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Lima",
+            "correct": 1.0,
+            "margin": 6.25,
+            "detector": 0.3193509876728058
+          },
+          {
+            "landmark": "Colca Canyon",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Lima",
+            "correct": 1.0,
+            "margin": 0.375,
+            "detector": 0.4519459307193756
+          }
+        ],
+        [
+          {
+            "landmark": "Chateau de Chambord",
+            "country": "France",
+            "split": "TRAIN",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 12.5625,
+            "detector": 2.1781342029571533
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "TRAIN",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 11.8125,
+            "detector": 2.3116016387939453
+          },
+          {
+            "landmark": "Marienplatz",
+            "country": "Germany",
+            "split": "TRAIN",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 10.5,
+            "detector": -0.5040562152862549
+          },
+          {
+            "landmark": "Zwinger Palace",
+            "country": "Germany",
+            "split": "TRAIN",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 9.125,
+            "detector": -0.4758155941963196
+          },
+          {
+            "landmark": "Cologne Cathedral",
+            "country": "Germany",
+            "split": "B1",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 6.875,
+            "detector": -0.4837977886199951
+          },
+          {
+            "landmark": "Heidelberg Castle",
+            "country": "Germany",
+            "split": "B1",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 6.875,
+            "detector": -0.22025132179260254
+          },
+          {
+            "landmark": "Mount Royal",
+            "country": "Canada",
+            "split": "TRAIN",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 5.625,
+            "detector": 1.906442642211914
+          },
+          {
+            "landmark": "Stanley Park",
+            "country": "Canada",
+            "split": "TRAIN",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 3.875,
+            "detector": 1.5494405031204224
+          },
+          {
+            "landmark": "Butchart Gardens",
+            "country": "Canada",
+            "split": "B1",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 3.75,
+            "detector": 1.3882097005844116
+          },
+          {
+            "landmark": "CN Tower",
+            "country": "Canada",
+            "split": "B1",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 3.0,
+            "detector": 1.5222930908203125
+          },
+          {
+            "landmark": "Story Bridge",
+            "country": "Australia",
+            "split": "TRAIN",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 6.375,
+            "detector": -0.47676271200180054
+          },
+          {
+            "landmark": "Sydney Opera House",
+            "country": "Australia",
+            "split": "TRAIN",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 9.5,
+            "detector": -0.16377568244934082
+          },
+          {
+            "landmark": "Bondi Beach",
+            "country": "Australia",
+            "split": "B1",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 5.0,
+            "detector": -0.10355845093727112
+          },
+          {
+            "landmark": "Federation Square",
+            "country": "Australia",
+            "split": "B1",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 6.5,
+            "detector": -0.28540077805519104
+          },
+          {
+            "landmark": "Chapel Bridge",
+            "country": "Switzerland",
+            "split": "TRAIN",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 1.5,
+            "detector": -0.8626906871795654
+          },
+          {
+            "landmark": "Jet d'Eau",
+            "country": "Switzerland",
+            "split": "TRAIN",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 1.625,
+            "detector": 0.29553356766700745
+          },
+          {
+            "landmark": "Chillon Castle",
+            "country": "Switzerland",
+            "split": "B1",
+            "truth": "Bern",
+            "arg": "Geneva",
+            "correct": 0.0,
+            "margin": -0.875,
+            "detector": -0.8074577450752258
+          },
+          {
+            "landmark": "Grossmunster",
+            "country": "Switzerland",
+            "split": "B1",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 1.125,
+            "detector": -0.6482017636299133
+          },
+          {
+            "landmark": "Malbork Castle",
+            "country": "Poland",
+            "split": "TRAIN",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 11.3125,
+            "detector": 0.22355060279369354
+          },
+          {
+            "landmark": "Old Market Square",
+            "country": "Poland",
+            "split": "TRAIN",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 10.6875,
+            "detector": -0.15923401713371277
+          },
+          {
+            "landmark": "Ben Thanh Market",
+            "country": "Vietnam",
+            "split": "TRAIN",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 5.0,
+            "detector": -0.45776233077049255
+          },
+          {
+            "landmark": "Cu Chi Tunnels",
+            "country": "Vietnam",
+            "split": "TRAIN",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 4.75,
+            "detector": -0.38804152607917786
+          },
+          {
+            "landmark": "Li River",
+            "country": "China",
+            "split": "TRAIN",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 13.25,
+            "detector": -1.4830105304718018
+          },
+          {
+            "landmark": "Terracotta Army",
+            "country": "China",
+            "split": "TRAIN",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 10.6875,
+            "detector": -1.8307503461837769
+          },
+          {
+            "landmark": "Leshan Giant Buddha",
+            "country": "China",
+            "split": "B1",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 13.9375,
+            "detector": -1.1394450664520264
+          },
+          {
+            "landmark": "Bom Jesus do Monte",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Lisbon",
+            "correct": 1.0,
+            "margin": 6.3125,
+            "detector": -0.04768475890159607
+          },
+          {
+            "landmark": "Dom Luis I Bridge",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Lisbon",
+            "correct": 1.0,
+            "margin": 8.3125,
+            "detector": 0.4263182282447815
+          },
+          {
+            "landmark": "Pena Palace",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Lisbon",
+            "correct": 1.0,
+            "margin": 6.3125,
+            "detector": 0.18903562426567078
+          },
+          {
+            "landmark": "Palamidi Fortress",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Athens",
+            "correct": 1.0,
+            "margin": 9.9375,
+            "detector": -0.5441491007804871
+          },
+          {
+            "landmark": "Meteora Monasteries",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Athens",
+            "correct": 1.0,
+            "margin": 10.75,
+            "detector": -0.24131011962890625
+          },
+          {
+            "landmark": "Palace of Knossos",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Athens",
+            "correct": 1.0,
+            "margin": 10.375,
+            "detector": -0.4477947950363159
+          },
+          {
+            "landmark": "Uppsala Cathedral",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Stockholm",
+            "correct": 1.0,
+            "margin": 6.75,
+            "detector": 0.619789719581604
+          },
+          {
+            "landmark": "Visby Ring Wall",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Stockholm",
+            "correct": 1.0,
+            "margin": 6.9375,
+            "detector": 0.43573427200317383
+          },
+          {
+            "landmark": "Kalmar Castle",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Stockholm",
+            "correct": 1.0,
+            "margin": 7.25,
+            "detector": 1.1614822149276733
+          },
+          {
+            "landmark": "Mount Aconcagua",
+            "country": "Argentina",
+            "split": "B2",
+            "truth": "Buenos Aires",
+            "arg": "Buenos Aires",
+            "correct": 1.0,
+            "margin": 3.5625,
+            "detector": -0.3863614499568939
+          },
+          {
+            "landmark": "Perito Moreno Glacier",
+            "country": "Argentina",
+            "split": "B2",
+            "truth": "Buenos Aires",
+            "arg": "Buenos Aires",
+            "correct": 1.0,
+            "margin": 6.75,
+            "detector": -0.21220847964286804
+          },
+          {
+            "landmark": "Itsukushima Shrine",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Tokyo",
+            "correct": 1.0,
+            "margin": 8.0625,
+            "detector": 1.0307444334030151
+          },
+          {
+            "landmark": "Nagoya Castle",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Tokyo",
+            "correct": 1.0,
+            "margin": 7.5,
+            "detector": 0.701573371887207
+          },
+          {
+            "landmark": "Osaka Castle",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Tokyo",
+            "correct": 1.0,
+            "margin": 6.125,
+            "detector": 1.1520518064498901
+          },
+          {
+            "landmark": "Ayutthaya Historical Park",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Bangkok",
+            "correct": 1.0,
+            "margin": 5.125,
+            "detector": 2.259164333343506
+          },
+          {
+            "landmark": "Phi Phi Islands",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Bangkok",
+            "correct": 1.0,
+            "margin": 7.25,
+            "detector": 1.2686560153961182
+          },
+          {
+            "landmark": "Sukhothai Historical Park",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Bangkok",
+            "correct": 1.0,
+            "margin": 6.25,
+            "detector": 1.0252048969268799
+          },
+          {
+            "landmark": "Hell's Gate",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Nairobi",
+            "correct": 1.0,
+            "margin": 4.8125,
+            "detector": 1.0808780193328857
+          },
+          {
+            "landmark": "Fort Jesus",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Nairobi",
+            "correct": 1.0,
+            "margin": 5.75,
+            "detector": 1.5568251609802246
+          },
+          {
+            "landmark": "Lake Nakuru",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Nairobi",
+            "correct": 1.0,
+            "margin": 5.5,
+            "detector": 0.9899964332580566
+          },
+          {
+            "landmark": "Machu Picchu",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Lima",
+            "correct": 1.0,
+            "margin": 6.75,
+            "detector": 0.40403100848197937
+          },
+          {
+            "landmark": "Chan Chan",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Lima",
+            "correct": 1.0,
+            "margin": 6.375,
+            "detector": 0.35332274436950684
+          },
+          {
+            "landmark": "Colca Canyon",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Lima",
+            "correct": 1.0,
+            "margin": 0.875,
+            "detector": 0.4866664409637451
+          }
+        ],
+        [
+          {
+            "landmark": "Chateau de Chambord",
+            "country": "France",
+            "split": "TRAIN",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 12.75,
+            "detector": 2.1938066482543945
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "TRAIN",
+            "truth": "Paris",
+            "arg": "Paris",
+            "correct": 1.0,
+            "margin": 12.125,
+            "detector": 2.3159565925598145
+          },
+          {
+            "landmark": "Marienplatz",
+            "country": "Germany",
+            "split": "TRAIN",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 10.625,
+            "detector": -0.5098134279251099
+          },
+          {
+            "landmark": "Zwinger Palace",
+            "country": "Germany",
+            "split": "TRAIN",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 9.1875,
+            "detector": -0.4727821946144104
+          },
+          {
+            "landmark": "Cologne Cathedral",
+            "country": "Germany",
+            "split": "B1",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 7.125,
+            "detector": -0.4909016489982605
+          },
+          {
+            "landmark": "Heidelberg Castle",
+            "country": "Germany",
+            "split": "B1",
+            "truth": "Berlin",
+            "arg": "Berlin",
+            "correct": 1.0,
+            "margin": 6.75,
+            "detector": -0.212606281042099
+          },
+          {
+            "landmark": "Mount Royal",
+            "country": "Canada",
+            "split": "TRAIN",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 5.875,
+            "detector": 1.8930766582489014
+          },
+          {
+            "landmark": "Stanley Park",
+            "country": "Canada",
+            "split": "TRAIN",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 4.0,
+            "detector": 1.5494309663772583
+          },
+          {
+            "landmark": "Butchart Gardens",
+            "country": "Canada",
+            "split": "B1",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 3.875,
+            "detector": 1.3917810916900635
+          },
+          {
+            "landmark": "CN Tower",
+            "country": "Canada",
+            "split": "B1",
+            "truth": "Ottawa",
+            "arg": "Ottawa",
+            "correct": 1.0,
+            "margin": 3.125,
+            "detector": 1.533366084098816
+          },
+          {
+            "landmark": "Story Bridge",
+            "country": "Australia",
+            "split": "TRAIN",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 6.5,
+            "detector": -0.4592186212539673
+          },
+          {
+            "landmark": "Sydney Opera House",
+            "country": "Australia",
+            "split": "TRAIN",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 9.625,
+            "detector": -0.15661907196044922
+          },
+          {
+            "landmark": "Bondi Beach",
+            "country": "Australia",
+            "split": "B1",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 5.25,
+            "detector": -0.10398578643798828
+          },
+          {
+            "landmark": "Federation Square",
+            "country": "Australia",
+            "split": "B1",
+            "truth": "Canberra",
+            "arg": "Canberra",
+            "correct": 1.0,
+            "margin": 6.75,
+            "detector": -0.2636354863643646
+          },
+          {
+            "landmark": "Chapel Bridge",
+            "country": "Switzerland",
+            "split": "TRAIN",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 1.375,
+            "detector": -0.8463990688323975
+          },
+          {
+            "landmark": "Jet d'Eau",
+            "country": "Switzerland",
+            "split": "TRAIN",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 1.625,
+            "detector": 0.26207271218299866
+          },
+          {
+            "landmark": "Chillon Castle",
+            "country": "Switzerland",
+            "split": "B1",
+            "truth": "Bern",
+            "arg": "Geneva",
+            "correct": 0.0,
+            "margin": -1.0,
+            "detector": -0.8288239240646362
+          },
+          {
+            "landmark": "Grossmunster",
+            "country": "Switzerland",
+            "split": "B1",
+            "truth": "Bern",
+            "arg": "Bern",
+            "correct": 1.0,
+            "margin": 1.0,
+            "detector": -0.6621748208999634
+          },
+          {
+            "landmark": "Malbork Castle",
+            "country": "Poland",
+            "split": "TRAIN",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 11.1875,
+            "detector": 0.21652349829673767
+          },
+          {
+            "landmark": "Old Market Square",
+            "country": "Poland",
+            "split": "TRAIN",
+            "truth": "Warsaw",
+            "arg": "Warsaw",
+            "correct": 1.0,
+            "margin": 10.6875,
+            "detector": -0.18740692734718323
+          },
+          {
+            "landmark": "Ben Thanh Market",
+            "country": "Vietnam",
+            "split": "TRAIN",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 4.75,
+            "detector": -0.4131772220134735
+          },
+          {
+            "landmark": "Cu Chi Tunnels",
+            "country": "Vietnam",
+            "split": "TRAIN",
+            "truth": "Hanoi",
+            "arg": "Hanoi",
+            "correct": 1.0,
+            "margin": 4.625,
+            "detector": -0.36202889680862427
+          },
+          {
+            "landmark": "Li River",
+            "country": "China",
+            "split": "TRAIN",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 13.0625,
+            "detector": -1.502516746520996
+          },
+          {
+            "landmark": "Terracotta Army",
+            "country": "China",
+            "split": "TRAIN",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 10.8125,
+            "detector": -1.8318135738372803
+          },
+          {
+            "landmark": "Leshan Giant Buddha",
+            "country": "China",
+            "split": "B1",
+            "truth": "Beijing",
+            "arg": "Beijing",
+            "correct": 1.0,
+            "margin": 13.9375,
+            "detector": -1.1501494646072388
+          },
+          {
+            "landmark": "Bom Jesus do Monte",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Lisbon",
+            "correct": 1.0,
+            "margin": 6.4375,
+            "detector": -0.01861727237701416
+          },
+          {
+            "landmark": "Dom Luis I Bridge",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Lisbon",
+            "correct": 1.0,
+            "margin": 8.0625,
+            "detector": 0.4428122043609619
+          },
+          {
+            "landmark": "Pena Palace",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Lisbon",
+            "correct": 1.0,
+            "margin": 6.0625,
+            "detector": 0.20304420590400696
+          },
+          {
+            "landmark": "Palamidi Fortress",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Athens",
+            "correct": 1.0,
+            "margin": 10.125,
+            "detector": -0.5440825819969177
+          },
+          {
+            "landmark": "Meteora Monasteries",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Athens",
+            "correct": 1.0,
+            "margin": 11.0,
+            "detector": -0.22610673308372498
+          },
+          {
+            "landmark": "Palace of Knossos",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Athens",
+            "correct": 1.0,
+            "margin": 11.0,
+            "detector": -0.441671222448349
+          },
+          {
+            "landmark": "Uppsala Cathedral",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Stockholm",
+            "correct": 1.0,
+            "margin": 6.625,
+            "detector": 0.6463271975517273
+          },
+          {
+            "landmark": "Visby Ring Wall",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Stockholm",
+            "correct": 1.0,
+            "margin": 6.9375,
+            "detector": 0.4677162170410156
+          },
+          {
+            "landmark": "Kalmar Castle",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Stockholm",
+            "correct": 1.0,
+            "margin": 7.0,
+            "detector": 1.1842234134674072
+          },
+          {
+            "landmark": "Mount Aconcagua",
+            "country": "Argentina",
+            "split": "B2",
+            "truth": "Buenos Aires",
+            "arg": "Buenos Aires",
+            "correct": 1.0,
+            "margin": 3.875,
+            "detector": -0.38201168179512024
+          },
+          {
+            "landmark": "Perito Moreno Glacier",
+            "country": "Argentina",
+            "split": "B2",
+            "truth": "Buenos Aires",
+            "arg": "Buenos Aires",
+            "correct": 1.0,
+            "margin": 6.5,
+            "detector": -0.188541978597641
+          },
+          {
+            "landmark": "Itsukushima Shrine",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Tokyo",
+            "correct": 1.0,
+            "margin": 8.1875,
+            "detector": 1.0346641540527344
+          },
+          {
+            "landmark": "Nagoya Castle",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Tokyo",
+            "correct": 1.0,
+            "margin": 7.375,
+            "detector": 0.7016358375549316
+          },
+          {
+            "landmark": "Osaka Castle",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Tokyo",
+            "correct": 1.0,
+            "margin": 6.125,
+            "detector": 1.137039065361023
+          },
+          {
+            "landmark": "Ayutthaya Historical Park",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Bangkok",
+            "correct": 1.0,
+            "margin": 5.0,
+            "detector": 2.3022243976593018
+          },
+          {
+            "landmark": "Phi Phi Islands",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Bangkok",
+            "correct": 1.0,
+            "margin": 6.9375,
+            "detector": 1.2788805961608887
+          },
+          {
+            "landmark": "Sukhothai Historical Park",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Bangkok",
+            "correct": 1.0,
+            "margin": 6.3125,
+            "detector": 1.0445747375488281
+          },
+          {
+            "landmark": "Hell's Gate",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Nairobi",
+            "correct": 1.0,
+            "margin": 4.8125,
+            "detector": 1.0628538131713867
+          },
+          {
+            "landmark": "Fort Jesus",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Nairobi",
+            "correct": 1.0,
+            "margin": 5.5625,
+            "detector": 1.5519918203353882
+          },
+          {
+            "landmark": "Lake Nakuru",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Nairobi",
+            "correct": 1.0,
+            "margin": 5.375,
+            "detector": 1.0015915632247925
+          },
+          {
+            "landmark": "Machu Picchu",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Lima",
+            "correct": 1.0,
+            "margin": 5.75,
+            "detector": 0.39846736192703247
+          },
+          {
+            "landmark": "Chan Chan",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Lima",
+            "correct": 1.0,
+            "margin": 6.25,
+            "detector": 0.3536471724510193
+          },
+          {
+            "landmark": "Colca Canyon",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Lima",
+            "correct": 1.0,
+            "margin": 0.375,
+            "detector": 0.49324655532836914
+          }
+        ]
+      ],
+      "ce": 4.9156347984491395,
+      "gh": [
+        1.0,
+        1.0
+      ]
+    },
+    "gd_shuffle": {
+      "seeds": [
+        [
+          {
+            "landmark": "Chateau de Chambord",
+            "country": "France",
+            "split": "TRAIN",
+            "truth": "Paris",
+            "arg": "Bern",
+            "correct": 0.0,
+            "margin": -9.25,
+            "detector": 1.5712687969207764
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "TRAIN",
+            "truth": "Paris",
+            "arg": "Bern",
+            "correct": 0.0,
+            "margin": -8.375,
+            "detector": 1.9585235118865967
+          },
+          {
+            "landmark": "Marienplatz",
+            "country": "Germany",
+            "split": "TRAIN",
+            "truth": "Berlin",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -6.8125,
+            "detector": -0.4974064826965332
+          },
+          {
+            "landmark": "Zwinger Palace",
+            "country": "Germany",
+            "split": "TRAIN",
+            "truth": "Berlin",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -8.625,
+            "detector": -0.3711984157562256
+          },
+          {
+            "landmark": "Cologne Cathedral",
+            "country": "Germany",
+            "split": "B1",
+            "truth": "Berlin",
+            "arg": "Zurich",
+            "correct": 0.0,
+            "margin": -4.0,
+            "detector": -0.7153910398483276
+          },
+          {
+            "landmark": "Heidelberg Castle",
+            "country": "Germany",
+            "split": "B1",
+            "truth": "Berlin",
+            "arg": "Zurich",
+            "correct": 0.0,
+            "margin": -4.875,
+            "detector": -0.24623695015907288
+          },
+          {
+            "landmark": "Mount Royal",
+            "country": "Canada",
+            "split": "TRAIN",
+            "truth": "Ottawa",
+            "arg": "Athens",
+            "correct": 0.0,
+            "margin": -12.5,
+            "detector": 0.94200199842453
+          },
+          {
+            "landmark": "Stanley Park",
+            "country": "Canada",
+            "split": "TRAIN",
+            "truth": "Ottawa",
+            "arg": "Athens",
+            "correct": 0.0,
+            "margin": -14.53125,
+            "detector": 0.9471536874771118
+          },
+          {
+            "landmark": "Butchart Gardens",
+            "country": "Canada",
+            "split": "B1",
+            "truth": "Ottawa",
+            "arg": "Geneva",
+            "correct": 0.0,
+            "margin": -4.8125,
+            "detector": 1.06316339969635
+          },
+          {
+            "landmark": "CN Tower",
+            "country": "Canada",
+            "split": "B1",
+            "truth": "Ottawa",
+            "arg": "Athens",
+            "correct": 0.0,
+            "margin": -8.0,
+            "detector": 0.9666292667388916
+          },
+          {
+            "landmark": "Story Bridge",
+            "country": "Australia",
+            "split": "TRAIN",
+            "truth": "Canberra",
+            "arg": "Tokyo",
+            "correct": 0.0,
+            "margin": -15.03125,
+            "detector": -0.6694830060005188
+          },
+          {
+            "landmark": "Sydney Opera House",
+            "country": "Australia",
+            "split": "TRAIN",
+            "truth": "Canberra",
+            "arg": "Tokyo",
+            "correct": 0.0,
+            "margin": -24.576171875,
+            "detector": -0.6033987402915955
+          },
+          {
+            "landmark": "Bondi Beach",
+            "country": "Australia",
+            "split": "B1",
+            "truth": "Canberra",
+            "arg": "Bern",
+            "correct": 0.0,
+            "margin": -9.84375,
+            "detector": -0.9559422731399536
+          },
+          {
+            "landmark": "Federation Square",
+            "country": "Australia",
+            "split": "B1",
+            "truth": "Canberra",
+            "arg": "Athens",
+            "correct": 0.0,
+            "margin": -8.03125,
+            "detector": -0.6416957378387451
+          },
+          {
+            "landmark": "Chapel Bridge",
+            "country": "Switzerland",
+            "split": "TRAIN",
+            "truth": "Bern",
+            "arg": "Lima",
+            "correct": 0.0,
+            "margin": -12.375,
+            "detector": -1.3472445011138916
+          },
+          {
+            "landmark": "Jet d'Eau",
+            "country": "Switzerland",
+            "split": "TRAIN",
+            "truth": "Bern",
+            "arg": "Lima",
+            "correct": 0.0,
+            "margin": -12.8125,
+            "detector": -0.6491886377334595
+          },
+          {
+            "landmark": "Chillon Castle",
+            "country": "Switzerland",
+            "split": "B1",
+            "truth": "Bern",
+            "arg": "Zurich",
+            "correct": 0.0,
+            "margin": -1.0625,
+            "detector": -1.2757298946380615
+          },
+          {
+            "landmark": "Grossmunster",
+            "country": "Switzerland",
+            "split": "B1",
+            "truth": "Bern",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -2.875,
+            "detector": -0.9818727970123291
+          },
+          {
+            "landmark": "Malbork Castle",
+            "country": "Poland",
+            "split": "TRAIN",
+            "truth": "Warsaw",
+            "arg": "Nairobi",
+            "correct": 0.0,
+            "margin": -15.53125,
+            "detector": -0.8026325106620789
+          },
+          {
+            "landmark": "Old Market Square",
+            "country": "Poland",
+            "split": "TRAIN",
+            "truth": "Warsaw",
+            "arg": "Nairobi",
+            "correct": 0.0,
+            "margin": -15.875,
+            "detector": -1.0100202560424805
+          },
+          {
+            "landmark": "Ben Thanh Market",
+            "country": "Vietnam",
+            "split": "TRAIN",
+            "truth": "Hanoi",
+            "arg": "Bangkok",
+            "correct": 0.0,
+            "margin": -6.0625,
+            "detector": -1.5379011631011963
+          },
+          {
+            "landmark": "Cu Chi Tunnels",
+            "country": "Vietnam",
+            "split": "TRAIN",
+            "truth": "Hanoi",
+            "arg": "Bangkok",
+            "correct": 0.0,
+            "margin": -7.9375,
+            "detector": -1.322211742401123
+          },
+          {
+            "landmark": "Li River",
+            "country": "China",
+            "split": "TRAIN",
+            "truth": "Beijing",
+            "arg": "Buenos Aires",
+            "correct": 0.0,
+            "margin": -13.4375,
+            "detector": -1.4884393215179443
+          },
+          {
+            "landmark": "Terracotta Army",
+            "country": "China",
+            "split": "TRAIN",
+            "truth": "Beijing",
+            "arg": "Buenos Aires",
+            "correct": 0.0,
+            "margin": -12.1875,
+            "detector": -2.0335617065429688
+          },
+          {
+            "landmark": "Leshan Giant Buddha",
+            "country": "China",
+            "split": "B1",
+            "truth": "Beijing",
+            "arg": "Buenos Aires",
+            "correct": 0.0,
+            "margin": -7.5,
+            "detector": -1.266859531402588
+          },
+          {
+            "landmark": "Bom Jesus do Monte",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -3.0625,
+            "detector": -1.0905139446258545
+          },
+          {
+            "landmark": "Dom Luis I Bridge",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -5.1875,
+            "detector": -0.577351450920105
+          },
+          {
+            "landmark": "Pena Palace",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -10.4375,
+            "detector": -0.8662333488464355
+          },
+          {
+            "landmark": "Palamidi Fortress",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -4.9375,
+            "detector": -1.0158740282058716
+          },
+          {
+            "landmark": "Meteora Monasteries",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Zurich",
+            "correct": 0.0,
+            "margin": -5.3125,
+            "detector": -1.1982502937316895
+          },
+          {
+            "landmark": "Palace of Knossos",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -3.375,
+            "detector": -0.908122718334198
+          },
+          {
+            "landmark": "Uppsala Cathedral",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -10.84375,
+            "detector": -0.3380392789840698
+          },
+          {
+            "landmark": "Visby Ring Wall",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Nairobi",
+            "correct": 0.0,
+            "margin": -10.0,
+            "detector": -0.3843801021575928
+          },
+          {
+            "landmark": "Kalmar Castle",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Nairobi",
+            "correct": 0.0,
+            "margin": -10.53125,
+            "detector": -0.2291349172592163
+          },
+          {
+            "landmark": "Mount Aconcagua",
+            "country": "Argentina",
+            "split": "B2",
+            "truth": "Buenos Aires",
+            "arg": "Zurich",
+            "correct": 0.0,
+            "margin": -3.375,
+            "detector": -0.9450017213821411
+          },
+          {
+            "landmark": "Perito Moreno Glacier",
+            "country": "Argentina",
+            "split": "B2",
+            "truth": "Buenos Aires",
+            "arg": "Zurich",
+            "correct": 0.0,
+            "margin": -1.8125,
+            "detector": -0.9981626868247986
+          },
+          {
+            "landmark": "Itsukushima Shrine",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Nafplio",
+            "correct": 0.0,
+            "margin": -2.875,
+            "detector": 0.33845019340515137
+          },
+          {
+            "landmark": "Nagoya Castle",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Nairobi",
+            "correct": 0.0,
+            "margin": -2.9375,
+            "detector": 0.0058953166007995605
+          },
+          {
+            "landmark": "Osaka Castle",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -0.1875,
+            "detector": 0.31837260723114014
+          },
+          {
+            "landmark": "Ayutthaya Historical Park",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Tokyo",
+            "correct": 0.0,
+            "margin": -3.1875,
+            "detector": 0.549428403377533
+          },
+          {
+            "landmark": "Phi Phi Islands",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Bangkok",
+            "correct": 1.0,
+            "margin": 2.5,
+            "detector": 1.016988754272461
+          },
+          {
+            "landmark": "Sukhothai Historical Park",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Nairobi",
+            "correct": 0.0,
+            "margin": -2.25,
+            "detector": 0.5204469561576843
+          },
+          {
+            "landmark": "Hell's Gate",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Bangkok",
+            "correct": 0.0,
+            "margin": -1.875,
+            "detector": 0.6108088493347168
+          },
+          {
+            "landmark": "Fort Jesus",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Nairobi",
+            "correct": 1.0,
+            "margin": 2.125,
+            "detector": 0.8413812518119812
+          },
+          {
+            "landmark": "Lake Nakuru",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Lima",
+            "correct": 0.0,
+            "margin": -1.125,
+            "detector": 0.3891078233718872
+          },
+          {
+            "landmark": "Machu Picchu",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Zurich",
+            "correct": 0.0,
+            "margin": -4.125,
+            "detector": -0.43171560764312744
+          },
+          {
+            "landmark": "Chan Chan",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Buenos Aires",
+            "correct": 0.0,
+            "margin": -2.3125,
+            "detector": -0.3439752757549286
+          },
+          {
+            "landmark": "Colca Canyon",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Buenos Aires",
+            "correct": 0.0,
+            "margin": -2.4375,
+            "detector": -0.3520902395248413
+          }
+        ],
+        [
+          {
+            "landmark": "Chateau de Chambord",
+            "country": "France",
+            "split": "TRAIN",
+            "truth": "Paris",
+            "arg": "Bern",
+            "correct": 0.0,
+            "margin": -9.3125,
+            "detector": 1.5441954135894775
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "TRAIN",
+            "truth": "Paris",
+            "arg": "Bern",
+            "correct": 0.0,
+            "margin": -8.375,
+            "detector": 1.9333903789520264
+          },
+          {
+            "landmark": "Marienplatz",
+            "country": "Germany",
+            "split": "TRAIN",
+            "truth": "Berlin",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -6.8125,
+            "detector": -0.47527098655700684
+          },
+          {
+            "landmark": "Zwinger Palace",
+            "country": "Germany",
+            "split": "TRAIN",
+            "truth": "Berlin",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -9.5,
+            "detector": -0.3571194112300873
+          },
+          {
+            "landmark": "Cologne Cathedral",
+            "country": "Germany",
+            "split": "B1",
+            "truth": "Berlin",
+            "arg": "Bern",
+            "correct": 0.0,
+            "margin": -3.375,
+            "detector": -0.6960740089416504
+          },
+          {
+            "landmark": "Heidelberg Castle",
+            "country": "Germany",
+            "split": "B1",
+            "truth": "Berlin",
+            "arg": "Zurich",
+            "correct": 0.0,
+            "margin": -4.8125,
+            "detector": -0.224115788936615
+          },
+          {
+            "landmark": "Mount Royal",
+            "country": "Canada",
+            "split": "TRAIN",
+            "truth": "Ottawa",
+            "arg": "Athens",
+            "correct": 0.0,
+            "margin": -12.875,
+            "detector": 0.9856246709823608
+          },
+          {
+            "landmark": "Stanley Park",
+            "country": "Canada",
+            "split": "TRAIN",
+            "truth": "Ottawa",
+            "arg": "Athens",
+            "correct": 0.0,
+            "margin": -14.90625,
+            "detector": 0.9765026569366455
+          },
+          {
+            "landmark": "Butchart Gardens",
+            "country": "Canada",
+            "split": "B1",
+            "truth": "Ottawa",
+            "arg": "Bern",
+            "correct": 0.0,
+            "margin": -4.9375,
+            "detector": 1.081490159034729
+          },
+          {
+            "landmark": "CN Tower",
+            "country": "Canada",
+            "split": "B1",
+            "truth": "Ottawa",
+            "arg": "Athens",
+            "correct": 0.0,
+            "margin": -7.25,
+            "detector": 0.9895018935203552
+          },
+          {
+            "landmark": "Story Bridge",
+            "country": "Australia",
+            "split": "TRAIN",
+            "truth": "Canberra",
+            "arg": "Tokyo",
+            "correct": 0.0,
+            "margin": -15.125,
+            "detector": -0.7021595239639282
+          },
+          {
+            "landmark": "Sydney Opera House",
+            "country": "Australia",
+            "split": "TRAIN",
+            "truth": "Canberra",
+            "arg": "Tokyo",
+            "correct": 0.0,
+            "margin": -25.0595703125,
+            "detector": -0.6470927596092224
+          },
+          {
+            "landmark": "Bondi Beach",
+            "country": "Australia",
+            "split": "B1",
+            "truth": "Canberra",
+            "arg": "Bern",
+            "correct": 0.0,
+            "margin": -9.03125,
+            "detector": -0.9872947931289673
+          },
+          {
+            "landmark": "Federation Square",
+            "country": "Australia",
+            "split": "B1",
+            "truth": "Canberra",
+            "arg": "Athens",
+            "correct": 0.0,
+            "margin": -7.9375,
+            "detector": -0.6881445646286011
+          },
+          {
+            "landmark": "Chapel Bridge",
+            "country": "Switzerland",
+            "split": "TRAIN",
+            "truth": "Bern",
+            "arg": "Lima",
+            "correct": 0.0,
+            "margin": -12.8125,
+            "detector": -1.3365278244018555
+          },
+          {
+            "landmark": "Jet d'Eau",
+            "country": "Switzerland",
+            "split": "TRAIN",
+            "truth": "Bern",
+            "arg": "Lima",
+            "correct": 0.0,
+            "margin": -13.53125,
+            "detector": -0.6102843284606934
+          },
+          {
+            "landmark": "Chillon Castle",
+            "country": "Switzerland",
+            "split": "B1",
+            "truth": "Bern",
+            "arg": "Nafplio",
+            "correct": 0.0,
+            "margin": -1.0625,
+            "detector": -1.2546041011810303
+          },
+          {
+            "landmark": "Grossmunster",
+            "country": "Switzerland",
+            "split": "B1",
+            "truth": "Bern",
+            "arg": "Lima",
+            "correct": 0.0,
+            "margin": -3.25,
+            "detector": -0.9632709622383118
+          },
+          {
+            "landmark": "Malbork Castle",
+            "country": "Poland",
+            "split": "TRAIN",
+            "truth": "Warsaw",
+            "arg": "Nairobi",
+            "correct": 0.0,
+            "margin": -15.25,
+            "detector": -0.8155605792999268
+          },
+          {
+            "landmark": "Old Market Square",
+            "country": "Poland",
+            "split": "TRAIN",
+            "truth": "Warsaw",
+            "arg": "Nairobi",
+            "correct": 0.0,
+            "margin": -16.5625,
+            "detector": -0.9888681769371033
+          },
+          {
+            "landmark": "Ben Thanh Market",
+            "country": "Vietnam",
+            "split": "TRAIN",
+            "truth": "Hanoi",
+            "arg": "Bangkok",
+            "correct": 0.0,
+            "margin": -6.0625,
+            "detector": -1.5188500881195068
+          },
+          {
+            "landmark": "Cu Chi Tunnels",
+            "country": "Vietnam",
+            "split": "TRAIN",
+            "truth": "Hanoi",
+            "arg": "Bangkok",
+            "correct": 0.0,
+            "margin": -7.875,
+            "detector": -1.3046413660049438
+          },
+          {
+            "landmark": "Li River",
+            "country": "China",
+            "split": "TRAIN",
+            "truth": "Beijing",
+            "arg": "Buenos Aires",
+            "correct": 0.0,
+            "margin": -13.75,
+            "detector": -1.5126315355300903
+          },
+          {
+            "landmark": "Terracotta Army",
+            "country": "China",
+            "split": "TRAIN",
+            "truth": "Beijing",
+            "arg": "Buenos Aires",
+            "correct": 0.0,
+            "margin": -12.1875,
+            "detector": -2.043562412261963
+          },
+          {
+            "landmark": "Leshan Giant Buddha",
+            "country": "China",
+            "split": "B1",
+            "truth": "Beijing",
+            "arg": "Buenos Aires",
+            "correct": 0.0,
+            "margin": -7.4375,
+            "detector": -1.2730541229248047
+          },
+          {
+            "landmark": "Bom Jesus do Monte",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Lima",
+            "correct": 0.0,
+            "margin": -3.25,
+            "detector": -1.0263073444366455
+          },
+          {
+            "landmark": "Dom Luis I Bridge",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -5.6875,
+            "detector": -0.523578941822052
+          },
+          {
+            "landmark": "Pena Palace",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -11.75,
+            "detector": -0.8059312105178833
+          },
+          {
+            "landmark": "Palamidi Fortress",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -4.9375,
+            "detector": -1.0019886493682861
+          },
+          {
+            "landmark": "Meteora Monasteries",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Zurich",
+            "correct": 0.0,
+            "margin": -4.5,
+            "detector": -1.1701101064682007
+          },
+          {
+            "landmark": "Palace of Knossos",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Nairobi",
+            "correct": 0.0,
+            "margin": -2.875,
+            "detector": -0.8966140747070312
+          },
+          {
+            "landmark": "Uppsala Cathedral",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -10.84375,
+            "detector": -0.3669416904449463
+          },
+          {
+            "landmark": "Visby Ring Wall",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -10.34375,
+            "detector": -0.40368199348449707
+          },
+          {
+            "landmark": "Kalmar Castle",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -10.78125,
+            "detector": -0.23528200387954712
+          },
+          {
+            "landmark": "Mount Aconcagua",
+            "country": "Argentina",
+            "split": "B2",
+            "truth": "Buenos Aires",
+            "arg": "Zurich",
+            "correct": 0.0,
+            "margin": -3.25,
+            "detector": -0.8917867541313171
+          },
+          {
+            "landmark": "Perito Moreno Glacier",
+            "country": "Argentina",
+            "split": "B2",
+            "truth": "Buenos Aires",
+            "arg": "Zurich",
+            "correct": 0.0,
+            "margin": -1.75,
+            "detector": -0.9407180547714233
+          },
+          {
+            "landmark": "Itsukushima Shrine",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Bangkok",
+            "correct": 0.0,
+            "margin": -2.5625,
+            "detector": 0.36541327834129333
+          },
+          {
+            "landmark": "Nagoya Castle",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Nairobi",
+            "correct": 0.0,
+            "margin": -2.9375,
+            "detector": 0.019448041915893555
+          },
+          {
+            "landmark": "Osaka Castle",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -1.75,
+            "detector": 0.330991268157959
+          },
+          {
+            "landmark": "Ayutthaya Historical Park",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Tokyo",
+            "correct": 0.0,
+            "margin": -2.875,
+            "detector": 0.5854938626289368
+          },
+          {
+            "landmark": "Phi Phi Islands",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Bangkok",
+            "correct": 1.0,
+            "margin": 1.8125,
+            "detector": 1.0796518325805664
+          },
+          {
+            "landmark": "Sukhothai Historical Park",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Nairobi",
+            "correct": 0.0,
+            "margin": -1.875,
+            "detector": 0.5839309096336365
+          },
+          {
+            "landmark": "Hell's Gate",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Bangkok",
+            "correct": 0.0,
+            "margin": -0.625,
+            "detector": 0.5720536112785339
+          },
+          {
+            "landmark": "Fort Jesus",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Nairobi",
+            "correct": 1.0,
+            "margin": 1.875,
+            "detector": 0.8089823722839355
+          },
+          {
+            "landmark": "Lake Nakuru",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Lima",
+            "correct": 0.0,
+            "margin": -1.1875,
+            "detector": 0.34698137640953064
+          },
+          {
+            "landmark": "Machu Picchu",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Zurich",
+            "correct": 0.0,
+            "margin": -3.6875,
+            "detector": -0.4354822039604187
+          },
+          {
+            "landmark": "Chan Chan",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Buenos Aires",
+            "correct": 0.0,
+            "margin": -2.6875,
+            "detector": -0.32771560549736023
+          },
+          {
+            "landmark": "Colca Canyon",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Buenos Aires",
+            "correct": 0.0,
+            "margin": -1.5625,
+            "detector": -0.3554685711860657
+          }
+        ],
+        [
+          {
+            "landmark": "Chateau de Chambord",
+            "country": "France",
+            "split": "TRAIN",
+            "truth": "Paris",
+            "arg": "Bern",
+            "correct": 0.0,
+            "margin": -9.375,
+            "detector": 1.5515689849853516
+          },
+          {
+            "landmark": "Mont Saint-Michel",
+            "country": "France",
+            "split": "TRAIN",
+            "truth": "Paris",
+            "arg": "Bern",
+            "correct": 0.0,
+            "margin": -8.625,
+            "detector": 1.9392646551132202
+          },
+          {
+            "landmark": "Marienplatz",
+            "country": "Germany",
+            "split": "TRAIN",
+            "truth": "Berlin",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -6.875,
+            "detector": -0.44928377866744995
+          },
+          {
+            "landmark": "Zwinger Palace",
+            "country": "Germany",
+            "split": "TRAIN",
+            "truth": "Berlin",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -9.875,
+            "detector": -0.3382303714752197
+          },
+          {
+            "landmark": "Cologne Cathedral",
+            "country": "Germany",
+            "split": "B1",
+            "truth": "Berlin",
+            "arg": "Zurich",
+            "correct": 0.0,
+            "margin": -3.8125,
+            "detector": -0.6750821471214294
+          },
+          {
+            "landmark": "Heidelberg Castle",
+            "country": "Germany",
+            "split": "B1",
+            "truth": "Berlin",
+            "arg": "Zurich",
+            "correct": 0.0,
+            "margin": -4.8125,
+            "detector": -0.20389911532402039
+          },
+          {
+            "landmark": "Mount Royal",
+            "country": "Canada",
+            "split": "TRAIN",
+            "truth": "Ottawa",
+            "arg": "Athens",
+            "correct": 0.0,
+            "margin": -12.75,
+            "detector": 0.9380903840065002
+          },
+          {
+            "landmark": "Stanley Park",
+            "country": "Canada",
+            "split": "TRAIN",
+            "truth": "Ottawa",
+            "arg": "Athens",
+            "correct": 0.0,
+            "margin": -14.5625,
+            "detector": 0.951386570930481
+          },
+          {
+            "landmark": "Butchart Gardens",
+            "country": "Canada",
+            "split": "B1",
+            "truth": "Ottawa",
+            "arg": "Bern",
+            "correct": 0.0,
+            "margin": -4.9375,
+            "detector": 1.0533456802368164
+          },
+          {
+            "landmark": "CN Tower",
+            "country": "Canada",
+            "split": "B1",
+            "truth": "Ottawa",
+            "arg": "Athens",
+            "correct": 0.0,
+            "margin": -6.6875,
+            "detector": 0.9539552927017212
+          },
+          {
+            "landmark": "Story Bridge",
+            "country": "Australia",
+            "split": "TRAIN",
+            "truth": "Canberra",
+            "arg": "Tokyo",
+            "correct": 0.0,
+            "margin": -15.875,
+            "detector": -0.686906635761261
+          },
+          {
+            "landmark": "Sydney Opera House",
+            "country": "Australia",
+            "split": "TRAIN",
+            "truth": "Canberra",
+            "arg": "Tokyo",
+            "correct": 0.0,
+            "margin": -24.16796875,
+            "detector": -0.6229774951934814
+          },
+          {
+            "landmark": "Bondi Beach",
+            "country": "Australia",
+            "split": "B1",
+            "truth": "Canberra",
+            "arg": "Bern",
+            "correct": 0.0,
+            "margin": -9.65625,
+            "detector": -0.9817010164260864
+          },
+          {
+            "landmark": "Federation Square",
+            "country": "Australia",
+            "split": "B1",
+            "truth": "Canberra",
+            "arg": "Athens",
+            "correct": 0.0,
+            "margin": -8.8125,
+            "detector": -0.6529788374900818
+          },
+          {
+            "landmark": "Chapel Bridge",
+            "country": "Switzerland",
+            "split": "TRAIN",
+            "truth": "Bern",
+            "arg": "Lima",
+            "correct": 0.0,
+            "margin": -12.5,
+            "detector": -1.3273210525512695
+          },
+          {
+            "landmark": "Jet d'Eau",
+            "country": "Switzerland",
+            "split": "TRAIN",
+            "truth": "Bern",
+            "arg": "Lima",
+            "correct": 0.0,
+            "margin": -12.8125,
+            "detector": -0.6153072714805603
+          },
+          {
+            "landmark": "Chillon Castle",
+            "country": "Switzerland",
+            "split": "B1",
+            "truth": "Bern",
+            "arg": "Nafplio",
+            "correct": 0.0,
+            "margin": -1.4375,
+            "detector": -1.262238621711731
+          },
+          {
+            "landmark": "Grossmunster",
+            "country": "Switzerland",
+            "split": "B1",
+            "truth": "Bern",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -3.5,
+            "detector": -0.9613323211669922
+          },
+          {
+            "landmark": "Malbork Castle",
+            "country": "Poland",
+            "split": "TRAIN",
+            "truth": "Warsaw",
+            "arg": "Nairobi",
+            "correct": 0.0,
+            "margin": -16.234375,
+            "detector": -0.8061294555664062
+          },
+          {
+            "landmark": "Old Market Square",
+            "country": "Poland",
+            "split": "TRAIN",
+            "truth": "Warsaw",
+            "arg": "Nairobi",
+            "correct": 0.0,
+            "margin": -16.453125,
+            "detector": -0.9934320449829102
+          },
+          {
+            "landmark": "Ben Thanh Market",
+            "country": "Vietnam",
+            "split": "TRAIN",
+            "truth": "Hanoi",
+            "arg": "Bangkok",
+            "correct": 0.0,
+            "margin": -5.75,
+            "detector": -1.5098835229873657
+          },
+          {
+            "landmark": "Cu Chi Tunnels",
+            "country": "Vietnam",
+            "split": "TRAIN",
+            "truth": "Hanoi",
+            "arg": "Bangkok",
+            "correct": 0.0,
+            "margin": -7.6875,
+            "detector": -1.2853376865386963
+          },
+          {
+            "landmark": "Li River",
+            "country": "China",
+            "split": "TRAIN",
+            "truth": "Beijing",
+            "arg": "Buenos Aires",
+            "correct": 0.0,
+            "margin": -14.1875,
+            "detector": -1.5082237720489502
+          },
+          {
+            "landmark": "Terracotta Army",
+            "country": "China",
+            "split": "TRAIN",
+            "truth": "Beijing",
+            "arg": "Buenos Aires",
+            "correct": 0.0,
+            "margin": -12.4375,
+            "detector": -2.0642354488372803
+          },
+          {
+            "landmark": "Leshan Giant Buddha",
+            "country": "China",
+            "split": "B1",
+            "truth": "Beijing",
+            "arg": "Buenos Aires",
+            "correct": 0.0,
+            "margin": -6.875,
+            "detector": -1.2834594249725342
+          },
+          {
+            "landmark": "Bom Jesus do Monte",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -3.625,
+            "detector": -1.03316330909729
+          },
+          {
+            "landmark": "Dom Luis I Bridge",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -6.28125,
+            "detector": -0.530059814453125
+          },
+          {
+            "landmark": "Pena Palace",
+            "country": "Portugal",
+            "split": "B2",
+            "truth": "Lisbon",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -12.4375,
+            "detector": -0.8121097683906555
+          },
+          {
+            "landmark": "Palamidi Fortress",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -6.25,
+            "detector": -1.0290027856826782
+          },
+          {
+            "landmark": "Meteora Monasteries",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Bern",
+            "correct": 0.0,
+            "margin": -5.4375,
+            "detector": -1.1922777891159058
+          },
+          {
+            "landmark": "Palace of Knossos",
+            "country": "Greece",
+            "split": "B2",
+            "truth": "Athens",
+            "arg": "Nairobi",
+            "correct": 0.0,
+            "margin": -3.6875,
+            "detector": -0.9099242091178894
+          },
+          {
+            "landmark": "Uppsala Cathedral",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -11.375,
+            "detector": -0.3276129961013794
+          },
+          {
+            "landmark": "Visby Ring Wall",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -11.34375,
+            "detector": -0.3831624984741211
+          },
+          {
+            "landmark": "Kalmar Castle",
+            "country": "Sweden",
+            "split": "B2",
+            "truth": "Stockholm",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -11.625,
+            "detector": -0.21657532453536987
+          },
+          {
+            "landmark": "Mount Aconcagua",
+            "country": "Argentina",
+            "split": "B2",
+            "truth": "Buenos Aires",
+            "arg": "Bern",
+            "correct": 0.0,
+            "margin": -3.5625,
+            "detector": -0.9442428946495056
+          },
+          {
+            "landmark": "Perito Moreno Glacier",
+            "country": "Argentina",
+            "split": "B2",
+            "truth": "Buenos Aires",
+            "arg": "Zurich",
+            "correct": 0.0,
+            "margin": -2.125,
+            "detector": -0.9934935569763184
+          },
+          {
+            "landmark": "Itsukushima Shrine",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Nafplio",
+            "correct": 0.0,
+            "margin": -4.0625,
+            "detector": 0.37230050563812256
+          },
+          {
+            "landmark": "Nagoya Castle",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -3.8125,
+            "detector": 0.03009587526321411
+          },
+          {
+            "landmark": "Osaka Castle",
+            "country": "Japan",
+            "split": "B2",
+            "truth": "Tokyo",
+            "arg": "Ottawa",
+            "correct": 0.0,
+            "margin": -1.25,
+            "detector": 0.3353657126426697
+          },
+          {
+            "landmark": "Ayutthaya Historical Park",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Tokyo",
+            "correct": 0.0,
+            "margin": -3.125,
+            "detector": 0.5808546543121338
+          },
+          {
+            "landmark": "Phi Phi Islands",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Bangkok",
+            "correct": 1.0,
+            "margin": 2.3125,
+            "detector": 1.0656688213348389
+          },
+          {
+            "landmark": "Sukhothai Historical Park",
+            "country": "Thailand",
+            "split": "B2",
+            "truth": "Bangkok",
+            "arg": "Nairobi",
+            "correct": 0.0,
+            "margin": -2.625,
+            "detector": 0.564625084400177
+          },
+          {
+            "landmark": "Hell's Gate",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Bangkok",
+            "correct": 0.0,
+            "margin": 0.0,
+            "detector": 0.5956181883811951
+          },
+          {
+            "landmark": "Fort Jesus",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Nairobi",
+            "correct": 1.0,
+            "margin": 1.6875,
+            "detector": 0.8302841186523438
+          },
+          {
+            "landmark": "Lake Nakuru",
+            "country": "Kenya",
+            "split": "B2",
+            "truth": "Nairobi",
+            "arg": "Lima",
+            "correct": 0.0,
+            "margin": -0.6875,
+            "detector": 0.3738762140274048
+          },
+          {
+            "landmark": "Machu Picchu",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Zurich",
+            "correct": 0.0,
+            "margin": -4.0,
+            "detector": -0.41769909858703613
+          },
+          {
+            "landmark": "Chan Chan",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Buenos Aires",
+            "correct": 0.0,
+            "margin": -2.5625,
+            "detector": -0.3347308337688446
+          },
+          {
+            "landmark": "Colca Canyon",
+            "country": "Peru",
+            "split": "B2",
+            "truth": "Lima",
+            "arg": "Buenos Aires",
+            "correct": 0.0,
+            "margin": -2.0,
+            "detector": -0.34486398100852966
+          }
+        ]
+      ],
+      "ce": 4.883957544962565,
+      "gh": [
+        0.9375,
+        0.7291666666666666
+      ]
+    }
+  },
+  "scoring": {
+    "gates": {
+      "construct": {
+        "G1": false,
+        "G1_detail": {
+          "B1": {
+            "gate": {
+              "name": "construct-G1-B1",
+              "value": 0.1111111111111111,
+              "null_name": "paired_permutation",
+              "null_mean": 0.002,
+              "null_std": 0.11109310965287487,
+              "n_draws": 10000,
+              "predict": "greater",
+              "alpha": 0.016666666666666666,
+              "p": 0.5090490950904909,
+              "sign_ok": true,
+              "verdict": false,
+              "warnings": []
+            },
+            "flip": true
+          },
+          "B2": {
+            "gate": {
+              "name": "construct-G1-B2",
+              "value": 0.043478260869565216,
+              "null_name": "paired_permutation",
+              "null_mean": -0.0005304347826086957,
+              "null_std": 0.04347502509698373,
+              "n_draws": 10000,
+              "predict": "greater",
+              "alpha": 0.016666666666666666,
+              "p": 0.49395060493950604,
+              "sign_ok": true,
+              "verdict": false,
+              "warnings": []
+            },
+            "flip": true
+          }
+        },
+        "G2": false,
+        "G2_detail": {
+          "name": "construct-G2-B2",
+          "value": 0.043478260869565216,
+          "null_name": "paired_permutation",
+          "null_mean": 0.00018260869565217384,
+          "null_std": 0.043477877389613194,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.016666666666666666,
+          "p": 0.5021497850214979,
+          "sign_ok": true,
+          "verdict": false,
+          "warnings": []
+        },
+        "G3": false,
+        "G3_detail": {
+          "name": "construct-G3-heldout",
+          "value": 0.0625,
+          "null_name": "paired_permutation",
+          "null_mean": 1.875e-05,
+          "null_std": 0.04476064424734635,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.016666666666666666,
+          "p": 0.2566743325667433,
+          "sign_ok": true,
+          "verdict": false,
+          "warnings": []
+        },
+        "G5": true,
+        "G5_detail": {
+          "ce": 4.926152695057004,
+          "ce_base": 4.917290931524232,
+          "g_acc": 1.0,
+          "h_acc": 1.0
+        },
+        "train_up": false,
+        "held_up": true
+      },
+      "gd_cd": {
+        "G1": true,
+        "G1_detail": {
+          "B1": {
+            "gate": {
+              "name": "gd_cd-G1-B1",
+              "value": 0.8888888888888888,
+              "null_name": "paired_permutation",
+              "null_mean": 0.0023111111111111106,
+              "null_std": 0.31474793677433965,
+              "n_draws": 10000,
+              "predict": "greater",
+              "alpha": 0.016666666666666666,
+              "p": 0.0038996100389961006,
+              "sign_ok": true,
+              "verdict": true,
+              "warnings": []
+            },
+            "flip": true
+          },
+          "B2": {
+            "gate": {
+              "name": "gd_cd-G1-B2",
+              "value": 0.391304347826087,
+              "null_name": "paired_permutation",
+              "null_mean": 8.695652173913082e-05,
+              "null_std": 0.13061434017792006,
+              "n_draws": 10000,
+              "predict": "greater",
+              "alpha": 0.016666666666666666,
+              "p": 0.0022997700229977,
+              "sign_ok": true,
+              "verdict": true,
+              "warnings": []
+            },
+            "flip": true
+          }
+        },
+        "G2": true,
+        "G2_detail": {
+          "name": "gd_cd-G2-B2",
+          "value": 0.391304347826087,
+          "null_name": "paired_permutation",
+          "null_mean": -0.00111304347826087,
+          "null_std": 0.12994796573868297,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.016666666666666666,
+          "p": 0.0015998400159984002,
+          "sign_ok": true,
+          "verdict": true,
+          "warnings": []
+        },
+        "G3": true,
+        "G3_detail": {
+          "name": "gd_cd-G3-heldout",
+          "value": 0.90625,
+          "null_name": "paired_permutation",
+          "null_mean": 0.001225,
+          "null_std": 0.16715000560873458,
+          "n_draws": 10000,
+          "predict": "greater",
+          "alpha": 0.016666666666666666,
+          "p": 9.999000099990002e-05,
+          "sign_ok": true,
+          "verdict": true,
+          "warnings": []
+        },
+        "G5": true,
+        "G5_detail": {
+          "ce": 4.9156347984491395,
+          "ce_base": 4.917290931524232,
+          "g_acc": 1.0,
+          "h_acc": 1.0
+        },
+        "train_up": false,
+        "held_up": true
+      },
+      "lookup_b2_moves": false
+    },
+    "verdict": "WIRE-COMPILES (+GD-REQUIRED)",
+    "detector_g4": {
+      "base": {
+        "det_mean": 0.22550311218947172
+      },
+      "construct": {
+        "det_mean": 0.22550311218947172
+      },
+      "gd_cd": {
+        "det_mean": 0.37121762800961733
+      }
+    }
+  }
+}
