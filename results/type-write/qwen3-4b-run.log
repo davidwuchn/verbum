@@ -1,0 +1,55 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 19660.26it/s]
+[tw] Qwen/Qwen3-4B dev=mps n_layers=36 band=L22..L29 seeds=3 steps=500
+[tw] nonces=20 (animal 10 vehicle 10)
+[tw] gate-0: base licensing of real members …
+[tw] gate-0: real-member licensing margin=2.538 per_class_ok=True n_ok=True -> PASS
+[tw] arm base …
+[tw] arm wire (true membership) …
+    seed0 step    0 loss 4.9562
+    seed0 step  100 loss 1.3537
+    seed0 step  200 loss 0.7676
+    seed0 step  300 loss 0.4501
+    seed0 step  400 loss 0.3650
+    seed0 step  499 loss 0.3548
+[tw] wire seed0 done
+    seed1 step    0 loss 4.9562
+    seed1 step  100 loss 1.3494
+    seed1 step  200 loss 0.7537
+    seed1 step  300 loss 0.4326
+    seed1 step  400 loss 0.3629
+    seed1 step  499 loss 0.3525
+[tw] wire seed1 done
+    seed2 step    0 loss 4.9562
+    seed2 step  100 loss 1.3447
+    seed2 step  200 loss 0.7574
+    seed2 step  300 loss 0.4545
+    seed2 step  400 loss 0.3656
+    seed2 step  499 loss 0.3535
+[tw] wire seed2 done
+[tw] arm shuffle (deranged membership) …
+    seed0 step    0 loss 4.9742
+    seed0 step  100 loss 1.3526
+    seed0 step  200 loss 0.7667
+    seed0 step  300 loss 0.4532
+    seed0 step  400 loss 0.3650
+    seed0 step  499 loss 0.3539
+[tw] shuffle seed0 done
+    seed1 step    0 loss 4.9742
+    seed1 step  100 loss 1.3505
+    seed1 step  200 loss 0.7540
+    seed1 step  300 loss 0.4359
+    seed1 step  400 loss 0.3634
+    seed1 step  499 loss 0.3532
+[tw] shuffle seed1 done
+    seed2 step    0 loss 4.9742
+    seed2 step  100 loss 1.3465
+    seed2 step  200 loss 0.7569
+    seed2 step  300 loss 0.4552
+    seed2 step  400 loss 0.3665
+    seed2 step  499 loss 0.3530
+[tw] shuffle seed2 done
+[tw] wrote results/type-write/qwen3-4b/results.json
+[tw] TW1 p=0.1899 pass=False | TW2 rho=-0.432 p=0.9755 pass=False | TW3 p=0.8362 pass=False | TW4 p=0.4015 pass=False | recall pass=True | host=False
+[tw] L_base=0.138 L_wire=0.310 L_shuf=0.417
+[tw] VERDICT: HOST-DAMAGED
