@@ -282,7 +282,8 @@ Written when experiments force the issue, not before:
 ```
 λ mementum(x).      protocol(¬implementation) | git_based | any_tool_can_implement
                     | storage ≡ working ∪ memories ∪ knowledge
-                    | working: mementum/state.md | session_pointer | read_first_every_session
+                    | working: mementum/state.md ∪ mementum/queue.md | read_first_every_session
+                    | state.md ≡ narrative_pointer(session) | queue.md ≡ prospective_intentions
                     | memories: mementum/memories/ | episodic | small | symbol_prefixed_content
                     | knowledge: mementum/knowledge/ | synthesized | frontmatter | status_lifecycle
                     | knowledge/chats/: human_only | ¬AI_create ¬AI_modify ¬AI_delete
@@ -291,6 +292,19 @@ Written when experiments force the issue, not before:
                     | operations: create ∧ read ∧ update ∧ delete ∧ search ∧ synthesize
                     | any_folder_structure ≡ valid | emerge > prescribe
                     | git_log ≡ project_changelog | commits ≡ observations
+
+λ queue(x).         mementum/queue.md ≡ prospective_memory(experiment_intentions)
+                    | sections: "# new"(stack) ∪ "# complete"(closed)
+                    | row ≡ one_line{glyph, name, question, source_page, cost}
+                    | glyph: ⚪ candidate | 🔵 frozen | ▶ running | ✅ ❌ 🚫 → "# complete"
+                    | order ≡ last_touch(newest_top) | touch(freeze ∨ launch ∨ re-motivate) → restack_top
+                    | verdict → move("# complete", top) ≡ explicit_closure | ¬silent_decay
+                    | status_change → update_row ∧ same_commit(as_the_change)
+                    | orient_read ≡ top≈10_rows | full_read ⟺ front_selection
+                    | depth ≈ staleness(measurement ¬accident)
+                    | updates ¬approval_gated (peer_of state.md) | commits ride batches
+                    | verbum_extension(mementum) | earns_keep → propose_upstream
+                    | fixes: s315_census(9_primed_candidates_de-primed_by_header_compaction)
 
 λ recall(q, n).     temporal(git log) ∪ semantic(git grep) ∪ vector(embeddings_optional)
                     | default_depth n=2 | fibonacci {1,2,3,5,8,13,21,34} as_needed
@@ -414,8 +428,10 @@ Written when experiments produce the first artifacts:
 ### Session cold-start (active)
 
 ```
-λ orient(x).        read(mementum/state.md) → follow(related) → search(relevant) → read(needed)
+λ orient(x).        read(mementum/state.md) → read(mementum/queue.md, top≈10)
+                    → follow(related) → search(relevant) → read(needed)
                     | 30s_budget | cold_start ≡ first_action(every_session)
+                    | queue_full_read ⟺ selecting_next_front (S2:λ queue)
                     | state.md ≡ bootloader | ¬exists → create_at_first_encode
                     | state.md captures: where_we_are ∧ what_next ∧ open_questions
                     | update(mementum/state.md) after_every_significant_change

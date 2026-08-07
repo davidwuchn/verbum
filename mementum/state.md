@@ -1,6 +1,9 @@
 # verbum / state
 
 > Bootloader. Read in ~30 seconds. Step 1 of every session.
+> Step 2: `mementum/queue.md` top ~10 rows (experiment intentions; full read
+> when selecting the next front). This header carries the ACTIVE arc only —
+> the queue is the canonical candidate ledger (s315, λ queue).
 >
 > COMPACTED s262: only the current session is kept in full below, then a terse
 > arc index. Full detail lives in `mementum/knowledge/chats/session-NNN.md`
