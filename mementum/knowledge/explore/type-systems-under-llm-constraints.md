@@ -422,6 +422,38 @@ distractor construction + forced-choice length-normalized logprob accuracy
 distractor-symmetry + fuel-control primitives) + ruff + smoke (no verdict
 read) → Michael GO → run.
 
+**⚠ AMENDMENT (s319, runtime/build-forced, pre-run — instrument-side ONLY;
+register / gates / verdict-tree / a-priori UNCHANGED).** Reading the kernel
+before building (λ assert: runtime ≡ truth) exposed a coherence gap
+(representation ≟ reality) in the frozen construction's *example
+combinators*; three faithful corrections:
+
+1. **DUP = {W, M}, not {W, D}; D moves to LINEAR.** The frozen text cited
+   `D f x = f (f x)` as a duplication example, but the runtime kernel
+   (`verbum.lambda_ast`) implements **D as `D f g h x → f (g (h x))` — a
+   LINEAR 3-fold composition, no argument copied**. The genuine
+   single-duplication contraction combinators are **W** (`W f x → f x x`)
+   and **M** (`M x → x x`). So DUP = {W, M} and D joins LINEAR = {B, C, D}.
+   (I/K dropped — their size-3 NFs can't be nf_size-matched to a
+   contraction unit.) Corrects the inventory to match the kernel; the
+   frozen *intent* (contraction/duplication costs) is exactly preserved.
+2. **DUP arm is MIXED** (each unit a contraction {W,M} w.p. 0.6 else linear
+   {B,C,D}, ≥1 contraction guaranteed). Purpose: decouple `n_contract` from
+   ℓ so **LB3 is non-degenerate** (a pure-{W,M} term has `n_contract ≡ ℓ`,
+   confounding the graded readout), and pull DUP `nf_size` to overlap
+   LINEAR so ℓ-matched bins are populated by both arms. LB1/LB2 remain the
+   frozen contrast: **0 contractions (LINEAR) vs ≥1 (DUP)**.
+3. **LB2 control = within-ℓ-bin permutation null + a DOUBLE partial-Spearman
+   controlling BOTH ℓ and nf_size** (the frozen "partial | ℓ and/or
+   matched-ℓ subsampling"; ℓ-bins are always mixed, and LINEAR runs *larger*
+   at matched ℓ so the nf_size confound is conservative but now controlled
+   explicitly). No exact (ℓ,nf_size) bins — they barely overlap.
+
+Harness `scripts/explore/linearity_bias.py` (dfa1fa7): `--validate` 7 verdict
+worlds + 5 primitives ALL PASS, ruff clean, no diags, qwen3-4b smoke green
+(acc_lin 0.83 / acc_dup 1.0 on the 12-term subset → off-floor, LB4 headroom
+healthy; verdict NOT read).
+
 ## Provenance
 
 - s313 hammock, Michael's constraint question; AI derivation,
