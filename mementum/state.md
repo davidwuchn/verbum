@@ -11,7 +11,31 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ★★ **CURRENT = s317-FUEL (COMPOSITIONALITY FRONT: §P-FUEL → VERDICT NO-FUEL-COORDINATE, clean falsifier).**
+> ★★ **CURRENT = s317-TRACEFUEL (COMPOSITIONALITY FRONT: §P-TRACE-FUEL FROZEN + BUILT + SMOKE-GREEN → RUN IN FLIGHT tmux main:1).**
+> **⚠⚠ ON-SIGNAL PROTOCOL (§P-TRACE-FUEL run, launched s317 Michael GO, tmux main:1, verified running
+> PID 22211):** the DYNAMIC converse of §P-FUEL — §P-FUEL found NO-FUEL-COORDINATE at STATIC-read
+> grain → fuel is tape-resident. This feeds the kernel-certified reduction trace t0 = t1 = ... = t_ℓ
+> and captures the type signal at each `=` step-boundary (one spent fuel unit): does integrated S ∝ ℓ
+> (TF1, where the static read failed), type-specific (TF2), and NON-IDEMPOTENT (TF3: DUP per-step
+> slope not below LIN's — the FU3 knife made dynamic)? Run cmd: `uv run python -u
+> scripts/explore/trace_fuel.py --out results/trace-fuel/qwen3-4b 2>&1 | tee
+> results/trace-fuel/qwen3-4b-run.log` (~1155 type-probe captures + 144 LIN/DUP/NULL traces, per-step
+> ×500 rand subspaces; ~10-15 min). **ON-SIGNAL (run done): tail results/trace-fuel/qwen3-4b-run.log
+> `VERDICT:` + no traceback → read TF1-TF5 + per-family slopes (dup vs lin) → commit results/trace-fuel/
+> AUTONOMOUS → §Result-trace-fuel on normal-forms-are-eigenmodes.md + memory candidate + INDEX +
+> state.md + move queue row 🔵→✅/❌/🚫 (# complete) = MICHAEL APPROVAL BATCH.** Read discipline
+> (don't over-read, s310-s317): DYNAMIC-FUEL(+NON-IDEMPOTENT) = the §P-FUEL negative was a static-grain
+> artifact, de Carvalho holds ON THE TAPE (lights 4th type-system corner + joins s295) → BIG positive,
+> replication-worthy before over-claiming; DYNAMIC-FUEL-IDEMPOTENT contradicts the pinned non-idempotent
+> object → audit curry-howard §3; STATIC-CONFIRMED-NULL (TF1 fail) = §P-FUEL generalizes (register just
+> doesn't count); LENGTH-ONLY = generic per-token accumulation. Registers: Y reused VERBATIM from
+> §P-FUEL (§P-TYPE-GRAM-1 kind subspace, held-out); per-step s_j at `=` positions, band L18-31.
+> §P-TRACE-FUEL FROZEN 12c5c24 · ✅ HARNESS 0830e3a (trace_fuel.py, imports fuel_theorem as lib, no
+> fork; --validate ALL PASS 5 verdicts + 2 primitives, ruff clean, smoke green kind_margin=9.407). NO
+> gate amendment (validated clean first pass). s317-TRACEFUEL ledger: 12c5c24 freeze · 0830e3a harness ·
+> run launched (results pending). Full transcript saves to `chats/session-317.md` (human).
+>
+> ▶▶ **(s317-FUEL, prior) §P-FUEL → VERDICT NO-FUEL-COORDINATE, clean falsifier.**
 > **✅ ON-SIGNAL EXECUTED: the §P-FUEL run landed (VERDICT: NO-FUEL-COORDINATE, no traceback,
 > ~10min, FU5-sane). Results committed AUTONOMOUS (79c76a0, ❌).** §P-FUEL RESULT on
 > normal-forms-are-eigenmodes.md + memory `fuel-is-not-a-static-readout-coordinate.md` + INDEX +
