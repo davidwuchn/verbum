@@ -210,33 +210,42 @@ read-only, no wire.
 
 **Gates (frozen; α=0.05):**
 
-- **DC1 RANK-ASYMMETRY** (core) — PR(OR) > PR(AND), matched-label
-  permutation null (shuffle and/or labels across the pooled AND∪OR set).
-- **DC2 OFF-PLANE** (core, paired) — resid(OR) > resid(AND) paired across
-  pairs (sign/Wilcoxon) + label-permutation null. The costs-heads
-  mechanism.
+- **DC2 OFF-PLANE** (SOLE core, paired) — resid(OR) > resid(AND) paired
+  across pairs + sign-flip permutation null. The costs-heads mechanism (a
+  head ≡ a direction outside {A,B}).
 - **DC3 OR-SPECIFIC** (control) — FILLER patterns with AND (low), not OR:
-  resid(FILLER) < resid(OR) AND PR(FILLER) < PR(OR) → the asymmetry is
+  resid(OR) > resid(FILLER) paired + sign-flip null → the asymmetry is
   specific to logical ∨, not "any second connective."
-- **DC4 SANE** (void-gate) — categories separable (mean between-pair
-  residual distance > within-pair), all prompts well-formed / single
-  connective token.
+- **DC1 RANK-CORROBORATION** (REPORTED, non-gating) — PR(OR) vs PR(AND)
+  reported alongside; agrees-with-DC2 flag only.
+- **DC4 SANE** (void-gate) — categories separable (median cos(A_dir,B_dir)
+  < 0.95, non-degenerate), all prompts well-formed / single connective token.
 
-**Verdicts (frozen tree):**
+**⚠ AMENDMENT (s318, --validate-forced, Michael-approved — demoted DC1 to
+reported corroboration, dropped COMPLEXITY-ARTIFACT; DC2 unchanged, still
+the mechanism).** `--validate` exposed a GEOMETRIC COUPLING: if OR points
+lie in span{A_dir,B_dir} (2-D) the OR set has rank ≤2 ⇒ PR_OR ≈ PR_AND;
+higher PR_OR STRICTLY requires off-plane components ⇒ **DC1-pass ⟹
+DC2-signal** (PR is not an independent readout — it can only corroborate
+DC2, never contradict it). Consequences: (a) the DC1∧¬DC2 branch
+(COMPLEXITY-ARTIFACT) is geometrically EMPTY → removed; (b) population PR
+saturates at min(N,d) → fragile as a gate. Fix keeps the agreed mechanism
+(off-plane = "costs heads") and reports PR as corroboration, not a gate.
+Original frozen intent (∨ recruits dimensions ∨-specifically) unchanged.
+
+**Verdicts (frozen tree, amended):**
 
 ```
 ¬DC4              → VOID
-¬DC2 ∧ ¬DC1       → SYMMETRIC             (falsifier: no ∧/∨ asymmetry → Cartesian substrate, audit curry-howard §5 #4)
-DC2 ∧ ¬DC3        → OR-COSTS-OPAQUE       (asymmetry real but not ∨-specific — filler also costs)
-DC2 ∧ DC3         → INTERSECTION-FREE (+OR-COSTS)   (union recruits dimensions ∨-specifically → affine/∧ substrate; Cartesian killed)
-(DC1 xor DC2)     → report discrepancy, lean on DC2 (the mechanism); no over-read (s310–s318)
+DC2 ∧ DC3         → INTERSECTION-FREE (+OR-COSTS)   (union needs a direction outside {A,B}, ∨-specifically → affine/∧ substrate; Cartesian killed)
+DC2 ∧ ¬DC3        → OR-COSTS-OPAQUE       (off-plane asymmetry real but not ∨-specific — filler also costs)
+¬DC2              → SYMMETRIC             (falsifier: no off-plane asymmetry → Cartesian substrate, audit curry-howard §5 #4)
 ```
 
-**A-priori (declared s318, NOT tuned):** ~45 INTERSECTION-FREE / 20
-OR-COSTS-OPAQUE / 20 SYMMETRIC / 10 COMPLEXITY-ARTIFACT (the DC1-xor-DC2
-discrepancy branch) / 5 VOID. Three converging theory lines favor the
-asymmetry, but three straight nulls (s317–s318) and a fresh readout keep
-real mass on SYMMETRIC.
+**A-priori (declared s318, NOT tuned; re-normalized at amendment):** ~50
+INTERSECTION-FREE / 20 OR-COSTS-OPAQUE / 25 SYMMETRIC / 5 VOID. Three
+converging theory lines favor the asymmetry, but three straight nulls
+(s317–s318) and a fresh readout keep real mass on SYMMETRIC.
 
 **Caveat banked at freeze (interpretation boundary).** "OR spreads more
 dimensions" is consistent with BOTH the theory (OR-machinery / separate
