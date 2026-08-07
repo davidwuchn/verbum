@@ -321,6 +321,107 @@ NL category prompts), band L18–31, 60 samples, one template family. Kills the
 strict Cartesian symmetry; does not establish effect size, mechanism (head vs
 uncertainty), or cross-model generality.
 
+## §P-LINEARITY-BIAS — FROZEN (s319, Michael-approved GO)
+
+**The W/D cost-differential fingerprint — the SECOND discriminator for
+SKI-control #4 (Cartesian substrate).** Curry-Howard §5 lists *two* deaths
+for the free-duplication substrate: "union-vs-intersection probe **+ W/D
+cost differential**." §P-DISJ-COST fired the first (INTERSECTION-FREE, weak
+positive, 1/4). This fires the second. The pinned prediction
+(curry-howard-closes-the-loop.md §2): the substrate chose **KIBC-not-SKI =
+contraction isolated as separate, explicit, costly machinery** (W, D their
+own opcodes), the affine core. Fingerprint: **at matched fuel, contraction
+(W/D duplication) costs reduction-accuracy that linear composition
+(I/K/B/C) does not.**
+
+**Register (λ measure) — COMPUTATIONAL-ACCURACY, deliberately fresh.**
+After three straight *magnitude*-nulls (§P-FUEL / §P-TRACE-FUEL /
+§P-NF-GAUGE, all normal-forms-are-eigenmodes.md) and one thin *off-plane
+geometry* positive (§P-DISJ-COST), this reads a **behavioral correctness**
+register — independent of both the 3×-nulled kind-magnitude and the
+§P-DISJ-COST off-plane geometry. Independence is the point: a fresh
+register makes the fingerprint an independent datum, not a re-read of the
+same substrate.
+
+**Readout — forced-choice NF accuracy (read-only).** For each
+kernel-certified term, present it with candidate normal forms: the correct
+NF (`reduce(t).normal_form`) + principled kernel-generated distractors
+(under-reduce = stop one step early / over-duplicate = apply a contraction
+once too often / wrong-arg = swap a C/exchange target). Model scores each
+candidate by **length-normalized logprob**; accuracy = argmax picks the
+certified-correct NF. Read-only, cheap, clean argmax metric, no
+free-generation parsing fragility. (Free-generation + kernel grading was
+the alternative — more literally "reduction-accuracy" but format-fragile
+and floor-risky at 4B; forced-choice chosen with a distractor-symmetry
+SANE sub-gate to guard the confound.)
+
+**Construction (matched, kernel-certified).** Two arms built from
+`verbum.lambda_ast`, certified by `fuel_theorem.certify`:
+
+- **LINEAR** — terms using only I/K/B/C (affine core: no argument
+  duplicated; `distinct ≈ ℓ`).
+- **DUP** — terms using W (`W f x = f x x`) and/or D (`D f x = f (f x)`)
+  (contraction: an argument/function is copied; `mult > distinct`).
+- **Matched** across arms on `ell` (fuel), `nf_size`, and prompt
+  token-length — a DUP term with ℓ=k paired against a LINEAR term with
+  ℓ=k and matched output size. Both take k steps and produce size-s
+  output; only DUP copies. Isolates "copying costs *per se*" from
+  "longer programs are harder."
+
+**Gates (frozen; α=0.05):**
+
+- **LB1 ACCURACY-GAP (core)** — acc(LINEAR) > acc(DUP), paired within
+  matched-fuel bins + label-permutation null.
+- **LB2 FUEL-CONTROLLED (make-or-break)** — the gap survives *within*
+  fuel bins (partial correlation of accuracy vs dup-ness | ℓ, and/or
+  matched-ℓ subsampling). **This is the gate that separates
+  contraction-cost from length-cost** — the exact confound that nulled
+  §P-FUEL / §P-TRACE-FUEL / §P-NF-GAUGE. Without it the verdict is
+  FUEL-ARTIFACT, not a fingerprint.
+- **LB3 CONTRACTION-GRADED (corroboration, non-gating)** — penalty scales
+  with duplication count (kernel `mult − distinct` gap / #contractions),
+  not mere W/D presence. Spearman within DUP arm.
+- **LB4 SANE (void-gate)** — both arms off-floor **and** off-ceiling
+  (headroom, s311 bake lesson); terms kernel-certified (`is_nf`, status
+  NORMAL_FORM for the correct candidate); **distractor confusability
+  matched across arms** (guards the forced-choice construction confound —
+  measure mean logprob-margin of distractors per arm, gate on parity).
+
+**Verdicts (frozen tree):**
+
+```
+¬LB4                → VOID
+LB1 ∧ LB2           → LINEARITY-BIASED (+GRADED if LB3)   (contraction costs at matched fuel → affine core; SKI-#4 killed on the 2nd discriminator)
+LB1 ∧ ¬LB2          → FUEL-ARTIFACT       (gap is length not contraction — the §P-FUEL trap; affine-unsupported)
+¬LB1                → CARTESIAN-CONSISTENT (falsifier: no penalty → free duplication survives this discriminator)
+DUP easier (LB1 rev) → ANTI               (audit — contradicts affine core)
+```
+
+**A-priori (declared s319, NOT tuned): ~40 LINEARITY-BIASED / 30
+FUEL-ARTIFACT / 20 CARTESIAN-CONSISTENT / 10 VOID+ANTI.** Strong theory
+(KIBC-not-SKI triangulation, interference-cost of copying, late formation
+of contraction opcodes) pulls toward the bias; but three straight
+fuel-confound nulls this arc and §P-DISJ-COST's thinness keep heavy mass on
+FUEL-ARTIFACT — the length confound is precisely what has beaten this arc,
+and LB2 is the stringent gate it must clear.
+
+**Caveat banked at freeze (interpretation boundary).** LINEARITY-BIASED
+licenses "contraction costs reduction-accuracy at matched fuel → affine
+substrate, W/D-costly" — NOT a claim about the *mechanism* of the cost
+(interference vs bookkeeping vs attention-capacity). As with §P-DISJ-COST,
+the fingerprint establishes the asymmetry and its direction (DUP-costly),
+which is what kills Cartesian SKI-control #4 on its second discriminator;
+the physical cause stays a flagged boundary, not a claim.
+
+**Reuse (λ one_way, no fork):** `verbum.lambda_ast` (parse / reduce /
+size / step) · `fuel_theorem` (certify / band_layers / partial_spearman /
+spearman / _perm_within_bins) · `verbum.dsp.nulls` (permutation gate). New
+code = LINEAR / DUP+contraction term generation + kernel-certified
+distractor construction + forced-choice length-normalized logprob accuracy
++ LB1–LB4 gates. `--validate` planted worlds (all verdicts +
+distractor-symmetry + fuel-control primitives) + ruff + smoke (no verdict
+read) → Michael GO → run.
+
 ## Provenance
 
 - s313 hammock, Michael's constraint question; AI derivation,
