@@ -1,0 +1,134 @@
+{
+  "verdict": "TAPE-TYPED+TAG-TRANSIT",
+  "subtag": "DELIVERY-FAILURE",
+  "gates": {
+    "TI1": {
+      "value": 1.270362550507707,
+      "null_mean": 0.0046469491015734095,
+      "p": 0.0079960019990005,
+      "sign_ok": true,
+      "pass": true,
+      "null": "shuffled_label"
+    },
+    "TI2": {
+      "value": 3.4917305589937313,
+      "null_mean": 0.004297973145850556,
+      "p": 9.999000099990002e-05,
+      "sign_ok": true,
+      "pass": true,
+      "null": "paired_permutation"
+    },
+    "TI3": {
+      "value": 1.1617086656445395,
+      "null_mean": -0.0070680162627610715,
+      "p": 0.0476952304769523,
+      "sign_ok": true,
+      "pass": true,
+      "null": "paired_permutation"
+    },
+    "TI4_rand": {
+      "value": 4.264322090148926,
+      "null_mean": 0.00024760721937101436,
+      "p": 0.000999000999000999,
+      "sign_ok": true,
+      "pass": true,
+      "null": "matched_random_axis"
+    },
+    "TI4_shuf": {
+      "value": 4.264322090148926,
+      "null_mean": -0.20292598732188338,
+      "p": 0.04975124378109453,
+      "sign_ok": true,
+      "pass": true,
+      "null": "member_label_shuffled_axis"
+    },
+    "TI4_pass": true,
+    "TI5": {
+      "real_ok": true,
+      "icl_sane": true,
+      "pass": true
+    }
+  },
+  "means": {
+    "L_a0": 0.1382488741510315,
+    "L_a1": 1.4086114246587385,
+    "L_a2": -2.083119134334993,
+    "L_a3": 0.24690275901419909,
+    "T_a0": 0.8886812686920166,
+    "T_a1": 5.153003358840943,
+    "T_a5": 1.4718638737996415,
+    "S_tag": 4.264322090148926,
+    "rho_T_L": 0.6150375939849624,
+    "n_nonce": 20
+  },
+  "meta": {
+    "model_id": "Qwen/Qwen3-4B",
+    "n_nonce": 20,
+    "nonces": [
+      "zorp",
+      "flim",
+      "drax",
+      "quop",
+      "blint",
+      "snerp",
+      "glark",
+      "trazz",
+      "vonk",
+      "plaff",
+      "dworp",
+      "snib",
+      "yerm",
+      "clazz",
+      "frub",
+      "norp",
+      "skell",
+      "twib",
+      "grelm",
+      "zint"
+    ],
+    "labels": [
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1
+    ],
+    "t_band": [
+      18,
+      31
+    ],
+    "wire_band": [
+      22,
+      29
+    ],
+    "with_wire": true,
+    "seeds": 3,
+    "steps": 500,
+    "lr": 0.0001,
+    "lora_r": 16,
+    "kl_weight": 10.0,
+    "ce_budget": 0.4,
+    "metric": {
+      "real_margin": 2.5380677186603577,
+      "per_class_ok": true,
+      "real_icl_margin": 3.075597718744575
+    },
+    "T_a2_mean": -7.111498188972473,
+    "T_a3_mean": 1.3976505756378175
+  }
+}
