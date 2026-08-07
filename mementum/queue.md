@@ -11,7 +11,7 @@
 
 # new
 
-🔵 §P-FUEL — de Carvalho fuel theorem: type-register magnitude ∝ kernel-certified reduction length ℓ(t)? FU3 non-idempotence knife (mult not distinct); a-priori 35/15/25/20/5 (s317 freeze) | normal-forms-are-eigenmodes §P-FUEL | medium
+⚪ trace-integrated fuel — type-register signal accumulated ACROSS a generated reduction (dynamic tape), not a static read; §P-FUEL follow-up | normal-forms-are-eigenmodes §P-FUEL Result | medium
 ⚪ crystal-seeded init — crystal prior vs random init on compositional tasks; cheapest level-4 rung | training-design-from-the-hologram | medium
 ⚪ signal-descent mirror — replace Adam magnitude calibration with ternary mirror stack on the delta substrate | signal-descent | medium
 ⚪ Oracle germination game — cold agent + theory seed predicts measured results? (corpus calibration) | germination-games | cheap
@@ -39,6 +39,7 @@
 
 # complete
 
+❌ §P-FUEL — NO-FUEL-COORDINATE: type-register magnitude does NOT track kernel-certified reduction length at static-read grain (FU1 fail, FU4 negative −0.538 under constant-length control); apparent LIN/DUP scaling was surface length; consistent with fuel being tape-resident (dynamic, not static) | normal-forms-are-eigenmodes §P-FUEL Result | s317
 ❌ §P-TYPE-DELIVER — NO-WEIGHT-DELIVERY: no static weight band (FFN/OV/QK) installs held-frame licensing; delivery is tape-native, not weight-installable (bounds the causal door) | types-are-injectable-relations §13 | s316
 ✅ §P-TYPE-ICL+TAG — TAPE-TYPED+TAG-TRANSIT / DELIVERY-FAILURE: type check reads the TAPE; §9 was delivery failure | types-are-injectable-relations §11 | s315
 ❌ §P-TYPE-WRITE — CONTEXT-ONLY, clean falsifier: relation written, type does not act | types-are-injectable-relations §9 | s315

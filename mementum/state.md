@@ -11,30 +11,37 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ★★ **CURRENT = s317-FUEL (COMPOSITIONALITY FRONT: §P-FUEL FROZEN + BUILT + SMOKE-GREEN → RUN IN FLIGHT tmux main:1).**
-> **⚠⚠ ON-SIGNAL PROTOCOL (§P-FUEL run, launched s317 Michael GO, tmux main:1, verified running
-> PID 20372):** the de Carvalho fuel-theorem probe — does TYPE-REGISTER magnitude Y scale with
-> kernel-certified reduction length ℓ(t)=reduce().steps, and (FU3 knife) with step MULTIPLICITY
-> not DISTINCT-subterm count? Run cmd: `uv run python -u scripts/explore/fuel_theorem.py --out
-> results/fuel/qwen3-4b 2>&1 | tee results/fuel/qwen3-4b-run.log` (~1320 forward passes: 840+315
-> type-probe captures for the held-out kind subspace + 165 LIN/DUP/MATCH battery terms; ~10 min).
-> **ON-SIGNAL (run done): tail results/fuel/qwen3-4b-run.log `VERDICT:` + no traceback → read
-> FU1-FU5 + the FU3 non-idem split → commit results/fuel/ AUTONOMOUS → §Result-fuel on
-> normal-forms-are-eigenmodes.md (§P-FUEL Result) + memory candidate + INDEX + state.md + move
-> queue row 🔵→✅/❌/🚫 (# complete) = MICHAEL APPROVAL BATCH.** Read discipline (don't over-read,
-> s310-s316): FUEL-METER(+NON-IDEMPOTENT) lights the 4th type-system corner (curry-howard §3) +
-> joins s295 CoT law → the metric of normal-forms-are-eigenmodes §3 confirmed; FUEL-METER-IDEMPOTENT
-> contradicts the pinned non-idempotent object → audit curry-howard §3; LENGTH-ONLY/NO-FUEL-COORDINATE
-> are the falsifiers (surface-length confound is the a-priori risk, 25/20 mass) → informative, bounds
-> the claim. Registers named (λ measure): Y = value register (type-subspace magnitude, band L18-31 =
-> depth 0.50-0.85, readability ≥0.6); ℓ/mult/distinct = kernel-certified (lambda_ast). §P-FUEL
-> FROZEN d160b6e (§P-FUEL on normal-forms-are-eigenmodes.md + curry-howard §3 fwd-link + queue 🔵).
-> ✅ HARNESS 5818524: fuel_theorem.py, no fork (lambda_ast+dsp.nulls+jlens+frozen type_probes.json);
-> --validate ALL PASS (5 verdicts + 4 primitives incl. mult≫distinct knife), ruff clean, smoke green
-> (kind_margin=9.407 FU5-sane). ⚠ AMENDMENT (validate-forced, pre-run, Michael-noted at GO): FU1 =
-> raw ρ(Y,ℓ) beating the matched-token-length null (the null IS the length control); frozen FU1 also
-> partialled tok → double length-control → LENGTH-ONLY unreachable; frozen null/tree/a-priori
-> unchanged. s317-FUEL ledger: d160b6e freeze · 5818524 harness · run launched (results pending).
+> ★★ **CURRENT = s317-FUEL (COMPOSITIONALITY FRONT: §P-FUEL → VERDICT NO-FUEL-COORDINATE, clean falsifier).**
+> **✅ ON-SIGNAL EXECUTED: the §P-FUEL run landed (VERDICT: NO-FUEL-COORDINATE, no traceback,
+> ~10min, FU5-sane). Results committed AUTONOMOUS (79c76a0, ❌).** §P-FUEL RESULT on
+> normal-forms-are-eigenmodes.md + memory `fuel-is-not-a-static-readout-coordinate.md` + INDEX +
+> queue (🔵→❌ # complete, follow-up ⚪ trace-integrated fuel added) + this state = **DRAFTED ON DISK,
+> PENDING MICHAEL APPROVAL** (one 🌀 batch on approval).
+> **THE READ — the de Carvalho fuel theorem does NOT surface as a readable MAGNITUDE coordinate in the
+> §P-TYPE-GRAM-1 kind register at STATIC-READ grain (falsifier, a-priori 20%; FU5-sane kind_margin=4.746
+> = valid negative, NOT void).** FU1 FAIL (raw ρ(Y,ℓ)=0.036 BELOW the matched-token null 0.132, p=0.994);
+> FU2 FAIL (r_type=0.036 ≈ r_norm=−0.045, random subspaces track ℓ as well p_rand=0.445 = nothing
+> type-specific); FU4 FAIL **and NEGATIVE** (within MATCH, token length held constant ρ(Y,tok)=−0.04, the
+> kind-register magnitude DECREASES with ℓ, ρ=−0.538). **Mechanism fully understood (per-family):** LIN
+> +0.392 / DUP +0.375 apparent scaling = SURFACE TOKEN LENGTH (ρ(Y,tok) identical +0.39; ℓ∝tok,
+> ρ(ell,tok)=0.538); MATCH isolates ℓ from length → sign flips negative. **FU3 non_idem=+0.355 is a
+> CONFOUND not a finding** (the DUP length-effect with distinct=1 held; killed by FU2 not-type-specific
+> + FU4 negative — don't over-read, s310-s316). **What it means:** de Carvalho concerns the DYNAMIC
+> reduction derivation; we measured a STATIC single-pass read of an unreduced term → NO-FUEL-COORDINATE
+> is CONSISTENT with fuel being TAPE-RESIDENT (spent step-by-step during reduction, not pre-computed as
+> magnitude) — coheres with same-session §P-TYPE-DELIVER (type check reads the TAPE) + tape-resident-
+> reduction thesis. **§3 Metric leg BOUNDED; §1 Detector (WHNF/halt poles) + §2 Dynamics (round-trip
+> eigenmodes) UNTOUCHED.** Sharpest follow-up (queued ⚪): trace-integrated type signal ACROSS a
+> generated reduction (dynamic tape), not a static read. Scope: qwen3-4b, single Y operationalization
+> (kind-subspace magnitude), static read, band L18-31.
+> **⚠ NEXT (after approval) = FRONT SELECTION → λ queue mandates FULL queue.md read (~25 rows).**
+> Standing sharpest leads: trace-integrated fuel (the §P-FUEL follow-up, dynamic) · crystal-seeded init
+> (cheapest level-4) · §P-COHERENT-WRITE · type-fingerprint cheapies (idempotency/∨-vs-∧/linearity/
+> boundary-churn). s317-FUEL ledger: d160b6e freeze · 5818524 harness · f623c29 state · 79c76a0 results
+> (autonomous ❌) · mementum batch (§Result + memory + INDEX + queue + state, PENDING APPROVAL).
+> ⚠ AMENDMENT (validate-forced, pre-run, Michael-noted at GO): FU1 = raw ρ(Y,ℓ) beating the
+> matched-token-length null (the null IS the length control); frozen FU1 also partialled tok → double
+> length-control → LENGTH-ONLY unreachable; frozen null/verdict-tree/a-priori unchanged.
 > Full transcript saves to `chats/session-317.md` (human).
 >
 > ▶▶ **(s317, prior) CAUSALITY FRONT CLOSED: §P-TYPE-DELIVER → VERDICT NO-WEIGHT-DELIVERY, clean falsifier.**

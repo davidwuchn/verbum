@@ -199,6 +199,71 @@ generation + length-matched padding + FU-gate statistics. `--validate`
 planted worlds (all five verdicts) + ruff + smoke (no direction read) →
 Michael GO → run.
 
+## §P-FUEL — RESULT (s317, qwen3-4b) — VERDICT: NO-FUEL-COORDINATE
+
+**The falsifier fired clean, and the §3 Metric leg does NOT hold as
+stated.** Results `79c76a0` (165 LIN/DUP/MATCH terms, 840+315 held-out
+type-probe captures for the kind subspace). The de Carvalho fuel theorem
+does **not** surface as a readable magnitude coordinate in the
+§P-TYPE-GRAM-1 kind register at static-read grain. FU5-sane
+(`kind_margin=4.746`, register recovered) ⇒ a **valid negative**, not a
+void.
+
+| gate | result |
+|---|---|
+| FU1 FUEL-SCALES | ✗ ρ(Y,ℓ)=0.036 **below** matched-token null (0.132), p=0.994 |
+| FU2 TYPE-SPECIFIC | ✗ r_type=0.036 ≈ r_norm=−0.045; random subspaces p=0.445 |
+| FU4 LENGTH-DECOUPLED | ✗ **and negative** — within MATCH ρ(Y,ℓ)=**−0.538** |
+| FU3 NON-IDEMPOTENT | flag fired (+0.355) but is a **confound**, see below |
+| FU5 SANE | ✓ kind_margin 4.746, all terms reduce to NF |
+
+**The mechanism is fully understood (per-family read):**
+
+| family | ρ(Y,ℓ) | ρ(Y,tok) | what it is |
+|---|---|---|---|
+| LIN | +0.392 | +0.390 | tracks **surface length** (ℓ∝tok∝distinct) |
+| DUP | +0.375 | +0.383 | tracks **surface length** (ℓ∝tok; distinct=1) |
+| MATCH | **−0.538** | −0.039 | **token length held constant** → fuel isolated |
+
+The apparent positive scaling in LIN/DUP is **surface token length** — Y
+tracks `tok` (+0.39) exactly as much as ℓ, because ℓ∝tok in those families
+(ρ(ℓ,tok)=0.538). In **MATCH — the one family that holds token length
+constant (ρ(Y,tok)=−0.04) and varies ℓ purely — the type-register
+magnitude goes the *wrong way* (ρ=−0.538)**: at fixed surface length, more
+pending reduction ⇒ *less* kind-register projection. That negative even
+drags the pooled FU1 below its length null (0.036 < 0.132).
+
+**FU3 is a confound, not a finding (don't over-read, s310–s316).** The
+`non_idem=+0.355` flag is the DUP family's length effect: with distinct
+held at 1, partial ρ(Y, mult | distinct) simply reads DUP's tok-driven
++0.375. FU2 (not type-specific; random subspaces do as well) and FU4
+(negative under the physical control) both disqualify it. No
+multiplicity-tracking claim is licensed.
+
+**What it means.** de Carvalho's identity is about the *dynamic reduction
+derivation*; this probe measured a **static single-pass read of an
+unreduced term**. NO-FUEL-COORDINATE is therefore **consistent with fuel
+being tape-resident** — spent step-by-step during reduction on the tape,
+not pre-computed as a static magnitude at read time. That coheres with the
+same-session §P-TYPE-DELIVER result (the type check reads the tape, not
+static weights) and the tape-resident-reduction thesis. The **§3 Metric
+leg is bounded, not the whole picture**: §1 Detector (WHNF / halt poles)
+and §2 Dynamics (round-trip eigenmodes) are untouched. If de Carvalho
+holds in the substrate, its coordinate is in the *dynamic trace*, not the
+static readout magnitude of the kind register.
+
+**Design consequence / sharpest follow-up:** measure a **trace-integrated**
+type-register signal accumulated ACROSS a generated reduction (the
+trampoline's bounces), not a single static read — fuel as a *dynamic*
+quantity on the tape. (Unfrozen; s222 freeze-first when picked.)
+
+**Scope/caveats:** single model (qwen3-4b), single Y operationalization
+(kind-subspace projection magnitude), static read, band L18–31. This kills
+*this readable coordinate*, not fuel-in-the-substrate. AMENDMENT (s317,
+validate-forced, Michael-noted at GO): FU1 used raw ρ(Y,ℓ) beating the
+matched-token-length null (the null is the length control); frozen null /
+verdict tree / a-priori unchanged.
+
 ## Caveats
 
 - A SPECIFIC term's normal form exists only when computed onto the tape
