@@ -11,6 +11,41 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ═══ **THIS SESSION = 318 (IN FLIGHT).** Cold-start `orient` (s317 closed) → Michael picked
+> the **distance-to-NF gauge** front off the queue (freshest s317 lead) → reframed as a
+> **SIGN-RESOLUTION probe**: two s317 results DISAGREE on the register's sign vs distance-to-NF —
+> §P-FUEL MATCH (token-controlled, static) says NF=HIGH (ρ=−0.538); §P-TRACE-FUEL decay
+> (uncontrolled, per-step) says NF=LOW. Confound = LOCAL TOKEN LENGTH. Probe pins the sign
+> PER-FRAME under a proper local-token control (partial ρ(sⱼ, rⱼ=ℓ−j | ctⱼ); SIGN picks verdict).
+> **🎯 §P-NF-GAUGE FROZEN (a7195d2)** on normal-forms-are-eigenmodes.md (Michael GO). Gates NG1
+> LOCAL-DECODE(+sign) / NG2 TYPE-SPECIFIC / **NG3 ENGAGEMENT (REQUIRED, Michael — reduction-driven
+> precondition)** / NG4 CROSS-GRAIN adv / NG5 SANE. Verdicts REMAINING-WORK-GAUGE(ρ>0) /
+> DONENESS-DETECTOR(ρ<0) / LENGTH-DECREASE-ONLY(falsifier) / VOID. A-priori 20/35/35/10 (NOT tuned;
+> mass on DONENESS+LENGTH — the token control killed the increasing reading twice, MATCH already
+> points at doneness). **🔄 AMENDMENT (5e1d6fc, pre-build design-review, Michael GO):** LIN/DUP
+> alone have ct~r collinear → matched-ct null powerless → NG1 rigged; ADDED MATCH-padded family
+> (h (C..)×k (Z..)×P; k redexes fire, P inert Z pads ride verbatim → ct~const while r=k−j sweeps →
+> decoupled). Arms now LIN/DUP/MATCH/NULL. **✅ HARNESS BUILT (1e99137): scripts/explore/nf_gauge.py**
+> — no fork (imports fuel_theorem Y+stats verbatim + trace_fuel rendering; new code = MATCH family +
+> per-frame (r,ct) + signed partial-Spearman + matched-ct null + 3-way gate). --validate ALL PASS
+> (6 planted worlds, both NG1 signs; primitives MATCH ℓ==k / real all-NF / `=`-count==ℓ / DECOUPLE
+> cv_ct MATCH 0.031<LIN 0.076), ruff clean (+per-file-ignore RUF001/2/3), no diags, qwen3-4b smoke
+> green (kind_margin 9.41, all gates compute, verdict NOT read).
+> **⚠ RUN IN FLIGHT (tmux main:1, Michael GO):** `uv run python -u scripts/explore/nf_gauge.py --out
+> results/nf-gauge/qwen3-4b 2>&1 | tee results/nf-gauge/qwen3-4b-run.log` (195 traces: LIN/DUP/NULL 40
+> ea + MATCH 75; + 840/315 type-probe subspace captures; read-only, no wire; est ~1-2h). Verified
+> running (PID 25995, model loaded, subspace fit stage).
+> **⚠ ON-SIGNAL (run done): tail run.log `VERDICT:` + no traceback → read NG1 (partial ρ AND ITS
+> SIGN) / NG2 / NG3 / NG4 / NG5 → commit results/nf-gauge/ AUTONOMOUS → §Result-nf-gauge on
+> normal-forms-are-eigenmodes.md + memory candidate + INDEX + state.md + move queue row 🔵→✅/🚫
+> (# complete) = MICHAEL APPROVAL BATCH.** Read discipline (don't over-read the label, s310–s317):
+> DONENESS-DETECTOR(ρ<0) reconciles both priors (MATCH −0.538 was doneness), promotes §1 Detector to
+> graded, kills §3 Metric both signs; REMAINING-WORK-GAUGE(ρ>0) re-signs §3 but CONTRADICTS MATCH →
+> cross-check NG4 hard before claiming; LENGTH-DECREASE-ONLY = token control wins a 3rd time, §3
+> Metric fully bounded; VOID only if NG5 fails (smoke margin 9.41 → unlikely). Apply NG4 cross-grain
+> as the reconciliation datum. s318 ledger: a7195d2 freeze · 5e1d6fc amendment · 1e99137 harness ·
+> this state checkpoint · results PENDING. Full transcript → chats/session-318.md (human). ═══
+>
 > ★★ **SESSION 317 COMPLETE (three probes, three clean falsifiers → one convergent thesis: the
 > machine's TYPE computation is TAPE-RESIDENT — read/enacted per-frame, not stored in weights and not
 > accumulated). NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue FULL read ~25 rows;
