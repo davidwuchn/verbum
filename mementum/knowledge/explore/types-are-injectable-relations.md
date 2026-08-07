@@ -303,6 +303,95 @@ converse, now the priority discriminator) · attention-band membership
 write (same probe, band swapped to the slot register) · fuel-theorem
 probe (unchanged).
 
+## 10. §P-TYPE-ICL+TAG — FROZEN (s315, pending Michael GO)
+
+**The tape-side converse of §8, instrumented for tag transit.** §9 landed
+CONTEXT-ONLY: baked FFN membership recalls but does not license. Priors
+(s239, s293) say tape-resident membership DOES license. This probe (a)
+measures that claim under the exact §8 metric the baked wire failed, and
+(b) reads WHERE the class tag travels — Michael's J-space question in its
+live form (tag-TRANSIT through residual content, not workspace RESIDENCY;
+the strict-basis question is already closed negative, P-TYPE-JS s286, and
+is NOT re-tested here).
+
+**Registers named before probes (λ measure):**
+
+- `L(w)` held-frame licensing — **value register** (surprisal contrast,
+  §8 metric verbatim, same code).
+- `T(w)` class-tag presence — **residual-content register** (loose bus):
+  projection of the residual at the last token of `"The {w}"` (the
+  position feeding the check) onto the real-member class axis
+  `û_l = norm(mean_l(animal members) − mean_l(vehicle members))`, bare
+  frames, fixed reference (λ yardstick). Signed by true class. Gate
+  aggregates mean over depth 0.50–0.85 (L18–L30 of 36); full profile
+  advisory. Explicitly NOT the s270 workspace basis.
+
+**Arms (one model load, qwen3-4b — the §8/§9 carrier; no training except A5):**
+
+- **A0 base** — bare held frame `"The {w} {pred}."` (§8 held predicates).
+- **A1 ICL-true** — `"A {w} is {an animal|a vehicle}. The {w} {pred}."`
+  (true class; single classificatory statement, §8 statement form).
+- **A2 ICL-deranged** — same, anti-class statement (exact-format matched
+  content control; prediction: licenses the ANTI class).
+- **A3 mention** — `"I saw a {w} yesterday. The {w} {pred}."` (nonce
+  mention without class content; binding-vs-classification control).
+- **A4 real-member anchor** — gate-0 reuse (metric validity).
+- **A5 wire (advisory contrast)** — §8 recipe verbatim under the s315
+  corridor (kl_weight 10, ce_budget 0.40, 3 seeds), eval-only residual
+  capture in held frames. No new gates ride A5; it feeds the subtag only.
+
+**Gates (frozen; α=0.05; n=20 nonces, machinery = type_write compute
+pattern):**
+
+- **TI1 TAPE-LICENSING** — mean signed `L(A1) − L(A0) > 0`, beats
+  class-label-permutation null. The core (TW1 analog, tape side).
+- **TI2 CONTENT-SPECIFIC** — `L(A1) − L(A2) > 0`, paired permutation
+  (true beats deranged at exactly matched prompt budget; TW3 analog).
+- **TI3 CLASS-NOT-MENTION** — `L(A1) − L(A3) > 0`, paired permutation.
+- **TI4 TAG-TRANSIT** — `T(A1) − T(A0) > 0` beats BOTH matched-random-axis
+  null (n=1000) AND member-label-shuffled-axis null (n=200). Advisory
+  sub-read: Spearman(T, L) > 0 across A1 nonces (graded tag↔licensing link).
+- **TI5 METRIC-SANE (void-gate)** — gate-0 real-member margin ≥ 0.25 per
+  §8; A1 prefix does not invert real-member licensing (spot-check on A4
+  frames with a true-member ICL prefix).
+
+**Verdicts (frozen tree):**
+
+- **TAPE-TYPED (+TAG-TRANSIT)** — TI1∧TI2∧TI3 (TI4 adds subtag). With §9,
+  the two-tier split is measured from both sides: **the type check
+  consumes the tape, not the plates.**
+- **TAPE-TYPED-OPAQUE** — TI1∧TI2∧TI3 ∧ ¬TI4: licenses, but the tag rides
+  a basis the class axis misses (consistent with the P-TYPE-JS strict
+  negative; informative for the QK arc).
+- **MENTION-ONLY** — TI1 ∧ ¬TI3: generic binding, not classification.
+- **NO-TAPE-TRANSFER** — ¬TI1: the falsifier — would contradict s239/s293
+  priors; power audit before any theory update.
+- **VOID** — ¬TI5.
+
+**A5 wire-contrast subtag (advisory, attaches to any verdict; the
+discriminator for §9's failure mode):**
+
+- **DELIVERY-FAILURE** — `T(A5) ≈ T(A0)` while `T(A1) ≫ T(A0)`: the baked
+  edge never lifts the tag into held-frame residuals — §9 was a transit
+  failure; the relation exists but is never consulted. (Michael's
+  hypothesis lands, transit sense.)
+- **TAG-INSUFFICIENT** — `T(A5) ≈ T(A1)` (tag present) while §9 licensing
+  failed: content on the bus is not enough; the check reads routing state
+  more deeply (pushes on P-ATT-MED's content-carried story).
+- **AMBIGUOUS** — intermediate; report, don't force.
+
+**A-priori (declared s315, NOT tuned):** ~50 TAPE-TYPED / 20
+TAPE-TYPED-OPAQUE / 10 MENTION-ONLY / 15 NO-TAPE-TRANSFER / 5 VOID.
+Wire-contrast lean: ~70 DELIVERY-FAILURE / 20 TAG-INSUFFICIENT / 10
+AMBIGUOUS.
+
+**Reuse (λ one_way, no fork):** nonces, classes, HELD_PREDS, `L`,
+`_signed_L`, gate machinery imported from `type_write.py`; residual
+capture via `src/verbum/jlens.py` (`capture_residuals`); A5 trains via
+the amended type_write recipe. New code = arms assembly + `T` projection
++ TI gates. `--validate` planted worlds (all five verdicts + both
+subtags) + ruff + smoke (no direction read) → Michael GO → run.
+
 ## Provenance
 
 - s313 hammock, Michael's join ("what if the types are relations...

@@ -23,11 +23,19 @@
 > scoped; attention-band write + P-TYPE-ICL = open causal doors). Write-corridor recipe
 > co-finding: unanchored CE burns host (r1 +2.3) · budget 0.10 starves write (r2 cut 22/
 > ~200) · kl_weight 10 binds (r3) = exposure schedule (L3/L5) for all future semantic
-> writes. **NEXT FRONT lean: P-TYPE-ICL (tape-side converse, now the priority
-> discriminator — if tape membership DOES license held frames, type check reads TAPE not
-> plates = two-tier measured both sides)** · attention-band membership write (slot
-> register) · fuel-theorem probe · standing alts unchanged. All UNFROZEN, s222
-> freeze-first.
+> writes. **NEXT FRONT: 🎯 §P-TYPE-ICL+TAG FROZEN (§10 on types-are-injectable-relations.md,
+> Michael-approved s315)** — tape-side converse + tag-transit read (Michael's J-space
+> hypothesis in its LIVE form: transit through residual content, NOT workspace residency —
+> P-TYPE-JS s286 strict-basis negative stands, not re-tested). Arms A0 base / A1 ICL-true /
+> A2 ICL-deranged / A3 mention / A4 real anchor / A5 wire-contrast (advisory, s315 corridor
+> recipe). Gates TI1-TI5; verdicts TAPE-TYPED(+TAG-TRANSIT)/TAPE-TYPED-OPAQUE/MENTION-ONLY/
+> NO-TAPE-TRANSFER/VOID; A5 subtag DELIVERY-FAILURE/TAG-INSUFFICIENT/AMBIGUOUS; a-priori
+> 50/20/10/15/5, wire-contrast 70/20/10. Reuse type_write.py + jlens.py (λ one_way).
+> **NEXT ACTION: build harness** (validate planted worlds incl. both subtags → ruff →
+> smoke, no direction read) → Michael GO → run. Recall receipts this arc: P-TYPE-JS
+> js_resident=FALSE (s286 four-way null) · P-ATT-MED content-carried 0.735 (s286) ·
+> jlens/jacobian tooling (s263). Standing alts: attention-band write · fuel-theorem ·
+> unchanged.
 >
 > **RUN LEDGER §P-TYPE-WRITE:** r1 (375358d) ❌ HOST-DAMAGED — wire baked (recall p=5e-4,
 > ~200 steps to install) but host burned (CE +2.3, real-L inverted −0.624), TW1–4 VOID.
