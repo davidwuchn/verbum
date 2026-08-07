@@ -1,0 +1,51 @@
+{
+ "verdict": "STATIC-CONFIRMED-NULL",
+ "gates": {
+  "TF1": {
+   "value": 0.5800556547563077,
+   "null_mean": 0.5732339598494267,
+   "p": 0.19760479041916168,
+   "sign_ok": true,
+   "null": "matched_trace_length",
+   "pass": false
+  },
+  "TF2": {
+   "r_type": 0.5800556547563077,
+   "r_norm": 0.3633938203159288,
+   "p_rand": 0.041916167664670656,
+   "beats_norm": true,
+   "real_minus_null": 2.2141834834659386,
+   "p_step": 0.001996007984031936,
+   "pass": true
+  },
+  "TF3": {
+   "slope_dup": -0.20684317559763551,
+   "slope_lin": -1.3849851727789446,
+   "delta_slope": 1.1781419971813092,
+   "p_idem": 1.0,
+   "non_idem": true
+  },
+  "TF4_step_locked": 0.0,
+  "TF5": {
+   "kind_margin": 4.746493635537817,
+   "all_nf": true,
+   "pass": true
+  }
+ },
+ "means": {
+  "kind_margin": 4.746493635537817
+ },
+ "meta": {
+  "model_id": "Qwen/Qwen3-4B",
+  "n_layers": 36,
+  "band": [
+   18,
+   31
+  ],
+  "n_traces": 144,
+  "n_train": 840,
+  "n_test": 315,
+  "seed": 0,
+  "smoke": false
+ }
+}

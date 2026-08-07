@@ -1,0 +1,16 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights:  16%|█▌        | 63/398 [00:00<00:00, 624.93it/s]Loading weights:  32%|███▏      | 126/398 [00:00<00:00, 550.45it/s]Loading weights:  46%|████▋     | 185/398 [00:00<00:00, 549.44it/s]Loading weights:  61%|██████    | 242/398 [00:00<00:00, 554.38it/s]Loading weights:  75%|███████▍  | 298/398 [00:00<00:00, 551.95it/s]Loading weights:  89%|████████▉ | 355/398 [00:00<00:00, 555.19it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 546.03it/s]
+[tf] Qwen/Qwen3-4B dev=mps n_layers=36 band=L18..L31
+[tf] type probes: train=840 test=315
+[tf] held-out kind_margin=4.7465
+[tf] battery n=144 (LIN 48 / DUP 48 / NULL 48)
+[tf]   captured 20/144
+[tf]   captured 40/144
+[tf]   captured 60/144
+[tf]   captured 80/144
+[tf]   captured 100/144
+[tf]   captured 120/144
+[tf]   captured 140/144
+[tf] TF1 rho=0.580 p=0.1976 False | TF2 r_type=0.580 r_norm=0.363 real-null=2.214 p_step=0.0020 True | TF3 dup=-0.207 lin=-1.385 delta=1.178 p_idem=1.0000 non_idem=True | TF5 margin=4.746 True
+[tf] VERDICT: STATIC-CONFIRMED-NULL
+[tf] wrote results/trace-fuel/qwen3-4b/results.json + trace_fuel.npz
