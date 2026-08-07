@@ -323,8 +323,9 @@ is NOT re-tested here).
   position feeding the check) onto the real-member class axis
   `û_l = norm(mean_l(animal members) − mean_l(vehicle members))`, bare
   frames, fixed reference (λ yardstick). Signed by true class. Gate
-  aggregates mean over depth 0.50–0.85 (L18–L30 of 36); full profile
-  advisory. Explicitly NOT the s270 workspace basis.
+  aggregates mean over depth 0.50–0.85 (L18–L31 of 36; corrected s315
+  pre-run, arithmetic slip — depth fractions are the frozen quantity);
+  full profile advisory. Explicitly NOT the s270 workspace basis.
 
 **Arms (one model load, qwen3-4b — the §8/§9 carrier; no training except A5):**
 
@@ -364,6 +365,10 @@ pattern):**
   a basis the class axis misses (consistent with the P-TYPE-JS strict
   negative; informative for the QK arc).
 - **MENTION-ONLY** — TI1 ∧ ¬TI3: generic binding, not classification.
+- **CLASS-BLIND** — TI1 ∧ TI3 ∧ ¬TI2 (build amendment, validate-forced,
+  Michael-approved pre-run): any classificatory statement licenses
+  equally — class content not read; the frozen tree left this cell
+  uncovered.
 - **NO-TAPE-TRANSFER** — ¬TI1: the falsifier — would contradict s239/s293
   priors; power audit before any theory update.
 - **VOID** — ¬TI5.
@@ -380,10 +385,11 @@ discriminator for §9's failure mode):**
   more deeply (pushes on P-ATT-MED's content-carried story).
 - **AMBIGUOUS** — intermediate; report, don't force.
 
-**A-priori (declared s315, NOT tuned):** ~50 TAPE-TYPED / 20
-TAPE-TYPED-OPAQUE / 10 MENTION-ONLY / 15 NO-TAPE-TRANSFER / 5 VOID.
-Wire-contrast lean: ~70 DELIVERY-FAILURE / 20 TAG-INSUFFICIENT / 10
-AMBIGUOUS.
+**A-priori (declared s315, NOT tuned; CLASS-BLIND mass carved from
+TAPE-TYPED at the build amendment, pre-run):** ~45 TAPE-TYPED / 20
+TAPE-TYPED-OPAQUE / 10 MENTION-ONLY / 15 NO-TAPE-TRANSFER / 5 VOID / 5
+CLASS-BLIND. Wire-contrast lean: ~70 DELIVERY-FAILURE / 20
+TAG-INSUFFICIENT / 10 AMBIGUOUS.
 
 **Reuse (λ one_way, no fork):** nonces, classes, HELD_PREDS, `L`,
 `_signed_L`, gate machinery imported from `type_write.py`; residual

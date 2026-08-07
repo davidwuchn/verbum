@@ -31,11 +31,26 @@
 > recipe). Gates TI1-TI5; verdicts TAPE-TYPED(+TAG-TRANSIT)/TAPE-TYPED-OPAQUE/MENTION-ONLY/
 > NO-TAPE-TRANSFER/VOID; A5 subtag DELIVERY-FAILURE/TAG-INSUFFICIENT/AMBIGUOUS; a-priori
 > 50/20/10/15/5, wire-contrast 70/20/10. Reuse type_write.py + jlens.py (λ one_way).
-> **NEXT ACTION: build harness** (validate planted worlds incl. both subtags → ruff →
-> smoke, no direction read) → Michael GO → run. Recall receipts this arc: P-TYPE-JS
-> js_resident=FALSE (s286 four-way null) · P-ATT-MED content-carried 0.735 (s286) ·
-> jlens/jacobian tooling (s263). Standing alts: attention-band write · fuel-theorem ·
-> unchanged.
+> **✅ HARNESS BUILT (c0b9269)** — type_icl_tag.py, validate ALL PASS (7 worlds + 3
+> primitives), ruff clean, smoke green n=4 (all arms incl. A5 train+capture; arm
+> separation in predicted directions; deranged prefix licenses ANTI class = design
+> confirmed; verdict not read). **TWO BUILD AMENDMENTS (Michael-approved at GO, pre-run):**
+> (1) CLASS-BLIND verdict for the uncovered cell TI1∧TI3∧¬TI2 (any class statement
+> licenses equally), a-priori now 45/20/10/15/5/5; (2) T-band parenthetical corrected
+> L18–L31 (round(0.85·36)=31; depth fractions are the frozen quantity). **⚠ RUN IN FLIGHT
+> (tmux main:1, Michael GO):** `uv run python -u scripts/explore/type_icl_tag.py --out
+> results/type-icl-tag/qwen3-4b 2>&1 | tee results/type-icl-tag/qwen3-4b-run.log`
+> (20 nonces, A0-A4 training-free + A5 3-seed corridor wire, ~2-3h). Verified running.
+> **⚠ ON-SIGNAL (run done): tail run.log `VERDICT:` + no traceback → read TI1-TI5 + subtag
+> + rho_T_L → commit results/type-icl-tag/ AUTONOMOUS → §Result-icl-tag on
+> types-are-injectable-relations.md (+ update §9 cross-read if TAPE-TYPED: two-tier closed
+> both sides) + memory candidate + INDEX + state.md = MICHAEL APPROVAL BATCH.** Read
+> discipline: TAPE-TYPED(+TAG-TRANSIT) + DELIVERY-FAILURE = the J-space transit story
+> lands (relation exists, never consulted — §9 was a delivery failure); TAG-INSUFFICIENT
+> = tag on bus insufficient → pushes P-ATT-MED; NO-TAPE-TRANSFER contradicts s239/s293 →
+> power audit FIRST. Recall receipts this arc: P-TYPE-JS js_resident=FALSE (s286 four-way
+> null) · P-ATT-MED content-carried 0.735 (s286) · jlens/jacobian tooling (s263).
+> Standing alts: attention-band write · fuel-theorem · unchanged.
 >
 > **RUN LEDGER §P-TYPE-WRITE:** r1 (375358d) ❌ HOST-DAMAGED — wire baked (recall p=5e-4,
 > ~200 steps to install) but host burned (CE +2.3, real-L inverted −0.624), TW1–4 VOID.
