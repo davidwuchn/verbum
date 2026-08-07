@@ -11,7 +11,49 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ★★ **CURRENT = s315-FINAL (TYPE ARC CLOSED BOTH SIDES: THE TYPE CHECK READS THE TAPE).**
+> ★★ **CURRENT = s316 (CAUSALITY FRONT: §P-TYPE-DELIVER FROZEN + BUILT + SMOKE-GREEN → RUN PENDING MICHAEL GO).**
+> Cold-start `orient` (s315 closed, nothing pending) → FRONT SELECTION (full queue read,
+> 26 rows) → Michael picked **attention-band write (delivery path)** = the causality front
+> (S5 scorecard open cell). Grounding surfaced a **coherence gap**: queue row said "QK/slot
+> register", but P-TYPE-QK measured `qk_aligned=FALSE` (observational) + P-ATT-MED
+> content-carried 0.735 ≫ aim 0.195 + §11 tag-transit → all point at OV/content. Michael
+> chose **co-primary OV+QK, no predicted null** (a causal WRITE into QK ≠ the observational
+> READ P-TYPE-QK falsified). **🎯 §P-TYPE-DELIVER FROZEN (8ecca42)** = §12 on
+> types-are-injectable-relations.md (Michael-approved). **Causal converse of §9:** can a
+> STATIC WEIGHT WRITE install the delivery §9 lacked (§9 = FFN membership → recall p=5e-4 but
+> license✗ tag✗, DELIVERY-FAILURE), and WHICH band? **Single factor:** hold §8 membership-CE
+> + s315 corridor (kl_weight 10/ce_budget 0.40) + band 0.60-0.80 + recipe VERBATIM; vary ONLY
+> the LoRA target — A1 FFN `mlp.{gate,up,down}` (=§9, DELIVERY-FAILURE anchor) / A2 OV
+> `self_attn.{v,o}` / A3 QK `self_attn.{q,k}`; deranged anti-class matched-budget control per
+> delivery channel; A0 base; A4 real anchor. Registers named (λ measure): L=value (§8
+> surprisal), T=residual-content (§11 projection, per-layer profile persisted for the ≥0.6
+> readability rule). Gates TD1 DELIVERS / TD2 CONTENT-SPECIFIC / TD3 TAG-TRANSIT / TD4
+> BAND-LOCALIZED / TD5 HOST-SANE / TD6 METRIC-SANE. Verdicts (co-primary): OV-DELIVERS /
+> QK-DELIVERS / BOTH-DELIVER / **NO-WEIGHT-DELIVERY (falsifier: delivery tape-native only,
+> not weight-installable — real a-priori mass since §11 showed the TAPE delivers)** /
+> FFN-ALSO-DELIVERS (surprise, audit) / VOID. A-priori 28/18/14/30/5/5 (NOT tuned).
+> **✅ HARNESS BUILT (f1ac32b): `scripts/explore/type_deliver.py`** — no fork (type_write
+> constants/pure-fns + writeback_compile.LoRALinear + jlens.capture_residuals; new code =
+> band-swap + arm assembly + TD gates). --validate 8 verdict worlds + 3 primitives ALL PASS,
+> ruff clean, no diags, qwen3-4b smoke green (real margin 2.538 = §11 gate-0; all band-swaps
+> train + restore bit-exact, drift 0.0; verdict NOT read — 4 nonce/1 seed/8 step).
+> **⚠ RUN PENDING MICHAEL GO (task #3):** `uv run python -u scripts/explore/type_deliver.py
+> --out results/type-deliver/qwen3-4b 2>&1 | tee results/type-deliver/qwen3-4b-run.log`
+> (20 nonces, 3 true wires + 2 deranged × 3 seeds × ≤500 steps; est ~2-3h). **⚠ ON-SIGNAL
+> (run done): tail run.log `VERDICT:` + no traceback → read TD1-TD6 per channel + delivers
+> map + TD4 band-localized → commit results/type-deliver/ AUTONOMOUS → §Result-deliver on
+> types-are-injectable-relations.md (§13) + memory candidate + INDEX + state.md + move queue
+> row 🔵→✅/❌/🚫 (# complete) = MICHAEL APPROVAL BATCH.** §Result must apply the
+> `readout-register-reduction-readability` rule to the per-layer T profile (tags.npz
+> profile_* arrays; value register legible ≥0.6 depth — read the profile not just the band
+> mean). Read discipline (don't over-read the label, s310/s311/s312): OV-DELIVERS confirms
+> content-channel delivery (P-ATT-MED consistent) → causality cell attacked; NO-WEIGHT-DELIVERY
+> = delivery is tape-native (bounds the causal door, informative not failure);
+> FFN-ALSO-DELIVERS contradicts §9 → replication/power audit BEFORE any update. s316 ledger:
+> 8ecca42 freeze (§12 + queue 🔵) · f1ac32b harness. Standing alt fronts: fuel-theorem ·
+> crystal-seeded init. Full transcript saves to `chats/session-316.md` (human).
+>
+> ▶▶ **(s315-FINAL, prior arc) TYPE ARC CLOSED BOTH SIDES: THE TYPE CHECK READS THE TAPE.**
 > **✅ §P-TYPE-ICL+TAG LANDED: TAPE-TYPED+TAG-TRANSIT / DELIVERY-FAILURE (92c9a3f
 > autonomous; §Result = §11 on types-are-injectable-relations.md, Michael-approved batch
 > this commit).** All 5 gates: TI1 p=0.008 (L 0.138→1.409) · TI2 p=1e-4 (deranged licenses
