@@ -11,6 +11,7 @@
 
 # new
 
+🔵 §P-DISJ-COST (∨-vs-∧ asymmetry) — union recruits more effective dimensions than intersection? DC1 rank-asymmetry PR(OR)>PR(AND) / DC2 off-plane resid / DC3 OR-specific / DC4 sane; representational readout (robust to 3× magnitude-null); kills Cartesian SKI-control #4 | type-systems-under-llm-constraints §P-DISJ-COST (FROZEN s318) | cheap
 ⚪ crystal-seeded init — crystal prior vs random init on compositional tasks; cheapest level-4 rung | training-design-from-the-hologram | medium
 ⚪ signal-descent mirror — replace Adam magnitude calibration with ternary mirror stack on the delta substrate | signal-descent | medium
 ⚪ Oracle germination game — cold agent + theory seed predicts measured results? (corpus calibration) | germination-games | cheap
@@ -26,7 +27,6 @@
 ⚪ SKI-controls for types — 4 controls enumerated s313 | curry-howard-closes-the-loop | cheap
 ⚪ fuel-theorem probe — type-derivation size = evaluation length (de Carvalho ↔ s295 CoT law) | curry-howard-closes-the-loop | medium
 ⚪ idempotency/saturation — A∧A≠A accumulates (non-idempotent intersection)? | type-systems-under-llm-constraints | cheap
-⚪ ∨-vs-∧ asymmetry — union costs heads, intersection free? | type-systems-under-llm-constraints | cheap
 ⚪ linearity-bias probe — duplication costs (affine core, W/D explicit) | type-systems-under-llm-constraints | cheap
 ⚪ boundary-churn identity — marginal band ≡ type-boundary population (M8 corollary) | type-systems-under-llm-constraints · the-verbum-machine | cheap
 ⚪ P-AYOT-PARAPHRASE — carrier vs capability-mimicry discriminator | ayot-is-own-beam-calibration | medium

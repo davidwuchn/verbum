@@ -164,6 +164,95 @@ when M8 next revised.)
   concentrate on type-boundary features? (Joins the optimizer story to
   the type story empirically.)
 
+## §P-DISJ-COST — FROZEN (s318, Michael-approved GO)
+
+**The ∨-vs-∧ asymmetry fingerprint (§6 item 2 / curry-howard SKI-control
+#4) — the first fingerprint measured.** The pinned substrate says
+**intersection is free** (membership in many passbands simultaneously —
+superposition-native; `T₁∧T₂` costs nothing) while **union is
+head-hungry** (disjunction needs separate matched filters per disjunct —
+OR-machinery). Fingerprint: at matched surface complexity, union
+representations recruit **more effective dimensions** than intersection.
+The **Cartesian substrate** (free duplication, no ∧/∨ asymmetry) is the
+pre-committed death (SKI-control #4).
+
+**Register choice (λ measure) — REPRESENTATIONAL, not magnitude.** The
+s317–s318 arc (§P-FUEL / §P-TRACE-FUEL / §P-NF-GAUGE) established that the
+kind-register *magnitude* does not grade — it is a presence detector.
+This probe deliberately reads a **dimensionality** register (effective
+rank / off-plane geometry), robust to that three-fold magnitude-null, not
+a graded magnitude.
+
+**Construction (matched, token-controlled).** N category pairs (A,B) the
+model knows — (bird,fish), (metal,liquid), (tree,vehicle), … Five arms
+per pair, read at the **final shared content token** so AND/OR/FILLER
+differ by exactly one single-token word:
+
+- **A** "It is a bird." · **B** "It is a fish."
+- **AND** (∧) "It is a bird `and` a fish." · **OR** (∨) "It is a bird `or`
+  a fish."
+- **FILLER** (control) "It is a bird `near` a fish." — non-logical
+  connective.
+
+`and`/`or`/`near` are single tokens (surface matched). Read residual at
+the last content token, band L18–31 (the type region), one qwen3-4b load,
+read-only, no wire.
+
+**Readouts (λ triangulate — two faces of one claim):**
+
+- **R1 effective rank / participation ratio** PR = (Σλ)²/Σλ² of each
+  arm-set's covariance (OR-set vs AND-set; SAME pairs → concept diversity
+  matched, so the gap is connective-induced spread).
+- **R2 off-plane residual** (paired, per pair): `‖r_conn −
+  proj_{span{r_A,r_B}}(r_conn)‖ / ‖r_conn‖` — literally "does the
+  connective need a direction OUTSIDE the A,B passbands?" Operationalizes
+  "costs heads" (a head ≡ a new direction).
+
+**Gates (frozen; α=0.05):**
+
+- **DC1 RANK-ASYMMETRY** (core) — PR(OR) > PR(AND), matched-label
+  permutation null (shuffle and/or labels across the pooled AND∪OR set).
+- **DC2 OFF-PLANE** (core, paired) — resid(OR) > resid(AND) paired across
+  pairs (sign/Wilcoxon) + label-permutation null. The costs-heads
+  mechanism.
+- **DC3 OR-SPECIFIC** (control) — FILLER patterns with AND (low), not OR:
+  resid(FILLER) < resid(OR) AND PR(FILLER) < PR(OR) → the asymmetry is
+  specific to logical ∨, not "any second connective."
+- **DC4 SANE** (void-gate) — categories separable (mean between-pair
+  residual distance > within-pair), all prompts well-formed / single
+  connective token.
+
+**Verdicts (frozen tree):**
+
+```
+¬DC4              → VOID
+¬DC2 ∧ ¬DC1       → SYMMETRIC             (falsifier: no ∧/∨ asymmetry → Cartesian substrate, audit curry-howard §5 #4)
+DC2 ∧ ¬DC3        → OR-COSTS-OPAQUE       (asymmetry real but not ∨-specific — filler also costs)
+DC2 ∧ DC3         → INTERSECTION-FREE (+OR-COSTS)   (union recruits dimensions ∨-specifically → affine/∧ substrate; Cartesian killed)
+(DC1 xor DC2)     → report discrepancy, lean on DC2 (the mechanism); no over-read (s310–s318)
+```
+
+**A-priori (declared s318, NOT tuned):** ~45 INTERSECTION-FREE / 20
+OR-COSTS-OPAQUE / 20 SYMMETRIC / 10 COMPLEXITY-ARTIFACT (the DC1-xor-DC2
+discrepancy branch) / 5 VOID. Three converging theory lines favor the
+asymmetry, but three straight nulls (s317–s318) and a fresh readout keep
+real mass on SYMMETRIC.
+
+**Caveat banked at freeze (interpretation boundary).** "OR spreads more
+dimensions" is consistent with BOTH the theory (OR-machinery / separate
+matched filters) and a mundane reading (OR = semantic uncertainty →
+higher-entropy → higher-rank). DC1/DC2 establish the asymmetry and its
+direction (∨>∧), which is what kills the Cartesian SKI-control; the
+machinery-vs-uncertainty interpretation is a boundary flagged, **not a
+claim**. INTERSECTION-FREE licenses "the substrate treats ∨ and ∧
+asymmetrically, ∨-costly" — not "we saw OR-heads."
+
+**Reuse (λ one_way, no fork):** `verbum.jlens` (capture_residuals) ·
+`fuel_theorem` (band_layers / _orthonormal) · `verbum.dsp.nulls`
+(gate / NullDraws). New code = ∧/∨/filler category-pair construction +
+PR/effective-rank + off-plane residual + DC gates. `--validate` planted
+worlds (all verdicts) + ruff + smoke (no direction read) → Michael GO → run.
+
 ## Provenance
 
 - s313 hammock, Michael's constraint question; AI derivation,
