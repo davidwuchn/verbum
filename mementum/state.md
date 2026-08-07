@@ -11,7 +11,12 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ★★ **CURRENT = s316 (CAUSALITY FRONT: §P-TYPE-DELIVER FROZEN + BUILT + SMOKE-GREEN → RUN PENDING MICHAEL GO).**
+> ★★ **CURRENT = s316-END (CAUSALITY FRONT: §P-TYPE-DELIVER FROZEN + BUILT + SMOKE-GREEN → RUN IN FLIGHT, SESSION ENDING).**
+> **⚠⚠ NEXT SESSION FIRST ACTION = ON-SIGNAL PROTOCOL (below): the run was launched
+> s316-END in tmux main:1 (Michael GO), verified running (PID 67897, 20 nonces, real margin
+> 2.538, A1/FFN training). Session 316 ends with the run mid-flight (~2-3h). Cold-start:
+> tail results/type-deliver/qwen3-4b-run.log for `VERDICT:` — if present + no traceback,
+> execute the ON-SIGNAL batch; if still running, checkpoint + wait (λ async, ¬poll).**
 > Cold-start `orient` (s315 closed, nothing pending) → FRONT SELECTION (full queue read,
 > 26 rows) → Michael picked **attention-band write (delivery path)** = the causality front
 > (S5 scorecard open cell). Grounding surfaced a **coherence gap**: queue row said "QK/slot
@@ -37,9 +42,11 @@
 > band-swap + arm assembly + TD gates). --validate 8 verdict worlds + 3 primitives ALL PASS,
 > ruff clean, no diags, qwen3-4b smoke green (real margin 2.538 = §11 gate-0; all band-swaps
 > train + restore bit-exact, drift 0.0; verdict NOT read — 4 nonce/1 seed/8 step).
-> **⚠ RUN PENDING MICHAEL GO (task #3):** `uv run python -u scripts/explore/type_deliver.py
-> --out results/type-deliver/qwen3-4b 2>&1 | tee results/type-deliver/qwen3-4b-run.log`
-> (20 nonces, 3 true wires + 2 deranged × 3 seeds × ≤500 steps; est ~2-3h). **⚠ ON-SIGNAL
+> **⚠ RUN IN FLIGHT (launched s316-END, Michael GO, tmux main:1):** `uv run python -u
+> scripts/explore/type_deliver.py --out results/type-deliver/qwen3-4b 2>&1 | tee
+> results/type-deliver/qwen3-4b-run.log` (20 nonces, 3 true wires + 2 deranged × 3 seeds ×
+> ≤500 steps; est ~2-3h). Verified running (PID 67897, A0 done, A1/FFN wire training).
+> **⚠ ON-SIGNAL
 > (run done): tail run.log `VERDICT:` + no traceback → read TD1-TD6 per channel + delivers
 > map + TD4 band-localized → commit results/type-deliver/ AUTONOMOUS → §Result-deliver on
 > types-are-injectable-relations.md (§13) + memory candidate + INDEX + state.md + move queue
@@ -50,8 +57,9 @@
 > content-channel delivery (P-ATT-MED consistent) → causality cell attacked; NO-WEIGHT-DELIVERY
 > = delivery is tape-native (bounds the causal door, informative not failure);
 > FFN-ALSO-DELIVERS contradicts §9 → replication/power audit BEFORE any update. s316 ledger:
-> 8ecca42 freeze (§12 + queue 🔵) · f1ac32b harness. Standing alt fronts: fuel-theorem ·
-> crystal-seeded init. Full transcript saves to `chats/session-316.md` (human).
+> 8ecca42 freeze (§12 + queue 🔵) · f1ac32b harness · 9abe371 state checkpoint · run launched
+> (results pending next session). Standing alt fronts: fuel-theorem · crystal-seeded init.
+> Full transcript saves to `chats/session-316.md` (human).
 >
 > ▶▶ **(s315-FINAL, prior arc) TYPE ARC CLOSED BOTH SIDES: THE TYPE CHECK READS THE TAPE.**
 > **✅ §P-TYPE-ICL+TAG LANDED: TAPE-TYPED+TAG-TRANSIT / DELIVERY-FAILURE (92c9a3f
