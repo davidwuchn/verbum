@@ -106,12 +106,22 @@ models). Fit, clause by clause:
   scale with kernel-certified reduction length. **FROZEN s317 as §P-FUEL
   (normal-forms-are-eigenmodes.md, Michael GO): type-register magnitude ∝
   ℓ(t)=reduce(t).steps, with the non-idempotence knife FU3 (Y tracks step
-  multiplicity, not distinct-subterm count).**
+  multiplicity, not distinct-subterm count).** **→ RAN s317: ❌
+  NO-FUEL-COORDINATE (normal-forms-are-eigenmodes §P-FUEL) — the
+  type-register MAGNITUDE at a static read does NOT scale with reduction
+  length; apparent scaling was surface token length. Generalized by
+  §P-TRACE-FUEL (❌) and §P-NF-GAUGE (❌): fuel is TAPE-RESIDENT, computed
+  fresh per-frame, NOT metered into a static magnitude. De Carvalho's
+  "size = length" holds as a proof-theoretic identity but is NOT readable
+  as a stored weight/activation quantity — consistent with the
+  tape-resident thesis (s317). The fuel corner is thus lit ON THE TAPE,
+  dark in the static register.**
 
 One line: **the type system of an affine substrate with explicit costly
 contraction, non-idempotent intersection membership, and
-probability-weighted judgments — one object, three of four corners
-already lit.**
+probability-weighted judgments — one object, all corners now measured
+(non-idempotence + intersection + gradedness LIT; the fuel identity lit
+on the tape, not in the static register — s320).**
 
 ## 4. The one-line deduction
 
@@ -135,6 +145,48 @@ retroactively measured.
 4. **Cartesian substrate** (free duplication) — predicts no ∧/∨
    asymmetry, no contraction cost. Discriminators: union-vs-intersection
    probe + W/D cost differential.
+
+## 5b. §RESOLVED (s320) — the SKI-control tier is COMPLETE (4/4 measured)
+
+All four pre-committed deaths have now been discriminated against. None of
+the plausible-but-wrong type systems survives intact; the quantitative-affine
+family is the one left standing, with each property's LOCATION nailed down.
+
+1. **Nominal constructor enum → REJECTED** (s313). §P-TYPE-GRAM-1 TG3
+   diffuse/alphabet-like, matched-range withheld +POLED (p=0.077). Kind
+   geometry is an intersection/feature-bundle, not a polar low-rank enum.
+2. **Church-style static tags → TESTED-DEAD** (s288 + s320). Crisp binary
+   acceptance is falsified by s288 graded refusal AND by the continuous
+   licensing register L used throughout the s315–s320 tape probes (L is
+   graded, never {0,1}). Listed dead, not assumed-dead.
+3. **Idempotent intersection → FALSIFIED → NON-IDEMPOTENT** (§P-IDEMPOTENCY,
+   s320). Coherent membership re-exposure ACCUMULATES tape licensing beyond
+   the energy-matched null (IB2 make-or-break p=0.0226); `A∧A ≠ A`. Confirmed
+   on TWO substrates (A2 weight-plate s292 + tape licensing s320). Bounded,
+   not unbounded (peaks ~3 exposures then declines).
+4. **Cartesian substrate → FALSIFIED (mixed, representational)** — the two
+   discriminators DISAGREE, which is itself the finding: **∨-vs-∧
+   (§P-DISJ-COST, s318) = weak-POSITIVE** (union is off-plane, ∨-specific →
+   strict Cartesian symmetry killed) but **W/D cost (§P-LINEARITY-BIAS, s319)
+   = NEGATIVE** (contraction executes as accurately as composition at matched
+   fuel). Read: the affine/∨-cost signature is **REPRESENTATIONAL/geometric,
+   NOT executional** — the substrate copies as competently as it composes but
+   *represents* ∨ and duplication with extra spread.
+
+**Loop-closing synthesis (the deduction validated, with corrections).** The
+KIBC-not-SKI opcode discrimination correctly predicted the FAMILY
+(quantitative-affine / non-idempotent intersection). What the fingerprints
+ADDED is *where each property lives*: non-idempotence + intersection-flavor
+are **representational and tape-side** (idempotency on the tape, ∨-cost in
+residual geometry); the affine core is a **weight-space opcode-inventory
+fact** (KIBC basis, late W/D formation), NOT an execution cost; the fuel
+identity is **tape-resident**, not a static register quantity (§P-FUEL null);
+and only a **thin deep-layer echo** of the type boundary survives in the
+weights (§P-BOUNDARY-CHURN qualified-+, ~6% kind-specific). Composite: a
+**graded, accumulating, representational, tape-primary quantitative-affine
+type geometry** riding a universal reducer. The pinned prediction survives;
+the two-tier (weights = checker/relation, tape = judgments) is the frame that
+holds it together.
 
 ## 6. Cautions
 
