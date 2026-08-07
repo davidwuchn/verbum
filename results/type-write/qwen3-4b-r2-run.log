@@ -1,0 +1,74 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 20958.36it/s]
+[tw] Qwen/Qwen3-4B dev=mps n_layers=36 band=L22..L29 seeds=3 steps=500
+[tw] nonces=20 (animal 10 vehicle 10)
+[tw] gate-0: base licensing of real members …
+[tw] gate-0: real-member licensing margin=2.538 per_class_ok=True n_ok=True -> PASS
+[tw] arm base …
+[tw] replay anchor cached: 8 texts, 93 positions, kl_weight=1.0
+[tw] arm wire (true membership) …
+    seed0 snap    0 mem 4.9562 kl 0.0007 host_ce 3.5280 drift -0.0009
+    seed0 snap    1 mem 4.9400 kl 0.0008 host_ce 3.5237 drift -0.0052
+    seed0 snap    2 mem 4.8848 kl 0.0007 host_ce 3.5275 drift -0.0013
+    seed0 snap    3 mem 4.8017 kl 0.0009 host_ce 3.5212 drift -0.0076
+    seed0 snap    5 mem 4.5894 kl 0.0012 host_ce 3.5248 drift -0.0041
+    seed0 snap    8 mem 4.2215 kl 0.0027 host_ce 3.5187 drift -0.0101
+    seed0 snap   13 mem 3.5214 kl 0.0106 host_ce 3.5143 drift -0.0145
+    seed0 snap   21 mem 2.6682 kl 0.0317 host_ce 3.5632 drift +0.0343
+    seed0 snap   34 mem 1.7436 kl 0.0304 host_ce 3.6910 drift +0.1622
+    seed0 STOP ce-budget @ step 34 -> rollback to step 21 (keep 22)
+[tw] wire seed0 done (stop 22 ce_budget_rollback)
+    seed1 snap    0 mem 4.9562 kl 0.0007 host_ce 3.5208 drift -0.0081
+    seed1 snap    1 mem 4.9394 kl 0.0009 host_ce 3.5200 drift -0.0088
+    seed1 snap    2 mem 4.8833 kl 0.0007 host_ce 3.5288 drift -0.0000
+    seed1 snap    3 mem 4.8015 kl 0.0014 host_ce 3.5164 drift -0.0124
+    seed1 snap    5 mem 4.5925 kl 0.0012 host_ce 3.5177 drift -0.0111
+    seed1 snap    8 mem 4.2186 kl 0.0025 host_ce 3.5250 drift -0.0038
+    seed1 snap   13 mem 3.5114 kl 0.0094 host_ce 3.5232 drift -0.0057
+    seed1 snap   21 mem 2.6392 kl 0.0308 host_ce 3.5671 drift +0.0382
+    seed1 snap   34 mem 1.7414 kl 0.0315 host_ce 3.6956 drift +0.1668
+    seed1 STOP ce-budget @ step 34 -> rollback to step 21 (keep 22)
+[tw] wire seed1 done (stop 22 ce_budget_rollback)
+    seed2 snap    0 mem 4.9562 kl 0.0007 host_ce 3.5294 drift +0.0006
+    seed2 snap    1 mem 4.9401 kl 0.0007 host_ce 3.5296 drift +0.0008
+    seed2 snap    2 mem 4.8845 kl 0.0008 host_ce 3.5253 drift -0.0036
+    seed2 snap    3 mem 4.7985 kl 0.0014 host_ce 3.5194 drift -0.0095
+    seed2 snap    5 mem 4.5892 kl 0.0016 host_ce 3.5287 drift -0.0002
+    seed2 snap    8 mem 4.2195 kl 0.0026 host_ce 3.5125 drift -0.0163
+    seed2 snap   13 mem 3.5197 kl 0.0102 host_ce 3.5229 drift -0.0059
+    seed2 snap   21 mem 2.6577 kl 0.0313 host_ce 3.5606 drift +0.0317
+    seed2 snap   34 mem 1.7521 kl 0.0311 host_ce 3.6730 drift +0.1442
+    seed2 STOP ce-budget @ step 34 -> rollback to step 21 (keep 22)
+[tw] wire seed2 done (stop 22 ce_budget_rollback)
+[tw] arm shuffle (deranged membership, matched budget [22, 22, 22]) …
+    seed0 snap    0 mem 4.9742 kl 0.0007 host_ce 3.5228 drift -0.0060
+    seed0 snap    1 mem 4.9575 kl 0.0008 host_ce 3.5219 drift -0.0069
+    seed0 snap    2 mem 4.9076 kl 0.0009 host_ce 3.5301 drift +0.0013
+    seed0 snap    3 mem 4.8222 kl 0.0012 host_ce 3.5176 drift -0.0113
+    seed0 snap    5 mem 4.6124 kl 0.0011 host_ce 3.5207 drift -0.0081
+    seed0 snap    8 mem 4.2447 kl 0.0027 host_ce 3.5206 drift -0.0083
+    seed0 snap   13 mem 3.5433 kl 0.0108 host_ce 3.5151 drift -0.0137
+    seed0 snap   21 mem 2.6795 kl 0.0324 host_ce 3.5592 drift +0.0303
+[tw] shuffle seed0 done (stop 22 matched_budget)
+    seed1 snap    0 mem 4.9742 kl 0.0007 host_ce 3.5273 drift -0.0015
+    seed1 snap    1 mem 4.9588 kl 0.0007 host_ce 3.5168 drift -0.0121
+    seed1 snap    2 mem 4.9051 kl 0.0006 host_ce 3.5276 drift -0.0013
+    seed1 snap    3 mem 4.8209 kl 0.0010 host_ce 3.5140 drift -0.0148
+    seed1 snap    5 mem 4.6116 kl 0.0013 host_ce 3.5239 drift -0.0050
+    seed1 snap    8 mem 4.2412 kl 0.0026 host_ce 3.5220 drift -0.0068
+    seed1 snap   13 mem 3.5318 kl 0.0100 host_ce 3.5082 drift -0.0206
+    seed1 snap   21 mem 2.6517 kl 0.0315 host_ce 3.5666 drift +0.0378
+[tw] shuffle seed1 done (stop 22 matched_budget)
+    seed2 snap    0 mem 4.9742 kl 0.0007 host_ce 3.5315 drift +0.0026
+    seed2 snap    1 mem 4.9578 kl 0.0008 host_ce 3.5194 drift -0.0094
+    seed2 snap    2 mem 4.9043 kl 0.0008 host_ce 3.5210 drift -0.0079
+    seed2 snap    3 mem 4.8208 kl 0.0010 host_ce 3.5309 drift +0.0021
+    seed2 snap    5 mem 4.6105 kl 0.0018 host_ce 3.5302 drift +0.0013
+    seed2 snap    8 mem 4.2381 kl 0.0027 host_ce 3.5222 drift -0.0066
+    seed2 snap   13 mem 3.5375 kl 0.0100 host_ce 3.5099 drift -0.0189
+    seed2 snap   21 mem 2.6696 kl 0.0315 host_ce 3.5525 drift +0.0237
+[tw] shuffle seed2 done (stop 22 matched_budget)
+[tw] wrote results/type-write/qwen3-4b-r2/results.json
+[tw] TW1 p=0.3678 pass=False | TW2 rho=-0.041 p=0.5657 pass=False | TW3 p=0.0022 pass=True | TW4 p=0.5821 pass=False | recall pass=False | host=True
+[tw] L_base=0.138 L_wire=0.107 L_shuf=0.061
+[tw] VERDICT: NO-WRITE
