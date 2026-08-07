@@ -442,9 +442,25 @@ register depth 0.50–0.85). Controls `s_normⱼ = y_norm`, `s_randⱼ` (matched
 random subspace). No new register; no fork.
 
 **Arms (teacher-forced traces, one qwen3-4b load, read-only — reuse
-`trace_fuel.build_trace_battery`).** LIN (n distinct redexes) · DUP (same redex
-×n) · NULL (inert `T = T = …`, `r≡0`, constant term = pure-position / floor
-control: tests whether sⱼ drifts with position alone at zero remaining work).
+`trace_fuel.build_trace_battery` + MATCH family).** LIN (n distinct redexes) ·
+DUP (same redex ×n) · **MATCH (added — the decoupling instrument)** · NULL
+(inert `T = T = …`, `r≡0`, constant term = pure-position / floor control: tests
+whether sⱼ drifts with position alone at zero remaining work).
+
+**⚠ AMENDMENT (s318, design-review, Michael-approved BEFORE build — added the
+MATCH family; gates / verdict tree / a-priori UNCHANGED).** LIN/DUP alone
+cannot decouple `r` from `ct`: each β-step shrinks the term by ~fixed tokens, so
+within one trace `ctⱼ ≈ ct₀ − c·j` and `rⱼ = ℓ − j` are **collinear** → the
+matched-`ct` null has no power → NG1 would fail *by construction*, a rigged
+falsifier (λ yardstick / λ measure). Fix = the per-frame analog of §P-FUEL's
+MATCH: a padded trace `h (C…)×k (Z…)×P` where only the `k` active redexes reduce
+and the `P` inert `Z` pads ride along verbatim in every frame → **within one
+MATCH trace `ctⱼ ≈ const` (pads dominate) while `rⱼ = k−j` sweeps `k→1`** — `ct`
+and `r` genuinely decoupled. Varying `(k, P)` fills the `(ct, r)` plane so the
+matched-`ct` null gets real power. This is precisely how §P-FUEL's MATCH enabled
+FU4. Reuses `ff._inert` verbatim (still no fork). LIN/DUP contribute the
+reduction-engagement signal (NG3); MATCH contributes the decoupled NG1 frames;
+NULL the floor.
 
 **Gates (frozen; α=0.05):**
 
@@ -500,11 +516,12 @@ result would elegantly reconcile both prior findings.
 
 **Reuse (λ one_way, no fork):** `fuel_theorem` (fit_type_subspace / y_project /
 y_norm / kind_margin_heldout / _orthonormal / _load_type_probes / band_layers /
-spearman / partial_spearman / _perm_within_bins / TYPE_SUBSPACE_DIM /
-N_RAND_SUBSPACES / N_PERM) · `trace_fuel` (build_trace_battery / _render_trace /
-eq_positions / _null_chain / _slope) · verbum.lambda_ast · verbum.dsp.nulls ·
-verbum.jlens. New code = per-frame `(rⱼ, ctⱼ)` extraction + signed
-partial-Spearman + matched-`ct` null + three-way gate. `--validate` planted
+spearman / partial_spearman / _perm_within_bins / _atoms / _redex / _inert /
+TYPE_SUBSPACE_DIM / N_RAND_SUBSPACES / N_PERM) · `trace_fuel` (build_trace_battery
+/ _render_trace / eq_positions / _null_chain / _slope) · verbum.lambda_ast ·
+verbum.dsp.nulls · verbum.jlens. New code = MATCH-padded trace family + per-frame
+`(rⱼ, ctⱼ)` extraction + signed partial-Spearman + matched-`ct` null +
+three-way gate. `--validate` planted
 worlds (all four verdicts, both NG1 signs) + ruff + smoke (no direction read) →
 Michael GO → run.
 
