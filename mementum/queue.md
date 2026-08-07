@@ -15,7 +15,6 @@
 ⚪ signal-descent mirror — replace Adam magnitude calibration with ternary mirror stack on the delta substrate | signal-descent | medium
 ⚪ Oracle germination game — cold agent + theory seed predicts measured results? (corpus calibration) | germination-games | cheap
 ⚪ CL-identities as routing constraints — do combinator-algebra identities hold as routing-register geometry? | combinator-function-shape | cheap
-▶ §P-TYPE-ICL+TAG — tape membership licenses held frames? + tag-transit (J-space live form) | types-are-injectable-relations §10 | running tmux main:1
 ⚪ attention-band membership write — write member→class into the slot register (QK band), §8 probe re-aimed | types-are-injectable-relations §9 | medium
 ⚪ GS-iterative base decomposition — alternating projections untangle the in-line base? (iterative-LoftQ door) | holographic-untangling-methods | medium
 ⚪ rocking-curve instrument — reinjection efficiency vs (layer × angle × strength); the write-targeting surface | holographic-untangling-methods | big
@@ -40,6 +39,7 @@
 
 # complete
 
+✅ §P-TYPE-ICL+TAG — TAPE-TYPED+TAG-TRANSIT / DELIVERY-FAILURE: type check reads the TAPE; §9 was delivery failure | types-are-injectable-relations §11 | s315
 ❌ §P-TYPE-WRITE — CONTEXT-ONLY, clean falsifier: relation written, type does not act | types-are-injectable-relations §9 | s315
 ✅ §P-TYPE-GRAM-1 + registry sweep — TYPE-REGISTER 7/11 family-clean, training-contingent | gram-registers-and-the-route-map | s313–s314
 ✅ §P-PLATE-LINKER-1 — lossless composition; PL2 untestable (no interference regime at r=16) | optical-design-laws | s312

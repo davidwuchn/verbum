@@ -11,7 +11,27 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ★★ **CURRENT = s315 (§P-TYPE-WRITE CLOSED: CONTEXT-ONLY — THE FALSIFIER FIRED, CLEAN).**
+> ★★ **CURRENT = s315-FINAL (TYPE ARC CLOSED BOTH SIDES: THE TYPE CHECK READS THE TAPE).**
+> **✅ §P-TYPE-ICL+TAG LANDED: TAPE-TYPED+TAG-TRANSIT / DELIVERY-FAILURE (92c9a3f
+> autonomous; §Result = §11 on types-are-injectable-relations.md, Michael-approved batch
+> this commit).** All 5 gates: TI1 p=0.008 (L 0.138→1.409) · TI2 p=1e-4 (deranged licenses
+> ANTI class −2.083 = content read) · TI3 p=0.048 · TI4 rand p=0.001/shuf p=0.0498
+> (hair-thin, noted) · TI5 sane. Tag transit T 0.889→5.153, ρ(T,L)=0.615. A5 r_tag=0.137
+> → DELIVERY-FAILURE: §9's baked relation never transits to held-frame residuals. TWO-TIER
+> CLOSED: baked = recall w/o licensing w/o tag (§9) | tape = licensing + tag + graded
+> (§11). Michael's J-space hypothesis holds in TRANSIT form (residency stays negative,
+> P-TYPE-JS s286 — transit ≠ residency). Retro-precedent: type-directed-composition
+> (June, found by s315 archaeology). Design consequences: attention-band write re-aimed
+> at the DELIVERY path; M4 tape = the typed operand stack. Caveat: per-layer T profile
+> unpersisted (band means only; readability ≥0.6 rule untested on band composition).
+> **⚠ NEXT SESSION = FRONT SELECTION → λ queue mandates FULL queue.md read (26 rows).**
+> Sharpest leads by this arc: attention-band write (delivery path) · fuel-theorem ·
+> crystal-seeded init (archaeology). s315 ledger: 375358d r1 · b448f34 amendment · cc44ab9
+> r2 · 6eb308f r3 · 0e2b8fe type-write batch · 5a7fd40 freeze · c0b9269 harness · 6b5d15b
+> GO amendments · e6f2a15 queue protocol · 184f76e archaeology · 92c9a3f icl results ·
+> this batch. Full transcript saves to `mementum/knowledge/chats/session-315.md` (human).
+>
+> ▶▶ **(earlier s315, arc)** §P-TYPE-WRITE CLOSED: CONTEXT-ONLY — the falsifier fired, clean.
 > All 3 runs landed + committed; **§Result batch ON DISK, PENDING MICHAEL APPROVAL** (§9 on
 > types-are-injectable-relations.md + memory written-membership-does-not-type-check.md +
 > INDEX + this state.md → commit as one 🌀 batch on approval). **THE READ:** r3 (kl_weight

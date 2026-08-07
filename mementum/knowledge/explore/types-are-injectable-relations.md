@@ -398,6 +398,48 @@ the amended type_write recipe. New code = arms assembly + `T` projection
 + TI gates. `--validate` planted worlds (all five verdicts + both
 subtags) + ruff + smoke (no direction read) → Michael GO → run.
 
+## 11. §Result-icl-tag (s315, qwen3-4b) — TAPE-TYPED+TAG-TRANSIT / DELIVERY-FAILURE
+
+**The two-tier split is CLOSED, measured from both sides.** Results
+`92c9a3f`, run ~40 min + A5. All five gates pass; the falsifier §9 needed
+is answered by its converse:
+
+| side | membership lives | recall | licensing | tag on bus |
+|---|---|---|---|---|
+| §9 baked (FFN wire) | weights | ✓ p=5e-4 | ✗ | ✗ (T=1.47 ≈ base 0.89) |
+| §11 tape (ICL) | context | — | **✓ p=0.008** | **✓ T=5.15, ρ(T,L)=0.615** |
+
+**The type check consumes the TAPE, not the plates.** Gate detail: TI1
+L 0.138→1.409 (p=0.008); TI2 the sharpest — a deranged statement licenses
+the ANTI class (L=−2.083, p=1e-4): the check reads class *content*, not
+statement *form*; TI3 mention control ≈ base (0.247, p=0.048); TI4 tag
+transit beats both axis nulls (rand p=0.001; shuf p=0.0498 — clears by a
+hair, noted honestly); TI5 sane (real margin 2.538, ICL margin 3.076).
+
+**A5 subtag: DELIVERY-FAILURE** (r_tag = 0.137 ≤ 0.25). The §9 wire's tag
+never reaches held-frame residuals — the relation exists in the plates
+but is not consulted. §9 was a *delivery* failure, not a storage failure.
+Michael's J-space hypothesis lands in its live form: **type information
+acts iff it transits the residual bus**; the tape delivers it, the FFN
+edge does not. (Workspace *residency* remains negative per P-TYPE-JS s286
+— transit ≠ residency; both results stand.)
+
+**Retro-precedent (s315 archaeology):** `type-directed-composition.md`
+(June) measured the same tape-side effect — nonce taught-in-context as
+verb composes ~2 nats cheaper — anticipating this probe by two months;
+its v4 partial-causality (single direction ×0.64) now reads as
+intersection-type geometry. **Caveat:** per-layer T profile not persisted
+(band means only); under the `readout-register-reduction-readability.md`
+rule (value register legible ≥0.6 depth), band composition is untested —
+cheap follow-up if the profile matters.
+
+**What this opens:** the attention-band membership write is now sharper —
+don't write the *relation* into FFN plates; write into the **delivery
+path** (the machinery that lifts tags onto the bus). And M-machine
+corollary: M4's trampoline is not just fuel management — the tape is
+where the type system *runs*; a designed machine should treat context as
+its typed operand stack, not as input.
+
 ## Provenance
 
 - s313 hammock, Michael's join ("what if the types are relations...
