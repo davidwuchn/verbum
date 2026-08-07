@@ -732,6 +732,107 @@ subspace reconstruction + marginality/selectivity + BC1–BC4 gates. `--validate
 planted worlds (all verdicts + type-specific + magnitude-control primitives) +
 ruff + smoke (no verdict read) → Michael GO → run.
 
+**⚠ BUILD AMENDMENT (s320, runtime/build-forced, pre-run, Michael GO —
+instrument-side ONLY; register / verdict-tree / a-priori UNCHANGED).** Reading
+the persisted centroids against the runtime (λ assert) forced two corrections,
+frozen INTENT preserved:
+
+1. **Space + weight matrix.** The §P-TYPE-GRAM-1 `register` is **'gate'** — the
+   centroids live in the **9728-dim gate-activation space** (Qwen3-4B
+   intermediate), a direction over HIDDEN UNITS, NOT the residual d_model space
+   the freeze assumed. Corrected: type-selectivity `s_j` = hidden unit j's
+   **leverage** in the type subspace = ‖U_ℓ[j,:]‖; on-target weights =
+   **`gate_proj` rows** (gate_proj[j,:] computes the gate activation that IS the
+   type register), NOT down_proj columns.
+2. **BC2 null.** Isotropic-random subspace leverage is exchangeable across units
+   (a random 2-frame) → cannot correlate with marginality → BC2 would be
+   geometrically REDUNDANT with BC1 and MARGIN-GENERIC UNREACHABLE (same bug
+   class as the idempotency k=0 fix). Corrected to the **shuffled-kind-label
+   subspace** null (§P-TYPE-GRAM-1 TG5 methodology: permute atom/fn/app within
+   opcode, rebuild the subspace — preserves centroid magnitude structure,
+   varies only kind identity). Isotropic ρ kept as an advisory sanity number.
+
+Note: pure weight-geometry (no forward pass, no scaling knob) ⇒ smoke == full
+(deterministic, frozen seed) — the a-priori/gates/verdicts were all frozen in
+the freeze commit before any compute, so pre-registration holds. Harness
+`scripts/explore/boundary_churn.py`: `--validate` 4 verdict worlds (all
+reachable) + 3 primitives ALL PASS, ruff clean, no diags.
+
+## §P-BOUNDARY-CHURN — RESULT (s320, qwen3-4b) — VERDICT: BOUNDARY-IS-TYPED (QUALIFIED)
+
+**A surprising — but thin — weight-space echo of the type boundary, against a
+heavy-negative a-priori.** Results (`results/boundary-churn/qwen3-4b`; 9728
+gate units × 36 layers, base Qwen3-4B, persisted §P-TYPE-GRAM-1 centroids).
+BC4-sane (kind subspace recoverable, kind_sep=√2; TWN thr>0; 350k units) ⇒ a
+valid measurement.
+
+| gate | result |
+|---|---|
+| BC1 CONCENTRATION (core) | ✓ ρ(m_j, s_j)=**+0.241**, **p=0.0005** (within-layer label-perm null ≈ 0.002) — marginal gate_proj rows concentrate on the type subspace |
+| BC2 TYPE-SPECIFIC (make-or-break) | ✓ ρ_kind 0.241 > shuffled-kind mean **0.2255** (p95 0.2287), **p=0.0033** — but the kind-specific increment is **thin** (~0.0155) |
+| BC2 iso-random (advisory) | ρ ≈ **0.000** — confirms the isotropic null is trivially beaten (the redundancy that justified the shuffled-kind null) |
+| BC3 LAYER-PROFILE (advisory) | per-layer ρ **deepens**: −0.05 (shallow) → ~0.35 (deep); 18/36 layers ρ>0.3, only 1 layer <0 |
+| BC4 SANE | ✓ subspace ✓ · thr ✓ · n ✓ |
+
+**What lands.** Per the frozen tree, BC1 ∧ BC2 ⇒ **BOUNDARY-IS-TYPED**: the
+base-FFN TWN-marginal population (the s310 churn population) **does**
+concentrate on the type-register direction, and does so **type-specifically**
+(beats the shuffled-kind null, p=0.0033). Given the declared 40% mass on
+BOUNDARY-UNTYPED (the tape-resident tension), a positive is the *surprising*
+outcome — a weight-space echo of the type boundary exists.
+
+**Why QUALIFIED (read discipline — this is the crux).** The type-specific
+component is **thin**: the shuffled-kind null already sits at **0.2255** of the
+0.241 total, so **~93% of the marginality↔leverage concentration is generic
+centroid-structure coupling** (marginal rows load on the activation-derived
+structure in general), and only **~6% (0.0155) is the kind identity
+specifically**. It clears significance because the null is tight (300 draws,
+p95 0.2287), but the effect size of the *type-specific* echo is small — the same
+qualified-positive shape as §P-DISJ-COST. So BOUNDARY-IS-TYPED licenses "the
+marginal weights are disproportionately aligned with the type-register subspace,
+type-specifically" — NOT "the weight margin IS the type boundary" (most of the
+alignment is generic structure), and (banked at freeze) NOT that type
+*judgments* live in weights (§P-TYPE-DELIVER stands — the echo is of the
+CHECKER machinery's marginal cells, not the tape-side judgments).
+
+**The depth profile is the most interesting sub-signal (advisory).** The
+concentration is near-zero in shallow layers and climbs to ρ~0.35 in the deep
+layers — i.e. the weight-margin↔type alignment lives where the type register is
+most semantic. Coheres with the two-tier picture: the deep-layer type-checker
+machinery is where GD's routing margin and the type structure most overlap; the
+shallow layers (surface/token machinery) show no such overlap.
+
+**Coherence with the arc (does NOT contradict tape-residency).** A thin
+weight-space echo of the type boundary is exactly what the tape-resident thesis
+predicts: weights hold the type CHECKER/relation (s317; §P-TYPE-GRAM-1
+TYPE-REGISTER), so the checker's marginal cells carry a faint type signature —
+but the JUDGMENTS are computed on the tape (§P-TYPE-ICL+TAG, §P-IDEMPOTENCY,
+§P-TYPE-DELIVER no-weight-delivery). The 93%-generic / 6%-kind split *is* the
+two-tier signature in weight geometry: the boundary is mostly NOT in the
+weights (it's on the tape), with only a thin checker-echo left behind. The M8
+corollary ("type boundaries are where GD's two jobs collide") gets **weak,
+qualified support** — bounded to a thin deep-layer echo, not the strong
+weight-space identity the s313 conjecture imagined.
+
+**The §6 fingerprint tier + the SKI-control tier are now COMPLETE.** All four §6
+fingerprints measured: P-TYPE-ICL → TAPE-TYPED (s315) · ∨-vs-∧ → weak-+ (s318) ·
+linearity → − (s319) · **boundary-churn → qualified-+ (s320)**. Final type-
+fingerprint scorecard: **1 weak-+ (∨/∧) / 1 − (W/D behavioral) / 1 + (idempotency)
+/ 1 qualified-+ (boundary-churn)** — a leaning-positive, representational,
+tape-primary picture: the substrate's type system accumulates (non-idempotent),
+represents ∨/∧ asymmetrically (intersection-flavored), executes contraction and
+composition with equal competence (affine bias is representational not
+executional), and leaves only a thin deep-layer weight-echo of its otherwise
+tape-resident boundaries.
+
+**Scope/caveats:** single model (qwen3-4b), single readout (gate_proj-row
+marginality × kind-subspace leverage), the type-specific effect is thin
+(6% of the concentration), pure weight geometry (no behavioral validation of the
+echo). Confirms a thin type-specific weight-space concentration of the marginal
+population, deepening with layer; does not establish a strong weight-space
+boundary identity, cross-model generality, or any causal/behavioral consequence
+of the echo.
+
 ## §P-IDEMPOTENCY — RESULT (s320, qwen3-4b) — VERDICT: NON-IDEMPOTENT
 
 **The pinned *non-idempotent* qualifier is CONFIRMED on the tape licensing

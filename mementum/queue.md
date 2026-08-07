@@ -11,7 +11,6 @@
 
 # new
 
-🔵 §P-BOUNDARY-CHURN — optimizer↔type-boundary identity (§6 item 4 / M8 corollary); WEIGHT-GEOMETRY register, base down_proj marginality × type-subspace selectivity; reframed (tape-resident tension banked, heavy-negative a-priori); FROZEN s320 | type-systems-under-llm-constraints §P-BOUNDARY-CHURN | cheap
 ⚪ crystal-seeded init — crystal prior vs random init on compositional tasks; cheapest level-4 rung | training-design-from-the-hologram | medium
 ⚪ signal-descent mirror — replace Adam magnitude calibration with ternary mirror stack on the delta substrate | signal-descent | medium
 ⚪ Oracle germination game — cold agent + theory seed predicts measured results? (corpus calibration) | germination-games | cheap
@@ -36,6 +35,7 @@
 
 # complete
 
+✅ §P-BOUNDARY-CHURN — BOUNDARY-IS-TYPED (qualified): base gate_proj marginal rows concentrate on the type subspace (BC1 ρ=0.241 p=0.0005; BC2 type-specific p=0.0033 beats shuffled-kind null) — SURPRISING + vs heavy-negative a-priori. THIN: ~93% generic centroid-structure, ~6% kind-specific; per-layer ρ deepens (−0.05→0.35). The 93/6 split = two-tier in weight geometry (boundary mostly tape-side; thin deep-layer checker-echo in weights). M8 corollary weak qualified support. Build amendment (Michael GO): gate space 9728-dim → gate_proj rows; BC2 null = shuffled-kind-label. CLOSES §6 fingerprint tier (4/4). | type-systems-under-llm-constraints §P-BOUNDARY-CHURN Result | s320
 ✅ §P-IDEMPOTENCY — NON-IDEMPOTENT: coherent membership re-exposure accumulates tape licensing beyond the energy-matched null (IB2 make-or-break p=0.0226; IB1 p=0.030; IB4 sane) → A∧A≠A, idempotent SKI-control #3 FALSIFIED. FIRST fingerprint to clear the token-budget confound gate. BOUNDED not unbounded (curve peaks k=3 then declines; +NON-SATURATING off, IB3 p=0.137; k=4,5 dip = atypical-template caveat). Two-substrate confirm (A2 weight-plate + tape). 3rd type-fingerprint = POSITIVE. SKI-control tier COMPLETE. | type-systems-under-llm-constraints §P-IDEMPOTENCY Result | s320
 ❌ §P-LINEARITY-BIAS — CARTESIAN-CONSISTENT: contraction executes as accurately as composition at matched fuel (acc_lin 0.917 vs acc_dup 0.944, gap −0.028 p1=1.0; partial +0.055|ℓ wrong sign; LB4-sane). Falsifies the BEHAVIORAL-accuracy face of the affine core (2nd discriminator of SKI-control #4) → free duplication survives; affine/∨-cost signature is REPRESENTATIONAL not executional (SKI-#4 discriminators disagree: ∨-off-plane weak-+ vs W/D-cost −). Fingerprint 2/4 = negative. Caveat: near-ceiling 0.92/0.94, rules given, single model | type-systems-under-llm-constraints §P-LINEARITY-BIAS Result | s319
 ✅⚠ §P-DISJ-COST — INTERSECTION-FREE (+OR-COSTS), QUALIFIED: ∨-vs-∧ asymmetry EXISTS + ∨-specific (off-plane resid: filler 0.564 < AND 0.590 < OR 0.601; DC2 OR>AND +0.011 p=0.024, DC3 OR>filler +0.037 p=0.002) → strict Cartesian SKI-control #4 FALSIFIED. ⚠ effect small + PR non-corroborates (18.58<20.24) → strong "more dimensions" form unsupported, machinery-vs-uncertainty OPEN. First type-fingerprint 1/4=weak-positive | type-systems-under-llm-constraints §P-DISJ-COST Result | s318

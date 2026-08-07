@@ -11,12 +11,51 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ★★ **SESSION 320 COMPLETE (one probe closed: §P-IDEMPOTENCY → ✅ NON-IDEMPOTENT — the
-> 3rd type-fingerprint and the FIRST in the s317–320 arc to clear its make-or-break confound gate).
-> NEXT SESSION FIRST ACTION = §P-BOUNDARY-CHURN (the 2nd remaining type-fingerprint, §6 item 4 / M8
-> corollary — do s310 marginal-band weights concentrate on type-boundary features? weight-space, reuse
-> sign_commitment.py). Task #5 is live/pending; all s320 idempotency batches committed. Front already
-> selected (Michael: "finish the type-fingerprints").**
+> ★★ **SESSION 320 COMPLETE (TWO probes closed → the §6 type-fingerprint TIER is COMPLETE 4/4:
+> ① §P-IDEMPOTENCY → ✅ NON-IDEMPOTENT (3rd fingerprint, FIRST in the s317–320 arc to clear its
+> make-or-break confound gate); ② §P-BOUNDARY-CHURN → ✅ BOUNDARY-IS-TYPED (QUALIFIED) (4th/last
+> fingerprint, a SURPRISING-but-THIN weight-space echo). Michael's directive "finish the type-fingerprints"
+> is DONE. NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue FULL read; the fingerprint arc
+> is closed — sharpest standing leads: crystal-seeded init (cheapest level-4) · Oracle germination game ·
+> §P-COHERENT-WRITE). All s320 batches committed.**
+> **② §P-BOUNDARY-CHURN (detail: type-systems-under-llm-constraints §P-BOUNDARY-CHURN Result + git +
+> chats/session-320.md):** the last §6 fingerprint (M8 corollary / optimizer↔type-boundary identity).
+> Surfaced a COHERENCE TENSION at design (λ ground): the s313 conjecture "marginal band ≡ type-boundary
+> population in weight space" PREDATES the tape-resident findings (§P-TYPE-DELIVER no-weight-delivery,
+> §P-TYPE-ICL+TAG, s317, §P-IDEMPOTENCY) → heavy-negative a-priori. Michael chose option 1 (freeze the
+> reframed weight-geometry version). **🎯 FROZEN (a64a5d3)** on type-systems-under-llm-constraints.md.
+> Register = WEIGHT-GEOMETRY (base gate_proj row marginality × type-subspace leverage; NO forward pass,
+> NO wire). Gates BC1 CONCENTRATION / BC2 TYPE-SPECIFIC (make-or-break) / BC3 LAYER-PROFILE (advisory) /
+> BC4 SANE. Verdicts BOUNDARY-IS-TYPED / MARGIN-GENERIC / BOUNDARY-UNTYPED / VOID. A-priori 30/25/40/5.
+> **🔄 BUILD AMENDMENT (594f4ea, runtime-forced, pre-run, Michael GO, instrument-side ONLY):** (1) the
+> persisted §P-TYPE-GRAM-1 centroids are in GATE space (9728-dim, `register:'gate'`) NOT residual → the
+> type-selective feature is a HIDDEN UNIT (selectivity = leverage ‖U[j,:]‖), the on-target weights are
+> **gate_proj rows**; (2) BC2 null = **shuffled-kind-label subspace** (TG5) NOT isotropic-random (which is
+> geometrically exchangeable across units → redundant with BC1 → MARGIN-GENERIC UNREACHABLE, same bug
+> class as the idempotency k=0 fix). Register/verdicts/a-priori UNCHANGED. **Procedural note: pure
+> weight-geometry (no scaling knob) ⇒ smoke == full (deterministic, frozen seed);** disclosed to Michael,
+> a-priori/gates frozen before compute so pre-registration holds. **✅ HARNESS + RUN (594f4ea autonomous,
+> scripts/explore/boundary_churn.py): VERDICT BOUNDARY-IS-TYPED (QUALIFIED).** BC1 ρ=0.241 p=0.0005 ✓
+> (marginal gate_proj rows concentrate on the type subspace) · BC2 ρ_kind 0.241 > shuffled-kind 0.2255
+> (p95 0.2287) p=0.0033 ✓ · iso-random adv≈0 · BC4 sane. **THE READ (crux):** a SURPRISING positive vs
+> the 40%-negative a-priori — a weight-space echo of the type boundary EXISTS — but THIN: the shuffled-kind
+> null sits at 0.2255 of the 0.241, so **~93% of the concentration is GENERIC centroid-structure, only
+> ~6% (0.0155) is kind-specific.** Per-layer ρ DEEPENS (−0.05 shallow → ~0.35 deep, 18/36 layers >0.3) —
+> the overlap lives where the type register is most semantic. **The 93/6 split IS the two-tier signature
+> in weight geometry:** the boundary is mostly NOT in the weights (it's on the tape — coheres with
+> §P-TYPE-DELIVER / tape-residency), with a thin deep-layer CHECKER-echo left behind. M8 corollary gets
+> WEAK QUALIFIED support, bounded to the echo. Read discipline: BOUNDARY-IS-TYPED licenses "marginal
+> weights disproportionately align with the type subspace, type-specifically" — NOT "weight margin IS the
+> type boundary" (mostly generic) and NOT that judgments live in weights (echo of the checker, not the
+> judgments). Memory: `marginal-weights-carry-a-thin-type-echo.md`. **s320 boundary-churn ledger (all
+> committed):** a64a5d3 freeze · 594f4ea harness+amendment+results (autonomous) · §Result + memory + INDEX
+> + queue closure + this state (Michael approval batch, this commit). **FINAL type-fingerprint scorecard
+> (§6 tier 4/4 + SKI-controls): 1 weak-+ (∨/∧ §P-DISJ-COST) / 1 − (W/D §P-LINEARITY-BIAS, behavioral) /
+> 1 + (idempotency §P-IDEMPOTENCY) / 1 qualified-+ (boundary-churn).** Composite: the substrate's type
+> system ACCUMULATES (non-idempotent, 2 substrates), represents ∨/∧ ASYMMETRICALLY (intersection-flavored,
+> representational), executes contraction/composition with EQUAL competence (affine bias representational
+> not executional), and leaves only a THIN deep-layer weight-echo of its otherwise TAPE-RESIDENT
+> boundaries = a graded, accumulating, representational, tape-primary quantitative-affine type geometry.**
 > **§P-IDEMPOTENCY (detail: type-systems-under-llm-constraints §P-IDEMPOTENCY Result + git +
 > chats/session-320.md):** Michael said "finish the type-fingerprints" → orient found TWO remaining
 > (idempotency = SKI-control #3, the pinned *non-idempotent* qualifier; boundary-churn = M8 join). I
