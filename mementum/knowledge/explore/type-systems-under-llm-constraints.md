@@ -454,6 +454,89 @@ worlds + 5 primitives ALL PASS, ruff clean, no diags, qwen3-4b smoke green
 (acc_lin 0.83 / acc_dup 1.0 on the 12-term subset → off-floor, LB4 headroom
 healthy; verdict NOT read).
 
+## §P-LINEARITY-BIAS — RESULT (s319, qwen3-4b) — VERDICT: CARTESIAN-CONSISTENT
+
+**The second type-fingerprint FALSIFIES the affine-core prediction on its
+behavioral face: contraction executes as accurately as composition at matched
+fuel.** Results (autonomous commit; `results/linearity-bias/qwen3-4b`, 72 terms
+= 36 LINEAR {B,C,D} / 36 DUP {W,M}-mixed). LB4-sane (headroom acc_lin 0.917 <
+0.97 ceiling; distractor symmetry frac 0.60; all kernel-certified; 6 mixed
+ℓ-bins) ⇒ a **valid measurement, not VOID**.
+
+| gate | result |
+|---|---|
+| LB1 ACCURACY-GAP (core) | ✗ acc_lin 0.917 vs acc_dup **0.944**, gap **−0.028, p1=1.0** — no gap (DUP marginally *higher*) |
+| LB2 FUEL-CONTROLLED | ✗ partial_r **+0.055** \| ℓ ; **+0.052** \| (ℓ,nf_size) — wrong sign, no penalty to control |
+| LB3 CONTRACTION-GRADED | ✗ r3 **+0.001** — accuracy flat in contraction count |
+| LB4 SANE (void-gate) | ✓ headroom ✓ · sym frac 0.60 ✓ · certified ✓ · 6 mixed bins |
+
+**What lands.** The model picks the kernel-certified normal form as accurately
+for contraction terms (W `f x x` / M `x x`, 34/36) as for linear
+composition/exchange terms (B/C/D, 33/36) — **and if anything slightly *more*
+accurately** (and more confidently: `margin_dup 1.48 > margin_lin 0.89`).
+Accuracy is flat across ℓ=1–6 in **both** arms; errors are scattered (2 swap /
+1 under in LINEAR; 1 under / 1 swap in DUP), with **no systematic duplication
+penalty**. Per the frozen tree, ¬LB1 ⇒ **CARTESIAN-CONSISTENT**: the falsifier
+fired — **free duplication survives the 2nd discriminator of SKI-control #4.**
+
+**Read discipline (don't over-read the label, s310–s318).** This is a real,
+LB4-sane negative, but read it precisely:
+
+1. **It falsifies the *behavioral-accuracy* face of the affine core, not the
+   affine core wholesale.** The curry-howard prediction was "contraction =
+   separate, costly machinery." At the level of *reduction correctness* the
+   cost is **zero** — the substrate copies as accurately as it composes. The
+   affine bias, if real, does **not** live in reduction accuracy; it must live
+   elsewhere (representation / interference / formation-time / opcode
+   inventory). This **bounds where the bias can be** — an informative negative,
+   not a null.
+2. **It does NOT overturn §P-DISJ-COST.** SKI-control #4 has two discriminators
+   and they now **disagree**: ∨-vs-∧ found a weak *representational* asymmetry
+   (off-plane, ∨-costly); W/D-cost finds **no *behavioral* asymmetry**. Coherent
+   composite read: whatever affine/∨-cost the substrate carries is a
+   **geometry/interference** signature (§P-DISJ-COST off-plane, s313 A2 coherent
+   gain), **not** an execution-accuracy signature. The two registers separate
+   the phenomenon.
+3. **Sensitivity caveat (banked).** Both arms sit near ceiling (0.92 / 0.94);
+   the forced-choice gave the reduction rules explicitly (isolating *execution*
+   from *rule-knowledge*), which makes short terms easy and **caps power to
+   detect a *small* penalty**. CARTESIAN-CONSISTENT here = "no contraction cost
+   in the reduction-accuracy register **at this difficulty**," a sane negative
+   within the frozen design — not a proof of exactly-zero cost. A harder regime
+   (longer terms, no rules given, free-generation grading, cross-model) could
+   re-probe; the affine claim is bounded, not closed.
+
+**What it licenses (and what it does NOT).** LICENSED: "at matched fuel, the
+substrate executes contraction as accurately as composition → no
+reduction-accuracy linearity bias; the Cartesian substrate survives *this*
+discriminator." NOT licensed: "the substrate is Cartesian" (§P-DISJ-COST's ∨
+off-plane still stands) / "there is no affine bias anywhere" (bounded to the
+accuracy register, single model, easy regime) / any effect-size claim.
+
+**Type-system scorecard update: fingerprint 2 of 4 = NEGATIVE (falsifier).**
+Combined with fingerprint 1 (∨-vs-∧ = weak positive), the affine-core /
+non-idempotent-intersection prediction is now **mixed**: a weak representational
+positive on ∨-cost, a clean behavioral negative on contraction-cost. Refined
+thesis: **the affine signature is representational/geometric, not
+executional** — the substrate copies freely but *represents* ∨ and duplication
+with extra spread. S5 type-system corners unchanged (discreteness✓ selectivity✓
+compositionality✗ causality✗); the fingerprint tier reads 1 weak-+ / 1 −.
+
+**Coherence with the arc.** Consistent with the tape-resident-reduction thesis
+(s317): if reduction is enacted per-frame on the tape by a universal reducer,
+the reducer applies contraction and composition with the same competence —
+exactly this null. The affine bias then belongs to the *weight-space* opcode
+inventory (KIBC-not-SKI, late W/D formation) and the *representational* geometry
+(∨ off-plane), not to the tape-side execution. Coheres with §P-NF-GAUGE
+(register is presence-detector, not graded gauge) — the tape computes; it does
+not meter cost into accuracy.
+
+**Scope/caveats:** single model (qwen3-4b), forced-choice with rules given,
+short terms (ℓ≤6), near-ceiling accuracy (power-limited for small effects), one
+readout (NF-selection). Kills the reduction-accuracy form of the linearity bias;
+does not test free-generation, harder terms, cross-model, or the
+representational/formation faces (where the bias may yet live).
+
 ## Provenance
 
 - s313 hammock, Michael's constraint question; AI derivation,

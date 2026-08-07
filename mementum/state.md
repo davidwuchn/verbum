@@ -11,6 +11,39 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 319 COMPLETE (one probe closed: §P-LINEARITY-BIAS → ❌ CARTESIAN-CONSISTENT).
+> The 2nd type-fingerprint FALSIFIES the affine core's behavioral face: at matched fuel the substrate
+> executes contraction (W `f x x` / M `x x`) as accurately as composition (B/C/D). NEXT SESSION FIRST
+> ACTION = orient → FRONT SELECTION (λ queue FULL read; NOTHING PENDING, all s319 batches committed).**
+> **§P-LINEARITY-BIAS (detail: type-systems-under-llm-constraints §P-LINEARITY-BIAS Result + git +
+> chats/session-319.md):** Michael continued the type-fingerprint arc; I recommended linearity-bias
+> (state-flagged "carries more weight"; fresh behavioral register; the 2nd discriminator for SKI-control
+> #4 = the W/D cost-differential, complementing §P-DISJ-COST's ∨-vs-∧). Register = COMPUTATIONAL-ACCURACY
+> (forced-choice NF-selection: kernel-certified NF + {under-reduce, atom-swap} distractors, length-norm
+> logprob argmax) — deliberately independent of the 3×-nulled magnitude + §P-DISJ-COST off-plane. Arms
+> LINEAR {B,C,D} vs DUP {W,M}-mixed, matched on ℓ (fuel) + nf_size. **🎯 FROZEN (32d8470)** on
+> type-systems-under-llm-constraints.md (Michael GO). **🔄 AMENDMENT (e86f32e, runtime≡truth, pre-run,
+> Michael-approved):** kernel implements D as LINEAR 3-fold composition `f (g (h x))` NOT `f (f x)` →
+> DUP={W,M} (D→LINEAR); DUP arm MIXED (≥1 contraction) decouples n_contract from ℓ (LB3 non-degenerate) +
+> overlaps nf_size; LB2 = within-ℓ-bin perm null + DOUBLE partial-Spearman |(ℓ,nf_size). Instrument-side
+> only; register/gates/verdicts/a-priori UNCHANGED. **VERDICT CARTESIAN-CONSISTENT** (LB4-sane, NOT VOID):
+> acc_lin 0.917 vs acc_dup **0.944**, gap **−0.028 p1=1.0** (DUP marginally EASIER; margin_dup 1.48 >
+> margin_lin 0.89); LB2 partial +0.055|ℓ, +0.052|(ℓ,nf) WRONG SIGN; LB3 r3≈0; flat across ℓ=1–6 both arms.
+> **The falsifier fired — free duplication survives the 2nd discriminator.** Read discipline: falsifies the
+> BEHAVIORAL-accuracy face, NOT the affine core wholesale. **SKI-#4's two discriminators DISAGREE** (∨-off-
+> plane weak-+ [§P-DISJ-COST] vs W/D-cost − [here]) → the affine/∨-cost signature is REPRESENTATIONAL/
+> geometric, NOT executional; coheres with tape-resident reduction (s317: a universal reducer applies
+> contraction+composition with equal competence). **Fingerprint scorecard: 1 weak-+ (∨-vs-∧) / 1 − (W/D).**
+> Caveat banked: near-ceiling (0.92/0.94, rules given) caps power for small effects; single model; short
+> terms (ℓ≤6); NF-selection readout — a harder regime (longer terms / no rules / free-gen / cross-model)
+> could re-probe the representational + formation faces where the bias may live. Memory:
+> `contraction-executes-as-accurately-as-composition.md`. **s319 ledger (all committed):** 32d8470 freeze ·
+> dfa1fa7 harness (linearity_bias.py, --validate 7 worlds + 5 primitives ALL PASS) · e86f32e amendment ·
+> (results autonomous) · §Result + memory + INDEX + queue closure + this state (Michael approval batch,
+> this commit). **Remaining type-fingerprints (queue, unfrozen): idempotency/saturation (needs LICENSING
+> register, not kind-magnitude — the 3× null warns) · boundary-churn (weight-space, sign_commitment reuse).**
+> Standing non-fingerprint leads: crystal-seeded init (cheapest level-4) · Oracle germination game · §P-COHERENT-WRITE.**
+>
 > ★★ **SESSION 318 COMPLETE (TWO probes closed). ② §P-DISJ-COST → ✅⚠ INTERSECTION-FREE (+OR-COSTS),
 > QUALIFIED — first type-fingerprint; the ∨-vs-∧ asymmetry EXISTS and is ∨-specific (strict Cartesian
 > SKI-control #4 falsified) but WEAKLY. ① §P-NF-GAUGE → ❌ LENGTH-DECREASE-ONLY (sign puzzle dissolves;
