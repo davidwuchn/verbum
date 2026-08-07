@@ -11,7 +11,6 @@
 
 # new
 
-🔵 §P-DISJ-COST (∨-vs-∧ asymmetry) — union recruits more effective dimensions than intersection? DC1 rank-asymmetry PR(OR)>PR(AND) / DC2 off-plane resid / DC3 OR-specific / DC4 sane; representational readout (robust to 3× magnitude-null); kills Cartesian SKI-control #4 | type-systems-under-llm-constraints §P-DISJ-COST (FROZEN s318) | cheap
 ⚪ crystal-seeded init — crystal prior vs random init on compositional tasks; cheapest level-4 rung | training-design-from-the-hologram | medium
 ⚪ signal-descent mirror — replace Adam magnitude calibration with ternary mirror stack on the delta substrate | signal-descent | medium
 ⚪ Oracle germination game — cold agent + theory seed predicts measured results? (corpus calibration) | germination-games | cheap
@@ -38,6 +37,7 @@
 
 # complete
 
+✅⚠ §P-DISJ-COST — INTERSECTION-FREE (+OR-COSTS), QUALIFIED: ∨-vs-∧ asymmetry EXISTS + ∨-specific (off-plane resid: filler 0.564 < AND 0.590 < OR 0.601; DC2 OR>AND +0.011 p=0.024, DC3 OR>filler +0.037 p=0.002) → strict Cartesian SKI-control #4 FALSIFIED. ⚠ effect small + PR non-corroborates (18.58<20.24) → strong "more dimensions" form unsupported, machinery-vs-uncertainty OPEN. First type-fingerprint 1/4=weak-positive | type-systems-under-llm-constraints §P-DISJ-COST Result | s318
 ❌ §P-NF-GAUGE — LENGTH-DECREASE-ONLY: sign puzzle DISSOLVES. Per-frame ρ(sⱼ,rⱼ|ctⱼ) w/ local-token control (MATCH-padded family = NG1 power): ρ=−0.070 p=0.198 = matched-ct null → no signed distance coordinate either sign. §3 Metric dead all 3 grains (static/integrated/per-frame). SURVIVES: NG3 engagement 3rd replication (real>inert +2.343 p=0.002) → register is reduction-PRESENCE detector not graded gauge; demotes §1 to presence/absence | normal-forms-are-eigenmodes §P-NF-GAUGE Result | s318
 ❌ §P-TRACE-FUEL — STATIC-CONFIRMED-NULL: §P-FUEL generalizes — integrated type signal tracks TOKEN LENGTH not fuel (zero-fuel NULL chains accumulate same S); de Carvalho's accumulated size not readable at either grain. Sub-signals (unlicensed): per-step real reduction > inert p=0.002; signal DECAYS toward NF (distance-to-NF gauge, §1 not §3) | normal-forms-are-eigenmodes §P-TRACE-FUEL Result | s317
 ❌ §P-FUEL — NO-FUEL-COORDINATE: type-register magnitude does NOT track kernel-certified reduction length at static-read grain (FU1 fail, FU4 negative −0.538 under constant-length control); apparent LIN/DUP scaling was surface length; consistent with fuel being tape-resident (dynamic, not static) | normal-forms-are-eigenmodes §P-FUEL Result | s317

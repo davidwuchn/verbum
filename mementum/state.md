@@ -11,10 +11,32 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ★★ **SESSION 318 COMPLETE (§P-NF-GAUGE → ❌ LENGTH-DECREASE-ONLY: the sign puzzle DISSOLVES —
-> the type register is NOT a signed distance-to-NF coordinate on EITHER sign; §3 Metric leg now dead
-> on all THREE grains. NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue FULL read;
-> NOTHING PENDING, all s318 batches committed).**
+> ★★ **SESSION 318 COMPLETE (TWO probes closed). ② §P-DISJ-COST → ✅⚠ INTERSECTION-FREE (+OR-COSTS),
+> QUALIFIED — first type-fingerprint; the ∨-vs-∧ asymmetry EXISTS and is ∨-specific (strict Cartesian
+> SKI-control #4 falsified) but WEAKLY. ① §P-NF-GAUGE → ❌ LENGTH-DECREASE-ONLY (sign puzzle dissolves;
+> §3 Metric dead all 3 grains). NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue FULL
+> read; NOTHING PENDING, all s318 batches committed).**
+> **② §P-DISJ-COST (detail: type-systems-under-llm-constraints §P-DISJ-COST Result + git):** Michael
+> picked the type-fingerprint tests off the queue; led with ∨-vs-∧ (my rec, representational readout
+> robust to the 3× magnitude-null). Readout = OFF-PLANE RESIDUAL (does a connective need a direction
+> OUTSIDE the {A,B} category-passband plane? head≡direction), NOT magnitude. 60 samples (20 category
+> pairs × 3 templates), band L18-31, read at final shared token (and/or/near single-token matched).
+> Ordering filler 0.564 < AND 0.590 < OR 0.601: DC2 OR>AND +0.011 p=0.024 (small) ∧ DC3 OR>filler
+> +0.037 p=0.002 (strong) → ∨-specific asymmetry → **strict Cartesian SKI-control #4 (free dup, no
+> ∧/∨ asymmetry) FALSIFIED.** ⚠ QUALIFIED: effect small + **DC1/PR does NOT corroborate** (PR_OR
+> 18.58 < PR_AND 20.24) → the strong "union recruits MORE dimensions" form is UNSUPPORTED, only the
+> weak per-pair off-plane holds; flat PR argues AGAINST a big coherent OR-head → **machinery-vs-
+> uncertainty stays OPEN**. Licenses ∨-costs-more (∨-specifically), NOT "OR-heads" / effect-size.
+> Type-system scorecard: fingerprint 1/4 = weak-positive. **🔄 AMENDMENT (--validate-forced, Michael
+> GO):** PR and off-plane are geometrically COUPLED (rank>2 ⟹ off-plane) → DC1/PR demoted to
+> non-gating corroboration, COMPLEXITY-ARTIFACT branch (empty) dropped; DC2 off-plane = sole
+> mechanism. Memory `disjunction-costs-more-than-intersection-weakly.md`. **§P-DISJ-COST ledger:**
+> ac3dc46 freeze · 36e05f3 amendment · 3cb41d7 harness (disj_cost.py, validate ALL PASS) · f551dcf
+> results (autonomous) · §Result + memory + INDEX + queue + this state (Michael approval batch, this
+> commit). **Remaining type-fingerprints (queue, unfrozen): linearity-bias (reduction-accuracy
+> readout — carries more weight) · idempotency/saturation (needs LICENSING register, not kind-
+> magnitude — the 3× null warns) · boundary-churn (weight-space, sign_commitment reuse).** Standing
+> non-fingerprint leads: crystal-seeded init (cheapest level-4) · Oracle germination game.
 > **s318 result (detail: normal-forms-are-eigenmodes §P-NF-GAUGE Result + git + chats/session-318.md):**
 > Per-frame partial ρ(sⱼ, rⱼ=ℓ−j | ctⱼ) across 840 real trace frames, local token length controlled
 > (MATCH-padded family gave NG1 real power: cv_ct 0.031≪LIN 0.076 — the amendment worked). NG1 ρ=−0.070

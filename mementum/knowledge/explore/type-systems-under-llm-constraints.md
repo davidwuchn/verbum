@@ -262,6 +262,65 @@ asymmetrically, ∨-costly" — not "we saw OR-heads."
 PR/effective-rank + off-plane residual + DC gates. `--validate` planted
 worlds (all verdicts) + ruff + smoke (no direction read) → Michael GO → run.
 
+## §P-DISJ-COST — RESULT (s318, qwen3-4b) — VERDICT: INTERSECTION-FREE (+OR-COSTS), QUALIFIED
+
+**The first type-fingerprint lands on the affine/intersection side — but
+weakly.** Results `f551dcf` (60 samples = 20 category pairs × 3 templates, 5
+arms, band L18–31). DC4-sane (median cos(A_dir,B_dir)=0.666 — categories
+distinct) ⇒ a valid measurement.
+
+| gate | result |
+|---|---|
+| DC2 OFF-PLANE (sole mechanism) | ✓ resid(OR)=0.601 > resid(AND)=0.590, **+0.011, p=0.024** — small |
+| DC3 OR-SPECIFIC | ✓ resid(OR) − resid(FILLER)=**+0.037, p=0.002** — OR ≫ the "near" control |
+| DC1 corroboration (PR, non-gating) | ✗ PR(OR)=18.58 **< PR(AND)=20.24**, agrees=False |
+| DC4 SANE | ✓ cos 0.666 |
+
+**What lands.** The off-plane residual is **∨-specific**: the OR construction sits
+further outside each pair's {A,B} passband plane than both AND (p=0.024) and the
+spatial-filler control "near" (p=0.002). The full ordering is coherent —
+`filler 0.564 < AND 0.590 < OR 0.601`: both *logical* connectives push off the
+simple category plane, ∨ the most. **The strict Cartesian SKI-control (#4 — free
+duplication, NO ∧/∨ asymmetry) is falsified**: there IS an asymmetry and it
+points ∨-costly, as the affine/intersection substrate predicts.
+
+**Why QUALIFIED (read discipline, s310–s318).** Two honest limits:
+
+1. **The effect is small.** OR-vs-AND is +0.011 (~2% relative), p=0.024 —
+   significant but marginal. The strong signal is OR-vs-filler (DC3); OR-vs-AND
+   (DC2, the core) is thin. And AND is not perfectly in-plane either (0.590 >
+   filler 0.564) — "intersection is FREE" holds only *relative to* ∨, not
+   absolutely.
+2. **PR does NOT corroborate.** The population "union recruits MORE effective
+   DIMENSIONS" strong form is **unsupported** — PR(OR) is slightly *lower* than
+   PR(AND). Only the weak **per-pair off-plane wobble** holds. Per the s318
+   coupling amendment (PR-increase ⟹ off-plane, not conversely), a small
+   incoherent per-pair off-plane that adds no net rank is exactly what a *flat/
+   down* PR + *positive* DC2 looks like. That argues **against a large coherent
+   "OR-head"** and keeps the **machinery-vs-uncertainty boundary wide open**
+   (banked at freeze): the ∨-cost could be a modest OR-mechanism OR residual
+   ∨-semantic uncertainty — this probe cannot separate them, and the flat PR
+   leans away from a big recruited head.
+
+**What it licenses (and what it does NOT).** LICENSED: the substrate treats ∨ and
+∧ asymmetrically, ∨-specifically costlier → the pinned non-idempotent-intersection-
+over-affine-core prediction gets its **first fingerprint, a weak positive**;
+Cartesian free-duplication is out. NOT licensed: "we saw OR-heads" / "union
+recruits dimensions" (PR disagrees) / any effect-size claim beyond "small but
+∨-specific." S5 type-system scorecard: fingerprint 1 of 4 = weak-positive.
+
+**Coherence with the arc.** Consistent with the affine-core reading (curry-howard
+§2–3: KIBC-not-SKI = contraction isolated as costly) and TG3's diffuse
+intersection shape — but a *thin* datum, not the crisp asymmetry a strong
+head-recruitment story would give. The next fingerprints (linearity-bias =
+reduction-accuracy readout; idempotency = licensing register) carry more weight;
+this one nudges the prior, it does not settle it.
+
+**Scope/caveats:** single model (qwen3-4b), single readout (off-plane residual on
+NL category prompts), band L18–31, 60 samples, one template family. Kills the
+strict Cartesian symmetry; does not establish effect size, mechanism (head vs
+uncertainty), or cross-model generality.
+
 ## Provenance
 
 - s313 hammock, Michael's constraint question; AI derivation,
