@@ -56,6 +56,11 @@
 > representational), executes contraction/composition with EQUAL competence (affine bias representational
 > not executional), and leaves only a THIN deep-layer weight-echo of its otherwise TAPE-RESIDENT
 > boundaries = a graded, accumulating, representational, tape-primary quantitative-affine type geometry.**
+> **LOOP CLOSED on curry-howard-closes-the-loop.md §5b (s320, this batch):** all 4 pre-committed
+> SKI-controls now discriminated (nominal REJECTED · Church TESTED-DEAD · idempotent FALSIFIED · Cartesian
+> FALSIFIED-mixed); §3 fuel corner marked ❌ NO-FUEL-COORDINATE (tape-resident, not static). The KIBC-not-SKI
+> deduction predicted the FAMILY correctly; the fingerprints added WHERE each property lives (two-tier:
+> weights=checker/relation, tape=judgments). INDEX rows refreshed for both type pages.**
 > **§P-IDEMPOTENCY (detail: type-systems-under-llm-constraints §P-IDEMPOTENCY Result + git +
 > chats/session-320.md):** Michael said "finish the type-fingerprints" → orient found TWO remaining
 > (idempotency = SKI-control #3, the pinned *non-idempotent* qualifier; boundary-churn = M8 join). I
