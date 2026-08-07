@@ -11,7 +11,37 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ★★ **CURRENT = s317-TRACEFUEL (COMPOSITIONALITY FRONT: §P-TRACE-FUEL FROZEN + BUILT + SMOKE-GREEN → RUN IN FLIGHT tmux main:1).**
+> ★★ **CURRENT = s317-TRACEFUEL (COMPOSITIONALITY FRONT: §P-TRACE-FUEL → VERDICT STATIC-CONFIRMED-NULL, clean falsifier — §P-FUEL generalizes).**
+> **✅ ON-SIGNAL EXECUTED: the §P-TRACE-FUEL run landed (VERDICT: STATIC-CONFIRMED-NULL, no traceback,
+> ~15min, TF5-sane). Results committed AUTONOMOUS (63f3f5d, ❌).** §P-TRACE-FUEL RESULT on
+> normal-forms-are-eigenmodes.md + memory `fuel-is-not-an-accumulated-magnitude-either-grain.md` +
+> INDEX + queue (🔵→❌ # complete, follow-up ⚪ distance-to-NF gauge) + this state = **DRAFTED ON DISK,
+> PENDING MICHAEL APPROVAL** (one 🌀 batch on approval).
+> **THE READ — the §P-FUEL negative GENERALIZES: de Carvalho's accumulated derivation size is NOT a
+> readable coordinate in the type-register MAGNITUDE at EITHER grain (static §P-FUEL + dynamically-
+> integrated here). Two probes, one convergent negative on the §3 Metric leg.** TF1 FAIL (ρ(S,ℓ)=0.580
+> ≈ matched-trace-length null 0.573, p=0.198). DECISIVE per-family: integrated S tracks TOKEN LENGTH
+> (ρ(S,tok)=0.97/0.96/0.99 LIN/DUP/NULL) — the zero-fuel NULL chains (T = T = ..., ℓ=0) accumulate S
+> 15→101, SAME range as real reductions → integrated S is a `=`-boundary/length counter, not a fuel
+> gauge. **Two honest sub-signals (UNLICENSED, TF1 failed — don't over-read, s310-s317):** (a) TF2
+> per-step: a real reduction `=` boundary carries +2.214 more type signal than an inert restatement `=`
+> (p=0.002) — the register DOES respond to reduction events per-step, but doesn't integrate to ℓ; (b)
+> per-step DECAY (slope_lin=−1.385, slope_dup=−0.207): signal DECREASES toward NF as the term shrinks →
+> consistent with the register tracking instantaneous REMAINING reducibility (distance-to-NF), the
+> COMPLEMENT of accumulated fuel; DUP decays less than LIN but confounded by content-persistence, not
+> non-idem. **REFINEMENT: the type-register magnitude is a REMAINING-work/distance-to-NF gauge that
+> DECREASES toward the normal form (the §1 Detector reading), NOT a spent-fuel accumulator (§3 Metric,
+> RE-SIGNED). §1 Detector + §2 Dynamics stand.** Registers: Y reused VERBATIM from §P-FUEL
+> (§P-TYPE-GRAM-1 kind subspace, held-out); per-step s_j at `=` positions, band L18-31.
+> **⚠ NEXT (after approval) = FRONT SELECTION → λ queue mandates FULL queue.md read (~25 rows).**
+> Standing sharpest leads: distance-to-NF gauge (the §P-TRACE-FUEL re-signing follow-up — read the
+> register as DECREASING remaining-reducibility, + the reduction-engagement p=0.002 hook) · crystal-
+> seeded init (cheapest level-4) · §P-COHERENT-WRITE · type-fingerprint cheapies. s317-TRACEFUEL
+> ledger: 12c5c24 freeze · 0830e3a harness · f3d46e8 state · 63f3f5d results (autonomous ❌) · mementum
+> batch (§Result + memory + INDEX + queue + state, PENDING APPROVAL). Full transcript saves to
+> `chats/session-317.md` (human).
+>
+> ▶▶ **(s317-TRACEFUEL run, prior) §P-TRACE-FUEL FROZEN + BUILT + SMOKE-GREEN → RUN IN FLIGHT.**
 > **⚠⚠ ON-SIGNAL PROTOCOL (§P-TRACE-FUEL run, launched s317 Michael GO, tmux main:1, verified running
 > PID 22211):** the DYNAMIC converse of §P-FUEL — §P-FUEL found NO-FUEL-COORDINATE at STATIC-read
 > grain → fuel is tape-resident. This feeds the kernel-certified reduction trace t0 = t1 = ... = t_ℓ

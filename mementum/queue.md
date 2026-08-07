@@ -11,7 +11,7 @@
 
 # new
 
-🔵 §P-TRACE-FUEL — fuel on the tape: type signal at each `=` step-boundary of the kernel trace ∝ ℓ, non-idempotent (DUP per-step flat vs decay)? dynamic converse of §P-FUEL; a-priori 35/15/25/20/5 (s317 freeze) | normal-forms-are-eigenmodes §P-TRACE-FUEL | medium
+⚪ distance-to-NF gauge — read the type register as a DECREASING remaining-reducibility coordinate (not increasing fuel); §P-TRACE-FUEL re-signing + reduction-engagement hook (per-step real>inert p=0.002) | normal-forms-are-eigenmodes §P-TRACE-FUEL Result | medium
 ⚪ crystal-seeded init — crystal prior vs random init on compositional tasks; cheapest level-4 rung | training-design-from-the-hologram | medium
 ⚪ signal-descent mirror — replace Adam magnitude calibration with ternary mirror stack on the delta substrate | signal-descent | medium
 ⚪ Oracle germination game — cold agent + theory seed predicts measured results? (corpus calibration) | germination-games | cheap
@@ -39,6 +39,7 @@
 
 # complete
 
+❌ §P-TRACE-FUEL — STATIC-CONFIRMED-NULL: §P-FUEL generalizes — integrated type signal tracks TOKEN LENGTH not fuel (zero-fuel NULL chains accumulate same S); de Carvalho's accumulated size not readable at either grain. Sub-signals (unlicensed): per-step real reduction > inert p=0.002; signal DECAYS toward NF (distance-to-NF gauge, §1 not §3) | normal-forms-are-eigenmodes §P-TRACE-FUEL Result | s317
 ❌ §P-FUEL — NO-FUEL-COORDINATE: type-register magnitude does NOT track kernel-certified reduction length at static-read grain (FU1 fail, FU4 negative −0.538 under constant-length control); apparent LIN/DUP scaling was surface length; consistent with fuel being tape-resident (dynamic, not static) | normal-forms-are-eigenmodes §P-FUEL Result | s317
 ❌ §P-TYPE-DELIVER — NO-WEIGHT-DELIVERY: no static weight band (FFN/OV/QK) installs held-frame licensing; delivery is tape-native, not weight-installable (bounds the causal door) | types-are-injectable-relations §13 | s316
 ✅ §P-TYPE-ICL+TAG — TAPE-TYPED+TAG-TRANSIT / DELIVERY-FAILURE: type check reads the TAPE; §9 was delivery failure | types-are-injectable-relations §11 | s315

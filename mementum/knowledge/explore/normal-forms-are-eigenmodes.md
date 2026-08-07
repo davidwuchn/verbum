@@ -346,6 +346,70 @@ simply not count; TF2/TF3 carry the weight against "the trace is just longer tex
 `=`-position mapping + per-step trajectory + TF gates. `--validate` planted
 worlds (all five verdicts) + ruff + smoke (no direction read) → Michael GO → run.
 
+## §P-TRACE-FUEL — RESULT (s317, qwen3-4b) — VERDICT: STATIC-CONFIRMED-NULL
+
+**The §P-FUEL negative generalizes — the fuel theorem does not surface as an
+accumulated magnitude at the dynamic grain either.** Results `63f3f5d` (144
+LIN/DUP/NULL traces, per-step type signal at each `=` boundary). TF5-sane
+(`kind_margin=4.746`) ⇒ a valid negative, not a void.
+
+| gate | result |
+|---|---|
+| TF1 ACCUMULATES | ✗ ρ(S,ℓ)=0.580 ≈ matched-trace-length null (0.573), p=0.198 |
+| TF2 TYPE-SPECIFIC | ✓ *components fire* (see sub-signal) but subordinate to TF1 |
+| TF3 NON-IDEMPOTENT | dup slope −0.21 vs lin −1.39 (Δ=+1.18) — unlicensed, TF1 failed |
+| TF5 SANE | ✓ kind_margin 4.746, all traces NF |
+
+**Decisive per-family read — integrated S is a LENGTH counter, not a fuel
+counter:**
+
+| family | ρ(S,ℓ) | ρ(S,tok) | S range |
+|---|---|---|---|
+| LIN | +0.971 | +0.968 | 15→114 |
+| DUP | +0.969 | +0.963 | 13→95 |
+| **NULL** | — (ℓ=0) | **+0.989** | **15→101** |
+
+S tracks **token length** (ρ=0.94–0.99 in *every* family) — including the
+**zero-fuel NULL chains** (`T = T = …`, ℓ=0), where S climbs 15→101 with **no
+reduction at all**. Integrated type signal counts `=` boundaries (length), not
+spent fuel. de Carvalho's accumulated derivation size is not a readable
+coordinate in the type-register magnitude at **either** grain — static
+(§P-FUEL) or dynamically-integrated (here). **Two probes, one convergent
+negative on the §3 Metric leg.**
+
+**Two honest sub-signals (reported, NOT licensed — TF1 failed, s310–s317
+discipline):**
+
+1. **The register responds to reduction events per-step.** TF2's real-vs-inert
+   comparison is strongly significant: a *real* reduction `=` boundary carries
+   **+2.214** more type signal than an *inert restatement* `=` (p=0.002). The
+   kind register is engaged by reductions — but this per-boundary excess does
+   not integrate into an ℓ-tracking total (inert boundaries carry signal too;
+   length dominates).
+2. **The per-step signal DECAYS toward normal form** (slope_lin=−1.385,
+   slope_dup=−0.207): as the term shrinks, the register magnitude *decreases*.
+   This is consistent with the register tracking **instantaneous remaining
+   reducibility (distance-to-NF, decreasing)** — the *complement* of
+   accumulated fuel. DUP decays less than LIN (Δslope +1.18), but that is
+   confounded by content-persistence (the same redex kind stays lit throughout
+   DUP), not licensed as non-idempotence.
+
+**The refinement this forces on §3 Metric.** The type-register magnitude is
+**not** a spent-fuel accumulator (de Carvalho's derivation size). If anything
+it reads as a **remaining-work / distance-to-NF gauge that decreases toward the
+normal form** — which is actually the §1 **Detector** reading (normal-form-ness
+as a low point of the register), not the §3 Metric reading (fuel as an
+increasing count). Sub-signal 1 (reductions engage the register) keeps the door
+open for a *different* probe — one that reads the register as a **decreasing
+distance-to-NF coordinate**, not an accumulating fuel counter. §1 Detector and
+§2 Dynamics stand; §3 Metric is bounded and **re-signed** (decreasing, not
+increasing).
+
+**Scope/caveats:** single model (qwen3-4b), single Y operationalization
+(kind-subspace magnitude), teacher-forced traces. Kills the fuel-as-accumulated-
+magnitude reading at both grains; the reduction-engagement sub-signal (p=0.002)
+and the distance-to-NF re-signing are hooks for follow-ups, not claims here.
+
 ## Caveats
 
 - A SPECIFIC term's normal form exists only when computed onto the tape
