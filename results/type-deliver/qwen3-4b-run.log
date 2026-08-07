@@ -1,0 +1,27 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 25948.72it/s]
+[td] Qwen/Qwen3-4B dev=mps n_layers=36 T-band=L18..L31 wire-band=L22..L29
+[td] nonces=20 (animal 10 vehicle 10)
+[td] real margin=2.538 per_class_ok=True
+[td] A0 base …
+[td] arm a1 (FFN) — true wire, 3 seeds …
+[td]   a1 seed0 steps=500 drift=0.098
+[td]   a1 seed1 steps=500 drift=0.118
+[td]   a1 seed2 steps=500 drift=0.091
+[td] arm a2 (OV) — true wire, 3 seeds …
+[td]   a2 seed0 steps=500 drift=0.091
+[td]   a2 seed1 steps=500 drift=0.070
+[td]   a2 seed2 steps=500 drift=0.083
+[td] arm a3 (QK) — true wire, 3 seeds …
+[td]   a3 seed0 steps=500 drift=0.006
+[td]   a3 seed1 steps=500 drift=0.005
+[td]   a3 seed2 steps=500 drift=0.013
+[td] arm a2d (OV deranged) — matched budget …
+[td] arm a3d (QK deranged) — matched budget …
+[td] TD3 nulls: random axes + shuffled member labels …
+[td] wrote results/type-deliver/qwen3-4b/results.json
+[td] FFN TD1 p=0.2259 False | TD3 rand p=0.0010 shuf p=0.1592 False | L=0.353 T=1.472 | delivers=False
+[td] OV  TD1 p=0.4083 False | TD3 rand p=0.0050 shuf p=0.1791 False | L=0.252 T=1.209 | delivers=False | TD2 p=0.5385 False
+[td] QK  TD1 p=0.4163 False | TD3 rand p=1.0000 shuf p=0.9303 False | L=0.231 T=0.330 | delivers=False | TD2 p=0.4918 False
+[td] TD4 band-localized=True TD5={'a1': True, 'a2': True, 'a3': True} TD6=True
+[td] VERDICT: NO-WEIGHT-DELIVERY

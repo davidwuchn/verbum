@@ -1,0 +1,242 @@
+{
+  "verdict": "NO-WEIGHT-DELIVERY",
+  "gates": {
+    "TD1": {
+      "a1": {
+        "value": 0.21510067186609377,
+        "null_mean": -0.0034899368673427223,
+        "p": 0.22588705647176413,
+        "sign_ok": true,
+        "pass": false,
+        "null": "shuffled_label"
+      },
+      "a2": {
+        "value": 0.11417956415001047,
+        "null_mean": -0.005121401313089871,
+        "p": 0.408295852073963,
+        "sign_ok": true,
+        "pass": false,
+        "null": "shuffled_label"
+      },
+      "a3": {
+        "value": 0.0930933007402924,
+        "null_mean": 0.0045125616082147746,
+        "p": 0.41629185407296354,
+        "sign_ok": true,
+        "pass": false,
+        "null": "shuffled_label"
+      }
+    },
+    "TD2": {
+      "a2": {
+        "value": -0.11368102917137382,
+        "null_mean": 0.004176990477170321,
+        "p": 0.5385461453854614,
+        "sign_ok": false,
+        "pass": false,
+        "null": "paired_permutation"
+      },
+      "a3": {
+        "value": 0.007310235049590297,
+        "null_mean": 0.0001707556724965869,
+        "p": 0.49175082491750827,
+        "sign_ok": true,
+        "pass": false,
+        "null": "paired_permutation"
+      }
+    },
+    "TD3": {
+      "a1": {
+        "rand": {
+          "value": 0.5831823945045471,
+          "null_mean": 0.0032221286940829815,
+          "p": 0.000999000999000999,
+          "sign_ok": true,
+          "pass": true,
+          "null": "matched_random_axis"
+        },
+        "shuf": {
+          "value": 0.5831823945045471,
+          "null_mean": 0.002326097822980957,
+          "p": 0.15920398009950248,
+          "sign_ok": true,
+          "pass": false,
+          "null": "member_label_shuffled_axis"
+        },
+        "pass": false,
+        "s_tag": 0.5831823945045471,
+        "rho_T_L": 0.7488721804511278
+      },
+      "a2": {
+        "rand": {
+          "value": 0.3206209659576416,
+          "null_mean": 0.0080982053186151,
+          "p": 0.004995004995004995,
+          "sign_ok": true,
+          "pass": true,
+          "null": "matched_random_axis"
+        },
+        "shuf": {
+          "value": 0.3206209659576416,
+          "null_mean": -0.003370176850410642,
+          "p": 0.1791044776119403,
+          "sign_ok": true,
+          "pass": false,
+          "null": "member_label_shuffled_axis"
+        },
+        "pass": false,
+        "s_tag": 0.3206209659576416,
+        "rho_T_L": 0.7533834586466165
+      },
+      "a3": {
+        "rand": {
+          "value": -0.5591427087783813,
+          "null_mean": 0.0008772598995512443,
+          "p": 1.0,
+          "sign_ok": false,
+          "pass": false,
+          "null": "matched_random_axis"
+        },
+        "shuf": {
+          "value": -0.5591427087783813,
+          "null_mean": 0.031061309535522025,
+          "p": 0.9303482587064676,
+          "sign_ok": false,
+          "pass": false,
+          "null": "member_label_shuffled_axis"
+        },
+        "pass": false,
+        "s_tag": -0.5591427087783813,
+        "rho_T_L": -0.3548872180451128
+      }
+    },
+    "TD4_band_localized": true,
+    "TD5": {
+      "a1": true,
+      "a2": true,
+      "a3": true
+    },
+    "TD6": true,
+    "delivers": {
+      "a1": false,
+      "a2": false,
+      "a3": false
+    }
+  },
+  "means": {
+    "L_a0": 0.1382488741510315,
+    "L_a1": 0.35334954601712526,
+    "L_a2": 0.25242843830104195,
+    "L_a3": 0.2313421748913239,
+    "L_a2d": 0.3661094674724158,
+    "L_a3d": 0.22403193984173358,
+    "T_a0": 0.8886812686920166,
+    "T_a1": 1.4718636631965638,
+    "T_a2": 1.2093022346496582,
+    "T_a3": 0.32953855991363523,
+    "n_nonce": 20
+  },
+  "meta": {
+    "model_id": "Qwen/Qwen3-4B",
+    "n_nonce": 20,
+    "nonces": [
+      "zorp",
+      "flim",
+      "drax",
+      "quop",
+      "blint",
+      "snerp",
+      "glark",
+      "trazz",
+      "vonk",
+      "plaff",
+      "dworp",
+      "snib",
+      "yerm",
+      "clazz",
+      "frub",
+      "norp",
+      "skell",
+      "twib",
+      "grelm",
+      "zint"
+    ],
+    "labels": [
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1
+    ],
+    "t_band": [
+      18,
+      31
+    ],
+    "wire_band": [
+      22,
+      29
+    ],
+    "seeds": 3,
+    "steps": 500,
+    "lr": 0.0001,
+    "lora_r": 16,
+    "kl_weight": 10.0,
+    "ce_budget": 0.4,
+    "metric": {
+      "real_margin": 2.5380677186603577,
+      "per_class_ok": true
+    },
+    "stop_steps": {
+      "a1": [
+        500,
+        500,
+        500
+      ],
+      "a2": [
+        500,
+        500,
+        500
+      ],
+      "a3": [
+        500,
+        500,
+        500
+      ]
+    },
+    "host": {
+      "a1": {
+        "drift_ok": true,
+        "real_ok": true,
+        "restore_ok": true,
+        "max_drift": 0.11766637757767073
+      },
+      "a2": {
+        "drift_ok": true,
+        "real_ok": true,
+        "restore_ok": true,
+        "max_drift": 0.09106711454169725
+      },
+      "a3": {
+        "drift_ok": true,
+        "real_ok": true,
+        "restore_ok": true,
+        "max_drift": 0.012935904569403966
+      }
+    }
+  }
+}
