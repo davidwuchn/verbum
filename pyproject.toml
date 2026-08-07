@@ -122,6 +122,7 @@ select = [
 "scripts/explore/disj_cost.py" = ["RUF001", "RUF002", "RUF003"]  # ∧ ∨ ‖ ρ λ Σ → : intersection/union type-theory notation
 "scripts/explore/linearity_bias.py" = ["RUF001", "RUF002", "RUF003"]  # ℓ λ → ≟ · : affine/contraction λ-calculus notation
 "scripts/explore/idempotency.py" = ["RUF001", "RUF002", "RUF003"]  # ρ × − ∧ → : non-idempotent intersection / A2 coherent-gain notation
+"scripts/explore/boundary_churn.py" = ["RUF001", "RUF002", "RUF003"]  # ρ ℓ × ∈ ‖ → : TWN-margin / type-subspace leverage notation
 
 # ─────────────────────────── ty ─────────────────────────────
 # ty is alpha; config schema is moving. Empty stanza pins the table so

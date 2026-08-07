@@ -1,0 +1,14 @@
+[bc] centroids (36, 30, 9728) over layers 0..35
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights:  15%|█▌        | 60/398 [00:00<00:00, 596.36it/s]Loading weights:  31%|███       | 122/398 [00:00<00:00, 597.67it/s]Loading weights:  46%|████▌     | 182/398 [00:00<00:00, 557.57it/s]Loading weights:  62%|██████▏   | 247/398 [00:00<00:00, 587.27it/s]Loading weights:  77%|███████▋  | 307/398 [00:00<00:00, 570.03it/s]Loading weights:  92%|█████████▏| 366/398 [00:00<00:00, 568.49it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 583.97it/s]
+[bc] processed 6/36 layers
+[bc] processed 12/36 layers
+[bc] processed 18/36 layers
+[bc] processed 24/36 layers
+[bc] processed 30/36 layers
+[bc] processed 36/36 layers
+[bc] 9728 units × 36 layers; building 300 shuffled-kind + isotropic null draws …
+[bc] wrote results/boundary-churn/qwen3-4b/results.json
+[bc] BC1 ρ=0.2410 p=0.0005 True | BC2 ρ_kind=0.2410 shuf_mean=0.2255 p=0.0033 True | iso_adv=-0.0000 | BC4 True
+[bc] per-layer ρ mean=0.2962 (min -0.053 max 0.742)
+[bc] VERDICT: BOUNDARY-IS-TYPED
