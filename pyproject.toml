@@ -117,6 +117,7 @@ select = [
 "scripts/explore/att_mediation.py" = ["RUF001", "RUF002", "RUF003"]  # γ − × Δ Σ : DLA / attention decomposition notation
 "scripts/explore/sign_commitment.py" = ["RUF001", "RUF002", "RUF003"]  # τ γ × − Δ ∈ : ternary/register alphabet
 "scripts/explore/fuel_theorem.py" = ["RUF001", "RUF002", "RUF003"]  # ρ ℓ μ → ≥ ≪ ‖ ∪ : λ-calculus / de Carvalho fuel notation
+"scripts/explore/trace_fuel.py" = ["RUF001", "RUF002", "RUF003"]  # ρ ℓ Σ ∝ ∧ Δ ‖ : λ-calculus / trace-fuel notation
 
 # ─────────────────────────── ty ─────────────────────────────
 # ty is alpha; config schema is moving. Empty stanza pins the table so
