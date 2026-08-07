@@ -11,7 +11,6 @@
 
 # new
 
-🔵 §P-TYPE-DELIVER — attention-band delivery-path write: which band (OV/QK) installs delivery §9 lacked? co-primary, no predicted null (s316 freeze) | types-are-injectable-relations §12 | medium
 ⚪ crystal-seeded init — crystal prior vs random init on compositional tasks; cheapest level-4 rung | training-design-from-the-hologram | medium
 ⚪ signal-descent mirror — replace Adam magnitude calibration with ternary mirror stack on the delta substrate | signal-descent | medium
 ⚪ Oracle germination game — cold agent + theory seed predicts measured results? (corpus calibration) | germination-games | cheap
@@ -39,6 +38,7 @@
 
 # complete
 
+❌ §P-TYPE-DELIVER — NO-WEIGHT-DELIVERY: no static weight band (FFN/OV/QK) installs held-frame licensing; delivery is tape-native, not weight-installable (bounds the causal door) | types-are-injectable-relations §13 | s316
 ✅ §P-TYPE-ICL+TAG — TAPE-TYPED+TAG-TRANSIT / DELIVERY-FAILURE: type check reads the TAPE; §9 was delivery failure | types-are-injectable-relations §11 | s315
 ❌ §P-TYPE-WRITE — CONTEXT-ONLY, clean falsifier: relation written, type does not act | types-are-injectable-relations §9 | s315
 ✅ §P-TYPE-GRAM-1 + registry sweep — TYPE-REGISTER 7/11 family-clean, training-contingent | gram-registers-and-the-route-map | s313–s314

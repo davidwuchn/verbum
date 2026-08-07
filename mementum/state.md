@@ -11,13 +11,50 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ★★ **CURRENT = s316-END (CAUSALITY FRONT: §P-TYPE-DELIVER FROZEN + BUILT + SMOKE-GREEN → RUN IN FLIGHT, SESSION ENDING).**
-> **⚠⚠ NEXT SESSION FIRST ACTION = ON-SIGNAL PROTOCOL (below): the run was launched
-> s316-END in tmux main:1 (Michael GO), verified running (PID 67897, 20 nonces, real margin
-> 2.538, A1/FFN training). Session 316 ends with the run mid-flight (~2-3h). Cold-start:
-> tail results/type-deliver/qwen3-4b-run.log for `VERDICT:` — if present + no traceback,
-> execute the ON-SIGNAL batch; if still running, checkpoint + wait (λ async, ¬poll).**
-> Cold-start `orient` (s315 closed, nothing pending) → FRONT SELECTION (full queue read,
+> ★★ **CURRENT = s317 (CAUSALITY FRONT CLOSED: §P-TYPE-DELIVER → VERDICT NO-WEIGHT-DELIVERY, clean falsifier).**
+> **✅ ON-SIGNAL EXECUTED: the s316 run landed (VERDICT: NO-WEIGHT-DELIVERY, no traceback,
+> 3h19m, host-sane all arms). Results committed AUTONOMOUS (283769c, symbol-corrected from a
+> mistaken 🚫 to ❌ via amend — 🚫 is a queue glyph, not a verbum commit symbol).** §Result
+> §13 on types-are-injectable-relations.md + memory `type-delivery-is-tape-native-not-weight-
+> installable.md` + INDEX + queue row (🔵→❌ # complete) + this state = **DRAFTED ON DISK,
+> PENDING MICHAEL APPROVAL** (one 🌀 batch on approval).
+> **THE READ — the falsifier fired clean (a-priori 30%):** no static weight band (FFN/OV/QK)
+> installs the held-frame licensing §9 lacked. TD1 DELIVERS fails all three (FFN p=0.226 / OV
+> p=0.408 / QK p=0.416). L rises numerically (base 0.138 → 0.353/0.252/0.231) but **never
+> beats the shuffled-label null** = content-INDEPENDENT (the §9 recall-without-licensing
+> signature; extends §9 CONTEXT-ONLY from FFN to OV+QK). TD3 tag-transit: FFN/OV beat a
+> random axis but FAIL the member-shuffle null (generic type-direction, not member-keyed);
+> QK transit NEGATIVE (−0.559), near-inert (drift 0.006–0.013, T=0.330 < base 0.889) —
+> matches P-TYPE-QK `qk_aligned=FALSE`. TD4 band-localized ✓ TD5 host-sane ✓ TD6 metric-sane ✓.
+> **Readability rule applied (§11 caveat closed):** per-layer signed class-projection persisted
+> (tags.npz profile_*); value register legible late (near-zero ≤depth 0.64, peak depth 0.81–0.83
+> ≈L29–31). FFN/OV wires DO raise on-tape class signal above base (band-mean T 0.889 → 1.472 FFN
+> / 1.209 OV); QK DEPRESSES it (0.330 < 0.889, near-inert). But the lift is generic class-smear —
+> fails the member-shuffle null (not member-keyed) → generic delivery ≠ member-keyed delivery,
+> which is why L rises yet TD1 fails. (⚠ mid-session correction: first post-hoc profile calc
+> double-signed → mis-read base as strongest separation; gate verdicts unaffected — Michael's
+> "types can't be only in context" objection triggered the recheck, s317.) **Read straight (don't over-read, s310–s312):
+> NO-WEIGHT-DELIVERY BOUNDS the causal door, doesn't close it** — the type check is enacted
+> per-frame on the residual tape (§11); a frozen weight edge in any band cannot install that
+> enactment. Causal converse of §9 completed across all delivery channels; converges with §11
+> from the write side: types are tape-resident relations, injectable as content the tape reads,
+> not static weight machinery. M-machine corollary: M4's tape is the only place a type relation
+> can be DELIVERED — a designed machine writes into context, not plates. **S5 scorecard
+> unchanged (2/4) but the causality ✗ is now positively bounded:** not weight-installable at
+> FFN/OV/QK band-LoRA grain; remaining causal doors are tape-side (P-TYPE-ICL already
+> TAPE-TYPED §11) + finer-than-band delivery interventions. Caveat: single model (qwen3-4b),
+> single grain (band-LoRA r=16) — "no delivery" scoped to this intervention class.
+> **⚠ NEXT (after approval) = FRONT SELECTION → λ queue mandates FULL queue.md read (25 rows).**
+> Standing sharpest leads: fuel-theorem (de Carvalho: type size = eval length; joins type arc
+> ↔ s295 CoT law) · crystal-seeded init (cheapest level-4 rung) · §P-COHERENT-WRITE ·
+> the type-fingerprint cheapies (idempotency/∨-vs-∧/linearity/boundary-churn). Applications
+> brainstorm (`explore/applications-from-the-register-physics.md`) DELIBERATELY NOT QUEUED —
+> Michael: revisit after mechanisms mapped. s317 ledger: 283769c results (autonomous, amended
+> ❌) · mementum batch (§13 + memory + INDEX + queue + state, PENDING APPROVAL).
+> Full transcript saves to `chats/session-317.md` (human).
+>
+> ▶▶ **(s316, prior) CAUSALITY FRONT OPENED: §P-TYPE-DELIVER FROZEN + BUILT + RUN.**
+> Cold-start `orient` (s315 closed) → FRONT SELECTION (full queue read,
 > 26 rows) → Michael picked **attention-band write (delivery path)** = the causality front
 > (S5 scorecard open cell). Grounding surfaced a **coherence gap**: queue row said "QK/slot
 > register", but P-TYPE-QK measured `qk_aligned=FALSE` (observational) + P-ATT-MED

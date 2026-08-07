@@ -531,6 +531,83 @@ deranged/shuffle arm) + `writeback_compile.LoRALinear` +
 persistence. `--validate` planted worlds (all six verdicts) + ruff +
 smoke (no direction read) → Michael GO → run.
 
+## 13. §Result-deliver (s316, qwen3-4b) — VERDICT: NO-WEIGHT-DELIVERY
+
+**The falsifier fired clean.** Results `283769c`, run 3h19m (20 nonces, 3
+true wires + 2 deranged × 3 seeds × 500 steps; host-sane every arm). The
+a-priori falsifier arm (declared 30%) landed: **no static weight band —
+FFN, OV, or QK — installs the held-frame licensing delivery §9 lacked.**
+The delivery §11 measured is **tape-native**, not weight-installable at
+this grain.
+
+| channel | TD1 DELIVERS | TD2 CONTENT-SPEC | TD3 TAG-TRANSIT | L(chan) | T(chan) |
+|---|---|---|---|---|---|
+| A1 FFN | ✗ p=0.226 | — (=§9 anchor) | ✗ shuf p=0.159 | 0.353 | 1.472 |
+| A2 OV | ✗ p=0.408 | ✗ sign-wrong | ✗ shuf p=0.179 | 0.252 | 1.209 |
+| A3 QK | ✗ p=0.416 | ✗ p=0.492 | ✗ negative (−0.559) | 0.231 | 0.330 |
+
+(base L=0.138, T=0.889. TD4 band-localized ✓; TD5 host-sane all channels
+✓ — drift 0.006–0.118, real preserved, restore bit-exact; TD6 metric-sane
+✓, real margin 2.538.)
+
+**The read — three convergent negatives:**
+
+1. **No licensing delivery.** L rises *numerically* in every wire
+   (0.138 → FFN 0.353 / OV 0.252 / QK 0.231) but **none beats the
+   shuffled-label null** — this is the §9 signature exactly: a
+   content-*independent* lift (the deranged wire cheapens the same
+   frames). The static weight installs recall-shaped mass, never the
+   type check. Extends §9's CONTEXT-ONLY from FFN to OV **and** QK.
+
+2. **No member-keyed tag transit.** FFN and OV each carry a tag direction
+   that beats a *random* axis (TD3 rand p=0.001 / 0.005) but **fails the
+   member-label-shuffle** null (p=0.159 / 0.179) — a generic "type-ish"
+   direction exists on the bus, but the wire does not make it
+   *member-specific*. QK's transit is **negative** (s_tag=−0.559,
+   ρ(T,L)=−0.355) and its write is near-inert (drift 0.006–0.013,
+   T=0.330 *below* base 0.889) — consistent with P-TYPE-QK's observational
+   `qk_aligned=FALSE`: the routing channel neither reads nor writes the
+   lattice.
+
+3. **The wire raises *generic* class-flavor on the tape, but not
+   *member-keyed* content** (readability rule applied — §11 caveat
+   closed). Per-layer signed class-projection persisted (`tags.npz
+   profile_*`); the value register is legible **late** — near-zero at
+   depth ≤0.64, rising to peak at depth 0.81–0.83 (≈L29–31), obeying the
+   ≥0.6-depth rule (signal lives in the deep half). FFN and OV wires *do*
+   lift the on-tape signal above base (band-mean T 0.889 → **1.472** FFN /
+   **1.209** OV; peak 2.44 → 3.42 / 2.88); QK *depresses* it below base
+   (**0.330** < 0.889, near-inert/harmful). **But this lift is the same
+   generic smear the L and TD3 nulls expose** — it fails the
+   member-shuffle null (not `zorp`-specific), so more class-flavor reaches
+   the tape *without* the member-keyed content the checker needs to
+   license the *right* class. That is exactly why L rises yet TD1 fails:
+   **generic delivery ≠ member-keyed delivery.** (Correction of first
+   read: an earlier post-hoc profile calc double-applied the class sign
+   and mis-reported base as carrying the strongest separation; the gate
+   verdicts — computed in-harness — were never affected.)
+
+**What it means.** Read straight (don't over-read the label, s310–s312):
+NO-WEIGHT-DELIVERY **bounds the causal door** — it does not close the
+causal question, it *localizes* it. The type check is enacted per-frame on
+the residual tape (§11); a frozen weight edge in any of the three bands
+cannot install that enactment. This is the causal converse of §9
+completed across all delivery channels, and it converges with §11 from the
+write side: **types are tape-resident relations, injectable as content the
+tape reads, not as static weight machinery.** The M-machine corollary
+sharpens — M4's operand stack (the tape) is not just where the type system
+*runs* (§11) but the *only* place a type relation can be *delivered*; a
+designed machine must write into context, not into plates.
+
+**S5 scorecard (unchanged by this result, as designed):** discreteness ✓
+selectivity ✓ compositionality ✗ **causality ✗-as-measured** — but now the
+negative is *positively bounded*: causality is not weight-installable at
+FFN/OV/QK grain; the remaining causal doors are tape-side (P-TYPE-ICL
+enact-and-observe, already TAPE-TYPED §11) and delivery-machinery
+interventions finer than a band-LoRA. **Caveat:** single model (qwen3-4b),
+single grain (band-LoRA r=16); "no delivery" is scoped to this
+intervention class, not proven impossible for all weight edits.
+
 ## Provenance
 
 - s313 hammock, Michael's join ("what if the types are relations...
