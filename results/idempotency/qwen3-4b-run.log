@@ -1,0 +1,16 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 21780.63it/s]
+[ib] Qwen/Qwen3-4B dev=mps k=[0, 1, 2, 3, 4, 5]
+[ib] nonces=20 (animal 10 vehicle 10)
+[ib] real-member anchor …
+[ib] real margin=2.538 per_class_ok=True
+[ib] swept 5/20 nonces
+[ib] swept 10/20 nonces
+[ib] swept 15/20 nonces
+[ib] swept 20/20 nonces
+[ib] wrote results/idempotency/qwen3-4b/results.json
+[ib] IB1 p=0.0300 True | IB2 p=0.0226 True | IB3 p=0.1368 False | IB4 True (L0=0.138 L1=1.409 Lmax=2.065)
+[ib] coh_slope=0.1593 inc_slope=-0.0115 gap=0.1708 | first-exp=1.270
+[ib] curve_coh=[0.138, 1.409, 2.517, 2.96, 2.798, 2.065]
+[ib] curve_inc=[0.138, 0.165, 0.219, 0.071, 0.162, 0.136]
+[ib] VERDICT: NON-IDEMPOTENT

@@ -1,0 +1,137 @@
+{
+  "verdict": "NON-IDEMPOTENT",
+  "display": "NON-IDEMPOTENT",
+  "non_saturating": false,
+  "gates": {
+    "IB1": {
+      "value": 0.15933075393183574,
+      "null_mean": -0.0001401157685933253,
+      "p": 0.029985007496251874,
+      "sign_ok": true,
+      "pass": true,
+      "null": "k_perm"
+    },
+    "IB2": {
+      "value": 0.1708425832678245,
+      "null_mean": 0.0013744503135887617,
+      "p": 0.022595480903819236,
+      "sign_ok": true,
+      "pass": true,
+      "null": "paired_permutation"
+    },
+    "IB3": {
+      "value": 0.16406303299496586,
+      "null_mean": -0.0014983502629461053,
+      "p": 0.1367726454709058,
+      "sign_ok": true,
+      "pass": false,
+      "null": "sign_flip"
+    },
+    "IB4": {
+      "L0": 0.1382488741510315,
+      "L1": 1.4086114246587385,
+      "Lmax": 2.0648635566386018,
+      "real_ok": true,
+      "register_ok": true,
+      "baseline_ok": true,
+      "pass": true
+    }
+  },
+  "means": {
+    "coh_slope": 0.15933075393183574,
+    "inc_slope": -0.011511829335988748,
+    "slope_gap": 0.1708425832678245,
+    "curve_coh": [
+      0.1382488741510315,
+      1.4086114246587385,
+      2.516710462552146,
+      2.9604350762412652,
+      2.7975137379107764,
+      2.0648635566386018
+    ],
+    "curve_inc": [
+      0.1382488741510315,
+      0.1653298534825808,
+      0.21878572040182007,
+      0.07093140677259271,
+      0.16197188119513156,
+      0.1361776264059813
+    ],
+    "step_inc_coh": [
+      1.270362550507707,
+      1.1080990378934077,
+      0.4437246136891191,
+      -0.16292133833048883,
+      -0.7326501812721746
+    ],
+    "first_exposure_license": 1.270362550507707,
+    "n_nonce": 20
+  },
+  "meta": {
+    "model_id": "Qwen/Qwen3-4B",
+    "n_nonce": 20,
+    "nonces": [
+      "zorp",
+      "flim",
+      "drax",
+      "quop",
+      "blint",
+      "snerp",
+      "glark",
+      "trazz",
+      "vonk",
+      "plaff",
+      "dworp",
+      "snib",
+      "yerm",
+      "clazz",
+      "frub",
+      "norp",
+      "skell",
+      "twib",
+      "grelm",
+      "zint"
+    ],
+    "labels": [
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1
+    ],
+    "k_values": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "metric": {
+      "real_margin": 2.5380677186603577,
+      "per_class_ok": true
+    },
+    "incoherent_templates": [
+      "A {w} is nearby.",
+      "The {w} is on the table.",
+      "Every {w} was counted.",
+      "{w}, like the box and the lamp, is here.",
+      "I saw a {w}; it is over there."
+    ]
+  }
+}
