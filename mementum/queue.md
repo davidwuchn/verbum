@@ -11,11 +11,11 @@
 
 # new
 
+🔵 §P-TYPE-DELIVER — attention-band delivery-path write: which band (OV/QK) installs delivery §9 lacked? co-primary, no predicted null (s316 freeze) | types-are-injectable-relations §12 | medium
 ⚪ crystal-seeded init — crystal prior vs random init on compositional tasks; cheapest level-4 rung | training-design-from-the-hologram | medium
 ⚪ signal-descent mirror — replace Adam magnitude calibration with ternary mirror stack on the delta substrate | signal-descent | medium
 ⚪ Oracle germination game — cold agent + theory seed predicts measured results? (corpus calibration) | germination-games | cheap
 ⚪ CL-identities as routing constraints — do combinator-algebra identities hold as routing-register geometry? | combinator-function-shape | cheap
-⚪ attention-band membership write — write member→class into the slot register (QK band), §8 probe re-aimed | types-are-injectable-relations §9 | medium
 ⚪ GS-iterative base decomposition — alternating projections untangle the in-line base? (iterative-LoftQ door) | holographic-untangling-methods | medium
 ⚪ rocking-curve instrument — reinjection efficiency vs (layer × angle × strength); the write-targeting surface | holographic-untangling-methods | big
 ⚪ GD k-step sweep — wire installs at k≈3? +GD-REQUIRED → FEEDBACK-REQUIRED | holographic-untangling-methods | cheap

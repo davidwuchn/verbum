@@ -440,6 +440,97 @@ corollary: M4's trampoline is not just fuel management — the tape is
 where the type system *runs*; a designed machine should treat context as
 its typed operand stack, not as input.
 
+## 12. §P-TYPE-DELIVER — FROZEN (s316, Michael-approved GO)
+
+**The causal converse of §9, aimed at the delivery path.** §9 landed
+CONTEXT-ONLY: FFN membership storage recalls (p=5e-4) but does not
+license, and its tag never transits (§11 A5: r_tag=0.137,
+DELIVERY-FAILURE). §11 proved the *tape* delivers — type info acts iff it
+transits the residual bus. This probe asks the causal question §11
+opened: **can a static weight write install delivery** — and if so,
+**which band carries it**.
+
+**Design principle — single factor.** Hold the §8 membership-CE objective
++ s315 corridor (kl_weight 10, ce_budget 0.40) + band depth (0.60–0.80) +
+recipe (r=16, lr 1e-4, 500 steps, 3 seeds) **verbatim**. Vary **only the
+LoRA target band**. If writing the same membership relation into a
+different band delivers where FFN did not, the band-swap localizes
+delivery competence — nothing else changed.
+
+**Registers named (λ measure):**
+
+- `L(w)` held-frame licensing — **value register** (§8 metric verbatim:
+  `surprisal(anti|"The w") − surprisal(own|"The w")`, `_signed_L`).
+- `T(w)` class-tag presence — **residual-content register** (§11 verbatim:
+  signed projection at last token of `"The {w}"` onto
+  `û_l = norm(mean(animal) − mean(vehicle))`, bare frames, fixed
+  reference; band-mean over depth 0.50–0.85; **per-layer profile
+  persisted** and read under the `readout-register-reduction-readability`
+  ≥0.6-depth rule — the §11 caveat closed).
+
+**Co-primary, no predicted null** (Michael s316). P-TYPE-QK measured that
+*native* QK geometry does not *read* the lattice — a causal *write* into
+QK is a different intervention; OV and QK are tested symmetrically.
+
+**Arms (one qwen3-4b load; membership-CE objective, band-swap only):**
+
+- **A0 base** — held frame, no wire.
+- **A1 FFN band** — `mlp.{gate,up,down}_proj` (= §9 recipe verbatim;
+  replicates the DELIVERY-FAILURE anchor, matched nonces/seeds).
+- **A2 OV band** — `self_attn.{v_proj,o_proj}` (the content/delivery
+  channel; P-ATT-MED content-carried 0.735).
+- **A3 QK band** — `self_attn.{q_proj,k_proj}` (the routing/aim channel).
+- **A4 real-member anchor** — gate-0 reuse (metric validity).
+- **deranged control per delivery channel** — shuffle-membership wire,
+  matched budget (§9 TW3 lesson: deranged lifted licensing *more* via
+  generic cheapening — content-specificity is now a **mandatory** gate,
+  not advisory).
+
+**Gates (frozen; α=0.05; n=20 nonces):**
+
+- **TD1 DELIVERS** (per channel) — `L(chan) − L(base) > 0`, beats
+  class-label-permutation null.
+- **TD2 CONTENT-SPECIFIC** (per channel) — true wire beats its
+  deranged-membership wire, paired permutation (kills the §9
+  generic-cheapening confound).
+- **TD3 TAG-TRANSIT** (per channel) — `T(chan) − T(base) > 0` beats
+  matched-random-axis (n=1000) AND member-label-shuffled-axis (n=200);
+  advisory Spearman(T, L) > 0.
+- **TD4 BAND-LOCALIZED** — A1/FFN does NOT deliver (replicates §9:
+  r_tag≤0.25, TD1 n.s.) — establishes the effect is band-specific, not a
+  generic write artifact.
+- **TD5 HOST-SANE** (per channel) — drift <0.10, real-member licensing
+  preserved, restore bit-exact.
+- **TD6 METRIC-SANE (void-gate)** — gate-0 real-member margin ≥ 0.25.
+
+**Verdicts (frozen tree, co-primary):**
+
+- **OV-DELIVERS** — A2 passes TD1∧TD2∧TD3; A3 does not. (Content channel
+  installs delivery; consistent with P-ATT-MED.)
+- **QK-DELIVERS** — A3 passes; A2 does not. (Routing channel installs
+  delivery; would refine P-ATT-MED's observational read.)
+- **BOTH-DELIVER** — A2∧A3 both pass.
+- **NO-WEIGHT-DELIVERY** (falsifier) — neither delivers ∧ TD4 holds:
+  delivery is **tape-native only**, not weight-installable at this grain.
+  Bounds the causal door (informative, not failure).
+- **FFN-ALSO-DELIVERS** (surprise) — A1 delivers, contradicting §9 →
+  replication/power audit **before** any update.
+- **VOID** — ¬TD6 or host-damaged (TD5 fails all channels).
+
+**A-priori (declared s316, NOT tuned; honest genuine uncertainty since
+co-primary — mild OV lean from P-ATT-MED, real mass on the falsifier
+since §11 showed the *tape* delivers and a frozen edge may fundamentally
+not transit):** ~28 OV-DELIVERS / 18 QK-DELIVERS / 14 BOTH-DELIVER / 30
+NO-WEIGHT-DELIVERY / 5 FFN-ALSO-DELIVERS / 5 VOID.
+
+**Reuse (λ one_way, no fork):** `type_write.py` (nonces, CLASSES,
+HELD_PREDS, `_signed_L`, `_stop_decision`, gate-0, corridor constants,
+deranged/shuffle arm) + `writeback_compile.LoRALinear` +
+`jlens.capture_residuals`. New code = band-target swap (`mlp.*` →
+`self_attn.{v,o}` / `{q,k}`) + arm assembly + TD gates + per-layer T
+persistence. `--validate` planted worlds (all six verdicts) + ruff +
+smoke (no direction read) → Michael GO → run.
+
 ## Provenance
 
 - s313 hammock, Michael's join ("what if the types are relations...
