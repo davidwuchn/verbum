@@ -11,6 +11,57 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 320 COMPLETE (one probe closed: §P-IDEMPOTENCY → ✅ NON-IDEMPOTENT — the
+> 3rd type-fingerprint and the FIRST in the s317–320 arc to clear its make-or-break confound gate).
+> NEXT SESSION FIRST ACTION = §P-BOUNDARY-CHURN (the 2nd remaining type-fingerprint, §6 item 4 / M8
+> corollary — do s310 marginal-band weights concentrate on type-boundary features? weight-space, reuse
+> sign_commitment.py). Task #5 is live/pending; all s320 idempotency batches committed. Front already
+> selected (Michael: "finish the type-fingerprints").**
+> **§P-IDEMPOTENCY (detail: type-systems-under-llm-constraints §P-IDEMPOTENCY Result + git +
+> chats/session-320.md):** Michael said "finish the type-fingerprints" → orient found TWO remaining
+> (idempotency = SKI-control #3, the pinned *non-idempotent* qualifier; boundary-churn = M8 join). I
+> recommended idempotency first (completes the SKI-control tier); Michael approved. **🎯 FROZEN (076454f)**
+> on type-systems-under-llm-constraints.md. Register = **LICENSING** (heeded the s319 caveat: NOT
+> kind-magnitude — the 3× magnitude-null is a presence-detector; used the §P-TYPE-ICL+TAG register that
+> LANDED s315). Construction = exposure-count sweep k∈{0..5} × {COHERENT paraphrases (tw._member_stmts,
+> A2 coherent superposition), INCOHERENT energy-matched null (non-membership about w, same token budget)}
+> → per-nonce licensing L(k); discriminator = slope_coherent − slope_incoherent (the A2 coherent-gain
+> isolate). Gates IB1 ACCUMULATION / **IB2 COHERENT-SPECIFIC (make-or-break — the exact §P-FUEL
+> token-budget confound isolate)** / IB3 NON-SATURATING (non-gating) / IB4 SANE. Verdicts NON-IDEMPOTENT /
+> EVIDENCE-ONLY / IDEMPOTENT / VOID. A-priori 40/40/15/5 (NOT tuned). **🔄 BUILD AMENDMENT (9f73d7d,
+> runtime-forced, pre-run, Michael GO — instrument-side ONLY, register/verdicts/a-priori UNCHANGED):**
+> the k=0→1 first-exposure jump licenses under BOTH idempotent and non-idempotent intersection → a literal
+> "ρ(L,k)>0 over all k" IB1 passes for an idempotent step-function → IDEMPOTENT unreachable, contradicting
+> the frozen 15%. Fix: accumulation gates IB1/IB2/IB3 operate on **k≥1** (does license grow AFTER first
+> exposure — the real A∧A-vs-A signature); k=0 feeds IB4 SANE only. --validate primitive `k≥1
+> step→IDEMPOTENT` proves it. **✅ HARNESS BUILT (9f73d7d): scripts/explore/idempotency.py** — no fork
+> (reuses type_write _member_stmts/HELD_PREDS/CLASSES/REAL_MEMBERS/_signed_L + holo_cap NONCE_CANDS +
+> dsp.nulls); --validate 4 verdict worlds + 5 primitives ALL PASS, ruff clean (+per-file-ignore RUF001/2/3),
+> no diags, qwen3-4b smoke green (real 2.538, IB4 sane, verdict NOT read). **✅ RUN LANDED (279192c
+> autonomous, read-only ~7min, tmux main:1, 20 nonces): VERDICT NON-IDEMPOTENT.** IB1 p=0.030 ✓ · **IB2
+> make-or-break p=0.0226 ✓** (coh_slope +0.159 vs inc −0.011, gap +0.171) · IB3 p=0.137 ✗ (non-gating) ·
+> IB4 sane (L0 0.138 / L1 1.409 / Lmax 2.065 / real 2.538). curve_coh **[0.14,1.41,2.52,2.96,2.80,2.07]**
+> (accumulates exposures 1→3 then declines) · curve_inc flat ~0 (A2 energy-matched null holds). **THE READ
+> (don't over-read, s310–s319):** the pinned **non-idempotent qualifier CONFIRMED on the tape licensing
+> face** — coherent re-exposure accumulates licensing beyond the energy-matched null (A∧A≠A), the
+> **idempotent SKI-control #3 FALSIFIED**, and IB2 is the FIRST make-or-break gate to clear the
+> token-budget confound that nulled §P-FUEL/TRACE-FUEL/NF-GAUGE. **BOUNDED not unbounded:** +NON-SATURATING
+> OFF (IB3 p=0.137, curve non-monotonic — step increments [+1.27,+1.11,+0.44,−0.16,−0.73]); the k=4,5
+> DECLINE may be atypical-template dilution (k4 = cohyponym paraphrase, k5 = narrative frame) NOT true
+> saturation — caveat flagged, not resolved. **Two-substrate confirmation** of non-idempotence: A2
+> weight-plate (s292) + tape licensing (here). **Scorecard: fingerprint 3/4 = POSITIVE → tier reads 1
+> weak-+ (∨/∧) / 1 − (W/D, behavioral) / 1 + (idempotency).** Composite: non-idempotent (2 substrates) +
+> intersection-flavored (∨-cost, representational) + affine bias NON-executional (s319) = a graded,
+> accumulating, REPRESENTATIONAL type geometry on a universal tape-side reducer. **SKI-control tier now
+> COMPLETE** (curry-howard §5): #1 nominal enum REJECTED (TG3) · **#2 Church static tags tested-dead
+> (s288 gradedness + continuous L; listed, not assumed)** · #3 idempotent FALSIFIED (here) · #4 Cartesian
+> mixed (∨/∧ weak-+ / W-D −). Memory: `type-membership-is-non-idempotent-on-the-tape.md`. **s320 ledger
+> (all committed):** 076454f freeze · 9f73d7d harness+amendment · 279192c results (autonomous) · §Result +
+> memory + INDEX + queue closure + this state (Michael approval batch, this commit). **REMAINING
+> type-fingerprint: §P-BOUNDARY-CHURN (task #5) — s310 marginal-band ≡ type-boundary population? weight-space,
+> sign_commitment reuse; needs freeze → GO → build → run → close. That closes the fingerprint tier.**
+> Standing non-fingerprint leads: crystal-seeded init (cheapest level-4) · Oracle germination game · §P-COHERENT-WRITE.**
+>
 > ★★ **SESSION 319 COMPLETE (one probe closed: §P-LINEARITY-BIAS → ❌ CARTESIAN-CONSISTENT).
 > The 2nd type-fingerprint FALSIFIES the affine core's behavioral face: at matched fuel the substrate
 > executes contraction (W `f x x` / M `x x`) as accurately as composition (B/C/D). NEXT SESSION FIRST

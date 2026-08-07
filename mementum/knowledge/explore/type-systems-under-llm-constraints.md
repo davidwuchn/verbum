@@ -642,6 +642,99 @@ construction + per-k L curve + slope contrast + IB1–IB4 gates.
 `--validate` planted worlds (all verdicts + coherent-isolate + saturation
 primitives) + ruff + smoke (no verdict read) → Michael GO → run.
 
+## §P-IDEMPOTENCY — RESULT (s320, qwen3-4b) — VERDICT: NON-IDEMPOTENT
+
+**The pinned *non-idempotent* qualifier is CONFIRMED on the tape licensing
+face — and it is the FIRST fingerprint in the s317–320 arc to clear its
+make-or-break confound gate.** Results (`results/idempotency/qwen3-4b`, 20
+nonces × {COHERENT, INCOHERENT} × k∈{0..5}). IB4-sane (L0=0.138 ≈ no
+license before exposure; L1=1.409 first exposure licenses; Lmax=2.065;
+real-member anchor 2.538) ⇒ a **valid measurement**.
+
+| gate | result |
+|---|---|
+| IB1 ACCUMULATION (core) | ✓ coh_slope **+0.159**, **p=0.030** (k-perm null) — license grows after first exposure |
+| IB2 COHERENT-SPECIFIC (make-or-break) | ✓ coh −0.011(inc) gap **+0.171**, **p=0.0226** (paired) — the coherent-specific accumulation beats the energy-matched null |
+| IB3 NON-SATURATING (corroboration, non-gating) | ✗ mean increment k≥2 **p=0.137** — the curve is non-monotonic; no monotone accumulation |
+| IB4 SANE (void-gate) | ✓ L0 0.138 / L1 1.409 / Lmax 2.065 · real 2.538 · register ✓ · baseline ✓ |
+
+**What lands (the core result).** Coherent membership re-exposure
+**accumulates licensing beyond the energy-matched token-budget null** — the
+gate (IB2, p=0.023) that has nulled this arc three times (§P-FUEL /
+§P-TRACE-FUEL / §P-NF-GAUGE, all confounded by token length) **clears here**.
+Per the frozen tree, IB1 ∧ IB2 ⇒ **NON-IDEMPOTENT**: `A∧A ≠ A`, the second
+and third coherent exposures add substantial license (L(1)=1.41 → L(2)=2.52
+→ L(3)=2.96), far above the first-exposure value. **The idempotent
+SKI-control #3 (membership saturates at first exposure) is FALSIFIED.** The
+incoherent arm stays flat near zero throughout (`[0.14, 0.17, 0.22, 0.07,
+0.16, 0.14]`) — energy-matched non-membership exposures do **not** license:
+a textbook A2 signature (coherent gain; random-matched does not accumulate).
+
+**What it does NOT license (read discipline, s310–s319).**
+
+1. **NOT unbounded counting.** The +NON-SATURATING subtag is OFF (IB3
+   p=0.137). curve_coh = `[0.14, 1.41, 2.52, 2.96, 2.80, 2.07]` — the
+   license **accumulates over exposures 1→3 then declines** (k=4: 2.80,
+   k=5: 2.07; step increments `[+1.27, +1.11, +0.44, −0.16, −0.73]`). So
+   non-idempotence holds for the first few uses but the licensing register
+   does **not** monotonically integrate an unbounded multiset — bounded
+   accumulation, not a linear counter. This is *weaker* than the strong de
+   Carvalho "size = multiplicity" reading; it licenses "the 2nd/3rd use
+   adds," not "the k-th use adds for all k."
+2. **The k=4,5 decline may be template-content, not saturation.** The 4th
+   and 5th paraphrases are structurally atypical — k=4 is "w, like the dog
+   and the cat, is an animal." (injects real cohyponyms that carry their own
+   class mass and compete for the licensing position) and k=5 is "I saw a w;
+   it is an animal." (narrative frame + pronoun). The decline plausibly
+   tracks these atypical exposures rather than genuine over-saturation; a
+   cleaner design (5 declarative paraphrases of matched form, or k>5 with
+   repeats) could separate the two. Caveat flagged, not resolved.
+3. **Mechanism unclaimed** (banked at freeze): amplitude superposition vs
+   attention re-weighting vs Bayesian evidence combining are not separated;
+   IB2 kills the token-budget confound, not "consistent evidence
+   accumulates" in general.
+
+**Two-substrate confirmation of non-idempotence.** A2 coherent gain (s292,
+CAP) measured non-idempotence on the frozen **weight plate** ("accumulates
+where edges match"); this measures it prospectively, confound-gated, on the
+**tape/ICL licensing** face. **Both faces of the two-tier type system show
+non-idempotent accumulation.** The tape result coheres with the arc: type
+checking lives on the tape (s315 TAPE-TYPED; s317 tape-resident reduction),
+and the tape integrates coherent exposures by constructive interference (A2 /
+frozen-interference-graph §Clause 2) over the first few uses.
+
+**Type-system scorecard update: fingerprint 3 of 4 = POSITIVE.** The tier
+now reads **1 weak-+ (∨-vs-∧, §P-DISJ-COST) / 1 − (W/D linearity,
+§P-LINEARITY-BIAS, behavioral face) / 1 + (idempotency, here)**. Sharpened
+composite: the pinned **non-idempotent intersection over an affine core**
+gets its strongest support on the **non-idempotent** qualifier (two
+substrates), a weak representational positive on **intersection/∨-cost**, and
+a clean negative only on the *behavioral-execution* face of the affine core
+(contraction executes as accurately as composition — the bias is
+representational, not executional, s319). Coherent one-line read: **the
+substrate's type judgments accumulate (non-idempotent) and represent ∨/∧
+asymmetrically (intersection-flavored), but execute contraction and
+composition with equal competence** — a graded, accumulating, representational
+type geometry riding a universal tape-side reducer.
+
+**SKI-control tier for types — now complete (curry-howard §5).** #1 nominal
+enum → REJECTED (TG3 diffuse, s313). **#2 Church static tags → tested-dead:
+crisp binary acceptance is falsified by s288 graded refusal + the whole
+graded-licensing register (L is continuous, not {0,1}); listed dead, not
+assumed-dead.** #3 idempotent intersection → **FALSIFIED here (NON-IDEMPOTENT).**
+#4 Cartesian substrate → mixed (∨-vs-∧ weak-+ / W-D −). All four pre-committed
+deaths have been measured against; none of the plausible-but-wrong type
+systems survives intact, and the pinned quantitative-affine family is the
+one left standing (with the affine bias relocated to the representational
+register).
+
+**Scope/caveats:** single model (qwen3-4b), single readout (tape licensing
+differential on NL sortal prompts), short k (≤5), non-monotonic tail
+(template-confounded). Confirms non-idempotent accumulation of tape-side
+licensing over the first few coherent exposures; does not establish
+unbounded multiplicity counting, the mechanism, cross-model generality, or
+separate the k=4,5 decline from atypical-template dilution.
+
 ## Provenance
 
 - s313 hammock, Michael's constraint question; AI derivation,
