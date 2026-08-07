@@ -1,0 +1,53 @@
+{
+ "verdict": "LENGTH-DECREASE-ONLY",
+ "gates": {
+  "NG1": {
+   "partial_rho": -0.06986754578161697,
+   "p": 0.19760479041916168,
+   "null_mean": -0.04688981371891917,
+   "sign": "neg",
+   "pass": false
+  },
+  "NG2": {
+   "partial_type": -0.06986754578161697,
+   "partial_norm": 0.05434671341258468,
+   "p_rand": 0.8622754491017964,
+   "beats_norm": true,
+   "pass": false
+  },
+  "NG3": {
+   "real_minus_null": 2.3433842506621403,
+   "p": 0.001996007984031936,
+   "real_mean": 10.387858025789546,
+   "null_mean": 8.044473775127406,
+   "pass": true
+  },
+  "NG4": {
+   "first_frame_rho": 0.20194338228229797,
+   "agrees_match": false
+  },
+  "NG5": {
+   "kind_margin": 4.746493635537817,
+   "all_nf": true,
+   "pass": true
+  }
+ },
+ "means": {
+  "kind_margin": 4.746493635537817
+ },
+ "meta": {
+  "model_id": "Qwen/Qwen3-4B",
+  "n_layers": 36,
+  "band": [
+   18,
+   31
+  ],
+  "n_real_frames": 840,
+  "n_null_frames": 195,
+  "n_traces": 195,
+  "n_train": 840,
+  "n_test": 315,
+  "seed": 0,
+  "smoke": false
+ }
+}

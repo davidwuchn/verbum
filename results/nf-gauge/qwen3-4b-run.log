@@ -1,0 +1,18 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights:  15%|█▌        | 60/398 [00:00<00:00, 586.44it/s]Loading weights:  30%|██▉       | 119/398 [00:00<00:00, 564.93it/s]Loading weights:  45%|████▌     | 180/398 [00:00<00:00, 569.64it/s]Loading weights:  60%|██████    | 240/398 [00:00<00:00, 571.09it/s]Loading weights:  75%|███████▍  | 298/398 [00:00<00:00, 570.85it/s]Loading weights:  89%|████████▉ | 356/398 [00:00<00:00, 552.59it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 579.09it/s]
+[nfg] Qwen/Qwen3-4B dev=mps n_layers=36 band=L18..L31
+[nfg] type probes: train=840 test=315
+[nfg] held-out kind_margin=4.7465
+[nfg] battery n=195 (LIN 40 / DUP 40 / MATCH 75 / NULL 40)
+[nfg]   captured 20/195 (real frames 58, null 21)
+[nfg]   captured 40/195 (real frames 169, null 39)
+[nfg]   captured 60/195 (real frames 226, null 68)
+[nfg]   captured 80/195 (real frames 338, null 78)
+[nfg]   captured 100/195 (real frames 404, null 107)
+[nfg]   captured 120/195 (real frames 506, null 118)
+[nfg]   captured 140/195 (real frames 582, null 146)
+[nfg]   captured 160/195 (real frames 676, null 157)
+[nfg]   captured 180/195 (real frames 750, null 195)
+[nfg] NG1 partial_rho=-0.070 p=0.1976 sign=neg False | NG2 t=-0.070 n=0.054 p_rand=0.8623 False | NG3 real-null=2.343 p=0.0020 True | NG4 first_rho=0.202 agrees=False | NG5 margin=4.746 True
+[nfg] VERDICT: LENGTH-DECREASE-ONLY
+[nfg] wrote results/nf-gauge/qwen3-4b/results.json + nf_gauge.npz
