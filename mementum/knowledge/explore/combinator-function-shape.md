@@ -115,3 +115,109 @@ down (`consensus-delta-folding.md`).
 |------|---------|
 | `scripts/experiments/combinator_relationship_map.py` | per-combinator routing centroid + CMR → Gram/MDS/silhouette+null = the map |
 | `results/combinator-relationship-map/Qwen_Qwen3-14B.{json,npz}` | Gram, MDS/PCA coords, per-depth silhouette, nearest neighbours |
+
+---
+
+## §P-CL-COLLAPSE — do CL identities hold as routing geometry? (FROZEN s321)
+
+> Operationalizes Open leads #1 + #3. **The compositionality probe** (the open
+> S5 scorecard cell). Freeze-first (s222). Register named before build (λ measure).
+> Michael GO s321. NOTHING below is tuned to data.
+
+### The crux — extensional vs operational routing
+
+The CL identity `I = SKK` says the compound `SKK` **is** the identity function.
+Does `SKK` route like `I`? The kernel (`lambda_ast`) certifies the tension:
+`S K K x → x` **by firing [S, K]** — `I` never fires. So two strong, OPPOSING
+priors:
+
+- **EXTENSIONAL** — routing sees the *function* (normal form): `SKK` routes like `I`.
+  → the register respects the algebra → **compositionality✓**.
+- **OPERATIONAL** — routing tracks the *reduction process* (fired opcodes): `SKK`
+  routes like `{S,K}`, never like `I`. **Favored by our own priors**
+  (`head-combinator-isa`: "routing IS the program, tracks reduction"; s317
+  tape-resident reduction).
+
+An EXTENSIONAL result is surprising-against-self → high information.
+
+### Register (λ measure)
+
+**ROUTING** — `sign(mlp.gate_proj pre-activation)` at the last token,
+common-mode-removed (subtract per-feature mean over the pooled probe set). Crisp/
+discrete. The *only* register where combinator identity is measurable (s217:
+`route_cmr` silhouette 0.101 z=7.97 p=0.001; raw `hidden_full` z=−1.65 = null).
+CL5 re-verifies this per-run (void-gate).
+
+### Construction — normal-form collapse
+
+Compound programs, **kernel-certified** (`lambda_ast.normal_form` +
+`fired_sequence`), grouped by NF-target. Each target = a set of spellings sharing
+*only* the normal form; head symbol + fired-opcodes VARY (the dissociation):
+
+| Target | Spellings (kernel-verified this session) | fired-opcodes | head |
+|--------|------------------------------------------|---------------|------|
+| **I** | `SKK`, `SKS`, `WK`, `CKK`, `KII`, `S(KI)I` | {S,K}·{W,K}·{C,K}·{K,I}·{S,K,I} | S,W,C,K |
+| **W** | `SS(KI)`, `CSI` | {S,K,I}·{C,S,I} | S,C |
+| **B** | `S(KS)K` (+ any kernel-enumerated equivalents at build) | {S,K} | S |
+
+Each spelling saturated with fresh atoms (from `f g h x y z a b`) → target
+**≥40 probes/NF-target** (crystal ≥50 convention where reachable). Anchors = the 9
+primitive crystal centroids (`crystal_probes()`), computed in the **SAME CMR pool**
+as the compounds (one common-mode frame — non-negotiable for comparability).
+
+Per-spelling centroids AND per-NF-target pooled centroids are computed. Comparison
+directions per spelling `T`: **NF-primitive** `c(nf(T))`; **fired-mix**
+`mean(c(f) for f in fired(T))`; **head** `c(head(T))`; **shared-token** primitive.
+
+### Gates
+
+- **CL1 EXTENSIONAL-ALIGNMENT** *(make-or-break)* — mean over spellings of
+  `cos(c(T), c(nf(T)))` **>** operational baseline `cos(c(T), fired_mix(T))`,
+  beating a **shuffled-label null** (permute which primitive is each spelling's
+  "NF target"), p<0.05.
+- **CL2 COLLAPSE-COHERENCE** *(make-or-break confound gate)* — spellings of one NF
+  cluster (mean pairwise cos of per-spelling centroids within target) **more** than
+  a **token-matched, NF-varied null**: control terms drawn from the SAME alphabet
+  (e.g. {S,K}) but with DIFFERENT normal forms. Kills the "shared-K-token" artifact.
+  EXTENSIONAL requires within-NF > token-matched, p<0.05.
+- **CL3 OPERATIONAL-BASELINE** *(non-gating, rival readout)* — report
+  `cos(c(T), fired_mix(T))` and `cos(c(T), c(head(T)))`; the verdict selects the
+  larger of {NF, fired-mix, head, shared-token} alignment per target.
+- **CL4 DEPTH-TRAJECTORY** *(read, Michael's ask)* — per depth-fraction, the
+  extensional-minus-operational margin `Δ(ℓ)=cos(c_ℓ(T),nf) − cos(c_ℓ(T),fired_mix)`.
+  A **rising** curve (Δ<0 shallow → Δ>0 late) = the reduction `SKK→I` executed
+  ACROSS DEPTH, visible in routing (reconciles s217 mid-identity/late-execution).
+  Flat-negative = operational at all depths.
+- **CL5 COHERENCE-SANE** *(void-gate)* — primitive-anchor silhouette must replicate
+  s217 (`route_cmr` z>0, combinators separable). Fail → register unmeasurable → VOID.
+
+### Nulls (λ yardstick)
+
+shuffled-label (CL1) · token-matched-NF-varied (CL2) · length-stratified /
+token-count partialled (the confound that nulled §P-FUEL/TRACE-FUEL/NF-GAUGE —
+compound spellings vary in length; the within-NF-set already spans lengths, but
+CL2's token-matched null is drawn length-matched).
+
+### Verdicts + a-priori (NOT tuned; mass on operational per s317/head-ISA priors)
+
+| Verdict | a-priori | condition |
+|---------|:---:|---|
+| **EXTENSIONAL-ROUTING** | 20% | CL1 ∧ CL2 ∧ CL5 — routes to NF-primitive, beats operational + both nulls → **compositionality✓** (surprising-positive) |
+| **OPERATIONAL-ROUTING** *(favored)* | 45% | CL3 fired-mix > CL1 NF; spellings drift to their fired-opcodes → routing = the reduction process |
+| **SYNTACTIC-TOKEN** | 20% | clusters on shared surface token (not NF, not fired-mix) |
+| **MIXED / REDUCTION-VISIBLE** | 10% | CL4 rising (shallow-operational → late-extensional), or NF-alignment present but doesn't beat operational — richest outcome |
+| **VOID** | 5% | CL5 fails |
+
+### Model / reuse
+
+Qwen3-14B (36 layers, s217 artifact model). Primary read at best-silhouette layer
+(frac≈0.31 s217); all layers for CL4. Reuse `combinator_relationship_map.py`
+centroid/CMR/silhouette+null machinery + `lambda_ast` kernel. New harness
+`scripts/experiments/cl_collapse.py`. Read-only (no wire, no training).
+
+### Read discipline (banked for the close — don't over-read the label)
+
+OPERATIONAL is the EXPECTED result → a clean confirmation of s317, informative not
+failure. EXTENSIONAL is the surprise that opens the compositionality cell. MIXED
+with a rising CL4 depth curve is the richest read (reduction across depth). VOID
+only if the register fails to form (smoke silhouette makes this unlikely).

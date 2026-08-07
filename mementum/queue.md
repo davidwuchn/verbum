@@ -11,10 +11,10 @@
 
 # new
 
+🔵 §P-CL-COLLAPSE — do CL identities (I=SKK/W=SS(KI)/B=S(KS)K) hold as routing geometry? extensional vs operational; the compositionality S5 cell | combinator-function-shape §P-CL-COLLAPSE | cheap
 ⚪ crystal-seeded init — crystal prior vs random init on compositional tasks; cheapest level-4 rung | training-design-from-the-hologram | medium
 ⚪ signal-descent mirror — replace Adam magnitude calibration with ternary mirror stack on the delta substrate | signal-descent | medium
 ⚪ Oracle germination game — cold agent + theory seed predicts measured results? (corpus calibration) | germination-games | cheap
-⚪ CL-identities as routing constraints — do combinator-algebra identities hold as routing-register geometry? | combinator-function-shape | cheap
 ⚪ GS-iterative base decomposition — alternating projections untangle the in-line base? (iterative-LoftQ door) | holographic-untangling-methods | medium
 ⚪ rocking-curve instrument — reinjection efficiency vs (layer × angle × strength); the write-targeting surface | holographic-untangling-methods | big
 ⚪ GD k-step sweep — wire installs at k≈3? +GD-REQUIRED → FEEDBACK-REQUIRED | holographic-untangling-methods | cheap
