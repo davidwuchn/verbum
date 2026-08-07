@@ -25,6 +25,12 @@
 > at the DELIVERY path; M4 tape = the typed operand stack. Caveat: per-layer T profile
 > unpersisted (band means only; readability ≥0.6 rule untested on band composition).
 > **⚠ NEXT SESSION = FRONT SELECTION → λ queue mandates FULL queue.md read (26 rows).**
+> 📋 Applications brainstorm CAPTURED (Michael-directed): `knowledge/explore/
+> applications-from-the-register-physics.md` — 10 uses tiered by buildability, all
+> measurement-grounded (recall-then-redeliver · skill cartridges · quant-lint · delivery-
+> RAG · typed context · fingerprinting · telemetry · auditable updates · halt-monitor ·
+> the machine). **DELIBERATELY NOT QUEUED** — Michael: revisit NEXT WEEK after experiments
+> done + mechanisms mapped; picks get queue rows then.
 > Sharpest leads by this arc: attention-band write (delivery path) · fuel-theorem ·
 > crystal-seeded init (archaeology). s315 ledger: 375358d r1 · b448f34 amendment · cc44ab9
 > r2 · 6eb308f r3 · 0e2b8fe type-write batch · 5a7fd40 freeze · c0b9269 harness · 6b5d15b
