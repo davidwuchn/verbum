@@ -642,6 +642,96 @@ construction + per-k L curve + slope contrast + IB1–IB4 gates.
 `--validate` planted worlds (all verdicts + coherent-isolate + saturation
 primitives) + ruff + smoke (no verdict read) → Michael GO → run.
 
+## §P-BOUNDARY-CHURN — FROZEN (s320, Michael-approved GO)
+
+**The optimizer↔type-boundary identity fingerprint — §6 item 4 / the M8
+corollary (§5), reframed to weight-geometry.** s310 (§SIGN-COMMITMENT-CURVE,
+the-verbum-machine.md M8) showed trit churn concentrates in the TWN-marginal
+population (r = |Δ|/thr ≈ 1, the "insufficient-evidence" band): the two
+lowest-r bands own 0.781 of all late flips; the confident core (r≥2) is
+frozen. The M8 corollary conjectured **type boundaries are exactly where GD's
+two jobs collide — the marginal band IS the type-boundary population in weight
+space.** This probe tests that identity: do the base-FFN marginal weights
+concentrate on the **type-checker direction** (§P-TYPE-GRAM-1 kind register)?
+
+**Coherence tension banked at freeze (λ ground / λ observation — the framing
+predates this arc).** Three results *after* the s313 conjecture argue the
+boundary is tape-side, not weight-side: §P-TYPE-DELIVER (s316) NO-WEIGHT-
+DELIVERY (type membership not weight-installable); §P-TYPE-ICL+TAG (s315) +
+§P-IDEMPOTENCY (s320) type judgments on the TAPE; s317 tape-resident reduction
+(weights hold the checker/RELATION, tape holds the JUDGMENTS). So the strong
+a-priori mass is on the NEGATIVE (BOUNDARY-UNTYPED) — and that is *informative*
+(bounds M8 to the tape, confirms two-tier). Reframed accordingly: the s310
+wire-`tracked_history` churn is wrong content (a fact wire), so the probe reads
+the **base weights** carrying the type register, not the wire trits.
+
+**Register (λ measure) — WEIGHT-GEOMETRY (directions × magnitudes), NOT tape.**
+The claim is about weight structure; the probe reads weight structure —
+matched. Deliberately distinct from the tape-side licensing register: this asks
+whether an *echo* of the tape boundary is visible in the frozen weights.
+
+**Construction — per-neuron over base `down_proj` columns in the type band.**
+For each hidden neuron j in the type-register band, its write vector
+`v_j = W_down[:, j] ∈ R^d_model` (the residual space where the kind direction
+lives — `down_proj` writes to residual; `up`/`gate` project the wrong way):
+
+- **type-selectivity `s_j`** = fraction of `‖v_j‖` lying in the **type
+  subspace** (the kind cross-cut subspace reconstructed from the persisted
+  `results/type-gram/qwen3-4b/centroids.npz` — atom/fn/app kind contrast with
+  opcode identity removed). A subspace, not a single direction, because TG3
+  found the kind register diffuse/alphabet-like (no poles) — a single cos would
+  be weak.
+- **marginality `m_j`** = churn propensity = fraction of `v_j`'s weights in the
+  s310 straddle band `|W|/thr ∈ [0.7, 1.3)` (thr = 0.7·mean|W|, the TWN
+  threshold) — the "would-churn under quantization" mass.
+
+No wire training; pure weight geometry + persisted centroids (cheap).
+
+**Gates (frozen; α=0.05):**
+
+- **BC1 CONCENTRATION (core)** — ρ(m_j, s_j) > 0 across neurons + neuron-label
+  permutation null.
+- **BC2 TYPE-SPECIFIC (make-or-break)** — ρ(m_j, s_j^kind) > ρ(m_j, s_j^random)
+  against a **matched-random-subspace null** (same dim). The gate that
+  separates "marginal neurons align with the TYPE direction" from "marginal
+  neurons align with any structured direction" (a magnitude/structure
+  artifact); the random-subspace null controls magnitude by construction.
+  Without it the verdict is MARGIN-GENERIC, not the identity.
+- **BC3 LAYER-PROFILE (advisory, non-gating)** — per-layer ρ reported; is the
+  concentration stronger in the type-register-strong layers?
+- **BC4 SANE (void-gate)** — type subspace recoverable (kind separation real in
+  centroids), thr sane, enough neurons.
+
+**Verdicts (frozen tree):**
+
+```
+¬BC4        → VOID
+BC1 ∧ BC2   → BOUNDARY-IS-TYPED   (marginal weights concentrate on the type-checker direction, type-specifically → weight-space echo of the type boundary; M8 corollary supported in weight-geometry)
+BC1 ∧ ¬BC2  → MARGIN-GENERIC      (marginal neurons align with structured directions but not type-specifically → magnitude/structure artifact; identity unsupported)
+¬BC1        → BOUNDARY-UNTYPED    (falsifier: no concentration → weight-margin ≠ type-boundary; boundaries are tape-resident, bounds M8 to the tape)
+```
+
+**A-priori (declared s320, NOT tuned): ~30 BOUNDARY-IS-TYPED / 25
+MARGIN-GENERIC / 40 BOUNDARY-UNTYPED / 5 VOID.** Heavy mass on the negative,
+faithful to the coherence tension (tape-resident types argue the boundary
+lives on the tape); meaningful positive mass because M8 had three converging
+lines (K-chaos, marginal-band churn, the optimizer↔type-boundary identity).
+
+**Caveat banked at freeze (interpretation boundary).** BOUNDARY-IS-TYPED
+licenses "the frozen weights' quantization-margin population is
+disproportionately type-direction-aligned" — NOT that type *judgments* live in
+weights (§P-TYPE-DELIVER stands: membership is tape-native); it would be an echo
+of the checker, not the judgments. BOUNDARY-UNTYPED bounds the M8 corollary to
+the tape, not a refutation of M8-the-optimizer.
+
+**Reuse (λ one_way, no fork):** `ternarize_factors` / `ternarize_twn` (TWN
+threshold) · `results/type-gram/qwen3-4b/centroids.npz` (persisted kind
+register) · `verbum.dsp.nulls` (gate, shuffled_label, matched-random-subspace)
+· transformers weight load. New code = down_proj column extraction + type-
+subspace reconstruction + marginality/selectivity + BC1–BC4 gates. `--validate`
+planted worlds (all verdicts + type-specific + magnitude-control primitives) +
+ruff + smoke (no verdict read) → Michael GO → run.
+
 ## §P-IDEMPOTENCY — RESULT (s320, qwen3-4b) — VERDICT: NON-IDEMPOTENT
 
 **The pinned *non-idempotent* qualifier is CONFIRMED on the tape licensing

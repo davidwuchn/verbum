@@ -11,6 +11,7 @@
 
 # new
 
+🔵 §P-BOUNDARY-CHURN — optimizer↔type-boundary identity (§6 item 4 / M8 corollary); WEIGHT-GEOMETRY register, base down_proj marginality × type-subspace selectivity; reframed (tape-resident tension banked, heavy-negative a-priori); FROZEN s320 | type-systems-under-llm-constraints §P-BOUNDARY-CHURN | cheap
 ⚪ crystal-seeded init — crystal prior vs random init on compositional tasks; cheapest level-4 rung | training-design-from-the-hologram | medium
 ⚪ signal-descent mirror — replace Adam magnitude calibration with ternary mirror stack on the delta substrate | signal-descent | medium
 ⚪ Oracle germination game — cold agent + theory seed predicts measured results? (corpus calibration) | germination-games | cheap
