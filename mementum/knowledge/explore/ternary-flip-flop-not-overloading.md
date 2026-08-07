@@ -166,3 +166,11 @@ is likely two separable things braided: a real-but-transient overloading signal
 - `results/micro-ternary-arm0/` — canonical set: `none-*` (float baseline), `td-*133841`, `st-*134153` (ANOVA F-ratio runs; smokes + confounded first-pass runs pruned)
 - `logs/arm0-s261-anova.log`
 - pyproject.toml: RUF001/2/3 ignore for `scripts/micro/ternary_st.py`
+
+## Forward link (s315 archaeology)
+
+> The CAT-Q α/Δ decomposition read here as "external confirmation of the
+> two-registers split" is now proven theory (routing ⊥ value; wire arc
+> s303–s312). The jitter-discriminator recommendation (hysteresis near ±Δ)
+> converges with s310's SIGN-CHURN two-population re-read (marginal r≈1 band
+> churns loss-neutrally) — same boundary population, two instruments.

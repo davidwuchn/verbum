@@ -11,6 +11,10 @@
 
 # new
 
+⚪ crystal-seeded init — crystal prior vs random init on compositional tasks; cheapest level-4 rung | training-design-from-the-hologram | medium
+⚪ signal-descent mirror — replace Adam magnitude calibration with ternary mirror stack on the delta substrate | signal-descent | medium
+⚪ Oracle germination game — cold agent + theory seed predicts measured results? (corpus calibration) | germination-games | cheap
+⚪ CL-identities as routing constraints — do combinator-algebra identities hold as routing-register geometry? | combinator-function-shape | cheap
 ▶ §P-TYPE-ICL+TAG — tape membership licenses held frames? + tag-transit (J-space live form) | types-are-injectable-relations §10 | running tmux main:1
 ⚪ attention-band membership write — write member→class into the slot register (QK band), §8 probe re-aimed | types-are-injectable-relations §9 | medium
 ⚪ GS-iterative base decomposition — alternating projections untangle the in-line base? (iterative-LoftQ door) | holographic-untangling-methods | medium

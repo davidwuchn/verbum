@@ -227,3 +227,10 @@ null-space middle (L7–L22) is where the composition happens invisibly. Measuri
 the wrong zone/register has already cost us two near-false-negatives (s206, s225
 attn_q) and one undersold result (s227 prose). The rule: **name the register and
 the readable layer before building the probe.**
+
+## Forward link (s315 archaeology)
+
+> The readability rule (value register legible at depth ≥0.6) is live
+> methodology for §P-TYPE-ICL+TAG TI4: the T-band spans 0.50–0.85, so weak
+> tag signal in L18–21 is predicted READABILITY, not absence — read the
+> per-layer profile, not just the band mean.

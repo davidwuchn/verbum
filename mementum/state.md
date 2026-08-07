@@ -47,7 +47,13 @@
 > **⚠ ON-SIGNAL (run done): tail run.log `VERDICT:` + no traceback → read TI1-TI5 + subtag
 > + rho_T_L → commit results/type-icl-tag/ AUTONOMOUS → §Result-icl-tag on
 > types-are-injectable-relations.md (+ update §9 cross-read if TAPE-TYPED: two-tier closed
-> both sides) + memory candidate + INDEX + state.md = MICHAEL APPROVAL BATCH.** Read
+> both sides) + memory candidate + INDEX + state.md + **move queue.md ▶ row to # complete
+> (first exercise of the closure invariant)** = MICHAEL APPROVAL BATCH.** §Result must
+> also: (a) cross-link `type-directed-composition.md` (s315 archaeology: June nonce
+> crossover +2 nats = tape-side type precedent, anticipated this probe by two months);
+> (b) apply the `readout-register-reduction-readability.md` rule to TI4 — weak tag in
+> L18–21 is predicted READABILITY (value register legible ≥0.6 depth), read the per-layer
+> profile not just the band mean. Read
 > discipline: TAPE-TYPED(+TAG-TRANSIT) + DELIVERY-FAILURE = the J-space transit story
 > lands (relation exists, never consulted — §9 was a delivery failure); TAG-INSUFFICIENT
 > = tag on bus insufficient → pushes P-ATT-MED; NO-TAPE-TRANSFER contradicts s239/s293 →

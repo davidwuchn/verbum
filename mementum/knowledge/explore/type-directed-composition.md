@@ -162,3 +162,12 @@ confirmed in the type register). The decisive remainder is **activation PATCHING
    connect type-directedness to the B/order-cost signal directly.
 3. **Cross-class** — does the nonce crossover hold on OLMo/Gemma/Pythia (gate-independent,
    per the order-cost universality)?
+
+## Forward link (s315 archaeology)
+
+> This page anticipated the type arc by two months: the nonce crossover
+> (+2 nats, frequency-free) is tape-side type evidence — the direct precedent
+> for §P-TYPE-ICL+TAG (types-are-injectable-relations §10, in flight s315).
+> The v4 partial-causality result (single direction ×0.64, not the full
+> carrier) reads as intersection-type geometry (s313: TYPE-REGISTER diffuse,
+> non-nominal). Cross-link from the §Result when the ICL run lands.

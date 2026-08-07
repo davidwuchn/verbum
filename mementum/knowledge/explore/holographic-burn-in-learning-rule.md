@@ -164,3 +164,11 @@ the irreducible FREQUENCIES? The reference beam decides.
 | (planned) `scripts/experiments/holographic_burn_in.py` | exposure-consensus burn-in rule vs backprop; routing+prediction-gate vs raw-object-beam control |
 | `scripts/experiments/relational_loss_distillation.py` | s223 sibling; its condition (b) IS the naive-burn-in failure mode (common-mode hologram) |
 | `scripts/experiments/combinator_relationship_map_v15.py` | routing-register (attn_q / ffn_gate) readout instrument |
+
+## Forward link (s315 archaeology)
+
+> "Prediction-gated recording" independently derived here is now BUILT: the
+> s315 write corridor (KL-to-base anchor + evidence-gated stop,
+> type_write.py b448f34) is this page's exposure rule operationalized. The
+> burn-in null prediction (object-beam-only → common-mode hologram, zero
+> function) was confirmed s223.

@@ -161,3 +161,13 @@ Any of these falsifies "GD is forced into Montague" and demands a different acco
 s281 (this synthesis — the inverted-Montague forcing argument; "for fun" thought experiment,
 Michael-directed capture: speculative but the theoretical spine for the map+swap / LLM-REPL arc
 and the source of P-TYPE-1/FN-1 falsifiable predictions).
+
+## Forward link (s315 archaeology)
+
+> §Forcing-table predictions CONFIRMED after the fact: types-as-geometry →
+> TYPE-REGISTER measured (s313 §P-TYPE-GRAM-1, 7/11 family-clean,
+> diffuse/intersection); binding-forces-value-store → two-register split
+> proven (routing ⊥ value, s303–s312); recursion-forces-external-eval-stack →
+> tape-resident trampoline (s308). §8 falsification conditions now partially
+> answerable with data in hand. Causal boundary:
+> types-are-injectable-relations.md §9 (P-TYPE-WRITE CONTEXT-ONLY).
