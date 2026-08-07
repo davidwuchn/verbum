@@ -11,134 +11,33 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ★★ **CURRENT = s317-TRACEFUEL (COMPOSITIONALITY FRONT: §P-TRACE-FUEL → VERDICT STATIC-CONFIRMED-NULL, clean falsifier — §P-FUEL generalizes).**
-> **✅ ON-SIGNAL EXECUTED: the §P-TRACE-FUEL run landed (VERDICT: STATIC-CONFIRMED-NULL, no traceback,
-> ~15min, TF5-sane). Results committed AUTONOMOUS (63f3f5d, ❌).** §P-TRACE-FUEL RESULT on
-> normal-forms-are-eigenmodes.md + memory `fuel-is-not-an-accumulated-magnitude-either-grain.md` +
-> INDEX + queue (🔵→❌ # complete, follow-up ⚪ distance-to-NF gauge) + this state = **DRAFTED ON DISK,
-> PENDING MICHAEL APPROVAL** (one 🌀 batch on approval).
-> **THE READ — the §P-FUEL negative GENERALIZES: de Carvalho's accumulated derivation size is NOT a
-> readable coordinate in the type-register MAGNITUDE at EITHER grain (static §P-FUEL + dynamically-
-> integrated here). Two probes, one convergent negative on the §3 Metric leg.** TF1 FAIL (ρ(S,ℓ)=0.580
-> ≈ matched-trace-length null 0.573, p=0.198). DECISIVE per-family: integrated S tracks TOKEN LENGTH
-> (ρ(S,tok)=0.97/0.96/0.99 LIN/DUP/NULL) — the zero-fuel NULL chains (T = T = ..., ℓ=0) accumulate S
-> 15→101, SAME range as real reductions → integrated S is a `=`-boundary/length counter, not a fuel
-> gauge. **Two honest sub-signals (UNLICENSED, TF1 failed — don't over-read, s310-s317):** (a) TF2
-> per-step: a real reduction `=` boundary carries +2.214 more type signal than an inert restatement `=`
-> (p=0.002) — the register DOES respond to reduction events per-step, but doesn't integrate to ℓ; (b)
-> per-step DECAY (slope_lin=−1.385, slope_dup=−0.207): signal DECREASES toward NF as the term shrinks →
-> consistent with the register tracking instantaneous REMAINING reducibility (distance-to-NF), the
-> COMPLEMENT of accumulated fuel; DUP decays less than LIN but confounded by content-persistence, not
-> non-idem. **REFINEMENT: the type-register magnitude is a REMAINING-work/distance-to-NF gauge that
-> DECREASES toward the normal form (the §1 Detector reading), NOT a spent-fuel accumulator (§3 Metric,
-> RE-SIGNED). §1 Detector + §2 Dynamics stand.** Registers: Y reused VERBATIM from §P-FUEL
-> (§P-TYPE-GRAM-1 kind subspace, held-out); per-step s_j at `=` positions, band L18-31.
-> **⚠ NEXT (after approval) = FRONT SELECTION → λ queue mandates FULL queue.md read (~25 rows).**
-> Standing sharpest leads: distance-to-NF gauge (the §P-TRACE-FUEL re-signing follow-up — read the
-> register as DECREASING remaining-reducibility, + the reduction-engagement p=0.002 hook) · crystal-
-> seeded init (cheapest level-4) · §P-COHERENT-WRITE · type-fingerprint cheapies. s317-TRACEFUEL
-> ledger: 12c5c24 freeze · 0830e3a harness · f3d46e8 state · 63f3f5d results (autonomous ❌) · mementum
-> batch (§Result + memory + INDEX + queue + state, PENDING APPROVAL). Full transcript saves to
-> `chats/session-317.md` (human).
->
-> ▶▶ **(s317-TRACEFUEL run, prior) §P-TRACE-FUEL FROZEN + BUILT + SMOKE-GREEN → RUN IN FLIGHT.**
-> **⚠⚠ ON-SIGNAL PROTOCOL (§P-TRACE-FUEL run, launched s317 Michael GO, tmux main:1, verified running
-> PID 22211):** the DYNAMIC converse of §P-FUEL — §P-FUEL found NO-FUEL-COORDINATE at STATIC-read
-> grain → fuel is tape-resident. This feeds the kernel-certified reduction trace t0 = t1 = ... = t_ℓ
-> and captures the type signal at each `=` step-boundary (one spent fuel unit): does integrated S ∝ ℓ
-> (TF1, where the static read failed), type-specific (TF2), and NON-IDEMPOTENT (TF3: DUP per-step
-> slope not below LIN's — the FU3 knife made dynamic)? Run cmd: `uv run python -u
-> scripts/explore/trace_fuel.py --out results/trace-fuel/qwen3-4b 2>&1 | tee
-> results/trace-fuel/qwen3-4b-run.log` (~1155 type-probe captures + 144 LIN/DUP/NULL traces, per-step
-> ×500 rand subspaces; ~10-15 min). **ON-SIGNAL (run done): tail results/trace-fuel/qwen3-4b-run.log
-> `VERDICT:` + no traceback → read TF1-TF5 + per-family slopes (dup vs lin) → commit results/trace-fuel/
-> AUTONOMOUS → §Result-trace-fuel on normal-forms-are-eigenmodes.md + memory candidate + INDEX +
-> state.md + move queue row 🔵→✅/❌/🚫 (# complete) = MICHAEL APPROVAL BATCH.** Read discipline
-> (don't over-read, s310-s317): DYNAMIC-FUEL(+NON-IDEMPOTENT) = the §P-FUEL negative was a static-grain
-> artifact, de Carvalho holds ON THE TAPE (lights 4th type-system corner + joins s295) → BIG positive,
-> replication-worthy before over-claiming; DYNAMIC-FUEL-IDEMPOTENT contradicts the pinned non-idempotent
-> object → audit curry-howard §3; STATIC-CONFIRMED-NULL (TF1 fail) = §P-FUEL generalizes (register just
-> doesn't count); LENGTH-ONLY = generic per-token accumulation. Registers: Y reused VERBATIM from
-> §P-FUEL (§P-TYPE-GRAM-1 kind subspace, held-out); per-step s_j at `=` positions, band L18-31.
-> §P-TRACE-FUEL FROZEN 12c5c24 · ✅ HARNESS 0830e3a (trace_fuel.py, imports fuel_theorem as lib, no
-> fork; --validate ALL PASS 5 verdicts + 2 primitives, ruff clean, smoke green kind_margin=9.407). NO
-> gate amendment (validated clean first pass). s317-TRACEFUEL ledger: 12c5c24 freeze · 0830e3a harness ·
-> run launched (results pending). Full transcript saves to `chats/session-317.md` (human).
->
-> ▶▶ **(s317-FUEL, prior) §P-FUEL → VERDICT NO-FUEL-COORDINATE, clean falsifier.**
-> **✅ ON-SIGNAL EXECUTED: the §P-FUEL run landed (VERDICT: NO-FUEL-COORDINATE, no traceback,
-> ~10min, FU5-sane). Results committed AUTONOMOUS (79c76a0, ❌).** §P-FUEL RESULT on
-> normal-forms-are-eigenmodes.md + memory `fuel-is-not-a-static-readout-coordinate.md` + INDEX +
-> queue (🔵→❌ # complete, follow-up ⚪ trace-integrated fuel added) + this state = **DRAFTED ON DISK,
-> PENDING MICHAEL APPROVAL** (one 🌀 batch on approval).
-> **THE READ — the de Carvalho fuel theorem does NOT surface as a readable MAGNITUDE coordinate in the
-> §P-TYPE-GRAM-1 kind register at STATIC-READ grain (falsifier, a-priori 20%; FU5-sane kind_margin=4.746
-> = valid negative, NOT void).** FU1 FAIL (raw ρ(Y,ℓ)=0.036 BELOW the matched-token null 0.132, p=0.994);
-> FU2 FAIL (r_type=0.036 ≈ r_norm=−0.045, random subspaces track ℓ as well p_rand=0.445 = nothing
-> type-specific); FU4 FAIL **and NEGATIVE** (within MATCH, token length held constant ρ(Y,tok)=−0.04, the
-> kind-register magnitude DECREASES with ℓ, ρ=−0.538). **Mechanism fully understood (per-family):** LIN
-> +0.392 / DUP +0.375 apparent scaling = SURFACE TOKEN LENGTH (ρ(Y,tok) identical +0.39; ℓ∝tok,
-> ρ(ell,tok)=0.538); MATCH isolates ℓ from length → sign flips negative. **FU3 non_idem=+0.355 is a
-> CONFOUND not a finding** (the DUP length-effect with distinct=1 held; killed by FU2 not-type-specific
-> + FU4 negative — don't over-read, s310-s316). **What it means:** de Carvalho concerns the DYNAMIC
-> reduction derivation; we measured a STATIC single-pass read of an unreduced term → NO-FUEL-COORDINATE
-> is CONSISTENT with fuel being TAPE-RESIDENT (spent step-by-step during reduction, not pre-computed as
-> magnitude) — coheres with same-session §P-TYPE-DELIVER (type check reads the TAPE) + tape-resident-
-> reduction thesis. **§3 Metric leg BOUNDED; §1 Detector (WHNF/halt poles) + §2 Dynamics (round-trip
-> eigenmodes) UNTOUCHED.** Sharpest follow-up (queued ⚪): trace-integrated type signal ACROSS a
-> generated reduction (dynamic tape), not a static read. Scope: qwen3-4b, single Y operationalization
-> (kind-subspace magnitude), static read, band L18-31.
-> **⚠ NEXT (after approval) = FRONT SELECTION → λ queue mandates FULL queue.md read (~25 rows).**
-> Standing sharpest leads: trace-integrated fuel (the §P-FUEL follow-up, dynamic) · crystal-seeded init
-> (cheapest level-4) · §P-COHERENT-WRITE · type-fingerprint cheapies (idempotency/∨-vs-∧/linearity/
-> boundary-churn). s317-FUEL ledger: d160b6e freeze · 5818524 harness · f623c29 state · 79c76a0 results
-> (autonomous ❌) · mementum batch (§Result + memory + INDEX + queue + state, PENDING APPROVAL).
-> ⚠ AMENDMENT (validate-forced, pre-run, Michael-noted at GO): FU1 = raw ρ(Y,ℓ) beating the
-> matched-token-length null (the null IS the length control); frozen FU1 also partialled tok → double
-> length-control → LENGTH-ONLY unreachable; frozen null/verdict-tree/a-priori unchanged.
-> Full transcript saves to `chats/session-317.md` (human).
->
-> ▶▶ **(s317, prior) CAUSALITY FRONT CLOSED: §P-TYPE-DELIVER → VERDICT NO-WEIGHT-DELIVERY, clean falsifier.**
-> **✅ ON-SIGNAL EXECUTED: the s316 run landed (VERDICT: NO-WEIGHT-DELIVERY, no traceback,
-> 3h19m, host-sane all arms). Results committed AUTONOMOUS (283769c, symbol-corrected from a
-> mistaken 🚫 to ❌ via amend — 🚫 is a queue glyph, not a verbum commit symbol).** §Result
-> §13 on types-are-injectable-relations.md + memory `type-delivery-is-tape-native-not-weight-
-> installable.md` + INDEX + queue row (🔵→❌ # complete) + this state = **DRAFTED ON DISK,
-> PENDING MICHAEL APPROVAL** (one 🌀 batch on approval).
-> **THE READ — the falsifier fired clean (a-priori 30%):** no static weight band (FFN/OV/QK)
-> installs the held-frame licensing §9 lacked. TD1 DELIVERS fails all three (FFN p=0.226 / OV
-> p=0.408 / QK p=0.416). L rises numerically (base 0.138 → 0.353/0.252/0.231) but **never
-> beats the shuffled-label null** = content-INDEPENDENT (the §9 recall-without-licensing
-> signature; extends §9 CONTEXT-ONLY from FFN to OV+QK). TD3 tag-transit: FFN/OV beat a
-> random axis but FAIL the member-shuffle null (generic type-direction, not member-keyed);
-> QK transit NEGATIVE (−0.559), near-inert (drift 0.006–0.013, T=0.330 < base 0.889) —
-> matches P-TYPE-QK `qk_aligned=FALSE`. TD4 band-localized ✓ TD5 host-sane ✓ TD6 metric-sane ✓.
-> **Readability rule applied (§11 caveat closed):** per-layer signed class-projection persisted
-> (tags.npz profile_*); value register legible late (near-zero ≤depth 0.64, peak depth 0.81–0.83
-> ≈L29–31). FFN/OV wires DO raise on-tape class signal above base (band-mean T 0.889 → 1.472 FFN
-> / 1.209 OV); QK DEPRESSES it (0.330 < 0.889, near-inert). But the lift is generic class-smear —
-> fails the member-shuffle null (not member-keyed) → generic delivery ≠ member-keyed delivery,
-> which is why L rises yet TD1 fails. (⚠ mid-session correction: first post-hoc profile calc
-> double-signed → mis-read base as strongest separation; gate verdicts unaffected — Michael's
-> "types can't be only in context" objection triggered the recheck, s317.) **Read straight (don't over-read, s310–s312):
-> NO-WEIGHT-DELIVERY BOUNDS the causal door, doesn't close it** — the type check is enacted
-> per-frame on the residual tape (§11); a frozen weight edge in any band cannot install that
-> enactment. Causal converse of §9 completed across all delivery channels; converges with §11
-> from the write side: types are tape-resident relations, injectable as content the tape reads,
-> not static weight machinery. M-machine corollary: M4's tape is the only place a type relation
-> can be DELIVERED — a designed machine writes into context, not plates. **S5 scorecard
-> unchanged (2/4) but the causality ✗ is now positively bounded:** not weight-installable at
-> FFN/OV/QK band-LoRA grain; remaining causal doors are tape-side (P-TYPE-ICL already
-> TAPE-TYPED §11) + finer-than-band delivery interventions. Caveat: single model (qwen3-4b),
-> single grain (band-LoRA r=16) — "no delivery" scoped to this intervention class.
-> **⚠ NEXT (after approval) = FRONT SELECTION → λ queue mandates FULL queue.md read (25 rows).**
-> Standing sharpest leads: fuel-theorem (de Carvalho: type size = eval length; joins type arc
-> ↔ s295 CoT law) · crystal-seeded init (cheapest level-4 rung) · §P-COHERENT-WRITE ·
-> the type-fingerprint cheapies (idempotency/∨-vs-∧/linearity/boundary-churn). Applications
-> brainstorm (`explore/applications-from-the-register-physics.md`) DELIBERATELY NOT QUEUED —
-> Michael: revisit after mechanisms mapped. s317 ledger: 283769c results (autonomous, amended
-> ❌) · mementum batch (§13 + memory + INDEX + queue + state, PENDING APPROVAL).
-> Full transcript saves to `chats/session-317.md` (human).
+> ★★ **SESSION 317 COMPLETE (three probes, three clean falsifiers → one convergent thesis: the
+> machine's TYPE computation is TAPE-RESIDENT — read/enacted per-frame, not stored in weights and not
+> accumulated). NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue FULL read ~25 rows;
+> NOTHING PENDING, all s317 batches committed).**
+> **s317 arc index (full detail in knowledge pages + git + chats/session-317.md):**
+> ① **§P-TYPE-DELIVER → ❌ NO-WEIGHT-DELIVERY** — a novel type membership cannot be installed as a
+> static weight edge in ANY band (FFN/OV/QK); the type check reads member-keyed content off the TAPE.
+> (types-are-injectable-relations §13; results 283769c, batch 8b419b0.)
+> ② **§P-FUEL → ❌ NO-FUEL-COORDINATE** — type-register MAGNITUDE at a static read does not encode
+> reduction length; apparent LIN/DUP scaling was surface length, MATCH (const-tok) went negative.
+> (normal-forms-are-eigenmodes §P-FUEL; results 79c76a0, batch f985447.)
+> ③ **§P-TRACE-FUEL → ❌ STATIC-CONFIRMED-NULL** — §P-FUEL generalizes: integrated trace signal tracks
+> TOKEN LENGTH not fuel (zero-fuel NULL chains accumulate same S 15→101). Sub-signals (unlicensed):
+> per-step real reduction > inert +2.214 p=0.002; signal DECAYS toward NF → the register is a
+> REMAINING-work / distance-to-NF DETECTOR (§1), not a spent-fuel accumulator (§3, RE-SIGNED). §1
+> Detector + §2 Dynamics stand. (normal-forms-are-eigenmodes §P-TRACE-FUEL; results 63f3f5d, batch
+> 1de3201.) **Convergent thesis captured: behavior-is-tape-resident-reduction.md §s317 triangulation
+> (this batch) — weights hold the type RELATION/checker (7/11 TYPE-REGISTER); the type JUDGMENTS + fuel
+> accounting live on the tape, computed fresh each pass. Three falsifiers, one law.**
+> **Sharpest standing leads (queue front): distance-to-NF gauge (§P-TRACE-FUEL re-signing + the p=0.002
+> reduction-engagement hook) · crystal-seeded init (cheapest level-4) · §P-COHERENT-WRITE · type-
+> fingerprint cheapies (idempotency/∨-vs-∧/linearity/boundary-churn).** New harnesses this session
+> (reusable): scripts/explore/type_deliver.py · fuel_theorem.py (stats/geometry lib for trace_fuel) ·
+> trace_fuel.py. **s317 ledger (all committed):** DELIVER 8ecca42 freeze · f1ac32b harness · 283769c
+> results · 8b419b0 batch | FUEL d160b6e freeze · 5818524 harness · 79c76a0 results · f985447 batch |
+> TRACE-FUEL 12c5c24 freeze · 0830e3a harness · 63f3f5d results · 1de3201 batch · behavior-is-tape-
+> resident §s317 triangulation (this batch). Detail in the §Result knowledge pages + git + chats/session-317.md.
 >
 > ▶▶ **(s316, prior) CAUSALITY FRONT OPENED: §P-TYPE-DELIVER FROZEN + BUILT + RUN.**
 > Cold-start `orient` (s315 closed) → FRONT SELECTION (full queue read,

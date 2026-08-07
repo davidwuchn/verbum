@@ -141,6 +141,38 @@ step function plus ≤ budget lookahead." The s305 overlap finding is what a
 budget collision looks like from inside. Also untested here: the chat-template
 row of the machine table is inference, not measurement.
 
+## Type computation is tape-resident too (s317 triangulation)
+
+Session 317 confirmed the thesis from a new angle — the **type layer** — with
+three independent probes, all negative for weight/storage and positive for tape:
+
+- **§P-TYPE-DELIVER → NO-WEIGHT-DELIVERY.** A novel type membership cannot be
+  installed as a static weight edge in ANY band (FFN/OV/QK); it becomes
+  recitable but the type check does not consult it. The check reads *member-keyed
+  content off the tape* — for known entities the token→residual pathway delivers
+  the type onto the tape; a static edge does not. (types-are-injectable-relations
+  §13; extends §9/§11 CONTEXT-ONLY / TAPE-TYPED.)
+- **§P-FUEL → NO-FUEL-COORDINATE.** The type-register magnitude at a static read
+  of an unreduced term does not encode reduction length (de Carvalho's fuel).
+  (normal-forms-are-eigenmodes §P-FUEL.)
+- **§P-TRACE-FUEL → STATIC-CONFIRMED-NULL.** Integrating the type signal across
+  the reduction trace doesn't encode it either — integrated `S` counts `=`
+  boundaries (length); zero-fuel restatement chains accumulate the same `S`. But
+  per-step, reduction events engage the register more than inert restatements
+  (p=0.002), and the signal *decreases* toward the normal form → the register is
+  a per-frame **remaining-work / distance-to-NF detector**, not a stored or
+  accumulated quantity. (normal-forms-are-eigenmodes §P-TRACE-FUEL.)
+
+**The convergence.** The machine's TYPE computation obeys the same tape-residency
+law as its behavioral reduction. The weights hold the type RELATION / checker
+(the 7/11 TYPE-REGISTER, §P-TYPE-GRAM-1) — the *step function*. The type
+JUDGMENTS (which entity is which type) and the fuel accounting (how far from
+normal form) live **on the tape**, computed fresh each pass: types are *read*
+per-frame (not stored — DELIVER), and "how far from done" is a per-frame reading
+that *decreases* (a detector, not an accumulator — FUEL/TRACE-FUEL). Same
+"weights = step function, tape = trace" split as tool-calling and CoT, now
+measured for the type system. Three falsifiers, one law.
+
 ## Provenance
 
 - Michael's question + steer (s308); frame drafted by AI same session,
