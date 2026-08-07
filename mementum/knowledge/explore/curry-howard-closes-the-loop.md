@@ -103,7 +103,10 @@ models). Fit, clause by clause:
   s295 CoT-length law and the C5 fuel budget in one identity: the
   trampoline's tape expenditure IS the type derivation spelled out.
   Measurable: graded type-signal accumulated across a trace should
-  scale with kernel-certified reduction length.
+  scale with kernel-certified reduction length. **FROZEN s317 as §P-FUEL
+  (normal-forms-are-eigenmodes.md, Michael GO): type-register magnitude ∝
+  ℓ(t)=reduce(t).steps, with the non-idempotence knife FU3 (Y tracks step
+  multiplicity, not distinct-subterm count).**
 
 One line: **the type system of an affine substrate with explicit costly
 contraction, non-idempotent intersection membership, and

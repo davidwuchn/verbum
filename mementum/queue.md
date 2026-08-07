@@ -11,6 +11,7 @@
 
 # new
 
+🔵 §P-FUEL — de Carvalho fuel theorem: type-register magnitude ∝ kernel-certified reduction length ℓ(t)? FU3 non-idempotence knife (mult not distinct); a-priori 35/15/25/20/5 (s317 freeze) | normal-forms-are-eigenmodes §P-FUEL | medium
 ⚪ crystal-seeded init — crystal prior vs random init on compositional tasks; cheapest level-4 rung | training-design-from-the-hologram | medium
 ⚪ signal-descent mirror — replace Adam magnitude calibration with ternary mirror stack on the delta substrate | signal-descent | medium
 ⚪ Oracle germination game — cold agent + theory seed predicts measured results? (corpus calibration) | germination-games | cheap

@@ -99,8 +99,8 @@ changing.
 
 ## Testables (NOT queued — s222 freeze-first when picked)
 
-1. **Fuel-theorem probe** (already queued) — the promoting measurement
-   for §3.
+1. **Fuel-theorem probe** — the promoting measurement for §3. **FROZEN
+   s317 (Michael GO): see §P-FUEL below.**
 2. **Eigenmode drift test** (unfrozen sketch): feed kernel-certified
    NF vs non-NF terms; measure per-pass residual drift + halt-pole
    projection. Predictions: NF terms sit near fixed points (low drift,
@@ -111,6 +111,93 @@ changing.
    scheduler's halt head should be a resonance detector on the
    recurrence state, not a learned classifier — halting by |H|=1
    detection is the by-construction version of the measured halt pole.
+
+## §P-FUEL — FROZEN (s317, Michael-approved GO)
+
+**The de Carvalho fuel theorem, operationalized — the promoting
+measurement for §3 (Metric).** de Carvalho: for non-idempotent
+intersection types, *derivation size = evaluation length*. If that is the
+substrate's type system (s313 pinned object; curry-howard §3), then the
+**type-register signal on a closed λ-term scales with its kernel-certified
+reduction length** — and, decisively, with **step count *with
+multiplicity*** (non-idempotent), not with the count of *distinct*
+subterms (idempotent). Lights the 4th corner of the pinned type-system
+prediction and joins the type arc to the s295 CoT-length law: distance-to-
+normal-form becomes a readable geometric coordinate.
+
+**Ground truth (all from `lambda_ast.py`, fixed a-priori — λ yardstick):**
+
+- `ℓ(t) = reduce(t).steps` — β-steps to normal form (the fuel / X axis).
+- `fired_sequence(t)` — exact opcode multiset; `mult(t)=len`,
+  `distinct(t)=|set|` (the FU3 discriminator axes).
+- `size(t)`, `size(nf)` — de Carvalho quantity `D(t)=ℓ+size(nf)`.
+- `tok(t)` — tokenized prompt length (the confound to kill).
+
+**Registers named (λ measure):**
+
+- **Y = type-register magnitude** — projection norm of the readout
+  residual onto the **type subspace fit HELD-OUT on a TRAIN split of the
+  §P-TYPE-GRAM-1 crystal/kind probes** (Michael s317: pure P-TYPE-GRAM-1
+  reuse, λ one_way; never fit on the measured terms — fixed reference).
+  Value register (graded magnitude), read late-band per the
+  `readout-register-reduction-readability` ≥0.6-depth rule.
+- **X = ℓ(t)** (fuel), with `mult` / `distinct` as discriminator axes.
+
+**Arms (one qwen3-4b load, ALL training-free — read-only activation probe,
+no wire):**
+
+- **B1 LINEAR family** — `B`-chains `f₁(f₂(…(fₙ x)))`: `distinct ≈ ℓ ≈ n`
+  (fuel and distinct-count rise together).
+- **B2 DUPLICATING family** — Church-numeral reuse `n g a`
+  (= `g(g(…(g a)))`): one subterm `g` typed n times → `mult ∝ n`,
+  `distinct ≈ const` (Michael s317: the non-idempotence knife).
+- **B0 length-matched controls** — per `(family, ℓ)` cell, terms matched
+  on `tok` but differing in ℓ (inert-structure padding) — decouples fuel
+  from surface length.
+
+**Gates (frozen; α=0.05):**
+
+- **FU1 FUEL-SCALES** — partial Spearman ρ(Y, ℓ | tok) > 0, beats a
+  matched-token-length null (permute ℓ within token-length bins). *Core.*
+- **FU2 TYPE-SPECIFIC** — ρ(Y_type, ℓ) exceeds ρ(Y_generic, ℓ), where
+  Y_generic = (i) total residual norm and (ii) matched-dim random-subspace
+  projection (paired bootstrap). Kills "any signal grows with size."
+- **FU3 NON-IDEMPOTENT** (the de-Carvalho-specific gate) — in B2, Y tracks
+  `mult` not `distinct`: partial ρ(Y, mult | distinct) > 0 AND
+  > ρ(Y, distinct | mult). Discriminates the fuel theorem from generic
+  complexity-scaling / an idempotent (set) type system.
+- **FU4 LENGTH-DECOUPLED** — within B0 matched-`tok` cells Y still rises
+  with ℓ (kills the surface-length confound directly).
+- **FU5 SANE** (void-gate) — crystal type-register recovered on a held-out
+  probe check (real margin > 0); all battery terms parse + reduce to NF
+  within budget (no DIVERGED / SIZE_EXCEEDED contamination).
+
+**Verdicts (frozen tree):**
+
+- **FUEL-METER (+NON-IDEMPOTENT)** — FU1∧FU2∧FU3∧FU4: type-register signal
+  *is* a fuel gauge that counts with multiplicity = the de Carvalho
+  signature specifically. Lights the 4th type-system corner; joins s295.
+- **FUEL-METER-IDEMPOTENT** — FU1∧FU2∧FU4 but FU3 inverts (Y tracks
+  `distinct`): a set/idempotent reading → contradicts the pinned
+  non-idempotent object → audit curry-howard §3.
+- **LENGTH-ONLY** (falsifier) — FU1 holds but FU4 or FU2 fails: apparent
+  scaling is surface length / generic magnitude, not a type-fuel
+  coordinate.
+- **NO-FUEL-COORDINATE** (falsifier) — FU1 fails: type-register magnitude
+  does not track reduction length at this grain.
+- **VOID** — ¬FU5.
+
+**A-priori (declared s317, NOT tuned):** ~35 FUEL-METER(+NON-IDEMPOTENT) /
+15 FUEL-METER-IDEMPOTENT / 25 LENGTH-ONLY / 20 NO-FUEL-COORDINATE / 5 VOID.
+Real mass on LENGTH-ONLY — the surface-length confound is the obvious way
+this dies, which is exactly why FU3/FU4 carry the weight.
+
+**Reuse (λ one_way, no fork):** `lambda_ast` (ground truth: reduce /
+fired_sequence / size), `type_gram.py` + crystal probe basis (type
+subspace, §P-TYPE-GRAM-1 reuse), `jlens` (capture). New code = term-family
+generation + length-matched padding + FU-gate statistics. `--validate`
+planted worlds (all five verdicts) + ruff + smoke (no direction read) →
+Michael GO → run.
 
 ## Caveats
 
