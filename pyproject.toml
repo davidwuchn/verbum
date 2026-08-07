@@ -120,6 +120,7 @@ select = [
 "scripts/explore/trace_fuel.py" = ["RUF001", "RUF002", "RUF003"]  # ρ ℓ Σ ∝ ∧ Δ ‖ : λ-calculus / trace-fuel notation
 "scripts/explore/nf_gauge.py" = ["RUF001", "RUF002", "RUF003"]  # ρ ℓ σ × → ‖ ∝ sⱼ : λ-calculus / distance-to-NF notation
 "scripts/explore/disj_cost.py" = ["RUF001", "RUF002", "RUF003"]  # ∧ ∨ ‖ ρ λ Σ → : intersection/union type-theory notation
+"scripts/explore/linearity_bias.py" = ["RUF001", "RUF002", "RUF003"]  # ℓ λ → ≟ · : affine/contraction λ-calculus notation
 
 # ─────────────────────────── ty ─────────────────────────────
 # ty is alpha; config schema is moving. Empty stanza pins the table so
