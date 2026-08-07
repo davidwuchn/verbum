@@ -8,15 +8,61 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ★★ **CURRENT = s314 (THE TYPE ARC DEEPENS).** Two milestones DONE + committed, one run
-> IN FLIGHT. **FIRST ACTION next session: check the §P-TYPE-WRITE run** — tmux main:1,
-> `results/type-write/qwen3-4b-run.log`. ⚠ ON-SIGNAL (run done): tail run.log for `VERDICT:`
-> + no traceback → read TW1–TW5 gates in results.json → **commit results/type-write/
-> AUTONOMOUS** (task #3) → then **§Result-type-write on types-are-injectable-relations.md +
-> memory candidate + INDEX + task #4 close = MICHAEL APPROVAL BATCH.** Task list live (#3
-> run in_progress, #4 blocked). If VERDICT=NO-WRITE → the wire didn't bake (power/recipe),
-> NOT a claim refutation (re-check loss dropped); CONTEXT-ONLY = the falsifier (recall in
-> trained frames but no held transfer = types enacted per-frame, not injectable).
+> ★★ **CURRENT = s315 (§P-TYPE-WRITE CLOSED: CONTEXT-ONLY — THE FALSIFIER FIRED, CLEAN).**
+> All 3 runs landed + committed; **§Result batch ON DISK, PENDING MICHAEL APPROVAL** (§9 on
+> types-are-injectable-relations.md + memory written-membership-does-not-type-check.md +
+> INDEX + this state.md → commit as one 🌀 batch on approval). **THE READ:** r3 (kl_weight
+> 10, ce_budget 0.40) = the valid measurement — recall 8.21 p=5e-4 (= r1 strength, relation
+> IS in weights), host sane (drift +0.098, real-L +2.315, restore exact, 500 steps no
+> stop), and NO held-frame licensing transfer: TW1 p=0.19, TW4 fail, TW3 sharpest —
+> deranged wire lifts licensing MORE than true wire (0.434>0.353) = content-independent.
+> **Types enacted per-frame, NOT injectable as FFN membership edges.** Slot-mediation (§3)
+> sharpened (licensing reads machinery the wire never touched); transfer boundary measured:
+> entities-within-frame-type ✓ (s312) vs across-frame-types ✗ (here). S5 scorecard:
+> discreteness✓ selectivity✓ compositionality✗ causality ✗-as-measured (construction-
+> scoped; attention-band write + P-TYPE-ICL = open causal doors). Write-corridor recipe
+> co-finding: unanchored CE burns host (r1 +2.3) · budget 0.10 starves write (r2 cut 22/
+> ~200) · kl_weight 10 binds (r3) = exposure schedule (L3/L5) for all future semantic
+> writes. **NEXT FRONT lean: P-TYPE-ICL (tape-side converse, now the priority
+> discriminator — if tape membership DOES license held frames, type check reads TAPE not
+> plates = two-tier measured both sides)** · attention-band membership write (slot
+> register) · fuel-theorem probe · standing alts unchanged. All UNFROZEN, s222
+> freeze-first.
+>
+> **RUN LEDGER §P-TYPE-WRITE:** r1 (375358d) ❌ HOST-DAMAGED — wire baked (recall p=5e-4,
+> ~200 steps to install) but host burned (CE +2.3, real-L inverted −0.624), TW1–4 VOID.
+> r2 (cc44ab9) ❌ NO-WRITE — amendment mechanisms both fired correctly (TW5 PASS, 3/3
+> seeds ce_budget_rollback @34→keep 22, matched shuffle [22,22,22], seeds near-identical)
+> but 22 steps ≪ 200-step write window; **the write-vs-damage tension is now MEASURED:
+> at lr 1e-4/kl_weight 1.0 the anchor doesn't bind (kl 0.03 vs mem 2.66 @ snap 21, ~1%
+> gradient pressure) and drift hits 0.14 by step 34.** r3 IN FLIGHT (Michael option A):
+> `--kl-weight 10 --ce-budget 0.40` (anchor ×10 + frozen CE_TOL 0.5 headroom; both levers
+> address the mode that measured them; CLI-only, no code change).
+>
+> **s315 (this session): ① run 1 LANDED ❌ HOST-DAMAGED (375358d, 5% tail, autonomous
+> commit).** Wire baked (loss 4.96→0.35; membership_recall p=5e-4) but host burned: CE
+> 3.529→5.824 (+2.3 nats), real-member licensing INVERTED +2.538→−0.624; L_shuf 0.417 >
+> L_wire 0.310 = damage-artifact signature ⇒ TW1–TW4 VOID (measurement void, NOT claim
+> refutation — the frozen 5% branch). Diagnosis: every host-sane wire (s303–s312 gd_cd)
+> had teacher-KL as implicit host anchor; this recipe was plain membership-CE, 500 steps,
+> tiny corpus; run-1 curve shows learning done ~step 200, rest bought damage. **② 🔄
+> AMENDMENT built + committed (b448f34, Michael GO; instrument-side ONLY, frozen gates/
+> metric/verdicts/a-priori untouched):** (1) loss = CE(membership) + kl_weight·KL(base‖wire)
+> on 8 cached neutral REPLAY_TEXTS (disjoint from CE_TEXTS — never train on the measurement;
+> base entropy subtracted → true KL = 0 at zero delta; LoRA B=0 init ⇒ no step-0 grad
+> calibration possible ⇒ fixed CLI weight 1.0, components logged per snap); (2) evidence-
+> gated stop at fib snaps: plateau (rel mem-CE improvement <1% at snaps ≥55) OR host-CE
+> drift >0.10 → ROLLBACK to last good snap; shuffle arm replays wire's per-seed stop step
+> exactly ⇒ TW3 matched-budget by construction; _stop_decision = pure fn, same code path
+> in-loop + --validate (λ one_way). --validate ALL PASS (5 verdict + 4 stop worlds), ruff
+> clean, smoke green (KL≈0 at init, live plateau stop fired, matched budget, drift ±0.005,
+> restore bit-exact). **③ ✅ RUN 2 LANDED ❌ NO-WRITE (cc44ab9,
+> autonomous)** — see RUN LEDGER above (host protected, budget fired @34, write window
+> ~200 steps never opened). **④ ⚠ RUN 3 IN FLIGHT (tmux main:1, Michael option A):**
+> `uv run python -u scripts/explore/type_write.py --kl-weight 10 --ce-budget 0.40 --out
+> results/type-write/qwen3-4b-r3 2>&1 | tee results/type-write/qwen3-4b-r3-run.log`.
+> Verified running (wire seed0 snaps logging). See ON-SIGNAL above. state.md commit rides
+> the next approval batch.
 >
 > **① ✅ §P-TYPE-GRAM-1 SWEEP CLOSED (bd58e71).** THE UNIVERSALITY READ — TYPE-REGISTER is
 > REAL but NOT universal, **7/11, FAMILY-CLEAN split:** TYPE-REGISTER = all Qwen3 (0.6B→32B)

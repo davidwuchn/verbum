@@ -25,7 +25,9 @@ created: session 313
 > the wire arc (relations are writable) and the type arc (types are
 > nowhere-addressable) — at exactly the point where both were stuck.
 > Captured same session, Michael-approved. §P-TYPE-WRITE is now **FROZEN
-> in §8** (s314, Michael GO); §6 is the origin sketch. The §P-TYPE-GRAM-1
+> in §8** (s314, Michael GO) and **RUN (s315): §9 = §Result, VERDICT
+> CONTEXT-ONLY — the falsifier fired** (relation written, type does not
+> act; slot-mediation sharpened). §6 is the origin sketch. The §P-TYPE-GRAM-1
 > run landed (s314: TYPE-REGISTER 7/11, family-clean; §5 confirmed at the
 > constructor grain for capable-recipe models).
 
@@ -242,6 +244,64 @@ pattern) + follows the `bake_wire2` swap-the-BANK pattern
 (BANK→MEMBERSHIP_BANK; new gate/verdict funcs). `--validate` 5 planted
 verdict worlds + primitives, ruff clean, smoke (NO direction read) →
 Michael GO → run tmux main:1.
+
+## 9. §Result-type-write (s315, qwen3-4b, three runs) — VERDICT: CONTEXT-ONLY
+
+**The falsifier fired, cleanly.** Frozen tree, 20% a-priori branch.
+Run ledger: r1 `375358d` HOST-DAMAGED → instrument amendment `b448f34` →
+r2 `cc44ab9` NO-WRITE → r3 `6eb308f` **CONTEXT-ONLY**.
+
+**r3 (the valid measurement):** membership recall **8.21, p=5e-4** —
+identical strength to r1's host-burning run (8.24): the nonce→class
+relation IS in the weights. Host sane: CE drift +0.098 (r1: +2.3),
+real-member licensing preserved +2.315 (r1: inverted −0.624), restore
+bit-exact, all 500 steps without tripping the 0.40 budget. And the type
+does **not** act: TW1 p=0.19 (n.s.); TW4 no class-specificity; **TW3 the
+sharpest cut — the deranged-membership wire lifts held-frame licensing
+MORE than the true wire (L_shuf 0.434 > L_wire 0.353 > L_base 0.138)**:
+what lift exists is membership-content-independent generic cheapening.
+
+**What this kills:** "bake classificatory membership into the FFN band →
+get a licensing relation" — at this grain (sortals, L22–29, r=16,
+statements-only), creating the member→class edge does NOT create the
+type check. The written edge is a trained-frame lookup.
+
+**What this does NOT kill — and actually sharpens:**
+
+- **Slot-mediation (§3) survives and gains.** The wire wrote member→class
+  edges into FFN plates; licensing evidently reads machinery the wire
+  never touched. §7's commitment 3 (member-member key overlap should NOT
+  predict licensing; shared-slot coherence SHOULD) predicted exactly this
+  dissociation direction.
+- **The transfer boundary is now measured on two axes.** s312 fact wires
+  generalize across held ENTITIES within a frame type (B2 countries);
+  the membership wire does NOT cross FRAME TYPES (classificatory →
+  licensing). Generalization boundary = frame type, not entity.
+- **Two-tier (weights/tape) gets its sharpest motivation.** In-context
+  membership DOES license (s239/s293) — if P-TYPE-ICL confirms held-frame
+  transfer from tape-resident membership, the type check reads the TAPE,
+  not the plates: the two-tier split of
+  `type-systems-under-llm-constraints.md` measured from both sides.
+
+**Recipe co-finding (r1/r2, the write-vs-damage corridor):** unanchored
+membership-CE burns the host (r1: +2.3 nats, real licensing inverted by
+step ~200-of-need); a 0.10 drift budget starves the write (r2: cut at 22
+of ~200 steps, anchor at kl_weight 1.0 exerts ~1% gradient pressure);
+**kl_weight 10 binds** — full 500 steps inside +0.10 drift. KL-to-base on
+neutral replay + evidence-gated stop = the exposure schedule (L3/L5) for
+ALL future semantic writes. Amendment instrument-side only; frozen gates
+untouched; --validate 9 worlds + smoke green before any run counted.
+
+**S5 scorecard after the type arc:** discreteness ✓ selectivity ✓
+compositionality ✗ causality **✗-as-measured** (tested, falsifier fired,
+construction-scoped: FFN membership writes don't cause type checks; the
+attention-band/slot-register write and P-TYPE-ICL are the open causal
+doors).
+
+**Next doors (unfrozen, s222 freeze-first):** P-TYPE-ICL (tape-side
+converse, now the priority discriminator) · attention-band membership
+write (same probe, band swapped to the slot register) · fuel-theorem
+probe (unchanged).
 
 ## Provenance
 
