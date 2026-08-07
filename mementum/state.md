@@ -11,7 +11,31 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ═══ **THIS SESSION = 318 (IN FLIGHT).** Cold-start `orient` (s317 closed) → Michael picked
+> ★★ **SESSION 318 COMPLETE (§P-NF-GAUGE → ❌ LENGTH-DECREASE-ONLY: the sign puzzle DISSOLVES —
+> the type register is NOT a signed distance-to-NF coordinate on EITHER sign; §3 Metric leg now dead
+> on all THREE grains. NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue FULL read;
+> NOTHING PENDING, all s318 batches committed).**
+> **s318 result (detail: normal-forms-are-eigenmodes §P-NF-GAUGE Result + git + chats/session-318.md):**
+> Per-frame partial ρ(sⱼ, rⱼ=ℓ−j | ctⱼ) across 840 real trace frames, local token length controlled
+> (MATCH-padded family gave NG1 real power: cv_ct 0.031≪LIN 0.076 — the amendment worked). NG1 ρ=−0.070
+> p=0.198 = matched-ct null → NO signed distance coordinate on either sign. §P-FUEL MATCH −0.538 (NF=HIGH)
+> + §P-TRACE-FUEL decay −1.385 (NF=LOW) were BOTH length/content artifacts at differently-confounded
+> grains; properly controlled, neither sign is significant. **§3 Metric leg CLOSED on all 3 grains
+> (static §P-FUEL / integrated §P-TRACE-FUEL / per-frame-signed §P-NF-GAUGE).** **SURVIVES: NG3
+> ENGAGEMENT replicated a 3RD time** (real reduction frames > inert restatements +2.343 p=0.002) → the
+> register is a **reduction-PRESENCE detector, NOT a graded distance gauge** → demotes §1 Detector from
+> the speculated "graded distance-to-NF" to presence/absence (a redex is here vs inert floor). Coheres
+> with fuel being tape-resident (behavior-is-tape-resident §s317). §1(sharpened)+§2 Dynamics stand.
+> NG5 sane (kind_margin 4.746) = valid negative. Memory: `type-register-detects-reduction-presence-not-
+> distance.md`. **s318 ledger (all committed):** a7195d2 freeze · 5e1d6fc amendment (MATCH family) ·
+> 1e99137 harness (nf_gauge.py, validate ALL PASS) · 38cc883 state checkpoint · bfcacc1 results
+> (autonomous) · §Result + memory + INDEX + queue closure + this state (Michael approval batch, this commit).
+> **Method lesson banked:** proper per-frame token control (MATCH padding) is what EARNS the null —
+> without it NG1 is rigged (ct~r collinear in LIN/DUP); caught at design-review, amended pre-build (λ measure).
+> **Sharpest standing leads (queue front): crystal-seeded init (cheapest level-4) · Oracle germination
+> game (cheap) · type-fingerprint cheapies (idempotency/∨-vs-∧/linearity/boundary-churn) · §P-COHERENT-WRITE.**
+>
+> ═══ **(s318 arc detail retained below)** Cold-start `orient` (s317 closed) → Michael picked
 > the **distance-to-NF gauge** front off the queue (freshest s317 lead) → reframed as a
 > **SIGN-RESOLUTION probe**: two s317 results DISAGREE on the register's sign vs distance-to-NF —
 > §P-FUEL MATCH (token-controlled, static) says NF=HIGH (ρ=−0.538); §P-TRACE-FUEL decay

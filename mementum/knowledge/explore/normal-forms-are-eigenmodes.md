@@ -521,9 +521,73 @@ TYPE_SUBSPACE_DIM / N_RAND_SUBSPACES / N_PERM) · `trace_fuel` (build_trace_batt
 / _render_trace / eq_positions / _null_chain / _slope) · verbum.lambda_ast ·
 verbum.dsp.nulls · verbum.jlens. New code = MATCH-padded trace family + per-frame
 `(rⱼ, ctⱼ)` extraction + signed partial-Spearman + matched-`ct` null +
-three-way gate. `--validate` planted
-worlds (all four verdicts, both NG1 signs) + ruff + smoke (no direction read) →
-Michael GO → run.
+three-way gate. `--validate` planted worlds (all four verdicts, both NG1 signs)
++ ruff + smoke (no direction read) → Michael GO → run.
+
+## §P-NF-GAUGE — RESULT (s318, qwen3-4b) — VERDICT: LENGTH-DECREASE-ONLY
+
+**The falsifier fired a THIRD time — the sign puzzle DISSOLVES rather than
+resolves.** Results `bfcacc1` (195 traces LIN/DUP/MATCH/NULL, 840 real frames +
+195 null frames, per-frame `sⱼ` at each `=` boundary). NG5-sane
+(`kind_margin=4.746`, register recovered) ⇒ a **valid negative**, not a void.
+
+| gate | result |
+|---|---|
+| NG1 LOCAL-DECODE (+sign) | ✗ partial ρ(s,r\|ct)=**−0.070**, p=0.198 ≈ matched-ct null (−0.047) |
+| NG2 TYPE-SPECIFIC | ✗ type −0.070 vs norm +0.054; p_rand=0.86 (moot; NG1 null) |
+| **NG3 ENGAGEMENT** (required) | ✓ real−null=**+2.343, p=0.002** (real 10.39 vs inert 8.04) |
+| NG4 CROSS-GRAIN (adv) | first-frame ρ(s,ℓ)=+0.202 (disagrees with MATCH −0.538) |
+| NG5 SANE | ✓ kind_margin 4.746, all traces NF |
+
+**The decisive read — no signed distance coordinate survives the local-token
+control.** Once `ctⱼ` (current-term token length) is partialled out per-frame,
+the type-register magnitude has **no significant relationship** with remaining
+certified steps `rⱼ` (partial ρ=−0.070, p=0.198 — indistinguishable from the
+matched-`ct` permutation null). The MATCH-padded family gave NG1 real power (the
+amendment worked: cv_ct MATCH 0.031 ≪ LIN 0.076), and with that power the
+answer is **null on both signs**. The §P-TRACE-FUEL "decay toward NF"
+(slope −1.385) was **token shrinkage**, confirmed directly.
+
+**The sign puzzle dissolves, it does not pick a side.** §P-FUEL MATCH said
+NF=HIGH (ρ=−0.538); §P-TRACE-FUEL decay said NF=LOW; the queue hoped for a
+re-signed remaining-work gauge. The properly-controlled per-frame read shows
+**neither sign is significant** — both prior measurements were length/content
+artifacts at their respective (differently-confounded) grains. The nominal sign
+here leans *negative* (−0.070, weakly consistent with MATCH's doneness
+direction and NG4's disagreement notwithstanding), but the clean control cannot
+establish it. **The §3 Metric leg is now bounded on all THREE grains** — static
+(§P-FUEL), integrated (§P-TRACE-FUEL), and per-frame-signed (here). Fuel /
+distance-to-NF is **not a readable magnitude coordinate in the type register**,
+in any sign, at any grain.
+
+**What survives — the register is a reduction-PRESENCE detector, not a graded
+gauge.** NG3 replicated the §P-TRACE-FUEL engagement hook cleanly a **third
+time** (real reduction frames carry +2.343 more type signal than inert
+restatements, p=0.002). So the register *is* engaged by reductions — it detects
+**that** reducible structure is present, not **how far** the term is from normal
+form. This **demotes the §1 Detector** from the graded "distance-to-NF"
+reading (§P-TRACE-FUEL §Result speculated) to a **binary-ish reduction-presence
+detector**: "a redex is here" (fires) vs "nothing to reduce" (inert floor),
+without a distance metric on top. Consistent with the halt-pole / WHNF detector
+(§1) as a *presence/absence* line, not a graded coordinate.
+
+**Coherence with the tape-residency thesis.** The register holds the type
+CHECKER (7/11 TYPE-REGISTER) and lights on reduction PRESENCE, but the fuel
+accounting (how far from done) is neither stored in weights nor readable as a
+static/dynamic register magnitude — consistent with distance-to-NF being spent
+step-by-step **on the tape** (behavior-is-tape-resident-reduction §s317). The
+detector is in the geometry (§1 stands, now sharpened to presence); the metric
+(§3) is not in the readout magnitude at all.
+
+**Scope/caveats:** single model (qwen3-4b), single Y operationalization
+(kind-subspace projection magnitude), teacher-forced traces, band L18–31. Kills
+the *signed distance-to-NF magnitude coordinate* on all three grains; NG3
+presence-detection is a genuine surviving signal but is not a distance metric.
+NG4's +0.202 first-frame (uncontrolled, in-chain full term) disagrees with
+§P-FUEL MATCH's −0.538 (controlled, isolated static) — the two uncontrolled/
+different-grain reads simply do not agree, which is exactly why the *controlled*
+NG1 is the arbiter, and it is null. The §1 Detector and §2 Dynamics legs stand;
+§3 Metric is closed.
 
 ## Caveats
 

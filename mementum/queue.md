@@ -11,7 +11,6 @@
 
 # new
 
-🔵 distance-to-NF gauge — sign-resolution: does the type register read remaining WORK (ρ>0) or DONE-ness (ρ<0)? per-frame ρ(sⱼ,rⱼ|ctⱼ) under local-token control; NG3 engagement REQUIRED | normal-forms-are-eigenmodes §P-NF-GAUGE (FROZEN s318) | medium
 ⚪ crystal-seeded init — crystal prior vs random init on compositional tasks; cheapest level-4 rung | training-design-from-the-hologram | medium
 ⚪ signal-descent mirror — replace Adam magnitude calibration with ternary mirror stack on the delta substrate | signal-descent | medium
 ⚪ Oracle germination game — cold agent + theory seed predicts measured results? (corpus calibration) | germination-games | cheap
@@ -39,6 +38,7 @@
 
 # complete
 
+❌ §P-NF-GAUGE — LENGTH-DECREASE-ONLY: sign puzzle DISSOLVES. Per-frame ρ(sⱼ,rⱼ|ctⱼ) w/ local-token control (MATCH-padded family = NG1 power): ρ=−0.070 p=0.198 = matched-ct null → no signed distance coordinate either sign. §3 Metric dead all 3 grains (static/integrated/per-frame). SURVIVES: NG3 engagement 3rd replication (real>inert +2.343 p=0.002) → register is reduction-PRESENCE detector not graded gauge; demotes §1 to presence/absence | normal-forms-are-eigenmodes §P-NF-GAUGE Result | s318
 ❌ §P-TRACE-FUEL — STATIC-CONFIRMED-NULL: §P-FUEL generalizes — integrated type signal tracks TOKEN LENGTH not fuel (zero-fuel NULL chains accumulate same S); de Carvalho's accumulated size not readable at either grain. Sub-signals (unlicensed): per-step real reduction > inert p=0.002; signal DECAYS toward NF (distance-to-NF gauge, §1 not §3) | normal-forms-are-eigenmodes §P-TRACE-FUEL Result | s317
 ❌ §P-FUEL — NO-FUEL-COORDINATE: type-register magnitude does NOT track kernel-certified reduction length at static-read grain (FU1 fail, FU4 negative −0.538 under constant-length control); apparent LIN/DUP scaling was surface length; consistent with fuel being tape-resident (dynamic, not static) | normal-forms-are-eigenmodes §P-FUEL Result | s317
 ❌ §P-TYPE-DELIVER — NO-WEIGHT-DELIVERY: no static weight band (FFN/OV/QK) installs held-frame licensing; delivery is tape-native, not weight-installable (bounds the causal door) | types-are-injectable-relations §13 | s316
