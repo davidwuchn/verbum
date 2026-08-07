@@ -1,0 +1,43 @@
+{
+ "verdict": "INTERSECTION-FREE (+OR-COSTS)",
+ "gates": {
+  "DC2": {
+   "resid_or": 0.6009491155544917,
+   "resid_and": 0.5899783174196879,
+   "obs": 0.010970798134803773,
+   "p": 0.023952095808383235,
+   "pass": true
+  },
+  "DC3": {
+   "resid_filler": 0.5643187845746677,
+   "obs_or_minus_fil": 0.036630330979824065,
+   "p": 0.001996007984031936,
+   "pass": true
+  },
+  "DC1_corrob": {
+   "pr_or": 18.579981261186667,
+   "pr_and": 20.239717030600747,
+   "obs": -1.6597357694140804,
+   "null_mean": 0.015704802346392547,
+   "p": 0.9500998003992016,
+   "agrees": false
+  },
+  "DC4": {
+   "median_cos_AB": 0.6664814949035645,
+   "pass": true
+  }
+ },
+ "meta": {
+  "model_id": "Qwen/Qwen3-4B",
+  "n_layers": 36,
+  "band": [
+   18,
+   31
+  ],
+  "n_samples": 60,
+  "n_pairs": 20,
+  "n_templates": 3,
+  "seed": 0,
+  "smoke": false
+ }
+}
