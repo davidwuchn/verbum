@@ -11,7 +11,7 @@
 
 # new
 
-⚪ trace-integrated fuel — type-register signal accumulated ACROSS a generated reduction (dynamic tape), not a static read; §P-FUEL follow-up | normal-forms-are-eigenmodes §P-FUEL Result | medium
+🔵 §P-TRACE-FUEL — fuel on the tape: type signal at each `=` step-boundary of the kernel trace ∝ ℓ, non-idempotent (DUP per-step flat vs decay)? dynamic converse of §P-FUEL; a-priori 35/15/25/20/5 (s317 freeze) | normal-forms-are-eigenmodes §P-TRACE-FUEL | medium
 ⚪ crystal-seeded init — crystal prior vs random init on compositional tasks; cheapest level-4 rung | training-design-from-the-hologram | medium
 ⚪ signal-descent mirror — replace Adam magnitude calibration with ternary mirror stack on the delta substrate | signal-descent | medium
 ⚪ Oracle germination game — cold agent + theory seed predicts measured results? (corpus calibration) | germination-games | cheap

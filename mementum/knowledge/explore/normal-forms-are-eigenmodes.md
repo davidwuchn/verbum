@@ -264,6 +264,88 @@ validate-forced, Michael-noted at GO): FU1 used raw ρ(Y,ℓ) beating the
 matched-token-length null (the null is the length control); frozen null /
 verdict tree / a-priori unchanged.
 
+## §P-TRACE-FUEL — FROZEN (s317, Michael-approved GO)
+
+**The fuel theorem, measured on the tape — the dynamic converse of §P-FUEL.**
+§P-FUEL found NO-FUEL-COORDINATE at *static-read* grain and argued fuel is
+**tape-resident** (de Carvalho's identity is about the dynamic reduction
+derivation, not a static endpoint). This probe tests that directly: feed the
+kernel-certified reduction trace `t₀ = t₁ = … = t_ℓ` (the tape unfolding,
+in-distribution — the §P-TYPE-GRAM-1 probes ARE truncated chains), capture the
+type-register signal at each **`=` step-boundary** (each marks one spent fuel
+unit), and ask whether integrated type signal scales with ℓ and — the prize —
+accumulates **non-idempotently** (a DUP trace reducing the SAME redex n times
+shows no per-step decay). Recovers the FU3 knife §P-FUEL couldn't reach
+statically.
+
+**Ground truth (lambda_ast, fixed a-priori — λ yardstick):** `ℓ =
+reduce(t).steps`; trace = `[pretty(tⱼ)]` joined by `" = "`; step-boundary
+positions = the `=` markers (one per spent β-step); `tok(trace)` = trace token
+length (the confound).
+
+**Register (λ measure):** reuse §P-FUEL's Y verbatim (λ one_way) — the
+§P-TYPE-GRAM-1 kind subspace, held-out fit (`fuel_theorem.fit_type_subspace`).
+Per-step `sⱼ` = ‖proj of the residual at the j-th `=` position onto the type
+subspace‖, band L18–31 (value register, depth 0.50–0.85). Integrated
+`S = Σⱼ sⱼ`; trajectory `{sⱼ}` for the decay test. Controls `S_norm`, `S_rand`.
+
+**Arms (teacher-forced traces — Michael GO s317; kernel-certified ℓ,
+in-distribution rendering, tests the tape REPRESENTATION not the model's
+reduction competence; model-generated = future variant). One qwen3-4b load,
+read-only:**
+
+- **LIN** — `h (C a₁b₁c₁) … (C aₙbₙcₙ)`: n DISTINCT redexes → ℓ=n, each step a
+  new type judgment.
+- **DUP** — `h (C a b c) …×n`: the SAME redex reduced n times → ℓ=n, the
+  NON-IDEMPOTENCE test bed (n identical spent-fuel events).
+- **NULL-CHAIN** — matched-length chain of non-reducing equalities (inert
+  `Z … = Z …` restatements, ℓ=0 fuel, matched token count) → surface-length floor.
+
+**Gates (frozen; α=0.05):**
+
+- **TF1 ACCUMULATES** — integrated `S` scales with ℓ across traces, beats a
+  matched-trace-length null (permute ℓ within trace-token-length bins). The
+  dynamic analog of §P-FUEL FU1 — does the trace succeed where the static read
+  failed.
+- **TF2 TYPE-SPECIFIC** — ρ(S,ℓ) > random-subspace null AND > ρ(S_norm,ℓ); and
+  per-step `sⱼ` on real traces exceeds NULL-CHAIN restatement steps (fuel-bearing
+  > inert). Kills "any per-token accumulation."
+- **TF3 NON-IDEMPOTENT** (load-bearing) — in DUP traces, per-step `sⱼ` across the
+  n IDENTICAL reductions has slope ≈ 0 (flat), significantly ABOVE the
+  idempotent-decay null (slope < 0). Flat ⇒ each repeat spends fuel = de Carvalho
+  non-idempotence, measured dynamically; LIN per-step (distinct redex) is the
+  reference.
+- **TF4 STEP-LOCKED** (advisory) — `sⱼ` increments concentrate at `=` boundaries
+  vs smooth per-token drift (the discrete fuel-accounting signature).
+- **TF5 SANE** (void-gate) — kind register recovered held-out (margin>0); all
+  traces kernel-certified NF.
+
+**Verdicts (frozen tree):**
+
+- **DYNAMIC-FUEL (+NON-IDEMPOTENT)** — TF1∧TF2∧TF3-flat: fuel IS a tape-
+  accumulated coordinate that counts non-idempotently → the §P-FUEL negative was
+  a static-grain artifact; de Carvalho holds ON THE TAPE, lighting the 4th
+  type-system corner + joining s295 CoT law.
+- **DYNAMIC-FUEL-IDEMPOTENT** — TF1∧TF2 but TF3 decays: fuel accumulates but
+  SATURATES on repeats → contradicts the pinned non-idempotent object → audit
+  curry-howard §3.
+- **STATIC-CONFIRMED-NULL** (falsifier) — TF1 fails: even dynamically the type
+  register doesn't count steps → the §P-FUEL negative GENERALIZES.
+- **LENGTH-ONLY** (falsifier) — TF1 holds but TF2 fails: generic per-token
+  accumulation, not type-specific.
+- **VOID** — ¬TF5.
+
+**A-priori (declared s317, NOT tuned):** ~35 DYNAMIC-FUEL(+NON-IDEMPOTENT) / 15
+DYNAMIC-FUEL-IDEMPOTENT / 25 STATIC-CONFIRMED-NULL / 20 LENGTH-ONLY / 5 VOID.
+Real mass on STATIC-CONFIRMED-NULL — §P-FUEL just failed and the register may
+simply not count; TF2/TF3 carry the weight against "the trace is just longer text."
+
+**Reuse (λ one_way, no fork):** `lambda_ast` (reduce/trace/pretty) ·
+`fuel_theorem.py` (`fit_type_subspace`, `y_project`, `spearman`, LIN/DUP families) ·
+`jlens` (all-position capture) · `dsp.nulls`. New code = trace rendering +
+`=`-position mapping + per-step trajectory + TF gates. `--validate` planted
+worlds (all five verdicts) + ruff + smoke (no direction read) → Michael GO → run.
+
 ## Caveats
 
 - A SPECIFIC term's normal form exists only when computed onto the tape
