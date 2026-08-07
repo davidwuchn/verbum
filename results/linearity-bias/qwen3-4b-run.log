@@ -1,0 +1,12 @@
+[lb] load Qwen/Qwen3-4B dev=mps n_terms=72
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights:  15%|█▍        | 58/398 [00:00<00:00, 543.68it/s]Loading weights:  30%|██▉       | 119/398 [00:00<00:00, 575.29it/s]Loading weights:  44%|████▍     | 177/398 [00:00<00:00, 541.40it/s]Loading weights:  59%|█████▉    | 234/398 [00:00<00:00, 542.38it/s]Loading weights:  73%|███████▎  | 290/398 [00:00<00:00, 546.43it/s]Loading weights:  87%|████████▋ | 345/398 [00:00<00:00, 543.06it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 556.24it/s]
+[lb] scored 12/72
+[lb] scored 24/72
+[lb] scored 36/72
+[lb] scored 48/72
+[lb] scored 60/72
+[lb] scored 72/72
+[lb] acc_lin=0.917 acc_dup=0.944 gap=-0.028 p1=1.000 | matched=-0.028 p2=1.000 pr=+0.055 pr2=+0.052 mixed=6
+[lb] LB1=False LB2=False LB3=False LB4=True (headroom=True sym=True frac=0.60)
+[lb] VERDICT: CARTESIAN-CONSISTENT
