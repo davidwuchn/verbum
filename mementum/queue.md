@@ -11,7 +11,7 @@
 
 # new
 
-⚪ distance-to-NF gauge — read the type register as a DECREASING remaining-reducibility coordinate (not increasing fuel); §P-TRACE-FUEL re-signing + reduction-engagement hook (per-step real>inert p=0.002) | normal-forms-are-eigenmodes §P-TRACE-FUEL Result | medium
+🔵 distance-to-NF gauge — sign-resolution: does the type register read remaining WORK (ρ>0) or DONE-ness (ρ<0)? per-frame ρ(sⱼ,rⱼ|ctⱼ) under local-token control; NG3 engagement REQUIRED | normal-forms-are-eigenmodes §P-NF-GAUGE (FROZEN s318) | medium
 ⚪ crystal-seeded init — crystal prior vs random init on compositional tasks; cheapest level-4 rung | training-design-from-the-hologram | medium
 ⚪ signal-descent mirror — replace Adam magnitude calibration with ternary mirror stack on the delta substrate | signal-descent | medium
 ⚪ Oracle germination game — cold agent + theory seed predicts measured results? (corpus calibration) | germination-games | cheap

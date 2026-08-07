@@ -410,6 +410,104 @@ increasing).
 magnitude reading at both grains; the reduction-engagement sub-signal (p=0.002)
 and the distance-to-NF re-signing are hooks for follow-ups, not claims here.
 
+## §P-NF-GAUGE — FROZEN (s318, Michael-approved GO)
+
+**The sign-resolution probe — does the type register read remaining WORK or
+DONE-ness?** §P-FUEL and §P-TRACE-FUEL both killed the *increasing* fuel-
+accumulator reading, but left a re-signed hook: the register may be a
+*decreasing* distance-to-NF coordinate (§P-TRACE-FUEL §Result). Two committed
+measurements DISAGREE on the sign, and the disagreement is the whole point:
+
+| measurement | token control | says about NF |
+|---|---|---|
+| §P-FUEL MATCH (static, whole term) | ✅ held const | ρ(Y,ℓ)=**−0.538** → more remaining ⇒ *lower* Y ⇒ **NF = HIGH** |
+| §P-TRACE-FUEL decay (per-step, in-trace) | ❌ term shrinks | slope=**−1.385** → sⱼ falls toward NF ⇒ **NF = LOW** |
+
+The confound masking which is **local token length**. This probe pins the sign
+**per-frame under a proper local-token control** — the control the static grain
+applied (MATCH) but the dynamic grain did not. Unlike §P-TRACE-FUEL (which
+*integrated* `S=Σsⱼ` vs total `ℓ` → found `S` counts `=` boundaries), this stays
+**per-frame** and regresses `sⱼ` against **remaining certified steps** while
+partialling **current-term token length**.
+
+**Ground truth (lambda_ast, fixed a-priori — λ yardstick).** For the j-th `=`
+boundary in a trace `t₀ = t₁ = … = t_ℓ`, the most-recently-completed term is
+`tⱼ` (0-indexed j=0…ℓ−1): **remaining steps `rⱼ = ℓ − j`** (kernel-certified,
+ranges ℓ→1); **current-term tokens `ctⱼ = len(tok(pretty(tⱼ)))`** (the local
+surface control, ct-binned for the null).
+
+**Register (λ measure).** `sⱼ = fuel_theorem.y_project` at each `=` frame — Y
+reused VERBATIM (§P-TYPE-GRAM-1 kind subspace, held-out fit, band L18–31, value
+register depth 0.50–0.85). Controls `s_normⱼ = y_norm`, `s_randⱼ` (matched-dim
+random subspace). No new register; no fork.
+
+**Arms (teacher-forced traces, one qwen3-4b load, read-only — reuse
+`trace_fuel.build_trace_battery`).** LIN (n distinct redexes) · DUP (same redex
+×n) · NULL (inert `T = T = …`, `r≡0`, constant term = pure-position / floor
+control: tests whether sⱼ drifts with position alone at zero remaining work).
+
+**Gates (frozen; α=0.05):**
+
+- **NG1 LOCAL-DECODE (core + sign)** — pooled real (LIN+DUP) frames: partial
+  ρ(sⱼ, rⱼ | ctⱼ) is significantly ≠ 0 (two-sided) vs a matched-`ct` null
+  (permute rⱼ within ct-bins). **The SIGN of this partial ρ selects the
+  verdict.** This is the decoupling both fuel probes failed on the *increasing*
+  side; it must clear it on whichever sign is real.
+- **NG2 TYPE-SPECIFIC** — |partial ρ(s_type)| exceeds |partial ρ(s_norm)| AND
+  the random-subspace null (paired). Kills "generic residual magnitude tracks
+  remaining structure."
+- **NG3 ENGAGEMENT (REQUIRED — Michael s318)** — real reduction frames carry
+  more type signal than inert NULL frames (mean sⱼ[real] > mean sⱼ[NULL],
+  label-permutation null), replicating the §P-TRACE-FUEL +2.214 / p=0.002 hook.
+  **A precondition on reading any sign:** the register must be demonstrably
+  *reduction-driven* before a NG1 sign is interpreted — the direct guard against
+  the surface-length failure mode that ate §P-FUEL and §P-TRACE-FUEL. Orthogonal
+  to NG1 (existence/attribution vs direction).
+- **NG4 CROSS-GRAIN (advisory)** — sign of first-frame (`j=0`, full term)
+  ρ(s, ℓ) vs §P-FUEL MATCH −0.538: reconciliation datum, no new captures.
+- **NG5 SANE (void-gate)** — held-out kind register recovered (margin>0); all
+  traces kernel-certified NF.
+
+**Verdicts (frozen tree):**
+
+```
+¬NG5             → VOID
+¬NG3             → LENGTH-DECREASE-ONLY   (not reduction-driven → the reading is surface)
+¬NG1 (ρ≈0)       → LENGTH-DECREASE-ONLY   (falsifier: decay was pure token shrinkage)
+¬NG2             → LENGTH-DECREASE-ONLY   (generic magnitude, not the type register)
+NG3 ∧ NG1 ∧ NG2 ∧ ρ>0 → REMAINING-WORK-GAUGE  (HIGH far from NF; re-signs §3 Metric — the queue hook)
+NG3 ∧ NG1 ∧ NG2 ∧ ρ<0 → DONENESS-DETECTOR     (HIGH near NF; promotes §1 Detector, matches MATCH)
+```
+
+- **REMAINING-WORK-GAUGE** — the queue's decreasing-distance-to-NF reading, on
+  the *positive-in-remaining-steps* convention: sⱼ high when much work remains.
+  Re-signs the §3 Metric leg as a (still-real) remaining-work coordinate.
+- **DONENESS-DETECTOR** — sⱼ high *near* NF; the §1 Detector reading promoted to
+  graded, and the datum that **reconciles both priors** (raw sⱼ falls with
+  length; token-controlled residual rises toward NF; MATCH's −0.538 was reading
+  doneness all along).
+- **LENGTH-DECREASE-ONLY** (falsifier) — once local token length is controlled,
+  no signed remaining-work coordinate survives; the §P-TRACE-FUEL decay was
+  token shrinkage. Kills the §3 Metric leg on *both* signs.
+- **VOID** — ¬NG5.
+
+**A-priori (declared s318, NOT tuned):** ~35 DONENESS-DETECTOR / 35
+LENGTH-DECREASE-ONLY / 20 REMAINING-WORK-GAUGE / 10 VOID. Rationale: the token
+control killed the increasing-fuel reading twice → LENGTH-ONLY carries real
+mass; MATCH's token-controlled −0.538 already points at doneness → more mass
+there than on the queue's original remaining-work framing; a DONENESS-DETECTOR
+result would elegantly reconcile both prior findings.
+
+**Reuse (λ one_way, no fork):** `fuel_theorem` (fit_type_subspace / y_project /
+y_norm / kind_margin_heldout / _orthonormal / _load_type_probes / band_layers /
+spearman / partial_spearman / _perm_within_bins / TYPE_SUBSPACE_DIM /
+N_RAND_SUBSPACES / N_PERM) · `trace_fuel` (build_trace_battery / _render_trace /
+eq_positions / _null_chain / _slope) · verbum.lambda_ast · verbum.dsp.nulls ·
+verbum.jlens. New code = per-frame `(rⱼ, ctⱼ)` extraction + signed
+partial-Spearman + matched-`ct` null + three-way gate. `--validate` planted
+worlds (all four verdicts, both NG1 signs) + ruff + smoke (no direction read) →
+Michael GO → run.
+
 ## Caveats
 
 - A SPECIFIC term's normal form exists only when computed onto the tape
