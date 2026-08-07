@@ -537,6 +537,111 @@ readout (NF-selection). Kills the reduction-accuracy form of the linearity bias;
 does not test free-generation, harder terms, cross-model, or the
 representational/formation faces (where the bias may yet live).
 
+## §P-IDEMPOTENCY — FROZEN (s320, Michael-approved GO)
+
+**The idempotent-vs-non-idempotent intersection fingerprint — SKI-control
+#3 (curry-howard-closes-the-loop.md §5).** The pinned type name is
+*non-idempotent* intersection: `A∧A ≠ A`, membership **accumulates with
+use** (de Carvalho / quantitative semantics). Idempotent intersection —
+the pre-committed death — predicts membership **saturates at first
+exposure** (`A∧A = A`, a second statement adds nothing). A2 coherent gain
+(s292, CAP) already measured non-idempotence on the *frozen weight plate*
+("accumulates where edges match; energy-matched random exposures do not",
+frozen-interference-graph.md §Clause 2). This probe re-aims that machinery
+at the **tape/ICL licensing** face — a genuinely different substrate tier
+(s315 §P-TYPE-ICL+TAG established tape-typing as its own two-tier register,
+distinct from the weight store).
+
+**Register (λ measure) — LICENSING, deliberately not kind-magnitude.**
+Heeds the s319 banked caveat and the three-fold magnitude-null
+(§P-FUEL / §P-TRACE-FUEL / §P-NF-GAUGE = presence-detector tracking token
+length, not a graded gauge). Uses the register that **LANDED** in s315
+(§P-TYPE-ICL+TAG → TAPE-TYPED, licensing transfers):
+
+```
+L(w, prefix) = mean surprisal(anti-class preds | prefix·"The w")
+             − mean surprisal(own-class preds  | prefix·"The w")
+```
+
+Higher L = stronger license of w's own-class predicates. Behavioral,
+tape-side, pre-validated live — sign fixed a-priori by w's true class.
+
+**Construction — exposure-count sweep + the A2 coherent/incoherent
+isolate.** Nonce `w` assigned class `c` (ANIMAL/VEHICLE sortals, reused
+from type_write). Prefix carries `k ∈ {0,1,2,3,4,5}` membership exposures;
+read `L(k)`. Two arms per nonce, token-budget-matched:
+
+- **COHERENT** — `k` distinct paraphrases of w's TRUE membership (the five
+  `_member_stmts`: "A w is an animal." / "The w is a kind of animal." /
+  "Every w is an animal." / "w, like the dog and the cat, is an animal." /
+  "I saw a w; it is an animal.") — same edge, different surface = A2
+  coherent superposition.
+- **INCOHERENT (energy-matched, the A2 null)** — `k` length/form-matched
+  *non-membership* statements about w ("A w is nearby." / "Someone
+  mentioned a w yesterday." / …) — same token budget, no coherent
+  class edge. The control that separates non-idempotent accumulation from
+  trivial context/attention growth.
+
+**Readout — the saturation curve.** Fit `L(k)` per arm. Idempotent ⇒
+`L_coherent(k)` flat after k=1 (`A∧A=A`). Non-idempotent ⇒ rises with k,
+**and more than incoherent** (coherent gain over token budget).
+Discriminator = **slope_coherent − slope_incoherent**.
+
+**Gates (frozen; α=0.05):**
+
+- **IB1 ACCUMULATION (core)** — ρ(L, k) > 0 within the coherent arm +
+  k-label permutation null. Establishes a k-dependence exists.
+- **IB2 COHERENT-SPECIFIC (make-or-break)** — slope_coherent >
+  slope_incoherent, paired across nonces + sign-flip permutation null.
+  **The gate that separates non-idempotence from "more context helps" —
+  the exact §P-FUEL token-budget confound that has beaten this arc three
+  times. Without it the verdict is EVIDENCE-ONLY, not a fingerprint.**
+- **IB3 NON-SATURATING (corroboration, non-gating)** — per-step increments
+  `L(k) − L(k−1)`; idempotent predicts →0 after k=1. Reported alongside;
+  the specific `A∧A=A` shape test.
+- **IB4 SANE (void-gate)** — `L(0) ≈ 0` (no license before exposure) AND
+  `L(max) > 0` (register works on these nonces); real-member anchor
+  licenses (s315 gate-0); incoherent statements validated genuinely
+  membership-free (no class predication).
+
+**Verdicts (frozen tree):**
+
+```
+¬IB4        → VOID
+IB1 ∧ IB2   → NON-IDEMPOTENT (+NON-SATURATING if IB3)   (coherent accumulation > token budget → A∧A≠A → the pinned qualifier confirmed on the tape face; idempotent SKI-control #3 killed)
+IB1 ∧ ¬IB2  → EVIDENCE-ONLY   (licensing grows with context but NOT coherent-specific — token/attention budget, the §P-FUEL confound; non-idempotence unsupported)
+¬IB1        → IDEMPOTENT       (falsifier: license saturates at first exposure → A∧A=A → idempotent intersection survives; audit curry-howard §3 non-idempotence clause + retro-read A2 as weight-only)
+```
+
+**A-priori (declared s320, NOT tuned): ~40 NON-IDEMPOTENT / 40
+EVIDENCE-ONLY / 15 IDEMPOTENT / 5 VOID.** Theory (A2 already green on the
+plate) pulls toward non-idempotent — but A2 was the *weight* face; this is
+the *tape* face, a distinct tier, and the whole s317–319 arc has been
+token-budget confounds beating accumulation stories. IB2 is the stringent
+isolate, exactly as LB2 was for §P-LINEARITY-BIAS.
+
+**Caveat banked at freeze (interpretation boundary).** NON-IDEMPOTENT
+licenses "coherent membership re-exposure accumulates *tape-side
+licensing* beyond token budget → the tape type judgment records
+use-multiplicity" — NOT a claim about the weight-store's idempotence (A2
+covers that face), NOT a mechanism (amplitude superposition vs attention
+re-weighting vs Bayesian evidence combining). The fingerprint establishes
+that coherent re-exposure adds beyond the energy-matched null, which is
+what discriminates SKI-control #3; the physical cause stays a flagged
+boundary. Note the residual confound the incoherent arm does *not* fully
+kill: coherent statements are also *more evidence for the same claim* —
+IB2 controls token budget, not "consistent evidence accumulates" in a
+Bayesian sense; that boundary is banked, and IDEMPOTENT/EVIDENCE-ONLY
+remain live because of it.
+
+**Reuse (λ one_way, no fork):** `type_write` (_member_stmts, HELD_PREDS,
+CLASSES, NONCE_CANDS) · `type_icl_tag` (surprisal, licensing L, band) ·
+`fuel_theorem` (spearman / partial_spearman / _perm_within_bins) ·
+`verbum.dsp.nulls` (gate). New code = k-exposure sweep + incoherent-arm
+construction + per-k L curve + slope contrast + IB1–IB4 gates.
+`--validate` planted worlds (all verdicts + coherent-isolate + saturation
+primitives) + ruff + smoke (no verdict read) → Michael GO → run.
+
 ## Provenance
 
 - s313 hammock, Michael's constraint question; AI derivation,
