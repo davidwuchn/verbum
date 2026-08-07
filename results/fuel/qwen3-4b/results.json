@@ -1,0 +1,60 @@
+{
+ "verdict": "NO-FUEL-COORDINATE",
+ "gates": {
+  "FU1": {
+   "value": 0.03603026694980112,
+   "null_mean": 0.1321377523302693,
+   "p": 0.9940119760479041,
+   "sign_ok": false,
+   "null": "matched_token_length",
+   "pass": false
+  },
+  "FU2": {
+   "r_type": 0.03603026694980112,
+   "r_norm": -0.045000958646644044,
+   "p_rand": 0.44510978043912175,
+   "beats_norm": true,
+   "pass": false
+  },
+  "FU3": {
+   "value": 0.3551384135583169,
+   "null_mean": -0.0012890859673037748,
+   "p": 0.001996007984031936,
+   "sign_ok": true,
+   "null": "shuffled_mult",
+   "rho_mult_given_distinct": 0.3551384135583169,
+   "rho_distinct_given_mult": -0.536250584960312,
+   "mult_wins": true,
+   "non_idem": true
+  },
+  "FU4": {
+   "value": -0.5378528742004771,
+   "null_mean": -0.02344893655319009,
+   "p": 1.0,
+   "sign_ok": false,
+   "null": "match_token_perm",
+   "pass": false
+  },
+  "FU5": {
+   "kind_margin": 4.746493635537817,
+   "all_nf": true,
+   "pass": true
+  }
+ },
+ "means": {
+  "kind_margin": 4.746493635537817
+ },
+ "meta": {
+  "model_id": "Qwen/Qwen3-4B",
+  "n_layers": 36,
+  "band": [
+   18,
+   31
+  ],
+  "n_terms": 165,
+  "n_train": 840,
+  "n_test": 315,
+  "seed": 0,
+  "smoke": false
+ }
+}

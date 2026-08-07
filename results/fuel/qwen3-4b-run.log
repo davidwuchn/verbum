@@ -1,0 +1,17 @@
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights:  15%|█▌        | 60/398 [00:00<00:00, 587.34it/s]Loading weights:  30%|██▉       | 119/398 [00:00<00:00, 540.33it/s]Loading weights:  45%|████▌     | 181/398 [00:00<00:00, 569.48it/s]Loading weights:  61%|██████    | 242/398 [00:00<00:00, 570.17it/s]Loading weights:  75%|███████▌  | 300/398 [00:00<00:00, 558.28it/s]Loading weights:  89%|████████▉ | 356/398 [00:00<00:00, 553.82it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 568.91it/s]
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[fuel] Qwen/Qwen3-4B dev=mps n_layers=36 band=L18..L31
+[fuel] type probes: train=840 test=315
+[fuel] held-out kind_margin=4.7465
+[fuel] battery n=165 (LIN 55 / DUP 55 / MATCH 55)
+[fuel]   captured 20/165
+[fuel]   captured 40/165
+[fuel]   captured 60/165
+[fuel]   captured 80/165
+[fuel]   captured 100/165
+[fuel]   captured 120/165
+[fuel]   captured 140/165
+[fuel]   captured 160/165
+[fuel] FU1 p=0.9940 False | FU2 r_type=0.036 r_norm=-0.045 p_rand=0.4451 False | FU3 mult|dist=0.355 dist|mult=-0.536 non_idem=True | FU4 p=1.0000 False | FU5 margin=4.746 True
+[fuel] VERDICT: NO-FUEL-COORDINATE
+[fuel] wrote results/fuel/qwen3-4b/results.json + fuel.npz
