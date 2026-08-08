@@ -1,0 +1,64 @@
+{
+  "verdict": "NOISE-FLOOR",
+  "mechanism": "AMBIGUOUS",
+  "gates": {
+    "G0_sane": {
+      "pass": true,
+      "flip_pop": 0.4115625,
+      "finite": true,
+      "trained": true,
+      "n": 48000
+    },
+    "G1_conflict_meter": {
+      "pass": false,
+      "partial_r": -0.016673899995168166,
+      "p": 1.0,
+      "null_mean": 2.3591469435664534e-06
+    },
+    "G2_causal_freeze": {
+      "pass": false,
+      "delta_contested_minus_ctrl": 0.0004897585161235788,
+      "delta_contested": -0.0001765277777777777,
+      "delta_control": -0.0006662862939013566,
+      "p": 0.0009995002498750624,
+      "n_contested": 12000,
+      "n_control": 10516
+    },
+    "G3_committed_pole": {
+      "pass": true,
+      "flip_ok": true,
+      "conf_ok": true,
+      "basis": "delta_mag",
+      "flip_commit": 0.0013216666666666665,
+      "flip_margin": 0.008012037037037036,
+      "conf_commit": -0.04839533702432406,
+      "conf_margin": 0.05875799417480948
+    },
+    "boundary_churn_covariate": {
+      "spearman_flip_Wbase": -0.04926112250705778,
+      "note": "SECONDARY (amendment s323, not gated): <0 = flip-rate rises where |W_base| is small (boundary-churn tie-in)"
+    },
+    "G4_mechanism": {
+      "label": "AMBIGUOUS",
+      "eos_ratio": 1.5873443644168825,
+      "lam_max_sgd": 31.74688728833765,
+      "lam_max_adam": 66.13549772844028,
+      "ceiling_2_over_eta": 20.0
+    }
+  },
+  "meta": {
+    "model_id": "Qwen/Qwen3-4B",
+    "n_nonce": 8,
+    "seeds": 3,
+    "steps": 500,
+    "band": [
+      22,
+      29
+    ],
+    "lr_sgd": 0.1,
+    "lr_adam": 0.0001,
+    "n_coord": 48000,
+    "n_per_stratum": 2000,
+    "trained": true
+  }
+}

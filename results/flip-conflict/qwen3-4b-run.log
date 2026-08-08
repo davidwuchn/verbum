@@ -1,0 +1,16 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 25545.28it/s]
+[fc] Qwen/Qwen3-4B dev=mps n_layers=36 band=L22..L29 seeds=3 steps=500
+[fc] nonces=8 (animal 4 vehicle 4)
+[fc] sampled 48000 effective-dW coords (2000/stratum/layer x 8 layers)
+[fc] arm both_sgd (sgd) …
+sys:1: UserWarning: Full backward hook is firing when gradients are computed with respect to module outputs since no inputs require gradients. See https://docs.pytorch.org/docs/main/generated/torch.nn.Module.html#torch.nn.Module.register_full_backward_hook for more details.
+[fc]   both_sgd: flip_pop=0.412 mem_final=0.842 lam_max=31.75
+[fc] arm A_sgd (sgd) …
+[fc]   A_sgd: flip_pop=0.445 mem_final=3.384 lam_max=19.76
+[fc] arm B_sgd (sgd) …
+[fc]   B_sgd: flip_pop=0.432 mem_final=2.844 lam_max=25.20
+[fc] arm both_adam (adam) …
+[fc]   both_adam: flip_pop=0.372 mem_final=0.467 lam_max=66.14
+[fc] G0 True | G1 r=-0.017 p=1.0000 False | G2 d=+0.0005 p=0.0010 False | G3 True
+[fc] VERDICT: NOISE-FLOOR | mechanism: AMBIGUOUS
