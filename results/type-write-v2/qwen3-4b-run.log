@@ -1,0 +1,110 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 27200.68it/s]
+[tw2] Qwen/Qwen3-4B dev=mps n_layers=36 band=L22..L29 seeds=3 steps=500
+[tw2] nonces=20 (animal 10 vehicle 10)
+[tw2] gate-0: base licensing of real members (held + train) …
+[tw2] gate-0: real margin held=2.538 train=3.928 per_class_ok=True n_ok=True -> PASS
+[tw2] arm base …
+[tw2] replay anchor cached: 8 texts, 93 positions, kl_weight=10.0
+[tw2] arm wire (true membership + bare-NP coverage) …
+    seed0 snap    0 mem 6.4726 kl 0.0007 host_ce 3.5190 drift -0.0098
+    seed0 snap    1 mem 6.4578 kl 0.0008 host_ce 3.5232 drift -0.0057
+    seed0 snap    2 mem 6.4034 kl 0.0006 host_ce 3.5203 drift -0.0085
+    seed0 snap    3 mem 6.3169 kl 0.0008 host_ce 3.5239 drift -0.0050
+    seed0 snap    5 mem 6.0997 kl 0.0012 host_ce 3.5205 drift -0.0083
+    seed0 snap    8 mem 5.7242 kl 0.0024 host_ce 3.5117 drift -0.0171
+    seed0 snap   13 mem 5.0355 kl 0.0057 host_ce 3.5083 drift -0.0205
+    seed0 snap   21 mem 3.9978 kl 0.0073 host_ce 3.5228 drift -0.0060
+    seed0 snap   34 mem 2.6388 kl 0.0072 host_ce 3.5750 drift +0.0461
+    seed0 snap   55 mem 1.9943 kl 0.0026 host_ce 3.5635 drift +0.0347
+    seed0 snap   89 mem 1.8688 kl 0.0015 host_ce 3.5617 drift +0.0328
+    seed0 snap  144 mem 1.7110 kl 0.0067 host_ce 3.5479 drift +0.0191
+    seed0 snap  233 mem 1.3254 kl 0.0138 host_ce 3.5230 drift -0.0059
+    seed0 snap  377 mem 0.9375 kl 0.0162 host_ce 3.5617 drift +0.0329
+    seed0 snap  499 mem 0.9138 kl 0.0148 host_ce 3.6115 drift +0.0826
+[tw2] wire seed0 done (stop 500 max_steps)
+    seed1 snap    0 mem 6.4726 kl 0.0007 host_ce 3.5209 drift -0.0079
+    seed1 snap    1 mem 6.4552 kl 0.0008 host_ce 3.5173 drift -0.0115
+    seed1 snap    2 mem 6.4035 kl 0.0007 host_ce 3.5302 drift +0.0014
+    seed1 snap    3 mem 6.3179 kl 0.0007 host_ce 3.5289 drift +0.0001
+    seed1 snap    5 mem 6.1028 kl 0.0009 host_ce 3.5201 drift -0.0087
+    seed1 snap    8 mem 5.7238 kl 0.0024 host_ce 3.5183 drift -0.0105
+    seed1 snap   13 mem 5.0453 kl 0.0054 host_ce 3.5069 drift -0.0220
+    seed1 snap   21 mem 3.9980 kl 0.0074 host_ce 3.5203 drift -0.0086
+    seed1 snap   34 mem 2.6463 kl 0.0079 host_ce 3.5809 drift +0.0521
+    seed1 snap   55 mem 2.0009 kl 0.0024 host_ce 3.5780 drift +0.0492
+    seed1 snap   89 mem 1.8673 kl 0.0015 host_ce 3.5815 drift +0.0527
+    seed1 snap  144 mem 1.7049 kl 0.0065 host_ce 3.5567 drift +0.0279
+    seed1 snap  233 mem 1.2955 kl 0.0146 host_ce 3.5377 drift +0.0089
+    seed1 snap  377 mem 0.9310 kl 0.0165 host_ce 3.5818 drift +0.0529
+    seed1 snap  499 mem 0.9095 kl 0.0150 host_ce 3.6214 drift +0.0926
+[tw2] wire seed1 done (stop 500 max_steps)
+    seed2 snap    0 mem 6.4726 kl 0.0007 host_ce 3.5212 drift -0.0076
+    seed2 snap    1 mem 6.4550 kl 0.0006 host_ce 3.5243 drift -0.0045
+    seed2 snap    2 mem 6.4060 kl 0.0008 host_ce 3.5205 drift -0.0084
+    seed2 snap    3 mem 6.3149 kl 0.0007 host_ce 3.5175 drift -0.0113
+    seed2 snap    5 mem 6.0963 kl 0.0010 host_ce 3.5186 drift -0.0102
+    seed2 snap    8 mem 5.7210 kl 0.0026 host_ce 3.5154 drift -0.0134
+    seed2 snap   13 mem 5.0405 kl 0.0057 host_ce 3.5098 drift -0.0191
+    seed2 snap   21 mem 4.0130 kl 0.0073 host_ce 3.5193 drift -0.0096
+    seed2 snap   34 mem 2.6335 kl 0.0080 host_ce 3.5804 drift +0.0516
+    seed2 snap   55 mem 1.9963 kl 0.0023 host_ce 3.5869 drift +0.0580
+    seed2 snap   89 mem 1.8590 kl 0.0016 host_ce 3.5776 drift +0.0487
+    seed2 snap  144 mem 1.6997 kl 0.0070 host_ce 3.5484 drift +0.0195
+    seed2 snap  233 mem 1.3203 kl 0.0139 host_ce 3.5515 drift +0.0226
+    seed2 snap  377 mem 0.9383 kl 0.0160 host_ce 3.5939 drift +0.0650
+    seed2 snap  499 mem 0.9145 kl 0.0150 host_ce 3.6214 drift +0.0926
+[tw2] wire seed2 done (stop 500 max_steps)
+[tw2] arm deranged (1-labels, matched budget [500, 500, 500]) …
+    seed0 snap    0 mem 6.5269 kl 0.0007 host_ce 3.5214 drift -0.0075
+    seed0 snap    1 mem 6.5112 kl 0.0007 host_ce 3.5308 drift +0.0019
+    seed0 snap    2 mem 6.4606 kl 0.0007 host_ce 3.5283 drift -0.0005
+    seed0 snap    3 mem 6.3726 kl 0.0006 host_ce 3.5178 drift -0.0110
+    seed0 snap    5 mem 6.1534 kl 0.0012 host_ce 3.5202 drift -0.0086
+    seed0 snap    8 mem 5.7759 kl 0.0029 host_ce 3.5109 drift -0.0179
+    seed0 snap   13 mem 5.0810 kl 0.0058 host_ce 3.5085 drift -0.0204
+    seed0 snap   21 mem 4.0643 kl 0.0071 host_ce 3.5215 drift -0.0074
+    seed0 snap   34 mem 2.7007 kl 0.0078 host_ce 3.5703 drift +0.0415
+    seed0 snap   55 mem 2.0000 kl 0.0025 host_ce 3.5871 drift +0.0583
+    seed0 snap   89 mem 1.8709 kl 0.0015 host_ce 3.5843 drift +0.0555
+    seed0 snap  144 mem 1.7153 kl 0.0063 host_ce 3.5551 drift +0.0263
+    seed0 snap  233 mem 1.3386 kl 0.0136 host_ce 3.5428 drift +0.0140
+    seed0 snap  377 mem 0.9403 kl 0.0161 host_ce 3.5751 drift +0.0463
+    seed0 snap  499 mem 0.8974 kl 0.0168 host_ce 3.6230 drift +0.0942
+[tw2] deranged seed0 done (stop 500 matched_budget)
+    seed1 snap    0 mem 6.5269 kl 0.0007 host_ce 3.5240 drift -0.0048
+    seed1 snap    1 mem 6.5118 kl 0.0007 host_ce 3.5325 drift +0.0037
+    seed1 snap    2 mem 6.4532 kl 0.0008 host_ce 3.5176 drift -0.0113
+    seed1 snap    3 mem 6.3718 kl 0.0007 host_ce 3.5253 drift -0.0035
+    seed1 snap    5 mem 6.1472 kl 0.0012 host_ce 3.5124 drift -0.0164
+    seed1 snap    8 mem 5.7703 kl 0.0023 host_ce 3.5050 drift -0.0238
+    seed1 snap   13 mem 5.0728 kl 0.0056 host_ce 3.5169 drift -0.0120
+    seed1 snap   21 mem 4.0316 kl 0.0077 host_ce 3.5181 drift -0.0107
+    seed1 snap   34 mem 2.6680 kl 0.0079 host_ce 3.5936 drift +0.0647
+    seed1 snap   55 mem 1.9974 kl 0.0025 host_ce 3.6026 drift +0.0738
+    seed1 snap   89 mem 1.8668 kl 0.0017 host_ce 3.5930 drift +0.0641
+    seed1 snap  144 mem 1.7045 kl 0.0066 host_ce 3.5729 drift +0.0440
+    seed1 snap  233 mem 1.2979 kl 0.0148 host_ce 3.5529 drift +0.0241
+    seed1 snap  377 mem 0.9439 kl 0.0157 host_ce 3.5904 drift +0.0615
+    seed1 snap  499 mem 0.9060 kl 0.0155 host_ce 3.6367 drift +0.1079
+[tw2] deranged seed1 done (stop 500 matched_budget)
+    seed2 snap    0 mem 6.5269 kl 0.0007 host_ce 3.5245 drift -0.0043
+    seed2 snap    1 mem 6.5097 kl 0.0007 host_ce 3.5195 drift -0.0093
+    seed2 snap    2 mem 6.4585 kl 0.0008 host_ce 3.5202 drift -0.0086
+    seed2 snap    3 mem 6.3735 kl 0.0008 host_ce 3.5256 drift -0.0032
+    seed2 snap    5 mem 6.1496 kl 0.0015 host_ce 3.5253 drift -0.0035
+    seed2 snap    8 mem 5.7803 kl 0.0024 host_ce 3.5209 drift -0.0079
+    seed2 snap   13 mem 5.0943 kl 0.0057 host_ce 3.5135 drift -0.0153
+    seed2 snap   21 mem 4.0797 kl 0.0075 host_ce 3.5222 drift -0.0067
+    seed2 snap   34 mem 2.6988 kl 0.0074 host_ce 3.5853 drift +0.0564
+    seed2 snap   55 mem 1.9939 kl 0.0024 host_ce 3.5966 drift +0.0677
+    seed2 snap   89 mem 1.8626 kl 0.0015 host_ce 3.5997 drift +0.0709
+    seed2 snap  144 mem 1.7057 kl 0.0066 host_ce 3.5750 drift +0.0462
+    seed2 snap  233 mem 1.3387 kl 0.0135 host_ce 3.5692 drift +0.0403
+    seed2 snap  377 mem 0.9463 kl 0.0163 host_ce 3.6026 drift +0.0738
+    seed2 snap  499 mem 0.9085 kl 0.0158 host_ce 3.6268 drift +0.0980
+[tw2] deranged seed2 done (stop 500 matched_budget)
+[tw2] wrote results/type-write-v2/qwen3-4b/results.json
+[tw2] V1 p=0.0005 pass=True | V2 p=0.1598 pass=False | V3 p=0.0001 pass=True | V4t p=0.0005 pass=True | V4d p=0.0001 pass=True | recall pass=True | host=True
+[tw2] held: base=0.138 wire=1.337 der=-0.955 | train: base=0.356 wire=8.833 der=-8.634
+[tw2] VERDICT: MEMORIZED-ONLY
