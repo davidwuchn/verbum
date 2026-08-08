@@ -239,6 +239,32 @@ intermediate; do not upgrade it to causal. Mechanism sub-verdict is advisory
 — if SGD/Adam/Hessian arms do not separate, report AMBIGUOUS, do not pick.
 Widened-capture findings are IOUs, never licensed by G1–G4. Model: qwen3-4b.
 
+**🔄 BUILD AMENDMENT (s323, Michael GO "option 1", pre-run, runtime-forced;
+gates/verdicts/a-priori UNCHANGED — instrument-side only).** The smoke
+(`flip_conflict.py`, qwen3-4b) showed **effective-weight `W_base+ΔW` sign flips
+are intrinsically RARE in a frozen-base LoRA wire** (<0.4% of coords ever flip
+under SGD, ~1.6% under Adam, even in the bottom-8% |W_base| band, with dense
+per-step sampling) → the frozen effective-weight framing would land an
+uninformative VOID. The **delta's own `sign(ΔW_k)`** is the direct
+antipodal/sigma-delta quantity (a contested coord has ΔW dithering ~0: μ≈0 /
+high flip-rate = the §2 signature). Amendment (4 parts): **(1)** PRIMARY flip
+register = `sign(ΔW)` (delta); effective-weight flips captured SECONDARY.
+**(2)** BURN-IN (0.4) drops the `B=0` cold-start dither window; flip-rate read
+on the late window (healthy ~20% oscillating population). **(3)** G3
+committed-pole re-based on `|ΔW|` (committed delta = large stable, low
+flip/conflict); **|W_base| kept as a REPORTED COVARIATE**
+(`boundary_churn_covariate` = spearman(flip, |W_base|); <0 = flip rises where
+|W_base| small) → the **boundary-churn structural pin survives as a covariate
+reading, NOT the primary gate** (the direct boundary-churn-MECHANISM test is
+correspondingly demoted; the CORE conflict-meter claim G1/G2 is tested more
+faithfully). **(4)** `lr_sgd = 0.1` (0.02 too slow to move ΔW; puts the EOS
+ceiling 2/η = 20 in reach — smoke λ_max 21.8 → EOS detected). Also disclosed:
+R2 coordinates are a stratified SAMPLE (~48k) of effective-ΔW entries per band
+layer (census infeasible for per-class gradients), stratified by |W_base|.
+Harness `scripts/explore/flip_conflict.py`; --validate 4 planted worlds +
+2 primitives ALL PASS (deterministic), ruff clean, smoke green (flip_pop ~0.25,
+HVP finite, G0/G3 sane, verdict not read).
+
 ## Provenance
 
 - Michael's observation + overloading speculation (pre-s322, standing);
