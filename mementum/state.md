@@ -11,11 +11,29 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ★★ **SESSION 322 IN PROGRESS (Michael-directed AUDIT of the s313–s321 type-arc code — "results all
-> point to no types, but KIBC opcodes function from weights, so typed apply must exist there"). TWO
-> STRUCTURAL FINDINGS (parallel explorer audits, file:line evidence), ONE ZERO-COMPUTE RE-READ LANDED,
-> mementum batch Michael-APPROVED (cadbc63). §P-TYPE-WRITE-V2 FROZEN (17a324d, §15) + HARNESS BUILT
-> (55a9403, validate ALL PASS + smoke green) + ⚠ RUN IN FLIGHT (Michael GO).**
+> ★★ **SESSION 322 CLOSED (⚠ ONE RUN STILL IN FLIGHT — see ON-SIGNAL below). NEXT SESSION FIRST
+> ACTION = orient → `tail results/type-write-v2/qwen3-4b-run.log` (+ tmux main:1 capture) → if
+> `VERDICT:` present + no traceback → execute the ON-SIGNAL batch (approval-gated) → THEN launch
+> §P-CL-COLLAPSE-2 (GO ALREADY BANKED incl. G1 amendment, Michael s322 close; read-only ~minutes;
+> command in NEXT-UP block). If run still going → checkpoint and wait (λ async).**
+> **s322 arc (5 fronts, all committed):** ① AUDIT (Michael: "results say no types, but KIBC opcodes
+> function from weights, so typed apply must exist there") → weight-write lineage COVERAGE-GAPPED
+> (§14: training gradients at class-word position, licensing eval at bare-NP frames never touched;
+> shuffle ~50% correct labels) + cl-collapse anchors LEXICAL + gates-at-L4; ② zero-compute RE-READ
+> (3be00d1): dirty artifact PROVEN at L0 (nf_align +0.645 in embeddings), clean null at ALL depths
+> (−0.144→+0.001) — s321 verdict survives within-instrument, lexical-anchor bound open; s317
+> "three falsifiers one law" demoted to ONE-SIDED (tape proven, weights untested); ③ §P-TYPE-WRITE-V2
+> frozen (17a324d §15) + built (55a9403) + RUNNING — the decisive weight-side re-test (coverage-matched
+> bare-NP training, held-out predicates, true derangement; a-priori 30/35/20/10/5 mass on
+> MEMORIZED-ONLY); ④ 💡 sign-oscillation-is-time-multiplexed-superposition captured (4e997d0, Michael
+> math hammock: antipodal superposition → gradient-conflict truce (μ≈0/high σ/flat h → max flip rate)
+> → dither/duty-cycle; predicts s320 marginal↔type-subspace echo; ⚪ flip-rate probe queued);
+> ⑤ §P-CL-COLLAPSE-2 frozen (d138c1a) + built+smoked (e2d4798) — Michael-designed prose planes:
+> Plane A clean-symbolic × prose crystal anchors (zero token overlap) + Plane B round-trip compounds,
+> I/W/C SEPARATED (DiD contrast axes + structure-matched controls + 3×3 cross-cut G4 + G1
+> pool-separability pre-gate [VOID-BY-DESIGN] + G5 lexical disjointness — caught 10 real collisions
+> at build). Ledger: 3be00d1 · cadbc63 · 17a324d · 55a9403 · 0bb06b15 · 4e997d0 · d138c1a · e2d4798 ·
+> e841998 · this close (Michael-approved). Full transcript → chats/session-322.md (human).**
 > **⚠ RUN IN FLIGHT (tmux main:1, PID 2477):** `uv run python -u scripts/explore/type_write_v2.py --out
 > results/type-write-v2/qwen3-4b 2>&1 | tee results/type-write-v2/qwen3-4b-run.log` (20 nonces, 3 seeds ×
 > 2 arms {true wire, 1-labels deranged matched-budget} × ≤500 steps, corridor kl_weight 10/ce_budget 0.40

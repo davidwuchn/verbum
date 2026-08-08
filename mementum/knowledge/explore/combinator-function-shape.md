@@ -369,6 +369,8 @@ For each target T ∈ {I, W, C}:
   separable pools (planted operational world → false VOID). Pool separability
   is the quantity VOID-BY-DESIGN needs; residual axis coupling is shared
   across targets and handled by G4. Gates/verdicts/a-priori UNCHANGED.
+  **Michael GO (s322 close) — launch is authorized; run lands next session
+  after type-write-v2 frees the device.**
 - **G2 PLANE-A CROSS-STYLE:** clean symbolic compounds (v1's 7 clean groups,
   kernel-certified, n_per 20), `nf_align − op_align` on PROSE anchors beats
   the shuffled-NF-assignment null, at the late band.
