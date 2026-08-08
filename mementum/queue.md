@@ -11,6 +11,7 @@
 
 # new
 
+⚪ flip-rate ↔ gradient-conflict — is sign-oscillation rate a per-coordinate conflict meter (freeze-sign ablation as causal arm)? | sign-oscillation-is-time-multiplexed-superposition | cheap
 🔵 type-write v2 (coverage-matched) — does weight-installed membership license under FAIR coverage (bare-NP frames in CE, held-out predicates, true derangement)? decisive re-test of §9/§13 | types-are-injectable-relations §15 | medium
 ⚪ cl-collapse v2 (functional anchors) — extensional routing vs functional-equivalence anchors, clean spellings only, per-layer gates | combinator-function-shape §Re-read | medium
 ⚪ crystal-seeded init — crystal prior vs random init on compositional tasks; cheapest level-4 rung | training-design-from-the-hologram | medium
