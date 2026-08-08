@@ -11,6 +11,50 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 321 COMPLETE (one probe closed: §P-CL-COLLAPSE → ❌ CL-ALGEBRA-NOT-EXTENSIONAL).
+> NEW FRONT off the queue (Michael picked "CL-identities as routing constraints", combinator-function-shape
+> Open leads #1+#3) = THE COMPOSITIONALITY probe (open S5 cell). NEXT SESSION FIRST ACTION = orient →
+> FRONT SELECTION (λ queue FULL read; all s321 batches committed; nothing pending/in-flight).**
+> **§P-CL-COLLAPSE (detail: combinator-function-shape.md §Result + git + chats/session-321.md):** the crux —
+> the CL identity I=SKK says compound `SKK` IS the identity; does it ROUTE like I (EXTENSIONAL, opens
+> compositionality✓) or like its fired opcodes [S,K] (OPERATIONAL, favored by head-combinator-isa + s317
+> tape-resident)? Construction = NORMAL-FORM COLLAPSE: kernel-certified compound spellings sharing ONLY the
+> NF (I: SKK/SKS/WK/CKK/KII/S(KI)I · W: SS(KI)/CSI · B: S(KS)K/BIB), head+fired VARY. Register ROUTING
+> (sign gate_proj pre-act, CMR). **🎯 FROZEN (306fea0)** Michael GO; a-priori EXTENSIONAL 20 / OPERATIONAL
+> 45 / SYNTACTIC-TOKEN 20 / MIXED 10 / VOID 5 (NOT tuned, mass on operational). **🔄 BUILD AMENDMENT
+> (e828386, runtime-forced, pre-run, Michael GO, instrument-side ONLY — register/gates/verdicts/a-priori
+> UNCHANGED): STYLE-MATCHED SYMBOLIC ANCHORS.** The frozen spec named crystal_probes() anchors, but crystal
+> primitives are ~entirely NATURAL LANGUAGE ("The cat cleaned itself"=I) vs terse SYMBOLIC compounds
+> ("S K K x") → style confounds function, ASYMMETRICALLY favoring the already-favored OPERATIONAL
+> (false-negative risk on the surprising EXTENSIONAL); fix = symbolic saturated anchors, CL5 void-gate
+> measured on them in the alignment pool (crystal s217 z=7.97 = external ref). **✅ HARNESS
+> (scripts/experiments/cl_collapse.py): every collapse compound CERTIFIED per-instance
+> reduce(compound)==reduce(NF-primitive) on same atoms (the CL identity, kernel-proven); --validate 4
+> planted worlds (EXTENSIONAL/OPERATIONAL/SYNTACTIC/VOID) ALL PASS; ruff clean; no diags; qwen3-4b smoke
+> green (CL5 z=10.78, verdict not read).** **✅ RUN LANDED (cb3fdd3 autonomous, read-only ~45s, tmux main:1,
+> 426 probes): VERDICT MIXED-REDUCTION-VISIBLE (pre-reg tree) → mechanism QUALIFIED-OPERATIONAL/SYNTACTIC.**
+> CL5 z=+35.37 (register strongly forms). CL1 nf +0.062 > op −0.035 (beats shuffled null p_shuf=0.002) but
+> paired NF>OP p=0.0515 (marginal miss) → pass=False. CL2 within-NF coh 0.112 < token-matched null 0.174
+> p=0.70 → FAIL (coherence alphabet-driven not NF-driven; W spellings anti-cohere). **THE READ (decisive
+> per-row split, don't over-read the MIXED label): the positive mean-NF is a LITERAL SYMBOL-PRESENCE
+> artifact.** DIRTY spellings (NF-symbol present/fired: KII, S(KI)I, BIB) nf +0.280 vs CLEAN dissociating
+> spellings (NF-symbol ABSENT: SKK, SKS, WK, CKK, SS(KI), CSI, S(KS)K) nf **−0.031**. Where the dissociation
+> is genuine there is NO extensional routing — `SKK` does NOT route like I; `WK` routes toward its HEAD (W).
+> **Extensional/compositional routing FALSIFIED in the clean subset; the substrate routes by what is WRITTEN
+> and what FIRES, not the function computed.** Upholds the favored OPERATIONAL prior + coheres s317
+> tape-resident reduction (static read of a compound ≠ its normal form). CL4 "rising" Δ (0.013→0.162) is
+> NOT reduction-evidence — it's the DIRTY spellings' symbol-presence signal strengthening late. **S5
+> scorecard: discreteness✓ selectivity✓ compositionality✗ (this probe) causality✗ — the register carries
+> combinator IDENTITY (s217) but NOT the ALGEBRA (syntactic/operational identity register, not extensional).**
+> **Method lesson banked:** the clean dissociation REQUIRES NF-symbol absent from the compound; the 3
+> confounded spellings should have been excluded/separated at design (a-priori NF>OP could pass on them
+> alone) — caught by the pre-registered per-row readout, not the aggregate. v2 = clean spellings only, more
+> of them, per-subset gates. Memory: `routing-tracks-symbol-presence-not-extensional-normal-form.md`.
+> **s321 ledger (all committed):** 306fea0 freeze + queue 🔵 · e828386 harness + amendment · cb3fdd3 results
+> (autonomous) · §Result + memory + INDEX + queue closure + this state (Michael approval batch, this commit).
+> **Sharpest standing leads (queue front): crystal-seeded init (cheapest level-4) · Oracle germination game ·
+> §P-COHERENT-WRITE · GS-iterative base decomposition.**
+>
 > ★★ **SESSION 320 COMPLETE (TWO probes closed → the §6 type-fingerprint TIER is COMPLETE 4/4:
 > ① §P-IDEMPOTENCY → ✅ NON-IDEMPOTENT (3rd fingerprint, FIRST in the s317–320 arc to clear its
 > make-or-break confound gate); ② §P-BOUNDARY-CHURN → ✅ BOUNDARY-IS-TYPED (QUALIFIED) (4th/last

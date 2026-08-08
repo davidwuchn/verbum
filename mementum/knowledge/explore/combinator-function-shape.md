@@ -221,3 +221,53 @@ OPERATIONAL is the EXPECTED result → a clean confirmation of s317, informative
 failure. EXTENSIONAL is the surprise that opens the compositionality cell. MIXED
 with a rising CL4 depth curve is the richest read (reduction across depth). VOID
 only if the register fails to form (smoke silhouette makes this unlikely).
+
+### §Result — Qwen3-14B: MIXED-REDUCTION-VISIBLE → routing is SYMBOL-PRESENCE, not extensional (s321)
+
+**VERDICT (pre-registered tree): MIXED-REDUCTION-VISIBLE.** But the per-spelling
+rows resolve it decisively — the mechanism read is **QUALIFIED-OPERATIONAL /
+SYNTACTIC: routing tracks the combinators literally present in the compound, NOT
+its extensional normal form. The CL algebra does NOT hold as routing geometry.**
+Compositionality S5 cell stays ✗. (426 probes; best layer L4 f=0.10; read-only;
+results `cb3fdd3`.)
+
+**Gates.** CL5 anchor-sil **z=+35.37** (register strongly forms — style-matched
+symbolic anchors separate; NOT void). CL1 mean_nf **+0.062** > mean_op −0.035
+(Δ+0.097; beats shuffled-label null p_shuf=0.002) BUT paired NF>OP **p=0.0515**
+(marginal miss) → **pass=False**. CL2 within-NF coherence **0.112 < token-matched
+null 0.174** (p=0.70) → **FAIL**: collapse spellings cohere LESS than same-alphabet
+varied-NF distractors — coherence is alphabet/token-driven, not NF-driven (W
+spellings even ANTI-cohere, ρ=−0.16). CL3 op −0.035 / head +0.003 / tok −0.140.
+CL4 "rising" True (Δ 0.013→0.162) but see below — NOT trustworthy as reduction.
+
+**THE READ (the decisive datum).** The whole positive mean-NF is a **literal
+symbol-presence artifact**. Split the collapse spellings by whether the NF-symbol
+appears in the compound:
+
+| subset | spellings | mean nf_align |
+|--------|-----------|:---:|
+| **DIRTY** (NF-symbol present/fired) | `KII`, `S(KI)I` (I fires), `BIB` (B head) | **+0.280** |
+| **CLEAN** (NF-symbol ABSENT — the real dissociation) | `SKK`, `SKS`, `WK`, `CKK`, `SS(KI)`, `CSI`, `S(KS)K` | **−0.031** |
+
+Where the dissociation is genuine (NF-symbol absent), there is **NO extensional
+routing** (−0.03; head +0.014, op −0.064 — all ≈0). Per-row, `WK` routes toward its
+HEAD (W, +0.29) not I; `SKK`/`SKS`/`CKK` route toward nothing. The three spellings
+that *looked* extensional (`KII`→I, `S(KI)I`→I, `BIB`→B) are exactly those where the
+NF-symbol is literally the head/a fired opcode. **Extensional/compositional routing
+is falsified in the clean subset; the substrate routes by what is written and what
+fires, not by the function computed.** This upholds the favored OPERATIONAL prior
+and coheres with s317 tape-resident reduction (the reduction is enacted per-frame;
+a static read of a compound does not see its normal form). CL4's rising Δ is not
+reduction-evidence — it is the DIRTY spellings' symbol-presence signal strengthening
+late.
+
+**Method lesson banked.** The clean dissociation REQUIRES the NF-symbol absent from
+the compound; the 3 confounded spellings (KII, S(KI)I, BIB) should have been
+excluded or analyzed separately at design time (the a-priori NF>OP could pass on
+them alone). A v2 would use only clean spellings, more of them, and per-subset gates.
+The confound was caught here by the pre-registered per-row readout (CL3 + the
+dirty/clean split) — the rows earned the honest verdict the aggregate blurred.
+
+**S5 scorecard: discreteness✓ selectivity✓ compositionality✗ (this probe) causality✗.**
+The register carries combinator IDENTITY (s217) but NOT the combinator ALGEBRA —
+it is a syntactic/operational identity register, not an extensional one.
