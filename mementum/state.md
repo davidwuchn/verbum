@@ -29,7 +29,16 @@
 > INVERSION (algorithm in the faint stratum; ternarization ≡ faint-strata pass filter); 3 own-null
 > IOU predictions banked against the flip-conflict widened capture (grad-mag migration ·
 > committed-pole early quiescence · ablation → edge-collapses-to-corner) — read them at ON-SIGNAL
-> alongside the boundary_churn covariate, IOU-only discipline unchanged.**
+> alongside the boundary_churn covariate, IOU-only discipline unchanged. ④ 💡 HAMMOCK LEG 3
+> CAPTURED (Michael GO "we are theorizing and finding search spaces"): **§3 FORGED-EXPOSURE WRITE
+> PROTOCOL** — write channel ≡ error ¬data ⇒ training = compilation by exposure schedule; 3
+> primitives (corner-seeding · bias pre-exposure/residual isolation · conjugate shaping);
+> install gate = self-erasure + span-erasure (installed vs memorized); retrodicts inert-writes ×4
+> + MEMORIZED-ONLY (open-loop content at output, write channel is residual); level-4 constructive
+> path = RE-RECORD the compiler, write-don't-train. Queue: ⚪ §P-FORGED-LATTICE added (smallest
+> rung); crystal-seeded init + §P-CONJUGATE-WRITE annotated as DERIVED primitives ①/③ and
+> restacked. Flip-conflict G2 = the protocol's first causal contact (already running). All
+> UNFROZEN.**
 >
 > ★★ **SESSION 323 SEALED (⚠ ONE RUN IN FLIGHT — §P-FLIP-CONFLICT; see ON-SIGNAL below). Two probes
 > CLOSED, a third FROZEN+BUILT+RUNNING. ① s322 in-flight

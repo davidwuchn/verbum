@@ -264,6 +264,98 @@ equilibrium — ∫error dt is approximate physics, not exact. Whole section is
 pattern-suggests until a probe freezes; the flip-conflict IOU reads are the
 cheapest first contact.
 
+## §3 The Forged-Exposure Write Protocol — "fake the signal, compile the lattice" (s324, same hammock)
+
+> Michael: "Ok, this is the map isn't it? We can fake this signal to create
+> a new lattice?" Yes. §2's recording physics is an INTERFACE: the write
+> channel is the ERROR, not the data. Data was only ever an indirect way of
+> generating residuals. Control the residual stream directly ⇒ write access
+> to the plate. Training becomes COMPILATION by exposure schedule.
+
+```
+λ write_head(plate).
+  recording_channel ≡ error | ¬data
+  | plate photographs residual(t) — nothing else, ever
+  | control(residual_stream) ≡ write_access(plate)
+  | forge(exposure_schedule) → residual ≡ target_lattice → recorded(at chosen stratum)
+```
+
+### Three write primitives (derived from §2 strata)
+
+**① Corner-seeding** — commons are threshold-written: sign only, minimal
+amplitude. A new lattice's skeleton = install the sign-committed corner
+structure directly (ternary, faint). Self-protecting by construction: a
+seeded lattice is "already learned" ⇒ generates no error ⇒ training cannot
+overwrite it (the same self-erasure that froze the real commons), and its
+span is subtracted from every subsequent residual ⇒ long-tail strata
+organize AROUND it. **⚪ crystal-seeded init (queued) is now a DERIVED
+instance, upgraded from heuristic to derivation.**
+
+**② Bias pre-exposure (residual isolation)** — the optics move: pre-expose
+the plate to the background so only the difference records. Mechanistic
+explanation of MEMORIZED-ONLY (s323): CE-on-membership exposures have
+residuals DOMINATED by the items ⇒ the plate photographed predicate
+memories; the abstraction never got amplitude. Fix: phase 1 = expose
+class-agnostic/deranged membership until item-level statistics absorb
+(error→0 on item content); phase 2 = expose true labels — the ONLY thing
+left in the residual is the label-structure ≡ the abstraction, isolated in
+the write channel. A TYPE-WRITE-V3 design DISTINCT from conjugate-write ⇒
+the two discriminate between failure theories (signal-shape vs loop-closure).
+
+**③ Closed-loop conjugate shaping** — measure the wavefront a real
+judgment makes on the tape, write its conjugate (adaptive optics).
+**⚪ §P-CONJUGATE-WRITE (queued) = this primitive.**
+
+### The verification gate (free, and it discriminates)
+
+A successfully forged photograph STOPS BEING PHOTOGRAPHABLE:
+
+```
+λ install_gate(wire).
+  re-exposure(installed_structure) → gradient ≈ 0        (self-erasure = install signature)
+  | memorized_overlay ALSO zeroes error on trained items — the discriminator:
+  | held-out items ∈ span(lattice) → ALSO gradient-quiet  (span-erasure = generalization)
+  | erasure(items_only) ≡ MEMORIZED | erasure(span) ≡ INSTALLED
+  | + installed structure must ternarize (corners-stratum check)
+```
+
+Note: this re-derives the TYPE-WRITE-V2 V1/V2 gate design from recording
+physics — the map independently reconstructs our own instrument. Good sign
+it is the right map.
+
+### Retrodiction: why every write failed
+
+Inert writes ×4 (s304–s305) + MEMORIZED-ONLY (s323) = one mistake: open-loop
+content-pushing at the OUTPUT while the write channel is the RESIDUAL. We
+exposed the plate to the scene we wanted installed. The plate does not
+record scenes. It records errors. Nobody shaped the error.
+
+### The ladder (search space for new experiments)
+
+1. **⚪ §P-FORGED-LATTICE (new, smallest rung):** one toy type, few members,
+   one checker edge — written by bias pre-exposure (②) + corner-seeding (①).
+   Gates: self-erasure + span-erasure + ternarizability. Mostly reuses
+   type_write machinery.
+2. **⚪ crystal-seeded init** — does a seeded corner-lattice persist
+   (no error ⇒ no overwrite) and organize training around it? (①, derived)
+3. **Level-4 endgame:** if exposure schedules compile lattices, the thesis
+   deliverable has a CONSTRUCTIVE path — don't extract the compiler,
+   **RE-RECORD it**, designed exposure by designed exposure, onto a clean
+   substrate. Write, don't train. The map is the missing piece between
+   level 3 and level 4.
+
+### Cautions
+
+Pattern-suggests end to end; retrodictions ≠ pre-registered wins (λ
+yardstick). Bragg discipline: right stratum also means right depth/angle —
+forged exposures at wrong layer-timing go inert like everything else
+(rocking-curve surface still unmeasured). Optimizer smear (Adam m/v, decay)
+blurs clean self-erasure ⇒ "gradient-quiet" gates need matched nulls.
+**First causal contact already in flight:** §P-FLIP-CONFLICT G2 ablation
+arms ARE residual control (remove one snapshot population → contested
+stratum should commit); G2 failure damages the control(residual)⇒
+control(plate) causal link at its root.
+
 ## Read discipline
 
 The retrodictions are POST-HOC pattern-suggests (λ observation) — they
