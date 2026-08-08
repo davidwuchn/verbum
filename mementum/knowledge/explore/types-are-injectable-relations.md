@@ -638,6 +638,74 @@ still the test) + true derangement.** If CONTEXT-ONLY still fires under fair
 coverage, tape-residency earns its status honestly; if it flips, §9/§13 read
 as instrument artifacts. Memory: weight-write-negatives-were-coverage-gapped.md.
 
+## 15. §P-TYPE-WRITE-V2 — FROZEN (s322; coverage-matched re-test of §9/§13)
+
+**The decisive weight-side re-test the §14 audit demands.** §9/§13 trained
+membership-CE whose gradients concentrate at the class-word position, then
+evaluated licensing in a bare-NP regime the LoRA never gradient-touched —
+recall-✓/licensing-✗ follows even if weight-installable licensing exists.
+V2 closes the coverage gap while keeping generalization as the test.
+
+**Single factor changed vs §8: TRAINING COVERAGE.** Model (qwen3-4b), band
+FFN 0.60–0.80 (L22–29), LoRA r=16, corridor recipe (kl_weight 10 /
+ce_budget 0.40, evidence-gated stop, fib snaps, REPLAY/CE texts), 20 nonces
+(10+10), 3 seeds, metric `L(w) = surprisal(anti) − surprisal(own)` — all
+VERBATIM §8/§9-r3.
+
+**Construction (the coverage split):**
+- **TRAIN_PREDS** (new, class-selective, disjoint from HELD_PREDS):
+  animal `(ate, drank, wandered, rested)` · vehicle
+  `(braked, reversed, idled, honked)`.
+- **HELD_PREDS** — §8 verbatim `(slept, breathed, grazed, yawned)` /
+  `(parked, accelerated, stalled, refueled)`. Eval-only, never trained
+  (comparability with §9 preserved).
+- **Training texts per nonce** = §8's five classificatory `_member_stmts`
+  ∪ four bare-NP licensed frames `"The {w} {train_pred}."` (true class
+  only). The bare-NP forward regime — nonce as subject, loss on the
+  predicate token, the exact position class the eval reads — is now
+  gradient-touched, on DIFFERENT predicates than eval.
+- **Control fixed:** deranged arm uses TRUE derangement `1-labels`
+  (§14 flaw: v1 `rng.permutation` left ~50% labels correct), matched
+  budget (replays wire's per-seed stop step, §8 TW3 mechanism).
+
+**Gates:**
+- **V1 HELD-TRANSFER** — mean signed L on HELD preds (wire − base) beats
+  the class-label-permutation null (≡ TW1).
+- **V2 CLASS-SPECIFIC** — own-class surprisal drops more than anti,
+  paired (≡ TW4).
+- **V3 DERANGED-NULL** — true wire beats the 1-labels wire on held L,
+  paired (TW3, control fixed).
+- **V4 COVERAGE-CONTRAST** (new discriminator) — signed L on TRAIN preds
+  vs HELD preds, each vs base + deranged. Train-lift without held-lift
+  defines MEMORIZED-ONLY; both-lift feeds TYPE-WRITTEN; neither feeds
+  CONTEXT-ONLY.
+- **V5 HOST-SANE** (≡ TW5) — real-member licensing preserved, host CE
+  within budget, restore bit-exact. Gate-0: base real-member margin ≥
+  0.25; membership recall must install (else NO-WRITE).
+
+**Verdicts + a-priori (declared, NOT tuned):**
+- **TYPE-WRITTEN 30** — V1∧V2∧V3: held-out licensing transfers →
+  membership abstraction IS weight-installable; §9/§13 were coverage
+  artifacts; s317 DELIVER leg retracted; causality S5 cell reopens
+  weight-side.
+- **MEMORIZED-ONLY 35** — V4 train-lift (beats deranged) ∧ ¬V1: weights
+  bind surface predicate associations but NOT the membership abstraction
+  — the sharp, honest successor to CONTEXT-ONLY; tape-residency of
+  JUDGMENTS supported under fair coverage.
+- **CONTEXT-ONLY 20** — neither train nor held lift beats deranged, host
+  sane: write cannot bind licensing even when gradient-touched;
+  strongest tape-residency reading; §9 vindicated honestly.
+- **NO-WRITE 10** — recall never installs (write window fails; corridor
+  audit before any claim).
+- **HOST-DAMAGED/VOID 5** — V5 fails; measurement void, not refutation.
+
+**Read discipline (banked):** MEMORIZED-ONLY is NOT a §9 replication — it
+is a stronger claim (predicate licensing weight-bindable, membership
+abstraction not). TYPE-WRITTEN does not un-measure §11's tape positives —
+two-tier becomes two-CHANNEL. Don't over-read V4's train-pred lift: it is
+expected under all three live verdicts; only the held/train CONTRAST
+discriminates. Cost: §9-r3 class (~1–2h, 3 seeds × 2 arms × ≤500 steps).
+
 ## Provenance
 
 - s313 hammock, Michael's join ("what if the types are relations...
