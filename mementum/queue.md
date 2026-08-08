@@ -11,7 +11,7 @@
 
 # new
 
-⚪ flip-rate ↔ gradient-conflict — is sign-oscillation rate a per-coordinate conflict meter (freeze-sign ablation as causal arm)? | sign-oscillation-is-time-multiplexed-superposition | cheap
+🔵 §P-FLIP-CONFLICT (flip-rate ↔ gradient-conflict) — is sign-flip rate a per-coordinate conflict meter (partial corr | |W|,σ), and does population-ablation FREEZE contested signs (causal arm)? FROZEN s323 (Michael GO): type-write two-class wire, both registers (effective gate_proj ΔW primary + LoRA A/B), 12-run matrix (both/A-only/B-only × SGD/Adam × 3 seeds), G1 conflict-meter/G2 causal-freeze/G3 committed-pole/G4 mechanism-split(advisory), widened IOU capture; a-priori 35/30/25/10. Tests boundary-churn MECHANISM (flippable≡marginal band). NEXT: build harness → --validate → launch ~4-6h | sign-oscillation-is-time-multiplexed-superposition §6 | medium
 ⚪ crystal-seeded init — crystal prior vs random init on compositional tasks; cheapest level-4 rung | training-design-from-the-hologram | medium
 ⚪ signal-descent mirror — replace Adam magnitude calibration with ternary mirror stack on the delta substrate | signal-descent | medium
 ⚪ Oracle germination game — cold agent + theory seed predicts measured results? (corpus calibration) | germination-games | cheap

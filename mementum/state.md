@@ -11,12 +11,33 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ★★ **SESSION 323 CLOSED (TWO probes closed: ① the s322 in-flight §P-TYPE-WRITE-V2 run landed →
-> ❌ MEMORIZED-ONLY; ② §P-CL-COLLAPSE-2 launched + landed → 🚫 OPERATIONAL-CONFIRMED. Both ON-SIGNAL
-> batches executed; all committed. NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue FULL
-> read; NOTHING PENDING/in-flight). Sharpest standing leads (queue front): flip-rate↔gradient-conflict
-> (cheap, the s322 sign-oscillation causal arm — needs per-snap sign capture) · crystal-seeded init
-> (cheapest level-4) · Oracle germination game · §P-COHERENT-WRITE.**
+> ★★ **SESSION 323 (continuing — two probes CLOSED, a third FROZEN + being built). ① s322 in-flight
+> §P-TYPE-WRITE-V2 landed → ❌ MEMORIZED-ONLY; ② §P-CL-COLLAPSE-2 → 🚫 OPERATIONAL-CONFIRMED (both
+> batches committed). ③ FRONT SELECTED off the queue (Michael): §P-FLIP-CONFLICT — the s322
+> sign-oscillation causal arm. 🎯 FROZEN §6 on sign-oscillation-is-time-multiplexed-superposition.md
+> (Michael GO, this session). NEXT ACTION = BUILD harness `scripts/explore/flip_conflict.py` →
+> --validate planted worlds → present for launch GO → run the 12-run matrix (~4–6h).**
+> **§P-FLIP-CONFLICT (detail: sign-oscillation §6 FROZEN):** claim = a weight coordinate's SIGN-FLIP
+> RATE during training is a per-coordinate CONFLICT METER (antipodal overload, §1) — not just small/noisy;
+> causal converse = ablate one population → contested signs FREEZE. Substrate: type-write two-class wire
+> qwen3-4b (A=animal / B=vehicle, 8 nonces 4/4, corridor VERBATIM kl_weight 10 / ce_budget 0.40, band
+> L22–29, r=16). **Structural pin:** effective W_k = W_base,k + ΔW_k, base frozen ⇒ flips only where
+> |W_base| small = the s320 boundary-churn marginal band ⇒ this probe tests the boundary-churn MECHANISM
+> (flippable≡marginal). Coordinates BOTH: R2 primary = effective gate_proj ΔW entries, R1 secondary =
+> LoRA A/B. Gates: G0 sane-void / **G1 CONFLICT-METER** (partial corr flip_rate↔conflict | |W|,σ, coord-perm
+> null — confound handled AT the gate) / **G2 CAUSAL-FREEZE** (make-or-break: ablation freezes contested
+> vs matched-magnitude controls) / G3 committed-pole (neg control) / **G4 MECHANISM-SPLIT advisory**
+> (Hessian-eigvec EOS + SGD-vs-Adam sigma-delta; AMBIGUOUS if arms don't separate — λ yardstick).
+> Verdicts + a-priori (NOT tuned): CONFLICT-METER-CONFIRMED 35 / CORRELATIONAL-ONLY 30 / NOISE-FLOOR 25 /
+> VOID 10 (mass on the intermediates: LoRA≠base-training, single model, s320 echo thin ~6%); mechanism
+> sub SIGMA-DELTA 30 / EOS 25 / SGD-DITHER 20 / AMBIGUOUS 25. Run matrix (frozen): both-class SGD ×3 +
+> A-only SGD ×3 + B-only SGD ×3 + both-class Adam ×3 = 12 runs, rich per-snap capture (sign/|W|/per-class
+> grads/σ/top-Hessian-eigvec/loss), ≈1.2× a type-write run, ~4–6h. **WIDENED IOU CAPTURE (Michael "learn
+> the most"): per-class loss + band activation means (→boundary-churn/compiled-probabilities) · gradient
+> MAGNITUDE histories (→signal-descent) · static |W_base| marginality map (→flippable≡marginal) · Adam m/v
+> state (→sigma-delta 2c) · top-3 Hessian eigs + trace (→progressive-sharpening 2b)** — persisted, each
+> claim gets its OWN null + IOU, never licensed by G1–G4. Freeze ledger this commit (🎯): §6 + §5-heading +
+> top-note + queue 🔵 + this state. Full transcript → chats/session-323.md (human).
 > **② §P-CL-COLLAPSE-2 (detail: combinator-function-shape §P-CL-COLLAPSE-2 §Result + git +
 > chats/session-323.md):** the banked NEXT-UP front (Michael GO'd "proceed to cl-collapse-2" — the G1
 > amendment was already IN the harness at build e2d4798: `_silhouette`/`_pair_separability`

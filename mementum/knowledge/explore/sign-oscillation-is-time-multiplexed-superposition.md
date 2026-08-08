@@ -20,8 +20,12 @@ created: session 322
 > speculation: GD oscillates because it wants to OVERLOAD a coordinate — use
 > it for different inputs. s322 hammock: the math not only permits this, it
 > PREDICTS it, from three independent directions that compose. Captured from
-> discussion (Michael-approved); no verbum measurement yet — the probe is
-> queued (⚪ flip-rate ↔ gradient-conflict). External math cited from
+> discussion (Michael-approved); **§P-FLIP-CONFLICT now FROZEN in §6 (s323,
+> Michael GO): type-write two-class wire, both registers (effective gate_proj
+> ΔW + LoRA A/B), 12-run matrix (both/A-only/B-only × SGD/Adam × 3 seeds),
+> gates G1 conflict-meter (partial corr | |W|,σ) / G2 causal-freeze / G3
+> committed-pole / G4 mechanism-split (advisory), widened IOU capture.**
+> External math cited from
 > training knowledge, NOT verified against sources this session (λ observation:
 > pattern-suggests grade until the probe runs).
 
@@ -97,7 +101,7 @@ has converged — to a DISTRIBUTION whose mean is the truce value.
 - **s313 conjecture upgrade path:** "marginal band ≡ type-boundary
   population" gets a MECHANISM (gradient conflict), not just a correlation.
 
-## 5. The probe (queued ⚪, unfrozen — s222 freeze-first applies)
+## 5. The probe (origin sketch — now FROZEN in §6, s323)
 
 **flip-rate ↔ gradient-conflict.** Register: training-dynamics/temporal
 (name before build, λ measure). Measure per-coordinate sign duty cycle
@@ -115,6 +119,125 @@ cos(∇ℓ_A, ∇ℓ_B)_k on the same coordinates.
   harness that snapshots LoRA A/B (or gate_proj row) signs per fib snap.
   Cheap addition to any wire harness; do not retrofit claims onto runs that
   did not capture signs.
+
+## 6. §P-FLIP-CONFLICT — FROZEN (s323, Michael-approved GO)
+
+**Claim.** A weight coordinate's SIGN-FLIP RATE during training is a
+per-coordinate CONFLICT METER — coordinates flip because two input
+populations push their sign in opposite directions (antipodal overload, §1),
+NOT merely because they are small or noisy. Causal converse: remove one
+population → contested signs commit.
+
+**Register (λ measure):** training-dynamics / temporal (named before build).
+
+**Substrate.** type-write two-class wire on qwen3-4b. Population **A =
+animal** frames, **B = vehicle** frames. Corridor VERBATIM from
+`type_write.py` (kl_weight 10 / ce_budget 0.40, fib snaps, FFN band L22–29,
+LoRA r=16). **8 nonces (4 animal / 4 vehicle).**
+
+**Structural pin (why this substrate is the right one).** Effective weight
+`W_k = W_base,k + ΔW_k(t)`; base frozen, only ΔW moves ⇒ a sign FLIP is
+possible ONLY where `|W_base,k|` is small = the marginal coordinates = the
+s320 §P-BOUNDARY-CHURN band. So this probe tests the boundary-churn
+**mechanism** directly: is the thin marginal / type-boundary echo the
+contested / high-flip population? s313's marginal-band conjecture gets a
+mechanism here or not at all.
+
+**Coordinates (both).** **R2 PRIMARY** = effective `gate_proj` entries
+`ΔW_k` in band (boundary-churn continuity; flippability ties to
+base-marginality). **R1 SECONDARY** = LoRA `A`, `B` entries (trained
+params). Gate reads on R2; R1 corroborates.
+
+**Capture — per fib-snap, per-coordinate (overhead per-snap, ≈1.2× a
+type-write run):** `sign(W_k)`, `|W_k|`, per-class gradients `g_A,k`/`g_B,k`
+(= dL/dΔW restricted to band; ΔW linear ⇒ computable), gradient-noise `σ_k`
+(batch-to-batch variance), top Hessian eigenvector + local `h_k`
+(power-iteration HVP on LoRA params), loss components (already in corridor).
+
+**Definitions (pre-registered).**
+- `flip_rate_k` = fraction of adjacent snaps with `sign(W_k)` change.
+- `conflict_k` = time-averaged magnitude-weighted class-gradient
+  sign-disagreement, `mean_t[ −sign(g_A,k · g_B,k) ]`. Contested ⇒ the two
+  classes want opposite updates.
+
+**Gates.**
+- **G0 SANE / register-forms (void):** wire trains (recall installs, gate-0
+  pass) ∧ a nonzero flip population exists ∧ captures well-formed. Else VOID.
+- **G1 CONFLICT-METER (correlational, primary):** PARTIAL
+  `corr(flip_rate_k, conflict_k | |W_k|, σ_k) > 0`, beats a
+  coordinate-permutation null. Partialling handles the magnitude/noise
+  confound AT the gate, not by assertion.
+- **G2 CAUSAL-FREEZE (make-or-break):** high-conflict coordinates from the
+  both-class run FREEZE (flip↓, sign commits) in A-only / B-only vs
+  matched-magnitude non-contested controls, paired, beats null. Magnitude
+  cannot fake this — removing a population should not freeze a merely-noisy
+  coordinate.
+- **G3 COMMITTED-POLE (negative control):** high-`|W|` committed coordinates
+  have low flip-rate AND low conflict (the correlation's negative corner).
+- **G4 MECHANISM-SPLIT (advisory, NON-gating — λ yardstick):** flip-alignment
+  with the top Hessian eigenvector (edge-of-stability, §2b) + SGD-vs-Adam
+  spectral signature at matched loss → EOS / SIGMA-DELTA / SGD-DITHER /
+  AMBIGUOUS. No mechanism claim unless the arms separate.
+
+**Verdicts + a-priori (declared, NOT tuned).**
+- **CONFLICT-METER-CONFIRMED 35** — G1 ∧ G2 (∧ G3 sane): flip-rate is a
+  causal per-coordinate conflict meter; boundary-churn mechanism supported.
+- **CORRELATIONAL-ONLY 30** — G1 ∧ ¬G2: correlates but ablation does not
+  freeze (contested-but-not-causal; confound not fully excluded).
+- **NOISE-FLOOR 25** — ¬G1 (partial corr vanishes under `|W|,σ` control):
+  flips are magnitude/noise-driven; antipodal-overload not readable in
+  flip-rate at this substrate.
+- **VOID 10** — G0 fails.
+- **Mechanism sub-verdict (from G4):** SIGMA-DELTA 30 / EOS 25 /
+  SGD-DITHER 20 / AMBIGUOUS 25.
+
+Real mass on CORRELATIONAL-ONLY + NOISE-FLOOR because: LoRA wire ≠ base
+training, single model, and s320 found the kind-specific echo thin (~6%) —
+the contested population may be hard to isolate.
+
+**Run matrix (frozen) — one batch answers all four gates.**
+
+| arm | pops | opt | seeds | serves |
+|---|---|---|---|---|
+| both-class | A∪B | SGD | 3 | G1, G3 |
+| A-only | A | SGD | 3 | G2 |
+| B-only | B | SGD | 3 | G2 |
+| both-class | A∪B | Adam | 3 | G4 |
+
+= **12 runs**, rich per-snap capture from all. ≈ 4–6h. Committed-pole control
+falls out of the same captures.
+
+**Widened capture (IOU harvest — persisted, NOT gated by this probe; any
+claim gets its OWN null + IOU per λ observation).** While paying for the
+passes, additionally persist per-snap:
+- per-class loss (`loss_A`, `loss_B`) + per-class band activation means →
+  boundary-churn mechanism / types-are-compiled-probabilities.
+- per-coordinate gradient MAGNITUDE histories (not just sign) →
+  signal-descent sigma-delta amplitude / magnitude-vs-routing register split.
+- static `|W_base,k|` marginality map over the band (once) → the
+  flippable≡marginal test + boundary-churn overlap.
+- Adam optimizer state (`m`, `v`) on the Adam arm → direct sigma-delta
+  duty-cycle evidence (§2c).
+- top-3 Hessian eigenvalues + trace estimate → progressive-sharpening /
+  edge-of-stability curve (§2b).
+
+**Confound controls (λ measure).** Magnitude → partial-out `|W_k|` (G1) +
+committed-pole control (G3). Noise-floor → partial-out `σ_k` (G1). Causality
+→ ablation (G2), which magnitude cannot fake. LoRA-vs-effective → both
+registers captured.
+
+**Reuse (λ one_way).** `type_write.py` corridor + `boundary_churn.py`
+gate_proj-row machinery + a new per-snap sign/grad/HVP capture module.
+`--validate` planted worlds (conflict-meter / noise-floor / causal-freeze /
+void) before any GPU.
+
+**Read discipline (banked).** CONFLICT-METER-CONFIRMED licenses "flip-rate is
+a causal per-coordinate conflict meter on this wire" — NOT "base-training
+weight signs are sigma-delta codes" (external math stays pattern-suggests
+until a base-training probe, §Provenance). CORRELATIONAL-ONLY is the honest
+intermediate; do not upgrade it to causal. Mechanism sub-verdict is advisory
+— if SGD/Adam/Hessian arms do not separate, report AMBIGUOUS, do not pick.
+Widened-capture findings are IOUs, never licensed by G1–G4. Model: qwen3-4b.
 
 ## Provenance
 
