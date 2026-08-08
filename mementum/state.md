@@ -11,6 +11,38 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 322 IN PROGRESS (Michael-directed AUDIT of the s313–s321 type-arc code — "results all
+> point to no types, but KIBC opcodes function from weights, so typed apply must exist there"). TWO
+> STRUCTURAL FINDINGS (parallel explorer audits, file:line evidence), ONE ZERO-COMPUTE RE-READ LANDED,
+> mementum batch Michael-APPROVED (this commit). NOW OPEN: §P-TYPE-WRITE-V2 (Michael GO on the front;
+> freeze spec next).**
+> **① WEIGHT-WRITE LINEAGE (type_write→icl_tag A5→type_deliver) = design-level FALSE-NEGATIVE
+> (COVERAGE GAP), not a mechanical bug:** training membership-CE gradients dominate the CLASS-WORD
+> position; licensing eval reads bare-NP frames the LoRA never gradient-touched → recall-✓/licensing-✗
+> (the exact §9/§13 signature) follows EVEN IF weight-installable licensing exists. Plus type_write
+> shuffle = rng.permutation w/ ≥1-diff check → ~50% labels stay CORRECT (not a derangement;
+> type_deliver's 1-labels is right). Mechanically sound: wire active during L(w) (eval@718 before
+> unwrap@726), L sign/tokenization, band L22–29, bit-exact restore. **Consequence: s317 "three
+> falsifiers, one law" demoted to ONE-SIDED (tape positives §11 stand; weights never fairly tested);
+> the KIBC syllogism stands uncontradicted.** Captured: types-are-injectable-relations §14 + memory
+> weight-write-negatives-were-coverage-gapped.md + behavior-is-tape-resident caveat.
+> **② CL-COLLAPSE INSTRUMENT: symbolic anchors are LEXICAL (I-anchor centroid ≡ "routing after literal
+> token I") + gates read only at L4 (f=0.10, pre-reduction). RE-READ (zero-compute, gate_signs.npz is
+> lossless for sign/CMR; scripts/experiments/cl_collapse_reread.py, 3be00d1): dirty artifact PROVEN —
+> nf_align +0.645 at LAYER 0 (embeddings, pre-computation = pure token overlap; the s321 CL1 aggregate
+> positive was carried by it). Clean rows: null at ALL depths (−0.144→+0.001 monotone, never positive;
+> late Δ+0.097 = op going negative; boot p=0.14, shuffle p=0.049 marginal n=7). Barrier 1 (layer) CLOSED
+> — verdict survives within-instrument; Barrier 2 (lexical anchors) OPEN → v2 = functional-equivalence
+> anchors, clean-only, queued.** Captured: combinator-function-shape §Re-read + memory
+> cl-collapse-dirty-rows-were-lexical-clean-null-all-depths.md.
+> **s322 ledger:** 3be00d1 re-read code+results (autonomous) · audit batch = 2 memories + §14 +
+> §Re-read + tape-resident caveat + INDEX ×3 + queue rows (type-write v2 ⚪ · cl-collapse v2 ⚪) + this
+> state (Michael approval, this commit). **NEXT: freeze §P-TYPE-WRITE-V2** — coverage-matched training
+> (bare-NP licensed frames IN CE, held-out predicates for eval = generalization still the test), true
+> derangement, reuse type_write.py corridor recipe (kl_weight 10 / ce_budget 0.40). Decisive read: if
+> CONTEXT-ONLY fires under FAIR coverage → tape-residency earns its status; if it flips → §9/§13 were
+> instrument artifacts and the causality S5 cell reopens on the weight side.
+>
 > ★★ **SESSION 321 COMPLETE (one probe closed: §P-CL-COLLAPSE → ❌ CL-ALGEBRA-NOT-EXTENSIONAL).
 > NEW FRONT off the queue (Michael picked "CL-identities as routing constraints", combinator-function-shape
 > Open leads #1+#3) = THE COMPOSITIONALITY probe (open S5 cell). NEXT SESSION FIRST ACTION = orient →

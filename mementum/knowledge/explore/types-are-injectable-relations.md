@@ -608,6 +608,36 @@ interventions finer than a band-LoRA. **Caveat:** single model (qwen3-4b),
 single grain (band-LoRA r=16); "no delivery" is scoped to this
 intervention class, not proven impossible for all weight edits.
 
+## 14. s322 audit caveat — §9/§13 negatives were COVERAGE-GAPPED (weights never fairly tested)
+
+**A s322 code audit of the write lineage (type_write.py → type_icl_tag.py A5 →
+type_deliver.py) found a design-level false-negative mechanism.** Mechanically
+sound: wire IS active during L(w) reads (eval before unwrap), L sign and
+tokenization correct, band L22–29 consistent, restore bit-exact. But:
+
+1. **Coverage gap (the crux).** Training = membership-CE on classificatory
+   sentences; gradient flow is dominated by the CLASS-WORD prediction
+   position. Licensing eval = bare-NP frames (`"The {w}" + pred`) — a
+   forward-pass regime the LoRA was never gradient-touched on. Recall passes
+   because the recall frame IS the training distribution. **Recall-✓/
+   licensing-✗ — the exact §9/§13 signature — is what a coverage gap produces
+   even if weight-installable licensing exists.** §9 CONTEXT-ONLY and §13
+   NO-WEIGHT-DELIVERY license "THIS training objective does not install
+   licensing", NOT "licensing is not weight-installable".
+2. **Weak control.** type_write.py's shuffle used `rng.permutation` with a
+   ≥1-difference check → ~50% labels stay correct (not a derangement;
+   conservative direction). type_deliver.py's `1-labels` is correct.
+
+**Consequence.** The two-tier reading (weights=checker, tape=judgments) stands
+as a one-sided finding: the tape positives (§11) are untouched, but the
+weight-side judgments question is REOPENED. The s317 triangulation
+(behavior-is-tape-resident-reduction §s317) inherits this caveat on its
+DELIVER leg. **Fix = §P-TYPE-WRITE-V2 (s322): coverage-matched training
+(bare-NP licensed frames in CE with held-out predicates for eval — generalization
+still the test) + true derangement.** If CONTEXT-ONLY still fires under fair
+coverage, tape-residency earns its status honestly; if it flips, §9/§13 read
+as instrument artifacts. Memory: weight-write-negatives-were-coverage-gapped.md.
+
 ## Provenance
 
 - s313 hammock, Michael's join ("what if the types are relations...

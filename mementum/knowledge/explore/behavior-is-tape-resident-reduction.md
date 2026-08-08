@@ -173,6 +173,17 @@ that *decreases* (a detector, not an accumulator — FUEL/TRACE-FUEL). Same
 "weights = step function, tape = trace" split as tool-calling and CoT, now
 measured for the type system. Three falsifiers, one law.
 
+**s322 audit caveat (demotion to one-sided).** A code audit found the DELIVER
+leg (and §9 behind it) COVERAGE-GAPPED: training gradients touch the class-word
+position while licensing eval reads bare-NP frames the LoRA never saw — the
+recall-✓/licensing-✗ signature follows even if weight-installable judgments
+exist (types-are-injectable-relations §14). FUEL/TRACE-FUEL are unaffected. The
+convergence above therefore reads: **tape-residency of judgments is proven from
+the tape side; the weights side was not fairly tested.** "Three falsifiers, one
+law" → two sound legs + one open question, pending §P-TYPE-WRITE-V2
+(coverage-matched). The KIBC syllogism (opcodes demonstrably function from
+weights → typed apply exists in weights somewhere) stands uncontradicted.
+
 ## Provenance
 
 - Michael's question + steer (s308); frame drafted by AI same session,

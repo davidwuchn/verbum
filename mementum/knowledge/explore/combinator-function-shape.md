@@ -271,3 +271,34 @@ dirty/clean split) — the rows earned the honest verdict the aggregate blurred.
 **S5 scorecard: discreteness✓ selectivity✓ compositionality✗ (this probe) causality✗.**
 The register carries combinator IDENTITY (s217) but NOT the combinator ALGEBRA —
 it is a syntactic/operational identity register, not an extensional one.
+
+### §Re-read (s322 audit) — artifact proven at L0; clean null at all depths; anchors bound the claim
+
+**EXPLORATORY post-hoc (not pre-registered).** s322 code audit flagged two
+structural concerns: (1) gates were read only at the anchor-silhouette layer
+(L4, f=0.10 — too early for multi-step reduction); (2) the symbolic anchors are
+LEXICAL (the I-anchor centroid ≡ "routing that follows the literal token `I`",
+not "routing of computed identity-ness"). gate_signs.npz is lossless for the
+sign/CMR metric → full clean/dirty × layer decomposition recomputed offline
+(`scripts/experiments/cl_collapse_reread.py`, results
+`results/cl-collapse/qwen3-14b/reread_late_layer.json`, commit 3be00d1).
+
+**Finding 1 — the artifact is proven, not inferred.** Dirty nf_align = **+0.645
+at LAYER 0** (embeddings — no computation has happened). The s321 CL1 aggregate
+positive was carried by token overlap that predates computation.
+
+**Finding 2 — the clean null holds at every depth.** Clean nf_align rises
+monotonically −0.144 (L0) → +0.001 (L39) and never crosses zero; the late Δ
++0.097 is op going negative, not nf going positive (boot p=0.14, shuffle
+p=0.049, n=7). **Concern (1) is closed: late layers do not rescue extensional
+routing under these anchors.** The OPERATIONAL verdict survives at all depths
+*within this instrument*.
+
+**Bound (concern 2, open).** With lexical anchors, an extensional signal living
+in a non-lexical direction is invisible **by construction** — the verdict
+licenses "no extensional routing *toward the literal-symbol anchor directions*",
+not "no extensional routing". The monotone clean rise toward zero is consistent
+with (but does not show) something drifting NF-ward late. **v2 requirements:
+functional-equivalence anchors (NF-ness established behaviorally across diverse
+held-out spellings, not by literal symbol presence) · clean spellings only,
+pre-registered · per-layer gates · token-presence null.** Queued s322.
