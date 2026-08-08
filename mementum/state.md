@@ -11,12 +11,31 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ★★ **SESSION 323 (continuing — two probes CLOSED, a third FROZEN + being built). ① s322 in-flight
+> ★★ **SESSION 323 (continuing — two probes CLOSED, a third FROZEN+BUILT+RUNNING). ① s322 in-flight
 > §P-TYPE-WRITE-V2 landed → ❌ MEMORIZED-ONLY; ② §P-CL-COLLAPSE-2 → 🚫 OPERATIONAL-CONFIRMED (both
-> batches committed). ③ FRONT SELECTED off the queue (Michael): §P-FLIP-CONFLICT — the s322
-> sign-oscillation causal arm. 🎯 FROZEN §6 on sign-oscillation-is-time-multiplexed-superposition.md
-> (Michael GO, this session). NEXT ACTION = BUILD harness `scripts/explore/flip_conflict.py` →
-> --validate planted worlds → present for launch GO → run the 12-run matrix (~4–6h).**
+> batches committed). ③ FRONT SELECTED (Michael): §P-FLIP-CONFLICT — the s322 sign-oscillation causal
+> arm. 🎯 FROZEN §6 + 🔄 delta-register AMENDMENT (Michael GO option 1) + ✅ harness built
+> (ad226a36, flip_conflict.py) + ▶ 12-run matrix RUNNING.**
+> **⚠ RUN IN FLIGHT (tmux main:1, PID 33688):** `uv run python -u scripts/explore/flip_conflict.py
+> --out results/flip-conflict/qwen3-4b 2>&1 | tee results/flip-conflict/qwen3-4b-run.log` — verified
+> running (qwen3-4b band L22–29, 8 nonces 4/4, 48k sampled effective-ΔW gate_proj coords, 500 steps ×
+> 3 seeds × 4 arm/opt combos {both/A-only/B-only×SGD, both×Adam}; est ~4–6h). NEXT SESSION FIRST ACTION
+> = orient → `tail results/flip-conflict/qwen3-4b-run.log` (+ tmux main:1) → if `VERDICT:` present + no
+> traceback → execute the ON-SIGNAL batch; if still running → checkpoint + wait (λ async).**
+> **⚠ ON-SIGNAL (run done): tail run.log `VERDICT:` + no traceback → read G0/G1(partial r+p)/G2(delta+p)/
+> G3+boundary_churn_covariate/G4 mechanism → commit results/flip-conflict/ AUTONOMOUS → §Result on
+> sign-oscillation-is-time-multiplexed-superposition.md (new §7) + memory candidate + INDEX + queue ▶→
+> verdict (# complete) + state.md = MICHAEL APPROVAL BATCH.** Read discipline (don't over-read, banked
+> §6 + amendment): CONFLICT-METER-CONFIRMED (G1∧G2) = flip-rate is a CAUSAL per-coord conflict meter on
+> this wire (NOT "base-training signs are sigma-delta" — external math stays pattern-suggests);
+> CORRELATIONAL-ONLY (G1∧¬G2) = honest intermediate, do NOT upgrade to causal; NOISE-FLOOR (¬G1) =
+> flips magnitude/noise-driven, overload not readable here; VOID = G0 fails. Mechanism sub ADVISORY
+> (AMBIGUOUS if SGD/Adam/Hessian don't separate — smoke showed EOS at lr_sgd 0.1, λ_max→2/η=20).
+> boundary_churn_covariate (spearman flip↔|W_base|, <0 = flip rises where |W_base| small) = SECONDARY,
+> the demoted boundary-churn tie-in — report, don't gate. Widened IOU captures (per-class loss/act,
+> grad-mag, |W_base| map, Adam m/v, top-3 Hessian) = IOU-only, own null required. **s323 flip-conflict
+> ledger:** 4f57a86b freeze §6 + queue 🔵 + state · ad226a36 harness + delta amendment (§6) · queue
+> ▶ + this state checkpoint (peer update, not approval-gated) · results PENDING next session.**
 > **§P-FLIP-CONFLICT (detail: sign-oscillation §6 FROZEN):** claim = a weight coordinate's SIGN-FLIP
 > RATE during training is a per-coordinate CONFLICT METER (antipodal overload, §1) — not just small/noisy;
 > causal converse = ablate one population → contested signs FREEZE. Substrate: type-write two-class wire
