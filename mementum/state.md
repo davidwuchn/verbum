@@ -11,15 +11,35 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ★★ **SESSION 323 CLOSED (the s322 in-flight run landed; ON-SIGNAL batch executed).
-> NEXT SESSION FIRST ACTION = orient → LAUNCH §P-CL-COLLAPSE-2 (banked NEXT-UP from s322; MPS now
-> free; read-only ~minutes). ⚠ ONE PRE-RUN CONFIRM: the G1 statistic amendment
-> (axis-cos → pool-separability-silhouette; validate-forced, recorded on the s322 freeze §) — the
-> s322 header called GO "already banked incl. G1"; the NEXT-UP block called it "needs Michael GO at
-> launch." RESOLVE with Michael before launch (one line). Command: `uv run python -u
-> scripts/experiments/cl_collapse2.py --out results/cl-collapse2/qwen3-14b 2>&1 | tee
-> results/cl-collapse2/qwen3-14b-run.log`. If deferred → FRONT SELECTION (λ queue FULL read).**
-> **s323 arc (ON-SIGNAL discharge of the s322 type-write-v2 run): ① the in-flight run
+> ★★ **SESSION 323 CLOSED (TWO probes closed: ① the s322 in-flight §P-TYPE-WRITE-V2 run landed →
+> ❌ MEMORIZED-ONLY; ② §P-CL-COLLAPSE-2 launched + landed → 🚫 OPERATIONAL-CONFIRMED. Both ON-SIGNAL
+> batches executed; all committed. NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue FULL
+> read; NOTHING PENDING/in-flight). Sharpest standing leads (queue front): flip-rate↔gradient-conflict
+> (cheap, the s322 sign-oscillation causal arm — needs per-snap sign capture) · crystal-seeded init
+> (cheapest level-4) · Oracle germination game · §P-COHERENT-WRITE.**
+> **② §P-CL-COLLAPSE-2 (detail: combinator-function-shape §P-CL-COLLAPSE-2 §Result + git +
+> chats/session-323.md):** the banked NEXT-UP front (Michael GO'd "proceed to cl-collapse-2" — the G1
+> amendment was already IN the harness at build e2d4798: `_silhouette`/`_pair_separability`
+> pool-separability, VOID-BY-DESIGN; the s322 note ambiguity resolved = no code change needed).
+> --validate ALL PASS → launched qwen3-14b (tmux main:1, PID 28960, ~minutes read-only). **VERDICT
+> 🚫 OPERATIONAL-CONFIRMED (modal a-priori 40%).** The two s322 barriers REMOVED (PROSE crystal anchors
+> = zero combinator-token overlap by construction, G5-enforced, kills lexical-anchor Barrier 2; clean
+> symbolic spellings NF-symbol absent) — and routing STILL not extensional. G0 register forms thin
+> (sil_late 0.037 p=0.036); G1 all three I/W/C pool-separable (live, none void, p=0.003 each);
+> **Plane A** clean-symbolic Δ(nf−op) −0.019 p=0.57 fail (symbolic compounds route to fired ops, not
+> the prose NF); **Plane B** all OPERATIONAL — B[I] clears diagonal G3 (+0.050 p=0.004) but FAILS the
+> make-or-break cross-cut G4 (row_p 0.052 marginal, **col_dom≈0** p=0.36 → generic round-trippy-prose,
+> not I-selective), B[W] +0.007 p=0.26 / B[C] −0.019 p=0.93 don't clear G3. **Replicates + STRENGTHENS
+> s321 §P-CL-COLLAPSE** — the clean-null is no longer dismissable as a lexical-anchor artifact (§Re-read
+> Barrier 2 CLOSED). Compositionality S5 cell stays ✗ on firmer ground; OPERATIONAL/SYNTACTIC (s321) +
+> tape-resident reduction (s317) upheld. **Nuance (don't over-read):** B[I] carries a sub-threshold
+> whisper (identity = simplest fn, thin non-selective reflexive/return feature failing dominance only
+> marginally — NOT extensional identity). **Power caveat:** prose register THIN (G0 sil 0.037 vs the
+> symbolic s217 register z≈8/35) → lower-powered than the symbolic test; single model (Qwen3-14B).
+> Memory: `routing-not-extensional-holds-with-prose-anchors.md`. **cl-collapse-2 ledger:** e8e5b4b1
+> results (autonomous) · §Result + section-header + memory + INDEX row + queue closure 🚫 + this state
+> (Michael approval batch, this commit).**
+> **① §P-TYPE-WRITE-V2 arc (ON-SIGNAL discharge of the s322 run): the in-flight run
 > (`type_write_v2.py`, tmux main:1 PID 2477) COMPLETED clean (2h10m, no traceback, host sane,
 > gate-0 pass) → VERDICT **MEMORIZED-ONLY** (the modal a-priori arm, 35%). ② results committed
 > AUTONOMOUS (12fbe988, results/type-write-v2/). ③ §16 §Result written on
@@ -49,9 +69,9 @@
 > own-class-specifically on held preds under this write* — not *no generalization of any kind*; a
 > higher-powered re-test (more nonces / longer held-pred sets) could sharpen whether the generic echo
 > hides a thin class-specific component.
-> **s323 ledger:** 12fbe988 results (autonomous) · §16 §Result + top blurb · memory · INDEX ×2 rows
-> (+ stray s322 sign-oscillation row folded) · queue closure ❌ · this state = ONE Michael approval
-> batch (this commit). Full transcript → chats/session-323.md (human).
+> **s323 type-write-v2 ledger (COMMITTED):** 12fbe988 results (autonomous) · 3ac89ef5 = §16 §Result +
+> top blurb + memory + INDEX ×2 rows (+ stray s322 sign-oscillation row folded) + queue closure ❌
+> (Michael-approved batch). Full transcript → chats/session-323.md (human).
 >
 > ★★ **SESSION 322 CLOSED (⚠ ONE RUN STILL IN FLIGHT — see ON-SIGNAL below). NEXT SESSION FIRST
 > ACTION = orient → `tail results/type-write-v2/qwen3-4b-run.log` (+ tmux main:1 capture) → if

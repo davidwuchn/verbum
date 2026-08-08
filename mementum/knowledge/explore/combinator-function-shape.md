@@ -303,7 +303,7 @@ functional-equivalence anchors (NF-ness established behaviorally across diverse
 held-out spellings, not by literal symbol presence) · clean spellings only,
 pre-registered · per-layer gates · token-presence null.** Queued s322.
 
-## §P-CL-COLLAPSE-2 — prose-anchored extensional routing (FROZEN s322, Michael GO)
+## §P-CL-COLLAPSE-2 — prose-anchored extensional routing (FROZEN s322, Michael GO; RUN s323 → OPERATIONAL-CONFIRMED, §Result below)
 
 ### The crux
 
@@ -424,3 +424,83 @@ findings. Model: Qwen3-14B (v1 carrier). Cost: ~minutes read-only.
 (clean symbolic subset) + `combinator_relationship_map.collect/cmr/unit` +
 `verbum.probes.library.crystal_probes`; new code = prose families, contrast
 axes, DiD scoring, 3×3 cross-cut, G1 split-null, G5 lemma check.
+
+### §Result — Qwen3-14B (s323): OPERATIONAL-CONFIRMED — the fair prose instrument still finds no extensional routing
+
+**The modal a-priori arm (40%) landed. s321 survives a FAIR instrument.**
+Results `e8e5b4b1`, read-only ~minutes (568 probes: 364 prose anchors / 132
+clean-symbolic collapse / 36 prose-compound / 36 prose-control; G5 lexical
+disjointness passed at build, cross-family max 1 lemma). Late band = layers
+[27, 31, 35, 39] (frac ≥ 0.6 of 40). The two s322 barriers are removed: the
+anchors are **prose** (zero combinator-token overlap by construction — the
+lexical-anchor confound of §Re-read Barrier 2 is gone) and the symbolic
+spellings are **clean** (NF-symbol absent). It still routes operationally.
+
+| gate | quantity | value | null / threshold | p | pass |
+|---|---|---|---|---|---|
+| G0 REGISTER-FORMS | prose-anchor silhouette (late) | 0.0367 | perm null | 0.036 | ✓ (thin) |
+| G1 I×W | pool separability (silhouette) | 0.152 | 0.090 | 0.003 | ✓ live |
+| G1 I×C | pool separability | 0.136 | 0.085 | 0.003 | ✓ live |
+| G1 W×C | pool separability | 0.156 | 0.090 | 0.003 | ✓ live |
+| G2 PLANE-A | clean-symbolic `nf_align−op_align` | Δ −0.019 (nf −0.391) | shuffled-NF | 0.57 | ✗ |
+| G3 B[I] | DiD diag score | +0.050 | shuffled-label | 0.004 | ✓ |
+| G4 B[I] | row/col dominance | row +0.026 / col −0.000 | shuffled-assign | row 0.052 / col 0.36 | ✗ |
+| G3 B[W] | DiD diag score | +0.007 | shuffled-label | 0.26 | ✗ |
+| G3 B[C] | DiD diag score | −0.019 | shuffled-label | 0.93 | ✗ |
+
+Verdict tree: G0 pass (register forms) ∧ Plane A ¬pass ∧ no live Plane B
+target reaches EXTENSIONAL (G3∧G4) ∧ ≥2 live targets → **OPERATIONAL-CONFIRMED**.
+
+**The read — two independent planes, both operational:**
+
+1. **Plane A (clean symbolic × prose NF anchors): no cross-style extensional
+   routing.** The clean spellings (`S K K a`, NF-symbol absent) *anti*-align
+   with their prose NF anchor (mean_nf **−0.391**) and route toward their
+   fired ops slightly more than their NF (Δ = nf−op **−0.019**, p=0.57). A
+   symbolic compound does not reach across the style gap to the prose concept
+   of the function it computes — it routes as what it spells. (The negative
+   mean_nf is the expected NL↔symbolic style gap; the DiD Δ, which cancels
+   common-mode style, is what matters and it is null.)
+
+2. **Plane B (round-trip prose compounds, I/W/C separated): no within-prose
+   extensional routing clears the cross-cut.** All three diagonals fail the
+   make-or-break G4:
+   - **B[I]** is the only nonzero signal: the identity round-trip ("wrapped
+     then unwrapped") routes toward the prose I-axis beyond the label-shuffle
+     (score +0.050, G3 p=0.004) — but it **fails cross-cut dominance**
+     (row_p 0.052 a whisker over 0.05; **col_dom ≈ 0**, p=0.36). The I-axis is
+     hit as much by the W/C families as by the I-compound → the signal is
+     generic "round-trippy prose", not I-selective. G3-pass with G4-fail is
+     exactly the style-artifact pattern the read-discipline pre-flagged.
+   - **B[W]** (+0.007, p=0.26) and **B[C]** (−0.019, p=0.93) do not clear even
+     the diagonal G3; W's row-dominance is negative.
+
+**What it means.** Under an instrument built specifically to *give
+extensionality its best chance* — prose anchors with no token overlap, clean
+NF-absent spellings, per-combinator DiD within one syntax family, a measured
+3×3 confound cross-cut — the routing register still tracks **what is written
+and what fires, not the extensional normal form.** This **replicates and
+strengthens s321's §P-CL-COLLAPSE**: the clean-null there could be dismissed as
+a lexical-anchor artifact (§Re-read Barrier 2); it cannot be here. The
+**compositionality S5 cell stays ✗**, now on firmer ground, and the
+OPERATIONAL/SYNTACTIC mechanism (s321) + tape-resident reduction (s317) prior
+is upheld: a static read of a compound routes by its surface, not its computed
+function.
+
+**Honest nuance (don't over-read either way):** B[I] carries a *sub-threshold
+whisper* — the identity combinator, the simplest function, is the one place a
+faint own-axis alignment appears (G3 clears; G4 misses only marginally on the
+row). This is consistent with a thin, non-selective "reflexive/return" prose
+feature, not extensional identity routing; it does **not** reach the
+pre-registered EXTENSIONAL bar and does not license a compositionality claim.
+**Power caveat:** the prose-anchor register is *thin* (G0 silhouette 0.037 vs
+the symbolic s217 register's z≈8/35) — prose anchors form a weaker routing
+signal than symbolic ones, so the extensional test here is lower-powered; the
+verdict is robust in that even where signal exists (B[I]) it fails selectivity,
+but a higher-N prose battery could sharpen the B[I] whisper. Single model
+(Qwen3-14B, the v1 carrier).
+
+**S5 scorecard:** discreteness ✓ selectivity ✓ **compositionality ✗** (this
+probe, now lexical-confound-free) causality ✗ — the register carries combinator
+IDENTITY (s217) and OPERATIONAL/SYNTACTIC structure, but not the extensional
+ALGEBRA, in prose or symbols.
