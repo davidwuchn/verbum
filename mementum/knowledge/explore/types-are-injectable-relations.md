@@ -29,7 +29,13 @@ created: session 313
 > CONTEXT-ONLY — the falsifier fired** (relation written, type does not
 > act; slot-mediation sharpened). §6 is the origin sketch. The §P-TYPE-GRAM-1
 > run landed (s314: TYPE-REGISTER 7/11, family-clean; §5 confirmed at the
-> constructor grain for capable-recipe models).
+> constructor grain for capable-recipe models). **s322 audit (§14): §9/§13
+> were COVERAGE-GAPPED → the coverage-fair re-test §P-TYPE-WRITE-V2 (§15
+> FROZEN) landed s323 → §16 = §Result, VERDICT MEMORIZED-ONLY: weights bind
+> the trained predicate associations (train-lift 8.8 nats) but the
+> membership abstraction does not install own-class-specifically on held
+> predicates even under fair coverage → tape-residency of type JUDGMENTS
+> supported; s317's DELIVER leg resolved two-sided.**
 
 ## 1. The claim: types are relations, not objects
 
@@ -705,6 +711,98 @@ abstraction not). TYPE-WRITTEN does not un-measure §11's tape positives —
 two-tier becomes two-CHANNEL. Don't over-read V4's train-pred lift: it is
 expected under all three live verdicts; only the held/train CONTRAST
 discriminates. Cost: §9-r3 class (~1–2h, 3 seeds × 2 arms × ≤500 steps).
+
+## 16. §Result-type-write-v2 (s323, qwen3-4b) — VERDICT: MEMORIZED-ONLY
+
+**The modal a-priori arm (35%) landed — and it is the honest answer the
+§14 audit was owed.** Results `12fbe988`, run 2h10m (20 nonces × 3 seeds ×
+2 arms {true wire, `1-labels` true-derangement} × ≤500 steps; host-sane
+every arm, gate-0 pass). Fair coverage this time: the bare-NP licensed
+frames the eval reads were **gradient-touched during training** (on
+`TRAIN_PREDS`, disjoint from the `HELD_PREDS` the eval scores), and the
+control arm is a **true derangement** (`1-labels`), closing both §14 flaws.
+
+| gate | quantity | value | null | p | pass |
+|---|---|---|---|---|---|
+| V1 HELD-TRANSFER | held L wire−base | +1.337 | shuffled-label | 5e-4 | ✓ |
+| V2 CLASS-SPECIFIC | own vs anti drop (held) | +1.199 | paired-perm | **0.16** | **✗** |
+| V3 DERANGED-NULL | held L true vs 1-labels | — | paired-perm | 1e-4 | ✓ |
+| V4 train-lift | train L wire−base | +8.833 | shuffled-label | 5e-4 | ✓ |
+| V4 train-vs-der | train true vs deranged | +17.47 | paired-perm | 1e-4 | ✓ |
+| recall | membership install | +8.23 | shuffled-label | 5e-4 | ✓ |
+| V5 HOST-SANE | CE/real/restore | — | — | — | ✓ |
+
+Means: held **base 0.138 / wire 1.337 / der −0.955**; train **base 0.356 /
+wire 8.833 / der −8.634**. Decision tree: `held_ok = V1∧V2∧V3 = False`
+(V2 fails) ∧ `train_lift = V4t∧V4tvd = True` → **MEMORIZED-ONLY**.
+
+**The read — one discriminating negative inside three positives:**
+
+1. **The trained predicates bind enormously.** On `TRAIN_PREDS` the wire
+   lifts licensing from base 0.356 to **8.833 nats** (deranged crushes to
+   −8.634; contrast +17.47, p=1e-4). The weight write *does* install
+   content — recall passes (p=5e-4). There is no NO-WRITE failure: the
+   corridor bound the anchor and the window opened.
+
+2. **Held-out predicates get a real but generic echo.** The wire lifts
+   held-pred licensing to **+1.337** — this **beats the shuffled-label
+   null** (V1 p=5e-4) *and* beats the true-derangement wire (V3 p=1e-4;
+   the deranged wire actively *anti*-licenses held frames at −0.955). So
+   the held transfer is content-dependent and non-trivial — **not** zero
+   generalization.
+
+3. **But that held lift is NOT own-class-specific.** V2 asks whether, on
+   held predicates, the own-class surprisal drops *more* than the
+   anti-class beyond the paired-permutation null. It **fails (p=0.16)**.
+   The held echo is a generic licensing smear, not the class boundary
+   transferring — the same *generic-vs-member-keyed* distinction §13's
+   delivery negatives drew, now on the coverage-fair write side. Because
+   `held_ok` requires V1∧V2∧V3, the honest verdict is that the **membership
+   abstraction does not cleanly install as a weight edge, even under fair
+   coverage.**
+
+**What it means — the §14 audit is discharged, and the tape holds.** The
+coverage gap was real and worth fixing, but fixing it did **not** overturn
+the tape-residency finding: under fair coverage the weights bind the
+surface predicate associations they were trained on (train-lift 8.8 nats)
+plus a generic non-class-specific echo on held frames, while the
+**membership abstraction — the class boundary that would license *held*
+predicates own-specifically — stays off the weights.** MEMORIZED-ONLY is
+the sharp, honest successor to §9/§13's CONTEXT-ONLY: not "nothing
+installs" (predicate memories do), but "the abstraction doesn't
+generalize." **Tape-residency of type JUDGMENTS is supported under fair
+coverage.**
+
+**Consequences (banked at freeze):**
+- **§9/§13 are honestly re-qualified, not retracted.** The prior
+  CONTEXT-ONLY / NO-WEIGHT-DELIVERY negatives were coverage-gapped (§14),
+  but the fair re-test lands on the *same side of the abstraction*:
+  predicate associations are weight-bindable; the membership abstraction
+  is not. §9's licensing-✗ was partly a coverage artifact **and** partly
+  real — MEMORIZED-ONLY separates the two.
+- **s317's DELIVER leg, demoted to ONE-SIDED in s322, is RESOLVED.** The
+  weight side is now fairly tested and remains negative *for the
+  abstraction* → the "three falsifiers, one law" tape-residency law is
+  restored to two-sided (tape positives §11 stand; weights bind memories
+  not judgments, fair coverage). `behavior-is-tape-resident-reduction.md`
+  caveat upgrades from "weights untested" to "weights fairly tested →
+  abstraction tape-resident."
+- **The causality S5 cell stays weight-negative for the abstraction.**
+  TYPE-WRITTEN (which would have reopened the weight-side causal door) did
+  NOT fire; the abstraction is not weight-installable at band-LoRA r=16
+  grain. Two-tier holds: weights = predicate memories + relation/checker;
+  tape = the class judgments.
+
+**S5 scorecard (unchanged, as designed):** discreteness ✓ selectivity ✓
+compositionality ✗ **causality ✗-for-the-abstraction** — now *coverage-fair*
+negative, not a coverage artifact. **Caveats:** single model (qwen3-4b),
+single grain (band-LoRA r=16, FFN L22–29); V1 held-transfer *did* pass
+(the held echo is real) — MEMORIZED-ONLY sits at the boundary of
+TYPE-WRITTEN, distinguished only by the class-specificity gate V2, so a
+higher-powered re-test (more nonces, longer held-pred sets) could sharpen
+whether the generic echo hides a thin class-specific component. The claim
+licensed: *the membership abstraction does not install own-class-specifically
+on held predicates under this write* — not *no generalization of any kind*.
 
 ## Provenance
 

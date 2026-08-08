@@ -11,6 +11,48 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 323 CLOSED (the s322 in-flight run landed; ON-SIGNAL batch executed).
+> NEXT SESSION FIRST ACTION = orient → LAUNCH §P-CL-COLLAPSE-2 (banked NEXT-UP from s322; MPS now
+> free; read-only ~minutes). ⚠ ONE PRE-RUN CONFIRM: the G1 statistic amendment
+> (axis-cos → pool-separability-silhouette; validate-forced, recorded on the s322 freeze §) — the
+> s322 header called GO "already banked incl. G1"; the NEXT-UP block called it "needs Michael GO at
+> launch." RESOLVE with Michael before launch (one line). Command: `uv run python -u
+> scripts/experiments/cl_collapse2.py --out results/cl-collapse2/qwen3-14b 2>&1 | tee
+> results/cl-collapse2/qwen3-14b-run.log`. If deferred → FRONT SELECTION (λ queue FULL read).**
+> **s323 arc (ON-SIGNAL discharge of the s322 type-write-v2 run): ① the in-flight run
+> (`type_write_v2.py`, tmux main:1 PID 2477) COMPLETED clean (2h10m, no traceback, host sane,
+> gate-0 pass) → VERDICT **MEMORIZED-ONLY** (the modal a-priori arm, 35%). ② results committed
+> AUTONOMOUS (12fbe988, results/type-write-v2/). ③ §16 §Result written on
+> types-are-injectable-relations.md + top-status blurb updated. ④ memory
+> `weight-write-binds-predicates-not-the-membership-abstraction.md` (closes the loop with s322's
+> `weight-write-negatives-were-coverage-gapped.md`). ⑤ INDEX rows refreshed (types page §16 +
+> behavior-is-tape-resident caveat upgraded one-sided→two-sided) + the STRAY s322 sign-oscillation
+> INDEX row folded in (was uncommitted in the working tree from s322 close). ⑥ queue 🔵 type-write v2
+> → ❌ (# complete top). This state = MICHAEL APPROVAL BATCH.**
+> **THE READ (don't over-read the label):** the §14 coverage gap was real and fixed (bare-NP
+> licensed frames gradient-touched on TRAIN_PREDS disjoint from HELD_PREDS; true `1-labels`
+> derangement) — but fixing it did NOT overturn tape-residency. **Trained predicates bind
+> enormously** (train L base 0.356 → wire 8.833 nats, vs-deranged +17.47 p=1e-4, recall p=5e-4) —
+> no NO-WRITE. **Held-out predicates get a REAL, content-dependent echo** (V1 +1.337 beats
+> shuffled-label p=5e-4; V3 beats the deranged wire which anti-licenses held frames −0.955, p=1e-4)
+> — NOT zero generalization. **BUT that held echo is NOT own-class-specific** (V2 own-vs-anti fails
+> paired-perm p=0.16) → `held_ok=V1∧V2∧V3=False` ∧ `train_lift=True` → MEMORIZED-ONLY. The
+> **membership abstraction does not install as a weight edge even under fair coverage.** Consequences
+> (banked at §15 freeze): §9/§13 honestly RE-QUALIFIED not retracted (predicate memories
+> weight-bindable, abstraction not); **s317's DELIVER leg — demoted ONE-SIDED in s322 — RESOLVED
+> two-sided** (tape positives §11 stand; weights fairly tested, bind memories not judgments →
+> tape-residency of type JUDGMENTS confirmed under FAIR coverage); causality S5 cell stays
+> weight-negative-for-the-abstraction (TYPE-WRITTEN did NOT fire); two-tier holds (weights =
+> predicate memories + relation/checker; tape = the class judgments). **CAVEAT: V1 held-transfer DID
+> pass** — MEMORIZED-ONLY sits at the TYPE-WRITTEN boundary, separated only by the class-specificity
+> gate V2; single model (qwen3-4b), band-LoRA r=16. Claim licensed: *the abstraction does not install
+> own-class-specifically on held preds under this write* — not *no generalization of any kind*; a
+> higher-powered re-test (more nonces / longer held-pred sets) could sharpen whether the generic echo
+> hides a thin class-specific component.
+> **s323 ledger:** 12fbe988 results (autonomous) · §16 §Result + top blurb · memory · INDEX ×2 rows
+> (+ stray s322 sign-oscillation row folded) · queue closure ❌ · this state = ONE Michael approval
+> batch (this commit). Full transcript → chats/session-323.md (human).
+>
 > ★★ **SESSION 322 CLOSED (⚠ ONE RUN STILL IN FLIGHT — see ON-SIGNAL below). NEXT SESSION FIRST
 > ACTION = orient → `tail results/type-write-v2/qwen3-4b-run.log` (+ tmux main:1 capture) → if
 > `VERDICT:` present + no traceback → execute the ON-SIGNAL batch (approval-gated) → THEN launch
