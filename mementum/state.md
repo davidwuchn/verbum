@@ -11,7 +11,8 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ★★ **SESSION 323 (continuing — two probes CLOSED, a third FROZEN+BUILT+RUNNING). ① s322 in-flight
+> ★★ **SESSION 323 SEALED (⚠ ONE RUN IN FLIGHT — §P-FLIP-CONFLICT; see ON-SIGNAL below). Two probes
+> CLOSED, a third FROZEN+BUILT+RUNNING. ① s322 in-flight
 > §P-TYPE-WRITE-V2 landed → ❌ MEMORIZED-ONLY; ② §P-CL-COLLAPSE-2 → 🚫 OPERATIONAL-CONFIRMED (both
 > batches committed). ③ FRONT SELECTED (Michael): §P-FLIP-CONFLICT — the s322 sign-oscillation causal
 > arm. 🎯 FROZEN §6 + 🔄 delta-register AMENDMENT (Michael GO option 1) + ✅ harness built
