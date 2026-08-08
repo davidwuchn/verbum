@@ -11,9 +11,25 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ★★ **SESSION 324 IN PROGRESS (⚠ §P-FLIP-CONFLICT STILL IN FLIGHT — verified running at orient,
-> PID 33688, arm 1/4 both_sgd, launched 11:57AM, est ~4–6h; ON-SIGNAL batch below UNCHANGED, fires
-> when `VERDICT:` lands).** Work so far: ① types synthesis for Michael (from knowledge pages, no new
+> ★★ **SESSION 324: §P-FLIP-CONFLICT LANDED → 🚫 NOISE-FLOOR (a-priori 25%; run clean ~3.3h, no
+> traceback; ON-SIGNAL batch EXECUTED this session — nothing in flight). G1 FAIL (partial r=−0.017
+> p=1.0 — no per-coordinate conflict signal in the ΔW register); G2 FAIL (ablation does NOT freeze
+> contested signs — wrong-direction +0.0005, both deltas ≈0); G3 ✓ (instrument sane); boundary-churn
+> covariate ≈0; G4 AMBIGUOUS (EOS-supercritical: λ_max_sgd 31.7 > 2/η=20 → dither-swamp
+> instrument-scope caveat, flagged not licensed → ⚪ flip-conflict-v2 sub-EOS queued). Read
+> discipline applied: §1–§3 sign-oscillation math STAYS pattern-suggests (causal upgrade failed at
+> this register/scale); s313 marginal-band + s320 thin echo stay observational. **Damage report
+> honored: forged-exposure protocol (modulation §3) first causal contact NEGATIVE — §2 IOU
+> prediction (c) edge-collapses-to-corner CONTRADICTED; §3 amended (forged-lattice gates must read
+> FUNCTION-level install, not per-coordinate sign control); IOU stratigraphy reads (a)/(b) remain
+> open own-null analyses on coords.npz.** **s324 flip-conflict ledger:** a8930340 results
+> (autonomous) · §7 §Result on sign-oscillation page + memory
+> `wire-delta-sign-flips-are-noise-not-a-conflict-meter` + INDEX ×2 (sign-oscillation §7 +
+> modulation §3 damage note) + queue ▶→🚫 (# complete top) + ⚪ v2 sub-EOS + this state = MICHAEL
+> APPROVAL BATCH (ON-SIGNAL pre-authorized s323). NEXT SESSION FIRST ACTION = orient → FRONT
+> SELECTION (λ queue FULL read — nothing pending; s324 theory fork resolved: G2 negative ⇒ the
+> cheap §1 instruments (⚪ §P-TYPE-LOCKIN first-front · dark-field re-read) are the better next
+> spend vs forged-lattice).** Work so far: ① types synthesis for Michael (from knowledge pages, no new
 > claims); ② 💡 HAMMOCK CAPTURED (Michael GO "capture this"): **types-are-a-modulation-scheme.md**
 > (explore/) — the signal-domain reframe of the s282–s323 type arc (weights=codebook · tape=channel ·
 > judgment=demodulation/carrier-lock); retrodicts §P-IDEMPOTENCY (coherent integration) +

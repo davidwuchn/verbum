@@ -351,10 +351,17 @@ yardstick). Bragg discipline: right stratum also means right depth/angle —
 forged exposures at wrong layer-timing go inert like everything else
 (rocking-curve surface still unmeasured). Optimizer smear (Adam m/v, decay)
 blurs clean self-erasure ⇒ "gradient-quiet" gates need matched nulls.
-**First causal contact already in flight:** §P-FLIP-CONFLICT G2 ablation
-arms ARE residual control (remove one snapshot population → contested
-stratum should commit); G2 failure damages the control(residual)⇒
-control(plate) causal link at its root.
+**First causal contact LANDED NEGATIVE (s324): §P-FLIP-CONFLICT →
+🚫 NOISE-FLOOR.** G2 ablation (= residual control) did NOT freeze contested
+signs; §2 IOU prediction (c) edge-collapses-to-corner CONTRADICTED at this
+register/scale. The control(residual)⇒control(plate) link took its flagged
+hit — the protocol's primitives remain derivable but now carry a measured
+negative at the finest grain tested. Scope bounds: wire ΔW register,
+single model, EOS-supercritical lr (λ_max 1.6× the 2/η ceiling — global
+dither may swamp; ⚪ v2 sub-EOS queued, flagged not licensed). Design
+consequence: §P-FORGED-LATTICE gates should NOT assume per-coordinate
+sign-level control; self-erasure/span-erasure gates read FUNCTION-level
+install (licensing), which this negative does not touch.
 
 ## Read discipline
 

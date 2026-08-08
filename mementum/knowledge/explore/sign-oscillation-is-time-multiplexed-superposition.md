@@ -265,6 +265,62 @@ Harness `scripts/explore/flip_conflict.py`; --validate 4 planted worlds +
 2 primitives ALL PASS (deterministic), ruff clean, smoke green (flip_pop ~0.25,
 HVP finite, G0/G3 sane, verdict not read).
 
+## 7. §Result — 🚫 NOISE-FLOOR (s324, qwen3-4b, results a8930340)
+
+**Run:** 12-run matrix as frozen (both/A-only/B-only × SGD ×3 seeds + both
+× Adam ×3), 48k sampled effective-ΔW gate_proj coords, band L22–29, 8
+nonces, 500 steps, delta register per the s323 amendment (primary =
+sign(ΔW), burn-in 0.4). Clean completion, no traceback, ~3.3h.
+
+**Gates:** G0 SANE ✓ (flip_pop 0.412, trained, finite, n=48000).
+**G1 CONFLICT-METER ✗** — partial r(flip_rate, conflict | |W|, σ) =
+**−0.017, p=1.0** vs coord-perm null: flip rate carries NO readable
+per-coordinate conflict signal in this register. **G2 CAUSAL-FREEZE ✗** —
+population ablation does NOT preferentially freeze contested signs:
+Δflip contested −0.0002 vs matched-magnitude controls −0.0007 (gap
++0.0005 in the WRONG direction, p=0.001 — significant but tiny and
+anti-predicted; both deltas ≈ 0). G3 committed-pole negative control ✓
+(flip_commit 0.0013 ≪ margin 0.008 — instrument not broken).
+boundary_churn covariate (secondary, not gated): spearman −0.049 ≈ 0 —
+the flippable≡marginal tie-in is absent in this delta register. G4
+mechanism ADVISORY: **AMBIGUOUS** — λ_max_sgd 31.7 sits ABOVE the EOS
+ceiling 2/η = 20 (eos_ratio 1.59), Adam λ_max 66; arms do not separate.
+
+**Verdict per pre-registered tree: 🚫 NOISE-FLOOR (a-priori 25%).** Read
+discipline (banked at freeze, applied verbatim): flips in this wire's ΔW
+register are **magnitude/noise-driven; antipodal overload is not readable
+here**. This does NOT falsify the §1–§3 time-multiplexed-superposition
+math (external, stays pattern-suggests) — it says THIS register at THIS
+scale does not expose it.
+
+**Instrument-scope caveat (honest, not a rescue):** G4 shows training sat
+EOS-supercritical (λ_max ≈ 1.6× the 2/η ceiling) — the regime where
+edge-of-stability dither is GLOBAL. flip_pop 0.41 = flips abundant but
+unstructured; a dither-swamped instrument would produce exactly this
+readout even if a conflict signal exists at lower lr. A re-probe below the
+EOS ceiling (lr_sgd ≤ 0.05 with longer runs) is the natural v2 — queue
+candidate, not licensed as an excuse.
+
+**Consequences (s324 theory legs, honest damage report):**
+- **§3 forged-exposure protocol takes its flagged hit:** G2 was the first
+  causal contact for control(residual) ⇒ control(plate) — removing one
+  snapshot population did NOT let contested coordinates commit. At this
+  register/scale the edge-collapses-to-corner prediction (modulation page
+  §2 IOU (c)) is **contradicted**, not just unsupported.
+- s322 sign-oscillation page status: §4 "contact with our measurements"
+  correlational anchors stand; the causal upgrade FAILED here. s313
+  marginal-band conjecture stays conjecture; s320 boundary-churn echo
+  stays thin-and-observational.
+- IOU captures (per-class loss/act, grad-mag histories, |W_base| map,
+  Adam m/v, top-3 Hessian) persisted in coords.npz — stratigraphy reads
+  (a)/(b) from the modulation page remain open own-null analyses; read
+  (c) is already answered negative by G2.
+
+**Scope:** single model (qwen3-4b), two-class type-write wire, LoRA r=16
+delta register, 8 nonces, EOS-supercritical lr — all bounds on the claim.
+
+Memory: `wire-delta-sign-flips-are-noise-not-a-conflict-meter.md`.
+
 ## Provenance
 
 - Michael's observation + overloading speculation (pre-s322, standing);
