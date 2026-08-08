@@ -21,6 +21,19 @@
 > 2 arms {true wire, 1-labels deranged matched-budget} × ≤500 steps, corridor kl_weight 10/ce_budget 0.40
 > as CLI defaults; est ~1-2h). Verified running (gate-0 PASS margins held 2.538/train 3.928 n_ok=True;
 > wire seed0 mem 6.47→5.04 @snap13, kl~0.006, drift −0.02).
+> **NEXT-UP READY (s322, prepared while run in flight): 🎯 §P-CL-COLLAPSE-2 FROZEN (d138c1a, on
+> combinator-function-shape.md — prose-anchored extensional routing, Michael-designed prose planes:
+> Plane A clean-symbolic × PROSE crystal anchors (zero token overlap by construction) + Plane B
+> round-trip compounds I/W/C scored SEPARATELY (DiD on contrast axes, structure-matched controls,
+> 3×3 cross-cut G4, per-pair G1 pool-separability pre-gate → VOID-BY-DESIGN, G5 lexical disjointness
+> code-enforced). ✅ HARNESS scripts/experiments/cl_collapse2.py (e2d4798): validate 6 worlds + G5-on-
+> real-anchors ALL PASS; pythia-14m CPU smoke green. 🔄 ONE PRE-RUN AMENDMENT needs Michael GO at
+> launch: G1 statistic axis-cos→pool-separability-silhouette (validate-forced; mean-of-others axis
+> construction mechanically couples axes → false VOID; recorded on freeze §). LAUNCH after
+> type-write-v2 frees MPS: `uv run python -u scripts/experiments/cl_collapse2.py --out
+> results/cl-collapse2/qwen3-14b 2>&1 | tee results/cl-collapse2/qwen3-14b-run.log` (read-only,
+> ~minutes). Also s322: 💡 sign-oscillation-is-time-multiplexed-superposition captured (4e997d0,
+> Michael-approved) + ⚪ flip-rate↔gradient-conflict queued.**
 > **⚠ ON-SIGNAL (run done): tail run.log `VERDICT:` + no traceback → read V1/V2/V3/V4t/V4d/recall/host +
 > means table (held vs train, base/wire/der) → commit results/type-write-v2/ AUTONOMOUS → §Result-v2 =
 > §16 on types-are-injectable-relations.md + memory candidate + INDEX + queue 🔵→verdict (# complete) +
