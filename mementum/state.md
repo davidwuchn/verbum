@@ -14,8 +14,24 @@
 > ★★ **SESSION 322 IN PROGRESS (Michael-directed AUDIT of the s313–s321 type-arc code — "results all
 > point to no types, but KIBC opcodes function from weights, so typed apply must exist there"). TWO
 > STRUCTURAL FINDINGS (parallel explorer audits, file:line evidence), ONE ZERO-COMPUTE RE-READ LANDED,
-> mementum batch Michael-APPROVED (this commit). NOW OPEN: §P-TYPE-WRITE-V2 (Michael GO on the front;
-> freeze spec next).**
+> mementum batch Michael-APPROVED (cadbc63). §P-TYPE-WRITE-V2 FROZEN (17a324d, §15) + HARNESS BUILT
+> (55a9403, validate ALL PASS + smoke green) + ⚠ RUN IN FLIGHT (Michael GO).**
+> **⚠ RUN IN FLIGHT (tmux main:1, PID 2477):** `uv run python -u scripts/explore/type_write_v2.py --out
+> results/type-write-v2/qwen3-4b 2>&1 | tee results/type-write-v2/qwen3-4b-run.log` (20 nonces, 3 seeds ×
+> 2 arms {true wire, 1-labels deranged matched-budget} × ≤500 steps, corridor kl_weight 10/ce_budget 0.40
+> as CLI defaults; est ~1-2h). Verified running (gate-0 PASS margins held 2.538/train 3.928 n_ok=True;
+> wire seed0 mem 6.47→5.04 @snap13, kl~0.006, drift −0.02).
+> **⚠ ON-SIGNAL (run done): tail run.log `VERDICT:` + no traceback → read V1/V2/V3/V4t/V4d/recall/host +
+> means table (held vs train, base/wire/der) → commit results/type-write-v2/ AUTONOMOUS → §Result-v2 =
+> §16 on types-are-injectable-relations.md + memory candidate + INDEX + queue 🔵→verdict (# complete) +
+> state.md = MICHAEL APPROVAL BATCH.** Read discipline (banked at freeze, a-priori 30/35/20/10/5):
+> TYPE-WRITTEN → §9/§13 were coverage artifacts, s317 DELIVER leg RETRACTED, causality S5 cell reopens
+> weight-side (update behavior-is-tape-resident + curry-howard cross-reads); MEMORIZED-ONLY → weights bind
+> predicate associations NOT the membership abstraction — tape-residency of judgments supported under FAIR
+> coverage (the sharp honest successor to §9); CONTEXT-ONLY → §9 vindicated honestly, tape-residency earns
+> full status; NO-WRITE → corridor audit FIRST (write window; v1-r3 needed ~200 steps, check stop reasons)
+> before any claim; HOST-DAMAGED → void. V4 train-lift alone is expected under ALL live verdicts — only
+> the held/train CONTRAST discriminates (don't over-read).**
 > **① WEIGHT-WRITE LINEAGE (type_write→icl_tag A5→type_deliver) = design-level FALSE-NEGATIVE
 > (COVERAGE GAP), not a mechanical bug:** training membership-CE gradients dominate the CLASS-WORD
 > position; licensing eval reads bare-NP frames the LoRA never gradient-touched → recall-✓/licensing-✗
