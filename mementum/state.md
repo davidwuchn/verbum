@@ -21,7 +21,15 @@
 > novel prediction = LOCK TIME capture threshold. 4 queue candidates added (⚪ §P-TYPE-LOCKIN cheap
 > first-front · ⚪ dark-field boundary-echo re-read no-compute · ⚪ §P-TYPE-COHERENCE cheap ·
 > ⚪ §P-CONJUGATE-WRITE/TYPE-WRITE-V3 medium) + INDEX row. All UNFROZEN (s222 law; retrodictions =
-> pattern-suggests only).**
+> pattern-suggests only). ③ 💡 HAMMOCK LEG 2 CAPTURED (Michael GO): **§2 DIFFERENTIAL PHOTOGRAPHY**
+> on the same page — backprop photographs the RESIDUAL; amplitude ∝ ∫error dt ≈ time-to-learn
+> ¬∝ P(pattern); three strata (corners=faint sign-committed commons / long-tail=deep exceptions /
+> edges=contested churn ≡ s310 marginal band); retrodicts crystal-0.1%-ternarizable (λ smallest as
+> recording physics) + saturation mechanism candidate for the idempotency k=4,5 decline; EXTRACTION
+> INVERSION (algorithm in the faint stratum; ternarization ≡ faint-strata pass filter); 3 own-null
+> IOU predictions banked against the flip-conflict widened capture (grad-mag migration ·
+> committed-pole early quiescence · ablation → edge-collapses-to-corner) — read them at ON-SIGNAL
+> alongside the boundary_churn covariate, IOU-only discipline unchanged.**
 >
 > ★★ **SESSION 323 SEALED (⚠ ONE RUN IN FLIGHT — §P-FLIP-CONFLICT; see ON-SIGNAL below). Two probes
 > CLOSED, a third FROZEN+BUILT+RUNNING. ① s322 in-flight

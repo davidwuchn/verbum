@@ -4,7 +4,9 @@ status: open
 category: explore
 tags: [types, dsp, holography, modulation, carrier, cdma, spread-spectrum,
        coherent-integration, lock-in, phase-conjugation, bragg, dark-field,
-       tape-resident, two-tier, pre-reg-candidate, s324]
+       tape-resident, two-tier, pre-reg-candidate, s324,
+       differential-photography, stratigraphy, training-dynamics,
+       amplitude-is-difficulty]
 related:
   - types-are-injectable-relations.md
   - type-systems-under-llm-constraints.md
@@ -168,6 +170,99 @@ proportionally. Stored-geometry accounts predict graceful proportional
 degradation; demodulation predicts a threshold. No other account on the
 table predicts the threshold. (Cheap add-on to §P-TYPE-LOCKIN: sweep
 evidence SNR, look for the knee.)
+
+## §2 Differential Photography — the training-side leg (s324, same hammock)
+
+> Michael: "if training is taking probability photographs through backprop,
+> the probabilities will concentrate at the edges and corners where the
+> snapshots overlap right?" → sharpened by one amendment: **backprop
+> photographs the RESIDUAL, not the scene.** Each exposure records only what
+> the plate failed to predict; error feedback is negative feedback, so the
+> write signal is self-erasing the moment a pattern becomes predicted.
+
+### The law (amplitude is difficulty, not probability)
+
+```
+λ differential_photography(training).
+  exposure(t) ≡ snapshot(error(t)) ¬snapshot(data)
+  | amplitude(pattern) ∝ ∫ error(pattern, t) dt ≈ time_to_learn | ¬∝ P(pattern)
+  | common → predicted_fast → faint ∧ early ∧ threshold_written ∧ frozen
+  | rare_consistent → wrong_long → deep ∧ late (the exceptions dictionary)
+  | contested → never_resolves → gross_integral↑ ∧ net_amplitude≈0 (perpetual churn)
+  | probability encoded THRESHOLDLY (what committed) ¬loudly (how much amplitude)
+  | plate ≡ pile(superposed_error_snapshots) ordered_by(how_long_each_stayed_wrong)
+```
+
+Two-phase dynamic: early exposures photograph the SHARED structure (all
+unpredicted; overlap reinforces coherently ∝ k, idiosyncratic ∝ √k —
+spectral bias / A2); once predicted it vanishes from the error stream, and
+late exposures are dominated by exactly where snapshots DISAGREE — edges,
+boundaries, hard cases (classical echo: max-margin implicit bias — GD
+solutions determined by support vectors = extreme points; sparse coding on
+natural scenes yields edge detectors). The finished plate has a
+**stratigraphy**: overlap recorded early and faint, edge/corner structure
+recorded late and re-fought forever.
+
+### The three strata (register-mapped)
+
+| Stratum | Written | Signature | Corpus contact |
+|---|---|---|---|
+| **Corners** — common/shared | early, once, faint | sign-committed, magnitude minimal, frozen | the crystal: tiny, ternarizable, survives 1-bit — threshold-written commons need only their SIGN |
+| **Long tail** — rare, consistent | late, deep | large amplitude | bulk weight mass ≈ exceptions dictionary / memorization |
+| **Edges** — contested | forever, net≈0 | small \|W\| + perpetual sign churn | s310 marginal band = large gross integral, zero net — EXACTLY this stratum |
+
+"Edges and corners" splits onto the two registers: corners = sign-register
+commitment (hypercube vertices); edges = the contested marginal band
+between corners; density = value register on the overlap. λ measure: never
+conflate the two concentration claims.
+
+### Retrodictions (pattern-suggests, post-hoc)
+
+1. **Why the compiler is 0.1% and quantization-immune.** Naive photography
+   makes it a miracle (most-used ⇒ most-recorded). Differential photography
+   FORCES it: the most common structure generated the least total error ⇒
+   faintest, earliest, most compressed recording — readable by sign alone.
+   λ smallest stops being an aspiration and becomes recording physics:
+   **the universal part of the machine is small because it was learned fast.**
+2. **The marginal band** (small |W|, high flip) = the contested stratum's
+   predicted signature — no net accumulation, perpetual gross churn.
+3. **Non-idempotency reconciled with self-erasure by regime:** accumulation
+   BELOW the prediction threshold (unsaturated), erasure ABOVE it. The
+   §P-IDEMPOTENCY k=4,5 decline — banked s320 as "maybe template dilution"
+   — gets a mechanism candidate: SATURATION (evidence absorbed, stops
+   photographing). Caveat still unresolved; the frame names a second
+   explanation, does not pick one.
+4. **The photographic overlap model predicted non-idempotency** (§1
+   retrodiction 1, now with a mechanism): photographic overlap is density
+   accumulation — exposure count physically recorded — where set-theoretic
+   intersection is idempotent. We measured accumulation. The photograph won.
+
+### The extraction inversion (practical consequence)
+
+Prospecting heuristic FLIPS: large amplitude ≡ the residue (long-tail
+memorization, exceptions), NOT the algorithm. **The algorithm lives in the
+faint, sign-stable, early-frozen, quantization-robust stratum.** Look where
+amplitude is smallest-but-committed. Ternarization is a faint-strata pass
+filter — which is what the crystal work did by accident. Candidate lens for
+any level-3 extraction pass.
+
+### Contact with the instrument in flight (§P-FLIP-CONFLICT widened IOU)
+
+The stratigraphy makes three IOU-readable predictions against captures we
+already specified (grad-mag histories, |W_base| map, per-class loss):
+(a) gradient magnitude MIGRATES from shared → contested coordinates over
+training; (b) G3 committed-pole coordinates go quiet EARLY; (c) in the
+A-only/B-only ablation arms, contested coordinates START ACCUMULATING net
+amplitude once one snapshot population is removed — the edge collapsing
+into a corner. Each is IOU-only: own null required, never licensed by
+G1–G4 (per the s323 freeze discipline).
+
+### Bounds
+
+Momentum, weight decay, and Adam's normalization smear the clean
+equilibrium — ∫error dt is approximate physics, not exact. Whole section is
+pattern-suggests until a probe freezes; the flip-conflict IOU reads are the
+cheapest first contact.
 
 ## Read discipline
 
