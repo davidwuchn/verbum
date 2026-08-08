@@ -1,0 +1,20 @@
+{
+  "model_id": "Qwen/Qwen3-4B",
+  "n_nonce": 4,
+  "real_margin_held": 2.5380677186603577,
+  "real_margin_train": 3.9281872078572633,
+  "per_class_ok": true,
+  "gate0_ok": false,
+  "nonces": [
+    "zorp",
+    "flim",
+    "drax",
+    "quop"
+  ],
+  "labels": [
+    0,
+    1,
+    0,
+    1
+  ]
+}
