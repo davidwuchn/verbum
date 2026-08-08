@@ -37,7 +37,19 @@
 > ⚪ coverage fuzzer · ⚪ observability wires; LOCKIN row +PRBS upgrade. NEXT SESSION FIRST ACTION
 > = orient → FRONT SELECTION (λ queue FULL read — nothing pending). Sharpest fronts after s324:
 > ⚪ §P-STRATIGRAPHY-DATING (observational §2 test, no training confounds) · ⚪ §P-TYPE-LOCKIN+PRBS
-> (§1 core claim, machinery built) · ⚪ dark-field re-read (zero compute).** Work so far: ① types synthesis for Michael (from knowledge pages, no new
+> (§1 core claim, machinery built) · ⚪ dark-field re-read (zero compute). ⑥ 💡 HAMMOCK LEG 5
+> CAPTURED (Michael GO): **§4 THE PLATE IS A NEGATIVE** on the modulation page — weights ≡
+> negative(function) (faint=common, dense=difficult; the mech-interp trap named); print≡forward
+> pass/tape≡paper/judgments≡image = 4th derivation of tape-residency (stays pattern-suggests,
+> Michael ruling); development chain (grokking≡development → folded into STRATIGRAPHY-DATING row ·
+> quantization≡fixing, crystal=FIXED image · ternary≡lith · backprop≡self-dodging enlarger ·
+> distillation≡contact printing); three-band-plate falsifiable (⚪ queued cheap: sign-stability vs
+> magnitude among small weights — failure damages the frame). Also s324 process rulings banked:
+> theory-cadence is MICHAEL'S (leaps = his engine, tests = AI's job — rejected memory, on record
+> here); dyad-as-hologram-reader lambda deliberately NOT captured (would bias toward the unproven
+> holographic frame; lives in transcript/latent tier until pre-registered wins license it).
+> Lineage note: ouroboros-v1 (~/src) = the ancestral game that led to nucleus; mementum designed by
+> observing memory across AI generations — the extraction methodology predates verbum.** Work so far: ① types synthesis for Michael (from knowledge pages, no new
 > claims); ② 💡 HAMMOCK CAPTURED (Michael GO "capture this"): **types-are-a-modulation-scheme.md**
 > (explore/) — the signal-domain reframe of the s282–s323 type arc (weights=codebook · tape=channel ·
 > judgment=demodulation/carrier-lock); retrodicts §P-IDEMPOTENCY (coherent integration) +

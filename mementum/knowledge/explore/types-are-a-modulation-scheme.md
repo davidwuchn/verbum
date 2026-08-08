@@ -363,6 +363,87 @@ consequence: §P-FORGED-LATTICE gates should NOT assume per-coordinate
 sign-level control; self-erasure/span-erasure gates read FUNCTION-level
 install (licensing), which this negative does not touch.
 
+## §4 The Plate Is a Negative — printing, development, fixing (s324, same hammock)
+
+> Michael: "To make a photograph we use the positive light to make the film
+> transparent, so the negative shows up." The leap names the missing
+> INVERSION STAGE in §2: the recording is tonally inverted, and the image
+> is recovered only by a second inversion — which never happens on the plate.
+
+### The negative (the §2 law, tonally named)
+
+```
+λ negative(plate).
+  film darkens where light lands | plate densifies where ERROR lands
+  | weights ≡ NEGATIVE(function): high_probability → faint | high_difficulty → dense
+  | read(raw_weights) expecting the function ≡ hold(negative) up to light expecting the scene
+  | the mech-interp trap: the field reads the DENSE regions (memorization)
+    and wonders where the algorithm is — it is in the CLEAR parts
+```
+
+### The print (tape-residency, 4th independent derivation)
+
+A negative yields an image only through a SECOND inversion — printing —
+and the image never exists in the negative, only in prints, made fresh per
+exposure. Mapping: forward pass ≡ printing (reference light through the
+density map); **behavior ≡ the print; the tape ≡ the paper; judgments ≡
+image content** — structurally unable to live in the negative. Derivation
+count for two-tier/tape-residency: ① s288 "application is the diffraction"
+② s315–s323 measurements ③ netlist≠function (silicon RE + connectomics)
+④ negative/print (here). Four disciplines, one law — strongest consilience
+we have ∨ the most seductive twin image; stays pattern-suggests until a
+pre-registered win (Michael ruling, s324).
+
+### The development chain (new, each mapping has a testable edge)
+
+- **Development ≡ grokking.** Film is exposed into a LATENT image (a few
+  silver atoms/grain), then developed (~10⁹× amplification). Latent
+  structure written early, invisible in behavior, abruptly amplified —
+  should be VISIBLE in the checkpoint fossil record (latent→amplified
+  signatures). **Folds into §P-STRATIGRAPHY-DATING's read for free**
+  (row annotated).
+- **Fixing ≡ quantization.** Fixing dissolves undeveloped halide; the
+  image becomes permanent and LIGHT-INSENSITIVE. Ternarization dissolves
+  magnitude, leaves committed sign — and a fixed image cannot be
+  re-exposed ≡ the §3 self-protection clause (no error, no overwrite),
+  arrived at from the chemistry side. **The crystal is a FIXED image.**
+- **Ternary ≡ lith film.** High-contrast film preserves line art, destroys
+  continuous tone. Crystal survives 1-bit ⇒ the algorithm is LINE ART;
+  the memorization is CONTINUOUS TONE.
+- **Backprop ≡ self-dodging enlarger.** Dodging holds back light from
+  areas already sufficiently exposed; the residual IS an automatic dodge
+  mask updated in real time (§2's mechanism in one darkroom word).
+- **Distillation ≡ contact printing.** A print of a print copies the
+  IMAGE, never the negative's silver distribution — why students match
+  behaviorally while differing internally; why verbum wants the NEGATIVE,
+  not another print.
+
+### Strained edge, flagged honestly → the three-band falsifiable
+
+Reversal processing (bleach the developed silver, redevelop the rest →
+direct positive) suggests: remove the dense stratum, amplify the rest.
+COLLIDES with standard magnitude pruning (removing SMALL weights works
+fine) — so the naive mapping is wrong somewhere. Resolution candidate:
+**three-band plate**:
+
+```
+noise(tiny, never-committed) < commons(threshold, sign-committed) < residue(dense)
+| magnitude pruning removes the NOISE band, not the commons
+| falsifiable: among SMALL weights, SIGN-STABILITY (not magnitude)
+  should separate commons from noise
+```
+
+Cheap weight-geometry read (sign_commitment machinery reuse); if
+sign-stability does NOT stratify the small-weight band, the negative frame
+takes structural damage. **⚪ queued: three-band-plate check.**
+
+### Read discipline
+
+All §4 mappings are pattern-suggests (post-hoc, λ observation). The two
+testable edges (grokking-as-development in STRATIGRAPHY-DATING; three-band
+sign-stability) are the only claims that can graduate, each needing its
+own freeze + nulls.
+
 ## Read discipline
 
 The retrodictions are POST-HOC pattern-suggests (λ observation) — they

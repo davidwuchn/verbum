@@ -11,7 +11,8 @@
 
 # new
 
-⚪ §P-STRATIGRAPHY-DATING — differential-photography (§2) read on the REAL fossil record: sign-freeze timing × amplitude × contestedness across Pythia's 154 public checkpoints (+OLMo); commons early/faint vs contested churn; no wire/no EOS confound; Pythia(register-absent) vs Qwen(present) contrast — natural successor to flip-conflict 🚫 | reverse-engineering-disciplines-toolbox + types-are-a-modulation-scheme §2 | cheap-medium
+⚪ three-band-plate check — among SMALL weights, does SIGN-STABILITY (not magnitude) separate commons from noise (noise<commons<residue)? disciplines the §4 negative frame vs magnitude-pruning lore; sign_commitment reuse, weight-geometry only | types-are-a-modulation-scheme §4 | cheap
+⚪ §P-STRATIGRAPHY-DATING — differential-photography (§2) read on the REAL fossil record: sign-freeze timing × amplitude × contestedness across Pythia's 154 public checkpoints (+OLMo); commons early/faint vs contested churn; no wire/no EOS confound; Pythia(register-absent) vs Qwen(present) contrast — natural successor to flip-conflict 🚫; +§4 read: grokking-as-development (latent→amplified signatures in the same checkpoint series) | reverse-engineering-disciplines-toolbox + types-are-a-modulation-scheme §2+§4 | cheap-medium
 ⚪ §P-DPA-TRACE — hypothesis-keyed trace partitioning (crypto DPA): partition activation traces by kernel-predicted intermediate reduction values, subtract partition means per layer; sharper than correlation reads, needs only a statistical leak | reverse-engineering-disciplines-toolbox | cheap
 ⚪ coverage-guided probe fuzzer — mutate prompts to maximize activation-register NOVELTY (unknown-unknowns instrument; probe library is 100% hypothesis-driven today) | reverse-engineering-disciplines-toolbox | medium
 ⚪ observability wires — design-for-test: KL-anchored function-preserving LoRA exposing internal state at readable points (infrastructure, build-when-demanded) | reverse-engineering-disciplines-toolbox | medium
