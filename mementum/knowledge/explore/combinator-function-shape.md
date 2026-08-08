@@ -357,11 +357,18 @@ For each target T ∈ {I, W, C}:
 
 - **G0 REGISTER-FORMS (void gate):** prose anchor silhouette (perm null) at
   the read layers; register must form (s217 precedent) else VOID.
-- **G1 AXIS-SEPARATION (pre-gate, per pair):** |cos(d_T, d_T')| vs a null of
-  random anchor-pool splits (shuffle probes between the two pools, recompute
-  axes). Pair fails → affected planes **VOID-BY-DESIGN** (instrument cannot
-  separate them; reported, ¬forced — λ yardstick). I/W = the at-risk pair
-  (shared reflexive surface).
+- **G1 AXIS-SEPARATION (pre-gate, per pair):** per-pair POOL SEPARABILITY —
+  silhouette of the two anchor pools vs label-permutation null (pass iff
+  obs > null, p<0.05). Pair fails → affected planes **VOID-BY-DESIGN**
+  (instrument cannot separate them; reported, ¬forced — λ yardstick). I/W =
+  the at-risk pair (shared reflexive surface). **🔄 AMENDMENT (s322,
+  --validate-forced, pre-run, instrument-side only):** the originally frozen
+  |cos(d_T,d_T')|-vs-split-null statistic was register-mismatched — the
+  mean-of-others axis construction mechanically couples axes (shared −1/(P−1)
+  term), so obs |cos| exceeds a noise-dominated split null even for perfectly
+  separable pools (planted operational world → false VOID). Pool separability
+  is the quantity VOID-BY-DESIGN needs; residual axis coupling is shared
+  across targets and handled by G4. Gates/verdicts/a-priori UNCHANGED.
 - **G2 PLANE-A CROSS-STYLE:** clean symbolic compounds (v1's 7 clean groups,
   kernel-certified, n_per 20), `nf_align − op_align` on PROSE anchors beats
   the shuffled-NF-assignment null, at the late band.
