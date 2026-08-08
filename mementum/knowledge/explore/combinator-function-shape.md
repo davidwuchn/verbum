@@ -302,3 +302,116 @@ with (but does not show) something drifting NF-ward late. **v2 requirements:
 functional-equivalence anchors (NF-ness established behaviorally across diverse
 held-out spellings, not by literal symbol presence) · clean spellings only,
 pre-registered · per-layer gates · token-presence null.** Queued s322.
+
+## §P-CL-COLLAPSE-2 — prose-anchored extensional routing (FROZEN s322, Michael GO)
+
+### The crux
+
+The v1 instrument could not see extensional routing (lexical symbolic anchors
++ early-layer gate; §Re-read). V2 anchors function-ness in **PROSE** — the
+crystal probes (s217, z=7.97, 67 I / 50 W / 61 C / 69 B in
+`verbum.probes.library`) — and asks two independent questions:
+
+- **Plane A (cross-style):** do clean symbolic compounds (`S K K a`, NF-symbol
+  absent) align with the PROSE anchor of their normal form? Prose anchors
+  contain ZERO combinator tokens → token overlap impossible by construction;
+  any nf-alignment is function-level. Style gap (NL↔symbolic) is common-mode:
+  CMR + within-anchor-set CONTRASTS cancel it.
+- **Plane B (within-prose):** do prose ROUND-TRIP compounds — sentences
+  enacting composite behavior that computes a primitive ("wrapped the gift and
+  then unwrapped it" = I) — route like the primitive they COMPUTE (extensional)
+  or like the sequenced two-step they SPELL (operational; for I the named
+  operational pole is B)?
+
+### Register (λ measure)
+
+ROUTING (crisp/topological): sign of gate_proj pre-activations, CMR'd over the
+pooled population, last-token read, per-layer — v1 machinery verbatim
+(`combinator_relationship_map.collect/cmr`; λ one_way). Primary gate read =
+**LATE band mean (frac ≥ 0.6)**; full per-layer trajectory persisted + reported
+(§Re-read lesson: never gate at the early silhouette max). Raw sign matrices
+persisted npz (lesson: post-hoc decompositions become free).
+
+### Scoring — three targets, separated by construction
+
+Anchor pools: crystal probes for {I, K, W, C, B, S} (prose, s217-validated).
+For each target T ∈ {I, W, C}:
+
+1. **Contrast axis** `d_T = unit(centroid(A_T) − mean_{T'≠T} centroid(A_T'))`
+   — subtracts what anchors share (style, prose-ness, the REFLEXIVE component
+   the library's I and W pools both carry: "cleaned itself" / "bit itself").
+2. **Score = difference-in-differences within one syntax family:**
+   `score_T = mean align(compound_T, d_T) − mean align(control_T, d_T)`,
+   where control_T = same-syntax non-T sentences. Families:
+   - I: "wrapped the gift and then unwrapped it" vs "… and then mailed it"
+   - W: "compared the draft against the draft" (one filler, two slots — NO
+     reflexive pronoun) vs "compared the draft against the outline"
+   - C: "added the coffee to the milk, not the milk to the coffee" (swap) vs
+     "added the cream to the coffee, not the sugar" (two-option, no swap)
+   Cross-target syntax differences never enter any score (each score is a
+   within-family subtraction).
+3. **3×3 cross-assignment matrix** `M[s,t] = score(family_s on axis d_t)` —
+   confound is MEASURED, not assumed.
+
+### Gates
+
+- **G0 REGISTER-FORMS (void gate):** prose anchor silhouette (perm null) at
+  the read layers; register must form (s217 precedent) else VOID.
+- **G1 AXIS-SEPARATION (pre-gate, per pair):** |cos(d_T, d_T')| vs a null of
+  random anchor-pool splits (shuffle probes between the two pools, recompute
+  axes). Pair fails → affected planes **VOID-BY-DESIGN** (instrument cannot
+  separate them; reported, ¬forced — λ yardstick). I/W = the at-risk pair
+  (shared reflexive surface).
+- **G2 PLANE-A CROSS-STYLE:** clean symbolic compounds (v1's 7 clean groups,
+  kernel-certified, n_per 20), `nf_align − op_align` on PROSE anchors beats
+  the shuffled-NF-assignment null, at the late band.
+- **G3 PLANE-B PER-TARGET:** `score_T > 0` beats the shuffled
+  compound/control-label null (within family), late band.
+- **G4 CROSS-CUT SELECTIVITY (anti-confound, make-or-break for any
+  extensional claim):** diagonal M[T,T] beats its ROW (family selective for
+  its own axis) and its COLUMN (axis selective for its own family) under the
+  shuffled-assignment null. Generic "round-trippy prose" lights a row → fails.
+- **G5 LEXICAL-DISJOINT (build-time certification, code-enforced):** zero
+  content-lemma overlap between (compound ∪ control) and ANY anchor pool
+  (no itself/herself/same/exactly anywhere in Plane B); minimal overlap
+  across families. Analog of v1 kernel certification. Symbolic compounds
+  remain kernel-certified; prose compounds are DESIGN-certified only
+  (semantic construction; weaker grade, marked — λ observation).
+
+### Construction sizes
+
+Plane B: ≥12 compound + ≥12 control sentences per target (template-diverse
+verbs). Plane A: v1 clean spellings verbatim (7 groups × n_per 20). One model
+load, read-only, no wire.
+
+### Verdicts + a-priori (declared, NOT tuned; per-target sub-verdicts
+EXTENSIONAL-T / OPERATIONAL-T / VOID-T reported alongside)
+
+- **OPERATIONAL-CONFIRMED 40** — Plane A null ∧ all live Plane B diagonals
+  fail: round-trips route as their spelled two-step; s321 verdict survives a
+  FAIR instrument; compositionality ✗ hardens.
+- **PROSE-EXTENSIONAL 25** — ≥1 Plane B target passes G3∧G4 ∧ Plane A null:
+  the substrate computes function identity in prose but it is not readable
+  off symbolic spellings (style-bound extensionality).
+- **BOTH-EXTENSIONAL 10** — Plane A passes ∧ ≥1 Plane B passes: extensional
+  routing real; v1 was instrument-blind; compositionality cell REOPENS.
+- **SYMBOLIC-ONLY 5** — Plane A passes ∧ Plane B all null (surprising:
+  symbolic-side extensional signal readable against prose anchors only).
+- **MIXED 15** — patterns not covered (e.g., pre-gate voids I/W while C
+  splits) — per-target report carries the read.
+- **VOID 5** — G0 fails.
+
+### Read discipline (banked)
+
+Don't over-read PROSE-EXTENSIONAL: it licenses "I-ness computed in prose
+routing", NOT symbolic-algebra extensionality (s321's clean-null stands
+within its instrument). G4 failure with G3 passing = style artifact, not
+extensionality. VOID-BY-DESIGN pairs are instrument findings, not substrate
+findings. Model: Qwen3-14B (v1 carrier). Cost: ~minutes read-only.
+
+### Model / reuse
+
+`scripts/experiments/cl_collapse2.py` — reuses `cl_collapse.build_probes`
+(clean symbolic subset) + `combinator_relationship_map.collect/cmr/unit` +
+`verbum.probes.library.crystal_probes`; new code = prose families, contrast
+axes, DiD scoring, 3×3 cross-cut, G1 split-null, G5 lemma check.
