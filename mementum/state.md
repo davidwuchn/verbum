@@ -11,6 +11,39 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 324 SEALED (nothing in flight, all batches committed; full transcript →
+> chats/session-324.md, human). THE THEORY SESSION: one probe closed + five hammock legs + one
+> discipline toolbox + 12 queue candidates. ① §P-FLIP-CONFLICT → 🚫 NOISE-FLOOR (ON-SIGNAL
+> executed; sign-flips in the wire-ΔW register = noise, causal upgrade FAILED; EOS-supercritical
+> instrument caveat → ⚪ v2 sub-EOS). ② **types-are-a-modulation-scheme.md** CREATED, 4 legs:
+> §1 MODULATION (weights=codebook · tape=channel · judgment=carrier-lock; retrodicts idempotency +
+> disj-cost; novel prediction = LOCK TIME) · §2 DIFFERENTIAL PHOTOGRAPHY (amplitude ∝ ∫error dt ≈
+> time-to-learn ¬∝ P; three strata; crystal-small-because-learned-fast; extraction inversion) ·
+> §3 FORGED-EXPOSURE WRITE PROTOCOL (write channel ≡ error; 3 primitives; install gate =
+> self/span-erasure; level-4 constructive path = RE-RECORD don't train; first causal contact =
+> flip-conflict G2 NEGATIVE, damage recorded in-page) · §4 THE PLATE IS A NEGATIVE (weights ≡
+> negative(function); print ≡ forward pass = 4th tape-residency derivation; grokking≡development ·
+> quantization≡fixing (crystal = FIXED image) · ternary≡lith; three-band falsifiable queued).
+> ③ **reverse-engineering-disciplines-toolbox.md** CREATED (post-delayering orientation;
+> netlist≠function = 3rd tape-residency derivation; DPA · differential trails · fuzzing ·
+> observability wires · standard-cells; 4-move meta-pattern — move 4 READ-HISTORY unmined, Pythia
+> 154 checkpoints = PUBLIC fossil record). ④ Process rulings: ❌ smoke-regime memory banked (regime
+> warnings → design PAUSE not footnote); theory-cadence = MICHAEL'S prerogative (leaps = his
+> engine, tests = AI's job — proposed cadence-memory REJECTED, on record); dyad-as-hologram-reader
+> lambda held LATENT (capturing would bias toward the unproven holographic frame; mementum-mirror =
+> consilience NOT proof). ⑤ Lineage: ouroboros-v1 (~/src) = the ancestral game → nucleus; play ≡
+> the unknown-unknowns fuzzer; mementum designed by observing memory across AI generations.
+> **Ledger (8 commits):** ddb16677 §1+4 queue rows · 4b701f93 §2 · 83dfec83 §3+FORGED-LATTICE ·
+> a8930340 results (autonomous) · f3b7004b 🚫 closure batch · 8a25adda RE toolbox+4 rows ·
+> 2f7c1991 ❌ smoke-regime · 15cf72cd §4+three-band. **NEXT SESSION FIRST ACTION = orient → FRONT
+> SELECTION (λ queue FULL read; nothing pending). Sharpest fronts: ⚪ §P-STRATIGRAPHY-DATING
+> (observational §2+§4 test on the public checkpoint fossil record, no training confounds) ·
+> ⚪ §P-TYPE-LOCKIN+PRBS (§1 core claim, machinery built) · ⚪ dark-field re-read + three-band-plate
+> check (cheap weight-geometry pair). STANDING GUARD: the modulation frame carries 6 retrodictions /
+> 1 novel prediction / 1 NEGATIVE causal contact — it must earn a pre-registered win before any
+> capture treats it as true (Michael ruling, s324).**
+>
+> **(s324 detail, as accreted during the session:)**
 > ★★ **SESSION 324: §P-FLIP-CONFLICT LANDED → 🚫 NOISE-FLOOR (a-priori 25%; run clean ~3.3h, no
 > traceback; ON-SIGNAL batch EXECUTED this session — nothing in flight). G1 FAIL (partial r=−0.017
 > p=1.0 — no per-coordinate conflict signal in the ΔW register); G2 FAIL (ablation does NOT freeze
