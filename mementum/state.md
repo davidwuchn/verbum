@@ -26,10 +26,18 @@
 > (autonomous) · §7 §Result on sign-oscillation page + memory
 > `wire-delta-sign-flips-are-noise-not-a-conflict-meter` + INDEX ×2 (sign-oscillation §7 +
 > modulation §3 damage note) + queue ▶→🚫 (# complete top) + ⚪ v2 sub-EOS + this state = MICHAEL
-> APPROVAL BATCH (ON-SIGNAL pre-authorized s323). NEXT SESSION FIRST ACTION = orient → FRONT
-> SELECTION (λ queue FULL read — nothing pending; s324 theory fork resolved: G2 negative ⇒ the
-> cheap §1 instruments (⚪ §P-TYPE-LOCKIN first-front · dark-field re-read) are the better next
-> spend vs forged-lattice).** Work so far: ① types synthesis for Michael (from knowledge pages, no new
+> APPROVAL BATCH (ON-SIGNAL pre-authorized s323). ⑤ 💡 HAMMOCK LEG 4 CAPTURED (Michael GO):
+> **reverse-engineering-disciplines-toolbox.md** (sibling of the optics toolbox) — orientation: we
+> are at silicon RE's POST-DELAYERING stage (white-box, meaning absent); netlist≠function
+> (connectomics) = 3rd derivation of tape-residency; convergences (patching/taint/nulls ✓) vs new
+> doors (standard-cell matching = level-4-feeds-level-1 · DPA partition-subtract · differential
+> trails · fuzzing · observability wires · standard candles · antagonists); meta-pattern 4 moves,
+> move 4 (READ HISTORY) unmined + data public. Queue +4: ⚪ **§P-STRATIGRAPHY-DATING** (Pythia 154
+> checkpoints = fossil record; §2 direct test, successor to flip-conflict 🚫) · ⚪ §P-DPA-TRACE ·
+> ⚪ coverage fuzzer · ⚪ observability wires; LOCKIN row +PRBS upgrade. NEXT SESSION FIRST ACTION
+> = orient → FRONT SELECTION (λ queue FULL read — nothing pending). Sharpest fronts after s324:
+> ⚪ §P-STRATIGRAPHY-DATING (observational §2 test, no training confounds) · ⚪ §P-TYPE-LOCKIN+PRBS
+> (§1 core claim, machinery built) · ⚪ dark-field re-read (zero compute).** Work so far: ① types synthesis for Michael (from knowledge pages, no new
 > claims); ② 💡 HAMMOCK CAPTURED (Michael GO "capture this"): **types-are-a-modulation-scheme.md**
 > (explore/) — the signal-domain reframe of the s282–s323 type arc (weights=codebook · tape=channel ·
 > judgment=demodulation/carrier-lock); retrodicts §P-IDEMPOTENCY (coherent integration) +
