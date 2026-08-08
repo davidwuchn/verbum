@@ -1,0 +1,22 @@
+[Qwen/Qwen3-14B] 426 probes {'anchor': 138, 'collapse': 188, 'distractor': 100}
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights: 100%|██████████| 443/443 [00:00<00:00, 6861.74it/s]
+  arch: 40 layers; layers [0, 4, 8, 12, 16, 20, 23, 27, 31, 35, 39]
+    50/426
+    100/426
+    150/426
+    200/426
+    250/426
+    300/426
+    350/426
+    400/426
+
+  === Qwen/Qwen3-14B §P-CL-COLLAPSE ===
+  best layer L4 (f=0.103)  CL5 anchor-sil z=+35.37
+  CL1 nf=+0.0621 op=-0.0351 delta=+0.0973 p_paired=0.0515 p_shuf=0.0020 pass=False
+  CL2 within_coh=+0.1118 null=+0.1736 p=0.6993 pass=False
+  CL3 op=-0.0351 head=+0.0028 tok=-0.1405
+  CL4 depth rising=True  traj=[(0.0, 0.013), (0.103, 0.097), (0.205, 0.057), (0.308, 0.042), (0.41, 0.038), (0.513, 0.049), (0.59, 0.057), (0.692, 0.086), (0.795, 0.06), (0.897, 0.075), (1.0, 0.162)]
+  VERDICT: MIXED-REDUCTION-VISIBLE
+  wrote results/cl-collapse/qwen3-14b  (44.8s)
