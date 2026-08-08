@@ -1,0 +1,27 @@
+[Qwen/Qwen3-14B] 568 probes {'anchor_prose': 364, 'collapse': 132, 'prose_compound': 36, 'prose_control': 36} (G5 pass)
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights: 100%|██████████| 443/443 [00:00<00:00, 6711.93it/s]
+  arch: 40 layers; layers [0, 4, 8, 12, 16, 20, 23, 27, 31, 35, 39]
+    50/568
+    100/568
+    150/568
+    200/568
+    250/568
+    300/568
+    350/568
+    400/568
+    450/568
+    500/568
+    550/568
+
+  === Qwen/Qwen3-14B §P-CL-COLLAPSE-2 ===
+  G0 sil_late=0.0367 p=0.0362
+  G1 IxW: sil=0.152 null=0.090 p=0.0033 PASS
+  G1 IxC: sil=0.136 null=0.085 p=0.0033 PASS
+  G1 WxC: sil=0.156 null=0.090 p=0.0033 PASS
+  G2 planeA mean_nf=-0.3911 delta=-0.0194 p=0.5734 pass=False
+  B[I] score=+0.0502 p=0.0040 row_p=0.0519 col_p=0.3636 -> OPERATIONAL
+  B[W] score=+0.0065 p=0.2627 row_p=0.9161 col_p=0.8462 -> OPERATIONAL
+  B[C] score=-0.0186 p=0.9311 row_p=0.9890 col_p=0.0779 -> OPERATIONAL
+  VERDICT: OPERATIONAL-CONFIRMED
