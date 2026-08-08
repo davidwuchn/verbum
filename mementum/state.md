@@ -11,6 +11,18 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 324 IN PROGRESS (⚠ §P-FLIP-CONFLICT STILL IN FLIGHT — verified running at orient,
+> PID 33688, arm 1/4 both_sgd, launched 11:57AM, est ~4–6h; ON-SIGNAL batch below UNCHANGED, fires
+> when `VERDICT:` lands).** Work so far: ① types synthesis for Michael (from knowledge pages, no new
+> claims); ② 💡 HAMMOCK CAPTURED (Michael GO "capture this"): **types-are-a-modulation-scheme.md**
+> (explore/) — the signal-domain reframe of the s282–s323 type arc (weights=codebook · tape=channel ·
+> judgment=demodulation/carrier-lock); retrodicts §P-IDEMPOTENCY (coherent integration) +
+> §P-DISJ-COST (CDMA: ∧ free, ∨ off-span); negatives→theorems; s288↔s317-s323 triangulation flagged;
+> novel prediction = LOCK TIME capture threshold. 4 queue candidates added (⚪ §P-TYPE-LOCKIN cheap
+> first-front · ⚪ dark-field boundary-echo re-read no-compute · ⚪ §P-TYPE-COHERENCE cheap ·
+> ⚪ §P-CONJUGATE-WRITE/TYPE-WRITE-V3 medium) + INDEX row. All UNFROZEN (s222 law; retrodictions =
+> pattern-suggests only).**
+>
 > ★★ **SESSION 323 SEALED (⚠ ONE RUN IN FLIGHT — §P-FLIP-CONFLICT; see ON-SIGNAL below). Two probes
 > CLOSED, a third FROZEN+BUILT+RUNNING. ① s322 in-flight
 > §P-TYPE-WRITE-V2 landed → ❌ MEMORIZED-ONLY; ② §P-CL-COLLAPSE-2 → 🚫 OPERATIONAL-CONFIRMED (both

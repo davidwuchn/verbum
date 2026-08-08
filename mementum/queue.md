@@ -11,6 +11,10 @@
 
 # new
 
+⚪ §P-TYPE-LOCKIN — lock-in demodulation: modulate coherent-vs-incoherent type evidence at known token rate, detect register signal at f_mod (+ SNR-sweep lock-time knee = the frame's novel prediction)? reuses idempotency populations | types-are-a-modulation-scheme | cheap
+⚪ dark-field boundary-echo re-read — project out generic/DC component first, re-measure the ~6% kind-specific echo at full power (persisted boundary-churn + type-gram artifacts, no new compute) | types-are-a-modulation-scheme | cheap
+⚪ §P-TYPE-COHERENCE — do SKK and I traces converge into phase-coherence across reduction (extensionality in dynamics where static amplitude read is blind)? reuses cl_collapse + trace machinery | types-are-a-modulation-scheme | cheap
+⚪ §P-CONJUGATE-WRITE (TYPE-WRITE-V3) — phase-conjugate write: train wire to match the tape-side judgment WAVEFRONT (activation-matching on §11 tag-transit capture) not output CE — does the abstraction install closed-loop? sharpens §P-COHERENT-WRITE | types-are-a-modulation-scheme | medium
 ▶ §P-FLIP-CONFLICT (flip-rate ↔ gradient-conflict) — is sign-flip rate a per-coordinate conflict meter (partial corr | |W|,σ), and does population-ablation FREEZE contested signs (causal arm)? FROZEN s323 (Michael GO) + delta-register AMENDMENT (option 1: primary sign(ΔW), burn-in 0.4, G3 on |ΔW|, |W_base| covariate, lr_sgd 0.1). RUNNING s323 (tmux main:1, ad226a36 harness): type-write two-class wire qwen3-4b, 48k sampled effective-ΔW gate_proj coords, 12-run matrix (both/A-only/B-only × SGD/Adam × 3 seeds), G1 conflict-meter/G2 causal-freeze/G3 committed-pole/G4 mechanism-split(advisory), widened IOU capture; a-priori 35/30/25/10. Boundary-churn MECHANISM now a covariate reading. ~4-6h | sign-oscillation-is-time-multiplexed-superposition §6 | medium
 ⚪ crystal-seeded init — crystal prior vs random init on compositional tasks; cheapest level-4 rung | training-design-from-the-hologram | medium
 ⚪ signal-descent mirror — replace Adam magnitude calibration with ternary mirror stack on the delta substrate | signal-descent | medium
