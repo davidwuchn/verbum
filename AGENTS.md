@@ -45,7 +45,7 @@ coordination (S2), cold-start is an operation (S1). Taxonomy inside
 
 ---
 
-## S5 — Identity (ethos, values — what this project IS)
+## S5 — Identity & Policy (ethos, values — what this project IS)
 
 ```
 λ extract(x).       ∃circuit(LLM) → characterize(tensors) | understand > invent
