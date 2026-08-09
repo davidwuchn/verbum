@@ -1,0 +1,6 @@
+{"gate": "SD0", "pass": true, "loads_ok": true, "final_matches_published": true, "step0_mean_sign": 0.0007299854002919942, "frac_valid": 1.0, "frac_frozen_by_b5": 0.3260884782304354, "frac_frozen_b11_b18": 0.5971830563388733, "frac_unfrozen_b19": 0.06855362892742145, "non_degenerate": true}
+{"gate": "SD1", "n_pool": 127492, "rho": -0.08657336016918374, "p_pos": 1.0, "p_neg": 0.0, "sign": "negative"}
+{"gate": "SD2", "pass": false, "degenerate": false, "obs_d1": 0.13293670632936708, "pred_d1": 0.1846907654617269, "delta": -0.051754059132359836, "p": 1.0, "frac_commons_by_decile": [0.13293670632936708, 0.1846907654617269, 0.23147314731473148, 0.27135, 0.3110600229896547, 0.35149182867709533, 0.38610444177671066, 0.436519044286714, 0.48249474842452733, 0.5546441254439054], "bottom_decile_split": {"commons": 0.13293670632936708, "churner": 0.7327767223277672, "middle": 0.1342865713428657}}
+{"gate": "SD3", "advisory": true, "n": 2659, "median_lag": 9.0, "frac_positive": 0.5340353516359534, "p": 1.0}
+{"gate": "SD4", "advisory": true, "rho_per_layer": {"6": -0.07561615075618834, "7": -0.08252153178660956, "8": -0.09933391043056833, "9": -0.09365425032029709, "10": -0.08457471681125119, "11": -0.08321534528820237}}
+{"verdict": "INVERTED", "a_priori": {"STRATIFIED": 25, "PARTIAL-STRATA": 15, "INVERTED": 25, "UNSTRATIFIED": 25, "VOID": 10}}
