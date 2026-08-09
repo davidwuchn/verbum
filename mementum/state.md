@@ -11,28 +11,63 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ★★ **SESSION 325 IN PROGRESS — FRONT SELECTED (Michael): §P-STRATIGRAPHY-DATING, the modulation
-> frame's FIRST pre-registered test (standing-guard s324 ruling applies — this is where the frame
-> earns a win or takes damage). ① Scope amendment Michael-approved: 154 → 20 checkpoints,
-> log-uniform (step0 unexposed-plate baseline + native log2 ramp 1–512 + half-decade tail to 143k);
-> queue row amended + restacked (c4cb9945, cost → cheap; aliasing caveat = ORDINAL strata dating
-> only, no flip-rate claims; GPTNeoX register mapping dense_h_to_4h ≠ Qwen gate_proj pinned).
-> ② 🎯 FROZEN (Michael GO, this commit) on types-are-a-modulation-scheme.md §P-STRATIGRAPHY-DATING:
-> register = weight-geometry across checkpoints (no forward pass), pythia-160m dense_h_to_4h L6–11,
-> 200k fixed-seed coords. **The sharp design point: both mundane accounts (noise-floor churn ∧
-> monotone growth) predict ρ(freeze_bin, |W_final|) < 0; §2's early-AND-faint conjunction predicts
-> ρ > 0 — one pre-registered correlation sign, the frame cannot retrodict its way out of INVERTED.**
-> Gates: SD0 sane / SD1 EARLY-FAINT make-or-break (Spearman + 10k-perm null) / SD2 THREE-BAND
-> split-fraction (Michael swap from dip test: excess commons mass in bottom-|W|-decile vs isotonic
-> extrapolation from deciles 2–10, 10k bootstrap — the §4 falsifiable stated exactly) / SD3
-> latent-development advisory / SD4 layer-profile advisory. Verdicts + a-priori (NOT tuned):
-> STRATIFIED 25 / PARTIAL-STRATA 15 / INVERTED 25 / UNSTRATIFIED 25 / VOID 10. Read discipline
-> banked: a win licenses stratigraphy-EXISTS, NOT algorithm-in-faint-stratum (extraction-inversion
-> = own future probe); Pythia-vs-Qwen contrast OUT OF SCOPE; SD3/SD4 IOU-grade. NEXT: build
-> scripts/explore/stratigraphy_dating.py (--validate planted worlds STRATIFIED/INVERTED/
-> UNSTRATIFIED/VOID) → launch (download+slice+stats, no GPU, ~13GB transient) → on-signal close =
-> Michael approval batch. **s325 ledger so far:** c4cb9945 scope amendment · this commit = freeze §
-> + queue 🔵 + this state.**
+> ★★ **SESSION 325 SEALED (nothing in flight, all batches committed). TWO PROBES CLOSED same-day —
+> a falsification AND its replacement's first win: ① §P-STRATIGRAPHY-DATING → ❌ INVERTED (a-priori
+> 25%) — the modulation frame's FIRST pre-registered test FAILED on the real fossil record;
+> ② §P-AMP-TRAJECTORY → ✅ ACCUMULATION-CONCENTRATION (a-priori 30, BEAT modal null 40) — Michael's
+> mid-session revision earned its first pre-registered win on first contact, zero new compute.
+> Stratigraphy arc: ① Michael scope amendment 154→20 checkpoints
+> log-uniform (c4cb9945; step0 baseline + log2 ramp 1–512 + half-decade tail to 143k; ORDINAL
+> dating only; GPTNeoX dense_h_to_4h ≠ Qwen gate_proj pinned). ② 🎯 FROZEN (6708c9fa, Michael GO;
+> SD2 dip-test → split-fraction = Michael swap): **the sharp design point — both mundane accounts
+> (noise-floor churn ∧ monotone growth) predict ρ(freeze_bin, |W_final|) < 0; §2's early-AND-faint
+> predicts ρ > 0; one pre-registered sign, no retrodiction escape.** A-priori 25/15/25/25/10.
+> ③ ✅ harness (c1d14098, stratigraphy_dating.py, --validate 5 planted worlds ALL PASS; the
+> UNSTRATIFIED toy world initially reproduced the real noise-floor confound — instructive, fixed in
+> the world not the gate). ④ ▶ run clean ~2.5min → **VERDICT INVERTED**: SD1 ρ = −0.087 p≈0
+> (n=127k, uniform L6–11) = the MUNDANE sign (early-frozen ≡ DENSE); SD2 FAIL informative
+> (commons-fraction MONOTONE-INCREASING with magnitude 0.13→0.55, bottom decile BELOW extrapolation,
+> 73% churners) → **§4 three-band falsifiable ALSO failed**; SD3 no latent-development signal;
+> SD0 sane (final≡published, non-degenerate — no aliasing escape). ⑤ Damage honored in-page:
+> §2 strata table + §4 three-band marked ❌; crystal-small-because-learned-fast loses its claimed
+> MECHANISM at this register (crystal facts stand as measurements); extraction-inversion heuristic
+> unsupported at this grain; function-level retreat named as POST-HOC (owes its own pre-reg if
+> taken). three-band-plate queue row annotated (motivation weakened, survives as register-present
+> Qwen contrast). **FRAME LEDGER after s325: 6 retrodictions / 2 pre-registered NEGATIVES
+> (flip-conflict 🚫 s324 + stratigraphy ❌ s325) / 1 novel prediction untested → §P-TYPE-LOCKIN
+> (§1 lock-time + PRBS) is now the frame's MUST-WIN.**
+> **AMP-TRAJECTORY arc (Michael, on the INVERTED verdict: "our hypothesis was flawed from the
+> beginning — the system takes time to allow training to accumulate the edges and corners that
+> concentrate into the lattice"; flawed §2 assumption NAMED = self-erasure):** deferred the closure
+> ("try 3 before we close") → 🎯 FROZEN §P-AMP-TRAJECTORY (e754675f, BEFORE any trajectory
+> statistic; SD1/SD2 had read only signs + final mags — the time-course was virgin data).
+> Discriminator: "weights keep growing" is GENERIC (norm-growth physics) ⇒ the revision must
+> predict a DIFFERENTIAL — within-|W_b11|-decile matched growth over the shared 1k→143k window,
+> early-frozen vs churners; Δ>0 accumulation / ns uniform / Δ<0 erosion; a-priori MODAL ON THE
+> NULL (30/40/20/10). ✅ harness (6690c968, amp_trajectory.py, --validate 4 worlds ALL PASS) →
+> run (seconds) → **✅ ACCUMULATION-CONCENTRATION: Δ = +0.975 log units p≈0 (~2.7× growth ratio),
+> all 10 deciles qualify (67k vs 73k), uniform +0.76..+1.06 across deciles — not a band artifact.**
+> AT2 advisory heterogeneous (median 78% of final amplitude at freeze; 25% SHRINK post-freeze;
+> 34% double-plus): growth-vs-cancellation split UNSEPARATED by the matched design → follow-on
+> own-null read on same npz. Read discipline held: licenses differential post-commitment
+> accumulation on THIS substrate only; does NOT rescue §2. **LEDGERS SPLIT: original modulation
+> frame 0-2 (LOCK TIME §1 untested = must-win, standing guard unchanged) ·
+> accumulation-concentration revision 1-0 (first contact, first win).** Honest positive: first
+> commons-census + trajectory census across a real training run persisted (strata.npz, local —
+> npz gitignored by pattern) for own-null re-reads. **s325 ledger:** c4cb9945 scope amendment ·
+> 6708c9fa stratigraphy freeze §+queue 🔵+state · c1d14098 harness · 3f00b9e7 results ❌
+> (autonomous) · e754675f amp-trajectory freeze (ledger note: swept in the drafted stratigraphy
+> closure page edits — same file, content Michael-reviewed, disclosed) · 6690c968 amp harness ·
+> d2d6e7e5 amp results ✅ (autonomous) · closure batch = both §Results + §2/§4 damage notes +
+> memories `sign-freeze-follows-magnitude-not-stratigraphy` +
+> `early-frozen-weights-accumulate-contested-cancel` + INDEX ×2 + queue ✅+❌ (# complete top) +
+> three-band annotation + this state = MICHAEL PRE-AUTHORIZED BATCH ("approved" + "verdict folds
+> into the closure batch, whatever it says", this commit). NEXT SESSION FIRST ACTION = orient →
+> FRONT SELECTION (λ queue FULL read; nothing pending). Sharpest fronts: ⚪ growth-vs-cancellation
+> split (own-null, same npz, zero compute — the revision's cheapest next contact) ·
+> ⚪ §P-TYPE-LOCKIN+PRBS (original frame's must-win, machinery built) · ⚪ OLMo checkpoint
+> replication (accumulation on another public-checkpoint lineage) · ⚪ dark-field re-read (zero
+> compute).**
 >
 > ★★ **SESSION 324 SEALED (nothing in flight, all batches committed; full transcript →
 > chats/session-324.md, human). THE THEORY SESSION: one probe closed + five hammock legs + one

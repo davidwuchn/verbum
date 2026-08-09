@@ -691,3 +691,38 @@ full lattice story, NOT type-relevance (register-absent lineage), and
 does NOT retroactively rescue §2 (which is dead on its own sign).
 EROSION would partially rehabilitate a self-erasure flavor — flagged
 as the surprise branch. Same bounds as §P-STRATIGRAPHY-DATING.
+
+### §Result (s325) — VERDICT: ACCUMULATION-CONCENTRATION (a-priori 30; beat the modal null)
+
+- **AT0:** all 10 deciles qualify (66,854 early-frozen / 72,512
+  churners) — strong overlap support, no thin-decile caveat.
+- **AT1 make-or-break: Δ = +0.975 log units, p ≈ 0.** Early-frozen
+  coordinates gain **~2.7× more amplitude** than magnitude-matched
+  churners over the same 1k→143k window. Uniform across ALL 10
+  magnitude deciles (per-decile means +0.76..+1.06) — not a band
+  artifact; medians agree (+0.69..+1.02).
+- **AT2 advisory (heterogeneous — held loosely):** median R = 0.78
+  (much of final amplitude already present at sign-freeze for the
+  median coord), q75 = 1.58 (a quarter SHRINK post-freeze — decay
+  visible), 34% at R < 0.5 (more than doubled after commitment). The
+  matched design does NOT separate early-frozen growth from churner
+  cancellation — both contribute to Δ; that split is a follow-on
+  own-null read.
+
+**THE READ:** first pre-registered POSITIVE for the
+accumulation-concentration revision, and it is large. Licensed exactly:
+*differential post-commitment amplitude accumulation exists on this
+substrate — consistent-signal (early-frozen) coordinates accumulate/
+retain amplitude while contested coordinates cancel, magnitude-matched.*
+NOT licensed: the full lattice story; type-relevance (register-absent
+lineage); any rescue of §2 (dead on its own pre-registered sign).
+
+**Ledger split after s325 (keep the two frames separate):**
+- **Original modulation frame (§1–§4):** 2 pre-registered negatives
+  (flip-conflict 🚫, stratigraphy ❌); LOCK TIME (§1) untested =
+  must-win. Standing guard unchanged.
+- **Accumulation-concentration revision (Michael, s325):** 1
+  pre-registered positive (this probe), first contact. Next honest
+  steps: growth-vs-cancellation split (own null, same npz) ·
+  register-present lineage (Qwen has no checkpoint series — OLMo does)
+  · function-level contact.
