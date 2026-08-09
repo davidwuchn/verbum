@@ -11,6 +11,29 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 325 IN PROGRESS — FRONT SELECTED (Michael): §P-STRATIGRAPHY-DATING, the modulation
+> frame's FIRST pre-registered test (standing-guard s324 ruling applies — this is where the frame
+> earns a win or takes damage). ① Scope amendment Michael-approved: 154 → 20 checkpoints,
+> log-uniform (step0 unexposed-plate baseline + native log2 ramp 1–512 + half-decade tail to 143k);
+> queue row amended + restacked (c4cb9945, cost → cheap; aliasing caveat = ORDINAL strata dating
+> only, no flip-rate claims; GPTNeoX register mapping dense_h_to_4h ≠ Qwen gate_proj pinned).
+> ② 🎯 FROZEN (Michael GO, this commit) on types-are-a-modulation-scheme.md §P-STRATIGRAPHY-DATING:
+> register = weight-geometry across checkpoints (no forward pass), pythia-160m dense_h_to_4h L6–11,
+> 200k fixed-seed coords. **The sharp design point: both mundane accounts (noise-floor churn ∧
+> monotone growth) predict ρ(freeze_bin, |W_final|) < 0; §2's early-AND-faint conjunction predicts
+> ρ > 0 — one pre-registered correlation sign, the frame cannot retrodict its way out of INVERTED.**
+> Gates: SD0 sane / SD1 EARLY-FAINT make-or-break (Spearman + 10k-perm null) / SD2 THREE-BAND
+> split-fraction (Michael swap from dip test: excess commons mass in bottom-|W|-decile vs isotonic
+> extrapolation from deciles 2–10, 10k bootstrap — the §4 falsifiable stated exactly) / SD3
+> latent-development advisory / SD4 layer-profile advisory. Verdicts + a-priori (NOT tuned):
+> STRATIFIED 25 / PARTIAL-STRATA 15 / INVERTED 25 / UNSTRATIFIED 25 / VOID 10. Read discipline
+> banked: a win licenses stratigraphy-EXISTS, NOT algorithm-in-faint-stratum (extraction-inversion
+> = own future probe); Pythia-vs-Qwen contrast OUT OF SCOPE; SD3/SD4 IOU-grade. NEXT: build
+> scripts/explore/stratigraphy_dating.py (--validate planted worlds STRATIFIED/INVERTED/
+> UNSTRATIFIED/VOID) → launch (download+slice+stats, no GPU, ~13GB transient) → on-signal close =
+> Michael approval batch. **s325 ledger so far:** c4cb9945 scope amendment · this commit = freeze §
+> + queue 🔵 + this state.**
+>
 > ★★ **SESSION 324 SEALED (nothing in flight, all batches committed; full transcript →
 > chats/session-324.md, human). THE THEORY SESSION: one probe closed + five hammock legs + one
 > discipline toolbox + 12 queue candidates. ① §P-FLIP-CONFLICT → 🚫 NOISE-FLOOR (ON-SIGNAL

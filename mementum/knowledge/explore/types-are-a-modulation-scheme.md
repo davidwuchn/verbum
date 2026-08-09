@@ -452,3 +452,113 @@ through the unfrozen probes above, each needing its own freeze + gates +
 a-priori + nulls (λ yardstick: the modulation frame is flexible — every
 gate must beat a matched null, and LOCKIN's f_mod detection must beat
 shuffled-modulation-schedule nulls or it is describability, not discovery).
+
+## §P-STRATIGRAPHY-DATING — FROZEN (s325)
+
+> The frame's FIRST pre-registered test (standing guard, s324 ruling).
+> Observational read of the REAL fossil record — Pythia public training
+> checkpoints. Tests §2 (three strata) + §4 (grokking≡development edge).
+> No wire, no write, no EOS confound, no forward pass. Successor to
+> flip-conflict 🚫 per the RE-toolbox move 4 (READ HISTORY).
+
+### Claim under test (§2 law)
+
+amplitude ∝ ∫error dt ≈ time-to-learn ⇒ three strata in the finished
+plate: **commons** sign-freeze EARLY and end FAINT · **long-tail**
+accumulates LATE and ends DENSE · **contested** churns throughout at
+net ≈ 0.
+
+### The discriminating physics (why the primary gate is sharp)
+
+Both mundane accounts of sign-freeze timing predict the **opposite
+correlation sign** from §2:
+
+- (a) noise-floor dynamics: small weights flip trivially ⇒ small
+  |W_final| ↔ LATE freeze
+- (b) monotone growth: large weights escape the noise floor sooner ⇒
+  large |W_final| ↔ EARLY freeze
+
+Both ⇒ ρ(freeze_bin, |W_final|) **< 0**. §2's distinctive conjunction
+(early AND faint commons, late AND dense long-tail) ⇒ ρ **> 0**. One
+pre-registered correlation sign separates the frame from mundane weight
+physics — the frame cannot retrodict its way out of an INVERTED result.
+
+### Substrate / register
+
+WEIGHT-GEOMETRY across checkpoints (no forward pass). Model =
+`EleutherAI/pythia-160m` (GPTNeoX — `dense_h_to_4h`, no gate_proj;
+register mapping ≠ Qwen, pinned here; escalate to pythia-410m ONCE iff
+SD0 voids). Read: `mlp.dense_h_to_4h` weight matrices, layers 6–11
+(deep half of 12), N = 200k coordinates fixed-seed sampled, indices
+persisted. **20 checkpoints, log-uniform (Michael-approved s325):**
+b0 = step0 (the unexposed plate, §4 baseline) · b1–b10 = steps
+1,2,4,8,16,32,64,128,256,512 (native log2 ramp) · b11–b19 = steps
+1000,2000,4000,8000,16000,33000,66000,100000,143000 (half-decade tail).
+Each checkpoint = pinned HF revision name (`step{N}`).
+
+Per-coordinate observables: sign trace s_b = sign(W_b) · **freeze_bin**
+= first bin f with sign constant ∀ b ≥ f (dated against final sign,
+step0 transition counts) · flip_count (aliased LOWER BOUND, reported
+never gated) · |W_final| · amplitude trajectory |W_b|.
+
+**Aliasing discipline (row-banked s325):** 20 samples alias
+oscillation — this probe dates STRATA (ordinal) and never counts
+flip RATES (the s324 flip-conflict lesson stands).
+
+### Gates
+
+- **SD0 SANE** — all 20 revisions load, slice shapes match, step0 signs
+  ~symmetric (|mean| < 0.02), step143000 ≡ published final;
+  non-degenerate bins: ≥1% of coords in each of {frozen ≤ b5, frozen ∈
+  b11–b18, unfrozen at b19}. Fail → VOID (one escalation to 410m).
+- **SD1 EARLY-FAINT (make-or-break)** — pool = coords frozen by b15 (no
+  observed flip at steps ≥ 16k; churners excluded, they are SD2's
+  subject). Spearman ρ(freeze_bin, log|W_final|), 10k-permutation null.
+  ρ > 0 at p < 0.05 → stratigraphy; ρ < 0 at p < 0.05 → mundane
+  physics/INVERTED; else ambiguous.
+- **SD2 THREE-BAND (§4's falsifiable edge; split-fraction gate,
+  Michael s325)** — pinned populations: **commons** = frozen by b10
+  (sign constant from step ≤512 through b19) · **churners** = ≥1
+  observed flip after b15 (steps ≥16k). Mundane accounts ⇒
+  P(commons | magnitude decile) is MONOTONE-increasing in |W_final| ⇒
+  bottom decile has the LOWEST commons fraction, on-trend. Three-band ⇒
+  EXCESS commons mass hiding in the bottom decile (sign-stability, not
+  magnitude, separates commons from noise). Gate: observed
+  commons-fraction in bottom-decile |W_final| (per matrix, pooled) >
+  monotone extrapolation fitted on deciles 2–10 (isotonic regression,
+  10k bootstrap, p < 0.05). Report both split fractions
+  (commons/churner/middle) alongside.
+- **SD3 LATENT-DEVELOPMENT (advisory)** — §4 grokking≡development: among
+  early-frozen (≤ b10) small-band coords, lag = (bin of half-max
+  amplitude) − freeze_bin; median > 0 vs within-coord permutation null.
+  Sign committed before amplitude developed. Report, never gate.
+- **SD4 LAYER-PROFILE (advisory)** — SD1 ρ per layer (BC3 style).
+
+### Verdicts + a-priori (NOT tuned)
+
+| Verdict | Condition | Mass |
+|---|---|---|
+| STRATIFIED | SD1 ρ>0 ∧ SD2 pass | 25 |
+| PARTIAL-STRATA | SD1 ρ>0 ∧ SD2 fail | 15 |
+| INVERTED | SD1 ρ<0 | 25 |
+| UNSTRATIFIED | SD1 ns | 25 |
+| VOID | SD0 fail (after one escalation) | 10 |
+
+### Read discipline (banked before compute)
+
+STRATIFIED licenses *"real base training exhibits the
+early-faint / late-dense / churning stratigraphy"* — NOT that the
+algorithm/types live in the faint stratum (no function identification
+here; the extraction-inversion is its own future probe). INVERTED =
+structural damage to §2's amplitude∝time-to-learn law at this
+register/scale — the frame does not hide behind aliasing unless SD0
+shows degenerate bins. Single small model; Pythia = register-ABSENT
+lineage; the Pythia-vs-Qwen contrast is OUT OF SCOPE (no public Qwen
+checkpoint series). SD3/SD4 findings are IOU-grade, own nulls.
+
+### Provenance
+
+`results/stratigraphy-dating/pythia-160m/` — meta.json pins all 20
+revision names + sample-index hash (λ run_provenance); persisted
+artifacts = sliced sign/mag arrays (npz) + results.jsonl (λ
+result_format). Sliced reads only; no full-checkpoint retention.
