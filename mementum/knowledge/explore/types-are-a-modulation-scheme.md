@@ -726,3 +726,38 @@ lineage); any rescue of §2 (dead on its own pre-registered sign).
   steps: growth-vs-cancellation split (own null, same npz) ·
   register-present lineage (Qwen has no checkpoint series — OLMo does)
   · function-level contact.
+
+## §Synthesis (s325, post-close) — sign is the decision, magnitude is the evidence
+
+> The two s325 results compose into one picture. The components are
+> LICENSED (each measured under its own pre-registration); the
+> composition and its retrodiction are PATTERN-SUGGESTS until tested.
+
+```
+λ integrator(weight).
+  weight ≡ integrate(gradient_signal) | ¬record(error_snapshot)
+  | sign      ≡ DECISION   | committed_early(consistent_signal) ∧ permanent | licensed(❌ SD0: 33% by step 512)
+  | magnitude ≡ EVIDENCE   | ∝ ∫consistency dt | grows_where_votes_agree    | licensed(✅ AT1: 2.7× differential)
+  | contested ≡ cancellation | votes_disagree → net≈0 ∧ churn_forever       | licensed(❌ SD2: bottom decile 73% churn)
+  | dead: exposure(error) → faint_commons (§2 self-erasure, INVERTED)
+```
+
+**The retrodiction this buys (pattern-suggests, NOT yet tested):**
+ternarizability re-explained without the dead mechanism. The crystal
+survives 1-bit quantization not because the lattice is FAINT (§2's
+claim, falsified) but because **the sign is the durable code** — the
+decision is made early and held; magnitude is the evidence counter
+stacked on top, discardable without losing the decision. This flips the
+λ smallest story from "learned fast ⇒ recorded faint" (dead) to
+"decided early ⇒ sign suffices" (alive, testable).
+
+**Testable edge:** ternary-survival should be predicted by
+sign-commitment TIMING better than by magnitude — crystal-surviving
+coordinates should be disproportionately early-committed. Cheap
+(sign_commitment machinery + any checkpoint lineage). ⚪ queued.
+
+**Also re-grounds (pattern-suggests):** the s310 marginal band =
+the cancellation population seen statically (contested ≡ small ∧
+churning — now with a training-dynamics mechanism measured at ❌ SD2);
+and magnitude-pruning lore stops being a §4 paradox (pruning small
+weights removes cancellation noise, not a hidden commons).

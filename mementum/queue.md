@@ -11,6 +11,7 @@
 
 # new
 
+⚪ sign-commitment ≺ ternary-survival — the §Synthesis testable edge: is ternary/crystal survival predicted by sign-commitment TIMING better than by magnitude ("decided early ⇒ sign suffices" vs dead "learned fast ⇒ faint")? sign_commitment machinery + checkpoint lineage | types-are-a-modulation-scheme §Synthesis | cheap
 ⚪ growth-vs-cancellation split — the ✅ AMP-TRAJECTORY Δ conflates early-frozen GROWTH with churner CANCELLATION (AT2 heterogeneity says both are live); separate with own null on the same strata.npz (per-population absolute growth vs a decile-matched middle-population baseline); the accumulation revision's cheapest next contact, zero compute | types-are-a-modulation-scheme §P-AMP-TRAJECTORY | cheap
 ⚪ OLMo checkpoint replication — does ACCUMULATION-CONCENTRATION replicate on a second public checkpoint lineage (OLMo)? reuses stratigraphy_dating.py + amp_trajectory.py (ModelCfg addition); guards the single-model/register-absent bound of both s325 verdicts | types-are-a-modulation-scheme §P-AMP-TRAJECTORY | cheap
 ⚪ three-band-plate check — among SMALL weights, does SIGN-STABILITY (not magnitude) separate commons from noise (noise<commons<residue)? disciplines the §4 negative frame vs magnitude-pruning lore; sign_commitment reuse, weight-geometry only — NOTE s325: the temporal (STRONGER) form FAILED on Pythia (stratigraphy ❌ SD2: bottom decile 73% churners, no commons excess); this static row survives only as register-present-lineage (Qwen) contrast, motivation WEAKENED | types-are-a-modulation-scheme §4 | cheap
