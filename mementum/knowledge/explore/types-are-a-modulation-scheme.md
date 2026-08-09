@@ -264,6 +264,13 @@ equilibrium — ∫error dt is approximate physics, not exact. Whole section is
 pattern-suggests until a probe freezes; the flip-conflict IOU reads are the
 cheapest first contact.
 
+**❌ s325 DAMAGE (pre-registered): §P-STRATIGRAPHY-DATING → INVERTED.**
+On real base training (Pythia fossil record) ρ(freeze_bin, |W_final|) =
+−0.087 (the mundane sign) and commons-fraction rises MONOTONICALLY with
+magnitude — the early-AND-faint conjunction is contradicted at the
+per-coordinate weight register. The strata table should not be read as
+established at any grain. See §Result below.
+
 ## §3 The Forged-Exposure Write Protocol — "fake the signal, compile the lattice" (s324, same hammock)
 
 > Michael: "Ok, this is the map isn't it? We can fake this signal to create
@@ -437,6 +444,13 @@ Cheap weight-geometry read (sign_commitment machinery reuse); if
 sign-stability does NOT stratify the small-weight band, the negative frame
 takes structural damage. **⚪ queued: three-band-plate check.**
 
+**❌ s325: the three-band falsifiable FAILED in its temporal (stronger)
+form** — §P-STRATIGRAPHY-DATING SD2: no excess sign-stable commons among
+small weights (bottom decile = 73% churners; commons BELOW the monotone
+extrapolation). The named structural damage is taken. The static Qwen
+sign_commitment version survives in the queue only as a
+register-present-lineage contrast, motivation weakened.
+
 ### Read discipline
 
 All §4 mappings are pattern-suggests (post-hoc, λ observation). The two
@@ -562,3 +576,118 @@ checkpoint series). SD3/SD4 findings are IOU-grade, own nulls.
 revision names + sample-index hash (λ run_provenance); persisted
 artifacts = sliced sign/mag arrays (npz) + results.jsonl (λ
 result_format). Sliced reads only; no full-checkpoint retention.
+
+### §Result (s325) — VERDICT: INVERTED (a-priori 25)
+
+Run clean (~2.5 min; SD0 sane: step143000 ≡ published final, step0 signs
+symmetric |mean| 0.0007, 100% valid, non-degenerate bins 32.6% frozen≤b5 /
+59.7% b11–b18 / 6.9% unfrozen). **The falsifier fired on the frame's first
+pre-registered test.**
+
+- **SD1 make-or-break: ρ(freeze_bin, log|W_final|) = −0.087, p_neg ≈ 0
+  (n = 127,492).** The mundane-physics sign: early-frozen weights are
+  DENSE, late-frozen FAINT. Uniform across all six layers (SD4:
+  −0.076..−0.099) — not layer-localized.
+- **SD2 split-fraction: FAIL, in the informative direction.**
+  Commons-fraction is MONOTONE-INCREASING with magnitude decile
+  (0.133 → 0.555); the bottom decile sits BELOW even the monotone
+  extrapolation (obs 0.133 vs pred 0.185, Δ = −0.052, p = 1.0).
+  Bottom-decile split: 73.3% churners / 13.3% commons / 13.4% middle.
+  **The §4 three-band falsifiable FAILED** — sign-stability does not mark
+  a commons band among small weights; the small-|W| band is the churn
+  band, full stop.
+- SD3 advisory: no latent-development signal (median lag +9 bins,
+  p = 1.0 vs own null).
+
+**THE READ (damage report, honored):** §2's core conjunction — commons
+freeze EARLY and end FAINT — is CONTRADICTED on real base training at
+the per-coordinate weight-sign/magnitude register. The fossil record
+reads as mundane weight physics: large weights commit their signs early,
+small weights churn late. amplitude ∝ ∫error dt ≈ time-to-learn does
+NOT describe this register. Consequences: (a) the §2 strata table is
+damaged at the corners row; (b) the §4 three-band edge is damaged
+(SD2); (c) "crystal small because it was learned fast" loses its claimed
+MECHANISM at this register — the crystal facts (0.1%, ternarizable)
+stand as measurements, now unexplained by this law; (d) the
+extraction-inversion prospecting heuristic (faint + sign-stable ≡
+algorithm) is UNSUPPORTED at this grain — commons-candidates concentrate
+at LARGE |W|.
+
+**Bounds (honest, not escape hatches):** single small model (160m);
+register-ABSENT lineage (type register 0/5 on the Pythia ladder,
+s313–s314); MLP band only; ordinal 20-bin dating (no rate claims);
+per-coordinate grain. A retreat to "function-level commons ≠
+per-coordinate commons" is the same retreat flip-conflict already forced
+on §3 — available but POST-HOC and unlicensed; taking it obliges a
+function-level pre-registered test. Honest positive: the commons-by-decile
+curve is a clean first commons-census across a real training run
+(persisted in strata.npz for own-null re-reads).
+
+**Frame ledger after s325: 6 retrodictions / 1 novel prediction (LOCK
+TIME, untested) / 2 pre-registered NEGATIVES (flip-conflict 🚫 s324,
+stratigraphy ❌ s325).** Standing guard unchanged — and sharpened: the
+frame's remaining life is the §1 modulation leg (§P-TYPE-LOCKIN), which
+is now must-win.
+
+## §P-AMP-TRAJECTORY — re-read (FROZEN s325, Michael GO)
+
+> Michael, on the INVERTED verdict: *"our hypothesis was flawed from the
+> beginning. The system takes time to allow training to accumulate the
+> edges and corners that concentrate into the lattice."* The flawed §2
+> assumption is named: SELF-ERASURE (once predicted, the write stops).
+> The revision: amplitude ∝ ∫consistent-signal over the WHOLE run —
+> the lattice concentrates by ACCUMULATION; contested cancels to net≈0.
+> This freeze is the accumulation view's FIRST pre-registered contact,
+> on trajectory statistics no analysis has yet read (strata.npz signs +
+> final magnitudes were read by SD1/SD2; the amplitude TIME-COURSE was
+> not). Frozen before computing any trajectory statistic.
+
+### The discriminating structure (same trick as SD1: a pre-registered sign)
+
+"Weights keep growing" is trivially true (norm growth ≡ generic
+optimizer physics) — so the accumulation view must predict something
+DIFFERENTIAL: growth in a fixed shared window concentrated on
+consistent-signal (early-frozen) coordinates, absent on contested
+(churning) ones.
+
+- Window: b11→b19 (steps 1k→143k) — post-freeze for the ENTIRE
+  early-frozen population by construction, identical for all coords.
+- Per-coord growth g = log(|W_b19|+ε) − log(|W_b11|+ε).
+- Populations: early-frozen (freeze_bin ≤ b10) vs churners (≥1 flip
+  after b15), matched within pooled |W_b11| deciles (kills
+  growth-rate-is-a-function-of-current-size; weight decay biases
+  AGAINST accumulation ⇒ conservative).
+- AT1 statistic (pinned): Δ = Σ_k w_k · (mean g_early,k − mean
+  g_churn,k) over qualifying deciles k (w_k ∝ n_k); medians reported
+  alongside, not gated. Null = within-decile population-label
+  permutation, 10k draws.
+
+### Gates
+
+- **AT0 SANE** — strata.npz loads; populations non-degenerate; decile
+  qualifies iff ≥500 coords of EACH population; ≥3 qualifying deciles;
+  thin overlap reported.
+- **AT1 CONCENTRATION (make-or-break)** — Δ > 0 at p < 0.05 →
+  accumulation; Δ < 0 at p < 0.05 → erosion; else uniform.
+- **AT2 POST-FREEZE FRACTION (advisory)** — per early-frozen coord,
+  R = |W_freeze_bin| / |W_b19|: how much of the final lattice existed at
+  sign commitment (dead §2 predicted ≈1; accumulation predicts ≪1).
+  Report distribution, never gate.
+
+### Verdicts + a-priori (NOT tuned; modal on the null)
+
+| Verdict | Condition | Mass |
+|---|---|---|
+| ACCUMULATION-CONCENTRATION | AT1 Δ>0 sig | 30 |
+| UNIFORM-GROWTH | AT1 ns | 40 |
+| EROSION | AT1 Δ<0 sig | 20 |
+| VOID | AT0 fail | 10 |
+
+UNIFORM-GROWTH is modal because norm-growth lore is strong and the
+accumulation view is post-hoc-motivated; beating that null is a real
+win. Read discipline: ACCUMULATION-CONCENTRATION licenses *differential
+post-commitment amplitude accumulation on this substrate* — NOT the
+full lattice story, NOT type-relevance (register-absent lineage), and
+does NOT retroactively rescue §2 (which is dead on its own sign).
+EROSION would partially rehabilitate a self-erasure flavor — flagged
+as the surprise branch. Same bounds as §P-STRATIGRAPHY-DATING.
