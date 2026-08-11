@@ -1,0 +1,6 @@
+{"advisory": "DC contrast (IOU, own-null, post-verdict; NOT a frozen gate)",
+ "note": "per-nonce mean-over-blocks own-class T at probes, paired sign-flip nulls x10k",
+ "dc_main": 0.474, "dc_s05": 0.245, "dc_s025": 0.249, "dc_ctrl": 0.066,
+ "dc_main_minus_ctrl": 0.409, "p_main_vs_ctrl": 0.0003,
+ "dc_main_minus_s025": 0.225, "p_main_vs_s025": 0.0026,
+ "read": "membership evidence RAISES standing own-class T at constant probes, dose-ordered (DC channel alive) - while LK1 finds no block-timescale AC tracking. Register-grain caveat: T-at-probes, not behavioral licensing L."}

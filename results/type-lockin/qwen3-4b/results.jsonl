@@ -1,0 +1,6 @@
+{"probe": "\u00a7P-TYPE-LOCKIN+PRBS (FROZEN s326)", "model_id": "Qwen/Qwen3-4B", "n_nonce": 20, "band": [18, 31], "B": 63, "lags": [0, 1, 2, 3], "n_null": 10000, "timestamp": "2026-08-11T15:53:09Z", "elapsed_s": 38.0}
+{"gate": "LK0", "pass": true, "member_loo_mean": 24.46324247121811, "prbs_autocorr_max": 0.015873015873015872, "y_finite": true}
+{"gate": "LK1", "pass": false, "D_mean": -0.15739623723567123, "p": 0.685031496850315, "null_mean": 0.03689509846604417, "null_std": 0.42143243527682833}
+{"gate": "LK2", "pass": false, "D_main": -0.15739623723567123, "D_ctrl": -0.2124254322316311, "diff": 0.05502919499595993, "p": 0.36996300369963003}
+{"gate": "LK3", "advisory": true, "hhat_0_7": [0.2015786762770972, -0.13233253222384064, -0.13648112449155822, -0.09016125679736957, -0.1848665902043326, -0.02813921414445228, 0.12462831844638353, 0.13202053266137453], "lock_time_blocks": 0, "spectrum_low_over_high": 2.7438883868360895}
+{"verdict": "NO-TRACK", "a_priori": {"NO-TRACK": 30, "LEXICAL-TRACK": 25, "CARRIER-TRACKED-PROPORTIONAL": 20, "CARRIER-TRACKED-THRESHOLD": 15, "VOID": 10}}
