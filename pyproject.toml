@@ -126,6 +126,7 @@ select = [
 "scripts/explore/stratigraphy_dating.py" = ["RUF001", "RUF002", "RUF003"]  # ρ ∝ ∫ ⇒ ≤ − : stratigraphy / differential-photography notation
 "scripts/explore/amp_trajectory.py" = ["RUF001", "RUF002", "RUF003"]  # Δ ∫ − × ⇒ ε : accumulation-trajectory notation
 "scripts/explore/growth_cancel_split.py" = ["RUF001", "RUF002", "RUF003"]  # Δ Σ − × ∧ ∈ ⇒ : growth/cancellation split notation
+"scripts/explore/type_lockin.py" = ["RUF001", "RUF002", "RUF003"]  # ĥ τ Σ ∈ − ⊥ γ : lock-in / system-ID notation
 
 # ─────────────────────────── ty ─────────────────────────────
 # ty is alpha; config schema is moving. Empty stanza pins the table so
