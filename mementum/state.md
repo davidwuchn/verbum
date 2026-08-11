@@ -11,6 +11,28 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 327: 💡 HAMMOCK CAPTURED (Michael GO "add it to the queue, update state and
+> knowledge"): §Reframe on types-are-a-modulation-scheme.md — THE PLATE IS A STACKED EXPOSURE,
+> NOT A NEGATIVE.** Michael's line on the s326 composite ("a pile of photographs, not a negative
+> film"), sharpened to a stacked long-exposure AVERAGE: §4's inversion clause (common→faint) died
+> at stratigraphy; the stacking reading keeps superposition WITHOUT inversion — consistent
+> structure accumulates (AT1 + GC1 thin + lock-in DC dose-order) · contested self-erases toward
+> background (GC2 94% + churn −0.42 = the long-exposure empty street) · the scene survives
+> thresholding (ternarizability ≡ WHERE consensus, not how dark — no faint-commons needed) ·
+> both faces CAMERAS not radios (weights integrate signed votes; tape integrates evidence,
+> NO-TRACK ∧ DC-alive). Individual exposures not retrievable — only consensus ∧ cancellation.
+> **Discipline applied FROM BIRTH (the 0-3 lesson): frame-candidate, pattern-suggests,
+> retrodicts-6/predicts-0, s324 standing guard active day one; coheres with — does NOT
+> replace — §Synthesis sign-is-the-decision (the licensed spine).** Distinctive edge queued:
+> ⚪ **§P-TAPE-SUBTRACTION** (stacks can only ADD — does contrary evidence SUBTRACT from the
+> tape's standing level [signed integrator, matching weight-face GC2] or pile alongside
+> [competing stacks]? idempotency machinery + lockin DC readout, cheap, either answer
+> informative). Batch (💡, Michael-instructed): §Reframe + memory
+> `the-plate-is-a-stacked-exposure-not-a-negative` + INDEX + ⚪ queue row (top) + this state.
+> NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue FULL read; nothing pending).
+> Sharpest fronts: ⚪ §P-TAPE-SUBTRACTION (new edge, cheap) · ⚪ sign-commitment ≺
+> ternary-survival (§Synthesis edge) · ⚪ OLMo replication · ⚪ §P-LAY-A-NEGATIVE.**
+>
 > ★★ **SESSION 326 FRONT 2: §P-TYPE-LOCKIN+PRBS CLOSED — ❌ NO-TRACK (modal a-priori 30):
 > THE ORIGINAL MODULATION FRAME'S MUST-WIN FAILED → FRAME 0-3, EFFECTIVELY DEAD.**
 > ① 🎯 FROZEN (2feb25d8, Michael GO): AC reading of the type register — PRBS-6 (63 blocks/nonce,

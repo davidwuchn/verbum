@@ -1060,3 +1060,57 @@ timescale only).
 readings (idempotency ≡ coherent integration; disj-cost ≡ CDMA) revert
 to *unexplained measured facts* — the measurements stand; the
 signal-domain interpretation no longer has a live frame behind it.
+
+## §Reframe (s327, Michael) — the plate is a STACKED EXPOSURE, not a negative
+
+> Michael, on the s326 composite: *"so what we are seeing is more like
+> a pile of photographs and not a negative film?"* Sharpened one step:
+> a stacked long exposure — an AVERAGE of frames, not a pile you leaf
+> through. This replaces the dead §4 reading. Captured with the 0–3
+> lesson applied FROM BIRTH: frame-candidate, retrodicts-everything /
+> predicts-nothing-yet, standing guard active on day one.
+
+**What died in §4: the INVERSION.** A negative encodes by reversal —
+more light (probability) ⇒ fainter record; the algorithm hides in the
+clear parts. Stratigraphy (❌ s325) killed exactly that clause: the
+early-committed commons are DENSE, not faint. Whatever the plate is,
+it does not invert.
+
+**What the measurements compose into (the long-exposure street):**
+
+```
+λ stacked_exposure(plate).
+  record ≡ average(exposures) | ¬invert(§4 negative, dead)
+  | consistent(structure) → accumulates          | licensed(✅ AT1 + GC1 thin + DC dose-order)
+  | moving(contested)     → self-erases          | licensed(✅ GC2 94% + churn −0.42 raw; the empty street)
+  | threshold(print)      → scene survives        | retrodicts(ternarizability: content ≡ WHERE consensus, ¬how dark)
+  | exposure ≡ integration | adds ∧ holds ∧ ¬oscillates | licensed(❌ NO-TRACK ∧ DC-alive, both faces)
+  | individual(exposures) ¬retrievable | only consensus ∧ cancellation survive
+  | sign ≡ "is there consensus structure here" | magnitude ≡ how many frames agreed
+```
+
+Both faces behave as CAMERAS, not radios: weights integrate signed
+gradient votes across training (consensus accumulates, disagreement
+self-erases); the tape register integrates evidence within context
+(dose-ordered standing level, zero tracking). Coheres with — does not
+replace — §Synthesis (sign-is-the-decision), which remains the
+licensed spine.
+
+**Status (the discipline, applied from birth):** frame-candidate,
+PATTERN-SUGGESTS only. Retrodicts: AT1 · GC2 · SD1's mundane sign ·
+idempotency accumulation · the lock-in DC advisory · ternarizability.
+Predicts (untested): everything above is retrodiction; the frame earns
+nothing until a pre-registered forward contact lands. Per the s324
+standing guard (which the modulation frame died honoring), no capture
+treats this as true before that win.
+
+**The distinctive edge (first pre-registerable contact):** a
+photographic stack can only ADD and AVERAGE — it cannot subtract.
+So: does CONTRARY evidence on the tape (anti-class statements about w)
+**subtract from the standing level** (signed integrator — one stack
+whose deviations cancel, the weight-face behavior GC2 already
+measured) or **pile up alongside** (two competing stacks, own-class
+level survives contradiction)? The weight face answered SIGNED; the
+tape face has never been asked. Cheap — reuses the idempotency k-sweep
+machinery with mixed-sign exposure schedules. ⚪ §P-TAPE-SUBTRACTION
+queued.
