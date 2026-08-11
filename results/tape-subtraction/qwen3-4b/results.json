@@ -1,0 +1,128 @@
+{
+  "verdict": "EARLY-COMMITMENT",
+  "a_priori": {
+    "SIGNED-INTEGRATOR": 30,
+    "RECENCY-BUFFER": 30,
+    "EARLY-COMMITMENT": 20,
+    "NO-EROSION": 10,
+    "VOID": 10
+  },
+  "gates": {
+    "TS0": {
+      "gate": "TS0",
+      "standing_L": 2.9604350762412652,
+      "real_ok": true,
+      "register_ok": true,
+      "pass": true
+    },
+    "TS1": {
+      "gate": "TS1",
+      "order_diff": 0.4778103653181461,
+      "L_ownfirst_bal": 0.3509777091865544,
+      "L_antifirst": -0.12683265613159164,
+      "primacy_p": 9.999000099990002e-05,
+      "primacy_pass": true,
+      "recency_p": 1.0,
+      "recency_pass": false
+    },
+    "TS2": {
+      "gate": "TS2",
+      "pass": true,
+      "erosion": 1.8036513865595907,
+      "p": 9.999000099990002e-05,
+      "L_filler_bal": 2.050941881748963,
+      "L_interleaved": 0.24729049518937246
+    },
+    "TS3": {
+      "gate": "TS3",
+      "advisory": true,
+      "available": true,
+      "T_order_diff": -1.3043033599853515,
+      "T_erosion": 1.6592529296875,
+      "T_standing": 3.9363451957702638
+    }
+  },
+  "means": {
+    "curve_ownfirst": [
+      2.9604350762412652,
+      -0.05352454949170351,
+      -0.1345562942675315,
+      0.3509777091865544
+    ],
+    "curve_filler": [
+      2.9604350762412652,
+      2.6218783378892114,
+      2.5504599427402352,
+      2.050941881748963
+    ],
+    "L_antifirst": -0.12683265613159164,
+    "L_interleaved": 0.24729049518937246,
+    "n_nonce": 20
+  },
+  "meta": {
+    "model_id": "Qwen/Qwen3-4B",
+    "n_nonce": 20,
+    "nonces": [
+      "zorp",
+      "flim",
+      "drax",
+      "quop",
+      "blint",
+      "snerp",
+      "glark",
+      "trazz",
+      "vonk",
+      "plaff",
+      "dworp",
+      "snib",
+      "yerm",
+      "clazz",
+      "frub",
+      "norp",
+      "skell",
+      "twib",
+      "grelm",
+      "zint"
+    ],
+    "labels": [
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1,
+      0,
+      1
+    ],
+    "k_own": 3,
+    "k_anti": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "band": [
+      18,
+      31
+    ],
+    "metric": {
+      "real_margin": 2.5380677186603577,
+      "per_class_ok": true
+    },
+    "n_null": 10000,
+    "timestamp": "2026-08-11T16:40:23Z",
+    "elapsed_s": 126.6
+  }
+}

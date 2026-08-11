@@ -1,0 +1,20 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 25319.39it/s]
+[ts] Qwen/Qwen3-4B dev=mps n_layers=36 T-band=L18..L31 K_OWN=3 K_ANTI=[0, 1, 2, 3]
+[ts] nonces=20 (animal 10 vehicle 10)
+[ts] real-member anchor + axes …
+[ts] real margin=2.538 per_class_ok=True
+[ts] swept 4/20 (29s)
+[ts] swept 8/20 (58s)
+[ts] swept 12/20 (81s)
+[ts] swept 16/20 (104s)
+[ts] swept 20/20 (127s)
+[ts] wrote results/tape-subtraction/qwen3-4b/results.json
+[ts] TS0 True (standing_L=2.960 real_ok=True) | TS2 erosion=1.804 p=0.0001 True
+[ts] TS1 order_diff=0.478 (ownfirst=0.351 antifirst=-0.127) primacy_p=0.0001 recency_p=1.0000
+[ts] curve_ownfirst=[2.96, -0.054, -0.135, 0.351]
+[ts] curve_filler  =[2.96, 2.622, 2.55, 2.051]
+[ts] L_antifirst=-0.127 L_interleaved=0.247
+[ts] TS3(T) order_diff=-1.304 erosion=1.659 standing=3.936
+[ts] VERDICT: EARLY-COMMITMENT
+VERDICT: EARLY-COMMITMENT
