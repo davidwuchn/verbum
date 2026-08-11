@@ -125,6 +125,7 @@ select = [
 "scripts/explore/boundary_churn.py" = ["RUF001", "RUF002", "RUF003"]  # ρ ℓ × ∈ ‖ → : TWN-margin / type-subspace leverage notation
 "scripts/explore/stratigraphy_dating.py" = ["RUF001", "RUF002", "RUF003"]  # ρ ∝ ∫ ⇒ ≤ − : stratigraphy / differential-photography notation
 "scripts/explore/amp_trajectory.py" = ["RUF001", "RUF002", "RUF003"]  # Δ ∫ − × ⇒ ε : accumulation-trajectory notation
+"scripts/explore/growth_cancel_split.py" = ["RUF001", "RUF002", "RUF003"]  # Δ Σ − × ∧ ∈ ⇒ : growth/cancellation split notation
 
 # ─────────────────────────── ty ─────────────────────────────
 # ty is alpha; config schema is moving. Empty stanza pins the table so
