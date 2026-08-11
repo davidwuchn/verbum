@@ -1010,3 +1010,53 @@ drawn per nonce, aggregated across nonces per draw.
   novel-prediction win (knee-screen grade only).
 - Bounds: single model (qwen3-4b), one class pair (animal/vehicle),
   T-register grain, block-timescale modulation (token-rate untested).
+
+### §Result (s326) — VERDICT: NO-TRACK (modal a-priori 30) — the must-win FAILED
+
+- **LK0 SANE:** ✓ — member-axis LOO **+24.5** (axis strongly forms),
+  PRBS autocorr 0.0159 (= 1/63, ideal), y finite all arms. Clean run,
+  40s, 20 nonces, no traceback.
+- **LK1 AC-DETECTION (make-or-break): ✗** — D = **−0.157**, p = 0.685
+  vs the 10k cyclic-shift null (null_std 0.42). Wrong sign, no hint.
+  The register does NOT track the evidence schedule at block timescale.
+- **LK2:** also null (D_ctrl −0.212, diff +0.055 p = 0.37) — not
+  reached for verdict; texture: even lexical bleed shows no AC content
+  (the probe insulation held — excitation ⊥ measurement worked).
+- **LK3 advisory:** uninterpretable under LK1 null (noise texture).
+- **LK4:** correctly unread (LK1∧LK2 required).
+- **DC advisory (IOU, own-null, post-verdict — dc_advisory.json):**
+  the channel is ALIVE — standing own-class T at constant probes is
+  RAISED by membership evidence, dose-ordered: main 0.474 > s05/s025
+  ≈ 0.25 > ctrl 0.066; main−ctrl paired p = 0.0003, main−s025
+  p = 0.0026. Evidence accumulates into a standing level; it does not
+  track modulation.
+
+**THE READ (per the banked discipline — no softening):** the §1
+modulation leg FAILS with its must-win spent. **Original modulation
+frame: 0–3** (flip-conflict 🚫 s324 · stratigraphy ❌ s325 · lock-in ❌
+s326). Per the standing guard (Michael ruling s324: the frame must earn
+a pre-registered win before any capture treats it as true), the
+carrier-lock/demodulation reading of type judgments is now
+**effectively dead** at the registers probed. What the composite data
+actually shows (pattern-suggests, needs its own pre-reg if pursued):
+the register is an **accumulate-and-hold** device — evidence raises a
+standing level dose-dependently (DC advisory here + §P-IDEMPOTENCY
+accumulation + presence-detector line) but does not demodulate a
+schedule. §Synthesis (sign-is-the-decision, s325–s326) is INDEPENDENT
+of this frame and unaffected.
+
+**Honest instrument bounds (not escape hatches):** (a) LK1 has low
+power against integrators with time constant ≫ the lag window — but
+idempotency's k=1→3 licensing rise implies ~3-block response in the L
+register, well inside the window; if T tracked like L it should have
+shown. (b) Register grain: T-at-probes ≠ behavioral licensing L; an
+L-register AC read (expensive, surprisal per block) is conceivable —
+available but POST-HOC and owes its own pre-registration; the frame
+does not get to keep retreating (same rule as the stratigraphy
+function-level retreat). (c) Token-rate modulation untested (block
+timescale only).
+
+**Retrodictions demoted:** with the frame dead, §1's retrodiction
+readings (idempotency ≡ coherent integration; disj-cost ≡ CDMA) revert
+to *unexplained measured facts* — the measurements stand; the
+signal-domain interpretation no longer has a live frame behind it.

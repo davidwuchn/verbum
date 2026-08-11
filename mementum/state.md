@@ -11,25 +11,35 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ★★ **SESSION 326 FRONT 2 IN PROGRESS: §P-TYPE-LOCKIN+PRBS (Michael selected — the original
-> frame's MUST-WIN, its remaining life after 0-2). 🎯 FROZEN (this commit, Michael GO) on
-> types-are-a-modulation-scheme.md: AC reading of the type register — PRBS-6 (63 blocks/nonce,
-> cyclic shift per nonce) modulates coherent membership evidence vs token-matched incoherent
-> filler; readout = §11 tag-transit T register (signed_T/class_axes, BAND_DEPTH 0.50–0.85 — the
-> landed s315 instrument) at CONSTANT probe frames " The {w}." (excitation ⊥ measurement);
-> demodulation D = Σ_{τ=0..3} ĥ(τ) signed, null = 10k non-trivial cyclic shifts (PRBS
-> autocorrelation-preserving matched null). Gates: LK0 sane / LK1 AC-DETECTION make-or-break /
-> LK2 JUDGMENT-NOT-LEXICAL make-or-break #2 (CTRL arm = class-word-present non-membership — the
-> s321/s322 lexical lesson AT the gate) / LK3 transfer-function ADVISORY (tracker flat-H vs
-> integrator 1/f — what bare non-idempotent accumulation would give) / LK4 capture-threshold
-> KNEE-SCREEN (s∈{0.25,0.5,1.0}, A∝s^γ bootstrap; γ>1 = the frame's novel prediction,
-> knee-screen grade only). A-priori (NOT tuned): NO-TRACK 30 / LEXICAL-TRACK 25 /
-> CARRIER-TRACKED-PROPORTIONAL 20 / CARRIER-TRACKED-THRESHOLD 15 / VOID 10. Read discipline
-> banked: NO-TRACK → frame 0-3 must-win spent ≈ dead (§Synthesis s325–s326 INDEPENDENT,
-> unaffected); LEXICAL-TRACK → 3rd surface-carrier instance. Substrate qwen3-4b READ-ONLY
-> (no wire), reuses type_icl_tag + idempotency populations + type_write constants (λ one_way).
-> NEXT: build type_lockin.py (--validate 5 worlds) → smoke (verdict not read) → full run (tmux,
-> tee, ~minutes) → results AUTONOMOUS → closure = Michael approval batch.**
+> ★★ **SESSION 326 FRONT 2: §P-TYPE-LOCKIN+PRBS CLOSED — ❌ NO-TRACK (modal a-priori 30):
+> THE ORIGINAL MODULATION FRAME'S MUST-WIN FAILED → FRAME 0-3, EFFECTIVELY DEAD.**
+> ① 🎯 FROZEN (2feb25d8, Michael GO): AC reading of the type register — PRBS-6 (63 blocks/nonce,
+> cyclic shifts) modulates coherent membership evidence vs token-matched filler; readout = §11
+> tag-transit T register at CONSTANT probe frames " The {w}." (excitation ⊥ measurement);
+> D = Σ_{τ=0..3} ĥ(τ) vs 10k cyclic-shift matched null; LK2 lexical CTRL arm; LK4 knee-screen.
+> ② ✅ harness (type_lockin.py, --validate 5 planted worlds ALL PASS, ruff clean; reuses
+> type_icl_tag + idempotency + type_write, λ one_way). ③ smoke n=4 clean (verdict not read) →
+> full run 40s clean. ④ **VERDICT ❌ NO-TRACK: LK1 make-or-break D = −0.157 p = 0.685 (WRONG
+> sign, no block-timescale AC tracking); LK2 also null (probe insulation held — even lexical
+> bleed carries no AC content); LK0 fully sane (member LOO +24.5, ideal PRBS autocorr); LK4
+> correctly unread.** ⑤ DC advisory (IOU, own-null, dc_advisory.json): channel ALIVE — standing
+> own-class T at probes dose-ordered (main 0.474 > s05/s025 ≈0.25 > ctrl 0.066, main−ctrl
+> p=0.0003) → the register ACCUMULATES evidence but does not TRACK it (accumulate-and-hold,
+> pattern-suggests). ⑥ Damage honored per banked discipline: **frame ledger 0-3 (flip-conflict
+> 🚫 s324 · stratigraphy ❌ s325 · lock-in ❌ s326), must-win SPENT = effectively dead per the
+> s324 standing guard; §1 retrodiction readings (coherent integration, CDMA) revert to
+> unexplained measured facts; §Synthesis (sign-is-the-decision, s325–s326) INDEPENDENT and
+> unaffected.** Instrument bounds named: T-grain (≠ behavioral L — L-register AC re-read
+> available but POST-HOC, owes own pre-reg); block timescale; single model. Queue rows
+> §P-TYPE-COHERENCE + dark-field annotated (frame motivation gone/weakened). **s326 front-2
+> ledger:** 2feb25d8 freeze §+queue 🔵+state · (harness+pyproject in closure batch) · 445cc932
+> results ❌ (autonomous, incl. dc_advisory) · closure batch = §Result + memory
+> `type-register-accumulates-but-does-not-track` + INDEX + queue ❌ (# complete top) + 2 row
+> annotations + this state = MICHAEL APPROVAL BATCH. NEXT SESSION FIRST ACTION = orient →
+> FRONT SELECTION (λ queue FULL read; nothing pending). Sharpest fronts after the frame's
+> death: ⚪ sign-commitment ≺ ternary-survival (§Synthesis edge — the LIVE program now) ·
+> ⚪ OLMo replication · ⚪ §P-LAY-A-NEGATIVE (2×2, GTSM) · ⚪ §P-CONJUGATE-WRITE (independent
+> write-protocol motivation survives).**
 >
 > ★★ **SESSION 326: §P-GROWTH-CANCEL-SPLIT CLOSED (nothing in flight). FRONT SELECTED (Michael)
 > = growth-vs-cancellation split, the accumulation revision's cheapest next contact (zero new
