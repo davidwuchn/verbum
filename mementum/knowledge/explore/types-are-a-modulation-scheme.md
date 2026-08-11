@@ -1114,3 +1114,142 @@ level survives contradiction)? The weight face answered SIGNED; the
 tape face has never been asked. Cheap — reuses the idempotency k-sweep
 machinery with mixed-sign exposure schedules. ⚪ §P-TAPE-SUBTRACTION
 queued.
+
+## §P-TAPE-SUBTRACTION — FROZEN (s328, Michael GO) — the reframe's first forward contact
+
+> The stacked-exposure frame's first pre-registerable edge. The reframe
+> retrodicts everything and predicts nothing yet; this is the contact
+> that lets it win, lose, or be reframed. Standing guard active (s324):
+> no capture treats the frame as true before a pre-registered win.
+
+### Claim under test (queue binary → sharpened)
+
+Does contrary evidence on the tape SUBTRACT from the standing own-class
+license (signed integrator — matches the weight-face GC2 cancellation)
+or PILE UP alongside (competing stacks — the own-class level, once
+established, survives contradiction)?
+
+**⚠ Sharpening (Michael GO s328; tests are the AI's job).** Read
+literally, the binary is nearly *pre-decided by trivial ICL*:
+anti-class statements about `w` mechanically lower anti-predicate
+surprisal, so "contrary subtracts" passes for free and teaches nothing.
+The informative, distinctive test is **order-sensitivity**, which
+trivial ICL does not predict and which adjudicates the §Synthesis spine
+on the tape:
+
+- A **signed integrator is commutative** — 3 own + 3 anti nets to ~0
+  *regardless of order*.
+- **Early-commitment** (§Synthesis: sign decided early is permanent) is
+  **order-sensitive** — the first-committed class survives (primacy).
+- **Trivial recency ICL** is the mirror — the *last* statements win
+  (anti-first > own-first).
+
+Three mechanisms → three pre-registered order-signatures. The order
+arms are **content-matched** (identical 3 own-membership + 3
+anti-membership statements; only sequence differs) so the make-or-break
+carries no lexical confound.
+
+### Register (λ measure)
+
+LICENSING — value register, graded. `L = mean surprisal(anti preds) −
+mean surprisal(own preds)`, signed by `w`'s nominal class `c`
+(idempotency `_signed_L`, the tape face that landed s315). Correct
+register for a standing-magnitude claim; a crisp/routing probe would
+manufacture crispness (λ measure). The nominal class `c` is just the
+readout axis — the physics is symmetric across the mix (net lean toward
+`c`), which is exactly what the order arms probe.
+
+### Substrate + reuse (λ one_way, no fork)
+
+idempotency (`L_at`, `coherent_prefix`, `incoherent_stmts`,
+`_member_stmts` via `tw`, `_signed_L`, `REAL_MEMBERS`, `HELD_PREDS`,
+`REAL_MARGIN_FLOOR`) · type_icl_tag (`signed_T`, `class_axes`,
+`band_layers`, `BAND_DEPTH` — the landed §11 T instrument, for the
+second-substrate corroboration) · holo_cap (`NONCE_CANDS`) ·
+verbum.dsp.nulls (`gate`, `NullDraws`, `paired_permutation`,
+`sign_flip`). Anti-membership statements = `_member_stmts(w, 1−c)` —
+structurally identical to own-membership.
+
+### Construction (nonce w, nominal class c; k_own = 3 fixed, k_anti swept)
+
+k_own = 3 is the idempotency sweet spot (solid standing license,
+pre-dip; the k=4,5 atypical-template caveat avoided). Arms:
+
+- `OWN-ONLY` — [own×3], k_anti=0 (the standing level; TS0 + reference).
+- `OWN+FILLER` — [own×3] + [incoherent×k_anti], k_anti∈{1,2,3} — the
+  token-matched DILUTION baseline (membership-free filler; no class
+  edge).
+- `MIX-OWNFIRST` — [own×3][anti×k_anti], k_anti∈{1,2,3} — the
+  subtraction curve.
+- At the balanced point (3 own + 3 anti), two extra orderings:
+  `MIX-ANTIFIRST` — [anti×3][own×3]; `MIX-INTERLEAVED` — alternating
+  (neutral primacy).
+
+Read `L` (signed, nominal class `c`) per arm per k per nonce.
+
+### Gates
+
+- **TS0 SANE (void-gate):** `L(own-only,3) > 0` solidly; real-member
+  anchor `real_margin ≥ REAL_MARGIN_FLOOR` ∧ per-class ok; register
+  works (L rises k=0→3 own). Void if not.
+- **TS2 SUBTRACTION-DEPTH (gates NO-EROSION):** `L(interleaved,3+3) <
+  L(filler,3+3)` paired per nonce → balanced contradiction erodes below
+  neutral dilution (genuine signed work). If not → own license immune.
+- **TS1 ORDER (make-or-break, 3-way):** stat = `L(own-first) −
+  L(anti-first)` at balance, paired-permutation null. Sign selects the
+  mechanism.
+- **TS3 DC-COROBORATION (advisory, 2nd substrate):** the same TS1/TS2
+  signs read on the type_icl_tag **T** register (class-axis projection
+  at a constant probe frame `" The {w}."`, band L(0.50–0.85)). Reports;
+  never gates. Two-substrate confirm (as idempotency did weight-plate +
+  tape).
+
+### Verdict tree (frozen)
+
+```
+¬TS0                        → VOID
+¬TS2 (no erosion)           → NO-EROSION        # own license immune → strongest pile-up
+TS2 ∧ TS1 not-sig (blind)   → SIGNED-INTEGRATOR # subtracts, commutative → own does NOT survive balance
+TS2 ∧ TS1 > 0 (sig)         → EARLY-COMMITMENT   # own-first survives → §Synthesis forward-win on the tape
+TS2 ∧ TS1 < 0 (sig)         → RECENCY-BUFFER     # anti-first wins → last-wins; frame-damaging
+```
+
+### Verdicts + a-priori (NOT tuned; modal on the mundane)
+
+- **SIGNED-INTEGRATOR 30** — subtraction observed, order-blind. Matches
+  the weight-face GC2 signed cancellation; the literal *add-only
+  photographic-stack* reading is falsified in its strongest form, the
+  deeper §Synthesis camera reading upheld on the tape.
+- **RECENCY-BUFFER 30** — anti-first wins. Neither integrator nor
+  commitment; a recency window. FRAME-DAMAGING (a stack averages all
+  frames, not just recent; reframes the s326 DC accumulate-and-hold as
+  possibly a recency artifact). The frame can lose here — standing guard
+  satisfied.
+- **EARLY-COMMITMENT 20** — own-first survives, anti-first does not.
+  Competing-stacks with primacy; a pre-registered FORWARD WIN for the
+  sign-is-the-decision spine on the tape (early commitment is durable).
+  Kept modest — the frame must earn it.
+- **NO-EROSION 10** — own license immune to contradiction regardless of
+  order. Maximal pile-up.
+- **VOID 10** — register fails to form.
+
+### Read discipline (banked at freeze)
+
+- The make-or-break is the ORDER sign (TS1), not the trivial subtraction
+  (which TS2 confirms is present at all). Do NOT read a bare subtraction
+  as a frame win.
+- SIGNED-INTEGRATOR and EARLY-COMMITMENT both cohere with the licensed
+  §Synthesis spine (camera / sign-committed); RECENCY-BUFFER damages the
+  stacked-exposure frame; NO-EROSION is the strongest pile-up. Report the
+  measured signs; let the tree speak.
+- Bounds: single model (Qwen3-4B), L-register (surprisal licensing) with
+  T-register corroboration, single-context (block-free) timescale,
+  k_own=3 fixed (one exposure depth). EARLY-COMMITMENT would license
+  "first-committed class survives balanced contradiction on this
+  substrate" — not unbounded durability.
+- The reframe is frame-candidate / pattern-suggests until this lands.
+
+### Provenance
+
+MIT (lambda provenance). Reuses frozen s315/s320 harnesses (type_icl_tag,
+idempotency) unchanged; no fork (λ one_way).

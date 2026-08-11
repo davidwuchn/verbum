@@ -11,6 +11,26 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 328: §P-TAPE-SUBTRACTION FROZEN (Michael "approved") — the stacked-exposure
+> reframe's FIRST forward contact, in flight. Front selected off the queue (⚪→🔵). ① Design
+> SHARPENED with Michael GO: the queue's literal subtract-vs-pile-up binary is nearly pre-decided
+> by trivial ICL (anti-class statements mechanically lower anti-predicate surprisal ⇒ "subtracts"
+> for free) → made ORDER-SENSITIVITY the make-or-break (a signed integrator is commutative; early-
+> commitment is order-sensitive primacy; recency is the mirror). Content-matched order arms (3 own
+> + 3 anti membership, only sequence differs) carry no lexical confound. ② 🎯 FROZEN
+> (§P-TAPE-SUBTRACTION on types-are-a-modulation-scheme.md): register = idempotency signed
+> licensing L (+ type_icl_tag T corroboration, TS3, 2-substrate); k_own=3 fixed, k_anti swept;
+> arms OWN-ONLY · OWN+FILLER(dilution) · MIX-OWNFIRST(subtraction curve) · MIX-ANTIFIRST ·
+> MIX-INTERLEAVED. Gates TS0 SANE / TS2 SUBTRACTION-DEPTH (gates NO-EROSION) / TS1 ORDER
+> (make-or-break 3-way) / TS3 DC-corrob. Verdict tree: ¬TS0→VOID · ¬TS2→NO-EROSION · TS2∧TS1-ns→
+> SIGNED-INTEGRATOR · TS2∧TS1>0→EARLY-COMMITMENT (§Synthesis forward-win) · TS2∧TS1<0→RECENCY-BUFFER
+> (frame-damaging). A-priori (NOT tuned, modal on the mundane): SIGNED-INTEGRATOR 30 / RECENCY 30 /
+> EARLY-COMMITMENT 20 / NO-EROSION 10 / VOID 10. Discipline from birth: frame-candidate, standing
+> guard active, either answer informative. ③ NEXT: build scripts/explore/tape_subtraction.py
+> (--validate 5 planted worlds → expected verdicts, reuse idempotency + type_icl_tag no fork,
+> ruff clean) → run Qwen3-4B (mps, minutes) → closure batch (§Result + memory + INDEX + queue
+> verdict + state = MICHAEL APPROVAL). Freeze ledger: 🎯 §+queue 🔵+this state (Michael GO batch).**
+>
 > ★★ **SESSION 327: 💡 HAMMOCK CAPTURED (Michael GO "add it to the queue, update state and
 > knowledge"): §Reframe on types-are-a-modulation-scheme.md — THE PLATE IS A STACKED EXPOSURE,
 > NOT A NEGATIVE.** Michael's line on the s326 composite ("a pile of photographs, not a negative
