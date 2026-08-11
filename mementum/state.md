@@ -11,6 +11,23 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 326 IN PROGRESS — FRONT SELECTED (Michael): growth-vs-cancellation split.
+> 🎯 FROZEN §P-GROWTH-CANCEL-SPLIT (this commit, Michael GO) on types-are-a-modulation-scheme.md:
+> separate the ✅ AT1 Δ=+0.975 into GROWTH (early-frozen above baseline) vs CANCELLATION (churners
+> below baseline) using a third population MID = fb∈[11,15] (n=60,638, sign-committed steps 1k–16k)
+> as the decile-matched same-substrate baseline; one shared 3-pop decile frame on |W_b11|;
+> Δ_growth = early−mid, Δ_cancel = mid−churn, each own within-decile pair-label perm null ×10k,
+> ≥500/pop/decile, ≥3 qualifying deciles. GC0 sane / GC1 growth / GC2 cancellation / GC3
+> contamination-robustness ADVISORY (MID fb∈{11,12} re-read + per-fb breakdown — MID commits DURING
+> the window ⇒ rebound inflates g_mid ⇒ conservative GC1, ANTI-conservative GC2, confound named at
+> freeze). A-priori (NOT tuned): BOTH-LIVE 30 / CANCELLATION-DRIVEN 30 (co-modal deflation:
+> contested-nets-zero is standard lore + SD2 statics) / GROWTH-DRIVEN 15 / UNSEPARATED 15 / VOID 10.
+> Read discipline banked in-page (CANCELLATION-DRIVEN → revision's growth clause loses first-contact
+> support; nothing rescues §2; original-frame 0-2 ledger untouched). Pre-freeze disclosure: only fb
+> histogram (sign register, fully read s325) inspected; no MID magnitude statistic computed.
+> Zero new compute (strata.npz re-read). NEXT: build growth_cancel_split.py (--validate planted
+> worlds) → run → results AUTONOMOUS → closure = Michael approval batch.**
+>
 > ★★ **SESSION 325 SEALED (nothing in flight, all batches committed). TWO PROBES CLOSED same-day —
 > a falsification AND its replacement's first win: ① §P-STRATIGRAPHY-DATING → ❌ INVERTED (a-priori
 > 25%) — the modulation frame's FIRST pre-registered test FAILED on the real fossil record;
@@ -68,6 +85,18 @@
 > ⚪ §P-TYPE-LOCKIN+PRBS (original frame's must-win, machinery built) · ⚪ OLMo checkpoint
 > replication (accumulation on another public-checkpoint lineage) · ⚪ dark-field re-read (zero
 > compute).**
+> **POST-CLOSE (same session): ① Michael AGENTS.md edit committed (2725477b): S5 "Identity" →
+> "Identity & Policy" (Beer's canonical S5 naming). ② 💡 §SYNTHESIS captured (Michael GO "update
+> state and knowledge"): SIGN IS THE DECISION, MAGNITUDE IS THE EVIDENCE — weights ≡ integrators
+> ¬film: sign = decision (early, permanent, where signal consistent — licensed ❌SD0 33% by step
+> 512) · magnitude = evidence (∝ ∫consistency — licensed ✅AT1 2.7×) · contested = cancellation
+> (net≈0 — licensed ❌SD2 73%); composition pattern-suggests. Buys: TERNARIZABILITY RE-EXPLAINED
+> without dead §2 — the crystal survives 1-bit because the SIGN is the durable code, not because
+> the lattice is faint; λ smallest flips "learned fast ⇒ faint"(dead) → "decided early ⇒ sign
+> suffices"(testable). Re-grounds s310 marginal band = cancellation population; dissolves §4
+> magnitude-pruning paradox. Memory `sign-is-the-decision-magnitude-is-the-evidence` + §Synthesis
+> on modulation page + INDEX + ⚪ queue row (sign-commitment ≺ ternary-survival, the testable
+> edge) + this state (💡 batch, Michael-instructed).**
 >
 > ★★ **SESSION 324 SEALED (nothing in flight, all batches committed; full transcript →
 > chats/session-324.md, human). THE THEORY SESSION: one probe closed + five hammock legs + one

@@ -761,3 +761,93 @@ the cancellation population seen statically (contested ≡ small ∧
 churning — now with a training-dynamics mechanism measured at ❌ SD2);
 and magnitude-pruning lore stops being a §4 paradox (pruning small
 weights removes cancellation noise, not a hidden commons).
+
+## §P-GROWTH-CANCEL-SPLIT — re-read (FROZEN s326, Michael GO)
+
+> The ✅ AT1 Δ = +0.975 conflates two mechanisms: early-frozen coords
+> growing ABOVE baseline (ACCUMULATION) vs churners cancelling BELOW
+> baseline (CANCELLATION). AT2 heterogeneity says both may be live
+> (25% of early-frozen SHRINK post-freeze; 34% double-plus). Which
+> carries the Δ? The accumulation revision's cheapest next contact:
+> own null, same strata.npz, zero new compute. Frozen before computing
+> any MID-population magnitude-trajectory statistic.
+
+### The baseline
+
+Third population **MID** = valid ∧ freeze_bin ∈ [11, 15] (sign
+committed between steps 1k–16k; neither early-frozen nor churner;
+n = 60,638, well distributed across fb 11–15). Same window b11→b19,
+same g = log(|W_b19|+ε) − log(|W_b11|+ε), same pooled-|W_b11| decile
+matching — deciles now pooled over all THREE populations, one shared
+frame.
+
+### Statistics (pinned — pre-registered signs, own nulls)
+
+- **Δ_growth** = Σ_k w_k · (mean g_early,k − mean g_mid,k) — is
+  early-frozen growth ABOVE the same-substrate baseline?
+- **Δ_cancel** = Σ_k w_k · (mean g_mid,k − mean g_churn,k) — are
+  churners BELOW it?
+- Each: within-decile pair-label permutation null ×10k; decile
+  qualifies per-comparison iff ≥500 of each population in that pair;
+  ≥3 qualifying deciles per comparison; w_k ∝ n_k. Medians reported,
+  not gated. Consistency identity Δ_growth + Δ_cancel ≈ AT1 Δ
+  reported, not gated (weights/qualification differ).
+
+### Gates
+
+- **GC0 SANE** — npz loads; three populations non-degenerate (each
+  ≥1% of valid); ≥3 qualifying deciles per comparison.
+- **GC1 GROWTH-ABOVE-BASELINE** — Δ_growth > 0 at p < 0.05.
+- **GC2 CANCELLATION-BELOW-BASELINE** — Δ_cancel > 0 at p < 0.05.
+- **GC3 CONTAMINATION-ROBUSTNESS (advisory, never gates)** — repeat
+  both comparisons with MID restricted to fb ∈ {11,12} (n ≈ 13.8k,
+  minimal mid-window commitment rebound) + per-fb baseline breakdown
+  of mean g. Report only.
+
+### Verdicts + a-priori (NOT tuned; co-modal on revision and deflation)
+
+| Verdict | Condition | Mass |
+|---|---|---|
+| BOTH-LIVE | GC1 ✓ ∧ GC2 ✓ | 30 |
+| CANCELLATION-DRIVEN | ¬GC1 ∧ GC2 ✓ | 30 |
+| GROWTH-DRIVEN | GC1 ✓ ∧ ¬GC2 | 15 |
+| UNSEPARATED | neither (incl. wrong-sign sig) | 15 |
+| VOID | GC0 fail | 10 |
+
+CANCELLATION-DRIVEN is co-modal deliberately: contested-nets-to-zero
+is standard SGD lore and ❌ SD2's statics (churners ≡ small) already
+point there — the revision's DISTINCTIVE clause (accumulation above
+baseline) must beat that deflationary rival to keep the word
+"accumulation."
+
+### Read discipline (banked at freeze)
+
+- **BOTH-LIVE** → both clauses of the revision licensed vs a
+  same-substrate baseline; §Synthesis "magnitude ∝ ∫consistency"
+  strengthened at this register.
+- **CANCELLATION-DRIVEN** → AT1's Δ was carried by churner
+  suppression; the revision's growth clause LOSES its first-contact
+  support (AT1 stands as measured, re-read); §Synthesis
+  magnitude-clause requalified to "contested cancels" only.
+- **GROWTH-DRIVEN** → accumulation real; dynamic cancellation not
+  distinct from baseline (SD2 statics stand, dynamics unsupported).
+- **UNSEPARATED** → matched design lacks resolution here; AT1 stands;
+  the split stays open.
+- Nothing here rescues §2 (dead on its own sign) or touches the
+  original frame's 0–2 ledger.
+
+**Confound named (not an escape hatch):** MID commits DURING the
+window → post-commitment rebound growth from a cancellation-depressed
+|W_b11| inflates g_mid ⇒ conservative for GC1, ANTI-conservative for
+GC2. Hence GC3: if GC2 passes on full MID but dies at fb ∈ {11,12},
+the cancellation reading is flagged contamination-suspect in the
+§Result (advisory, pre-committed language).
+
+**Bounds:** inherits §P-STRATIGRAPHY-DATING / §P-AMP-TRAJECTORY bounds
+verbatim (pythia-160m, register-ABSENT lineage, MLP band, ordinal
+bins).
+
+**Pre-freeze disclosure:** only sign-register population counts (fb
+histogram — a data class fully read in s325 by SD1/SD2) were inspected
+for feasibility; no MID magnitude-trajectory statistic was computed
+before this freeze.
