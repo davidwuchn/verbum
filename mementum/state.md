@@ -11,25 +11,42 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ★★ **SESSION 328: §P-TAPE-SUBTRACTION FROZEN (Michael "approved") — the stacked-exposure
-> reframe's FIRST forward contact, in flight. Front selected off the queue (⚪→🔵). ① Design
-> SHARPENED with Michael GO: the queue's literal subtract-vs-pile-up binary is nearly pre-decided
-> by trivial ICL (anti-class statements mechanically lower anti-predicate surprisal ⇒ "subtracts"
-> for free) → made ORDER-SENSITIVITY the make-or-break (a signed integrator is commutative; early-
-> commitment is order-sensitive primacy; recency is the mirror). Content-matched order arms (3 own
-> + 3 anti membership, only sequence differs) carry no lexical confound. ② 🎯 FROZEN
-> (§P-TAPE-SUBTRACTION on types-are-a-modulation-scheme.md): register = idempotency signed
-> licensing L (+ type_icl_tag T corroboration, TS3, 2-substrate); k_own=3 fixed, k_anti swept;
-> arms OWN-ONLY · OWN+FILLER(dilution) · MIX-OWNFIRST(subtraction curve) · MIX-ANTIFIRST ·
-> MIX-INTERLEAVED. Gates TS0 SANE / TS2 SUBTRACTION-DEPTH (gates NO-EROSION) / TS1 ORDER
-> (make-or-break 3-way) / TS3 DC-corrob. Verdict tree: ¬TS0→VOID · ¬TS2→NO-EROSION · TS2∧TS1-ns→
-> SIGNED-INTEGRATOR · TS2∧TS1>0→EARLY-COMMITMENT (§Synthesis forward-win) · TS2∧TS1<0→RECENCY-BUFFER
-> (frame-damaging). A-priori (NOT tuned, modal on the mundane): SIGNED-INTEGRATOR 30 / RECENCY 30 /
-> EARLY-COMMITMENT 20 / NO-EROSION 10 / VOID 10. Discipline from birth: frame-candidate, standing
-> guard active, either answer informative. ③ NEXT: build scripts/explore/tape_subtraction.py
-> (--validate 5 planted worlds → expected verdicts, reuse idempotency + type_icl_tag no fork,
-> ruff clean) → run Qwen3-4B (mps, minutes) → closure batch (§Result + memory + INDEX + queue
-> verdict + state = MICHAEL APPROVAL). Freeze ledger: 🎯 §+queue 🔵+this state (Michael GO batch).**
+> ★★ **SESSION 328 SEALED (nothing in flight, all batches committed). §P-TAPE-SUBTRACTION CLOSED
+> → ✅ EARLY-COMMITMENT (QUALIFIED; a-priori 20, beat the modal-mundane 60) — the stacked-exposure
+> reframe's FIRST pre-registered forward contact, and a WIN for the §Synthesis sign-is-the-decision
+> spine on the tape. ① Design SHARPENED (Michael GO): the queue's literal subtract-vs-pile-up
+> binary is nearly pre-decided by trivial ICL (anti-class statements mechanically lower
+> anti-predicate surprisal ⇒ "subtracts" for free) → made ORDER-SENSITIVITY the make-or-break
+> (signed integrator = commutative; early-commitment = order-sensitive primacy; recency = mirror).
+> Content-matched order arms (3 own + 3 anti membership, only sequence differs) carry no lexical
+> confound. ② 🎯 FROZEN (§P-TAPE-SUBTRACTION on types-are-a-modulation-scheme.md; register =
+> idempotency signed licensing L + type_icl_tag T corroboration TS3). ③ ✅ harness
+> (tape_subtraction.py, --validate 5 planted worlds ALL PASS + 5 construction primitives, ruff
+> clean, no diags, reuse idempotency + type_icl_tag no fork; smoke n=4 green real-margin 2.538).
+> ④ ▶ run (qwen3-4b mps, 20 nonces, n_null 10k, 127s, clean) → **VERDICT ✅ EARLY-COMMITMENT:
+> TS0 sane (standing L 2.96); TS2 SUBTRACTION-DEPTH ✓ contrary genuinely subtracts (interleaved
+> 0.25 vs filler 2.05, erosion +1.804 p=1e-4 — NOT immune); TS1 ORDER make-or-break ✓ PRIMACY
+> (own-first survives +0.351, anti-first erased −0.127, order_diff +0.478 p=1e-4; content-identical
+> arms — trivial recency ICL predicted the OPPOSITE sign, confound decisively excluded).** The
+> tape's behavioral face COMMITS to first-asserted (competing-stacks/primacy branch), UNLIKE the
+> weight face's commutative GC2 cancellation → the two faces DIFFER. ⑤ TWO-REGISTER REFINEMENT of
+> §Synthesis: L(behavioral licensing)=PRIMACY (decision commits early), T(class-axis projection)=
+> RECENCY (TS3 advisory, order_diff −1.30) → **sign(decision)=primacy, magnitude(evidence)=recency,
+> observed within a single context on the tape.** ⑥ HONEST CAVEATS (banked): two-substrate confirm
+> HOLDS on erosion (T +1.66) but FAILS on the order sign (T recency vs L primacy) → win BOUNDED to
+> the behavioral/L register (L-vs-T reconciliation = follow-on, owes own pre-reg); non-monotone
+> own-first curve [2.96,−0.05,−0.13,0.35] = within-arm recency coexists with net primacy; single
+> model qwen3-4b, n=20, k_own=3, single-context. ⑦ FRAME LEDGER (Michael-agreed read): a licensed
+> FORWARD WIN for the §Synthesis sign-is-the-decision spine on the tape; the stacked-exposure
+> reframe SURVIVES first contact (not falsified, standing guard not tripped) and is REFINED not
+> proven — the tape adds order-sensitivity the commutative weight face lacked. **s328 ledger:**
+> b30be294 freeze 🎯 §+queue 🔵+state · 41ea2f6d harness ✅ · 72c479e0 results ✅ (autonomous) ·
+> closure batch = §Result + memory `tape-license-commits-early-representation-tracks-recency` +
+> INDEX + queue ✅ (# complete top) + this state = MICHAEL APPROVAL BATCH (EARLY-COMMITMENT kept,
+> frame read agreed). NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue FULL read;
+> nothing pending). Sharpest fronts: ⚪ sign-commitment ≺ ternary-survival (the live §Synthesis
+> edge, now with a tape-side commitment win behind it) · ⚪ L-vs-T order reconciliation (new, from
+> the TS3 split) · ⚪ OLMo checkpoint replication · ⚪ §P-LAY-A-NEGATIVE.**
 >
 > ★★ **SESSION 327: 💡 HAMMOCK CAPTURED (Michael GO "add it to the queue, update state and
 > knowledge"): §Reframe on types-are-a-modulation-scheme.md — THE PLATE IS A STACKED EXPOSURE,

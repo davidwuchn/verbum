@@ -1253,3 +1253,68 @@ TS2 ∧ TS1 < 0 (sig)         → RECENCY-BUFFER     # anti-first wins → last-
 
 MIT (lambda provenance). Reuses frozen s315/s320 harnesses (type_icl_tag,
 idempotency) unchanged; no fork (λ one_way).
+
+### §Result (s328) — VERDICT: EARLY-COMMITMENT (QUALIFIED; a-priori 20, beat the modal-mundane 60)
+
+Qwen3-4B, 20 nonces, n_null 10k, 127s, clean (no traceback).
+
+- **TS0 SANE:** ✓ — standing own-class license `L(own-only,3) = 2.960`,
+  real-member anchor margin 2.538 (per-class ok). Register solid.
+- **TS2 SUBTRACTION-DEPTH: ✓** — contrary evidence genuinely subtracts:
+  interleaved 3+3 falls to **0.247** vs neutral token-matched filler
+  dilution **2.051** (erosion +1.804, p = 1e-4). The license is neither
+  immune (NO-EROSION excluded) nor free — contradiction does signed work.
+- **TS1 ORDER (make-or-break): ✓ PRIMACY** — own-first balanced survives
+  (**+0.351**), anti-first erased (**−0.127**); order_diff **+0.478**,
+  primacy_p **= 1e-4**, recency_p = 1.0. The two arms are
+  **content-identical** (same 3 own + 3 anti membership statements, only
+  sequence differs) → this is pure ordering, and **trivial recency ICL
+  predicted the opposite sign**. The confound the s328 sharpening targeted
+  is decisively excluded.
+- **TS3 DC-COROBORATION (advisory, T register):** erosion COHERES
+  (T +1.659, standing 3.936) but the **order sign INVERTS** (T_order_diff
+  **−1.304**, recency-flavored). The second substrate agrees the level
+  erodes; it disagrees on *which order wins*.
+
+**THE READ (per banked discipline — the make-or-break lives on L).** The
+tape's **behavioral type license COMMITS to the first-asserted class**:
+asserted first, the own-class license survives balanced contradiction;
+asserted last (anti-first), it is erased. This is the queue binary's
+**"pile up if committed first"** branch — competing-stacks with primacy,
+**not** commutative signed integration. So the tape's behavioral face
+DIFFERS from the weight face (GC2 = commutative signed cancellation): the
+tape **commits**.
+
+**Two-register refinement of §Synthesis (the licensed spine).** The
+behavioral licensing (L) reads **PRIMACY** (the decision commits early and
+is durable); the representational class-axis projection (T) reads
+**RECENCY** (the graded level tracks recent evidence). Read together:
+**sign(decision) = primacy, magnitude(evidence) = recency** — a clean
+two-register reading of "sign is the decision, magnitude is the evidence,"
+now observed *within a single context* on the tape.
+
+**Honest caveats (bounding the win):**
+
+1. **Two-substrate confirm HOLDS on erosion, FAILS on the order sign.** The
+   commitment claim is bounded to the **behavioral/L register**; the
+   representational T substrate reads recency. A genuine register split —
+   flagged, not smoothed. (An L-vs-T reconciliation is a follow-on, owes
+   its own pre-reg.)
+2. **Non-monotone own-first curve** `[2.96, −0.05, −0.13, 0.35]`: a single
+   *trailing* contradiction nearly erases L (within-arm recency), yet the
+   net order-contrast still favors primacy. Recency and primacy coexist;
+   the net *decision* is primacy. Worth a follow-up (k_anti recency profile).
+3. Bounds: single model (Qwen3-4B), n=20, k_own=3 (one exposure depth),
+   single-context (block-free) timescale.
+
+**Frame ledger.** EARLY-COMMITMENT is the pre-registered win condition
+(TS2 ∧ TS1>0) and it landed on the pre-registered primary register — a
+**first pre-registered FORWARD WIN for the §Synthesis sign-is-the-decision
+spine on the tape**, QUALIFIED by the T-split. For the stacked-exposure
+reframe specifically: it **survives first contact** on the
+competing-stacks/primacy branch (not falsified — the standing guard is not
+tripped), but the result **refines** the reframe's "both faces are
+identical integrators" line: the tape's behavioral face adds
+**order-sensitivity (primacy)** that the commutative weight face did not
+show. The reframe remains frame-candidate / pattern-suggests; the spine
+gains a licensed forward win on this substrate.
