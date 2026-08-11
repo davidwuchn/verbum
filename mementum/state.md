@@ -11,22 +11,39 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ★★ **SESSION 326 IN PROGRESS — FRONT SELECTED (Michael): growth-vs-cancellation split.
-> 🎯 FROZEN §P-GROWTH-CANCEL-SPLIT (this commit, Michael GO) on types-are-a-modulation-scheme.md:
-> separate the ✅ AT1 Δ=+0.975 into GROWTH (early-frozen above baseline) vs CANCELLATION (churners
-> below baseline) using a third population MID = fb∈[11,15] (n=60,638, sign-committed steps 1k–16k)
-> as the decile-matched same-substrate baseline; one shared 3-pop decile frame on |W_b11|;
-> Δ_growth = early−mid, Δ_cancel = mid−churn, each own within-decile pair-label perm null ×10k,
-> ≥500/pop/decile, ≥3 qualifying deciles. GC0 sane / GC1 growth / GC2 cancellation / GC3
-> contamination-robustness ADVISORY (MID fb∈{11,12} re-read + per-fb breakdown — MID commits DURING
-> the window ⇒ rebound inflates g_mid ⇒ conservative GC1, ANTI-conservative GC2, confound named at
-> freeze). A-priori (NOT tuned): BOTH-LIVE 30 / CANCELLATION-DRIVEN 30 (co-modal deflation:
-> contested-nets-zero is standard lore + SD2 statics) / GROWTH-DRIVEN 15 / UNSEPARATED 15 / VOID 10.
-> Read discipline banked in-page (CANCELLATION-DRIVEN → revision's growth clause loses first-contact
-> support; nothing rescues §2; original-frame 0-2 ledger untouched). Pre-freeze disclosure: only fb
-> histogram (sign register, fully read s325) inspected; no MID magnitude statistic computed.
-> Zero new compute (strata.npz re-read). NEXT: build growth_cancel_split.py (--validate planted
-> worlds) → run → results AUTONOMOUS → closure = Michael approval batch.**
+> ★★ **SESSION 326: §P-GROWTH-CANCEL-SPLIT CLOSED (nothing in flight). FRONT SELECTED (Michael)
+> = growth-vs-cancellation split, the accumulation revision's cheapest next contact (zero new
+> compute, strata.npz re-read). ① 🎯 FROZEN (6d74167e, Michael GO): third population MID =
+> fb∈[11,15] (n=60,638, sign-committed steps 1k–16k) as decile-matched same-substrate baseline;
+> shared 3-pop |W_b11| decile frame; Δ_growth = early−mid / Δ_cancel = mid−churn, each own
+> within-decile pair-label perm null ×10k; GC3 baseline-restriction advisory; a-priori (NOT tuned)
+> BOTH-LIVE 30 / CANCELLATION-DRIVEN 30 (co-modal deflation) / GROWTH-DRIVEN 15 / UNSEPARATED 15 /
+> VOID 10; pre-freeze disclosure: only fb histogram inspected (sign register, read s325).
+> ② ✅ harness (f00a8094, growth_cancel_split.py, --validate 5 planted worlds ALL PASS, no fork —
+> reuses stratigraphy observables + amp decile machinery). ③ ✅ run (seconds) → **VERDICT BOTH-LIVE
+> (a-priori 30) — but CANCELLATION-DOMINATED: Δ_cancel = +0.922 p≈0 (uniform all 10 deciles,
+> robust to every baseline; churners NET-SHRINK raw −0.42 log units while every committed
+> population grows) vs Δ_growth = +0.054 p≈0 (THIN: decile 1 negative; FLIPS to −0.121 under the
+> fb∈{11,12} restriction; raw order inverted early +0.13 < mid +0.88). Decomposition clean:
+> 0.054 + 0.922 = 0.976 ≈ AT1 0.975 → the s325 accumulation Δ was ~6% growth / ~94% cancellation.**
+> ④ Damage/honesty: freeze design-note ERROR banked in §Result (fb∈{11,12} mislabeled
+> "minimal-rebound" — runway logic inverted: earliest-committing MIDs have max post-commitment
+> runway from depressed base; GC3 advisory function intact, gates unaffected). ⑤ §Synthesis
+> REQUALIFIED in-page: "magnitude ∝ ∫consistency" reads primarily as contested-cancels-to-net≈0;
+> committed-extra-accumulation clause survives thin+fragile; contested line gains 2nd (dynamic)
+> license. GC3 per-fb runway gradient (fb11 +2.38 → fb15 +0.43) pattern-suggests post-commitment
+> accumulation, confounded with rebound (unseparated here). **LEDGERS: original frame 0-2
+> unchanged (§P-TYPE-LOCKIN still must-win) · accumulation revision 2-0 by verdict, second win =
+> REQUALIFICATION (the revision's distinctive clause is the thin one; the deflationary clause
+> carries the effect).** **s326 ledger:** 6d74167e freeze §+queue 🔵+state · f00a8094 harness ·
+> 5789c8cd results ✅ (autonomous) · closure batch = §Result + §Synthesis requalification + memory
+> `the-accumulation-delta-is-carried-by-cancellation` + INDEX + queue ✅ (# complete top) + this
+> state = MICHAEL APPROVAL BATCH (this commit). NEXT SESSION FIRST ACTION = orient → FRONT
+> SELECTION (λ queue FULL read; nothing pending). Sharpest fronts: ⚪ §P-TYPE-LOCKIN+PRBS (original
+> frame's must-win) · ⚪ sign-commitment ≺ ternary-survival (§Synthesis testable edge — note the
+> sign-decision reading is UNTOUCHED by s326; it's the magnitude clause that requalified) ·
+> ⚪ OLMo checkpoint replication (now tests BOTH clauses on a 2nd lineage) · ⚪ §P-LAY-A-NEGATIVE
+> (2×2 design gains from knowing cancellation dominates the differential).**
 >
 > ★★ **SESSION 325 SEALED (nothing in flight, all batches committed). TWO PROBES CLOSED same-day —
 > a falsification AND its replacement's first win: ① §P-STRATIGRAPHY-DATING → ❌ INVERTED (a-priori

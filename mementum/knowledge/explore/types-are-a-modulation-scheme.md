@@ -742,6 +742,15 @@ lineage); any rescue of §2 (dead on its own pre-registered sign).
   | dead: exposure(error) → faint_commons (§2 self-erasure, INVERTED)
 ```
 
+> **s326 requalification (✅ §P-GROWTH-CANCEL-SPLIT, below):** the AT1
+> license on the magnitude line is now split — ~94% of the 2.7×
+> differential is the CANCELLATION clause (churners net-shrink, −0.42
+> raw, robust to every baseline), only ~6% is committed-growth above
+> the committed baseline (+0.054 matched, baseline-fragile). Read
+> "magnitude ∝ ∫consistency" primarily as *contested cancels to
+> net≈0*; the *committed keeps accumulating extra* clause is thin at
+> this register. The contested line gains its second, dynamic license.
+
 **The retrodiction this buys (pattern-suggests, NOT yet tested):**
 ternarizability re-explained without the dead mechanism. The crystal
 survives 1-bit quantization not because the lattice is FAINT (§2's
@@ -851,3 +860,57 @@ bins).
 histogram — a data class fully read in s325 by SD1/SD2) were inspected
 for feasibility; no MID magnitude-trajectory statistic was computed
 before this freeze.
+
+### §Result (s326) — VERDICT: BOTH-LIVE (a-priori 30) — but CANCELLATION-DOMINATED
+
+- **GC0 SANE:** ✓ — 66,854 early / 60,638 mid / 72,512 churn; all 10
+  deciles qualify for BOTH comparisons.
+- **GC1 GROWTH-ABOVE-BASELINE:** ✓ — Δ_growth = **+0.054**, p ≈ 0.
+  THIN: decile 1 is NEGATIVE (−0.198), deciles 2–10 rise +0.02→+0.12.
+- **GC2 CANCELLATION-BELOW-BASELINE:** ✓ — Δ_cancel = **+0.922**,
+  p ≈ 0, uniform across all 10 deciles (+0.87..+0.98).
+- **Consistency identity:** Δ_growth + Δ_cancel = 0.976 ≈ AT1 replica
+  0.983 ≈ frozen AT1 0.975 — the decomposition is clean:
+  **≈ 6% growth / 94% cancellation.**
+- **GC3 advisory (baseline sensitivity):** restricted MID fb ∈ {11,12}
+  → Δ_growth FLIPS to −0.121 (sig-negative, 6 quals); Δ_cancel grows
+  to +1.062. Per-fb baseline mean g is MONOTONE in commitment time:
+  fb11 +2.38 → fb15 +0.43 (later-committing mids grow less by window
+  end). Raw unmatched means (advisory): early +0.133 / mid +0.880 /
+  churn **−0.419** — churners NET-SHRINK in absolute log-amplitude
+  while every committed population grows.
+
+**Design-note correction (❌, honest):** the freeze labeled fb ∈ {11,12}
+"minimal mid-window commitment rebound." The runway logic was INVERTED:
+earliest-committing MIDs have the MOST post-commitment window runway
+from a churn-depressed |W_b11| base ⇒ maximal rebound inflation of
+g_mid. GC3 still functions as the intended baseline-sensitivity probe
+(it RAISES the baseline); the pre-committed GC2-dies-under-restriction
+flag did not fire — cancellation strengthened instead, and even against
+the LOWEST committed baseline (fb15, +0.43) churners sit ~0.85 below.
+Gates unaffected (GC3 advisory-never-gates).
+
+**THE READ (per frozen tree + banked discipline):** BOTH-LIVE — both
+clauses exist vs the same-substrate matched baseline — but the split is
+**overwhelmingly cancellation-carried**. Licensed exactly:
+*contested-cancellation is the dominant dynamic differential on this
+substrate — churners net-shrink (−0.42 raw; −0.92 matched below the
+committed-mid baseline, robust to every baseline choice); early-frozen
+coords sit only marginally above the committed baseline (+0.054
+matched), and that margin is BASELINE-FRAGILE (flips sign under the
+GC3 restriction) and raw-order inverted (early +0.13 < mid +0.88 —
+base-level/saturation effects dominate raw growth).* The revision's
+distinctive "accumulation above baseline" clause survives by the frozen
+gate but earns only a THIN, fragile license; the deflationary co-modal
+(CANCELLATION-DRIVEN) captures ~94% of the AT1 effect. §Synthesis
+requalified below. Does NOT rescue §2; original-frame 0–2 ledger
+untouched. Bounds inherited (pythia-160m, register-ABSENT lineage, MLP
+band, ordinal bins).
+
+**Ledger note:** accumulation-concentration revision now reads **2–0
+by verdict, but the second win is a requalification** — AT1's Δ was
+mostly the cancellation clause, not the accumulation clause. The
+sharpest remaining accumulation evidence is the GC3 per-fb runway
+gradient (fb11 +2.38 → fb15 +0.43: earlier commitment ⇒ more growth by
+window end — pattern-suggests post-commitment accumulation, but
+confounded with rebound-from-depressed-base; unseparated here).
