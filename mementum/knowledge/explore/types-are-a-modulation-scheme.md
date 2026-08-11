@@ -914,3 +914,99 @@ sharpest remaining accumulation evidence is the GC3 per-fb runway
 gradient (fb11 +2.38 → fb15 +0.43: earlier commitment ⇒ more growth by
 window end — pattern-suggests post-commitment accumulation, but
 confounded with rebound-from-depressed-base; unseparated here).
+
+## §P-TYPE-LOCKIN+PRBS (FROZEN s326, Michael GO) — the must-win
+
+> §1's core claim: the type judgment is a DEMODULATION EVENT (carrier
+> lock) — the register must track evidence DYNAMICALLY. Every prior
+> read was DC (presence-detector, NF-GAUGE demotion); this is the AC
+> reading. The frame stands 0–2 with this leg named must-win (s325).
+> PRBS upgrade folded in at freeze per the RE toolbox (system-ID: one
+> run = full transfer function + lock-time as measured step response).
+
+### Substrate + reuse (λ one_way, no fork)
+
+qwen3-4b, READ-ONLY (no wire, no training), MPS. Reuses: `type_icl_tag`
+signed_T / class_axes / BAND_DEPTH (0.50, 0.85) — the §11 tag-transit
+instrument that LANDED s315; `idempotency` populations (coherent
+`tw._member_stmts` + incoherent membership-free fillers,
+token-budget-matched); `type_write` constants (CLASSES, REAL_MEMBERS,
+NONCE_CANDS via holo_cap); `verbum.jlens` capture; `dsp.nulls`.
+
+### Construction (per nonce w, class c; 20 nonces, classes alternated)
+
+Sequence of **63 blocks**; block = evidence segment + FIXED probe frame
+(constant surface, `" The {w}."`; T read at last w token — §11's
+licensing-feed position). Schedule m(t) ∈ {+1, −1}:
+
+- **MAIN** — m = **PRBS-6** (length-63 maximal LFSR; cyclic shift per
+  nonce = spectrum-preserving decorrelation). +1 slots = coherent
+  membership paraphrase (cycled); −1 slots = incoherent
+  membership-free filler (token-matched).
+- **CTRL (lexical control — s321/s322 lesson AT the gate)** — +1 slots
+  = class-word-present NON-membership segments (class word exactly
+  once, w never predicated, token-matched). Detection here = surface /
+  attention bleed, not judgment.
+- **SNR arms** — MAIN at s ∈ {0.5, 0.25}: coherent slots carry a
+  coherent segment with exact fraction s, else filler.
+
+**Excitation ⊥ measurement:** evidence modulates; readout only at
+constant-surface probes — any schedule-content in y(t) must be carried
+by STATE, not probe surface.
+
+### Demodulation (pinned)
+
+y(t) = T at probe t, mean-removed per sequence (DC excluded by
+construction — DC ≡ the known presence-detector reading). Impulse
+response ĥ(τ) = (2/B) Σ_t y(t)·m(t−τ). Detection statistic
+**D = Σ_{τ=0..3} ĥ(τ)** (SIGNED — coherent evidence must RAISE
+own-class T). Null = **10k random non-trivial cyclic shifts of m**
+(preserves PRBS autocorrelation ≡ matched-range null, λ yardstick),
+drawn per nonce, aggregated across nonces per draw.
+
+### Gates
+
+- **LK0 SANE (void-gate)** — real-member class axis forms (T own >
+  anti); PRBS autocorrelation verified; y finite all arms.
+- **LK1 AC-DETECTION (make-or-break)** — mean D > 0 at p < 0.05 vs
+  the shift-null.
+- **LK2 JUDGMENT-NOT-LEXICAL (make-or-break #2)** — D_MAIN > D_CTRL
+  paired across nonces, perm p < 0.05.
+- **LK3 TRANSFER-FUNCTION (advisory, never gates)** — ĥ(τ) shape,
+  |H(f)|, lock-time (63% cumulative step response), per-layer depth
+  profile. The PRBS dividend: TRACKER (flat-ish H, fast lock) vs pure
+  INTEGRATOR (1/f, no decay — what bare non-idempotent accumulation
+  would produce). Texture, not gated.
+- **LK4 CAPTURE-THRESHOLD (secondary; read only if LK1∧LK2)** — A(s)
+  = mean D at s ∈ {0.25, 0.5, 1.0}; fit A ∝ s^γ, bootstrap CI on γ.
+  γ > 1 (CI excludes 1) = THRESHOLD-FLAVORED (the frame's novel
+  prediction); γ ≈ 1 = PROPORTIONAL; γ < 1 = COMPRESSIVE. Three
+  points ≡ honest KNEE-SCREEN: licenses "threshold-flavored
+  convexity," NOT "capture threshold proven"; finer sweep owed if it
+  fires.
+
+### Verdicts + a-priori (NOT tuned; mass on mundane — the frame earned skepticism)
+
+| Verdict | Condition | Mass |
+|---|---|---|
+| NO-TRACK | ¬LK1 | 30 |
+| LEXICAL-TRACK | LK1 ∧ ¬LK2 | 25 |
+| CARRIER-TRACKED-PROPORTIONAL | LK1 ∧ LK2 ∧ (γ≈1 ∨ LK4 unreadable) | 20 |
+| CARRIER-TRACKED-THRESHOLD | LK1 ∧ LK2 ∧ γ>1 | 15 |
+| VOID | LK0 fail | 10 |
+
+### Read discipline (banked at freeze)
+
+- **NO-TRACK** → the §1 modulation leg FAILS with its must-win spent —
+  frame 0–3, effectively dead absent a Michael-level revision.
+  §Synthesis (sign/magnitude, s325–s326) is INDEPENDENT and unaffected.
+- **LEXICAL-TRACK** → third instance of the surface-carrier pattern
+  (s321 CL-collapse, s322 re-read) — a register finding, not a frame
+  win.
+- **CARRIER-TRACKED-*** → licenses *evidence-schedule-correlated,
+  membership-specific register response at constant probes* — NOT
+  "types are CDMA"; LK3 reads tracker-vs-integrator as texture.
+  THRESHOLD additionally = the frame's first distinctive
+  novel-prediction win (knee-screen grade only).
+- Bounds: single model (qwen3-4b), one class pair (animal/vehicle),
+  T-register grain, block-timescale modulation (token-rate untested).

@@ -11,6 +11,26 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 326 FRONT 2 IN PROGRESS: §P-TYPE-LOCKIN+PRBS (Michael selected — the original
+> frame's MUST-WIN, its remaining life after 0-2). 🎯 FROZEN (this commit, Michael GO) on
+> types-are-a-modulation-scheme.md: AC reading of the type register — PRBS-6 (63 blocks/nonce,
+> cyclic shift per nonce) modulates coherent membership evidence vs token-matched incoherent
+> filler; readout = §11 tag-transit T register (signed_T/class_axes, BAND_DEPTH 0.50–0.85 — the
+> landed s315 instrument) at CONSTANT probe frames " The {w}." (excitation ⊥ measurement);
+> demodulation D = Σ_{τ=0..3} ĥ(τ) signed, null = 10k non-trivial cyclic shifts (PRBS
+> autocorrelation-preserving matched null). Gates: LK0 sane / LK1 AC-DETECTION make-or-break /
+> LK2 JUDGMENT-NOT-LEXICAL make-or-break #2 (CTRL arm = class-word-present non-membership — the
+> s321/s322 lexical lesson AT the gate) / LK3 transfer-function ADVISORY (tracker flat-H vs
+> integrator 1/f — what bare non-idempotent accumulation would give) / LK4 capture-threshold
+> KNEE-SCREEN (s∈{0.25,0.5,1.0}, A∝s^γ bootstrap; γ>1 = the frame's novel prediction,
+> knee-screen grade only). A-priori (NOT tuned): NO-TRACK 30 / LEXICAL-TRACK 25 /
+> CARRIER-TRACKED-PROPORTIONAL 20 / CARRIER-TRACKED-THRESHOLD 15 / VOID 10. Read discipline
+> banked: NO-TRACK → frame 0-3 must-win spent ≈ dead (§Synthesis s325–s326 INDEPENDENT,
+> unaffected); LEXICAL-TRACK → 3rd surface-carrier instance. Substrate qwen3-4b READ-ONLY
+> (no wire), reuses type_icl_tag + idempotency populations + type_write constants (λ one_way).
+> NEXT: build type_lockin.py (--validate 5 worlds) → smoke (verdict not read) → full run (tmux,
+> tee, ~minutes) → results AUTONOMOUS → closure = Michael approval batch.**
+>
 > ★★ **SESSION 326: §P-GROWTH-CANCEL-SPLIT CLOSED (nothing in flight). FRONT SELECTED (Michael)
 > = growth-vs-cancellation split, the accumulation revision's cheapest next contact (zero new
 > compute, strata.npz re-read). ① 🎯 FROZEN (6d74167e, Michael GO): third population MID =
