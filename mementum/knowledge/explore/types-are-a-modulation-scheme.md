@@ -1451,3 +1451,69 @@ else                      → ENTANGLED-PARTIAL       30
 MIT (lambda provenance). Reuses frozen s315/s320/s328 harnesses
 (type_icl_tag, idempotency via tape_subtraction, tape_subtraction)
 unchanged; no fork (λ one_way).
+
+### §Result (s329) — VERDICT: ENTANGLED-PARTIAL (co-modal a-priori 30) — but the L-side is depth-resolved
+
+Qwen3-4B, same 20 nonces as s328, n_null 10k, 146s, clean.
+
+- **OR0 SANE/replicate: ✓ exact.** Identity LL(final)≡L to 0.0000
+  (mean and max); real margin 2.538 (= s328); D_L(final) = **+0.478**
+  p=0.0003 (s328: +0.478 — replicated to the third decimal) and
+  D_T(band) = **−1.304** p=1e-4 (s328: −1.30). Deterministic reuse
+  delivered; the split is real and stable.
+- **OR1 CROSSING — cell A LICENSED, cell B ns:**
+  - **A = LL(band) = −0.367, p=0.0002 (recency).** The behavioral
+    readout at T's depth reads RECENCY. Combined with D_L(final) =
+    +0.478 p=0.0003 (primacy), **the sign flip is depth-carried WITHIN
+    the behavioral instrument — both cells significant, readout held
+    fixed. Licensed.**
+  - **B = T(final) = +1.478, p=0.15 (ns).** Sign agrees with the depth
+    story (primacy direction at final depth) but does not clear the
+    gate. An ns cell is an ns cell (banked discipline) → the frozen
+    tree lands **ENTANGLED-PARTIAL**, not DEPTH-COMMITMENT.
+- **OR2 depth profiles (advisory):** D_LL is recency-negative through
+  nearly all depth, flipping positive only at L34 (+0.24) → L35 (+0.48).
+  D_T is ≈0 early, **deepens into recency through the band (−5 to −6 at
+  L30–33)**, then snaps to +1.48 at L35. Commitment depth ℓ* = 34 (LL)
+  / 35 (T) of 36. Both instruments share the shape: **recency runs
+  deep; primacy exists only in the last two layers** (pattern-suggests
+  at the T grain, licensed at the LL grain).
+- **OR3 RECENCY KERNEL (secondary): ✓ LICENSED** — kernel = +0.440,
+  p=0.002. Slot curve [0.386, 0.472, **0.741**, **−0.054**]: not a
+  monotone distance decay but **last-statement dominance** — a trailing
+  contradiction crashes L below zero while the same contradiction one
+  slot earlier (one own statement after it) leaves L at its healthiest.
+  Slot3 (−0.054) replicates the s328 k=1 crash (−0.05, same arm,
+  construction identity validated). T-band kernel advisory +2.00, same
+  direction — the within-arm recency is cross-substrate.
+
+**THE READ (per frozen discipline).** The queue's binary — genuine
+register dissociation vs instrument artifact — resolves **on the L side
+as DEPTH**: at matched (band) depth the behavioral readout AGREES with
+T's recency; the s328 primacy is a **final-layers phenomenon** (L34–35).
+So the s328 "L vs T" split was substantially a **depth split wearing a
+readout costume**. What keeps the verdict at ENTANGLED-PARTIAL is the
+converse cell: the axis readout at final depth points to primacy
+(+1.478) but is too noisy across nonces to license. The two-register
+law survives in sharpened, more physical form as a **two-DEPTH law,
+licensed on the behavioral instrument**: *recency-tracking evidence
+runs through the stack; the primacy decision is assembled in the last
+two layers.* The representational converse remains pattern-suggests.
+
+**s328 win intact.** OR0 replicated the EARLY-COMMITMENT endpoints
+exactly; nothing here reopens the tape-side forward win — the win's
+register (behavioral L at the model's output) is precisely where the
+primacy decision lives. The s328 caveat-1 (register split) is now
+partially discharged: it is mostly a depth split, licensed L-side.
+
+**Honest caveats:** ① cell B ns is the reason this is not
+DEPTH-COMMITMENT — a higher-powered T read at final depth (more nonces,
+or variance-reduced axis estimation) is the sharpening path if wanted;
+② single model, single context, k_own=3, same-20-nonce sample (paired
+by design, not a fresh draw); ③ per-layer axes assume estimable class
+geometry at every layer — final-layer axis noise is plausibly why B is
+ns (axis quality was not gated per layer, reported only).
+
+**Follow-on candidates (unfrozen):** T-final power probe (cheap; more
+nonces on one cell) · slot-curve mechanism (is last-statement dominance
+attention-mediated? — connects to the §11 tag-transit machinery).

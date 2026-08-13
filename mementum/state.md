@@ -11,25 +11,41 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ★★ **SESSION 329 IN PROGRESS: FRONT SELECTED (Michael) = §P-ORDER-RECONCILE (L-vs-T), the s328
-> TS3-split follow-on paying its owed pre-reg. ① λ queue FULL read done. ② Design SHARPENED at the
-> harness: the s328 L/T position mismatch is nearly NIL (L's first-pred surprisal reads the logits
-> AT `w` — the same token T reads) ⇒ the instrument gap is exactly a **2×2 crossing {readout:
-> unembed-surprisal vs class-axis} × {depth: final vs band}**. Missing cells: A = LL(band)
-> (logit-lens L at T's depth), B = T(final) (per-layer axes at L's depth); identity anchor
-> LL(final)≡L. Gates: OR0 sane/replicate (same 20 nonces, deterministic reuse) · OR1 crossing
-> make-or-break (A<0∧B>0 → DEPTH-COMMITMENT · A>0∧B<0 → REGISTER-DISSOCIATION · else
-> ENTANGLED-PARTIAL) · OR2 depth profiles → commitment depth ℓ* (advisory) · OR3 recency-kernel
-> SECONDARY (single-anti slot sweep [a,o,o,o]…[o,o,o,a] at 3:1 own-dominance — explains the s328
-> non-monotone [2.96,−0.05,−0.13,0.35]). A-priori (NOT tuned): DEPTH-COMMITMENT 30 / ENTANGLED 30 /
-> REGISTER-DISSOCIATION 20 / SPLIT-NOT-REPLICATED 10 / VOID 10; honesty note banked
-> (DEPTH-COMMITMENT is mundane-modal AND frame-friendly — named). Neither live verdict damages the
-> s328 win; both LOCATE the split. ③ 🎯 FROZEN (Michael "approved", this commit): § on
-> types-are-a-modulation-scheme.md + queue ⚪→🔵 + this state. NEXT: build
-> scripts/explore/order_reconcile.py (--validate planted worlds all verdicts + primitives; reuse
-> tape_subtraction arms + type_icl_tag T + jlens full-depth capture, per-layer unembed at pred
-> positions only) → smoke n=4 (verdict unread, check LL(final)≡L) → full run (same 20 nonces,
-> est 15–45 min mps) → closure batch (Michael approval).**
+> ★★ **SESSION 329 SEALED (nothing in flight, all batches committed). §P-ORDER-RECONCILE CLOSED
+> → 🚫 ENTANGLED-PARTIAL (co-modal a-priori 30) — BUT THE L-SIDE IS DEPTH-RESOLVED: the s328
+> L-primacy vs T-recency split is substantially a DEPTH split. ① FRONT SELECTED (Michael) → λ queue
+> FULL read → design SHARPENED at the harness: the s328 L/T position mismatch is nearly NIL (L's
+> first-pred surprisal reads the logits AT `w`, the same token T reads) ⇒ the instrument gap is
+> exactly a **2×2 crossing {readout: unembed-surprisal vs class-axis} × {depth: final vs band}**;
+> cells A=LL(band), B=T(final); identity anchor LL(final)≡L. ② 🎯 FROZEN (ef3211de, Michael
+> "approved"): gates OR0 sane/replicate · OR1 crossing make-or-break · OR2 depth profiles advisory
+> · OR3 recency-kernel secondary; a-priori DEPTH-COMMITMENT 30 / ENTANGLED 30 /
+> REGISTER-DISSOCIATION 20 / SPLIT-NOT-REPLICATED 10 / VOID 10 (honesty note banked:
+> DEPTH-COMMITMENT mundane-modal AND frame-friendly). ③ ✅ harness (3e58c53f, order_reconcile.py:
+> --validate 5 planted worlds + kernel plants + 4 construction primitives ALL PASS, ruff clean, no
+> diags; literal tape_subtraction arm reuse, slot3 ≡ ownfirst(k=1) identity validated; smoke n=4
+> clean, identity 0.0000, no regime warnings). ④ ▶ run (146s clean, 20 nonces, n_null 10k) →
+> **VERDICT 🚫 ENTANGLED-PARTIAL: OR0 ✓ exact replication (D_L_final +0.478 = s328 to the 3rd
+> decimal; D_T_band −1.304 = s328 −1.30; identity 0.0000; real margin 2.538); OR1 cell A LICENSED
+> (LL@band −0.367 p=0.0002 RECENCY — with LL@final +0.478 p=0.0003 PRIMACY the sign flip is
+> DEPTH-CARRIED within the behavioral readout, both cells sig); cell B sign-consistent (T@final
+> +1.478 primacy direction) but ns p=0.15 → frozen tree withholds DEPTH-COMMITMENT (an ns cell is
+> an ns cell); OR2 advisory: recency runs deep (T −5..−6 at L30–33), primacy only in the LAST TWO
+> LAYERS (ℓ*=34/35 of 36); OR3 secondary LICENSED p=0.002: within-arm recency kernel =
+> LAST-STATEMENT DOMINANCE not monotone decay (slot curve [0.39,0.47,0.74,−0.05]; trailing anti
+> crashes L, one own statement after repairs; slot3 replicates the s328 k=1 crash −0.05; T-band
+> advisory +2.0 same direction).** ⑤ THE READ: the two-register law sharpens to a **two-DEPTH law,
+> licensed on the behavioral instrument** — recency-tracking evidence runs through the stack, the
+> primacy decision is assembled in the last two layers; the representational converse (T@final)
+> stays pattern-suggests. s328 EARLY-COMMITMENT win INTACT (endpoints replicated exactly; its
+> register is where the decision lives). ⑥ Follow-on candidates named unfrozen (not queued):
+> T-final power probe (cheap, one cell) · slot-curve mechanism (attention-mediated
+> last-statement dominance?). **s329 ledger:** ef3211de freeze 🎯 §+queue 🔵+state · 3e58c53f
+> harness ✅ · beb30934 results 🚫 (autonomous) · closure batch = §Result + memory
+> `primacy-forms-late-recency-runs-deep` + INDEX + queue 🚫 (# complete top) + this state =
+> MICHAEL APPROVAL BATCH. NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue FULL read;
+> nothing pending). Sharpest fronts: ⚪ §P-LAY-A-NEGATIVE (2×2, GTSM) · ⚪ sign-commitment ≺
+> ternary-survival (the live §Synthesis edge) · ⚪ OLMo checkpoint replication · ⚪ §P-DPA-TRACE.**
 >
 > ★★ **SESSION 328 SEALED (nothing in flight, all batches committed). §P-TAPE-SUBTRACTION CLOSED
 > → ✅ EARLY-COMMITMENT (QUALIFIED; a-priori 20, beat the modal-mundane 60) — the stacked-exposure
