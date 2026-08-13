@@ -139,6 +139,11 @@ def _or0(b: dict, rng: np.random.Generator, n_null: int = N_NULL) -> dict:
     g_l = gate(float(d_l_final.mean()), null_l, "greater", ALPHA,
                "OR0_L_final_primacy",
                claim_register=Register.value, probe_register=Register.value)
+    # recency tail (added s329 §P-ORDER-PROVENANCE, disclosed pre-run;
+    # separates INVERTED from ABSENT on the base model — advisory here)
+    g_l_rec = gate(float(d_l_final.mean()), null_l, "less", ALPHA,
+                   "OR0_L_final_recency",
+                   claim_register=Register.value, probe_register=Register.value)
 
     t_own_b = _band_mean(b["T_ownfirst"], band)
     t_anti_b = _band_mean(b["T_antifirst"], band)
@@ -150,6 +155,8 @@ def _or0(b: dict, rng: np.random.Generator, n_null: int = N_NULL) -> dict:
     return {"gate": "OR0", "anchor_ok": anchor_ok, "standing_LL": standing,
             "D_L_final": float(d_l_final.mean()), "L_final_p": g_l.p,
             "L_final_primacy": bool(g_l.verdict),
+            "L_final_recency_p": g_l_rec.p,
+            "L_final_recency": bool(g_l_rec.verdict),
             "D_T_band": float((t_own_b - t_anti_b).mean()), "T_band_p": g_t.p,
             "T_band_recency": bool(g_t.verdict),
             "replication_ok": bool(g_l.verdict and g_t.verdict),

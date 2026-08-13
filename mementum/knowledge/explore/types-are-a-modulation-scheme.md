@@ -1517,3 +1517,77 @@ ns (axis quality was not gated per layer, reported only).
 **Follow-on candidates (unfrozen):** T-final power probe (cheap; more
 nonces on one cell) · slot-curve mechanism (is last-statement dominance
 attention-mediated? — connects to the §11 tag-transit machinery).
+
+## §P-ORDER-PROVENANCE — FROZEN (s329, Michael GO "let's run it now") — is primacy native or installed?
+
+> Michael's confound on the s329 read: Qwen3-4B is a POST-TRAINED
+> model, and lore (external, NOT project-licensed — mementum has no
+> measurement of this) holds that post-training concentrates in late
+> layers. The s329 "primacy is assembled in the last two layers" could
+> be pretraining physics OR an RLHF/instruct-installed behavior riding
+> on a recency-tracking base. Post-hoc hypothesis → owes this pre-reg,
+> frozen before any base-model data.
+
+### Claim under test
+
+Does the base model of the same lineage (`Qwen/Qwen3-4B-Base`) show
+the late-layer behavioral primacy (D_L(final) > 0 on the s328 order
+arms), or is primacy absent/inverted in base — i.e., installed by
+post-training? Stakes: if installed, the s328 EARLY-COMMITMENT win
+REQUALIFIES as an alignment-overlay behavior, not base physics (the
+win's measurement stands; its reading changes).
+
+### Design (λ one_way — instrument unchanged, model swapped)
+
+`order_reconcile.py --model-id Qwen/Qwen3-4B-Base`, all gates as
+built. **One disclosed pre-run instrument addition:** OR0 gains the
+recency tail on the final-layer L gate (previously primacy-tail only)
+— needed to separate INVERTED from ABSENT below. No other change.
+Nonce selection is deterministic from the tokenizer; if base tokenizes
+identically the same 20 nonces carry over (checked at run, reported).
+
+### Gates (read from the base run's results.json)
+
+- **PV0 SANE (void):** OR0 anchor on base — real-member margin ≥ floor
+  ∧ per-class ok ∧ standing L(own-only) > 0 ∧ identity LL(final)≡L.
+  Base failing the anchor = instrument not portable → VOID, no
+  provenance claim either way.
+- **PV1 (make-or-break):** sign + significance of base D_L(final)
+  (own-first-bal − anti-first, paired perm, both tails):
+  - **> 0 sig → NATIVE-PRIMACY** — primacy predates post-training on
+    this lineage; the RLHF confound is excluded here; the s329 depth
+    law reads as pretraining physics.
+  - **< 0 sig → INVERTED-IN-BASE** — base reads recency at the
+    output; post-training FLIPPED the order law → primacy is
+    installed. s328/s329 readings requalify (alignment overlay).
+  - **ns → ABSENT-IN-BASE** — no order law at base output;
+    post-training created one where none existed. Installed-flavored
+    but weaker (power caveat mandatory; n=20 fixed).
+- **PV2 (advisory):** base crossing cells A/B + depth profiles — does
+  the recency-through-the-stack shape exist in base? (If yes under
+  INVERTED/ABSENT: the evidence substrate is shared and only the
+  top-layer decision differs — the sharpest installed-behavior
+  picture.) Cross-model per-nonce Δ (same nonces) advisory only.
+
+### A-priori (frozen, NOT tuned — flat on the live three; genuine ignorance)
+
+```
+NATIVE-PRIMACY 30 / INVERTED-IN-BASE 30 / ABSENT-IN-BASE 30 / VOID 10
+```
+
+### Read discipline (banked at freeze)
+
+- INSTALLED verdicts do NOT retract s328/s329 measurements — they
+  re-attribute them. EARLY-COMMITMENT stays a real behavior of the
+  deployed model; what changes is whether it belongs to the compiled
+  type system or to the alignment layer.
+- ABSENT is not proof of installation (one-sided power); say so.
+- External lore (post-training-lives-late) stays uncited-as-evidence;
+  this run is the project's own first measurement on that question.
+- Bounds: one lineage (Qwen3-4B), one base/instruct pair, same 20
+  nonces, single context.
+
+### Provenance
+
+MIT. Same harness, model swap only; recency-tail addition disclosed
+above, committed pre-run.

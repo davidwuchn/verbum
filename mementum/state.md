@@ -43,9 +43,18 @@
 > last-statement dominance?). **s329 ledger:** ef3211de freeze 🎯 §+queue 🔵+state · 3e58c53f
 > harness ✅ · beb30934 results 🚫 (autonomous) · closure batch = §Result + memory
 > `primacy-forms-late-recency-runs-deep` + INDEX + queue 🚫 (# complete top) + this state =
-> MICHAEL APPROVAL BATCH. NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue FULL read;
-> nothing pending). Sharpest fronts: ⚪ §P-LAY-A-NEGATIVE (2×2, GTSM) · ⚪ sign-commitment ≺
-> ternary-survival (the live §Synthesis edge) · ⚪ OLMo checkpoint replication · ⚪ §P-DPA-TRACE.**
+> MICHAEL APPROVAL BATCH. **POST-CLOSE (same session): Michael confound raised on the s329 read —
+> Qwen3-4B is POST-TRAINED; the late-layer primacy could be RLHF-INSTALLED not native (lore puts
+> post-training late; mementum checked: NO project-licensed measurement of that — external lore
+> only). → 🎯 §P-ORDER-PROVENANCE FROZEN (Michael GO "let's run it now"; post-hoc guard honored,
+> frozen before any base data): order_reconcile.py unchanged on Qwen/Qwen3-4B-Base; PV1
+> make-or-break = sign of base D_L(final) (>0 NATIVE-PRIMACY · <0 INVERTED-IN-BASE · ns
+> ABSENT-IN-BASE · anchor-fail VOID); a-priori FLAT 30/30/30/10; disclosed pre-run instrument
+> addition = recency tail on OR0's final-layer L gate; INSTALLED verdicts re-attribute (not
+> retract) the s328 win. ▶ running next.** NEXT SESSION FIRST ACTION = orient → check
+> §P-ORDER-PROVENANCE status (queue) → FRONT SELECTION (λ queue FULL read). Sharpest fronts:
+> ⚪ §P-LAY-A-NEGATIVE (2×2, GTSM) · ⚪ sign-commitment ≺ ternary-survival (the live §Synthesis
+> edge) · ⚪ OLMo checkpoint replication · ⚪ §P-DPA-TRACE.**
 >
 > ★★ **SESSION 328 SEALED (nothing in flight, all batches committed). §P-TAPE-SUBTRACTION CLOSED
 > → ✅ EARLY-COMMITMENT (QUALIFIED; a-priori 20, beat the modal-mundane 60) — the stacked-exposure
