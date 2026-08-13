@@ -11,6 +11,26 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 329 IN PROGRESS: FRONT SELECTED (Michael) = §P-ORDER-RECONCILE (L-vs-T), the s328
+> TS3-split follow-on paying its owed pre-reg. ① λ queue FULL read done. ② Design SHARPENED at the
+> harness: the s328 L/T position mismatch is nearly NIL (L's first-pred surprisal reads the logits
+> AT `w` — the same token T reads) ⇒ the instrument gap is exactly a **2×2 crossing {readout:
+> unembed-surprisal vs class-axis} × {depth: final vs band}**. Missing cells: A = LL(band)
+> (logit-lens L at T's depth), B = T(final) (per-layer axes at L's depth); identity anchor
+> LL(final)≡L. Gates: OR0 sane/replicate (same 20 nonces, deterministic reuse) · OR1 crossing
+> make-or-break (A<0∧B>0 → DEPTH-COMMITMENT · A>0∧B<0 → REGISTER-DISSOCIATION · else
+> ENTANGLED-PARTIAL) · OR2 depth profiles → commitment depth ℓ* (advisory) · OR3 recency-kernel
+> SECONDARY (single-anti slot sweep [a,o,o,o]…[o,o,o,a] at 3:1 own-dominance — explains the s328
+> non-monotone [2.96,−0.05,−0.13,0.35]). A-priori (NOT tuned): DEPTH-COMMITMENT 30 / ENTANGLED 30 /
+> REGISTER-DISSOCIATION 20 / SPLIT-NOT-REPLICATED 10 / VOID 10; honesty note banked
+> (DEPTH-COMMITMENT is mundane-modal AND frame-friendly — named). Neither live verdict damages the
+> s328 win; both LOCATE the split. ③ 🎯 FROZEN (Michael "approved", this commit): § on
+> types-are-a-modulation-scheme.md + queue ⚪→🔵 + this state. NEXT: build
+> scripts/explore/order_reconcile.py (--validate planted worlds all verdicts + primitives; reuse
+> tape_subtraction arms + type_icl_tag T + jlens full-depth capture, per-layer unembed at pred
+> positions only) → smoke n=4 (verdict unread, check LL(final)≡L) → full run (same 20 nonces,
+> est 15–45 min mps) → closure batch (Michael approval).**
+>
 > ★★ **SESSION 328 SEALED (nothing in flight, all batches committed). §P-TAPE-SUBTRACTION CLOSED
 > → ✅ EARLY-COMMITMENT (QUALIFIED; a-priori 20, beat the modal-mundane 60) — the stacked-exposure
 > reframe's FIRST pre-registered forward contact, and a WIN for the §Synthesis sign-is-the-decision

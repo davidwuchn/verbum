@@ -1318,3 +1318,136 @@ identical integrators" line: the tape's behavioral face adds
 **order-sensitivity (primacy)** that the commutative weight face did not
 show. The reframe remains frame-candidate / pattern-suggests; the spine
 gains a licensed forward win on this substrate.
+
+## §P-ORDER-RECONCILE — FROZEN (s329, Michael GO) — locating the s328 L-vs-T split
+
+> The s328 §P-TAPE-SUBTRACTION caveat #1, discharged: on the SAME
+> prefixes, the behavioral licensing L read PRIMACY (order_diff +0.478)
+> while the class-axis T read RECENCY (−1.30). This probe owes and pays
+> the split's own pre-reg. It does not re-litigate the s328 win; it
+> LOCATES the split.
+
+### Claim under test
+
+Is the s328 L-vs-T order-sign split a **genuine register dissociation**
+(the behavioral decision commits early / primacy, while the
+representational evidence tracks recency — the two-register law
+*sign(decision)=primacy, magnitude(evidence)=recency* read at the
+instrument level) or an **instrument artifact** (the two instruments
+simply read different depths, and at matched grain they agree)?
+
+### Design key (found in the s328 harness, sharpens "matched positions")
+
+The position mismatch is nearly nil already: L's first-pred-token
+surprisal is computed from the logits at the position of `w` — the same
+token position T reads. The instruments differ in exactly TWO factors:
+
+| factor  | L (s328)                                   | T (s328)                       |
+|---------|--------------------------------------------|--------------------------------|
+| readout | final-norm + unembed → held-pred surprisal | real-member class-axis proj.   |
+| depth   | final layer                                | band L(0.50–0.85)              |
+
+⇒ a clean **2×2 crossing {readout} × {depth}**, filling the two missing
+cells on the SAME order arms (own-first-bal vs anti-first, content-matched
+s328 constructions, same 20 nonces — deterministic selection, paired):
+
+- **Cell A — LL(band):** logit-lens L. Per-layer residual → final norm +
+  unembed → held-pred surprisal → `_signed_L`, aggregated over the same
+  band T uses. *The behavioral readout at T's depth.*
+- **Cell B — T(final):** class-axis projection at the final layer,
+  per-layer axes built from the same real members. *The axis at L's depth.*
+
+Identity anchor: **LL(final) ≡ L** exactly (same computation) — built-in
+instrument-fidelity check.
+
+### Register (λ measure)
+
+Both cells are VALUE registers (graded order_diff on a standing level);
+paired-permutation nulls per cell. No routing/crisp probe anywhere — the
+claim is about which graded instrument carries which sign.
+
+### Substrate + reuse (λ one_way, no fork)
+
+tape_subtraction (arm constructions: `own_stmts`, `anti_stmts`,
+`filler_stmts`, prefix builders, `K_OWN=3`) · type_write (`_signed_L`,
+`HELD_PREDS`, `REAL_MEMBERS`, `REAL_MARGIN_FLOOR`) · type_icl_tag
+(`signed_T`, `class_axes`, `band_layers`) · holo_cap (`NONCE_CANDS`,
+same deterministic 20-nonce selection as s328) · verbum.jlens
+(full-depth residual capture) · verbum.dsp.nulls (`gate`,
+`paired_permutation`). Per-layer unembed applied only at pred target
+positions (cost control, not a design choice).
+
+### Arms
+
+Order crossing: `MIX-OWNFIRST(3+3)` · `MIX-ANTIFIRST(3+3)` (the s328
+content-matched pair). References: `OWN-ONLY` · `OWN+FILLER(3+3)` ·
+`MIX-INTERLEAVED` (standing/erosion anchors, advisory). OR3 kernel arms:
+single-anti position sweep at 3:1 own-dominance —
+`[a,o,o,o] / [o,a,o,o] / [o,o,a,o] / [o,o,o,a]` (content-identical
+multisets, only the slot of the one contradiction differs).
+
+### Gates
+
+- **OR0 SANE (void):** real-member anchor `real_margin ≥
+  REAL_MARGIN_FLOOR` ∧ per-class ok ∧ standing L(own-only) > 0 ∧
+  **LL(final) ≡ L** (numerical tolerance) ∧ s328 endpoints replicate on
+  the same nonces (D_L(final) > 0 sig ∧ D_T(band) < 0 sig). Anchor/identity
+  failure → VOID; replication failure alone → SPLIT-NOT-REPLICATED
+  (deterministic reuse ⇒ either = instrument drift, nothing to reconcile).
+- **OR1 CROSSING (make-or-break):** D = order_diff(own-first-bal −
+  anti-first), paired-perm null per cell, signed one-sided pairs:
+  - **A < 0 ∧ B > 0** (sign follows DEPTH) → **DEPTH-COMMITMENT**.
+  - **A > 0 ∧ B < 0** (sign follows READOUT) → **REGISTER-DISSOCIATION**.
+  - any other significance pattern → **ENTANGLED-PARTIAL** (report the
+    full 2×2 map + profiles; no forced story).
+- **OR2 DEPTH PROFILES (advisory):** D_T(ℓ) and D_LL(ℓ) for all ℓ. If a
+  sign transition exists and is clean, report the **commitment depth ℓ***
+  (first layer where the order sign turns positive and stays). Never gates.
+- **OR3 RECENCY KERNEL (secondary, pre-registered):** stat =
+  L(anti@slot1) − L(anti@slot4), paired perm. **> 0 sig = trailing
+  contradiction hurts most** — a within-arm recency kernel ON the L
+  register itself, mechanically explaining the s328 non-monotone curve
+  [2.96, −0.05, −0.13, 0.35] and quantifying how within-arm recency
+  coexists with block-level primacy inside ONE register. Also read on
+  T(band) (advisory). Secondary: reported with its own gate, does not
+  move the OR1 verdict.
+
+### Verdict tree + a-priori (frozen, NOT tuned; modal split on the mundane)
+
+```
+¬OR0 (anchor/identity)    → VOID                    10
+¬OR0 (split replication)  → SPLIT-NOT-REPLICATED    10
+A<0 ∧ B>0 (both sig)      → DEPTH-COMMITMENT        30
+A>0 ∧ B<0 (both sig)      → REGISTER-DISSOCIATION   20
+else                      → ENTANGLED-PARTIAL       30
+```
+
+### Read discipline (banked at freeze)
+
+- **Honesty note, named not hidden:** DEPTH-COMMITMENT is both
+  mundane-lore-modal (decisions form late) AND frame-friendly (sharpens
+  the two-register law into a depth law: recency-tracking evidence at
+  mid-depth → late commitment). Its 30 is the mundane mass, not a hope.
+- Mid-band logit-lens is historically noisy → ENTANGLED-PARTIAL co-modal
+  at 30. An ns cell is an ns cell; do not narrate it into a sign.
+- Neither DEPTH-COMMITMENT nor REGISTER-DISSOCIATION damages the s328
+  EARLY-COMMITMENT win — both LOCATE the split. Only SPLIT-NOT-REPLICATED
+  would reopen s328 (and would do so as instrument drift, not verdict
+  reversal — investigate before any claim).
+- DEPTH-COMMITMENT licenses: "the order-sign split is a depth split on
+  this substrate; the behavioral primacy decision forms late from
+  recency-tracking mid-depth evidence." REGISTER-DISSOCIATION licenses:
+  "the axis and the behavioral readout carry different order laws at all
+  depths on this substrate." Nothing beyond.
+- Bounds: single model (Qwen3-4B), n=20 (same nonces as s328), k_own=3,
+  single-context timescale; residual position mismatch only in
+  multi-token pred tails (dominant read matched at `w`); per-layer axes
+  assume real-member class geometry is estimable at every layer (axes
+  quality reported per layer, thin-axis layers flagged not silently
+  read).
+
+### Provenance
+
+MIT (lambda provenance). Reuses frozen s315/s320/s328 harnesses
+(type_icl_tag, idempotency via tape_subtraction, tape_subtraction)
+unchanged; no fork (λ one_way).
