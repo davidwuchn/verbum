@@ -1,0 +1,24 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 24598.21it/s]
+[or] Qwen/Qwen3-4B dev=mps n_layers=36 band=L18..L31 final=L35 slots=4
+[or] nonces=20 (animal 10 vehicle 10)
+[or] real-member anchor + per-layer axes …
+[or] real margin=2.538 per_class_ok=True
+[or] swept 2/20 (23s)
+[or] swept 4/20 (37s)
+[or] swept 6/20 (51s)
+[or] swept 8/20 (64s)
+[or] swept 10/20 (78s)
+[or] swept 12/20 (91s)
+[or] swept 14/20 (105s)
+[or] swept 16/20 (119s)
+[or] swept 18/20 (132s)
+[or] swept 20/20 (146s)
+[or] identity LL(final)≡L: mean=0.0000 max=0.0000
+[or] wrote results/order-reconcile/qwen3-4b/results.json
+[or] OR0 pass=True anchor=True D_L_final=+0.478 (p=0.0003) D_T_band=-1.304 (p=0.0001)
+[or] OR1 A_LL_band=-0.367 (neg_p=0.0002 pos_p=0.9999) B_T_final=+1.478 (pos_p=0.1515 neg_p=0.8486)
+[or] OR2 commit_layer_LL=34 commit_layer_T=35
+[or] OR3 kernel=+0.440 p=0.0020 pass=True slot_curve=[0.386, 0.472, 0.741, -0.054]
+[or] VERDICT: ENTANGLED-PARTIAL
+VERDICT: ENTANGLED-PARTIAL
