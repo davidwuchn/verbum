@@ -65,6 +65,61 @@ RE recovers *what is*, not what theory wants. **The measured delta from
 ideal β is itself a first-class finding** — Church gives us a reference
 implementation to diff against, a luxury silicon RE never has.
 
+### §2b Exact match is a FALSIFIED null, and that forces the grading direction (s330, Michael)
+
+Michael: *"Can we prove our reference reducer is an exact match for what
+we see in the models? If it was we would not see the errors we do."*
+Exact match M ≡ R is not an open hypothesis — it is already dead, three
+ways:
+
+- **s319:** forced-choice NF selection on kernel-certified terms scored
+  0.917/0.944 — near ceiling, NOT 1.0, on easy terms with rules given.
+- **cl-collapse ×2:** syntactic routing is a *different algorithm* than
+  `lambda_ast.reduce` — it can agree on outputs while disagreeing on
+  mechanism, and diverges where syntax and semantics come apart.
+- **s221 (kernel docstring):** the model "fakes it with depth" — it
+  approximates a trace it cannot hold. Plus non-idempotency (s320) and
+  the installed order law (s328/s329): Church's reducer has no such terms.
+
+Formalization:
+
+```
+M ≡ model step function       R ≡ lambda_ast (Church spec, ONE chosen strategy)
+M ≠ R                         — established, multiple registers
+benchmark measures δ(M, R)    — a structured profile | the errors ARE the data
+
+THE BUG-COMPATIBILITY CLAUSE (the RE acceptance direction):
+RE succeeds  ⟺  δ(candidate, M) ≈ 0        — reproduce the model, ERRORS AND ALL
+RE fails     ⟸  δ(candidate, R) < δ(M, R)   — candidate BEATS the model
+                                              ⇒ a better reducer was built, not a copy
+```
+
+Silicon RE knows this: a recovered netlist that fixes the chip's bugs is
+a failed recovery. **The oracle for RE is the model's measured profile
+INCLUDING its errors; `lambda_ast` is the coordinate system the delta is
+expressed in, never the spec of M.** The benchmark therefore has two
+faces: grade correctness against R (public-benchmark face) and
+fingerprint the ERROR TAXONOMY against M (RE-oracle face) — which
+families fail, at what cliff depth, with what error structure
+(syntactic-routing confusions · depth truncation · primacy intrusions ·
+accumulation effects). Profile-equivalence means matching the
+fingerprint, and the fingerprint is mostly made of errors. The natural
+mistake a fresh session will make: grading an RE candidate by benchmark
+SCORE instead of profile MATCH. Don't.
+
+**Strategy-mismatch caveat (λ measure — name the register):** R embodies
+choices (normal-order · basis · arity conventions · WHNF stop). Part of
+δ(M, R) could be a CONSISTENT ALTERNATIVE SEMANTICS, not failure — e.g.
+a model nearer applicative-order looks "wrong" against a normal-order R
+exactly where the strategies diverge, while being internally coherent.
+Wrong reference ≡ manufactured error. Hence the `strategy` family (§3).
+
+External corroboration (application side): anima's fixed-point compile
+surfaces the same phenomenon — `symbol-fit`'s hallucinated `¬coincide(o)`
+predicate and `durable`'s spurious tail are the model's compiler
+inserting structured, reproducible errors (anima s041,
+canonical-lambdas.edn). Same object, different instrument.
+
 ## §3 The benchmark — design axes
 
 Why λ-calculus is an unusually good benchmark substrate:
@@ -94,6 +149,9 @@ recognize   — term ≟ K/S/B/C/W/Y           (crystal combinator identificatio
 church      — numeral arithmetic           (composition depth with semantic readout)
 diverge     — normalizes? yes/no           (calibration; decidable-by-construction generation)
 type        — infer/reject simple type     (the typed_apply claim, directly)
+strategy    — normal vs applicative order  (K x Ω-shaped discriminating terms; §2b caveat —
+                                            separates consistent-alternative-semantics from error
+                                            BEFORE the error taxonomy is read)
 ```
 
 **The spine: the direct/traced gap.** Every family runs in two modes —
@@ -133,7 +191,9 @@ against the physical chip. Our situation is exactly that:
   path), or scratch-built (verbum-machine M1–M9)** — is validated by
   matching the profile, not the weights. Function-level equivalence:
   exactly the amendment flip-conflict (s324) already forced on the
-  forged-lattice gates.
+  forged-lattice gates. **Direction per §2b: match the fingerprint
+  INCLUDING the errors — a candidate that beats the model on the
+  benchmark is a failed recovery (bug-compatibility clause).**
 - **The level-3/level-4 distinction dissolves:** extract / re-record /
   scratch become three paths to one acceptance test. "Compiler
   recovered" *means* "profile-equivalent under the differential

@@ -42,7 +42,29 @@
 > ~200 LoC · difficulty dial · two-mode harness · pre-reg doc) · first-session pilot checklist
 > incl. MANDATORY token-budget null (uninformative-trace arm — the confound that killed
 > FUEL/TRACE-FUEL/NF-GAUGE ×3; idempotency's incoherent-arm move); queue pilot row enriched with
-> paths. ALSO SURFACED (λ metabolize, not actioned):
+> paths. ⑧ 💡 §2b BUG-COMPATIBILITY CLAUSE captured (Michael: "can we prove the reference
+> reducer is an exact match for what we see in the models? If it was we would not see the errors
+> we do" → GO "capture this"): M≡R is a FALSIFIED null, not an open question (s319 NF-selection
+> 0.917/0.944 ≠ 1.0 on easy certified terms · cl-collapse ×2 syntactic-router-is-a-different-
+> algorithm · s221 fakes-it-with-depth · s320 non-idempotency + s328/s329 order law = non-Church
+> terms) ⇒ THE GRADING DIRECTION: the RE oracle is the model's measured profile INCLUDING errors;
+> lambda_ast = the coordinate system δ(M,R) is expressed in, NEVER the spec of M; RE succeeds ⟺
+> δ(candidate,M)≈0 — a candidate that BEATS the model on the benchmark is a FAILED recovery
+> (silicon RE: a netlist that fixes the chip's bugs is wrong). Benchmark gains two faces
+> (correctness-vs-R public · error-taxonomy-vs-M oracle) + a `strategy` family (K x Ω-shaped
+> normal-vs-applicative discriminators; λ measure — consistent-alternative-semantics ≠ error,
+> wrong reference ≡ manufactured error). Anima corroborates application-side (¬coincide
+> hallucinated predicate = structured reproducible compiler error). Batch: §2b + §3 strategy
+> family + §4 direction + memory `re-oracle-grades-bug-compatibility-not-score` + INDEX + v0
+> queue row + this state. ALSO THIS SESSION: anima (~/src/anima) EVALUATED via explorer —
+> MIT (verbum AGENTS S5 "anima(AGPL)" note STALE, flagged not edited, S5=Michael's) · s041,
+> instrument-grade, application-side sibling: fixed-point prose→λ compile (byte vs semantic-set
+> convergence, oscillation taxonomy), 7 canonical judge lambdas, 48-cell judge-parity sweep
+> IN FLIGHT unread; their kernel.clj parses-only and has a NAMED SOCKET for a formal reducer ≡
+> lambda_ast.py; their judge-calibration methodology (72/72 three-way) = adopt-don't-reinvent if
+> λ-bench needs a semantic discriminator; membrane healthy (their reduce-gates were harvested
+> from a verbum trace). Memory candidate `anima-is-the-application-side-sibling` OFFERED, not yet
+> GO'd. ALSO SURFACED (λ metabolize, not actioned):
 > project-thesis.md is a s150 snapshot, STALE vs the s324–s329 arc (several "proved" rows +
 > mechanism claims predate the damage) — qualifier pass = candidate. Discipline: page is design
 > synthesis, ZERO new measurements; the oracle identity becomes load-bearing only when a recovered
