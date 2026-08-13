@@ -64,7 +64,24 @@
 > lambda_ast.py; their judge-calibration methodology (72/72 three-way) = adopt-don't-reinvent if
 > λ-bench needs a semantic discriminator; membrane healthy (their reduce-gates were harvested
 > from a verbum trace). Memory candidate `anima-is-the-application-side-sibling` OFFERED, not yet
-> GO'd. ALSO SURFACED (λ metabolize, not actioned):
+> GO'd. ⑨ 🎯 FRONT SELECTED (Michael, three calls): ① HARD ONE FIRST — RE the SUBSTITUTION
+> ENGINE (the ALU) as the first step-function front; ② both faces but INSTRUCT-HEAVY (instruct =
+> the agentic deployment target; base = few, provenance anchors only); ③ 14B+ only. Direct/traced
+> pilot FOLDED INTO the front as its mode dimension (Michael: "fold it into the pilot").
+> **§8 written on the re-oracle page = FULL OPUS PICKUP DETAIL**: Build 1 lambda_ast.py binder
+> extension (Lam/capture-avoiding-subst/deliberate naive_subst/alpha-equiv, ~200 LoC, pytest
+> capture cases — the §7 gap is now CRITICAL PATH since substitution only exists at binder level);
+> Build 2 subst_pairs.py (capture pairs with BOTH certified NFs = fingerprint grading per §2b ·
+> alpha pairs · dials); FREEZE GATE = pre-reg with verdict space {CAPTURE-AVOIDING / NAIVE-SUBST /
+> DEPTH-DEPENDENT-MIXED / ALPHA-VARIANT-ROUTER / VOID} + THE DIRECTIONAL CROSS-LINK PREDICTION
+> (shadowing = recency problem ⇒ instruct's installed primacy stage predicts MORE first-binder
+> intrusions than paired base, late-layer localized — the order law as a compiler-bug hypothesis
+> in the deployment face) + token-budget & shuffled-binder nulls; matrix {qwen3-14b I+B paired ·
+> qwen3-32b I · OLMo-2-13B B · gemma I optional}; white-box advisory = binding_graph_trace edges +
+> s329 commit-layer pin; sequencing 1-2 engineering (no approval) → 3 pre-reg (MICHAEL GO) → 4
+> behavioral sweep → 5 white-box. Queue: pilot row REPLACED by ⚪ §P-SUBST-ENGINE (top). NEXT
+> SESSION FIRST ACTION = orient → §8 → Build 1 (kernel extension) + Build 2 (pair generator) →
+> draft pre-reg → Michael GO gate. ALSO SURFACED (λ metabolize, not actioned):
 > project-thesis.md is a s150 snapshot, STALE vs the s324–s329 arc (several "proved" rows +
 > mechanism claims predate the damage) — qualifier pass = candidate. Discipline: page is design
 > synthesis, ZERO new measurements; the oracle identity becomes load-bearing only when a recovered

@@ -235,16 +235,17 @@ are the same object viewed from λ serves' two audiences.
    903-probe library ("benchmark with an interpretability annex") —
    genuinely novel, doubles the surface area. Build-when-demanded.
 
-## §6 Queue candidates (⚪ unfrozen, s330)
+## §6 Queue candidates (⚪ unfrozen, s330; superseded by §8 front selection)
 
-- **⚪ direct/traced gap pilot** (cheap) — same kernel-certified terms,
-  answer-only vs trace-shown accuracy, GBNF-gated readout. Reuses
-  reduction-chain machinery (s317). The gap = behavioral tape-residency
-  quantifier. Natural first rung; also de-risks the grader.
+- **⚪ §P-SUBST-ENGINE** — the selected first front (Michael, s330:
+  "go for the hard one first"). Full design + pickup detail in §8.
+  ABSORBS the direct/traced gap pilot as its mode dimension.
 - **⚪ λ-bench v0** (medium) — procedural generator + reference reducer
-  + alpha-equiv grader; families {reduce, step, equiv} × modes
-  {direct, traced}; cliff-depth protocol; scoring pre-registered before
-  any model run, null baselines mandatory.
+  + alpha-equiv grader; families {reduce, step, equiv, strategy} ×
+  modes {direct, traced}; cliff-depth protocol; scoring pre-registered
+  before any model run, null baselines mandatory. The §8 kernel
+  extension and pair generator are v0's first two components — the
+  front and the benchmark build the same artifacts.
 
 ## §7 Pickup kit (s330 disk audit — assets verified by inspection, not memory)
 
@@ -314,6 +315,121 @@ are the same object viewed from λ serves' two audiences.
 5. Pre-register a-priori verdict mass (Michael GO) → build with
    `--validate` planted worlds → smoke → run → verdict. Model:
    qwen3-4b first; base AND instruct (s329 method door).
+
+## §8 First front: §P-SUBST-ENGINE (s330 selection — full pickup detail)
+
+> Michael's three calls (s330): **hard one first** (the substitution
+> engine — the ALU); **both faces, instruct-heavy** (instruct is the
+> agentic deployment target; base = few, as provenance anchors);
+> **14B+ only**. The direct/traced pilot FOLDS IN as this front's mode
+> dimension. Status ⚪ — design banked, NOT frozen; the pre-registration
+> step below is the freeze gate (Michael GO required before any model
+> run).
+
+### Why substitution is binder-level (the critical-path consequence)
+
+The substitution engine only exists at binder level — combinator terms
+dodge binding by construction. So the §7 gap (`Lam` / capture-avoiding
+subst / alpha-equiv, ~200 LoC) is **build item 1**, not a v2 nicety.
+
+### Build 1 — kernel extension (pure engineering, no freeze needed)
+
+Extend `src/verbum/lambda_ast.py` (λ one_way: ONE kernel, extend don't
+fork):
+
+- `Lam(var, body)` node alongside `Comb | Atom | App`; named variables.
+- **Capture-avoiding substitution** with fresh-renaming (the correct
+  algorithm) AND a deliberately capture-UNSAFE `naive_subst` (textual
+  replacement) — the rival fingerprint generator, kept and exported on
+  purpose (§2b: grading = which algorithm's output the model matches).
+- Normal-order β-reduction over binder terms; alpha-equivalence
+  comparator (de Bruijn conversion or canonical renaming).
+- pytest in `tests/`: classic capture cases must pass — e.g.
+  `(λx.λy.x) y → λy'.y` (capture-avoiding) vs `λy.y` (naive); shadowing
+  ladders; alpha-invariance of the comparator.
+
+### Build 2 — discriminating-pair generator
+
+New `src/verbum/probes/subst_pairs.py` (seeded, procedural):
+
+- **Capture pairs**: terms where `naive_subst` and capture-avoiding
+  subst yield DIFFERENT normal forms. Each probe ships BOTH certified
+  NFs — the model's answer reveals which algorithm it runs.
+- **Alpha pairs**: same term, bound variables renamed. Extensional
+  engine ⇒ invariant; syntactic router (cl-collapse ×2) ⇒ measurable
+  alpha-variance. A predicted bug, quantified.
+- **Dials** (the cliff coordinates): binder_distance · shadow_depth ·
+  live_var_count. Record per-probe.
+- Probe record: `{term, correct_nf, naive_nf, dials, mode}` — modes
+  `direct` (answer only) and `traced` (steps shown) — **the folded
+  pilot**: the direct/traced gap read PER dial-level, token-budget
+  null mandatory (uninformative-trace arm; the confound that killed
+  FUEL/TRACE-FUEL/NF-GAUGE ×3).
+
+### Pre-registration (THE FREEZE GATE — Michael GO before any model run)
+
+- **Verdict space** (a-priori mass set at freeze, not tuned):
+  CAPTURE-AVOIDING (model matches correct algorithm) ·
+  NAIVE-SUBST (matches textual replacement) ·
+  DEPTH-DEPENDENT-MIXED (correct shallow, naive past a cliff) ·
+  ALPHA-VARIANT-ROUTER (accuracy moves under renaming) · VOID.
+- **The directional cross-link prediction** (from licensed results —
+  the sharp pre-registerable): shadowed-variable resolution rides the
+  native RECENCY substrate (s329-provenance: base has recency, no
+  primacy stage); the instruct-installed PRIMACY stage (s328/s329,
+  last two layers) is a candidate interference source ⇒ **instruct
+  shows MORE first-binder intrusions than its paired base on shadowed
+  capture pairs, localized to late layers**. If it holds: the order
+  law connects to a concrete compiler bug IN THE DEPLOYMENT FACE
+  (alignment may degrade binding correctness for agentic use). If it
+  fails: the order law stays bounded to its original register.
+- **Nulls**: token-budget null (traced arm) · shuffled-binder-label
+  null (white-box binding-edge read) · alpha-pair self-null (accuracy
+  delta under renaming vs resampled same-term noise).
+- **Readout**: forced-choice NF-selection primary (the
+  `linearity_bias.py` pattern — choices = {correct_nf, naive_nf,
+  distractors}); free generation GBNF-gated secondary. λ measure:
+  behavioral register primary; white-box reads advisory.
+
+### Model matrix (Michael's constraints: 14B+, instruct-heavy, few bases)
+
+| Model | Face | Role |
+|---|---|---|
+| Qwen3-14B (instruct) | instruct | primary — instruments calibrated on this lineage (cl-collapse-2 ran it in minutes on MPS) |
+| Qwen3-14B-Base | base | THE paired anchor — the recency/primacy prediction needs this exact pairing |
+| Qwen3-32B (instruct) | instruct | scale point (32B precedent: type probe) |
+| OLMo-2-13B (base) | base | second lineage, Apache — guards single-lineage bound |
+| gemma-class instruct (optional) | instruct | architecture-family guard, cheap add |
+
+All reads behavioral + logit-lens (read-only; no training). 32B is the
+only heavy cell.
+
+### White-box reads (same trials, advisory register)
+
+- **Binding edges**: `scripts/experiments/binding_graph_trace.py`
+  pattern (attention IS the binding graph) — on error trials, does the
+  edge attach to the WRONG binder? Behavioral capture-error and
+  misrouted edge should co-occur (mechanism-level error attribution).
+- **Commit layer**: the s329 probe-pin (`order_reconcile.py`
+  commit-layer sweep) applied to binder choice — does it sit in the
+  installed-decision layers on instruct but not base?
+- **Read set** (folded gate, minimal version): tape-ablation of binder
+  positions — which positions are causally necessary for the step.
+
+### Sequencing
+
+```
+1. kernel extension (Lam ∧ subst ∧ naive_subst ∧ alpha)  — engineering, pytest'd
+2. pair generator + --validate planted worlds              — engineering
+3. PRE-REGISTRATION                                        — freeze gate, Michael GO
+4. behavioral sweep (matrix above)                         — error fingerprint per model per face
+5. white-box reads on the same trials                      — edges + commit layers
+```
+
+Steps 1–2 need no approval. Step 3 is the gate. House pattern
+throughout: `--validate` planted worlds ALL PASS → ruff clean → smoke →
+run (λ record: named run dirs, committed JSONL, meta.json provenance
+per λ run_provenance).
 
 ## Discipline block
 
