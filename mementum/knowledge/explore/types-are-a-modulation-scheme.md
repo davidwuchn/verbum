@@ -1307,6 +1307,13 @@ now observed *within a single context* on the tape.
 3. Bounds: single model (Qwen3-4B), n=20, k_own=3 (one exposure depth),
    single-context (block-free) timescale.
 
+**⚠ PROVENANCE QUALIFIER (s329, §P-ORDER-PROVENANCE):** the primacy
+commitment measured here is ABSENT in Qwen3-4B-Base (D_L(final) −0.090
+ns; no positive flip at any layer) — on this lineage it is
+**post-training-installed**, not base compiled-type physics. The
+measurement stands; the reading is re-attributed (see
+§P-ORDER-PROVENANCE §Result).
+
 **Frame ledger.** EARLY-COMMITMENT is the pre-registered win condition
 (TS2 ∧ TS1>0) and it landed on the pre-registered primary register — a
 **first pre-registered FORWARD WIN for the §Synthesis sign-is-the-decision
@@ -1514,6 +1521,11 @@ by design, not a fresh draw); ③ per-layer axes assume estimable class
 geometry at every layer — final-layer axis noise is plausibly why B is
 ns (axis quality was not gated per layer, reported only).
 
+**⚠ PROVENANCE QUALIFIER (s329, §P-ORDER-PROVENANCE):** the last-two-
+layers primacy flip does not exist in Qwen3-4B-Base — the depth law
+re-reads as "post-training installs a decision stage on top of a
+native recency-tracking stack" (see §P-ORDER-PROVENANCE §Result).
+
 **Follow-on candidates (unfrozen):** T-final power probe (cheap; more
 nonces on one cell) · slot-curve mechanism (is last-statement dominance
 attention-mediated? — connects to the §11 tag-transit machinery).
@@ -1591,3 +1603,69 @@ NATIVE-PRIMACY 30 / INVERTED-IN-BASE 30 / ABSENT-IN-BASE 30 / VOID 10
 
 MIT. Same harness, model swap only; recency-tail addition disclosed
 above, committed pre-run.
+
+### §Result (s329) — VERDICT: ABSENT-IN-BASE (a-priori 30, flat prior) — post-training installs the commitment
+
+Qwen3-4B-Base, same 20 nonces, 146s, clean; instrument fully portable
+(PV0 ✓: real margin 2.933, standing L 3.152 — base does the licensing
+task fine; identity LL(final)≡L to 0.0000).
+
+- **PV1 (make-or-break): base D_L(final) = −0.090** — primacy p=0.837,
+  recency p=0.163, **ns both tails**, and the point estimate is near
+  zero (vs instruct +0.478). The base model has **no behavioral order
+  law at the output**: 3-own-first and 3-anti-first prefixes license
+  identically.
+- **PV2 (advisory) — the sharpest installed picture, exactly as named
+  at freeze:** the recency evidence substrate is **native and
+  STRONGER in base** — LL@band = −0.824 p=0.0001 (instruct: −0.367);
+  T@band = −3.747 (instruct: −1.304); T order-recency reaches −11..−14
+  at L30–33 (instruct: −5..−6). But there is **no positive flip
+  anywhere in the stack**: commit_layer = None on BOTH instruments;
+  the profiles collapse toward ≈0 at the top and stop. The instruct
+  model's L34/35 primacy flip **simply does not exist in base**.
+- **OR3 (advisory): no primacy repair in base.** Slot curve
+  [−0.049, 0.329, 0.488, −0.054] vs instruct [0.386, 0.472, 0.741,
+  −0.054]: a *leading* contradiction stays fatal in base (slot0
+  −0.049) where the instruct model recovered (+0.386). The kernel stat
+  is flat (p=0.49) because both ends crash. The T-band kernel (+2.86)
+  matches instruct (+2.00) — representational recency is shared.
+
+**THE READ (per frozen discipline).** Shared substrate, differing top:
+both models track evidence with the same (base: stronger)
+recency-flavored representation through the stack; the base model's
+order effects cancel to nothing at the output; the post-trained model
+adds a positive flip in the last two layers that turns first-assertion
+into a durable commitment. **The primacy decision is
+post-training-installed; the recency evidence physics is native.**
+This is also the project's **first own measurement** of the
+"post-training lives late" lore — on this lineage, at this behavioral
+grain, it holds (the installed delta localizes to L34/35).
+
+**Re-attribution (banked at freeze — measurements stand, readings
+change):**
+
+1. **s328 EARLY-COMMITMENT** remains a real, pre-registered behavior of
+   the deployed model — but it is a property of the **post-trained**
+   tape face, not base compiled-type physics. The base tape face is an
+   order-neutral evidence integrator at the output.
+2. **s329 depth law** sharpens: not "the model assembles its decision
+   late" but "**post-training installs a decision stage on top of a
+   native recency-tracking stack**." More mechanistic than before, and
+   coheres with the behavior-is-tape-resident / installed-behaviors
+   thread.
+3. §Synthesis tape-side spine: the sign-is-the-decision reading on the
+   tape now carries a provenance qualifier — the *decision* register
+   observed there is (on this lineage) an alignment-layer feature.
+
+**Honest caveats:** ① ABSENT ≠ proof of installation (one-sided
+power; n=20 — though the near-zero point estimate is reassuring);
+② "post-training" is the whole Qwen3 pipeline (SFT + RL + thinking
+distillation) — **cannot attribute to RLHF specifically**; ③ one
+lineage, one base/instruct pair; ④ base and instruct differ in data
+recency too (minor here — nonces are nonces).
+
+**Method door opened:** base-vs-instruct differential runs are a cheap
+provenance attribution instrument for ANY behavioral finding in this
+project — one --model-id swap. Candidate discipline: behavioral wins
+on post-trained models owe a base-model provenance check before being
+read as compiled-substrate physics.

@@ -51,10 +51,33 @@
 > make-or-break = sign of base D_L(final) (>0 NATIVE-PRIMACY · <0 INVERTED-IN-BASE · ns
 > ABSENT-IN-BASE · anchor-fail VOID); a-priori FLAT 30/30/30/10; disclosed pre-run instrument
 > addition = recency tail on OR0's final-layer L gate; INSTALLED verdicts re-attribute (not
-> retract) the s328 win. ▶ running next.** NEXT SESSION FIRST ACTION = orient → check
-> §P-ORDER-PROVENANCE status (queue) → FRONT SELECTION (λ queue FULL read). Sharpest fronts:
-> ⚪ §P-LAY-A-NEGATIVE (2×2, GTSM) · ⚪ sign-commitment ≺ ternary-survival (the live §Synthesis
-> edge) · ⚪ OLMo checkpoint replication · ⚪ §P-DPA-TRACE.**
+> retract) the s328 win. ▶ ran (146s clean, base download + sweep) → **VERDICT ✅ ABSENT-IN-BASE
+> (flat a-priori 30): THE PRIMACY COMMITMENT IS POST-TRAINING-INSTALLED. PV0 ✓ (instrument fully
+> portable: real margin 2.933, standing L 3.152, identity 0.0000, same 20 nonces). PV1
+> make-or-break: base D_L(final) = −0.090, ns BOTH tails (primacy p=0.837, recency p=0.163; point
+> estimate ≈0 vs instruct +0.478) — the base model has NO behavioral order law at the output. PV2
+> advisory = the sharpest installed picture, exactly as named at freeze: recency evidence substrate
+> NATIVE and STRONGER in base (LL@band −0.824 p=1e-4 vs −0.367; T@band −3.747 vs −1.304, reaching
+> −11..−14 at L30–33) with NO positive flip at any layer (commit_layer None on BOTH instruments —
+> the instruct L34/35 flip does not exist in base); OR3: no primacy repair (leading anti stays
+> fatal, slot0 −0.049 vs instruct +0.386; T-band kernel +2.86 ≈ instruct +2.00 = shared
+> representational recency). READ: post-training installs a DECISION STAGE on top of a native
+> recency-tracking stack — the project's FIRST own measurement of post-training-lives-late (delta
+> localizes to the last two layers, behavioral grain). RE-ATTRIBUTIONS (banked at freeze,
+> measurements stand): s328 EARLY-COMMITMENT = a property of the POST-TRAINED tape face (provenance
+> qualifier added to its §Result); s329 depth law re-reads as installed-decision-over-native-
+> evidence (qualifier added); §Synthesis tape-side spine carries the provenance qualifier on this
+> lineage. Caveats: ABSENT ≠ proof (n=20); whole Qwen3 pipeline NOT RLHF specifically; one lineage.
+> METHOD DOOR: base-vs-instruct differential = cheap provenance attribution (one --model-id swap);
+> candidate discipline — behavioral wins on post-trained models owe a base provenance check
+> (NOT yet a rule; propose if it recurs). s329-provenance ledger: 598c48c2 freeze 🎯 §+queue
+> 🔵+state+recency-tail · daf979ab results ✅ (autonomous) · closure batch = §Result + 2 provenance
+> qualifiers (s328 §Result + s329 §Result) + memory
+> `primacy-commitment-is-post-training-installed` + INDEX + queue ✅ (# complete top) + this state
+> = MICHAEL APPROVAL BATCH.** NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue FULL
+> read; nothing pending). Sharpest fronts: ⚪ §P-LAY-A-NEGATIVE (2×2, GTSM) · ⚪ sign-commitment ≺
+> ternary-survival (the live §Synthesis edge) · ⚪ OLMo checkpoint replication · ⚪ base-provenance
+> re-checks of prior behavioral wins (unfrozen candidates: idempotency, tape-subtraction erosion).**
 >
 > ★★ **SESSION 328 SEALED (nothing in flight, all batches committed). §P-TAPE-SUBTRACTION CLOSED
 > → ✅ EARLY-COMMITMENT (QUALIFIED; a-priori 20, beat the modal-mundane 60) — the stacked-exposure
