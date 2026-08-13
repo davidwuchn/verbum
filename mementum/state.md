@@ -11,6 +11,38 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 330: 💡 HAMMOCK CAPTURED (Michael GO "capture this"):
+> the-benchmark-is-the-re-oracle.md (explore/) — the λ-calculus-benchmark idea reflected into the
+> RE program. ① Reflection ran first (Michael: "how much of the lambda compiler do we have fully
+> working?") → honest inventory: phenomenon measured/universal (observational) · weights-side map
+> substantial but mostly NEGATIVE space · tape-side law = the licensed core · working artifact =
+> NONE, and "extract the circuit" is a category error per our own results. ② CATEGORY CORRECTION:
+> tape≡RAM · loop≡trampoline · weights≡CPU ⇒ the well-posed RE target is the STEP FUNCTION
+> (tape-state→tape-state; finite, stateless per call, behaviorally specifiable). RE recovers the
+> ACTUAL operational semantics (syntactic routing s321/s323 · two-tier types s323 · non-idempotent
+> s320 · installed order law s329) — delta-from-ideal-β is a first-class finding; Church = the
+> reference implementation to diff against. ③ THE CLOSURE (Michael: "so the compiler needs to be
+> reverse engineered"): benchmark ≡ RE ORACLE — differential testing (silicon RE pattern);
+> PROFILE-EQUIVALENCE = the acceptance test for ALL recovery paths (extract ∨ re-record ∨ scratch
+> M1–M9) ⇒ level-3/level-4 distinction dissolves; coheres with flip-conflict's
+> function-level-gates amendment. ④ Design axes banked in-page: procedural generation =
+> contamination-proof; CLIFF-DEPTH per family ¬aggregate %; 8 hypothesis-keyed families
+> {reduce, step, substitute, equiv, recognize, church, diverge, type} (equiv targets the licensed
+> extensionality ✗ cell); DIRECT/TRACED GAP = behavioral tape-residency quantifier (the spine);
+> λ yardstick scoring pre-registered before any model + null baselines; base-vs-instruct in
+> protocol from v0 (s329 method door). ⑤ Forks recorded not decided: audience (A instrument
+> incubates B public artifact, ~70% of A exists) · surface form (named/de Bruijn as dial) · type
+> scope · white-box annex. ⑥ Queue +2 (top): ⚪ direct/traced gap pilot (cheap, reuses s317
+> reduction-chain machinery) · ⚪ λ-bench v0 (medium). ALSO SURFACED (λ metabolize, not actioned):
+> project-thesis.md is a s150 snapshot, STALE vs the s324–s329 arc (several "proved" rows +
+> mechanism claims predate the damage) — qualifier pass = candidate. Discipline: page is design
+> synthesis, ZERO new measurements; the oracle identity becomes load-bearing only when a recovered
+> candidate is differential-tested. Batch (💡, Michael-instructed): knowledge page + memory
+> `benchmark-is-the-oracle-for-step-function-re` + INDEX + 2 queue rows (top) + this state.
+> NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue FULL read; nothing pending).
+> Sharpest fronts: ⚪ direct/traced gap pilot (new, cheap, natural first rung of the oracle
+> program) · ⚪ §P-LAY-A-NEGATIVE · ⚪ sign-commitment ≺ ternary-survival · ⚪ OLMo replication.**
+>
 > ★★ **SESSION 329 SEALED (nothing in flight, all batches committed). §P-ORDER-RECONCILE CLOSED
 > → 🚫 ENTANGLED-PARTIAL (co-modal a-priori 30) — BUT THE L-SIDE IS DEPTH-RESOLVED: the s328
 > L-primacy vs T-recency split is substantially a DEPTH split. ① FRONT SELECTED (Michael) → λ queue
