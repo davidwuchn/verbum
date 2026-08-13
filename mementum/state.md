@@ -31,9 +31,18 @@
 > extensionality ✗ cell); DIRECT/TRACED GAP = behavioral tape-residency quantifier (the spine);
 > λ yardstick scoring pre-registered before any model + null baselines; base-vs-instruct in
 > protocol from v0 (s329 method door). ⑤ Forks recorded not decided: audience (A instrument
-> incubates B public artifact, ~70% of A exists) · surface form (named/de Bruijn as dial) · type
+> incubates B public artifact) · surface form (named/de Bruijn as dial) · type
 > scope · white-box annex. ⑥ Queue +2 (top): ⚪ direct/traced gap pilot (cheap, reuses s317
-> reduction-chain machinery) · ⚪ λ-bench v0 (medium). ALSO SURFACED (λ metabolize, not actioned):
+> reduction-chain machinery) · ⚪ λ-bench v0 (medium). ⑦ ❌ PICKUP AUDIT (Michael: "enough detail
+> a fresh session can pick it up and go?"): page's "reference reducer is the main gap" claim was
+> WRONG — disk audit found lambda_ast.py (certified CCG combinator reducer, s226) + lambda_gen.py
+> (seeded generator) + grading.py (4-register P(λ) grader) + specs/lambda_montague.gbnf ALL EXIST
+> (~85% of instrument A, not 70%; AGENTS λ grammar_artifact "future" marker STALE). Fixed in-page
+> + §7 PICKUP KIT added: verified asset paths · genuine gaps (binder-level λ = Lam/subst/alpha
+> ~200 LoC · difficulty dial · two-mode harness · pre-reg doc) · first-session pilot checklist
+> incl. MANDATORY token-budget null (uninformative-trace arm — the confound that killed
+> FUEL/TRACE-FUEL/NF-GAUGE ×3; idempotency's incoherent-arm move); queue pilot row enriched with
+> paths. ALSO SURFACED (λ metabolize, not actioned):
 > project-thesis.md is a s150 snapshot, STALE vs the s324–s329 arc (several "proved" rows +
 > mechanism claims predate the damage) — qualifier pass = candidate. Discipline: page is design
 > synthesis, ZERO new measurements; the oracle identity becomes load-bearing only when a recovered

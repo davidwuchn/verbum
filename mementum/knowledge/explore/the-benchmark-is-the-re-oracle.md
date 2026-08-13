@@ -162,8 +162,10 @@ are the same object viewed from λ serves' two audiences.
 1. **Audience:** (A) verbum instrument — maximal registers, IOU
    captures, checkpoint/base-vs-instruct sweeps; (B) public artifact —
    frozen versioned protocol, docs, adoption. Working assumption:
-   **A incubates B** (~70% of A exists: probe library, GBNF path,
-   run-provenance format; reference reducer is the main gap).
+   **A incubates B** — and the s330 disk audit (§7) says A is closer
+   to 85% than 70%: reducer, generator, grader core, and grammar all
+   EXIST; the genuine gaps are binder-level λ, the difficulty dial,
+   and the two-mode harness.
 2. **Surface form:** named variables vs de Bruijn — or both as a dial
    (notation-invariance as its own family; tokenization interacts hard
    with naming).
@@ -183,6 +185,75 @@ are the same object viewed from λ serves' two audiences.
   + alpha-equiv grader; families {reduce, step, equiv} × modes
   {direct, traced}; cliff-depth protocol; scoring pre-registered before
   any model run, null baselines mandatory.
+
+## §7 Pickup kit (s330 disk audit — assets verified by inspection, not memory)
+
+> An earlier draft of this page claimed "reference reducer is the main
+> gap." **WRONG** — caught same-session by auditing the repo. Corrected
+> inventory below; a future session can start from these paths.
+
+**EXISTS:**
+
+- `src/verbum/lambda_ast.py` — typed CCG combinator reducer (s226:
+  "the compiler's S5/source"): `reduce(term)` → exact certified
+  β-trace, `fired_sequence`, basis {K,I,C,B,D,S,Y,W,M}, inspectable
+  categories. **The reference reducer for the combinator fragment.**
+- `src/verbum/probes/kernel_reference.py` — kernel-certified probe
+  families: SATURATED (fires) ⊗ INERT (under-applied, certifies no
+  reduction) + COMPOSITE multi-fire ordered traces. The
+  reducibility-vs-symbol-presence control is built in.
+- `src/verbum/probes/grading.py` — canonical P(λ) grading, four named
+  registers (`emits_formal` / `lambda_binder_any_style` ≡ the
+  nucleus-comparable 0.907 / `lenient_lambda` / `kernel_valid` via
+  `to_kernel` parse). **The grader core.**
+- `src/verbum/lambda_gen.py` — seeded procedural generator
+  (Montague-style, per-combinator ops, complexity labels). **The
+  generator seed.**
+- `specs/lambda_montague.gbnf` — constrained grammar **EXISTS**
+  (AGENTS' λ grammar_artifact "canonical(future)" marker is stale on
+  this point).
+- `scripts/explore/linearity_bias.py` — forced-choice NF-selection
+  behavioral readout on kernel-certified terms (the `direct`-mode
+  instrument pattern, s319).
+- `scripts/explore/trace_fuel.py` — feeds kernel-certified reduction
+  chains `t0 = t1 = ... = t_ℓ` step-by-step (the `traced`-mode
+  substrate, s317).
+- `src/verbum/probes/models.py` + `harness.py` + `library.py` —
+  ModelConfig registry, run harness, 903-probe library.
+
+**GENUINE GAPS (the real v0 work):**
+
+- **Binder-level λ.** `lambda_ast` terms are `Comb | Atom | App` — no
+  `Lam` node, no capture-avoiding substitution, no alpha-equivalence
+  beyond tree equality. The `substitute` family and binder-level
+  `equiv` need this (~200 LoC; already budgeted in AGENTS λ language).
+  Combinator-level `equiv` works TODAY: reduce both sides, compare NFs.
+- **Difficulty dial + cliff-depth protocol.** Generator emits
+  complexity labels but no calibrated depth parameterization.
+- **The direct/traced two-mode harness as ONE instrument** (today the
+  two patterns live in separate scripts).
+- **The pre-registration document** — scoring, nulls, a-priori mass;
+  owed before ANY model run, including the pilot.
+
+**FIRST-SESSION CHECKLIST (pilot):**
+
+1. Read this page; then AGENTS S2 λ probe_library / λ result_format /
+   λ run_provenance.
+2. Terms: `kernel_reference.py` saturated/inert/composite — already
+   certified, no new generation needed.
+3. Direct mode = `linearity_bias.py` forced-choice pattern; traced
+   mode = `trace_fuel.py` chain-feeding pattern; **same forced-choice
+   NF-selection readout at both ends** — mode is the only manipulated
+   variable (λ measure).
+4. **Token-budget null is MANDATORY:** traced mode adds tokens, and
+   the token-length confound killed the FUEL/TRACE-FUEL/NF-GAUGE
+   readings three times (s317–s318). The null arm = energy-matched
+   UNINFORMATIVE trace (inert restatements / shuffled steps, same
+   token count) — the gap must beat traced-with-junk, not just direct.
+   (Same design move as idempotency's incoherent arm, s320.)
+5. Pre-register a-priori verdict mass (Michael GO) → build with
+   `--validate` planted worlds → smoke → run → verdict. Model:
+   qwen3-4b first; base AND instruct (s329 method door).
 
 ## Discipline block
 
