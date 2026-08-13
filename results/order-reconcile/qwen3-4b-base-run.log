@@ -1,0 +1,25 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Fetching 3 files:   0%|          | 0/3 [00:00<?, ?it/s]Fetching 3 files:  33%|███▎      | 1/3 [01:09<02:19, 69.62s/it]Fetching 3 files: 100%|██████████| 3/3 [01:09<00:00, 23.21s/it]
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 31346.03it/s]
+[or] Qwen/Qwen3-4B-Base dev=mps n_layers=36 band=L18..L31 final=L35 slots=4
+[or] nonces=20 (animal 10 vehicle 10)
+[or] real-member anchor + per-layer axes …
+[or] real margin=2.933 per_class_ok=True
+[or] swept 2/20 (14s)
+[or] swept 4/20 (27s)
+[or] swept 6/20 (41s)
+[or] swept 8/20 (54s)
+[or] swept 10/20 (68s)
+[or] swept 12/20 (91s)
+[or] swept 14/20 (106s)
+[or] swept 16/20 (119s)
+[or] swept 18/20 (132s)
+[or] swept 20/20 (146s)
+[or] identity LL(final)≡L: mean=0.0000 max=0.0000
+[or] wrote results/order-reconcile/qwen3-4b-base/results.json
+[or] OR0 pass=False anchor=True D_L_final=-0.090 (p=0.8370) D_T_band=-3.747 (p=0.0001)
+[or] OR1 A_LL_band=-0.824 (neg_p=0.0001 pos_p=1.0000) B_T_final=-0.781 (pos_p=0.7336 neg_p=0.2665)
+[or] OR2 commit_layer_LL=None commit_layer_T=None
+[or] OR3 kernel=+0.005 p=0.4855 pass=False slot_curve=[-0.049, 0.329, 0.488, -0.054]
+[or] VERDICT: SPLIT-NOT-REPLICATED
+VERDICT: SPLIT-NOT-REPLICATED
