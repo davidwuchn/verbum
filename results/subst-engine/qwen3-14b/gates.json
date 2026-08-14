@@ -1,0 +1,39 @@
+{
+  "model_id": "Qwen/Qwen3-14B",
+  "seed": 0,
+  "pilot": {
+    "acc_direct": 0.5405405405405406,
+    "acc_traced": 0.4594594594594595,
+    "acc_null": 0.4864864864864865,
+    "direct_traced_gap": -0.08108108108108109,
+    "trace_content_effect": -0.02702702702702703,
+    "p_content": 1.0,
+    "token_budget_null_passed": false,
+    "n_scored": 37
+  },
+  "verdict": "NAIVE-SUBST",
+  "SE0": true,
+  "SE2": false,
+  "SE3": false,
+  "acc_control": 1.0,
+  "acc_capture": 0.05555555555555555,
+  "frac_correct": 0.05555555555555555,
+  "n_decisive": 18,
+  "p1": 0.0001624408451868007,
+  "cliff": {
+    "binder_distance": {
+      "stat": 0.08333333333333333,
+      "p": 1.0
+    },
+    "shadow_depth": {
+      "stat": 0.08333333333333333,
+      "p": 1.0
+    },
+    "functional_order": {
+      "stat": -0.1111111111111111,
+      "p": 1.0
+    }
+  },
+  "alpha_delta": 0.0,
+  "p3": 1.0
+}

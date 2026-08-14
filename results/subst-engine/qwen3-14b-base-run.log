@@ -1,0 +1,9 @@
+[se] load Qwen/Qwen3-14B-Base dev=mps n=37 (3 arms: direct/traced/null)
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   6%|▌         | 26/443 [00:00<00:01, 228.83it/s]Loading weights:  13%|█▎        | 56/443 [00:00<00:01, 266.49it/s]Loading weights:  19%|█▊        | 83/443 [00:00<00:01, 244.88it/s]Loading weights:  25%|██▌       | 111/443 [00:00<00:01, 253.85it/s]Loading weights:  31%|███       | 137/443 [00:00<00:01, 242.05it/s]Loading weights:  37%|███▋      | 164/443 [00:00<00:01, 243.97it/s]Loading weights:  43%|████▎     | 191/443 [00:00<00:01, 247.82it/s]Loading weights:  49%|████▉     | 216/443 [00:00<00:00, 245.55it/s]Loading weights:  54%|█████▍    | 241/443 [00:00<00:00, 241.00it/s]Loading weights:  60%|██████    | 268/443 [00:01<00:00, 248.39it/s]Loading weights:  67%|██████▋   | 295/443 [00:01<00:00, 253.44it/s]Loading weights:  73%|███████▎  | 323/443 [00:01<00:00, 243.51it/s]Loading weights:  79%|███████▉  | 351/443 [00:01<00:00, 252.62it/s]Loading weights:  85%|████████▌ | 377/443 [00:02<00:01, 51.69it/s] Loading weights: 100%|██████████| 443/443 [00:02<00:00, 153.43it/s]
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+[se] scored 10/37
+[se] scored 20/37
+[se] scored 30/37
+[se] verdict=NAIVE-SUBST frac_correct=0.000 acc_ctrl=1.000 SE2=False SE3=False
+[se] pilot: acc direct=0.486 traced=0.514 null=0.459 gap=+0.027 content=+0.054 budget_null_passed=False

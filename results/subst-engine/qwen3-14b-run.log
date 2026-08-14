@@ -1,0 +1,27 @@
+[se] load Qwen/Qwen3-14B dev=mps n=37 (3 arms: direct/traced/null)
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights:   6%|▌         | 26/443 [00:00<00:01, 244.33it/s]Loading weights:  12%|█▏        | 51/443 [00:00<00:01, 220.98it/s]Loading weights:  18%|█▊        | 78/443 [00:00<00:01, 237.45it/s]Loading weights:  23%|██▎       | 104/443 [00:00<00:01, 244.15it/s]Loading weights:  29%|██▉       | 129/443 [00:00<00:01, 243.17it/s]Loading weights:  35%|███▍      | 154/443 [00:00<00:01, 228.08it/s]Loading weights:  41%|████      | 181/443 [00:00<00:01, 238.90it/s]Loading weights:  47%|████▋     | 206/443 [00:00<00:01, 232.64it/s]Loading weights:  53%|█████▎    | 235/443 [00:00<00:00, 237.21it/s]Loading weights:  60%|█████▉    | 265/443 [00:01<00:00, 251.73it/s]Loading weights:  66%|██████▌   | 291/443 [00:01<00:00, 239.47it/s]Loading weights:  72%|███████▏  | 320/443 [00:01<00:00, 239.87it/s]Loading weights:  78%|███████▊  | 345/443 [00:01<00:00, 242.03it/s]Loading weights:  84%|████████▍ | 372/443 [00:01<00:00, 249.09it/s]Loading weights:  90%|████████▉ | 398/443 [00:01<00:00, 243.35it/s]Loading weights:  95%|█████████▌| 423/443 [00:01<00:00, 237.69it/s]Loading weights: 100%|██████████| 443/443 [00:01<00:00, 243.85it/s]
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+[se] scored 10/37
+[se] scored 20/37
+[se] scored 30/37
+Traceback (most recent call last):
+  File "/Users/mwhitford/src/verbum/scripts/experiments/subst_engine.py", line 765, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/Users/mwhitford/src/verbum/scripts/experiments/subst_engine.py", line 752, in main
+    json.dump({"model_id": args.model_id, "seed": args.seed,
+  File "/Users/mwhitford/.local/share/uv/python/cpython-3.12.10-macos-aarch64-none/lib/python3.12/json/__init__.py", line 179, in dump
+    for chunk in iterable:
+                 ^^^^^^^^
+  File "/Users/mwhitford/.local/share/uv/python/cpython-3.12.10-macos-aarch64-none/lib/python3.12/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/Users/mwhitford/.local/share/uv/python/cpython-3.12.10-macos-aarch64-none/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/Users/mwhitford/.local/share/uv/python/cpython-3.12.10-macos-aarch64-none/lib/python3.12/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/Users/mwhitford/.local/share/uv/python/cpython-3.12.10-macos-aarch64-none/lib/python3.12/json/encoder.py", line 180, in default
+    raise TypeError(f'Object of type {o.__class__.__name__} '
+TypeError: Object of type bool is not JSON serializable
