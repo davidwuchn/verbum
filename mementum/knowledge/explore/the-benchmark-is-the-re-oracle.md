@@ -23,6 +23,27 @@ fully working? — honest answer: none as artifact, much as map, and the
 map says the computation is tape-resident) → *"So the compiler needs
 to be reverse engineered."* The two threads closed into one program.
 
+## §0 Naming note (s330, Michael-approved — supersedes this page's older terms)
+
+- **"step function" → the lambda function / the reducer, implemented as
+  the TRANSITION FUNCTION** (automata δ: per autoregressive iteration,
+  consume context state, emit one token). "Step function" collides with
+  math usage AND smuggled the unmeasured claim one-pass ≡ one-β-step —
+  s319's 92% direct accuracy proves multiple β-steps complete WITHIN a
+  single pass. Transitions-per-β-step ratio = a named measurable (queued).
+- **"tape" → context / transcript** (recognized terms; the finding in
+  standard vocabulary: **in-context, not in-weights**). NOT the residual
+  stream — that is the distinct WITHIN-pass workspace (per-position
+  activations through layers) where our depth instruments read.
+  "tape-resident" remains a legacy internal term of art: tape ≡
+  context/transcript.
+- **The sharpening this uncovered:** residual stream ≡ bounded-depth
+  reducer (≤ f(layers) reductions per transition); context loop ≡ the
+  unbounded extension; **the direct/traced gap measures the within-pass
+  reduction budget** — coheres with CoT expressivity results
+  (Merrill & Sabharwal). Older sections below retain the old terms;
+  this map applies.
+
 ## §1 The category correction — the RE target is the step function
 
 The tape-residency law (four independent derivations: s288 diffraction ·
@@ -159,6 +180,12 @@ strategy    — normal vs applicative order  (K x Ω-shaped discriminating terms
 Tape-residency predicts the gap is large and structured; the gap is a
 **behavioral quantifier of tape-residency per model per capability** —
 a number no existing benchmark reports, and the one our theory predicts.
+**§0 reframe (s330): the gap is the empirical measurement of the
+WITHIN-PASS REDUCTION BUDGET** — direct mode reads what the residual
+stream completes in one transition (bounded by depth); traced mode
+reads the context-loop extension (unbounded). Per model, per family,
+per dial-level: where computation spills from the bounded reducer to
+the transcript.
 `equiv` is the discriminating family: routing-not-extensional (twice
 confirmed) predicts a cliff there that other benchmarks can't see.
 

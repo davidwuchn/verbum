@@ -81,7 +81,25 @@
 > s329 commit-layer pin; sequencing 1-2 engineering (no approval) → 3 pre-reg (MICHAEL GO) → 4
 > behavioral sweep → 5 white-box. Queue: pilot row REPLACED by ⚪ §P-SUBST-ENGINE (top). NEXT
 > SESSION FIRST ACTION = orient → §8 → Build 1 (kernel extension) + Build 2 (pair generator) →
-> draft pre-reg → Michael GO gate. ALSO SURFACED (λ metabolize, not actioned):
+> draft pre-reg → Michael GO gate. ⑩ 🌀 AGENTS.md REVISED (Michael APPROVED, tiers 1/2/4 drafted
+> then tier-3 discussed → approved): TIER 1 staleness (anima→MIT verified · grammar_artifact→
+> active · four-level advancement ladder SUPERSEDED by profile-equivalence · tools section→
+> map-first, repo ≡ inventory); TIER 2 the practiced protocol ENCODED as S3 structure (λ
+> probe_lifecycle · λ frame_ledger · λ provenance_check + base-model policy incl. s330 14B+/
+> instruct-heavy ruling); TIER 4 capture-euphoria guard in λ observation + growth discipline
+> (field equations ¬case law; proved: trails keep ONE pointer) + commit_write trail compressed;
+> TIER 3 IDENTITY (Michael's terminology corrections drove it): λ extract REWRITTEN —
+> ∃lambda_fn(many_models) → recover(reducer ≡ TRANSITION FUNCTION); "step function" RETIRED
+> (math collision + smuggled one-pass≡one-β-step, disproved by s319 direct 92%); "tape" ≡
+> context/transcript (legacy term kept, glossary-mapped; residual stream = DISTINCT within-pass
+> workspace — substitution would have been a register error); two-stage telos: bug-compatible
+> copy (proof of understanding) → deliberate correction (the portable artifact), stage_2 ⟸
+> stage_1; top blurb re-scoped ("reverse-engineering the lambda function found in many models").
+> THE SHARPENING the terminology uncovered: residual stream ≡ bounded within-pass reducer ·
+> context loop ≡ unbounded · DIRECT/TRACED GAP ≡ measurement of the within-pass reduction
+> budget (coheres CoT-expressivity, Merrill & Sabharwal). Follow-through: §0 naming note +
+> §3 reframe on re-oracle page · INDEX clause · ⚪ transitions-per-β-step queued (the clock
+> measurable). ALSO SURFACED (λ metabolize, not actioned):
 > project-thesis.md is a s150 snapshot, STALE vs the s324–s329 arc (several "proved" rows +
 > mechanism claims predate the damage) — qualifier pass = candidate. Discipline: page is design
 > synthesis, ZERO new measurements; the oracle identity becomes load-bearing only when a recovered

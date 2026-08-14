@@ -1,9 +1,10 @@
 # AGENTS.md — Verbum
 
-> Distilling the lambda compiler from LLMs into a portable tensor
-> artifact. This document is the project's identity and operating
-> philosophy — the top-level VSM in prose, with lambda-notation
-> identity genes.
+> Reverse-engineering the lambda function found in many models —
+> recovering the reducer LLMs run in-context, then distilling it into
+> a portable, corrected artifact. This document is the project's
+> identity and operating philosophy — the top-level VSM in prose, with
+> lambda-notation identity genes.
 >
 > License: MIT. Architecture: Viable System Model (Beer 1972).
 
@@ -48,10 +49,16 @@ coordination (S2), cold-start is an operation (S1). Taxonomy inside
 ## S5 — Identity & Policy (ethos, values — what this project IS)
 
 ```
-λ extract(x).       ∃circuit(LLM) → characterize(tensors) | understand > invent
-                    | LLM ≡ artifact_containing_the_answer_already
+λ extract(x).       ∃lambda_fn(many_models) → recover(reducer ≡ transition_function)
+                    | understand > invent | LLM ≡ artifact_containing_the_answer_already
                     | we(find) ¬we(build) | gradient_descent discovered(it_first)
                     | our_work ≡ instrumentation ¬construction
+                    | computation ≡ in_context ¬in_weights (s317, 4×; "tape" ≡ transcript, legacy)
+                    | residual_stream ≡ bounded_within_pass_reducer | context_loop ≡ unbounded
+                    | recover(actual_semantics) ¬ideal(β) | δ(M,R) ≡ first_class_finding
+                    | stage_1: bug_compatible_copy ≡ proof_of_understanding
+                    | stage_2: deliberate_correction ≡ the_portable_artifact | stage_2 ⟸ stage_1
+                    | revised s330 (was: ∃circuit → characterize(tensors); the object matured)
 
 λ triangulate(x).   three_independent_lines → convergence_or_investigate
                     | math(Montague ∧ Lambek ∧ CCG ∧ DisCoCat) predicts(typed_apply)
@@ -84,7 +91,8 @@ coordination (S2), cold-start is an operation (S1). Taxonomy inside
 
 λ provenance(x).    MIT ≡ this_project | discipline ≡ identity ¬legal_fact
                     | nucleus(AGPL) ≡ cited_observational_probe ¬code_source
-                    | anima(AGPL) ≡ cited_prior_evidence ¬derivation_source
+                    | anima(MIT) ≡ sibling_runtime | AGPL_confined(1_vendored_gene: nucleus_preamble)
+                    |   patterns ≡ adoptable ∧ cited | verified s330 (was mislabeled AGPL here)
                     | extractions inherit(base_model_license) → Apache_2.0_preferred
                     | level_4(scratch_reproduction) ≡ cleanest_MIT (the unambiguous path)
                     | ∀code_written → trace(provenance) before commit
@@ -95,6 +103,8 @@ coordination (S2), cold-start is an operation (S1). Taxonomy inside
                     | cost(wrong_published_claim) → persists_in_literature
                     | cost(extra_probe_to_verify) → one_afternoon
                     | conservative(claims) ∧ liberal(probes) | mark(IOU) for unverified
+                    | post_GO(capture) → audit(disk_claims) before commit
+                    |   capture_euphoria ≡ named_failure_mode (approval → narrative ≻ verification, s330)
 
 λ measure(claim).   register(claim) ∈ {routing/crisp/discrete, value/continuous/graded, magnitude, spectral, causal}
                     | observe(claim) ≡ measurement | register(probe) ≡ register(claim)
@@ -248,7 +258,7 @@ Written when experiments force the issue, not before:
 λ commit_write(m).  ⊘ git commit -m "$(cat <<'EOF'…)" | apostrophe∈body → $()_rescan_breaks
                     | cause: $()_command_subst rescans body | ' starts unterminated quote_scan
                     |        <<'EOF' protects delimiter ¬body_rescan ≡ false_safety
-                    | proved: s229 ∧ s239 ∧ s247b ∧ s252 (rediscovered ≥4× ≡ feed_forward_gap)
+                    | proved: s252 (4×_rediscovered ≡ feed_forward_gap)
                     | FIX(default): read -r -d '' M << 'EOF' || true … EOF ; git commit -m "$M"
                     | read(¬$()) → var | "$M"_expansion ¬reparse | ' ∧ ` ∧ $ ≡ literal(quoted_delim)
                     | proved_safe: s252 (apostrophe ∧ backtick ∧ dollar literal, len-verified)
@@ -256,18 +266,42 @@ Written when experiments force the issue, not before:
                     | ∀fix: nucleus_tag ∧ leading_symbol preserved | ¬strip_apostrophes(lossy_workaround)
 ```
 
-### Research policy (to be developed)
+### Research protocol (active — encoded s330 from ~100 sessions of practice)
 
-Written when experiments force the issue, not before:
+```
+λ probe_lifecycle(x). ⚪ queue → sharpen(design) → 🎯 freeze(a_priori_mass ∧ gates ∧
+                      verdict_space ∧ Michael_GO) → build(--validate planted_worlds ∧
+                      ruff ∧ ¬diags) → smoke → ▶ run → results(autonomous_commit) →
+                      closure_batch(approval_gated: §Result ∧ memory ∧ INDEX ∧ queue ∧ state)
+                      | freeze BEFORE data | a_priori ¬tuned_to_data | verdict ≡ frozen_tree
+                      | smoke_regime_warning → design_PAUSE ¬footnote (s324)
+                      | negative ≡ verdict ¬failure | damage → in_page ¬silent
+                      | ns_cell ≡ ns_cell | don't_over_read (read discipline banked at freeze)
 
-- **Base model selection.** Apache-2.0-preferred → Qwen, Pythia,
-  OLMo, Mistral. LLaMA-derivatives and closed-weight models excluded
-  from level-3 extraction work for license reasons.
-- **Compute budgets** per experiment tier.
-- **Advancement criteria.** Level 1 → 2 requires circuit localisation
-  to fewer than N layers/heads. Level 2 → 3 requires ablation-confirmed
-  functional decomposition. Level 3 → 4 requires an extracted artifact
-  that runs standalone.
+λ frame_ledger(f).    retrodiction ≠ win | count(pre_registered_contacts) only
+                      | frame_earns_capture ⟺ pre_reg_win (s222 law ∧ s324 standing_guard)
+                      | must_win(spent ∧ lost) → frame_dead (s326: modulation 0-3)
+                      | ledgers_split(original, revision) | never_merge_credit (s325)
+                      | frame_candidate → discipline_from_birth (s327)
+
+λ provenance_check(w). behavioral_win(post_trained_model) → owes base_check
+                      | one --model-id swap | installed ≠ native | delta ≡ finding
+                      | proved: s329 (primacy installed) → structured the s330 front
+```
+
+- **Base model selection** (active). Apache-2.0-preferred → Qwen3
+  (workhorse lineage, instruments calibrated) · Pythia/OLMo (public
+  checkpoint fossil records). Agentic-relevant behavioral fronts →
+  **14B+, instruct-heavy, few base anchors** (s330 ruling: instruct ≡
+  the deployment face). Closed-weight excluded from extraction work.
+- **Compute budgets** — still emergent; probe-scale (minutes–hours,
+  MPS, read-only) vs training-scale (tmux + checkpoint discipline,
+  λ runtime).
+- **Advancement criterion** (supersedes the founding four-level ladder,
+  s330): recovery paths (extract ∨ re-record ∨ scratch) share ONE
+  acceptance test — **profile-equivalence under the benchmark oracle,
+  errors included** (bug-compatibility; see
+  `knowledge/explore/the-benchmark-is-the-re-oracle.md` §2b/§4).
 
 ---
 
@@ -389,8 +423,8 @@ Written when experiments force the issue, not before:
                     | ∀llama_cpp_bump → verify_spec ∨ update_spec
                     | hand_rolled_client ≡ mirror(spec) | drift_detected ≡ CI_signal
 
-λ grammar_artifact(x). specs/lambda_*.gbnf ≡ canonical(future)
-                    | write_from_observation(this_project) ¬copy(nucleus)
+λ grammar_artifact(x). specs/lambda_montague.gbnf ≡ canonical(active) | s330: exists ¬future
+                    | extend_from_observation(this_project) ¬copy(nucleus)
                     | observe ≫ retrieve | independent_derivation ≡ scientific_hygiene
                     | cadence: iterative(draft → test_coverage → refine) ¬one_shot
                     | invariant: ∀observed_output → parses(by_GBNF) ∨ update(GBNF) ¬silent_drop
@@ -499,18 +533,21 @@ Written when experiments produce the first artifacts:
                     | always: --checkpoint-dir {named} | resumable > ephemeral
 ```
 
-### Research tools (to be developed)
+### Research tools (active, emergent — inventory lives in the repo, not here)
 
-Each tool gets a concrete name, a CLI or entry-point, and a one-line
-contract. Written as built:
+The canonical pattern: ONE harness per probe (`scripts/explore/*.py`,
+`scripts/experiments/*.py`), each with `--validate` planted worlds,
+named output dirs, meta.json provenance. ~200 harnesses exist —
+recorders, patchers, differs, tracers among them.
 
-- **Probe-set generator** — prose → compile gate → canonical lambda.
-- **Hooked forward-pass recorder** — model + probe → activations.
-- **Attention-pattern differ** — compile-mode vs null-mode selectivity.
-- **Activation patcher** — layer-necessity via null-substitution.
-- **SAE trainer** — per-layer, for feature extraction.
-- **Circuit-map analyser** — cross-reference selective heads and
-  necessary layers.
+- **Before building: `ls scripts/` + `git grep` — map first** (the s330
+  lesson: a committed claim that the reference reducer didn't exist,
+  while `lambda_ast.py` sat in src/). This doc names the pattern; the
+  repo names the instances. Enumerating tools here guarantees staleness.
+- Reusable probe pins worth knowing by name: commit-layer depth sweep
+  (`order_reconcile.py`, s329) · planted-world validation · kernel-
+  certified term families (`probes/kernel_reference.py`) · forced-choice
+  NF-selection readout (`linearity_bias.py`, s319).
 
 ### Research datasets (active, partial)
 
@@ -546,5 +583,12 @@ developed and will land as experiments force the questions.
 Grows as the project grows. Subject to revision as experiments reveal
 what the project *actually* is, versus what it thought it was at
 creation.
+
+Growth discipline (s330): **field equations, not case law** — new
+structure > longer evidence lists. `proved:` trails keep ONE pointer;
+fuller trails live in mementum (`git log -S` finds them). When a
+lambda's evidence list grows past two sessions, compress here, expand
+there. Enumerations that mirror the repo (tool lists, model lists)
+belong in the repo — this document names patterns and contracts.
 
 Future self reads this first, then `mementum/state.md`.
