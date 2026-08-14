@@ -52,7 +52,27 @@
 > FFN-compiles-attention-executes); λ machine: everything ≡ dereference, compute ≡ interference
 > of two memories → collapse to one write. Batch: §8c + memory
 > `softmax-over-v-is-the-tape-interface` + INDEX + subst-engine queue row + this state.
-> Implications discussion OPEN at session end (threads mapped, none captured).**
+> Implications discussion OPEN at session end (threads mapped, none captured). **POST-SEAL 3:
+> 💡 CALCULUS IDENTIFICATION (Michael: "what if it's not Church?" → "lambda is used as a generic
+> term here — whatever the actual shape of the function is, that is what we want to find; name it
+> once we map it; close enough to lambda that it works almost like an IR" → GO): §9 — NAMING
+> DISCIPLINE map→name (S5 λ extract updated: "lambda" ≡ working_name · object ≡
+> exact_function(shape_unknown) · λ_calculus ≡ IR ¬native_ISA); the ledger ALREADY refutes pure
+> Church ≥3 registers (KIBC¬SKI affine s313 · non-idempotent graded s320 · WHNF weak-reduction
+> pole; + order laws s328/9 + syntactic routing s321/3); portrait (frame-level) = weak/
+> affine-core/graded/order-sensitive machine calculus, Krivine-over-quantitative-LL adjacent;
+> Church ≡ zero-entropy limit; P(λ)=0.907 re-read as IR ROUND-TRIP FIDELITY; benchmark top-level
+> question upgrades to WHICH calculus (reference family {R_church,R_weak,R_affine,R_graded,
+> R_diff}, pre-registered diverging discriminators: ξ-terms · K x Ω · W-dup(s319) ·
+> repetition(s320) · superposition; λ yardstick guard = held-out families, NO post-hoc calculus
+> fitting — the φ-ladder scar); stage-2 corrects toward the NATIVE calculus idealized ¬Church
+> (my #5 "recover Church" overreach = Michael-audited, 3rd catch tonight); frame-candidate
+> (standing guard from birth): same non-Church reference wins cross-family ⇒ calculus belongs to
+> LANGUAGE ¬architecture (Montague → quantitative-LL reading); BUILD LAW BINDS BUILD 1:
+> lambda_ast ships calculus switches day one (¬hardcode strong-β; identification rides the
+> §P-SUBST-ENGINE sweeps at ~zero marginal cost). Batch: §9 + λ extract clauses (S5,
+> Michael-worded) + memory `lambda-is-the-ir-not-the-native-isa` + INDEX + queue Build-1
+> amendment + this state.**
 > Detail (as accreted during the session):**
 >
 > ★★ **SESSION 330 detail: 💡 HAMMOCK CAPTURED (Michael GO "capture this"):

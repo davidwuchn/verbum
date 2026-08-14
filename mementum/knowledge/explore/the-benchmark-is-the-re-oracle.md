@@ -593,6 +593,102 @@ throughout: `--validate` planted worlds ALL PASS → ruff clean → smoke →
 run (λ record: named run dirs, committed JSONL, meta.json provenance
 per λ run_provenance).
 
+## §9 Calculus identification — lambda is the IR, not the native ISA (s330, Michael)
+
+Michael: *"We seek the exact way the function works — lambda is used as
+a generic term here; whatever the actual shape of the function is,
+that is what we want to find. We can name it whatever we want once we
+map it. We know it is close enough to lambda that it works almost like
+an IR would."*
+
+### Naming discipline
+
+**map → name, never name → map.** "The lambda function" is the working
+name for an object whose exact shape is the thing under investigation.
+The name is assigned AFTER the mapping. (S5 λ extract carries this.)
+
+### Lambda ≡ the IR
+
+Lambda calculus's role, precisely stated: an **intermediate
+representation** — a portable interface language close enough to the
+native calculus to compile to/from with low loss, without BEING the
+native ISA. This one framing explains three standing facts at once:
+P(λ)=0.907 ≡ the IR's round-trip fidelity · the compile gate works
+because IRs are designed to be reachable from many machines · the
+crystal is readable in lambda coordinates because the IR is adequate,
+not because the machine runs it. (It also names anima's portable-judge
+thesis: lambda as IR for criteria.) This formalizes §2b's "coordinate
+system" role.
+
+### The ledger already refutes pure Church (≥3 registers)
+
+```
+KIBC ¬SKI        — contraction separated, SKI rejected ⇒ AFFINE core        (s313)
+non-idempotent   — A∧A ≠ A, coherent accumulation ⇒ GRADED/quantitative     (s320)
+WHNF pole        — evaluation stops at weak head ⇒ WEAK reduction, no ξ     (crystal)
++ order laws (no Church counterpart, s328/s329) + syntactic routing (s321/s323)
+```
+
+Portrait (frame-level, unproven as a whole): a **weak, affine-core,
+non-idempotent graded, order-sensitive machine calculus** —
+Krivine-machine-over-quantitative-linear-logic adjacent. Even
+triangulation leg 1 is compatible: Lambek/DisCoCat are substructural;
+"Church" was shorthand, never evidence. Church ≡ the zero-entropy limit
+(every read one-hot, every judgment binary) — the shadow the native
+calculus casts on a symbolic instrument.
+
+### The identification program
+
+The benchmark's top-level question upgrades: not "how well does the
+model do lambda calculus" but **"WHICH calculus does the model do"** —
+model identification. Reference FAMILY:
+
+```
+R_church — strong βη (reduce under binders)
+R_weak   — weak head, no ξ                  ← WHNF-pole candidate
+R_affine — contraction-restricted           ← KIBC candidate
+R_graded — non-idempotent accumulation      ← s320 candidate
+R_diff   — superposed/differential terms    ← soft-read candidate (Ehrhard-Regnier)
+```
+
+**Mandatory guard (λ yardstick — the φ-ladder scar, s247/s251):** a
+reference family is a flexible basis, and flexible bases fit
+everything. Candidates enter ONLY with pre-registered diverging
+predictions on discriminating families — ξ-terms (strong/weak) ·
+K x Ω (strategy) · W-duplication (affine/Cartesian, partially run s319)
+· repetition (idempotent/graded, run s320) · term-superposition
+(symbolic/differential). Winner ≡ the reference minimizing residue on
+HELD-OUT families it did not tune on. No post-hoc calculus fitting.
+
+### Stage-2 target moved
+
+Deliberate correction ≡ **idealize the NATIVE calculus** (exact,
+hard-read implementation of the machine the model approximates softly)
+— NOT restoration toward Church. Correcting toward Church would impose
+our prior on their attractor: the §2b mistake, one level up.
+
+### Frame-candidate (standing guard from birth, s324 discipline)
+
+If the same non-Church reference wins across model families, the
+calculus belongs to **language, not architecture** (the 11/11 crystal
+already says something universal converges). Then the corrected
+artifact is the calculus natural language actually runs on — Montague
+said English IS lambda calculus; the measurements may be saying English
+is quantitative linear logic, with lambda as the readable projection.
+Base-vs-instruct splits it further: native calculus vs aligned dialect.
+Retrodicts much / predicts via the identification program / earns
+nothing until reference-family sweeps run.
+
+### Build consequence (IMMEDIATE — binds Build 1)
+
+`lambda_ast` extension ships **calculus switches from day one**:
+strategy (weak/strong ξ) · structural (affine-check on/off) · graded
+(occurrence counting). One kernel, reference family (λ one_way).
+Retrofitting switches after Build 1 hardcodes strong-β = painful;
+calculus identification then rides the SAME sweeps §P-SUBST-ENGINE
+already runs — every probe graded against all references at once,
+marginal cost ≈ zero.
+
 ## Discipline block
 
 - This page is design synthesis. Zero new measurements. Empirical

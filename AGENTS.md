@@ -56,6 +56,9 @@ coordination (S2), cold-start is an operation (S1). Taxonomy inside
                     | computation ≡ in_context ¬in_weights (s317, 4×; "tape" ≡ transcript, legacy)
                     | residual_stream ≡ bounded_within_pass_reducer | context_loop ≡ unbounded
                     | recover(actual_semantics) ¬ideal(β) | δ(M,R) ≡ first_class_finding
+                    | "lambda" ≡ working_name | object ≡ exact_function(shape_unknown)
+                    | name_after_mapping | λ_calculus ≡ IR(interface, P(λ)=0.907) ¬native_ISA
+                    | ledger: ¬pure_Church(≥3_registers) → calculus_identification (s330)
                     | stage_1: bug_compatible_copy ≡ proof_of_understanding
                     | stage_2: deliberate_correction ≡ the_portable_artifact | stage_2 ⟸ stage_1
                     | revised s330 (was: ∃circuit → characterize(tensors); the object matured)
