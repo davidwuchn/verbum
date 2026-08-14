@@ -89,17 +89,14 @@ _DISTRACTOR_ATOMS = ("q", "r", "s")
 # ══════════════════════════════════════════════════════════════════════════
 # Candidate construction — the forced-choice options for NF-selection
 # ══════════════════════════════════════════════════════════════════════════
-def _swap_free_var(nf_src: str) -> str | None:
-    """A plausible wrong answer: rename ONE free variable in the NF to a fresh
-    atom (a substitution-target error), keeping the term well-formed."""
+def _swap_free_var(nf_src: str, repl: str) -> str | None:
+    """A plausible wrong answer: rename the first free variable of the NF to
+    ``repl`` (a substitution-target error), keeping the term well-formed."""
     t = parse(nf_src)
     fvs = sorted(free_vars(t))
-    if not fvs:
+    if not fvs or repl in fvs:
         return None
     target = fvs[0]
-    repl = next((a for a in _DISTRACTOR_ATOMS if a not in fvs), None)
-    if repl is None:
-        return None
 
     def go(term):
         if isinstance(term, Atom):
@@ -124,20 +121,79 @@ def _drop_binder(nf_src: str) -> str | None:
     return None
 
 
-def make_candidates(correct_nf: str, naive_nf: str | None) -> dict | None:
-    """Distinct forced-choice options. Always includes ``correct``; ``naive`` when
-    the pair discriminates; plus up to two structural distractors. Returns None if
-    fewer than three distinct, well-formed options can be built."""
-    cands: dict[str, str] = {"correct": correct_nf}
-    if naive_nf is not None and naive_nf != correct_nf:
-        cands["naive"] = naive_nf
-    for key, fn in (("swap", _swap_free_var), ("drop", _drop_binder)):
+def _dup_atom(nf_src: str) -> str | None:
+    """A plausible copy error: self-apply a bare atom (``a`` -> ``a a``)."""
+    t = parse(nf_src)
+    if isinstance(t, Atom):
+        return f"{t.name} {t.name}"
+    return None
+
+
+def _perturb_leaf(nf_src: str, repl: str) -> str | None:
+    """A plausible wrong body: replace the LEFTMOST leaf with ``repl`` (works on
+    closed terms where free-var swaps have nothing to bite on)."""
+    t = parse(nf_src)
+    done = [False]
+
+    def go(term):
+        if done[0]:
+            return term
+        if isinstance(term, Atom):
+            done[0] = True
+            return Atom(repl) if term.name != repl else term
+        if isinstance(term, Lam):
+            return Lam(term.var, go(term.body))
+        if hasattr(term, "fn"):
+            fn = go(term.fn)
+            arg = go(term.arg)
+            return type(term)(fn, arg)
+        return term
+
+    out = pretty(go(t))
+    return out if out != nf_src else None
+
+
+def _distractor_pool(correct_nf: str) -> list[str]:
+    """Well-formed wrong answers, most-plausible first: free-var swaps · leftmost
+    leaf perturbations (cover closed terms) · binder-drop · atom self-application."""
+    pool: list[str] = []
+    for repl in _DISTRACTOR_ATOMS:
+        d = _swap_free_var(correct_nf, repl)
+        if d is not None:
+            pool.append(d)
+    for repl in _DISTRACTOR_ATOMS:
+        d = _perturb_leaf(correct_nf, repl)
+        if d is not None:
+            pool.append(d)
+    for fn in (_drop_binder, _dup_atom):
         d = fn(correct_nf)
-        if d is not None and d not in cands.values():
-            cands[key] = d
-    # distinctness (alpha-aware for the correct/naive pair)
-    surfaces = list(cands.values())
-    if len(set(surfaces)) < 3:
+        if d is not None:
+            pool.append(d)
+    return pool
+
+
+def make_candidates(correct_nf: str, naive_nf: str | None) -> dict | None:
+    """Distinct forced-choice options: always ``correct``; ``naive`` when the pair
+    discriminates; distractors drawn from the pool until ≥3 total (alpha-aware, so
+    a distractor never coincides with correct/naive). Returns None if <3 buildable
+    — a control that cannot be triple-optioned is dropped, not silently mis-scored."""
+    cands: dict[str, str] = {"correct": correct_nf}
+    correct_t = parse(correct_nf)
+    fixed = [correct_t]
+    if naive_nf is not None and not alpha_eq(parse(naive_nf), correct_t):
+        cands["naive"] = naive_nf
+        fixed.append(parse(naive_nf))
+
+    key = 0
+    for d in _distractor_pool(correct_nf):
+        dt = parse(d)
+        if any(alpha_eq(dt, f) for f in fixed) or d in cands.values():
+            continue
+        cands[f"d{key}"] = d
+        fixed.append(dt)
+        key += 1
+
+    if len(set(cands.values())) < 3:
         return None
     return cands
 
@@ -459,6 +515,18 @@ def validate() -> bool:
     print(f"[validate] battery controls certified={ctrl_nf} "
           f"families={sorted(fams)} n={len(bat)}")
     ok &= ctrl_nf and fams == {"control", "capture", "alpha"}
+
+    # ── primitive 3b: EVERY battery item builds ≥3 distinct candidates ──
+    #    (smoke s331 caught atom-NF controls being silently dropped)
+    buildable = []
+    for r in bat:
+        c = make_candidates(r["correct_nf"], r["naive_nf"])
+        buildable.append(c is not None and c["correct"] == r["correct_nf"]
+                         and len(set(c.values())) >= 3)
+    all_build = all(buildable)
+    print(f"[validate] all {len(bat)} items triple-optioned "
+          f"(controls no longer dropped): {all_build}")
+    ok &= all_build
 
     # ── primitive 4: alpha self-null — identical arms read NON-significant ──
     flat = []
