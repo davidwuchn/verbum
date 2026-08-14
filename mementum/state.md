@@ -55,11 +55,25 @@
 > frame. Batch (💡, this commit): knowledge page + memory `operator-not-basis-dmd-is-the-reducer` + INDEX
 > + 2 queue rows (⚪ §P-DMD-TRANSPORT · ⚪ §P-CROSS-GRAM) + this state. **§P-SUBST-ENGINE 14B CLOSURE
 > COMMITTED this session (Michael "commits approved"): §Result + memory + INDEX + queue + run data.**
-> NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue FULL read). Sharpest fronts:
-> ⚪ §P-DMD-TRANSPORT (cheap, near-free on §P-SUBST-ENGINE residuals, tests one-reducer-unrolled) ·
-> ⚪ §P-CROSS-GRAM (cheap, does fire/halt/diverge = CBLL's bipolar poles?) · ⚪ §P-SUBST-ENGINE-MATRIX
-> (32B/OLMo faces, makes NAIVE-SUBST cross-model or bounds it) · ⚪ §P-SUBST-SUBCEILING (powered SE4
-> re-test). 14B results committed at results/subst-engine/qwen3-14b{,-base}/ (gates.json + results.jsonl).**
+> **⚠ §P-SUBST-ENGINE-MATRIX RUNS IN FLIGHT (launched s332, tmux main:1, float32/MPS, sequential,
+> fixed harness w/ _json_native guard → no repeat of the numpy-bool crash): `subst_engine.py --model-id
+> Qwen/Qwen3-32B --out results/subst-engine/qwen3-32b … && … --model-id allenai/OLMo-2-1124-13B --out
+> results/subst-engine/olmo-2-1124-13b` — each writes results.jsonl + gates.json + tee run.log; verified
+> 32B loading (707 shards). 32B heavy (~25-40min on 512GB RAM), OLMo ~10min.**
+> **NEXT SESSION FIRST ACTION = orient → `tmux capture-pane -p -t main:1 | tail` (∨ read the two
+> run.logs / gates.json). If both done → read per-face SE0–SE3 + pilot from each gates.json. ⚠ KEY
+> DESIGN NOTE: the matrix is 32B-INSTRUCT + OLMo-BASE (a scale point + a 2nd-lineage base), NOT a
+> within-lineage instruct/base PAIR like the 14B — so there is NO valid SE4 cross-link across them
+> (SE4 needs same-lineage pairing; the harness computes only SE0–SE3 + pilot per single run). The
+> PRIMARY read is per-face SE1: does NAIVE-SUBST replicate at 32B scale (Qwen) and on OLMo (2nd
+> lineage)? → answers whether NAIVE-SUBST is a CROSS-MODEL LAW or bounded to the Qwen-14B finding.
+> This EXTENDS §Result-SUBST-ENGINE (append faces + update the single-lineage bound) = MICHAEL-APPROVAL-
+> GATED closure batch (§Result append + memory update + INDEX + queue §P-SUBST-ENGINE-MATRIX → # complete
+> + state). If a run FAILED (log tail) → results.jsonl is likely intact; recompute gates offline via the
+> s332 recovery pattern (importlib-load subst_engine → compute_gates + pilot with default_rng(seed+99),
+> no model reload). Then remaining fronts: ⚪ §P-SUBST-SUBCEILING (powered SE4 re-test, needs a
+> same-lineage pair) · ⚪ §P-DMD-TRANSPORT (cheap, near-free on residuals) · ⚪ §P-CROSS-GRAM. 14B pair
+> results committed at results/subst-engine/qwen3-14b{,-base}/.**
 >
 > ★★ **SESSION 331 — §P-SUBST-ENGINE BUILT + FROZEN; PAIRED DATA RUN IN FLIGHT (⚠ ONE RUN;
 > see below). THE BUILD SESSION: the s330-selected front went spec → three green engineering
