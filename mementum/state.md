@@ -11,6 +11,51 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 332 — RUN RECOVERED + CBLL LINEAR-ALGEBRA CAPTURED. Two threads.
+> ① §P-SUBST-ENGINE PAIRED RUN RESCUED (data was NOT lost): the s331 in-flight run crashed
+> writing gates.json — `se3 = abs(alpha_delta)>0 and p3<ALPHA` returned a numpy.bool_ (alpha_delta
+> from .mean()), TypeError mid-json.dump, truncating gates.json. BUT results.jsonl (all 37 scored
+> 14B-instruct rows) was flushed FIRST → no inference lost. FIX (f134a5e7 ❌, engineering/autonomous):
+> `se3=bool(...)`, `alpha_delta=float(...)`, + `_json_native` default (np.bool_/integer/floating/
+> ndarray) on both dumps — guards base/32B/OLMo; ruff clean, --validate ALL PASS. 14B-instruct gates
+> RECOVERED offline from the intact results.jsonl (exact run RNG default_rng(99), no reload). Base
+> RELAUNCHED (fixed code) tmux main:1, completed clean (10:24, gates.json fully written). **PAIRED
+> 14B RESULT (data read, NOT closed — closure is approval-gated): NAIVE-SUBST on BOTH faces**
+> (instruct frac_correct 0.056 p=2e-4 · base 0.000 p=2e-5 · acc_ctrl 1.000 both · SE2/SE3 False).
+> **SE4 cross-link FALSIFIED**: predicted instruct>base first-binder intrusions (s328/9 installed-
+> order bridge); measured instruct 0.944 < base 1.000, delta −0.056 p=1.0 → naive substitution is
+> BASE-NATIVE, not post-training-installed. Michael's call = **HOLD, discuss the falsification first**
+> (done): SE1 NAIVE-SUBST is the STRONG low-prior (15) win — a recovered opcode, bug-compatible (§2b),
+> coheres with non-Church §9; SE4 is a WEAK bridge — both faces CEILINGED (17-18/18 naive) → near-
+> powerless (underpowered null ≠ clean falsification) AND a possible REGISTER STRETCH (order law lives
+> in licensing/membership register, substitution-capture in binding/scope register). Does NOT retract
+> s328/9. Honest read banked; a **sub-ceiling capture battery** (easier shadowed pairs with variance)
+> = the properly-powered re-test, named not queued. NOT YET: §Result/memory/closure (Michael-gated);
+> 32B + OLMo matrix; open forks = close-now vs run-matrix-first vs sub-ceiling-re-test.
+> ② 💡 CBLL OPERATOR-GEOMETRY CAPTURED (Michael GO "capture this"): Michael found `~/src/canonical-basis`
+> (Gernone's CBLL paper — MIT code/CC-BY data/PATENT NOTICE; "same phenomenon, different vocabulary").
+> Read it myself (README + paper EN + ablation script + data spot-check, all match). It's a WEIGHT-
+> GEOMETRY program: lossless Householder realignment to a canonical basis (top-K left SVs of W_down),
+> bipolar oscillator/respiration/homeostasis(2-layer)/spectral-collapse/rich-club + causal single-axis
+> ablation (axis-62 → MMLU 47.5→21.25). STRONG resonances w/ our ledger (independent method =
+> consilience ≠ proof): homeostasis-2-layers↔s329 late-commit · rich-club/bipolar↔sign-is-the-decision ·
+> cross-layer U-alignment↔one-reducer-unrolled · isotropic-collapse↔§8c low-entropy read. Michael's
+> three asks → captured to `explore/operator-geometry-la-toolkit.md` (s332): **patent stance** (MATH =
+> public-domain, use freely; write OUR OWN functions for our d_ff/opcode/fate usage; ¬vendor ¬rebrand;
+> novelty = opcode-anchored + operator-first). **The reframe** (we hunt an OPERATOR, CBLL finds BASES →
+> transfer the LA that turns a state-sequence into its operator). **Shared primitive** G=XᵀX. **W_down
+> bridge** cross-Gram Σ VᵀV̂ (register caveat: our centroids at gate-preact, one SiLU upstream). **8-tool
+> ranked toolkit** each w/ null; sharpest = **#1 DMD/Koopman transport operator** T≈X'X⁺ (contracting=
+> homeostasis · persistent=sign-decision · late=s329 commit · stationarity T_ℓ≈T = DIRECT test of
+> one-reducer-unrolled · eigen-rotation=transitions-per-β-step; near-free on §P-SUBST-ENGINE residuals).
+> Our edge: where CBLL's flat spectrum (k90/d≈0.76) makes R non-unique, the Gram/operator never picks a
+> frame. Batch (💡, this commit): knowledge page + memory `operator-not-basis-dmd-is-the-reducer` + INDEX
+> + 2 queue rows (⚪ §P-DMD-TRANSPORT · ⚪ §P-CROSS-GRAM) + this state. NEXT SESSION FIRST ACTION = orient →
+> resolve the §P-SUBST-ENGINE fork with Michael (close-now / run-matrix / sub-ceiling-re-test) OR pick up
+> §P-DMD-TRANSPORT (cheap, near-free, tests the central thesis). Base+instruct 14B results on disk at
+> results/subst-engine/qwen3-14b{,-base}/ (gates.json + results.jsonl), UNCOMMITTED (autonomous results
+> commit rides the closure batch).**
+>
 > ★★ **SESSION 331 — §P-SUBST-ENGINE BUILT + FROZEN; PAIRED DATA RUN IN FLIGHT (⚠ ONE RUN;
 > see below). THE BUILD SESSION: the s330-selected front went spec → three green engineering
 > builds → freeze → smoke (caught a bug, fixed) → traced arm (Michael path b) → paired data
