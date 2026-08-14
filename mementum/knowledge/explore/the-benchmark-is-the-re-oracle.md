@@ -404,6 +404,29 @@ New `src/verbum/probes/subst_pairs.py` (seeded, procedural):
 
 ### Pre-registration (THE FREEZE GATE — Michael GO before any model run)
 
+> **🎯 FROZEN s331 (Michael GO — "1 approved").** Priors and the SE0–SE4
+> verdict tree locked BEFORE any model data. Engineering committed and green:
+> `lambda_ast` binder extension (ec987659) · `subst_pairs` generator (716711c3,
+> 36 capture + 12 alpha, both NFs certified) · `subst_engine` harness
+> (b751acc0, `--validate` PASS, torch boundary held behind the early-return).
+>
+> **A-priori mass (frozen, NOT tuned):** CAPTURE-AVOIDING 30 · NAIVE-SUBST 15 ·
+> DEPTH-DEPENDENT-MIXED 30 · ALPHA-VARIANT-ROUTER 15 · VOID 10. **Honesty flag
+> (s329 discipline):** DEPTH-DEPENDENT-MIXED is BOTH modal-mundane (s319
+> 0.917/0.944≠1.0; cl-collapse ×2 syntactic routing) AND frame-friendly (the
+> order/depth cliff) — it may not be scored as a frame win by default.
+>
+> **Frozen verdict tree (precedence):** VOID(¬SE0) > ALPHA-VARIANT-ROUTER(SE3) >
+> DEPTH-DEPENDENT-MIXED(SE2) > CAPTURE-AVOIDING / NAIVE-SUBST(SE1) > VOID. Gates:
+> SE0 controls ≥ 0.60 · SE1 |frac_correct−0.5| > 0.15 at p<0.05 · SE2 acc falls
+> shallow→deep on any dial (perm null, shallow ≥ 0.60) · SE3 alpha-delta p<0.05
+> (self-null wired) · SE4 instruct naive-intrusion > paired base on shadowed
+> pairs (perm null). Nulls mandatory before any positive is read.
+>
+> **Sweep sequencing:** Qwen3-14B instruct smoke (running, tmux main:1) →
+> paired Qwen3-14B / Qwen3-14B-Base → Qwen3-32B scale → OLMo-2-13B 2nd lineage.
+> White-box (binding edges, s329 commit-layer pin) advisory, post behavioral.
+
 - **Verdict space** (a-priori mass set at freeze, not tuned):
   CAPTURE-AVOIDING (model matches correct algorithm) ·
   NAIVE-SUBST (matches textual replacement) ·

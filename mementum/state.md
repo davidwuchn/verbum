@@ -11,6 +11,43 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 331 — §P-SUBST-ENGINE BUILT + FROZEN + SMOKE IN FLIGHT (⚠ ONE RUN LOADING;
+> see below). THE BUILD SESSION: the s330-selected front went from spec → three green
+> engineering builds → freeze → smoke launch, all in one pass. ① BUILD 1 (ec987659 ✅)
+> `lambda_ast.py` binder extension: `Lam` node · capture-avoiding `substitute` + deliberate
+> `naive_subst` (the §2b rival) · de Bruijn `alpha_eq` · β/η integrated · `Calculus` switches
+> {R_NORMAL,R_WEAK,R_NAIVE,R_CHURCH} (ξ/η/capture — ¬hardcode strong-β, §9) · `affine_ok` +
+> `occurrence_profile`; parser accepts λx./\x. + primed vars; 51 tests incl (λx.λy.x) y →
+> λy'.y (CA) vs λy.y (naive), shadowing, alpha-invariance; full suite 464 green. ② BUILD 2
+> (716711c3 ✅) `probes/subst_pairs.py`: 36 capture pairs (correct_nf≠naive_nf, BOTH certified
+> NF via the reducer) + 12 alpha pairs; dials binder_distance 1–5 · shadow_depth 1–3 ·
+> live_var_count · functional_order 1–2 (§8b order cliff = max cat-order over subterms, reads
+> for free); modes direct/traced; `validate()` PASS. ③ HARNESS (b751acc0 ✅)
+> `scripts/experiments/subst_engine.py`: forced-choice NF-selection readout (linearity_bias
+> pattern, {correct_nf,naive_nf,distractors} by length-norm logprob); PURE gate tree SE0
+> sanity · SE1 algorithm-id · SE2 cliff (per-dial median-split perm null) · SE3 alpha-variance
+> (+ self-null) · SE4 cross-link (paired base/instruct naive-intrusion, perm null); verdict
+> precedence VOID>ALPHA-ROUTER>DEPTH-MIXED>CAPTURE/NAIVE>VOID; `--validate` forces all five
+> verdicts + SE4 direction on planted worlds, torch boundary HELD behind the early-return
+> (NO model in validate). ④ 🎯 FROZEN s331 (Michael GO "1 approved"): a-priori mass
+> CAPTURE-AVOIDING 30 / NAIVE 15 / DEPTH-DEP-MIXED 30 (⚠ modal-mundane AND frame-friendly,
+> s329 honesty flag) / ALPHA-ROUTER 15 / VOID 10; freeze record added to
+> the-benchmark-is-the-re-oracle.md §8 pre-registration; queue row ⚪→🔵 restacked top. ⑤ Model
+> matrix ready: Qwen3-14B + Qwen3-14B-Base DOWNLOADED (Michael); 32B + OLMo-2-1124-13B queued
+> (hf commands given). **⚠ RUN IN FLIGHT (tmux main:1):** `uv run python -u
+> scripts/experiments/subst_engine.py --model-id Qwen/Qwen3-14B --smoke --out
+> results/subst-engine/qwen3-14b-smoke | tee …-run.log` — verified loading weights on MPS
+> (n=8, plumbing smoke, verdict NOT a data read). NEXT SESSION FIRST ACTION = orient →
+> `tmux capture-pane -p -t main:1 | tail` (∨ read the smoke log): if scoring path clean → the
+> PAIRED DATA RUN Qwen3-14B instruct + Qwen3-14B-Base (SE0–SE3 per face + SE4 cross-link),
+> then 32B scale + OLMo 2nd lineage; white-box (binding_graph_trace edges + s329 commit-layer
+> pin) advisory after. Results land autonomous per λ probe_lifecycle; closure batch
+> (§Result + memory + INDEX + queue verdict + state) is Michael-approval-gated. s331 freeze
+> batch (this commit) = 🎯 §8 freeze record + queue 🔵 + this state = MICHAEL APPROVAL BATCH
+> (priors approved). CAUTION: freeze-before-data honored — smoke ≠ data; do NOT read the
+> smoke verdict as a result. Discipline banked: three code commits landed autonomously
+> (engineering); chats/*.md + results/order-reconcile/smoke left untouched (human/stray).**
+>
 > ★★ **SESSION 330 SEALED (nothing in flight, all batches committed; 6 commits + this seal).
 > THE BENCHMARK→RE-ORACLE→IDENTITY SESSION: one idea ("a benchmark for AI based on the lambda
 > calculus") reduced through six Michael moves into: a revised S5 identity, the practiced
