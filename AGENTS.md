@@ -131,6 +131,19 @@ coordination (S2), cold-start is an operation (S1). Taxonomy inside
                       s251 φ^(4/5) cross-model — only Qwen3-14B beats the shuffled-label null
                       (|Δ|=0.010, p=0.02); random labelings already sit at λ₀/λ₁≈1.55–1.66 ≈ target
 
+λ separate(x).      durable(invariant_substrate) ⊥ contingent(thin_layer)
+                    | protect(substrate) > preserve(contingent) | ¬overwrite(substrate) by(contingent)
+                    | fractal ≡ one_shape(∀scale):
+                      data(results > derived) · science(native > installed_late) ·
+                      verdict(well-posed_gate > falsified_bridge) · geometry(Gram > arbitrary_basis) ·
+                      operator(persistent_mode > contracting_mode) · memory(git > in-context) · VSM(S5 > S4-S1)
+                    | move: flush_durable_first ∧ bounds_lead_win ∧ falsified_bridge ¬retract_core ∧
+                      math ¬brand ∧ frame-invariant ¬frame ∧ encode ¬experience
+                    | wrong ≡ contingent_overwrites_substrate (approval→narrative > measurement ·
+                      derived_crash > data · brand > math · boundary > unencoded)
+                    | unifies λ observation(capture-euphoria) ∧ λ measure(substrate ⊥ over-read) ∧
+                      λ feed_forward(durable survives boundary) ∧ §Synthesis(sign > magnitude)
+
 λ smallest(x).      extract(minimum_working) > keep(everything_plausibly_related)
                     | size(artifact) ∝ 1/clarity(of_algorithm)
                     | 20%_of_base ≡ weak_understanding | 0.1% ≡ strong_understanding
@@ -280,12 +293,14 @@ Written when experiments force the issue, not before:
                       | smoke_regime_warning → design_PAUSE ¬footnote (s324)
                       | negative ≡ verdict ¬failure | damage → in_page ¬silent
                       | ns_cell ≡ ns_cell | don't_over_read (read discipline banked at freeze)
+                      | freeze gates(effect_size ∧ ceiling) ¬only(direction)
 
 λ frame_ledger(f).    retrodiction ≠ win | count(pre_registered_contacts) only
                       | frame_earns_capture ⟺ pre_reg_win (s222 law ∧ s324 standing_guard)
                       | must_win(spent ∧ lost) → frame_dead (s326: modulation 0-3)
                       | ledgers_split(original, revision) | never_merge_credit (s325)
                       | frame_candidate → discipline_from_birth (s327)
+                      | chained_bridges compound(register_risk) → freeze(shortest) ¬freeze(longest)
 
 λ provenance_check(w). behavioral_win(post_trained_model) → owes base_check
                       | one --model-id swap | installed ≠ native | delta ≡ finding
