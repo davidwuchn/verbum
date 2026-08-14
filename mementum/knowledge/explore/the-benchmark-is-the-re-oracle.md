@@ -534,9 +534,37 @@ reload); base relaunched on the fixed code and completed clean. Data:
   remain to make "the reducer does naive substitution" a cross-model law rather
   than a Qwen finding.
 
-**Follow-ons (queued, not run):** 32B + OLMo matrix faces (same harness,
-`--model-id` swap) · sub-ceiling capture battery (the powered SE4 re-test) ·
-white-box binding-edge + commit-layer reads (advisory).
+**Follow-ons (queued, not run):** sub-ceiling capture battery (the powered SE4
+re-test) · white-box binding-edge + commit-layer reads (advisory).
+
+#### Matrix extension (s332, Michael-approved) — NAIVE-SUBST is a cross-model law
+
+Two more faces run on the fixed harness (`_json_native` guard held; both clean,
+no crash). **The single-lineage bound above is LIFTED.**
+
+| Face | lineage | frac_correct | n_dec | p1 | SE0 | verdict |
+|---|---|---|---|---|---|---|
+| Qwen3-32B (instruct) | Qwen | 0.188 | 16 | 0.012 | 1.000 | NAIVE-SUBST |
+| OLMo-2-1124-13B (base) | OLMo (Apache) | 0.000 | 15 | 1e-4 | 1.000 | NAIVE-SUBST |
+
+**Durable finding.** NAIVE-SUBST now holds across **four faces, two independent
+lineages** (Qwen + OLMo), scales 13B–32B, both base and instruct — all pick the
+capture-unsafe naive NF, all with controls at ceiling (SE0 1.000), no cliff (SE2
+False), no alpha routing (SE3 False), and tracing never helps
+(`token_budget_null_passed` False everywhere). OLMo's independent Apache
+training confirms it is not a Qwen artifact: **the substitution engine does
+naive substitution as a property of the reducer, not of a training recipe.**
+
+**Thin layer (pattern-suggests, do not over-read).** Among instruct faces, 32B
+is slightly less naive than 14B (frac_correct 0.056 → 0.188 — 3/16 correct vs
+1/18) — a whisper that capture-avoidance might emerge weakly with scale, but
+0.188 is far below chance and clears NAIVE-SUBST decisively. Both base faces are
+0.000. n_dec 15–18 is small; this is a wiggle, not a claim.
+
+**What the matrix does NOT re-test.** It confirms SE1 (algorithm identity)
+only. The base-native/installed result (SE4) stands on the 14B within-lineage
+pair alone — 32B-instruct + OLMo-base are not a pair, so there is no valid SE4
+here. The powered base-native re-test remains the queued sub-ceiling battery.
 
 ### Model matrix (Michael's constraints: 14B+, instruct-heavy, few bases)
 

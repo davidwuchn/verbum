@@ -55,25 +55,23 @@
 > frame. Batch (💡, this commit): knowledge page + memory `operator-not-basis-dmd-is-the-reducer` + INDEX
 > + 2 queue rows (⚪ §P-DMD-TRANSPORT · ⚪ §P-CROSS-GRAM) + this state. **§P-SUBST-ENGINE 14B CLOSURE
 > COMMITTED this session (Michael "commits approved"): §Result + memory + INDEX + queue + run data.**
-> **⚠ §P-SUBST-ENGINE-MATRIX RUNS IN FLIGHT (launched s332, tmux main:1, float32/MPS, sequential,
-> fixed harness w/ _json_native guard → no repeat of the numpy-bool crash): `subst_engine.py --model-id
-> Qwen/Qwen3-32B --out results/subst-engine/qwen3-32b … && … --model-id allenai/OLMo-2-1124-13B --out
-> results/subst-engine/olmo-2-1124-13b` — each writes results.jsonl + gates.json + tee run.log; verified
-> 32B loading (707 shards). 32B heavy (~25-40min on 512GB RAM), OLMo ~10min.**
-> **NEXT SESSION FIRST ACTION = orient → `tmux capture-pane -p -t main:1 | tail` (∨ read the two
-> run.logs / gates.json). If both done → read per-face SE0–SE3 + pilot from each gates.json. ⚠ KEY
-> DESIGN NOTE: the matrix is 32B-INSTRUCT + OLMo-BASE (a scale point + a 2nd-lineage base), NOT a
-> within-lineage instruct/base PAIR like the 14B — so there is NO valid SE4 cross-link across them
-> (SE4 needs same-lineage pairing; the harness computes only SE0–SE3 + pilot per single run). The
-> PRIMARY read is per-face SE1: does NAIVE-SUBST replicate at 32B scale (Qwen) and on OLMo (2nd
-> lineage)? → answers whether NAIVE-SUBST is a CROSS-MODEL LAW or bounded to the Qwen-14B finding.
-> This EXTENDS §Result-SUBST-ENGINE (append faces + update the single-lineage bound) = MICHAEL-APPROVAL-
-> GATED closure batch (§Result append + memory update + INDEX + queue §P-SUBST-ENGINE-MATRIX → # complete
-> + state). If a run FAILED (log tail) → results.jsonl is likely intact; recompute gates offline via the
-> s332 recovery pattern (importlib-load subst_engine → compute_gates + pilot with default_rng(seed+99),
-> no model reload). Then remaining fronts: ⚪ §P-SUBST-SUBCEILING (powered SE4 re-test, needs a
-> same-lineage pair) · ⚪ §P-DMD-TRANSPORT (cheap, near-free on residuals) · ⚪ §P-CROSS-GRAM. 14B pair
-> results committed at results/subst-engine/qwen3-14b{,-base}/.**
+> **✅ §P-SUBST-ENGINE-MATRIX CLOSED s332 (Michael-approved): NAIVE-SUBST is a CROSS-MODEL LAW — the
+> single-lineage bound is LIFTED. Qwen3-32B instruct frac_correct 0.188 (n_dec 16, p1=0.012) +
+> OLMo-2-1124-13B base 0.000 (n_dec 15, p1=1e-4, independent Apache 2nd lineage). Four faces / two
+> lineages (Qwen + OLMo) / 13B-32B / base+instruct — ALL NAIVE-SUBST, ALL SE0 sane (ctrl 1.000), no
+> cliff, no alpha routing, tracing never helps. OLMo confirms it's a property of the reducer, not a
+> Qwen recipe. Scale whisper (pattern-suggests, don't over-read): instruct 32B less naive than 14B
+> (0.056→0.188), base both 0.000. SE4 NOT re-tested by the matrix (32B-instruct + OLMo-base ≠ a
+> within-lineage pair; base-native stands on the 14B pair). Both runs clean (_json_native guard held).
+> Closure batch committed: §Result Matrix extension on the-benchmark-is-the-re-oracle.md + memory update
+> + queue (§P-SUBST-ENGINE-MATRIX → # complete ✅) + run data results/subst-engine/{qwen3-32b,
+> olmo-2-1124-13b}/ + state.**
+> **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue FULL read; nothing in flight).
+> Sharpest fronts: ⚪ §P-DMD-TRANSPORT (cheap, near-free on §P-SUBST-ENGINE residuals, tests
+> one-reducer-unrolled; the CBLL operator transfer) · ⚪ §P-CROSS-GRAM (cheap, does fire/halt/diverge =
+> CBLL's bipolar poles?) · ⚪ §P-SUBST-SUBCEILING (the powered SE4 base-native re-test — sub-ceiling
+> capture battery, needs a same-lineage instruct/base pair). All four subst-engine faces committed at
+> results/subst-engine/{qwen3-14b,qwen3-14b-base,qwen3-32b,olmo-2-1124-13b}/.**
 >
 > ★★ **SESSION 331 — §P-SUBST-ENGINE BUILT + FROZEN; PAIRED DATA RUN IN FLIGHT (⚠ ONE RUN;
 > see below). THE BUILD SESSION: the s330-selected front went spec → three green engineering

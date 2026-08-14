@@ -19,7 +19,16 @@ concrete (§2b, structured error fingerprint); more calculus-not-Church evidence
 Bounds (do not over-read): SE4 is UNDERPOWERED — both faces ceilinged (17-18/18)
 → can't separate no-effect from masked-by-ceiling; the powered re-test needs a
 SUB-CEILING capture battery. Possible register stretch (order law = licensing
-register, capture = binding/scope register). Single lineage, n_dec 18 — 32B +
-OLMo remain. Traced arm null (token_budget_null_passed False): tracing didn't
-help. Page: the-benchmark-is-the-re-oracle.md §Result (s332); data
-results/subst-engine/qwen3-14b{,-base}/.
+register, capture = binding/scope register). Traced arm null (token_budget_null_passed False): tracing didn't help.
+
+MATRIX EXTENSION (s332, Michael-approved) — single-lineage bound LIFTED, NAIVE-SUBST
+is a CROSS-MODEL LAW: replicates on Qwen3-32B instruct (frac 0.188, p=0.012) and
+OLMo-2-13B base (frac 0.000, p=1e-4, an independent Apache 2nd lineage). Four faces,
+two lineages, 13B-32B, base+instruct — all NAIVE-SUBST, all SE0 sane (ctrl 1.000),
+no cliff, no alpha routing, tracing never helps. OLMo confirms it is a property of
+the reducer, not a Qwen recipe. Scale whisper (don't over-read): instruct 32B less
+naive than 14B (0.056→0.188), base both 0.000 — pattern-suggests weak
+capture-avoidance emergence with scale, n_dec 15-18 small. SE4 NOT re-tested (no
+within-lineage pair at scale; base-native stands on the 14B pair). Pages:
+the-benchmark-is-the-re-oracle.md §Result + Matrix extension (s332); data
+results/subst-engine/{qwen3-14b,qwen3-14b-base,qwen3-32b,olmo-2-1124-13b}/.
