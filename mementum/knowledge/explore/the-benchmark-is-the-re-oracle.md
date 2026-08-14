@@ -408,7 +408,13 @@ New `src/verbum/probes/subst_pairs.py` (seeded, procedural):
 > verdict tree locked BEFORE any model data. Engineering committed and green:
 > `lambda_ast` binder extension (ec987659) · `subst_pairs` generator (716711c3,
 > 36 capture + 12 alpha, both NFs certified) · `subst_engine` harness
-> (b751acc0, `--validate` PASS, torch boundary held behind the early-return).
+> (b751acc0, `--validate` PASS, torch boundary held behind the early-return) ·
+> candidate-drop fix (1947c630, ❌ smoke-caught: atom/closed-lambda NFs couldn't
+> triple-option so controls were silently dropped — instrument fix, gates
+> untouched) · traced arm + token-budget null (cc1828cc, ✅ Michael path b — the
+> folded pilot; three id-level arms direct/traced/null, null = same generated
+> trace tokens SHUFFLED so budget is exactly matched; `pilot()` advisory reads
+> the DIRECT arm for SE0–SE4, untouched).
 >
 > **A-priori mass (frozen, NOT tuned):** CAPTURE-AVOIDING 30 · NAIVE-SUBST 15 ·
 > DEPTH-DEPENDENT-MIXED 30 · ALPHA-VARIANT-ROUTER 15 · VOID 10. **Honesty flag
@@ -423,9 +429,19 @@ New `src/verbum/probes/subst_pairs.py` (seeded, procedural):
 > (self-null wired) · SE4 instruct naive-intrusion > paired base on shadowed
 > pairs (perm null). Nulls mandatory before any positive is read.
 >
-> **Sweep sequencing:** Qwen3-14B instruct smoke (running, tmux main:1) →
-> paired Qwen3-14B / Qwen3-14B-Base → Qwen3-32B scale → OLMo-2-13B 2nd lineage.
-> White-box (binding edges, s329 commit-layer pin) advisory, post behavioral.
+> **Pilot / token-budget null (folded, cc1828cc):** traced arm = the model
+> GENERATES its own reduction, then forced-choice; the null shuffles those same
+> trace tokens (length-matched). A real reduction benefit requires
+> acc(traced) > acc(null) — else the traced gain is just tokens-in-context (the
+> FUEL/TRACE-FUEL/NF-GAUGE ×3 confound). `token_budget_null_passed` is the
+> non-negotiable gate before any traced positive is read.
+>
+> **Sweep sequencing:** smoke ✓ (14B, plumbing confirmed) → **paired Qwen3-14B /
+> Qwen3-14B-Base RUNNING (tmux main:1, float32/MPS, ~2–3h; the REAL data run)** →
+> Qwen3-32B scale → OLMo-2-1124-13B 2nd lineage (all four DOWNLOADED s331) →
+> white-box (binding_graph_trace edges + s329 commit-layer pin) advisory, post
+> behavioral. Results auto-commit (λ probe_lifecycle); the SE0–SE4 + pilot
+> closure batch is Michael-approval-gated.
 
 - **Verdict space** (a-priori mass set at freeze, not tuned):
   CAPTURE-AVOIDING (model matches correct algorithm) ·
