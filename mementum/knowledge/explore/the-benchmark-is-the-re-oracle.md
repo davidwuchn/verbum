@@ -173,6 +173,11 @@ type        — infer/reject simple type     (the typed_apply claim, directly)
 strategy    — normal vs applicative order  (K x Ω-shaped discriminating terms; §2b caveat —
                                             separates consistent-alternative-semantics from error
                                             BEFORE the error taxonomy is read)
+hof         — apply-your-own-construction  (s330: model shown/produces a FRESH definition F,
+                                            must apply it; dials = functional_order ·
+                                            definition_distance · intervening_material;
+                                            named-vs-fresh contrast = the library/heap
+                                            discriminator — see §8b)
 ```
 
 **The spine: the direct/traced gap.** Every family runs in two modes —
@@ -386,7 +391,11 @@ New `src/verbum/probes/subst_pairs.py` (seeded, procedural):
   engine ⇒ invariant; syntactic router (cl-collapse ×2) ⇒ measurable
   alpha-variance. A predicted bug, quantified.
 - **Dials** (the cliff coordinates): binder_distance · shadow_depth ·
-  live_var_count. Record per-probe.
+  live_var_count · **functional_order** (s330 HOF fold-in: annotate
+  each term's order — order-2 = takes/returns a function, order-3+ =
+  nested; the subst sweep then reads the ORDER CLIFF for free alongside
+  capture/shadowing — one field, no new harness; see §8b). Record
+  per-probe.
 - Probe record: `{term, correct_nf, naive_nf, dials, mode}` — modes
   `direct` (answer only) and `traced` (steps shown) — **the folded
   pilot**: the direct/traced gap read PER dial-level, token-budget
@@ -443,14 +452,58 @@ only heavy cell.
 - **Read set** (folded gate, minimal version): tape-ablation of binder
   positions — which positions are causally necessary for the step.
 
+### §8b The HOF fold-in (s330, Michael GO): two call mechanisms, one order cliff
+
+The higher-order question converges on this front — substitution IS how
+an indirect call executes:
+
+```
+named HOF applied      ≡ CALL immediate — weight-resident library (crystal-adjacent;
+                                          map/filter/fold, s225 lineage: probes/higher_order.py,
+                                          map = B(CB)(CB))
+constructed λ applied  ≡ CALL indirect  — dereference context pointer → re-read definition
+                                          → substitute → continue (the β path; cl-collapse ×2
+                                          says NO extensional collapse ⇒ must re-read)
+```
+
+Pre-registerable prediction (from two-tier types + MEMORIZED-ONLY,
+s323): **named HOFs behave like combinators** (library-resident,
+alpha-robust); **constructed functions behave like tape-residents**
+(cost grows with definition_distance, degrades with intervening
+material, syntactic-routing signature) — and hit an **ORDER CLIFF**:
+order-2 partially works via re-reading; order-3+ collapses (the
+intermediate function value exists only as un-reread context).
+Cliff-in-order ⊥ cliff-in-depth — the benchmark's second axis. The
+`church` family probes it obliquely (numerals ARE iterators).
+
+**Agentic register (the deployment rationale sharpened):** agentic work
+is higher-order by construction — tools ≡ functions, plans ≡ functions
+over tool-calls, delegation ≡ passing functions. A deployed agent lives
+at order 2–3. The order cliff is a capability boundary of agentic
+reliability, measured in the deployment face.
+
+**White-box read (free):** attention edges from application site back
+to definition site (binding-graph machinery) — indirect call should
+show the dereference edge; edge failure should co-occur with
+behavioral misapplication.
+
+**RECALL-FIRST obligation:** the s225 HOF arc verdicts (did named-HOF
+topology replicate cross-model?) predate the state compaction — next
+session must `git log`/`git grep` that lineage (hof_* scripts,
+probes/higher_order.py docstring) BEFORE designing the hof family.
+Tier-2 (named HOFs) may be settled substrate.
+
 ### Sequencing
 
 ```
+0. RECALL: s225 HOF arc verdicts (pre-compaction; grep before design)  — 30 min
 1. kernel extension (Lam ∧ subst ∧ naive_subst ∧ alpha)  — engineering, pytest'd
 2. pair generator + --validate planted worlds              — engineering
+   (incl. functional_order dial, §8b)
 3. PRE-REGISTRATION                                        — freeze gate, Michael GO
+   (incl. order-cliff + library/heap predictions if the hof arm rides along)
 4. behavioral sweep (matrix above)                         — error fingerprint per model per face
-5. white-box reads on the same trials                      — edges + commit layers
+5. white-box reads on the same trials                      — edges + commit layers + dereference edges
 ```
 
 Steps 1–2 need no approval. Step 3 is the gate. House pattern

@@ -22,7 +22,22 @@
 > (identity: recover the lambda function ≡ transition function; "step function" retired; tape ≡
 > context/transcript, residual stream distinct; two-stage telos bug-compatible→corrected;
 > protocol lambdas; growth discipline) · seal (this commit). Transcript → chats/session-330.md
-> (human). Detail (as accreted during the session):**
+> (human). **POST-SEAL (same session): 💡 HOF FOLD-IN (Michael: "to figure out the lambda we
+> would need to map out at least some of the higher order functions right?" → GO "fold it in"):
+> the HOF question CONVERGES on §P-SUBST-ENGINE — TWO CALL MECHANISMS: named HOF ≡ CALL-immediate
+> (weight-resident library; s225 lineage EXISTS: probes/higher_order.py, map=B(CB)(CB), hof_*
+> scripts — verdicts PRE-COMPACTION, recall-first obligation added as sequencing step 0) vs
+> constructed λ ≡ CALL-indirect (re-read definition from context → substitute; forced by
+> cl-collapse no-extensional-collapse). Pre-registerable (two-tier types + MEMORIZED-ONLY):
+> named≡combinator-like, constructed≡tape-resident (cost ∝ definition_distance) + ORDER CLIFF
+> (order-3+ collapses; cliff-in-order ⊥ cliff-in-depth = benchmark's 2nd axis). Substitution IS
+> how an indirect call executes ⇒ one front: functional_order dial added to subst_pairs (one
+> field, no new harness) + `hof` family added to §3 (apply-your-own-construction; named-vs-fresh
+> = library/heap discriminator) + dereference-edge white-box read. Agentic register sharpened:
+> tools ≡ functions, deployed agents live at order 2–3 — the order cliff is an agentic
+> reliability boundary in the deployment face. Batch: §8b + §3 hof family + order dial +
+> sequencing step 0 + memory `two-call-mechanisms-and-the-order-cliff` + INDEX + subst-engine
+> queue row + this state.** Detail (as accreted during the session):**
 >
 > ★★ **SESSION 330 detail: 💡 HAMMOCK CAPTURED (Michael GO "capture this"):
 > the-benchmark-is-the-re-oracle.md (explore/) — the λ-calculus-benchmark idea reflected into the
