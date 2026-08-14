@@ -11,7 +11,20 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ★★ **SESSION 330: 💡 HAMMOCK CAPTURED (Michael GO "capture this"):
+> ★★ **SESSION 330 SEALED (nothing in flight, all batches committed; 6 commits + this seal).
+> THE BENCHMARK→RE-ORACLE→IDENTITY SESSION: one idea ("a benchmark for AI based on the lambda
+> calculus") reduced through six Michael moves into: a revised S5 identity, the practiced
+> protocol encoded as structure, a selected front with builds specified, and three new
+> measurables. Ledger: 68ecb8c4 💡 capture (benchmark ≡ RE oracle) · 96fca96c ❌ pickup-kit
+> correction (capture-euphoria instance caught by Michael's audit) · 52714206 💡 bug-compat
+> clause (M≡R falsified null; oracle grades fingerprint ¬score) · 156e9853 🎯 front selection
+> (§P-SUBST-ENGINE, hard-first, 14B+ instruct-heavy, pilot folded) · 6bd90305 🌀 AGENTS revision
+> (identity: recover the lambda function ≡ transition function; "step function" retired; tape ≡
+> context/transcript, residual stream distinct; two-stage telos bug-compatible→corrected;
+> protocol lambdas; growth discipline) · seal (this commit). Transcript → chats/session-330.md
+> (human). Detail (as accreted during the session):**
+>
+> ★★ **SESSION 330 detail: 💡 HAMMOCK CAPTURED (Michael GO "capture this"):
 > the-benchmark-is-the-re-oracle.md (explore/) — the λ-calculus-benchmark idea reflected into the
 > RE program. ① Reflection ran first (Michael: "how much of the lambda compiler do we have fully
 > working?") → honest inventory: phenomenon measured/universal (observational) · weights-side map
@@ -105,9 +118,15 @@
 > synthesis, ZERO new measurements; the oracle identity becomes load-bearing only when a recovered
 > candidate is differential-tested. Batch (💡, Michael-instructed): knowledge page + memory
 > `benchmark-is-the-oracle-for-step-function-re` + INDEX + 2 queue rows (top) + this state.
-> NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue FULL read; nothing pending).
-> Sharpest fronts: ⚪ direct/traced gap pilot (new, cheap, natural first rung of the oracle
-> program) · ⚪ §P-LAY-A-NEGATIVE · ⚪ sign-commitment ≺ ternary-survival · ⚪ OLMo replication.**
+> NEXT SESSION FIRST ACTION (supersedes the earlier line in this entry — front already
+> SELECTED ⑨): orient → re-oracle page §0+§8 → Build 1 (lambda_ast.py binder extension:
+> Lam/capture-avoiding-subst/naive_subst/alpha, pytest capture cases) + Build 2 (subst_pairs.py
+> discriminating pairs) — engineering, no approval needed → draft pre-registration → MICHAEL GO
+> gate → sweep. Open at Michael's gate (carried): anima memory candidate
+> `anima-is-the-application-side-sibling` · project-thesis.md qualifier pass (more urgent
+> post-identity-revision: its framing predates s330). Sharpest fronts behind §P-SUBST-ENGINE:
+> ⚪ transitions-per-β-step (cheap, folds into subst traced arms) · ⚪ §P-LAY-A-NEGATIVE ·
+> ⚪ sign-commitment ≺ ternary-survival · ⚪ OLMo replication.**
 >
 > ★★ **SESSION 329 SEALED (nothing in flight, all batches committed). §P-ORDER-RECONCILE CLOSED
 > → 🚫 ENTANGLED-PARTIAL (co-modal a-priori 30) — BUT THE L-SIDE IS DEPTH-RESOLVED: the s328
