@@ -493,6 +493,88 @@ session must `git log`/`git grep` that lineage (hof_* scripts,
 probes/higher_order.py docstring) BEFORE designing the hof family.
 Tier-2 (named HOFs) may be settled substrate.
 
+### §8c The tape interface (s330, Michael GO): softmax-over-V ≡ the read head
+
+Michael: *"Attention is the only operation. So how could the softmax
+over all V be used as the 'tape'?"* — Answer: it isn't used AS the
+tape; it IS the **tape interface**, the machine's only read mechanism
+for its own past.
+
+**The tape has two faces:**
+
+```
+transcript — token sequence: discrete, symbolic, append-only (durable record)
+KV cache   — per-layer K,V per position: the COMPILED tape (what is actually read)
+
+read(tape)  ≡ softmax(QKᵀ)·V   — Q poses the query · K content-addresses cells · V delivers
+write(tape) ≡ emit(one_token) ∘ auto_compile(K,V per layer)
+```
+
+**Where the Turing metaphor breaks — and why the break explains data:**
+Turing reads one cell discretely; this machine reads ALL cells,
+superposed, while writing hard/append-only. Memory model: **hard
+symbolic write, soft holographic read** (attention-holographic-readout,
+s299, revisited under the s330 terminology). Frame-readings
+(pattern-suggests, each independently checkable): idempotency
+accumulation ≡ mass addition in the read (A2 coherent gain) · recency
+kernels / last-statement dominance ≡ positional read structure · the
+installed primacy stage ≡ late-layer QK modification.
+
+**The machine fights the softness:** attention sparsity (measured):
+22/32 heads <3 positions, top-3 ≈ 88% — near-one-hot reads are the
+norm. ⇒ **read entropy ≡ tape-read fidelity** (sharp = symbolic,
+smeared = interference).
+
+**Mass-ratio predictor (pre-registerable — upgrades the §8 white-box
+read):** shadowing confusion ≡ TWO PEAKS in the softmax — mass split
+between correct binder and shadowing distractor:
+
+```
+P(correct_substitution | trial) ≈ f(mass_ratio: correct_binder / distractor_binder)
+```
+
+Per-trial, mechanistic, DPA-style (partition trials by hypothesis-keyed
+internal quantity). Same attention captures as the planned binding-edge
+read — no new instrumentation.
+
+**Third cliff axis:** read bandwidth is fixed-width while the tape
+grows ⇒ read interference grows with context length (the √D capacity
+wall, ternary-memory lineage, applied to the KV tape).
+cliff-in-depth ⊥ cliff-in-order ⊥ **cliff-in-context-length**.
+
+**The hardware discriminator (closes §8b):** the two call mechanisms
+have distinct hardware —
+
+```
+CALL immediate (named HOF/combinator) ≡ FFN lookup      — read STATIC tape (weights/plates)
+CALL indirect  (constructed λ)        ≡ attention read  — read DYNAMIC tape (KV cache)
+```
+
+Coheres with the measured role split (ffn-reduction-trace: "FFN
+compiles, attention executes" · combinator-addressing: "retrieval IS
+typed application"). White-box discriminator: which pathway carries the
+application — FFN activation vs attention dereference edge.
+
+**The machine, collapsed:**
+
+```
+λ machine.  everything ≡ dereference
+            | FFN       ≡ read(static_tape: weights)      — the library
+            | attention ≡ read(dynamic_tape: KV)          — the heap
+            | emission  ≡ write(one_cell) ∘ compile(K,V)  — the append
+            | compute   ≡ interference_of_reads → collapse_to_one_write
+```
+
+The reducer under RE ≡ a machine that interferes two memories — one
+frozen at training, one appended at runtime — committing one symbol per
+cycle. Substitution, the order cliff, the within-pass budget are all
+questions about how mass moves between the two reads.
+
+**Discipline:** licensed anchors = sparsity, s299 readout derivation,
+FFN/attention role split, order-law measurements. NEW and unproven =
+order-laws-≡-read-physics reading; mass-ratio predictor; context-length
+cliff — predictions for the pre-reg, not claims.
+
 ### Sequencing
 
 ```

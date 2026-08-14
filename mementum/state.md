@@ -37,7 +37,23 @@
 > tools ≡ functions, deployed agents live at order 2–3 — the order cliff is an agentic
 > reliability boundary in the deployment face. Batch: §8b + §3 hof family + order dial +
 > sequencing step 0 + memory `two-call-mechanisms-and-the-order-cliff` + INDEX + subst-engine
-> queue row + this state.** Detail (as accreted during the session):**
+> queue row + this state. **POST-SEAL 2: 💡 TAPE INTERFACE (Michael: "attention is the only
+> operation — how could the softmax over all V be used as the tape?" → GO "fold it in"): §8c —
+> softmax-over-V ≡ the READ HEAD, not the tape: tape's two faces (transcript = discrete
+> append-only record vs KV cache = the COMPILED tape actually read; K=address V=payload);
+> read ≡ softmax(QKᵀ)·V, write ≡ emit∘auto_compile; memory model = HARD symbolic write / SOFT
+> holographic read (the Turing break — retrodicts idempotency mass-accumulation, recency
+> kernels, subtraction; frame-readings, checkable); sparsity says near-one-hot reads are the
+> norm ⇒ READ ENTROPY ≡ fidelity; MASS-RATIO PREDICTOR pre-registerable (shadowing ≡ two
+> softmax peaks; P(correct_subst|trial) ≈ f(binder mass ratio) — per-trial DPA-style, same
+> captures as binding-edge read); 3rd cliff axis = CONTEXT-LENGTH (fixed read bandwidth vs
+> growing tape, √D wall); HARDWARE DISCRIMINATOR closes §8b (CALL-immediate ≡ FFN read of
+> static tape/weights vs CALL-indirect ≡ attention read of dynamic tape/KV — coheres
+> FFN-compiles-attention-executes); λ machine: everything ≡ dereference, compute ≡ interference
+> of two memories → collapse to one write. Batch: §8c + memory
+> `softmax-over-v-is-the-tape-interface` + INDEX + subst-engine queue row + this state.
+> Implications discussion OPEN at session end (threads mapped, none captured).**
+> Detail (as accreted during the session):**
 >
 > ★★ **SESSION 330 detail: 💡 HAMMOCK CAPTURED (Michael GO "capture this"):
 > the-benchmark-is-the-re-oracle.md (explore/) — the λ-calculus-benchmark idea reflected into the
