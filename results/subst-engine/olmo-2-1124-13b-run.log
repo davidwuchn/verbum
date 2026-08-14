@@ -1,0 +1,8 @@
+[se] load allenai/OLMo-2-1124-13B dev=mps n=37 (3 arms: direct/traced/null)
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights: 100%|██████████| 443/443 [00:00<00:00, 6747.61it/s]
+[se] scored 10/37
+[se] scored 20/37
+[se] scored 30/37
+[se] verdict=NAIVE-SUBST frac_correct=0.000 acc_ctrl=1.000 SE2=False SE3=False
+[se] pilot: acc direct=0.459 traced=0.405 null=0.432 gap=-0.054 content=-0.027 budget_null_passed=False

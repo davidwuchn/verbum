@@ -1,0 +1,39 @@
+{
+  "model_id": "allenai/OLMo-2-1124-13B",
+  "seed": 0,
+  "pilot": {
+    "acc_direct": 0.4594594594594595,
+    "acc_traced": 0.40540540540540543,
+    "acc_null": 0.43243243243243246,
+    "direct_traced_gap": -0.05405405405405406,
+    "trace_content_effect": -0.02702702702702703,
+    "p_content": 1.0,
+    "token_budget_null_passed": false,
+    "n_scored": 37
+  },
+  "verdict": "NAIVE-SUBST",
+  "SE0": true,
+  "SE2": false,
+  "SE3": false,
+  "acc_control": 1.0,
+  "acc_capture": 0.0,
+  "frac_correct": 0.0,
+  "n_decisive": 15,
+  "p1": 0.00010751117672950085,
+  "cliff": {
+    "binder_distance": {
+      "stat": 0.0,
+      "p": 1.0
+    },
+    "shadow_depth": {
+      "stat": 0.0,
+      "p": 1.0
+    },
+    "functional_order": {
+      "stat": 0.0,
+      "p": 1.0
+    }
+  },
+  "alpha_delta": 0.0,
+  "p3": 1.0
+}
