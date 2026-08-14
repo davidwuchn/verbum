@@ -213,8 +213,11 @@ _CONTROL_TERMS = (
 
 
 def build_battery() -> list[dict]:
-    """Every scored item: controls (SE0) + capture pairs (SE1/SE2/SE4) + alpha
-    pairs (SE3). ``surface`` distinguishes term vs alpha-variant presentations."""
+    """One record per UNIQUE term (each scored under three presentation arms —
+    direct / traced / token-budget-null — in the scoring loop). Sources are the
+    direct-mode subst_pairs probes (the traced/direct split is now a scoring-time
+    arm, not a duplicated probe): controls (SE0) + capture (SE1/SE2/SE4) + alpha
+    (SE3). ``surface`` distinguishes term vs alpha-variant presentations."""
     recs: list[dict] = []
 
     for i, src in enumerate(_CONTROL_TERMS):
@@ -223,20 +226,22 @@ def build_battery() -> list[dict]:
             "id": f"ctrl_{i:03d}", "family": "control", "surface": "term",
             "prompt": src, "correct_nf": nf, "naive_nf": None,
             "binder_distance": 0, "shadow_depth": 0, "functional_order": 0,
-            "mode": "direct",
         })
 
     for p in capture_pairs():
+        if p.mode != "direct":  # dedupe: one record per term, arms handled at scoring
+            continue
         recs.append({
             "id": p.id, "family": "capture", "surface": "term",
             "prompt": p.term, "correct_nf": p.correct_nf, "naive_nf": p.naive_nf,
             "binder_distance": p.dials.binder_distance,
             "shadow_depth": p.dials.shadow_depth,
             "functional_order": p.dials.functional_order or 0,
-            "mode": p.mode,
         })
 
     for p in alpha_pairs():
+        if p.mode != "direct":
+            continue
         for surface, prompt in (("term", p.term), ("variant", p.alpha_variant)):
             recs.append({
                 "id": f"{p.id}_{surface}", "family": "alpha", "surface": surface,
@@ -244,7 +249,6 @@ def build_battery() -> list[dict]:
                 "binder_distance": p.dials.binder_distance,
                 "shadow_depth": p.dials.shadow_depth,
                 "functional_order": p.dials.functional_order or 0,
-                "mode": p.mode,
             })
     return recs
 
@@ -389,6 +393,36 @@ def se4_crosslink(recs_instruct: list[dict], recs_base: list[dict], rng) -> dict
     }
 
 
+def pilot(recs: list[dict], rng) -> dict:
+    """The folded direct/traced pilot (advisory register — NOT a frozen verdict
+    gate). Reads the three per-item arms:
+
+      direct  — score forced-choice immediately
+      traced  — model generates its own reduction, then score
+      null    — same generation TOKENS shuffled (token-budget matched)
+
+    direct_traced_gap = acc(traced) - acc(direct). The MANDATORY token-budget
+    null: a real reduction benefit requires acc(traced) > acc(null); if not, the
+    traced gain is just more tokens in context (the FUEL/TRACE-FUEL/NF-GAUGE x3
+    confound). ``token_budget_null_passed`` iff the content effect clears it."""
+    scored = [r for r in recs if "correct_traced" in r and "correct_null" in r]
+    if not scored:
+        return {"pilot": "none"}
+    d = np.array([r["correct"] for r in scored], float)
+    t = np.array([r["correct_traced"] for r in scored], float)
+    n = np.array([r["correct_null"] for r in scored], float)
+    content = float(t.mean() - n.mean())
+    p_content = _perm_p_delta(t, n, rng) if content != 0.0 else 1.0
+    return {
+        "acc_direct": float(d.mean()), "acc_traced": float(t.mean()),
+        "acc_null": float(n.mean()),
+        "direct_traced_gap": float(t.mean() - d.mean()),
+        "trace_content_effect": content, "p_content": p_content,
+        "token_budget_null_passed": bool(content > 0 and p_content < ALPHA),
+        "n_scored": len(scored),
+    }
+
+
 # ══════════════════════════════════════════════════════════════════════════
 # --validate — planted worlds force each verdict; NO model loaded
 # ══════════════════════════════════════════════════════════════════════════
@@ -448,6 +482,24 @@ def _planted_pair(rng) -> tuple[list[dict], list[dict]]:
                             "functional_order": 1})
         return out
     return run(0.55), run(0.15)  # instruct, base
+
+
+def _planted_pilot(kind: str, rng) -> list[dict]:
+    """Pilot records with three arms. 'trace_helps': traced beats BOTH direct and
+    the token-budget null (real reduction content). 'budget_only': traced beats
+    direct but NOT the null (gain is just token budget)."""
+    recs = []
+    for _ in range(60):
+        d = rng.random() < 0.50
+        if kind == "trace_helps":
+            t, nl = rng.random() < 0.90, rng.random() < 0.55
+        else:  # budget_only — traced and null equally (falsely) elevated
+            t, nl = rng.random() < 0.85, rng.random() < 0.85
+        recs.append({"family": "capture", "surface": "term",
+                     "correct": d, "naive": False,
+                     "correct_traced": t, "correct_null": nl,
+                     "binder_distance": 1, "shadow_depth": 1, "functional_order": 1})
+    return recs
 
 
 def validate() -> bool:
@@ -544,6 +596,18 @@ def validate() -> bool:
           f"p3={g_flat['p3']:.3f} -> {not g_flat['SE3']}")
     ok &= not g_flat["SE3"]
 
+    # ── primitive 5: pilot token-budget null — trace-CONTENT passes, budget fails ──
+    ph = pilot(_planted_pilot("trace_helps", np.random.default_rng(21)), rng)
+    pb = pilot(_planted_pilot("budget_only", np.random.default_rng(22)), rng)
+    pilot_ok = ph["token_budget_null_passed"] and not pb["token_budget_null_passed"]
+    print(f"[validate] pilot token-budget null: trace_helps "
+          f"gap={ph['direct_traced_gap']:+.2f} "
+          f"content={ph['trace_content_effect']:+.2f} "
+          f"pass={ph['token_budget_null_passed']} | budget_only "
+          f"content={pb['trace_content_effect']:+.2f} "
+          f"pass={pb['token_budget_null_passed']} -> {pilot_ok}")
+    ok &= pilot_ok
+
     print(f"[validate] {'ALL PASS' if ok else 'FAIL'}")
     return ok
 
@@ -551,7 +615,7 @@ def validate() -> bool:
 # ══════════════════════════════════════════════════════════════════════════
 # main — model load + forced-choice scoring (the torch boundary; held for GO)
 # ══════════════════════════════════════════════════════════════════════════
-_FEWSHOT = (
+_FEWSHOT_DIRECT = (
     "Reduce each lambda-calculus term to its normal form, renaming bound "
     "variables as needed to avoid variable capture.\n\n"
     "Term: (λx.x) a\nNormal form: a\n\n"
@@ -559,20 +623,47 @@ _FEWSHOT = (
     "Term: (λf.λx.f (f x)) g z\nNormal form: g (g z)\n\n"
 )
 
+_FEWSHOT_TRACED = (
+    "Reduce each lambda-calculus term to normal form, showing each "
+    "beta-reduction step and renaming bound variables to avoid capture.\n\n"
+    "Term: (λx.λy.x) p q\n"
+    "Steps: (λx.λy.x) p q -> (λy.p) q -> p\n"
+    "Normal form: p\n\n"
+    "Term: (λf.λx.f (f x)) g z\n"
+    "Steps: (λf.λx.f (f x)) g z -> (λx.g (g x)) z -> g (g z)\n"
+    "Normal form: g (g z)\n\n"
+)
+_TRACE_SUFFIX = "\nNormal form:"
 
-def _score(model, tok, dev, prompt: str, continuation: str) -> float:
-    """Length-normalized logprob of `continuation` given `prompt` (torch boundary)."""
+
+def _score_ids(model, dev, prefix_ids, cont_ids) -> float:
+    """Length-normalized logprob of `cont_ids` given `prefix_ids` (id-level, so the
+    token-budget null stays EXACTLY length-matched). Torch boundary."""
     import torch
-    p_ids = tok(prompt, return_tensors="pt").input_ids[0]
-    c_ids = tok(continuation, add_special_tokens=False,
-                return_tensors="pt").input_ids[0]
-    full = torch.cat([p_ids, c_ids]).unsqueeze(0).to(dev)
+    full = torch.cat([prefix_ids, cont_ids]).unsqueeze(0).to(dev)
     with torch.no_grad():
         logits = model(full).logits[0].float()
     logp = torch.log_softmax(logits, dim=-1)
-    n = len(p_ids)
-    total = sum(logp[n + k - 1, c_ids[k]].item() for k in range(len(c_ids)))
-    return total / max(len(c_ids), 1)
+    n = len(prefix_ids)
+    total = sum(logp[n + k - 1, cont_ids[k]].item() for k in range(len(cont_ids)))
+    return total / max(len(cont_ids), 1)
+
+
+def _generate(model, tok, dev, prompt_ids, max_new_tokens: int):
+    """Greedy free generation of the model's OWN reduction trace; returns the new
+    token ids (CPU tensor). The traced arm's 'steps shown' = the model's steps."""
+    import torch
+    inp = prompt_ids.unsqueeze(0).to(dev)
+    pad = tok.pad_token_id if tok.pad_token_id is not None else tok.eos_token_id
+    with torch.no_grad():
+        out = model.generate(inp, max_new_tokens=max_new_tokens, do_sample=False,
+                             pad_token_id=pad)
+    return out[0][prompt_ids.shape[0]:].detach().to("cpu")
+
+
+def _pick(model, dev, prefix_ids, cont_ids: dict):
+    lp = {k: _score_ids(model, dev, prefix_ids, c) for k, c in cont_ids.items()}
+    return max(lp, key=lp.get), {k: float(v) for k, v in lp.items()}
 
 
 def main() -> int:
@@ -581,6 +672,7 @@ def main() -> int:
     ap.add_argument("--device", default="mps")
     ap.add_argument("--dtype", default="float32")
     ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--max-trace-tokens", type=int, default=64)
     ap.add_argument("--out", default=None)
     ap.add_argument("--validate", action="store_true")
     ap.add_argument("--smoke", action="store_true")
@@ -591,35 +683,65 @@ def main() -> int:
 
     battery = build_battery()
     if args.smoke:
-        battery = battery[:8]
+        battery = battery[:6]
+    rng = np.random.default_rng(args.seed)
 
     import torch
     from transformers import AutoModelForCausalLM, AutoTokenizer
     dev = args.device
-    print(f"[se] load {args.model_id} dev={dev} n={len(battery)}", flush=True)
+    print(f"[se] load {args.model_id} dev={dev} n={len(battery)} "
+          f"(3 arms: direct/traced/null)", flush=True)
     tok = AutoTokenizer.from_pretrained(args.model_id)
     model = AutoModelForCausalLM.from_pretrained(
         args.model_id, dtype=getattr(torch, args.dtype)).to(dev).eval()
 
+    def ids(text, special=True):
+        return tok(text, add_special_tokens=special,
+                   return_tensors="pt").input_ids[0]
+
+    suffix_ids = ids(_TRACE_SUFFIX, special=False)
     recs = []
     for i, b in enumerate(battery):
         cand = make_candidates(b["correct_nf"], b["naive_nf"])
         if cand is None:
             continue
-        prompt = _FEWSHOT + f"Term: {b['prompt']}\nNormal form:"
-        lp = {k: _score(model, tok, dev, prompt, " " + v) for k, v in cand.items()}
-        pick = max(lp, key=lp.get)
+        cont_ids = {k: ids(" " + v, special=False) for k, v in cand.items()}
+
+        # direct arm
+        pd_ids = ids(_FEWSHOT_DIRECT + f"Term: {b['prompt']}\nNormal form:")
+        pick_d, lp_d = _pick(model, dev, pd_ids, cont_ids)
+
+        # traced arm — model generates its own reduction
+        pt_ids = ids(_FEWSHOT_TRACED + f"Term: {b['prompt']}\nSteps:")
+        trace_ids = _generate(model, tok, dev, pt_ids, args.max_trace_tokens)
+        traced_prefix = torch.cat([pt_ids, trace_ids, suffix_ids])
+        pick_t, _ = _pick(model, dev, traced_prefix, cont_ids)
+
+        # token-budget null — SAME trace tokens, shuffled (length-matched)
+        if len(trace_ids) > 1:
+            perm = torch.as_tensor(rng.permutation(len(trace_ids)))
+            null_trace = trace_ids[perm]
+        else:
+            null_trace = trace_ids
+        null_prefix = torch.cat([pt_ids, null_trace, suffix_ids])
+        pick_n, _ = _pick(model, dev, null_prefix, cont_ids)
+
         recs.append({
             **{k: b[k] for k in b if k != "correct_nf"},
-            "correct": bool(pick == "correct"),
-            "naive": bool(pick == "naive"),
-            "pick": pick, "candidates": cand,
-            "lp": {k: float(v) for k, v in lp.items()},
+            "correct": bool(pick_d == "correct"),
+            "naive": bool(pick_d == "naive"),
+            "correct_traced": bool(pick_t == "correct"),
+            "correct_null": bool(pick_n == "correct"),
+            "pick_direct": pick_d, "pick_traced": pick_t, "pick_null": pick_n,
+            "n_trace_tokens": len(trace_ids),
+            "candidates": cand, "lp_direct": lp_d,
         })
-        if (i + 1) % 20 == 0:
+        if (i + 1) % 10 == 0:
             print(f"[se] scored {i + 1}/{len(battery)}", flush=True)
 
-    g = compute_gates(recs, np.random.default_rng(args.seed + 99))
+    stat_rng = np.random.default_rng(args.seed + 99)
+    g = compute_gates(recs, stat_rng)
+    pl = pilot(recs, stat_rng)
     if args.out:
         out = Path(args.out)
         out.mkdir(parents=True, exist_ok=True)
@@ -627,9 +749,15 @@ def main() -> int:
             for r in recs:
                 f.write(json.dumps(r) + "\n")
         with (out / "gates.json").open("w") as f:
-            json.dump({"model_id": args.model_id, "seed": args.seed, **g}, f, indent=2)
+            json.dump({"model_id": args.model_id, "seed": args.seed,
+                       "pilot": pl, **g}, f, indent=2)
     print(f"[se] verdict={g['verdict']} frac_correct={g['frac_correct']:.3f} "
           f"acc_ctrl={g['acc_control']:.3f} SE2={g['SE2']} SE3={g['SE3']}", flush=True)
+    print(f"[se] pilot: acc direct={pl.get('acc_direct', 0):.3f} "
+          f"traced={pl.get('acc_traced', 0):.3f} null={pl.get('acc_null', 0):.3f} "
+          f"gap={pl.get('direct_traced_gap', 0):+.3f} "
+          f"content={pl.get('trace_content_effect', 0):+.3f} "
+          f"budget_null_passed={pl.get('token_budget_null_passed')}", flush=True)
     return 0
 
 
