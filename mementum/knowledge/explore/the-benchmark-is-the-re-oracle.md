@@ -466,6 +466,78 @@ New `src/verbum/probes/subst_pairs.py` (seeded, procedural):
   distractors}); free generation GBNF-gated secondary. λ measure:
   behavioral register primary; white-box reads advisory.
 
+### §Result — 14B pair (s332): NAIVE-SUBST both faces, base-native; SE4 falsified (underpowered)
+
+**Verdict: NAIVE-SUBST on BOTH faces of the 14B pair** — the substitution
+engine does capture-UNSAFE (naive) substitution, and it is a property of the
+BASE model, not installed by post-training. Beat a-priori 15 (low-prior update;
+modal DEPTH-DEPENDENT-MIXED 30 and CAPTURE-AVOIDING 30 both lost).
+
+**Run provenance.** The s331 in-flight paired run crashed writing gates.json
+(`se3 = abs(alpha_delta)>0 and p3<ALPHA` returned a numpy.bool_ →
+`TypeError` mid-`json.dump`); `results.jsonl` was flushed FIRST so all 37 scored
+14B-instruct rows survived — no inference lost. Fix f134a5e7 (`bool()`/`float()`
+at source + `_json_native` default on both dumps, guards 32B/OLMo); instruct
+gates recomputed offline from the intact `results.jsonl` (exact run RNG, no
+reload); base relaunched on the fixed code and completed clean. Data:
+`results/subst-engine/qwen3-14b{,-base}/` (results.jsonl + gates.json).
+
+**Gates (frozen tree, DIRECT arm):**
+- **SE0 ✓ both** — acc_control 1.000 / 1.000 (the model gets easy, no-capture
+  substitutions right; the naive result is not a broken instrument).
+- **SE1 → NAIVE-SUBST both** — frac_correct 0.056 (instruct, n_dec 18, p1=2e-4)
+  · 0.000 (base, p1=2e-5). On discriminating capture pairs it picks the naive
+  (capture-unsafe) NF essentially always. Precedence clean: SE3 False → SE2
+  False → SE1 branch.
+- **SE2 False** — no depth cliff on any dial (binder_distance/shadow_depth/
+  functional_order all stat≤0, p=1.0): naive across the board, not
+  correct-then-cliff.
+- **SE3 False** — no alpha-variant routing (instruct alpha_delta 0.0; base
+  0.167 but p3=1.0 ns).
+- **SE4 FALSIFIED (wrong sign)** — predicted instruct > base first-binder
+  intrusions; measured **instruct 0.944 < base 1.000**, delta −0.056, p=1.0.
+  Naive substitution is **base-native**, not post-training-installed; post-
+  training barely touches it (if anything −0.056).
+- **Pilot** — direct 0.541 / traced 0.459 / null 0.486, gap −0.081,
+  `token_budget_null_passed` **False**: letting the model generate its own
+  reduction did NOT beat the shuffled-token null → no within-pass reduction
+  benefit on these hard pairs (the FUEL/TRACE-FUEL/NF-GAUGE ×3 confound stays
+  excluded; naive whether or not it traces).
+
+**What it means.**
+- **A recovered opcode.** The reducer's substitution step is `R_naive`, not
+  `R_church` — a concrete piece of the actual operational semantics.
+- **Bug-compatibility made concrete (§2b).** δ(M, R_church) is large and
+  STRUCTURED, not noise — the reproducible error fingerprint the RE-oracle
+  framing predicted.
+- **Calculus-not-Church (§9).** Naive substitution (no α-renaming) is a
+  weak-reduction trait; stacks onto KIBC-not-SKI-affine · non-idempotent ·
+  WHNF-weak → the "weak/affine machine calculus, not pure Church" portrait
+  firms up.
+- **Coheres with s329, inverts the bridge.** s329: post-training installs a
+  thin late DECISION stage on native machinery. Here the substitution ALU is
+  native and post-training leaves it alone — same shape (native core, thin
+  late install) in a DIFFERENT register. SE4's error was locating the naive
+  intrusion in the installed layer; it lives in the native ALU.
+
+**Honest bounds (what this does NOT license).**
+- **SE4 is underpowered, not a clean falsification.** Both faces are at the
+  naive ceiling (17–18/18), so the instruct-vs-base test has ~no dynamic range
+  — "no installed effect" is indistinguishable from "masked by ceiling." The
+  powered re-test needs a **sub-ceiling capture battery** (easier shadowed pairs
+  with variance for post-training to move).
+- **Possible register stretch.** The s328/s329 order law lives in a statement-
+  licensing register; substitution-capture lives in a variable-binding/scope
+  register. The "shadowing ≡ recency" bridge may be a category stretch — SE4
+  failing does NOT retract s328/s329.
+- **Single lineage, n_dec 18.** Qwen3-14B only. 32B + OLMo-2-13B (2nd lineage)
+  remain to make "the reducer does naive substitution" a cross-model law rather
+  than a Qwen finding.
+
+**Follow-ons (queued, not run):** 32B + OLMo matrix faces (same harness,
+`--model-id` swap) · sub-ceiling capture battery (the powered SE4 re-test) ·
+white-box binding-edge + commit-layer reads (advisory).
+
 ### Model matrix (Michael's constraints: 14B+, instruct-heavy, few bases)
 
 | Model | Face | Role |

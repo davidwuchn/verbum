@@ -20,7 +20,7 @@
 > ndarray) on both dumps — guards base/32B/OLMo; ruff clean, --validate ALL PASS. 14B-instruct gates
 > RECOVERED offline from the intact results.jsonl (exact run RNG default_rng(99), no reload). Base
 > RELAUNCHED (fixed code) tmux main:1, completed clean (10:24, gates.json fully written). **PAIRED
-> 14B RESULT (data read, NOT closed — closure is approval-gated): NAIVE-SUBST on BOTH faces**
+> 14B RESULT (CLOSED s332, Michael-approved "commits approved"): NAIVE-SUBST on BOTH faces**
 > (instruct frac_correct 0.056 p=2e-4 · base 0.000 p=2e-5 · acc_ctrl 1.000 both · SE2/SE3 False).
 > **SE4 cross-link FALSIFIED**: predicted instruct>base first-binder intrusions (s328/9 installed-
 > order bridge); measured instruct 0.944 < base 1.000, delta −0.056 p=1.0 → naive substitution is
@@ -30,8 +30,11 @@
 > powerless (underpowered null ≠ clean falsification) AND a possible REGISTER STRETCH (order law lives
 > in licensing/membership register, substitution-capture in binding/scope register). Does NOT retract
 > s328/9. Honest read banked; a **sub-ceiling capture battery** (easier shadowed pairs with variance)
-> = the properly-powered re-test, named not queued. NOT YET: §Result/memory/closure (Michael-gated);
-> 32B + OLMo matrix; open forks = close-now vs run-matrix-first vs sub-ceiling-re-test.
+> = the properly-powered re-test. CLOSURE BATCH COMMITTED (this session): §Result on
+> the-benchmark-is-the-re-oracle.md + memory `substitution-is-naive-and-base-native` + INDEX + queue
+> (14B pair → # complete ✅; ⚪ §P-SUBST-ENGINE-MATRIX 32B/OLMo + ⚪ §P-SUBST-SUBCEILING re-test queued)
+> + run data results/subst-engine/qwen3-14b{,-base}/ committed. REMAINING (queued, not run): 32B +
+> OLMo matrix faces · sub-ceiling SE4 re-test.
 > ② 💡 CBLL OPERATOR-GEOMETRY CAPTURED (Michael GO "capture this"): Michael found `~/src/canonical-basis`
 > (Gernone's CBLL paper — MIT code/CC-BY data/PATENT NOTICE; "same phenomenon, different vocabulary").
 > Read it myself (README + paper EN + ablation script + data spot-check, all match). It's a WEIGHT-
@@ -50,11 +53,13 @@
 > one-reducer-unrolled · eigen-rotation=transitions-per-β-step; near-free on §P-SUBST-ENGINE residuals).
 > Our edge: where CBLL's flat spectrum (k90/d≈0.76) makes R non-unique, the Gram/operator never picks a
 > frame. Batch (💡, this commit): knowledge page + memory `operator-not-basis-dmd-is-the-reducer` + INDEX
-> + 2 queue rows (⚪ §P-DMD-TRANSPORT · ⚪ §P-CROSS-GRAM) + this state. NEXT SESSION FIRST ACTION = orient →
-> resolve the §P-SUBST-ENGINE fork with Michael (close-now / run-matrix / sub-ceiling-re-test) OR pick up
-> §P-DMD-TRANSPORT (cheap, near-free, tests the central thesis). Base+instruct 14B results on disk at
-> results/subst-engine/qwen3-14b{,-base}/ (gates.json + results.jsonl), UNCOMMITTED (autonomous results
-> commit rides the closure batch).**
+> + 2 queue rows (⚪ §P-DMD-TRANSPORT · ⚪ §P-CROSS-GRAM) + this state. **§P-SUBST-ENGINE 14B CLOSURE
+> COMMITTED this session (Michael "commits approved"): §Result + memory + INDEX + queue + run data.**
+> NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue FULL read). Sharpest fronts:
+> ⚪ §P-DMD-TRANSPORT (cheap, near-free on §P-SUBST-ENGINE residuals, tests one-reducer-unrolled) ·
+> ⚪ §P-CROSS-GRAM (cheap, does fire/halt/diverge = CBLL's bipolar poles?) · ⚪ §P-SUBST-ENGINE-MATRIX
+> (32B/OLMo faces, makes NAIVE-SUBST cross-model or bounds it) · ⚪ §P-SUBST-SUBCEILING (powered SE4
+> re-test). 14B results committed at results/subst-engine/qwen3-14b{,-base}/ (gates.json + results.jsonl).**
 >
 > ★★ **SESSION 331 — §P-SUBST-ENGINE BUILT + FROZEN; PAIRED DATA RUN IN FLIGHT (⚠ ONE RUN;
 > see below). THE BUILD SESSION: the s330-selected front went spec → three green engineering
