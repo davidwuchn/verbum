@@ -16,8 +16,16 @@ node carries (or can synthesize) an explicit category, so the S2 type-check — 
 type-directedness thesis (AGENTS.md S5 λ types) — is FIRST-CLASS and inspectable,
 not implicit in geometry.
 
-  Term     = Comb(name) | Atom(name) | App(fn, arg)              # applicative spine
+  Term     = Comb(name) | Atom(name) | App(fn, arg) | Lam(var, body)  # +binders
   Category = CAtom(name) | CVar(id) | CSlash(res, dir, arg)     # CCG, dir = fwd or bwd
+
+BINDER EXTENSION (§P-SUBST-ENGINE, the-benchmark-is-the-re-oracle.md §8). The
+substitution engine — the ALU — only exists at binder level; combinator terms
+dodge binding by construction. `Lam` adds named binders; `substitute` is the
+correct capture-avoiding algorithm, `naive_subst` the deliberate capture-unsafe
+rival (§2b: grading = which algorithm's output the model matches). The reducer
+is parameterised by a `Calculus` (§9: strong/weak ξ · η · capture-avoiding) so
+calculus identification rides the same sweeps — ¬hardcode strong-β.
 
 Combinator basis + reduction rules (the s221 substructural classes):
     selection   {K, I, C}   (affine/linear — no copy)
@@ -51,22 +59,34 @@ from dataclasses import dataclass, field
 from enum import StrEnum
 
 __all__ = [
+    "R_CHURCH",
+    "R_NAIVE",
+    "R_NORMAL",
+    "R_WEAK",
     "App",
     "Atom",
     "CAtom",
     "CSlash",
     "CVar",
+    "Calculus",
     "Cat",
     "Comb",
     "IllTyped",
+    "Lam",
     "Reduction",
     "Status",
     "Term",
     "TypeResult",
+    "affine_ok",
+    "alpha_eq",
+    "free_vars",
+    "naive_subst",
     "normal_form",
+    "occurrence_profile",
     "parse",
     "pretty",
     "reduce",
+    "substitute",
     "trace_record",
     "typecheck",
     "verify",
@@ -102,7 +122,21 @@ class App:
     arg: Term
 
 
-Term = Comb | Atom | App
+@dataclass(frozen=True, slots=True)
+class Lam:
+    """A binder — ``λvar.body``. Named variables (Atom leaves) are bound by the
+    nearest enclosing ``Lam`` of the same name; unbound Atoms are free.
+
+    The substitution engine (the ALU, §P-SUBST-ENGINE) only EXISTS at binder
+    level — combinator terms dodge binding by construction. ``Lam`` is the node
+    the capture-avoiding / naive-substitution rivalry (§2b) is measured on.
+    """
+
+    var: str
+    body: Term
+
+
+Term = Comb | Atom | App | Lam
 
 
 def spine(t: Term) -> tuple[Term, list[Term]]:
@@ -125,17 +159,27 @@ def rebuild(head: Term, args: list[Term]) -> Term:
 def size(t: Term) -> int:
     if isinstance(t, App):
         return 1 + size(t.fn) + size(t.arg)
+    if isinstance(t, Lam):
+        return 1 + size(t.body)
     return 1
 
 
 def pretty(t: Term) -> str:
-    """Render a term; parenthesise applications that sit in argument position."""
+    """Render a term; parenthesise applications/binders in argument position.
+
+    A ``Lam`` renders ``λvar.body`` and extends as far right as possible, so a
+    binder in head or argument position is parenthesised to stay round-trippable
+    (e.g. ``(λx.x) y`` — otherwise ``λx.x y`` parses as ``λx.(x y)``).
+    """
     if isinstance(t, Comb | Atom):
         return t.name
+    if isinstance(t, Lam):
+        return f"λ{t.var}.{pretty(t.body)}"
     head, args = spine(t)
-    parts = [pretty(head)]
+    head_s = f"({pretty(head)})" if isinstance(head, Lam) else pretty(head)
+    parts = [head_s]
     for a in args:
-        parts.append(f"({pretty(a)})" if isinstance(a, App) else pretty(a))
+        parts.append(f"({pretty(a)})" if isinstance(a, App | Lam) else pretty(a))
     return " ".join(parts)
 
 
@@ -151,12 +195,16 @@ def _tokenize(s: str) -> list[str]:
         c = s[i]
         if c.isspace():
             i += 1
-        elif c in "()":
+        elif c in "().":
             toks.append(c)
+            i += 1
+        elif c in ("λ", "\\"):
+            toks.append("λ")  # normalise both binder glyphs
             i += 1
         elif c.isalnum() or c == "_":
             j = i
-            while j < n and (s[j].isalnum() or s[j] == "_"):
+            # identifiers may carry trailing primes — the alpha-rename fresh names
+            while j < n and (s[j].isalnum() or s[j] in "_'"):
                 j += 1
             toks.append(s[i:j])
             i = j
@@ -165,17 +213,47 @@ def _tokenize(s: str) -> list[str]:
     return toks
 
 
+_STOP = frozenset((")", "."))
+
+
 def parse(s: str) -> Term:
-    """Parse a combinator term. Single uppercase letters S K I B C W D Y M are
-    combinators; everything else is an Atom. Application is juxtaposition."""
+    """Parse a combinator/lambda term.
+
+    Single uppercase letters S K I B C W D Y M are combinators; ``λx.`` or
+    ``\\x.`` introduce a binder (``λx y.body`` sugars to ``λx.λy.body``);
+    everything else is an Atom. Application is juxtaposition (left-assoc); a
+    lambda body extends as far right as possible.
+    """
     toks = _tokenize(s)
     pos = 0
+
+    def lam() -> Term:
+        nonlocal pos
+        pos += 1  # consume "λ"
+        vs: list[str] = []
+        while pos < len(toks) and toks[pos] != ".":
+            v = toks[pos]
+            if v in ("(", ")", "λ"):
+                raise ValueError(f"lambda_ast.parse: bad binder var {v!r} in {s!r}")
+            vs.append(v)
+            pos += 1
+        if not vs:
+            raise ValueError(f"lambda_ast.parse: λ with no variable in {s!r}")
+        if pos >= len(toks) or toks[pos] != ".":
+            raise ValueError(f"lambda_ast.parse: λ missing '.' in {s!r}")
+        pos += 1  # consume "."
+        term = application()
+        for v in reversed(vs):
+            term = Lam(v, term)
+        return term
 
     def atom() -> Term:
         nonlocal pos
         if pos >= len(toks):
             raise ValueError(f"lambda_ast.parse: unexpected end in {s!r}")
         tok = toks[pos]
+        if tok == "λ":
+            return lam()
         if tok == "(":
             pos += 1
             inner = application()
@@ -183,8 +261,8 @@ def parse(s: str) -> Term:
                 raise ValueError(f"lambda_ast.parse: unbalanced parens in {s!r}")
             pos += 1
             return inner
-        if tok == ")":
-            raise ValueError(f"lambda_ast.parse: unexpected ')' in {s!r}")
+        if tok in _STOP:
+            raise ValueError(f"lambda_ast.parse: unexpected {tok!r} in {s!r}")
         pos += 1
         if len(tok) == 1 and tok in _COMBINATORS:
             return Comb(tok)
@@ -193,7 +271,7 @@ def parse(s: str) -> Term:
     def application() -> Term:
         nonlocal pos
         t = atom()
-        while pos < len(toks) and toks[pos] not in ")":
+        while pos < len(toks) and toks[pos] not in _STOP:
             t = App(t, atom())
         return t
 
@@ -201,6 +279,171 @@ def parse(s: str) -> Term:
     if pos != len(toks):
         raise ValueError(f"lambda_ast.parse: trailing tokens in {s!r}")
     return term
+
+
+# --------------------------------------------------------------------------- #
+# Binders — free variables, substitution (the ALU), alpha-equivalence          #
+# --------------------------------------------------------------------------- #
+def free_vars(t: Term) -> frozenset[str]:
+    """The free (unbound) Atom names of a term. Combinators are not variables."""
+    if isinstance(t, Atom):
+        return frozenset((t.name,))
+    if isinstance(t, Comb):
+        return frozenset()
+    if isinstance(t, App):
+        return free_vars(t.fn) | free_vars(t.arg)
+    return free_vars(t.body) - {t.var}  # Lam
+
+
+def _fresh_name(base: str, avoid: frozenset[str]) -> str:
+    """Prime ``base`` until it avoids ``avoid`` — the capture-avoiding rename."""
+    cand = base
+    while cand in avoid:
+        cand += "'"
+    return cand
+
+
+def _rename(t: Term, old: str, new: str) -> Term:
+    """Alpha-rename free occurrences of ``old`` to ``new``. ``new`` MUST be fresh
+    (unbound in ``t``), so naive replacement is capture-safe here by construction."""
+    return _subst(t, old, Atom(new), capture_avoiding=False)
+
+
+def _subst(t: Term, var: str, value: Term, *, capture_avoiding: bool) -> Term:
+    """β-substitution ``t[var := value]``.
+
+    ``capture_avoiding=True``  → the CORRECT algorithm: rename binders that would
+                                 capture a free variable of ``value``.
+    ``capture_avoiding=False`` → the deliberate NAIVE algorithm: textual
+                                 replacement, no capture check (§2b: the rival
+                                 fingerprint the model may match instead).
+
+    Both algorithms respect shadowing of the same name (``λvar.…`` stops).
+    """
+    if isinstance(t, Atom):
+        return value if t.name == var else t
+    if isinstance(t, Comb):
+        return t
+    if isinstance(t, App):
+        return App(
+            _subst(t.fn, var, value, capture_avoiding=capture_avoiding),
+            _subst(t.arg, var, value, capture_avoiding=capture_avoiding),
+        )
+    # Lam
+    if t.var == var:
+        return t  # the binder shadows var — no free occurrence below
+    if capture_avoiding and t.var in free_vars(value):
+        fresh = _fresh_name(t.var, free_vars(value) | free_vars(t.body) | {var})
+        body = _rename(t.body, t.var, fresh)
+        return Lam(fresh, _subst(body, var, value, capture_avoiding=True))
+    return Lam(t.var, _subst(t.body, var, value, capture_avoiding=capture_avoiding))
+
+
+def substitute(t: Term, var: str, value: Term) -> Term:
+    """Capture-avoiding substitution ``t[var := value]`` (the correct algorithm)."""
+    return _subst(t, var, value, capture_avoiding=True)
+
+
+def naive_subst(t: Term, var: str, value: Term) -> Term:
+    """Capture-UNSAFE textual substitution — kept on purpose (§2b rival)."""
+    return _subst(t, var, value, capture_avoiding=False)
+
+
+def _debruijn(t: Term, env: tuple[str, ...]) -> object:
+    """A nameless encoding: bound vars → de Bruijn index, free/comb by name.
+
+    ``env`` lists enclosing binder names, innermost LAST; alpha-equivalent terms
+    map to equal encodings (the comparator's ground truth)."""
+    if isinstance(t, Atom):
+        for i, name in enumerate(reversed(env)):
+            if name == t.name:
+                return ("bound", i)
+        return ("free", t.name)
+    if isinstance(t, Comb):
+        return ("comb", t.name)
+    if isinstance(t, App):
+        return ("app", _debruijn(t.fn, env), _debruijn(t.arg, env))
+    return ("lam", _debruijn(t.body, (*env, t.var)))  # Lam
+
+
+def alpha_eq(a: Term, b: Term) -> bool:
+    """True iff ``a`` and ``b`` are equal up to renaming of bound variables."""
+    return _debruijn(a, ()) == _debruijn(b, ())
+
+
+# --------------------------------------------------------------------------- #
+# Calculus switches (§9) — the reference FAMILY, ships day one (¬hardcode β)    #
+# --------------------------------------------------------------------------- #
+@dataclass(frozen=True, slots=True)
+class Calculus:
+    """The strategy switches that select WHICH calculus the reducer realises.
+
+    The ledger already refutes pure Church (≥3 registers: KIBC¬SKI affine ·
+    non-idempotent graded · WHNF weak pole). Rather than hardcode strong-β, the
+    reducer is parameterised so calculus identification rides the SAME sweeps at
+    ~zero marginal cost (§9, the-benchmark-is-the-re-oracle.md).
+
+      reduce_under_lam — ξ rule: reduce inside binder bodies (strong) vs stop at
+                         weak head normal form (the WHNF pole candidate).
+      eta              — η-contraction ``λx.(M x) → M`` when ``x ∉ FV(M)``.
+      capture_avoiding — correct substitution (True) vs the naive rival (False).
+    """
+
+    name: str
+    reduce_under_lam: bool = True
+    eta: bool = False
+    capture_avoiding: bool = True
+
+
+#: Strong normal-order, capture-avoiding — the default oracle reducer.
+R_NORMAL = Calculus("R_normal", reduce_under_lam=True, eta=False, capture_avoiding=True)
+#: Weak head reduction, no ξ — the WHNF-pole candidate (crystal, s-lineage).
+R_WEAK = Calculus("R_weak", reduce_under_lam=False, eta=False, capture_avoiding=True)
+#: Strong βη — the Church reference (reduce under binders, η on).
+R_CHURCH = Calculus("R_church", reduce_under_lam=True, eta=True, capture_avoiding=True)
+#: The deliberate bug: naive (capture-unsafe) substitution — the rival fingerprint.
+R_NAIVE = Calculus("R_naive", reduce_under_lam=True, eta=False, capture_avoiding=False)
+
+
+# --------------------------------------------------------------------------- #
+# Structural / graded analyses (affine-check, occurrence counting)             #
+# --------------------------------------------------------------------------- #
+def _count_free(t: Term, var: str) -> int:
+    """Number of free occurrences of ``var`` in ``t`` (shadowing respected)."""
+    if isinstance(t, Atom):
+        return 1 if t.name == var else 0
+    if isinstance(t, Comb):
+        return 0
+    if isinstance(t, App):
+        return _count_free(t.fn, var) + _count_free(t.arg, var)
+    return 0 if t.var == var else _count_free(t.body, var)  # Lam
+
+
+def affine_ok(t: Term) -> bool:
+    """True iff every λ-bound variable is used at most once (the affine check —
+    the KIBC¬SKI substructural register, s313). ``S`` / ``W`` duplicate."""
+    if isinstance(t, Lam):
+        return _count_free(t.body, t.var) <= 1 and affine_ok(t.body)
+    if isinstance(t, App):
+        return affine_ok(t.fn) and affine_ok(t.arg)
+    return True
+
+
+def occurrence_profile(t: Term) -> list[tuple[str, int]]:
+    """Per-binder ``(var, free_occurrence_count)``, outermost binder first — the
+    graded/quantitative register (non-idempotent accumulation, s320)."""
+    out: list[tuple[str, int]] = []
+
+    def walk(term: Term) -> None:
+        if isinstance(term, Lam):
+            out.append((term.var, _count_free(term.body, term.var)))
+            walk(term.body)
+        elif isinstance(term, App):
+            walk(term.fn)
+            walk(term.arg)
+
+    walk(t)
+    return out
 
 
 # --------------------------------------------------------------------------- #
@@ -256,56 +499,85 @@ REDUCTIONS: dict[str, tuple[int, object]] = {
 }
 
 
-def _root_redex(t: Term) -> Term | None:
-    """If the spine root is a saturated combinator, fire it; else None."""
-    head, args = spine(t)
-    if isinstance(head, Comb) and head.name in REDUCTIONS:
-        arity, rule = REDUCTIONS[head.name]
-        if len(args) >= arity:
-            return rebuild(rule(args[:arity]), args[arity:])
+def _eta_contract(t: Lam) -> Term | None:
+    """η: ``λx.(M x) → M`` when ``x ∉ FV(M)`` (else None)."""
+    body = t.body
+    if (
+        isinstance(body, App)
+        and isinstance(body.arg, Atom)
+        and body.arg.name == t.var
+        and t.var not in free_vars(body.fn)
+    ):
+        return body.fn
     return None
 
 
-def step(t: Term) -> Term | None:
-    """One leftmost-outermost reduction; None if t is a normal form."""
-    r = _root_redex(t)
-    if r is not None:
-        return r
+def _step_impl(t: Term, calc: Calculus) -> tuple[Term | None, str | None]:
+    """One leftmost-outermost reduction under ``calc``, reporting the fired opcode.
+
+    Returns (next_term, label). (None, None) iff ``t`` is a ``calc``-normal form.
+    Opcode labels: ``"β"`` (binder application) · ``"η"`` · the combinator name.
+    Order: root β/combinator first (leftmost-outermost), then η at a bare binder,
+    then (if strong) under the binder, then arguments left-to-right.
+    """
     head, args = spine(t)
-    for i, a in enumerate(args):
-        s = step(a)
-        if s is not None:
-            return rebuild(head, [*args[:i], s, *args[i + 1:]])
-    return None
-
-
-def step_fired(t: Term) -> tuple[Term | None, str | None]:
-    """One leftmost-outermost reduction, ALSO reporting which combinator fired.
-
-    Returns (next_term, fired_name). (None, None) iff t is a normal form. This is
-    `step` instrumented to expose the certified OPCODE contracted at each step — the
-    data the kernel-as-reference audit anchors a model's routing trajectory against."""
-    head, args = spine(t)
+    # root β-redex: a binder applied to ≥1 argument
+    if isinstance(head, Lam) and args:
+        reduced = _subst(
+            head.body, head.var, args[0], capture_avoiding=calc.capture_avoiding
+        )
+        return rebuild(reduced, args[1:]), "β"
+    # root combinator redex
     if isinstance(head, Comb) and head.name in REDUCTIONS:
         arity, rule = REDUCTIONS[head.name]
         if len(args) >= arity:
             return rebuild(rule(args[:arity]), args[arity:]), head.name
+    # bare binder: η at the root, then (if strong) reduce inside the body
+    if isinstance(head, Lam) and not args:
+        if calc.eta:
+            e = _eta_contract(head)
+            if e is not None:
+                return e, "η"
+        if calc.reduce_under_lam:
+            b, fired = _step_impl(head.body, calc)
+            if b is not None:
+                return Lam(head.var, b), fired
+        return None, None
+    # reduce arguments left-to-right
     for i, a in enumerate(args):
-        s, fired = step_fired(a)
+        s, fired = _step_impl(a, calc)
         if s is not None:
             return rebuild(head, [*args[:i], s, *args[i + 1:]]), fired
     return None, None
 
 
-def fired_sequence(t: Term, max_steps: int = MAX_STEPS) -> list[str]:
-    """The certified per-step opcode trace: combinator names fired, in reduction order.
+def step(t: Term, calc: Calculus = R_NORMAL) -> Term | None:
+    """One leftmost-outermost reduction under ``calc``; None if ``t`` is normal."""
+    return _step_impl(t, calc)[0]
+
+
+def step_fired(
+    t: Term, calc: Calculus = R_NORMAL
+) -> tuple[Term | None, str | None]:
+    """One reduction, ALSO reporting which opcode fired (``β`` / ``η`` / combinator).
+
+    Returns (next_term, fired_name). (None, None) iff ``t`` is a normal form. The
+    certified OPCODE the kernel-as-reference audit anchors a model's routing
+    trajectory against."""
+    return _step_impl(t, calc)
+
+
+def fired_sequence(
+    t: Term, max_steps: int = MAX_STEPS, calc: Calculus = R_NORMAL
+) -> list[str]:
+    """The certified per-step opcode trace, in reduction order.
 
     Normal form -> []. Under-applied (inert) combinators never appear (they never
     saturate -> never fire). The multiset/order is exactly what `reduce` walks."""
     seq: list[str] = []
     cur = t
     for _ in range(max_steps):
-        nxt, fired = step_fired(cur)
+        nxt, fired = _step_impl(cur, calc)
         if nxt is None:
             break
         seq.append(fired)  # type: ignore[arg-type]
@@ -316,12 +588,19 @@ def fired_sequence(t: Term, max_steps: int = MAX_STEPS) -> list[str]:
 
 
 def is_whnf(t: Term) -> bool:
-    """Weak head normal form: the spine root is not a saturated combinator."""
-    return _root_redex(t) is None
+    """Weak head normal form: the spine root is not a saturated redex (β or comb)."""
+    head, args = spine(t)
+    if isinstance(head, Lam) and args:
+        return False
+    if isinstance(head, Comb) and head.name in REDUCTIONS:
+        arity, _rule = REDUCTIONS[head.name]
+        if len(args) >= arity:
+            return False
+    return True
 
 
-def is_normal_form(t: Term) -> bool:
-    return step(t) is None
+def is_normal_form(t: Term, calc: Calculus = R_NORMAL) -> bool:
+    return step(t, calc) is None
 
 
 class Status(StrEnum):
@@ -344,17 +623,20 @@ def reduce(
     t: Term,
     max_steps: int = MAX_STEPS,
     max_size: int = MAX_SIZE,
+    calc: Calculus = R_NORMAL,
 ) -> Reduction:
-    """Normal-order reduce to normal form, recording the full trace.
+    """Reduce to ``calc``-normal form (default: strong normal order), full trace.
 
-    Halts at: normal form (NORMAL_FORM), step budget (DIVERGED), or term-size budget
-    (SIZE_EXCEEDED — the representational limit the constructed kernel also has).
+    ``calc`` selects the calculus (§9): strong/weak ξ · η · capture-avoiding vs
+    naive substitution. Halts at: normal form (NORMAL_FORM), step budget
+    (DIVERGED), or term-size budget (SIZE_EXCEEDED — the representational limit
+    the constructed kernel also has).
     """
     trace = [t]
     cur = t
     whnf_step = 0 if is_whnf(t) else None
     for i in range(max_steps):
-        nxt = step(cur)
+        nxt = step(cur, calc)
         if nxt is None:
             return Reduction(t, cur, trace, Status.NORMAL_FORM, i, whnf_step)
         cur = nxt
@@ -366,8 +648,10 @@ def reduce(
     return Reduction(t, cur, trace, Status.DIVERGED, max_steps, whnf_step)
 
 
-def normal_form(t: Term, max_steps: int = MAX_STEPS) -> Term:
-    return reduce(t, max_steps=max_steps).normal_form
+def normal_form(
+    t: Term, max_steps: int = MAX_STEPS, calc: Calculus = R_NORMAL
+) -> Term:
+    return reduce(t, max_steps=max_steps, calc=calc).normal_form
 
 
 # --------------------------------------------------------------------------- #
@@ -539,6 +823,19 @@ def typecheck(t: Term, env: dict[str, Cat] | None = None) -> TypeResult:
             return _scheme(term.name, fresh)
         if isinstance(term, Atom):
             return env.get(term.name, fresh())
+        if isinstance(term, Lam):
+            xt = fresh()
+            sentinel = object()
+            prev = env.get(term.var, sentinel)
+            env[term.var] = xt  # bind the parameter, shadowing any outer binding
+            bt = infer(term.body)
+            if prev is sentinel:
+                del env[term.var]
+            else:
+                env[term.var] = prev  # type: ignore[assignment]
+            fc = _fwd(_resolve(bt, subst), _resolve(xt, subst))
+            deriv.append((pretty(term), pretty_cat(_resolve(fc, subst))))
+            return fc
         tf = infer(term.fn)
         tx = infer(term.arg)
         res = fresh()
@@ -558,14 +855,8 @@ def typecheck(t: Term, env: dict[str, Cat] | None = None) -> TypeResult:
 # Verify + data-oracle record                                                 #
 # --------------------------------------------------------------------------- #
 def _alpha_eq(a: Term, b: Term) -> bool:
-    """Structural equality (no binders, so no alpha-renaming needed)."""
-    if isinstance(a, Comb) and isinstance(b, Comb):
-        return a.name == b.name
-    if isinstance(a, Atom) and isinstance(b, Atom):
-        return a.name == b.name
-    if isinstance(a, App) and isinstance(b, App):
-        return _alpha_eq(a.fn, b.fn) and _alpha_eq(a.arg, b.arg)
-    return False
+    """Equality up to renaming of bound variables (de Bruijn; binder-aware)."""
+    return alpha_eq(a, b)
 
 
 def verify(term: Term | str, claimed: Term | str, max_steps: int = MAX_STEPS) -> bool:

@@ -3,25 +3,37 @@
 from __future__ import annotations
 
 from verbum.lambda_ast import (
+    R_CHURCH,
+    R_NAIVE,
+    R_NORMAL,
+    R_WEAK,
     App,
     Atom,
+    Calculus,
     CAtom,
     Comb,
+    Lam,
     Status,
+    affine_ok,
+    alpha_eq,
     fired_sequence,
+    free_vars,
+    naive_subst,
     normal_form,
+    occurrence_profile,
     parse,
     pretty,
     reduce,
     step_fired,
+    substitute,
     trace_record,
     typecheck,
     verify,
 )
 
 
-def nf(s: str) -> str:
-    return pretty(normal_form(parse(s)))
+def nf(s: str, calc: Calculus = R_NORMAL) -> str:
+    return pretty(normal_form(parse(s), calc=calc))
 
 
 # --------------------------------------------------------------------------- #
@@ -191,3 +203,164 @@ def test_fired_sequence_inert_under_applied():
 def test_fired_sequence_matches_reduce_steps():
     for s in ["S K K x", "C f x y", "D f g h x", "W f x", "B K I x y"]:
         assert len(fired_sequence(parse(s))) == reduce(parse(s)).steps
+
+
+# --------------------------------------------------------------------------- #
+# binders — parse / pretty (the λ syntax)                                     #
+# --------------------------------------------------------------------------- #
+def test_parse_lambda_backslash_equals_glyph():
+    assert parse(r"\x.x") == parse("λx.x") == Lam("x", Atom("x"))
+
+
+def test_parse_multi_binder_sugars_to_nested():
+    assert parse("λx y.x") == Lam("x", Lam("y", Atom("x")))
+
+
+def test_lambda_body_extends_right():
+    # λx.x y  ==  λx.(x y),  NOT  (λx.x) y
+    assert parse("λx.x y") == Lam("x", App(Atom("x"), Atom("y")))
+
+
+def test_applied_lambda_needs_parens():
+    assert parse("(λx.x) y") == App(Lam("x", Atom("x")), Atom("y"))
+
+
+def test_lambda_pretty_roundtrip():
+    for s in ["λx.x", "(λx.λy.x) y", "λf.λx.f (f x)", "λx.x y", "f (λx.x)"]:
+        assert pretty(parse(pretty(parse(s)))) == pretty(parse(s))
+
+
+# --------------------------------------------------------------------------- #
+# THE capture cases — capture-avoiding vs naive substitution (§2b rivals)     #
+# --------------------------------------------------------------------------- #
+def test_capture_avoiding_renames_the_binder():
+    # (λx.λy.x) y  →  λy'.y   (the free y must NOT be captured by inner λy)
+    assert nf("(λx.λy.x) y") == "λy'.y"
+
+
+def test_naive_substitution_captures():
+    # the deliberate bug: same term under R_NAIVE  →  λy.y
+    assert nf("(λx.λy.x) y", R_NAIVE) == "λy.y"
+
+
+def test_capture_and_naive_differ_here():
+    # the discriminating pair: one term, two algorithms, two normal forms
+    t = "(λx.λy.x) y"
+    assert nf(t, R_NORMAL) != nf(t, R_NAIVE)
+
+
+def test_substitute_functions_directly():
+    body, val = parse("λy.x"), parse("y")
+    assert pretty(substitute(body, "x", val)) == "λy'.y"  # capture-avoiding
+    assert pretty(naive_subst(body, "x", val)) == "λy.y"  # captured
+
+
+def test_shadowing_stops_substitution_both_algorithms():
+    # inner binder shadows x — the free x below is bound, unaffected by either
+    assert nf("(λx.λx.x) a") == "λx.x"
+    assert nf("(λx.λx.x) a", R_NAIVE) == "λx.x"
+
+
+def test_double_capture_ladder():
+    # (λx.λy.λz.x) y  →  the free y dodges the inner λy binder
+    red = nf("(λx.λy.λz.x) y")
+    assert red == "λy'.λz.y"
+    assert nf("(λx.λy.λz.x) y", R_NAIVE) == "λy.λz.y"
+
+
+# --------------------------------------------------------------------------- #
+# beta-reduction basics + Church encodings                                    #
+# --------------------------------------------------------------------------- #
+def test_identity_and_const():
+    assert nf("(λx.x) a") == "a"
+    assert nf("(λx.λy.x) a b") == "a"
+    assert nf("(λx.λy.y) a b") == "b"
+
+
+def test_church_numeral_two():
+    # 2 = λf.λx.f (f x)
+    assert nf("(λf.λx.f (f x)) g z") == "g (g z)"
+
+
+def test_skk_as_lambda_is_identity():
+    # S = λf.λg.λx.f x (g x), K = λx.λy.x
+    assert nf("(λf.λg.λx.f x (g x)) (λx.λy.x) (λx.λy.x) a") == "a"
+
+
+# --------------------------------------------------------------------------- #
+# alpha-equivalence (the comparator)                                          #
+# --------------------------------------------------------------------------- #
+def test_alpha_equivalence_of_bound_renaming():
+    assert alpha_eq(parse("λx.x"), parse("λz.z"))
+    assert alpha_eq(parse("λx.λy.x"), parse("λa.λb.a"))
+
+
+def test_alpha_distinguishes_free_variables():
+    assert not alpha_eq(parse("λx.x"), parse("λx.y"))
+    assert not alpha_eq(parse("λx.λy.x"), parse("λx.λy.y"))
+
+
+def test_alpha_eq_ignores_combinator_only_terms():
+    # no binders → structural equality, as before
+    assert alpha_eq(parse("B f g x"), parse("B f g x"))
+    assert not alpha_eq(parse("B f g x"), parse("B f g y"))
+
+
+# --------------------------------------------------------------------------- #
+# calculus switches (§9) — strong/weak ξ, eta                                 #
+# --------------------------------------------------------------------------- #
+def test_weak_stops_under_binder_strong_reduces():
+    t = "λy.((λx.x) a)"
+    assert nf(t, R_WEAK) == "λy.(λx.x) a"  # weak: no ξ, body untouched
+    assert nf(t, R_NORMAL) == "λy.a"  # strong: reduce inside the binder
+
+
+def test_eta_contraction_only_in_church():
+    assert nf("λx.f x", R_CHURCH) == "f"  # η on
+    assert nf("λx.f x", R_NORMAL) == "λx.f x"  # η off (default)
+
+
+def test_eta_blocked_when_var_free_in_head():
+    # λx.x x  is NOT η-contractible (x occurs free in the head)
+    assert nf("λx.x x", R_CHURCH) == "λx.x x"
+
+
+# --------------------------------------------------------------------------- #
+# free variables + structural/graded analyses                                 #
+# --------------------------------------------------------------------------- #
+def test_free_vars():
+    assert free_vars(parse("λx.x y")) == frozenset({"y"})
+    assert free_vars(parse("λx.λy.x y z")) == frozenset({"z"})
+    assert free_vars(parse("λx.x")) == frozenset()
+
+
+def test_affine_check():
+    assert affine_ok(parse("λx.x"))  # linear use
+    assert affine_ok(parse("λx.λy.y"))  # x dropped (affine allows weakening)
+    assert not affine_ok(parse("λx.x x"))  # x duplicated → not affine
+
+
+def test_occurrence_profile_is_graded():
+    assert occurrence_profile(parse("λx.λy.x y y")) == [("x", 1), ("y", 2)]
+    assert occurrence_profile(parse("λx.x")) == [("x", 1)]
+
+
+# --------------------------------------------------------------------------- #
+# integration — trace / verify / fired opcodes over binders                   #
+# --------------------------------------------------------------------------- #
+def test_verify_over_binders_is_alpha_aware():
+    assert verify("(λx.λy.x) y", "λw.y")  # alpha-equal to λy'.y
+    assert not verify("(λx.λy.x) y", "λy.y")  # that is the NAIVE (wrong) answer
+
+
+def test_step_fired_reports_beta_and_eta():
+    _nxt, fired = step_fired(parse("(λx.x) a"))
+    assert fired == "β"
+    _nxt2, fired2 = step_fired(parse("λx.f x"), R_CHURCH)
+    assert fired2 == "η"
+
+
+def test_trace_record_handles_binders():
+    rec = trace_record("(λx.x) a")
+    assert rec["normal_form"] == "a"
+    assert rec["status"] == "normal_form"
