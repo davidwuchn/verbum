@@ -256,6 +256,19 @@ def build_battery() -> list[dict]:
 # ══════════════════════════════════════════════════════════════════════════
 # Statistics (pure) — permutation nulls, no torch
 # ══════════════════════════════════════════════════════════════════════════
+def _json_native(o):
+    """json.dump default: coerce numpy scalar types to native Python."""
+    if isinstance(o, np.bool_):
+        return bool(o)
+    if isinstance(o, np.integer):
+        return int(o)
+    if isinstance(o, np.floating):
+        return float(o)
+    if isinstance(o, np.ndarray):
+        return o.tolist()
+    raise TypeError(f"Object of type {o.__class__.__name__} is not JSON serializable")
+
+
 def _binom_two_sided_p(k: int, n: int) -> float:
     """Two-sided normal-approx p that a proportion differs from 0.5."""
     if n == 0:
@@ -343,9 +356,10 @@ def compute_gates(recs: list[dict], rng) -> dict:
     # ── SE3 alpha-variance (term vs variant) + self-null ──
     a_term = np.array([r["correct"] for r in alph if r["surface"] == "term"], float)
     a_var = np.array([r["correct"] for r in alph if r["surface"] == "variant"], float)
-    alpha_delta = (a_term.mean() - a_var.mean()) if len(a_term) and len(a_var) else 0.0
+    have_alpha = len(a_term) and len(a_var)
+    alpha_delta = float(a_term.mean() - a_var.mean()) if have_alpha else 0.0
     p3 = _perm_p_delta(a_term, a_var, rng) if alpha_delta != 0.0 else 1.0
-    se3 = abs(alpha_delta) > 0 and p3 < ALPHA
+    se3 = bool(abs(alpha_delta) > 0 and p3 < ALPHA)
 
     # ── verdict (frozen precedence) ──
     if not se0:
@@ -747,10 +761,10 @@ def main() -> int:
         out.mkdir(parents=True, exist_ok=True)
         with (out / "results.jsonl").open("w") as f:
             for r in recs:
-                f.write(json.dumps(r) + "\n")
+                f.write(json.dumps(r, default=_json_native) + "\n")
         with (out / "gates.json").open("w") as f:
             json.dump({"model_id": args.model_id, "seed": args.seed,
-                       "pilot": pl, **g}, f, indent=2)
+                       "pilot": pl, **g}, f, indent=2, default=_json_native)
     print(f"[se] verdict={g['verdict']} frac_correct={g['frac_correct']:.3f} "
           f"acc_ctrl={g['acc_control']:.3f} SE2={g['SE2']} SE3={g['SE3']}", flush=True)
     print(f"[se] pilot: acc direct={pl.get('acc_direct', 0):.3f} "
