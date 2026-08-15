@@ -235,6 +235,73 @@ never been measured by this project.
    position); same T≈X'X⁺ machinery on the field; cross-column stationarity
    = a second independent test of one-reducer-unrolled.
 
+## §P-PREFILL-CONE — FREEZE (s335, Michael "approved", frozen PRE-DATA)
+
+> Status: 🔵 frozen. Design sharpened from §6–§7 above; instrument map verified
+> against the repo before design (jlens grid capture + logit_lens exist; the
+> only novel module is `cone.py`). No grid has been captured at freeze time.
+
+**Question.** Does the dataflow cone of a leaf perturbation in the prefill
+triangle follow the machine's measured substitution algorithm (NAIVE-SUBST,
+s331/s332 cross-model law) or the calculus's (capture-avoiding)?
+
+**Substrate.** Qwen3-14B instruct face primary (deployment face, s330 ruling);
+base face = advisory `--model-id` swap after the frozen run. MPS bf16, eager
+attention, prefill-only forwards. Battery = `verbum.probes.subst_pairs.all_pairs()`
+(120 certified probes; capture pairs ship rival NFs). Prompt = the s331
+subst_engine shape (`_FEWSHOT_DIRECT + "Term: {term}\nNormal form:"`) for
+comparability. Grid via `jlens.capture_residuals`; lens via `jlens.logit_lens`.
+New module `cone.py`: AST node → char span in `pretty()` → token indices
+(tokenizer offsets); span ∈ cone_R ⟺ subterm NF changes under the leaf
+perturbation with calculus R ∈ {R_NORMAL, R_NAIVE}. Perturbation = single-token
+free-atom swap at every discriminating leaf (~2–3/term, Michael's pick).
+Storage: derived per-cell stats only (Δ-norm grid, top-k lens tokens), not raw
+residuals.
+
+**Measurables + registers (named before build, λ measure):**
+
+| # | measurable | register | readout |
+|---|---|---|---|
+| M1 | subterm-NF first-token rank at subterm closing position, per layer | value | surfacing layer ℓ* vs shuffled-position null |
+| M2 | per-cell normalized residual Δ, orig vs perturbed | value (graded) | in-cone vs distance-matched out-of-cone contrast |
+| M3 | D = meanΔ(naive-only spans) − meanΔ(correct-only spans) on discriminating spans (cone_naive △ cone_correct) | value | sign + permutation p |
+| M4 | necessity (answer-column lens: correct-vs-naive first token, pre-decode) + answer-column read-mass onto in/out-cone positions, value-weighted (s206 scar) | value + routing | necessity fraction; read-mass ADVISORY not gated (Michael's pick) |
+
+**Nulls.** (a) distance-matched out-of-cone spans paired within term;
+(b) shuffled-position null (M1); (c) span-label permutation (M3);
+(d) causal-mask invariant Δ≡0 upstream of perturbation + repeat-run
+determinism check.
+
+**Gate tree (frozen).**
+- **PC0 sanity**: `subst_pairs.validate()` · span→token round-trip audit 100% ·
+  Δ<ε for pos < perturbation · Δ large at perturbed position · deterministic
+  repeat capture.
+- **PC1 interior visibility**: M1 beats shuffled-position null p<0.05 AND
+  median rank-gain ≥ 10 → qualifier INTERIOR-VISIBLE vs LAST-COLUMN-ONLY
+  (does not block PC2/PC3 — raw Δ needs no lens).
+- **PC2 cone localization** (make-or-break for cone existence): in/out
+  contrast p<0.05 AND Cliff's δ ≥ 0.2.
+- **PC3 calculus discrimination** (headline; requires PC2 pass): sign(D) +
+  permutation p<0.05.
+- **PC4 necessity**: resolved-in-prefill fraction reported; gated only on
+  readability above null.
+
+**Verdict space + a-priori mass (Σ=100).**
+- **CONE-NAIVE** (PC2✓ PC3✓ D>0; the behavioral law watchable cell-by-cell) —
+  **25 = directional prediction**
+- CONE-CORRECT (PC3✓ D<0; dataflow correct while behavior naive ⇒ late
+  decision-stage tension, s329-shaped) — 10
+- CONE-UNDIFFERENTIATED (PC2✓ PC3✗) — 30 (modal)
+- DIFFUSE / NO-CONE (PC2✗; s250 distributed-object-application precedent) — 30
+- VOID (PC0 fails) — 5
+
+**Advisory (unfrozen, rides free).** ℓ*(subterm) vs certified reduction depth —
+first pattern-read of the hop-budget≈L cliff prediction (§6). Read-mass audit
+(M4 routing half). Base-face swap.
+
+**Cost.** ~120 terms × ~3 prefill forwards ≈ 30 min on 14B MPS; smoke on
+Qwen3-4B.
+
 ## Queue rows spawned (s333)
 
 - ⚪ **§P-PREFILL-CONE** — grid logit-lens + leaf-perturbation dependency
