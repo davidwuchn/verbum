@@ -43,6 +43,32 @@
 > read before design). Batch (💡, Michael "yes approved", this commit): knowledge page
 > explore/repl-driver-trampoline.md + memory `the-repl-driver-bounces-the-trampoline-at-s3-star`
 > + INDEX row + queue ⚪ §P-REPL-DRIVER (top) + clock-row subsumption note + this state.
+> **CAPTURE 2 (same session, Michael: "can we install the repl onto say qwen3-32b? I was
+> thinking of it as a way for one model to interact with another model step-wise. is that even
+> possible?" → GO "yes capture this"): 💡 §8 on repl-driver-trampoline.md — INSTALL + TWO-MODEL
+> CONFIG. Install = plumbing owned: 32B already runs in the harness (s332 matrix), driver v0 =
+> KV seal/fork (GQA ≈256KB/token ⇒ 1k-token seal ≈260MB, few live forks fine), greedy/seeded +
+> fork-identity plant, and the APPEND/REWRITE law (KV resume valid on APPEND only — canonical
+> hard-writes re-prefill ⇒ fork points live at the pre-emission seal; the mechanical
+> explanation under the three-arm feedback read); 14B calibrates first, 32B = scale face.
+> THE STRUCTURAL LAW: **KV continuations are MODEL-PRIVATE — no cross-model KV handoff
+> (weights/shapes/geometry differ); model-to-model stepwise interaction works EXACTLY because
+> the driver re-serializes canonically each bounce: shared tape ≡ canonical text (the hard
+> write ≡ the bus), private state ≡ per-model sealed KV lineage.** Two-model config: B=S1
+> (bounced reducer) · canonical serialization=S2 (the interlingua, the only thing that crosses
+> models) · A=S3 (policy seat: order/forks/repair proposals/probe selection) · lambda_ast
+> kernel=S3* STAYS MECHANICAL (non-negotiable — model-as-auditor puts ground truth inside the
+> measured thing, destroys the instrument; λ termination for machines: synthesis proposes,
+> mechanical auditor disposes) · ledger=S4 · pre-reg=S5. §10b lens: A-driving-B ≡ tool-calling
+> RECURSED (B is A's tool, A is B's effect handler — agent-loop-as-outer-trampoline literal,
+> one scale up). Buys: ① adaptive probing (coverage-guided fuzzer row lands in-driver) ②
+> cross-face driving (instruct OPERATES base = §P-TOOL-ABI read from the other side —
+> convention as driving capability ¬emission format) ③ composition tutoring (s228 rescue with
+> A decomposing, B executing — splits cannot-compose from cannot-decompose). Discipline flag:
+> frozen experiments keep the MECHANICAL driver; A-in-loop = exploration mode ∨ own
+> pre-registered arm with A-policy PINNED. Batch 2 (💡, Michael GO, this commit): §8 (8a–8e) +
+> memory `kv-continuations-are-model-private-text-is-the-bus` + INDEX clause + queue row
+> amended (install + two-model arm + tool-abi cross-link) + this state.**
 > NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue FULL read; nothing in flight).
 > Sharpest fronts: ⚪ §P-REPL-DRIVER (new, fork-at-redex + repair-replay on the subst battery =
 > cheapest causal pair; anima cross-check + freeze first) · ⚪ §P-TOOL-ABI (medium) ·

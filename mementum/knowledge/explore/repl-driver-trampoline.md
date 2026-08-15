@@ -175,3 +175,89 @@ causal pair; both verdicts unreachable by endpoint instruments). Subsumes
 §P-DMD-TRANSPORT (bounce-boundary residuals) and gives §2b its per-step
 grading mode. New code: the loop + step-parser + seal/fork wrapper + repair
 flag; everything else exists.
+
+## 8. Install target + the two-model configuration (s334, capture 2)
+
+> Michael: "can we install the repl onto say qwen3-32b? I was thinking of it
+> as a way for one model to interact with another model step-wise."
+
+### 8a. Install on Qwen3-32B — plumbing we mostly own
+
+The 32B face already runs in the harness (s332 matrix, `subst_engine.py
+--model-id Qwen/Qwen3-32B`, MPS, clean runs committed). Driver v0 adds:
+
+- **Seal** = `past_key_values` snapshot after prefill/each accepted bounce.
+  Qwen3-32B is GQA (8 KV heads, 64 layers) ≈ ~256KB/token ⇒ a 1k-token
+  continuation seals at ~260MB. A handful of live forks fine; a tree of
+  hundreds not. Fork = cache tensor copy; resume = feed appended tokens only.
+- **Greedy/seeded decode** + fork-identity plant at smoke (§6).
+- **APPEND vs REWRITE (the KV wrinkle).** KV resume is only valid on APPEND.
+  A canonical hard-write that REPLACES the raw emission diverges the prefix ⇒
+  that bounce re-prefills (cheap at λ-term size). Law: **fork points live at
+  the pre-emission seal; canonical rewrites start a fresh continuation.**
+  Both modes useful — they are the mechanical explanation under the §6
+  three-arm feedback read.
+- Sequencing: 14B for calibration speed, 32B as the scale face (--model-id
+  swap discipline).
+
+### 8b. The model-private-KV law (the structural finding)
+
+**KV continuations are MODEL-PRIVATE.** A's cache is meaningless to B —
+different weights, shapes, geometry. No shared-KV handoff exists between two
+different models. Cross-model stepwise interaction is possible EXACTLY
+because the driver re-serializes to canonical form at each bounce:
+
+```
+shared tape   ≡ the canonical textual state (the hard write ≡ the bus)
+private state ≡ each model's sealed KV lineage (its own continuation)
+```
+
+The canonical serialization is the interlingua — the ONLY thing that crosses
+models. (Geometry-level bridges — cross-Gram etc. — are research questions,
+not plumbing; the text bus is the licensed channel.)
+
+### 8c. Two-model configuration — the policy seat becomes a model
+
+Model A observes B's sealed state (emitted step + readers advisory) and
+decides: bounce, fork here, try the other redex, propose a repair, halt,
+generate the next probe term. B does the work; A does the steering.
+
+```
+S1  = model B (the bounced reducer)
+S2  = canonical serialization (the interlingua)
+S3  = model A (policy: order, forks, budgets, probe selection)
+S3* = lambda_ast kernel — STAYS MECHANICAL (non-negotiable)
+S4  = δ(M,R) ledger
+S5  = pre-registration
+```
+
+**The kernel is never delegated to a model.** A proposes (repairs, forks,
+verdict candidates); the kernel certifies. λ termination applied to
+machines: synthesis proposes, the mechanical auditor disposes. A
+model-as-auditor puts ground truth inside the thing being measured — the one
+configuration that destroys the instrument.
+
+§10b lens: A-driving-B IS a tool-calling relationship, recursed — B is A's
+tool (A emits "bounce B with this state", the scaffold performs it); A is
+symmetrically B's effect handler. Agent-loop-as-outer-trampoline made
+literal, one scale up.
+
+### 8d. What two models buy (beyond plumbing)
+
+1. **Adaptive probing** — A hunts states where B's step disagrees with the
+   kernel = the coverage-guided probe fuzzer row landing inside the driver.
+2. **Cross-face driving** — A = instruct driving B = base: does the instruct
+   model know how to OPERATE a model lacking the ABI? A behavioral read on
+   §P-TOOL-ABI from the other side — the convention measured as a driving
+   capability, not an emission format.
+3. **Composition tutoring** — the s228 rescue with A supplying the
+   one-rule-per-bounce decomposition and B executing: separates
+   "cannot compose" from "cannot decompose."
+
+### 8e. Discipline flag
+
+A model in the policy seat makes the instrument stochastic and
+model-dependent. **Frozen experiments keep the MECHANICAL driver**;
+A-in-the-loop = exploration mode, or its own pre-registered arm with A's
+policy PINNED (fixed model, seed, prompt). Otherwise every verdict inherits
+an uncontrolled confound.
