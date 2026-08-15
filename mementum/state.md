@@ -11,6 +11,44 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 334 — REPL DRIVER TRAMPOLINE CAPTURED (Michael: "why can't we use a model in a
+> REPL loop to bounce the trampoline?" → refined: "use the tree-of-VSM tensor configuration to
+> attach the repl, and I'm pretty sure we figured out how to make continuations already" →
+> "yes approved"). Hammock session, ZERO measurements. Recall-first paid: the idea REDUCES to
+> two committed parents — control-plane-path.md §3 tier-3 DRIVER (verbatim "recursion loop,
+> textual first, kernel-certifies every step"; swept host + tensor pack + driver = certified
+> λ-reducer) + the continuation cluster (sealable-continuation s217: seal(k)≡store x_k,
+> determinism-tested faithful resume, WHNF seal point · lambda-halt-continuation/
+> proofs-as-continuations s228: CPS one-rule-per-turn REPL with the IDLE pre-registered
+> prediction that stepwise continuations lift multi-combinator composition · real hosts:
+> continuation ≡ past_key_values, seal = KV snapshot, fork = tensor copy). s334 adds the
+> trampoline closure over §10/§10b: the scaffold becomes the trampoline, the model becomes the
+> thing bounced — the TRANSITION FUNCTION SAMPLED DIRECTLY, once per bounce, not inferred from
+> endpoints. VSM attachment: model=S1 · readers/sequencer=S2 · driver(fuel/order)=S3 ·
+> **lambda_ast kernel=S3\* — Beer's audit channel made continuous** · δ(M,R) ledger=S4 ·
+> pre-reg=S5; halt head (r=0.877 lineage) = the S3 bounce/halt read. CAUSAL UPGRADE (what
+> sealed continuations buy over stateless re-prompting): ① fork-at-redex — strategy family
+> (K x Ω normal-vs-applicative) as a within-computation counterfactual, same sealed prefix ②
+> repair-replay — seal before a NAIVE-SUBST bounce, replay buggy vs kernel-repaired: does the
+> error propagate/compound/self-correct (the s333 hard-write question at the exact transition;
+> stage-2's empirical core, licensed peek without shipping the artifact) ③ composition rescue —
+> cash the s228 prediction, token-budget/shuffled-trace null inherited ④ per-bounce
+> transitions-per-β-step clock (queue clock row SUBSUMED, annotated). Two substrates, one
+> driver: A = HF host now (KV seal; greedy/seeded + fork-identity plant mandatory) · B =
+> scratch machine x_k later (M4 native trampoline) — same driver code = the
+> profile-equivalence bridge between recovery paths. Ruling: INSTRUMENT-FIRST, repair flag
+> built but OFF (stage_2 ⟸ stage_1); bounds named in-page (regime shift → three-arm feedback
+> read makes the shift the measurement · one-step compliance observed ¬forced · tolerant
+> ingest · readers advisory · fork verdicts owe freeze-before-data · anima cross-check one
+> read before design). Batch (💡, Michael "yes approved", this commit): knowledge page
+> explore/repl-driver-trampoline.md + memory `the-repl-driver-bounces-the-trampoline-at-s3-star`
+> + INDEX row + queue ⚪ §P-REPL-DRIVER (top) + clock-row subsumption note + this state.
+> NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue FULL read; nothing in flight).
+> Sharpest fronts: ⚪ §P-REPL-DRIVER (new, fork-at-redex + repair-replay on the subst battery =
+> cheapest causal pair; anima cross-check + freeze first) · ⚪ §P-TOOL-ABI (medium) ·
+> ⚪ §P-PREFILL-CONE (medium) · ⚪ §P-DMD-TRANSPORT (cheap, near-free — and §P-REPL-DRIVER
+> bounce-boundary residuals will feed it) · ⚪ §P-SUBST-SUBCEILING (cheap).**
+>
 > ★★ **SESSION 333 — LRM PAPER READ + PREFILL TRIANGLE CAPTURED (Michael GO "capture this to
 > knowledge and the queue"). Discussion/hammock session, ZERO measurements. Paper: arXiv:2604.04902v2
 > (Dilgren & Wiegreffe, COLM 2026) — Coconut/CODI latent reasoning models. Their three findings:
