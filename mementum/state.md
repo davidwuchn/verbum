@@ -11,6 +11,39 @@
 > (`git log -p mementum/state.md`). Architecture/canonical-forms: `AGENTS.md`.
 > Knowledge map: `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 333 — LRM PAPER READ + PREFILL TRIANGLE CAPTURED (Michael GO "capture this to
+> knowledge and the queue"). Discussion/hammock session, ZERO measurements. Paper: arXiv:2604.04902v2
+> (Dilgren & Wiegreffe, COLM 2026) — Coconut/CODI latent reasoning models. Their three findings:
+> ① latent tokens mostly UNNECESSARY (training-controlled no-CoT matches on PrOntoQA/ProsQA — the
+> "parallel BFS" claim dies at the necessity gate; the win was the regimen); ② where tokens are used
+> (GSM8k), gold traces recoverable from top-10 vocab projections 65–93% correct vs 2–8% random-trace
+> null, 24–36% incorrect; operators NEVER project; ③ forward chaining = unsupervised extraction +
+> input-counterfactual verification (perturb operand → projected result must move arithmetically) —
+> verified traces majority-correct/minority-incorrect. OUR READING (frame-level, banked in-page):
+> the COMPILE STEP IS LOAD-BEARING — latent token = residual state fed back with the collapse
+> deleted; collapse = error correction (snap to vocab lattice; tape-face echo of sign-is-the-
+> decision) + addressability (in-dist K/V) + program-register write (explicit "3+5=8" writes BOTH
+> registers; soft write drops the program, keeps the data). Hard writes beat soft writes at equal
+> training (+~29pt) — the "decode bottleneck" framing is backwards. Operators-missing = value-
+> register instrument blindness (λ measure): the program is the SHAPE OF THE READ. Method
+> consilience (independent): their multi-mode control ≡ λ provenance_check · early-stopping ≡
+> necessity gate · random-trace baseline ≡ λ yardstick null · verification ≡ §2b differential
+> testing. THE BIG CATCH (Michael: "prompt processing — I don't think we have ever looked there"):
+> **the PREFILL TRIANGLE** — (position × layer) grid, n coupled within-pass reducers, KV cache ≡
+> the compiled tape (§8c auto_compile), serial hop budget ≈ L (explains their §4; coheres s319
+> direct 92%; cliff predicted where serial depth crosses ~L) — and EVERY tape-face law we own
+> (idempotency, order laws, tape-subtraction, subst-engine) was read at the LAST COLUMN; the
+> interior is uninstrumented. Their instruments transfer WITH OUR EDGE (certified reference
+> reducer): grid logit-lens · leaf-perturbation DEPENDENCY CONE → cone(machine) vs cone(calculus)
+> from lambda_ast — makes NAIVE-SUBST (s331/s332 law) watchable cell-by-cell · per-instance
+> necessity gate · answer-column read-mass audit. Batch (💡, Michael GO, this commit): knowledge
+> page explore/latent-reasoning-and-the-prefill-triangle.md + memory
+> `the-prefill-triangle-is-uninstrumented` + INDEX + 2 queue rows top (⚪ §P-PREFILL-CONE ·
+> ⚪ §P-ROUTING-TRACE register-separated 2×2) + this state. NEXT SESSION FIRST ACTION = orient →
+> FRONT SELECTION (λ queue FULL read; nothing in flight). Sharpest fronts: ⚪ §P-PREFILL-CONE (new,
+> the uninstrumented region, medium) · ⚪ §P-DMD-TRANSPORT (cheap, near-free) · ⚪ §P-CROSS-GRAM
+> (cheap) · ⚪ §P-SUBST-SUBCEILING (cheap, powered SE4 re-test).**
+>
 > ★★ **SESSION 332 — RUN RECOVERED + CBLL LINEAR-ALGEBRA CAPTURED. Two threads.
 > ① §P-SUBST-ENGINE PAIRED RUN RESCUED (data was NOT lost): the s331 in-flight run crashed
 > writing gates.json — `se3 = abs(alpha_delta)>0 and p3<ALPHA` returned a numpy.bool_ (alpha_delta
