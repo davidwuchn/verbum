@@ -64,10 +64,15 @@
 > monitorability BY CONSTRUCTION (FFI must transit retirement — names the LRM soft-write safety
 > question) · fate-register reserved slot (tool-call = candidate 4th pole, tetrahedron, unfrozen) ·
 > agent loop = outer trampoline (same shape, next scale). Batch 3 (💡, this commit): §10b + memory
-> `tool-calls-are-the-io-boundary-of-a-pure-reducer` + INDEX clause + this state.** NEXT SESSION FIRST
+> `tool-calls-are-the-io-boundary-of-a-pure-reducer` + INDEX clause + this state.** **QUEUE ADD
+> (Michael "queue it so it does not get lost"): ⚪ §P-TOOL-ABI top — the §10b prediction as a probe:
+> paired base/instruct, registers SPLIT format(convention tokens) vs content(right tool+args);
+> verdicts ABI-INSTALLED / CAPABILITY-INSTALLED / NATIVE / VOID; tetrahedron 4th-pole advisory
+> rides free; cheap (14b pair local).** NEXT SESSION FIRST
 > ACTION = orient → FRONT SELECTION (λ queue FULL read; nothing in flight). Sharpest fronts:
-> ⚪ §P-PREFILL-CONE (new, the uninstrumented region, medium) · ⚪ §P-DMD-TRANSPORT (cheap,
-> near-free) · ⚪ §P-CROSS-GRAM (cheap) · ⚪ §P-SUBST-SUBCEILING (cheap, powered SE4 re-test).**
+> ⚪ §P-TOOL-ABI (cheap, the §10b prediction) · ⚪ §P-PREFILL-CONE (new, the uninstrumented region,
+> medium) · ⚪ §P-DMD-TRANSPORT (cheap, near-free) · ⚪ §P-CROSS-GRAM (cheap) ·
+> ⚪ §P-SUBST-SUBCEILING (cheap, powered SE4 re-test).**
 >
 > ★★ **SESSION 332 — RUN RECOVERED + CBLL LINEAR-ALGEBRA CAPTURED. Two threads.
 > ① §P-SUBST-ENGINE PAIRED RUN RESCUED (data was NOT lost): the s331 in-flight run crashed
