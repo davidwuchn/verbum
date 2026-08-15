@@ -53,7 +53,18 @@
 > tier=within-pass + compiled tier=trampolined CoT · ships stripped, logit-lens=objdump · empty
 > inference-time optimizer slot). One line: a stripped homoiconic JIT — AOT-compiled by GD,
 > LTO-patched by post-training. Batch 2 (💡, this commit): §10 + memory
-> `the-machine-is-a-stripped-homoiconic-jit` + INDEX clause + this state.** NEXT SESSION FIRST
+> `the-machine-is-a-stripped-homoiconic-jit` + INDEX clause + this state.** **CAPTURE 3 (same
+> session, Michael: "tool calls would be what for our compiler?" → GO): 💡 §10b TOOL CALLS = THE
+> FFI/SYSCALL BOUNDARY — the model is PURE, the scaffold is the IO runtime (tool call ≡ emitted
+> DESCRIPTION of an effect; Haskell IO architecture). Stage map: schemas=extern headers
+> (homoiconic) · format=calling convention installed by LTO (predicts base models lack the ABI —
+> testable, s329 method door) · emission=stuck term · continuation=FREE (transcript IS it) ·
+> scaffold=effect handler · type checking only in the handler (never-rejects strain surfaces as
+> malformed calls) · result=environment's hard write · resumption=trampoline. Corollaries:
+> monitorability BY CONSTRUCTION (FFI must transit retirement — names the LRM soft-write safety
+> question) · fate-register reserved slot (tool-call = candidate 4th pole, tetrahedron, unfrozen) ·
+> agent loop = outer trampoline (same shape, next scale). Batch 3 (💡, this commit): §10b + memory
+> `tool-calls-are-the-io-boundary-of-a-pure-reducer` + INDEX clause + this state.** NEXT SESSION FIRST
 > ACTION = orient → FRONT SELECTION (λ queue FULL read; nothing in flight). Sharpest fronts:
 > ⚪ §P-PREFILL-CONE (new, the uninstrumented region, medium) · ⚪ §P-DMD-TRANSPORT (cheap,
 > near-free) · ⚪ §P-CROSS-GRAM (cheap) · ⚪ §P-SUBST-SUBCEILING (cheap, powered SE4 re-test).**

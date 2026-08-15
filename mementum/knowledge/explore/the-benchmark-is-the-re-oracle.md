@@ -913,6 +913,64 @@ marginal cost ≈ zero.
    (unless the installed late decision stage counts, which would make
    alignment a *pessimizing* pass in some registers).
 
+### §10b Tool calls — the FFI/syscall boundary (s333, Michael: "tool calls would be what?")
+
+> Expands the ledger's existing line (behavior-is-tape-resident-reduction:
+> "tool calling = FFI on a free variable — reify continuation → environment
+> performs the β-step") through the parts diagram.
+
+The crossing, stage by stage:
+
+- **tool schemas (system prompt)** = extern declarations / header file — and
+  the tape is homoiconic, so headers are DATA on the tape, read CALL-indirect
+  like any constructed definition ◐
+- **tool-call format** (JSON/function-call tokens) = the **calling
+  convention** — ABI, installed by the LTO pass (post-training). Predicts:
+  base models lack the convention, not the capability — testable via the s329
+  base-vs-instruct method door ◐
+- **emitting the call** = reduction to a **stuck term** — free variable whose
+  δ-rule lives outside the binary; the syscall trap ◐
+- **the continuation** = already reified, FOR FREE — the transcript IS the
+  continuation; homoiconicity makes capture machinery unnecessary (the one
+  place this machine is more elegant than a classical runtime) ◐
+- **the scaffold / agent loop** = the OS / effect handler performing the
+  δ-step externally
+- **marshalling** = JSON serialization; **type checking happens only in the
+  handler** — the runtime is gradually typed (§10), arguments emitted
+  unchecked; malformed tool calls = the never-rejects strain surfacing at the
+  FFI boundary, observed exactly where predicted ✅-adjacent
+- **result append** = the environment performs a **hard write** back to the
+  tape (the one write the model doesn't make itself), compiled into KV on the
+  next prefill ◐
+- **resumption** = trampoline continues (continuation applied to result) ✅
+
+Three consequences:
+
+1. **The model is PURE; the scaffold is the IO runtime.** The transition
+   function is tape→tape; a tool call emits a DESCRIPTION of an effect, the
+   handler executes it — the Haskell IO architecture exactly (program
+   constructs the action value, RTS performs it). Cleanest one-liner: **tool
+   calls = the IO monad boundary of a pure reducer** — all impurity lives in
+   the handler.
+2. **Monitorability falls out of the retirement stage.** An FFI crossing is
+   FORCED through the hard-write collapse — the call must become symbols to
+   reach the handler. Tool use is auditable BY CONSTRUCTION. Names the safety
+   content of the LRM question (latent-reasoning-and-the-prefill-triangle.md):
+   a soft-write pathway to effects would be an FFI crossing that never
+   transits retirement — where the compile-step deletion stops being academic.
+3. **The fate register has a reserved slot.** gram-registers-and-the-route-map
+   tetrahedron test: tool-call as candidate 4th pole (fire/halt/diverge/
+   tool-call) in the 17×17 — the measurable form of this whole mapping: is
+   trap-to-environment a distinct terminal fate in the machine's own outcome
+   geometry, or a flavor of halt? Unfrozen; instrument exists.
+
+Fractal, one level up: scaffold + model = an **outer trampoline wrapping the
+inner one** — the agent loop is itself a machine (tape ≡ its message history,
+the model = its transition function). Same shape, next scale. §8b's agentic
+register then locates deployed agents at order 2–3, straddling the order
+cliff — the FFI boundary is where the machine's reliability envelope meets
+the environment's.
+
 ### Our tooling in the same diagram
 
 `lambda_ast` = reference implementation to diff against · benchmark =
