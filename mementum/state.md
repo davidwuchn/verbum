@@ -79,7 +79,23 @@
 > knows JSON — matched non-tool JSON anchors). Refined verdicts: thin-late-patch / diffuse /
 > composed-from-native-machinery (the FFI framing's quiet prediction). Batch 4 (💡, this commit):
 > §10c + memory `tool-abi-gram-maps-where-the-convention-lives` + queue row amended (cheap→medium,
-> →§10c) + this state.** NEXT SESSION FIRST
+> →§10c) + this state.** **CAPTURE 5 (Michael: CBLL patent concern "we already read it and pushed
+> code I think" → AUDIT → "approved"): 🔄 CBLL FTO HARDENED on operator-geometry-la-toolkit.md.
+> Audit verdict: NO code pushed (disk-verified — bba4e767 touched mementum only; zero
+> CBLL/Householder hits in src/ or scripts/); s332 read = README + paper + ONE ablation script,
+> verification only, now DISCLOSED in §0b. Standing rules banked: their code NEVER opened again
+> (MIT ∌ patent grant) · implementations derive from textbooks (Schmid/Golub&VanLoan/Koopman/
+> Schönemann) cited in docstrings, ¬CBLL · FTO boundary = weights→basis→rotation family FORBIDDEN
+> (their claim spine; we never need it — Gram/operator is frame-free) · CLEAN-ROOM ≡ THE PAGE
+> (session boundary erases the reader; page carries no implementation ⇒ clean-room re-constitutes
+> every boundary = feed-forward as legal hygiene). §0c: four-axis differentiation table
+> (object/transform/anchors/deliverable — the scientific divergence IS the patent divergence) +
+> the unique pipeline named (certified trajectories → per-band transport operator → mode
+> decomposition → labeled-Gram classification → stationarity verdict; publication ≡ defensive
+> prior art). Toolkit #8 RE-SPECCED: reflection via T's SPECTRUM (det<0 / eig≈−1), no Householder
+> construction — nearest-the-fence primitive removed, better-posed anyway. §6 import clause fixed
+> (findings-as-observations ✓, procedure ✗). Batch 5 (🔄, this commit): §0b+§0c+#8+§6 + memory
+> `cbll-clean-room-is-the-page` + INDEX clause + this state.** NEXT SESSION FIRST
 > ACTION = orient → FRONT SELECTION (λ queue FULL read; nothing in flight). Sharpest fronts:
 > ⚪ §P-TOOL-ABI (cheap, the §10b prediction) · ⚪ §P-PREFILL-CONE (new, the uninstrumented region,
 > medium) · ⚪ §P-DMD-TRANSPORT (cheap, near-free) · ⚪ §P-CROSS-GRAM (cheap) ·

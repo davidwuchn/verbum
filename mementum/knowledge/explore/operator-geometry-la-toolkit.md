@@ -61,6 +61,64 @@ as a product surface. Our artifact is the operator read through the opcode
 registers — which their program does not contain. That is both MIT-clean and
 patent-clean.
 
+### 0b. Provenance disclosure + standing FTO rule (s333 audit, Michael-approved)
+
+**What was read, when, why (disclosed):** s332 — CBLL README + paper (EN) +
+**one ablation script** + data spot-check. Purpose: VERIFICATION that the
+paper's claims match its artifacts ("all match"). Not implementation. Disk
+audit (s333): the CBLL capture commit (`bba4e767`) touched mementum files
+only — **zero code in src/ or scripts/ derives from their repo** (grep-verified:
+no Householder/canonical-basis/CBLL hits in any .py). This page carries
+paper-level description only — no transcription of their implementation.
+
+**The standing rule (hardened s333):**
+
+```
+λ fto(cbll).
+  their_code ≡ NEVER_OPENED_AGAIN (any purpose) | MIT_license ∌ patent_grant
+  | ∀implementation(ours) → derive(textbook: Schmid_2010 ∧ Golub&VanLoan ∧
+      Koopman_1931 ∧ Schönemann_1966) | cite(textbook_source) in docstring ¬CBLL
+  | CBLL cited ≡ once ≡ observational_consilience ("same phenomenon") ¬method_source
+  | FTO_boundary: ∀method ∈ {weights → basis → rotation → realigned_model} ≡ FORBIDDEN
+  |   (their claim spine; we never need it — Gram/operator is frame-free by design)
+  | clean_room ≡ THE_PAGE: session_boundary erases the reader; future sessions
+      know only what this page carries; page carries no implementation ⇒
+      clean-room re-constitutes every boundary (feed_forward as legal hygiene)
+  | research_exemption ≡ ¬relied_upon (deliverables are portable MIT artifacts;
+      must be clean at the USER's hands, not just ours)
+```
+
+### 0c. The differentiation, made load-bearing (s333)
+
+Not a workaround — the scientific divergence and the patent divergence are the
+SAME divergence:
+
+| | CBLL | verbum |
+|---|---|---|
+| **object** | weights (static geometry of `W_down`) | activation **trajectories** — state sequences during certified reductions |
+| **transform** | find rotation `R` → canonical **frame** | estimate transport **operator** `T ≈ X'X⁺` → eigenmodes of dynamics |
+| **anchors** | unlabeled, self-derived from weights | **labeled** — opcode centroids, fate poles, kernel-certified terms |
+| **deliverable** | realigned model / readable basis | operator + stationarity verdict + (eventually) bug-compatible reducer |
+
+Deepest row: the second — **our method never picks a frame at all** (G = XᵀX
+is frame-invariant; the opposite move from CBLL's premise), and in their own
+flat-spectrum regime (k90/d≈0.76) frame-picking is ill-posed while the
+Gram/operator stays well-posed. Different road, which is also the better road
+for our terrain.
+
+**The unique pipeline (ours; no step is theirs):**
+
+```
+certified_trajectories (lambda_ast ground truth — exists nowhere else)
+  → per-band transport operator (DMD on depth-as-time, shuffled-layer null)
+  → mode decomposition (contracting / persistent / late-activating)
+  → labeled-Gram classification (project modes onto 9×9 + 17×17 anchors)
+  → stationarity verdict (T_ℓ ≈ T ⟺ one-reducer-unrolled, null-gated)
+```
+
+Publication of this composition ≡ defensive prior art. Naming discipline:
+map → name (don't brand it before it works).
+
 ## 1. The reframe that changes which techniques matter
 
 CBLL's linear algebra is almost entirely **static**: SVD of a weight matrix,
@@ -157,7 +215,7 @@ doesn't.
 | **5** | **Antisymmetric decomposition** `C = C_sym + C_anti` (his "vorticity") of the **binding** transport | substitution / α-rename (naive vs capture-avoiding, §P-SUBST-ENGINE) | α-renaming ≡ a **permutation/rotation of variable slots**; `C_anti` could localize the "binder swap" | capture pairs where no rename occurs |
 | **6** | **Betweenness / graph Laplacian** on the **labeled** register graph (9 opcodes, 17 fates) — not 896 raw axes | control flow of the reducer | the **controller opcode / fate edge** (his axis-62 move, but *semantic*) | degree-preserving rewired graph |
 | **7** | **Joint (simultaneous) diagonalization** of per-layer / per-model Grams | consensus route map (gram-registers §route-map) | the **common eigenframe** across contexts = the invariant switch basis the route map needs | per-context shuffled Grams |
-| **8** | **Reflection/Householder structure search** in attention·FFN | sign-is-the-decision; fire/halt | does the model implement its fire/halt sign-flip as **rank-1 reflection operators** `I − 2uuᵀ`? | random rank-1 update baseline |
+| **8** | **Reflection structure via SPECTRAL SIGNATURE of the transport operator** (re-specced s333, FTO + cleaner): `det(T) < 0` / eigenvalue ≈ −1 — read the flip from `T`'s spectrum, construct nothing (¬Householder construction; nearest-the-fence primitive removed, and the spectral read is better-posed anyway) | sign-is-the-decision; fire/halt | does the fire/halt sign-flip appear as a **reflection mode** in the transport spectrum? | sign-shuffled trajectory / random rank-1 baseline |
 
 ## 5. The sharpest one: the inter-layer transport operator (DMD)
 
@@ -214,7 +272,9 @@ inference. Ties to a frozen front and to `transitions-per-β-step` (queued).
   | register_check — d_ff(gate-preact) vs d_ff(down-input) vs d_model(residual) named BEFORE compare
   | linearization_residual — DMD is first-order; report ‖X' − TX‖ ; Koopman-lift if large
   | degeneracy — flat spectrum ⇒ CBLL U non-unique; Gram/operator well-posed (our edge)
-  | import(lossless_realignment ∧ causal_ablation) — solid | null_test(respiration/periodicity) — not yet
+  | import(their_FINDINGS as observations: realignment-losslessness ∧ ablation-effect) — solid
+  |   ¬import(the realignment PROCEDURE ≡ their claim spine — FORBIDDEN, §0b)
+  | null_test(respiration/periodicity) — not yet
   | novelty ≡ opcode/fate anchoring + operator-first — theirs is static + unlabeled
 ```
 
