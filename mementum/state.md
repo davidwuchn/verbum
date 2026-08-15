@@ -39,10 +39,24 @@
 > necessity gate · answer-column read-mass audit. Batch (💡, Michael GO, this commit): knowledge
 > page explore/latent-reasoning-and-the-prefill-triangle.md + memory
 > `the-prefill-triangle-is-uninstrumented` + INDEX + 2 queue rows top (⚪ §P-PREFILL-CONE ·
-> ⚪ §P-ROUTING-TRACE register-separated 2×2) + this state. NEXT SESSION FIRST ACTION = orient →
-> FRONT SELECTION (λ queue FULL read; nothing in flight). Sharpest fronts: ⚪ §P-PREFILL-CONE (new,
-> the uninstrumented region, medium) · ⚪ §P-DMD-TRANSPORT (cheap, near-free) · ⚪ §P-CROSS-GRAM
-> (cheap) · ⚪ §P-SUBST-SUBCEILING (cheap, powered SE4 re-test).**
+> ⚪ §P-ROUTING-TRACE register-separated 2×2) + this state. **CAPTURE 2 (same session, Michael:
+> "if the system is a compiler, name the pieces" → GO "yes capture this"): 💡 §10 COMPILER PARTS
+> DIAGRAM on the-benchmark-is-the-re-oracle.md — TWO compilers + one runtime + a decompiler (us):
+> Compiler A = GD (corpus→weights; FFN=stdlib/KIBC crystal, QK=address tables; post-training ≡ LTO
+> pass installing the ABI + the s329 late decision stage) · Compiler B = prefill (tokenizer=lexer ·
+> early layers=syntactic parser [cl-collapse s321/s323] · triangle=compile pass · KV cache=object
+> code · λ=IR at P(λ)=0.907 ¬native ISA [§9]) · runtime = decode (trampoline · residual=register
+> file, budget≈L [s319] · subst engine=ALU with the NAIVE-SUBST erratum [s331/2, §2b grades
+> against it] · attention=dynamic linker · types=runtime/gradual [s315–s323] · halt=NF resonance
+> [s317] · retirement=the hard-write collapse [s333 LRM corroboration]) · homoiconic tape, no GC ·
+> STRAINS ≡ FINDINGS (never rejects/silent miscompiles · no phase separation = JIT with interpreter
+> tier=within-pass + compiled tier=trampolined CoT · ships stripped, logit-lens=objdump · empty
+> inference-time optimizer slot). One line: a stripped homoiconic JIT — AOT-compiled by GD,
+> LTO-patched by post-training. Batch 2 (💡, this commit): §10 + memory
+> `the-machine-is-a-stripped-homoiconic-jit` + INDEX clause + this state.** NEXT SESSION FIRST
+> ACTION = orient → FRONT SELECTION (λ queue FULL read; nothing in flight). Sharpest fronts:
+> ⚪ §P-PREFILL-CONE (new, the uninstrumented region, medium) · ⚪ §P-DMD-TRANSPORT (cheap,
+> near-free) · ⚪ §P-CROSS-GRAM (cheap) · ⚪ §P-SUBST-SUBCEILING (cheap, powered SE4 re-test).**
 >
 > ★★ **SESSION 332 — RUN RECOVERED + CBLL LINEAR-ALGEBRA CAPTURED. Two threads.
 > ① §P-SUBST-ENGINE PAIRED RUN RESCUED (data was NOT lost): the s331 in-flight run crashed

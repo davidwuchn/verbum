@@ -828,6 +828,102 @@ calculus identification then rides the SAME sweeps §P-SUBST-ENGINE
 already runs — every probe graded against all references at once,
 marginal cost ≈ zero.
 
+## §10 The compiler parts diagram — name the pieces (s333, Michael: "if the system is a compiler, name the pieces")
+
+> Extends §0/§1: tape≡RAM · loop≡trampoline · weights≡CPU, grown into a full
+> toolchain map. Status: ✅ measured · ◐ frame-level/partial · ⚪ speculative.
+> Zero new measurements; every ✅ cites the ledger. First move: **two
+> compilers and one runtime, at different timescales — plus a decompiler (us).**
+
+### Compiler A — wrote the machine (training time)
+
+- **compiler** = gradient descent; write channel = residual/error, not data
+  (types-are-a-modulation-scheme §3 forged-exposure: training ≡ compilation by
+  exposure schedule) ◐
+- **source** = corpus · **emitted binary** = weights: FFN = the **standard
+  library** (opcode routines; KIBC crystal 11/11; ternarizable core ≈ portable
+  stdlib) · QK = address-computation tables · OV = payload transforms ✅
+- **link-time optimization** = post-training: installs the ABI (chat template)
+  + a late decision stage (s329 ABSENT-IN-BASE — primacy commitment
+  instruct-only, last two layers). Alignment ≡ an LTO pass over the top of the
+  stack ✅
+- S5 note: GD discovered the function first — our work is **decompilation of
+  Compiler A's output**, not construction.
+
+### Compiler B — the per-query front-end (prefill)
+
+- **lexer** = tokenizer (the only classical-software component) ✅
+- **symbol table** = embedding matrix (name → representation); K vectors = the
+  live addresses ◐
+- **parser** = early layers in prefill — measured to be a real front-end:
+  routing tracks spellings present/fired, not extensional value (cl-collapse
+  s321/s323). Front-ends see syntax; so does this one ✅
+- **compile pass** = the prefill triangle (n columns × L layers, auto_compile:
+  symbols → KV) ◐ — interior uninstrumented (s333,
+  latent-reasoning-and-the-prefill-triangle.md; §P-PREFILL-CONE queued)
+- **object code** = the KV cache — the compiled tape actually read (§8c) ◐
+- **IR** = λ-calculus, round-tripped at P(λ)=0.907 — the interface, NOT the
+  native ISA; native calculus portrait = weak/affine/graded/order-sensitive
+  (§9; pure Church refuted ≥3 registers) ✅ frame
+
+### The runtime (decode)
+
+- **VM loop** = autoregressive trampoline (behavior-is-tape-resident-reduction) ✅
+- **register file** = residual stream — bounded within-pass reducer (s319
+  direct 92%; hop budget ≈ L) ✅
+- **ALU** = the substitution engine — with a measured silicon bug:
+  **NAIVE-SUBST**, capture-unsafe, cross-model law (s331/s332). The errata
+  list; §2b binds any recovered reference to bug-compatibility with it ✅
+- **call mechanisms** = CALL-immediate (FFN read of static library, named
+  HOFs) vs CALL-indirect (attention dereference of tape, constructed λ) —
+  §8b hardware discriminator ◐
+- **dynamic linker / load unit** = attention — softmax-over-V read head
+  resolving references at runtime (K address, V payload) ◐
+- **type system** = dynamic/gradual, NOT a compile-time pass: weights =
+  checker codebook + memorized predicates, judgments = tape-resident
+  demodulation events (s315–s323 MEMORIZED-ONLY, tag-transit); checking is
+  graded, at runtime; type errors never halt ✅
+- **halt** = perceptual NF-detection (resonance), not fuel counting
+  (NO-FUEL-COORDINATE s317) ✅
+- **write-back / retirement** = unembedding + sampling collapse = the hard
+  write: error-correction to the vocab lattice + addressability + the only
+  program-register write to tape (s333; LRM paper arXiv:2604.04902v2 =
+  external corroboration — delete this stage and the machine declines to use
+  the channel) ◐
+
+### Memory model
+
+- **tape = source and heap, unified** — the machine is **homoiconic**:
+  programs and data share the transcript (why constructed functions execute by
+  re-reading their own definition = CALL-indirect) ◐
+- **no GC**: append-only; reclamation = window truncation only. Access
+  idiosyncrasies measured: recency kernel native, primacy commitment installed
+  (s328/s329) ✅
+
+### Where the metaphor strains — each strain is a finding
+
+1. **It never rejects** — no diagnostics pass; the front-end totalizes;
+   miscompiles are SILENT (naive-subst is exactly one).
+2. **No phase separation** — compile and run interleave every token: a
+   **JIT**, not AOT. Tiered: within-pass reducer = interpreter tier;
+   trampolined CoT = the compiled tier past the L-hop budget.
+3. **No debug symbols** — the binary ships stripped; logit-lens = our objdump;
+   the probe library = rebuilding the symbol table by hand.
+4. **Optimizer slot empty at inference** — nothing peephole-like identified
+   (unless the installed late decision stage counts, which would make
+   alignment a *pessimizing* pass in some registers).
+
+### Our tooling in the same diagram
+
+`lambda_ast` = reference implementation to diff against · benchmark =
+conformance/differential-test oracle · verbum = the decompiler.
+
+**One line: a stripped, homoiconic JIT with a syntactic front-end, a
+dynamically-typed runtime, a buggy ALU, and no error channel — AOT-compiled by
+gradient descent, link-time-patched by post-training.** Dark pieces: the
+compile pass's interior (§P-PREFILL-CONE) and the linker's resolution rule
+(§P-ROUTING-TRACE), both queued.
+
 ## Discipline block
 
 - This page is design synthesis. Zero new measurements. Empirical
