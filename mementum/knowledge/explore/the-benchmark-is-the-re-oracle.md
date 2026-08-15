@@ -971,6 +971,56 @@ register then locates deployed agents at order 2–3, straddling the order
 cliff — the FFI boundary is where the machine's reliability envelope meets
 the environment's.
 
+### §10c §P-TOOL-ABI design — map the ABI in geometry (s333, Michael: "map the tool abi in geometry and see if there are any grams")
+
+> Upgrades the behavioral base/instruct probe with a geometric arm. The
+> behavioral arm answers WHETHER the ABI is installed; the gram arm answers
+> WHERE it lives and WHAT SHAPE it has. All instruments exist (type_gram
+> lineage · 9×9/17×17 anchors · s332 CBLL cross-Gram bridge). ⚪ unfrozen.
+
+**Behavioral arm (registers split):** format (convention-token surprisal,
+well-formed emission) vs content (right tool + right args, forced-choice
+readable from malformed output). Verdicts ABI-INSTALLED / CAPABILITY-INSTALLED
+/ NATIVE / VOID. Paired qwen3-14b base/instruct (local; s329 method door).
+
+**Geometric arm — the tool-ABI gram.** Anchors = labeled structural positions
+(gate-preact capture, same move as the 9×9): **schema-read** (inside the
+extern header) · **tool-select** (tool-name at decision point) · **arg-bind**
+(slot-filling spans) · **convention delimiters** (call-open/close, format
+tokens) · **trap decision** (matched call-warranted vs answer-directly).
+Build tool-gram alongside existing 9×9 + 17×17 anchors as reference frame.
+
+Three reads:
+1. **Delta-gram = the LTO pass's geometric footprint**: G_instruct vs G_base
+   on identical anchors → rank of the installed structure (thin patch vs
+   diffuse) + depth localization (predict LATE layers, s329
+   installed-lives-late). The s329 provenance differential in the geometry
+   register; expressed via the CBLL cross-Gram VᵀV̂ machinery.
+2. **Cross-gram vs existing registers**: tool-select → combinator-identity/
+   routing axes (dispatch is dispatch)? · trap decision → fate poles
+   (tetrahedron test PROMOTED from advisory to a design cell) · **arg-bind →
+   binding/scope register — the payoff prediction: argument marshalling is a
+   SUBSTITUTION operation (the ALU does slot-filling) ⇒ NAIVE-SUBST should
+   have a tool-calling phenotype: wrong-binder argument capture in nested/
+   shadowed contexts.** If it shows, the s331/s332 law acquires a direct
+   agentic-reliability consequence (the deployment-face reading of the
+   program).
+3. **Convention-vs-JSON dissociation (design-time confound kill)**: base
+   models know JSON — matched anchors with identical JSON structure in
+   non-tool contexts. Base-has-JSON-geometry ∧ base-lacks-tool-context-
+   geometry ⇒ the installed thing is the CONVENTION proper, not the syntax.
+
+**Nulls**: anchor-label shuffle (λ yardstick) · base split-half delta-gram
+(capture-noise floor) · the JSON-matched control.
+
+**Refined verdict space** (gram arm refines ABI-INSTALLED into forms):
+low-rank late poles (thin LTO patch, coheres s329) · diffuse rotation
+(retraining-like) · **projection-onto-existing-registers (most interesting:
+the ABI composed FROM native machinery — dispatch + binding + a fate pole —
+post-training installed only the glue; what the FFI framing quietly
+predicts)**. Cost: medium (captures + grams on the pair; toolchain exists).
+Freeze owes a-priori mass across both arms before any data.
+
 ### Our tooling in the same diagram
 
 `lambda_ast` = reference implementation to diff against · benchmark =

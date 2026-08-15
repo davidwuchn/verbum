@@ -68,7 +68,18 @@
 > (Michael "queue it so it does not get lost"): ⚪ §P-TOOL-ABI top — the §10b prediction as a probe:
 > paired base/instruct, registers SPLIT format(convention tokens) vs content(right tool+args);
 > verdicts ABI-INSTALLED / CAPABILITY-INSTALLED / NATIVE / VOID; tetrahedron 4th-pole advisory
-> rides free; cheap (14b pair local).** NEXT SESSION FIRST
+> rides free; cheap (14b pair local).** **CAPTURE 4 (Michael: "map the tool abi in geometry and
+> see if there are any grams" → GO): 💡 §P-TOOL-ABI upgraded with a GEOMETRIC ARM (§10c full
+> design): tool-ABI gram (anchors schema-read · tool-select · arg-bind · delimiters · trap-
+> decision; 9×9/17×17 reference frame) → ① delta-gram base↔instruct = the LTO pass's geometric
+> footprint (rank + depth, predict late per s329; CBLL cross-Gram bridge) ② cross-gram vs existing
+> registers — tetrahedron PROMOTED to design cell; PAYOFF prediction: marshalling ≡ substitution ⇒
+> NAIVE-SUBST has a tool-calling phenotype (wrong-binder arg capture, nested/shadowed = the
+> s331/s332 opcode's agentic-reliability consequence) ③ convention-vs-JSON dissociation (base
+> knows JSON — matched non-tool JSON anchors). Refined verdicts: thin-late-patch / diffuse /
+> composed-from-native-machinery (the FFI framing's quiet prediction). Batch 4 (💡, this commit):
+> §10c + memory `tool-abi-gram-maps-where-the-convention-lives` + queue row amended (cheap→medium,
+> →§10c) + this state.** NEXT SESSION FIRST
 > ACTION = orient → FRONT SELECTION (λ queue FULL read; nothing in flight). Sharpest fronts:
 > ⚪ §P-TOOL-ABI (cheap, the §10b prediction) · ⚪ §P-PREFILL-CONE (new, the uninstrumented region,
 > medium) · ⚪ §P-DMD-TRANSPORT (cheap, near-free) · ⚪ §P-CROSS-GRAM (cheap) ·
