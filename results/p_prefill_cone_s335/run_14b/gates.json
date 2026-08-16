@@ -1,0 +1,49 @@
+{
+  "PC0": {
+    "n_terms": 54,
+    "n_errors": 0,
+    "causal_max_upstream_delta": 0.0,
+    "causal_ok": true,
+    "leaf_delta_min": 0.4916863441467285,
+    "leaf_moves_ok": true,
+    "pass": false,
+    "placebo_n": 48,
+    "placebo_mean_did": 0.027212981186393228,
+    "placebo_p": 9.999000099990002e-05,
+    "placebo_ok": false,
+    "n_misaligned_pairs": 0
+  },
+  "PC1": {
+    "n_cells": 810,
+    "median_rank_gain": 13.0,
+    "p": 9.999000099990002e-05,
+    "pass": true,
+    "qualifier": "INTERIOR-VISIBLE"
+  },
+  "PC2": {
+    "n_pairs": 9,
+    "mean_DiD_pos": -0.0076076962329723295,
+    "median_DiD_pos": -0.007988353570302309,
+    "n_positive": 2,
+    "cliffs_delta": -0.5555555555555556,
+    "p": 0.09429057094290572,
+    "pass": false
+  },
+  "PC3": {
+    "n_pairs": 9,
+    "D_naive": -0.028598439914208868,
+    "median_D": -0.032933553059895815,
+    "n_positive": 2,
+    "median_arrival_fraction": 2.0387591842060817,
+    "p": 0.026797320267973202,
+    "sig": true,
+    "sign": -1
+  },
+  "PC4": {
+    "n": 18,
+    "frac_favors_correct_final": 0.2222222222222222,
+    "median_correct_final_rank": 1.0,
+    "median_naive_final_rank": 1.0
+  },
+  "verdict": "VOID"
+}

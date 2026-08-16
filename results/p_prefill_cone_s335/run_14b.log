@@ -1,0 +1,107 @@
+[pc] battery=54 hash=fb503c298c40ae91 model=Qwen/Qwen3-14B dtype=bfloat16
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights: 100%|██████████| 443/443 [00:00<00:00, 6843.92it/s]
+[pc] 1/54 cap_000_A err=None
+[pc] 2/54 cap_000_B err=None
+[pc] 3/54 cap_000_P err=None
+[pc] 4/54 cap_001_A err=None
+[pc] 5/54 cap_001_B err=None
+[pc] 6/54 cap_001_P err=None
+[pc] 7/54 cap_002_A err=None
+[pc] 8/54 cap_002_B err=None
+[pc] 9/54 cap_002_P err=None
+[pc] 10/54 cap_003_A err=None
+[pc] 11/54 cap_003_B err=None
+[pc] 12/54 cap_003_P err=None
+[pc] 13/54 cap_004_A err=None
+[pc] 14/54 cap_004_B err=None
+[pc] 15/54 cap_004_P err=None
+[pc] 16/54 cap_005_A err=None
+[pc] 17/54 cap_005_B err=None
+[pc] 18/54 cap_005_P err=None
+[pc] 19/54 cap_006_A err=None
+[pc] 20/54 cap_006_B err=None
+[pc] 21/54 cap_006_P err=None
+[pc] 22/54 cap_007_A err=None
+[pc] 23/54 cap_007_B err=None
+[pc] 24/54 cap_007_P err=None
+[pc] 25/54 cap_008_A err=None
+[pc] 26/54 cap_008_B err=None
+[pc] 27/54 cap_008_P err=None
+[pc] 28/54 cap_009_A err=None
+[pc] 29/54 cap_009_B err=None
+[pc] 30/54 cap_009_P err=None
+[pc] 31/54 cap_010_A err=None
+[pc] 32/54 cap_010_B err=None
+[pc] 33/54 cap_010_P err=None
+[pc] 34/54 cap_011_A err=None
+[pc] 35/54 cap_011_B err=None
+[pc] 36/54 cap_011_P err=None
+[pc] 37/54 cap_012_A err=None
+[pc] 38/54 cap_012_B err=None
+[pc] 39/54 cap_012_P err=None
+[pc] 40/54 cap_013_A err=None
+[pc] 41/54 cap_013_B err=None
+[pc] 42/54 cap_013_P err=None
+[pc] 43/54 cap_014_A err=None
+[pc] 44/54 cap_014_B err=None
+[pc] 45/54 cap_014_P err=None
+[pc] 46/54 cap_015_A err=None
+[pc] 47/54 cap_015_B err=None
+[pc] 48/54 cap_015_P err=None
+[pc] 49/54 cap_016_A err=None
+[pc] 50/54 cap_016_B err=None
+[pc] 51/54 cap_016_P err=None
+[pc] 52/54 cap_017_A err=None
+[pc] 53/54 cap_017_B err=None
+[pc] 54/54 cap_017_P err=None
+{
+  "PC0": {
+    "n_terms": 54,
+    "n_errors": 0,
+    "causal_max_upstream_delta": 0.0,
+    "causal_ok": true,
+    "leaf_delta_min": 0.4916863441467285,
+    "leaf_moves_ok": true,
+    "pass": false,
+    "placebo_n": 48,
+    "placebo_mean_did": 0.027212981186393228,
+    "placebo_p": 9.999000099990002e-05,
+    "placebo_ok": false,
+    "n_misaligned_pairs": 0
+  },
+  "PC1": {
+    "n_cells": 810,
+    "median_rank_gain": 13.0,
+    "p": 9.999000099990002e-05,
+    "pass": true,
+    "qualifier": "INTERIOR-VISIBLE"
+  },
+  "PC2": {
+    "n_pairs": 9,
+    "mean_DiD_pos": -0.0076076962329723295,
+    "median_DiD_pos": -0.007988353570302309,
+    "n_positive": 2,
+    "cliffs_delta": -0.5555555555555556,
+    "p": 0.09429057094290572,
+    "pass": false
+  },
+  "PC3": {
+    "n_pairs": 9,
+    "D_naive": -0.028598439914208868,
+    "median_D": -0.032933553059895815,
+    "n_positive": 2,
+    "median_arrival_fraction": 2.0387591842060817,
+    "p": 0.026797320267973202,
+    "sig": true,
+    "sign": -1
+  },
+  "PC4": {
+    "n": 18,
+    "frac_favors_correct_final": 0.2222222222222222,
+    "median_correct_final_rank": 1.0,
+    "median_naive_final_rank": 1.0
+  },
+  "verdict": "VOID"
+}
+[pc] wrote results/p_prefill_cone_s335/run_14b

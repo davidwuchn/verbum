@@ -1,0 +1,650 @@
+[
+  {
+    "id": "cap_000_A",
+    "term": "(\u03bbx.\u03bby.x) y e f",
+    "correct_nf": "y f",
+    "naive_nf": "e f",
+    "roles": {
+      "y": "both",
+      "e": "naive_only",
+      "f": "both"
+    }
+  },
+  {
+    "id": "cap_000_B",
+    "term": "(\u03bbx.\u03bbp.x) y e f",
+    "correct_nf": "y f",
+    "naive_nf": "y f",
+    "roles": {
+      "y": "both",
+      "e": "none",
+      "f": "both"
+    }
+  },
+  {
+    "id": "cap_000_P",
+    "term": "(\u03bbx.\u03bbp.p) y e f",
+    "correct_nf": "e f",
+    "naive_nf": "e f",
+    "roles": {
+      "y": "none",
+      "e": "both",
+      "f": "both"
+    }
+  },
+  {
+    "id": "cap_001_A",
+    "term": "(\u03bbx.\u03bby.\u03bba.x) y e f",
+    "correct_nf": "y",
+    "naive_nf": "e",
+    "roles": {
+      "y": "both",
+      "e": "naive_only",
+      "f": "none"
+    }
+  },
+  {
+    "id": "cap_001_B",
+    "term": "(\u03bbx.\u03bbp.\u03bba.x) y e f",
+    "correct_nf": "y",
+    "naive_nf": "y",
+    "roles": {
+      "y": "both",
+      "e": "none",
+      "f": "none"
+    }
+  },
+  {
+    "id": "cap_001_P",
+    "term": "(\u03bbx.\u03bbp.\u03bba.p) y e f",
+    "correct_nf": "e",
+    "naive_nf": "e",
+    "roles": {
+      "y": "none",
+      "e": "both",
+      "f": "none"
+    }
+  },
+  {
+    "id": "cap_002_A",
+    "term": "(\u03bbx.\u03bby.\u03bba.\u03bbb.x) y e f",
+    "correct_nf": "\u03bbb.y",
+    "naive_nf": "\u03bbb.e",
+    "roles": {
+      "y": "both",
+      "e": "naive_only",
+      "f": "none"
+    }
+  },
+  {
+    "id": "cap_002_B",
+    "term": "(\u03bbx.\u03bbp.\u03bba.\u03bbb.x) y e f",
+    "correct_nf": "\u03bbb.y",
+    "naive_nf": "\u03bbb.y",
+    "roles": {
+      "y": "both",
+      "e": "none",
+      "f": "none"
+    }
+  },
+  {
+    "id": "cap_002_P",
+    "term": "(\u03bbx.\u03bbp.\u03bba.\u03bbb.p) y e f",
+    "correct_nf": "\u03bbb.e",
+    "naive_nf": "\u03bbb.e",
+    "roles": {
+      "y": "none",
+      "e": "both",
+      "f": "none"
+    }
+  },
+  {
+    "id": "cap_003_A",
+    "term": "(\u03bbx.\u03bby.\u03bbw.x) (y w) e f",
+    "correct_nf": "y w",
+    "naive_nf": "e f",
+    "roles": {
+      "y": "both",
+      "w": "both",
+      "e": "naive_only",
+      "f": "naive_only"
+    }
+  },
+  {
+    "id": "cap_003_B",
+    "term": "(\u03bbx.\u03bbp.\u03bbq.x) (y w) e f",
+    "correct_nf": "y w",
+    "naive_nf": "y w",
+    "roles": {
+      "y": "both",
+      "w": "both",
+      "e": "none",
+      "f": "none"
+    }
+  },
+  {
+    "id": "cap_003_P",
+    "term": "(\u03bbx.\u03bbp.\u03bbq.p) (y w) e f",
+    "correct_nf": "e",
+    "naive_nf": "e",
+    "roles": {
+      "y": "none",
+      "w": "none",
+      "e": "both",
+      "f": "none"
+    }
+  },
+  {
+    "id": "cap_004_A",
+    "term": "(\u03bbx.\u03bby.\u03bbw.\u03bba.x) (y w) e f",
+    "correct_nf": "\u03bba.y w",
+    "naive_nf": "\u03bba.e f",
+    "roles": {
+      "y": "both",
+      "w": "both",
+      "e": "naive_only",
+      "f": "naive_only"
+    }
+  },
+  {
+    "id": "cap_004_B",
+    "term": "(\u03bbx.\u03bbp.\u03bbq.\u03bba.x) (y w) e f",
+    "correct_nf": "\u03bba.y w",
+    "naive_nf": "\u03bba.y w",
+    "roles": {
+      "y": "both",
+      "w": "both",
+      "e": "none",
+      "f": "none"
+    }
+  },
+  {
+    "id": "cap_004_P",
+    "term": "(\u03bbx.\u03bbp.\u03bbq.\u03bba.p) (y w) e f",
+    "correct_nf": "\u03bba.e",
+    "naive_nf": "\u03bba.e",
+    "roles": {
+      "y": "none",
+      "w": "none",
+      "e": "both",
+      "f": "none"
+    }
+  },
+  {
+    "id": "cap_005_A",
+    "term": "(\u03bbx.\u03bby.\u03bbw.\u03bba.\u03bbb.x) (y w) e f",
+    "correct_nf": "\u03bba.\u03bbb.y w",
+    "naive_nf": "\u03bba.\u03bbb.e f",
+    "roles": {
+      "y": "both",
+      "w": "both",
+      "e": "naive_only",
+      "f": "naive_only"
+    }
+  },
+  {
+    "id": "cap_005_B",
+    "term": "(\u03bbx.\u03bbp.\u03bbq.\u03bba.\u03bbb.x) (y w) e f",
+    "correct_nf": "\u03bba.\u03bbb.y w",
+    "naive_nf": "\u03bba.\u03bbb.y w",
+    "roles": {
+      "y": "both",
+      "w": "both",
+      "e": "none",
+      "f": "none"
+    }
+  },
+  {
+    "id": "cap_005_P",
+    "term": "(\u03bbx.\u03bbp.\u03bbq.\u03bba.\u03bbb.p) (y w) e f",
+    "correct_nf": "\u03bba.\u03bbb.e",
+    "naive_nf": "\u03bba.\u03bbb.e",
+    "roles": {
+      "y": "none",
+      "w": "none",
+      "e": "both",
+      "f": "none"
+    }
+  },
+  {
+    "id": "cap_006_A",
+    "term": "(\u03bbx.\u03bby.\u03bbw.\u03bbu.x) (y w u) e f",
+    "correct_nf": "\u03bbu'.y w u",
+    "naive_nf": "\u03bbu.e f u",
+    "roles": {
+      "y": "both",
+      "w": "both",
+      "u": "both",
+      "e": "naive_only",
+      "f": "naive_only"
+    }
+  },
+  {
+    "id": "cap_006_B",
+    "term": "(\u03bbx.\u03bbp.\u03bbq.\u03bbs.x) (y w u) e f",
+    "correct_nf": "\u03bbs.y w u",
+    "naive_nf": "\u03bbs.y w u",
+    "roles": {
+      "y": "both",
+      "w": "both",
+      "u": "both",
+      "e": "none",
+      "f": "none"
+    }
+  },
+  {
+    "id": "cap_006_P",
+    "term": "(\u03bbx.\u03bbp.\u03bbq.\u03bbs.p) (y w u) e f",
+    "correct_nf": "\u03bbs.e",
+    "naive_nf": "\u03bbs.e",
+    "roles": {
+      "y": "none",
+      "w": "none",
+      "u": "none",
+      "e": "both",
+      "f": "none"
+    }
+  },
+  {
+    "id": "cap_007_A",
+    "term": "(\u03bbx.\u03bby.\u03bbw.\u03bbu.\u03bba.x) (y w u) e f",
+    "correct_nf": "\u03bbu'.\u03bba.y w u",
+    "naive_nf": "\u03bbu.\u03bba.e f u",
+    "roles": {
+      "y": "both",
+      "w": "both",
+      "u": "both",
+      "e": "naive_only",
+      "f": "naive_only"
+    }
+  },
+  {
+    "id": "cap_007_B",
+    "term": "(\u03bbx.\u03bbp.\u03bbq.\u03bbs.\u03bba.x) (y w u) e f",
+    "correct_nf": "\u03bbs.\u03bba.y w u",
+    "naive_nf": "\u03bbs.\u03bba.y w u",
+    "roles": {
+      "y": "both",
+      "w": "both",
+      "u": "both",
+      "e": "none",
+      "f": "none"
+    }
+  },
+  {
+    "id": "cap_007_P",
+    "term": "(\u03bbx.\u03bbp.\u03bbq.\u03bbs.\u03bba.p) (y w u) e f",
+    "correct_nf": "\u03bbs.\u03bba.e",
+    "naive_nf": "\u03bbs.\u03bba.e",
+    "roles": {
+      "y": "none",
+      "w": "none",
+      "u": "none",
+      "e": "both",
+      "f": "none"
+    }
+  },
+  {
+    "id": "cap_008_A",
+    "term": "(\u03bbx.\u03bby.\u03bbw.\u03bbu.\u03bba.\u03bbb.x) (y w u) e f",
+    "correct_nf": "\u03bbu'.\u03bba.\u03bbb.y w u",
+    "naive_nf": "\u03bbu.\u03bba.\u03bbb.e f u",
+    "roles": {
+      "y": "both",
+      "w": "both",
+      "u": "both",
+      "e": "naive_only",
+      "f": "naive_only"
+    }
+  },
+  {
+    "id": "cap_008_B",
+    "term": "(\u03bbx.\u03bbp.\u03bbq.\u03bbs.\u03bba.\u03bbb.x) (y w u) e f",
+    "correct_nf": "\u03bbs.\u03bba.\u03bbb.y w u",
+    "naive_nf": "\u03bbs.\u03bba.\u03bbb.y w u",
+    "roles": {
+      "y": "both",
+      "w": "both",
+      "u": "both",
+      "e": "none",
+      "f": "none"
+    }
+  },
+  {
+    "id": "cap_008_P",
+    "term": "(\u03bbx.\u03bbp.\u03bbq.\u03bbs.\u03bba.\u03bbb.p) (y w u) e f",
+    "correct_nf": "\u03bbs.\u03bba.\u03bbb.e",
+    "naive_nf": "\u03bbs.\u03bba.\u03bbb.e",
+    "roles": {
+      "y": "none",
+      "w": "none",
+      "u": "none",
+      "e": "both",
+      "f": "none"
+    }
+  },
+  {
+    "id": "cap_009_A",
+    "term": "(\u03bbx.\u03bby.x y) y e f",
+    "correct_nf": "y e f",
+    "naive_nf": "e e f",
+    "roles": {
+      "y": "both",
+      "e": "both",
+      "f": "both"
+    }
+  },
+  {
+    "id": "cap_009_B",
+    "term": "(\u03bbx.\u03bbp.x p) y e f",
+    "correct_nf": "y e f",
+    "naive_nf": "y e f",
+    "roles": {
+      "y": "both",
+      "e": "both",
+      "f": "both"
+    }
+  },
+  {
+    "id": "cap_009_P",
+    "term": "(\u03bbx.\u03bbp.p p) y e f",
+    "correct_nf": "e e f",
+    "naive_nf": "e e f",
+    "roles": {
+      "y": "none",
+      "e": "both",
+      "f": "both"
+    }
+  },
+  {
+    "id": "cap_010_A",
+    "term": "(\u03bbx.\u03bby.\u03bba.x y) y e f",
+    "correct_nf": "y e",
+    "naive_nf": "e e",
+    "roles": {
+      "y": "both",
+      "e": "both",
+      "f": "none"
+    }
+  },
+  {
+    "id": "cap_010_B",
+    "term": "(\u03bbx.\u03bbp.\u03bba.x p) y e f",
+    "correct_nf": "y e",
+    "naive_nf": "y e",
+    "roles": {
+      "y": "both",
+      "e": "both",
+      "f": "none"
+    }
+  },
+  {
+    "id": "cap_010_P",
+    "term": "(\u03bbx.\u03bbp.\u03bba.p p) y e f",
+    "correct_nf": "e e",
+    "naive_nf": "e e",
+    "roles": {
+      "y": "none",
+      "e": "both",
+      "f": "none"
+    }
+  },
+  {
+    "id": "cap_011_A",
+    "term": "(\u03bbx.\u03bby.\u03bba.\u03bbb.x y) y e f",
+    "correct_nf": "\u03bbb.y e",
+    "naive_nf": "\u03bbb.e e",
+    "roles": {
+      "y": "both",
+      "e": "both",
+      "f": "none"
+    }
+  },
+  {
+    "id": "cap_011_B",
+    "term": "(\u03bbx.\u03bbp.\u03bba.\u03bbb.x p) y e f",
+    "correct_nf": "\u03bbb.y e",
+    "naive_nf": "\u03bbb.y e",
+    "roles": {
+      "y": "both",
+      "e": "both",
+      "f": "none"
+    }
+  },
+  {
+    "id": "cap_011_P",
+    "term": "(\u03bbx.\u03bbp.\u03bba.\u03bbb.p p) y e f",
+    "correct_nf": "\u03bbb.e e",
+    "naive_nf": "\u03bbb.e e",
+    "roles": {
+      "y": "none",
+      "e": "both",
+      "f": "none"
+    }
+  },
+  {
+    "id": "cap_012_A",
+    "term": "(\u03bbx.\u03bby.\u03bbw.x y w) (y w) e f",
+    "correct_nf": "y w e f",
+    "naive_nf": "e f e f",
+    "roles": {
+      "y": "both",
+      "w": "both",
+      "e": "both",
+      "f": "both"
+    }
+  },
+  {
+    "id": "cap_012_B",
+    "term": "(\u03bbx.\u03bbp.\u03bbq.x p q) (y w) e f",
+    "correct_nf": "y w e f",
+    "naive_nf": "y w e f",
+    "roles": {
+      "y": "both",
+      "w": "both",
+      "e": "both",
+      "f": "both"
+    }
+  },
+  {
+    "id": "cap_012_P",
+    "term": "(\u03bbx.\u03bbp.\u03bbq.p p q) (y w) e f",
+    "correct_nf": "e e f",
+    "naive_nf": "e e f",
+    "roles": {
+      "y": "none",
+      "w": "none",
+      "e": "both",
+      "f": "both"
+    }
+  },
+  {
+    "id": "cap_013_A",
+    "term": "(\u03bbx.\u03bby.\u03bbw.\u03bba.x y w) (y w) e f",
+    "correct_nf": "\u03bba.y w e f",
+    "naive_nf": "\u03bba.e f e f",
+    "roles": {
+      "y": "both",
+      "w": "both",
+      "e": "both",
+      "f": "both"
+    }
+  },
+  {
+    "id": "cap_013_B",
+    "term": "(\u03bbx.\u03bbp.\u03bbq.\u03bba.x p q) (y w) e f",
+    "correct_nf": "\u03bba.y w e f",
+    "naive_nf": "\u03bba.y w e f",
+    "roles": {
+      "y": "both",
+      "w": "both",
+      "e": "both",
+      "f": "both"
+    }
+  },
+  {
+    "id": "cap_013_P",
+    "term": "(\u03bbx.\u03bbp.\u03bbq.\u03bba.p p q) (y w) e f",
+    "correct_nf": "\u03bba.e e f",
+    "naive_nf": "\u03bba.e e f",
+    "roles": {
+      "y": "none",
+      "w": "none",
+      "e": "both",
+      "f": "both"
+    }
+  },
+  {
+    "id": "cap_014_A",
+    "term": "(\u03bbx.\u03bby.\u03bbw.\u03bba.\u03bbb.x y w) (y w) e f",
+    "correct_nf": "\u03bba.\u03bbb.y w e f",
+    "naive_nf": "\u03bba.\u03bbb.e f e f",
+    "roles": {
+      "y": "both",
+      "w": "both",
+      "e": "both",
+      "f": "both"
+    }
+  },
+  {
+    "id": "cap_014_B",
+    "term": "(\u03bbx.\u03bbp.\u03bbq.\u03bba.\u03bbb.x p q) (y w) e f",
+    "correct_nf": "\u03bba.\u03bbb.y w e f",
+    "naive_nf": "\u03bba.\u03bbb.y w e f",
+    "roles": {
+      "y": "both",
+      "w": "both",
+      "e": "both",
+      "f": "both"
+    }
+  },
+  {
+    "id": "cap_014_P",
+    "term": "(\u03bbx.\u03bbp.\u03bbq.\u03bba.\u03bbb.p p q) (y w) e f",
+    "correct_nf": "\u03bba.\u03bbb.e e f",
+    "naive_nf": "\u03bba.\u03bbb.e e f",
+    "roles": {
+      "y": "none",
+      "w": "none",
+      "e": "both",
+      "f": "both"
+    }
+  },
+  {
+    "id": "cap_015_A",
+    "term": "(\u03bbx.\u03bby.\u03bbw.\u03bbu.x y w u) (y w u) e f",
+    "correct_nf": "\u03bbu'.y w u e f u'",
+    "naive_nf": "\u03bbu.e f u e f u",
+    "roles": {
+      "y": "both",
+      "w": "both",
+      "u": "both",
+      "e": "both",
+      "f": "both"
+    }
+  },
+  {
+    "id": "cap_015_B",
+    "term": "(\u03bbx.\u03bbp.\u03bbq.\u03bbs.x p q s) (y w u) e f",
+    "correct_nf": "\u03bbs.y w u e f s",
+    "naive_nf": "\u03bbs.y w u e f s",
+    "roles": {
+      "y": "both",
+      "w": "both",
+      "u": "both",
+      "e": "both",
+      "f": "both"
+    }
+  },
+  {
+    "id": "cap_015_P",
+    "term": "(\u03bbx.\u03bbp.\u03bbq.\u03bbs.p p q s) (y w u) e f",
+    "correct_nf": "\u03bbs.e e f s",
+    "naive_nf": "\u03bbs.e e f s",
+    "roles": {
+      "y": "none",
+      "w": "none",
+      "u": "none",
+      "e": "both",
+      "f": "both"
+    }
+  },
+  {
+    "id": "cap_016_A",
+    "term": "(\u03bbx.\u03bby.\u03bbw.\u03bbu.\u03bba.x y w u) (y w u) e f",
+    "correct_nf": "\u03bbu'.\u03bba.y w u e f u'",
+    "naive_nf": "\u03bbu.\u03bba.e f u e f u",
+    "roles": {
+      "y": "both",
+      "w": "both",
+      "u": "both",
+      "e": "both",
+      "f": "both"
+    }
+  },
+  {
+    "id": "cap_016_B",
+    "term": "(\u03bbx.\u03bbp.\u03bbq.\u03bbs.\u03bba.x p q s) (y w u) e f",
+    "correct_nf": "\u03bbs.\u03bba.y w u e f s",
+    "naive_nf": "\u03bbs.\u03bba.y w u e f s",
+    "roles": {
+      "y": "both",
+      "w": "both",
+      "u": "both",
+      "e": "both",
+      "f": "both"
+    }
+  },
+  {
+    "id": "cap_016_P",
+    "term": "(\u03bbx.\u03bbp.\u03bbq.\u03bbs.\u03bba.p p q s) (y w u) e f",
+    "correct_nf": "\u03bbs.\u03bba.e e f s",
+    "naive_nf": "\u03bbs.\u03bba.e e f s",
+    "roles": {
+      "y": "none",
+      "w": "none",
+      "u": "none",
+      "e": "both",
+      "f": "both"
+    }
+  },
+  {
+    "id": "cap_017_A",
+    "term": "(\u03bbx.\u03bby.\u03bbw.\u03bbu.\u03bba.\u03bbb.x y w u) (y w u) e f",
+    "correct_nf": "\u03bbu'.\u03bba.\u03bbb.y w u e f u'",
+    "naive_nf": "\u03bbu.\u03bba.\u03bbb.e f u e f u",
+    "roles": {
+      "y": "both",
+      "w": "both",
+      "u": "both",
+      "e": "both",
+      "f": "both"
+    }
+  },
+  {
+    "id": "cap_017_B",
+    "term": "(\u03bbx.\u03bbp.\u03bbq.\u03bbs.\u03bba.\u03bbb.x p q s) (y w u) e f",
+    "correct_nf": "\u03bbs.\u03bba.\u03bbb.y w u e f s",
+    "naive_nf": "\u03bbs.\u03bba.\u03bbb.y w u e f s",
+    "roles": {
+      "y": "both",
+      "w": "both",
+      "u": "both",
+      "e": "both",
+      "f": "both"
+    }
+  },
+  {
+    "id": "cap_017_P",
+    "term": "(\u03bbx.\u03bbp.\u03bbq.\u03bbs.\u03bba.\u03bbb.p p q s) (y w u) e f",
+    "correct_nf": "\u03bbs.\u03bba.\u03bbb.e e f s",
+    "naive_nf": "\u03bbs.\u03bba.\u03bbb.e e f s",
+    "roles": {
+      "y": "none",
+      "w": "none",
+      "u": "none",
+      "e": "both",
+      "f": "both"
+    }
+  }
+]
