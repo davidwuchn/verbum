@@ -302,6 +302,100 @@ first pattern-read of the hop-budget≈L cliff prediction (§6). Read-mass audit
 **Cost.** ~120 terms × ~3 prefill forwards ≈ 30 min on 14B MPS; smoke on
 Qwen3-4B.
 
+### Amendment 1 (s335, Michael "approve") — PRE-DATA, kernel-derived
+
+Certifying the reference cones (kernel only; no model forward had run) forced
+three corrections. Recorded because a freeze is only worth what its amendments
+disclose.
+
+1. **Cone definition is RAW** (no rename-back of the fresh atom). The machine
+   reduces the two prompts independently, so a cell carrying the leaf's value
+   verbatim genuinely differs under EVERY algorithm — flow-through is in-cone
+   by construction. Bound-variable renaming is modded out by ``alpha_eq``
+   (conservative: under-counts, never over-counts, cone membership).
+2. **The frozen battery cannot compute two-class D.** Under the raw definition
+   the correct-only class is STRUCTURALLY EMPTY and eligible naive-only cells
+   are zero: perturbing the captured variable moves the naive path too, so
+   both cones coincide. Reported as a design finding, not a data finding.
+3. **Fix — trailing-argument extension** ``term + " e f"`` (kernel-certified:
+   canonical rendering, both calculi normalize). The correct NF DISCARDS ``e``
+   while the naive NF is BUILT FROM it — ``(λx.λy.x) y e f`` → correct ``y f``,
+   naive ``e f``. Perturbing ``e`` makes the whole-term span eligible and
+   naive-only. Census: 9/18 terms (the constant-body family, spanning all
+   shadow_k/extra_m dials) yield one eligible naive-only cell each; the other 9
+   (duplicating bodies ``x y``, ``x y w``) carry ``e`` into BOTH NFs — they
+   serve PC2/M1/M4, not M3.
+
+**Amended M3.** D_naive = paired contrast Δ(naive-only cell) − Δ(distance-
+matched out-of-cone cell), replicated over perturbation atoms {n, m, r},
+aggregated per term ⇒ 9 independent paired observations; sign/Wilcoxon
+permutation p (n=9 ⇒ floor p≈0.004, clears 0.05).
+
+- D_naive > 0 significant ⟺ the trailing argument's value ARRIVES through the
+  capture-created binder ⇒ **CONE-NAIVE**
+- D_naive ≈ 0 **with PC2 passing** (localization demonstrably working on the
+  135-in / 114-out cell pool) ⇒ the value never arrives ⇒ **CONE-CORRECT**
+
+Verdict names, a-priori masses, PC0/PC1/PC2/PC4 and all nulls: UNCHANGED.
+
+### Amendment 2 (s335, Michael GO) — PRE-DATA, planted-world-derived
+
+Planted-world validation (no model loaded, zero data) exposed a STRUCTURAL
+flaw in the Amendment-1 estimator. Recorded in full: the flaw is itself a
+finding about what the prefill grid can observe.
+
+1. **The grid's observable is a CELL, not an AST node.** Nested spans share
+   closing tokens — in ``(λx.λy.x) y e f`` the atom ``f`` and the whole-term
+   span close at the SAME token. The frozen "in-cone vs distance-matched
+   out-of-cone" contrast was therefore comparing a cell against ITSELF
+   (``delta == matched_delta`` identically). PC2/PC3 were void as written.
+   Generalization worth keeping: **cone membership must be defined per cell
+   (any span closing there), never per AST node.**
+2. **No correct-only leaf exists in this family.** Perturbing the captured
+   variable ``y`` DESTROYS THE CAPTURE, so it moves the naive path too
+   (kernel-certified role: ``both``). A negative control had to be built, not
+   found.
+3. **Fix — upstream discarded control.** Probe shape becomes
+
+   ```
+   (λd.λr.r) c (BASE e f)
+   ```
+
+   ``c`` is discarded under BOTH calculi and sits UPSTREAM of the readout
+   cell. Certified over all 18 terms (canonical rendering · both calculi
+   normalize · NFs still discriminate). Three kernel-certified leaf roles:
+
+   | role | leaf | meaning |
+   |---|---|---|
+   | ``none`` | ``c`` | discarded under both ⇒ negative control (18/18) |
+   | ``both`` | ``y``, ``w``, … | dependency under both ⇒ positive control |
+   | ``naive_only`` | ``e`` | correct NF discards it, naive NF is built from it ⇒ the discriminator (9/18) |
+
+**Amended estimators** (readout cell = root span's closing token, downstream of
+every leaf):
+
+- **PC2** = Δ(``both``) − Δ(``none``), n=18 — selectivity AND positive control
+  in one statistic. Frozen Cliff's δ ≥ 0.2 and p < 0.05 retained.
+- **PC3** = D_naive = Δ(``naive_only``) − Δ(``none``), n=9, sign-flip
+  permutation. Plus the interpretable **arrival fraction**
+  ``(Δ_naive_only − Δ_none) / (Δ_both − Δ_none)``: ≈1 ⇒ the
+  discarded-under-correct-semantics argument REACHES the term's final cell
+  (naive); ≈0 ⇒ dropped like the control (capture-avoiding).
+
+Verdict names, a-priori masses, PC0/PC1/PC4 and all nulls: UNCHANGED.
+CONE-CORRECT remains a null-with-positive-control (structurally unavoidable
+here; disclosed rather than hidden).
+
+**Planted-world separation (the build's acceptance test):**
+
+```
+world='naive'   → CONE-NAIVE    PC2 δ=1.00 p=0.0001 | PC3 D=2.003 p=0.0039 arrival=1.00
+world='correct' → CONE-CORRECT  PC2 δ=1.00 p=0.0001 | PC3 D=0.000 p=1.0000 arrival=0.00
+```
+
+Instruments: ``src/verbum/cone.py`` (new — AST span → token cell, reference
+cones under both calculi) · ``scripts/experiments/prefill_cone.py`` (harness).
+
 ## Queue rows spawned (s333)
 
 - ⚪ **§P-PREFILL-CONE** — grid logit-lens + leaf-perturbation dependency
