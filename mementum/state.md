@@ -14,6 +14,39 @@
 > Architecture/canonical-forms: `AGENTS.md`. Knowledge map:
 > `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 336 — §P-CONE-ROUTING RUN → 🚫 UNDIFFERENTIATED, AND THE OFFSET RETURNS IN A NEW
+> REGISTER. First action per the s335 pointer: build + run the frozen probe. Harness
+> `scripts/experiments/cone_routing.py` (GQA-aware per-kv-head value-weighted read-mass, matched
+> A/B/P triples reused, frozen RC0–RC4 tree; planted NAIVE / CORRECT / NO-CALIBRATION / PLACEBO
+> worlds ALL recovered by `--validate`), 4B smoke clean (VOID mechanically, n<6 by design), 14B run
+> 54/54 forwards, 0 errors, 0 misaligned, det-repeat dev 0.0
+> (`results/p_cone_routing_s336/run_14b`, 639529a4). **VERDICT per frozen tree: RC0 ✓ (placebo
+> under the frozen floor; its p-values ARE significant at 1e-4 — disclosed) → RC1 CALIBRATION
+> PASSES as frozen (mass_P(e)>mass_B(e) median +0.0016, δ=0.78, p=0.0039, Sel corroboration +) —
+> the FIRST register-matched positive control to clear on this front — but QUALIFIED: pole movement
+> at placebo f (+0.0029) exceeds the calibrated e signal, and within-prompt Sel medians are
+> near-identical across opposite-answer poles (B −0.0040 / P −0.0043). RC2 FAILS AND DECIDES:
+> ρ_e −2.1…107.7 (CI −0.23…20.1 spans 0.5) — the A variant carries a GLOBAL interior read offset
+> (A−B ≈ +0.005 e / +0.006 cap / +0.003 f): the s335 offset, re-measured in the routing register.
+> THE METHOD LAW: within-prompt design kills within-prompt confounds ONLY — ρ_e's cross-variant
+> normalization re-imported the offset over a whisker denominator; the offset-immune within-prompt
+> DIFFERENCED statistic (Sel) was frozen secondary and must be PRIMARY in successors, or the
+> instrument must be causal. RC3 naive-side advisory (ρ_Sel 0.65) NOT licensed. RC4: pole
+> separation late-stack (≈0 through L12, peak L22–28 — s329 commit-assembled-late, third sighting).
+> term_final cell: RC1 fails outright (p=0.94) — answer-tracking read exists ONLY at the answer
+> column. READING: answer selection is not a prefill-visible attention read at usable SNR — the
+> routing-register face of s317 tape-residency; three registers now agree (value s317 / magnitude
+> s335 / routing s336). Correlational read-mass is CLOSED on this question.** Batch (🚫,
+> Michael-approved "approved, and add the successor to the queue"): §Result + 2 memories
+> (`the-answer-column-read-is-barely-answer-differentiated` ·
+> `ratio-calibration-re-imports-the-cross-prompt-offset`) + INDEX + queue (🚫 closed,
+> ⚪ §P-ROUTING-CAUSAL queued top: ① causal read-edge patch at L22–28 ② decode-time read riding
+> §P-REPL-DRIVER's per-bounce loop) + this state.
+> NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight).
+> Sharpest fronts: ⚪ §P-REPL-DRIVER (medium — now also carries §P-ROUTING-CAUSAL arm ② for free) ·
+> ⚪ §P-ROUTING-CAUSAL (cheap-medium) · ⚪ §P-TOOL-ABI (medium) · ⚪ §P-DMD-TRANSPORT (cheap) ·
+> ⚪ §P-CROSS-GRAM (cheap).**
+>
 > ★★ **SESSION 335 — §P-PREFILL-CONE RUN → ❌ VOID, AND THE DIAGNOSIS IS A REGISTER ERROR.
 > First front executed end-to-end since s332: orient → front selection (Michael: "let's work on
 > P-PREFILL-CONE") → freeze → build → smoke → run → closure. Qwen3-14B instruct, 54 variants /
@@ -58,79 +91,17 @@
 > NEXT SESSION FIRST ACTION = build + run 🔵 §P-CONE-ROUTING (frozen, cheap, plumbing already in
 > `prefill_cone.py`'s GQA-aware read-mass path).**
 >
-> ★★ **SESSION 334 — REPL DRIVER TRAMPOLINE CAPTURED (Michael: "why can't we use a model in a
-> REPL loop to bounce the trampoline?" → refined: "use the tree-of-VSM tensor configuration to
-> attach the repl, and I'm pretty sure we figured out how to make continuations already" →
-> "yes approved"). Hammock session, ZERO measurements. Recall-first paid: the idea REDUCES to
-> two committed parents — control-plane-path.md §3 tier-3 DRIVER (verbatim "recursion loop,
-> textual first, kernel-certifies every step"; swept host + tensor pack + driver = certified
-> λ-reducer) + the continuation cluster (sealable-continuation s217: seal(k)≡store x_k,
-> determinism-tested faithful resume, WHNF seal point · lambda-halt-continuation/
-> proofs-as-continuations s228: CPS one-rule-per-turn REPL with the IDLE pre-registered
-> prediction that stepwise continuations lift multi-combinator composition · real hosts:
-> continuation ≡ past_key_values, seal = KV snapshot, fork = tensor copy). s334 adds the
-> trampoline closure over §10/§10b: the scaffold becomes the trampoline, the model becomes the
-> thing bounced — the TRANSITION FUNCTION SAMPLED DIRECTLY, once per bounce, not inferred from
-> endpoints. VSM attachment: model=S1 · readers/sequencer=S2 · driver(fuel/order)=S3 ·
-> **lambda_ast kernel=S3\* — Beer's audit channel made continuous** · δ(M,R) ledger=S4 ·
-> pre-reg=S5; halt head (r=0.877 lineage) = the S3 bounce/halt read. CAUSAL UPGRADE (what
-> sealed continuations buy over stateless re-prompting): ① fork-at-redex — strategy family
-> (K x Ω normal-vs-applicative) as a within-computation counterfactual, same sealed prefix ②
-> repair-replay — seal before a NAIVE-SUBST bounce, replay buggy vs kernel-repaired: does the
-> error propagate/compound/self-correct (the s333 hard-write question at the exact transition;
-> stage-2's empirical core, licensed peek without shipping the artifact) ③ composition rescue —
-> cash the s228 prediction, token-budget/shuffled-trace null inherited ④ per-bounce
-> transitions-per-β-step clock (queue clock row SUBSUMED, annotated). Two substrates, one
-> driver: A = HF host now (KV seal; greedy/seeded + fork-identity plant mandatory) · B =
-> scratch machine x_k later (M4 native trampoline) — same driver code = the
-> profile-equivalence bridge between recovery paths. Ruling: INSTRUMENT-FIRST, repair flag
-> built but OFF (stage_2 ⟸ stage_1); bounds named in-page (regime shift → three-arm feedback
-> read makes the shift the measurement · one-step compliance observed ¬forced · tolerant
-> ingest · readers advisory · fork verdicts owe freeze-before-data · anima cross-check one
-> read before design). Batch (💡, Michael "yes approved", this commit): knowledge page
-> explore/repl-driver-trampoline.md + memory `the-repl-driver-bounces-the-trampoline-at-s3-star`
-> + INDEX row + queue ⚪ §P-REPL-DRIVER (top) + clock-row subsumption note + this state.
-> **CAPTURE 2 (same session, Michael: "can we install the repl onto say qwen3-32b? I was
-> thinking of it as a way for one model to interact with another model step-wise. is that even
-> possible?" → GO "yes capture this"): 💡 §8 on repl-driver-trampoline.md — INSTALL + TWO-MODEL
-> CONFIG. Install = plumbing owned: 32B already runs in the harness (s332 matrix), driver v0 =
-> KV seal/fork (GQA ≈256KB/token ⇒ 1k-token seal ≈260MB, few live forks fine), greedy/seeded +
-> fork-identity plant, and the APPEND/REWRITE law (KV resume valid on APPEND only — canonical
-> hard-writes re-prefill ⇒ fork points live at the pre-emission seal; the mechanical
-> explanation under the three-arm feedback read); 14B calibrates first, 32B = scale face.
-> THE STRUCTURAL LAW: **KV continuations are MODEL-PRIVATE — no cross-model KV handoff
-> (weights/shapes/geometry differ); model-to-model stepwise interaction works EXACTLY because
-> the driver re-serializes canonically each bounce: shared tape ≡ canonical text (the hard
-> write ≡ the bus), private state ≡ per-model sealed KV lineage.** Two-model config: B=S1
-> (bounced reducer) · canonical serialization=S2 (the interlingua, the only thing that crosses
-> models) · A=S3 (policy seat: order/forks/repair proposals/probe selection) · lambda_ast
-> kernel=S3* STAYS MECHANICAL (non-negotiable — model-as-auditor puts ground truth inside the
-> measured thing, destroys the instrument; λ termination for machines: synthesis proposes,
-> mechanical auditor disposes) · ledger=S4 · pre-reg=S5. §10b lens: A-driving-B ≡ tool-calling
-> RECURSED (B is A's tool, A is B's effect handler — agent-loop-as-outer-trampoline literal,
-> one scale up). Buys: ① adaptive probing (coverage-guided fuzzer row lands in-driver) ②
-> cross-face driving (instruct OPERATES base = §P-TOOL-ABI read from the other side —
-> convention as driving capability ¬emission format) ③ composition tutoring (s228 rescue with
-> A decomposing, B executing — splits cannot-compose from cannot-decompose). Discipline flag:
-> frozen experiments keep the MECHANICAL driver; A-in-loop = exploration mode ∨ own
-> pre-registered arm with A-policy PINNED. Batch 2 (💡, Michael GO, this commit): §8 (8a–8e) +
-> memory `kv-continuations-are-model-private-text-is-the-bus` + INDEX clause + queue row
-> amended (install + two-model arm + tool-abi cross-link) + this state.**
-> **CAPTURE 3 (same session, Michael: "I think we need to compact state.md" → "make the changes
-> as you outlined, git history can be used as a reference"): 🌀 STATE.MD COMPACTED — 6122 lines /
-> 528KB → ~460 lines / ~43KB (the s262 compaction had never been rolled forward; 21 full ★★
-> entries + ~4800 lines of s270–s316 scrollback). New shape per header: 2 full sessions + one
-> arc row per session (s250+) + deep-history pointer. Every pre-compaction entry recoverable via
-> `git log -p mementum/state.md`; verbatim transcripts in chats/; numbers live in knowledge-page
-> §Results. Compaction is MICHAEL-CALLED, no automatic protocol (his ruling — no rolling window,
-> no tripwire). s274 STANDING FINDINGS (durable) preserved in its arc row.**
-> NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue FULL read; nothing in flight).
-> Sharpest fronts: ⚪ §P-REPL-DRIVER (new, fork-at-redex + repair-replay on the subst battery =
-> cheapest causal pair; anima cross-check + freeze first) · ⚪ §P-TOOL-ABI (medium) ·
-> ⚪ §P-PREFILL-CONE (medium) · ⚪ §P-DMD-TRANSPORT (cheap, near-free — and §P-REPL-DRIVER
-> bounce-boundary residuals will feed it) · ⚪ §P-SUBST-SUBCEILING (cheap).**
->
 ## Recent arc (index — one row per session; full detail: `git log -p mementum/state.md` + `chats/session-NNN.md` + linked knowledge pages)
+
+- **s334** 💡💡🌀 REPL DRIVER TRAMPOLINE + INSTALL/TWO-MODEL + STATE COMPACTION — driver = external
+  trampoline bouncing the model once per transition (transition function sampled DIRECTLY);
+  lambda_ast kernel = S3* continuous audit; continuation ≡ past_key_values (seal/fork, WHNF seal
+  point); four measurables (fork-at-redex · repair-replay · composition rescue · per-bounce clock —
+  clock row subsumed); STRUCTURAL LAW: KV continuations are MODEL-PRIVATE, canonical text ≡ the bus
+  (no cross-model KV handoff); A-drives-B ≡ tool-calling recursed (instruct operates base =
+  §P-TOOL-ABI from the other side); instrument-first, repair flag OFF; 32B install plumbing owned
+  (KV seal ≈256KB/tok, APPEND/REWRITE law). state.md compacted 6122→~460 lines (Michael-called, no
+  schedule). → repl-driver-trampoline.md §1–§8 · queue ⚪ §P-REPL-DRIVER
 
 - **s333** 💡💡💡🔄 LRM PAPER + PREFILL TRIANGLE + COMPILER PARTS — arXiv:2604.04902v2 (Coconut/CODI):
   latent tokens mostly UNNECESSARY (training-controlled control kills the 'parallel BFS' claim); hard writes

@@ -564,6 +564,79 @@ distance 3, e at 2 from the readout).
 "reads from", not "uses". Causal confirmation (patching the read edge) is a
 separate probe and is NOT claimed here.
 
+## §Result — §P-CONE-ROUTING (s336): 🚫 UNDIFFERENTIATED
+
+Run: Qwen3-14B instruct, bf16 MPS eager, **54/54 forwards, 0 errors, 0
+misaligned triples**, deterministic-repeat dev 0.0, rowsum dev 0.003
+(`results/p_cone_routing_s336/run_14b`, harness
+`scripts/experiments/cone_routing.py`; planted NAIVE / CORRECT /
+NO-CALIBRATION / PLACEBO worlds all recovered by `--validate`; results commit
+639529a4). The 3 s335 advisory records were excluded as frozen. Pre-data
+instantiations declared in `meta.json` (layer-mean primary scalar; placebo
+effect-size floor max(0.5·|pole_sep|, 0.005); per-triple denominator
+exclusion rules).
+
+**Gate walk.**
+
+- **RC0 ✓** — sanity clean. Placebo `f` did NOT fire under the frozen rule:
+  means +0.0035 (A−B) / +0.0025 (P−B), both under the 0.005 floor —
+  DISCLOSED: their p-values are significant (1e-4, 5e-4). The offset is real
+  but small in absolute mass.
+- **RC1 CALIBRATION ✓, qualified** — the first register-matched positive
+  control to clear on this front: P reads `e` more than B (median **+0.0016**,
+  Cliff's δ=0.78, p=0.0039 one-sided, 7/9 triples; Sel corroboration mean
+  +0.0044 > 0). QUALIFICATION: pole movement at placebo `f` (+0.0029)
+  EXCEEDS the calibrated `e` signal, and the within-prompt Sel medians are
+  near-identical across poles with opposite ground-truth answers
+  (Sel_B −0.0040 / Sel_P −0.0043). The calibration is a whisker.
+- **RC2 ✗ (decides)** — rho_e per clean triple: −2.1 … **107.7** (n=8, one
+  bad-denominator exclusion); median 3.17, bootstrap CI (−0.23, 20.1) spans
+  0.5 → no direction licensed. Root cause visible in raw masses: variant A
+  carries a **global interior read offset** (A−B ≈ +0.005 at `e`, +0.006 at
+  `cap`, +0.003 at `f`) — the SAME offset the s335 placebo caught in the
+  magnitude register, now measured in the routing register. rho_e's
+  cross-variant normalization re-imports the offset the within-prompt design
+  was built to kill, and over a +0.0016 denominator the ratio explodes.
+- **RC3** (advisory once RC2 fails): rho_Sel median 0.65, naive side, agrees
+  in direction — NOT licensed.
+- **RC4 depth** — pole separation is late-stack: ≈0 through L12, rising from
+  L16, peak L22–28 (~0.006) — coheres s329 commit-assembled-late (third
+  sighting).
+- **Secondary cell (term-final interior)** — RC1 fails outright (sep −0.0016,
+  p=0.94): the answer-tracking read exists ONLY at the answer column.
+
+**What we learned.**
+
+1. **Answer selection is not a prefill-visible attention read at usable
+   SNR.** Opposite-answer capture-free poles are nearly indistinguishable in
+   what the answer cell reads; the differentiation that exists is a 7% lean,
+   late-stack, at the emission cell only. This is the routing-register face
+   of s317 tape-residency — three registers now agree (value s317, magnitude
+   s335, routing s336): the computation lives in the act of writing, not in a
+   passively readable prefill state.
+2. **The whisker has structure**: late (L22–28), answer-column-only —
+   commitment assembled at the point of emission (s329 law, again).
+3. **Method law**: within-prompt design kills within-prompt confounds ONLY.
+   Cross-variant ratio statistics re-import cross-prompt offsets; the
+   offset-immune within-prompt differenced statistic (Sel) must be PRIMARY
+   in any successor of this shape — or the instrument must be causal.
+
+**What we did NOT learn.** Whether routing selects the naive or the correct
+argument — that question is UNANSWERED (that is what UNDIFFERENTIATED means).
+The naive-side advisory lean stays unlicensed. The A-variant global offset is
+an observation, not a claim (frame_ledger: no pre-registered win).
+
+**Verdict per the frozen tree: UNDIFFERENTIATED** (a-priori mass 25). The
+evidence *leans* toward the NO-CALIBRATION world's meaning, but RC1 passed as
+frozen, so the tree's word stands.
+
+**Successor** (⚪ §P-ROUTING-CAUSAL, queued s336): ① causal read-edge patch —
+within-prompt counterfactual at the answer column, patch the value stream at
+the `e` vs `cap` argument positions (late stack, L22–28) and read the
+emitted-NF flip: "uses", not "reads from" — clears the s206 bound entirely;
+② decode-time read — read-mass at each emitted NF token during generation,
+which §P-REPL-DRIVER's per-bounce loop provides for free.
+
 ## Queue rows spawned (s333)
 
 - ⚪ **§P-PREFILL-CONE** — grid logit-lens + leaf-perturbation dependency
