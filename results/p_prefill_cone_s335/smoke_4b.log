@@ -1,0 +1,51 @@
+[pc] battery=3 hash=8ce2a297e2d0337f model=Qwen/Qwen3-4B dtype=bfloat16
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 6945.19it/s]
+[pc] 1/3 cap_000 err=None
+[pc] 2/3 cap_001 err=None
+[pc] 3/3 cap_002 err=None
+{
+  "PC0": {
+    "n_terms": 3,
+    "n_errors": 0,
+    "causal_max_upstream_delta": 0.0,
+    "causal_ok": true,
+    "leaf_delta_min": 0.467641681432724,
+    "leaf_moves_ok": true,
+    "pass": true
+  },
+  "PC1": {
+    "n_cells": 48,
+    "median_rank_gain": 4.5,
+    "p": 0.0216978302169783,
+    "pass": false,
+    "qualifier": "LAST-COLUMN-ONLY"
+  },
+  "PC2": {
+    "n_terms": 3,
+    "mean_both": 0.06599043102727996,
+    "mean_none": 0.06059872110684713,
+    "mean_diff": 0.005391709920432833,
+    "cliffs_delta": 0.1111111111111111,
+    "p": 1.0,
+    "pass": false
+  },
+  "PC3": {
+    "n_terms": 3,
+    "D_naive": 0.007937016586462663,
+    "median_D": -0.0020798283318678445,
+    "n_positive": 1,
+    "median_arrival_fraction": 0.7488857975792894,
+    "p": 1.0,
+    "sig": false,
+    "sign": 1
+  },
+  "PC4": {
+    "n": 3,
+    "frac_favors_correct_final": 0.3333333333333333,
+    "median_correct_final_rank": 11.0,
+    "median_naive_final_rank": 11.0
+  },
+  "verdict": "DIFFUSE/NO-CONE"
+}
+[pc] wrote results/p_prefill_cone_s335/smoke_4b

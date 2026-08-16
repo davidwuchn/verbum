@@ -1,0 +1,76 @@
+{
+  "run_id": "smoke2_4b",
+  "probe": "P-PREFILL-CONE",
+  "frozen": "s335 (freeze) + Amendment 1 + Amendment 2 (both pre-data)",
+  "timestamp_utc": "2026-08-16T02:23:17.730187+00:00",
+  "model_id": "Qwen/Qwen3-4B",
+  "device": "mps",
+  "dtype": "bfloat16",
+  "seed": 0,
+  "smoke": true,
+  "n_terms": 3,
+  "battery_hash": "fb8d65d3cc205a51",
+  "probe_shape": "(\u03bbd.\u03bbr.r) c (BASE e f)",
+  "repls": [
+    "n",
+    "m",
+    "t"
+  ],
+  "git_sha": "f18fc418a892d2e3fc3601143a88e47ddfe3331c",
+  "python": "3.12.10",
+  "platform": "macOS-26.5.2-arm64-arm-64bit",
+  "gates": {
+    "PC0": {
+      "n_terms": 3,
+      "n_errors": 0,
+      "causal_max_upstream_delta": 0.0,
+      "causal_ok": true,
+      "leaf_delta_min": 0.5063813924789429,
+      "leaf_moves_ok": true,
+      "pass": true,
+      "placebo_n": 2,
+      "placebo_mean_did": 0.027139951785405486,
+      "placebo_p": 0.5047495250474953,
+      "placebo_ok": true,
+      "n_misaligned_pairs": 0
+    },
+    "PC1": {
+      "n_cells": 27,
+      "median_rank_gain": 6.0,
+      "p": 0.004399560043995601,
+      "pass": false,
+      "qualifier": "LAST-COLUMN-ONLY"
+    },
+    "PC2": {
+      "n_pairs": 1,
+      "mean_DiD_pos": -0.01183214783668518,
+      "median_DiD_pos": -0.01183214783668518,
+      "n_positive": 0,
+      "cliffs_delta": -1.0,
+      "p": 1.0,
+      "pass": false
+    },
+    "PC3": {
+      "n_pairs": 1,
+      "D_naive": 0.013888686895370483,
+      "median_D": 0.013888686895370483,
+      "n_positive": 1,
+      "median_arrival_fraction": -1.1738094458479527,
+      "p": 1.0,
+      "sig": false,
+      "sign": 1
+    },
+    "PC4": {
+      "n": 1,
+      "frac_favors_correct_final": 1.0,
+      "median_correct_final_rank": 1.0,
+      "median_naive_final_rank": 4.0
+    },
+    "verdict": "DIFFUSE/NO-CONE"
+  },
+  "lib_versions": {
+    "torch": "2.11.0",
+    "transformers": "5.5.4",
+    "numpy": "2.4.4"
+  }
+}

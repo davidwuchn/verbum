@@ -1,0 +1,35 @@
+[
+  {
+    "id": "cap_000_A",
+    "term": "(\u03bbx.\u03bby.x) y e f",
+    "correct_nf": "y f",
+    "naive_nf": "e f",
+    "roles": {
+      "y": "both",
+      "e": "naive_only",
+      "f": "both"
+    }
+  },
+  {
+    "id": "cap_000_B",
+    "term": "(\u03bbx.\u03bbp.x) y e f",
+    "correct_nf": "y f",
+    "naive_nf": "y f",
+    "roles": {
+      "y": "both",
+      "e": "none",
+      "f": "both"
+    }
+  },
+  {
+    "id": "cap_000_P",
+    "term": "(\u03bbx.\u03bbp.p) y e f",
+    "correct_nf": "e f",
+    "naive_nf": "e f",
+    "roles": {
+      "y": "none",
+      "e": "both",
+      "f": "both"
+    }
+  }
+]

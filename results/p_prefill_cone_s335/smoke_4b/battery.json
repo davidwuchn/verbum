@@ -1,0 +1,38 @@
+[
+  {
+    "id": "cap_000",
+    "term": "(\u03bbd.\u03bbr.r) c ((\u03bbx.\u03bby.x) y e f)",
+    "correct_nf": "y f",
+    "naive_nf": "e f",
+    "roles": {
+      "c": "none",
+      "y": "both",
+      "e": "naive_only",
+      "f": "both"
+    }
+  },
+  {
+    "id": "cap_001",
+    "term": "(\u03bbd.\u03bbr.r) c ((\u03bbx.\u03bby.\u03bba.x) y e f)",
+    "correct_nf": "y",
+    "naive_nf": "e",
+    "roles": {
+      "c": "none",
+      "y": "both",
+      "e": "naive_only",
+      "f": "none"
+    }
+  },
+  {
+    "id": "cap_002",
+    "term": "(\u03bbd.\u03bbr.r) c ((\u03bbx.\u03bby.\u03bba.\u03bbb.x) y e f)",
+    "correct_nf": "\u03bbb.y",
+    "naive_nf": "\u03bbb.e",
+    "roles": {
+      "c": "none",
+      "y": "both",
+      "e": "naive_only",
+      "f": "none"
+    }
+  }
+]

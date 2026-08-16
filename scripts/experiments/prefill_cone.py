@@ -67,7 +67,13 @@ from verbum.cone import (
 from verbum.lambda_ast import (
     R_NAIVE,
     R_NORMAL,
+    App,
+    Atom,
+    Comb,
+    Lam,
     Status,
+    Term,
+    free_vars,
     parse,
     pretty,
     reduce,
@@ -93,9 +99,97 @@ _TERM_PREFIX = "Term: "
 _TERM_SUFFIX = "\nNormal form:"
 
 
-def wrap_term(base: str) -> str:
-    """Amendment 2 probe shape: upstream discarded control + trailing args."""
-    return f"(λd.λr.r) c ({base} e f)"
+_FRESH_BINDERS = ("p", "q", "s", "z", "k", "j")
+_SUBST_VAR = "x"  # subst_pairs' substituted variable (the head binder)
+
+
+def _rename_binder(t: Term, old: str, new: str) -> Term:
+    """Rename binder ``old``→``new`` and its BOUND occurrences (scope-correct)."""
+    if isinstance(t, Comb | Atom):
+        return t
+    if isinstance(t, Lam):
+        if t.var == old:
+            return Lam(new, _rename_bound(t.body, old, new))
+        return Lam(t.var, _rename_binder(t.body, old, new))
+    return App(_rename_binder(t.fn, old, new), _rename_binder(t.arg, old, new))
+
+
+def _rename_bound(t: Term, old: str, new: str) -> Term:
+    if isinstance(t, Atom):
+        return Atom(new) if t.name == old else t
+    if isinstance(t, Comb):
+        return t
+    if isinstance(t, Lam):
+        return t if t.var == old else Lam(t.var, _rename_bound(t.body, old, new))
+    return App(_rename_bound(t.fn, old, new), _rename_bound(t.arg, old, new))
+
+
+def _swap_in_scope(t: Term, binder: str, new: str) -> Term:
+    """Inside ``λbinder.body``, rewrite ``binder``'s occurrences to ``new``.
+
+    The binder itself is KEPT (it simply goes unused), so the rendering length
+    is preserved — the whole point of the matched triple.
+    """
+    if isinstance(t, Comb | Atom):
+        return t
+    if isinstance(t, Lam):
+        if t.var == binder:
+            return Lam(t.var, _rename_bound(t.body, binder, new))
+        return Lam(t.var, _swap_in_scope(t.body, binder, new))
+    return App(_swap_in_scope(t.fn, binder, new), _swap_in_scope(t.arg, binder, new))
+
+
+def _shadow_binders(t: Term) -> list[str]:
+    """Binders whose name also occurs FREE in the term — the capture sites."""
+    free = free_vars(t)
+    seen: list[str] = []
+
+    def walk(u: Term) -> None:
+        if isinstance(u, Lam):
+            if u.var in free and u.var not in seen:
+                seen.append(u.var)
+            walk(u.body)
+        elif isinstance(u, App):
+            walk(u.fn)
+            walk(u.arg)
+
+    walk(t)
+    return seen
+
+
+def build_variants(base: str) -> dict[str, str] | None:
+    """Amendment 3 matched triple — identical layout, one character apart.
+
+    A  : capture live      ⇒ ``e`` is naive_only (correct discards it)
+    B  : binders renamed   ⇒ no capture, both NFs agree, ``e`` discarded (none)
+    P  : B with the head variable swapped for the binder that receives ``e``
+         ⇒ ``e`` is load-bearing under BOTH calculi (the distance-matched
+         POSITIVE CONTROL the s335 smoke proved was missing)
+
+    All three render at the same length, so ``e`` sits at the same token in each
+    — distance, token identity and prompt length are held fixed by
+    construction; only the certified ROLE of that leaf moves.
+    """
+    a_text = f"{base} e f"
+    ta = parse(a_text)
+    if pretty(ta) != a_text:
+        return None
+    shadows = _shadow_binders(ta)
+    if not shadows:
+        return None
+    used = term_names(ta)
+    pool = [c for c in _FRESH_BINDERS if c not in used]
+    if len(pool) < len(shadows):
+        return None
+    mapping = dict(zip(shadows, pool[: len(shadows)], strict=True))
+    tb = ta
+    for old, new in mapping.items():
+        tb = _rename_binder(tb, old, new)
+    tp = _swap_in_scope(tb, _SUBST_VAR, mapping[shadows[0]])
+    out = {"A": pretty(ta), "B": pretty(tb), "P": pretty(tp)}
+    if len({len(v) for v in out.values()}) != 1:
+        return None  # layout must be identical — no exceptions
+    return out
 
 
 def build_prompt(term_text: str) -> tuple[str, int]:
@@ -115,6 +209,9 @@ class TermSpec:
     spans: list[Span]
     span_nf: list[str | None]
     root: int  # span index of the whole term (the readout span)
+    pair_id: str = ""
+    variant: str = ""  # "A" (capture) | "B" (renamed) | "P" (positive control)
+    clean_flip: bool = False
     perts: dict[str, list[LeafPerturbation]] = field(default_factory=dict)
     roles: dict[str, str] = field(default_factory=dict)  # leaf name → role
 
@@ -142,48 +239,77 @@ def build_battery() -> list[TermSpec]:
 
     out: list[TermSpec] = []
     for pid, bt in bases:
-        term = wrap_term(bt)
-        t = parse(term)
-        if pretty(t) != term:
-            raise ValueError(f"{pid}: non-canonical wrapped term {term!r}")
-        rn, rv = reduce(t, calc=R_NORMAL), reduce(t, calc=R_NAIVE)
-        if rn.status is not Status.NORMAL_FORM or rv.status is not Status.NORMAL_FORM:
-            raise ValueError(f"{pid}: wrapped term does not normalize under both")
-        if pretty(rn.normal_form) == pretty(rv.normal_form):
-            raise ValueError(f"{pid}: wrapped term no longer discriminates")
-        text, spans, subterms = annotate(t)
-        root = max(range(len(spans)), key=lambda i: spans[i].end - spans[i].start)
-        span_nf = []
-        for st in subterms:
-            r = reduce(st, calc=R_NORMAL)
-            span_nf.append(
-                pretty(r.normal_form) if r.status is Status.NORMAL_FORM else None
-            )
-        names = term_names(t)
-        perts = {
-            rp: leaf_perturbations(text, repl=rp)
-            for rp in REPLS
-            if rp not in names
-        }
-        roles = {
-            lp.orig: leaf_role(lp, root)
-            for lps in perts.values()
-            for lp in lps
-        }
-        out.append(
-            TermSpec(
-                id=pid,
+        variants = build_variants(bt)
+        if variants is None:
+            raise ValueError(f"{pid}: could not build a matched triple")
+        specs: dict[str, TermSpec] = {}
+        nfs: dict[str, tuple[str, str]] = {}
+        for tag, term in variants.items():
+            t = parse(term)
+            if pretty(t) != term:
+                raise ValueError(f"{pid}/{tag}: non-canonical term {term!r}")
+            rn, rv = reduce(t, calc=R_NORMAL), reduce(t, calc=R_NAIVE)
+            if (
+                rn.status is not Status.NORMAL_FORM
+                or rv.status is not Status.NORMAL_FORM
+            ):
+                raise ValueError(f"{pid}/{tag}: does not normalize under both calculi")
+            nfs[tag] = (pretty(rn.normal_form), pretty(rv.normal_form))
+            text, spans, subterms = annotate(t)
+            root = max(range(len(spans)), key=lambda i: spans[i].end - spans[i].start)
+            span_nf = []
+            for st in subterms:
+                r = reduce(st, calc=R_NORMAL)
+                span_nf.append(
+                    pretty(r.normal_form) if r.status is Status.NORMAL_FORM else None
+                )
+            names = term_names(t)
+            perts = {
+                rp: leaf_perturbations(text, repl=rp)
+                for rp in REPLS
+                if rp not in names
+            }
+            roles = {
+                lp.orig: leaf_role(lp, root)
+                for lps in perts.values()
+                for lp in lps
+            }
+            specs[tag] = TermSpec(
+                id=f"{pid}_{tag}",
                 base_term=bt,
                 term=term,
-                correct_nf=pretty(rn.normal_form),
-                naive_nf=pretty(rv.normal_form),
+                correct_nf=nfs[tag][0],
+                naive_nf=nfs[tag][1],
                 spans=spans,
                 span_nf=span_nf,
                 root=root,
+                pair_id=pid,
+                variant=tag,
                 perts=perts,
                 roles=roles,
             )
+        # kernel gates on the triple (structure, never data)
+        if nfs["A"][0] == nfs["A"][1]:
+            raise ValueError(f"{pid}: variant A does not discriminate")
+        for tag in ("B", "P"):
+            if nfs[tag][0] != nfs[tag][1]:
+                raise ValueError(f"{pid}/{tag}: still captures (NFs disagree)")
+        clean = (
+            specs["A"].roles.get("e") == "naive_only"
+            and specs["B"].roles.get("e") == "none"
+            and specs["P"].roles.get("e") == "both"
         )
+        for tag in ("A", "B", "P"):
+            s = specs[tag]
+            out.append(
+                TermSpec(
+                    id=s.id, base_term=s.base_term, term=s.term,
+                    correct_nf=s.correct_nf, naive_nf=s.naive_nf, spans=s.spans,
+                    span_nf=s.span_nf, root=s.root, pair_id=s.pair_id,
+                    variant=s.variant, clean_flip=clean, perts=s.perts,
+                    roles=s.roles,
+                )
+            )
     return out
 
 
@@ -374,6 +500,12 @@ def score_term(backend, spec: TermSpec, *, do_m1: bool, do_mass: bool) -> dict:
     ans_pos = orig.n_tokens - 1
     rec: dict[str, Any] = {
         "term_id": spec.id,
+        "pair_id": spec.pair_id,
+        "variant": spec.variant,
+        "clean_flip": spec.clean_flip,
+        "offsets_sig": hashlib.sha256(
+            json.dumps(orig.offsets).encode()
+        ).hexdigest()[:12],
         "term": spec.term,
         "correct_nf": spec.correct_nf,
         "naive_nf": spec.naive_nf,
@@ -475,13 +607,55 @@ def score_term(backend, spec: TermSpec, *, do_m1: bool, do_mass: bool) -> dict:
 
 
 # ── gates ───────────────────────────────────────────────────────────────────
-def _role_means(rec: dict, key: str = "delta_readout") -> dict[str, float]:
+def _leaf_means(rec: dict, key: str = "delta_readout") -> dict[str, float]:
+    """Per-LEAF mean Δ at the readout cell (averaged over replacement atoms)."""
     acc: dict[str, list[float]] = {}
     for lv in rec.get("leaves", []):
         if lv.get("error"):
             continue
-        acc.setdefault(lv["role"], []).append(lv[key])
+        acc.setdefault(lv["leaf"], []).append(lv[key])
     return {k: float(np.mean(v)) for k, v in acc.items()}
+
+
+def _pair_dids(recs: list[dict]) -> dict[str, Any]:
+    """Amendment 3 difference-in-differences, grouped by matched triple.
+
+    Position, token identity and prompt length are held fixed across A/B/P; only
+    the kernel-certified ROLE of leaf ``e`` moves. Distance — which the s335
+    smoke proved dominates raw Δ (corr −0.73) — therefore cancels.
+    """
+    by_pair: dict[str, dict[str, dict]] = {}
+    for r in recs:
+        if r.get("error") is None and r.get("pair_id"):
+            by_pair.setdefault(r["pair_id"], {})[r["variant"]] = r
+    flip, pos, placebo, arrivals, misaligned = [], [], [], [], 0
+    for _pid, vs in sorted(by_pair.items()):
+        if not {"A", "B", "P"} <= vs.keys():
+            continue
+        if len({vs[t]["offsets_sig"] for t in ("A", "B", "P")}) != 1:
+            misaligned += 1  # layout not identical after tokenization → drop
+            continue
+        mA, mB, mP = (_leaf_means(vs[t]) for t in ("A", "B", "P"))
+        rolesA = vs["A"]["roles"]
+        rolesB = vs["B"]["roles"]
+        for leaf in sorted(set(rolesA) & set(rolesB) - {"e"}):
+            if rolesA[leaf] == rolesB[leaf] and leaf in mA and leaf in mB:
+                placebo.append(mA[leaf] - mB[leaf])
+        if not vs["A"].get("clean_flip") or not all("e" in m for m in (mA, mB, mP)):
+            continue
+        d_flip, d_pos = mA["e"] - mB["e"], mP["e"] - mB["e"]
+        flip.append(d_flip)
+        pos.append(d_pos)
+        if abs(d_pos) > 1e-9:
+            arrivals.append(d_flip / d_pos)
+    return {
+        "flip": np.array(flip),
+        "pos": np.array(pos),
+        "placebo": np.array(placebo),
+        "arrivals": np.array(arrivals),
+        "n_pairs": len(by_pair),
+        "n_misaligned": misaligned,
+    }
 
 
 def compute_gates(recs: list[dict], rng) -> dict:
@@ -515,47 +689,50 @@ def compute_gates(recs: list[dict], rng) -> dict:
     }
     pc1["qualifier"] = "INTERIOR-VISIBLE" if pc1["pass"] else "LAST-COLUMN-ONLY"
 
-    # PC2 — selectivity: does a BOTH-dependent leaf move the readout cell more
-    # than the discarded control? (positive control + localization in one)
-    both_v, none_v, diffs = [], [], []
-    for r in good:
-        m = _role_means(r)
-        if "both" in m and "none" in m:
-            both_v.append(m["both"])
-            none_v.append(m["none"])
-            diffs.append(m["both"] - m["none"])
-    a, b, dd = np.array(both_v), np.array(none_v), np.array(diffs)
-    cd = cliffs_delta(a, b)
-    p2 = perm_p_paired(dd, rng) if dd.size else 1.0
+    did = _pair_dids(good)
+
+    # PC0b — placebo: role-unchanged leaves must show NO DiD (layout artifact
+    # detector; without it a rendering/tokenization asymmetry could masquerade
+    # as semantics)
+    plac = did["placebo"]
+    p_pl = perm_p_paired(plac, rng) if plac.size else 1.0
+    pc0["placebo_n"] = int(plac.size)
+    pc0["placebo_mean_did"] = float(plac.mean()) if plac.size else 0.0
+    pc0["placebo_p"] = p_pl
+    pc0["placebo_ok"] = bool(plac.size == 0 or p_pl >= ALPHA)
+    pc0["n_misaligned_pairs"] = int(did["n_misaligned"])
+    pc0["pass"] = bool(pc0["pass"] and pc0["placebo_ok"])
+
+    # PC2 — POSITIVE CONTROL, distance-matched: leaf `e` load-bearing (P) vs
+    # discarded (B) at the same cell. Does the instrument see semantics at all?
+    pos = did["pos"]
+    p2 = perm_p_paired(pos, rng) if pos.size else 1.0
+    cd = cliffs_delta(pos, np.zeros_like(pos)) if pos.size else 0.0
     pc2 = {
-        "n_terms": int(dd.size),
-        "mean_both": float(a.mean()) if a.size else 0.0,
-        "mean_none": float(b.mean()) if b.size else 0.0,
-        "mean_diff": float(dd.mean()) if dd.size else 0.0,
+        "n_pairs": int(pos.size),
+        "mean_DiD_pos": float(pos.mean()) if pos.size else 0.0,
+        "median_DiD_pos": float(np.median(pos)) if pos.size else 0.0,
+        "n_positive": int((pos > 0).sum()),
         "cliffs_delta": cd,
         "p": p2,
-        "pass": bool(dd.size and cd >= PC2_MIN_CLIFF and p2 < ALPHA),
+        "pass": bool(
+            pos.size and cd >= PC2_MIN_CLIFF and p2 < ALPHA and pos.mean() > 0
+        ),
     }
 
-    # PC3 — D_naive at the readout cell + arrival fraction
-    dn, arr = [], []
-    for r in good:
-        m = _role_means(r)
-        if "naive_only" in m and "none" in m:
-            dn.append(m["naive_only"] - m["none"])
-            if "both" in m and (m["both"] - m["none"]) > 1e-9:
-                arr.append((m["naive_only"] - m["none"]) / (m["both"] - m["none"]))
-    d3 = np.array(dn)
-    p3 = perm_p_paired(d3, rng) if d3.size else 1.0
+    # PC3 — the headline DiD: does the argument the CORRECT calculus discards
+    # still reach the readout cell?
+    flip, arr = did["flip"], did["arrivals"]
+    p3 = perm_p_paired(flip, rng) if flip.size else 1.0
     pc3 = {
-        "n_terms": int(d3.size),
-        "D_naive": float(d3.mean()) if d3.size else 0.0,
-        "median_D": float(np.median(d3)) if d3.size else 0.0,
-        "n_positive": int((d3 > 0).sum()),
-        "median_arrival_fraction": float(np.median(arr)) if arr else None,
+        "n_pairs": int(flip.size),
+        "D_naive": float(flip.mean()) if flip.size else 0.0,
+        "median_D": float(np.median(flip)) if flip.size else 0.0,
+        "n_positive": int((flip > 0).sum()),
+        "median_arrival_fraction": float(np.median(arr)) if arr.size else None,
         "p": p3,
-        "sig": bool(d3.size and p3 < ALPHA),
-        "sign": int(np.sign(d3.mean())) if d3.size else 0,
+        "sig": bool(flip.size and p3 < ALPHA),
+        "sign": int(np.sign(flip.mean())) if flip.size else 0,
     }
 
     nec = [r["m4_necessity"] for r in good if "m4_necessity" in r]
@@ -578,7 +755,12 @@ def compute_gates(recs: list[dict], rng) -> dict:
 
 
 def decide(pc0: dict, pc2: dict, pc3: dict) -> str:
-    """The frozen verdict tree (s335, estimator per Amendment 2)."""
+    """The frozen verdict tree (s335; estimator per Amendment 3).
+
+    PC0 covers sanity AND the placebo (layout-artifact) check; PC2 is the
+    distance-matched positive control — without it firing, a null in PC3 is
+    uninformative and the verdict is DIFFUSE/NO-CONE, never CONE-CORRECT.
+    """
     if not pc0["pass"]:
         return "VOID"
     if not pc2["pass"]:
@@ -587,8 +769,12 @@ def decide(pc0: dict, pc2: dict, pc3: dict) -> str:
         return "CONE-NAIVE"
     if pc3["sig"] and pc3["sign"] < 0:
         return "CONE-CORRECT"
-    if pc3["n_terms"]:
-        return "CONE-CORRECT"  # selectivity works; the discarded arg never arrives
+    if not pc3["n_pairs"]:
+        return "CONE-UNDIFFERENTIATED"
+    arr = pc3["median_arrival_fraction"]
+    if arr is not None and arr < 0.5:
+        # positive control fired; the discarded argument did not arrive
+        return "CONE-CORRECT"
     return "CONE-UNDIFFERENTIATED"
 
 
@@ -599,20 +785,26 @@ def validate() -> bool:
     ok &= bool(subst_validate())
 
     battery = build_battery()
-    print(f"[validate] battery: {len(battery)} terms (hash {battery_hash(battery)})")
-    n_disc = sum(1 for s in battery if "naive_only" in s.roles.values())
-    n_ctrl = sum(1 for s in battery if "none" in s.roles.values())
+    pairs = {s.pair_id for s in battery}
+    clean = {s.pair_id for s in battery if s.clean_flip}
     print(
-        f"[validate] naive_only-leaf terms: {n_disc}; none-control terms: {n_ctrl}"
+        f"[validate] battery: {len(battery)} variants / {len(pairs)} triples "
+        f"(hash {battery_hash(battery)}); clean flips: {len(clean)}"
     )
-    ok &= n_disc == 9 and n_ctrl == len(battery)
+    ok &= len(battery) == 3 * len(pairs) and len(clean) == 9
 
-    for spec in battery:  # control must sit upstream of the readout cell
-        for lps in spec.perts.values():
-            for lp in lps:
-                if leaf_role(lp, spec.root) == "none":
-                    assert lp.end <= spec.spans[spec.root].end - 1, spec.id
-    print("[validate] every none-control leaf is upstream of the readout cell ✓")
+    for s in battery:  # the matched triple must hold layout fixed
+        sibs = [b for b in battery if b.pair_id == s.pair_id]
+        assert len({len(b.term) for b in sibs}) == 1, s.pair_id
+    print("[validate] every triple is length-matched (A/B/P) ✓")
+    for s in battery:
+        if s.variant == "A" and s.clean_flip:
+            assert s.roles["e"] == "naive_only", s.id
+        if s.variant == "B" and s.clean_flip:
+            assert s.roles["e"] == "none", s.id
+        if s.variant == "P" and s.clean_flip:
+            assert s.roles["e"] == "both", s.id
+    print("[validate] certified role flip e: naive_only(A) → none(B) → both(P) ✓")
 
     for world, want in (("naive", "CONE-NAIVE"), ("correct", "CONE-CORRECT")):
         be = PlantedBackend()
@@ -631,10 +823,10 @@ def validate() -> bool:
         g = compute_gates(recs, np.random.default_rng(0))
         print(
             f"[validate] world={world!r}: verdict={g['verdict']} | "
-            f"PC0 {g['PC0']['pass']} | PC1 {g['PC1']['qualifier']} | "
-            f"PC2 δ={g['PC2']['cliffs_delta']:.2f} p={g['PC2']['p']:.4f} | "
+            f"PC0 {g['PC0']['pass']} placebo_p={g['PC0']['placebo_p']:.3f} | "
+            f"PC2 DiD+={g['PC2']['median_DiD_pos']:.3f} p={g['PC2']['p']:.4f} | "
             f"PC3 D={g['PC3']['D_naive']:.3f} p={g['PC3']['p']:.4f} "
-            f"n={g['PC3']['n_terms']} arrival={g['PC3']['median_arrival_fraction']}"
+            f"n={g['PC3']['n_pairs']} arrival={g['PC3']['median_arrival_fraction']}"
         )
         ok &= g["verdict"] == want
     print(f"[validate] {'ALL PASS' if ok else 'FAIL'}")

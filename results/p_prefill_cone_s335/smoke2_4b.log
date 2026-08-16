@@ -1,0 +1,56 @@
+[pc] battery=3 hash=fb8d65d3cc205a51 model=Qwen/Qwen3-4B dtype=bfloat16
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 21343.97it/s]
+[pc] 1/3 cap_000_A err=None
+[pc] 2/3 cap_000_B err=None
+[pc] 3/3 cap_000_P err=None
+{
+  "PC0": {
+    "n_terms": 3,
+    "n_errors": 0,
+    "causal_max_upstream_delta": 0.0,
+    "causal_ok": true,
+    "leaf_delta_min": 0.5063813924789429,
+    "leaf_moves_ok": true,
+    "pass": true,
+    "placebo_n": 2,
+    "placebo_mean_did": 0.027139951785405486,
+    "placebo_p": 0.5047495250474953,
+    "placebo_ok": true,
+    "n_misaligned_pairs": 0
+  },
+  "PC1": {
+    "n_cells": 27,
+    "median_rank_gain": 6.0,
+    "p": 0.004399560043995601,
+    "pass": false,
+    "qualifier": "LAST-COLUMN-ONLY"
+  },
+  "PC2": {
+    "n_pairs": 1,
+    "mean_DiD_pos": -0.01183214783668518,
+    "median_DiD_pos": -0.01183214783668518,
+    "n_positive": 0,
+    "cliffs_delta": -1.0,
+    "p": 1.0,
+    "pass": false
+  },
+  "PC3": {
+    "n_pairs": 1,
+    "D_naive": 0.013888686895370483,
+    "median_D": 0.013888686895370483,
+    "n_positive": 1,
+    "median_arrival_fraction": -1.1738094458479527,
+    "p": 1.0,
+    "sig": false,
+    "sign": 1
+  },
+  "PC4": {
+    "n": 1,
+    "frac_favors_correct_final": 1.0,
+    "median_correct_final_rank": 1.0,
+    "median_naive_final_rank": 4.0
+  },
+  "verdict": "DIFFUSE/NO-CONE"
+}
+[pc] wrote results/p_prefill_cone_s335/smoke2_4b
