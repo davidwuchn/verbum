@@ -396,6 +396,103 @@ world='correct' → CONE-CORRECT  PC2 δ=1.00 p=0.0001 | PC3 D=0.000 p=1.0000 ar
 Instruments: ``src/verbum/cone.py`` (new — AST span → token cell, reference
 cones under both calculi) · ``scripts/experiments/prefill_cone.py`` (harness).
 
+## §P-CONE-ROUTING — FREEZE (s335, Michael "freeze the routing probe"), PRE-DATA
+
+> Successor to §P-PREFILL-CONE (VOID). That probe measured the MAGNITUDE
+> register (‖Δh‖, transport) against a VALUE/ROUTING claim (which argument
+> reaches the result). This one is register-matched: **routing**.
+> Frozen before any read-mass beyond the 3 advisory records already on disk
+> (`results/p_prefill_cone_s335/run_14b`, cap_000 only) — those 3 are DISCLOSED
+> and excluded from all statistics below.
+
+**Question.** At the cell that emits the answer, does the machine READ FROM the
+argument the naive algorithm selects (`e`) or the one capture-avoiding
+substitution selects (`y`)?
+
+**Why the s335 confound does not apply.** The killer of §P-PREFILL-CONE was that
+capture cannot be removed without perturbing surface repetition. This probe
+needs NO A/B perturbation contrast: in variant A both candidate answers sit in
+the SAME prompt, same forward pass. The discrimination is within-prompt.
+
+**Substrate.** The matched triples already built (`build_variants`, 18 triples /
+54 variants, 9 clean flips), Qwen3-14B instruct, MPS bf16, eager attention,
+prefill only. **One forward per variant — no perturbation loop** (~54 forwards,
+minutes). Readout: value-weighted attention (s206 scar: never bare QK) from the
+result cell onto candidate source positions, GQA-aware `v_proj` hook, head-mean,
+per-layer normalized.
+
+**Cells.** Primary = the ANSWER COLUMN (last prefill token). Its next-token
+distribution IS the first emitted NF token, so the y-vs-e selection is
+demonstrably live there — s335 PC4 measured the naive NF favored at that cell in
+78% of terms. Secondary = the term-final interior cell. Sources read FROM are
+interior positions: this is the "answer column reads into the triangle" audit of
+§7 item 4.
+
+**The calibration move (what makes this well-posed).** B and P are capture-free,
+so their answers are unambiguous under BOTH calculi and give ground-truth read
+targets:
+
+- B `(λx.λp.x) y e f` → NF `y f` — the answer's head is **y**
+- P `(λx.λp.p) y e f` → NF `e f` — the answer's head is **e**
+- A `(λx.λy.x) y e f` → correct `y f` / naive `e f` — the ambiguous case
+
+Train/calibrate on the unambiguous variants, classify the ambiguous one (same
+shape as the §5 operator-from-pathway decoder).
+
+**Statistics (both pre-registered; primary decides, secondary must agree).**
+
+- primary  ρ_e = (mass_A(e) − mass_B(e)) / (mass_P(e) − mass_B(e))
+  — uses ONLY the `e` position: identical token, identical position in all
+  three variants, single occurrence everywhere (no duplicate-token asymmetry).
+  ρ_e ≈ 1 ⇒ A reads `e` like P (whose answer IS `e`) ⇒ naive routing.
+  ρ_e ≈ 0 ⇒ A reads `e` like B (whose answer is not `e`) ⇒ correct routing.
+- secondary ρ_Sel from Sel = mass(y) − mass(e), a WITHIN-prompt difference, so
+  the y/e positional asymmetry cancels exactly across variants.
+  **Named bound:** variant A contains the token `y` TWICE (binder λy + argument)
+  while B/P contain it once — an extra attention sink that exists only in A.
+  Mass is measured at the ARGUMENT position specifically, and mass onto the
+  BINDER position is reported as a diagnostic, but ρ_Sel stays secondary
+  because of this asymmetry. ρ_e carries no such bound.
+
+**Gate tree (frozen).**
+
+- **RC0 sanity**: per-layer mass sums to 1 · GQA head expansion verified ·
+  `offsets_sig` identical across each triple · deterministic repeat · the 3
+  pre-existing advisory records excluded.
+- **RC1 CALIBRATION — make-or-break, read FIRST**: on capture-free variants,
+  does the result cell's read-mass track the answer at all?
+  mass_P(e) > mass_B(e) paired, p<0.05 AND Cliff's δ ≥ 0.2; corroborated by
+  Sel_B > Sel_P. **If RC1 fails, ρ_e is not computed and the verdict is
+  NO-CALIBRATION** — never a routing claim. (This is the register-matched
+  positive control whose absence voided the predecessor.)
+- **RC2 primary**: ρ_e over the 9 clean-flip triples; bootstrap CI must exclude
+  0.5 to license a direction.
+- **RC3 secondary**: ρ_Sel must agree in sign with ρ_e; disagreement forces
+  UNDIFFERENTIATED regardless of RC2.
+- **RC4 depth (advisory)**: layer at which the discrimination appears —
+  per-layer mass is stored, so this costs nothing.
+
+**Nulls.** (a) placebo position `f` — present in every NF, same role in all
+variants ⇒ must NOT discriminate; (b) shuffled-variant-label null on the
+calibration; (c) position-matched control for the y/e distance gap (y at
+distance 3, e at 2 from the readout).
+
+**Verdict space + a-priori mass (Σ=100).**
+
+- **NO-CALIBRATION** (RC1 ✗ — answer selection is not a prefill-visible
+  attention read; coheres s317 tape-residency) — **30**
+- **NAIVE-ROUTING** (ρ_e ≥ 0.5, CI excludes) — **30**, directional prediction,
+  coheres the s331/s332 cross-model NAIVE-SUBST law and s335 PC4
+- **UNDIFFERENTIATED** (RC1 ✓, CI spans 0.5, or ρ_e/ρ_Sel disagree) — 25
+- **CORRECT-ROUTING** (ρ_e ≤ 0.5, CI excludes) — 10; would be a real tension:
+  routing selects correctly while the OUTPUT is naive ⇒ the error enters AFTER
+  selection (a substitution-execution bug, not a selection bug)
+- **VOID** (RC0 ✗) — 5
+
+**Standing bound.** Attention mass is correlational (s206): a positive licenses
+"reads from", not "uses". Causal confirmation (patching the read edge) is a
+separate probe and is NOT claimed here.
+
 ## Queue rows spawned (s333)
 
 - ⚪ **§P-PREFILL-CONE** — grid logit-lens + leaf-perturbation dependency
