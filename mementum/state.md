@@ -14,6 +14,50 @@
 > Architecture/canonical-forms: `AGENTS.md`. Knowledge map:
 > `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 335 — §P-PREFILL-CONE RUN → ❌ VOID, AND THE DIAGNOSIS IS A REGISTER ERROR.
+> First front executed end-to-end since s332: orient → front selection (Michael: "let's work on
+> P-PREFILL-CONE") → freeze → build → smoke → run → closure. Qwen3-14B instruct, 54 variants /
+> 18 triples, 0 errors, 3m27s (`results/p_prefill_cone_s335/run_14b`, 415012ee).
+> **VERDICT VOID: the PLACEBO GATE FIRED** — role-unchanged leaves show DiD +0.027 p=1e-4 (n=48);
+> the capture-live variant is globally more perturbation-sensitive at the readout cell for EVERY
+> leaf, including the unrelated control `f` ⇒ the A−B contrast rides a global offset. PC2 positive
+> control failed TWICE with the WRONG SIGN (−0.008 p=0.094; the 4B smoke had already shown it at
+> n=1). PC3 (−0.029, p=0.027) NOT READ — its effect equals the placebo offset and the instrument
+> is unvalidated. **PC1 passed as frozen (rank gain 13, p=1e-4, 810 cells) and was then DISSOLVED
+> by our own s321/s323 clean-dissociation split: DIRTY spans (NF already written in the surface)
+> +17.0 median / CLEAN spans (reduction genuinely changes the string) +0.0 median, 46% positive
+> ⇒ INTERIOR-VISIBLE NOT LICENSED — lexical echo at the VALUE register on the prefill grid (third
+> register, same law: routing tracks what is WRITTEN, not what is computed).** PC4 advisory: naive
+> NF favored at the answer column 78% (coheres s331/s332). **ROOT CAUSE (mine): ‖Δh‖ is a
+> MAGNITUDE/TRANSPORT read — proved by Δ ∝ 1/distance, corr −0.73, monotone — aimed at a
+> value/routing claim ("which argument ARRIVES"). The routing arm (read-mass) was the only
+> register-matched instrument and I starved it to advisory / 3 of 54 records at freeze; the THREE
+> pre-data amendments (raw cone · **cell ≠ AST node** — nested spans share closing tokens so the
+> frozen contrast compared a cell with itself · matched-position DiD) were all downstream repairs
+> of that one upstream mistake.** RETRACTED in-session: "the confound is intrinsic (capture ≡
+> surface coincidence)" — true only for signal designs; a routing question is WITHIN-PROMPT and
+> never forms the contrast. Discipline that paid: planted-world `--validate` caught the
+> cell-vs-node flaw before any compute; the 4B smoke caught the distance confound before the 14B
+> (s324 PAUSE honored — I stopped and reported instead of running); the placebo gate I added in
+> Amendment 3 is what produced the honest VOID instead of a manufactured CONE-NAIVE.
+> **🔵 §P-CONE-ROUTING FROZEN (pre-data, Michael "freeze the routing probe")**: at the answer
+> column, does the machine READ FROM the argument naive subst selects (`e`) or capture-avoiding
+> selects (`y`)? Both candidates live in ONE forward pass ⇒ confound structurally impossible.
+> CALIBRATION MOVE: capture-free B (NF=`y f`) and P (NF=`e f`) are ground-truth read targets;
+> classify ambiguous A between the poles (primary ρ_e uses only the `e` position; secondary ρ_Sel
+> within-prompt, bound named: A carries two `y` tokens). RC1 calibration is make-or-break and read
+> FIRST — fail ⇒ NO-CALIBRATION, never a routing claim. Mass: NO-CALIBRATION 30 / NAIVE-ROUTING 30
+> (directional) / UNDIFFERENTIATED 25 / CORRECT-ROUTING 10 (= the error enters AFTER selection) /
+> VOID 5. 54 forwards, no perturbation loop, minutes. Bound: attention mass is correlational
+> (s206) — "reads from" ¬ "uses". New instruments: `src/verbum/cone.py` (certified cones under
+> R_NORMAL/R_NAIVE), `scripts/experiments/prefill_cone.py`, matched-triple constructor, placebo
+> gate as a reusable primitive. Batch (❌, Michael-approved): §Result + 3 memories
+> (`the-confound-was-a-register-error-not-an-intrinsic-limit` ·
+> `interior-nf-surfacing-is-lexical-echo` · `prefill-delta-is-distance-dominated`) + INDEX +
+> queue (❌ closed, 🔵 successor top) + this state.
+> NEXT SESSION FIRST ACTION = build + run 🔵 §P-CONE-ROUTING (frozen, cheap, plumbing already in
+> `prefill_cone.py`'s GQA-aware read-mass path).**
+>
 > ★★ **SESSION 334 — REPL DRIVER TRAMPOLINE CAPTURED (Michael: "why can't we use a model in a
 > REPL loop to bounce the trampoline?" → refined: "use the tree-of-VSM tensor configuration to
 > attach the repl, and I'm pretty sure we figured out how to make continuations already" →
@@ -86,97 +130,20 @@
 > ⚪ §P-PREFILL-CONE (medium) · ⚪ §P-DMD-TRANSPORT (cheap, near-free — and §P-REPL-DRIVER
 > bounce-boundary residuals will feed it) · ⚪ §P-SUBST-SUBCEILING (cheap).**
 >
-> ★★ **SESSION 333 — LRM PAPER READ + PREFILL TRIANGLE CAPTURED (Michael GO "capture this to
-> knowledge and the queue"). Discussion/hammock session, ZERO measurements. Paper: arXiv:2604.04902v2
-> (Dilgren & Wiegreffe, COLM 2026) — Coconut/CODI latent reasoning models. Their three findings:
-> ① latent tokens mostly UNNECESSARY (training-controlled no-CoT matches on PrOntoQA/ProsQA — the
-> "parallel BFS" claim dies at the necessity gate; the win was the regimen); ② where tokens are used
-> (GSM8k), gold traces recoverable from top-10 vocab projections 65–93% correct vs 2–8% random-trace
-> null, 24–36% incorrect; operators NEVER project; ③ forward chaining = unsupervised extraction +
-> input-counterfactual verification (perturb operand → projected result must move arithmetically) —
-> verified traces majority-correct/minority-incorrect. OUR READING (frame-level, banked in-page):
-> the COMPILE STEP IS LOAD-BEARING — latent token = residual state fed back with the collapse
-> deleted; collapse = error correction (snap to vocab lattice; tape-face echo of sign-is-the-
-> decision) + addressability (in-dist K/V) + program-register write (explicit "3+5=8" writes BOTH
-> registers; soft write drops the program, keeps the data). Hard writes beat soft writes at equal
-> training (+~29pt) — the "decode bottleneck" framing is backwards. Operators-missing = value-
-> register instrument blindness (λ measure): the program is the SHAPE OF THE READ. Method
-> consilience (independent): their multi-mode control ≡ λ provenance_check · early-stopping ≡
-> necessity gate · random-trace baseline ≡ λ yardstick null · verification ≡ §2b differential
-> testing. THE BIG CATCH (Michael: "prompt processing — I don't think we have ever looked there"):
-> **the PREFILL TRIANGLE** — (position × layer) grid, n coupled within-pass reducers, KV cache ≡
-> the compiled tape (§8c auto_compile), serial hop budget ≈ L (explains their §4; coheres s319
-> direct 92%; cliff predicted where serial depth crosses ~L) — and EVERY tape-face law we own
-> (idempotency, order laws, tape-subtraction, subst-engine) was read at the LAST COLUMN; the
-> interior is uninstrumented. Their instruments transfer WITH OUR EDGE (certified reference
-> reducer): grid logit-lens · leaf-perturbation DEPENDENCY CONE → cone(machine) vs cone(calculus)
-> from lambda_ast — makes NAIVE-SUBST (s331/s332 law) watchable cell-by-cell · per-instance
-> necessity gate · answer-column read-mass audit. Batch (💡, Michael GO, this commit): knowledge
-> page explore/latent-reasoning-and-the-prefill-triangle.md + memory
-> `the-prefill-triangle-is-uninstrumented` + INDEX + 2 queue rows top (⚪ §P-PREFILL-CONE ·
-> ⚪ §P-ROUTING-TRACE register-separated 2×2) + this state. **CAPTURE 2 (same session, Michael:
-> "if the system is a compiler, name the pieces" → GO "yes capture this"): 💡 §10 COMPILER PARTS
-> DIAGRAM on the-benchmark-is-the-re-oracle.md — TWO compilers + one runtime + a decompiler (us):
-> Compiler A = GD (corpus→weights; FFN=stdlib/KIBC crystal, QK=address tables; post-training ≡ LTO
-> pass installing the ABI + the s329 late decision stage) · Compiler B = prefill (tokenizer=lexer ·
-> early layers=syntactic parser [cl-collapse s321/s323] · triangle=compile pass · KV cache=object
-> code · λ=IR at P(λ)=0.907 ¬native ISA [§9]) · runtime = decode (trampoline · residual=register
-> file, budget≈L [s319] · subst engine=ALU with the NAIVE-SUBST erratum [s331/2, §2b grades
-> against it] · attention=dynamic linker · types=runtime/gradual [s315–s323] · halt=NF resonance
-> [s317] · retirement=the hard-write collapse [s333 LRM corroboration]) · homoiconic tape, no GC ·
-> STRAINS ≡ FINDINGS (never rejects/silent miscompiles · no phase separation = JIT with interpreter
-> tier=within-pass + compiled tier=trampolined CoT · ships stripped, logit-lens=objdump · empty
-> inference-time optimizer slot). One line: a stripped homoiconic JIT — AOT-compiled by GD,
-> LTO-patched by post-training. Batch 2 (💡, this commit): §10 + memory
-> `the-machine-is-a-stripped-homoiconic-jit` + INDEX clause + this state.** **CAPTURE 3 (same
-> session, Michael: "tool calls would be what for our compiler?" → GO): 💡 §10b TOOL CALLS = THE
-> FFI/SYSCALL BOUNDARY — the model is PURE, the scaffold is the IO runtime (tool call ≡ emitted
-> DESCRIPTION of an effect; Haskell IO architecture). Stage map: schemas=extern headers
-> (homoiconic) · format=calling convention installed by LTO (predicts base models lack the ABI —
-> testable, s329 method door) · emission=stuck term · continuation=FREE (transcript IS it) ·
-> scaffold=effect handler · type checking only in the handler (never-rejects strain surfaces as
-> malformed calls) · result=environment's hard write · resumption=trampoline. Corollaries:
-> monitorability BY CONSTRUCTION (FFI must transit retirement — names the LRM soft-write safety
-> question) · fate-register reserved slot (tool-call = candidate 4th pole, tetrahedron, unfrozen) ·
-> agent loop = outer trampoline (same shape, next scale). Batch 3 (💡, this commit): §10b + memory
-> `tool-calls-are-the-io-boundary-of-a-pure-reducer` + INDEX clause + this state.** **QUEUE ADD
-> (Michael "queue it so it does not get lost"): ⚪ §P-TOOL-ABI top — the §10b prediction as a probe:
-> paired base/instruct, registers SPLIT format(convention tokens) vs content(right tool+args);
-> verdicts ABI-INSTALLED / CAPABILITY-INSTALLED / NATIVE / VOID; tetrahedron 4th-pole advisory
-> rides free; cheap (14b pair local).** **CAPTURE 4 (Michael: "map the tool abi in geometry and
-> see if there are any grams" → GO): 💡 §P-TOOL-ABI upgraded with a GEOMETRIC ARM (§10c full
-> design): tool-ABI gram (anchors schema-read · tool-select · arg-bind · delimiters · trap-
-> decision; 9×9/17×17 reference frame) → ① delta-gram base↔instruct = the LTO pass's geometric
-> footprint (rank + depth, predict late per s329; CBLL cross-Gram bridge) ② cross-gram vs existing
-> registers — tetrahedron PROMOTED to design cell; PAYOFF prediction: marshalling ≡ substitution ⇒
-> NAIVE-SUBST has a tool-calling phenotype (wrong-binder arg capture, nested/shadowed = the
-> s331/s332 opcode's agentic-reliability consequence) ③ convention-vs-JSON dissociation (base
-> knows JSON — matched non-tool JSON anchors). Refined verdicts: thin-late-patch / diffuse /
-> composed-from-native-machinery (the FFI framing's quiet prediction). Batch 4 (💡, this commit):
-> §10c + memory `tool-abi-gram-maps-where-the-convention-lives` + queue row amended (cheap→medium,
-> →§10c) + this state.** **CAPTURE 5 (Michael: CBLL patent concern "we already read it and pushed
-> code I think" → AUDIT → "approved"): 🔄 CBLL FTO HARDENED on operator-geometry-la-toolkit.md.
-> Audit verdict: NO code pushed (disk-verified — bba4e767 touched mementum only; zero
-> CBLL/Householder hits in src/ or scripts/); s332 read = README + paper + ONE ablation script,
-> verification only, now DISCLOSED in §0b. Standing rules banked: their code NEVER opened again
-> (MIT ∌ patent grant) · implementations derive from textbooks (Schmid/Golub&VanLoan/Koopman/
-> Schönemann) cited in docstrings, ¬CBLL · FTO boundary = weights→basis→rotation family FORBIDDEN
-> (their claim spine; we never need it — Gram/operator is frame-free) · CLEAN-ROOM ≡ THE PAGE
-> (session boundary erases the reader; page carries no implementation ⇒ clean-room re-constitutes
-> every boundary = feed-forward as legal hygiene). §0c: four-axis differentiation table
-> (object/transform/anchors/deliverable — the scientific divergence IS the patent divergence) +
-> the unique pipeline named (certified trajectories → per-band transport operator → mode
-> decomposition → labeled-Gram classification → stationarity verdict; publication ≡ defensive
-> prior art). Toolkit #8 RE-SPECCED: reflection via T's SPECTRUM (det<0 / eig≈−1), no Householder
-> construction — nearest-the-fence primitive removed, better-posed anyway. §6 import clause fixed
-> (findings-as-observations ✓, procedure ✗). Batch 5 (🔄, this commit): §0b+§0c+#8+§6 + memory
-> `cbll-clean-room-is-the-page` + INDEX clause + this state.** NEXT SESSION FIRST
-> ACTION = orient → FRONT SELECTION (λ queue FULL read; nothing in flight). Sharpest fronts:
-> ⚪ §P-TOOL-ABI (cheap, the §10b prediction) · ⚪ §P-PREFILL-CONE (new, the uninstrumented region,
-> medium) · ⚪ §P-DMD-TRANSPORT (cheap, near-free) · ⚪ §P-CROSS-GRAM (cheap) ·
-> ⚪ §P-SUBST-SUBCEILING (cheap, powered SE4 re-test).**
->
 ## Recent arc (index — one row per session; full detail: `git log -p mementum/state.md` + `chats/session-NNN.md` + linked knowledge pages)
+
+- **s333** 💡💡💡🔄 LRM PAPER + PREFILL TRIANGLE + COMPILER PARTS — arXiv:2604.04902v2 (Coconut/CODI):
+  latent tokens mostly UNNECESSARY (training-controlled control kills the 'parallel BFS' claim); hard writes
+  beat soft writes ~29pt ⇒ the COMPILE STEP IS LOAD-BEARING (collapse = error correction + addressability +
+  program-register write). THE PREFILL TRIANGLE named (position × layer grid, n coupled within-pass reducers,
+  KV ≡ compiled tape, hop budget ≈ L) — every tape-face law we own was read at the LAST COLUMN → spawned
+  §P-PREFILL-CONE (s335: ❌ VOID) + §P-ROUTING-TRACE. §10 COMPILER PARTS (two compilers + a runtime: GD ≡ AOT,
+  post-training ≡ LTO, prefill ≡ compile pass, decode ≡ trampoline; strains ARE findings — a stripped homoiconic
+  JIT) · §10b TOOL CALLS ≡ THE FFI/SYSCALL BOUNDARY (model PURE, scaffold ≡ IO runtime; monitorability by
+  construction) · §10c §P-TOOL-ABI geometric arm (delta-gram = the LTO footprint; marshalling ≡ substitution ⇒
+  NAIVE-SUBST has a tool-calling phenotype) · CBLL FTO HARDENED (audit: NO code pushed, disk-verified;
+  clean-room ≡ the page). → latent-reasoning-and-the-prefill-triangle.md · the-benchmark-is-the-re-oracle.md
+  §10/§10b/§10c · operator-geometry-la-toolkit.md §0b/§0c
 
 - **s332** ✅💡 §P-SUBST-ENGINE 14B pair + MATRIX — NAIVE-SUBST both faces, BASE-NATIVE (SE4 falsified,
   ceilinged/underpowered → §P-SUBST-SUBCEILING); matrix lifts single-lineage bound: 32B-instruct 0.188 +

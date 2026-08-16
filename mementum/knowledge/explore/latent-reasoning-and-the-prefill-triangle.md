@@ -396,6 +396,77 @@ world='correct' → CONE-CORRECT  PC2 δ=1.00 p=0.0001 | PC3 D=0.000 p=1.0000 ar
 Instruments: ``src/verbum/cone.py`` (new — AST span → token cell, reference
 cones under both calculi) · ``scripts/experiments/prefill_cone.py`` (harness).
 
+## §Result — §P-PREFILL-CONE: **VOID** (s335)
+
+Qwen3-14B instruct, bf16/MPS, 54 variants / 18 triples, 0 errors, 3m27s.
+`results/p_prefill_cone_s335/run_14b` (commit 415012ee). Frozen tree honored;
+no verdict read outside it.
+
+**PC0 → FAIL (placebo).** Sanity clean: causal invariant EXACTLY 0.0 (the causal
+mask holds cell-wise), perturbed leaf moves 0.49, zero errors, all triples
+token-aligned. But the **placebo fired**: role-UNCHANGED leaves show
+DiD = **+0.027, p=1e-4 (n=48)**. The capture-live variant A is globally more
+perturbation-sensitive at the readout cell for EVERY leaf — including the
+semantically unrelated control `f` (+0.027, 10/12 positive). Per-leaf: `u`
++0.040 · `y` +0.036 (18/18 positive) · `f` +0.027 · `w` +0.008. The A−B contrast
+rides a global offset. **The gate added in Amendment 3 caught exactly what it
+was built to catch.**
+
+**PC2 (positive control) → FAIL, twice.** mean DiD_pos = **−0.0076**, p=0.094,
+2/9 positive — WRONG SIGN, replicating the 4B smoke (−0.0118, n=1). Making leaf
+`e` genuinely load-bearing did not increase the readout cell's sensitivity to
+perturbing `e`.
+
+**PC3 → NOT READ.** D_naive = −0.029, p=0.027 — nominally "significant", but its
+effect equals the placebo offset (+0.027) in magnitude and the instrument is
+unvalidated (PC2 failed). Reading a verdict here would be exactly the
+manufactured-crispness failure the frozen tree exists to prevent.
+
+**PC1 → passed as frozen, then DISSOLVED by our own discipline.** Frozen result:
+median rank gain 13.0, p=1e-4, 810 cells ⇒ INTERIOR-VISIBLE. The
+clean-dissociation re-read (s321/s323 standing method) splits it:
+
+| span class | median gain | frac positive | median layer |
+|---|---|---|---|
+| DIRTY — NF already written in the span's surface | **+17.0** | 68.9% | 37/40 |
+| CLEAN — reduction genuinely changes the string | **+0.0** | 46.1% | 39/40 |
+
+The entire effect is **lexical echo**. **INTERIOR-VISIBLE is NOT licensed.**
+This replicates "routing tracks what is WRITTEN and what FIRES, not the function
+computed" (s321/s323) — now at the VALUE register, on the prefill grid interior.
+(The CLEAN subset's mean-based p is outlier-driven with a heavy right tail;
+median 0.0 and frac-positive 46% are the honest summary.)
+
+**PC4 (advisory, unfrozen).** Naive NF's first token favored at the answer
+column in **78%** of terms — coheres with the s331/s332 cross-model NAIVE-SUBST
+law. Ties caveat (both NFs frequently rank 1 at some layer); read as
+pattern-suggests only.
+
+**ROOT CAUSE — a register error, mine.** M2/M3 measured `‖Δh‖/‖h‖`: the
+MAGNITUDE register — *"did this cell move, and how much"* — against a claim
+about *which value reaches the result*. The distance dominance (Δ ∝ 1/distance,
+corr **−0.73**, monotone 0.099@d1 → 0.043@d12–18) shows the statistic was
+reading TRANSPORT, not computation. The routing arm (M4 read-mass) was the only
+register-matched instrument, and it was built and then **starved to advisory /
+3 of 54 records** at freeze. Three pre-data amendments (raw cone · cell ≠ AST
+node · matched-position DiD) were all downstream repairs of that one upstream
+mistake.
+
+**Retraction.** The in-session claim that the confound is INTRINSIC ("capture is
+surface name-coincidence, so no control can remove capture without perturbing
+repetition") is **withdrawn**. It holds only for signal/magnitude designs, which
+need a surface A/B contrast. A routing design asks a WITHIN-PROMPT question and
+never forms that contrast — see §P-CONE-ROUTING below.
+
+**Bounds.** Single model (Qwen3-14B instruct), single lineage, prefill only, one
+readout cell (term-final), layer-mean aggregation (a per-layer read is stored
+and unexamined), n=9 clean-flip triples. VOID means the probe did not answer its
+question — it is NOT evidence against a dependency cone existing.
+
+**What survives:** the certified cone machinery (`src/verbum/cone.py`), the
+matched-triple constructor (kernel-certified role flips), the distance law, and
+the placebo gate as a reusable design primitive.
+
 ## §P-CONE-ROUTING — FREEZE (s335, Michael "freeze the routing probe"), PRE-DATA
 
 > Successor to §P-PREFILL-CONE (VOID). That probe measured the MAGNITUDE
