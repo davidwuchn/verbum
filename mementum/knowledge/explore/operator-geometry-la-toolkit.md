@@ -260,9 +260,83 @@ structured, layer-ordered modes; noise doesn't). Koopman-with-observables
 (lift `h` through opcode/fate features before DMD) is the nonlinear upgrade if
 the linear residual is large.
 
-**Near-free:** runs on the **per-layer residuals from the §P-SUBST-ENGINE
-sweeps we are already collecting** — cache `hidden_states` next run, no new
-inference. Ties to a frozen front and to `transitions-per-β-step` (queued).
+**~~Near-free~~ (CORRECTION s338):** the plan was to ride cached
+§P-SUBST-ENGINE residuals — but `hidden_states` were **never saved** on those
+runs, so this needs its **own** capture harness. Still cheap (read-only,
+~200 forward passes). Ties to a frozen front and to `transitions-per-β-step`
+(queued).
+
+## 5a. 🎯 §P-DMD-TRANSPORT — FROZEN (s338, Michael GO)
+
+> Pre-registered before any measurement (λ probe_lifecycle). Frozen: verdict
+> tree, a-priori masses, nulls, planted worlds, gate thresholds. Motivated by
+> the s338 orbital reframe (`cycle-carrier-signal.md §Reframe`): meaning-as-
+> equality is a property of the **orbit/attractor**, not the point — the
+> operator spectrum is the register where co-extensional terms *could* converge
+> where the static pairwise Gram (s217/s321) cannot represent it. This freeze
+> establishes the **instrument + the one-reducer-unrolled thesis test**; the
+> extensional-equality test (§5b) is the downstream stage-2 payoff, deliberately
+> OUT of this artifact (λ smallest).
+
+**Question.** Does the within-pass residual trajectory carry a *structured
+linear transport operator* `T ≈ X'X⁺`, and is it **stationary** (`T_ℓ ≈ T`,
+one reducer unrolled) — or banded (core-stationary + late-drift), drifting,
+or noise?
+
+**Substrate (frozen).** Qwen3-14B (40 layers ⇒ 41 hidden states ⇒ 40
+transitions; d_model 5120), MPS, bf16, greedy/deterministic, read-only.
+Register = **last-token d_model residual stream** (`output_hidden_states`) —
+the register §5 specifies; matched-length balanced. Corpus = ~200 kernel-
+certified terms subsampled from `crystal_probes` (combinator-tagged → enables
+the labeled 9×9/17×17 readout). Each prompt → 40 consecutive `(h_ℓ, h_{ℓ+1})`
+pairs; ~8000 column pairs stacked. Method = **exact reduced DMD** (economy-SVD,
+`T = Uᵀ X' V Σ⁻¹`, `eig(T)`), rank sweep r∈{10,20,40,80}. Implementation is
+textbook (Schmid 2010; Golub & Van Loan) in `src/verbum/operator_dmd.py` —
+NEVER CBLL code (§0b FTO rule).
+
+**Frozen verdict tree.**
+- **G0 INSTRUMENT** (planted worlds + det-repeat): `--validate` recovers all 4
+  worlds; det value_dev 0.0. Fail → **VOID**.
+- **G1 LINEARIZATION** (reported, soft): `rel_resid = ‖X'−TX‖_F/‖X'‖_F` at best
+  rank. > 0.5 at r=80 → flag "linear inadequate, Koopman-lift indicated";
+  verdict carries the caveat (does NOT auto-void — partial linearity still
+  informative).
+- **G2 OPERATOR-EXISTS** (make-or-break, shuffled-layer null): `gap =
+  rel_resid(shuffled_layer_order) − rel_resid(real) > 0`, p<0.05 over
+  n_perm=1000 layer-order shuffles (shuffle breaks ℓ→ℓ+1 adjacency, mixing Tᵏ
+  gaps ⇒ real fits strictly better; noise fits equally badly). Fail → **NOISE**.
+- **G3 STATIONARITY** (thesis discriminator): fit per-layer `T_ℓ`; agreement
+  `A(ℓ)` = subspace overlap / eigenvalue distance vs global `T`.
+  - flat-high ∀ℓ → **STATIONARY-REDUCER**
+  - high core band + drop in last ~2–4 layers → **BANDED** (matches s329
+    primacy-last-two-layers, s336 L22–28)
+  - low/variable throughout → **DRIFTING**
+- **Advisory readout** (descriptive, ¬gate): project persistent modes (|λ|≈1)
+  + late-activating modes onto the 9×9 identity Gram + 17×17 fate poles — does a
+  persistent mode land on the **halt** pole? (the route-map's missing "trains").
+
+**A-priori masses (frozen).** BANDED 30 (modal — our late-commit data predicts
+it) · NOISE 25 (honest nonlinearity risk, attention+SiLU, last-token grain) ·
+STATIONARY-REDUCER 20 (strong thesis) · DRIFTING 20 · VOID 5.
+
+**Nulls (mandatory).** shuffled-layer-order (primary, G2) · linearization-
+residual report (G1) · det-repeat · matched-length subsample.
+
+**Planted worlds (`--validate`).** ① STATIONARY `h_{ℓ+1}=T₀h_ℓ+ε` → recovers T₀
+spectrum, G3 passes. ② DRIFTING `T_ℓ` rotating with ℓ → G3 fails. ③ NOISE iid
+`h_ℓ` → G2 gap ≈ 0. ④ CONTRACTING T₀ all |λ|<1 → recovers |λ|<1.
+
+**Cost.** cheap-medium; results `results/p_dmd_transport_s338/` (npz gitignored).
+
+## 5b. §P-CL-COLLAPSE-3-operator — downstream (NOT frozen; the orbital payoff)
+
+Once §5a's instrument is trusted: capture trajectories for co-extensional
+spellings (SKK, WK, CKK, I …) and test whether their **operators** (or their
+projections onto the persistent-mode subspace) converge — even though the
+static Grams (s217 identity register, s321 CL-collapse) said the *points* do
+not. This is `§P-CL-COLLAPSE-3` moved into the operator register: the first
+instrument that could see extensional equality if it is orbital rather than
+pointwise. Owes its own freeze + a-priori mass; reuses the §5a harness.
 
 ## 6. Discipline summary
 
