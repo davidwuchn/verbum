@@ -1,0 +1,106 @@
+{
+  "c0_pooled": 0.875,
+  "c0_per_class": {
+    "scope": 0.875,
+    "ana": 1.0,
+    "att": 0.75
+  },
+  "c3_ana": {
+    "pass": true,
+    "mean_diff": 0.5989673185492089,
+    "p": 0.0
+  },
+  "class_details": {
+    "scope": {
+      "c0_acc": 0.875,
+      "c1": {
+        "per_item": [
+          {
+            "minority_frac": 0.0,
+            "n": 1
+          },
+          {
+            "minority_frac": 0.5,
+            "n": 2
+          }
+        ],
+        "mean_minority": 0.25,
+        "fail_majority": false
+      },
+      "c2": {
+        "pass": true,
+        "mean_d1": 2.990039606699034,
+        "mean_d2": -2.3274407839358866,
+        "sep": 5.317480390634921,
+        "p": 0.0,
+        "best_layer": 24
+      },
+      "cls_align_rate": 0.3333333333333333,
+      "cls_align_p": 1.0,
+      "verdict_class": "VOID-C"
+    },
+    "ana": {
+      "c0_acc": 1.0,
+      "c1": {
+        "per_item": [
+          {
+            "minority_frac": 0.0,
+            "n": 4
+          },
+          {
+            "minority_frac": 0.0,
+            "n": 4
+          }
+        ],
+        "mean_minority": 0.0,
+        "fail_majority": true
+      },
+      "c2": {
+        "pass": true,
+        "mean_d1": 34.74321351582065,
+        "mean_d2": 32.3279127752196,
+        "sep": 2.4153007406010474,
+        "p": 0.0008,
+        "best_layer": 24
+      },
+      "cls_align_rate": 0.875,
+      "cls_align_p": 1.0,
+      "verdict_class": "PRE-COMMITTED-C"
+    },
+    "att": {
+      "c0_acc": 0.75,
+      "c1": {
+        "per_item": [
+          {
+            "minority_frac": 0.0,
+            "n": 4
+          },
+          {
+            "minority_frac": 0.0,
+            "n": 4
+          }
+        ],
+        "mean_minority": 0.0,
+        "fail_majority": true
+      },
+      "c2": {
+        "pass": true,
+        "mean_d1": -0.8282182050916838,
+        "mean_d2": -6.382835627114848,
+        "sep": 5.554617422023164,
+        "p": 0.0,
+        "best_layer": 24
+      },
+      "cls_align_rate": 0.375,
+      "cls_align_p": 1.0,
+      "verdict_class": "VOID-C"
+    }
+  },
+  "class_verdicts": {
+    "scope": "VOID-C",
+    "ana": "PRE-COMMITTED-C",
+    "att": "VOID-C"
+  },
+  "global_verdict": "PRE-COMMITTED",
+  "det_dev": 0.0
+}

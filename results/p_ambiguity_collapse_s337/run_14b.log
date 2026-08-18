@@ -1,0 +1,32 @@
+[ac] gate battery: 432 records hash=1b1d259cf050c65b
+[ac] loading Qwen/Qwen3-14B (bfloat16, mps)
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights: 100%|██████████| 443/443 [00:00<00:00, 23045.34it/s]
+[ac] n_layers=40 heads=40 kv=8 read_layers=[12, 16, 20, 23, 27]
+[ac] === STEP 2: pole capture ===
+[ac] pole prefill 50/432
+[ac] pole prefill 100/432
+[ac] pole prefill 150/432
+[ac] pole prefill 200/432
+[ac] pole prefill 250/432
+[ac] pole prefill 300/432
+[ac] pole prefill 350/432
+[ac] pole prefill 400/432
+[ac] pole axes computed
+[ac] === STEP 3: calibration generations ===
+The following generation flags are not valid and may be ignored: ['temperature', 'top_p', 'top_k']. Set `TRANSFORMERS_VERBOSITY=info` for more details.
+[ac] C0 acc: {'scope': 0.8125, 'ana': 0.8333333333333334, 'att': 0.9791666666666666} pooled=0.875 (need >= 0.9)
+[ac] C2 scope: layer=27 sep=15.8354 p=0.0000 pass=True
+[ac] C2 ana: layer=27 sep=8.4723 p=0.0000 pass=True
+[ac] C2 att: layer=27 sep=13.0509 p=0.0000 pass=True
+[ac] === STEP 4: A generations ===
+[ac] det-repeat: ids_match=True value_dev=0.0
+[ac] freeing model memory
+[ac] === ANALYSIS ===
+[ac] C3 ana mass: pass=True mean_diff=0.5945530571329314
+[ac] scope: verdict=VOID-C
+[ac] ana: verdict=VOID-C
+[ac] att: verdict=PRE-COMMITTED-C
+[ac] GLOBAL VERDICT: PRE-COMMITTED
+[ac] wrote results/p_ambiguity_collapse_s337/run_14b/
