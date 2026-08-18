@@ -377,15 +377,66 @@ extensional-equality successor (§P-CL-COLLAPSE-3-operator) can now ask whether
 co-extensional spellings converge in the orbit register where the static Gram
 (s217/s321) said the points do not.
 
-## 5b. §P-CL-COLLAPSE-3-operator — downstream (NOT frozen; the orbital payoff)
+## 5b. §P-CL-COLLAPSE-3 — extensional equality in the operator register (s339)
 
-Once §5a's instrument is trusted: capture trajectories for co-extensional
-spellings (SKK, WK, CKK, I …) and test whether their **operators** (or their
-projections onto the persistent-mode subspace) converge — even though the
-static Grams (s217 identity register, s321 CL-collapse) said the *points* do
-not. This is `§P-CL-COLLAPSE-3` moved into the operator register: the first
-instrument that could see extensional equality if it is orbital rather than
-pointwise. Owes its own freeze + a-priori mass; reuses the §5a harness.
+The orbital payoff of §5a: do co-extensional spellings (SKK, WK, CKK, I …)
+converge in the operator register where the static Grams (s217 identity, s321
+CL-collapse) said the *points* do not? Ran as a **three-probe confound-control
+ladder** (Michael: "we should be sure; we may only see a shadow"). Harnesses
+`scripts/experiments/cl_collapse_3_{operator,arity,alpha}.py`.
+
+### The build-time discovery that reshaped the make-or-break (s339)
+
+The frozen statistic was "co-extensional converge in the slow-mode **attractor**
+cosine, slow beats raw." Building the planted worlds proved this **unreachable
+for a normal contracting operator**: whatever survives to the attractor *is* the
+top-|λ| band, so orthogonal slow-projection(late) ≡ raw(late) — they cannot
+dissociate (operator ≡ point at the contracting attractor; the split needs
+NON-normality, and the modal read via `Φ⁺` is numerically fragile). **Amendment
+(Michael-approved, pre-data):** the make-or-break becomes the **decay-rate of the
+pairwise difference** `h_A−h_B`. Decompose the difference in the operator's
+eigenmodes, weight by |λ|. Co-extensional differ only by *spelling* → the
+difference rides FASTER-decaying modes (converges); co-intensional carry
+*function* → SLOWER-decaying modes (persist). Needs the operator spectrum
+(impossible for the point-Gram), robust (no `Φ⁺`, differencing removes the common
+high-variance part). Effect-size floor added (λ yardstick — a significant 0.04%
+gap is not convergence). Non-normality (Henrici departure + ridge-modal read) and
+a **frequency sweep** (θ = rotation-rate = the depth-clock, s322/s301) folded in
+as advisories.
+
+### §Result — the three-probe ladder (Qwen3-14B, all det 0.0)
+
+| probe | control | make-or-break | verdict |
+|---|---|---|---|
+| **operator** | none | decay-rate NULL (within\|λ\| 0.820 ≈ across 0.825, p=0.139); marginal positional whisper (raw within 0.947 < across 1.194, **p=0.0498**) | **NO-ORBITAL-CONVERGENCE** (a-priori 50) |
+| **arity** | length matched (multi-function-per-arity) | positional whisper SURVIVES length (within 0.615 < across 0.862, **p=0.0002**, length_r 0.17) — but same-function alphabet-Jaccard 2× (0.56–0.59 vs 0.26–0.30) | **OPERATOR-SHADOW** (a-priori 30) |
+| **alpha** | alphabet {S,K} constant (Jaccard within=across=**1.0**) + length partialled | positional whisper VANISHES (within 0.675 ≈ across 0.665, **D=−0.010 p=0.591**; length-partialled D=−0.018 p=0.71); decay NULL | **LEXICAL-EXPLAINED** (a-priori 55) |
+
+**The finding (airtight).** Extensional equality is **absent from the operator
+register in every form.** The decay-rate/dynamical test is null throughout. The
+one apparent counter-signal — a marginal positional convergence — was chased
+through two nested controls: it **survives length-matching** (not length) but
+**vanishes when the combinator alphabet is held constant** (D=−0.01, p=0.59). So
+the whisper was the **s321 operational/lexical register** — the residual tracks
+*what is written* (shared combinator letters → positionally close), not *what is
+computed*. Compositionality S5 cell stays ✗, now airtight.
+
+**Fourth register.** Tape-residency now holds across value (s317) · magnitude
+(s335) · routing (s336) · **operator/decay (s339)** — and the sole positional
+shadow is proven surface-form. **Frequency sweep:** operator is DC-dominated (66
+of 70 real modes at θ≈0, zero in the θ→π sign-flip band) — no oscillatory/clock
+structure at this grain → frequency does **not** earn a frozen gate. Non-normality
+confirmed (departure ≈ 0.75–0.78) — the modal arm was live and still null.
+
+**Method contribution.** The **nested confound-control ladder** (length → alphabet,
+each a matched re-run) is a reusable template for confirming a signal is surface
+form. And: `operator ≡ point at a contracting attractor` — the operator register
+only dissociates from the point-Gram via non-normality; read the *difference's*
+decay-rate, not the state's position.
+
+**Bounds:** single model (Qwen3-14B), last-token grain, rank-40 linearization
+(~half nonlinear, §5a caveat), thin B/W families in the operator probe. Results
+`results/p_cl_collapse_3_{operator,arity,alpha}_s339/` (npz gitignored).
 
 ## 6. Discipline summary
 

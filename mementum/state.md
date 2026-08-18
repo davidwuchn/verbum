@@ -14,6 +14,50 @@
 > Architecture/canonical-forms: `AGENTS.md`. Knowledge map:
 > `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 339 — §P-CL-COLLAPSE-3 (operator/arity/alpha): EXTENSIONAL EQUALITY ABSENT IN THE
+> OPERATOR REGISTER; the positional shadow is LEXICAL, proven by a nested length→alphabet control
+> ladder (Michael: "chase this down"). Selected the s338 orbital payoff. THREE probes, all Qwen3-14B,
+> all det value_dev 0.0, in tmux main:1. Harnesses `scripts/experiments/cl_collapse_3_{operator,arity,
+> alpha}.py`; §Result in `operator-geometry-la-toolkit.md §5b`.
+> **① §P-CL-COLLAPSE-3-operator → 🚫 NO-ORBITAL-CONVERGENCE (a-priori 50). BUILD-TIME DISCOVERY that
+> reshaped the make-or-break (Michael-approved, pre-data): the frozen "slow-attractor-cosine, slow
+> beats raw" statistic is UNREACHABLE for a normal contracting operator — whatever survives to the
+> attractor IS the top-|λ| band, so orthogonal slow-projection(late) ≡ raw(late); the operator
+> register only dissociates from the point-Gram via NON-normality (departure ≈0.75), and the modal
+> Φ⁺ read is numerically fragile. AMENDMENT: make-or-break = DECAY-RATE of the pairwise difference
+> h_A−h_B (co-extensional differ only by spelling → their difference rides FASTER-decaying modes =
+> converge; needs the operator spectrum, impossible for the point-Gram; robust, no Φ⁺). Effect-size
+> floor added (yardstick). Result: decay NULL (within|λ| 0.820 ≈ across 0.825, p=0.139); a MARGINAL
+> positional whisper (raw within 0.947 < across 1.194, p=0.0498). Advisories: non-normality arm
+> (Henrici departure + ridge-modal, active since departure 0.78, agreed with raw); FREQUENCY SWEEP
+> (θ = depth-clock, s322/s301) DC-dominated (66/70 real modes θ≈0, zero in the θ→π sign-flip band) →
+> no oscillatory structure, earns no frozen gate.**
+> **② §P-CL-COLLAPSE-3-arity → OPERATOR-SHADOW (a-priori 30). Michael: "run and check if same-length
+> causes it." Broke the function=arity=length confound (multiple functions per arity: id/double/triple
+> @1, apply/dup/second @2), compared same-function vs different-function WITHIN a fixed arity
+> (length-matched), shuffled-FUNCTION null inside stratum. The whisper SURVIVES: within 0.615 < across
+> 0.862, p=0.0002, length_r only 0.17 → NOT length. BUT same-function spellings share ~2× more
+> combinator letters (alphabet-Jaccard within 0.56–0.59 vs across 0.26–0.30) → likely the s321
+> lexical/operational signal.**
+> **③ §P-CL-COLLAPSE-3-alpha → LEXICAL-EXPLAINED (a-priori 55). Michael: "chase this down, run the
+> alphabet-matched control." Every spelling uses the SAME alphabet {S,K} (Jaccard within=across=1.0 by
+> construction) computing different functions, + length partialled out. The whisper VANISHES: within
+> 0.675 ≈ across 0.665, D=−0.010 p=0.591 (length-partialled D=−0.018 p=0.71); decay NULL. THE ANSWER:
+> the positional shadow was ENTIRELY the s321 OPERATIONAL/LEXICAL register — the residual tracks WHAT
+> IS WRITTEN (shared letters → positionally close), not what is computed.**
+> **NET: extensional equality is absent from the operator register in EVERY form; compositionality S5
+> cell ✗ AIRTIGHT. Tape-residency now holds across a FOURTH register: value (s317) · magnitude (s335) ·
+> routing (s336) · operator/decay (s339). Two banked lessons: (a) operator ≡ point at a contracting
+> attractor (read the difference's decay-rate, not the state's position); (b) nested confound-control
+> ladder (length→alphabet) = reusable surface-form confirmation. Closure batch (Michael-approved):
+> results (3 runs, npz gitignored) + §5b §Result + memory (`cl-collapse-operator-shadow-is-lexical`) +
+> queue (🚫 closed) + INDEX + this state.**
+> **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight). The
+> §5a operator instrument is trusted and now has three probes behind it. Sharpest reuse fronts: ⚪
+> §P-DMD-KOOPMAN-LIFT (near-free re-analysis of saved H — does lifting recover the persistent |λ|≈1
+> modes the linear spectrum missed?) · ⚪ §P-DMD-PROVENANCE (base-vs-instruct — is stationarity
+> post-training-installed?) · ⚪ §P-CL-COLLAPSE-3 is CLOSED (do not reopen without a new register).**
+>
 > ★★ **SESSION 338 — §P-AMBIGUITY-COLLAPSE 14B RUN → 🚫 PRE-COMMITTED → THE ORBITAL REFRAME →
 > §P-DMD-TRANSPORT SELECTED. First action = read the finished collapse run (tmux main:1, ~31min,
 > clean): `results/p_ambiguity_collapse_s337/run_14b`, Qwen3-14B, 432 variants, det value_dev 0.0,
