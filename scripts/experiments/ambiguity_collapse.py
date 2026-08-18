@@ -816,11 +816,17 @@ class RealBackend:
                             )
                             attn_mass_steps[li].append((m1, m2))
 
-                # Update input for next step
+                # Update input for next step: input is just the new token, but
+                # the attention mask must cover the FULL sequence (past + new) —
+                # a (1,1) mask breaks KV-cache attention (s337 smoke catch:
+                # token-salad generations)
                 next_tok_tensor = next_token.view(1, 1)
                 input_ids = next_tok_tensor
-                attention_mask = torch.ones(
-                    (1, 1), dtype=torch.long, device=self.device
+                attention_mask = torch.cat(
+                    [attention_mask,
+                     torch.ones((1, 1), dtype=attention_mask.dtype,
+                                device=attention_mask.device)],
+                    dim=-1,
                 )
 
                 if self.tok.eos_token_id is not None and tid == self.tok.eos_token_id:
