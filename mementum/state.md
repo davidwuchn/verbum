@@ -58,14 +58,27 @@
 > (STATIONARY/DRIFTING/NOISE/CONTRACTING+BANDED, 12s). 4B SMOKE CLEAN (n=60): det value_dev 0.0,
 > G1 rel_resid 0.440 (no caveat), G2 gap +0.523 p=0 → OPERATOR EXISTS on real data (layer order
 > matters strongly); DRIFTING at smoke-n is an n-starvation artifact (n=60<P=128 → per-layer fit
-> underdetermined; G3 not trustworthy until n≥P). ▶ 14B RUN LAUNCHED IN tmux main:1
-> (results/p_dmd_transport_s338/run_14b, n=300 so per-layer fit well-posed; ~25-35min:
-> captures + big PCA SVD + 1000-perm Gram null).**
-> **NEXT SESSION FIRST ACTION = read the 14B DMD run (tmux main:1) → apply frozen G0-G3 tree →
-> closure batch (approval-gated: §Result in operator-geometry-la-toolkit.md §5a + memory + INDEX +
-> queue + state). If BANDED/STATIONARY: the one-reducer-unrolled thesis gets its first operator-
-> register contact + the orbital extensional-equality successor §5b (§P-CL-COLLAPSE-3-operator)
-> arms. If NOISE: linear operator inadequate → Koopman-lift or the register was wrong.**
+> underdetermined; G3 not trustworthy until n≥P). ▶→✅ 14B RUN DONE
+> (results/p_dmd_transport_s338/run_14b, 76s, a57146f7): ✅ STATIONARY-REDUCER (a-priori 20 beat
+> modal BANDED 30) — the FIRST operator-register positive for one-reducer-unrolled. LOAD-BEARING =
+> G2 shuffled-layer null DECISIVE (shuffled residual 0.974 vs real 0.476, gap +0.498 p=0 → a
+> structured within-pass transport operator EXISTS; layer ORDER carries almost all the structure =
+> "one reducer unrolled" made mechanical). G3 stationarity core 0.717 / late 0.704 (both ≥
+> threshold) → per-layer Tℓ agree with global T INCLUDING the late band. det value_dev 0.0, PCA
+> var_exp 0.853. THREE CAVEATS (λ observation): (1) linearization — rel 0.476 @ r40, 0.381 @ r80,
+> ~half nonlinear → Koopman-lift; (2) NO persistent |λ|≈1 modes (top ~0.92, mean 0.878, all
+> contracting) → "persistent-mode ≡ sign-is-the-decision" NOT seen at this grain, may live in the
+> nonlinear remainder; (3) bulk-stationarity does NOT exclude a thin late decision mode (s329/s336) —
+> it sits below the rank-40/P128/last-token operator-cosine resolution. Bounds: single model,
+> last-token, core 0.717 modest margin. Instrument TRUSTED (G2 decisive, 5 planted worlds + 4B smoke
+> clean). Closure batch (Michael-approved "commit approved"): results a57146f7 + §Result in
+> operator-geometry-la-toolkit.md §5a + memory (`the-within-pass-trajectory-is-one-stationary-operator`)
+> + queue (✅ closed, 3 successors queued top) + INDEX + this state.**
+> **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight).
+> Sharpest fronts (all reuse the §5a operator instrument, cheap): ⚪ §P-CL-COLLAPSE-3-operator (THE
+> orbital payoff, now armed — do co-extensional spellings converge in the orbit register?) · ⚪
+> §P-DMD-KOOPMAN-LIFT (near-free re-analysis of saved H — does lifting recover persistent modes?) ·
+> ⚪ §P-DMD-PROVENANCE (base-vs-instruct, is stationarity post-training-installed?).**
 >
 > ★★ **SESSION 337 — SEMANTIC EQUALITY × GEOMETRY → THE SIGNALS REFRAME → §P-AMBIGUITY-GATE
 > FROZEN+BUILT+RUN → CONFOUNDED-STYLE WITH A THIN-GENERIC MEANING AXIS. Michael: "explore semantic

@@ -328,6 +328,55 @@ spectrum, G3 passes. ② DRIFTING `T_ℓ` rotating with ℓ → G3 fails. ③ NO
 
 **Cost.** cheap-medium; results `results/p_dmd_transport_s338/` (npz gitignored).
 
+### §Result — §P-DMD-TRANSPORT (s338, Qwen3-14B): STATIONARY-REDUCER
+
+**Verdict per frozen tree: STATIONARY-REDUCER** (a-priori mass 20, beat the
+modal BANDED 30 — the first operator-register positive for one-reducer-
+unrolled). Run n=300, det value_dev 0.0, PCA var_explained 0.853. Results
+`results/p_dmd_transport_s338/run_14b` (trajectories.npz local-only). Harness
+`scripts/experiments/dmd_transport.py`; 5 planted worlds recovered by
+`--validate`; 4B smoke clean.
+
+| gate | value | read |
+|---|---|---|
+| G0 | det 0.0 ✓ | deterministic |
+| G1 | rel_resid 0.476 (no caveat); sweep r10 0.598 / r40 0.476 / r80 0.381 | rank-40 linear operator captures ~half; more rank helps |
+| **G2** | gap **+0.498**, p=0, shuffled median **0.974** vs real 0.476 | **make-or-break DECISIVE — a structured transport operator EXISTS; depth-order carries almost all the structure** |
+| G3 | core **0.717** (≥0.70), late **0.704** (≥0.60) | per-layer Tℓ agree with global T across the whole stack, incl. the late band → STATIONARY |
+| spectrum | mean\|λ\| 0.878, persist_frac 0.0, top\|λ\| ~0.92 | globally contracting (homeostasis-as-operator); no strictly persistent modes |
+
+**The finding.** The within-pass residual trajectory is, to first order, **one
+stationary contracting linear operator unrolled across depth**. G2 is the load-
+bearing result: the shuffled-layer null nearly totally fails (0.974 residual),
+so layer order is the structure — this is a mechanical statement of "one reducer
+unrolled" and its first contact in the operator register (a POSITIVE).
+
+**Three honest caveats (λ observation).**
+1. **Linearization.** ~48% residual at rank 40 (26% at r80) — the thesis holds
+   at the first-order-linear level; a substantial nonlinear remainder lives
+   outside it. Koopman-lift (observables before DMD) is the upgrade.
+2. **No persistent \|λ\|≈1 modes** (top ~0.92, mean 0.878 — everything
+   contracts). The pre-registered "persistent-mode ≡ sign-is-the-decision"
+   mapping is NOT cleanly seen at this grain; the advisory halt-pole "trains"
+   read has no persistent train to land. sign-is-the-decision may live in the
+   thin nonlinear remainder, not the linear spectrum.
+3. **Reconciliation with s329/s336** (which predicted BANDED via late-commit).
+   Bulk-stationarity through the late band does NOT exclude a thin late-
+   activating decision mode — it sits below the rank-40 / P=128 / last-token
+   operator-cosine's resolution. The bulk transport is stationary; a thin
+   decision event would need the finer, mode-resolved read (§5b) to surface.
+
+**Bounds.** single model (Qwen3-14B), last-token grain, rank-40 linearization,
+PCA-85%, core_sim 0.717 a modest margin above the 0.70 floor (moderate-but-
+above-threshold stationarity, not a slam dunk). The instrument is trusted
+(G2 decisive, planted worlds + smoke clean); the stationarity claim is the
+qualified one.
+
+**Arms §5b.** With a trusted stationary operator in hand, the orbital
+extensional-equality successor (§P-CL-COLLAPSE-3-operator) can now ask whether
+co-extensional spellings converge in the orbit register where the static Gram
+(s217/s321) said the points do not.
+
 ## 5b. §P-CL-COLLAPSE-3-operator — downstream (NOT frozen; the orbital payoff)
 
 Once §5a's instrument is trusted: capture trajectories for co-extensional
