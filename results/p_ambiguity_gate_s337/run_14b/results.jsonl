@@ -1,0 +1,432 @@
+{"idx": 0, "id": "scope-00-D1-f0", "cls": "scope", "item": 0, "pole": 0, "frame": 0, "prompt": "There is one particular book that every student read.", "plen": 10}
+{"idx": 1, "id": "scope-00-D1-f1", "cls": "scope", "item": 0, "pole": 0, "frame": 1, "prompt": "A single book was read by all of the students.", "plen": 11}
+{"idx": 2, "id": "scope-00-D1-f2", "cls": "scope", "item": 0, "pole": 0, "frame": 2, "prompt": "The same book was read by each of the students.", "plen": 11}
+{"idx": 3, "id": "scope-00-D1-f3", "cls": "scope", "item": 0, "pole": 0, "frame": 3, "prompt": "All of the students read one and the same book.", "plen": 11}
+{"idx": 4, "id": "scope-00-D1-f4", "cls": "scope", "item": 0, "pole": 0, "frame": 4, "prompt": "Just one book exists that all the students read.", "plen": 10}
+{"idx": 5, "id": "scope-00-D1-f5", "cls": "scope", "item": 0, "pole": 0, "frame": 5, "prompt": "Every one of the students read the very same book.", "plen": 11}
+{"idx": 6, "id": "scope-00-D2-f0", "cls": "scope", "item": 0, "pole": 1, "frame": 0, "prompt": "Each student read a book of their own.", "plen": 9}
+{"idx": 7, "id": "scope-00-D2-f1", "cls": "scope", "item": 0, "pole": 1, "frame": 1, "prompt": "Every student read some book or other, not necessarily the same one.", "plen": 14}
+{"idx": 8, "id": "scope-00-D2-f2", "cls": "scope", "item": 0, "pole": 1, "frame": 2, "prompt": "The students each read a different book.", "plen": 8}
+{"idx": 9, "id": "scope-00-D2-f3", "cls": "scope", "item": 0, "pole": 1, "frame": 3, "prompt": "For each student, there was some book that they read.", "plen": 12}
+{"idx": 10, "id": "scope-00-D2-f4", "cls": "scope", "item": 0, "pole": 1, "frame": 4, "prompt": "Every student read their own separate book.", "plen": 8}
+{"idx": 11, "id": "scope-00-D2-f5", "cls": "scope", "item": 0, "pole": 1, "frame": 5, "prompt": "Different students read different books.", "plen": 6}
+{"idx": 12, "id": "scope-01-D1-f0", "cls": "scope", "item": 1, "pole": 0, "frame": 0, "prompt": "There is one particular poem that every teacher recited.", "plen": 11}
+{"idx": 13, "id": "scope-01-D1-f1", "cls": "scope", "item": 1, "pole": 0, "frame": 1, "prompt": "A single poem was recited by all of the teachers.", "plen": 12}
+{"idx": 14, "id": "scope-01-D1-f2", "cls": "scope", "item": 1, "pole": 0, "frame": 2, "prompt": "The same poem was recited by each of the teachers.", "plen": 12}
+{"idx": 15, "id": "scope-01-D1-f3", "cls": "scope", "item": 1, "pole": 0, "frame": 3, "prompt": "All of the teachers recited one and the same poem.", "plen": 12}
+{"idx": 16, "id": "scope-01-D1-f4", "cls": "scope", "item": 1, "pole": 0, "frame": 4, "prompt": "Just one poem exists that all the teachers recited.", "plen": 11}
+{"idx": 17, "id": "scope-01-D1-f5", "cls": "scope", "item": 1, "pole": 0, "frame": 5, "prompt": "Every one of the teachers recited the very same poem.", "plen": 12}
+{"idx": 18, "id": "scope-01-D2-f0", "cls": "scope", "item": 1, "pole": 1, "frame": 0, "prompt": "Each teacher recited a poem of their own.", "plen": 10}
+{"idx": 19, "id": "scope-01-D2-f1", "cls": "scope", "item": 1, "pole": 1, "frame": 1, "prompt": "Every teacher recited some poem or other, not necessarily the same one.", "plen": 15}
+{"idx": 20, "id": "scope-01-D2-f2", "cls": "scope", "item": 1, "pole": 1, "frame": 2, "prompt": "The teachers each recited a different poem.", "plen": 9}
+{"idx": 21, "id": "scope-01-D2-f3", "cls": "scope", "item": 1, "pole": 1, "frame": 3, "prompt": "For each teacher, there was some poem that they recited.", "plen": 13}
+{"idx": 22, "id": "scope-01-D2-f4", "cls": "scope", "item": 1, "pole": 1, "frame": 4, "prompt": "Every teacher recited their own separate poem.", "plen": 9}
+{"idx": 23, "id": "scope-01-D2-f5", "cls": "scope", "item": 1, "pole": 1, "frame": 5, "prompt": "Different teachers recited different poems.", "plen": 7}
+{"idx": 24, "id": "scope-02-D1-f0", "cls": "scope", "item": 2, "pole": 0, "frame": 0, "prompt": "There is one particular kite that every child flew.", "plen": 10}
+{"idx": 25, "id": "scope-02-D1-f1", "cls": "scope", "item": 2, "pole": 0, "frame": 1, "prompt": "A single kite was flown by all of the children.", "plen": 11}
+{"idx": 26, "id": "scope-02-D1-f2", "cls": "scope", "item": 2, "pole": 0, "frame": 2, "prompt": "The same kite was flown by each of the children.", "plen": 11}
+{"idx": 27, "id": "scope-02-D1-f3", "cls": "scope", "item": 2, "pole": 0, "frame": 3, "prompt": "All of the children flew one and the same kite.", "plen": 11}
+{"idx": 28, "id": "scope-02-D1-f4", "cls": "scope", "item": 2, "pole": 0, "frame": 4, "prompt": "Just one kite exists that all the children flew.", "plen": 10}
+{"idx": 29, "id": "scope-02-D1-f5", "cls": "scope", "item": 2, "pole": 0, "frame": 5, "prompt": "Every one of the children flew the very same kite.", "plen": 11}
+{"idx": 30, "id": "scope-02-D2-f0", "cls": "scope", "item": 2, "pole": 1, "frame": 0, "prompt": "Each child flew a kite of their own.", "plen": 9}
+{"idx": 31, "id": "scope-02-D2-f1", "cls": "scope", "item": 2, "pole": 1, "frame": 1, "prompt": "Every child flew some kite or other, not necessarily the same one.", "plen": 14}
+{"idx": 32, "id": "scope-02-D2-f2", "cls": "scope", "item": 2, "pole": 1, "frame": 2, "prompt": "The children each flew a different kite.", "plen": 8}
+{"idx": 33, "id": "scope-02-D2-f3", "cls": "scope", "item": 2, "pole": 1, "frame": 3, "prompt": "For each child, there was some kite that they flew.", "plen": 12}
+{"idx": 34, "id": "scope-02-D2-f4", "cls": "scope", "item": 2, "pole": 1, "frame": 4, "prompt": "Every child flew their own separate kite.", "plen": 8}
+{"idx": 35, "id": "scope-02-D2-f5", "cls": "scope", "item": 2, "pole": 1, "frame": 5, "prompt": "Different children flew different kites.", "plen": 7}
+{"idx": 36, "id": "scope-03-D1-f0", "cls": "scope", "item": 3, "pole": 0, "frame": 0, "prompt": "There is one particular cake that every chef baked.", "plen": 10}
+{"idx": 37, "id": "scope-03-D1-f1", "cls": "scope", "item": 3, "pole": 0, "frame": 1, "prompt": "A single cake was baked by all of the chefs.", "plen": 11}
+{"idx": 38, "id": "scope-03-D1-f2", "cls": "scope", "item": 3, "pole": 0, "frame": 2, "prompt": "The same cake was baked by each of the chefs.", "plen": 11}
+{"idx": 39, "id": "scope-03-D1-f3", "cls": "scope", "item": 3, "pole": 0, "frame": 3, "prompt": "All of the chefs baked one and the same cake.", "plen": 11}
+{"idx": 40, "id": "scope-03-D1-f4", "cls": "scope", "item": 3, "pole": 0, "frame": 4, "prompt": "Just one cake exists that all the chefs baked.", "plen": 10}
+{"idx": 41, "id": "scope-03-D1-f5", "cls": "scope", "item": 3, "pole": 0, "frame": 5, "prompt": "Every one of the chefs baked the very same cake.", "plen": 11}
+{"idx": 42, "id": "scope-03-D2-f0", "cls": "scope", "item": 3, "pole": 1, "frame": 0, "prompt": "Each chef baked a cake of their own.", "plen": 9}
+{"idx": 43, "id": "scope-03-D2-f1", "cls": "scope", "item": 3, "pole": 1, "frame": 1, "prompt": "Every chef baked some cake or other, not necessarily the same one.", "plen": 14}
+{"idx": 44, "id": "scope-03-D2-f2", "cls": "scope", "item": 3, "pole": 1, "frame": 2, "prompt": "The chefs each baked a different cake.", "plen": 8}
+{"idx": 45, "id": "scope-03-D2-f3", "cls": "scope", "item": 3, "pole": 1, "frame": 3, "prompt": "For each chef, there was some cake that they baked.", "plen": 12}
+{"idx": 46, "id": "scope-03-D2-f4", "cls": "scope", "item": 3, "pole": 1, "frame": 4, "prompt": "Every chef baked their own separate cake.", "plen": 8}
+{"idx": 47, "id": "scope-03-D2-f5", "cls": "scope", "item": 3, "pole": 1, "frame": 5, "prompt": "Different chefs baked different cakes.", "plen": 6}
+{"idx": 48, "id": "scope-04-D1-f0", "cls": "scope", "item": 4, "pole": 0, "frame": 0, "prompt": "There is one particular contract that every lawyer signed.", "plen": 10}
+{"idx": 49, "id": "scope-04-D1-f1", "cls": "scope", "item": 4, "pole": 0, "frame": 1, "prompt": "A single contract was signed by all of the lawyers.", "plen": 11}
+{"idx": 50, "id": "scope-04-D1-f2", "cls": "scope", "item": 4, "pole": 0, "frame": 2, "prompt": "The same contract was signed by each of the lawyers.", "plen": 11}
+{"idx": 51, "id": "scope-04-D1-f3", "cls": "scope", "item": 4, "pole": 0, "frame": 3, "prompt": "All of the lawyers signed one and the same contract.", "plen": 11}
+{"idx": 52, "id": "scope-04-D1-f4", "cls": "scope", "item": 4, "pole": 0, "frame": 4, "prompt": "Just one contract exists that all the lawyers signed.", "plen": 10}
+{"idx": 53, "id": "scope-04-D1-f5", "cls": "scope", "item": 4, "pole": 0, "frame": 5, "prompt": "Every one of the lawyers signed the very same contract.", "plen": 11}
+{"idx": 54, "id": "scope-04-D2-f0", "cls": "scope", "item": 4, "pole": 1, "frame": 0, "prompt": "Each lawyer signed a contract of their own.", "plen": 9}
+{"idx": 55, "id": "scope-04-D2-f1", "cls": "scope", "item": 4, "pole": 1, "frame": 1, "prompt": "Every lawyer signed some contract or other, not necessarily the same one.", "plen": 14}
+{"idx": 56, "id": "scope-04-D2-f2", "cls": "scope", "item": 4, "pole": 1, "frame": 2, "prompt": "The lawyers each signed a different contract.", "plen": 8}
+{"idx": 57, "id": "scope-04-D2-f3", "cls": "scope", "item": 4, "pole": 1, "frame": 3, "prompt": "For each lawyer, there was some contract that they signed.", "plen": 12}
+{"idx": 58, "id": "scope-04-D2-f4", "cls": "scope", "item": 4, "pole": 1, "frame": 4, "prompt": "Every lawyer signed their own separate contract.", "plen": 8}
+{"idx": 59, "id": "scope-04-D2-f5", "cls": "scope", "item": 4, "pole": 1, "frame": 5, "prompt": "Different lawyers signed different contracts.", "plen": 6}
+{"idx": 60, "id": "scope-05-D1-f0", "cls": "scope", "item": 5, "pole": 0, "frame": 0, "prompt": "There is one particular portrait that every painter painted.", "plen": 10}
+{"idx": 61, "id": "scope-05-D1-f1", "cls": "scope", "item": 5, "pole": 0, "frame": 1, "prompt": "A single portrait was painted by all of the painters.", "plen": 11}
+{"idx": 62, "id": "scope-05-D1-f2", "cls": "scope", "item": 5, "pole": 0, "frame": 2, "prompt": "The same portrait was painted by each of the painters.", "plen": 11}
+{"idx": 63, "id": "scope-05-D1-f3", "cls": "scope", "item": 5, "pole": 0, "frame": 3, "prompt": "All of the painters painted one and the same portrait.", "plen": 11}
+{"idx": 64, "id": "scope-05-D1-f4", "cls": "scope", "item": 5, "pole": 0, "frame": 4, "prompt": "Just one portrait exists that all the painters painted.", "plen": 10}
+{"idx": 65, "id": "scope-05-D1-f5", "cls": "scope", "item": 5, "pole": 0, "frame": 5, "prompt": "Every one of the painters painted the very same portrait.", "plen": 11}
+{"idx": 66, "id": "scope-05-D2-f0", "cls": "scope", "item": 5, "pole": 1, "frame": 0, "prompt": "Each painter painted a portrait of their own.", "plen": 9}
+{"idx": 67, "id": "scope-05-D2-f1", "cls": "scope", "item": 5, "pole": 1, "frame": 1, "prompt": "Every painter painted some portrait or other, not necessarily the same one.", "plen": 14}
+{"idx": 68, "id": "scope-05-D2-f2", "cls": "scope", "item": 5, "pole": 1, "frame": 2, "prompt": "The painters each painted a different portrait.", "plen": 8}
+{"idx": 69, "id": "scope-05-D2-f3", "cls": "scope", "item": 5, "pole": 1, "frame": 3, "prompt": "For each painter, there was some portrait that they painted.", "plen": 12}
+{"idx": 70, "id": "scope-05-D2-f4", "cls": "scope", "item": 5, "pole": 1, "frame": 4, "prompt": "Every painter painted their own separate portrait.", "plen": 8}
+{"idx": 71, "id": "scope-05-D2-f5", "cls": "scope", "item": 5, "pole": 1, "frame": 5, "prompt": "Different painters painted different portraits.", "plen": 6}
+{"idx": 72, "id": "scope-06-D1-f0", "cls": "scope", "item": 6, "pole": 0, "frame": 0, "prompt": "There is one particular field that every farmer plowed.", "plen": 11}
+{"idx": 73, "id": "scope-06-D1-f1", "cls": "scope", "item": 6, "pole": 0, "frame": 1, "prompt": "A single field was plowed by all of the farmers.", "plen": 12}
+{"idx": 74, "id": "scope-06-D1-f2", "cls": "scope", "item": 6, "pole": 0, "frame": 2, "prompt": "The same field was plowed by each of the farmers.", "plen": 12}
+{"idx": 75, "id": "scope-06-D1-f3", "cls": "scope", "item": 6, "pole": 0, "frame": 3, "prompt": "All of the farmers plowed one and the same field.", "plen": 12}
+{"idx": 76, "id": "scope-06-D1-f4", "cls": "scope", "item": 6, "pole": 0, "frame": 4, "prompt": "Just one field exists that all the farmers plowed.", "plen": 11}
+{"idx": 77, "id": "scope-06-D1-f5", "cls": "scope", "item": 6, "pole": 0, "frame": 5, "prompt": "Every one of the farmers plowed the very same field.", "plen": 12}
+{"idx": 78, "id": "scope-06-D2-f0", "cls": "scope", "item": 6, "pole": 1, "frame": 0, "prompt": "Each farmer plowed a field of their own.", "plen": 10}
+{"idx": 79, "id": "scope-06-D2-f1", "cls": "scope", "item": 6, "pole": 1, "frame": 1, "prompt": "Every farmer plowed some field or other, not necessarily the same one.", "plen": 15}
+{"idx": 80, "id": "scope-06-D2-f2", "cls": "scope", "item": 6, "pole": 1, "frame": 2, "prompt": "The farmers each plowed a different field.", "plen": 9}
+{"idx": 81, "id": "scope-06-D2-f3", "cls": "scope", "item": 6, "pole": 1, "frame": 3, "prompt": "For each farmer, there was some field that they plowed.", "plen": 13}
+{"idx": 82, "id": "scope-06-D2-f4", "cls": "scope", "item": 6, "pole": 1, "frame": 4, "prompt": "Every farmer plowed their own separate field.", "plen": 9}
+{"idx": 83, "id": "scope-06-D2-f5", "cls": "scope", "item": 6, "pole": 1, "frame": 5, "prompt": "Different farmers plowed different fields.", "plen": 7}
+{"idx": 84, "id": "scope-07-D1-f0", "cls": "scope", "item": 7, "pole": 0, "frame": 0, "prompt": "There is one particular article that every reporter wrote.", "plen": 10}
+{"idx": 85, "id": "scope-07-D1-f1", "cls": "scope", "item": 7, "pole": 0, "frame": 1, "prompt": "A single article was written by all of the reporters.", "plen": 11}
+{"idx": 86, "id": "scope-07-D1-f2", "cls": "scope", "item": 7, "pole": 0, "frame": 2, "prompt": "The same article was written by each of the reporters.", "plen": 11}
+{"idx": 87, "id": "scope-07-D1-f3", "cls": "scope", "item": 7, "pole": 0, "frame": 3, "prompt": "All of the reporters wrote one and the same article.", "plen": 11}
+{"idx": 88, "id": "scope-07-D1-f4", "cls": "scope", "item": 7, "pole": 0, "frame": 4, "prompt": "Just one article exists that all the reporters wrote.", "plen": 10}
+{"idx": 89, "id": "scope-07-D1-f5", "cls": "scope", "item": 7, "pole": 0, "frame": 5, "prompt": "Every one of the reporters wrote the very same article.", "plen": 11}
+{"idx": 90, "id": "scope-07-D2-f0", "cls": "scope", "item": 7, "pole": 1, "frame": 0, "prompt": "Each reporter wrote a article of their own.", "plen": 9}
+{"idx": 91, "id": "scope-07-D2-f1", "cls": "scope", "item": 7, "pole": 1, "frame": 1, "prompt": "Every reporter wrote some article or other, not necessarily the same one.", "plen": 14}
+{"idx": 92, "id": "scope-07-D2-f2", "cls": "scope", "item": 7, "pole": 1, "frame": 2, "prompt": "The reporters each wrote a different article.", "plen": 8}
+{"idx": 93, "id": "scope-07-D2-f3", "cls": "scope", "item": 7, "pole": 1, "frame": 3, "prompt": "For each reporter, there was some article that they wrote.", "plen": 12}
+{"idx": 94, "id": "scope-07-D2-f4", "cls": "scope", "item": 7, "pole": 1, "frame": 4, "prompt": "Every reporter wrote their own separate article.", "plen": 8}
+{"idx": 95, "id": "scope-07-D2-f5", "cls": "scope", "item": 7, "pole": 1, "frame": 5, "prompt": "Different reporters wrote different articles.", "plen": 6}
+{"idx": 96, "id": "scope-08-D1-f0", "cls": "scope", "item": 8, "pole": 0, "frame": 0, "prompt": "There is one particular bridge that every engineer designed.", "plen": 10}
+{"idx": 97, "id": "scope-08-D1-f1", "cls": "scope", "item": 8, "pole": 0, "frame": 1, "prompt": "A single bridge was designed by all of the engineers.", "plen": 11}
+{"idx": 98, "id": "scope-08-D1-f2", "cls": "scope", "item": 8, "pole": 0, "frame": 2, "prompt": "The same bridge was designed by each of the engineers.", "plen": 11}
+{"idx": 99, "id": "scope-08-D1-f3", "cls": "scope", "item": 8, "pole": 0, "frame": 3, "prompt": "All of the engineers designed one and the same bridge.", "plen": 11}
+{"idx": 100, "id": "scope-08-D1-f4", "cls": "scope", "item": 8, "pole": 0, "frame": 4, "prompt": "Just one bridge exists that all the engineers designed.", "plen": 10}
+{"idx": 101, "id": "scope-08-D1-f5", "cls": "scope", "item": 8, "pole": 0, "frame": 5, "prompt": "Every one of the engineers designed the very same bridge.", "plen": 11}
+{"idx": 102, "id": "scope-08-D2-f0", "cls": "scope", "item": 8, "pole": 1, "frame": 0, "prompt": "Each engineer designed a bridge of their own.", "plen": 9}
+{"idx": 103, "id": "scope-08-D2-f1", "cls": "scope", "item": 8, "pole": 1, "frame": 1, "prompt": "Every engineer designed some bridge or other, not necessarily the same one.", "plen": 14}
+{"idx": 104, "id": "scope-08-D2-f2", "cls": "scope", "item": 8, "pole": 1, "frame": 2, "prompt": "The engineers each designed a different bridge.", "plen": 8}
+{"idx": 105, "id": "scope-08-D2-f3", "cls": "scope", "item": 8, "pole": 1, "frame": 3, "prompt": "For each engineer, there was some bridge that they designed.", "plen": 12}
+{"idx": 106, "id": "scope-08-D2-f4", "cls": "scope", "item": 8, "pole": 1, "frame": 4, "prompt": "Every engineer designed their own separate bridge.", "plen": 8}
+{"idx": 107, "id": "scope-08-D2-f5", "cls": "scope", "item": 8, "pole": 1, "frame": 5, "prompt": "Different engineers designed different bridges.", "plen": 6}
+{"idx": 108, "id": "scope-09-D1-f0", "cls": "scope", "item": 9, "pole": 0, "frame": 0, "prompt": "There is one particular rose that every gardener planted.", "plen": 11}
+{"idx": 109, "id": "scope-09-D1-f1", "cls": "scope", "item": 9, "pole": 0, "frame": 1, "prompt": "A single rose was planted by all of the gardeners.", "plen": 12}
+{"idx": 110, "id": "scope-09-D1-f2", "cls": "scope", "item": 9, "pole": 0, "frame": 2, "prompt": "The same rose was planted by each of the gardeners.", "plen": 12}
+{"idx": 111, "id": "scope-09-D1-f3", "cls": "scope", "item": 9, "pole": 0, "frame": 3, "prompt": "All of the gardeners planted one and the same rose.", "plen": 12}
+{"idx": 112, "id": "scope-09-D1-f4", "cls": "scope", "item": 9, "pole": 0, "frame": 4, "prompt": "Just one rose exists that all the gardeners planted.", "plen": 11}
+{"idx": 113, "id": "scope-09-D1-f5", "cls": "scope", "item": 9, "pole": 0, "frame": 5, "prompt": "Every one of the gardeners planted the very same rose.", "plen": 12}
+{"idx": 114, "id": "scope-09-D2-f0", "cls": "scope", "item": 9, "pole": 1, "frame": 0, "prompt": "Each gardener planted a rose of their own.", "plen": 10}
+{"idx": 115, "id": "scope-09-D2-f1", "cls": "scope", "item": 9, "pole": 1, "frame": 1, "prompt": "Every gardener planted some rose or other, not necessarily the same one.", "plen": 15}
+{"idx": 116, "id": "scope-09-D2-f2", "cls": "scope", "item": 9, "pole": 1, "frame": 2, "prompt": "The gardeners each planted a different rose.", "plen": 9}
+{"idx": 117, "id": "scope-09-D2-f3", "cls": "scope", "item": 9, "pole": 1, "frame": 3, "prompt": "For each gardener, there was some rose that they planted.", "plen": 13}
+{"idx": 118, "id": "scope-09-D2-f4", "cls": "scope", "item": 9, "pole": 1, "frame": 4, "prompt": "Every gardener planted their own separate rose.", "plen": 9}
+{"idx": 119, "id": "scope-09-D2-f5", "cls": "scope", "item": 9, "pole": 1, "frame": 5, "prompt": "Different gardeners planted different roses.", "plen": 7}
+{"idx": 120, "id": "scope-10-D1-f0", "cls": "scope", "item": 10, "pole": 0, "frame": 0, "prompt": "There is one particular tune that every musician played.", "plen": 10}
+{"idx": 121, "id": "scope-10-D1-f1", "cls": "scope", "item": 10, "pole": 0, "frame": 1, "prompt": "A single tune was played by all of the musicians.", "plen": 11}
+{"idx": 122, "id": "scope-10-D1-f2", "cls": "scope", "item": 10, "pole": 0, "frame": 2, "prompt": "The same tune was played by each of the musicians.", "plen": 11}
+{"idx": 123, "id": "scope-10-D1-f3", "cls": "scope", "item": 10, "pole": 0, "frame": 3, "prompt": "All of the musicians played one and the same tune.", "plen": 11}
+{"idx": 124, "id": "scope-10-D1-f4", "cls": "scope", "item": 10, "pole": 0, "frame": 4, "prompt": "Just one tune exists that all the musicians played.", "plen": 10}
+{"idx": 125, "id": "scope-10-D1-f5", "cls": "scope", "item": 10, "pole": 0, "frame": 5, "prompt": "Every one of the musicians played the very same tune.", "plen": 11}
+{"idx": 126, "id": "scope-10-D2-f0", "cls": "scope", "item": 10, "pole": 1, "frame": 0, "prompt": "Each musician played a tune of their own.", "plen": 9}
+{"idx": 127, "id": "scope-10-D2-f1", "cls": "scope", "item": 10, "pole": 1, "frame": 1, "prompt": "Every musician played some tune or other, not necessarily the same one.", "plen": 14}
+{"idx": 128, "id": "scope-10-D2-f2", "cls": "scope", "item": 10, "pole": 1, "frame": 2, "prompt": "The musicians each played a different tune.", "plen": 8}
+{"idx": 129, "id": "scope-10-D2-f3", "cls": "scope", "item": 10, "pole": 1, "frame": 3, "prompt": "For each musician, there was some tune that they played.", "plen": 12}
+{"idx": 130, "id": "scope-10-D2-f4", "cls": "scope", "item": 10, "pole": 1, "frame": 4, "prompt": "Every musician played their own separate tune.", "plen": 8}
+{"idx": 131, "id": "scope-10-D2-f5", "cls": "scope", "item": 10, "pole": 1, "frame": 5, "prompt": "Different musicians played different tunes.", "plen": 6}
+{"idx": 132, "id": "scope-11-D1-f0", "cls": "scope", "item": 11, "pole": 0, "frame": 0, "prompt": "There is one particular knot that every sailor tied.", "plen": 10}
+{"idx": 133, "id": "scope-11-D1-f1", "cls": "scope", "item": 11, "pole": 0, "frame": 1, "prompt": "A single knot was tied by all of the sailors.", "plen": 11}
+{"idx": 134, "id": "scope-11-D1-f2", "cls": "scope", "item": 11, "pole": 0, "frame": 2, "prompt": "The same knot was tied by each of the sailors.", "plen": 11}
+{"idx": 135, "id": "scope-11-D1-f3", "cls": "scope", "item": 11, "pole": 0, "frame": 3, "prompt": "All of the sailors tied one and the same knot.", "plen": 11}
+{"idx": 136, "id": "scope-11-D1-f4", "cls": "scope", "item": 11, "pole": 0, "frame": 4, "prompt": "Just one knot exists that all the sailors tied.", "plen": 10}
+{"idx": 137, "id": "scope-11-D1-f5", "cls": "scope", "item": 11, "pole": 0, "frame": 5, "prompt": "Every one of the sailors tied the very same knot.", "plen": 11}
+{"idx": 138, "id": "scope-11-D2-f0", "cls": "scope", "item": 11, "pole": 1, "frame": 0, "prompt": "Each sailor tied a knot of their own.", "plen": 9}
+{"idx": 139, "id": "scope-11-D2-f1", "cls": "scope", "item": 11, "pole": 1, "frame": 1, "prompt": "Every sailor tied some knot or other, not necessarily the same one.", "plen": 14}
+{"idx": 140, "id": "scope-11-D2-f2", "cls": "scope", "item": 11, "pole": 1, "frame": 2, "prompt": "The sailors each tied a different knot.", "plen": 8}
+{"idx": 141, "id": "scope-11-D2-f3", "cls": "scope", "item": 11, "pole": 1, "frame": 3, "prompt": "For each sailor, there was some knot that they tied.", "plen": 12}
+{"idx": 142, "id": "scope-11-D2-f4", "cls": "scope", "item": 11, "pole": 1, "frame": 4, "prompt": "Every sailor tied their own separate knot.", "plen": 8}
+{"idx": 143, "id": "scope-11-D2-f5", "cls": "scope", "item": 11, "pole": 1, "frame": 5, "prompt": "Different sailors tied different knots.", "plen": 6}
+{"idx": 144, "id": "ana-00-D1-f0", "cls": "ana", "item": 0, "pole": 0, "frame": 0, "prompt": "John told Mark that John had won the race.", "plen": 10}
+{"idx": 145, "id": "ana-00-D1-f1", "cls": "ana", "item": 0, "pole": 0, "frame": 1, "prompt": "John said to Mark that John had won the race.", "plen": 11}
+{"idx": 146, "id": "ana-00-D1-f2", "cls": "ana", "item": 0, "pole": 0, "frame": 2, "prompt": "While talking to Mark, John mentioned that John had won the race.", "plen": 14}
+{"idx": 147, "id": "ana-00-D1-f3", "cls": "ana", "item": 0, "pole": 0, "frame": 3, "prompt": "John informed Mark that John had won the race.", "plen": 10}
+{"idx": 148, "id": "ana-00-D1-f4", "cls": "ana", "item": 0, "pole": 0, "frame": 4, "prompt": "In the conversation with Mark, John claimed that John had won the race.", "plen": 15}
+{"idx": 149, "id": "ana-00-D1-f5", "cls": "ana", "item": 0, "pole": 0, "frame": 5, "prompt": "John admitted to Mark that John had won the race.", "plen": 11}
+{"idx": 150, "id": "ana-00-D2-f0", "cls": "ana", "item": 0, "pole": 1, "frame": 0, "prompt": "John told Mark that Mark had won the race.", "plen": 10}
+{"idx": 151, "id": "ana-00-D2-f1", "cls": "ana", "item": 0, "pole": 1, "frame": 1, "prompt": "John said to Mark that Mark had won the race.", "plen": 11}
+{"idx": 152, "id": "ana-00-D2-f2", "cls": "ana", "item": 0, "pole": 1, "frame": 2, "prompt": "While talking to Mark, John mentioned that Mark had won the race.", "plen": 14}
+{"idx": 153, "id": "ana-00-D2-f3", "cls": "ana", "item": 0, "pole": 1, "frame": 3, "prompt": "John informed Mark that Mark had won the race.", "plen": 10}
+{"idx": 154, "id": "ana-00-D2-f4", "cls": "ana", "item": 0, "pole": 1, "frame": 4, "prompt": "In the conversation with Mark, John claimed that Mark had won the race.", "plen": 15}
+{"idx": 155, "id": "ana-00-D2-f5", "cls": "ana", "item": 0, "pole": 1, "frame": 5, "prompt": "John admitted to Mark that Mark had won the race.", "plen": 11}
+{"idx": 156, "id": "ana-01-D1-f0", "cls": "ana", "item": 1, "pole": 0, "frame": 0, "prompt": "Sarah told Emma that Sarah had missed the deadline.", "plen": 10}
+{"idx": 157, "id": "ana-01-D1-f1", "cls": "ana", "item": 1, "pole": 0, "frame": 1, "prompt": "Sarah said to Emma that Sarah had missed the deadline.", "plen": 11}
+{"idx": 158, "id": "ana-01-D1-f2", "cls": "ana", "item": 1, "pole": 0, "frame": 2, "prompt": "While talking to Emma, Sarah mentioned that Sarah had missed the deadline.", "plen": 14}
+{"idx": 159, "id": "ana-01-D1-f3", "cls": "ana", "item": 1, "pole": 0, "frame": 3, "prompt": "Sarah informed Emma that Sarah had missed the deadline.", "plen": 10}
+{"idx": 160, "id": "ana-01-D1-f4", "cls": "ana", "item": 1, "pole": 0, "frame": 4, "prompt": "In the conversation with Emma, Sarah claimed that Sarah had missed the deadline.", "plen": 15}
+{"idx": 161, "id": "ana-01-D1-f5", "cls": "ana", "item": 1, "pole": 0, "frame": 5, "prompt": "Sarah admitted to Emma that Sarah had missed the deadline.", "plen": 11}
+{"idx": 162, "id": "ana-01-D2-f0", "cls": "ana", "item": 1, "pole": 1, "frame": 0, "prompt": "Sarah told Emma that Emma had missed the deadline.", "plen": 10}
+{"idx": 163, "id": "ana-01-D2-f1", "cls": "ana", "item": 1, "pole": 1, "frame": 1, "prompt": "Sarah said to Emma that Emma had missed the deadline.", "plen": 11}
+{"idx": 164, "id": "ana-01-D2-f2", "cls": "ana", "item": 1, "pole": 1, "frame": 2, "prompt": "While talking to Emma, Sarah mentioned that Emma had missed the deadline.", "plen": 14}
+{"idx": 165, "id": "ana-01-D2-f3", "cls": "ana", "item": 1, "pole": 1, "frame": 3, "prompt": "Sarah informed Emma that Emma had missed the deadline.", "plen": 10}
+{"idx": 166, "id": "ana-01-D2-f4", "cls": "ana", "item": 1, "pole": 1, "frame": 4, "prompt": "In the conversation with Emma, Sarah claimed that Emma had missed the deadline.", "plen": 15}
+{"idx": 167, "id": "ana-01-D2-f5", "cls": "ana", "item": 1, "pole": 1, "frame": 5, "prompt": "Sarah admitted to Emma that Emma had missed the deadline.", "plen": 11}
+{"idx": 168, "id": "ana-02-D1-f0", "cls": "ana", "item": 2, "pole": 0, "frame": 0, "prompt": "Peter told James that Peter had broken the window.", "plen": 10}
+{"idx": 169, "id": "ana-02-D1-f1", "cls": "ana", "item": 2, "pole": 0, "frame": 1, "prompt": "Peter said to James that Peter had broken the window.", "plen": 11}
+{"idx": 170, "id": "ana-02-D1-f2", "cls": "ana", "item": 2, "pole": 0, "frame": 2, "prompt": "While talking to James, Peter mentioned that Peter had broken the window.", "plen": 14}
+{"idx": 171, "id": "ana-02-D1-f3", "cls": "ana", "item": 2, "pole": 0, "frame": 3, "prompt": "Peter informed James that Peter had broken the window.", "plen": 10}
+{"idx": 172, "id": "ana-02-D1-f4", "cls": "ana", "item": 2, "pole": 0, "frame": 4, "prompt": "In the conversation with James, Peter claimed that Peter had broken the window.", "plen": 15}
+{"idx": 173, "id": "ana-02-D1-f5", "cls": "ana", "item": 2, "pole": 0, "frame": 5, "prompt": "Peter admitted to James that Peter had broken the window.", "plen": 11}
+{"idx": 174, "id": "ana-02-D2-f0", "cls": "ana", "item": 2, "pole": 1, "frame": 0, "prompt": "Peter told James that James had broken the window.", "plen": 10}
+{"idx": 175, "id": "ana-02-D2-f1", "cls": "ana", "item": 2, "pole": 1, "frame": 1, "prompt": "Peter said to James that James had broken the window.", "plen": 11}
+{"idx": 176, "id": "ana-02-D2-f2", "cls": "ana", "item": 2, "pole": 1, "frame": 2, "prompt": "While talking to James, Peter mentioned that James had broken the window.", "plen": 14}
+{"idx": 177, "id": "ana-02-D2-f3", "cls": "ana", "item": 2, "pole": 1, "frame": 3, "prompt": "Peter informed James that James had broken the window.", "plen": 10}
+{"idx": 178, "id": "ana-02-D2-f4", "cls": "ana", "item": 2, "pole": 1, "frame": 4, "prompt": "In the conversation with James, Peter claimed that James had broken the window.", "plen": 15}
+{"idx": 179, "id": "ana-02-D2-f5", "cls": "ana", "item": 2, "pole": 1, "frame": 5, "prompt": "Peter admitted to James that James had broken the window.", "plen": 11}
+{"idx": 180, "id": "ana-03-D1-f0", "cls": "ana", "item": 3, "pole": 0, "frame": 0, "prompt": "Alice told Karen that Alice had failed the test.", "plen": 10}
+{"idx": 181, "id": "ana-03-D1-f1", "cls": "ana", "item": 3, "pole": 0, "frame": 1, "prompt": "Alice said to Karen that Alice had failed the test.", "plen": 11}
+{"idx": 182, "id": "ana-03-D1-f2", "cls": "ana", "item": 3, "pole": 0, "frame": 2, "prompt": "While talking to Karen, Alice mentioned that Alice had failed the test.", "plen": 14}
+{"idx": 183, "id": "ana-03-D1-f3", "cls": "ana", "item": 3, "pole": 0, "frame": 3, "prompt": "Alice informed Karen that Alice had failed the test.", "plen": 10}
+{"idx": 184, "id": "ana-03-D1-f4", "cls": "ana", "item": 3, "pole": 0, "frame": 4, "prompt": "In the conversation with Karen, Alice claimed that Alice had failed the test.", "plen": 15}
+{"idx": 185, "id": "ana-03-D1-f5", "cls": "ana", "item": 3, "pole": 0, "frame": 5, "prompt": "Alice admitted to Karen that Alice had failed the test.", "plen": 11}
+{"idx": 186, "id": "ana-03-D2-f0", "cls": "ana", "item": 3, "pole": 1, "frame": 0, "prompt": "Alice told Karen that Karen had failed the test.", "plen": 10}
+{"idx": 187, "id": "ana-03-D2-f1", "cls": "ana", "item": 3, "pole": 1, "frame": 1, "prompt": "Alice said to Karen that Karen had failed the test.", "plen": 11}
+{"idx": 188, "id": "ana-03-D2-f2", "cls": "ana", "item": 3, "pole": 1, "frame": 2, "prompt": "While talking to Karen, Alice mentioned that Karen had failed the test.", "plen": 14}
+{"idx": 189, "id": "ana-03-D2-f3", "cls": "ana", "item": 3, "pole": 1, "frame": 3, "prompt": "Alice informed Karen that Karen had failed the test.", "plen": 10}
+{"idx": 190, "id": "ana-03-D2-f4", "cls": "ana", "item": 3, "pole": 1, "frame": 4, "prompt": "In the conversation with Karen, Alice claimed that Karen had failed the test.", "plen": 15}
+{"idx": 191, "id": "ana-03-D2-f5", "cls": "ana", "item": 3, "pole": 1, "frame": 5, "prompt": "Alice admitted to Karen that Karen had failed the test.", "plen": 11}
+{"idx": 192, "id": "ana-04-D1-f0", "cls": "ana", "item": 4, "pole": 0, "frame": 0, "prompt": "David told Brian that David had lost the keys.", "plen": 10}
+{"idx": 193, "id": "ana-04-D1-f1", "cls": "ana", "item": 4, "pole": 0, "frame": 1, "prompt": "David said to Brian that David had lost the keys.", "plen": 11}
+{"idx": 194, "id": "ana-04-D1-f2", "cls": "ana", "item": 4, "pole": 0, "frame": 2, "prompt": "While talking to Brian, David mentioned that David had lost the keys.", "plen": 14}
+{"idx": 195, "id": "ana-04-D1-f3", "cls": "ana", "item": 4, "pole": 0, "frame": 3, "prompt": "David informed Brian that David had lost the keys.", "plen": 10}
+{"idx": 196, "id": "ana-04-D1-f4", "cls": "ana", "item": 4, "pole": 0, "frame": 4, "prompt": "In the conversation with Brian, David claimed that David had lost the keys.", "plen": 15}
+{"idx": 197, "id": "ana-04-D1-f5", "cls": "ana", "item": 4, "pole": 0, "frame": 5, "prompt": "David admitted to Brian that David had lost the keys.", "plen": 11}
+{"idx": 198, "id": "ana-04-D2-f0", "cls": "ana", "item": 4, "pole": 1, "frame": 0, "prompt": "David told Brian that Brian had lost the keys.", "plen": 10}
+{"idx": 199, "id": "ana-04-D2-f1", "cls": "ana", "item": 4, "pole": 1, "frame": 1, "prompt": "David said to Brian that Brian had lost the keys.", "plen": 11}
+{"idx": 200, "id": "ana-04-D2-f2", "cls": "ana", "item": 4, "pole": 1, "frame": 2, "prompt": "While talking to Brian, David mentioned that Brian had lost the keys.", "plen": 14}
+{"idx": 201, "id": "ana-04-D2-f3", "cls": "ana", "item": 4, "pole": 1, "frame": 3, "prompt": "David informed Brian that Brian had lost the keys.", "plen": 10}
+{"idx": 202, "id": "ana-04-D2-f4", "cls": "ana", "item": 4, "pole": 1, "frame": 4, "prompt": "In the conversation with Brian, David claimed that Brian had lost the keys.", "plen": 15}
+{"idx": 203, "id": "ana-04-D2-f5", "cls": "ana", "item": 4, "pole": 1, "frame": 5, "prompt": "David admitted to Brian that Brian had lost the keys.", "plen": 11}
+{"idx": 204, "id": "ana-05-D1-f0", "cls": "ana", "item": 5, "pole": 0, "frame": 0, "prompt": "Laura told Nina that Laura had burned the toast.", "plen": 10}
+{"idx": 205, "id": "ana-05-D1-f1", "cls": "ana", "item": 5, "pole": 0, "frame": 1, "prompt": "Laura said to Nina that Laura had burned the toast.", "plen": 11}
+{"idx": 206, "id": "ana-05-D1-f2", "cls": "ana", "item": 5, "pole": 0, "frame": 2, "prompt": "While talking to Nina, Laura mentioned that Laura had burned the toast.", "plen": 14}
+{"idx": 207, "id": "ana-05-D1-f3", "cls": "ana", "item": 5, "pole": 0, "frame": 3, "prompt": "Laura informed Nina that Laura had burned the toast.", "plen": 10}
+{"idx": 208, "id": "ana-05-D1-f4", "cls": "ana", "item": 5, "pole": 0, "frame": 4, "prompt": "In the conversation with Nina, Laura claimed that Laura had burned the toast.", "plen": 15}
+{"idx": 209, "id": "ana-05-D1-f5", "cls": "ana", "item": 5, "pole": 0, "frame": 5, "prompt": "Laura admitted to Nina that Laura had burned the toast.", "plen": 11}
+{"idx": 210, "id": "ana-05-D2-f0", "cls": "ana", "item": 5, "pole": 1, "frame": 0, "prompt": "Laura told Nina that Nina had burned the toast.", "plen": 10}
+{"idx": 211, "id": "ana-05-D2-f1", "cls": "ana", "item": 5, "pole": 1, "frame": 1, "prompt": "Laura said to Nina that Nina had burned the toast.", "plen": 11}
+{"idx": 212, "id": "ana-05-D2-f2", "cls": "ana", "item": 5, "pole": 1, "frame": 2, "prompt": "While talking to Nina, Laura mentioned that Nina had burned the toast.", "plen": 14}
+{"idx": 213, "id": "ana-05-D2-f3", "cls": "ana", "item": 5, "pole": 1, "frame": 3, "prompt": "Laura informed Nina that Nina had burned the toast.", "plen": 10}
+{"idx": 214, "id": "ana-05-D2-f4", "cls": "ana", "item": 5, "pole": 1, "frame": 4, "prompt": "In the conversation with Nina, Laura claimed that Nina had burned the toast.", "plen": 15}
+{"idx": 215, "id": "ana-05-D2-f5", "cls": "ana", "item": 5, "pole": 1, "frame": 5, "prompt": "Laura admitted to Nina that Nina had burned the toast.", "plen": 11}
+{"idx": 216, "id": "ana-06-D1-f0", "cls": "ana", "item": 6, "pole": 0, "frame": 0, "prompt": "Tom told Henry that Tom had forgotten the meeting.", "plen": 10}
+{"idx": 217, "id": "ana-06-D1-f1", "cls": "ana", "item": 6, "pole": 0, "frame": 1, "prompt": "Tom said to Henry that Tom had forgotten the meeting.", "plen": 11}
+{"idx": 218, "id": "ana-06-D1-f2", "cls": "ana", "item": 6, "pole": 0, "frame": 2, "prompt": "While talking to Henry, Tom mentioned that Tom had forgotten the meeting.", "plen": 14}
+{"idx": 219, "id": "ana-06-D1-f3", "cls": "ana", "item": 6, "pole": 0, "frame": 3, "prompt": "Tom informed Henry that Tom had forgotten the meeting.", "plen": 10}
+{"idx": 220, "id": "ana-06-D1-f4", "cls": "ana", "item": 6, "pole": 0, "frame": 4, "prompt": "In the conversation with Henry, Tom claimed that Tom had forgotten the meeting.", "plen": 15}
+{"idx": 221, "id": "ana-06-D1-f5", "cls": "ana", "item": 6, "pole": 0, "frame": 5, "prompt": "Tom admitted to Henry that Tom had forgotten the meeting.", "plen": 11}
+{"idx": 222, "id": "ana-06-D2-f0", "cls": "ana", "item": 6, "pole": 1, "frame": 0, "prompt": "Tom told Henry that Henry had forgotten the meeting.", "plen": 10}
+{"idx": 223, "id": "ana-06-D2-f1", "cls": "ana", "item": 6, "pole": 1, "frame": 1, "prompt": "Tom said to Henry that Henry had forgotten the meeting.", "plen": 11}
+{"idx": 224, "id": "ana-06-D2-f2", "cls": "ana", "item": 6, "pole": 1, "frame": 2, "prompt": "While talking to Henry, Tom mentioned that Henry had forgotten the meeting.", "plen": 14}
+{"idx": 225, "id": "ana-06-D2-f3", "cls": "ana", "item": 6, "pole": 1, "frame": 3, "prompt": "Tom informed Henry that Henry had forgotten the meeting.", "plen": 10}
+{"idx": 226, "id": "ana-06-D2-f4", "cls": "ana", "item": 6, "pole": 1, "frame": 4, "prompt": "In the conversation with Henry, Tom claimed that Henry had forgotten the meeting.", "plen": 15}
+{"idx": 227, "id": "ana-06-D2-f5", "cls": "ana", "item": 6, "pole": 1, "frame": 5, "prompt": "Tom admitted to Henry that Henry had forgotten the meeting.", "plen": 11}
+{"idx": 228, "id": "ana-07-D1-f0", "cls": "ana", "item": 7, "pole": 0, "frame": 0, "prompt": "Rachel told Diana that Rachel had crashed the car.", "plen": 10}
+{"idx": 229, "id": "ana-07-D1-f1", "cls": "ana", "item": 7, "pole": 0, "frame": 1, "prompt": "Rachel said to Diana that Rachel had crashed the car.", "plen": 11}
+{"idx": 230, "id": "ana-07-D1-f2", "cls": "ana", "item": 7, "pole": 0, "frame": 2, "prompt": "While talking to Diana, Rachel mentioned that Rachel had crashed the car.", "plen": 14}
+{"idx": 231, "id": "ana-07-D1-f3", "cls": "ana", "item": 7, "pole": 0, "frame": 3, "prompt": "Rachel informed Diana that Rachel had crashed the car.", "plen": 10}
+{"idx": 232, "id": "ana-07-D1-f4", "cls": "ana", "item": 7, "pole": 0, "frame": 4, "prompt": "In the conversation with Diana, Rachel claimed that Rachel had crashed the car.", "plen": 15}
+{"idx": 233, "id": "ana-07-D1-f5", "cls": "ana", "item": 7, "pole": 0, "frame": 5, "prompt": "Rachel admitted to Diana that Rachel had crashed the car.", "plen": 11}
+{"idx": 234, "id": "ana-07-D2-f0", "cls": "ana", "item": 7, "pole": 1, "frame": 0, "prompt": "Rachel told Diana that Diana had crashed the car.", "plen": 10}
+{"idx": 235, "id": "ana-07-D2-f1", "cls": "ana", "item": 7, "pole": 1, "frame": 1, "prompt": "Rachel said to Diana that Diana had crashed the car.", "plen": 11}
+{"idx": 236, "id": "ana-07-D2-f2", "cls": "ana", "item": 7, "pole": 1, "frame": 2, "prompt": "While talking to Diana, Rachel mentioned that Diana had crashed the car.", "plen": 14}
+{"idx": 237, "id": "ana-07-D2-f3", "cls": "ana", "item": 7, "pole": 1, "frame": 3, "prompt": "Rachel informed Diana that Diana had crashed the car.", "plen": 10}
+{"idx": 238, "id": "ana-07-D2-f4", "cls": "ana", "item": 7, "pole": 1, "frame": 4, "prompt": "In the conversation with Diana, Rachel claimed that Diana had crashed the car.", "plen": 15}
+{"idx": 239, "id": "ana-07-D2-f5", "cls": "ana", "item": 7, "pole": 1, "frame": 5, "prompt": "Rachel admitted to Diana that Diana had crashed the car.", "plen": 11}
+{"idx": 240, "id": "ana-08-D1-f0", "cls": "ana", "item": 8, "pole": 0, "frame": 0, "prompt": "Kevin told Frank that Kevin had spilled the coffee.", "plen": 10}
+{"idx": 241, "id": "ana-08-D1-f1", "cls": "ana", "item": 8, "pole": 0, "frame": 1, "prompt": "Kevin said to Frank that Kevin had spilled the coffee.", "plen": 11}
+{"idx": 242, "id": "ana-08-D1-f2", "cls": "ana", "item": 8, "pole": 0, "frame": 2, "prompt": "While talking to Frank, Kevin mentioned that Kevin had spilled the coffee.", "plen": 14}
+{"idx": 243, "id": "ana-08-D1-f3", "cls": "ana", "item": 8, "pole": 0, "frame": 3, "prompt": "Kevin informed Frank that Kevin had spilled the coffee.", "plen": 10}
+{"idx": 244, "id": "ana-08-D1-f4", "cls": "ana", "item": 8, "pole": 0, "frame": 4, "prompt": "In the conversation with Frank, Kevin claimed that Kevin had spilled the coffee.", "plen": 15}
+{"idx": 245, "id": "ana-08-D1-f5", "cls": "ana", "item": 8, "pole": 0, "frame": 5, "prompt": "Kevin admitted to Frank that Kevin had spilled the coffee.", "plen": 11}
+{"idx": 246, "id": "ana-08-D2-f0", "cls": "ana", "item": 8, "pole": 1, "frame": 0, "prompt": "Kevin told Frank that Frank had spilled the coffee.", "plen": 10}
+{"idx": 247, "id": "ana-08-D2-f1", "cls": "ana", "item": 8, "pole": 1, "frame": 1, "prompt": "Kevin said to Frank that Frank had spilled the coffee.", "plen": 11}
+{"idx": 248, "id": "ana-08-D2-f2", "cls": "ana", "item": 8, "pole": 1, "frame": 2, "prompt": "While talking to Frank, Kevin mentioned that Frank had spilled the coffee.", "plen": 14}
+{"idx": 249, "id": "ana-08-D2-f3", "cls": "ana", "item": 8, "pole": 1, "frame": 3, "prompt": "Kevin informed Frank that Frank had spilled the coffee.", "plen": 10}
+{"idx": 250, "id": "ana-08-D2-f4", "cls": "ana", "item": 8, "pole": 1, "frame": 4, "prompt": "In the conversation with Frank, Kevin claimed that Frank had spilled the coffee.", "plen": 15}
+{"idx": 251, "id": "ana-08-D2-f5", "cls": "ana", "item": 8, "pole": 1, "frame": 5, "prompt": "Kevin admitted to Frank that Frank had spilled the coffee.", "plen": 11}
+{"idx": 252, "id": "ana-09-D1-f0", "cls": "ana", "item": 9, "pole": 0, "frame": 0, "prompt": "Megan told Julia that Megan had found the wallet.", "plen": 11}
+{"idx": 253, "id": "ana-09-D1-f1", "cls": "ana", "item": 9, "pole": 0, "frame": 1, "prompt": "Megan said to Julia that Megan had found the wallet.", "plen": 12}
+{"idx": 254, "id": "ana-09-D1-f2", "cls": "ana", "item": 9, "pole": 0, "frame": 2, "prompt": "While talking to Julia, Megan mentioned that Megan had found the wallet.", "plen": 14}
+{"idx": 255, "id": "ana-09-D1-f3", "cls": "ana", "item": 9, "pole": 0, "frame": 3, "prompt": "Megan informed Julia that Megan had found the wallet.", "plen": 11}
+{"idx": 256, "id": "ana-09-D1-f4", "cls": "ana", "item": 9, "pole": 0, "frame": 4, "prompt": "In the conversation with Julia, Megan claimed that Megan had found the wallet.", "plen": 15}
+{"idx": 257, "id": "ana-09-D1-f5", "cls": "ana", "item": 9, "pole": 0, "frame": 5, "prompt": "Megan admitted to Julia that Megan had found the wallet.", "plen": 12}
+{"idx": 258, "id": "ana-09-D2-f0", "cls": "ana", "item": 9, "pole": 1, "frame": 0, "prompt": "Megan told Julia that Julia had found the wallet.", "plen": 11}
+{"idx": 259, "id": "ana-09-D2-f1", "cls": "ana", "item": 9, "pole": 1, "frame": 1, "prompt": "Megan said to Julia that Julia had found the wallet.", "plen": 12}
+{"idx": 260, "id": "ana-09-D2-f2", "cls": "ana", "item": 9, "pole": 1, "frame": 2, "prompt": "While talking to Julia, Megan mentioned that Julia had found the wallet.", "plen": 14}
+{"idx": 261, "id": "ana-09-D2-f3", "cls": "ana", "item": 9, "pole": 1, "frame": 3, "prompt": "Megan informed Julia that Julia had found the wallet.", "plen": 11}
+{"idx": 262, "id": "ana-09-D2-f4", "cls": "ana", "item": 9, "pole": 1, "frame": 4, "prompt": "In the conversation with Julia, Megan claimed that Julia had found the wallet.", "plen": 15}
+{"idx": 263, "id": "ana-09-D2-f5", "cls": "ana", "item": 9, "pole": 1, "frame": 5, "prompt": "Megan admitted to Julia that Julia had found the wallet.", "plen": 12}
+{"idx": 264, "id": "ana-10-D1-f0", "cls": "ana", "item": 10, "pole": 0, "frame": 0, "prompt": "Oliver told Simon that Oliver had booked the flight.", "plen": 11}
+{"idx": 265, "id": "ana-10-D1-f1", "cls": "ana", "item": 10, "pole": 0, "frame": 1, "prompt": "Oliver said to Simon that Oliver had booked the flight.", "plen": 12}
+{"idx": 266, "id": "ana-10-D1-f2", "cls": "ana", "item": 10, "pole": 0, "frame": 2, "prompt": "While talking to Simon, Oliver mentioned that Oliver had booked the flight.", "plen": 14}
+{"idx": 267, "id": "ana-10-D1-f3", "cls": "ana", "item": 10, "pole": 0, "frame": 3, "prompt": "Oliver informed Simon that Oliver had booked the flight.", "plen": 11}
+{"idx": 268, "id": "ana-10-D1-f4", "cls": "ana", "item": 10, "pole": 0, "frame": 4, "prompt": "In the conversation with Simon, Oliver claimed that Oliver had booked the flight.", "plen": 15}
+{"idx": 269, "id": "ana-10-D1-f5", "cls": "ana", "item": 10, "pole": 0, "frame": 5, "prompt": "Oliver admitted to Simon that Oliver had booked the flight.", "plen": 12}
+{"idx": 270, "id": "ana-10-D2-f0", "cls": "ana", "item": 10, "pole": 1, "frame": 0, "prompt": "Oliver told Simon that Simon had booked the flight.", "plen": 11}
+{"idx": 271, "id": "ana-10-D2-f1", "cls": "ana", "item": 10, "pole": 1, "frame": 1, "prompt": "Oliver said to Simon that Simon had booked the flight.", "plen": 12}
+{"idx": 272, "id": "ana-10-D2-f2", "cls": "ana", "item": 10, "pole": 1, "frame": 2, "prompt": "While talking to Simon, Oliver mentioned that Simon had booked the flight.", "plen": 14}
+{"idx": 273, "id": "ana-10-D2-f3", "cls": "ana", "item": 10, "pole": 1, "frame": 3, "prompt": "Oliver informed Simon that Simon had booked the flight.", "plen": 11}
+{"idx": 274, "id": "ana-10-D2-f4", "cls": "ana", "item": 10, "pole": 1, "frame": 4, "prompt": "In the conversation with Simon, Oliver claimed that Simon had booked the flight.", "plen": 15}
+{"idx": 275, "id": "ana-10-D2-f5", "cls": "ana", "item": 10, "pole": 1, "frame": 5, "prompt": "Oliver admitted to Simon that Simon had booked the flight.", "plen": 12}
+{"idx": 276, "id": "ana-11-D1-f0", "cls": "ana", "item": 11, "pole": 0, "frame": 0, "prompt": "Grace told Helen that Grace had signed the form.", "plen": 10}
+{"idx": 277, "id": "ana-11-D1-f1", "cls": "ana", "item": 11, "pole": 0, "frame": 1, "prompt": "Grace said to Helen that Grace had signed the form.", "plen": 11}
+{"idx": 278, "id": "ana-11-D1-f2", "cls": "ana", "item": 11, "pole": 0, "frame": 2, "prompt": "While talking to Helen, Grace mentioned that Grace had signed the form.", "plen": 14}
+{"idx": 279, "id": "ana-11-D1-f3", "cls": "ana", "item": 11, "pole": 0, "frame": 3, "prompt": "Grace informed Helen that Grace had signed the form.", "plen": 10}
+{"idx": 280, "id": "ana-11-D1-f4", "cls": "ana", "item": 11, "pole": 0, "frame": 4, "prompt": "In the conversation with Helen, Grace claimed that Grace had signed the form.", "plen": 15}
+{"idx": 281, "id": "ana-11-D1-f5", "cls": "ana", "item": 11, "pole": 0, "frame": 5, "prompt": "Grace admitted to Helen that Grace had signed the form.", "plen": 11}
+{"idx": 282, "id": "ana-11-D2-f0", "cls": "ana", "item": 11, "pole": 1, "frame": 0, "prompt": "Grace told Helen that Helen had signed the form.", "plen": 10}
+{"idx": 283, "id": "ana-11-D2-f1", "cls": "ana", "item": 11, "pole": 1, "frame": 1, "prompt": "Grace said to Helen that Helen had signed the form.", "plen": 11}
+{"idx": 284, "id": "ana-11-D2-f2", "cls": "ana", "item": 11, "pole": 1, "frame": 2, "prompt": "While talking to Helen, Grace mentioned that Helen had signed the form.", "plen": 14}
+{"idx": 285, "id": "ana-11-D2-f3", "cls": "ana", "item": 11, "pole": 1, "frame": 3, "prompt": "Grace informed Helen that Helen had signed the form.", "plen": 10}
+{"idx": 286, "id": "ana-11-D2-f4", "cls": "ana", "item": 11, "pole": 1, "frame": 4, "prompt": "In the conversation with Helen, Grace claimed that Helen had signed the form.", "plen": 15}
+{"idx": 287, "id": "ana-11-D2-f5", "cls": "ana", "item": 11, "pole": 1, "frame": 5, "prompt": "Grace admitted to Helen that Helen had signed the form.", "plen": 11}
+{"idx": 288, "id": "att-00-D1-f0", "cls": "att", "item": 0, "pole": 0, "frame": 0, "prompt": "Using the binoculars, the detective watched the suspect.", "plen": 12}
+{"idx": 289, "id": "att-00-D1-f1", "cls": "att", "item": 0, "pole": 0, "frame": 1, "prompt": "The detective watched the suspect by means of the binoculars.", "plen": 13}
+{"idx": 290, "id": "att-00-D1-f2", "cls": "att", "item": 0, "pole": 0, "frame": 2, "prompt": "With the help of the binoculars, the detective watched the suspect.", "plen": 15}
+{"idx": 291, "id": "att-00-D1-f3", "cls": "att", "item": 0, "pole": 0, "frame": 3, "prompt": "The detective used the binoculars to watch the suspect.", "plen": 12}
+{"idx": 292, "id": "att-00-D1-f4", "cls": "att", "item": 0, "pole": 0, "frame": 4, "prompt": "It was with the binoculars that the detective watched the suspect.", "plen": 14}
+{"idx": 293, "id": "att-00-D1-f5", "cls": "att", "item": 0, "pole": 0, "frame": 5, "prompt": "The detective, binoculars in hand, watched the suspect.", "plen": 13}
+{"idx": 294, "id": "att-00-D2-f0", "cls": "att", "item": 0, "pole": 1, "frame": 0, "prompt": "The detective watched the suspect who had the binoculars.", "plen": 12}
+{"idx": 295, "id": "att-00-D2-f1", "cls": "att", "item": 0, "pole": 1, "frame": 1, "prompt": "The detective watched the suspect carrying the binoculars.", "plen": 11}
+{"idx": 296, "id": "att-00-D2-f2", "cls": "att", "item": 0, "pole": 1, "frame": 2, "prompt": "The suspect with the binoculars was watched by the detective.", "plen": 13}
+{"idx": 297, "id": "att-00-D2-f3", "cls": "att", "item": 0, "pole": 1, "frame": 3, "prompt": "The detective watched the suspect who was holding the binoculars.", "plen": 13}
+{"idx": 298, "id": "att-00-D2-f4", "cls": "att", "item": 0, "pole": 1, "frame": 4, "prompt": "The suspect holding the binoculars was the one the detective watched.", "plen": 14}
+{"idx": 299, "id": "att-00-D2-f5", "cls": "att", "item": 0, "pole": 1, "frame": 5, "prompt": "The detective watched that suspect, the one with the binoculars.", "plen": 14}
+{"idx": 300, "id": "att-01-D1-f0", "cls": "att", "item": 1, "pole": 0, "frame": 0, "prompt": "Using the flashlight, the guard spotted the visitor.", "plen": 10}
+{"idx": 301, "id": "att-01-D1-f1", "cls": "att", "item": 1, "pole": 0, "frame": 1, "prompt": "The guard spotted the visitor by means of the flashlight.", "plen": 11}
+{"idx": 302, "id": "att-01-D1-f2", "cls": "att", "item": 1, "pole": 0, "frame": 2, "prompt": "With the help of the flashlight, the guard spotted the visitor.", "plen": 13}
+{"idx": 303, "id": "att-01-D1-f3", "cls": "att", "item": 1, "pole": 0, "frame": 3, "prompt": "The guard used the flashlight to spot the visitor.", "plen": 10}
+{"idx": 304, "id": "att-01-D1-f4", "cls": "att", "item": 1, "pole": 0, "frame": 4, "prompt": "It was with the flashlight that the guard spotted the visitor.", "plen": 12}
+{"idx": 305, "id": "att-01-D1-f5", "cls": "att", "item": 1, "pole": 0, "frame": 5, "prompt": "The guard, flashlight in hand, spotted the visitor.", "plen": 11}
+{"idx": 306, "id": "att-01-D2-f0", "cls": "att", "item": 1, "pole": 1, "frame": 0, "prompt": "The guard spotted the visitor who had the flashlight.", "plen": 10}
+{"idx": 307, "id": "att-01-D2-f1", "cls": "att", "item": 1, "pole": 1, "frame": 1, "prompt": "The guard spotted the visitor carrying the flashlight.", "plen": 9}
+{"idx": 308, "id": "att-01-D2-f2", "cls": "att", "item": 1, "pole": 1, "frame": 2, "prompt": "The visitor with the flashlight was spotted by the guard.", "plen": 11}
+{"idx": 309, "id": "att-01-D2-f3", "cls": "att", "item": 1, "pole": 1, "frame": 3, "prompt": "The guard spotted the visitor who was holding the flashlight.", "plen": 11}
+{"idx": 310, "id": "att-01-D2-f4", "cls": "att", "item": 1, "pole": 1, "frame": 4, "prompt": "The visitor holding the flashlight was the one the guard spotted.", "plen": 12}
+{"idx": 311, "id": "att-01-D2-f5", "cls": "att", "item": 1, "pole": 1, "frame": 5, "prompt": "The guard spotted that visitor, the one with the flashlight.", "plen": 12}
+{"idx": 312, "id": "att-02-D1-f0", "cls": "att", "item": 2, "pole": 0, "frame": 0, "prompt": "Using the camera, the photographer photographed the dancer.", "plen": 10}
+{"idx": 313, "id": "att-02-D1-f1", "cls": "att", "item": 2, "pole": 0, "frame": 1, "prompt": "The photographer photographed the dancer by means of the camera.", "plen": 11}
+{"idx": 314, "id": "att-02-D1-f2", "cls": "att", "item": 2, "pole": 0, "frame": 2, "prompt": "With the help of the camera, the photographer photographed the dancer.", "plen": 13}
+{"idx": 315, "id": "att-02-D1-f3", "cls": "att", "item": 2, "pole": 0, "frame": 3, "prompt": "The photographer used the camera to photograph the dancer.", "plen": 10}
+{"idx": 316, "id": "att-02-D1-f4", "cls": "att", "item": 2, "pole": 0, "frame": 4, "prompt": "It was with the camera that the photographer photographed the dancer.", "plen": 12}
+{"idx": 317, "id": "att-02-D1-f5", "cls": "att", "item": 2, "pole": 0, "frame": 5, "prompt": "The photographer, camera in hand, photographed the dancer.", "plen": 11}
+{"idx": 318, "id": "att-02-D2-f0", "cls": "att", "item": 2, "pole": 1, "frame": 0, "prompt": "The photographer photographed the dancer who had the camera.", "plen": 10}
+{"idx": 319, "id": "att-02-D2-f1", "cls": "att", "item": 2, "pole": 1, "frame": 1, "prompt": "The photographer photographed the dancer carrying the camera.", "plen": 9}
+{"idx": 320, "id": "att-02-D2-f2", "cls": "att", "item": 2, "pole": 1, "frame": 2, "prompt": "The dancer with the camera was photographed by the photographer.", "plen": 11}
+{"idx": 321, "id": "att-02-D2-f3", "cls": "att", "item": 2, "pole": 1, "frame": 3, "prompt": "The photographer photographed the dancer who was holding the camera.", "plen": 11}
+{"idx": 322, "id": "att-02-D2-f4", "cls": "att", "item": 2, "pole": 1, "frame": 4, "prompt": "The dancer holding the camera was the one the photographer photographed.", "plen": 12}
+{"idx": 323, "id": "att-02-D2-f5", "cls": "att", "item": 2, "pole": 1, "frame": 5, "prompt": "The photographer photographed that dancer, the one with the camera.", "plen": 12}
+{"idx": 324, "id": "att-03-D1-f0", "cls": "att", "item": 3, "pole": 0, "frame": 0, "prompt": "Using the telescope, the hunter tracked the poacher.", "plen": 11}
+{"idx": 325, "id": "att-03-D1-f1", "cls": "att", "item": 3, "pole": 0, "frame": 1, "prompt": "The hunter tracked the poacher by means of the telescope.", "plen": 12}
+{"idx": 326, "id": "att-03-D1-f2", "cls": "att", "item": 3, "pole": 0, "frame": 2, "prompt": "With the help of the telescope, the hunter tracked the poacher.", "plen": 14}
+{"idx": 327, "id": "att-03-D1-f3", "cls": "att", "item": 3, "pole": 0, "frame": 3, "prompt": "The hunter used the telescope to track the poacher.", "plen": 11}
+{"idx": 328, "id": "att-03-D1-f4", "cls": "att", "item": 3, "pole": 0, "frame": 4, "prompt": "It was with the telescope that the hunter tracked the poacher.", "plen": 13}
+{"idx": 329, "id": "att-03-D1-f5", "cls": "att", "item": 3, "pole": 0, "frame": 5, "prompt": "The hunter, telescope in hand, tracked the poacher.", "plen": 12}
+{"idx": 330, "id": "att-03-D2-f0", "cls": "att", "item": 3, "pole": 1, "frame": 0, "prompt": "The hunter tracked the poacher who had the telescope.", "plen": 11}
+{"idx": 331, "id": "att-03-D2-f1", "cls": "att", "item": 3, "pole": 1, "frame": 1, "prompt": "The hunter tracked the poacher carrying the telescope.", "plen": 10}
+{"idx": 332, "id": "att-03-D2-f2", "cls": "att", "item": 3, "pole": 1, "frame": 2, "prompt": "The poacher with the telescope was tracked by the hunter.", "plen": 12}
+{"idx": 333, "id": "att-03-D2-f3", "cls": "att", "item": 3, "pole": 1, "frame": 3, "prompt": "The hunter tracked the poacher who was holding the telescope.", "plen": 12}
+{"idx": 334, "id": "att-03-D2-f4", "cls": "att", "item": 3, "pole": 1, "frame": 4, "prompt": "The poacher holding the telescope was the one the hunter tracked.", "plen": 13}
+{"idx": 335, "id": "att-03-D2-f5", "cls": "att", "item": 3, "pole": 1, "frame": 5, "prompt": "The hunter tracked that poacher, the one with the telescope.", "plen": 13}
+{"idx": 336, "id": "att-04-D1-f0", "cls": "att", "item": 4, "pole": 0, "frame": 0, "prompt": "Using the ruler, the teacher tapped the student.", "plen": 10}
+{"idx": 337, "id": "att-04-D1-f1", "cls": "att", "item": 4, "pole": 0, "frame": 1, "prompt": "The teacher tapped the student by means of the ruler.", "plen": 11}
+{"idx": 338, "id": "att-04-D1-f2", "cls": "att", "item": 4, "pole": 0, "frame": 2, "prompt": "With the help of the ruler, the teacher tapped the student.", "plen": 13}
+{"idx": 339, "id": "att-04-D1-f3", "cls": "att", "item": 4, "pole": 0, "frame": 3, "prompt": "The teacher used the ruler to tap the student.", "plen": 10}
+{"idx": 340, "id": "att-04-D1-f4", "cls": "att", "item": 4, "pole": 0, "frame": 4, "prompt": "It was with the ruler that the teacher tapped the student.", "plen": 12}
+{"idx": 341, "id": "att-04-D1-f5", "cls": "att", "item": 4, "pole": 0, "frame": 5, "prompt": "The teacher, ruler in hand, tapped the student.", "plen": 11}
+{"idx": 342, "id": "att-04-D2-f0", "cls": "att", "item": 4, "pole": 1, "frame": 0, "prompt": "The teacher tapped the student who had the ruler.", "plen": 10}
+{"idx": 343, "id": "att-04-D2-f1", "cls": "att", "item": 4, "pole": 1, "frame": 1, "prompt": "The teacher tapped the student carrying the ruler.", "plen": 9}
+{"idx": 344, "id": "att-04-D2-f2", "cls": "att", "item": 4, "pole": 1, "frame": 2, "prompt": "The student with the ruler was tapped by the teacher.", "plen": 11}
+{"idx": 345, "id": "att-04-D2-f3", "cls": "att", "item": 4, "pole": 1, "frame": 3, "prompt": "The teacher tapped the student who was holding the ruler.", "plen": 11}
+{"idx": 346, "id": "att-04-D2-f4", "cls": "att", "item": 4, "pole": 1, "frame": 4, "prompt": "The student holding the ruler was the one the teacher tapped.", "plen": 12}
+{"idx": 347, "id": "att-04-D2-f5", "cls": "att", "item": 4, "pole": 1, "frame": 5, "prompt": "The teacher tapped that student, the one with the ruler.", "plen": 12}
+{"idx": 348, "id": "att-05-D1-f0", "cls": "att", "item": 5, "pole": 0, "frame": 0, "prompt": "Using the stethoscope, the doctor examined the patient.", "plen": 12}
+{"idx": 349, "id": "att-05-D1-f1", "cls": "att", "item": 5, "pole": 0, "frame": 1, "prompt": "The doctor examined the patient by means of the stethoscope.", "plen": 13}
+{"idx": 350, "id": "att-05-D1-f2", "cls": "att", "item": 5, "pole": 0, "frame": 2, "prompt": "With the help of the stethoscope, the doctor examined the patient.", "plen": 15}
+{"idx": 351, "id": "att-05-D1-f3", "cls": "att", "item": 5, "pole": 0, "frame": 3, "prompt": "The doctor used the stethoscope to examine the patient.", "plen": 12}
+{"idx": 352, "id": "att-05-D1-f4", "cls": "att", "item": 5, "pole": 0, "frame": 4, "prompt": "It was with the stethoscope that the doctor examined the patient.", "plen": 14}
+{"idx": 353, "id": "att-05-D1-f5", "cls": "att", "item": 5, "pole": 0, "frame": 5, "prompt": "The doctor, stethoscope in hand, examined the patient.", "plen": 13}
+{"idx": 354, "id": "att-05-D2-f0", "cls": "att", "item": 5, "pole": 1, "frame": 0, "prompt": "The doctor examined the patient who had the stethoscope.", "plen": 12}
+{"idx": 355, "id": "att-05-D2-f1", "cls": "att", "item": 5, "pole": 1, "frame": 1, "prompt": "The doctor examined the patient carrying the stethoscope.", "plen": 11}
+{"idx": 356, "id": "att-05-D2-f2", "cls": "att", "item": 5, "pole": 1, "frame": 2, "prompt": "The patient with the stethoscope was examined by the doctor.", "plen": 13}
+{"idx": 357, "id": "att-05-D2-f3", "cls": "att", "item": 5, "pole": 1, "frame": 3, "prompt": "The doctor examined the patient who was holding the stethoscope.", "plen": 13}
+{"idx": 358, "id": "att-05-D2-f4", "cls": "att", "item": 5, "pole": 1, "frame": 4, "prompt": "The patient holding the stethoscope was the one the doctor examined.", "plen": 14}
+{"idx": 359, "id": "att-05-D2-f5", "cls": "att", "item": 5, "pole": 1, "frame": 5, "prompt": "The doctor examined that patient, the one with the stethoscope.", "plen": 14}
+{"idx": 360, "id": "att-06-D1-f0", "cls": "att", "item": 6, "pole": 0, "frame": 0, "prompt": "Using the monocular, the spy observed the courier.", "plen": 11}
+{"idx": 361, "id": "att-06-D1-f1", "cls": "att", "item": 6, "pole": 0, "frame": 1, "prompt": "The spy observed the courier by means of the monocular.", "plen": 12}
+{"idx": 362, "id": "att-06-D1-f2", "cls": "att", "item": 6, "pole": 0, "frame": 2, "prompt": "With the help of the monocular, the spy observed the courier.", "plen": 14}
+{"idx": 363, "id": "att-06-D1-f3", "cls": "att", "item": 6, "pole": 0, "frame": 3, "prompt": "The spy used the monocular to observe the courier.", "plen": 11}
+{"idx": 364, "id": "att-06-D1-f4", "cls": "att", "item": 6, "pole": 0, "frame": 4, "prompt": "It was with the monocular that the spy observed the courier.", "plen": 13}
+{"idx": 365, "id": "att-06-D1-f5", "cls": "att", "item": 6, "pole": 0, "frame": 5, "prompt": "The spy, monocular in hand, observed the courier.", "plen": 12}
+{"idx": 366, "id": "att-06-D2-f0", "cls": "att", "item": 6, "pole": 1, "frame": 0, "prompt": "The spy observed the courier who had the monocular.", "plen": 11}
+{"idx": 367, "id": "att-06-D2-f1", "cls": "att", "item": 6, "pole": 1, "frame": 1, "prompt": "The spy observed the courier carrying the monocular.", "plen": 10}
+{"idx": 368, "id": "att-06-D2-f2", "cls": "att", "item": 6, "pole": 1, "frame": 2, "prompt": "The courier with the monocular was observed by the spy.", "plen": 12}
+{"idx": 369, "id": "att-06-D2-f3", "cls": "att", "item": 6, "pole": 1, "frame": 3, "prompt": "The spy observed the courier who was holding the monocular.", "plen": 12}
+{"idx": 370, "id": "att-06-D2-f4", "cls": "att", "item": 6, "pole": 1, "frame": 4, "prompt": "The courier holding the monocular was the one the spy observed.", "plen": 13}
+{"idx": 371, "id": "att-06-D2-f5", "cls": "att", "item": 6, "pole": 1, "frame": 5, "prompt": "The spy observed that courier, the one with the monocular.", "plen": 13}
+{"idx": 372, "id": "att-07-D1-f0", "cls": "att", "item": 7, "pole": 0, "frame": 0, "prompt": "Using the whistle, the ranger signaled the hiker.", "plen": 11}
+{"idx": 373, "id": "att-07-D1-f1", "cls": "att", "item": 7, "pole": 0, "frame": 1, "prompt": "The ranger signaled the hiker by means of the whistle.", "plen": 12}
+{"idx": 374, "id": "att-07-D1-f2", "cls": "att", "item": 7, "pole": 0, "frame": 2, "prompt": "With the help of the whistle, the ranger signaled the hiker.", "plen": 14}
+{"idx": 375, "id": "att-07-D1-f3", "cls": "att", "item": 7, "pole": 0, "frame": 3, "prompt": "The ranger used the whistle to signal the hiker.", "plen": 11}
+{"idx": 376, "id": "att-07-D1-f4", "cls": "att", "item": 7, "pole": 0, "frame": 4, "prompt": "It was with the whistle that the ranger signaled the hiker.", "plen": 13}
+{"idx": 377, "id": "att-07-D1-f5", "cls": "att", "item": 7, "pole": 0, "frame": 5, "prompt": "The ranger, whistle in hand, signaled the hiker.", "plen": 12}
+{"idx": 378, "id": "att-07-D2-f0", "cls": "att", "item": 7, "pole": 1, "frame": 0, "prompt": "The ranger signaled the hiker who had the whistle.", "plen": 11}
+{"idx": 379, "id": "att-07-D2-f1", "cls": "att", "item": 7, "pole": 1, "frame": 1, "prompt": "The ranger signaled the hiker carrying the whistle.", "plen": 10}
+{"idx": 380, "id": "att-07-D2-f2", "cls": "att", "item": 7, "pole": 1, "frame": 2, "prompt": "The hiker with the whistle was signaled by the ranger.", "plen": 12}
+{"idx": 381, "id": "att-07-D2-f3", "cls": "att", "item": 7, "pole": 1, "frame": 3, "prompt": "The ranger signaled the hiker who was holding the whistle.", "plen": 12}
+{"idx": 382, "id": "att-07-D2-f4", "cls": "att", "item": 7, "pole": 1, "frame": 4, "prompt": "The hiker holding the whistle was the one the ranger signaled.", "plen": 13}
+{"idx": 383, "id": "att-07-D2-f5", "cls": "att", "item": 7, "pole": 1, "frame": 5, "prompt": "The ranger signaled that hiker, the one with the whistle.", "plen": 13}
+{"idx": 384, "id": "att-08-D1-f0", "cls": "att", "item": 8, "pole": 0, "frame": 0, "prompt": "Using the megaphone, the coach called the player.", "plen": 12}
+{"idx": 385, "id": "att-08-D1-f1", "cls": "att", "item": 8, "pole": 0, "frame": 1, "prompt": "The coach called the player by means of the megaphone.", "plen": 13}
+{"idx": 386, "id": "att-08-D1-f2", "cls": "att", "item": 8, "pole": 0, "frame": 2, "prompt": "With the help of the megaphone, the coach called the player.", "plen": 15}
+{"idx": 387, "id": "att-08-D1-f3", "cls": "att", "item": 8, "pole": 0, "frame": 3, "prompt": "The coach used the megaphone to call the player.", "plen": 12}
+{"idx": 388, "id": "att-08-D1-f4", "cls": "att", "item": 8, "pole": 0, "frame": 4, "prompt": "It was with the megaphone that the coach called the player.", "plen": 14}
+{"idx": 389, "id": "att-08-D1-f5", "cls": "att", "item": 8, "pole": 0, "frame": 5, "prompt": "The coach, megaphone in hand, called the player.", "plen": 13}
+{"idx": 390, "id": "att-08-D2-f0", "cls": "att", "item": 8, "pole": 1, "frame": 0, "prompt": "The coach called the player who had the megaphone.", "plen": 12}
+{"idx": 391, "id": "att-08-D2-f1", "cls": "att", "item": 8, "pole": 1, "frame": 1, "prompt": "The coach called the player carrying the megaphone.", "plen": 11}
+{"idx": 392, "id": "att-08-D2-f2", "cls": "att", "item": 8, "pole": 1, "frame": 2, "prompt": "The player with the megaphone was called by the coach.", "plen": 13}
+{"idx": 393, "id": "att-08-D2-f3", "cls": "att", "item": 8, "pole": 1, "frame": 3, "prompt": "The coach called the player who was holding the megaphone.", "plen": 13}
+{"idx": 394, "id": "att-08-D2-f4", "cls": "att", "item": 8, "pole": 1, "frame": 4, "prompt": "The player holding the megaphone was the one the coach called.", "plen": 14}
+{"idx": 395, "id": "att-08-D2-f5", "cls": "att", "item": 8, "pole": 1, "frame": 5, "prompt": "The coach called that player, the one with the megaphone.", "plen": 14}
+{"idx": 396, "id": "att-09-D1-f0", "cls": "att", "item": 9, "pole": 0, "frame": 0, "prompt": "Using the thermometer, the nurse checked the toddler.", "plen": 10}
+{"idx": 397, "id": "att-09-D1-f1", "cls": "att", "item": 9, "pole": 0, "frame": 1, "prompt": "The nurse checked the toddler by means of the thermometer.", "plen": 11}
+{"idx": 398, "id": "att-09-D1-f2", "cls": "att", "item": 9, "pole": 0, "frame": 2, "prompt": "With the help of the thermometer, the nurse checked the toddler.", "plen": 13}
+{"idx": 399, "id": "att-09-D1-f3", "cls": "att", "item": 9, "pole": 0, "frame": 3, "prompt": "The nurse used the thermometer to check the toddler.", "plen": 10}
+{"idx": 400, "id": "att-09-D1-f4", "cls": "att", "item": 9, "pole": 0, "frame": 4, "prompt": "It was with the thermometer that the nurse checked the toddler.", "plen": 12}
+{"idx": 401, "id": "att-09-D1-f5", "cls": "att", "item": 9, "pole": 0, "frame": 5, "prompt": "The nurse, thermometer in hand, checked the toddler.", "plen": 11}
+{"idx": 402, "id": "att-09-D2-f0", "cls": "att", "item": 9, "pole": 1, "frame": 0, "prompt": "The nurse checked the toddler who had the thermometer.", "plen": 10}
+{"idx": 403, "id": "att-09-D2-f1", "cls": "att", "item": 9, "pole": 1, "frame": 1, "prompt": "The nurse checked the toddler carrying the thermometer.", "plen": 9}
+{"idx": 404, "id": "att-09-D2-f2", "cls": "att", "item": 9, "pole": 1, "frame": 2, "prompt": "The toddler with the thermometer was checked by the nurse.", "plen": 11}
+{"idx": 405, "id": "att-09-D2-f3", "cls": "att", "item": 9, "pole": 1, "frame": 3, "prompt": "The nurse checked the toddler who was holding the thermometer.", "plen": 11}
+{"idx": 406, "id": "att-09-D2-f4", "cls": "att", "item": 9, "pole": 1, "frame": 4, "prompt": "The toddler holding the thermometer was the one the nurse checked.", "plen": 12}
+{"idx": 407, "id": "att-09-D2-f5", "cls": "att", "item": 9, "pole": 1, "frame": 5, "prompt": "The nurse checked that toddler, the one with the thermometer.", "plen": 12}
+{"idx": 408, "id": "att-10-D1-f0", "cls": "att", "item": 10, "pole": 0, "frame": 0, "prompt": "Using the scanner, the clerk scanned the shopper.", "plen": 10}
+{"idx": 409, "id": "att-10-D1-f1", "cls": "att", "item": 10, "pole": 0, "frame": 1, "prompt": "The clerk scanned the shopper by means of the scanner.", "plen": 11}
+{"idx": 410, "id": "att-10-D1-f2", "cls": "att", "item": 10, "pole": 0, "frame": 2, "prompt": "With the help of the scanner, the clerk scanned the shopper.", "plen": 13}
+{"idx": 411, "id": "att-10-D1-f3", "cls": "att", "item": 10, "pole": 0, "frame": 3, "prompt": "The clerk used the scanner to scan the shopper.", "plen": 10}
+{"idx": 412, "id": "att-10-D1-f4", "cls": "att", "item": 10, "pole": 0, "frame": 4, "prompt": "It was with the scanner that the clerk scanned the shopper.", "plen": 12}
+{"idx": 413, "id": "att-10-D1-f5", "cls": "att", "item": 10, "pole": 0, "frame": 5, "prompt": "The clerk, scanner in hand, scanned the shopper.", "plen": 11}
+{"idx": 414, "id": "att-10-D2-f0", "cls": "att", "item": 10, "pole": 1, "frame": 0, "prompt": "The clerk scanned the shopper who had the scanner.", "plen": 10}
+{"idx": 415, "id": "att-10-D2-f1", "cls": "att", "item": 10, "pole": 1, "frame": 1, "prompt": "The clerk scanned the shopper carrying the scanner.", "plen": 9}
+{"idx": 416, "id": "att-10-D2-f2", "cls": "att", "item": 10, "pole": 1, "frame": 2, "prompt": "The shopper with the scanner was scanned by the clerk.", "plen": 11}
+{"idx": 417, "id": "att-10-D2-f3", "cls": "att", "item": 10, "pole": 1, "frame": 3, "prompt": "The clerk scanned the shopper who was holding the scanner.", "plen": 11}
+{"idx": 418, "id": "att-10-D2-f4", "cls": "att", "item": 10, "pole": 1, "frame": 4, "prompt": "The shopper holding the scanner was the one the clerk scanned.", "plen": 12}
+{"idx": 419, "id": "att-10-D2-f5", "cls": "att", "item": 10, "pole": 1, "frame": 5, "prompt": "The clerk scanned that shopper, the one with the scanner.", "plen": 12}
+{"idx": 420, "id": "att-11-D1-f0", "cls": "att", "item": 11, "pole": 0, "frame": 0, "prompt": "Using the spyglass, the fisherman sighted the swimmer.", "plen": 14}
+{"idx": 421, "id": "att-11-D1-f1", "cls": "att", "item": 11, "pole": 0, "frame": 1, "prompt": "The fisherman sighted the swimmer by means of the spyglass.", "plen": 15}
+{"idx": 422, "id": "att-11-D1-f2", "cls": "att", "item": 11, "pole": 0, "frame": 2, "prompt": "With the help of the spyglass, the fisherman sighted the swimmer.", "plen": 17}
+{"idx": 423, "id": "att-11-D1-f3", "cls": "att", "item": 11, "pole": 0, "frame": 3, "prompt": "The fisherman used the spyglass to sight the swimmer.", "plen": 13}
+{"idx": 424, "id": "att-11-D1-f4", "cls": "att", "item": 11, "pole": 0, "frame": 4, "prompt": "It was with the spyglass that the fisherman sighted the swimmer.", "plen": 16}
+{"idx": 425, "id": "att-11-D1-f5", "cls": "att", "item": 11, "pole": 0, "frame": 5, "prompt": "The fisherman, spyglass in hand, sighted the swimmer.", "plen": 15}
+{"idx": 426, "id": "att-11-D2-f0", "cls": "att", "item": 11, "pole": 1, "frame": 0, "prompt": "The fisherman sighted the swimmer who had the spyglass.", "plen": 14}
+{"idx": 427, "id": "att-11-D2-f1", "cls": "att", "item": 11, "pole": 1, "frame": 1, "prompt": "The fisherman sighted the swimmer carrying the spyglass.", "plen": 13}
+{"idx": 428, "id": "att-11-D2-f2", "cls": "att", "item": 11, "pole": 1, "frame": 2, "prompt": "The swimmer with the spyglass was sighted by the fisherman.", "plen": 15}
+{"idx": 429, "id": "att-11-D2-f3", "cls": "att", "item": 11, "pole": 1, "frame": 3, "prompt": "The fisherman sighted the swimmer who was holding the spyglass.", "plen": 15}
+{"idx": 430, "id": "att-11-D2-f4", "cls": "att", "item": 11, "pole": 1, "frame": 4, "prompt": "The swimmer holding the spyglass was the one the fisherman sighted.", "plen": 16}
+{"idx": 431, "id": "att-11-D2-f5", "cls": "att", "item": 11, "pole": 1, "frame": 5, "prompt": "The fisherman sighted that swimmer, the one with the spyglass.", "plen": 16}
