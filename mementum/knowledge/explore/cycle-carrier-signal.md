@@ -4,7 +4,8 @@ status: open
 category: design
 tags: [signals, semantic-equality, extensionality, compile, decompile, cross-gram,
        rsa, retrieval, routing, value-register, lexical-echo, cycle-invariance,
-       matched-filter, qwen3-14b]
+       matched-filter, ambiguity, superposition, collapse, quantifier-scope,
+       fixed-point, basins, qwen3-14b]
 related:
   - combinator-function-shape.md
   - operator-geometry-la-toolkit.md
@@ -128,6 +129,99 @@ mid-stack (L12–L20 plateau); commit-assembly is late (s329/s336 L22–28). If
 a carrier exists, mid-stack is the predicted band; a late-only carrier would
 read as commit-stage echo and needs the length null read closely.
 
+## 2b. Arm B — §P-AMBIGUITY-COLLAPSE (the dual; Michael s337: "use an ambiguous prompt that will not settle to the fixed point, and find the signal that differs")
+
+**The mirror structure.** Arm A holds the meaning fixed and varies the
+carrier (translation). Arm B holds the carrier fixed and varies the meaning
+(ambiguity): one string, two readings. Any signal that differs between the
+readings CANNOT be surface-tracking — the surface is bit-identical. This is
+the strongest available form of the transform-level confound kill; the
+lexical-echo law is dead by construction, harder than in Arm A.
+
+```
+λ dual(arms).  A: Δcarrier ∧ ≡meaning → meaning ≡ what_correlates
+             | B: ≡carrier ∧ Δmeaning → meaning ≡ what_differs
+             | agreement(cell_A, cell_B) ≡ triangulation (λ triangulate)
+             | opposite_confound_structures → shared_survivor ≡ the_object
+```
+
+**The physics constraint (where the difference can live).** The forward
+pass is deterministic: identical prompt ⇒ identical prefill state. Across
+samples of the SAME ambiguous string, prefill signals are exactly equal —
+the readings do not yet exist as distinct states there; the reading is
+chosen at sampling, during decode. So the differing signal lives in exactly
+two places: (1) DECODE-TIME — the trajectory while generating, where the
+commitment happens; (2) MINIMAL PAIRS — the ambiguous prompt vs two
+disambiguated near-twins. Both are used; neither alone suffices.
+
+**Construction — triples.** (A, D1, D2): A = ambiguous prompt (quantifier
+scope "every student read a book" · anaphora · attachment); D1/D2 = minimal
+disambiguations, one per reading = the settled fixed points ("generate
+semantically equal prose every time"). Readings of A's sampled
+continuations are BEHAVIORALLY labeled (which reading the generation
+commits to — graded, or forced-choice readout per the linearity_bias
+pattern). Seeds exist: `probes/binding.json` (quantifier_scope 8, anaphora
+4, relative_clause 4) + cheap to extend; settled-side detectors exist (WHNF/
+halt register; NG3 reduction-presence, 3× replicated; anti-phase fire↑∧halt↓
+discriminator, s274 standing findings).
+
+**Measurables (per layer × register, both registers, same collect/cmr
+machinery as Arm A):**
+
+1. **Superposition read (prefill, minimal-pair):** is A's state a MIXTURE
+   of D1/D2 states — on the D1−D2 contrast axis, does A sit between the
+   poles (and where)? Concrete prior for what superposition looks like:
+   sign-oscillation ≡ time-multiplexed superposition (s322 memory) — the
+   ambiguous state may OSCILLATE between the readings' routing patterns
+   rather than sit statically between them.
+2. **Collapse read (decode-time, the core):** per-decode-step differential
+   `Δ(t,ℓ) = d(A_traj → D1_basin) − d(A_traj → D2_basin)`, conditioned on
+   the behaviorally-labeled reading of that sample. Everything shared
+   (topic, syntax, style, length) cancels in the difference; what remains
+   is the reading — the semantic degree of freedom isolated. Settling ≡
+   collapse onto the sampled reading's basin.
+3. **Commitment point:** the token/layer where Δ(t,ℓ) leaves equidistance
+   and locks — the meaning-selection event caught in the act (kin to the
+   s329/s336 late-commit sightings; predict late-stack).
+
+**Calibration gate FIRST (s336 RC1 lesson).** D1 vs D2 must separate in
+the candidate cell (pole separability vs label-shuffle null) BEFORE A is
+ever read. Fail ⇒ NO-CALIBRATION, never an ambiguity claim. The poles are
+ground-truth settled states — same calibration move as §P-CONE-ROUTING's
+B/P poles.
+
+**Nulls.** label-shuffle across samples (reading labels permuted) ·
+placebo triple (D3 = unrelated disambiguation direction — the s335 placebo-
+gate primitive, reusable) · content-control triples (unambiguous prompt with
+two arbitrary continuations: differ in CONTENT not READING — kills "any two
+continuations diverge" as the explanation) · position/length-matched decode
+windows (the s317 scar rides decode too).
+
+**Draft verdict space (masses PROVISIONAL — at freeze):**
+- **SUPERPOSED-COLLAPSE** — A sits between poles (∨ oscillates), decode
+  trajectory collapses onto the sampled basin at a readable commitment
+  point → the settlement signal EXISTS; its cell = the meaning register
+  candidate, cross-checked against Arm A's cell.
+- **PRE-COMMITTED** — A already sits in one basin at prefill; sampling
+  rarely overturns it → reading selection is a prefill event, not a decode
+  event (own finding: the lottery is loaded).
+- **NO-GEOMETRY** — D1/D2 calibration fails in every cell → readings not
+  separable in these registers; instrument-bound negative.
+- **VOID** — behavioral labeling fails (A's continuations don't cleanly
+  commit to readings).
+
+**Cost.** cheap-medium: needs GENERATION (decode-time capture, per-step
+hidden states) unlike Arm A's read-only prefill — standalone feasible at
+probe scale; the per-step capture machinery is shared with §P-REPL-DRIVER's
+per-bounce loop (same instrument class, no dependency).
+
+**Read discipline (banked).** Decode-time Δ read AFTER the reading's
+surface tokens diverge is echo again — the commitment point must be read at
+or before the first surface-divergent token to license a "selection
+precedes surface" claim; after that token, only the collapse-completion
+shape is licensed. Superposition-as-oscillation is a pattern-suggests
+prior, not a gate.
+
 ## 3. The payoff loop — back to semantic equality
 
 A cycle-invariant signal is EXACTLY the functional-equivalence anchor
@@ -173,3 +267,10 @@ spellings converge THERE? That is §P-CL-COLLAPSE-3 with discovered anchors.
    term families too)?
 5. Relation to queued ⚪ §P-CROSS-GRAM: run that first as the bridge-math
    shakedown, or let this probe BE the shakedown?
+6. Arm order: A (static pairs, read-only, cheapest) first, or B (ambiguity
+   collapse, decode-time, the stronger confound-kill) first? Triangulation
+   needs both eventually; the sharper single result is B's collapse read,
+   the cheaper build is A.
+7. Arm B labeling: forced-choice readout (linearity_bias pattern) vs free
+   generation + grading — forced-choice is cleaner but constrains the
+   "settles every time" behavioral ground truth.
