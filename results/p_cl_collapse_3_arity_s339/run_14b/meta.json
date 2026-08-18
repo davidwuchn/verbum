@@ -1,0 +1,100 @@
+{
+  "probe": "P-CL-COLLAPSE-3-arity",
+  "frozen": "s339 pre-data freeze (Michael GO): arity-matched length control for the P-CL-COLLAPSE-3-operator positional whisper",
+  "pre_data_instantiations": {
+    "P_PCA": 128,
+    "PRIMARY_RANK": 40,
+    "LATE_LAYERS": 3,
+    "N_PER": 30,
+    "N_NULL": 5000,
+    "ALPHA": 0.05,
+    "FLOOR_POS": 0.02,
+    "FLOOR_D_DECAY": 0.01,
+    "SEED": 0,
+    "families": {
+      "1:identity": 5,
+      "1:double": 5,
+      "1:triple": 5,
+      "2:apply": 5,
+      "2:dup": 5,
+      "2:second": 5
+    },
+    "apriori_masses": {
+      "LENGTH-ARTIFACT": 50,
+      "OPERATOR-SHADOW": 30,
+      "CONVERGENCE": 5,
+      "VOID": 15
+    }
+  },
+  "timestamp_utc": "2026-08-18T20:15:04.932687+00:00",
+  "model_id": "Qwen/Qwen3-14B",
+  "device": "mps",
+  "dtype": "bfloat16",
+  "smoke": false,
+  "n_probes": 720,
+  "corpus_hash": "b8eb538ad336e858",
+  "git_sha": "8a214913fd20299ed2aba1abd3ca0e4589864dd0",
+  "det_value_dev": 0.0,
+  "det_ok": true,
+  "global_verdict": "OPERATOR-SHADOW",
+  "gates": {
+    "n_probes": 720,
+    "L": 40,
+    "d": 5120,
+    "P": 128,
+    "var_explained": 0.9215751886367798,
+    "g0": {
+      "op_exists": true,
+      "family_ok": true,
+      "det_ok": true,
+      "pass": true,
+      "strata_ok": 2,
+      "op_exists_gap": 0.6190832110189244
+    },
+    "spectrum": {
+      "mean_abs_lam": 0.8338460922241211,
+      "departure_from_normality": 0.7516945667440538,
+      "eigvec_cond": 124.49547576904297
+    },
+    "am1_positional": {
+      "within": 0.6153523325920105,
+      "across": 0.8622363209724426,
+      "obs": 0.24688398838043213,
+      "floor": 0.02,
+      "null_mean": 0.0005449513673782348,
+      "null_std": 0.034853046194893864,
+      "p_value": 0.0001999600079984003,
+      "pass": true
+    },
+    "am2_decay": {
+      "within": 0.8359032531579336,
+      "across": 0.8270498363176981,
+      "obs": -0.00885341684023544,
+      "floor": 0.01,
+      "null_mean": -1.4178793946902202e-05,
+      "null_std": 0.0023447145084948395,
+      "p_value": 0.9992001599680064,
+      "pass": false
+    },
+    "mechanism_length_cov": {
+      "pearson_r": 0.16555351840078403,
+      "n_pairs": 210
+    },
+    "per_arity": {
+      "1": {
+        "n_groups": 15,
+        "within_pos": 0.5549771785736084,
+        "across_pos": 0.7903296947479248,
+        "D_pos": 0.2353525161743164
+      },
+      "2": {
+        "n_groups": 15,
+        "within_pos": 0.6757273077964783,
+        "across_pos": 0.9341427683830261,
+        "D_pos": 0.25841546058654785
+      }
+    },
+    "n_groups": 30,
+    "verdict": "OPERATOR-SHADOW"
+  }
+}

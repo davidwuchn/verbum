@@ -1,0 +1,103 @@
+{
+  "probe": "P-CL-COLLAPSE-3-alpha",
+  "frozen": "s339 pre-data freeze (Michael GO): alphabet({S,K})+length-matched control for the P-CL-COLLAPSE-3-arity OPERATOR-SHADOW",
+  "pre_data_instantiations": {
+    "P_PCA": 128,
+    "PRIMARY_RANK": 40,
+    "LATE_LAYERS": 3,
+    "N_PER": 30,
+    "N_NULL": 5000,
+    "ALPHA": 0.05,
+    "FLOOR_POS": 0.02,
+    "FLOOR_D_DECAY": 0.01,
+    "SEED": 0,
+    "families": {
+      "1:identity": 5,
+      "1:Kx": 5,
+      "1:Sx": 5,
+      "2:first": 5,
+      "2:apply": 5,
+      "2:second": 5
+    },
+    "apriori_masses": {
+      "LEXICAL-EXPLAINED": 55,
+      "EXTENSIONAL-SHADOW": 30,
+      "CONVERGENCE": 5,
+      "VOID": 10
+    }
+  },
+  "timestamp_utc": "2026-08-18T21:06:41.952135+00:00",
+  "model_id": "Qwen/Qwen3-14B",
+  "device": "mps",
+  "dtype": "bfloat16",
+  "smoke": false,
+  "n_probes": 720,
+  "corpus_hash": "5f00a52da8c9c3d6",
+  "git_sha": "8a214913fd20299ed2aba1abd3ca0e4589864dd0",
+  "det_value_dev": 0.0,
+  "det_ok": true,
+  "global_verdict": "LEXICAL-EXPLAINED",
+  "gates": {
+    "n_probes": 720,
+    "L": 40,
+    "P": 128,
+    "var_explained": 0.9439228773117065,
+    "g0": {
+      "op_exists": true,
+      "family_ok": true,
+      "det_ok": true,
+      "pass": true,
+      "strata_ok": 2
+    },
+    "spectrum": {
+      "mean_abs_lam": 0.8201982975006104,
+      "departure_from_normality": 0.7728586201662067
+    },
+    "am1_positional_raw": {
+      "within": 0.6753541231155396,
+      "across": 0.6654202342033386,
+      "obs": -0.009933888912200928,
+      "floor": 0.02,
+      "null_mean": -0.00047307205200195314,
+      "null_std": 0.029265317952150566,
+      "p_value": 0.590881823635273,
+      "pass": false
+    },
+    "am1_positional_length_partialled": {
+      "within": 0.012931267730891705,
+      "across": -0.005172500386834145,
+      "obs": -0.01810376811772585,
+      "floor": 0.02,
+      "null_mean": -0.000537554411339147,
+      "null_std": 0.027712363966181118,
+      "p_value": 0.7128574285142971,
+      "pass": false
+    },
+    "am2_decay": {
+      "within": 0.8163620809714,
+      "across": 0.8158984065055848,
+      "obs": -0.00046367446581518923,
+      "floor": 0.01,
+      "null_mean": 6.311566388607019e-05,
+      "null_std": 0.0031043166802836282,
+      "p_value": 0.5788842231553689,
+      "pass": false
+    },
+    "mechanism_length_cov": {
+      "pearson_r": 0.5030664981195969,
+      "n_pairs": 210
+    },
+    "alphabet_balance": {
+      "1": {
+        "within_jaccard": 1.0,
+        "across_jaccard": 1.0
+      },
+      "2": {
+        "within_jaccard": 1.0,
+        "across_jaccard": 1.0
+      }
+    },
+    "n_groups": 30,
+    "verdict": "LEXICAL-EXPLAINED"
+  }
+}

@@ -1,0 +1,282 @@
+{
+  "probe": "P-CL-COLLAPSE-3-operator",
+  "frozen": "s339 pre-data freeze (Michael GO) + s339 build-time amendment (Michael-approved): operator-geometry-la-toolkit.md sec 5b; make-or-break = decay-rate of pairwise differences",
+  "pre_data_instantiations": {
+    "P_PCA": 128,
+    "PRIMARY_RANK": 40,
+    "LATE_LAYERS": 3,
+    "N_PER": 40,
+    "N_NULL": 5000,
+    "ALPHA": 0.05,
+    "FREQ_BANDS": 6,
+    "NONNORMAL_DEP_MIN": 0.1,
+    "SEED": 0,
+    "families": {
+      "I": {
+        "arity": 1,
+        "n_clean_spellings": 8
+      },
+      "W": {
+        "arity": 2,
+        "n_clean_spellings": 2
+      },
+      "B": {
+        "arity": 3,
+        "n_clean_spellings": 1
+      }
+    },
+    "apriori_masses": {
+      "NO-ORBITAL-CONVERGENCE": 50,
+      "CONVERGENCE": 35,
+      "VOID": 15
+    }
+  },
+  "timestamp_utc": "2026-08-18T19:53:26.516860+00:00",
+  "model_id": "Qwen/Qwen3-14B",
+  "device": "mps",
+  "dtype": "bfloat16",
+  "smoke": false,
+  "n_probes": 264,
+  "corpus_hash": "ee002a3975622c12",
+  "git_sha": "8a214913fd20299ed2aba1abd3ca0e4589864dd0",
+  "det_value_dev": 0.0,
+  "det_ok": true,
+  "global_verdict": "NO-ORBITAL-CONVERGENCE",
+  "gates": {
+    "n_probes": 264,
+    "L": 40,
+    "d": 5120,
+    "P": 128,
+    "var_explained": 0.9480686187744141,
+    "g0": {
+      "op_exists": true,
+      "family_ok": true,
+      "det_ok": true,
+      "pass": true,
+      "op_exists_gap": 0.6220629474086795,
+      "op_exists_p": 0.0,
+      "fams_ge2": [
+        "I",
+        "W"
+      ]
+    },
+    "rel_resid": 0.32555922865867615,
+    "spectrum": {
+      "n_real_modes": 70,
+      "mean_abs_lam": 0.8263611197471619,
+      "top_abs_lam": [
+        0.9620354175567627,
+        0.9620354175567627,
+        0.9620354175567627,
+        0.9620354175567627,
+        0.9197349548339844
+      ],
+      "departure_from_normality": 0.7797007484307923,
+      "eigvec_cond": 385.13385009765625
+    },
+    "g2_decay": {
+      "within": 0.8202240282091601,
+      "across": 0.8251625620401822,
+      "obs": 0.004938533831022163,
+      "null_mean": -6.366816653180869e-05,
+      "null_std": 0.003992596188457695,
+      "p_value": 0.13877224555088982,
+      "floor": 0.01,
+      "pass": false
+    },
+    "adv_raw_point": {
+      "within": 0.9465304613113403,
+      "across": 1.1938351392745972,
+      "obs": 0.24730467796325684,
+      "null_mean": -0.002385869348049164,
+      "null_std": 0.11347007330623293,
+      "p_value": 0.04979004199160168,
+      "floor": 0.0,
+      "pass": true
+    },
+    "adv_nonnormal_modal": {
+      "departure": 0.7797007484307923,
+      "eigvec_cond": 385.13385009765625,
+      "non_normal": true,
+      "skipped": false,
+      "modal_slow": {
+        "within": 0.9589658895442565,
+        "across": 1.1790413053680857,
+        "obs": 0.22007541582382917,
+        "null_mean": -0.00040739793556701366,
+        "null_std": 0.10013471552162284,
+        "p_value": 0.033483258370814596,
+        "floor": 0.0,
+        "pass": true
+      }
+    },
+    "adv_freq_sweep": {
+      "edges": [
+        0.0,
+        0.5235987755982988,
+        1.0471975511965976,
+        1.5707963267948966,
+        2.0943951023931953,
+        2.617993877991494,
+        3.141592653589793
+      ],
+      "bands": [
+        {
+          "band": [
+            0.0,
+            0.5235987755982988
+          ],
+          "n_modes": 66,
+          "within_frac": 0.9730716758760912,
+          "across_frac": 0.9846072838856623,
+          "D": -0.011535608009571097,
+          "p_value": 0.9090454772613693
+        },
+        {
+          "band": [
+            0.5235987755982988,
+            1.0471975511965976
+          ],
+          "n_modes": 4,
+          "within_frac": 0.026928328190416354,
+          "across_frac": 0.015392717166553037,
+          "D": 0.011535611023863317,
+          "p_value": 0.08195902048975512
+        },
+        {
+          "band": [
+            1.0471975511965976,
+            1.5707963267948966
+          ],
+          "n_modes": 0,
+          "within_frac": 0.0,
+          "across_frac": 0.0,
+          "D": 0.0,
+          "p_value": 1.0
+        },
+        {
+          "band": [
+            1.5707963267948966,
+            2.0943951023931953
+          ],
+          "n_modes": 0,
+          "within_frac": 0.0,
+          "across_frac": 0.0,
+          "D": 0.0,
+          "p_value": 1.0
+        },
+        {
+          "band": [
+            2.0943951023931953,
+            2.617993877991494
+          ],
+          "n_modes": 0,
+          "within_frac": 0.0,
+          "across_frac": 0.0,
+          "D": 0.0,
+          "p_value": 1.0
+        },
+        {
+          "band": [
+            2.617993877991494,
+            3.141592653589793
+          ],
+          "n_modes": 0,
+          "within_frac": 0.0,
+          "across_frac": 0.0,
+          "D": 0.0,
+          "p_value": 1.0
+        }
+      ]
+    },
+    "adv_slope": {
+      "within_decayrate_by_depth": [
+        0.8672868013381958,
+        0.7523658049517664,
+        0.7742825253256436,
+        0.7856805530087702,
+        0.7721809436535013,
+        0.777198339330739,
+        0.7759758357344002,
+        0.7961210649589012,
+        0.7798301721441334,
+        0.8002828750117071,
+        0.8265579815568596,
+        0.8274105293997402,
+        0.8362735756512346,
+        0.8219891252188847,
+        0.8139150656502823,
+        0.82800116004615,
+        0.8220001705761614,
+        0.8312927936685497,
+        0.8376715327131337,
+        0.834463840928571,
+        0.8367665183955225,
+        0.8393943145357329,
+        0.8289097938044317,
+        0.8376301876429854,
+        0.8291760765272995,
+        0.8286807783718767,
+        0.8307739167377867,
+        0.8298716997278148,
+        0.8405579040790426,
+        0.8404828988272568,
+        0.8398024460365032,
+        0.8403035998344421,
+        0.8374723586542853,
+        0.8338152026307994,
+        0.830739794106319,
+        0.824326714565014,
+        0.8234307992047277,
+        0.8203327984645449,
+        0.8206971452153963,
+        0.8182628134201313,
+        0.8318954377338804
+      ],
+      "late_half_slope": -0.0006189293301911527
+    },
+    "per_family": {
+      "I": {
+        "n_spellings": 8,
+        "within_decayrate": 0.8201753475836345
+      },
+      "W": {
+        "n_spellings": 2,
+        "within_decayrate": 0.821587085723877
+      },
+      "B": {
+        "n_spellings": 1,
+        "within_decayrate": null
+      }
+    },
+    "pointwise_characterization": "also-pointwise",
+    "n_groups": 11,
+    "groups": [
+      "B:0",
+      "I:0",
+      "I:1",
+      "I:2",
+      "I:3",
+      "I:4",
+      "I:5",
+      "I:6",
+      "I:7",
+      "W:0",
+      "W:1"
+    ],
+    "group_nf": [
+      "B",
+      "I",
+      "I",
+      "I",
+      "I",
+      "I",
+      "I",
+      "I",
+      "I",
+      "W",
+      "W"
+    ],
+    "verdict": "NO-ORBITAL-CONVERGENCE"
+  }
+}
