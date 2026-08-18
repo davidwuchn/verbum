@@ -14,6 +14,38 @@
 > Architecture/canonical-forms: `AGENTS.md`. Knowledge map:
 > `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 337 — SEMANTIC EQUALITY × GEOMETRY → THE SIGNALS REFRAME → §P-AMBIGUITY-GATE
+> FROZEN+BUILT+RUN → CONFOUNDED-STYLE WITH A THIN-GENERIC MEANING AXIS. Michael: "explore semantic
+> equality and geometry" → "think in terms of signals — a signal that correlates closely across
+> compile/decompile cycles?" → NEW FRONT §P-CYCLE-CARRIER (`explore/cycle-carrier-signal.md`, two
+> dual arms): ① PAIRS (Δcarrier ∧ ≡meaning → meaning ≡ what CORRELATES; NL↔λ, cross-domain RSA +
+> retrieval gate) · ② AMBIGUITY-COLLAPSE (Michael: "use an ambiguous prompt that will not settle to
+> the fixed point, find the signal that differs" — ≡carrier ∧ Δmeaning, one bit-identical string ⇒
+> lexical echo impossible BY CONSTRUCTION; physics: identical prompt ⇒ identical prefill ⇒ the
+> difference lives at DECODE TIME + minimal-pair superposition read). Arms agree on cell ⇒
+> triangulated meaning register. **Arm B gate-first (Michael): 🎯 §P-AMBIGUITY-GATE frozen (D1/D2
+> paraphrase-pool separability — each pole a 6-frame paraphrase pool ≡ the fixed-point
+> operationalization; 3 classes × 12 items × 2 poles × 6 frames = 432; AG0–AG3; max-over-cells
+> null; floor 0.05; masses G25/L30/N25/C15/V5) → built `ambiguity_gate.py` (4 planted worlds ALL
+> recovered; 3 pre-data instrument amendments: self-excluded silhouette · anaphora-canary
+> CONFOUNDED rule · relative+floored canary gap) → 4B smoke clean (n-starved, not read) → 14B run
+> 433/433, det 0.0/0.0 (`results/p_ambiguity_gate_s337/run_14b`, e0587ba1) → VERDICT
+> CONFOUNDED-STYLE (mass 15): AG1 0.174 (null q95 0.012) best cell value:L20, mid-stack bell BOTH
+> registers (route L12–16 / value L12–23 ≡ the s217 identity band at sentence grain); canary FIRED
+> — ana 0.029 sub-floor vs scope 0.173 / att 0.229 ⇒ separation CUE-DOMINATED (lexical-echo law,
+> 4th sighting, sentence-meaning grain). THE NUANCE: AG2 LOIO 1.000 ALL classes incl anaphora —
+> the which-referent axis is thin per-item but PERFECTLY generic ≡ real-but-weak semantic axis
+> signature (sub-floor silhouette ∧ perfect transfer = the right detector for weak meaning).**
+> ATTENTION ARM FOLDED IN post-gate (Michael): collapse stage = THREE registers — value pole-axis
+> (L12–23) + routing sign-proximity (oscillation, s322 prior) + attention within-prompt
+> DIFFERENCED read-mass pronoun→name (value-weighted only s206 · offset-immune by construction
+> s336 · D1/D2-calibrated RC1-style · reuses cone_routing GQA mass path · serves
+> §P-ROUTING-CAUSAL arm ② free). Design banked: class-level axes only · ana-scale SNR (~0.03) ·
+> cue confound dies at A by construction. Batch (Michael-approved): §Result + memory
+> (`thin-generic-referent-axis-transfers`) + INDEX + queue + this state.
+> NEXT SESSION FIRST ACTION = collapse-stage design + freeze (open decision: anaphora-only vs
+> all three classes; decode-time capture build; §P-REPL-DRIVER-class instrumentation).**
+>
 > ★★ **SESSION 336 — §P-CONE-ROUTING RUN → 🚫 UNDIFFERENTIATED, AND THE OFFSET RETURNS IN A NEW
 > REGISTER. First action per the s335 pointer: build + run the frozen probe. Harness
 > `scripts/experiments/cone_routing.py` (GQA-aware per-kv-head value-weighted read-mass, matched
@@ -47,51 +79,12 @@
 > ⚪ §P-ROUTING-CAUSAL (cheap-medium) · ⚪ §P-TOOL-ABI (medium) · ⚪ §P-DMD-TRANSPORT (cheap) ·
 > ⚪ §P-CROSS-GRAM (cheap).**
 >
-> ★★ **SESSION 335 — §P-PREFILL-CONE RUN → ❌ VOID, AND THE DIAGNOSIS IS A REGISTER ERROR.
-> First front executed end-to-end since s332: orient → front selection (Michael: "let's work on
-> P-PREFILL-CONE") → freeze → build → smoke → run → closure. Qwen3-14B instruct, 54 variants /
-> 18 triples, 0 errors, 3m27s (`results/p_prefill_cone_s335/run_14b`, 415012ee).
-> **VERDICT VOID: the PLACEBO GATE FIRED** — role-unchanged leaves show DiD +0.027 p=1e-4 (n=48);
-> the capture-live variant is globally more perturbation-sensitive at the readout cell for EVERY
-> leaf, including the unrelated control `f` ⇒ the A−B contrast rides a global offset. PC2 positive
-> control failed TWICE with the WRONG SIGN (−0.008 p=0.094; the 4B smoke had already shown it at
-> n=1). PC3 (−0.029, p=0.027) NOT READ — its effect equals the placebo offset and the instrument
-> is unvalidated. **PC1 passed as frozen (rank gain 13, p=1e-4, 810 cells) and was then DISSOLVED
-> by our own s321/s323 clean-dissociation split: DIRTY spans (NF already written in the surface)
-> +17.0 median / CLEAN spans (reduction genuinely changes the string) +0.0 median, 46% positive
-> ⇒ INTERIOR-VISIBLE NOT LICENSED — lexical echo at the VALUE register on the prefill grid (third
-> register, same law: routing tracks what is WRITTEN, not what is computed).** PC4 advisory: naive
-> NF favored at the answer column 78% (coheres s331/s332). **ROOT CAUSE (mine): ‖Δh‖ is a
-> MAGNITUDE/TRANSPORT read — proved by Δ ∝ 1/distance, corr −0.73, monotone — aimed at a
-> value/routing claim ("which argument ARRIVES"). The routing arm (read-mass) was the only
-> register-matched instrument and I starved it to advisory / 3 of 54 records at freeze; the THREE
-> pre-data amendments (raw cone · **cell ≠ AST node** — nested spans share closing tokens so the
-> frozen contrast compared a cell with itself · matched-position DiD) were all downstream repairs
-> of that one upstream mistake.** RETRACTED in-session: "the confound is intrinsic (capture ≡
-> surface coincidence)" — true only for signal designs; a routing question is WITHIN-PROMPT and
-> never forms the contrast. Discipline that paid: planted-world `--validate` caught the
-> cell-vs-node flaw before any compute; the 4B smoke caught the distance confound before the 14B
-> (s324 PAUSE honored — I stopped and reported instead of running); the placebo gate I added in
-> Amendment 3 is what produced the honest VOID instead of a manufactured CONE-NAIVE.
-> **🔵 §P-CONE-ROUTING FROZEN (pre-data, Michael "freeze the routing probe")**: at the answer
-> column, does the machine READ FROM the argument naive subst selects (`e`) or capture-avoiding
-> selects (`y`)? Both candidates live in ONE forward pass ⇒ confound structurally impossible.
-> CALIBRATION MOVE: capture-free B (NF=`y f`) and P (NF=`e f`) are ground-truth read targets;
-> classify ambiguous A between the poles (primary ρ_e uses only the `e` position; secondary ρ_Sel
-> within-prompt, bound named: A carries two `y` tokens). RC1 calibration is make-or-break and read
-> FIRST — fail ⇒ NO-CALIBRATION, never a routing claim. Mass: NO-CALIBRATION 30 / NAIVE-ROUTING 30
-> (directional) / UNDIFFERENTIATED 25 / CORRECT-ROUTING 10 (= the error enters AFTER selection) /
-> VOID 5. 54 forwards, no perturbation loop, minutes. Bound: attention mass is correlational
-> (s206) — "reads from" ¬ "uses". New instruments: `src/verbum/cone.py` (certified cones under
-> R_NORMAL/R_NAIVE), `scripts/experiments/prefill_cone.py`, matched-triple constructor, placebo
-> gate as a reusable primitive. Batch (❌, Michael-approved): §Result + 3 memories
-> (`the-confound-was-a-register-error-not-an-intrinsic-limit` ·
-> `interior-nf-surfacing-is-lexical-echo` · `prefill-delta-is-distance-dominated`) + INDEX +
-> queue (❌ closed, 🔵 successor top) + this state.
-> NEXT SESSION FIRST ACTION = build + run 🔵 §P-CONE-ROUTING (frozen, cheap, plumbing already in
-> `prefill_cone.py`'s GQA-aware read-mass path).**
->
 ## Recent arc (index — one row per session; full detail: `git log -p mementum/state.md` + `chats/session-NNN.md` + linked knowledge pages)
+
+- **s335** ❌🔵 §P-PREFILL-CONE VOID (placebo gate fired — global offset; PC1 dissolved by the
+  clean/dirty split = lexical echo at the VALUE register; root cause = REGISTER ERROR: ‖Δh‖
+  magnitude read aimed at a value/routing claim) · 🔵 §P-CONE-ROUTING frozen (within-prompt
+  read-mass successor; run s336). → latent-reasoning-and-the-prefill-triangle.md · 415012ee
 
 - **s334** 💡💡🌀 REPL DRIVER TRAMPOLINE + INSTALL/TWO-MODEL + STATE COMPACTION — driver = external
   trampoline bouncing the model once per transition (transition function sampled DIRECTLY);

@@ -222,6 +222,78 @@ precedes surface" claim; after that token, only the collapse-completion
 shape is licensed. Superposition-as-oscillation is a pattern-suggests
 prior, not a gate.
 
+### §Result — §P-AMBIGUITY-GATE (s337, Qwen3-14B): CONFOUNDED-STYLE, with a thin-generic meaning axis
+
+**Verdict per frozen tree: CONFOUNDED-STYLE** (a-priori 15). Run 433/433,
+det-repeat 0.0/0.0, AG0 pass (Δlen 0.17 words). Results
+`results/p_ambiguity_gate_s337/run_14b` (npz raw matrices local-only,
+`**/*.npz` gitignored). Harness `scripts/experiments/ambiguity_gate.py`; 4
+planted worlds recovered by `--validate`; 3 pre-data instrument amendments
+logged in the docstring (self-excluded silhouette · anaphora-canary
+CONFOUNDED rule · relative+floored canary gap).
+
+| gate | value | read |
+|---|---|---|
+| AG1 | 0.1739, p≈0 (null q95 0.012), best cell **value:L20** | pole geometry EXISTS, mid-stack |
+| depth | route bell L12–16 (0.138), value bell L12–23 (0.16–0.174) | the s217 identity band, at sentence grain |
+| canary | ana 0.029 < floor 0.05; gap 0.175, p≈0 | separation is CUE-DOMINATED |
+| per-class | scope 0.173 · att 0.229 · ana 0.029 | cue-word classes ≫ minimal-pair class |
+| AG2 LOIO | acc **1.000 ALL classes incl anaphora**, p≈0 | thin-but-GENERIC reading axes |
+| AG3 LOFO | acc 1.000 advisory | frame-transferable |
+
+**Two findings, one tension:**
+
+1. **Lexical-echo law, 4th sighting, sentence-meaning grain.** Where the
+   pole surfaces differ in cue words (scope/att), separation is strong;
+   where they differ by one name occurrence (anaphora), per-item separation
+   collapses sub-floor. The bulk of "meaning geometry" in a static prefill
+   read tracks what is written.
+2. **The real-but-weak axis signature (kin to s323 B[I], but stronger).**
+   The anaphora which-referent axis is sub-floor per-item (0.029) yet
+   transfers with LOIO accuracy 1.000 — the same direction across all 12
+   items, perfectly rank-separating held-out poles. Thin per-item ∧ perfect
+   aggregate consistency ≡ a genuine low-SNR semantic axis, invisible to
+   per-item statistics, fully visible to cross-item transfer.
+
+**Design consequences for the collapse stage (banked):**
+- project decode trajectories onto **class-level pole axes** (proven
+  transferable), never per-item axes;
+- the ambiguous string A is canary-grade by construction (no cue words) →
+  expect ana-scale SNR (~0.03) → size n and nulls for that regime;
+- read band: mid-stack L12–23 primary (value register strongest at L20);
+- the cue-dominated component that inflated scope/att CANNOT contaminate A
+  (one string) — the gate's confound dies at the collapse stage by design.
+
+**Attention arm FOLDED IN (s337, Michael: "are we looking at attention for
+signal too?" → "yes fold it in").** The gate read routing + value only; for
+anaphora the meaning difference IS a read edge — which name does the
+pronoun read from? Referent selection is an attention event; residual/
+routing reads see only its downstream consequence. Collapse stage therefore
+freezes THREE registers, one design:
+
+| register | signal | role |
+|---|---|---|
+| value (L12–23) | projection onto class-level pole axis | the proven thin-generic axis |
+| routing | sign-pattern proximity to poles | oscillation/superposition read (s322 prior) |
+| attention | within-prompt differenced read-mass, pronoun→name | the referent read itself |
+
+Attention discipline (scars pre-applied): value-weighted mass ONLY, never
+bare QK (s206) · within-prompt differenced statistic PRIMARY —
+`mass(→name1) − mass(→name2)` at the pronoun/decode columns; both
+candidates in one string ⇒ offset-immune by construction (the s336 method
+law satisfied structurally) · correlational bound named: mass ≡ "reads
+from" ¬ "uses" · calibration first: in D1/D2 the referent is ground truth →
+the mass read calibrates on poles before A is touched (RC1 move, attention
+register). Instrument exists: GQA-aware per-kv-head value-weighted mass
+path (`cone_routing.py`, s336) — reuse, don't rebuild. Co-occurrence of
+value-axis collapse ∧ attention-read shift at the same decode step = a
+two-register commitment event (the strong read). Quietly serves
+§P-ROUTING-CAUSAL arm ② (decode-time read) for free.
+
+Open decision at next freeze: anaphora-only (cleanest, canary-grade,
+axis proven, attention-arm native) vs all three classes (breadth,
+cue-bound named per class; attention arm is anaphora-specific either way).
+
 ## 3. The payoff loop — back to semantic equality
 
 A cycle-invariant signal is EXACTLY the functional-equivalence anchor
