@@ -1,0 +1,7 @@
+🚫 Reading selection is a prefill event, not a decode event (s338, §P-AMBIGUITY-COLLAPSE, Qwen3-14B). Gave the model bit-identical AMBIGUOUS strings (quantifier-scope / anaphora / attachment) and sampled K=16 continuations per item, hunting a decode-time signal that differs between readings. The ambiguity does not exist behaviorally: minority-reading fraction 0.05–0.11 across ALL three classes (< 0.2 threshold) — the model commits to ONE reading ~95% of the time, and it commits at PREFILL (identical prompt ⇒ identical prefill ⇒ sampling rarely overturns the loaded choice). Verdict PRE-COMMITTED (a-priori-modal, mass 30). SUPERPOSED-COLLAPSE could never fire — no live minority basin to collapse toward.
+
+Two consequences:
+- The PASSIVE decode-time route is closed. You cannot catch a collapse the model already made at prefill. To read the edge you must FORCE the fork (§P-REPL-DRIVER fork-at-redex), not hope sampling reveals the alternate reading.
+- scope/ana VOID-C was instrument-bound (labeler C0 0.81/0.83 < 0.9 at full n; two-pass forced-choice rescued smoke-n but not full-n) — NOT a substrate claim. Geometry healthy: C2 poles separate p=0 all three, C3 ana read-mass +0.59 p=0.
+
+Coheres with three-register tape-residency (value s317 / magnitude s335 / routing s336) and the s329/s336 late-commit sightings. Results: results/p_ambiguity_collapse_s337/run_14b (npz local-only). Harness scripts/experiments/ambiguity_collapse.py.

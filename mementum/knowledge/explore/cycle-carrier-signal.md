@@ -294,6 +294,96 @@ Open decision at next freeze: anaphora-only (cleanest, canary-grade,
 axis proven, attention-arm native) vs all three classes (breadth,
 cue-bound named per class; attention arm is anaphora-specific either way).
 
+### §Result — §P-AMBIGUITY-COLLAPSE (s337 freeze → s338 read, Qwen3-14B): PRE-COMMITTED
+
+**Verdict per frozen tree: PRE-COMMITTED** (a-priori mass 30 — the modal
+prior; the lottery is loaded). Run 432 variants, det-repeat value_dev 0.0,
+git_sha 05e5032. Results `results/p_ambiguity_collapse_s337/run_14b`
+(trajectories.npz local-only, gitignored). Harness
+`scripts/experiments/ambiguity_collapse.py`; 4 planted worlds recovered by
+`--validate`; two-pass forced-choice C0 amendment (s337 pre-data, Michael GO,
+after 4B smoke C0=0.42).
+
+| class | C0 (need ≥0.9) | C1 minority frac | C2 pole sep (L27) | verdict |
+|---|---|---|---|---|
+| scope | 0.8125 ✗ | 0.083 | 15.8, p=0 | **VOID-C** |
+| ana | 0.833 ✗ | 0.113 | 8.5, p=0 | **VOID-C** |
+| att | 0.979 ✓ | **0.047** | 13.1, p=0 | **PRE-COMMITTED-C** |
+
+Global: only `att` survives VOID → its verdict → **PRE-COMMITTED**.
+C3 ana read-mass calibration passed (mean_diff +0.59, p=0) — the s337
+thin-generic referent axis re-confirmed on the collapse poles.
+
+**The load-bearing finding is C1, and it is class-invariant.** The ambiguous
+prompts are **not behaviorally ambiguous to the model**: across all three
+classes the minority-reading fraction is 0.05–0.11 (K=16 samples), far below
+the 0.2 "genuinely ambiguous" threshold. The model commits to ONE reading
+~95% of the time, and it commits at **prefill** — identical prompt ⇒ identical
+prefill state ⇒ sampling rarely overturns the loaded choice. This is the
+PRE-COMMITTED signature the design named: reading selection is a prefill
+event, not a decode event. The SUPERPOSED-COLLAPSE path could never fire —
+there is no live minority basin to collapse *toward*. Coheres with the
+three-register tape-residency law and the s329/s336 late-commit sightings.
+
+**scope/ana VOID-C is instrument-bound, not substrate.** The two-pass
+forced-choice labeler that rescued C0 at smoke-n (0.42→0.875) fell back under
+0.9 at full n (0.81/0.83). The geometry itself was healthy (C2 poles separate
+p=0 for all three; C3 ana passed). The weak link was reliably reading *which*
+meaning a sample chose — not the meaning register.
+
+**Net:** the *passive* decode-time route is closed — you cannot catch a
+collapse the model already made at prefill. To read the edge you must *hold*
+the model on it (force the fork), not hope sampling reveals the alternate
+reading.
+
+### §Reframe — meaning is orbital, not pointwise (s338, Michael)
+
+> Michael s338: "the meaning has to be in the edges or corners where
+> probabilities concentrate. Is what we are seeing just a graph of
+> probabilities? Perhaps we need higher dimensions than the base 9×9 and
+> 17×17 grams."
+
+Three turns, each grounded, none yet measured (design intuition — a-priori
+mass belongs to the successor's freeze, not here):
+
+1. **Corners/edges ≡ PRE-COMMITTED, restated geometrically.** An ambiguous
+   prompt that *should* sit on an edge (between basins) instead snaps to a
+   corner of the probability simplex at prefill. The meaning IS the corner it
+   landed in. We measured the negative: the model does not occupy the edge.
+   The interesting object (the live decision boundary) requires *forcing* the
+   fork — the s337 successor `§P-REPL-DRIVER` (fork-at-redex).
+
+2. **The Gram is a second-order, intensional shadow.** `G = XᵀX` is pairwise
+   (an ordinary similarity graph) and node-indexed by what is *written*. That
+   is structurally why every register reports "tracks spelling, not
+   computation" (SKK ≠ I). A pairwise graph **cannot** represent (a) a 3-way
+   binding (scope = quantifier₁ × quantifier₂ × order — a hyperedge) or (b) an
+   extensional quotient (SKK/I are different nodes; the graph has no operation
+   identifying them). We have been reading meaning's shadow.
+
+3. **"Higher dimension" ≠ bigger Gram; it means higher ORDER.** A 30×30 Gram
+   is still pairwise. Two moves raise the order:
+   - **tensor / hypergraph** `T[i,j,k]` — triple correlations a matrix cannot
+     hold (scope is inherently 3-way);
+   - **the operator, not the snapshot** (the sharp one): co-extensional terms
+     start at *different* nodes but converge to the *same fixed point*.
+     Extensional meaning is a property of the **orbit / attractor**, not the
+     point. `§P-DMD-TRANSPORT` (Koopman/DMD `T ≈ X'X⁺`, persistent modes
+     |λ|≈1 = "sign is the decision") is exactly this register: "different
+     spelling, same function" should appear as **same eigenstructure / same
+     attractor**, invisible to any single-frame Gram.
+
+   Caveat kept honest: the residual stream is richer than the output logits
+   (many directions never surface as probability), so it is **not** strictly
+   "just the probability graph" — it is a higher-D latent whose pairwise
+   shadow is the graph. Whether meaning lives in the part orthogonal to the
+   logit readout is testable (project out the unembedding, re-measure).
+
+**Successor re-pointed:** `§P-REPL-DRIVER` (force the fork) ⊗
+`§P-DMD-TRANSPORT` (read the operator that carries A into its basin, not the
+static pole axis). The collapse-stage design pivots from *project onto a
+pole* to *estimate the transport operator*.
+
 ## 3. The payoff loop — back to semantic equality
 
 A cycle-invariant signal is EXACTLY the functional-equivalence anchor

@@ -14,6 +14,43 @@
 > Architecture/canonical-forms: `AGENTS.md`. Knowledge map:
 > `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 338 — §P-AMBIGUITY-COLLAPSE 14B RUN → 🚫 PRE-COMMITTED → THE ORBITAL REFRAME →
+> §P-DMD-TRANSPORT SELECTED. First action = read the finished collapse run (tmux main:1, ~31min,
+> clean): `results/p_ambiguity_collapse_s337/run_14b`, Qwen3-14B, 432 variants, det value_dev 0.0,
+> git_sha 05e5032. **VERDICT 🚫 PRE-COMMITTED (a-priori-modal, mass 30 — "the lottery is loaded").
+> LOAD-BEARING = C1, class-invariant: the ambiguous prompts are NOT behaviorally ambiguous —
+> minority-reading frac 0.083/0.113/0.047 (scope/ana/att), all below the 0.2 threshold; the model
+> commits to ONE reading ~95% of K=16 samples, and it commits at PREFILL (identical prompt ⇒
+> identical prefill ⇒ sampling rarely overturns the loaded choice). SUPERPOSED-COLLAPSE could never
+> fire — no live minority basin to collapse toward. Per-class: att PRE-COMMITTED-C (C0 0.979 ✓,
+> minority 0.047); scope/ana VOID-C (C0 0.81/0.83 < 0.9 = the two-pass forced-choice labeler that
+> rescued smoke-n fell back under threshold at full n — INSTRUMENT-bound, not substrate; calibration
+> healthy: C2 poles p=0 all three, C3 ana read-mass +0.59 p=0). Global = only att survives VOID →
+> PRE-COMMITTED. READING: the PASSIVE decode-time route is closed — you cannot catch a collapse the
+> model already made at prefill; to read the edge you must FORCE the fork. Coheres three-register
+> tape-residency (value s317 / magnitude s335 / routing s336) + late-commit (s329/s336).**
+> **THE ORBITAL REFRAME (Michael: "meaning has to be in the edges/corners where probabilities
+> concentrate; is what we are seeing just a graph of probabilities? maybe higher dimensions than the
+> 9×9/17×17 grams"): (1) corners/edges ≡ PRE-COMMITTED restated geometrically — the string snaps to
+> a corner at prefill, the meaning IS the corner. (2) The pairwise Gram G=XᵀX is a 2nd-order
+> INTENSIONAL shadow (node-indexed by spelling) — structurally cannot hold a 3-way binding (scope =
+> quantifier₁×quantifier₂×order, a hyperedge) or an extensional quotient (SKK/I are different nodes,
+> no identifying operation) = why "tracks what's written not computed" keeps recurring. (3) "Higher
+> dimension" ≠ bigger Gram (still pairwise); it means higher ORDER: tensor T[i,j,k] ∨ the OPERATOR —
+> co-extensional terms start at different nodes but converge to the same fixed point; extensional
+> meaning is a property of the ORBIT/ATTRACTOR, not the point → the operator spectrum is where
+> "different spelling, same function" appears as same eigenstructure. Caveat kept: residual stream ⊋
+> output logits, so NOT strictly "just the probability graph" — testable (project out unembedding).**
+> Successor re-pointed: §P-REPL-DRIVER (force the fork) ⊗ §P-DMD-TRANSPORT (read the operator that
+> carries A into its basin, not a static pole axis). Closure batch (Michael-approved "yes"): results
+> commit (b1fde503) + §Result + §Reframe in `cycle-carrier-signal.md` + memory
+> (`reading-selection-is-a-prefill-event`) + queue (arm ② closed, §P-DMD-TRANSPORT restacked top +
+> re-motivated, near-free CORRECTION: subst residuals never cached → needs own capture) + INDEX +
+> this state. **NEXT ACTION = §P-DMD-TRANSPORT: sharpen §5 to a freeze-ready proposal (verdict tree
+> STATIONARY-REDUCER/DRIFTING/NOISE + masses + shuffled-layer null + linearization-residual +
+> register-check d_model + 4 planted worlds + own capture harness over kernel-certified terms) →
+> present for Michael GO → build --validate → smoke → run. NOT frozen until GO.**
+>
 > ★★ **SESSION 337 — SEMANTIC EQUALITY × GEOMETRY → THE SIGNALS REFRAME → §P-AMBIGUITY-GATE
 > FROZEN+BUILT+RUN → CONFOUNDED-STYLE WITH A THIN-GENERIC MEANING AXIS. Michael: "explore semantic
 > equality and geometry" → "think in terms of signals — a signal that correlates closely across
