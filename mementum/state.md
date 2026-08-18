@@ -46,10 +46,26 @@
 > commit (b1fde503) + §Result + §Reframe in `cycle-carrier-signal.md` + memory
 > (`reading-selection-is-a-prefill-event`) + queue (arm ② closed, §P-DMD-TRANSPORT restacked top +
 > re-motivated, near-free CORRECTION: subst residuals never cached → needs own capture) + INDEX +
-> this state. **NEXT ACTION = §P-DMD-TRANSPORT: sharpen §5 to a freeze-ready proposal (verdict tree
-> STATIONARY-REDUCER/DRIFTING/NOISE + masses + shuffled-layer null + linearization-residual +
-> register-check d_model + 4 planted worlds + own capture harness over kernel-certified terms) →
-> present for Michael GO → build --validate → smoke → run. NOT frozen until GO.**
+> this state.
+> **§P-DMD-TRANSPORT STARTED (Michael "go"): 🎯 FROZEN §5a (operator-geometry-la-toolkit.md,
+> e6a9271c) — within-pass residual transport operator T≈X'X⁺ on Qwen3-14B (40L, d5120, last-token
+> residual, ~300 combinator-tagged crystal terms); verdict tree G0 instrument / G1 linearization /
+> G2 operator-exists (shuffled-layer null, make-or-break) / G3 stationarity (STATIONARY-REDUCER /
+> BANDED / DRIFTING); masses BANDED 30/NOISE 25/STATIONARY 20/DRIFTING 20/VOID 5. BUILT
+> (b1f612ca): `src/verbum/operator_dmd.py` (patent-clean textbook DMD, Schmid/Tu/Golub, Gram-based
+> method-of-snapshots so the 1000-perm null is P×P not P×N SVD) + `scripts/experiments/dmd_transport.py`
+> (shared analyse() gate path real+planted, s331). --validate recovers ALL 5 planted worlds
+> (STATIONARY/DRIFTING/NOISE/CONTRACTING+BANDED, 12s). 4B SMOKE CLEAN (n=60): det value_dev 0.0,
+> G1 rel_resid 0.440 (no caveat), G2 gap +0.523 p=0 → OPERATOR EXISTS on real data (layer order
+> matters strongly); DRIFTING at smoke-n is an n-starvation artifact (n=60<P=128 → per-layer fit
+> underdetermined; G3 not trustworthy until n≥P). ▶ 14B RUN LAUNCHED IN tmux main:1
+> (results/p_dmd_transport_s338/run_14b, n=300 so per-layer fit well-posed; ~25-35min:
+> captures + big PCA SVD + 1000-perm Gram null).**
+> **NEXT SESSION FIRST ACTION = read the 14B DMD run (tmux main:1) → apply frozen G0-G3 tree →
+> closure batch (approval-gated: §Result in operator-geometry-la-toolkit.md §5a + memory + INDEX +
+> queue + state). If BANDED/STATIONARY: the one-reducer-unrolled thesis gets its first operator-
+> register contact + the orbital extensional-equality successor §5b (§P-CL-COLLAPSE-3-operator)
+> arms. If NOISE: linear operator inadequate → Koopman-lift or the register was wrong.**
 >
 > ★★ **SESSION 337 — SEMANTIC EQUALITY × GEOMETRY → THE SIGNALS REFRAME → §P-AMBIGUITY-GATE
 > FROZEN+BUILT+RUN → CONFOUNDED-STYLE WITH A THIN-GENERIC MEANING AXIS. Michael: "explore semantic
