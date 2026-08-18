@@ -43,8 +43,16 @@
 > §P-ROUTING-CAUSAL arm ② free). Design banked: class-level axes only · ana-scale SNR (~0.03) ·
 > cue confound dies at A by construction. Batch (Michael-approved): §Result + memory
 > (`thin-generic-referent-axis-transfers`) + INDEX + queue + this state.
-> NEXT SESSION FIRST ACTION = collapse-stage design + freeze (open decision: anaphora-only vs
-> all three classes; decode-time capture build; §P-REPL-DRIVER-class instrumentation).**
+> LATE-SESSION EXTENSION: Michael "all three classes" → 🎯 §P-AMBIGUITY-COLLAPSE FROZEN
+> (three registers, C0-C3 calibration gates, Schmitt commit, ordering discipline, masses
+> P30/S25/N25/M15/V5) → BUILT `ambiguity_collapse.py` (sub-agent build + line-level review;
+> 4 planted worlds incl SURFACE-ECHO recover; review caught echo off-by-one) → 4B smoke caught
+> TWO real bugs pre-data: KV-cache (1,1) attention-mask bug (token-salad generations; fixed) +
+> C0 labeling-channel gap (cue-lexicon grading 0.42 → TWO-PASS AMENDMENT, Michael GO:
+> forced-choice question readout on the finished continuation, greedy pass 2, no capture;
+> C0 0.42→0.875 at smoke-n, ana 1.0; cue lexicons retained only for first_cue_step) →
+> ▶ 14B RUN LAUNCHED IN BACKGROUND (results/p_ambiguity_collapse_s337/run_14b, ~2-3h).
+> NEXT SESSION FIRST ACTION = read the 14B collapse run → closure batch (approval-gated).**
 >
 > ★★ **SESSION 336 — §P-CONE-ROUTING RUN → 🚫 UNDIFFERENTIATED, AND THE OFFSET RETURNS IN A NEW
 > REGISTER. First action per the s335 pointer: build + run the frozen probe. Harness

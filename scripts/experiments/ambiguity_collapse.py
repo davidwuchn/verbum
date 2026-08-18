@@ -55,6 +55,16 @@ FROZEN_NOTE = (
     "C0-C3 calibration before A reads, ordering discipline (commit before "
     "first cue token), masses P30/S25/N25/M15/V5"
 )
+# AMENDMENT (s337 pre-data, Michael GO, after 4B smoke C0=0.42): labeling is
+# TWO-PASS — pass 1 generates+records the trajectory (unchanged); pass 2
+# appends a class-specific forced-choice question to the finished continuation
+# and greedy-decodes the answer (separate forward, no capture). Label = the
+# model's own resolution of its own continuation (linearity_bias forced-choice
+# pattern). Cue lexicons retained ONLY for first_cue_step (surface timing for
+# the echo/ordering discipline). C0 role/threshold unchanged (two-pass on
+# D-pole continuations must recover the known reading >= 0.9).
+TWO_PASS_MAX_TOKENS = 8
+
 TEMP = 0.8
 TOP_P = 1.0
 K_SAMPLES = 16
@@ -293,6 +303,41 @@ def _schmitt_commit(delta: np.ndarray, window: int) -> int:
         if np.all(np.sign(chunk) == final_sign):
             return t + 1  # 1-based
     return T
+
+
+def two_pass_question(cls: str, item) -> tuple[str, dict[str, str]]:
+    """Forced-choice question + answer keys for the two-pass labeler."""
+    if cls == "scope":
+        _s, spl, o, _opl, _vp, _vpp = item
+        q = f"Was it the same {o} for all the {spl}, or a different {o} for each?"
+        return q, {"D1": "same", "D2": "different"}
+    if cls == "ana":
+        n1, n2, pred = item
+        return f"Who had {pred}?", {"D1": n1.lower(), "D2": n2.lower()}
+    ag, pe, ins, _vb, _vp, _vpp = item
+    q = f"Who had the {ins}: the {ag} or the {pe}?"
+    return q, {"D1": ag.lower(), "D2": pe.lower()}
+
+
+def grade_answer(answer: str, keys: dict[str, str]) -> str | None:
+    """First-occurrence match of pole keys in the greedy answer."""
+    a = answer.lower()
+    i1, i2 = a.find(keys["D1"]), a.find(keys["D2"])
+    if i1 < 0 and i2 < 0:
+        return None
+    if i1 < 0:
+        return "D2"
+    if i2 < 0:
+        return "D1"
+    return "D1" if i1 < i2 else "D2"
+
+
+def two_pass_label(be, cls: str, item, gen_prompt: str,
+                   continuation: str) -> str | None:
+    """Pass 2: forced-choice readout on the finished continuation (greedy)."""
+    q, keys = two_pass_question(cls, item)
+    full = f"{gen_prompt}{continuation}\nQuestion: {q}\nAnswer:"
+    return grade_answer(be.greedy_answer(full), keys)
 
 
 def _first_cue_step_from_text(
@@ -677,6 +722,22 @@ class RealBackend:
         return buf
 
     # -- generation with per-step capture ------------------------------------
+    def greedy_answer(self, full_prompt: str) -> str:
+        """Two-pass labeler forward: greedy, no capture, short."""
+        import torch
+
+        enc = self.tok(full_prompt, return_tensors="pt",
+                       truncation=True, max_length=256).to(self.device)
+        with torch.no_grad():
+            out = self.model.generate(
+                **enc, do_sample=False, max_new_tokens=TWO_PASS_MAX_TOKENS,
+                pad_token_id=(self.tok.pad_token_id
+                              if self.tok.pad_token_id is not None
+                              else self.tok.eos_token_id),
+            )
+        new_ids = out[0, enc["input_ids"].shape[1]:]
+        return self.tok.decode(new_ids, skip_special_tokens=True)
+
     def generate_with_capture(
         self,
         prompt: str,
@@ -1132,7 +1193,7 @@ def run_validate(args) -> int:
                 ]
                 echo_before = [
                     s for s in echo_eligible
-                    if s["commit_step"] < s["first_cue_step"]
+                    if (s["commit_step"] - 1) < s["first_cue_step"]
                 ]
                 echo_frac = (
                     len(echo_before) / max(len(echo_eligible), 1)
@@ -1376,7 +1437,7 @@ def run_real(args) -> int:
                 expected = "D1" if pole == 0 else "D2"
                 for s in samples:
                     text = "".join(s["token_texts"])
-                    label = grade_continuation(cls, text, item)
+                    label = two_pass_label(be, cls, item, prompt, text)
                     correct = label == expected
                     c0_results[cls].append(correct)
                     # C2: project per-step hidden onto axis, collect per-layer
@@ -1539,7 +1600,7 @@ def run_real(args) -> int:
             item_sample_stats: list[dict] = []
             for ki, s in enumerate(samples):
                 text = "".join(s["token_texts"])
-                label = grade_continuation(cls, text, item)
+                label = two_pass_label(be, cls, item, prompt, text)
                 item_labels.append(label)
 
                 # Per-step delta at best layer
