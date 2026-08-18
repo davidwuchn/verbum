@@ -1,0 +1,17 @@
+[dmd] corpus: 300 prompts
+[dmd] loading Qwen/Qwen3-14B (bfloat16, mps)
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights: 100%|██████████| 443/443 [00:00<00:00, 7075.64it/s]
+[dmd] n_layers=40 d_model=5120
+[dmd] captured 50/300
+[dmd] captured 100/300
+[dmd] captured 150/300
+[dmd] captured 200/300
+[dmd] captured 250/300
+[dmd] captured 300/300
+[dmd] H shape (300, 41, 5120)
+[dmd] det-repeat value_dev=0.0 ok=True
+[dmd] === VERDICT: STATIONARY-REDUCER ===
+[dmd] G1 rel_resid=0.476 caveat=False | G2 gap=+0.498 p=0.000 pass=True | G3 core=0.72 late=0.70 | mean|lambda|=0.878 persist=0.00
+[dmd] wrote results/p_dmd_transport_s338/run_14b/

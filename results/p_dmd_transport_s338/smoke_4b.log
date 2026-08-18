@@ -1,0 +1,12 @@
+[dmd] corpus: 60 prompts
+[dmd] loading Qwen/Qwen3-4B (bfloat16, mps)
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 25123.15it/s]
+[dmd] n_layers=36 d_model=2560
+[dmd] captured 50/60
+[dmd] H shape (60, 37, 2560)
+[dmd] det-repeat value_dev=0.0 ok=True
+[dmd] === VERDICT: DRIFTING ===
+[dmd] G1 rel_resid=0.440 caveat=False | G2 gap=+0.523 p=0.000 pass=True | G3 core=0.02 late=0.04 | mean|lambda|=0.912 persist=0.00
+[dmd] wrote results/p_dmd_transport_s338/smoke_4b/
