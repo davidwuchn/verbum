@@ -39,8 +39,42 @@
 > proceeds §P-JOINT-DIAG (cheap, committed grams — the common switch-frame the route map needs) + §P-REPL-DRIVER
 > (force the fork, decode-time). §P-JOINT-DIAG inputs identified: `results/combinator-relationship-map/*.npz`
 > holds per-layer 9×9 route Grams (`gram_route_cmr_L00…L39`) for 11 models → joint-diagonalize across-layer (is
-> the routing frame layer-stationary?) AND across-model (universal switch basis). Freeze proposals for both
-> fronts DRAFTED THIS SESSION, awaiting Michael GO before any run.**
+> the routing frame layer-stationary?) AND across-model (universal switch basis). §P-REPL-DRIVER DEFERRED to
+> next session (Michael — deserves a fresh context budget for the repl-driver-trampoline.md read + anima
+> cross-check + freeze).**
+> **§P-JOINT-DIAG FROZEN+BUILT+RUN → 🎯 DOUBLE POSITIVE (both a-priori modal verdicts won). 🎯 FROZEN §5e
+> (operator-geometry-la-toolkit.md, Michael GO): Cardoso-Souloumiac orthogonal joint-diag
+> (src/verbum/joint_diag.py, FTO-clean textbook, NO CBLL code; DC-mode removed per s341) of the committed 9×9
+> route Grams; arms JD-LAYER (per model, layer-stationarity) + JD-MODEL (cross-model universal frame vs
+> SIGN-ONLY); nulls = per-context random rotation (primary) + opcode-label permutation (advisory); masses
+> LAYER-STATIONARY 50 / MIXED 22 / DRIFTING 20 / VOID 8 and UNIVERSAL 40 / SIGN-ONLY 35 / VOID 25. Caught+fixed
+> a Givens sign bug via a direct algorithm test (COMMON world must recover D=1.0 — it did, 6 sweeps,
+> frame-match 1.0); --validate recovers ALL 4 planted worlds incl the DC-ONLY guard (shared DC alone →
+> DRIFTING, proving DC-removal can't manufacture STATIONARY). Freeze+harness committed 1bd4dc68 BEFORE data.
+> **RESULT (results/p_joint_diag_s342/run, git_sha 1bd4dc68, gram_hash 8fb92c02, all converged): JD-LAYER
+> LAYER-STATIONARY-FRAME 10/10 models (all 5 families frac 1.00 incl Pythia), D 0.982-0.990, Δ +0.10-0.13 over
+> rotation null AND permutation null (p=0 both). JD-MODEL UNIVERSAL-FRAME 11/11 fractional-depth indices,
+> median D 0.983, Δ +0.09-0.11. THE FINDING: the 9×9 route-Gram IDENTITY frame is layer-stationary AND
+> cross-model universal — the common switch basis the route map needs EXISTS and is fixed (opcodes on the same
+> eigen-directions every depth/model; only the emphasis/eigenvalue changes). HONEST CAVEAT (λ yardstick): NOT
+> an absolute-D story — rot-null floor ~0.88 (DC-removed grams are low-rank, co-diagonalize easily); the signal
+> is the Δ over the matched-spectrum null, decisive because real beats its own q95 in every model + beats the
+> node-scrambling permutation null. READING FOR THE REFRAME (with discipline): this delivers the COORDINATE
+> SYSTEM (the switch basis), the "station map" being universal & static — the intensional identity register in
+> one invariant atlas — NOT the "trains"; it REINFORCES the reframe's static-map half and does NOT test whether
+> extensional compute RIDES in the frame (the per-direction emphasis schedule = schedules.npz is now
+> extractable but its CONTENT is untested — the REPL-driver / schedule-read job). Consilience: s338 (residual
+> transport operator stationary — two registers, same "one fixed structure reused across depth") + s314 (tracks
+> the UNIVERSAL crystal 9×9 incl Pythia, NOT the training-contingent type register 7/11). Bounds: identity
+> register (9×9) not fate poles (17×17); high null floor; schedule content untested. Results committed
+> autonomously (d4aa27b5); closure batch (Michael-approval PENDING): §5e §Result + memory
+> (the-routing-identity-frame-is-layer-stationary-and-universal) + INDEX + queue (✅ closed) + this state.**
+> **NEXT SESSION FIRST ACTION = §P-REPL-DRIVER (deferred here): full read repl-driver-trampoline.md §1–§8 +
+> anima cross-check → sharpen four measurables → freeze → build → run. Also newly ripe (this positive): a
+> SCHEDULE-READ front — does the per-direction emphasis schedule (schedules.npz, the candidate "trains" in the
+> now-established common frame) carry extensional/computational content, or just intensional emphasis? = the
+> direct "are there trains on the station map" successor to §P-JOINT-DIAG. Cheap spectral fronts still queued:
+> §P-MP-NULL (Marchenko-Pastur signal-vs-noise) · §P-BISPECTRUM (3rd-order/tensor for CL-collapse).**
 >
 > ★★ **SESSION 341 — TWO FRONTS: §P-DMD-PROVENANCE → BASE-NATIVE (the within-pass stationary operator is
 > base-native, not post-training-installed) + §P-CROSS-GRAM → GENERIC-WRITE-STRUCTURE (the combinator crystal

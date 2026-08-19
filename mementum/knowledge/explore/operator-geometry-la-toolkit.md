@@ -818,6 +818,49 @@ p=0), NO-FRAME→DRIFTING (D=0.554≈null, p=0.34), **DC-ONLY→DRIFTING** (D=0.
 null 0.545, p=0.52 — the critical guard: shared DC alone canNOT manufacture
 STATIONARY), PARTIAL→STATIONARY (D=0.748, p=0). Instrument TRUSTED.
 
+### §Result — DOUBLE POSITIVE: LAYER-STATIONARY + UNIVERSAL frame (s342)
+
+Run `results/p_joint_diag_s342/run` (git_sha 1bd4dc68, gram_hash 8fb92c02,
+n_sub=8, all converged 15–25 sweeps). **BOTH a-priori modal verdicts won** — a
+rare double-modal positive.
+
+- **JD-LAYER → LAYER-STATIONARY-FRAME (modal 50).** 10/10 models pass; all 5
+  families frac 1.00 (qwen3, olmo, mistral, smollm, **pythia**). D 0.982–0.990;
+  rotation-null median ~0.85–0.89, Δ +0.10–0.13; permutation-null p=0. The
+  routing identity frame is **layer-stationary**: opcodes occupy the SAME
+  eigen-directions at every depth; only the emphasis (eigenvalue) changes.
+- **JD-MODEL → UNIVERSAL-FRAME (modal 40).** 11/11 matched-fractional-depth
+  indices pass; median D 0.983, Δ +0.09–0.11, p=0. The frame is **cross-model
+  universal** — one shared opcode eigenbasis across 10 models / 5 families.
+
+**The honest caveat (λ measure / yardstick).** This is NOT an absolute-D story:
+the rotation-null floor is HIGH (~0.88) because the DC-removed grams are
+low-effective-rank (near-zero smallest eigenvalues → random rotations already
+co-diagonalize well). The signal is the **Δ ≈ +0.10 over the matched-spectrum
+rotation null**, decisive because real beats its own q95 in every model AND beats
+the node-scrambling permutation null (p=0 both) → a genuine, node-aligned SHARED
+frame beyond what low rank alone gives.
+
+**What it means for the reframe (state s342), read with discipline.** This
+delivers the **coordinate system** the route map wanted — the common switch
+basis EXISTS and is remarkably invariant (layer + model). But it is the
+**station map** being universal and static, NOT the **trains**: a stationary,
+universal *identity*-register frame is the intensional alphabet carved into one
+fixed atlas — it does NOT test whether extensional computation rides in it. So
+this REINFORCES the "static map, not dynamic compute" half of the reframe rather
+than contradicting tape-residency; the dynamic content (the per-direction
+emphasis schedule = `schedules.npz`, the candidate "trains") is now extractable
+but its *content* is untested here — that is the REPL-driver / schedule-read job.
+
+**Consilience.** (a) s338: the residual **transport operator** is stationary
+(T_ℓ≈T); now the routing-Gram **identity frame** is stationary too — two
+registers, same "one fixed structure reused across depth" signature. (b) s314:
+frame-universality tracks the **universal crystal** (9×9, 11/11 incl Pythia), NOT
+the training-contingent type register (7/11, absent in Pythia) — Pythia carrying
+the same stationary universal frame confirms this is the crystal's identity
+frame. **Bounds:** identity register (9×9) only, not the fate poles (17×17); high
+null floor (low-rank); schedule content untested; CMR last-token routing capture.
+
 ## 6. Discipline summary
 
 ```
