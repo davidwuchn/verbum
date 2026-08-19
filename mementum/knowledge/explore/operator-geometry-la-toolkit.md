@@ -861,6 +861,68 @@ the same stationary universal frame confirms this is the crystal's identity
 frame. **Bounds:** identity register (9×9) only, not the fate poles (17×17); high
 null floor (low-rank); schedule content untested; CMR last-token routing capture.
 
+## 5f. §Result — §P-SCHEDULE-READ arm A: MODEL-SPECIFIC, a static level ladder, no universal timetable (s343)
+
+> The s5e successor. s5e delivered the **station map** (frame universal +
+> stationary); this reads the **schedule** — the candidate "trains" — across
+> models to ask whether the per-direction emphasis-vs-layer trajectory is
+> universal (trains run identically everywhere) or model-specific. Zero model
+> load, re-analysis of the same committed `combinator-relationship-map/*.npz`.
+
+**Method (frozen s343, Michael GO; FTO-clean, reuses `verbum.joint_diag`).** ONE
+shared cross-model frame V\* (global DC-remove + joint-diag of the pooled 10×11
+route grams) → schedule `S[model,dir,layer] = diag(V*ᵀ G' V*)`, all in one basis
+by construction (diag is sign-invariant to V\* column flips → no s314 SIGN-ONLY
+ambiguity). Statistic **U** = leading-eigenvalue fraction λ₁/M of the 10×10
+Pearson corr of the flattened per-model schedules. Nulls (λ yardstick, N=300,
+floor Δ≥0.05 ∧ p<0.05): **shuffled-layer** (PRIMARY, shape-vs-level — one per-model
+layer permutation destroys the shared depth-ORDERING, keeps each direction's
+value-multiset) + **matched-range** (guard — keep per-(model,dir) [min,max],
+redraw uniform, destroys ordering AND multiset). `--validate` recovers all 4
+planted worlds through the real path (s331); the **LEVEL-ONLY guard** proves the
+nulls REFUSE to promote level-agreement to UNIVERSAL (raw U=0.998 but both nulls
+also 0.998 → MODEL-SPECIFIC).
+
+**Verdict tree (a-priori mass): UNIVERSAL-SCHEDULE 45 / PARTIALLY-SHARED 25 /
+MODEL-SPECIFIC 20 / VOID 10.**
+
+**§Result — MODEL-SPECIFIC (a-priori 20, non-modal).** Run
+`results/p_schedule_read_s343/run` (git_sha b532c1dd, gram_hash 8fb92c02, 10
+models × 11 fractional depths, determinism dev 0.0). U=0.894, mean off-diag corr
+0.870 — **the schedules are ~96% mutually similar in shape** (median R²-to-shared-
+template 0.965). BUT:
+
+- **matched-range REPRODUCES the agreement** (median 0.890, p=0.263, Δ+0.004 →
+  ¬pass) — the shared component IS the per-direction range/level, not a timetable.
+- **The shared component decomposes to 99.3% static LEVEL / 0.7% depth-variation.**
+  The cross-model template is a monotone per-direction emphasis ladder
+  [0.006, 0.66, 0.73, 0.80, 0.90, 0.96, 1.05, 1.60]; each direction barely moves
+  with depth (level-energy 7.02 vs depth-variation-energy 0.049).
+- **Shared depth-TIMETABLE is sub-floor:** real beats shuffled-layer p=0 but only
+  Δ+0.025 < 0.05 → a whisper, below the effect-size floor.
+- **Model-specific residual has NO family structure** (within-family corr 0.971 ≈
+  across-family 0.974) → idiosyncratic / noise-like, not a learned lineage
+  signature.
+
+**Reading (reframe, s342).** The only universal thing about the schedule is a
+**static intensional brightness-ladder** — part of the station map's eigenvalue
+profile, not a moving train. There is **no shared dynamic timetable**: the "trains"
+carry no universal schedule; what varies per model is idiosyncratic. This
+**reinforces the "static map, not trains" half** of the reframe at the schedule
+sub-object (a schedule-register complement to the s338–s341 tape-residency arc).
+
+**Honesty bound (frozen, λ measure).** This tested universality across MODELS, not
+co-extensionality — one-directional. MODEL-SPECIFIC is the actionable branch, but
+the decomposition shows the model-specific part is noise-like, so it is a **weak**
+lead: it does not by itself prove learned computational content. The
+extension/intension verdict is still owed to **arm C** (faithful co-extensional
+capture), which this reshapes: (a) per-model, since there is no universal
+timetable to share; (b) the route-schedule barely moves with depth, so the
+dynamic signal there is thin → arm C should read **all registers** (value/residual
+s339 H · magnitude · routing/route-schedule · operator/DMD-spectrum · fate 17×17),
+not the route-Gram schedule alone. Bounds: identity register (9×9) only, not the
+17×17 fate poles; global-DC-remove analysis choice; last-token CMR routing capture.
+
 ## 6. Discipline summary
 
 ```

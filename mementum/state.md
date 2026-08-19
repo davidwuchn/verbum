@@ -14,6 +14,57 @@
 > Architecture/canonical-forms: `AGENTS.md`. Knowledge map:
 > `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 343 — §P-SCHEDULE-READ arm A → 🚫 MODEL-SPECIFIC: the schedule is a STATIC LEVEL LADDER,
+> NO UNIVERSAL TIMETABLE ("no trains, only a painted-on level"). Oriented (s342 closed clean, nothing in
+> flight). Selected the s342 successor §P-SCHEDULE-READ (the "trains" arm). **DESIGN FINDING before freeze
+> (surfaced to Michael, not silently redefined): the literal SKK≈I schedule test is NOT runnable zero-load on
+> the s342 object — `schedules.npz` is MODEL-LEVEL (8 dirs × 11 layers, aggregated), and the committed 9×9
+> route grams are 9 single combinators with NO co-extensional pairs (no "SKK" node). Co-extensional pairs live
+> ONLY in the s339 residual H trajectories (value register, already answered LEXICAL/absent).** Three scopes
+> offered: A (schedule-UNIVERSALITY, route register, cheap zero-load) · B (re-lens s339 H, low novelty) · C
+> (faithful co-extensional CAPTURE, medium). Michael: **"A then C"**.
+> **ARM A FROZEN+BUILT+RUN → 🚫 MODEL-SPECIFIC (a-priori 20, non-modal). 🎯 FROZEN §5f (operator-geometry-la-
+> toolkit.md, Michael GO): ONE shared cross-model frame V* (global DC-remove + joint-diag of the pooled 10×11
+> route grams, reuses verbum.joint_diag), schedule S[model,dir,layer]=diag(V*ᵀ G' V*); statistic U=λ₁/M of the
+> 10×10 Pearson corr of flattened per-model schedules; nulls shuffled-layer (PRIMARY, shape-vs-level) +
+> matched-range (range-floor guard), floor Δ≥0.05 ∧ p<0.05; verdict tree UNIVERSAL 45 / PARTIALLY 25 /
+> MODEL-SPECIFIC 20 / VOID 10. HONESTY BOUND frozen: tests universality across MODELS not co-extensionality;
+> one-directional (MODEL-SPECIFIC = actionable; UNIVERSAL does NOT alone prove intensional). BUILT
+> scripts/experiments/schedule_read.py (FTO-clean, NO CBLL code); --validate 4/4 planted worlds through the
+> real analyse path (s331) incl the LEVEL-ONLY guard (raw U=0.998 but both nulls ALSO 0.998 → the nulls REFUSE
+> to promote level-agreement → MODEL-SPECIFIC). Freeze+harness committed 54e62715 BEFORE data.
+> **RESULT (results/p_schedule_read_s343/run, git_sha b532c1dd, gram_hash 8fb92c02, 10 models × 11 fractional
+> depths, determinism dev 0.0). U=0.894, mean off-diag corr 0.870 — schedules ~96% mutually similar in shape
+> (median R²-to-shared-template 0.965) — BUT matched-range REPRODUCES it (median 0.890, p=0.263, Δ+0.004 →
+> ¬pass): the shared component is 99.3% static per-direction LEVEL / 0.7% depth-variation, a monotone emphasis
+> ladder [0.006,0.66,0.73,0.80,0.90,0.96,1.05,1.60] that barely moves with depth (level-energy 7.02 vs
+> depth-var-energy 0.049). Shared depth-TIMETABLE is sub-floor (beats shuffled-layer p=0 but Δ+0.025 < 0.05
+> floor). Model-specific residual has NO family structure (within-fam corr 0.971 ≈ across 0.974) →
+> idiosyncratic/noise-like, NOT a learned lineage signature. THE FINDING: the only universal thing about the
+> schedule is a STATIC intensional brightness-ladder = part of the station map's eigenvalue profile, not a
+> moving train — NO shared dynamic timetable. Reinforces the s342 "static map, not trains" half at the
+> schedule sub-object; schedule-register complement to tape-residency (value s317 · magnitude s335 · routing
+> s336 · operator s339 · residual-vs-W_down s341). METHOD BANKED: high raw cross-model corr can be a shared
+> per-direction LEVEL ladder both nulls reproduce → decompose LEVEL vs TIMETABLE energy + gate with
+> shuffled-layer AND matched-range; high U ≠ shared trains. Results committed autonomously (7c297674); closure
+> batch (Michael-approved): §5f §Result + memory (the-route-schedule-is-a-static-level-ladder-not-a-universal-
+> timetable) + INDEX + queue (🚫 closed, arm C reshaped) + this state.**
+> **ARM C RESHAPED + QUEUED (Michael s343: "proceed with §P-SCHEDULE-READ-C but look at ALL the registers"):
+> ⚪ §P-SCHEDULE-READ-C = the faithful co-extensional test (SKK≈I), now PER-MODEL (arm A killed the universal
+> timetable) and across EVERY tape-residency register on the SAME co-ext anchors — value/residual (s339 H,
+> ON DISK zero-load) · magnitude · routing/route-schedule (needs a small CMR-style CAPTURE of SKK/I +
+> operator/arity/alpha route signatures = the only medium arm) · operator/DMD-spectrum (reuse §5a) · fate
+> 17×17. Prior: value/operator already LEXICAL/absent (s339) → C is confirmatory there + EXTENDS to the
+> untested routing-schedule/magnitude/fate registers on matched anchors = a REGISTER-COMPLETE co-ext verdict.
+> Nulls: nested length→alphabet ladder (s339) per register + shuffled-layer + matched-range. Bounds: routing
+> arm needs capture; route-schedule dynamic signal thin (arm A); single model 14B.**
+> **NEXT SESSION FIRST ACTION = §P-SCHEDULE-READ-C: inventory the on-disk co-extensional anchor data (s339 H
+> registers: value/magnitude/operator, all zero-load) + design the small routing-register CAPTURE (SKK/I +
+> operator/arity/alpha route-gram signatures on Qwen3-14B, CMR-style) → sharpen per-register a-priori mass +
+> planted worlds → freeze (Michael GO) → build → run. Also still ripe: cheap spectral fronts §P-MP-NULL
+> (Marchenko-Pastur signal-vs-noise) · §P-BISPECTRUM (3rd-order/tensor for CL-collapse); medium §P-REPL-DRIVER
+> (decode-time, the other "does compute ride in the routing frame" arm).**
+>
 > ★★ **SESSION 342 — ORIENT + THE INTENSION/EXTENSION REFRAME (kept in state, Michael-called) → PROCEED
 > §P-JOINT-DIAG + §P-REPL-DRIVER. Nothing in flight; s341 closed clean. Michael's question: "we found compute
 > is in the routing, but from our experiments it's not there — either the experiments are bad or we were
