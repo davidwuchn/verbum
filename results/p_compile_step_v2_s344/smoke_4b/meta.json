@@ -1,0 +1,141 @@
+{
+  "probe": "P-COMPILE-STEP-V2",
+  "frozen": "s344 pre-data freeze (Michael GO pending): does VALID formal notation route into whnf:*, or does SCRAMBLED formal (same atoms, no valid computation) route there too? resolves the \u00a7P-COMPILE-STEP surface-similarity bound",
+  "pre_data": {
+    "COMBINATORS": [
+      "K",
+      "I",
+      "C",
+      "W",
+      "B",
+      "S",
+      "D"
+    ],
+    "LEVELS": [
+      "plain",
+      "nl",
+      "formal",
+      "formal_scramble"
+    ],
+    "OUTCOME_POLES": [
+      "whnf:K",
+      "whnf:I",
+      "whnf:B",
+      "whnf:C",
+      "whnf:S",
+      "whnf:D",
+      "whnf:W",
+      "div:Y"
+    ],
+    "N_INST": 8,
+    "ALPHA": 0.05,
+    "FLOOR_D": 0.02,
+    "BRANCH_FLOOR": 0.02,
+    "apriori": {
+      "RECOGNITION": 35,
+      "MIXED": 25,
+      "COMPILATION": 20,
+      "LENGTH-DRIVEN": 8,
+      "SHARED-COMPILE": 5,
+      "NO-BRANCH": 4,
+      "VOID": 3
+    },
+    "identity": "rep(formal-plain) = ds(formal-scramble) + dsp(scramble-plain)",
+    "discriminator": "branch-band outcome-pole mass, length-residualized; COMPILATION iff scrambling collapses branch to plain (ds sig, dsp null); RECOGNITION iff scramble routes like formal (ds null, dsp sig); MIXED iff both"
+  },
+  "timestamp_utc": "2026-08-19T21:40:22.947233+00:00",
+  "model_id": "Qwen/Qwen3-4B",
+  "device": "mps",
+  "dtype": "bfloat16",
+  "smoke": true,
+  "n_items": 112,
+  "n_inst": 4,
+  "want_layers": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35
+  ],
+  "n_layers": 36,
+  "corpus_hash": "13550c803b3766a2",
+  "git_sha": "39f9402c2e739e6a77b1eb4a862d7ec9ab8a892e",
+  "det_route_dev": 0.0,
+  "det_ok": true,
+  "g0": {
+    "my_pr": 2.1966822147369385,
+    "my_eigs_top6": [
+      11.331201553344727,
+      0.9766491055488586,
+      0.8296433091163635,
+      0.6782332062721252,
+      0.5820051431655884,
+      0.414863646030426
+    ],
+    "committed_pr": 2.9659294093098287,
+    "offdiag_corr_vs_committed": 0.925384488703774
+  },
+  "g0_ok": true,
+  "verdict": "RECOGNITION",
+  "stats": {
+    "lvl_mass": {
+      "plain": -0.26406336203217506,
+      "nl": -0.3190955067319529,
+      "formal": 0.19820525044841425,
+      "formal_scramble": 0.19675469318670885
+    },
+    "rep_formal_plain_resid": 0.46341502626926145,
+    "p_rep_resid": 0.0001999600079984003,
+    "ds_formal_scramble_resid": 0.0019634265882166125,
+    "p_ds_resid": 0.47730453909218157,
+    "dsp_scramble_plain_resid": 0.46145159968104477,
+    "p_dsp_resid": 0.0001999600079984003,
+    "rep_formal_plain_raw": 0.4622686124805893,
+    "p_rep_raw": 0.0001999600079984003,
+    "identity_rep_minus_ds_dsp": 5.551115123125783e-17,
+    "len_r_formal_scramble": 0.020789391800946685
+  },
+  "mass_by_level": {
+    "plain": -0.26406336203217506,
+    "nl": -0.3190955067319529,
+    "formal": 0.19820525044841425,
+    "formal_scramble": 0.19675469318670885
+  },
+  "flags": {
+    "rep_sig": true,
+    "ds_sig": false,
+    "dsp_sig": true
+  },
+  "apriori_mass": 35
+}

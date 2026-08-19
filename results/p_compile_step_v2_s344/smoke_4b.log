@@ -1,0 +1,18 @@
+[compile-v2] corpus 112 items (7x4x4) | pole probes 980
+[dmd] loading Qwen/Qwen3-4B (bfloat16, mps)
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/398 [00:00<?, ?it/s]Loading weights: 100%|██████████| 398/398 [00:00<00:00, 20456.26it/s]
+[dmd] n_layers=36 d_model=2560
+[compile-v2] pass 1/2 — pole probes -> frame
+    captured 200/980
+    captured 400/980
+    captured 600/980
+    captured 800/980
+[compile-v2] G0 offdiag_corr=0.925384488703774 ok=True
+[compile-v2] pass 2/2 — matched corpus -> routes
+[compile-v2] det_route_dev=0.00e+00 g0_ok=True
+[compile-v2] mass by level: {'plain': -0.26406336203217506, 'nl': -0.3190955067319529, 'formal': 0.19820525044841425, 'formal_scramble': 0.19675469318670885}
+[compile-v2] rep(f-p)=+0.4634 p=0.0002
+[compile-v2] ds(f-scr)=+0.0020 p=0.4773 | dsp(scr-p)=+0.4615 p=0.0002
+[compile-v2] === VERDICT: RECOGNITION (a-priori 35) ===
