@@ -1,0 +1,158 @@
+{
+  "probe": "P-SCHEDULE-READ-C",
+  "frozen": "s343 pre-data freeze (Michael GO): register-complete co-extensional test; operator-geometry-la-toolkit.md \u00a75f successor + cycle-carrier-signal.md",
+  "pre_data": {
+    "REGISTERS": [
+      "routing",
+      "value",
+      "magnitude"
+    ],
+    "PRIMARY": "routing",
+    "SETS": [
+      "operator",
+      "arity",
+      "alpha"
+    ],
+    "N_NULL": 5000,
+    "ALPHA": 0.05,
+    "FLOOR_D": 0.01,
+    "SEED": 0,
+    "apriori_routing": {
+      "LEXICAL": 45,
+      "ABSENT": 25,
+      "EXTENSIONAL": 20,
+      "VOID": 10
+    },
+    "ladder": "group-centroid level; operator(confounded) -> arity(same-arity) -> alpha(same-arity + |\u0394len| partial, s339); EXTENSIONAL iff alpha passes; LEXICAL iff signal vanishes at constant alphabet; primary = routing",
+    "deferred": "17x17 fate register (needs outcome-pole machinery)"
+  },
+  "timestamp_utc": "2026-08-19T17:15:00.160391+00:00",
+  "model_id": "Qwen/Qwen3-14B",
+  "device": "mps",
+  "dtype": "bfloat16",
+  "smoke": false,
+  "n_per": 20,
+  "n_items": 1344,
+  "counts": {
+    "operator": 204,
+    "arity": 570,
+    "alpha": 570
+  },
+  "want_layers": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    20,
+    23,
+    27,
+    31,
+    35,
+    39
+  ],
+  "corpus_hash": "c5cdb64ac757db77",
+  "git_sha": "a4af9fb38347d49314f88d65204bdf3107a76dd0",
+  "det_value_dev": 0.0,
+  "det_ok": true,
+  "verdict": "LEXICAL",
+  "primary": "routing",
+  "registers": {
+    "routing": {
+      "verdict": "LEXICAL",
+      "per_set": {
+        "operator": {
+          "D": 0.09758132696151733,
+          "p": 0.08278344331133773,
+          "n_within": 29,
+          "n_across": 26,
+          "within_mean": -0.05059255287051201,
+          "across_mean": -0.14817388355731964,
+          "n_groups": 11
+        },
+        "arity": {
+          "D": 0.2138199508190155,
+          "p": 0.0001999600079984003,
+          "n_within": 60,
+          "n_across": 150,
+          "within_mean": 0.2980484962463379,
+          "across_mean": 0.08422853797674179,
+          "n_groups": 30
+        },
+        "alpha": {
+          "D": -0.021477527916431427,
+          "p": 0.8348330333933214,
+          "n_within": 60,
+          "n_across": 150,
+          "within_mean": -0.015341089107096195,
+          "across_mean": 0.006136438809335232,
+          "n_groups": 30
+        }
+      }
+    },
+    "value": {
+      "verdict": "LEXICAL",
+      "per_set": {
+        "operator": {
+          "D": 0.15762273967266083,
+          "p": 0.052389522095580884,
+          "n_within": 29,
+          "n_across": 26,
+          "within_mean": -0.018736058846116066,
+          "across_mean": -0.17635880410671234,
+          "n_groups": 11
+        },
+        "arity": {
+          "D": 0.23248375952243805,
+          "p": 0.0001999600079984003,
+          "n_within": 60,
+          "n_across": 150,
+          "within_mean": 0.40550535917282104,
+          "across_mean": 0.173021599650383,
+          "n_groups": 30
+        },
+        "alpha": {
+          "D": -0.022662736475467682,
+          "p": 0.8418316336732653,
+          "n_within": 60,
+          "n_across": 150,
+          "within_mean": -0.016187669709324837,
+          "across_mean": 0.0064750672318041325,
+          "n_groups": 30
+        }
+      }
+    },
+    "magnitude": {
+      "verdict": "LEXICAL",
+      "per_set": {
+        "operator": {
+          "D": -0.0007234141230583191,
+          "p": 0.40191961607678467,
+          "n_within": 29,
+          "n_across": 26,
+          "within_mean": -0.08463948965072632,
+          "across_mean": -0.083916075527668,
+          "n_groups": 11
+        },
+        "arity": {
+          "D": 0.18181820213794708,
+          "p": 0.0009998000399920016,
+          "n_within": 60,
+          "n_across": 150,
+          "within_mean": 0.3818182051181793,
+          "across_mean": 0.20000000298023224,
+          "n_groups": 30
+        },
+        "alpha": {
+          "D": 0.01714782416820526,
+          "p": 0.3155368926214757,
+          "n_within": 60,
+          "n_across": 150,
+          "within_mean": 0.012248448096215725,
+          "across_mean": -0.004899376071989536,
+          "n_groups": 30
+        }
+      }
+    }
+  }
+}
