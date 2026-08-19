@@ -1,0 +1,18 @@
+[route] pole probes 980 | diverse 496 bands Counter({'nl_combinator': 232, 'prose_structured': 93, 'cross_domain': 76, 'plain_prose': 51, 'symbolic_formal': 44})
+[dmd] loading Qwen/Qwen3-14B (bfloat16, mps)
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights: 100%|██████████| 443/443 [00:00<00:00, 22440.81it/s]
+[dmd] n_layers=40 d_model=5120
+[route] Qwen/Qwen3-14B: 40 layers (all), d captured per layer
+[route] pass 1/2 — pole probes -> frame
+    captured 200/980
+    captured 400/980
+    captured 600/980
+    captured 800/980
+[route] G0: my PR=2.30 committed PR=2.9659294093098287 offdiag_corr=0.9293651328677515
+[route] pass 2/2 — diverse probes -> routes
+    captured 200/496
+    captured 400/496
+[route] det_route_dev=0.00e+00 ok=True | mean coherence=0.933
+[route] wrote results/route_map_v0_s344/run/ (routes.npz, summary.json, meta.json)
