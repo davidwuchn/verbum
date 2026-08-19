@@ -1,0 +1,64 @@
+{
+  "probe": "P-SCHEDULE-READ-A",
+  "frozen": "s343 pre-data freeze (Michael GO): schedule-universality on committed CMR route grams; operator-geometry-la-toolkit.md sec 5e successor",
+  "pre_data": {
+    "N_NULL": 300,
+    "N_MR": 300,
+    "ALPHA": 0.05,
+    "FLOOR": 0.05,
+    "SEED": 0,
+    "apriori": {
+      "UNIVERSAL-SCHEDULE": 45,
+      "PARTIALLY-SHARED": 25,
+      "MODEL-SPECIFIC": 20,
+      "VOID": 10
+    },
+    "statistic": "U = lambda1/M of MxM Pearson corr of flattened per-model schedules (8x11)",
+    "nulls": {
+      "shuffled_layer": "primary (shape-vs-level)",
+      "matched_range": "guard (low-rank inflation)"
+    },
+    "honesty_bound": "tests universality across MODELS not co-extensionality; MODEL-SPECIFIC is the actionable outcome; UNIVERSAL does not alone prove intensional"
+  },
+  "timestamp_utc": "2026-08-19T15:57:40.668177+00:00",
+  "gram_dir": "results/combinator-relationship-map",
+  "n_models": 10,
+  "gram_hash": "8fb92c02100a28e5",
+  "git_sha": "b532c1ddff7eafdf6cd170b2de3a6f4187adf800",
+  "families": {
+    "EleutherAI_pythia-2.8b-deduped": "pythia",
+    "EleutherAI_pythia-410m": "pythia",
+    "HuggingFaceTB_SmolLM3-3B": "smollm",
+    "Qwen_Qwen3-0.6B": "qwen3",
+    "Qwen_Qwen3-14B": "qwen3",
+    "Qwen_Qwen3-32B": "qwen3",
+    "Qwen_Qwen3-4B": "qwen3",
+    "Qwen_Qwen3-8B": "qwen3",
+    "allenai_OLMo-2-1124-13B": "olmo",
+    "mistralai_Mistral-7B-v0.3": "mistral"
+  },
+  "result": {
+    "verdict": "MODEL-SPECIFIC",
+    "U": 0.8940608421049412,
+    "mean_offdiag_corr": 0.8704839777127801,
+    "converged": true,
+    "degenerate": false,
+    "n_sub": 8,
+    "n_layers": 11,
+    "n_models": 10,
+    "shuf_null": {
+      "median": 0.8688105112343885,
+      "q95": 0.872008358382922,
+      "p": 0.0,
+      "delta": 0.02525033087055273,
+      "pass": false
+    },
+    "mr_null": {
+      "median": 0.8902640138635676,
+      "q95": 0.9004939081876421,
+      "p": 0.2633333333333333,
+      "delta": 0.0037968282413736176,
+      "pass": false
+    }
+  }
+}
