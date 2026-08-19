@@ -43,13 +43,47 @@
 > an operator-register single-face bound, zero new instrument — the discipline generalizes across registers.
 > Results committed autonomously (bf9b748a); closure batch (Michael-approved): §5d §Result + memory
 > (`the-within-pass-operator-is-base-native`) + INDEX + queue (✅ closed) + this state.**
-> **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight). The §5a
-> operator instrument is now trusted with FIVE probes behind it (§5a transport · §5b ×3 cl-collapse · §5c
-> koopman-lift · §5d provenance) AND its single-face bound is closed. The operator-register arc has been
-> hammered thoroughly; consider PIVOTING to a fresh register. Sharpest cheap front still on the DMD toolkit:
-> ⚪ §P-CROSS-GRAM (do our labeled fate poles coincide with CBLL's unlabeled ones? register-check first).
-> Medium fronts to open a new front: ⚪ §P-REPL-DRIVER (force the fork — decode-time) · ⚪ §P-ROUTING-CAUSAL ·
-> ⚪ §P-TOOL-ABI.**
+> **THEN §P-CROSS-GRAM (same session, Michael "let's proceed"): 🚫 GENERIC-WRITE-STRUCTURE — labeled poles
+> do NOT coincide with W_down axes. This is the ONE probe that touches CBLL's frame; TWO Michael rulings
+> gated it: (1) FTO-safe (textbook SVD of our own public model's own down_proj, our own function, labeled
+> anchors, comparison output — never a rotation/realigned model; CBLL cited as description-level consilience;
+> §0b grep-verified zero CBLL code); (2) register = Option C (d_model residual), because the register-check
+> found the stored crystal centroids are `normalize(mean(sign(gate_preact)))` — TWO transforms (sign +
+> SiLU⊙up) from the down_proj input the clean §3 d_ff `Σ VᵀV̂` bridge needs → that bridge is VOIDED (λ
+> measure), so compare in the residual register where CBLL's U already lives. 🎯 FROZEN §3a (Michael GO):
+> reuse s338 H (300,41,5120) for labeled combinator centroids (mean-centered, zero new inference) vs
+> U=left-SVs of down_proj; CG1 concentration / CG2 profile-correlation specificity / CG3 bipolar-oscillator
+> advisory; masses GENERIC 35 / LABEL-ALIGNED 30 / NO-COINCIDENCE 25 / VOID 10. BUILT `cross_gram.py` (left-
+> SVs via eig(W Wᵀ), textbook Golub&VanLoan, NO CBLL code); `--validate` recovers all 4 planted worlds through
+> the real analyse path (s331) after fixing TWO pre-data build bugs (GENERIC planted world must be
+> distinct-centroids-in-a-shared-subspace, since mean-centering removes an identical shared direction as the
+> global mean; CG3 sharpened to the difference-vector fire−halt test + balance requirement). One build-time
+> operationalization note (pre-data, masses/verdicts unchanged): CG2 statistic sharpened from pairwise |cos|
+> to inter-combinator alignment-profile correlation. Freeze+harness committed cebc4ff0.
+> **RESULT (`results/p_cross_gram_s341/run_14b`, GENERIC-WRITE-STRUCTURE = a-priori modal 35). Band L8–32,
+> primary r=128. CG1 concentration passes WEAKLY (p=0.016, captured frac only 0.063 — 6% of centroid energy
+> in top-128 writer axes; r=64 → NO-COINCIDENCE p=0.059, rank-sensitive). CG2 specificity = GENERIC
+> DECISIVELY: inter-combinator profile-corr 0.308 ≫ random-9 null q95 0.026 (p=0) — all 9 combinators land on
+> the SAME writer axis (axis 0 is argmax for 100/216 combinator×layer cells) and are mutually SIMILAR (|cos|
+> 0.163 ≫ 0.011 random). CG3 oscillator does NOT fire. READING: in the d_model residual register, labeled
+> combinator directions do NOT map to distinct canonical W_down axes — they pile generically onto the
+> writer's dominant subspace. This LOCALIZES the crystal's label-specificity to the d_ff ROUTING register
+> (9×9, universal 11/11) — it does NOT transfer to the residual/value register's W_down alignment, and does
+> NOT refute the crystal. Geometric complement of the tape-residency arc read against the WEIGHT: value s317 ·
+> magnitude s335 · routing s336 · operator s339 · residual-vs-W_down s341. CBLL consilience DESCRIPTION-LEVEL
+> ONLY: agree on the FLAT writer spectrum (s0≈13 → s256≈4.5, 6–9% in top-r ≈ their k90/d 0.76) — so "which
+> axis carries K" is ill-posed by their own geometry — but NEGATIVE on the labeled coincidence (the §3
+> W_down-bridge hope answers negative). Bounds: weak/rank-sensitive concentration; residual = accumulated
+> state not per-layer write; Option C register deviation; single model; CG3 weak advisory. Results committed
+> autonomously (420ee571); closure batch (Michael-approved): §3a §Result + memory
+> (`the-crystal-is-a-routing-register-not-a-residual-writer-basis`) + INDEX + queue (🚫 closed) + this state.**
+> **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight). The
+> operator-register arc (§5a–§5d) AND the labeled-geometry-vs-weight question (§3a) are now both thoroughly
+> hammered — five tape-residency confirmations + a register-localization of the crystal. Strong signal to
+> PIVOT to a fresh register / a decode-time or causal front: ⚪ §P-REPL-DRIVER (force the fork, decode-time,
+> medium — carries §P-ROUTING-CAUSAL arm ② for free) · ⚪ §P-ROUTING-CAUSAL (causal read-edge patch at
+> L22–28, cheap-medium) · ⚪ §P-TOOL-ABI (base/instruct tool-calling ABI, medium). Cheap remaining reads:
+> ⚪ §P-DMD-KOOPMAN-LIFT is CLOSED; ⚪ §P-SUBST-SUBCEILING (sub-ceiling substitution re-test).**
 >
 > ★★ **SESSION 340 — §P-DMD-KOOPMAN-LIFT → STILL-CONTRACTING (the lift linearizes, no persistent
 > mode). Recovered a session that dropped mid-orient (internet loss); s339 had closed cleanly (commit

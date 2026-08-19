@@ -284,6 +284,60 @@ capture deferred to v2); (4) single model, last-token grain.
 CPU). Results `results/p_cross_gram_s341/`; harness `scripts/experiments/
 cross_gram.py` (reuses `operator_dmd.economy_svd`; NEVER CBLL code, §0b).
 
+### §Result — §P-CROSS-GRAM (s341, Qwen3-14B): GENERIC-WRITE-STRUCTURE
+
+**Verdict per frozen tree: GENERIC-WRITE-STRUCTURE** (a-priori modal, mass 35).
+Option C (d_model residual register), reusing the s338 `H` (no new inference)
++ 40 `down_proj` left-singular-vector SVDs. CG0 ✓ (`--validate` 4/4). Results
+`results/p_cross_gram_s341/run_14b/meta.json`; harness `cross_gram.py`.
+
+| gate | r=64 | **r=128** | r=256 | read |
+|---|---|---|---|---|
+| CG1 CONCENTRATION | p=0.059 (fail) | **p=0.016 (pass)** | p=0.000 | weak & rank-dependent; captured frac f only **0.063** |
+| **CG2 SPECIFICITY** | generic | **generic** | generic | corr 0.308 ≫ null q95 0.026, p=0 — same axes, not label-specific |
+| \|cos\| corrob. | 0.163 | **0.163** ≫ 0.011 | 0.163 | the 9 residual centroids are mutually *similar*, not distinct |
+| CG3 OSCILLATOR | — | **no fire** | — | no fire/halt bipolar axis |
+| verdict | NO-COINCIDENCE | **GENERIC-WRITE-STRUCTURE** | GENERIC-WRITE-STRUCTURE | |
+
+**The finding.** In the d_model residual register, our labeled combinator
+directions do NOT coincide with *specific* `W_down` write-axes. They pile
+**generically** onto the writer's dominant subspace — the top axis (**axis 0**)
+is the argmax for **100 of ~216** combinator×layer cases (sample L22: K,I,B,D →
+axis 0), and the 9 centroids are mutually similar (|cos| 0.163 ≫ 0.011 random).
+"Activations live in the writer's dominant subspace," not "labels map to distinct
+canonical axes."
+
+**Register localization (the real content).** The crystal's label-specificity —
+the 9×9 identity register, universal 11/11 — is a **d_ff routing-register**
+property (sign-of-gate). This result shows that specificity **does not transfer**
+to the d_model residual/value register's alignment with `W_down`. It does NOT
+refute the crystal; it **localizes** it to the routing register — and coheres
+with the tape-residency arc (value s317 · magnitude s335 · routing s336 ·
+operator s339): the residual/value register carries generic structure, not the
+computation's semantic identity. This front is the geometric complement of that
+arc, read against the weight rather than the activation trajectory.
+
+**CBLL consilience (description-level only, §0b).** The writer spectrum is FLAT
+(s₀≈13 → s₂₅₆≈4.5; only 6–9% of centroid energy in the top-128/256 axes) —
+agreeing with CBLL's own reported flat-FFN spectrum (k90/d≈0.76). So "which
+canonical axis carries K" is ill-posed by their own geometry, and our LABELED
+poles show no bipolar fire/halt oscillator. **Agreement on the flatness, negative
+on the labeled coincidence** — the §3 W_down-bridge hope (§3's "which axes carry
+K vs B vs S; does fire/halt = the bipolar oscillator") answers negative in the
+residual register.
+
+**Bounds (λ observation).** (1) CG1 concentration is weak & rank-sensitive (r=64
+→ NO-COINCIDENCE p=0.059; GENERIC robust at r=128/256 but captured frac only
+6–9%). (2) residual = accumulated state, not the per-layer MLP write. (3) Option C
+register deviation (residual, not the crystal-validated d_ff routing register) —
+a clean W_down comparison but a different register from where the crystal lives;
+the honest reading is register-localization, not a claim about the routing
+register itself. (4) single model, last-token; CG3 fate/oscillator uses crude
+WHNF/Y/mean-active proxies and is a weak advisory (the fire=mean-active proxy
+leaks onto the halt axis under mean-centering — only quantitative balanced
+bipolar strength would count, and none appeared). FTO clean: left-SVs via
+eig(W Wᵀ), textbook, no CBLL code (§0b holds, grep-verified).
+
 ## 4. The technique toolkit (ranked: tie-to-our-research × cheap × null-testable)
 
 ```
