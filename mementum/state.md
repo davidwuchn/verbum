@@ -14,6 +14,45 @@
 > Architecture/canonical-forms: `AGENTS.md`. Knowledge map:
 > `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 340 — §P-DMD-KOOPMAN-LIFT → STILL-CONTRACTING (the lift linearizes, no persistent
+> mode). Recovered a session that dropped mid-orient (internet loss); s339 had closed cleanly (commit
+> ecc7e536), nothing lost — s340 was front-selection + a look at commits, no persisted work. Selected
+> ⚪ §P-DMD-KOOPMAN-LIFT (Michael). NEAR-FREE re-analysis of the saved s338 §5a `H (300,41,5120)` — NO
+> new inference, det 0.0 (same bytes). 🎯 FROZEN §5c (operator-geometry-la-toolkit.md, Michael GO):
+> lift the last-token residual trajectory through a degree-2 poly dictionary (324 obs on P_LIFT=24)
+> BEFORE DMD; verdict tree G0 instrument / G1 residual-drop (make-or-break, matched-dim random-lift +
+> shuffle nulls, floor Δ≥0.05) / G2 persistence (vs random-lift null) / G3 decision-landing (register
+> trap: persistent mode ≠ DC/norm); masses STILL-CONTRACTING 30 / DIMENSION-ARTIFACT 25 /
+> PERSISTENT-IS-NORM 20 / PERSISTENT-IS-DECISION 15 / VOID 10. BUILT `scripts/experiments/koopman_lift.py`
+> (reuses operator_dmd.py); `--validate` recovers ALL 4 planted worlds. FOUR build-time amendments
+> (Michael-approved, pre-data — masses/floors/verdict-space UNCHANGED): (1) residual metric = next-STATE
+> prediction, NOT full-lifted-vector (a degree-2 dict is NEVER Koopman-closed — driven-coord squares are
+> degree-4 — so the full-vector residual is inflated and the lift can look worse than linear); (2)
+> LIFT_RANK 80→240 (the 324-dim lift needs high rank to represent the operator / surface conserved modes);
+> (3) G3 = MIN square-fraction not median (a conserved LINEAR mode co-conserves its square = degenerate
+> |λ|=1 subspace, so ∃ a non-norm persistent mode is the right test); (4) planted worlds = Koopman-closed
+> driver/driven + iid-noise + rotation-block + magnitude-conserved.
+> **RESULT (`results/p_dmd_koopman_lift_s340/run_14b`, verdict STILL-CONTRACTING = a-priori modal 30).
+> TWO-SIDED, resolves both s338 caveats. ✅ G1 RESIDUAL-DROP PASS (make-or-break): the degree-2 Koopman
+> lift GENUINELY helps — next-state prediction residual drops linear 0.354 → poly 0.193 (rank 240,
+> monotone r80 0.391/r160 0.253/r240 0.193), beats the matched-dim random-lift null (dR +0.265, p=0) AND
+> shuffled-layer (gap +0.758, p=0) → the ~half-nonlinear remainder from s338 is REAL, layer-ordered,
+> poly-liftable structure, NOT a capacity artifact. ❌ G2 PERSISTENCE FAIL: persist 0.000 (null 0.046),
+> top|λ| 0.942, all contracting; random lifts manufactured ~4.6% spurious persistence, poly produced
+> ZERO → NO persistent |λ|≈1 modes even after lifting. READING: homeostasis is NONLINEAR too;
+> "persistent-mode ≡ sign-is-the-decision" is NOT an operator-spectrum mode (linear OR Koopman-lifted) →
+> it lives in the thin late-decision mode below rank/last-token resolution (s329/s336) or a non-operator
+> register. FIFTH tape-residency confirmation: value s317 · magnitude s335 · routing s336 · operator/decay
+> s339 · Koopman-persistence s340. Bounds: single model Qwen3-14B, last-token, poly-2 only, top|λ| 0.942
+> near the 0.95 bar. Closure batch (Michael-approved): §Result §5c + memory
+> (`the-koopman-lift-linearizes-but-stays-contracting`) + INDEX + queue (✅ closed) + this state.**
+> **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight). The §5a
+> operator instrument is now trusted with FOUR probes behind it (§5a transport, §5b ×3 cl-collapse, §5c
+> koopman-lift). Sharpest cheap fronts, both reuse §5a: ⚪ §P-DMD-PROVENANCE (base-vs-instruct one
+> --model-id swap — is the stationary/contracting operator post-training-installed or base-native? guards
+> the single-model bound) · ⚪ §P-CROSS-GRAM (do our labeled fate poles coincide with CBLL's unlabeled
+> ones?). Medium: ⚪ §P-REPL-DRIVER · ⚪ §P-ROUTING-CAUSAL · ⚪ §P-TOOL-ABI.**
+>
 > ★★ **SESSION 339 — §P-CL-COLLAPSE-3 (operator/arity/alpha): EXTENSIONAL EQUALITY ABSENT IN THE
 > OPERATOR REGISTER; the positional shadow is LEXICAL, proven by a nested length→alphabet control
 > ladder (Michael: "chase this down"). Selected the s338 orbital payoff. THREE probes, all Qwen3-14B,

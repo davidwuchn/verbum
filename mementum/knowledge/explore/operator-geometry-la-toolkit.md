@@ -438,6 +438,136 @@ decay-rate, not the state's position.
 (~half nonlinear, §5a caveat), thin B/W families in the operator probe. Results
 `results/p_cl_collapse_3_{operator,arity,alpha}_s339/` (npz gitignored).
 
+## 5c. 🎯 §P-DMD-KOOPMAN-LIFT — FROZEN (s340, Michael GO)
+
+> Pre-registered before any measurement (λ probe_lifecycle). Near-free
+> re-analysis of the s338 §5a trajectories (`H (300,41,5120)` saved) — zero new
+> inference, pure numpy, reuses `operator_dmd.py` (textbook, §0b FTO-clean).
+
+**Question.** §5a left two linked caveats: (1) `rel_resid` 0.476 @ r40 — *~half
+the transition is nonlinear*; (2) **no persistent `|λ|≈1` modes** (top ~0.92,
+all contracting) — the pre-registered *"persistent-mode ≡ sign-is-the-decision"*
+had no train to land on. Does a **Koopman lift** (nonlinear observables *before*
+DMD) drop the residual, and do **persistent modes appear** that the linear
+spectrum missed?
+
+**Two traps this freeze beats (why discipline, not just a lift).**
+1. **φ-ladder scar (λ yardstick).** Any lift adds dimensions and mechanically
+   lowers reconstruction residual. A drop counts ONLY if it beats a **matched-
+   dimension random-lift null**. This is the make-or-break.
+2. **Register trap (λ measure / λ separate).** Residual-norm grows monotonically
+   across depth; a lifted `|λ|≈1` mode can be the **DC/norm-growth direction**
+   (degree-2 `‖h‖²` makes it trivial) — mundane substrate, NOT the decision.
+   s339 already found the operator DC-dominated (66/70 modes θ≈0). A persistent
+   mode must land on **sign/fate poles, not DC/norm**, to count as the payoff.
+
+**Lift dictionaries (frozen, NOT tuned to data).** Primary = **polynomial
+degree-2** on a `P_lift=24` PCA frame → 24 linear + 24 squares + 276 cross ≈
+**324 observables** (well-posed vs ~12 000 column-pairs; deterministic; degree-2
+Taylor of softmax·SiLU). Advisory readout = **opcode/fate observables** (project
+persistent modes onto the labeled 9×9 combinator + 17×17 fate poles).
+
+**Nulls (mandatory).** matched-dim random-lift (crux G1, N_NULL=200 draws, real
+data) · shuffled-layer-order (G2, reused §5a) · DC/norm control (G3 register
+trap).
+
+**Frozen verdict tree.**
+- **G0 INSTRUMENT** — planted worlds recovered + det-repeat (trivially 0.0, same
+  H). Fail → **VOID**.
+- **G1 RESIDUAL-DROP** (make-or-break) — `rel_resid_lifted` beats matched-dim
+  random-lift null by floor **Δ≥0.05**, p<0.05, corroborated by shuffle. Fail →
+  **DIMENSION-ARTIFACT** (lift is just capacity).
+- **G2 PERSISTENCE** — `persist_frac_lifted` exceeds the random-lift null by
+  floor. Fail → **STILL-CONTRACTING** (genuine nonlinear structure recovered,
+  still contracts — *strengthens* §5a caveats 1&2).
+- **G3 DECISION-LANDING** — persistent modes project onto sign/fate poles, NOT
+  the DC/norm direction, beating a matched null. Pass → **PERSISTENT-IS-DECISION**
+  (the payoff); fail → **PERSISTENT-IS-NORM** (persistent but mundane).
+
+**A-priori masses (frozen, sum 100).** STILL-CONTRACTING 30 (modal — coheres
+s339 DC-dominated/all-contract) · DIMENSION-ARTIFACT 25 (φ-ladder skeptic) ·
+PERSISTENT-IS-NORM 20 (norm-growth trap fires) · PERSISTENT-IS-DECISION 15 (the
+payoff — sign-is-the-decision surfaces in the operator) · VOID 10 (EDMD
+spectral-pollution / bf16 last-token fragility).
+
+**Planted worlds (`--validate`, drive through real `analyse()`, s331).** ①
+poly-linearizable `h_{ℓ+1}=poly2(h_ℓ)` → G1 far beyond null · ② truly-unliftable
+(non-polynomial) → DIMENSION-ARTIFACT · ③ linear-contracting (the §5a phenotype)
+→ STILL-CONTRACTING · ④ persistent-on-pole (`|λ|=1` on a designated fate
+observable) → PERSISTENT-IS-DECISION · ⑤ persistent-norm (`|λ|=1` on the DC/norm
+direction) → PERSISTENT-IS-NORM.
+
+**Cost.** cheap (seconds–minutes, no model load). Results →
+`results/p_dmd_koopman_lift_s340/` (npz gitignored). Harness
+`scripts/experiments/koopman_lift.py`.
+
+### Build-time amendments (s340, Michael-approved, pre-data)
+
+Building `--validate` surfaced four refinements to the *estimator* (the frozen
+verdict tree, a-priori masses, `G1_DELTA_FLOOR=0.05`, `ALPHA`, `PERSIST_ABS=0.95`
+are ALL unchanged — these are operationalizations within the frozen gate
+semantics; s324 build-time-discovery discipline, not a footnote):
+
+1. **Residual metric = next-STATE prediction, not full-lifted-vector.** A
+   degree-2 dictionary is NEVER Koopman-closed for nonlinear state dynamics
+   (driven-coord squares are degree-4), so the full-vector residual is inflated —
+   poly can even look *worse* than linear on exactly-polynomial dynamics. G1 is
+   measured as the next-STATE prediction residual through a rank-r EDMD operator
+   (`state ≈ R·Ψ`, predict `Ψ(ℓ+1)=A_proj Ψ(ℓ)`, read state back). Rank
+   truncation keeps it shuffle-sensitive; the state map is exactly linear-in-
+   features so a genuine lift drives it → 0. This IS "does the lift predict the
+   next state better" (the §5a-comparable question).
+2. **`LIFT_RANK` 80 → 240** (instrument calibration on planted worlds). The
+   324-dim lift needs high rank to represent the operator; rank-80 truncated out
+   planted conserved modes. Rank 240 recovers them (rel → 0.06 on closed worlds)
+   and stays shuffle-sensitive (shuffle gap ≈ +0.90).
+3. **G3 register-trap: MIN square-fraction, not median.** A conserved LINEAR
+   mode geometrically co-conserves its square (degenerate |λ|=1 subspace), so
+   median energy-on-square can't separate decision from norm. Operationalized as:
+   does a NON-norm persistent mode EXIST (min square-fraction across persistent
+   modes below the random-vector null) → PERSISTENT-IS-DECISION; else all-norm →
+   PERSISTENT-IS-NORM.
+4. **Planted worlds** = Koopman-closed driver/driven system (STILL-CONTRACTING),
+   iid noise (DIMENSION-ARTIFACT), a 2D rotation block (PERSISTENT-IS-DECISION),
+   a magnitude-conserved coord (PERSISTENT-IS-NORM). `--validate` recovers all 4.
+
+### §Result — §P-DMD-KOOPMAN-LIFT (s340, re-analysis of s338 H): STILL-CONTRACTING
+
+**Verdict per frozen tree: STILL-CONTRACTING** (a-priori modal, mass 30).
+Near-free re-analysis of the s338 §5a trajectories `H (300,41,5120)` — no new
+inference, det trivially 0.0 (same bytes), git_sha of source ecc7e536. Results
+`results/p_dmd_koopman_lift_s340/run_14b/meta.json`. `--validate` recovers all 4
+planted worlds.
+
+| gate | value | read |
+|---|---|---|
+| **G1 RESIDUAL-DROP** | **PASS** — poly 0.193 vs linear 0.354; sweep r80 0.391 / r160 0.253 / r240 0.193; dR=**+0.265** (random-lift median 0.459, p=0); shuffle gap **+0.758** (p=0) | **the lift genuinely helps** — the ~half-nonlinear remainder is REAL, layer-ordered, poly-liftable structure, not capacity artifact (beats matched-dim random-lift AND shuffle decisively) |
+| **G2 PERSISTENCE** | **FAIL** — persist 0.000 (null 0.046); top\|λ\| 0.942, all contracting | NO persistent modes even after lifting; random lifts manufactured ~4.6% spurious persistence, poly produced ZERO |
+| G3 | not reached (n_persist=0) | — |
+
+**The finding (two-sided).** Caveat 1 (s338) answered **positively**: the
+within-pass transition IS substantially nonlinear and a degree-2 Koopman lift
+recovers genuine layer-ordered structure — the next-state prediction residual
+drops ~45% from the linear operator (0.354→0.193), monotone in rank, beating
+both the matched-dim random-lift and the shuffled-layer nulls. Caveat 2 answered
+**negatively and now airtight**: the pre-registered *"persistent-mode ≡
+sign-is-the-decision"* does NOT surface even in the Koopman-lifted operator. The
+reducer stays globally contracting — **homeostasis is nonlinear too** — and
+sign-is-the-decision is NOT an operator-spectrum persistent mode (linear OR
+lifted). It must live in the thin late-decision mode below the rank/last-token
+resolution (s329/s336) or a non-operator register.
+
+**Coherence.** Fifth confirmation the decision is not a durable geometric mode:
+value (s317) · magnitude (s335) · routing (s336) · operator/decay (s339) ·
+**Koopman-operator persistence (s340)**.
+
+**Bounds.** single model (Qwen3-14B), last-token grain, poly-2 lift on P_LIFT=24
+at rank 240; top\|λ\|=0.942 is NEAR the 0.95 bar (modes "almost persistent" but
+below both the frozen threshold and the random-lift's manufactured rate);
+higher-degree / true Koopman eigenfunctions could differ. Instrument trusted
+(4 planted worlds recovered, G1 beats both nulls). Harness
+`scripts/experiments/koopman_lift.py`.
+
 ## 6. Discipline summary
 
 ```

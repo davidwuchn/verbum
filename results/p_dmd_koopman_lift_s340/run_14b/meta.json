@@ -1,0 +1,79 @@
+{
+  "probe": "P-DMD-KOOPMAN-LIFT",
+  "frozen": "s340 pre-data freeze (Michael GO): operator-geometry-la-toolkit.md sec 5c",
+  "pre_data_instantiations": {
+    "P_LIFT": 24,
+    "LIFT_RANK": 240,
+    "RANK_SWEEP": [
+      80,
+      160,
+      240
+    ],
+    "N_NULL": 200,
+    "N_PERM_SHUF": 100,
+    "N_RAND_VEC": 4000,
+    "ALPHA": 0.05,
+    "G1_DELTA_FLOOR": 0.05,
+    "PERSIST_ABS": 0.95,
+    "SEED": 0,
+    "apriori_masses": {
+      "STILL-CONTRACTING": 30,
+      "DIMENSION-ARTIFACT": 25,
+      "PERSISTENT-IS-NORM": 20,
+      "PERSISTENT-IS-DECISION": 15,
+      "VOID": 10
+    }
+  },
+  "timestamp_utc": "2026-08-19T00:14:41.222268+00:00",
+  "source_H": "results/p_dmd_transport_s338/run_14b/trajectories.npz",
+  "reanalysis_of": "P-DMD-TRANSPORT s338 (no new inference)",
+  "det_value_dev": 0.0,
+  "det_ok": true,
+  "git_sha": "ecc7e5363763a3e15eb2b7fc3896922cb7044d5b",
+  "global_verdict": "STILL-CONTRACTING",
+  "gates": {
+    "n_prompts": 300,
+    "lp1": 41,
+    "d_out": 324,
+    "rel_resid_poly": 0.19323472837957714,
+    "rel_resid_linear": 0.35364192372291675,
+    "rel_resid_sweep": {
+      "80": 0.39084525121058994,
+      "160": 0.25296626984482135,
+      "240": 0.19323472837957714
+    },
+    "persist_frac_poly": 0.0,
+    "persist_frac_linear": 0.0,
+    "top_abs_eig": [
+      0.9420605319994991,
+      0.9406152341273762,
+      0.9406152341273762,
+      0.9238583271335111,
+      0.9154380531715012
+    ],
+    "g1": {
+      "delta_vs_random": 0.2654821912752936,
+      "p_random": 0.0,
+      "beats_random": true,
+      "rand_rel_median": 0.4587169196548707,
+      "gap_shuffle": 0.7580731602956617,
+      "p_shuffle": 0.0,
+      "shuffle_ok": true,
+      "pass": true
+    },
+    "g2": {
+      "persist_poly": 0.0,
+      "persist_null95": 0.04583333333333333,
+      "pass": false
+    },
+    "g3": {
+      "min_square_frac": 0.0,
+      "median_square_frac": 0.0,
+      "square_null95": 0.09955649146158782,
+      "n_persistent": 0,
+      "norm_dominated": false
+    },
+    "verdict": "STILL-CONTRACTING"
+  },
+  "advisory_pole_landing": null
+}
