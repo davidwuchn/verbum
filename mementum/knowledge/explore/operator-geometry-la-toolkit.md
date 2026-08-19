@@ -568,6 +568,55 @@ higher-degree / true Koopman eigenfunctions could differ. Instrument trusted
 (4 planted worlds recovered, G1 beats both nulls). Harness
 `scripts/experiments/koopman_lift.py`.
 
+## 5d. §Result — §P-DMD-PROVENANCE (s341, Qwen3-14B-Base): BASE-NATIVE
+
+**Verdict per pre-registered provenance tree: BASE-NATIVE** (a-priori modal,
+mass 65). Method-door application (s329): one `--model-id` swap to
+`Qwen/Qwen3-14B-Base`, re-running the FROZEN s338 §5a operator instrument
+(`dmd_transport.py`) unchanged — same gate tree, thresholds, masses. **Same
+corpus** (`corpus_hash 6a89d454` matches the s338 instruct run → apples-to-
+apples). det value_dev **0.0**; `--validate` recovered all 5 planted worlds
+(instrument re-guarded). Results `results/p_dmd_provenance_s341/run_14b_base`
+(trajectories.npz gitignored). Guards the single-face bound of the s338
+STATIONARY-REDUCER verdict.
+
+| stat | instruct (s338) | base (s341) | Δ(inst−base) | read |
+|---|---|---|---|---|
+| verdict | STATIONARY-REDUCER | **STATIONARY-REDUCER** | — | same phenotype both faces |
+| **G2 gap** | +0.498 | **+0.492** | +0.006 | operator EXISTS decisively on base (p=0), ~identical |
+| G2 shuf_median | 0.974 | 0.975 | −0.001 | layer-order carries the structure on base too |
+| **G3 core_sim** | 0.717 | **0.773** | −0.055 | **within ±0.10 tol** — base slightly *more* stationary |
+| G3 late_sim | 0.704 | 0.717 | −0.013 | late band stationary on base too |
+| mean\|λ\| | 0.878 | 0.853 | +0.025 | base slightly *more* contracting |
+| top\|λ\| | 0.920 | 0.921 | −0.000 | identical spectral ceiling |
+| persist_frac | 0.0 | 0.0 | 0.0 | no persistent-mode emergence in either |
+| rel_resid@r40 | 0.476 | 0.483 | −0.007 | linearization comparable |
+
+**The finding.** The within-pass stationary-contracting transport operator —
+s338's "one reducer unrolled" — is **base-native, not post-training-installed**.
+It is present at full strength in `Qwen3-14B-Base` before any post-training. All
+frozen BASE-NATIVE conditions met: base STATIONARY-REDUCER (G2 decisive ∧
+core≥0.70) ∧ |Δcore_sim| 0.055 ≤ 0.10 ∧ no persistent-mode emergence ∧ Δmean|λ|
+small.
+
+**The nuance (banked).** The Δs point the *opposite* way from "post-training
+sharpens the operator": base is **marginally more stationary** (core 0.773 >
+0.717) and **more contracting** (mean|λ| 0.853 < 0.878). So if anything,
+post-training adds a thin perturbation that slightly *loosens* bulk stationarity
+— the operator-register shadow of a thin late decision mode (coheres s329
+post-training-lives-late, s336 L22–28), not a mode that creates the operator.
+
+**Standing bound (per pre-registration, carries s338 caveat 3).** BASE-NATIVE =
+"the **bulk** stationary-contracting operator is base-native." Silent on thin
+late decision modes below the rank-40/P128/last-token resolution — which s329
+already showed *are* post-training-installed in the commit/routing register. The
+two findings are compatible; the tiny loosening Δ is that thin mode's shadow, if
+anything. **Bounds:** single lineage (Qwen3), 14B, last-token grain.
+
+**Method-door confirmation.** s329's cheap provenance pattern (base-vs-instruct
+differential) settles an operator-register single-face bound with one model-id
+swap and zero new instrument — the discipline generalizes across registers.
+
 ## 6. Discipline summary
 
 ```

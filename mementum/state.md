@@ -14,6 +14,43 @@
 > Architecture/canonical-forms: `AGENTS.md`. Knowledge map:
 > `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 341 — §P-DMD-PROVENANCE → BASE-NATIVE (the within-pass stationary operator is base-native,
+> not post-training-installed). Oriented: nothing in flight, s340 closed clean. Selected ⚪ §P-DMD-PROVENANCE
+> (Michael) — the cheap method-door front guarding the s338 STATIONARY-REDUCER single-face bound. 🎯
+> PRE-REGISTERED (Michael GO) a lightweight provenance layer on the FROZEN s338 §5a instrument (NO re-freeze
+> of gates/masses): a-priori BASE-NATIVE modal (s338 bulk-stationary-contracting = GD/AOT footprint + s329
+> post-training-lives-late ⇒ any post-training footprint is a thin late mode the operator instrument can't
+> resolve ⇒ bulk read ~identical both faces); verdict space BASE-NATIVE 65 / POST-TRAINING-INSTALLED 30 /
+> VOID 5; comparison stats Δcore_sim (tol ±0.10) · base G2 decisiveness · spectrum shift · persist-mode
+> emergence. Base cached (28G/8 shards). Re-guarded the instrument (`--validate` 5/5 planted worlds), then
+> ran `dmd_transport.py --model-id Qwen/Qwen3-14B-Base --out results/p_dmd_provenance_s341/run_14b_base
+> --n-prompts 300` in tmux main:1 (~80s analyse, ~min capture). **corpus_hash 6a89d454 MATCHES the s338
+> instruct run → apples-to-apples.**
+> **RESULT (`results/p_dmd_provenance_s341/run_14b_base`, verdict BASE-NATIVE = a-priori modal 65). det
+> value_dev 0.0 (G0 ✓ both faces). Base face is ALSO STATIONARY-REDUCER, essentially identical to instruct:
+> G2 gap +0.492 p=0 (vs instruct +0.498) — the transport operator EXISTS decisively on base, layer order
+> carries the structure; G3 core_sim 0.773 (vs 0.717, |Δ|=0.055 ≤ 0.10 tol) / late 0.717 (vs 0.704); mean|λ|
+> 0.853 (vs 0.878), top|λ| 0.921 (vs 0.920), persist_frac 0.0 BOTH (no persistent-mode emergence); rel_resid@r40
+> 0.483 (vs 0.476). ALL frozen BASE-NATIVE conditions met. THE FINDING: s338's "one reducer unrolled" is
+> base-native, present at full strength before post-training → guards the single-face bound of the s338
+> STATIONARY-REDUCER positive (not an instruct-face artifact). THE NUANCE (banked): Δs point OPPOSITE to
+> "post-training sharpens the operator" — base is marginally MORE stationary AND MORE contracting ⇒
+> post-training slightly LOOSENS the bulk operator = the operator-register shadow of a thin late decision
+> mode (coheres s329 post-training-lives-late, s336 L22–28), not one that creates it. STANDING BOUND (per
+> pre-reg, carries s338 caveat 3): silent on thin late decision modes below the rank-40/P128/last-token
+> resolution — which s329 showed ARE post-training-installed in the commit/routing register (compatible).
+> Bounds: single lineage Qwen3, 14B, last-token. Method-door confirmation (s329): one model-id swap settles
+> an operator-register single-face bound, zero new instrument — the discipline generalizes across registers.
+> Results committed autonomously (bf9b748a); closure batch (Michael-approved): §5d §Result + memory
+> (`the-within-pass-operator-is-base-native`) + INDEX + queue (✅ closed) + this state.**
+> **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight). The §5a
+> operator instrument is now trusted with FIVE probes behind it (§5a transport · §5b ×3 cl-collapse · §5c
+> koopman-lift · §5d provenance) AND its single-face bound is closed. The operator-register arc has been
+> hammered thoroughly; consider PIVOTING to a fresh register. Sharpest cheap front still on the DMD toolkit:
+> ⚪ §P-CROSS-GRAM (do our labeled fate poles coincide with CBLL's unlabeled ones? register-check first).
+> Medium fronts to open a new front: ⚪ §P-REPL-DRIVER (force the fork — decode-time) · ⚪ §P-ROUTING-CAUSAL ·
+> ⚪ §P-TOOL-ABI.**
+>
 > ★★ **SESSION 340 — §P-DMD-KOOPMAN-LIFT → STILL-CONTRACTING (the lift linearizes, no persistent
 > mode). Recovered a session that dropped mid-orient (internet loss); s339 had closed cleanly (commit
 > ecc7e536), nothing lost — s340 was front-selection + a look at commits, no persisted work. Selected
