@@ -176,6 +176,7 @@ follow cross-references; then use the full catalog below for specific topics.
 | Page | Status | Title |
 |---|---|---|
 | [explore/5d-crystal-lattice.md](explore/5d-crystal-lattice.md) | 📋 open | 5D Crystal Lattice Hypothesis — One Crystal, Many Projections |
+| [explore/rotation-is-iterated-soft-beta-reduction.md](explore/rotation-is-iterated-soft-beta-reduction.md) | 📋 open | Rotation Is a Series of Soft-β Reductions — the Two Math Engines Are One (s344; arith_trace: math=S/Y duplication sector, FFN; date=attention rotation; unify as iterated soft-β over linear/circular encodings; ⚪ §P-ITERATED-SOFT-REDUCTION) |
 | [explore/VERBUM.md](explore/VERBUM.md) | 📋 open | Distilling the Lambda Compiler — From LLM Circuit to Tensor Primitive |
 | [explore/algedonic-alert.md](explore/algedonic-alert.md) | · — | (algedonic-alert) |
 | [explore/architecture-vs-scale.md](explore/architecture-vs-scale.md) | ✅ active | Architecture vs Scale: Combinator Formation in Shaped Models |

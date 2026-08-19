@@ -153,6 +153,37 @@
 > committed route_map_v0 routes): ⚪ §P-COEXT-ROUTE (orbital SKK-vs-I as ROUTES — the redeemed semantic-
 > equality read) · ⚪ §P-BRANCH-POINT (which axes carry the L30-39 divergence) · ⚪ §P-EARLY-SORTERS (what
 > L2/L4 sort on). Also live: ⚪ §P-HALT-POLE-TETRAHEDRON (basis expansion) · cheap spectral §P-MP-NULL.**
+> **THE MATH REDIRECT (Michael, s344, post compile-step-v2): "maybe we went about this wrong; with our ability
+> to trace opcodes we should be able to find WHERE a model does math; in past probes the system used the I
+> combinator for math as if it were Church encoding." A GENERATIVE pivot (the s344-diagnosis remedy: grow the
+> map, don't property-test) using our strongest audited asset — the opcodes/ tracer (null-gated sign(gate)
+> reader, over-read killed audit #13, per-token per-layer combinator trajectory). Built scripts/explore/
+> arith_trace.py (reuses opcodes/{topology,capture,classify}; calibrate once, trace a task-typed battery),
+> 0.6B smoke + Qwen3-14B run (19b4b50c). READ (exploratory, capture-euphoria-guarded): TWO math engines in
+> TWO registers. (1) REDUCTION arithmetic (add/succ/mul) → FFN/gate register, dominant ops S + Y = the
+> DUPLICATION+RECURSION sector, ALWAYS fires (noop 0.00). (2) MODULAR/DATE → FFN-SILENT (noop 0.38, weak S) =
+> reproduces s128 "FFN silent for dates"; s128 says it lives in ATTENTION as geometric ROTATION (R²=0.95,
+> distributed collective mode). Language (prose) reads the affine KIBC block {I,C,K,B}; retrieval reads WHNF
+> (halt). CORRECTS the old β_I memory (s127/s161 = OLDER 12-op ISA vocab): the current 9-op CRYSTAL says S/Y,
+> which is theoretically RIGHT — Church numerals REQUIRE duplication (S=B(BW)(BBC), n=n-fold contraction; the
+> affine KIBC cannot duplicate). So "math = duplication sector" IS the Church signature in the correct basis
+> (coheres s271). attn-register re-run: everything fires (elevated null floor, reads soft) — math still
+> S/Y, prose still affine KIBC, mod_date now Y-heavy (rotation ≠ a combinator → tracer approximates).
+> **THE UNIFICATION (Michael): "attention is a soft beta reduction; rotation could be a series of reductions in
+> the interference." Grounded in the active attention-as-beta-reduction page (s247b: softmax-over-V =
+> superposition of substitution, exact β = softmax→argmax limit; FFN = β-program, attention = one-instruction
+> CPU). Decodes onto s128: rotation-by-Nδ = a per-LAYER series (L12-16 accumulation) of per-HEAD interference
+> (the "phonon" collective mode) of soft-β steps on a CIRCULAR Fourier encoding = Church-numeral N on a
+> rotate-by-δ operator ⇒ the TWO engines are ONE iterated-soft-β reduction over two encodings (linear→FFN
+> S/Y, circular→attention rotation). GUARD: attention=β is interpretation (audit s204: all attention is a
+> weighted sum, hasn't beaten induction confound); s128 linear+additive = RETRODICTION ≠ win → owes a
+> pre-registered discriminator. Captured: memory (math-is-the-duplication-recursion-sector) + NEW knowledge
+> page (rotation-is-iterated-soft-beta-reduction) + queue (⚪ §P-ITERATED-SOFT-REDUCTION) + INDEX + this state.
+> **NEXT ACTION = §P-ITERATED-SOFT-REDUCTION (the unification make-or-break): does reduction WORK scale with
+> the numeric COUNT on BOTH linear arith (FFN: S-recruitment ∝ operand magnitude) AND circular arith
+> (attention: β-step/accumulation ∝ day offset)? + operand-routing control (patch V at day-tokens → rotation
+> moves ⇒ β not a learned matrix) + learned-rotation null. Both scale ⇒ ONE engine two encodings; only linear
+> ⇒ separate. Subsumes §P-ARITH-DUPLICATION. Owes freeze (a-priori + gates + planted worlds + Michael GO).**
 > ★★ **SESSION 343 — §P-SCHEDULE-READ arm A → 🚫 MODEL-SPECIFIC: the schedule is a STATIC LEVEL LADDER,
 > NO UNIVERSAL TIMETABLE ("no trains, only a painted-on level"). Oriented (s342 closed clean, nothing in
 > flight). Selected the s342 successor §P-SCHEDULE-READ (the "trains" arm). **DESIGN FINDING before freeze
