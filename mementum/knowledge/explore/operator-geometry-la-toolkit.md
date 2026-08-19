@@ -200,6 +200,90 @@ oscillator**; whether his **axis-62 controller** is the **WHNF/halt** direction.
 Cheap, and either it aligns our labeled poles with his unlabeled ones or it
 doesn't.
 
+## 3a. 🎯 §P-CROSS-GRAM — FROZEN (s341, Michael GO; Option C — residual register)
+
+> Pre-registered before any measurement (λ probe_lifecycle). Michael rulings
+> (s341): (1) **FTO-safe** — this is the one probe that touches CBLL's frame, but
+> it takes a textbook SVD of *our own public model's own* `down_proj`, in our own
+> function (docstring cites Golub & Van Loan, never CBLL), projects *our labeled*
+> anchors, and emits a *comparison* — never a rotation/realigned model; CBLL cited
+> once as description-level consilience only (§0b holds: zero CBLL code in the
+> executable tree, grep-verified s341). (2) **Register = Option C (d_model
+> residual)**: the §3 d_ff bridge is voided by a double register gap — the stored
+> crystal centroids are `normalize(mean(sign(gate_preact)))`, TWO transforms
+> (sign + SiLU⊙up) from the `down_proj` input the clean `Σ VᵀV̂` bridge needs. So
+> we compare in the residual register directly, where CBLL's `U` already lives.
+
+**Question.** Do our **labeled** semantic directions (9 combinator identity
+centroids; fire/halt/diverge as a fate advisory) **coincide with the principal
+write-directions of `W_down`** — is there real alignment between "what the labels
+point at" and the residual-writer weight's dominant axes?
+
+**Substrate (frozen).** Qwen3-14B, d_model 5120, 40 layers. Labeled side REUSES
+the s338 `H (300,41,5120)` (combinator-tagged last-token residual, 28–42/label) —
+**zero new inference**. Weight side = `U^(ℓ)` = left singular vectors of
+`W_down^(ℓ)` via textbook economy SVD (`operator_dmd.economy_svd`). Pairing: layer
+ℓ residual centroid at `hidden[ℓ+1]` (post-block-ℓ) with `U^(ℓ)` (block ℓ writer).
+
+**Objects (frozen).** Per (ℓ, combinator X):
+`ĉ_X = normalize(mean_X(hidden[ℓ+1]) − mean_all(hidden[ℓ+1]))` — **mean-centered**
+(removes the DC/norm direction that would trivially align to U's top axis).
+Alignment profile `a_k^X = (u_k^ℓ · ĉ_X)²`, k=1..r; captured fraction
+`f_X = Σ_k a_k^X`; participation ratio `PR_X = (Σa)²/Σa²`; top axis `k*_X`.
+Primary **r=128** (sweep 64/128/256 descriptive). **Verdict band = mid-stack
+ℓ∈[8,32)** (crystal-bearing region, a priori), aggregate = median over band.
+
+**Frozen gate tree.**
+- **CG0 INSTRUMENT** — SVD finite + spectrum decays; `--validate` recovers all 4
+  planted worlds. Fail → **VOID**.
+- **CG1 CONCENTRATION** — band-median `PR_X` significantly BELOW the
+  random-direction null (1000 matched-norm random unit vectors in mean-centered
+  d_model, projected onto the same `U_r`), p<0.05. Centroids live concentrated in
+  the writer subspace. Fail → **NO-COINCIDENCE**.
+- **CG2 SPECIFICITY** (crucial, mirrors s313 TG2 CROSS-CUT) — is the alignment
+  *the same axes for every label* (generic) or *label-specific*? Statistic =
+  band-median **inter-combinator alignment-profile correlation** `⟨corr(a^X,a^Y)⟩`
+  over the 9 combinators. If > random-9 null q95 → profiles more correlated than
+  chance → shared axes → **GENERIC-WRITE-STRUCTURE**. If ≤ null q95 → distinct
+  profiles → **LABEL-ALIGNED**. (Corroboration, reported: mean pairwise |cos| of
+  the 9 centroids vs random-9.)
+  - *Build-time operationalization note (s341, pre-data, verdict-space/masses
+    UNCHANGED): CG2's statistic was sharpened from the GO-presented "pairwise
+    |cos| + top-axis collapse" to the stronger "alignment-profile correlation,"
+    which directly measures the §3 question "which axes carry K vs B vs S." |cos|
+    retained as corroboration.*
+- **CG3 OSCILLATOR** (advisory, consilience) — fire (mean of active reducers
+  K,I,B,C,S,D,W), halt (WHNF), diverge (Y): do fire & halt project OPPOSITE-sign
+  onto a shared high-energy U-axis (a bipolar mode ≈ CBLL's reported POS/NEG
+  oscillator)? Advisory only → `+OSCILLATOR` subtag.
+
+**Verdict space + a-priori masses (frozen).** GENERIC-WRITE-STRUCTURE 35 (modal —
+residual activations naturally live in the writer's dominant subspace;
+concentration likely, specificity dubious) · LABEL-ALIGNED 30 (+OSCILLATOR
+subtag; the consilience hope — the 9×9 crystal is label-specific in d_ff, may
+survive into d_model) · NO-COINCIDENCE 25 (mean-centered residual centroids may be
+diffuse; s317/s335/s336/s339 tape-residency bias) · VOID 10.
+
+**Nulls (mandatory, λ yardstick).** random-direction (matched-norm, CG1) ·
+random-9 (profile-correlation + |cos|, CG2) · descriptive r-sweep.
+
+**Planted worlds (`--validate`, real gate path per s331).** ① 9 centroids each on
+a DISTINCT U-axis (+noise) → LABEL-ALIGNED · ② all 9 on the SAME axis → GENERIC-
+WRITE-STRUCTURE · ③ 9 random centroids ⊥ top-U → NO-COINCIDENCE · ④ fire=+axis0 /
+halt=−axis0 → CG3 fires.
+
+**Bounds (recorded, λ observation).** (1) residual centroids are the ACCUMULATED
+state (`hidden_states`), not the pure per-layer MLP write → tests "labels live in
+the writer subspace," not "labels = what layer ℓ writes"; (2) Option C moves
+anchors from the crystal-validated d_ff routing register into the d_model residual
+register (defensible for a W_down comparison, a deviation from §3's d_ff bridge);
+(3) fate/oscillator uses crude WHNF/Y/mean-active proxies (full 17-fate residual
+capture deferred to v2); (4) single model, last-token grain.
+
+**Cost.** cheap — reuse H (no inference) + ~40 SVDs of `down_proj` (load weights
+CPU). Results `results/p_cross_gram_s341/`; harness `scripts/experiments/
+cross_gram.py` (reuses `operator_dmd.economy_svd`; NEVER CBLL code, §0b).
+
 ## 4. The technique toolkit (ranked: tie-to-our-research × cheap × null-testable)
 
 ```
