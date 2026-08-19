@@ -923,6 +923,64 @@ s339 H · magnitude · routing/route-schedule · operator/DMD-spectrum · fate 1
 not the route-Gram schedule alone. Bounds: identity register (9×9) only, not the
 17×17 fate poles; global-DC-remove analysis choice; last-token CMR routing capture.
 
+## 5g. §Result — §P-SCHEDULE-READ-C: co-extensional collapse ABSENT in EVERY capturable register (s343)
+
+> Arm A's faithful successor (Michael: "look at ALL the registers"). Arm A showed
+> the route-schedule carries no universal timetable; the literal SKK≈I test is
+> per-model and needs the co-extensional anchors (absent from the 9-combinator
+> route grams). One Qwen3-14B capture reuses the EXACT s339 anchors and reads the
+> `SKK≈I` question in three gauges at once.
+
+**Method (frozen s343, Michael GO; FTO-clean, reuses s339 + CMR + verbum).** One
+14B pass over 1344 kernel-certified co-extensional items (operator I:8/W:2/B:1 ·
+arity · alpha), dual capture at 11 depths: **routing** = sign(gate pre-activation)
+[PRIMARY, the s342 station-map substrate] · **value** = residual · **magnitude** =
+‖residual‖. Group-centroid (per-spelling) level; the s339 nested ladder:
+operator(confounded) → arity(same-arity) → **alpha(same-arity + |Δtoken-length|
+partial)**; `D` = within-function − across-function centroid similarity, shuffled-
+function null, effect floor. Verdict per register: EXTENSIONAL iff alpha survives;
+LEXICAL iff the signal vanishes at constant alphabet; ABSENT / VOID otherwise.
+a-priori (routing): LEXICAL 45 / ABSENT 25 / EXTENSIONAL 20 / VOID 10.
+
+**Pre-data build amendment (s343 4B smoke → design PAUSE, s324; masses/tree
+unchanged).** The first build was per-item and lacked the length-partial → the 4B
+smoke read a **false EXTENSIONAL** (borderline alpha `D` just above floor).
+Rebuilt to the s339 group-centroid + alpha length-partial and added a
+**LENGTH-CONFOUND planted world** (a length-driven signal must NOT read
+EXTENSIONAL — it reads LEXICAL, the alpha length-partial catching it). `--validate`
+5/5; corrected 4B smoke reproduced s339 LEXICAL on all three registers.
+
+**§Result — LEXICAL in all three registers (a-priori modal 45).** Run
+`results/p_coext_registers_s343/run_14b` (git_sha a4af9fb3, corpus_hash c5cdb64a,
+1344 items, det 0.0). The **textbook lexical fingerprint** in every gauge — a
+strong within-function signal at the length-controlled rung that **vanishes** at
+constant alphabet:
+
+| register | operator (confounded) | arity (length-ctrl) | **alpha (alphabet+length)** | verdict |
+|---|---|---|---|---|
+| **routing** (primary) | +0.098 p=.083 | **+0.214 p=.0002** | **−0.022 p=.83** | LEXICAL |
+| value | +0.158 p=.052 | **+0.233 p=.0002** | −0.023 p=.84 | LEXICAL |
+| magnitude | −0.001 p=.40 | **+0.182 p=.001** | +0.017 p=.32 | LEXICAL |
+
+**The capstone.** Co-extensional collapse (SKK≈I) is **absent in every capturable
+register** — routing + value + magnitude (this run) + operator/DMD (s339). The
+**routing** register is the decisive new one: it is the *cross-model universal*
+station-map substrate (s342), the last candidate to encode meaning in the weights
+— and it tracks WHAT IS WRITTEN (shared letters), not the function computed. The
+signal was surface form: it survives length-matching (arity) but dies the instant
+the alphabet is held constant (alpha). **Register-complete confirmation of the
+s342 reframe: the routing frame is intensional; the extension lives on the tape.**
+
+**Bounds (declared).** The **17×17 fate/outcome register is DEFERRED** (needs
+outcome-pole capture machinery — queued §P-COEXT-FATE); it is the one gauge where
+meaning has the best a-priori shot (outcome is function-, not spelling-, driven),
+so the "no meaning in the weights" statement carries that single honest asterisk
+until run. Single model Qwen3-14B; last-token capture; the operator set is
+confounded by construction (its verdict rests on arity+alpha). **Method banked:**
+a residual-length confound will fake EXTENSIONAL — the alpha |Δlen| partial +
+group-centroid + LENGTH-CONFOUND planted world are mandatory (the s343 smoke
+catch). Harness `coext_registers.py`.
+
 ## 6. Discipline summary
 
 ```

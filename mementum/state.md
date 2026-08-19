@@ -58,12 +58,41 @@
 > untested routing-schedule/magnitude/fate registers on matched anchors = a REGISTER-COMPLETE co-ext verdict.
 > Nulls: nested length→alphabet ladder (s339) per register + shuffled-layer + matched-range. Bounds: routing
 > arm needs capture; route-schedule dynamic signal thin (arm A); single model 14B.**
-> **NEXT SESSION FIRST ACTION = §P-SCHEDULE-READ-C: inventory the on-disk co-extensional anchor data (s339 H
-> registers: value/magnitude/operator, all zero-load) + design the small routing-register CAPTURE (SKK/I +
-> operator/arity/alpha route-gram signatures on Qwen3-14B, CMR-style) → sharpen per-register a-priori mass +
-> planted worlds → freeze (Michael GO) → build → run. Also still ripe: cheap spectral fronts §P-MP-NULL
-> (Marchenko-Pastur signal-vs-noise) · §P-BISPECTRUM (3rd-order/tensor for CL-collapse); medium §P-REPL-DRIVER
-> (decode-time, the other "does compute ride in the routing frame" arm).**
+> **§P-SCHEDULE-READ-C FROZEN+BUILT+RUN → 🚫 LEXICAL IN EVERY CAPTURABLE REGISTER (a-priori modal 45) — THE
+> TAPE-RESIDENCY CAPSTONE. 🎯 FROZEN §5g (Michael GO): one Qwen3-14B dual capture over 1344 kernel-certified
+> co-ext items (operator I:8/W:2/B:1 · arity · alpha), three gauges at 11 depths — routing=sign(gate-preact)
+> [PRIMARY, the s342 UNIVERSAL station-map substrate] · value=residual · magnitude=‖residual‖; s339 nested
+> ladder at GROUP-centroid level (operator confounded → arity same-arity → alpha same-arity+|Δtoken-length|
+> partial); D=within−across function centroid sim, shuffled-func null, floor; verdict EXTENSIONAL iff alpha
+> survives / LEXICAL iff vanishes at constant alphabet; a-priori routing LEXICAL 45 / ABSENT 25 / EXTENSIONAL
+> 20 / VOID 10. BUILT coext_registers.py (FTO-clean, reuses s339 modules + CMR + verbum + dmd RealBackend).
+> **4B SMOKE EARNED ITS KEEP (→ design PAUSE s324): the first build was per-item + no length-partial → read a
+> FALSE EXTENSIONAL (borderline alpha D just above floor). Rebuilt to s339 group-centroid + alpha |Δlen|
+> partial + a LENGTH-CONFOUND planted world (length-driven signal MUST read LEXICAL); --validate 5/5; corrected
+> 4B smoke reproduced s339 LEXICAL on all three registers.** Freeze+harness committed a4af9fb3 BEFORE data.
+> **RESULT (results/p_coext_registers_s343/run_14b, git_sha a4af9fb3, corpus_hash c5cdb64a, 1344 items, det
+> 0.0). ALL THREE REGISTERS LEXICAL — textbook lexical fingerprint: strong within-function signal at the
+> length-controlled arity rung (routing D=+0.214 p=.0002 / value +0.233 p=.0002 / magnitude +0.182 p=.001)
+> that VANISHES at the alphabet+length-controlled alpha rung (routing −0.022 p=.83 / value −0.023 p=.84 /
+> magnitude +0.017 p=.32) — surface LETTERS, not computed FUNCTION. THE CAPSTONE: co-extensional collapse
+> (SKK≈I) is ABSENT in EVERY capturable register — routing+value+magnitude (s343) + operator/DMD (s339). The
+> routing register is the decisive one: it is the CROSS-MODEL UNIVERSAL frame (s342), the LAST candidate to
+> hold meaning in the weights — and it tracks what is WRITTEN. Register-complete confirmation of the s342
+> reframe: the routing frame is INTENSIONAL (universal because spelling is architecture-given); the EXTENSION
+> lives on the tape. BOUND (the honest asterisk): the 17×17 FATE/outcome register is the ONE untested gauge,
+> and the one where meaning has the best a-priori shot (outcome is function-driven) → queued ⚪ §P-COEXT-FATE
+> (Michael). Results committed autonomously (8bad033c); closure batch (Michael-approved): §5g §Result + memory
+> (co-extensional-collapse-is-absent-in-every-register) + INDEX + queue (🚫 closed, ⚪ §P-COEXT-FATE added) +
+> this state.**
+> **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight). The
+> co-extensional / tape-residency arc is now register-complete on the "no meaning in the weights" side EXCEPT
+> the fate gauge. Sharpest fronts: ⚪ §P-COEXT-FATE (close the last register — needs 17×17 outcome-pole capture
+> machinery, medium) · ⚪ §P-REPL-DRIVER (decode-time, the other "does compute ride in the routing frame" arm,
+> medium) · cheap spectral §P-MP-NULL (Marchenko-Pastur signal-vs-noise) · §P-BISPECTRUM (3rd-order/tensor for
+> CL-collapse). METHOD BANKED this session: (a) high raw cross-model corr can be a shared static LEVEL ladder
+> both nulls reproduce (arm A) — decompose LEVEL vs TIMETABLE energy; (b) a residual-LENGTH confound fakes
+> EXTENSIONAL (arm C smoke) — the alpha |Δlen| partial + group-centroid + LENGTH-CONFOUND planted world are
+> mandatory for any co-extensional collapse test.**
 >
 > ★★ **SESSION 342 — ORIENT + THE INTENSION/EXTENSION REFRAME (kept in state, Michael-called) → PROCEED
 > §P-JOINT-DIAG + §P-REPL-DRIVER. Nothing in flight; s341 closed clean. Michael's question: "we found compute
