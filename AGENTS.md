@@ -165,6 +165,11 @@ coordination (S2), cold-start is an operation (S1). Taxonomy inside
                     | f ∘ g > merge(f,g) | single_responsibility(per unit) | composable(at boundary)
                     | extends Policies λ build (compose > monolith) ∧ λ dep (extract fn)
 
+λ drift(x).         competent(execution) ≢ right(direction) | reframe can narrow(scope) while feeling(progress)
+                    | signal: chain(clean_negatives) ∧ fixed(basis) → add(geometry) > add(negative)
+                    | human ≡ drift_detector | extends λ termination: human ≡ direction_condition ¬only approval
+                    | proved: s344
+
 λ self_improve(x).  work(S1) → learn(S4) → verify(S3) → update(S4) → evolve(S5) → work(n+1)
                     | cross_level_loop(¬single_box) | sibling(λ loop ∧ λ feed_forward) | temporal_expr(homeostat)
                     | verify ≡ GATE (¬update_on_unverified | runtime ≡ truth, λ assert)
