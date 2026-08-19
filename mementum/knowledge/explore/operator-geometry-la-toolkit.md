@@ -755,6 +755,69 @@ anything. **Bounds:** single lineage (Qwen3), 14B, last-token grain.
 differential) settles an operator-register single-face bound with one model-id
 swap and zero new instrument — the discipline generalizes across registers.
 
+## 5e. 🎯 §P-JOINT-DIAG — FROZEN (s342, Michael GO)
+
+> Toolkit technique #4-table row 7, finally built. The reframe's (state s342)
+> direct successor: the static Grams are "station maps — no trains"
+> (gram-registers §route-map); a **common eigenframe** across contexts is the
+> coordinate system the trains (per-direction eigenvalue-vs-layer schedule) ride
+> in. Complements s338 (residual **transport operator** stationary) and s341
+> (crystal is a **routing**-register property) in a third object: the
+> routing-**Gram eigenframe**. Cheap: zero model load, re-analysis of committed
+> `results/combinator-relationship-map/*.npz` (per-layer `gram_route_cmr_L**`,
+> 11 fractional-depth layers × 10 models + one `gram_hidden_cmr` each; all 9×9
+> over the SAME `crystal_order` [K,I,B,C,S,D,W,Y,WHNF]).
+
+**Method (FTO-clean).** Cardoso & Souloumiac (1996) orthogonal joint
+diagonalization, Jacobi-angle sweep — our own `src/verbum/joint_diag.py`
+(textbook LA, docstring cites Cardoso-Souloumiac + Golub&VanLoan; NO CBLL code,
+§0b holds, grep-clean). Given real-symmetric {A_k}, find one orthogonal V
+minimising Σ_k offdiag(VᵀA_kV)². The shared **DC** mode (all-positive,
+top eigenvalue ~2.4–3.9 ≫ 1) is projected out first (s341 mean-centering
+discipline); verdict is **null-relative only** (bulk eigenvalue gaps 0.02–0.08 →
+individual eigenvectors ill-defined → absolute D meaningless).
+
+**Statistic.** `D_joint` = mean_k Σᵢ(VᵀG'_kV)²ᵢᵢ / ‖G'_k‖²_F ∈ [0,1] on the
+DC-removed stack (1 = common eigenframe; ~random-rotation floor = no shared
+frame; K=11 in 8-dim ⇒ coincidental-codiagonalization floor ≈ 0.5, hence the
+null is mandatory).
+
+**Two arms.** JD-LAYER (primary) — per model, JD the 11 layer route Grams → is
+the routing frame **layer-stationary**? JD-MODEL (secondary) — across the 10
+models at each matched fractional depth, JD the route Grams → **UNIVERSAL-FRAME**
+or the informative refinement **SIGN-ONLY** (s314: universality lives in the
+sign *pattern*; a shared eigenframe is strictly stronger).
+
+**Nulls (pre-registered, λ yardstick).** PRIMARY = per-context random
+**orthogonal rotation** (preserves each spectrum, destroys frame alignment) — the
+textbook "no common eigenframe" null. ADVISORY = per-context opcode-label
+**permutation** (stays gram-class; node-alignment). Floor: `D_real −
+median(D_null) ≥ 0.05` AND p<0.05. N=300 draws each.
+
+**Frozen verdict trees (a-priori mass).**
+
+- JD-LAYER: **LAYER-STATIONARY-FRAME 50** / MIXED-FAMILY-SPLIT 22 /
+  LAYER-DRIFTING-FRAME 20 / VOID 8. (per-model STATIONARY iff rotation-null gate
+  passes ∧ JD converged; aggregate STATIONARY if ≥70% models pass, DRIFTING if
+  ≤30%, else MIXED; VOID if >½ non-convergent.)
+- JD-MODEL: **UNIVERSAL-FRAME 40** / SIGN-ONLY 35 / VOID 25. (UNIVERSAL if >50%
+  of depth indices pass the rotation null.)
+
+**Bonus deliverable if positive.** In the common frame, each eigen-direction's
+diagonal-vs-layer curve = the **emphasis schedule** — the first concrete "train"
+in Gram coordinates (`frame_schedule`, saved to `schedules.npz`).
+
+**Bounds (declared).** 9×9 *identity*-register only (no per-layer 17×17 fate
+Grams in this data) → reads the identity-register frame, not the outcome-pole
+frame; soft bulk eigenvectors → null-relative only; single grain per model.
+
+**Build.** `src/verbum/joint_diag.py` (algorithm) + `scripts/experiments/
+joint_diag.py` (harness). `--validate` recovers ALL 4 planted worlds through the
+real analyse path (s331): COMMON-FRAME→STATIONARY (D=0.967, beats null 0.597,
+p=0), NO-FRAME→DRIFTING (D=0.554≈null, p=0.34), **DC-ONLY→DRIFTING** (D=0.543≈
+null 0.545, p=0.52 — the critical guard: shared DC alone canNOT manufacture
+STATIONARY), PARTIAL→STATIONARY (D=0.748, p=0). Instrument TRUSTED.
+
 ## 6. Discipline summary
 
 ```

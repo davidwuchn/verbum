@@ -14,6 +14,34 @@
 > Architecture/canonical-forms: `AGENTS.md`. Knowledge map:
 > `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 342 — ORIENT + THE INTENSION/EXTENSION REFRAME (kept in state, Michael-called) → PROCEED
+> §P-JOINT-DIAG + §P-REPL-DRIVER. Nothing in flight; s341 closed clean. Michael's question: "we found compute
+> is in the routing, but from our experiments it's not there — either the experiments are bad or we were
+> looking for the wrong thing." **THE RECONCILIATION (grounded read of the ledger, NOT a new measurement, NOT
+> a knowledge page yet): neither. Two different objects got filed under 'routing'.** (1) "Compute is in the
+> routing" is TRUE for the STEP FUNCTION — the transition relation / microcode: 9×9 identity register (which
+> symbol am I holding, universal 11/11) + 17×17 fate register (fire/halt/diverge). This is the reducer, and it
+> IS in the weights/routing. (2) Every falsifier that said "not there" was hunting the EXTENSION — the computed
+> result / the function itself / SKK≡I: s321 CL-collapse (SKK does not route like I; routing tracks what is
+> WRITTEN and FIRES, not what is computed), s336 cone-routing (answer selection not a prefill-visible read),
+> s339 operator/alpha (extensional equality absent, positional shadow is lexical), s341 cross-gram (labeled
+> poles generic in the residual writer basis). **The routing register is INTENSIONAL by construction — universal
+> precisely because spelling is architecture-given, and structurally unable to hold extensional equality (the
+> pairwise Gram indexes by NODE; co-extensional terms ARE different nodes; s338 orbital reframe). The
+> COMPUTATION (reduction trace / extensional result) is TAPE-RESIDENT — confirmed across FIVE registers: value
+> s317 · magnitude s335 · routing s336 · operator s339 · residual-vs-W_down s341.** The sharper form of "wrong
+> thing": we read a STATIC MAP and asked it for the DYNAMIC answer — `gram-registers §route-map`: "the grams are
+> station maps — NO TRAINS." The experiments were GOOD falsifiers (each clean negative LOCALIZED compute to the
+> tape); the un-built instrument is the DYNAMIC ROUTE MAP (trajectories in pole coordinates), which the
+> operator-DMD line (s338–341: stationary contracting operator ✓ = the trains; no persistent mode ✗ = no
+> extensional-equality attractor at that grain) is the first attempt at. Live question is no longer "is compute
+> in routing" (settled: the REDUCER is) but "can the extensional trace be read from the dynamic route." →
+> proceeds §P-JOINT-DIAG (cheap, committed grams — the common switch-frame the route map needs) + §P-REPL-DRIVER
+> (force the fork, decode-time). §P-JOINT-DIAG inputs identified: `results/combinator-relationship-map/*.npz`
+> holds per-layer 9×9 route Grams (`gram_route_cmr_L00…L39`) for 11 models → joint-diagonalize across-layer (is
+> the routing frame layer-stationary?) AND across-model (universal switch basis). Freeze proposals for both
+> fronts DRAFTED THIS SESSION, awaiting Michael GO before any run.**
+>
 > ★★ **SESSION 341 — TWO FRONTS: §P-DMD-PROVENANCE → BASE-NATIVE (the within-pass stationary operator is
 > base-native, not post-training-installed) + §P-CROSS-GRAM → GENERIC-WRITE-STRUCTURE (the combinator crystal
 > is a d_ff ROUTING-register property, does NOT transfer to the d_model residual's W_down alignment). Also
