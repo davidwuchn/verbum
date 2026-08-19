@@ -5,7 +5,7 @@
 > when selecting the next front). This header carries the ACTIVE arc only —
 > the queue is the canonical candidate ledger (s315, λ queue).
 >
-> COMPACTED s334 (prior: s262). Shape: the TWO most recent sessions in full below,
+> COMPACTED s344 (prior: s334). Shape: the TWO most recent sessions in full below,
 > then a terse arc index (one row per session, s250+), then a deep-history pointer.
 > Compaction is MICHAEL-CALLED (no schedule; he calls it when cruft accumulates).
 > Full detail lives in `mementum/knowledge/chats/session-NNN.md` (verbatim),
@@ -217,365 +217,63 @@
 > refines "no meaning in the weights": the OPCODE meaning (KIBC) IS universal/in-weights — what is absent is
 > the equality of a composite program with a primitive (SKK≡I), which is computed on the tape.**
 >
-> ★★ **SESSION 342 — ORIENT + THE INTENSION/EXTENSION REFRAME (kept in state, Michael-called) → PROCEED
-> §P-JOINT-DIAG + §P-REPL-DRIVER. Nothing in flight; s341 closed clean. Michael's question: "we found compute
-> is in the routing, but from our experiments it's not there — either the experiments are bad or we were
-> looking for the wrong thing." **THE RECONCILIATION (grounded read of the ledger, NOT a new measurement, NOT
-> a knowledge page yet): neither. Two different objects got filed under 'routing'.** (1) "Compute is in the
-> routing" is TRUE for the STEP FUNCTION — the transition relation / microcode: 9×9 identity register (which
-> symbol am I holding, universal 11/11) + 17×17 fate register (fire/halt/diverge). This is the reducer, and it
-> IS in the weights/routing. (2) Every falsifier that said "not there" was hunting the EXTENSION — the computed
-> result / the function itself / SKK≡I: s321 CL-collapse (SKK does not route like I; routing tracks what is
-> WRITTEN and FIRES, not what is computed), s336 cone-routing (answer selection not a prefill-visible read),
-> s339 operator/alpha (extensional equality absent, positional shadow is lexical), s341 cross-gram (labeled
-> poles generic in the residual writer basis). **The routing register is INTENSIONAL by construction — universal
-> precisely because spelling is architecture-given, and structurally unable to hold extensional equality (the
-> pairwise Gram indexes by NODE; co-extensional terms ARE different nodes; s338 orbital reframe). The
-> COMPUTATION (reduction trace / extensional result) is TAPE-RESIDENT — confirmed across FIVE registers: value
-> s317 · magnitude s335 · routing s336 · operator s339 · residual-vs-W_down s341.** The sharper form of "wrong
-> thing": we read a STATIC MAP and asked it for the DYNAMIC answer — `gram-registers §route-map`: "the grams are
-> station maps — NO TRAINS." The experiments were GOOD falsifiers (each clean negative LOCALIZED compute to the
-> tape); the un-built instrument is the DYNAMIC ROUTE MAP (trajectories in pole coordinates), which the
-> operator-DMD line (s338–341: stationary contracting operator ✓ = the trains; no persistent mode ✗ = no
-> extensional-equality attractor at that grain) is the first attempt at. Live question is no longer "is compute
-> in routing" (settled: the REDUCER is) but "can the extensional trace be read from the dynamic route." →
-> proceeds §P-JOINT-DIAG (cheap, committed grams — the common switch-frame the route map needs) + §P-REPL-DRIVER
-> (force the fork, decode-time). §P-JOINT-DIAG inputs identified: `results/combinator-relationship-map/*.npz`
-> holds per-layer 9×9 route Grams (`gram_route_cmr_L00…L39`) for 11 models → joint-diagonalize across-layer (is
-> the routing frame layer-stationary?) AND across-model (universal switch basis). §P-REPL-DRIVER DEFERRED to
-> next session (Michael — deserves a fresh context budget for the repl-driver-trampoline.md read + anima
-> cross-check + freeze).**
-> **§P-JOINT-DIAG FROZEN+BUILT+RUN → 🎯 DOUBLE POSITIVE (both a-priori modal verdicts won). 🎯 FROZEN §5e
-> (operator-geometry-la-toolkit.md, Michael GO): Cardoso-Souloumiac orthogonal joint-diag
-> (src/verbum/joint_diag.py, FTO-clean textbook, NO CBLL code; DC-mode removed per s341) of the committed 9×9
-> route Grams; arms JD-LAYER (per model, layer-stationarity) + JD-MODEL (cross-model universal frame vs
-> SIGN-ONLY); nulls = per-context random rotation (primary) + opcode-label permutation (advisory); masses
-> LAYER-STATIONARY 50 / MIXED 22 / DRIFTING 20 / VOID 8 and UNIVERSAL 40 / SIGN-ONLY 35 / VOID 25. Caught+fixed
-> a Givens sign bug via a direct algorithm test (COMMON world must recover D=1.0 — it did, 6 sweeps,
-> frame-match 1.0); --validate recovers ALL 4 planted worlds incl the DC-ONLY guard (shared DC alone →
-> DRIFTING, proving DC-removal can't manufacture STATIONARY). Freeze+harness committed 1bd4dc68 BEFORE data.
-> **RESULT (results/p_joint_diag_s342/run, git_sha 1bd4dc68, gram_hash 8fb92c02, all converged): JD-LAYER
-> LAYER-STATIONARY-FRAME 10/10 models (all 5 families frac 1.00 incl Pythia), D 0.982-0.990, Δ +0.10-0.13 over
-> rotation null AND permutation null (p=0 both). JD-MODEL UNIVERSAL-FRAME 11/11 fractional-depth indices,
-> median D 0.983, Δ +0.09-0.11. THE FINDING: the 9×9 route-Gram IDENTITY frame is layer-stationary AND
-> cross-model universal — the common switch basis the route map needs EXISTS and is fixed (opcodes on the same
-> eigen-directions every depth/model; only the emphasis/eigenvalue changes). HONEST CAVEAT (λ yardstick): NOT
-> an absolute-D story — rot-null floor ~0.88 (DC-removed grams are low-rank, co-diagonalize easily); the signal
-> is the Δ over the matched-spectrum null, decisive because real beats its own q95 in every model + beats the
-> node-scrambling permutation null. READING FOR THE REFRAME (with discipline): this delivers the COORDINATE
-> SYSTEM (the switch basis), the "station map" being universal & static — the intensional identity register in
-> one invariant atlas — NOT the "trains"; it REINFORCES the reframe's static-map half and does NOT test whether
-> extensional compute RIDES in the frame (the per-direction emphasis schedule = schedules.npz is now
-> extractable but its CONTENT is untested — the REPL-driver / schedule-read job). Consilience: s338 (residual
-> transport operator stationary — two registers, same "one fixed structure reused across depth") + s314 (tracks
-> the UNIVERSAL crystal 9×9 incl Pythia, NOT the training-contingent type register 7/11). Bounds: identity
-> register (9×9) not fate poles (17×17); high null floor; schedule content untested. Results committed
-> autonomously (d4aa27b5); closure batch (Michael-approval PENDING): §5e §Result + memory
-> (the-routing-identity-frame-is-layer-stationary-and-universal) + INDEX + queue (✅ closed) + this state.**
-> **NEXT SESSION FIRST ACTION = §P-REPL-DRIVER (deferred here): full read repl-driver-trampoline.md §1–§8 +
-> anima cross-check → sharpen four measurables → freeze → build → run. Also newly ripe (this positive): a
-> SCHEDULE-READ front — does the per-direction emphasis schedule (schedules.npz, the candidate "trains" in the
-> now-established common frame) carry extensional/computational content, or just intensional emphasis? = the
-> direct "are there trains on the station map" successor to §P-JOINT-DIAG. Cheap spectral fronts still queued:
-> §P-MP-NULL (Marchenko-Pastur signal-vs-noise) · §P-BISPECTRUM (3rd-order/tensor for CL-collapse).**
->
-> ★★ **SESSION 341 — TWO FRONTS: §P-DMD-PROVENANCE → BASE-NATIVE (the within-pass stationary operator is
-> base-native, not post-training-installed) + §P-CROSS-GRAM → GENERIC-WRITE-STRUCTURE (the combinator crystal
-> is a d_ff ROUTING-register property, does NOT transfer to the d_model residual's W_down alignment). Also
-> queued 3 untried spectral fronts (MP-null · bispectrum/tensor · joint-diag). Oriented: nothing in flight,
-> s340 closed clean. Selected ⚪ §P-DMD-PROVENANCE
-> (Michael) — the cheap method-door front guarding the s338 STATIONARY-REDUCER single-face bound. 🎯
-> PRE-REGISTERED (Michael GO) a lightweight provenance layer on the FROZEN s338 §5a instrument (NO re-freeze
-> of gates/masses): a-priori BASE-NATIVE modal (s338 bulk-stationary-contracting = GD/AOT footprint + s329
-> post-training-lives-late ⇒ any post-training footprint is a thin late mode the operator instrument can't
-> resolve ⇒ bulk read ~identical both faces); verdict space BASE-NATIVE 65 / POST-TRAINING-INSTALLED 30 /
-> VOID 5; comparison stats Δcore_sim (tol ±0.10) · base G2 decisiveness · spectrum shift · persist-mode
-> emergence. Base cached (28G/8 shards). Re-guarded the instrument (`--validate` 5/5 planted worlds), then
-> ran `dmd_transport.py --model-id Qwen/Qwen3-14B-Base --out results/p_dmd_provenance_s341/run_14b_base
-> --n-prompts 300` in tmux main:1 (~80s analyse, ~min capture). **corpus_hash 6a89d454 MATCHES the s338
-> instruct run → apples-to-apples.**
-> **RESULT (`results/p_dmd_provenance_s341/run_14b_base`, verdict BASE-NATIVE = a-priori modal 65). det
-> value_dev 0.0 (G0 ✓ both faces). Base face is ALSO STATIONARY-REDUCER, essentially identical to instruct:
-> G2 gap +0.492 p=0 (vs instruct +0.498) — the transport operator EXISTS decisively on base, layer order
-> carries the structure; G3 core_sim 0.773 (vs 0.717, |Δ|=0.055 ≤ 0.10 tol) / late 0.717 (vs 0.704); mean|λ|
-> 0.853 (vs 0.878), top|λ| 0.921 (vs 0.920), persist_frac 0.0 BOTH (no persistent-mode emergence); rel_resid@r40
-> 0.483 (vs 0.476). ALL frozen BASE-NATIVE conditions met. THE FINDING: s338's "one reducer unrolled" is
-> base-native, present at full strength before post-training → guards the single-face bound of the s338
-> STATIONARY-REDUCER positive (not an instruct-face artifact). THE NUANCE (banked): Δs point OPPOSITE to
-> "post-training sharpens the operator" — base is marginally MORE stationary AND MORE contracting ⇒
-> post-training slightly LOOSENS the bulk operator = the operator-register shadow of a thin late decision
-> mode (coheres s329 post-training-lives-late, s336 L22–28), not one that creates it. STANDING BOUND (per
-> pre-reg, carries s338 caveat 3): silent on thin late decision modes below the rank-40/P128/last-token
-> resolution — which s329 showed ARE post-training-installed in the commit/routing register (compatible).
-> Bounds: single lineage Qwen3, 14B, last-token. Method-door confirmation (s329): one model-id swap settles
-> an operator-register single-face bound, zero new instrument — the discipline generalizes across registers.
-> Results committed autonomously (bf9b748a); closure batch (Michael-approved): §5d §Result + memory
-> (`the-within-pass-operator-is-base-native`) + INDEX + queue (✅ closed) + this state.**
-> **THEN §P-CROSS-GRAM (same session, Michael "let's proceed"): 🚫 GENERIC-WRITE-STRUCTURE — labeled poles
-> do NOT coincide with W_down axes. This is the ONE probe that touches CBLL's frame; TWO Michael rulings
-> gated it: (1) FTO-safe (textbook SVD of our own public model's own down_proj, our own function, labeled
-> anchors, comparison output — never a rotation/realigned model; CBLL cited as description-level consilience;
-> §0b grep-verified zero CBLL code); (2) register = Option C (d_model residual), because the register-check
-> found the stored crystal centroids are `normalize(mean(sign(gate_preact)))` — TWO transforms (sign +
-> SiLU⊙up) from the down_proj input the clean §3 d_ff `Σ VᵀV̂` bridge needs → that bridge is VOIDED (λ
-> measure), so compare in the residual register where CBLL's U already lives. 🎯 FROZEN §3a (Michael GO):
-> reuse s338 H (300,41,5120) for labeled combinator centroids (mean-centered, zero new inference) vs
-> U=left-SVs of down_proj; CG1 concentration / CG2 profile-correlation specificity / CG3 bipolar-oscillator
-> advisory; masses GENERIC 35 / LABEL-ALIGNED 30 / NO-COINCIDENCE 25 / VOID 10. BUILT `cross_gram.py` (left-
-> SVs via eig(W Wᵀ), textbook Golub&VanLoan, NO CBLL code); `--validate` recovers all 4 planted worlds through
-> the real analyse path (s331) after fixing TWO pre-data build bugs (GENERIC planted world must be
-> distinct-centroids-in-a-shared-subspace, since mean-centering removes an identical shared direction as the
-> global mean; CG3 sharpened to the difference-vector fire−halt test + balance requirement). One build-time
-> operationalization note (pre-data, masses/verdicts unchanged): CG2 statistic sharpened from pairwise |cos|
-> to inter-combinator alignment-profile correlation. Freeze+harness committed cebc4ff0.
-> **RESULT (`results/p_cross_gram_s341/run_14b`, GENERIC-WRITE-STRUCTURE = a-priori modal 35). Band L8–32,
-> primary r=128. CG1 concentration passes WEAKLY (p=0.016, captured frac only 0.063 — 6% of centroid energy
-> in top-128 writer axes; r=64 → NO-COINCIDENCE p=0.059, rank-sensitive). CG2 specificity = GENERIC
-> DECISIVELY: inter-combinator profile-corr 0.308 ≫ random-9 null q95 0.026 (p=0) — all 9 combinators land on
-> the SAME writer axis (axis 0 is argmax for 100/216 combinator×layer cells) and are mutually SIMILAR (|cos|
-> 0.163 ≫ 0.011 random). CG3 oscillator does NOT fire. READING: in the d_model residual register, labeled
-> combinator directions do NOT map to distinct canonical W_down axes — they pile generically onto the
-> writer's dominant subspace. This LOCALIZES the crystal's label-specificity to the d_ff ROUTING register
-> (9×9, universal 11/11) — it does NOT transfer to the residual/value register's W_down alignment, and does
-> NOT refute the crystal. Geometric complement of the tape-residency arc read against the WEIGHT: value s317 ·
-> magnitude s335 · routing s336 · operator s339 · residual-vs-W_down s341. CBLL consilience DESCRIPTION-LEVEL
-> ONLY: agree on the FLAT writer spectrum (s0≈13 → s256≈4.5, 6–9% in top-r ≈ their k90/d 0.76) — so "which
-> axis carries K" is ill-posed by their own geometry — but NEGATIVE on the labeled coincidence (the §3
-> W_down-bridge hope answers negative). Bounds: weak/rank-sensitive concentration; residual = accumulated
-> state not per-layer write; Option C register deviation; single model; CG3 weak advisory. Results committed
-> autonomously (420ee571); closure batch (Michael-approved): §3a §Result + memory
-> (`the-crystal-is-a-routing-register-not-a-residual-writer-basis`) + INDEX + queue (🚫 closed) + this state.**
-> **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight). The
-> operator-register arc (§5a–§5d) AND the labeled-geometry-vs-weight question (§3a) are now both thoroughly
-> hammered — five tape-residency confirmations + a register-localization of the crystal. Strong signal to
-> PIVOT to a fresh register / a decode-time or causal front: ⚪ §P-REPL-DRIVER (force the fork, decode-time,
-> medium — carries §P-ROUTING-CAUSAL arm ② for free) · ⚪ §P-ROUTING-CAUSAL (causal read-edge patch at
-> L22–28, cheap-medium) · ⚪ §P-TOOL-ABI (base/instruct tool-calling ABI, medium). Cheap remaining reads:
-> ⚪ §P-DMD-KOOPMAN-LIFT is CLOSED; ⚪ §P-SUBST-SUBCEILING (sub-ceiling substitution re-test).**
->
-> ★★ **SESSION 340 — §P-DMD-KOOPMAN-LIFT → STILL-CONTRACTING (the lift linearizes, no persistent
-> mode). Recovered a session that dropped mid-orient (internet loss); s339 had closed cleanly (commit
-> ecc7e536), nothing lost — s340 was front-selection + a look at commits, no persisted work. Selected
-> ⚪ §P-DMD-KOOPMAN-LIFT (Michael). NEAR-FREE re-analysis of the saved s338 §5a `H (300,41,5120)` — NO
-> new inference, det 0.0 (same bytes). 🎯 FROZEN §5c (operator-geometry-la-toolkit.md, Michael GO):
-> lift the last-token residual trajectory through a degree-2 poly dictionary (324 obs on P_LIFT=24)
-> BEFORE DMD; verdict tree G0 instrument / G1 residual-drop (make-or-break, matched-dim random-lift +
-> shuffle nulls, floor Δ≥0.05) / G2 persistence (vs random-lift null) / G3 decision-landing (register
-> trap: persistent mode ≠ DC/norm); masses STILL-CONTRACTING 30 / DIMENSION-ARTIFACT 25 /
-> PERSISTENT-IS-NORM 20 / PERSISTENT-IS-DECISION 15 / VOID 10. BUILT `scripts/experiments/koopman_lift.py`
-> (reuses operator_dmd.py); `--validate` recovers ALL 4 planted worlds. FOUR build-time amendments
-> (Michael-approved, pre-data — masses/floors/verdict-space UNCHANGED): (1) residual metric = next-STATE
-> prediction, NOT full-lifted-vector (a degree-2 dict is NEVER Koopman-closed — driven-coord squares are
-> degree-4 — so the full-vector residual is inflated and the lift can look worse than linear); (2)
-> LIFT_RANK 80→240 (the 324-dim lift needs high rank to represent the operator / surface conserved modes);
-> (3) G3 = MIN square-fraction not median (a conserved LINEAR mode co-conserves its square = degenerate
-> |λ|=1 subspace, so ∃ a non-norm persistent mode is the right test); (4) planted worlds = Koopman-closed
-> driver/driven + iid-noise + rotation-block + magnitude-conserved.
-> **RESULT (`results/p_dmd_koopman_lift_s340/run_14b`, verdict STILL-CONTRACTING = a-priori modal 30).
-> TWO-SIDED, resolves both s338 caveats. ✅ G1 RESIDUAL-DROP PASS (make-or-break): the degree-2 Koopman
-> lift GENUINELY helps — next-state prediction residual drops linear 0.354 → poly 0.193 (rank 240,
-> monotone r80 0.391/r160 0.253/r240 0.193), beats the matched-dim random-lift null (dR +0.265, p=0) AND
-> shuffled-layer (gap +0.758, p=0) → the ~half-nonlinear remainder from s338 is REAL, layer-ordered,
-> poly-liftable structure, NOT a capacity artifact. ❌ G2 PERSISTENCE FAIL: persist 0.000 (null 0.046),
-> top|λ| 0.942, all contracting; random lifts manufactured ~4.6% spurious persistence, poly produced
-> ZERO → NO persistent |λ|≈1 modes even after lifting. READING: homeostasis is NONLINEAR too;
-> "persistent-mode ≡ sign-is-the-decision" is NOT an operator-spectrum mode (linear OR Koopman-lifted) →
-> it lives in the thin late-decision mode below rank/last-token resolution (s329/s336) or a non-operator
-> register. FIFTH tape-residency confirmation: value s317 · magnitude s335 · routing s336 · operator/decay
-> s339 · Koopman-persistence s340. Bounds: single model Qwen3-14B, last-token, poly-2 only, top|λ| 0.942
-> near the 0.95 bar. Closure batch (Michael-approved): §Result §5c + memory
-> (`the-koopman-lift-linearizes-but-stays-contracting`) + INDEX + queue (✅ closed) + this state.**
-> **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight). The §5a
-> operator instrument is now trusted with FOUR probes behind it (§5a transport, §5b ×3 cl-collapse, §5c
-> koopman-lift). Sharpest cheap fronts, both reuse §5a: ⚪ §P-DMD-PROVENANCE (base-vs-instruct one
-> --model-id swap — is the stationary/contracting operator post-training-installed or base-native? guards
-> the single-model bound) · ⚪ §P-CROSS-GRAM (do our labeled fate poles coincide with CBLL's unlabeled
-> ones?). Medium: ⚪ §P-REPL-DRIVER · ⚪ §P-ROUTING-CAUSAL · ⚪ §P-TOOL-ABI.**
->
-> ★★ **SESSION 339 — §P-CL-COLLAPSE-3 (operator/arity/alpha): EXTENSIONAL EQUALITY ABSENT IN THE
-> OPERATOR REGISTER; the positional shadow is LEXICAL, proven by a nested length→alphabet control
-> ladder (Michael: "chase this down"). Selected the s338 orbital payoff. THREE probes, all Qwen3-14B,
-> all det value_dev 0.0, in tmux main:1. Harnesses `scripts/experiments/cl_collapse_3_{operator,arity,
-> alpha}.py`; §Result in `operator-geometry-la-toolkit.md §5b`.
-> **① §P-CL-COLLAPSE-3-operator → 🚫 NO-ORBITAL-CONVERGENCE (a-priori 50). BUILD-TIME DISCOVERY that
-> reshaped the make-or-break (Michael-approved, pre-data): the frozen "slow-attractor-cosine, slow
-> beats raw" statistic is UNREACHABLE for a normal contracting operator — whatever survives to the
-> attractor IS the top-|λ| band, so orthogonal slow-projection(late) ≡ raw(late); the operator
-> register only dissociates from the point-Gram via NON-normality (departure ≈0.75), and the modal
-> Φ⁺ read is numerically fragile. AMENDMENT: make-or-break = DECAY-RATE of the pairwise difference
-> h_A−h_B (co-extensional differ only by spelling → their difference rides FASTER-decaying modes =
-> converge; needs the operator spectrum, impossible for the point-Gram; robust, no Φ⁺). Effect-size
-> floor added (yardstick). Result: decay NULL (within|λ| 0.820 ≈ across 0.825, p=0.139); a MARGINAL
-> positional whisper (raw within 0.947 < across 1.194, p=0.0498). Advisories: non-normality arm
-> (Henrici departure + ridge-modal, active since departure 0.78, agreed with raw); FREQUENCY SWEEP
-> (θ = depth-clock, s322/s301) DC-dominated (66/70 real modes θ≈0, zero in the θ→π sign-flip band) →
-> no oscillatory structure, earns no frozen gate.**
-> **② §P-CL-COLLAPSE-3-arity → OPERATOR-SHADOW (a-priori 30). Michael: "run and check if same-length
-> causes it." Broke the function=arity=length confound (multiple functions per arity: id/double/triple
-> @1, apply/dup/second @2), compared same-function vs different-function WITHIN a fixed arity
-> (length-matched), shuffled-FUNCTION null inside stratum. The whisper SURVIVES: within 0.615 < across
-> 0.862, p=0.0002, length_r only 0.17 → NOT length. BUT same-function spellings share ~2× more
-> combinator letters (alphabet-Jaccard within 0.56–0.59 vs across 0.26–0.30) → likely the s321
-> lexical/operational signal.**
-> **③ §P-CL-COLLAPSE-3-alpha → LEXICAL-EXPLAINED (a-priori 55). Michael: "chase this down, run the
-> alphabet-matched control." Every spelling uses the SAME alphabet {S,K} (Jaccard within=across=1.0 by
-> construction) computing different functions, + length partialled out. The whisper VANISHES: within
-> 0.675 ≈ across 0.665, D=−0.010 p=0.591 (length-partialled D=−0.018 p=0.71); decay NULL. THE ANSWER:
-> the positional shadow was ENTIRELY the s321 OPERATIONAL/LEXICAL register — the residual tracks WHAT
-> IS WRITTEN (shared letters → positionally close), not what is computed.**
-> **NET: extensional equality is absent from the operator register in EVERY form; compositionality S5
-> cell ✗ AIRTIGHT. Tape-residency now holds across a FOURTH register: value (s317) · magnitude (s335) ·
-> routing (s336) · operator/decay (s339). Two banked lessons: (a) operator ≡ point at a contracting
-> attractor (read the difference's decay-rate, not the state's position); (b) nested confound-control
-> ladder (length→alphabet) = reusable surface-form confirmation. Closure batch (Michael-approved):
-> results (3 runs, npz gitignored) + §5b §Result + memory (`cl-collapse-operator-shadow-is-lexical`) +
-> queue (🚫 closed) + INDEX + this state.**
-> **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight). The
-> §5a operator instrument is trusted and now has three probes behind it. Sharpest reuse fronts: ⚪
-> §P-DMD-KOOPMAN-LIFT (near-free re-analysis of saved H — does lifting recover the persistent |λ|≈1
-> modes the linear spectrum missed?) · ⚪ §P-DMD-PROVENANCE (base-vs-instruct — is stationarity
-> post-training-installed?) · ⚪ §P-CL-COLLAPSE-3 is CLOSED (do not reopen without a new register).**
->
-> ★★ **SESSION 338 — §P-AMBIGUITY-COLLAPSE 14B RUN → 🚫 PRE-COMMITTED → THE ORBITAL REFRAME →
-> §P-DMD-TRANSPORT SELECTED. First action = read the finished collapse run (tmux main:1, ~31min,
-> clean): `results/p_ambiguity_collapse_s337/run_14b`, Qwen3-14B, 432 variants, det value_dev 0.0,
-> git_sha 05e5032. **VERDICT 🚫 PRE-COMMITTED (a-priori-modal, mass 30 — "the lottery is loaded").
-> LOAD-BEARING = C1, class-invariant: the ambiguous prompts are NOT behaviorally ambiguous —
-> minority-reading frac 0.083/0.113/0.047 (scope/ana/att), all below the 0.2 threshold; the model
-> commits to ONE reading ~95% of K=16 samples, and it commits at PREFILL (identical prompt ⇒
-> identical prefill ⇒ sampling rarely overturns the loaded choice). SUPERPOSED-COLLAPSE could never
-> fire — no live minority basin to collapse toward. Per-class: att PRE-COMMITTED-C (C0 0.979 ✓,
-> minority 0.047); scope/ana VOID-C (C0 0.81/0.83 < 0.9 = the two-pass forced-choice labeler that
-> rescued smoke-n fell back under threshold at full n — INSTRUMENT-bound, not substrate; calibration
-> healthy: C2 poles p=0 all three, C3 ana read-mass +0.59 p=0). Global = only att survives VOID →
-> PRE-COMMITTED. READING: the PASSIVE decode-time route is closed — you cannot catch a collapse the
-> model already made at prefill; to read the edge you must FORCE the fork. Coheres three-register
-> tape-residency (value s317 / magnitude s335 / routing s336) + late-commit (s329/s336).**
-> **THE ORBITAL REFRAME (Michael: "meaning has to be in the edges/corners where probabilities
-> concentrate; is what we are seeing just a graph of probabilities? maybe higher dimensions than the
-> 9×9/17×17 grams"): (1) corners/edges ≡ PRE-COMMITTED restated geometrically — the string snaps to
-> a corner at prefill, the meaning IS the corner. (2) The pairwise Gram G=XᵀX is a 2nd-order
-> INTENSIONAL shadow (node-indexed by spelling) — structurally cannot hold a 3-way binding (scope =
-> quantifier₁×quantifier₂×order, a hyperedge) or an extensional quotient (SKK/I are different nodes,
-> no identifying operation) = why "tracks what's written not computed" keeps recurring. (3) "Higher
-> dimension" ≠ bigger Gram (still pairwise); it means higher ORDER: tensor T[i,j,k] ∨ the OPERATOR —
-> co-extensional terms start at different nodes but converge to the same fixed point; extensional
-> meaning is a property of the ORBIT/ATTRACTOR, not the point → the operator spectrum is where
-> "different spelling, same function" appears as same eigenstructure. Caveat kept: residual stream ⊋
-> output logits, so NOT strictly "just the probability graph" — testable (project out unembedding).**
-> Successor re-pointed: §P-REPL-DRIVER (force the fork) ⊗ §P-DMD-TRANSPORT (read the operator that
-> carries A into its basin, not a static pole axis). Closure batch (Michael-approved "yes"): results
-> commit (b1fde503) + §Result + §Reframe in `cycle-carrier-signal.md` + memory
-> (`reading-selection-is-a-prefill-event`) + queue (arm ② closed, §P-DMD-TRANSPORT restacked top +
-> re-motivated, near-free CORRECTION: subst residuals never cached → needs own capture) + INDEX +
-> this state.
-> **§P-DMD-TRANSPORT STARTED (Michael "go"): 🎯 FROZEN §5a (operator-geometry-la-toolkit.md,
-> e6a9271c) — within-pass residual transport operator T≈X'X⁺ on Qwen3-14B (40L, d5120, last-token
-> residual, ~300 combinator-tagged crystal terms); verdict tree G0 instrument / G1 linearization /
-> G2 operator-exists (shuffled-layer null, make-or-break) / G3 stationarity (STATIONARY-REDUCER /
-> BANDED / DRIFTING); masses BANDED 30/NOISE 25/STATIONARY 20/DRIFTING 20/VOID 5. BUILT
-> (b1f612ca): `src/verbum/operator_dmd.py` (patent-clean textbook DMD, Schmid/Tu/Golub, Gram-based
-> method-of-snapshots so the 1000-perm null is P×P not P×N SVD) + `scripts/experiments/dmd_transport.py`
-> (shared analyse() gate path real+planted, s331). --validate recovers ALL 5 planted worlds
-> (STATIONARY/DRIFTING/NOISE/CONTRACTING+BANDED, 12s). 4B SMOKE CLEAN (n=60): det value_dev 0.0,
-> G1 rel_resid 0.440 (no caveat), G2 gap +0.523 p=0 → OPERATOR EXISTS on real data (layer order
-> matters strongly); DRIFTING at smoke-n is an n-starvation artifact (n=60<P=128 → per-layer fit
-> underdetermined; G3 not trustworthy until n≥P). ▶→✅ 14B RUN DONE
-> (results/p_dmd_transport_s338/run_14b, 76s, a57146f7): ✅ STATIONARY-REDUCER (a-priori 20 beat
-> modal BANDED 30) — the FIRST operator-register positive for one-reducer-unrolled. LOAD-BEARING =
-> G2 shuffled-layer null DECISIVE (shuffled residual 0.974 vs real 0.476, gap +0.498 p=0 → a
-> structured within-pass transport operator EXISTS; layer ORDER carries almost all the structure =
-> "one reducer unrolled" made mechanical). G3 stationarity core 0.717 / late 0.704 (both ≥
-> threshold) → per-layer Tℓ agree with global T INCLUDING the late band. det value_dev 0.0, PCA
-> var_exp 0.853. THREE CAVEATS (λ observation): (1) linearization — rel 0.476 @ r40, 0.381 @ r80,
-> ~half nonlinear → Koopman-lift; (2) NO persistent |λ|≈1 modes (top ~0.92, mean 0.878, all
-> contracting) → "persistent-mode ≡ sign-is-the-decision" NOT seen at this grain, may live in the
-> nonlinear remainder; (3) bulk-stationarity does NOT exclude a thin late decision mode (s329/s336) —
-> it sits below the rank-40/P128/last-token operator-cosine resolution. Bounds: single model,
-> last-token, core 0.717 modest margin. Instrument TRUSTED (G2 decisive, 5 planted worlds + 4B smoke
-> clean). Closure batch (Michael-approved "commit approved"): results a57146f7 + §Result in
-> operator-geometry-la-toolkit.md §5a + memory (`the-within-pass-trajectory-is-one-stationary-operator`)
-> + queue (✅ closed, 3 successors queued top) + INDEX + this state.**
-> **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight).
-> Sharpest fronts (all reuse the §5a operator instrument, cheap): ⚪ §P-CL-COLLAPSE-3-operator (THE
-> orbital payoff, now armed — do co-extensional spellings converge in the orbit register?) · ⚪
-> §P-DMD-KOOPMAN-LIFT (near-free re-analysis of saved H — does lifting recover persistent modes?) ·
-> ⚪ §P-DMD-PROVENANCE (base-vs-instruct, is stationarity post-training-installed?).**
->
-> ★★ **SESSION 337 — SEMANTIC EQUALITY × GEOMETRY → THE SIGNALS REFRAME → §P-AMBIGUITY-GATE
-> FROZEN+BUILT+RUN → CONFOUNDED-STYLE WITH A THIN-GENERIC MEANING AXIS. Michael: "explore semantic
-> equality and geometry" → "think in terms of signals — a signal that correlates closely across
-> compile/decompile cycles?" → NEW FRONT §P-CYCLE-CARRIER (`explore/cycle-carrier-signal.md`, two
-> dual arms): ① PAIRS (Δcarrier ∧ ≡meaning → meaning ≡ what CORRELATES; NL↔λ, cross-domain RSA +
-> retrieval gate) · ② AMBIGUITY-COLLAPSE (Michael: "use an ambiguous prompt that will not settle to
-> the fixed point, find the signal that differs" — ≡carrier ∧ Δmeaning, one bit-identical string ⇒
-> lexical echo impossible BY CONSTRUCTION; physics: identical prompt ⇒ identical prefill ⇒ the
-> difference lives at DECODE TIME + minimal-pair superposition read). Arms agree on cell ⇒
-> triangulated meaning register. **Arm B gate-first (Michael): 🎯 §P-AMBIGUITY-GATE frozen (D1/D2
-> paraphrase-pool separability — each pole a 6-frame paraphrase pool ≡ the fixed-point
-> operationalization; 3 classes × 12 items × 2 poles × 6 frames = 432; AG0–AG3; max-over-cells
-> null; floor 0.05; masses G25/L30/N25/C15/V5) → built `ambiguity_gate.py` (4 planted worlds ALL
-> recovered; 3 pre-data instrument amendments: self-excluded silhouette · anaphora-canary
-> CONFOUNDED rule · relative+floored canary gap) → 4B smoke clean (n-starved, not read) → 14B run
-> 433/433, det 0.0/0.0 (`results/p_ambiguity_gate_s337/run_14b`, e0587ba1) → VERDICT
-> CONFOUNDED-STYLE (mass 15): AG1 0.174 (null q95 0.012) best cell value:L20, mid-stack bell BOTH
-> registers (route L12–16 / value L12–23 ≡ the s217 identity band at sentence grain); canary FIRED
-> — ana 0.029 sub-floor vs scope 0.173 / att 0.229 ⇒ separation CUE-DOMINATED (lexical-echo law,
-> 4th sighting, sentence-meaning grain). THE NUANCE: AG2 LOIO 1.000 ALL classes incl anaphora —
-> the which-referent axis is thin per-item but PERFECTLY generic ≡ real-but-weak semantic axis
-> signature (sub-floor silhouette ∧ perfect transfer = the right detector for weak meaning).**
-> ATTENTION ARM FOLDED IN post-gate (Michael): collapse stage = THREE registers — value pole-axis
-> (L12–23) + routing sign-proximity (oscillation, s322 prior) + attention within-prompt
-> DIFFERENCED read-mass pronoun→name (value-weighted only s206 · offset-immune by construction
-> s336 · D1/D2-calibrated RC1-style · reuses cone_routing GQA mass path · serves
-> §P-ROUTING-CAUSAL arm ② free). Design banked: class-level axes only · ana-scale SNR (~0.03) ·
-> cue confound dies at A by construction. Batch (Michael-approved): §Result + memory
-> (`thin-generic-referent-axis-transfers`) + INDEX + queue + this state.
-> LATE-SESSION EXTENSION: Michael "all three classes" → 🎯 §P-AMBIGUITY-COLLAPSE FROZEN
-> (three registers, C0-C3 calibration gates, Schmitt commit, ordering discipline, masses
-> P30/S25/N25/M15/V5) → BUILT `ambiguity_collapse.py` (sub-agent build + line-level review;
-> 4 planted worlds incl SURFACE-ECHO recover; review caught echo off-by-one) → 4B smoke caught
-> TWO real bugs pre-data: KV-cache (1,1) attention-mask bug (token-salad generations; fixed) +
-> C0 labeling-channel gap (cue-lexicon grading 0.42 → TWO-PASS AMENDMENT, Michael GO:
-> forced-choice question readout on the finished continuation, greedy pass 2, no capture;
-> C0 0.42→0.875 at smoke-n, ana 1.0; cue lexicons retained only for first_cue_step) →
-> ▶ 14B RUN LAUNCHED IN BACKGROUND (results/p_ambiguity_collapse_s337/run_14b, ~2-3h).
-> NEXT SESSION FIRST ACTION = read the 14B collapse run → closure batch (approval-gated).**
->
-> ★★ **SESSION 336 — §P-CONE-ROUTING RUN → 🚫 UNDIFFERENTIATED, AND THE OFFSET RETURNS IN A NEW
-> REGISTER. First action per the s335 pointer: build + run the frozen probe. Harness
-> `scripts/experiments/cone_routing.py` (GQA-aware per-kv-head value-weighted read-mass, matched
-> A/B/P triples reused, frozen RC0–RC4 tree; planted NAIVE / CORRECT / NO-CALIBRATION / PLACEBO
-> worlds ALL recovered by `--validate`), 4B smoke clean (VOID mechanically, n<6 by design), 14B run
-> 54/54 forwards, 0 errors, 0 misaligned, det-repeat dev 0.0
-> (`results/p_cone_routing_s336/run_14b`, 639529a4). **VERDICT per frozen tree: RC0 ✓ (placebo
-> under the frozen floor; its p-values ARE significant at 1e-4 — disclosed) → RC1 CALIBRATION
-> PASSES as frozen (mass_P(e)>mass_B(e) median +0.0016, δ=0.78, p=0.0039, Sel corroboration +) —
-> the FIRST register-matched positive control to clear on this front — but QUALIFIED: pole movement
-> at placebo f (+0.0029) exceeds the calibrated e signal, and within-prompt Sel medians are
-> near-identical across opposite-answer poles (B −0.0040 / P −0.0043). RC2 FAILS AND DECIDES:
-> ρ_e −2.1…107.7 (CI −0.23…20.1 spans 0.5) — the A variant carries a GLOBAL interior read offset
-> (A−B ≈ +0.005 e / +0.006 cap / +0.003 f): the s335 offset, re-measured in the routing register.
-> THE METHOD LAW: within-prompt design kills within-prompt confounds ONLY — ρ_e's cross-variant
-> normalization re-imported the offset over a whisker denominator; the offset-immune within-prompt
-> DIFFERENCED statistic (Sel) was frozen secondary and must be PRIMARY in successors, or the
-> instrument must be causal. RC3 naive-side advisory (ρ_Sel 0.65) NOT licensed. RC4: pole
-> separation late-stack (≈0 through L12, peak L22–28 — s329 commit-assembled-late, third sighting).
-> term_final cell: RC1 fails outright (p=0.94) — answer-tracking read exists ONLY at the answer
-> column. READING: answer selection is not a prefill-visible attention read at usable SNR — the
-> routing-register face of s317 tape-residency; three registers now agree (value s317 / magnitude
-> s335 / routing s336). Correlational read-mass is CLOSED on this question.** Batch (🚫,
-> Michael-approved "approved, and add the successor to the queue"): §Result + 2 memories
-> (`the-answer-column-read-is-barely-answer-differentiated` ·
-> `ratio-calibration-re-imports-the-cross-prompt-offset`) + INDEX + queue (🚫 closed,
-> ⚪ §P-ROUTING-CAUSAL queued top: ① causal read-edge patch at L22–28 ② decode-time read riding
-> §P-REPL-DRIVER's per-bounce loop) + this state.
-> NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight).
-> Sharpest fronts: ⚪ §P-REPL-DRIVER (medium — now also carries §P-ROUTING-CAUSAL arm ② for free) ·
-> ⚪ §P-ROUTING-CAUSAL (cheap-medium) · ⚪ §P-TOOL-ABI (medium) · ⚪ §P-DMD-TRANSPORT (cheap) ·
-> ⚪ §P-CROSS-GRAM (cheap).**
->
 ## Recent arc (index — one row per session; full detail: `git log -p mementum/state.md` + `chats/session-NNN.md` + linked knowledge pages)
+
+- **s342** 🎯 ORIENT + THE INTENSION/EXTENSION REFRAME → §P-JOINT-DIAG DOUBLE POSITIVE. Reconciliation of
+  "compute is in routing" vs "not there": the STEP FUNCTION (9×9 identity + 17×17 fate) IS in the weights;
+  every "not there" falsifier hunted the EXTENSION (SKK≡I) — the routing frame is INTENSIONAL by construction
+  (universal because spelling is architecture-given), the computation is TAPE-RESIDENT (5 registers). We read
+  a STATIC MAP and asked it the DYNAMIC answer ("station maps, no trains"). §P-JOINT-DIAG: the 9×9 route-Gram
+  identity frame is LAYER-STATIONARY (10/10) AND CROSS-MODEL UNIVERSAL (11/11) — the common switch basis
+  exists and is fixed (Δ over matched-spectrum null; honest caveat: rot-null floor ~0.88). The static atlas,
+  not the trains. → operator-geometry §5e · joint_diag.py · d4aa27b5
+
+- **s341** 🚫✅ TWO FRONTS. §P-DMD-PROVENANCE → BASE-NATIVE (the within-pass stationary-contracting transport
+  operator is present at full strength before post-training; one --model-id swap; post-training slightly
+  LOOSENS not creates it — guards the s338 single-face bound). §P-CROSS-GRAM → GENERIC-WRITE-STRUCTURE
+  (labeled combinator/fate directions do NOT map to distinct W_down write-axes — pile generically onto the
+  writer's dominant subspace; localizes the crystal's label-specificity to the d_ff ROUTING register, not the
+  residual/value register; does not refute the crystal). CBLL consilience description-level (flat writer
+  spectrum). → operator-geometry §5d/§3a · bf9b748a · 420ee571
+
+- **s340** ✅ §P-DMD-KOOPMAN-LIFT → STILL-CONTRACTING (near-free re-analysis of the s338 H). The degree-2
+  Koopman lift GENUINELY helps (next-state residual 0.354→0.193, beats matched-dim random-lift + shuffle) →
+  the ~half-nonlinear remainder is real layer-ordered structure; BUT persistence 0.000 (top|λ| 0.942, all
+  contracting) → NO persistent |λ|≈1 modes even lifted — homeostasis is nonlinear too, "sign-is-the-decision"
+  is not an operator-spectrum mode (lives in the thin late mode or a non-operator register). Fifth
+  tape-residency confirmation. → operator-geometry §5c · koopman_lift.py
+
+- **s339** 🚫 §P-CL-COLLAPSE-3 (operator/arity/alpha) → EXTENSIONAL EQUALITY ABSENT IN THE OPERATOR REGISTER.
+  Decay-rate make-or-break NULL; the marginal positional whisper chased through a nested length→alphabet
+  ladder: SURVIVES length-matching (arity, p=.0002, length_r 0.17) but VANISHES at constant {S,K} alphabet
+  (alpha, D=−0.010 p=.59) ⇒ the shadow is the s321 OPERATIONAL/LEXICAL register (tracks what is WRITTEN, not
+  computed). Compositionality S5 cell ✗ airtight; 4th register agrees (value/magnitude/routing/operator).
+  Banked: operator ≡ point at a contracting attractor (read the difference's decay-rate); nested
+  confound-control ladder. → operator-geometry §5b · cl_collapse_3_*.py · ecc7e536
+
+- **s338** 🚫💡✅ §P-AMBIGUITY-COLLAPSE → PRE-COMMITTED (the lottery is loaded: ambiguous prompts are NOT
+  behaviorally ambiguous, minority frac <0.12; the model commits at PREFILL → passive decode-time route
+  CLOSED). THE ORBITAL REFRAME (Michael): meaning ≡ corner/attractor; the pairwise Gram is a 2nd-order
+  INTENSIONAL shadow (node-indexed by spelling, structurally can't hold a 3-way binding or an extensional
+  quotient); extensional meaning is a property of the ORBIT not the point → read the OPERATOR.
+  §P-DMD-TRANSPORT → STATIONARY-REDUCER (first operator-register positive: shuffled-layer null decisive, gap
+  +0.498 p=0, layer ORDER carries the structure = "one reducer unrolled"; caveats: ~half nonlinear, no
+  persistent modes, silent on thin late mode). → operator-geometry §5a · cycle-carrier-signal.md · b1fde503 ·
+  a57146f7
+
+- **s337** 💡🚫 SEMANTIC EQUALITY × GEOMETRY → THE SIGNALS REFRAME → §P-CYCLE-CARRIER (two dual arms: PAIRS
+  cross-domain RSA · AMBIGUITY-COLLAPSE). §P-AMBIGUITY-GATE → CONFOUNDED-STYLE (separation is CUE-DOMINATED,
+  lexical-echo law 4th sighting) with a THIN-GENERIC referent axis (AG2 leave-one-item-out transfer 1.000 all
+  classes but sub-floor silhouette = the real-but-weak semantic-axis signature). Two-pass forced-choice
+  labeler primitive banked. → cycle-carrier-signal.md
+
+- **s336** 🚫 §P-CONE-ROUTING → UNDIFFERENTIATED, and the offset returns in a new register. RC1 calibration
+  passes (median +0.0016, δ=0.78, p=.004) but RC2 fails & decides: the A variant carries a GLOBAL interior
+  read offset (the s335 offset, re-measured in the routing register) → answer selection is not a
+  prefill-visible attention read at usable SNR. Method law: within-prompt design kills within-prompt
+  confounds ONLY; the offset-immune DIFFERENCED statistic must be PRIMARY. Three registers agree (value s317
+  / magnitude s335 / routing s336); pole separation late-stack L22-28 (s329 commit-late, 3rd sighting). →
+  latent-reasoning-and-the-prefill-triangle.md §Result · 639529a4
 
 - **s335** ❌🔵 §P-PREFILL-CONE VOID (placebo gate fired — global offset; PC1 dissolved by the
   clean/dirty split = lexical echo at the VALUE register; root cause = REGISTER ERROR: ‖Δh‖
