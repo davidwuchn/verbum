@@ -1,0 +1,22 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights: 100%|██████████| 443/443 [00:00<00:00, 19836.20it/s]
+[arith] Qwen/Qwen3-14B | arch=Qwen3ForCausalLM  L=40  register=gated-dense  layers=model.layers  gate=mlp.gate_proj(d=17408)  read=sign(gate_proj) [validated]  attn=self_attn.o_proj(d=5120)
+[trace] [gate] calibrating on 539 crystal probes ...
+[trace] [gate]   probe 0/539
+[trace] [gate]   probe 100/539
+[trace] [gate]   probe 200/539
+[trace] [gate]   probe 300/539
+[trace] [gate]   probe 400/539
+[trace] [gate]   probe 500/539
+[trace] [gate] null from 8 natural prompts ...
+[arith] crystal-bearing layers: 35/40
+[arith] arith_add        I_all=0.000 (early 0.000 / late 0.000) I_last=0.000 noop_last=0.000
+[arith] arith_succ       I_all=0.000 (early 0.000 / late 0.000) I_last=0.000 noop_last=0.000
+[arith] arith_mul        I_all=0.000 (early 0.000 / late 0.000) I_last=0.000 noop_last=0.000
+[arith] mod_date         I_all=0.000 (early 0.000 / late 0.000) I_last=0.000 noop_last=0.375
+[arith] ctrl_retrieval   I_all=0.000 (early 0.000 / late 0.000) I_last=0.000 noop_last=0.375
+[arith] ctrl_prose       I_all=0.188 (early 0.333 / late 0.000) I_last=0.200 noop_last=0.375
+================================================================
+[arith] LATE I-selection: arithmetic 0.000 | control 0.000 | mod/date 0.000
+[arith] arithmetic - control = +0.000 (over-read guard: want > 0); arithmetic - mod/date = +0.000 (rotation dissociation: want > 0)
+[arith] wrote /Users/mwhitford/src/verbum/results/arith_trace/qwen3-14b/arith_trace.json

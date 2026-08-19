@@ -1,0 +1,2745 @@
+{
+  "note": "EXPLORATORY opcode trace of a task-typed battery (where does math happen?); reuses the audited opcodes/ reader; no verdict",
+  "model": "Qwen/Qwen3-0.6B",
+  "device": "mps",
+  "register": "gate",
+  "z_thresh": 3.0,
+  "n_perm": 120,
+  "probes_per_comb": 15,
+  "smoke": true,
+  "timestamp_utc": "2026-08-19T22:47:35.664974+00:00",
+  "crystal_layers": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27
+  ],
+  "n_layers": 28,
+  "summary": {
+    "arith_late_I": 0.0,
+    "ctrl_late_I": 0.0,
+    "mod_date_late_I": 0.0,
+    "arith_minus_ctrl": 0.0,
+    "arith_minus_mod": 0.0
+  },
+  "groups": {
+    "arith_add": {
+      "n_crystal_layers": 28,
+      "n_tokens": 32,
+      "noop_rate_all": 0.0,
+      "noop_rate_last": 0.0,
+      "I_rate_all": 0.0,
+      "I_rate_last": 0.0,
+      "I_rate_early_all": 0.0,
+      "I_rate_late_all": 0.0,
+      "per_layer_all": {
+        "0": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "1": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "2": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "3": {
+          "win": "Y",
+          "fires": 22,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 22
+          }
+        },
+        "4": {
+          "win": "Y",
+          "fires": 9,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 9
+          }
+        },
+        "5": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "6": {
+          "win": "S",
+          "fires": 14,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 14
+          }
+        },
+        "7": {
+          "win": "S",
+          "fires": 32,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 32
+          }
+        },
+        "8": {
+          "win": "S",
+          "fires": 12,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 11,
+            "Y": 1
+          }
+        },
+        "9": {
+          "win": "S",
+          "fires": 15,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 10,
+            "Y": 5
+          }
+        },
+        "10": {
+          "win": "S",
+          "fires": 17,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 17
+          }
+        },
+        "11": {
+          "win": "S",
+          "fires": 29,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 28,
+            "Y": 1
+          }
+        },
+        "12": {
+          "win": "S",
+          "fires": 27,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 27
+          }
+        },
+        "13": {
+          "win": "S",
+          "fires": 10,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 8,
+            "Y": 2
+          }
+        },
+        "14": {
+          "win": "Y",
+          "fires": 3,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 3
+          }
+        },
+        "15": {
+          "win": "S",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 3,
+            "S": 5
+          }
+        },
+        "16": {
+          "win": "Y",
+          "fires": 9,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 9
+          }
+        },
+        "17": {
+          "win": "Y",
+          "fires": 28,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 28
+          }
+        },
+        "18": {
+          "win": "Y",
+          "fires": 9,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 9
+          }
+        },
+        "19": {
+          "win": "Y",
+          "fires": 24,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 19,
+            "S": 5
+          }
+        },
+        "20": {
+          "win": "Y",
+          "fires": 32,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 19,
+            "S": 13
+          }
+        },
+        "21": {
+          "win": "Y",
+          "fires": 32,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 26,
+            "S": 6
+          }
+        },
+        "22": {
+          "win": "Y",
+          "fires": 32,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 31,
+            "S": 1
+          }
+        },
+        "23": {
+          "win": "S",
+          "fires": 32,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 32
+          }
+        },
+        "24": {
+          "win": "S",
+          "fires": 32,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 32
+          }
+        },
+        "25": {
+          "win": "S",
+          "fires": 32,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 32
+          }
+        },
+        "26": {
+          "win": "S",
+          "fires": 32,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 32
+          }
+        },
+        "27": {
+          "win": "Y",
+          "fires": 19,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 19
+          }
+        }
+      },
+      "per_layer_last": {
+        "0": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "1": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "2": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "3": {
+          "win": "Y",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 8
+          }
+        },
+        "4": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "5": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "6": {
+          "win": "S",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 8
+          }
+        },
+        "7": {
+          "win": "S",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 8
+          }
+        },
+        "8": {
+          "win": "S",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 8
+          }
+        },
+        "9": {
+          "win": "S",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 8
+          }
+        },
+        "10": {
+          "win": "S",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 8
+          }
+        },
+        "11": {
+          "win": "S",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 8
+          }
+        },
+        "12": {
+          "win": "S",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 8
+          }
+        },
+        "13": {
+          "win": "S",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 8
+          }
+        },
+        "14": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "15": {
+          "win": "S",
+          "fires": 5,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 5
+          }
+        },
+        "16": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "17": {
+          "win": "Y",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 8
+          }
+        },
+        "18": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "19": {
+          "win": "Y",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 8
+          }
+        },
+        "20": {
+          "win": "Y",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 8
+          }
+        },
+        "21": {
+          "win": "Y",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 8
+          }
+        },
+        "22": {
+          "win": "Y",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 8
+          }
+        },
+        "23": {
+          "win": "S",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 8
+          }
+        },
+        "24": {
+          "win": "S",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 8
+          }
+        },
+        "25": {
+          "win": "S",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 8
+          }
+        },
+        "26": {
+          "win": "S",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 8
+          }
+        },
+        "27": {
+          "win": "Y",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 8
+          }
+        }
+      }
+    },
+    "arith_succ": {
+      "n_crystal_layers": 28,
+      "n_tokens": 44,
+      "noop_rate_all": 0.0227,
+      "noop_rate_last": 0.0,
+      "I_rate_all": 0.0,
+      "I_rate_last": 0.0,
+      "I_rate_early_all": 0.0,
+      "I_rate_late_all": 0.0,
+      "per_layer_all": {
+        "0": {
+          "win": "Y",
+          "fires": 5,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 5
+          }
+        },
+        "1": {
+          "win": "Y",
+          "fires": 9,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 8,
+            "W": 1
+          }
+        },
+        "2": {
+          "win": "Y",
+          "fires": 2,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 2
+          }
+        },
+        "3": {
+          "win": "Y",
+          "fires": 15,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 15
+          }
+        },
+        "4": {
+          "win": "Y",
+          "fires": 9,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 9
+          }
+        },
+        "5": {
+          "win": "Y",
+          "fires": 1,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 1
+          }
+        },
+        "6": {
+          "win": "Y",
+          "fires": 9,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 8,
+            "W": 1
+          }
+        },
+        "7": {
+          "win": "S",
+          "fires": 14,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 10,
+            "W": 2,
+            "Y": 2
+          }
+        },
+        "8": {
+          "win": "Y",
+          "fires": 4,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 1,
+            "Y": 3
+          }
+        },
+        "9": {
+          "win": "Y",
+          "fires": 28,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 16,
+            "W": 6,
+            "S": 2,
+            "WHNF": 4
+          }
+        },
+        "10": {
+          "win": "Y",
+          "fires": 20,
+          "I_frac": 0.0,
+          "dist": {
+            "W": 2,
+            "Y": 18
+          }
+        },
+        "11": {
+          "win": "Y",
+          "fires": 20,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 14,
+            "WHNF": 3,
+            "S": 3
+          }
+        },
+        "12": {
+          "win": "Y",
+          "fires": 19,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 15,
+            "W": 2,
+            "S": 2
+          }
+        },
+        "13": {
+          "win": "WHNF",
+          "fires": 4,
+          "I_frac": 0.0,
+          "dist": {
+            "W": 1,
+            "WHNF": 2,
+            "Y": 1
+          }
+        },
+        "14": {
+          "win": "Y",
+          "fires": 6,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 6
+          }
+        },
+        "15": {
+          "win": "Y",
+          "fires": 7,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 7
+          }
+        },
+        "16": {
+          "win": "Y",
+          "fires": 10,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 10
+          }
+        },
+        "17": {
+          "win": "Y",
+          "fires": 25,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 25
+          }
+        },
+        "18": {
+          "win": "Y",
+          "fires": 21,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 21
+          }
+        },
+        "19": {
+          "win": "Y",
+          "fires": 25,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 25
+          }
+        },
+        "20": {
+          "win": "Y",
+          "fires": 37,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 36,
+            "W": 1
+          }
+        },
+        "21": {
+          "win": "Y",
+          "fires": 40,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 39,
+            "W": 1
+          }
+        },
+        "22": {
+          "win": "Y",
+          "fires": 39,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 39
+          }
+        },
+        "23": {
+          "win": "Y",
+          "fires": 32,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 28,
+            "W": 2,
+            "S": 2
+          }
+        },
+        "24": {
+          "win": "Y",
+          "fires": 36,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 33,
+            "W": 2,
+            "S": 1
+          }
+        },
+        "25": {
+          "win": "Y",
+          "fires": 38,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 25,
+            "S": 12,
+            "W": 1
+          }
+        },
+        "26": {
+          "win": "Y",
+          "fires": 38,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 37,
+            "W": 1
+          }
+        },
+        "27": {
+          "win": "Y",
+          "fires": 28,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 28
+          }
+        }
+      },
+      "per_layer_last": {
+        "0": {
+          "win": "Y",
+          "fires": 5,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 5
+          }
+        },
+        "1": {
+          "win": "Y",
+          "fires": 4,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 4
+          }
+        },
+        "2": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "3": {
+          "win": "Y",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 8
+          }
+        },
+        "4": {
+          "win": "Y",
+          "fires": 6,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 6
+          }
+        },
+        "5": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "6": {
+          "win": "Y",
+          "fires": 4,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 4
+          }
+        },
+        "7": {
+          "win": "S",
+          "fires": 5,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 5
+          }
+        },
+        "8": {
+          "win": "S",
+          "fires": 1,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 1
+          }
+        },
+        "9": {
+          "win": "Y",
+          "fires": 7,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 5,
+            "S": 2
+          }
+        },
+        "10": {
+          "win": "Y",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 8
+          }
+        },
+        "11": {
+          "win": "Y",
+          "fires": 4,
+          "I_frac": 0.0,
+          "dist": {
+            "WHNF": 1,
+            "Y": 2,
+            "S": 1
+          }
+        },
+        "12": {
+          "win": "Y",
+          "fires": 6,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 6
+          }
+        },
+        "13": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "14": {
+          "win": "Y",
+          "fires": 2,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 2
+          }
+        },
+        "15": {
+          "win": "Y",
+          "fires": 1,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 1
+          }
+        },
+        "16": {
+          "win": "Y",
+          "fires": 2,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 2
+          }
+        },
+        "17": {
+          "win": "Y",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 8
+          }
+        },
+        "18": {
+          "win": "Y",
+          "fires": 6,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 6
+          }
+        },
+        "19": {
+          "win": "Y",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 8
+          }
+        },
+        "20": {
+          "win": "Y",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 8
+          }
+        },
+        "21": {
+          "win": "Y",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 8
+          }
+        },
+        "22": {
+          "win": "Y",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 8
+          }
+        },
+        "23": {
+          "win": "Y",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 8
+          }
+        },
+        "24": {
+          "win": "Y",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 8
+          }
+        },
+        "25": {
+          "win": "Y",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 8
+          }
+        },
+        "26": {
+          "win": "Y",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 8
+          }
+        },
+        "27": {
+          "win": "Y",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 8
+          }
+        }
+      }
+    },
+    "arith_mul": {
+      "n_crystal_layers": 28,
+      "n_tokens": 32,
+      "noop_rate_all": 0.0,
+      "noop_rate_last": 0.0,
+      "I_rate_all": 0.0,
+      "I_rate_last": 0.0,
+      "I_rate_early_all": 0.0,
+      "I_rate_late_all": 0.0,
+      "per_layer_all": {
+        "0": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "1": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "2": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "3": {
+          "win": "Y",
+          "fires": 18,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 18
+          }
+        },
+        "4": {
+          "win": "Y",
+          "fires": 4,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 4
+          }
+        },
+        "5": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "6": {
+          "win": "S",
+          "fires": 13,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 12,
+            "Y": 1
+          }
+        },
+        "7": {
+          "win": "S",
+          "fires": 32,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 31,
+            "WHNF": 1
+          }
+        },
+        "8": {
+          "win": "S",
+          "fires": 17,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 9,
+            "Y": 8
+          }
+        },
+        "9": {
+          "win": "S",
+          "fires": 23,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 10,
+            "Y": 10,
+            "WHNF": 3
+          }
+        },
+        "10": {
+          "win": "Y",
+          "fires": 14,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 9,
+            "S": 5
+          }
+        },
+        "11": {
+          "win": "S",
+          "fires": 32,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 30,
+            "Y": 2
+          }
+        },
+        "12": {
+          "win": "S",
+          "fires": 28,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 28
+          }
+        },
+        "13": {
+          "win": "S",
+          "fires": 5,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 4,
+            "Y": 1
+          }
+        },
+        "14": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "15": {
+          "win": "S",
+          "fires": 1,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 1
+          }
+        },
+        "16": {
+          "win": "Y",
+          "fires": 6,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 6
+          }
+        },
+        "17": {
+          "win": "Y",
+          "fires": 25,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 25
+          }
+        },
+        "18": {
+          "win": "Y",
+          "fires": 9,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 9
+          }
+        },
+        "19": {
+          "win": "Y",
+          "fires": 20,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 20
+          }
+        },
+        "20": {
+          "win": "Y",
+          "fires": 32,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 24,
+            "S": 8
+          }
+        },
+        "21": {
+          "win": "Y",
+          "fires": 32,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 32
+          }
+        },
+        "22": {
+          "win": "Y",
+          "fires": 32,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 31,
+            "S": 1
+          }
+        },
+        "23": {
+          "win": "S",
+          "fires": 28,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 28
+          }
+        },
+        "24": {
+          "win": "S",
+          "fires": 32,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 32
+          }
+        },
+        "25": {
+          "win": "S",
+          "fires": 32,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 32
+          }
+        },
+        "26": {
+          "win": "S",
+          "fires": 32,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 32
+          }
+        },
+        "27": {
+          "win": "Y",
+          "fires": 17,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 17
+          }
+        }
+      },
+      "per_layer_last": {
+        "0": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "1": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "2": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "3": {
+          "win": "Y",
+          "fires": 7,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 7
+          }
+        },
+        "4": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "5": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "6": {
+          "win": "S",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 8
+          }
+        },
+        "7": {
+          "win": "S",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 8
+          }
+        },
+        "8": {
+          "win": "S",
+          "fires": 7,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 7
+          }
+        },
+        "9": {
+          "win": "S",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 7,
+            "Y": 1
+          }
+        },
+        "10": {
+          "win": "S",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 5,
+            "Y": 3
+          }
+        },
+        "11": {
+          "win": "S",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 8
+          }
+        },
+        "12": {
+          "win": "S",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 8
+          }
+        },
+        "13": {
+          "win": "S",
+          "fires": 4,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 4
+          }
+        },
+        "14": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "15": {
+          "win": "S",
+          "fires": 1,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 1
+          }
+        },
+        "16": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "17": {
+          "win": "Y",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 8
+          }
+        },
+        "18": {
+          "win": "Y",
+          "fires": 1,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 1
+          }
+        },
+        "19": {
+          "win": "Y",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 8
+          }
+        },
+        "20": {
+          "win": "Y",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 8
+          }
+        },
+        "21": {
+          "win": "Y",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 8
+          }
+        },
+        "22": {
+          "win": "Y",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 8
+          }
+        },
+        "23": {
+          "win": "S",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 8
+          }
+        },
+        "24": {
+          "win": "S",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 8
+          }
+        },
+        "25": {
+          "win": "S",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 8
+          }
+        },
+        "26": {
+          "win": "S",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 8
+          }
+        },
+        "27": {
+          "win": "Y",
+          "fires": 7,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 7
+          }
+        }
+      }
+    },
+    "mod_date": {
+      "n_crystal_layers": 28,
+      "n_tokens": 39,
+      "noop_rate_all": 0.3333,
+      "noop_rate_last": 0.0,
+      "I_rate_all": 0.0,
+      "I_rate_last": 0.0,
+      "I_rate_early_all": 0.0,
+      "I_rate_late_all": 0.0,
+      "per_layer_all": {
+        "0": {
+          "win": "Y",
+          "fires": 2,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 2
+          }
+        },
+        "1": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "2": {
+          "win": "Y",
+          "fires": 2,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 2
+          }
+        },
+        "3": {
+          "win": "Y",
+          "fires": 9,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 9
+          }
+        },
+        "4": {
+          "win": "Y",
+          "fires": 4,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 4
+          }
+        },
+        "5": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "6": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "7": {
+          "win": "S",
+          "fires": 4,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 3,
+            "WHNF": 1
+          }
+        },
+        "8": {
+          "win": "Y",
+          "fires": 2,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 2
+          }
+        },
+        "9": {
+          "win": "WHNF",
+          "fires": 5,
+          "I_frac": 0.0,
+          "dist": {
+            "WHNF": 4,
+            "Y": 1
+          }
+        },
+        "10": {
+          "win": "Y",
+          "fires": 4,
+          "I_frac": 0.0,
+          "dist": {
+            "WHNF": 1,
+            "Y": 3
+          }
+        },
+        "11": {
+          "win": "WHNF",
+          "fires": 9,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 3,
+            "WHNF": 4,
+            "S": 2
+          }
+        },
+        "12": {
+          "win": "WHNF",
+          "fires": 12,
+          "I_frac": 0.0,
+          "dist": {
+            "WHNF": 8,
+            "S": 4
+          }
+        },
+        "13": {
+          "win": "WHNF",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "WHNF": 7,
+            "Y": 1
+          }
+        },
+        "14": {
+          "win": "Y",
+          "fires": 7,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 5,
+            "WHNF": 2
+          }
+        },
+        "15": {
+          "win": "Y",
+          "fires": 4,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 2,
+            "WHNF": 2
+          }
+        },
+        "16": {
+          "win": "Y",
+          "fires": 3,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 3
+          }
+        },
+        "17": {
+          "win": "Y",
+          "fires": 9,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 9
+          }
+        },
+        "18": {
+          "win": "Y",
+          "fires": 7,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 7
+          }
+        },
+        "19": {
+          "win": "Y",
+          "fires": 7,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 7
+          }
+        },
+        "20": {
+          "win": "Y",
+          "fires": 7,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 7
+          }
+        },
+        "21": {
+          "win": "Y",
+          "fires": 9,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 9
+          }
+        },
+        "22": {
+          "win": "Y",
+          "fires": 9,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 9
+          }
+        },
+        "23": {
+          "win": "Y",
+          "fires": 6,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 6
+          }
+        },
+        "24": {
+          "win": "Y",
+          "fires": 2,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 2
+          }
+        },
+        "25": {
+          "win": "Y",
+          "fires": 2,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 1,
+            "S": 1
+          }
+        },
+        "26": {
+          "win": "Y",
+          "fires": 13,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 10,
+            "S": 3
+          }
+        },
+        "27": {
+          "win": "Y",
+          "fires": 10,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 10
+          }
+        }
+      },
+      "per_layer_last": {
+        "0": {
+          "win": "Y",
+          "fires": 2,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 2
+          }
+        },
+        "1": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "2": {
+          "win": "Y",
+          "fires": 2,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 2
+          }
+        },
+        "3": {
+          "win": "Y",
+          "fires": 7,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 7
+          }
+        },
+        "4": {
+          "win": "Y",
+          "fires": 4,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 4
+          }
+        },
+        "5": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "6": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "7": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "8": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "9": {
+          "win": "Y",
+          "fires": 1,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 1
+          }
+        },
+        "10": {
+          "win": "Y",
+          "fires": 2,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 2
+          }
+        },
+        "11": {
+          "win": "S",
+          "fires": 3,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 1,
+            "S": 2
+          }
+        },
+        "12": {
+          "win": "S",
+          "fires": 2,
+          "I_frac": 0.0,
+          "dist": {
+            "S": 2
+          }
+        },
+        "13": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "14": {
+          "win": "Y",
+          "fires": 2,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 2
+          }
+        },
+        "15": {
+          "win": "Y",
+          "fires": 2,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 2
+          }
+        },
+        "16": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "17": {
+          "win": "Y",
+          "fires": 5,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 5
+          }
+        },
+        "18": {
+          "win": "Y",
+          "fires": 5,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 5
+          }
+        },
+        "19": {
+          "win": "Y",
+          "fires": 5,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 5
+          }
+        },
+        "20": {
+          "win": "Y",
+          "fires": 5,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 5
+          }
+        },
+        "21": {
+          "win": "Y",
+          "fires": 6,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 6
+          }
+        },
+        "22": {
+          "win": "Y",
+          "fires": 6,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 6
+          }
+        },
+        "23": {
+          "win": "Y",
+          "fires": 5,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 5
+          }
+        },
+        "24": {
+          "win": "Y",
+          "fires": 1,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 1
+          }
+        },
+        "25": {
+          "win": "Y",
+          "fires": 1,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 1
+          }
+        },
+        "26": {
+          "win": "Y",
+          "fires": 5,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 5
+          }
+        },
+        "27": {
+          "win": "Y",
+          "fires": 5,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 5
+          }
+        }
+      }
+    },
+    "ctrl_retrieval": {
+      "n_crystal_layers": 28,
+      "n_tokens": 30,
+      "noop_rate_all": 0.3667,
+      "noop_rate_last": 0.0,
+      "I_rate_all": 0.0,
+      "I_rate_last": 0.0,
+      "I_rate_early_all": 0.0,
+      "I_rate_late_all": 0.0,
+      "per_layer_all": {
+        "0": {
+          "win": "Y",
+          "fires": 7,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 5,
+            "W": 1,
+            "D": 1
+          }
+        },
+        "1": {
+          "win": "Y",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 7,
+            "D": 1
+          }
+        },
+        "2": {
+          "win": "Y",
+          "fires": 5,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 4,
+            "W": 1
+          }
+        },
+        "3": {
+          "win": "Y",
+          "fires": 10,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 7,
+            "D": 2,
+            "WHNF": 1
+          }
+        },
+        "4": {
+          "win": "Y",
+          "fires": 4,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 4
+          }
+        },
+        "5": {
+          "win": "Y",
+          "fires": 3,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 1,
+            "W": 1,
+            "D": 1
+          }
+        },
+        "6": {
+          "win": "D",
+          "fires": 5,
+          "I_frac": 0.0,
+          "dist": {
+            "D": 2,
+            "Y": 2,
+            "W": 1
+          }
+        },
+        "7": {
+          "win": "D",
+          "fires": 4,
+          "I_frac": 0.0,
+          "dist": {
+            "D": 2,
+            "WHNF": 1,
+            "W": 1
+          }
+        },
+        "8": {
+          "win": "W",
+          "fires": 4,
+          "I_frac": 0.0,
+          "dist": {
+            "W": 2,
+            "Y": 1,
+            "WHNF": 1
+          }
+        },
+        "9": {
+          "win": "WHNF",
+          "fires": 4,
+          "I_frac": 0.0,
+          "dist": {
+            "WHNF": 3,
+            "W": 1
+          }
+        },
+        "10": {
+          "win": "W",
+          "fires": 3,
+          "I_frac": 0.0,
+          "dist": {
+            "W": 2,
+            "WHNF": 1
+          }
+        },
+        "11": {
+          "win": "WHNF",
+          "fires": 1,
+          "I_frac": 0.0,
+          "dist": {
+            "WHNF": 1
+          }
+        },
+        "12": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "13": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "14": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "15": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "16": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "17": {
+          "win": "Y",
+          "fires": 4,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 3,
+            "W": 1
+          }
+        },
+        "18": {
+          "win": "W",
+          "fires": 1,
+          "I_frac": 0.0,
+          "dist": {
+            "W": 1
+          }
+        },
+        "19": {
+          "win": "Y",
+          "fires": 8,
+          "I_frac": 0.0,
+          "dist": {
+            "W": 3,
+            "Y": 4,
+            "D": 1
+          }
+        },
+        "20": {
+          "win": "Y",
+          "fires": 10,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 8,
+            "W": 2
+          }
+        },
+        "21": {
+          "win": "Y",
+          "fires": 15,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 13,
+            "WHNF": 1,
+            "W": 1
+          }
+        },
+        "22": {
+          "win": "Y",
+          "fires": 11,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 9,
+            "WHNF": 1,
+            "W": 1
+          }
+        },
+        "23": {
+          "win": "Y",
+          "fires": 5,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 3,
+            "W": 2
+          }
+        },
+        "24": {
+          "win": "Y",
+          "fires": 7,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 5,
+            "WHNF": 1,
+            "W": 1
+          }
+        },
+        "25": {
+          "win": "W",
+          "fires": 3,
+          "I_frac": 0.0,
+          "dist": {
+            "W": 3
+          }
+        },
+        "26": {
+          "win": "Y",
+          "fires": 7,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 5,
+            "WHNF": 1,
+            "W": 1
+          }
+        },
+        "27": {
+          "win": "Y",
+          "fires": 1,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 1
+          }
+        }
+      },
+      "per_layer_last": {
+        "0": {
+          "win": "Y",
+          "fires": 4,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 3,
+            "D": 1
+          }
+        },
+        "1": {
+          "win": "Y",
+          "fires": 4,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 3,
+            "D": 1
+          }
+        },
+        "2": {
+          "win": "Y",
+          "fires": 1,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 1
+          }
+        },
+        "3": {
+          "win": "Y",
+          "fires": 6,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 4,
+            "D": 2
+          }
+        },
+        "4": {
+          "win": "Y",
+          "fires": 2,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 2
+          }
+        },
+        "5": {
+          "win": "D",
+          "fires": 1,
+          "I_frac": 0.0,
+          "dist": {
+            "D": 1
+          }
+        },
+        "6": {
+          "win": "D",
+          "fires": 2,
+          "I_frac": 0.0,
+          "dist": {
+            "D": 2
+          }
+        },
+        "7": {
+          "win": "D",
+          "fires": 2,
+          "I_frac": 0.0,
+          "dist": {
+            "D": 2
+          }
+        },
+        "8": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "9": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "10": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "11": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "12": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "13": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "14": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "15": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "16": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "17": {
+          "win": "Y",
+          "fires": 2,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 2
+          }
+        },
+        "18": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "19": {
+          "win": "Y",
+          "fires": 4,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 3,
+            "D": 1
+          }
+        },
+        "20": {
+          "win": "Y",
+          "fires": 5,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 5
+          }
+        },
+        "21": {
+          "win": "Y",
+          "fires": 6,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 6
+          }
+        },
+        "22": {
+          "win": "Y",
+          "fires": 3,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 3
+          }
+        },
+        "23": {
+          "win": "Y",
+          "fires": 1,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 1
+          }
+        },
+        "24": {
+          "win": "Y",
+          "fires": 2,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 2
+          }
+        },
+        "25": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "26": {
+          "win": "Y",
+          "fires": 2,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 2
+          }
+        },
+        "27": {
+          "win": "Y",
+          "fires": 1,
+          "I_frac": 0.0,
+          "dist": {
+            "Y": 1
+          }
+        }
+      }
+    },
+    "ctrl_prose": {
+      "n_crystal_layers": 28,
+      "n_tokens": 47,
+      "noop_rate_all": 0.8298,
+      "noop_rate_last": 1.0,
+      "I_rate_all": 0.0303,
+      "I_rate_last": 0.0,
+      "I_rate_early_all": 0.0435,
+      "I_rate_late_all": 0.0,
+      "per_layer_all": {
+        "0": {
+          "win": "D",
+          "fires": 4,
+          "I_frac": 0.0,
+          "dist": {
+            "D": 2,
+            "W": 1,
+            "B": 1
+          }
+        },
+        "1": {
+          "win": "D",
+          "fires": 4,
+          "I_frac": 0.0,
+          "dist": {
+            "D": 2,
+            "B": 2
+          }
+        },
+        "2": {
+          "win": "B",
+          "fires": 2,
+          "I_frac": 0.0,
+          "dist": {
+            "B": 1,
+            "W": 1
+          }
+        },
+        "3": {
+          "win": "D",
+          "fires": 3,
+          "I_frac": 0.3333,
+          "dist": {
+            "D": 2,
+            "I": 1
+          }
+        },
+        "4": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "5": {
+          "win": "B",
+          "fires": 2,
+          "I_frac": 0.0,
+          "dist": {
+            "B": 1,
+            "D": 1
+          }
+        },
+        "6": {
+          "win": "B",
+          "fires": 2,
+          "I_frac": 0.0,
+          "dist": {
+            "B": 1,
+            "D": 1
+          }
+        },
+        "7": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "8": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "9": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "10": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "11": {
+          "win": "B",
+          "fires": 2,
+          "I_frac": 0.0,
+          "dist": {
+            "B": 2
+          }
+        },
+        "12": {
+          "win": "B",
+          "fires": 2,
+          "I_frac": 0.0,
+          "dist": {
+            "B": 1,
+            "W": 1
+          }
+        },
+        "13": {
+          "win": "B",
+          "fires": 2,
+          "I_frac": 0.0,
+          "dist": {
+            "B": 1,
+            "W": 1
+          }
+        },
+        "14": {
+          "win": "B",
+          "fires": 1,
+          "I_frac": 0.0,
+          "dist": {
+            "B": 1
+          }
+        },
+        "15": {
+          "win": "B",
+          "fires": 1,
+          "I_frac": 0.0,
+          "dist": {
+            "B": 1
+          }
+        },
+        "16": {
+          "win": "B",
+          "fires": 1,
+          "I_frac": 0.0,
+          "dist": {
+            "B": 1
+          }
+        },
+        "17": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "18": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "19": {
+          "win": "D",
+          "fires": 1,
+          "I_frac": 0.0,
+          "dist": {
+            "D": 1
+          }
+        },
+        "20": {
+          "win": "D",
+          "fires": 1,
+          "I_frac": 0.0,
+          "dist": {
+            "D": 1
+          }
+        },
+        "21": {
+          "win": "D",
+          "fires": 1,
+          "I_frac": 0.0,
+          "dist": {
+            "D": 1
+          }
+        },
+        "22": {
+          "win": "D",
+          "fires": 1,
+          "I_frac": 0.0,
+          "dist": {
+            "D": 1
+          }
+        },
+        "23": {
+          "win": "D",
+          "fires": 1,
+          "I_frac": 0.0,
+          "dist": {
+            "D": 1
+          }
+        },
+        "24": {
+          "win": "K",
+          "fires": 1,
+          "I_frac": 0.0,
+          "dist": {
+            "K": 1
+          }
+        },
+        "25": {
+          "win": "D",
+          "fires": 1,
+          "I_frac": 0.0,
+          "dist": {
+            "D": 1
+          }
+        },
+        "26": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "27": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        }
+      },
+      "per_layer_last": {
+        "0": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "1": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "2": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "3": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "4": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "5": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "6": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "7": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "8": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "9": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "10": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "11": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "12": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "13": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "14": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "15": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "16": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "17": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "18": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "19": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "20": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "21": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "22": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "23": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "24": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "25": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "26": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        },
+        "27": {
+          "win": "\u00b7",
+          "fires": 0,
+          "I_frac": 0.0,
+          "dist": {}
+        }
+      }
+    }
+  }
+}
