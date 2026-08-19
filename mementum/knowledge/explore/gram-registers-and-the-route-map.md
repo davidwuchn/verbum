@@ -315,6 +315,52 @@ tape-resident. Bounds: aggregate over 10 models, last-token routing register (9�
 identity), CMR cosine grams; the block/pairing reads are descriptive (the 10/10
 stage-flip is the one with a sign-test).
 
+## §Result-route-map-v0 — the trains, at last: a SHARED TRUNK with a LATE BRANCH (s344)
+
+> The dynamic half designed above ("station maps, NO TRAINS") — finally built.
+> INSTRUMENT-ONLY / EXPLORATORY (Michael s344 repoint): observe what the model
+> does on a DIVERSE prompt set, THEN design special probes. Qwen3-14B only.
+
+**Method (FTO-clean, frame-free — never CBLL's rotation).** Per probe, capture the
+per-layer `sign(gate)` last-token trajectory and project it onto the committed
+Qwen3-14B 17 outcome+identity pole centroids (`results/expanded-gram/qwen3-14b`)
+→ a **route** = (40×17) cosine trajectory + its (40×3) rank-3 fire/halt/diverge
+reduction + argmax station-sequence. Diverse BANDED set (496 probes):
+`plain_prose → prose_structured → nl_combinator → symbolic_formal + cross_domain`
+(the prose→symbolic gradient). Poles + probes co-registered in one pass (the coext
+lesson). Instrument trusted: det 0.0, mean route-coherence 0.933, G0 offdiag_corr
+0.929 vs the committed 17×17, `--validate` 4/4 (planted-route recovery /
+shuffled-layer null / determinism / G0). Harness `scripts/explore/route_map_v0.py`
++ `route_map_read.py`; results `results/route_map_v0_s344`.
+
+**What Qwen3-14B does (observations, NO verdict — capture-euphoria guard).**
+1. **ONE shared route trunk (L5–29).** Plain prose, structured prose, combinator-
+   evoking prose, AND code/math/tool trace **nearly the same path** in pole-space
+   (band separation ~0.02; cos-to-plain-prose 0.93–0.98). Route-level evidence the
+   reducer runs on **all language** (thesis L0), notation or not.
+2. **A LATE BRANCH (L30–39)**, separation rising to 0.64 = the s343 transform→output
+   flip seen as a **trajectory** (shared transform trunk → output-specific branch).
+3. **Formal notation is the lone top-of-stack outlier.** Only `symbolic_formal`
+   (`λx.x`, `S W (a (B D))`) peels off hard (cos-to-prose 0.93→**0.125** in the top
+   third) and is the **only band substantially in the `whnf:*` OUTCOME poles**
+   (whnf:K 14%, WHNF 13%) — the gate-activated "compile to lambda" (thesis L1) as a
+   route divergence into the fate register.
+4. **Landing sites:** plain prose collapses to **I** (97% of last-3-layer stations,
+   "continue the text"); structured/combinator prose spread across K/B/W/Y/WHNF
+   (selection/composition/recursion/halt, incl. Y=recursion); code rides **B**
+   (composition 30%) + **WHNF** (halt 24%).
+5. **Two isolated high-signal early sorters (L2, L4)** briefly separate the bands
+   (sep 0.95/0.82, |signal| 0.90/0.97) then reconverge — a real feature, not noise.
+
+**Why it matters.** REDEEMS the semantic-equality hunt: s339/s343 kept testing
+STATIC points (→ LEXICAL); meaning, if anywhere, lives in the **orbit/branch**, not
+the point. The action is the **top branch (L30–39)**, not the shared trunk. Next
+probes (observation-driven): the **compile-step probe** (matched prose-vs-notation of
+the SAME computation → does only notation branch into `whnf:*`?) · the branch-point
+probe · the orbital co-ext read (SKK vs I as ROUTES) · the L2/L4 sorters. Bounds:
+single model Qwen3-14B, last-token, gate register; exploratory (no gates/masses);
+band counts imbalanced (per-band means robust).
+
 ## Provenance
 
 - Michael's three-part question, s308 close; explanations grounded in

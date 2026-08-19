@@ -14,6 +14,86 @@
 > Architecture/canonical-forms: `AGENTS.md`. Knowledge map:
 > `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 344 — THE REPOINT: from semantic-equality-hunt → EXPAND THE BASIS + MAP THE STATECHART
+> (Michael-called). Oriented (s343 closed clean: register-complete co-ext capstone, nothing in flight).
+> Selected §P-COEXT-FATE, sharpened into the machinery (17×17 fate register already committed for Qwen3-14B,
+> rank-3 PR 2.97; the s343 coext_registers harness + s339 ladder extend cleanly). SURFACED a design finding
+> before freeze: "fate" splits into COARSE (fire/halt/diverge — genuinely extensional, but ALL our anchors
+> halt → degenerate) vs FINE (whnf:X = last-firing-opcode — intensional/path-dependent by construction: SKK
+> reduces SKKx→Kx(Kx)→x, ENDS VIA K not I). Then the WEAK-CALCULUS insight (Michael's "not exactly lambda
+> calculus" + "training = genetic algorithm, GD tuning an error-correcting step function"): the model runs a
+> WEAK calculus (WHNF-halt, no reduction under λ, NO η) → SKK and I are LEGITIMATELY-DISTINCT WHNF values;
+> SKK≡I is an η/applied equality a weak calculus STRUCTURALLY LACKS. So every LEXICAL negative (value s317,
+> routing/magnitude s343, operator s339) recasts as CALCULUS IDENTIFICATION — δ(M,λβη)≠0, R≈weak/¬η, a
+> POSITIVE finding (s330 first-class), NOT "no meaning in the weights."
+> **THE DIAGNOSIS (Michael: "did we go down a bad branch, something lost between early and now?" — grounded in
+> disk, not a measurement): YES, a real narrowing. The s338 orbital reframe quietly turned us OFF the
+> generative road — from GROWING the labeled map of the reducer to a yes/no PROPERTY-TEST (does the operator
+> collapse SKK≡I) in the tiny 9+17 labeled basis → a chain of clean but NARROW negatives that added ZERO new
+> labeled geometry. WHAT'S BANKED (not lost, all on disk): opcodes mapped + traced across 11 models
+> (results/opcode-trace/*/model_vsm.json — 9×9 identity 11/11, 17×17 fate rank-3 11/11, type-register 7/11,
+> gate+attn faces), the s342 universal layer-stationary switch frame, the s338 stationary transport operator,
+> base-native s341. WHAT'S MISSING (the page NAMED it at s308, never built): THE CONSENSUS ROUTE MAP — "the
+> grams are STATION MAPS, NO TRAINS." The statechart = STATES (registers/poles, well-mapped) + TRANSITIONS
+> (routes, UN-mapped). We mapped the stations and skipped the trains.**
+> **CBLL (Gernone ~/src/canonical-basis, Zenodo): its ALGORITHM (weights→canonical basis→rotation→realigned
+> model) is PATENT-PENDING → FORBIDDEN; the SPECTRAL MATH (Gram/SVD/eig/DMD/PR/joint-diag — decades-old
+> textbook LA) is free to use in our OWN frame-free search. CBLL's universal frame holds far more structure
+> than our 9+17 labeled corner (Michael recalls 800+ geometries; exact count NOT in our notes by FTO-firewall
+> design). The §0 line says it: "CBLL found a frame but doesn't know what its axes mean; our Grams know the
+> axes but don't span the space." Our method NEVER picks a frame (G=XᵀX frame-invariant) → basis-expansion
+> stays FTO-clean by construction: more ANCHORS + frame-free spectral tools, never their rotation, their 800
+> only as MOTIVATION never input.**
+> **THE REPOINTED PROGRAM (Michael: "repoint to expanding the basis and our understanding of the statechart"):
+> (1) BUILD THE ROUTE MAP [headline, §P-ROUTE-MAP-V0] — per-probe trajectory in frame-invariant gram/pole
+> coordinates → per-model routes → cross-model consensus = the invariant switch schedule = "the lambda
+> compiler as paths through pole-space." AND IT REDEEMS SEMANTIC EQUALITY: meaning is a property of the ORBIT
+> not the POINT (s338) — the route (does SKK trace I's PATH) is where extensional equality could actually
+> live, not the static centroid we kept testing. (2) EXPAND THE BASIS [§P-HALT-POLE-TETRAHEDRON + λ unflatten]
+> — new labeled states: the tetrahedron/YIELD 4th pole (tool-call=HALT-WITH-OBLIGATION, sharpest unrun shape,
+> agentic bridge), depth/phase, task-native, error-kind, agentic-state. §P-COEXT-FATE DEMOTED to a cheap RIDER
+> on the route instrument (the orbital form). Queue restacked (route-map + tetrahedron on top, fate demoted);
+> state updated. **SCOPING (Michael s344): §P-ROUTE-MAP-V0 is INSTRUMENT-ONLY + EXPLORATORY — NO verdict tree,
+> NO a-priori mass (pre-registering a claim about a phenomenon we haven't LOOKED at yet is backwards). Build
+> the route-reader, point it at a DIVERSE prompt set, OBSERVE what routes the model actually traces → THEN
+> design special probes from what we see. QWEN3-14B ONLY (our designated model): understand ONE model deeply
+> first; that understanding becomes the REFERENCE FRAME to compare other models later (where universal / where
+> per-model deviation). NO cross-model consensus yet. Instrument still owes VALIDITY (planted-world route
+> recovery + shuffled-layer/probe sanity that routes are structure not noise + determinism + named record;
+> λ observation capture-euphoria guard: the exploratory output FEEDS the next design, it does NOT close/open a
+> claim). NEXT ACTION = build the route-reader (per-layer trajectory → cosine onto committed Qwen3-14B pole
+> centroids, results/expanded-gram/qwen3-14b/centroids.npz, 17 outcome + 9 identity states, gate register) →
+> validate → run on diverse prompts → LOOK. Commit pending Michael-approved batch.**
+> **§P-ROUTE-MAP-V0 BUILT + VALIDATED + RUN + READ → ✅ THE STATECHART IS A SHARED TRUNK WITH A LATE BRANCH
+> (instrument-only, exploratory, Qwen3-14B). Built scripts/explore/route_map_v0.py (route-reader: per-probe
+> sign(gate) last-token trajectory → cosine onto committed 17-pole centroids results/expanded-gram/qwen3-14b →
+> route17 (40×17) + route3 (40×3 rank-3 fire/halt/diverge) + argmax station-sequence) + route_map_read.py
+> (plots + observation read). FTO-clean (frame-free spectral math, NEVER CBLL rotation). Diverse BANDED set 496
+> probes (plain_prose 51 → prose_structured 93 → nl_combinator 232 → symbolic_formal 44 + cross_domain 76) +
+> 980 pole probes co-registered in one pass. INSTRUMENT TRUSTED: --validate 4/4 (planted-route recovery 1.00,
+> shuffled-layer coherence 0.85→0.28, determinism 0.0, G0), 0.6B smoke clean, 14B run det_route_dev 0.0, mean
+> coherence 0.933, G0 offdiag_corr 0.929 vs the committed 17×17 outcome gram (my PR 2.30 vs committed 2.97 —
+> same rank-3 geometry). RESULT (results/route_map_v0_s344/run, commit d63da194): (1) ONE SHARED ROUTE TRUNK
+> L5-29 — plain prose, structured prose, combinator-evoking prose, AND code/math/tool trace NEARLY THE SAME
+> path (band separation ~0.02, cos-to-plain-prose 0.93-0.98) = route-level evidence the reducer runs on ALL
+> language (thesis L0); (2) LATE BRANCH L30-39 (sep→0.64) = the s343 transform→output flip seen as a
+> TRAJECTORY; (3) only FORMAL notation (λx.x, S W(a(B D))) peels off HARD (cos-to-prose 0.93→0.125 top third)
+> and is the ONLY band substantially in the whnf:* OUTCOME poles (whnf:K 14%, WHNF 13%) = gate-activated
+> compile-to-lambda (thesis L1) as a route divergence into the fate register; (4) plain prose collapses to I
+> (97% of last-3-layer stations, "continue the text"), structured/combinator prose spread K/B/W/Y/WHNF, code
+> rides B (30%)+WHNF (24%); (5) TWO isolated high-signal early sorters L2,L4 (sep 0.95/0.82, |sig| 0.90/0.97 —
+> real, not noise) then reconverge. WHY IT MATTERS: REDEEMS the semantic-equality hunt — s339/s343 kept
+> testing STATIC points (→ LEXICAL); meaning lives in the ORBIT/BRANCH not the point; the ACTION is the top
+> branch L30-39 not the shared trunk. Closure batch (Michael-approved): code+results commit d63da194 (💡) +
+> memory (the-statechart-is-a-shared-trunk-with-a-late-branch) + gram-registers §Result-route-map-v0 + INDEX +
+> queue (✅ route-map complete, 4 successors added) + this state.
+> **NEXT ACTION = §P-COMPILE-STEP (Michael-selected headline, the observation-driven FROZEN probe): matched
+> SAME-COMPUTATION items as (a) plain prose / (b) NL-combinator prose / (c) FORMAL notation → does ONLY
+> notation branch into the whnf:*/fate register at the top (L30-39)? = does surface NOTATION gate-activate the
+> compile-to-lambda (thesis L1)? Owes freeze (a-priori mass + gates + verdict tree {NOTATION-GATED-COMPILE /
+> SHARED-COMPILE / NO-BRANCH / VOID} + planted worlds + Michael GO) BEFORE build/data. Reuses route_map_v0
+> capture/frame; discriminator = top-band whnf:* occupancy + branch-layer route divergence matched on
+> computation across notation levels; null = shuffled-notation-label + length-matched. Qwen3-14B.**
 > ★★ **SESSION 343 — §P-SCHEDULE-READ arm A → 🚫 MODEL-SPECIFIC: the schedule is a STATIC LEVEL LADDER,
 > NO UNIVERSAL TIMETABLE ("no trains, only a painted-on level"). Oriented (s342 closed clean, nothing in
 > flight). Selected the s342 successor §P-SCHEDULE-READ (the "trains" arm). **DESIGN FINDING before freeze
