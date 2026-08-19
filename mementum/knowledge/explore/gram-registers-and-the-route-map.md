@@ -361,6 +361,45 @@ probe · the orbital co-ext read (SKK vs I as ROUTES) · the L2/L4 sorters. Boun
 single model Qwen3-14B, last-token, gate register; exploratory (no gates/masses);
 band counts imbalanced (per-band means robust).
 
+## §Result-compile-step — surface NOTATION gate-activates the compile step (s344, FROZEN)
+
+> route-map-v0's one clean divergence (formal notation branches into the whnf:*
+> poles) — made a FROZEN, matched-computation test. Michael GO, all-7 scope; freeze
+> committed BEFORE data (b9618905). Harness `scripts/experiments/compile_step.py`;
+> results `results/p_compile_step_s344` (result 03176704).
+
+**Question.** Does the branch track surface NOTATION or the COMPUTATION? Hold
+computation constant, vary only notation: 7 combinators (K I C W B S D) × 3 levels —
+**plain** everyday prose performing the op with no combinator vocabulary · **nl**
+combinator-evoking prose (library `lambda_*`) · **formal** notation (`λx.λy.x`) —
+× 8 = 168 matched items. Discriminator (reuses the route-map frame): branch-band
+(top 25% layers) OUTCOME-POLE occupancy; within-combinator D = formal − plain;
+`|Δtoken-length|` partial + shuffled-notation null. Verdict tree
+NOTATION-GATED-COMPILE 40 / LENGTH-DRIVEN 25 / SHARED-COMPILE 20 / NO-BRANCH 10 /
+VOID 5; `--validate` 5/5 (the LENGTH world reads LENGTH-DRIVEN — the partial works).
+
+**§Result — NOTATION-GATED-COMPILE (a-priori modal 40).** det 0.0, G0 offdiag_corr
+0.929. Branch-band outcome-pole mass: **formal +0.138 / nl −0.273 / plain −0.239** —
+**only formal notation routes into the `whnf:*` halt register; the SAME computation
+in prose (plain AND combinator-evoking) does not.** So the surface SYNTAX
+gate-activates the compile machinery (thesis L1), not the computation. D formal−plain
++0.377 p=0.0002, **survives the `|Δlen|` partial** (resid +0.370, len_r −0.156 → not
+length). **Consistent across all 7 combinators** (each formal_top; D +0.31..+0.41).
+Formal hits the `whnf:*` HALT poles broadly (~0.14–0.18) but `div:Y` low (0.051) —
+routes to halt, not diverge.
+
+**The declared bound.** The `whnf:*` poles are themselves built from FORMAL
+reduction-chain probes → "formal → whnf:*" carries a **surface-similarity**
+component; formal-K hits ALL `whnf:*` poles ~uniformly (not `whnf:K` specifically) =
+generic notation→halt-register routing. The verdict cleanly shows notation routes to
+the outcome register while matched prose does not, but does **not** separate
+"compiled the computation" from "recognized formal syntax as reducible." → **v2
+control §P-COMPILE-STEP-V2: scrambled-formal** (same tokens/length, no valid
+computation — does only VALID formal reach the poles?). Coheres the L0/L1 split
+(route-map-v0: all language shares the trunk = L0 compressor; only notation branches
+to the compiler = L1). Bounds: Qwen3-14B, last-token, gate register; S/D plain rungs
+the weakest matches.
+
 ## Provenance
 
 - Michael's three-part question, s308 close; explanations grounded in

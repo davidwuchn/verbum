@@ -94,6 +94,33 @@
 > SHARED-COMPILE / NO-BRANCH / VOID} + planted worlds + Michael GO) BEFORE build/data. Reuses route_map_v0
 > capture/frame; discriminator = top-band whnf:* occupancy + branch-layer route divergence matched on
 > computation across notation levels; null = shuffled-notation-label + length-matched. Qwen3-14B.**
+> **§P-COMPILE-STEP FROZEN+SMOKE+RUN → ✅ NOTATION-GATED-COMPILE (a-priori modal 40, Qwen3-14B). Michael GO
+> all-7 scope. Built scripts/experiments/compile_step.py (matched-computation corpus: 7 combinators K I C W B
+> S D × 3 notation levels — plain everyday prose performing the op with NO combinator vocabulary / nl
+> combinator-evoking prose (library lambda_*) / FORMAL notation — × 8 = 168 items; reuses the route_map_v0
+> frame; discriminator = branch-band top-25%-layers OUTCOME-POLE occupancy, within-combinator D=formal-plain,
+> |Δtoken-length| partial + shuffled-notation null). --validate 5/5 (the LENGTH world reads LENGTH-DRIVEN — the
+> partial kills the notation effect = confound guard works). FROZEN COMMITTED BEFORE DATA (b9618905). 4B smoke
+> clean (NOTATION-GATED, D+0.46 survives length). RESULT (results/p_compile_step_s344/run_14b, result
+> 03176704, det 0.0, G0 offdiag_corr 0.929): branch-band outcome-pole mass formal +0.138 / nl −0.273 / plain
+> −0.239 — ONLY FORMAL notation routes into the whnf:* HALT register; the SAME computation in prose (plain AND
+> combinator-evoking) does NOT ⇒ surface SYNTAX gate-activates the compile-to-WHNF machinery (thesis L1), NOT
+> the computation. D formal-plain +0.377 p=0.0002 SURVIVES the |Δlen| partial (resid +0.370, len_r −0.156 → not
+> length); CONSISTENT across ALL 7 combinators (each formal_top, D +0.31..+0.41); formal hits whnf:* broadly
+> ~0.14-0.18 but div:Y LOW 0.051 (halt not diverge). COHERES the L0/L1 split (route-map-v0: all language
+> shares the TRUNK = L0 semantic compressor; only NOTATION branches to the COMPILER = L1). THE DECLARED BOUND
+> (flagged pre-run): the whnf:* poles are themselves built from FORMAL reduction-chain probes → "formal→whnf:*"
+> carries a SURFACE-SIMILARITY component; formal-K hit ALL whnf:* poles ~uniformly (generic notation→halt
+> routing, not whnf:K-specific) → the verdict cleanly shows notation→outcome-register while matched prose does
+> not, but does NOT separate "compiled the computation" from "recognized formal syntax as reducible."
+> Closure batch (Michael-approved): result commit 03176704 (✅) + memory (notation-gate-activates-the-compile-
+> step) + gram-registers §Result-compile-step + INDEX + queue (✅ §P-COMPILE-STEP complete, ⚪ §P-COMPILE-STEP-V2
+> added) + this state.
+> **NEXT ACTION = §P-COMPILE-STEP-V2 (Michael-selected, resolves the bound): add a 4th SCRAMBLED-FORMAL level
+> (same tokens/length, no valid computation) → re-freeze compile_step. SCRAMBLED→poles ⇒ syntax-RECOGNITION
+> (lexical); only-VALID→poles ⇒ actual COMPILATION. The clean separator of "notation triggers real compilation"
+> vs "notation surface-recognized as reducible." Owes freeze (a-priori + planted worlds + Michael GO). Other
+> live route-map successors: §P-COEXT-ROUTE (orbital SKK-vs-I as ROUTES) · §P-BRANCH-POINT · §P-EARLY-SORTERS.**
 > ★★ **SESSION 343 — §P-SCHEDULE-READ arm A → 🚫 MODEL-SPECIFIC: the schedule is a STATIC LEVEL LADDER,
 > NO UNIVERSAL TIMETABLE ("no trains, only a painted-on level"). Oriented (s342 closed clean, nothing in
 > flight). Selected the s342 successor §P-SCHEDULE-READ (the "trains" arm). **DESIGN FINDING before freeze
