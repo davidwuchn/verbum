@@ -93,6 +93,22 @@
 > both nulls reproduce (arm A) — decompose LEVEL vs TIMETABLE energy; (b) a residual-LENGTH confound fakes
 > EXTENSIONAL (arm C smoke) — the alpha |Δlen| partial + group-centroid + LENGTH-CONFOUND planted world are
 > mandatory for any co-extensional collapse test.**
+> **STRUCTURAL FOLLOW-UP (s343, Michael: "what is the model-specific thing? … the gram is 4 opcodes with WHNF
+> geometries for each + a final WHNF that flips transform→output in the highest layers"). Ran a zero-load
+> deterministic read of all 10 committed 9×9 route Grams (scripts/explore/gram_structure_read.py,
+> results/gram_structure_s343/summary.json → gram-registers §Result-structure + memory
+> the-9x9-gram-is-a-diffuse-opcode-block-plus-a-universal-stage-flip). VERDICT on the hypothesis: (1) "4
+> opcodes" HALF — KIBC is a genuine SEPARATED block (within +0.056; OP↔RED −0.234; OP↔WHNF −0.268) but DIFFUSE
+> not rank-4 (PR≈6.2/9, top-4 66%; confirms s303); (2) "S,D,W,Y = per-opcode WHNF geometries" REFUTED (cohere
+> +0.019, neutral to WHNF −0.031, no 1:1 pairing); (3) "final WHNF flips transform→output at the top" STRONGLY
+> CONFIRMED 10/10 (sign-test p<0.001): mid→top the KIBC opcodes CONVERGE (block coh ~0→+0.15) AND WHNF MERGES
+> IN (0.85→0.75) = transform(spread)→output(collapse toward emission). (4) THE MODEL-SPECIFIC THING IS NOWHERE
+> NAMEABLE — the stage-flip is the MOST universal part (cross-model agreement highest at top 0.955); the arm-A
+> residual doesn't localize at the boundary, no family structure, small → idiosyncratic noise (CORRECTS my
+> stage-timing guess). NET: even the gram's dynamic part (the flip) is CONTENT-FREE (says "resolving" not WHICH
+> result) → intensional → coheres the LEXICAL capstone (weights = ISA + pipeline stages; answer = tape). Also
+> refines "no meaning in the weights": the OPCODE meaning (KIBC) IS universal/in-weights — what is absent is
+> the equality of a composite program with a primitive (SKK≡I), which is computed on the tape.**
 >
 > ★★ **SESSION 342 — ORIENT + THE INTENSION/EXTENSION REFRAME (kept in state, Michael-called) → PROCEED
 > §P-JOINT-DIAG + §P-REPL-DRIVER. Nothing in flight; s341 closed clean. Michael's question: "we found compute

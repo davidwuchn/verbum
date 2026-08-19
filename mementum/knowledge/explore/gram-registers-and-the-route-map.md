@@ -275,6 +275,46 @@ that makes the route map possible** — static geometry first so dynamic
 routes have an invariant space to live in. The legend was built before we
 knew we'd want the map.
 
+## §Result-structure — the 9×9 is a DIFFUSE opcode block + a UNIVERSAL transform→output flip (s343)
+
+Michael's structural reading of the 9×9 ("4 opcodes KIBC, each with a WHNF
+geometry {S,D,W,Y}, and a final WHNF that flips transform→output in the highest
+layers") tested against all 10 committed route Grams (zero model load,
+deterministic; `scripts/explore/gram_structure_read.py`,
+`results/gram_structure_s343/summary.json`). CRYSTAL order [K,I,B,C,S,D,W,Y,WHNF].
+
+- **(1) "4 opcodes" — HALF.** KIBC is a genuine, distinctly-separated block
+  (mean-centered: within-OP +0.056; OP↔RED −0.234; OP↔WHNF −0.268) — but the
+  geometry is **DIFFUSE**, not a crisp rank-4: participation ratio ≈ 6.2/9,
+  consensus eigenvalues [2.29, 1.60, 1.07, 0.98, 0.88, 0.81, 0.72, 0.65, 0.006],
+  top-4 only 66% energy (top-5 76%). Confirms s303 "9×9 diffuse". So "4" shows up
+  as a **block separation, not a rank**.
+- **(2) "S,D,W,Y = a WHNF geometry per opcode" — NOT SUPPORTED.** {S,D,W,Y}
+  barely cohere (within-RED +0.019) and are neutral to WHNF (RED↔WHNF −0.031); the
+  OP×RED map is not 1:1 (K,I→W; B,C→D; S,Y never closest) and mostly anti-similar.
+  A separate loose group, not per-opcode reduced forms.
+- **(3) "final WHNF flips transform→output at the top" — STRONGLY CONFIRMED,
+  10/10 models** (sign-test p<0.001). Mid→top: the KIBC opcodes **converge**
+  (OP-block coherence ~0 → +0.15, rises in 10/10) AND **WHNF merges in**
+  (distinctness 0.85 → 0.75, falls in 10/10). Middle = **transform** (opcodes
+  spread doing distinct routing, WHNF held apart); top = **output** (opcodes
+  collapse, WHNF joins — the computation resolving toward emission).
+- **(4) Where is the MODEL-SPECIFIC residual? Nowhere nameable.** Cross-model
+  agreement is high and flat across depth (0.91–0.955) and **HIGHEST at the top
+  (0.955)** — the stage-flip is the *most universal* part, NOT model-specific. The
+  arm-A residual does not localize at the stage boundary, has no family structure,
+  is small → **idiosyncratic noise, not a per-model clock or program** (corrects an
+  s343 stage-timing guess).
+
+**Net.** The 9×9 decomposes into two universal **intensional** things: *which
+opcode* (the KIBC block) and *which stage* (the transform→output flip). Crucially
+the flip is **content-free** — it says "resolving", never *which* result — so even
+the gram's dynamic part is intensional. This coheres the §P-SCHEDULE-READ-C LEXICAL
+capstone (s343): the weights hold the ISA + pipeline stages; the specific answer is
+tape-resident. Bounds: aggregate over 10 models, last-token routing register (9×9
+identity), CMR cosine grams; the block/pairing reads are descriptive (the 10/10
+stage-flip is the one with a sign-test).
+
 ## Provenance
 
 - Michael's three-part question, s308 close; explanations grounded in

@@ -1,0 +1,143 @@
+{
+  "n_models": 10,
+  "n_layers": 11,
+  "crystal_order": [
+    "K",
+    "I",
+    "B",
+    "C",
+    "S",
+    "D",
+    "W",
+    "Y",
+    "WHNF"
+  ],
+  "rank": {
+    "pr_raw_mean": 6.189014508178525,
+    "consensus_eigenvalues": [
+      2.2867,
+      1.6013,
+      1.072,
+      0.9812,
+      0.8752,
+      0.8087,
+      0.7163,
+      0.6527,
+      0.006
+    ],
+    "top4_energy_frac": 0.66,
+    "top5_energy_frac": 0.757
+  },
+  "blocks_meancentered": {
+    "within_OP_KIBC": 0.056,
+    "within_RED_SDWY": 0.019,
+    "OP_x_RED": -0.234,
+    "OP_x_WHNF": -0.268,
+    "RED_x_WHNF": -0.031
+  },
+  "op_x_red_pairing": {
+    "K": {
+      "S": -0.348,
+      "D": -0.283,
+      "W": -0.206,
+      "Y": -0.366
+    },
+    "I": {
+      "S": -0.254,
+      "D": -0.222,
+      "W": -0.189,
+      "Y": -0.211
+    },
+    "B": {
+      "S": -0.127,
+      "D": 0.073,
+      "W": -0.302,
+      "Y": -0.274
+    },
+    "C": {
+      "S": -0.347,
+      "D": -0.064,
+      "W": -0.251,
+      "Y": -0.343
+    }
+  },
+  "stageflip": {
+    "opcoh_rises_top_over_mid": "10/10",
+    "whnf_sep_falls_top": "10/10",
+    "per_model": {
+      "EleutherAI_pythia-2.8b-deduped": {
+        "opcoh_mid": 0.027,
+        "opcoh_top": 0.152,
+        "whsep_mid": 0.874,
+        "whsep_top": 0.762
+      },
+      "EleutherAI_pythia-410m": {
+        "opcoh_mid": -0.01,
+        "opcoh_top": 0.267,
+        "whsep_mid": 0.838,
+        "whsep_top": 0.682
+      },
+      "HuggingFaceTB_SmolLM3-3B": {
+        "opcoh_mid": -0.01,
+        "opcoh_top": 0.111,
+        "whsep_mid": 0.834,
+        "whsep_top": 0.742
+      },
+      "Qwen_Qwen3-0.6B": {
+        "opcoh_mid": -0.08,
+        "opcoh_top": -0.013,
+        "whsep_mid": 0.859,
+        "whsep_top": 0.814
+      },
+      "Qwen_Qwen3-14B": {
+        "opcoh_mid": -0.031,
+        "opcoh_top": 0.13,
+        "whsep_mid": 0.842,
+        "whsep_top": 0.754
+      },
+      "Qwen_Qwen3-32B": {
+        "opcoh_mid": -0.022,
+        "opcoh_top": 0.099,
+        "whsep_mid": 0.839,
+        "whsep_top": 0.77
+      },
+      "Qwen_Qwen3-4B": {
+        "opcoh_mid": 0.019,
+        "opcoh_top": 0.217,
+        "whsep_mid": 0.81,
+        "whsep_top": 0.719
+      },
+      "Qwen_Qwen3-8B": {
+        "opcoh_mid": -0.001,
+        "opcoh_top": 0.138,
+        "whsep_mid": 0.819,
+        "whsep_top": 0.754
+      },
+      "allenai_OLMo-2-1124-13B": {
+        "opcoh_mid": 0.019,
+        "opcoh_top": 0.147,
+        "whsep_mid": 0.828,
+        "whsep_top": 0.742
+      },
+      "mistralai_Mistral-7B-v0.3": {
+        "opcoh_mid": -0.001,
+        "opcoh_top": 0.254,
+        "whsep_mid": 0.831,
+        "whsep_top": 0.686
+      }
+    }
+  },
+  "cross_model_agreement_by_depth": [
+    0.938,
+    0.908,
+    0.943,
+    0.937,
+    0.937,
+    0.933,
+    0.928,
+    0.933,
+    0.943,
+    0.947,
+    0.955
+  ]
+}
