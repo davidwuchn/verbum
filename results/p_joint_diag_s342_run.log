@@ -1,0 +1,28 @@
+[jd] EleutherAI_pythia-2.8b-deduped: 11 layers, gram 9x9
+[jd] EleutherAI_pythia-410m: 11 layers, gram 9x9
+[jd] HuggingFaceTB_SmolLM3-3B: 11 layers, gram 9x9
+[jd] Qwen_Qwen3-0.6B: 11 layers, gram 9x9
+[jd] Qwen_Qwen3-14B: 11 layers, gram 9x9
+[jd] Qwen_Qwen3-32B: 11 layers, gram 9x9
+[jd] Qwen_Qwen3-4B: 11 layers, gram 9x9
+[jd] Qwen_Qwen3-8B: 11 layers, gram 9x9
+[jd] allenai_OLMo-2-1124-13B: 11 layers, gram 9x9
+[jd] mistralai_Mistral-7B-v0.3: 11 layers, gram 9x9
+[jd] LAYER EleutherAI_pythia-2.8b-deduped   STATIONARY D=0.982 rot p=0.000 d=+0.128 | perm p=0.000
+[jd] LAYER EleutherAI_pythia-410m           STATIONARY D=0.989 rot p=0.000 d=+0.117 | perm p=0.000
+[jd] LAYER HuggingFaceTB_SmolLM3-3B         STATIONARY D=0.989 rot p=0.000 d=+0.103 | perm p=0.000
+[jd] LAYER Qwen_Qwen3-0.6B                  STATIONARY D=0.986 rot p=0.000 d=+0.097 | perm p=0.000
+[jd] LAYER Qwen_Qwen3-14B                   STATIONARY D=0.983 rot p=0.000 d=+0.105 | perm p=0.000
+[jd] LAYER Qwen_Qwen3-32B                   STATIONARY D=0.990 rot p=0.000 d=+0.100 | perm p=0.000
+[jd] LAYER Qwen_Qwen3-4B                    STATIONARY D=0.987 rot p=0.000 d=+0.115 | perm p=0.000
+[jd] LAYER Qwen_Qwen3-8B                    STATIONARY D=0.986 rot p=0.000 d=+0.109 | perm p=0.000
+[jd] LAYER allenai_OLMo-2-1124-13B          STATIONARY D=0.986 rot p=0.000 d=+0.104 | perm p=0.000
+[jd] LAYER mistralai_Mistral-7B-v0.3        STATIONARY D=0.987 rot p=0.000 d=+0.109 | perm p=0.000
+[jd] === JD-LAYER: LAYER-STATIONARY-FRAME (pass 10/10, frac 1.00) ===
+[jd]     family mistral    pass_frac=1.00
+[jd]     family olmo       pass_frac=1.00
+[jd]     family pythia     pass_frac=1.00
+[jd]     family qwen3      pass_frac=1.00
+[jd]     family smollm     pass_frac=1.00
+[jd] === JD-MODEL: UNIVERSAL-FRAME (idx pass 11/11, median D=0.983) ===
+[jd] wrote results/p_joint_diag_s342/run/
