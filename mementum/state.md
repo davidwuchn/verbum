@@ -121,6 +121,38 @@
 > (lexical); only-VALID→poles ⇒ actual COMPILATION. The clean separator of "notation triggers real compilation"
 > vs "notation surface-recognized as reducible." Owes freeze (a-priori + planted worlds + Michael GO). Other
 > live route-map successors: §P-COEXT-ROUTE (orbital SKK-vs-I as ROUTES) · §P-BRANCH-POINT · §P-EARLY-SORTERS.**
+> **§P-COMPILE-STEP-V2 FROZEN+VALIDATE+SMOKE+RUN → ✅ RECOGNITION (a-priori modal 35, Qwen3-14B). Michael GO.
+> Built scripts/experiments/compile_step_v2.py: a 4th level FORMAL_SCRAMBLE atom-shuffles each FROZEN s344
+> formal item (regex atoms λx | word | symbol, reordered, rejoined with spaces — same lexical atoms so
+> recognition CAN fire, order destroyed so no valid reduction). THE KEY GEOMETRY: formal-vs-scramble is
+> LENGTH-MATCHED BY CONSTRUCTION (identical atom multiset) — the confound that dogged s344's formal-vs-plain
+> is gone. THE ALGEBRAIC SPINE: rep(formal−plain) ≡ ds(formal−scramble) + dsp(scramble−plain) is an exact
+> identity of paired means → the verdict tree is EXHAUSTIVE (COMPILATION = ds carries the branch / RECOGNITION
+> = dsp carries it / MIXED = both). --validate 7/7 through the REAL analyse path (the LENGTH adversary — which
+> makes formal≈scramble, both short/high — correctly demotes to LENGTH-DRIVEN, NOT falsely RECOGNITION;
+> the length partial on rep kills it). ruff+diags clean; imports the frozen s344 corpus → exact replication.
+> Frozen committed BEFORE data (c09cb514). 4B smoke clean (G0 0.925, det 0.0, RECOGNITION). RESULT
+> (results/p_compile_step_v2_s344/run_14b, git_sha c09cb514, corpus_hash c4b37864, det 0.0, G0 offdiag 0.929):
+> branch-band outcome-pole mass plain −0.239 / nl −0.283 / formal +0.138 / formal_scramble +0.121 — SCRAMBLED
+> formal (broken, non-reducible: ". q λy ) ( . p x λx") routes into the whnf:* register JUST AS MUCH AS VALID
+> formal, both ~0.36 above prose. ds(formal−scramble) +0.0186 p=0.3177 NULL (the length-clean validity axis);
+> dsp(scramble−plain) +0.3619 p=0.0002 carries the WHOLE branch; rep(formal−plain) +0.3805 p=0.0002 REPLICATES
+> s344 (+0.377); identity rep−(ds+dsp)=0.0; len_r_scramble 0.013 (genuinely length-matched). ⇒ the s344
+> "compile step" is LEXICAL SYNTAX RECOGNITION, not compilation of the specific computation — the model routes
+> formal-NOTATION into the halt/whnf register because it LOOKS reducible. Resolves the §P-COMPILE-STEP
+> surface-similarity bound on the RECOGNITION side. HONEST ASTERISK: ds is a small NON-significant positive
+> (validity increment, if real, below power) — dominant significant mechanism is recognition. COHERES the
+> tape-residency capstone: even the compile-to-whnf gate fires on surface SYNTAX; the reduction lives on the
+> tape (in-context). METHOD BANKED: rep=ds+dsp identity makes a 3-level notation decomposition exhaustive;
+> a SCRAMBLE (same atoms, order destroyed) is a length-clean validity control. Results committed autonomously
+> (8c9d9641); closure batch (Michael-approved): §Result-compile-step-v2 + memory (the-compile-step-is-
+> recognition-not-compilation) + INDEX + queue (✅ §P-COMPILE-STEP-V2 complete) + this state.
+> **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight). The compile-
+> step arc is closed: notation gate-activates a RECOGNITION of formal syntax (L1 is recognition, not
+> semantic compilation) on the shared L0 trunk. Live route-map successors (all cheap re-analysis of the
+> committed route_map_v0 routes): ⚪ §P-COEXT-ROUTE (orbital SKK-vs-I as ROUTES — the redeemed semantic-
+> equality read) · ⚪ §P-BRANCH-POINT (which axes carry the L30-39 divergence) · ⚪ §P-EARLY-SORTERS (what
+> L2/L4 sort on). Also live: ⚪ §P-HALT-POLE-TETRAHEDRON (basis expansion) · cheap spectral §P-MP-NULL.**
 > ★★ **SESSION 343 — §P-SCHEDULE-READ arm A → 🚫 MODEL-SPECIFIC: the schedule is a STATIC LEVEL LADDER,
 > NO UNIVERSAL TIMETABLE ("no trains, only a painted-on level"). Oriented (s342 closed clean, nothing in
 > flight). Selected the s342 successor §P-SCHEDULE-READ (the "trains" arm). **DESIGN FINDING before freeze

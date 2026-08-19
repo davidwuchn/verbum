@@ -400,6 +400,51 @@ computation — does only VALID formal reach the poles?). Coheres the L0/L1 spli
 to the compiler = L1). Bounds: Qwen3-14B, last-token, gate register; S/D plain rungs
 the weakest matches.
 
+## §Result-compile-step-v2 — the compile step is lexical RECOGNITION, not compilation (s344, FROZEN)
+
+> the §Result-compile-step declared bound, resolved. Michael GO; freeze committed
+> BEFORE data (`c09cb514`). Harness `scripts/experiments/compile_step_v2.py` (imports
+> the frozen s344 corpus → exact replication); results `results/p_compile_step_v2_s344`.
+
+**Question.** Does VALID formal notation route into `whnf:*`, or does SCRAMBLED
+formal (same atoms, no valid computation) route there too? A 4th level
+**formal_scramble** atom-shuffles each frozen s344 formal item (regex atoms λx | word
+| symbol, reordered, rejoined with spaces): the recognizable formal tokens survive so
+recognition *can* fire, but no valid reduction exists. **formal-vs-scramble is
+length-matched BY CONSTRUCTION** (identical atom multiset) — the confound that dogged
+s344's formal-vs-plain does not apply here.
+
+**The algebraic spine.** An exact identity of paired means makes the tree exhaustive:
+`rep(formal−plain) ≡ ds(formal−scramble) + dsp(scramble−plain)`. COMPILATION = ds
+carries the branch (scrambling collapses it to prose ⇒ valid computation required);
+RECOGNITION = dsp carries it (scramble routes like formal ⇒ tokens suffice); MIXED =
+both. A-priori RECOGNITION 35 / MIXED 25 / COMPILATION 20 / LENGTH-DRIVEN 8 /
+SHARED-COMPILE 5 / NO-BRANCH 4 / VOID 3; `--validate` 7/7 (the LENGTH adversary —
+which makes formal ≈ scramble, both short/high — correctly demotes to LENGTH-DRIVEN,
+not RECOGNITION).
+
+**§Result — RECOGNITION (a-priori modal 35).** det 0.0, G0 offdiag_corr 0.929,
+`len_r_scramble` 0.013 (scramble genuinely length-matched). Branch-band outcome-pole
+mass: **plain −0.239 · nl −0.283 · formal +0.138 · formal_scramble +0.121** —
+**scrambled formal (broken, non-reducible) routes into the `whnf:*` register just as
+much as valid formal**, both ~0.36 above prose. `ds(formal−scramble)` +0.0186
+**p=0.32 NULL** (the length-clean validity axis); `dsp(scramble−plain)` +0.3619
+p=0.0002 carries the whole branch; `rep(formal−plain)` +0.3805 p=0.0002 **replicates**
+s344 (+0.377); identity `rep − (ds+dsp)` holds to **0.0**. So the s344 notation branch
+is **lexical SYNTAX RECOGNITION** — the model routes formal-*notation* into the
+halt/whnf register because it *looks* reducible, not because it compiled the specific
+computation. Resolves the §Result-compile-step bound on the RECOGNITION side.
+
+**Honest asterisk.** `ds` is a small *non-significant* positive (+0.019, formal a hair
+above scramble) — a validity increment, if real, sits below detection power; the
+dominant, significant mechanism is recognition. **Coheres the tape-residency
+capstone:** even the compile-to-whnf gate fires on surface syntax; the actual
+reduction lives on the tape (in-context). Method banked: the `rep=ds+dsp` identity
+makes a 3-level decomposition exhaustive; a scramble (same atoms, order destroyed) is
+a length-clean validity control. Bounds: Qwen3-14B, last-token, gate register;
+scramble normalizes spacing (runs a hair longer — guarded by the `|Δlen|` partial +
+the LENGTH planted world).
+
 ## Provenance
 
 - Michael's three-part question, s308 close; explanations grounded in
