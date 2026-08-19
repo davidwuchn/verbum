@@ -14,8 +14,11 @@
 > Architecture/canonical-forms: `AGENTS.md`. Knowledge map:
 > `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
-> ★★ **SESSION 341 — §P-DMD-PROVENANCE → BASE-NATIVE (the within-pass stationary operator is base-native,
-> not post-training-installed). Oriented: nothing in flight, s340 closed clean. Selected ⚪ §P-DMD-PROVENANCE
+> ★★ **SESSION 341 — TWO FRONTS: §P-DMD-PROVENANCE → BASE-NATIVE (the within-pass stationary operator is
+> base-native, not post-training-installed) + §P-CROSS-GRAM → GENERIC-WRITE-STRUCTURE (the combinator crystal
+> is a d_ff ROUTING-register property, does NOT transfer to the d_model residual's W_down alignment). Also
+> queued 3 untried spectral fronts (MP-null · bispectrum/tensor · joint-diag). Oriented: nothing in flight,
+> s340 closed clean. Selected ⚪ §P-DMD-PROVENANCE
 > (Michael) — the cheap method-door front guarding the s338 STATIONARY-REDUCER single-face bound. 🎯
 > PRE-REGISTERED (Michael GO) a lightweight provenance layer on the FROZEN s338 §5a instrument (NO re-freeze
 > of gates/masses): a-priori BASE-NATIVE modal (s338 bulk-stationary-contracting = GD/AOT footprint + s329
