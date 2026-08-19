@@ -1,0 +1,129 @@
+{
+  "probe": "P-COMPILE-STEP",
+  "frozen": "s344 pre-data freeze (Michael GO, all-7 scope): does surface NOTATION gate-activate the compile step? gram-registers \u00a7Result-route-map-v0 successor",
+  "pre_data": {
+    "COMBINATORS": [
+      "K",
+      "I",
+      "C",
+      "W",
+      "B",
+      "S",
+      "D"
+    ],
+    "LEVELS": [
+      "plain",
+      "nl",
+      "formal"
+    ],
+    "OUTCOME_POLES": [
+      "whnf:K",
+      "whnf:I",
+      "whnf:B",
+      "whnf:C",
+      "whnf:S",
+      "whnf:D",
+      "whnf:W",
+      "div:Y"
+    ],
+    "BRANCH_FRAC": 0.75,
+    "N_INST": 8,
+    "N_NULL": 5000,
+    "ALPHA": 0.05,
+    "FLOOR_D": 0.02,
+    "BRANCH_FLOOR": 0.02,
+    "apriori": {
+      "NOTATION-GATED-COMPILE": 40,
+      "LENGTH-DRIVEN": 25,
+      "SHARED-COMPILE": 20,
+      "NO-BRANCH": 10,
+      "VOID": 5
+    },
+    "discriminator": "branch-band (top 25% layers) outcome-pole mass; within-combinator D=formal-plain [and formal-nl]; |\u0394token-length| partial + shuffled-notation null; NOTATION-GATED iff formal>>plain SURVIVES length"
+  },
+  "timestamp_utc": "2026-08-19T19:44:56.343678+00:00",
+  "model_id": "Qwen/Qwen3-4B",
+  "device": "mps",
+  "dtype": "bfloat16",
+  "smoke": true,
+  "n_items": 84,
+  "n_inst": 4,
+  "want_layers": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35
+  ],
+  "n_layers": 36,
+  "corpus_hash": "06fcd39d5b72c507",
+  "git_sha": "b9618905eebe0ac5368356154a87d22fa672db6d",
+  "det_route_dev": 0.0,
+  "det_ok": true,
+  "g0": {
+    "my_pr": 2.1966822147369385,
+    "my_eigs_top6": [
+      11.331201553344727,
+      0.9766491055488586,
+      0.8296433091163635,
+      0.6782332062721252,
+      0.5820051431655884,
+      0.414863646030426
+    ],
+    "committed_pr": 2.9659294093098287,
+    "offdiag_corr_vs_committed": 0.925384488703774
+  },
+  "g0_ok": true,
+  "verdict": "NOTATION-GATED-COMPILE",
+  "stats": {
+    "lvl_mass": {
+      "plain": -0.26406336203217506,
+      "nl": -0.3254349114639418,
+      "formal": 0.19820525044841425
+    },
+    "formal_is_top": true,
+    "D_formal_plain_raw": 0.4622686124805893,
+    "p_fp_raw": 0.0001999600079984003,
+    "D_formal_nl_raw": 0.5236401619123561,
+    "D_formal_plain_resid": 0.45465801221779184,
+    "p_fp_resid": 0.0001999600079984003,
+    "len_r_formal_plain": -0.12366989192060666
+  },
+  "mass_by_level": {
+    "plain": -0.26406336203217506,
+    "nl": -0.3254349114639418,
+    "formal": 0.19820525044841425
+  },
+  "apriori_mass": 40
+}
