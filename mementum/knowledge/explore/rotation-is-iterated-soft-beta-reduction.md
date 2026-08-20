@@ -227,3 +227,35 @@ learned-rotation/lookup world — EXCEPT the bimodal circular-distance whisper
 saying some items are computed, not looked up. The strong unification is dead
 at this contact; the two-population shortest-path form is the surviving,
 freezable residue.
+
+### §Result addendum — what lost was ITERATION, not the operation-shape (s345, Michael)
+
+Michael's pressure-test after the verdict: *"how does that prove attention is
+not beta reduction? attention can only do 1 operation — how is that 1 operation
+used here?"* The correct scoping, pinned so the negative does not
+over-generalize in future reads:
+
+- **The probe could not and did not test the operation-shape.** Attention's one
+  operation (`Σ softmax(q·k)·v` = content-addressed fetch/substitute) is
+  architecture — trivially true every layer (the s204 audit already marks the
+  operation-level claim untestable). What was frozen and falsified is the
+  **composition claim**: that the count N is *unrolled into N applications*
+  (Church-numeral execution). NO-SCALING kills the unrolling, not the shape.
+- **D3-at-L0 is itself a positive causal sighting of ONE soft-β step**: the
+  query position content-addresses the day operand and substitutes its V at
+  L0 (swap Monday's V for Friday's → the answer follows Friday); after L0 the
+  patch is inert → the instruction fired ONCE for that operand. The
+  one-instruction CPU executed a ~one-instruction program: fetch operand(s) +
+  one learned primitive + late readout.
+- **Calculus-identification reading (δ grows again):** the recovered calculus
+  treats **numbers as DATA passed to native δ-primitives, not as programs to
+  unroll** — like a real interpreter with hardware ADD, it does not β-reduce
+  Church numerals. Corrects the old s127/s161 "numbers ARE selectors /
+  church encoding" reading; the categorical (ceilinged, ungraded) S/Y
+  engagement is the rule-bank switching ON, not per-step work. Joins no-η
+  (s344 weak calculus) in δ(M, λβη): WHNF-halt, no η, **no Church-numeral
+  execution — δ-rules instead**.
+- **Frame-ledger scoping:** the ledger records a loss for the *iterated*
+  clause ("a SERIES of reductions") only. The substitution-shape clause had no
+  contact here to win or lose. The live residue is §P-SHORTEST-PATH-ROTATION:
+  whether the computed-late minority iterates ∝ min(N, 7−N).

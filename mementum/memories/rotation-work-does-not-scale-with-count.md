@@ -11,5 +11,9 @@ LAYER-0-ONLY (early band adoption 0.571 vs zone/late/noop 0.071; bands differ
 only by L0) — third sighting of the s252 route-at-L0 law. Net: route-at-L0 →
 rotate-in-place → late readout = the learned-rotation/lookup world, with a
 two-population "some items are computed the short way around" residue as the
-surviving freezable hypothesis. Results 54a6b017; §Result in
+surviving freezable hypothesis. SCOPING (Michael): what lost was ITERATION/
+unrolling, NOT the operation-shape — D3-at-L0 is itself one causal soft-β
+sighting (fetch fired once); numbers enter as DATA to native δ-primitives,
+not Church-numeral programs (calculus identification: WHNF-halt, no η, now
+δ-rules). Results 54a6b017; §Result + addendum in
 rotation-is-iterated-soft-beta-reduction.md.
