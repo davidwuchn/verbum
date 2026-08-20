@@ -124,7 +124,13 @@
 > ruff+diags+smoke a tracer harness after); (2) `verbum-repl` CLI entry point (IPython boot, d preloaded,
 > banner, --validate flag; ipython → repl dep group) + tmux launcher; (3) multi-model Driver registry
 > (shortcuts, base/instruct pairs, per-model frame lookup → graceful degradation to calibrate_opcodes,
-> d.free()). THEN front selection: ⚪ §P-OBS-EQUIV (top, driver-ready) vs READ-HEAD-A+LEDGER-C shared freeze —
+> d.free()); (4) ANALYSIS FACADE "the turret" (Michael s346 final: "can the repl use all the tools?" YES —
+> spectral/DSP/Gram/DMD/read-side-holography are functions over the arrays every bounce emits; demo'd live:
+> one-line DMD on a bounce trajectory; curiosity flagged NOT claimed — near-unit |λ|=1.003 pair on a
+> reduction-trace deciding state where s338 batch found all-contracting ~0.94; single-trajectory, no null;
+> "persistent mode on trace states?" = future freeze candidate) — d.gram(b) / d.dmd(b, frame) /
+> d.spectrum() / d.beam(b) + the NULL BATTERY as one-liners (honest reads as cheap as exciting ones);
+> write-side holography stays batch. THEN front selection: ⚪ §P-OBS-EQUIV (top, driver-ready) vs READ-HEAD-A+LEDGER-C shared freeze —
 > corpus design for both essentially complete from s346 play. Extraction to a separate MIT project
 > (**ocularium**) parked until stage-2 API settles.**
 > **(prior next-action, superseded s346:) orient → freeze §P-READ-HEAD arm A + §P-CALCULUS-LEDGER arm C TOGETHER (shared
