@@ -1,0 +1,154 @@
+{
+  "run_id": "p_obs_equiv_s347/run_smoke",
+  "timestamp": "2026-08-20T20:15:25.948096+00:00",
+  "model": "Qwen/Qwen3-8B",
+  "sampling": {
+    "strategy": "greedy",
+    "n": 48
+  },
+  "git_sha": "309662c40c342ef02eb07fdbc792ea3096c5dd94",
+  "corpus_hash": "0ee6c282",
+  "seed": 347,
+  "n_perm": 5000,
+  "frozen": "fab97fed",
+  "corpus": {
+    "coext": [
+      [
+        "I",
+        "C K (K K)"
+      ],
+      [
+        "S K K",
+        "S K S"
+      ],
+      [
+        "S K K",
+        "S K (K K)"
+      ],
+      [
+        "S K S",
+        "S K (S K)"
+      ],
+      [
+        "W K",
+        "C K K"
+      ],
+      [
+        "W K",
+        "C K S"
+      ],
+      [
+        "W K",
+        "S K (S K)"
+      ],
+      [
+        "S K (K K)",
+        "S K (S K)"
+      ]
+    ],
+    "floor": [
+      [
+        "K C",
+        "W K"
+      ],
+      [
+        "K K",
+        "W K"
+      ],
+      [
+        "K K",
+        "C K K"
+      ],
+      [
+        "K",
+        "K S"
+      ],
+      [
+        "S",
+        "C K"
+      ],
+      [
+        "K (C K)",
+        "W K"
+      ],
+      [
+        "K K",
+        "C K (K K)"
+      ],
+      [
+        "I",
+        "S S (K I)"
+      ]
+    ],
+    "excluded": [
+      [
+        "W",
+        "W",
+        "S S (K I)"
+      ],
+      [
+        "W",
+        "W",
+        "C S I"
+      ],
+      [
+        "B",
+        "B",
+        "S (K S) K"
+      ]
+    ]
+  },
+  "driver_validity": {
+    "determinism_ids": true,
+    "determinism_sign_dev": 0,
+    "fork_identity": true,
+    "seal_matches_fresh": true,
+    "append_law_mismatches": 0,
+    "ok": true
+  },
+  "stats": {
+    "verdict": "VOID",
+    "g0_pass": true,
+    "det_dev": 0.0,
+    "a_ceil": 1.0,
+    "a_coext": 0.20833333333333334,
+    "a_floor": 0.22916666666666666,
+    "n_coext_pairs": 8,
+    "n_floor_pairs": 8,
+    "cert_pass": true,
+    "sensitivity": {
+      "C1_direct": 0.6875,
+      "C2_named": 0.0,
+      "C3_nested": 0.8125,
+      "C4_extra_arg": 0.8125,
+      "C5_arg_position": 0.1875,
+      "C6_discard": 0.0625
+    },
+    "scored_contexts": [
+      "C1_direct",
+      "C3_nested",
+      "C4_extra_arg"
+    ],
+    "n_scored_contexts": 3,
+    "a_coext_by_context": {
+      "C1_direct": 0.3125,
+      "C3_nested": 0.0,
+      "C4_extra_arg": 0.3125
+    },
+    "d_floor": -0.020833333333333343,
+    "p_floor": 0.622875424915017,
+    "r_len": -0.22700399800299534,
+    "d_floor_partial": -0.013333333333333329,
+    "var_context": 0.02170138888888889,
+    "p_context": 0.02959408118376325,
+    "d_dir_c1_c2": NaN,
+    "p_dir_c1_c2": NaN,
+    "taxonomy": {
+      "n_divergent": 38,
+      "matches_naive": 0,
+      "matches_weak": 0,
+      "lambda_prefix": 0,
+      "other": 75
+    }
+  }
+}

@@ -1,0 +1,286 @@
+{
+  "run_id": "p_obs_equiv_s347/run_14b",
+  "timestamp": "2026-08-20T22:14:50.588724+00:00",
+  "model": "Qwen/Qwen3-14B",
+  "sampling": {
+    "strategy": "greedy",
+    "n": 48
+  },
+  "git_sha": "22d5e11ea3b0dc9098faf47ef97a9bb6556ae995",
+  "corpus_hash": "56babbfe",
+  "seed": 347,
+  "n_perm": 5000,
+  "frozen": "fab97fed",
+  "corpus": {
+    "coext": [
+      [
+        "I",
+        "C K K"
+      ],
+      [
+        "I",
+        "S K (K K)"
+      ],
+      [
+        "I",
+        "C K S"
+      ],
+      [
+        "S K K",
+        "S K S"
+      ],
+      [
+        "S K K",
+        "W K"
+      ],
+      [
+        "S K K",
+        "C K K"
+      ],
+      [
+        "S K K",
+        "C K S"
+      ],
+      [
+        "S K K",
+        "S K (S K)"
+      ],
+      [
+        "S K S",
+        "W K"
+      ],
+      [
+        "S K S",
+        "S K (K K)"
+      ],
+      [
+        "S K S",
+        "C K S"
+      ],
+      [
+        "S K S",
+        "C K (K K)"
+      ],
+      [
+        "S K S",
+        "S K (S K)"
+      ],
+      [
+        "W K",
+        "C K K"
+      ],
+      [
+        "W K",
+        "C K (K K)"
+      ],
+      [
+        "W K",
+        "S K (S K)"
+      ],
+      [
+        "C K K",
+        "S K (K K)"
+      ],
+      [
+        "C K K",
+        "C K S"
+      ],
+      [
+        "C K K",
+        "C K (K K)"
+      ],
+      [
+        "C K K",
+        "S K (S K)"
+      ],
+      [
+        "S K (K K)",
+        "C K S"
+      ],
+      [
+        "S K (K K)",
+        "C K (K K)"
+      ],
+      [
+        "S K (K K)",
+        "S K (S K)"
+      ],
+      [
+        "C K S",
+        "S K (S K)"
+      ]
+    ],
+    "floor": [
+      [
+        "C (K K)",
+        "S K K"
+      ],
+      [
+        "K (K S)",
+        "K (C K)"
+      ],
+      [
+        "S (K S)",
+        "S K S"
+      ],
+      [
+        "C",
+        "I"
+      ],
+      [
+        "K (S K)",
+        "S (S K)"
+      ],
+      [
+        "K K",
+        "C K"
+      ],
+      [
+        "K (K S)",
+        "C S I"
+      ],
+      [
+        "B",
+        "W K"
+      ],
+      [
+        "W K",
+        "W"
+      ],
+      [
+        "S",
+        "C K"
+      ],
+      [
+        "B (K K)",
+        "S K (S K)"
+      ],
+      [
+        "S (K K)",
+        "S K (K K)"
+      ],
+      [
+        "C (K K)",
+        "S S (K I)"
+      ],
+      [
+        "K C",
+        "K (K S)"
+      ],
+      [
+        "C",
+        "K S"
+      ],
+      [
+        "K S",
+        "C (S K)"
+      ],
+      [
+        "K (S K)",
+        "S K (K K)"
+      ],
+      [
+        "K K",
+        "S (K K)"
+      ],
+      [
+        "C (S K)",
+        "S S (K I)"
+      ],
+      [
+        "S K S",
+        "B"
+      ],
+      [
+        "C",
+        "S (S K)"
+      ],
+      [
+        "K (K S)",
+        "W"
+      ],
+      [
+        "K",
+        "S (K S)"
+      ],
+      [
+        "I",
+        "S (K S) K"
+      ]
+    ],
+    "excluded": [
+      [
+        "W",
+        "W",
+        "S S (K I)"
+      ],
+      [
+        "W",
+        "W",
+        "C S I"
+      ],
+      [
+        "B",
+        "B",
+        "S (K S) K"
+      ]
+    ]
+  },
+  "driver_validity": {
+    "determinism_ids": true,
+    "determinism_sign_dev": 0,
+    "fork_identity": true,
+    "seal_matches_fresh": true,
+    "append_law_mismatches": 0,
+    "ok": true
+  },
+  "stats": {
+    "verdict": "LEXICAL-FLOOR",
+    "g0_pass": true,
+    "det_dev": 0.0,
+    "a_ceil": 1.0,
+    "a_coext": 0.11666666666666667,
+    "a_floor": 0.10833333333333334,
+    "n_coext_pairs": 24,
+    "n_floor_pairs": 24,
+    "cert_pass": true,
+    "sensitivity": {
+      "C1_direct": 0.8125,
+      "C2_named": 0.8958333333333334,
+      "C3_nested": 0.8541666666666666,
+      "C4_extra_arg": 0.9583333333333334,
+      "C5_arg_position": 0.9375,
+      "C6_discard": 0.33333333333333337
+    },
+    "scored_contexts": [
+      "C1_direct",
+      "C2_named",
+      "C3_nested",
+      "C4_extra_arg",
+      "C5_arg_position"
+    ],
+    "n_scored_contexts": 5,
+    "a_coext_by_context": {
+      "C1_direct": 0.3333333333333333,
+      "C2_named": 0.08333333333333333,
+      "C3_nested": 0.08333333333333333,
+      "C4_extra_arg": 0.08333333333333333,
+      "C5_arg_position": 0.0
+    },
+    "d_floor": 0.008333333333333318,
+    "p_floor": 0.6898620275944811,
+    "r_len": -0.14221587202643224,
+    "d_floor_partial": 0.010748218527315924,
+    "var_context": 0.012777777777777777,
+    "p_context": 0.0001999600079984003,
+    "d_dir_c1_c2": 0.25,
+    "p_dir_c1_c2": 0.0005998800239952009,
+    "taxonomy": {
+      "n_divergent": 212,
+      "matches_naive": 0,
+      "matches_weak": 0,
+      "lambda_prefix": 0,
+      "other": 344
+    }
+  }
+}

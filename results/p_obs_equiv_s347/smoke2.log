@@ -1,0 +1,25 @@
+[obs-equiv] corpus: coext 8 (excluded 3: ['B', 'W']) | floor 8 of 496 candidates
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights: 100%|██████████| 399/399 [00:00<00:00, 20387.49it/s]
+driver: Qwen/Qwen3-8B on mps — 36 layers, d=4096, load 3s
+validity: PASS — {'determinism_ids': True, 'determinism_sign_dev': 0, 'fork_identity': True, 'seal_matches_fresh': True, 'append_law_mismatches': 0, 'ok': True}
+[obs-equiv] driver validity: {'determinism_ids': True, 'determinism_sign_dev': 0, 'fork_identity': True, 'seal_matches_fresh': True, 'append_law_mismatches': 0, 'ok': True}
+[obs-equiv] coext pair 0 ('I' vs 'C K (K K)') done [99s]
+[obs-equiv] coext pair 1 ('S K K' vs 'S K S') done [189s]
+[obs-equiv] coext pair 2 ('S K K' vs 'S K (K K)') done [280s]
+[obs-equiv] coext pair 3 ('S K S' vs 'S K (S K)') done [372s]
+[obs-equiv] coext pair 4 ('W K' vs 'C K K') done [461s]
+[obs-equiv] coext pair 5 ('W K' vs 'C K S') done [546s]
+[obs-equiv] coext pair 6 ('W K' vs 'S K (S K)') done [634s]
+[obs-equiv] coext pair 7 ('S K (K K)' vs 'S K (S K)') done [724s]
+[obs-equiv] floor pair 0 ('K C' vs 'W K') done [812s]
+[obs-equiv] floor pair 1 ('K K' vs 'W K') done [898s]
+[obs-equiv] floor pair 2 ('K K' vs 'C K K') done [986s]
+[obs-equiv] floor pair 3 ('K' vs 'K S') done [1075s]
+[obs-equiv] floor pair 4 ('S' vs 'C K') done [1164s]
+[obs-equiv] floor pair 5 ('K (C K)' vs 'W K') done [1258s]
+[obs-equiv] floor pair 6 ('K K' vs 'C K (K K)') done [1346s]
+[obs-equiv] floor pair 7 ('I' vs 'S S (K I)') done [1434s]
+[obs-equiv] capture complete: 216 records [1609s]
+[obs-equiv] VERDICT VOID | A_ceil 1.000 A_coext 0.208 A_floor 0.229 | D -0.021 p 0.6229 | pctx 0.0296 | dir C1>C2 nan p nan | scored ['C1_direct', 'C3_nested', 'C4_extra_arg']
+[obs-equiv] wrote /Users/mwhitford/src/verbum/results/p_obs_equiv_s347/run_smoke
