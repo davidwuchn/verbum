@@ -1,6 +1,6 @@
 ---
 title: Equality is an agreement rate — §P-OBS-EQUIV
-status: designing
+status: done
 category: explore
 tags: [semantic-equality, observational-equivalence, fork-differencing, repl-driver, profile-equivalence]
 related:
@@ -158,8 +158,67 @@ closure batch approval-gated.
 
 ## Result
 
-(pending — 14B run in flight s348, tmux main:1. Smoke record: 8B ×2 =
-harness mechanics proven; C6 free-discard prediction CONFIRMED at 8B
-(all terms answer `a`, kernel-correct, context pruned by calibration);
-8B regime = one-step-stall + `'1'` enumeration attractor, zero
-kernel-correct outside C6 — the smoke-scale ruling observed live.)
+**🚫/💡 LEXICAL-FLOOR (a-priori 20, second-modal behind RATE-STRUCTURED
+40) — Qwen3-14B, frozen `fab97fed` pre-data, git_sha `22d5e11e`,
+corpus_hash `56babbfe`, seed 347, det 0.0, G0 pass, cert pass.**
+Results `results/p_obs_equiv_s347/run_14b` (committed `6da9da4c`).
+
+THE HEADLINE — extensional equality is ABSENT on the behavioral face.
+Co-extensional terms agree no more than certified NON-equal terms:
+
+- `A_ceil = 1.000` — same-spelling forks agree perfectly ⇒ determinism
+  proved, ceiling valid, the fork-differencing statistic well-posed.
+- `A_coext = 0.117`  vs  `A_floor = 0.108` (length-matched certified
+  non-equal). `D_floor = 0.008`, p = 0.69 → **NULL**. The verdict rule
+  `D_floor < 0.10 ∨ p ≥ 0.05 → LEXICAL-FLOOR` fires. SKK and I are no
+  more "equal to the machine" than two genuinely different terms.
+- This is the BEHAVIORAL-face capstone to the s343 geometric capstone:
+  co-extensional collapse absent in routing+value+magnitude (s343) and
+  operator/DMD (s339) — and now absent in fork-differenced BEHAVIOR.
+  Meaning is tape-resident across every measurable register AND the
+  behavioral output. The ~30-session representation-first hunt was the
+  wrong question the right way; asking it as a rate closes it cleanly.
+
+THE FRAME-LEDGER WIN (pre-registered, one-sided, the s346 REPL
+replication under freeze): `A_coext(C1 direct) 0.333 > A_coext(C2
+named) 0.083`, D = 0.25, **p = 0.0006**. The direct-vs-named asymmetry
+observed live in the REPL pilot REPLICATED under the frozen design —
+the "cycle carrier / observational-equality" frame earns a genuine
+pre-registered contact (frame_ledger law, s222). Context structure is
+also significant overall (`var_context` 0.0128, `p_context` 0.0002),
+but `D_floor` fails the floor gate, so RATE-STRUCTURED is unreachable;
+LEXICAL-FLOOR is the exhaustive-tree-correct call. Per-context
+agreement: C1 0.333 is the ONLY context above floor; C2/C3/C4 all
+0.083, C5 0.000 — direct juxtaposition is where the machine comes
+closest to seeing equality, and even there it is one term in three.
+
+GUARDS FIRED AS DESIGNED:
+
+- C6 free-discard PRUNED by the S(c) ≥ 0.5 calibration (sensitivity
+  0.333) — the 8B-smoke free-discard prediction confirmed at 14B: the
+  discard context manufactures agreement (answer insensitive to the
+  varied term), the term-sensitivity gate removed it before scoring.
+- Scored battery = 5 contexts (C1–C5), ≥ 4 required → not VOID.
+- Bug taxonomy (advisory, LEDGER-C): 212 divergent pairs, `matches_naive`
+  0, `matches_weak` 0, `lambda_prefix` 0, `other` 344 — no clean
+  capture signature in this I-family corpus; divergence mechanism stays
+  with §P-COEXT-ROUTE / LEDGER-C, unclaimed here.
+
+BOUNDS (as frozen): battery-indexed (finite contexts cannot prove full
+observational equivalence, only refute/measure on the sample); single
+model Qwen3-14B; greedy; answer granularity; the probe is
+one-directional (EXTENSIONAL would not re-locate equality in the
+weights — FLOOR/RATE are the informative directions, and we landed
+FLOOR). Smoke record retained: 8B ×2 proved harness mechanics + the C6
+prediction; 8B regime = one-step-stall + `'1'` enumeration attractor,
+zero kernel-correct outside C6 — the A2 smoke-scale ruling observed
+live (a machine below the size threshold lacks the calculus the probe
+measures).
+
+METHOD BANKED: fork-differencing (sealed shared prefix, per-spelling
+continuation) turns "is X equal to Y" into a battery-indexed agreement
+rate with a determinism ceiling and a certified-non-equal floor — the
+first frozen probe to measure equality behaviorally instead of
+geometrically. The floor null (length-matched certified non-equal
+pairs) is the load-bearing control: without it 11.7% agreement looks
+like weak equality; against the 10.8% floor it is exactly nothing.

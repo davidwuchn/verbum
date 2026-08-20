@@ -46,9 +46,42 @@
 > into the enumeration attractor = GENUINE register asymmetry (atomic vs composite spelling in the named
 > context), the floor calibration adjudicates it per the frozen rule. ▶ 14B RUN LAUNCHED in Michael's tmux
 > main:1 (run14b.log; ~2-2.5h, 1344 bounces). Interlude: refreshed the s346 self-repair law for Michael
-> (contradiction-not-error, P0-P3 ladder) — no new claims. NEXT: run lands → frozen verdict read →
-> results commit (autonomous) → closure batch (approval-gated: §Result + memory + INDEX + queue + state);
-> memory candidates queued for closure: the A2 smoke-scale law · C6-confirmation-at-8B.**
+> (contradiction-not-error, P0-P3 ladder) — no new claims.
+> ▶ RUN LANDED (~1h53m, tmux main:1) → 🚫/💡 **LEXICAL-FLOOR (a-priori 20, 2nd-modal behind RATE-STRUCTURED
+> 40; Qwen3-14B, git_sha 22d5e11e, corpus_hash 56babbfe, det 0.0, G0 pass, cert pass; results 6da9da4c
+> autonomous).** THE HEADLINE — extensional equality ABSENT on the BEHAVIORAL face: A_ceil 1.000
+> (determinism proved, fork-differencing well-posed) · A_coext 0.117 ≈ A_floor 0.108 (length-matched
+> certified non-equal) · D_floor 0.008 p 0.69 NULL ⇒ co-extensional terms (SKK vs I) agree NO MORE than
+> genuinely different terms. THE BEHAVIORAL-FACE CAPSTONE to the s343 geometric capstone (co-ext collapse
+> absent in routing+value+magnitude s343 + operator/DMD s339) — meaning is tape-resident across every
+> MEASURABLE register AND the behavioral output; the ~30-session representation-first hunt closes cleanly.
+> FRAME-LEDGER WIN (pre-registered, one-sided — the s346 REPL replication under freeze): A_coext(C1 direct)
+> 0.333 > A_coext(C2 named) 0.083, D 0.25 p 0.0006 — the direct-vs-named asymmetry observed live REPLICATED
+> under the frozen design; the observational-equality frame earns a genuine pre-registered contact
+> (frame_ledger law s222). Context structure significant overall (var 0.0128, p_context 0.0002) but D_floor
+> fails the floor gate → RATE-STRUCTURED unreachable, LEXICAL-FLOOR exhaustive-tree-correct; C1 is the ONLY
+> context above floor (C2/C3/C4 0.083, C5 0.000 — direct juxtaposition is where the machine comes closest,
+> and even there it is 1 term in 3). GUARDS FIRED AS DESIGNED: C6 free-discard PRUNED by S(c)≥0.5
+> (sensitivity 0.333 — the 8B-smoke free-discard prediction confirmed at 14B); scored battery 5 contexts
+> (≥4 → not VOID); bug taxonomy advisory (212 divergent, matches_naive/weak/λ-prefix all 0 → mechanism to
+> §P-COEXT-ROUTE/LEDGER-C, unclaimed here). METHOD BANKED: fork-differencing (sealed shared prefix,
+> per-spelling continuation) = first frozen probe measuring equality BEHAVIORALLY not geometrically — a
+> battery-indexed rate with a determinism ceiling + certified-non-equal floor; the floor null is
+> load-bearing (11.7% looks like weak equality until the 10.8% floor makes it exactly nothing).
+> CLOSURE BATCH (Michael-approved): §Result in equality-is-an-agreement-rate.md (status designing→done) +
+> 3 memories (behavioral-equality-is-at-the-lexical-floor 🔄 · the-c1-direct-context-wins-the-pre-registered-
+> contact 💡 · smoke-must-be-at-least-4b-for-the-calculus-to-form 💡 [the A2 candidate law]) + INDEX row +
+> queue (▶→🚫 to # complete) + this state. NOTE the memory set substituted the C1-pre-reg-win for the
+> earlier-listed C6-confirmation (the pre-reg contact is the stronger banked finding; C6 lives in §Result).**
+> **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight). The
+> semantic-equality / tape-residency arc is now REGISTER-COMPLETE + behavioral-complete — equality is a
+> lexical floor everywhere measured. Michael's s346 direction stands: the understanding phase should CASH
+> IN — Path B (drive models better) feeds Path A (build the small model), front question "WHAT IS THE
+> CALCULUS?". Sharpest live fronts: ⚪ §P-DEPTH-CARRIER (the s346 charged-rotation, first persistent-mode /
+> homeostat candidate, driver-ready, at queue top) · ⚪ §P-READ-HEAD + §P-CALCULUS-LEDGER (shared engineered
+> corpus, one design pass — the calculus-identification front, corpus essentially specified from s346 REPL
+> play) · the toolbox build (the-ocularium-decision, s346-approved: opcodes/ consolidation + verbum-repl CLI
+> + multi-model registry + turret facade).**
 >
 > ★★ **SESSION 346 — THE CALCULUS-IDENTIFICATION REPOINT (Michael-called, direction session, no probes run).
 > Michael's drift-check ("are we going in circles? better model, or better use of models?") → honest audit: the
