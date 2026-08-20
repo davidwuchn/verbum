@@ -104,8 +104,21 @@
 > (+0.46, only leading token) after one unfold + tape self-match; K a Ω → instant ' a', div:Y dark, Ω
 > read at ~1/4 weight (FREE DISCARD = normal-order evidence, arm A live-fired; affine discard visible in
 > read register, arm B data point; fate register redeemed as live commit detector). Memory omega-fires-
-> the-divergence-pole-and-k-discards-it-free. Play continues: daily-use laws (tape repair / un-poisoning
-> / tape-programs).**
+> the-divergence-pole-and-k-discards-it-free.
+> SIXTH EXPLORATION (tape repair): SELF-REPAIR TRIGGERS ON TAPE CONTRADICTION NOT ERROR — silent tape →
+> poison rules; instruct-only → deterministic bug replay; assert+recompute → contradiction wakes "Wait";
+> facts ⊥ procedures. Memory self-repair-triggers-on-tape-contradiction-not-error.
+> SEVENTH EXPLORATION (tape-programs): counting program FULLY RECOVERS the N=6 in-pass failure (Sunday ✓,
+> loop counters as tape variables) ⇒ in-pass budget = private-thought ceiling ¬capability ceiling;
+> programmed BACKWARD step misfires even at distance 1 ("one day before next Monday"→Saturday) ⇒ the
+> circle may run FORWARD-ONLY → §P-SHORTEST-PATH-ROTATION owes a direction-execution behavioral arm.
+> ★ EIGHTH — MICHAEL'S CORRECTION, THE REDIRECT: "semantic equality = different names, same BEHAVIOR" —
+> the ~30-session representation-first hunt was a CATEGORY ERROR (contextual equivalence is not storable);
+> measured by fork-differencing live: SKK ≠ I in this machine (named-context diverges via the argument-
+> drop bug; textbook path spontaneously derives S K K x = x) ⇒ machine equality is a RATE (profile-
+> agreement across contexts, §2b pointed at term pairs). ⚪ §P-OBS-EQUIV queued at top (supersedes
+> §P-COEXT-ROUTE as equality headline; routes demoted to mechanism rider). Memory semantic-equality-is-
+> behavioral-and-we-asked-it-backwards (🔄).**
 > **NEXT SESSION FIRST ACTION = orient → USE THE DRIVER: corpus design for §P-READ-HEAD arm A (engineer
 > shadowing/scope cases live, watch read-mass) + §P-CALCULUS-LEDGER arm C (hunt capture cases) in the live
 > session → THEN freeze both together (shared corpus, a-priori + planted worlds + Michael GO) → build the named
