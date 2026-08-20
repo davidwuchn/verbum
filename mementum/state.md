@@ -99,7 +99,13 @@
 > poisoned fork proof); each token = hard commit/sealed WHNF; no error channel → writes compound.
 > Corollaries: prompting ≡ programming · driver ≡ debugger for thought · monitorability by construction
 > (unmonitored window = the in-pass budget, a measured bound). Memory thinking-is-generating-the-
-> program-tape.**
+> program-tape.
+> FIFTH EXPLORATION (Ω, "the hazard light"): div:Y fires TOKEN-EXACT on the divergence-commit ellipsis
+> (+0.46, only leading token) after one unfold + tape self-match; K a Ω → instant ' a', div:Y dark, Ω
+> read at ~1/4 weight (FREE DISCARD = normal-order evidence, arm A live-fired; affine discard visible in
+> read register, arm B data point; fate register redeemed as live commit detector). Memory omega-fires-
+> the-divergence-pole-and-k-discards-it-free. Play continues: daily-use laws (tape repair / un-poisoning
+> / tape-programs).**
 > **NEXT SESSION FIRST ACTION = orient → USE THE DRIVER: corpus design for §P-READ-HEAD arm A (engineer
 > shadowing/scope cases live, watch read-mass) + §P-CALCULUS-LEDGER arm C (hunt capture cases) in the live
 > session → THEN freeze both together (shared corpus, a-priori + planted worlds + Michael GO) → build the named
