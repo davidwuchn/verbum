@@ -62,6 +62,14 @@
 > seal_matches_fresh ✓ · append_law_mismatches 0. Views exercised (stations + lens sane). LIVE at tmux
 > main:repl (Michael's server) — `from verbum.driver import Driver; d = Driver()`. DISCIPLINE STANDING: REPL ≡
 > explore ¬record · capture-euphoria guard · anything real re-runs as a named committed harness.**
+> **FIRST DRIVER EXPLORATION (s346, Michael watching, dates/rotation): the instrument paid for itself in
+> ~30 min. Day CIRCLE reproduced live (L12-24, weekday-ordered, closed; s128); register separation seen live
+> (answer position ⊥ day-token plane at L16); NEW OBSERVABLE = the LENS-WALK (per-layer lens argmax at the
+> answer position): mid-stack holds a PARTIALLY-ADVANCED day (start+1..+2, start-dependent ⇒ computed),
+> overshoot+backward-correction (N=1), last-layer jump (N=4); IN-PASS STEP BUDGET ≈2-4 (≥5 or week-wrap
+> fails in-pass → model hedges/errs then SELF-REPAIRS ON THE TAPE with CoT — hop budget + tape-residency in
+> one screenful). All exploration-grade → seeds folded into §P-SHORTEST-PATH-ROTATION row + memory
+> the-lens-walk-shows-partial-advance-day-states. Session continues in the REPL.**
 > **NEXT SESSION FIRST ACTION = orient → USE THE DRIVER: corpus design for §P-READ-HEAD arm A (engineer
 > shadowing/scope cases live, watch read-mass) + §P-CALCULUS-LEDGER arm C (hunt capture cases) in the live
 > session → THEN freeze both together (shared corpus, a-priori + planted worlds + Michael GO) → build the named
