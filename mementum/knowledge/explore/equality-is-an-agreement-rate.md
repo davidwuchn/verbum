@@ -31,7 +31,7 @@ The metric is §2b profile-equivalence pointed at term PAIRS instead of
 the extent their answer profiles agree across contexts — errors
 included. Equality claims become battery-indexed rates, never bits.
 
-## Design (frozen s347)
+## Design (frozen s348 — committed under the "s347" label pre-renumber; SEED=347 is frozen and stays)
 
 **Instrument.** `src/verbum/driver.py` stage-1 (validity gate re-run at
 capture time: determinism · fork-identity · append law). Greedy decode,
@@ -158,4 +158,8 @@ closure batch approval-gated.
 
 ## Result
 
-(pending)
+(pending — 14B run in flight s348, tmux main:1. Smoke record: 8B ×2 =
+harness mechanics proven; C6 free-discard prediction CONFIRMED at 8B
+(all terms answer `a`, kernel-correct, context pruned by calibration);
+8B regime = one-step-stall + `'1'` enumeration attractor, zero
+kernel-correct outside C6 — the smoke-scale ruling observed live.)

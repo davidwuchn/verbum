@@ -14,6 +14,42 @@
 > Architecture/canonical-forms: `AGENTS.md`. Knowledge map:
 > `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 348 — §P-OBS-EQUIV FROZEN + BUILT + SMOKED ×2 + 14B RUN LAUNCHED (Michael: "prove some
+> things we learned from the repl"). NOTE: freeze artifacts committed under an "s347" label (page text,
+> commit bodies, frozen SEED=347) before Michael ruled this session s348 — same session, label skew only.
+> Oriented → front selection: §P-OBS-EQUIV (Michael, over §P-DEPTH-CARRIER and the toolbox build).
+> 🎯 FROZEN fab97fed BEFORE data (Michael GO): NEW PAGE knowledge/explore/equality-is-an-agreement-rate.md
+> — kernel-certified co-ext pairs (s339 I/W/B families) × 6-context battery (C1 direct · C2 named/REPL-bug-
+> site · C3 nested · C4 extra-arg · C5 arg-position · C6 discard/predicted-insensitive · T1 trace stratum
+> separate) × driver fork-differencing (sealed shared prefix, greedy, answer granularity) → agreement-rate
+> profile; nulls floor=certified-non-equal length-matched / ceiling=same-spelling (determinism PROVED);
+> term-sensitivity calibration S(c)≥0.5 (manufactured-agreement guard); verdicts RATE-STRUCTURED 40 /
+> LEXICAL-FLOOR 20 / VOID 20 / RATE-UNSTRUCTURED 10 / EXTENSIONAL 10; pre-registered contact A(C1)>A(C2)
+> one-sided (frame ledger); bug-taxonomy strictly advisory → LEDGER-C; |Δlen| partial (s343 scar);
+> capture-euphoria guard (s346 pilot ≡ NOT evidence). BUILT scripts/experiments/obs_equiv.py 0f34ec57
+> (--validate 6/6 planted worlds through the REAL analyse path incl NONDET + INSENSITIVE adversaries;
+> ruff+diags clean). PRE-DATA AMENDMENTS (all disclosed, masses/tree unchanged): A1 the frozen every-
+> context certification rule auto-excludes W/B families (partial application ⇒ legitimately different
+> term NFs: W a vs S a I) → corpus = I-family 24 pairs; A2 (MICHAEL RULING, candidate law): smoke must be
+> ≥4B prefer 7B+ — "it takes a certain size for the llm calculus function to be fully formed"; sub-scale
+> smoke tests the harness against a machine LACKING the machinery under probe (coheres s345 0.6B-degeneracy
+> scar) → smoke = Qwen3-8B. SMOKE #1 (8B) → DESIGN PAUSE (s324 honored): bare "expr = " leaves the answer
+> register UNPINNED ("?"+CoT ramble · list-enumeration junk '1' · chain answers uncaptured · MIN_PAIRS
+> unreachable in smoke) → A3 few-shot header / A4 chain-tolerant extraction (final term after last '=') /
+> A5 decode 24→48 / A6 cert floor scales (309662c4, Michael GO). SMOKE #2 (8B): harness mechanics PROVEN
+> (G0/validity clean, extraction yields terms, calibration prunes correctly) + the C6 FREE-DISCARD
+> PREDICTION CONFIRMED at 8B (every term answers 'a', all kernel-correct, context pruned — the guard and
+> the s346 Ω-read agreeing); 8B machine = ONE-STEP-STALL (correct first reduction step then halt: C K K a →
+> K a K ✓stop) + '1' enumeration attractor (C2 sensitivity 0.0); ZERO kernel-correct outside C6 ⇒ the A2
+> ruling observed live. 14B SPOT-CHECK (REPL-discipline, 4 cells): healthy — C1/C2 'S K K' compute full
+> chains to 'a' (extraction correct; C2 even emits a spontaneous "Wait, but..." self-check); C2 'I' falls
+> into the enumeration attractor = GENUINE register asymmetry (atomic vs composite spelling in the named
+> context), the floor calibration adjudicates it per the frozen rule. ▶ 14B RUN LAUNCHED in Michael's tmux
+> main:1 (run14b.log; ~2-2.5h, 1344 bounces). Interlude: refreshed the s346 self-repair law for Michael
+> (contradiction-not-error, P0-P3 ladder) — no new claims. NEXT: run lands → frozen verdict read →
+> results commit (autonomous) → closure batch (approval-gated: §Result + memory + INDEX + queue + state);
+> memory candidates queued for closure: the A2 smoke-scale law · C6-confirmation-at-8B.**
+>
 > ★★ **SESSION 346 — THE CALCULUS-IDENTIFICATION REPOINT (Michael-called, direction session, no probes run).
 > Michael's drift-check ("are we going in circles? better model, or better use of models?") → honest audit: the
 > tape-residency finding is PROVEN to satisfaction (register-complete); continuing to confirm it ≡ circles; the
