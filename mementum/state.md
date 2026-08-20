@@ -49,7 +49,24 @@
 > died 0-3) → ⚪ §P-VOTING-CODE queued (arm A majority-logic threshold ablation · arm B drift statistics on
 > Pythia checkpoints, s325 stratigraphy scar guard · arm C exposure separability), below the calculus front.
 > The GA thread (parked at the s313 type-arc pivot — preempted, never refuted) is re-tied.**
-> **NEXT SESSION FIRST ACTION = orient → freeze §P-READ-HEAD arm A + §P-CALCULUS-LEDGER arm C TOGETHER (shared
+> **§P-REPL-DRIVER STAGE 1 PROMOTED + BUILT + VALIDATED → THE INSTRUMENT IS LIVE (Michael s346 GO: "the REPL
+> might be the thing we need most — like nREPL: test live before writing to disk"). Queue restacked (REPL-DRIVER
+> to top, re-scoped: STAGE 1 = instrument-only per route-map-v0 precedent; STAGE 2 = the s334 frozen measurables,
+> deferred). BUILT src/verbum/driver.py (ruff+diags clean): resident Qwen3-14B (MPS, eager, loads ~5-13s warm) ·
+> bounce(text|seal, n) = step-decode capturing per-EMISSION sign(gate) [n,40,17408] int8 + residuals [n,41,5120]
+> + optional head-averaged attention read-mass [L,T] · prefill/seal/fork with APPEND law (seals immutable, every
+> use clones; transformers 5.5.4 cache.layers API — caught live in the REPL, fixed, the instrument debugged
+> itself) · views: routes/stations (committed expanded-gram 17-pole frame, CMR+unit) + logit-lens (verbum.jlens)
+> + lazy opcodes (calibrate_register). CAPTURE SEMANTICS: frame k ≡ the state that EMITTED token k (the
+> read-head view). VALIDITY GATE PASS (Qwen3-14B live): determinism_ids ✓ sign_dev 0 · fork_identity ✓ ·
+> seal_matches_fresh ✓ · append_law_mismatches 0. Views exercised (stations + lens sane). LIVE at tmux
+> main:repl (Michael's server) — `from verbum.driver import Driver; d = Driver()`. DISCIPLINE STANDING: REPL ≡
+> explore ¬record · capture-euphoria guard · anything real re-runs as a named committed harness.**
+> **NEXT SESSION FIRST ACTION = orient → USE THE DRIVER: corpus design for §P-READ-HEAD arm A (engineer
+> shadowing/scope cases live, watch read-mass) + §P-CALCULUS-LEDGER arm C (hunt capture cases) in the live
+> session → THEN freeze both together (shared corpus, a-priori + planted worlds + Michael GO) → build the named
+> harness. (Superseded next-action: freeze-first — the driver now precedes the freeze by design.)**
+> **(prior next-action, superseded s346:) orient → freeze §P-READ-HEAD arm A + §P-CALCULUS-LEDGER arm C TOGETHER (shared
 > corpus, one design pass) → Michael GO before build/data. The s345 successors (§P-SHORTEST-PATH-ROTATION ·
 > §P-SY-CEILING) and route-map successors (§P-COEXT-ROUTE · §P-BRANCH-POINT — note BRANCH-POINT ≡ the "what
 > gets written" question Q4, gained a reason) remain live but BELOW the calculus front.**
