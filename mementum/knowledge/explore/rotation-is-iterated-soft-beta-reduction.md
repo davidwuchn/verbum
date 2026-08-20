@@ -182,3 +182,48 @@ retrodiction; the s204 audit confound (all attention is a weighted sum) is stand
   reported as such, not rounded up.
 - Number-token frequency and answer-identity are not fully separable from N inside a
   ladder; the shuffled-N null is the guard; residual confound named if it bites.
+
+## 🚫 §Result — NO-SCALING (s345, Qwen3-14B; a-priori 25, non-modal)
+
+Run: `results/p_iterated_soft_reduction_s345/run_qwen3-14b` (freeze 078af23f,
+harness 199d7979 incl. the pre-14B accumulation-band zone amendment, corpus
+d9ca2e37, model rev 40c06982, det 0.0, n_perm 5000, results commit 54a6b017).
+0.6B smoke clean (surfaced the zone-degeneracy design PAUSE → amended pre-data).
+
+**The frozen verdict: neither engine shows count-scaled work.** Under the frozen
+one-directional bound, FLAT KILLS iterated-soft-β: the unification's
+pre-registered contact FAILED. Frame-ledger: attention=β spent a contact and
+lost it (strong form).
+
+- **D1 (linear/FFN)**: ρ_lin=0.014 p=0.447 FAIL — **but the observable
+  CEILINGED**: SY-share 0.93–1.0 on all add/mul items (mul exactly 1.0
+  everywhere → degenerate Spearman); the only headroom family (succ,
+  0.40–0.80) is flat-to-negative. Honest read: *S/Y is categorical and
+  saturated — math flips the duplication sector ON; magnitude does not grade
+  it.* Half falsifier, half instrument ceiling (froze a share metric without a
+  ceiling guard — the s332 lesson, now paid twice). Post-hoc (unfrozen, no
+  null): total fires FALL with N on add/mul (ρ −0.73..−0.91) — directionally
+  anti-iterated.
+- **D2 (circular)**: ρ_circ=0.252 p=0.054 slope=6.2 shape_p=0.176 FAIL — but
+  the per-item structure is the finding: **L50 is BIMODAL** (instant L0–2.5 vs
+  late L36–38 populations); group means were fraction-mixing, not graded
+  depth. **Late-mode fraction is monotone in CIRCULAR DISTANCE** min(N,7−N):
+  1/14 → 4/14 → 6/14. Two populations — lookup-like instant vs computed-late —
+  with P(computed) tracking shortest-path distance (echoes the s310
+  two-population split; is what an iterated mechanism taking the SHORT WAY
+  around the circle would look like). POST-HOC, owes its own freeze
+  (→ ⚪ §P-SHORTEST-PATH-ROTATION).
+- **D3 (V-patch)**: V-CARRIED-EARLY-ONLY, sharper than designed — early
+  (L0-6) donor-adoption 0.571 vs zone (L1-6) 0.071 = noop = late; the bands
+  differ ONLY by L0 ⇒ **the day-operand V-carry is essentially
+  LAYER-0-ONLY**. Operand enters via L0 attention-V; downstream operates
+  in-place. Third sighting of the s252 route-at-L0 law.
+- Secondary: logit-lens resolution ρ=0.49 vs N (late-stack, non-gating); the
+  14B circular battery is NOT FFN-silent at item level (SY-share 0.53, fires
+  5.6/item) — differs from the s344 group-level noop read; flagged.
+
+**Net picture: route-at-L0 → rotate-in-place → late readout** — the
+learned-rotation/lookup world — EXCEPT the bimodal circular-distance whisper
+saying some items are computed, not looked up. The strong unification is dead
+at this contact; the two-population shortest-path form is the surviving,
+freezable residue.

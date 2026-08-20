@@ -14,6 +14,40 @@
 > Architecture/canonical-forms: `AGENTS.md`. Knowledge map:
 > `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 345 — §P-ITERATED-SOFT-REDUCTION FROZEN+BUILT+RUN → 🚫 NO-SCALING (a-priori 25,
+> non-modal; Qwen3-14B): THE UNIFICATION FAILED ITS PRE-REGISTERED CONTACT. Oriented → Michael selected
+> the queue-top front. FROZEN (078af23f, BEFORE data, Michael GO): H1 = one iterated-soft-β engine over
+> two encodings (work ∝ count in both); a-priori TWO-ENGINES 35 modal / NO-SCALING 25 / ONE-ENGINE 20 /
+> CIRCULAR-ONLY 5 / VOID 15; D1 ρ_lin=Spearman(S∪Y-share, N) on a length-matched single-token ladder;
+> D2 ρ_circ=Spearman(L50 accumulation-depth, day offset) + explicit shape-collapse (matrix) null + slope
+> floor, day-circle RE-DERIVED in-run; D3 V-patch at day tokens band-swept (s252 route-early guard) =
+> β-QUALIFIER; honesty bound frozen: depth-scaling is ONE-DIRECTIONAL (flat kills iterated-β; scaling ≠
+> proof). BUILT iterated_soft_reduction.py (capture ⊥ pure analyse; --validate 6/6 planted worlds incl.
+> CONFOUND adversary refusing promotion + NO-CIRCLE→VOID; ruff+diags clean; c9729218). 0.6B SMOKE EARNED
+> ITS KEEP (s324 design PAUSE): lexical day circle at L0 degenerated the D3 zone into the early band →
+> pre-14B amendment (Michael GO, 199d7979): zone = measured 6-layer ACCUMULATION BAND (argmax mean
+> progress increment) + s128 SNAP diagnostic (SV top-2 share/layer). RESULT (run_qwen3-14b, results
+> 54a6b017, det 0.0, n_perm 5000): (1) D1 ρ_lin=0.014 p=0.447 FAIL — but SY-share CEILINGED (add/mul
+> 0.93-1.0, mul exactly 1.0 → degenerate; succ has headroom and is flat) ⇒ S/Y is CATEGORICAL: math
+> flips the duplication sector ON, magnitude doesn't grade it (froze a share metric without a ceiling
+> guard — s332 lesson repaid → ⚪ §P-SY-CEILING); post-hoc fires vs N NEGATIVE (−0.73..−0.91,
+> anti-iterated). (2) D2 ρ_circ=0.252 p=0.054 shape_p=0.176 FAIL — the real structure: L50 BIMODAL
+> (instant L0-2.5 vs late L36-38); late-mode fraction monotone in CIRCULAR DISTANCE min(N,7−N)
+> 1/14→4/14→6/14 (post-hoc, no null) = two populations, lookup vs computed-the-short-way →
+> ⚪ §P-SHORTEST-PATH-ROTATION (mixture-model re-freeze on min-distance). (3) D3 V-CARRIED-EARLY-ONLY,
+> sharper than designed: early 0.571 vs zone/late/noop 0.071, bands differ ONLY by L0 ⇒ the day-operand
+> V-carry is LAYER-0-ONLY (3rd sighting of s252 route-at-L0; lead-head L0h18 territory). NET: route-at-L0
+> → rotate-in-place → late readout = the learned-rotation/lookup world; strong unification dead at this
+> contact; frame-ledger: attention=β SPENT AND LOST a pre-registered contact (strong form). Secondary:
+> logit-lens resolution ρ=0.49 vs N (late-stack); 14B circ battery NOT FFN-silent at item level (0.53)
+> — differs from the s344 group noop read, flagged. Closure batch (Michael-approved): §Result + memory
+> (rotation-work-does-not-scale-with-count) + INDEX + queue (🚫 → complete; 2 successors added) + this
+> state.**
+> **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight).
+> Live route-map successors still queued: ⚪ §P-COEXT-ROUTE · ⚪ §P-BRANCH-POINT · ⚪ §P-EARLY-SORTERS;
+> new from s345: ⚪ §P-SHORTEST-PATH-ROTATION (the observation-driven D2 successor) · ⚪ §P-SY-CEILING
+> (D1 headroom redo). Also live: ⚪ §P-HALT-POLE-TETRAHEDRON · cheap spectral §P-MP-NULL.**
+>
 > ★★ **SESSION 344 — THE REPOINT: from semantic-equality-hunt → EXPAND THE BASIS + MAP THE STATECHART
 > (Michael-called). Oriented (s343 closed clean: register-complete co-ext capstone, nothing in flight).
 > Selected §P-COEXT-FATE, sharpened into the machinery (17×17 fate register already committed for Qwen3-14B,
