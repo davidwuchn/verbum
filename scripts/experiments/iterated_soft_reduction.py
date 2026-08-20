@@ -534,12 +534,14 @@ def capture_all(args) -> tuple[dict, dict]:
                          for h in out.hidden_states[1:]])
 
     anchors = {d: hiddens(ANCHOR_TEMPLATE.format(day=d)) for d in DAYS}
-    ordering_by_layer, planes = {}, {}
+    ordering_by_layer, sv_top2_by_layer, planes = {}, {}, {}
     for li in range(n_layers):
         pts = np.stack([anchors[d][li] for d in DAYS])
         ordering_by_layer[li] = circular_ordering(pts)
         c = pts - pts.mean(axis=0)
-        _, _, vt = np.linalg.svd(c, full_matrices=False)
+        _, sv, vt = np.linalg.svd(c, full_matrices=False)
+        tot = float((sv ** 2).sum())
+        sv_top2_by_layer[li] = float((sv[:2] ** 2).sum() / tot) if tot > 0 else 0.0
         planes[li] = (pts.mean(axis=0), vt[:2])
     gate_layer = int(np.ceil(CIRCLE_GATE_FRAC * n_layers))
     formed_layers = [li for li in range(gate_layer + 1)
@@ -549,7 +551,12 @@ def capture_all(args) -> tuple[dict, dict]:
     data["circle"] = {"formed": bool(formed), "circle_layer": circle_layer,
                       "n_layers": n_layers,
                       "ordering_by_layer": {str(k): round(v, 3)
-                                            for k, v in ordering_by_layer.items()}}
+                                            for k, v in ordering_by_layer.items()},
+                      # s128 SNAP diagnostic: lexical circle at L0 vs
+                      # computational crystallization (SV top-2 share jump)
+                      "sv_top2_share_by_layer": {str(k): round(v, 4)
+                                                 for k, v in
+                                                 sv_top2_by_layer.items()}}
     print(f"[isr] day circle formed={formed} at L{circle_layer} "
           f"(gate ≤ L{gate_layer})")
 
@@ -617,11 +624,32 @@ def capture_all(args) -> tuple[dict, dict]:
 
     # ---- D3: V-patch band sweep (qualifier) ------------------------------
     if formed and not args.skip_patch:
-        zone_lo = circle_layer
-        zone = list(range(zone_lo, min(zone_lo + 6, n_layers)))
+        # ZONE = the measured ACCUMULATION BAND (s345 pre-14B instrument
+        # amendment, Michael GO): the 6-layer window maximizing the mean
+        # per-layer increment of normalized angular progress across items.
+        # (The 0.6B smoke exposed the old circle-formation proxy as degenerate:
+        # a lexical circle at L0 collapsed zone into the early band, destroying
+        # the s252 route-early dissociation. Circle-formation layer ≠ rotation
+        # layer — s128: circle at L10-11, rotation at L12-16.)
+        offset = circle_layer or 0
+        nm = np.stack([normalized_monotone(np.asarray(it["traj"]))
+                       for it in d2_items])
+        inc = np.diff(nm, axis=1).mean(axis=0)          # mean increment/layer
+        win = 6
+        if len(inc) >= win:
+            sums = np.convolve(inc, np.ones(win), mode="valid")
+            z0 = offset + int(np.argmax(sums)) + 1       # diff idx i → layer i+1
+        else:
+            z0 = offset
+        zone = list(range(z0, min(z0 + win, n_layers)))
         bands = {"early": list(range(0, min(7, n_layers))),
                  "zone": zone,
                  "late": list(range(max(0, n_layers - 6), n_layers))}
+        data["zone_band"] = {"layers": zone,
+                             "mean_increment_by_layer": {
+                                 str(offset + i + 1): round(float(v), 5)
+                                 for i, v in enumerate(inc)}}
+        print(f"[isr] D3 accumulation-band zone = L{zone[0]}-L{zone[-1]}")
         pairs = []
         for it in circ_items[:: max(1, len(circ_items) // 14)]:
             donor_base = DAYS[(DAYS.index(it["base"]) + 3) % 7]
