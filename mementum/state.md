@@ -130,7 +130,15 @@
 > reduction-trace deciding state where s338 batch found all-contracting ~0.94; single-trajectory, no null;
 > "persistent mode on trace states?" = future freeze candidate) — d.gram(b) / d.dmd(b, frame) /
 > d.spectrum() / d.beam(b) + the NULL BATTERY as one-liners (honest reads as cheap as exciting ones);
-> write-side holography stays batch. THEN front selection: ⚪ §P-OBS-EQUIV (top, driver-ready) vs READ-HEAD-A+LEDGER-C shared freeze —
+> write-side holography stays batch.
+> ★ NINTH EXPLORATION (the 1.003 pair dug to mechanism, Michael: "understand what is happening"): ANSWER
+> ASSEMBLY IS A CHARGED ROTATION — deciding-state depth trajectory = coherent spiral in a 2-plane
+> {shared high-norm carrier axis × private answer axis}: charge ~15-20%/layer, precess ~5°/layer
+> (task-independent), discharge ×12 + 30° snap at the final layer (= the s343 flip per-trajectory, the
+> WHNF seal in the operator register). Nulls killed live: DC ✓ shuffled-layer 0/20 ✓ smoothness-surrogate
+> 0/20 (rotation vanishes) ✓; plane overlap explains the s338 batch miss. First live candidate for the
+> decision-hold/homeostat slot. ⚪ §P-DEPTH-CARRIER queued AT TOP with mechanism hypothesis + full gate
+> spec. Memory answer-assembly-is-a-charged-rotation. THEN front selection: ⚪ §P-OBS-EQUIV (top, driver-ready) vs READ-HEAD-A+LEDGER-C shared freeze —
 > corpus design for both essentially complete from s346 play. Extraction to a separate MIT project
 > (**ocularium**) parked until stage-2 API settles.**
 > **(prior next-action, superseded s346:) orient → freeze §P-READ-HEAD arm A + §P-CALCULUS-LEDGER arm C TOGETHER (shared
