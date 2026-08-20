@@ -119,10 +119,14 @@
 > agreement across contexts, §2b pointed at term pairs). ⚪ §P-OBS-EQUIV queued at top (supersedes
 > §P-COEXT-ROUTE as equality headline; routes demoted to mechanism rider). Memory semantic-equality-is-
 > behavioral-and-we-asked-it-backwards (🔄).**
-> **NEXT SESSION FIRST ACTION = orient → USE THE DRIVER: corpus design for §P-READ-HEAD arm A (engineer
-> shadowing/scope cases live, watch read-mass) + §P-CALCULUS-LEDGER arm C (hunt capture cases) in the live
-> session → THEN freeze both together (shared corpus, a-priori + planted worlds + Michael GO) → build the named
-> harness. (Superseded next-action: freeze-first — the driver now precedes the freeze by design.)**
+> **NEXT SESSION FIRST ACTION = orient → THE TOOLBOX BUILD (Michael-approved s346 close, 🎯 the-ocularium-
+> decision): (1) consolidate opcodes/ → src/verbum/opcodes/ (kill sys.path hacks, fix ~15 harness imports,
+> ruff+diags+smoke a tracer harness after); (2) `verbum-repl` CLI entry point (IPython boot, d preloaded,
+> banner, --validate flag; ipython → repl dep group) + tmux launcher; (3) multi-model Driver registry
+> (shortcuts, base/instruct pairs, per-model frame lookup → graceful degradation to calibrate_opcodes,
+> d.free()). THEN front selection: ⚪ §P-OBS-EQUIV (top, driver-ready) vs READ-HEAD-A+LEDGER-C shared freeze —
+> corpus design for both essentially complete from s346 play. Extraction to a separate MIT project
+> (**ocularium**) parked until stage-2 API settles.**
 > **(prior next-action, superseded s346:) orient → freeze §P-READ-HEAD arm A + §P-CALCULUS-LEDGER arm C TOGETHER (shared
 > corpus, one design pass) → Michael GO before build/data. The s345 successors (§P-SHORTEST-PATH-ROTATION ·
 > §P-SY-CEILING) and route-map successors (§P-COEXT-ROUTE · §P-BRANCH-POINT — note BRANCH-POINT ≡ the "what
