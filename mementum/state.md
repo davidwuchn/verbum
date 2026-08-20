@@ -69,7 +69,15 @@
 > overshoot+backward-correction (N=1), last-layer jump (N=4); IN-PASS STEP BUDGET ≈2-4 (≥5 or week-wrap
 > fails in-pass → model hedges/errs then SELF-REPAIRS ON THE TAPE with CoT — hop budget + tape-residency in
 > one screenful). All exploration-grade → seeds folded into §P-SHORTEST-PATH-ROTATION row + memory
-> the-lens-walk-shows-partial-advance-day-states. Session continues in the REPL.**
+> the-lens-walk-shows-partial-advance-day-states. Session continues in the REPL.
+> SECOND EXPLORATION (scope boundary, §P-READ-HEAD arm A corpus design): native lexical scope-tracking
+> IN-WEIGHTS + ROBUST (shadow-exit/call-flip/depth-3/closures-incl-late-binding/siblings/comprehension/
+> interference-5/distance-473tok all ✓ in-pass; late-band read-mass co-flips with answer on one-token
+> program changes +0.35; mid-band reads out-of-scope binder then suppresses late). THE BOUNDARY IS
+> PROVENANCE NOT STRUCTURE: in-context rule override (declared dynamic scoping) does NOT apply in-pass —
+> hedge "5 or 9?" + defer to tape-walk ⇒ scope RULES in weights, RULE-FOLLOWING on tape (coheres s323 +
+> L0/L1 + tape-residency; rhymes with the dates step-budget). Arm A corpus spec folded into queue row;
+> memory scope-rules-are-in-weights-rule-override-is-tape-resident.**
 > **NEXT SESSION FIRST ACTION = orient → USE THE DRIVER: corpus design for §P-READ-HEAD arm A (engineer
 > shadowing/scope cases live, watch read-mass) + §P-CALCULUS-LEDGER arm C (hunt capture cases) in the live
 > session → THEN freeze both together (shared corpus, a-priori + planted worlds + Michael GO) → build the named
