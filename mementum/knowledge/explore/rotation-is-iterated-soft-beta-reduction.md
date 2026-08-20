@@ -104,3 +104,81 @@ attn read soft). The unification is a *hypothesis*; the arith_trace read is expl
 whole attention=β frame is interpretation-heavy and carries the standing audit caveat.
 Next: freeze §P-ITERATED-SOFT-REDUCTION with the operand-routing control + learned-
 rotation null.
+
+## 🎯 Freeze — §P-ITERATED-SOFT-REDUCTION (s345, Michael GO, frozen BEFORE data)
+
+**Model:** Qwen3-14B (designated). Smoke: Qwen3-0.6B (plumbing; 0.6B may genuinely
+lack the day circle — a regime observation, not a failure; regime warning → design
+PAUSE per s324). **Frame-ledger status:** this is the attention=β frame's
+PRE-REGISTERED contact — it counts in the ledger either way.
+
+**H1 (unification):** one iterated-soft-β engine, two encodings — rotation-by-Nδ =
+N soft-β steps; reduction work scales with the count in BOTH engines.
+**H0 (audit-favored):** rotation = a single learned map (angle ∝ N, work FLAT in N);
+the S/Y arith read is categorical (math vs not-math), not graded.
+
+### Discriminators (register named per claim, λ measure)
+
+- **D1 — linear arm (FFN gate register = routing/count ✓).** Work = S∪Y recruitment
+  share over crystal-bearing layers, read by the audited `opcodes/` reader
+  (sign(gate), common-mode removed, shuffled-label calibration null, tokens may
+  NO-OP). Corpus: count ladder, single-token operands, length-matched within
+  template — "N + 2 =", "N * 2 =", "One more than N is" (+1 surface variant each),
+  N ∈ {2..9} (~96 items). **Statistic ρ_lin = Spearman(SY-share, N)**, stratified by
+  template (combined via mean of per-template ρ). Null: shuffled-N permutation
+  (≥5000). Gate: ρ_lin ≥ 0.3 ∧ p < 0.05.
+- **D2 — circular arm (attention/residual trajectory; the hazard register — count
+  claim, soft read; observable chosen to be depth-like, not attention-weight-like).**
+  Work = **accumulation depth L50**: re-derive the day-circle basis IN-RUN (s128 PCA
+  method; instrument gate: circular ordering = 1.0 at some L ≤ 14), per-item angle
+  trajectory θ_L in that plane, L50 = first layer where accumulated rotation toward
+  the answer day reaches 50% of its final value. Iterated-β ⇒ L50 rises with N;
+  learned matrix θ_L(N)=N·δ_L ⇒ normalized trajectories COLLAPSE across N, L50 flat.
+  Corpus: "N days after {day} is", N ∈ {1..6} × 7 base days = 42, length-matched.
+  **Statistic ρ_circ = Spearman(L50, N).** Nulls: shuffled-N (≥5000) AND the explicit
+  shape-collapse (matrix) null — observed per-N mean normalized trajectories must
+  diverge from the pooled collapsed curve beyond its bootstrap band. Gates:
+  ρ_circ ≥ 0.3 ∧ p < 0.05 ∧ slope floor ΔL50(N=6→1) ≥ 1 layer ∧ matrix-null beaten
+  (p < 0.05). Secondary (non-gating): logit-lens answer-resolution depth vs N;
+  gate-register read of mod_date (expect FFN-silent, s344 replication).
+- **D3 — operand-routing V-patch (the β signature; QUALIFIER, not a gate).** Patch V
+  at day-token key positions from a donor prompt with a different base day, swept in
+  bands L0-6 / rotation zone / late (the s252 route-early lesson: a zone-only patch
+  is a false-matrix trap). Classes: V-CARRIED-IN-ZONE (β-compatible) /
+  V-CARRIED-EARLY-ONLY (matrix-leaning: operand pre-routed, rotation in-place) /
+  V-INERT (matrix).
+
+### Verdict tree (frozen, a-priori mass)
+
+| verdict | condition | mass |
+|---|---:|---:|
+| **TWO-ENGINES (LINEAR-ONLY)** | D1 passes ∧ D2 fails (collapse holds) | **35 (modal)** |
+| **NO-SCALING** | both fail | 25 |
+| **ONE-ENGINE** | both pass all floors + nulls | 20 |
+| **CIRCULAR-ONLY** | D2 passes ∧ D1 fails | 5 |
+| **VOID** | circle never forms / calibration fails / det ≠ 0 | 15 |
+
+D3 attaches as qualifier: ONE-ENGINE(β-confirmed) iff V-CARRIED-IN-ZONE, else
+ONE-ENGINE(qualified). Modal is TWO-ENGINES **on purpose**: s128 linear+additive is
+retrodiction; the s204 audit confound (all attention is a weighted sum) is standing.
+
+### Planted worlds (--validate, through the REAL analyse path, s331)
+
+1. ITERATED (work ∝ N both arms) → ONE-ENGINE
+2. MATRIX (angle ∝ N, shape-collapsed trajectories, flat S/Y) → NO-SCALING
+3. LINEAR-ONLY plant → TWO-ENGINES (LINEAR-ONLY)
+4. CONFOUND adversary (work ∝ leaked nuisance, N shuffled) → must NOT pass gates
+5. NOISE → no promotion (p > 0.05) · plus determinism dev = 0.0
+
+### Frozen honesty bounds
+
+- **Depth-scaling is one-directional**: FLAT ⇒ kills iterated-soft-β; SCALING ⇒
+  consistent-with (any graded-effort mechanism deepens with N). Even a full
+  ONE-ENGINE(β-confirmed) does not *prove* β — it passes the discriminators the
+  frame owed. The interpretation stays marked as interpretation.
+- Gate register blind to {B,C}; attn register soft (elevated null floor); the s128
+  rotation zone is RE-DERIVED in-run, never trusted from the page.
+- Small ladders (8 N-levels linear / 6 circular); power bounded; a near-floor ρ is
+  reported as such, not rounded up.
+- Number-token frequency and answer-identity are not fully separable from N inside a
+  ladder; the shuffled-N null is the guard; residual confound named if it bites.
