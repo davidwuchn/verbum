@@ -14,6 +14,34 @@
 > Architecture/canonical-forms: `AGENTS.md`. Knowledge map:
 > `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 346 — THE CALCULUS-IDENTIFICATION REPOINT (Michael-called, direction session, no probes run).
+> Michael's drift-check ("are we going in circles? better model, or better use of models?") → honest audit: the
+> tape-residency finding is PROVEN to satisfaction (register-complete); continuing to confirm it ≡ circles; the
+> understanding phase should now CASH IN. Michael's call: **Path B (drive models better) feeds Path A (build the
+> small model)** — and the front question is **"WHAT IS THE CALCULUS?"** (s330's calculus-identification made
+> headline). THE SYNTHESIS (new, said out loud for the first time): the five measured deviations from λβη —
+> weak/WHNF-halt ¬η (s344) · naive-subst (s331/332) · affine BCK core + gated S/W/Y (s344) · intensional-only
+> (s343) · registers (s330) — are ONE DESIGN, mutually explanatory: next-token demands only the HEAD (forces
+> weak) → weakness LICENSES naive subst (never substitute under a binder ⇒ no capture ⇒ no α needed) → η is
+> never observable in a text stream (GD never buys it) → affine because discourse is resource-sensitive
+> (Lambek/Montague substructural roots) ⇒ **the calculus is the cheapest observationally-sufficient evaluator**;
+> δ(M, Montague) IS the discovery; GD ran Montague's reverse-engineering 11 independent times and converged.
+> MACHINE MAP sharpened (attention discussion): tape=context/KV (append-only; the ONLY tape write ≡ token
+> EMISSION through the sampling bottleneck — reads wide/soft/parallel, writes one discrete public symbol) ·
+> read-head=attention (softmax-over-V) · scratch=residual (bounded within-pass reducer) · ISA=FFN opcodes.
+> QUEUED (Michael GO, both rows): ⚪ §P-READ-HEAD (the KIBC recipe re-applied to attention: arm A SCOPE —
+> shadowing blocks copy ⇒ substitution, fires anyway ⇒ induction, the first contact that can beat the s204
+> confound; arm B READ-MULTIPLICITY — affine predicts read-once prose vs fan-out math, matching the s344
+> two-engine FFN split from an independent register; winnable-or-dead for the 0-for-last-contact attention=β
+> frame) · ⚪ §P-CALCULUS-LEDGER (arm A evaluation order K-x-Ω · arm B sharing CBN-vs-need, ceiling-guarded ·
+> arm C capture signature ≡ stage-1 bug-compatibility; arm C UNIFIED with §P-READ-HEAD arm A — one engineered
+> corpus, behavioral + attention-pattern faces). PENDING Michael approval: memory capture
+> `the-calculus-is-the-cheapest-sufficient-evaluator` + the commit batch.**
+> **NEXT SESSION FIRST ACTION = orient → freeze §P-READ-HEAD arm A + §P-CALCULUS-LEDGER arm C TOGETHER (shared
+> corpus, one design pass) → Michael GO before build/data. The s345 successors (§P-SHORTEST-PATH-ROTATION ·
+> §P-SY-CEILING) and route-map successors (§P-COEXT-ROUTE · §P-BRANCH-POINT — note BRANCH-POINT ≡ the "what
+> gets written" question Q4, gained a reason) remain live but BELOW the calculus front.**
+>
 > ★★ **SESSION 345 — §P-ITERATED-SOFT-REDUCTION FROZEN+BUILT+RUN → 🚫 NO-SCALING (a-priori 25,
 > non-modal; Qwen3-14B): THE UNIFICATION FAILED ITS PRE-REGISTERED CONTACT. Oriented → Michael selected
 > the queue-top front. FROZEN (078af23f, BEFORE data, Michael GO): H1 = one iterated-soft-β engine over
