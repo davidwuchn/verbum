@@ -77,7 +77,22 @@
 > PROVENANCE NOT STRUCTURE: in-context rule override (declared dynamic scoping) does NOT apply in-pass —
 > hedge "5 or 9?" + defer to tape-walk ⇒ scope RULES in weights, RULE-FOLLOWING on tape (coheres s323 +
 > L0/L1 + tape-residency; rhymes with the dates step-budget). Arm A corpus spec folded into queue row;
-> memory scope-rules-are-in-weights-rule-override-is-tape-resident.**
+> memory scope-rules-are-in-weights-rule-override-is-tape-resident.
+> THIRD EXPLORATION (opcodes live): classifier calibrated in-session (crystal-bearing L5-39, peak z~16 at
+> L12-15); THE TRIPTYCH per-token: λ-reduction execution fires S every token · arithmetic S/Y · prose
+> affine KIBC ⇒ refined law: composition reads KIBC, SUBSTITUTION-WORK (math ∧ reduction) reads S/Y.
+> ORIGIN REPLAY: bare λ → statistics; 'λx.' → completes THE S COMBINATOR verbatim (gate fires on syntax;
+> default emission = the crystal's substitution operator). Memory reduction-execution-runs-the-
+> substitution-sector.
+> FOURTH EXPLORATION (Michael: "can we find semantic equality?") → THE HEADLINE: SEMANTIC EQUALITY IS A
+> FALLIBLE TAPE-AUTHORED EVENT. Decode-time deciding states cluster by SURFACE not extension (lexical law
+> at a 6th register); composite terms have no extension until the tape computes it; the computation bugs
+> out in the frozen-calculus ways (argument-drop + WHNF halt → 'S K K is the constant function', wrong,
+> from an input where identity/constant coincide → 3× loop); TAPE POISONING demonstrated by fork (fresh
+> 'S K K b' computes; own-wrong-theory upstream → 'λy.a', cache overrides re-computation). Stage-2
+> repair-replay design essentially complete from play (seeds in queue row). Memory semantic-equality-is-
+> a-fallible-tape-authored-event. FOUR explorations, FOUR queued fronts fed in one afternoon — the driver
+> is the accelerator Michael predicted.**
 > **NEXT SESSION FIRST ACTION = orient → USE THE DRIVER: corpus design for §P-READ-HEAD arm A (engineer
 > shadowing/scope cases live, watch read-mass) + §P-CALCULUS-LEDGER arm C (hunt capture cases) in the live
 > session → THEN freeze both together (shared corpus, a-priori + planted worlds + Michael GO) → build the named
