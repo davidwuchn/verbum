@@ -134,7 +134,12 @@ s347: smoke must be ≥4B, prefer 7B+ — the calculus function is not
 fully formed below ~4B; a sub-scale smoke tests the harness against a
 machine that lacks the machinery under probe. Supersedes the drafted
 0.6B smoke; coheres the s345 0.6B-degeneracy scar.)* Real: Qwen3-14B,
-MPS, greedy, one capture. Budget ≈ 1.3k bounces × ~24 tokens (minutes–low hours).
+MPS, greedy, one capture. *(Amendments A3-A6, Michael GO after the 8B
+smoke design-PAUSE — instrument plumbing only, masses/tree unchanged:
+A3 few-shot header pins the answer register (bare "expr =" elicited
+"?"+CoT ramble and list-enumeration junk at 8B); A4 chain-tolerant
+extraction (final term after last "="); A5 decode budget 24→48;
+A6 certification floor scales with corpus target so a smoke can pass.)* Budget ≈ 1.3k bounces × ~24 tokens (minutes–low hours).
 meta.json full λ run_provenance; results committed autonomously;
 closure batch approval-gated.
 

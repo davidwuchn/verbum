@@ -78,7 +78,7 @@ SEED = 347
 N_COEXT = 24
 N_FLOOR = 24
 N_CEIL = 96
-DECODE_N = 24
+DECODE_N = 48  # A5: headroom for a short chain before the final term
 FLOOR_D = 0.10
 CEIL_BAND = 0.95
 SENS_MIN = 0.5
@@ -88,11 +88,18 @@ N_PERM = 5000
 ALPHA = 0.05
 MAX_STEPS = 500
 
+# Pre-data amendments A3-A5 (Michael GO, post 8B-smoke design PAUSE):
+# few-shot header pins the answer register (8B smoke: bare "expr = " elicited
+# "?"-plus-CoT ramble and list-enumeration junk); worked examples are
+# answer-only format, atoms disjoint from corpus argsets.
 HEADER = (
     "Combinator reduction rules: S f g x = f x (g x); K x y = x; I x = x; "
     "C f x y = f y x; W f x = f x x; B f g x = f (g x).\n"
     "Task: reduce the expression to its final normal form. "
     "Answer with ONLY the final term.\n\n"
+    "B g h m = g (h m)\n"
+    "K u v = u\n"
+    "W B n = B n n\n"
 )
 
 # context id -> (prefix_template, fork_template, kernel_expr_template)
@@ -256,6 +263,8 @@ def build_corpus(n_coext: int, n_floor: int, seed: int) -> dict:
 def _extract_answer(text: str) -> str:
     ans = text.split("\n")[0].strip()
     ans = ans.rstrip("=. ").strip()
+    if "=" in ans:  # A4: chain-tolerant — the final term after the last '='
+        ans = ans.rsplit("=", 1)[1].strip()
     ans = " ".join(ans.split())
     try:
         return pretty(parse(ans))
@@ -353,7 +362,8 @@ def _perm_p_greater(obs: float, null: np.ndarray) -> float:
     return float((np.sum(null >= obs) + 1) / (len(null) + 1))
 
 
-def analyse(records: list[dict], seed: int = SEED) -> dict:
+def analyse(records: list[dict], seed: int = SEED,
+            min_pairs: int = MIN_PAIRS) -> dict:
     rng = np.random.default_rng(seed)
     ceil = [r for r in records if r["kind"] == "ceil"]
     coext = [r for r in records if r["kind"] == "coext"]
@@ -365,7 +375,7 @@ def analyse(records: list[dict], seed: int = SEED) -> dict:
 
     n_coext_pairs = len({r["pair_id"] for r in coext})
     n_floor_pairs = len({r["pair_id"] for r in floor})
-    cert_pass = n_coext_pairs >= MIN_PAIRS and n_floor_pairs >= MIN_PAIRS
+    cert_pass = n_coext_pairs >= min_pairs and n_floor_pairs >= min_pairs
 
     # term-sensitivity calibration on floor pairs (manufactured-agreement guard)
     sens: dict[str, float] = {}
@@ -582,6 +592,10 @@ def _synth(world: str, seed: int = 99) -> list[dict]:
 
 
 def run_validate() -> int:
+    # A4 extraction self-test (chain, junk, enumeration)
+    assert _extract_answer("W K a = K a a = a\nfoo") == "a"
+    assert _extract_answer("1\nI b = 2") == "1"
+    assert _extract_answer(" a b ") == "a b"
     log("--validate: 6 planted worlds through the REAL analyse path")
     expect = {
         "extensional": "EXTENSIONAL",
@@ -630,7 +644,8 @@ def main() -> int:
         json.dumps({k: corpus[k] for k in ("coext", "floor")},
                    sort_keys=True).encode()).hexdigest()[:8]
     cap = capture(model_id, corpus, n_ceil, SEED)
-    stats = analyse(cap["records"])
+    # A6: certification floor scales with corpus target (smoke can pass)
+    stats = analyse(cap["records"], min_pairs=max(4, n_coext // 2))
 
     tag = "run_smoke" if args.smoke else "run_14b"
     out = Path(args.out) if args.out else _ROOT / "results" / "p_obs_equiv_s347" / tag
