@@ -128,9 +128,13 @@ this ledger — capture-euphoria guard.)
 6. INSENSITIVE adversary (answers ignore the term; floor pairs agree
    everywhere) → VOID (calibration prunes the whole battery)
 
-**Run plan.** Smoke: Qwen3-0.6B reduced-n through the full pipeline
-(regime warning → design PAUSE, s324). Real: Qwen3-14B, MPS, greedy,
-one capture. Budget ≈ 1.3k bounces × ~24 tokens (minutes–low hours).
+**Run plan.** Smoke: Qwen3-8B reduced-n through the full pipeline
+(regime warning → design PAUSE, s324). *(Amended pre-data, Michael
+s347: smoke must be ≥4B, prefer 7B+ — the calculus function is not
+fully formed below ~4B; a sub-scale smoke tests the harness against a
+machine that lacks the machinery under probe. Supersedes the drafted
+0.6B smoke; coheres the s345 0.6B-degeneracy scar.)* Real: Qwen3-14B,
+MPS, greedy, one capture. Budget ≈ 1.3k bounces × ~24 tokens (minutes–low hours).
 meta.json full λ run_provenance; results committed autonomously;
 closure batch approval-gated.
 
