@@ -1,0 +1,60 @@
+{
+  "d1": {
+    "rho_lin": 0.0141,
+    "p_lin": 0.44671,
+    "per_template_rho": {
+      "add_nl": 0.2864,
+      "add_sym": 0.0742,
+      "mul_nl": 0.0,
+      "mul_sym": 0.0,
+      "succ_a": -0.0843,
+      "succ_b": -0.1916
+    },
+    "pass": false
+  },
+  "d2": {
+    "rho_circ": 0.2516,
+    "p_circ": 0.05399,
+    "l50_mean_by_n": {
+      "1": 0.627,
+      "2": 6.383,
+      "3": 11.675,
+      "4": 20.469,
+      "5": 16.92,
+      "6": 6.839
+    },
+    "slope_l50": 6.213,
+    "shape_divergence": 0.13199,
+    "shape_collapse_null_p": 0.17596,
+    "pass": false
+  },
+  "d3": {
+    "noop": 0.071,
+    "bands": {
+      "early": 0.571,
+      "zone": 0.071,
+      "late": 0.071
+    },
+    "carries": {
+      "early": true,
+      "zone": false,
+      "late": false
+    },
+    "qualifier": "V-CARRIED-EARLY-ONLY"
+  },
+  "void_reasons": [],
+  "verdict": "NO-SCALING",
+  "secondary": {
+    "circ_gate_sy_share": 0.5257,
+    "circ_gate_mean_fires": 5.57,
+    "logit_lens_reso_rho": 0.4895,
+    "logit_lens_reso_by_n": {
+      "1": 36.86,
+      "2": 33.14,
+      "3": 34.57,
+      "4": 38.0,
+      "5": 39.14,
+      "6": 40.0
+    }
+  }
+}

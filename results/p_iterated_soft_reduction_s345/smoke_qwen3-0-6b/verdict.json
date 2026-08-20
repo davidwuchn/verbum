@@ -1,0 +1,60 @@
+{
+  "d1": {
+    "rho_lin": -0.2536,
+    "p_lin": 0.98627,
+    "per_template_rho": {
+      "add_nl": -0.2817,
+      "add_sym": 0.0,
+      "mul_nl": -0.6928,
+      "mul_sym": -0.0467,
+      "succ_a": -0.8073,
+      "succ_b": 0.3069
+    },
+    "pass": false
+  },
+  "d2": {
+    "rho_circ": -0.1787,
+    "p_circ": 0.87765,
+    "l50_mean_by_n": {
+      "1": 3.843,
+      "2": 5.525,
+      "3": 6.498,
+      "4": 6.069,
+      "5": 3.041,
+      "6": 3.027
+    },
+    "slope_l50": -0.816,
+    "shape_divergence": 0.05913,
+    "shape_collapse_null_p": 0.61298,
+    "pass": false
+  },
+  "d3": {
+    "noop": 0.143,
+    "bands": {
+      "early": 0.214,
+      "zone": 0.214,
+      "late": 0.143
+    },
+    "carries": {
+      "early": false,
+      "zone": false,
+      "late": false
+    },
+    "qualifier": "V-INERT"
+  },
+  "void_reasons": [],
+  "verdict": "NO-SCALING",
+  "secondary": {
+    "circ_gate_sy_share": 0.8564,
+    "circ_gate_mean_fires": 14.29,
+    "logit_lens_reso_rho": 0.1223,
+    "logit_lens_reso_by_n": {
+      "1": 25.71,
+      "2": 28.0,
+      "3": 28.0,
+      "4": 28.0,
+      "5": 28.0,
+      "6": 25.57
+    }
+  }
+}

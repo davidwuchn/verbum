@@ -1,0 +1,975 @@
+{
+  "lin_items": [
+    {
+      "template": "add_sym",
+      "n": 2,
+      "m": 2,
+      "prompt": "2 + 2 =",
+      "sy_share": 1.0,
+      "fires": 69
+    },
+    {
+      "template": "add_sym",
+      "n": 3,
+      "m": 2,
+      "prompt": "3 + 2 =",
+      "sy_share": 1.0,
+      "fires": 67
+    },
+    {
+      "template": "add_sym",
+      "n": 4,
+      "m": 2,
+      "prompt": "4 + 2 =",
+      "sy_share": 1.0,
+      "fires": 58
+    },
+    {
+      "template": "add_sym",
+      "n": 5,
+      "m": 2,
+      "prompt": "5 + 2 =",
+      "sy_share": 1.0,
+      "fires": 66
+    },
+    {
+      "template": "add_sym",
+      "n": 6,
+      "m": 2,
+      "prompt": "6 + 2 =",
+      "sy_share": 1.0,
+      "fires": 62
+    },
+    {
+      "template": "add_sym",
+      "n": 7,
+      "m": 2,
+      "prompt": "7 + 2 =",
+      "sy_share": 1.0,
+      "fires": 57
+    },
+    {
+      "template": "add_sym",
+      "n": 8,
+      "m": 2,
+      "prompt": "8 + 2 =",
+      "sy_share": 1.0,
+      "fires": 61
+    },
+    {
+      "template": "add_sym",
+      "n": 9,
+      "m": 2,
+      "prompt": "9 + 2 =",
+      "sy_share": 1.0,
+      "fires": 62
+    },
+    {
+      "template": "add_sym",
+      "n": 2,
+      "m": 3,
+      "prompt": "2 + 3 =",
+      "sy_share": 1.0,
+      "fires": 68
+    },
+    {
+      "template": "add_sym",
+      "n": 3,
+      "m": 3,
+      "prompt": "3 + 3 =",
+      "sy_share": 1.0,
+      "fires": 69
+    },
+    {
+      "template": "add_sym",
+      "n": 4,
+      "m": 3,
+      "prompt": "4 + 3 =",
+      "sy_share": 1.0,
+      "fires": 57
+    },
+    {
+      "template": "add_sym",
+      "n": 5,
+      "m": 3,
+      "prompt": "5 + 3 =",
+      "sy_share": 1.0,
+      "fires": 66
+    },
+    {
+      "template": "add_sym",
+      "n": 6,
+      "m": 3,
+      "prompt": "6 + 3 =",
+      "sy_share": 1.0,
+      "fires": 63
+    },
+    {
+      "template": "add_sym",
+      "n": 7,
+      "m": 3,
+      "prompt": "7 + 3 =",
+      "sy_share": 1.0,
+      "fires": 58
+    },
+    {
+      "template": "add_sym",
+      "n": 8,
+      "m": 3,
+      "prompt": "8 + 3 =",
+      "sy_share": 1.0,
+      "fires": 61
+    },
+    {
+      "template": "add_sym",
+      "n": 9,
+      "m": 3,
+      "prompt": "9 + 3 =",
+      "sy_share": 1.0,
+      "fires": 63
+    },
+    {
+      "template": "add_nl",
+      "n": 2,
+      "m": 2,
+      "prompt": "2 plus 2 equals",
+      "sy_share": 1.0,
+      "fires": 75
+    },
+    {
+      "template": "add_nl",
+      "n": 3,
+      "m": 2,
+      "prompt": "3 plus 2 equals",
+      "sy_share": 1.0,
+      "fires": 66
+    },
+    {
+      "template": "add_nl",
+      "n": 4,
+      "m": 2,
+      "prompt": "4 plus 2 equals",
+      "sy_share": 1.0,
+      "fires": 64
+    },
+    {
+      "template": "add_nl",
+      "n": 5,
+      "m": 2,
+      "prompt": "5 plus 2 equals",
+      "sy_share": 1.0,
+      "fires": 57
+    },
+    {
+      "template": "add_nl",
+      "n": 6,
+      "m": 2,
+      "prompt": "6 plus 2 equals",
+      "sy_share": 1.0,
+      "fires": 59
+    },
+    {
+      "template": "add_nl",
+      "n": 7,
+      "m": 2,
+      "prompt": "7 plus 2 equals",
+      "sy_share": 1.0,
+      "fires": 57
+    },
+    {
+      "template": "add_nl",
+      "n": 8,
+      "m": 2,
+      "prompt": "8 plus 2 equals",
+      "sy_share": 1.0,
+      "fires": 57
+    },
+    {
+      "template": "add_nl",
+      "n": 9,
+      "m": 2,
+      "prompt": "9 plus 2 equals",
+      "sy_share": 1.0,
+      "fires": 55
+    },
+    {
+      "template": "add_nl",
+      "n": 2,
+      "m": 3,
+      "prompt": "2 plus 3 equals",
+      "sy_share": 1.0,
+      "fires": 65
+    },
+    {
+      "template": "add_nl",
+      "n": 3,
+      "m": 3,
+      "prompt": "3 plus 3 equals",
+      "sy_share": 1.0,
+      "fires": 71
+    },
+    {
+      "template": "add_nl",
+      "n": 4,
+      "m": 3,
+      "prompt": "4 plus 3 equals",
+      "sy_share": 1.0,
+      "fires": 63
+    },
+    {
+      "template": "add_nl",
+      "n": 5,
+      "m": 3,
+      "prompt": "5 plus 3 equals",
+      "sy_share": 1.0,
+      "fires": 57
+    },
+    {
+      "template": "add_nl",
+      "n": 6,
+      "m": 3,
+      "prompt": "6 plus 3 equals",
+      "sy_share": 1.0,
+      "fires": 57
+    },
+    {
+      "template": "add_nl",
+      "n": 7,
+      "m": 3,
+      "prompt": "7 plus 3 equals",
+      "sy_share": 1.0,
+      "fires": 56
+    },
+    {
+      "template": "add_nl",
+      "n": 8,
+      "m": 3,
+      "prompt": "8 plus 3 equals",
+      "sy_share": 0.9818181818181818,
+      "fires": 55
+    },
+    {
+      "template": "add_nl",
+      "n": 9,
+      "m": 3,
+      "prompt": "9 plus 3 equals",
+      "sy_share": 1.0,
+      "fires": 55
+    },
+    {
+      "template": "mul_sym",
+      "n": 2,
+      "m": 2,
+      "prompt": "2 * 2 =",
+      "sy_share": 1.0,
+      "fires": 63
+    },
+    {
+      "template": "mul_sym",
+      "n": 3,
+      "m": 2,
+      "prompt": "3 * 2 =",
+      "sy_share": 1.0,
+      "fires": 63
+    },
+    {
+      "template": "mul_sym",
+      "n": 4,
+      "m": 2,
+      "prompt": "4 * 2 =",
+      "sy_share": 0.9833333333333333,
+      "fires": 60
+    },
+    {
+      "template": "mul_sym",
+      "n": 5,
+      "m": 2,
+      "prompt": "5 * 2 =",
+      "sy_share": 1.0,
+      "fires": 59
+    },
+    {
+      "template": "mul_sym",
+      "n": 6,
+      "m": 2,
+      "prompt": "6 * 2 =",
+      "sy_share": 0.9830508474576272,
+      "fires": 59
+    },
+    {
+      "template": "mul_sym",
+      "n": 7,
+      "m": 2,
+      "prompt": "7 * 2 =",
+      "sy_share": 0.9836065573770492,
+      "fires": 61
+    },
+    {
+      "template": "mul_sym",
+      "n": 8,
+      "m": 2,
+      "prompt": "8 * 2 =",
+      "sy_share": 1.0,
+      "fires": 60
+    },
+    {
+      "template": "mul_sym",
+      "n": 9,
+      "m": 2,
+      "prompt": "9 * 2 =",
+      "sy_share": 1.0,
+      "fires": 56
+    },
+    {
+      "template": "mul_sym",
+      "n": 2,
+      "m": 3,
+      "prompt": "2 * 3 =",
+      "sy_share": 1.0,
+      "fires": 59
+    },
+    {
+      "template": "mul_sym",
+      "n": 3,
+      "m": 3,
+      "prompt": "3 * 3 =",
+      "sy_share": 1.0,
+      "fires": 65
+    },
+    {
+      "template": "mul_sym",
+      "n": 4,
+      "m": 3,
+      "prompt": "4 * 3 =",
+      "sy_share": 1.0,
+      "fires": 59
+    },
+    {
+      "template": "mul_sym",
+      "n": 5,
+      "m": 3,
+      "prompt": "5 * 3 =",
+      "sy_share": 1.0,
+      "fires": 59
+    },
+    {
+      "template": "mul_sym",
+      "n": 6,
+      "m": 3,
+      "prompt": "6 * 3 =",
+      "sy_share": 0.9836065573770492,
+      "fires": 61
+    },
+    {
+      "template": "mul_sym",
+      "n": 7,
+      "m": 3,
+      "prompt": "7 * 3 =",
+      "sy_share": 1.0,
+      "fires": 58
+    },
+    {
+      "template": "mul_sym",
+      "n": 8,
+      "m": 3,
+      "prompt": "8 * 3 =",
+      "sy_share": 1.0,
+      "fires": 60
+    },
+    {
+      "template": "mul_sym",
+      "n": 9,
+      "m": 3,
+      "prompt": "9 * 3 =",
+      "sy_share": 1.0,
+      "fires": 56
+    },
+    {
+      "template": "mul_nl",
+      "n": 2,
+      "m": 2,
+      "prompt": "2 times 2 equals",
+      "sy_share": 1.0,
+      "fires": 59
+    },
+    {
+      "template": "mul_nl",
+      "n": 3,
+      "m": 2,
+      "prompt": "3 times 2 equals",
+      "sy_share": 0.9824561403508771,
+      "fires": 57
+    },
+    {
+      "template": "mul_nl",
+      "n": 4,
+      "m": 2,
+      "prompt": "4 times 2 equals",
+      "sy_share": 1.0,
+      "fires": 54
+    },
+    {
+      "template": "mul_nl",
+      "n": 5,
+      "m": 2,
+      "prompt": "5 times 2 equals",
+      "sy_share": 0.9814814814814815,
+      "fires": 54
+    },
+    {
+      "template": "mul_nl",
+      "n": 6,
+      "m": 2,
+      "prompt": "6 times 2 equals",
+      "sy_share": 0.9811320754716981,
+      "fires": 53
+    },
+    {
+      "template": "mul_nl",
+      "n": 7,
+      "m": 2,
+      "prompt": "7 times 2 equals",
+      "sy_share": 1.0,
+      "fires": 53
+    },
+    {
+      "template": "mul_nl",
+      "n": 8,
+      "m": 2,
+      "prompt": "8 times 2 equals",
+      "sy_share": 0.9795918367346939,
+      "fires": 49
+    },
+    {
+      "template": "mul_nl",
+      "n": 9,
+      "m": 2,
+      "prompt": "9 times 2 equals",
+      "sy_share": 0.9803921568627451,
+      "fires": 51
+    },
+    {
+      "template": "mul_nl",
+      "n": 2,
+      "m": 3,
+      "prompt": "2 times 3 equals",
+      "sy_share": 1.0,
+      "fires": 57
+    },
+    {
+      "template": "mul_nl",
+      "n": 3,
+      "m": 3,
+      "prompt": "3 times 3 equals",
+      "sy_share": 0.9830508474576272,
+      "fires": 59
+    },
+    {
+      "template": "mul_nl",
+      "n": 4,
+      "m": 3,
+      "prompt": "4 times 3 equals",
+      "sy_share": 1.0,
+      "fires": 52
+    },
+    {
+      "template": "mul_nl",
+      "n": 5,
+      "m": 3,
+      "prompt": "5 times 3 equals",
+      "sy_share": 0.9444444444444444,
+      "fires": 54
+    },
+    {
+      "template": "mul_nl",
+      "n": 6,
+      "m": 3,
+      "prompt": "6 times 3 equals",
+      "sy_share": 0.9811320754716981,
+      "fires": 53
+    },
+    {
+      "template": "mul_nl",
+      "n": 7,
+      "m": 3,
+      "prompt": "7 times 3 equals",
+      "sy_share": 0.9811320754716981,
+      "fires": 53
+    },
+    {
+      "template": "mul_nl",
+      "n": 8,
+      "m": 3,
+      "prompt": "8 times 3 equals",
+      "sy_share": 0.9791666666666666,
+      "fires": 48
+    },
+    {
+      "template": "mul_nl",
+      "n": 9,
+      "m": 3,
+      "prompt": "9 times 3 equals",
+      "sy_share": 0.9807692307692307,
+      "fires": 52
+    },
+    {
+      "template": "succ_a",
+      "n": 2,
+      "m": 2,
+      "prompt": "One more than 2 is",
+      "sy_share": 0.9027777777777778,
+      "fires": 72
+    },
+    {
+      "template": "succ_a",
+      "n": 3,
+      "m": 2,
+      "prompt": "One more than 3 is",
+      "sy_share": 0.9014084507042254,
+      "fires": 71
+    },
+    {
+      "template": "succ_a",
+      "n": 4,
+      "m": 2,
+      "prompt": "One more than 4 is",
+      "sy_share": 0.9014084507042254,
+      "fires": 71
+    },
+    {
+      "template": "succ_a",
+      "n": 5,
+      "m": 2,
+      "prompt": "One more than 5 is",
+      "sy_share": 0.8904109589041096,
+      "fires": 73
+    },
+    {
+      "template": "succ_a",
+      "n": 6,
+      "m": 2,
+      "prompt": "One more than 6 is",
+      "sy_share": 0.8985507246376812,
+      "fires": 69
+    },
+    {
+      "template": "succ_a",
+      "n": 7,
+      "m": 2,
+      "prompt": "One more than 7 is",
+      "sy_share": 0.9,
+      "fires": 70
+    },
+    {
+      "template": "succ_a",
+      "n": 8,
+      "m": 2,
+      "prompt": "One more than 8 is",
+      "sy_share": 0.8985507246376812,
+      "fires": 69
+    },
+    {
+      "template": "succ_a",
+      "n": 9,
+      "m": 2,
+      "prompt": "One more than 9 is",
+      "sy_share": 0.8767123287671232,
+      "fires": 73
+    },
+    {
+      "template": "succ_b",
+      "n": 2,
+      "m": 2,
+      "prompt": "The number after 2 is",
+      "sy_share": 0.9661016949152542,
+      "fires": 59
+    },
+    {
+      "template": "succ_b",
+      "n": 3,
+      "m": 2,
+      "prompt": "The number after 3 is",
+      "sy_share": 0.9661016949152542,
+      "fires": 59
+    },
+    {
+      "template": "succ_b",
+      "n": 4,
+      "m": 2,
+      "prompt": "The number after 4 is",
+      "sy_share": 0.9655172413793104,
+      "fires": 58
+    },
+    {
+      "template": "succ_b",
+      "n": 5,
+      "m": 2,
+      "prompt": "The number after 5 is",
+      "sy_share": 0.9655172413793104,
+      "fires": 58
+    },
+    {
+      "template": "succ_b",
+      "n": 6,
+      "m": 2,
+      "prompt": "The number after 6 is",
+      "sy_share": 0.9464285714285714,
+      "fires": 56
+    },
+    {
+      "template": "succ_b",
+      "n": 7,
+      "m": 2,
+      "prompt": "The number after 7 is",
+      "sy_share": 0.9827586206896551,
+      "fires": 58
+    },
+    {
+      "template": "succ_b",
+      "n": 8,
+      "m": 2,
+      "prompt": "The number after 8 is",
+      "sy_share": 0.9818181818181818,
+      "fires": 55
+    },
+    {
+      "template": "succ_b",
+      "n": 9,
+      "m": 2,
+      "prompt": "The number after 9 is",
+      "sy_share": 0.9661016949152542,
+      "fires": 59
+    }
+  ],
+  "circ_items": [
+    {
+      "n": 1,
+      "base": "Monday",
+      "answer": "Tuesday",
+      "prompt": "1 days after Monday is",
+      "l50": 3.7157115512291887
+    },
+    {
+      "n": 1,
+      "base": "Tuesday",
+      "answer": "Wednesday",
+      "prompt": "1 days after Tuesday is",
+      "l50": 3.998385551090638
+    },
+    {
+      "n": 1,
+      "base": "Wednesday",
+      "answer": "Thursday",
+      "prompt": "1 days after Wednesday is",
+      "l50": 15.34070900180942
+    },
+    {
+      "n": 1,
+      "base": "Thursday",
+      "answer": "Friday",
+      "prompt": "1 days after Thursday is",
+      "l50": 0.5
+    },
+    {
+      "n": 1,
+      "base": "Friday",
+      "answer": "Saturday",
+      "prompt": "1 days after Friday is",
+      "l50": 0.0
+    },
+    {
+      "n": 1,
+      "base": "Saturday",
+      "answer": "Sunday",
+      "prompt": "1 days after Saturday is",
+      "l50": 0.0
+    },
+    {
+      "n": 1,
+      "base": "Sunday",
+      "answer": "Monday",
+      "prompt": "1 days after Sunday is",
+      "l50": 3.3477602136244116
+    },
+    {
+      "n": 2,
+      "base": "Monday",
+      "answer": "Wednesday",
+      "prompt": "2 days after Monday is",
+      "l50": 3.7996056678596783
+    },
+    {
+      "n": 2,
+      "base": "Tuesday",
+      "answer": "Thursday",
+      "prompt": "2 days after Tuesday is",
+      "l50": 15.224170605762202
+    },
+    {
+      "n": 2,
+      "base": "Wednesday",
+      "answer": "Friday",
+      "prompt": "2 days after Wednesday is",
+      "l50": 15.470397401628702
+    },
+    {
+      "n": 2,
+      "base": "Thursday",
+      "answer": "Saturday",
+      "prompt": "2 days after Thursday is",
+      "l50": 0.5
+    },
+    {
+      "n": 2,
+      "base": "Friday",
+      "answer": "Sunday",
+      "prompt": "2 days after Friday is",
+      "l50": 0.0
+    },
+    {
+      "n": 2,
+      "base": "Saturday",
+      "answer": "Monday",
+      "prompt": "2 days after Saturday is",
+      "l50": 0.0
+    },
+    {
+      "n": 2,
+      "base": "Sunday",
+      "answer": "Tuesday",
+      "prompt": "2 days after Sunday is",
+      "l50": 3.677450114931993
+    },
+    {
+      "n": 3,
+      "base": "Monday",
+      "answer": "Thursday",
+      "prompt": "3 days after Monday is",
+      "l50": 3.9352277108083995
+    },
+    {
+      "n": 3,
+      "base": "Tuesday",
+      "answer": "Friday",
+      "prompt": "3 days after Tuesday is",
+      "l50": 15.232191014230501
+    },
+    {
+      "n": 3,
+      "base": "Wednesday",
+      "answer": "Saturday",
+      "prompt": "3 days after Wednesday is",
+      "l50": 15.438975710236502
+    },
+    {
+      "n": 3,
+      "base": "Thursday",
+      "answer": "Sunday",
+      "prompt": "3 days after Thursday is",
+      "l50": 0.0
+    },
+    {
+      "n": 3,
+      "base": "Friday",
+      "answer": "Monday",
+      "prompt": "3 days after Friday is",
+      "l50": 3.8534347242422107
+    },
+    {
+      "n": 3,
+      "base": "Saturday",
+      "answer": "Tuesday",
+      "prompt": "3 days after Saturday is",
+      "l50": 3.504307089654998
+    },
+    {
+      "n": 3,
+      "base": "Sunday",
+      "answer": "Wednesday",
+      "prompt": "3 days after Sunday is",
+      "l50": 3.5185643286217574
+    },
+    {
+      "n": 4,
+      "base": "Monday",
+      "answer": "Friday",
+      "prompt": "4 days after Monday is",
+      "l50": 6.504817516313443
+    },
+    {
+      "n": 4,
+      "base": "Tuesday",
+      "answer": "Saturday",
+      "prompt": "4 days after Tuesday is",
+      "l50": 15.25594431158245
+    },
+    {
+      "n": 4,
+      "base": "Wednesday",
+      "answer": "Sunday",
+      "prompt": "4 days after Wednesday is",
+      "l50": 0.0
+    },
+    {
+      "n": 4,
+      "base": "Thursday",
+      "answer": "Monday",
+      "prompt": "4 days after Thursday is",
+      "l50": 0.0
+    },
+    {
+      "n": 4,
+      "base": "Friday",
+      "answer": "Tuesday",
+      "prompt": "4 days after Friday is",
+      "l50": 3.6886180891665985
+    },
+    {
+      "n": 4,
+      "base": "Saturday",
+      "answer": "Wednesday",
+      "prompt": "4 days after Saturday is",
+      "l50": 3.6125315644671607
+    },
+    {
+      "n": 4,
+      "base": "Sunday",
+      "answer": "Thursday",
+      "prompt": "4 days after Sunday is",
+      "l50": 13.421299273807769
+    },
+    {
+      "n": 5,
+      "base": "Monday",
+      "answer": "Saturday",
+      "prompt": "5 days after Monday is",
+      "l50": 0.5697105964146346
+    },
+    {
+      "n": 5,
+      "base": "Tuesday",
+      "answer": "Sunday",
+      "prompt": "5 days after Tuesday is",
+      "l50": 0.0
+    },
+    {
+      "n": 5,
+      "base": "Wednesday",
+      "answer": "Monday",
+      "prompt": "5 days after Wednesday is",
+      "l50": 0.0
+    },
+    {
+      "n": 5,
+      "base": "Thursday",
+      "answer": "Tuesday",
+      "prompt": "5 days after Thursday is",
+      "l50": 0.0
+    },
+    {
+      "n": 5,
+      "base": "Friday",
+      "answer": "Wednesday",
+      "prompt": "5 days after Friday is",
+      "l50": 3.7465914119204458
+    },
+    {
+      "n": 5,
+      "base": "Saturday",
+      "answer": "Thursday",
+      "prompt": "5 days after Saturday is",
+      "l50": 3.5
+    },
+    {
+      "n": 5,
+      "base": "Sunday",
+      "answer": "Friday",
+      "prompt": "5 days after Sunday is",
+      "l50": 13.468878283010325
+    },
+    {
+      "n": 6,
+      "base": "Monday",
+      "answer": "Sunday",
+      "prompt": "6 days after Monday is",
+      "l50": 0.7564578125779259
+    },
+    {
+      "n": 6,
+      "base": "Tuesday",
+      "answer": "Monday",
+      "prompt": "6 days after Tuesday is",
+      "l50": 0.0
+    },
+    {
+      "n": 6,
+      "base": "Wednesday",
+      "answer": "Tuesday",
+      "prompt": "6 days after Wednesday is",
+      "l50": 0.0
+    },
+    {
+      "n": 6,
+      "base": "Thursday",
+      "answer": "Wednesday",
+      "prompt": "6 days after Thursday is",
+      "l50": 0.0
+    },
+    {
+      "n": 6,
+      "base": "Friday",
+      "answer": "Thursday",
+      "prompt": "6 days after Friday is",
+      "l50": 3.5
+    },
+    {
+      "n": 6,
+      "base": "Saturday",
+      "answer": "Friday",
+      "prompt": "6 days after Saturday is",
+      "l50": 3.5
+    },
+    {
+      "n": 6,
+      "base": "Sunday",
+      "answer": "Saturday",
+      "prompt": "6 days after Sunday is",
+      "l50": 13.431509450865683
+    }
+  ],
+  "circle": {
+    "formed": true,
+    "circle_layer": 0,
+    "n_layers": 28,
+    "ordering_by_layer": {
+      "0": 1.0,
+      "1": 1.0,
+      "2": 1.0,
+      "3": 1.0,
+      "4": 1.0,
+      "5": 1.0,
+      "6": 1.0,
+      "7": 1.0,
+      "8": 1.0,
+      "9": 1.0,
+      "10": 1.0,
+      "11": 1.0,
+      "12": 1.0,
+      "13": 1.0,
+      "14": 1.0,
+      "15": 1.0,
+      "16": 1.0,
+      "17": 1.0,
+      "18": 1.0,
+      "19": 1.0,
+      "20": 1.0,
+      "21": 1.0,
+      "22": 1.0,
+      "23": 1.0,
+      "24": 1.0,
+      "25": 1.0,
+      "26": 1.0,
+      "27": 1.0
+    }
+  }
+}

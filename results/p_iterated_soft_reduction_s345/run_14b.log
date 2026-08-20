@@ -1,0 +1,32 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights: 100%|██████████| 443/443 [00:00<00:00, 6927.49it/s]
+[isr] Qwen/Qwen3-14B | arch=Qwen3ForCausalLM  L=40  register=gated-dense  layers=model.layers  gate=mlp.gate_proj(d=17408)  read=sign(gate_proj) [validated]  attn=self_attn.o_proj(d=5120)
+[trace] [gate] calibrating on 539 crystal probes ...
+[trace] [gate]   probe 0/539
+[trace] [gate]   probe 100/539
+[trace] [gate]   probe 200/539
+[trace] [gate]   probe 300/539
+[trace] [gate]   probe 400/539
+[trace] [gate]   probe 500/539
+[trace] [gate] null from 8 natural prompts ...
+[isr] crystal-bearing layers: 35/40
+[isr] D1 0/80
+[isr] D1 20/80
+[isr] D1 40/80
+[isr] D1 60/80
+[isr] day circle formed=True at L0 (gate ≤ L16)
+[isr] D2 0/42
+[isr] D2 10/42
+[isr] D2 20/42
+[isr] D2 30/42
+[isr] D2 40/42
+[isr] determinism dev = 0.0
+[isr] D3 accumulation-band zone = L1-L6
+[isr] D3 patch: {'noop': 0.071, 'bands': {'early': 0.571, 'zone': 0.071, 'late': 0.071}, 'n_pairs': 14}
+================================================================
+[isr] VERDICT: NO-SCALING
+[isr] D1 ρ_lin=0.0141 p=0.44671 pass=False
+[isr] D2 ρ_circ=0.2516 p=0.05399 slope=6.213 shape_p=0.17596 pass=False
+[isr] D3 qualifier: V-CARRIED-EARLY-ONLY
+[isr] secondary: {'circ_gate_sy_share': 0.5257, 'circ_gate_mean_fires': 5.57, 'logit_lens_reso_rho': 0.4895, 'logit_lens_reso_by_n': {1: 36.86, 2: 33.14, 3: 34.57, 4: 38.0, 5: 39.14, 6: 40.0}}
+[isr] wrote /Users/mwhitford/src/verbum/results/p_iterated_soft_reduction_s345/run_qwen3-14b/

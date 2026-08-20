@@ -1,0 +1,18 @@
+{
+  "probe": "P-ITERATED-SOFT-REDUCTION",
+  "freeze_commit": "078af23f",
+  "model": "Qwen/Qwen3-0.6B",
+  "device": "mps",
+  "model_revision": "c1899de289a04d12100db370d81485cdf75e47ca",
+  "timestamp_utc": "2026-08-20T14:53:43.039772+00:00",
+  "git_sha": "c97292181d7f980d021d42d31f5865ea661e45d8",
+  "n_perm": 5000,
+  "z_thresh": 3.0,
+  "smoke": true,
+  "lib_versions": {
+    "torch": "2.11.0",
+    "numpy": "2.4.4"
+  },
+  "sampling": "greedy/argmax readout only; no generation",
+  "corpus_hash": "d9ca2e37"
+}

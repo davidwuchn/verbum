@@ -1,0 +1,1029 @@
+{
+  "lin_items": [
+    {
+      "template": "add_sym",
+      "n": 2,
+      "m": 2,
+      "prompt": "2 + 2 =",
+      "sy_share": 0.9574468085106383,
+      "fires": 47
+    },
+    {
+      "template": "add_sym",
+      "n": 3,
+      "m": 2,
+      "prompt": "3 + 2 =",
+      "sy_share": 0.9761904761904762,
+      "fires": 42
+    },
+    {
+      "template": "add_sym",
+      "n": 4,
+      "m": 2,
+      "prompt": "4 + 2 =",
+      "sy_share": 0.9555555555555556,
+      "fires": 45
+    },
+    {
+      "template": "add_sym",
+      "n": 5,
+      "m": 2,
+      "prompt": "5 + 2 =",
+      "sy_share": 1.0,
+      "fires": 36
+    },
+    {
+      "template": "add_sym",
+      "n": 6,
+      "m": 2,
+      "prompt": "6 + 2 =",
+      "sy_share": 0.9743589743589743,
+      "fires": 39
+    },
+    {
+      "template": "add_sym",
+      "n": 7,
+      "m": 2,
+      "prompt": "7 + 2 =",
+      "sy_share": 1.0,
+      "fires": 38
+    },
+    {
+      "template": "add_sym",
+      "n": 8,
+      "m": 2,
+      "prompt": "8 + 2 =",
+      "sy_share": 1.0,
+      "fires": 38
+    },
+    {
+      "template": "add_sym",
+      "n": 9,
+      "m": 2,
+      "prompt": "9 + 2 =",
+      "sy_share": 0.9459459459459459,
+      "fires": 37
+    },
+    {
+      "template": "add_sym",
+      "n": 2,
+      "m": 3,
+      "prompt": "2 + 3 =",
+      "sy_share": 0.9777777777777777,
+      "fires": 45
+    },
+    {
+      "template": "add_sym",
+      "n": 3,
+      "m": 3,
+      "prompt": "3 + 3 =",
+      "sy_share": 0.9772727272727273,
+      "fires": 44
+    },
+    {
+      "template": "add_sym",
+      "n": 4,
+      "m": 3,
+      "prompt": "4 + 3 =",
+      "sy_share": 1.0,
+      "fires": 42
+    },
+    {
+      "template": "add_sym",
+      "n": 5,
+      "m": 3,
+      "prompt": "5 + 3 =",
+      "sy_share": 1.0,
+      "fires": 36
+    },
+    {
+      "template": "add_sym",
+      "n": 6,
+      "m": 3,
+      "prompt": "6 + 3 =",
+      "sy_share": 0.9743589743589743,
+      "fires": 39
+    },
+    {
+      "template": "add_sym",
+      "n": 7,
+      "m": 3,
+      "prompt": "7 + 3 =",
+      "sy_share": 1.0,
+      "fires": 36
+    },
+    {
+      "template": "add_sym",
+      "n": 8,
+      "m": 3,
+      "prompt": "8 + 3 =",
+      "sy_share": 1.0,
+      "fires": 39
+    },
+    {
+      "template": "add_sym",
+      "n": 9,
+      "m": 3,
+      "prompt": "9 + 3 =",
+      "sy_share": 0.9722222222222222,
+      "fires": 36
+    },
+    {
+      "template": "add_nl",
+      "n": 2,
+      "m": 2,
+      "prompt": "2 plus 2 equals",
+      "sy_share": 0.9523809523809523,
+      "fires": 21
+    },
+    {
+      "template": "add_nl",
+      "n": 3,
+      "m": 2,
+      "prompt": "3 plus 2 equals",
+      "sy_share": 1.0,
+      "fires": 18
+    },
+    {
+      "template": "add_nl",
+      "n": 4,
+      "m": 2,
+      "prompt": "4 plus 2 equals",
+      "sy_share": 1.0,
+      "fires": 14
+    },
+    {
+      "template": "add_nl",
+      "n": 5,
+      "m": 2,
+      "prompt": "5 plus 2 equals",
+      "sy_share": 0.9285714285714286,
+      "fires": 14
+    },
+    {
+      "template": "add_nl",
+      "n": 6,
+      "m": 2,
+      "prompt": "6 plus 2 equals",
+      "sy_share": 1.0,
+      "fires": 10
+    },
+    {
+      "template": "add_nl",
+      "n": 7,
+      "m": 2,
+      "prompt": "7 plus 2 equals",
+      "sy_share": 1.0,
+      "fires": 8
+    },
+    {
+      "template": "add_nl",
+      "n": 8,
+      "m": 2,
+      "prompt": "8 plus 2 equals",
+      "sy_share": 1.0,
+      "fires": 12
+    },
+    {
+      "template": "add_nl",
+      "n": 9,
+      "m": 2,
+      "prompt": "9 plus 2 equals",
+      "sy_share": 1.0,
+      "fires": 12
+    },
+    {
+      "template": "add_nl",
+      "n": 2,
+      "m": 3,
+      "prompt": "2 plus 3 equals",
+      "sy_share": 1.0,
+      "fires": 17
+    },
+    {
+      "template": "add_nl",
+      "n": 3,
+      "m": 3,
+      "prompt": "3 plus 3 equals",
+      "sy_share": 1.0,
+      "fires": 25
+    },
+    {
+      "template": "add_nl",
+      "n": 4,
+      "m": 3,
+      "prompt": "4 plus 3 equals",
+      "sy_share": 1.0,
+      "fires": 15
+    },
+    {
+      "template": "add_nl",
+      "n": 5,
+      "m": 3,
+      "prompt": "5 plus 3 equals",
+      "sy_share": 0.9333333333333333,
+      "fires": 15
+    },
+    {
+      "template": "add_nl",
+      "n": 6,
+      "m": 3,
+      "prompt": "6 plus 3 equals",
+      "sy_share": 1.0,
+      "fires": 11
+    },
+    {
+      "template": "add_nl",
+      "n": 7,
+      "m": 3,
+      "prompt": "7 plus 3 equals",
+      "sy_share": 1.0,
+      "fires": 9
+    },
+    {
+      "template": "add_nl",
+      "n": 8,
+      "m": 3,
+      "prompt": "8 plus 3 equals",
+      "sy_share": 1.0,
+      "fires": 11
+    },
+    {
+      "template": "add_nl",
+      "n": 9,
+      "m": 3,
+      "prompt": "9 plus 3 equals",
+      "sy_share": 1.0,
+      "fires": 12
+    },
+    {
+      "template": "mul_sym",
+      "n": 2,
+      "m": 2,
+      "prompt": "2 * 2 =",
+      "sy_share": 1.0,
+      "fires": 54
+    },
+    {
+      "template": "mul_sym",
+      "n": 3,
+      "m": 2,
+      "prompt": "3 * 2 =",
+      "sy_share": 1.0,
+      "fires": 47
+    },
+    {
+      "template": "mul_sym",
+      "n": 4,
+      "m": 2,
+      "prompt": "4 * 2 =",
+      "sy_share": 1.0,
+      "fires": 33
+    },
+    {
+      "template": "mul_sym",
+      "n": 5,
+      "m": 2,
+      "prompt": "5 * 2 =",
+      "sy_share": 1.0,
+      "fires": 35
+    },
+    {
+      "template": "mul_sym",
+      "n": 6,
+      "m": 2,
+      "prompt": "6 * 2 =",
+      "sy_share": 1.0,
+      "fires": 33
+    },
+    {
+      "template": "mul_sym",
+      "n": 7,
+      "m": 2,
+      "prompt": "7 * 2 =",
+      "sy_share": 1.0,
+      "fires": 27
+    },
+    {
+      "template": "mul_sym",
+      "n": 8,
+      "m": 2,
+      "prompt": "8 * 2 =",
+      "sy_share": 1.0,
+      "fires": 31
+    },
+    {
+      "template": "mul_sym",
+      "n": 9,
+      "m": 2,
+      "prompt": "9 * 2 =",
+      "sy_share": 1.0,
+      "fires": 26
+    },
+    {
+      "template": "mul_sym",
+      "n": 2,
+      "m": 3,
+      "prompt": "2 * 3 =",
+      "sy_share": 1.0,
+      "fires": 43
+    },
+    {
+      "template": "mul_sym",
+      "n": 3,
+      "m": 3,
+      "prompt": "3 * 3 =",
+      "sy_share": 1.0,
+      "fires": 50
+    },
+    {
+      "template": "mul_sym",
+      "n": 4,
+      "m": 3,
+      "prompt": "4 * 3 =",
+      "sy_share": 1.0,
+      "fires": 38
+    },
+    {
+      "template": "mul_sym",
+      "n": 5,
+      "m": 3,
+      "prompt": "5 * 3 =",
+      "sy_share": 1.0,
+      "fires": 37
+    },
+    {
+      "template": "mul_sym",
+      "n": 6,
+      "m": 3,
+      "prompt": "6 * 3 =",
+      "sy_share": 1.0,
+      "fires": 34
+    },
+    {
+      "template": "mul_sym",
+      "n": 7,
+      "m": 3,
+      "prompt": "7 * 3 =",
+      "sy_share": 1.0,
+      "fires": 29
+    },
+    {
+      "template": "mul_sym",
+      "n": 8,
+      "m": 3,
+      "prompt": "8 * 3 =",
+      "sy_share": 1.0,
+      "fires": 33
+    },
+    {
+      "template": "mul_sym",
+      "n": 9,
+      "m": 3,
+      "prompt": "9 * 3 =",
+      "sy_share": 1.0,
+      "fires": 27
+    },
+    {
+      "template": "mul_nl",
+      "n": 2,
+      "m": 2,
+      "prompt": "2 times 2 equals",
+      "sy_share": 1.0,
+      "fires": 21
+    },
+    {
+      "template": "mul_nl",
+      "n": 3,
+      "m": 2,
+      "prompt": "3 times 2 equals",
+      "sy_share": 1.0,
+      "fires": 11
+    },
+    {
+      "template": "mul_nl",
+      "n": 4,
+      "m": 2,
+      "prompt": "4 times 2 equals",
+      "sy_share": 1.0,
+      "fires": 10
+    },
+    {
+      "template": "mul_nl",
+      "n": 5,
+      "m": 2,
+      "prompt": "5 times 2 equals",
+      "sy_share": 1.0,
+      "fires": 10
+    },
+    {
+      "template": "mul_nl",
+      "n": 6,
+      "m": 2,
+      "prompt": "6 times 2 equals",
+      "sy_share": 1.0,
+      "fires": 12
+    },
+    {
+      "template": "mul_nl",
+      "n": 7,
+      "m": 2,
+      "prompt": "7 times 2 equals",
+      "sy_share": 1.0,
+      "fires": 10
+    },
+    {
+      "template": "mul_nl",
+      "n": 8,
+      "m": 2,
+      "prompt": "8 times 2 equals",
+      "sy_share": 1.0,
+      "fires": 12
+    },
+    {
+      "template": "mul_nl",
+      "n": 9,
+      "m": 2,
+      "prompt": "9 times 2 equals",
+      "sy_share": 1.0,
+      "fires": 10
+    },
+    {
+      "template": "mul_nl",
+      "n": 2,
+      "m": 3,
+      "prompt": "2 times 3 equals",
+      "sy_share": 1.0,
+      "fires": 14
+    },
+    {
+      "template": "mul_nl",
+      "n": 3,
+      "m": 3,
+      "prompt": "3 times 3 equals",
+      "sy_share": 1.0,
+      "fires": 20
+    },
+    {
+      "template": "mul_nl",
+      "n": 4,
+      "m": 3,
+      "prompt": "4 times 3 equals",
+      "sy_share": 1.0,
+      "fires": 12
+    },
+    {
+      "template": "mul_nl",
+      "n": 5,
+      "m": 3,
+      "prompt": "5 times 3 equals",
+      "sy_share": 1.0,
+      "fires": 12
+    },
+    {
+      "template": "mul_nl",
+      "n": 6,
+      "m": 3,
+      "prompt": "6 times 3 equals",
+      "sy_share": 1.0,
+      "fires": 14
+    },
+    {
+      "template": "mul_nl",
+      "n": 7,
+      "m": 3,
+      "prompt": "7 times 3 equals",
+      "sy_share": 1.0,
+      "fires": 10
+    },
+    {
+      "template": "mul_nl",
+      "n": 8,
+      "m": 3,
+      "prompt": "8 times 3 equals",
+      "sy_share": 1.0,
+      "fires": 13
+    },
+    {
+      "template": "mul_nl",
+      "n": 9,
+      "m": 3,
+      "prompt": "9 times 3 equals",
+      "sy_share": 1.0,
+      "fires": 12
+    },
+    {
+      "template": "succ_a",
+      "n": 2,
+      "m": 2,
+      "prompt": "One more than 2 is",
+      "sy_share": 0.8,
+      "fires": 20
+    },
+    {
+      "template": "succ_a",
+      "n": 3,
+      "m": 2,
+      "prompt": "One more than 3 is",
+      "sy_share": 0.7222222222222222,
+      "fires": 18
+    },
+    {
+      "template": "succ_a",
+      "n": 4,
+      "m": 2,
+      "prompt": "One more than 4 is",
+      "sy_share": 0.7,
+      "fires": 20
+    },
+    {
+      "template": "succ_a",
+      "n": 5,
+      "m": 2,
+      "prompt": "One more than 5 is",
+      "sy_share": 0.6842105263157895,
+      "fires": 19
+    },
+    {
+      "template": "succ_a",
+      "n": 6,
+      "m": 2,
+      "prompt": "One more than 6 is",
+      "sy_share": 0.6842105263157895,
+      "fires": 19
+    },
+    {
+      "template": "succ_a",
+      "n": 7,
+      "m": 2,
+      "prompt": "One more than 7 is",
+      "sy_share": 0.6666666666666666,
+      "fires": 21
+    },
+    {
+      "template": "succ_a",
+      "n": 8,
+      "m": 2,
+      "prompt": "One more than 8 is",
+      "sy_share": 0.8,
+      "fires": 20
+    },
+    {
+      "template": "succ_a",
+      "n": 9,
+      "m": 2,
+      "prompt": "One more than 9 is",
+      "sy_share": 0.7272727272727273,
+      "fires": 22
+    },
+    {
+      "template": "succ_b",
+      "n": 2,
+      "m": 2,
+      "prompt": "The number after 2 is",
+      "sy_share": 0.5576923076923077,
+      "fires": 52
+    },
+    {
+      "template": "succ_b",
+      "n": 3,
+      "m": 2,
+      "prompt": "The number after 3 is",
+      "sy_share": 0.4358974358974359,
+      "fires": 39
+    },
+    {
+      "template": "succ_b",
+      "n": 4,
+      "m": 2,
+      "prompt": "The number after 4 is",
+      "sy_share": 0.48717948717948717,
+      "fires": 39
+    },
+    {
+      "template": "succ_b",
+      "n": 5,
+      "m": 2,
+      "prompt": "The number after 5 is",
+      "sy_share": 0.39473684210526316,
+      "fires": 38
+    },
+    {
+      "template": "succ_b",
+      "n": 6,
+      "m": 2,
+      "prompt": "The number after 6 is",
+      "sy_share": 0.43243243243243246,
+      "fires": 37
+    },
+    {
+      "template": "succ_b",
+      "n": 7,
+      "m": 2,
+      "prompt": "The number after 7 is",
+      "sy_share": 0.4358974358974359,
+      "fires": 39
+    },
+    {
+      "template": "succ_b",
+      "n": 8,
+      "m": 2,
+      "prompt": "The number after 8 is",
+      "sy_share": 0.4444444444444444,
+      "fires": 36
+    },
+    {
+      "template": "succ_b",
+      "n": 9,
+      "m": 2,
+      "prompt": "The number after 9 is",
+      "sy_share": 0.45454545454545453,
+      "fires": 44
+    }
+  ],
+  "circ_items": [
+    {
+      "n": 1,
+      "base": "Monday",
+      "answer": "Tuesday",
+      "prompt": "1 days after Monday is",
+      "l50": 2.5
+    },
+    {
+      "n": 1,
+      "base": "Tuesday",
+      "answer": "Wednesday",
+      "prompt": "1 days after Tuesday is",
+      "l50": 1.5
+    },
+    {
+      "n": 1,
+      "base": "Wednesday",
+      "answer": "Thursday",
+      "prompt": "1 days after Wednesday is",
+      "l50": 0.0
+    },
+    {
+      "n": 1,
+      "base": "Thursday",
+      "answer": "Friday",
+      "prompt": "1 days after Thursday is",
+      "l50": 0.0
+    },
+    {
+      "n": 1,
+      "base": "Friday",
+      "answer": "Saturday",
+      "prompt": "1 days after Friday is",
+      "l50": 0.0
+    },
+    {
+      "n": 1,
+      "base": "Saturday",
+      "answer": "Sunday",
+      "prompt": "1 days after Saturday is",
+      "l50": 0.0
+    },
+    {
+      "n": 1,
+      "base": "Sunday",
+      "answer": "Monday",
+      "prompt": "1 days after Sunday is",
+      "l50": 0.38778912385240805
+    },
+    {
+      "n": 2,
+      "base": "Monday",
+      "answer": "Wednesday",
+      "prompt": "2 days after Monday is",
+      "l50": 1.5
+    },
+    {
+      "n": 2,
+      "base": "Tuesday",
+      "answer": "Thursday",
+      "prompt": "2 days after Tuesday is",
+      "l50": 2.5
+    },
+    {
+      "n": 2,
+      "base": "Wednesday",
+      "answer": "Friday",
+      "prompt": "2 days after Wednesday is",
+      "l50": 0.0
+    },
+    {
+      "n": 2,
+      "base": "Thursday",
+      "answer": "Saturday",
+      "prompt": "2 days after Thursday is",
+      "l50": 0.0
+    },
+    {
+      "n": 2,
+      "base": "Friday",
+      "answer": "Sunday",
+      "prompt": "2 days after Friday is",
+      "l50": 0.0
+    },
+    {
+      "n": 2,
+      "base": "Saturday",
+      "answer": "Monday",
+      "prompt": "2 days after Saturday is",
+      "l50": 2.3456205672626185
+    },
+    {
+      "n": 2,
+      "base": "Sunday",
+      "answer": "Tuesday",
+      "prompt": "2 days after Sunday is",
+      "l50": 38.33328583613278
+    },
+    {
+      "n": 3,
+      "base": "Monday",
+      "answer": "Thursday",
+      "prompt": "3 days after Monday is",
+      "l50": 2.5
+    },
+    {
+      "n": 3,
+      "base": "Tuesday",
+      "answer": "Friday",
+      "prompt": "3 days after Tuesday is",
+      "l50": 2.5
+    },
+    {
+      "n": 3,
+      "base": "Wednesday",
+      "answer": "Saturday",
+      "prompt": "3 days after Wednesday is",
+      "l50": 0.0
+    },
+    {
+      "n": 3,
+      "base": "Thursday",
+      "answer": "Sunday",
+      "prompt": "3 days after Thursday is",
+      "l50": 0.0
+    },
+    {
+      "n": 3,
+      "base": "Friday",
+      "answer": "Monday",
+      "prompt": "3 days after Friday is",
+      "l50": 0.0
+    },
+    {
+      "n": 3,
+      "base": "Saturday",
+      "answer": "Tuesday",
+      "prompt": "3 days after Saturday is",
+      "l50": 38.30276462958612
+    },
+    {
+      "n": 3,
+      "base": "Sunday",
+      "answer": "Wednesday",
+      "prompt": "3 days after Sunday is",
+      "l50": 38.42197870177941
+    },
+    {
+      "n": 4,
+      "base": "Monday",
+      "answer": "Friday",
+      "prompt": "4 days after Monday is",
+      "l50": 2.212593736093929
+    },
+    {
+      "n": 4,
+      "base": "Tuesday",
+      "answer": "Saturday",
+      "prompt": "4 days after Tuesday is",
+      "l50": 0.7862156431016013
+    },
+    {
+      "n": 4,
+      "base": "Wednesday",
+      "answer": "Sunday",
+      "prompt": "4 days after Wednesday is",
+      "l50": 0.0
+    },
+    {
+      "n": 4,
+      "base": "Thursday",
+      "answer": "Monday",
+      "prompt": "4 days after Thursday is",
+      "l50": 36.5
+    },
+    {
+      "n": 4,
+      "base": "Friday",
+      "answer": "Tuesday",
+      "prompt": "4 days after Friday is",
+      "l50": 38.43544834721055
+    },
+    {
+      "n": 4,
+      "base": "Saturday",
+      "answer": "Wednesday",
+      "prompt": "4 days after Saturday is",
+      "l50": 38.33572690647238
+    },
+    {
+      "n": 4,
+      "base": "Sunday",
+      "answer": "Thursday",
+      "prompt": "4 days after Sunday is",
+      "l50": 27.01346811732115
+    },
+    {
+      "n": 5,
+      "base": "Monday",
+      "answer": "Saturday",
+      "prompt": "5 days after Monday is",
+      "l50": 0.0
+    },
+    {
+      "n": 5,
+      "base": "Tuesday",
+      "answer": "Sunday",
+      "prompt": "5 days after Tuesday is",
+      "l50": 0.0
+    },
+    {
+      "n": 5,
+      "base": "Wednesday",
+      "answer": "Monday",
+      "prompt": "5 days after Wednesday is",
+      "l50": 0.5
+    },
+    {
+      "n": 5,
+      "base": "Thursday",
+      "answer": "Tuesday",
+      "prompt": "5 days after Thursday is",
+      "l50": 36.5
+    },
+    {
+      "n": 5,
+      "base": "Friday",
+      "answer": "Wednesday",
+      "prompt": "5 days after Friday is",
+      "l50": 38.441051538652516
+    },
+    {
+      "n": 5,
+      "base": "Saturday",
+      "answer": "Thursday",
+      "prompt": "5 days after Saturday is",
+      "l50": 38.18840191945422
+    },
+    {
+      "n": 5,
+      "base": "Sunday",
+      "answer": "Friday",
+      "prompt": "5 days after Sunday is",
+      "l50": 4.8092928089313025
+    },
+    {
+      "n": 6,
+      "base": "Monday",
+      "answer": "Sunday",
+      "prompt": "6 days after Monday is",
+      "l50": 0.0
+    },
+    {
+      "n": 6,
+      "base": "Tuesday",
+      "answer": "Monday",
+      "prompt": "6 days after Tuesday is",
+      "l50": 0.0
+    },
+    {
+      "n": 6,
+      "base": "Wednesday",
+      "answer": "Tuesday",
+      "prompt": "6 days after Wednesday is",
+      "l50": 0.5
+    },
+    {
+      "n": 6,
+      "base": "Thursday",
+      "answer": "Wednesday",
+      "prompt": "6 days after Thursday is",
+      "l50": 36.5
+    },
+    {
+      "n": 6,
+      "base": "Friday",
+      "answer": "Thursday",
+      "prompt": "6 days after Friday is",
+      "l50": 2.5
+    },
+    {
+      "n": 6,
+      "base": "Saturday",
+      "answer": "Friday",
+      "prompt": "6 days after Saturday is",
+      "l50": 6.328715613469706
+    },
+    {
+      "n": 6,
+      "base": "Sunday",
+      "answer": "Saturday",
+      "prompt": "6 days after Sunday is",
+      "l50": 2.0476398499924597
+    }
+  ],
+  "circle": {
+    "formed": true,
+    "circle_layer": 0,
+    "n_layers": 40,
+    "ordering_by_layer": {
+      "0": 1.0,
+      "1": 1.0,
+      "2": 0.429,
+      "3": 0.714,
+      "4": 0.714,
+      "5": 0.714,
+      "6": 0.714,
+      "7": 0.714,
+      "8": 1.0,
+      "9": 1.0,
+      "10": 1.0,
+      "11": 1.0,
+      "12": 1.0,
+      "13": 1.0,
+      "14": 1.0,
+      "15": 1.0,
+      "16": 1.0,
+      "17": 1.0,
+      "18": 1.0,
+      "19": 1.0,
+      "20": 1.0,
+      "21": 1.0,
+      "22": 1.0,
+      "23": 1.0,
+      "24": 1.0,
+      "25": 1.0,
+      "26": 1.0,
+      "27": 1.0,
+      "28": 1.0,
+      "29": 1.0,
+      "30": 1.0,
+      "31": 1.0,
+      "32": 1.0,
+      "33": 1.0,
+      "34": 1.0,
+      "35": 1.0,
+      "36": 1.0,
+      "37": 1.0,
+      "38": 1.0,
+      "39": 0.714
+    },
+    "sv_top2_share_by_layer": {
+      "0": 0.4097,
+      "1": 0.4455,
+      "2": 0.5724,
+      "3": 0.6491,
+      "4": 0.6236,
+      "5": 0.5941,
+      "6": 0.5848,
+      "7": 0.538,
+      "8": 0.5084,
+      "9": 0.5334,
+      "10": 0.5974,
+      "11": 0.5838,
+      "12": 0.5982,
+      "13": 0.5908,
+      "14": 0.6053,
+      "15": 0.6043,
+      "16": 0.6036,
+      "17": 0.6035,
+      "18": 0.5851,
+      "19": 0.5857,
+      "20": 0.5707,
+      "21": 0.5222,
+      "22": 0.5187,
+      "23": 0.5227,
+      "24": 0.5282,
+      "25": 0.526,
+      "26": 0.5735,
+      "27": 0.5409,
+      "28": 0.5389,
+      "29": 0.5299,
+      "30": 0.5302,
+      "31": 0.5188,
+      "32": 0.5191,
+      "33": 0.5205,
+      "34": 0.5192,
+      "35": 0.5091,
+      "36": 0.504,
+      "37": 0.5026,
+      "38": 0.4994,
+      "39": 0.5214
+    }
+  }
+}
