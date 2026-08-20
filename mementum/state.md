@@ -92,7 +92,14 @@
 > 'S K K b' computes; own-wrong-theory upstream → 'λy.a', cache overrides re-computation). Stage-2
 > repair-replay design essentially complete from play (seeds in queue row). Memory semantic-equality-is-
 > a-fallible-tape-authored-event. FOUR explorations, FOUR queued fronts fed in one afternoon — the driver
-> is the accelerator Michael predicted.**
+> is the accelerator Michael predicted.
+> SESSION CLOSE — MICHAEL'S SYNTHESIS: "THINKING IS GENERATING THE PROGRAM TAPE." The plainest thesis
+> statement the project has: ~2-4 step private budget (measured) → all longer thought MUST externalize;
+> generation IS the reasoning; the tape is homoiconic (data + program + THEORY, and the theory executes —
+> poisoned fork proof); each token = hard commit/sealed WHNF; no error channel → writes compound.
+> Corollaries: prompting ≡ programming · driver ≡ debugger for thought · monitorability by construction
+> (unmonitored window = the in-pass budget, a measured bound). Memory thinking-is-generating-the-
+> program-tape.**
 > **NEXT SESSION FIRST ACTION = orient → USE THE DRIVER: corpus design for §P-READ-HEAD arm A (engineer
 > shadowing/scope cases live, watch read-mass) + §P-CALCULUS-LEDGER arm C (hunt capture cases) in the live
 > session → THEN freeze both together (shared corpus, a-priori + planted worlds + Michael GO) → build the named
