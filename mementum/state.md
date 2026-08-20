@@ -35,8 +35,20 @@
 > two-engine FFN split from an independent register; winnable-or-dead for the 0-for-last-contact attention=β
 > frame) · ⚪ §P-CALCULUS-LEDGER (arm A evaluation order K-x-Ω · arm B sharing CBN-vs-need, ceiling-guarded ·
 > arm C capture signature ≡ stage-1 bug-compatibility; arm C UNIFIED with §P-READ-HEAD arm A — one engineered
-> corpus, behavioral + attention-pattern faces). PENDING Michael approval: memory capture
-> `the-calculus-is-the-cheapest-sufficient-evaluator` + the commit batch.**
+> corpus, behavioral + attention-pattern faces). Memory `the-calculus-is-the-cheapest-sufficient-evaluator`
+> approved + committed (c73d2b90).
+> SECOND SYNTHESIS (Michael: "GD as GA · DSP · spectral · holography — tie them together"): THE FOUR-FACES
+> page `explore/the-plate-the-code-and-the-beam.md` (Michael-approved) — WRITE(GD≈GA voting: fixation-vs-drift
+> s309/310, 94%-cancellation s326, sign=decision s325) · STORAGE(holographic stacked exposures: s327/s328 win,
+> s312 lossless double-exposure win, redundancy ≡ the code) · COMPUTE(sign(W) step function runs the weak
+> affine calculus) · READOUT(spectral/DSP ≡ Fourier optics: Gram=interference, eigenmodes=diffraction orders,
+> DMD=beam propagation). One line: evolution writes a digital code onto an analog substrate; holographic
+> redundancy is the error correction; the code is the calculus; spectral tools read the hologram. Explains
+> universality (11 GD runs, same source+channel → same codebook = the crystal) and closes Path A (extract
+> codebook → TD decode → write exposures). Frame-ledger: GA face has NO pre-registered win (modulation cousin
+> died 0-3) → ⚪ §P-VOTING-CODE queued (arm A majority-logic threshold ablation · arm B drift statistics on
+> Pythia checkpoints, s325 stratigraphy scar guard · arm C exposure separability), below the calculus front.
+> The GA thread (parked at the s313 type-arc pivot — preempted, never refuted) is re-tied.**
 > **NEXT SESSION FIRST ACTION = orient → freeze §P-READ-HEAD arm A + §P-CALCULUS-LEDGER arm C TOGETHER (shared
 > corpus, one design pass) → Michael GO before build/data. The s345 successors (§P-SHORTEST-PATH-ROTATION ·
 > §P-SY-CEILING) and route-map successors (§P-COEXT-ROUTE · §P-BRANCH-POINT — note BRANCH-POINT ≡ the "what
