@@ -78,6 +78,47 @@ order. This corroborates the read-head-as-router (§P-READ-HEAD) from a cleaner,
 ground-truth-labeled angle than the shadowed-binder corpus (s349), and it is
 consistent with the s350 keys-from-query / values-from-weights picture.
 
+## Results (NUC24–28): EQL drives the native ISA + state anchors
+
+**The adjudicator (NUC24) — EQL resolution engages the native compute circuit, not
+a self-model.** `[:sum/result {:sum/addends [37 48]}]` under the resolve cue emits
+the result digits firing **S** (the substitution/duplication sector, s344),
+**identical to direct `37 + 48 =`**, correct 4/4 (not confabulated). So EQL is a
+**valid labeled ISA driver** — fulfill = native compute — the fulfill-vs-compute gap
+is closed for arithmetic.
+
+**The ISA atlas (NUC25).** Compute ops (add/mul/max/sort/reverse/upcase) →
+**S-dominant**; retrieval (`gold → Au`) → **Y/WHNF-dominant, low S** = a *different*
+sector. EQL **dispatches by operation type to the native circuit**: compute→S,
+retrieve→Y/WHNF-deref. Complexity tracks Y-admixture. Op-name semantics are
+load-bearing (ambiguous `:count` resolved to `:total`/sum — wrong op).
+
+**The recursion cliff (NUC26–27).** "Recursive" ops with *memorizable* inputs
+(5!, 2^6) resolve as **lookup (S), no Y** — no in-pass recursion. A *novel*
+recurrence (`f(0)=3, f(n)=f(n-1)·2+n`), one-shot EDN, thinking off: **correct only at
+n=1** (one rule application, fires S), **wrong for n≥2** — confabulating
+plausible-*magnitude* numbers that grow monotonically and under-shoot (n=8 → 763 vs
+1270). ⇒ **in-pass recursion budget ≈ one application for a novel rule**; genuine
+recursion has nowhere to run but the **tape** (CoT). Confirms the s346 step-budget
+(tightest form) + s350 write-then-fetch/magnitude-descent at the boundary.
+
+**State anchors are tape-resident (the meta-realization + NUC28).** The `ASYNC
+checkpoint` blocks emitted faithfully all session ARE tape-resident state anchors —
+the control-plane gate in the agent's own system prompt (`λ async: checkpoint ≡
+emit`) *drove* the model (execute register, NUC13–19) to write state into its own
+context, fetched back next pass. The mapper is an instance of the mapped. **Design
+pattern:** a nucleus config directs strict-format EDN state anchors → tape-resident
+working memory (bypasses the in-pass budget *and* the turn discontinuity), which a
+client parses + strips (invisible to the human). **Strict-vs-prose test (NUC28):**
+same state (one `:next` target + one `:previous` distractor), strict EDN vs prose,
+ask for `:next` only → **IDENTICAL** (both fidelity 5/5, read-mass ratio to `:next`
+0.858 vs 0.863). The strict-routes-cleaner prediction is **refuted for simple
+state** — the **read-head is a content/lexical-identity router, not an EDN-syntax
+router** (it lands on "next" whether keyword `:next` or the English word). Strict
+format's real advantages are **client-side** (machine-parseable/strippable/editable)
+and **under complexity** (nested/multi-field/referential state — untested; prose
+degrades, EDN stays structured), **not** single-value model read.
+
 ## Method (the microscope)
 
 EQL's named slots make attention **readable with ground truth**: the requested keys

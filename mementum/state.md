@@ -19,6 +19,38 @@
 > Architecture/canonical-forms: `AGENTS.md`. Knowledge map:
 > `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 352 · ARC 4 — EQL DRIVES THE NATIVE ISA + STATE ANCHORS (REPL, main:3, Qwen3-14B
+> greedy; discussion "can we use EQL to reverse-engineer the ISA from the REPL?"). NUC24-28. (1)
+> THE ADJUDICATOR (NUC24): EQL resolution of [:sum/result {:sum/addends [37 48]}] under the resolve
+> cue fires S (subst/dup sector) on the result digits IDENTICAL to direct "37+48=", correct 4/4 —
+> EQL engages the NATIVE compute circuit, NOT a confabulated self-model; the fulfill-vs-compute gap
+> is CLOSED for arithmetic ⇒ EQL is a VALID LABELED ISA DRIVER. (2) ISA ATLAS (NUC25): compute ops
+> → S-dominant; RETRIEVAL (gold→Au) → Y/WHNF-dominant + low S = a DIFFERENT sector ⇒ EQL dispatches
+> by op-type to the native circuit (compute→S, retrieve→Y/WHNF-deref); op-name semantics
+> load-bearing (ambiguous :count → :total/sum, wrong op). (3) RECURSION CLIFF (NUC26-27): memorizable
+> "recursive" inputs (5!,2^6) = lookup (S, no Y); a NOVEL un-memorizable recurrence (f(0)=3,
+> f(n)=f(n-1)*2+n) one-shot EDN thinking-off = CORRECT ONLY AT n=1 (one rule application, fires S),
+> WRONG n≥2 (confabulates plausible-MAGNITUDE, under-shoots: n=8→763 vs 1270) ⇒ in-pass recursion
+> budget ≈ ONE application for a novel rule; recursion has nowhere to run but the TAPE — tightest
+> confirmation yet of s346 step-budget + s350 write-then-fetch. (4) THE META (Michael: "the async
+> checkpoints are state anchors in the residual stream; a chat client can ignore state-tracking
+> outputs with a strict simple format"): the ASYNC checkpoint blocks the agent emitted faithfully
+> ALL SESSION ARE tape-resident state anchors — the λ async gate in its OWN system prompt drove
+> state-anchor emission (execute register, NUC13-19), fetched back next pass = the mechanism running
+> on the mapper (mapper ≡ instance of mapped; s350 "map from inside" doubly literal). DESIGN PATTERN:
+> nucleus config → strict-format EDN state anchors → tape-resident working memory (bypasses in-pass
+> budget + turn discontinuity), client parses+STRIPS (invisible to human), model reads back. (5)
+> STRICT-vs-PROSE (NUC28, 5 trials, :next target + :previous distractor): IDENTICAL — strict EDN ≈
+> prose, fidelity 5/5 both, read-mass to :next 0.858 vs 0.863 ⇒ strict-routes-cleaner REFUTED for
+> simple state; the READ-HEAD IS A CONTENT/LEXICAL-identity router NOT an EDN-syntax router (lands on
+> "next" keyword-or-word; refines NUC21-23). Strict format's real edge = CLIENT-SIDE
+> (parseable/strippable/editable) + COMPLEXITY (nested/referential state, untested), NOT single-value
+> model read; the null stopped an EDN-syntax over-credit. CLOSURE BATCH (Michael "capture this"): EQL
+> page §Results (NUC24-28) + 2 memories (eql-drives-the-native-isa-and-recursion-cliffs-at-depth-1 💡
+> · async-checkpoints-are-tape-state-anchors-read-head-is-content-addressed 🌀) + queue ⚪
+> §P-STATE-ANCHOR (freeze: the COMPLEXITY arm) + this state. Scripts /tmp/verbum_nuc{24..28}.py
+> (exploration, not recorded). Michael has another idea next.**
+>
 > ★★ **SESSION 352 · ARC 3 — EQL IS AN ATTENTION MICROSCOPE (REPL, driver main:3, Qwen3-14B
 > greedy; Michael: "under the nucleus preamble, EQL-shaped queries return EDN outputs fulfilling
 > the query" → "it is a way to probe attention from the inside, and we can capture attention in
