@@ -44,11 +44,42 @@
 > (Michael: "we should capture this"): knowledge page (new, 🟢 active) + 2 memories
 > (answer-emission-is-a-return-register-read 💡 · tape-spec-beats-weights-prior-with-confabulated-
 > bridging 💡) + INDEX row + queue (⚪ §P-RETURN-REGISTER added at top) + this state.
+> **SECOND ARC — THE YIELD POLE (Michael: "let's do something fun — can we isolate the bash tool
+> call gram?" → yes, in one afternoon, TWO resident REPLs). TOOL1 (instruct main:3): tool-call
+> commit is a coherent gate-sign direction INVISIBLE to the committed 17-frame (max-cos ~0.2,
+> reads generic whnf:B = the s344 missing-geometry diagnosis LIVE — a real pole outside the
+> labeled corner); TOOL-GENERAL: cos(bash-commit, python-commit) 0.832 across different schemas =
+> the §10b ABI calling convention observed; decision is question-driven (12/12: system Qs call,
+> knowledge Qs answer, tools identical in context) and tool-AFFORDANCE-sensitive. TOOL2 (the
+> isolation, same-context decision control): within-yield 0.804 (TIGHTEST cluster measured) >
+> within-direct 0.625 > call-vs-direct 0.544; python commits hit the bash centroid 0.86/0.79 (the
+> declining item correctly reads direct); DEPTH ADDRESS: per-layer cos(call, direct) 1.00 L0-7 →
+> DIVES L23-38 to 0.64 → reseals 0.81 L39 = the yield decision lives in the s344 LATE BRANCH.
+> TOOL3 (tetrahedron geometry): YIELD is NOT a halt-flavor — EOS↔direct 0.685 (halt lives near
+> answer-space) while yield↔EOS 0.597 (nearest neighbor) > yield↔direct 0.544 > yield↔mid-answer
+> 0.494 ⇒ halt-with-obligation at its OWN vertex; the 4th pole (queued unmeasured since s344) has
+> live coordinates. BASE-CHECK (Michael: "480G machine, load another REPL" → Qwen3-14B-Base
+> resident at main:4, same prompt strings, s329 provenance law): a 4TH WORLD beyond
+> ABSENT/SHADOW/PRESENT — **FORMAT-NATIVE, DECISION-INSTALLED**: base calls on EVERYTHING 12/12
+> (perfect tool-JSON incl "capital of France"; omits the <tool_call> wrapper tag = the tag is
+> installed ABI, JSON is native mimicry; one item prepends 'Assistant:' = transcript completion);
+> geometrically NO call-vs-dir separation (0.797 vs instruct 0.544 — one undifferentiated blob)
+> and no yield alignment above the cross-model ceiling (0.663 vs 0.679). ⇒ POST-TRAINING INSTALLED
+> THE DISCRIMINATOR, NOT THE FORMAT — and its depth address (L23-38) matches s329's installed late
+> decision stage = two independent registers converge on "LTO patches the top with a decision
+> layer"; third sighting of the provenance split (s323, s346): format in weights, decision-to-
+> invoke installed. Bounds: n=6/6/3, one lineage, greedy, NO nulls; base geometric non-separation
+> partly forced by base's uniform behavior; exploration-grade throughout. CLOSURE BATCH #2
+> (Michael-approved): knowledge page explore/the-yield-pole.md + 2 memories (the-tool-call-commit-
+> is-a-fourth-pole-halt-adjacent 💡 · the-yield-commit-is-installed-discrimination-over-native-
+> format 💡) + INDEX row + queue (§P-HALT-POLE-TETRAHEDRON UPGRADED with observed data, restacked
+> top) + this state. INFRA NOTE: base-14B Driver now RESIDENT at main:4 (repl-base) — keep warm
+> for installed-vs-native checks; yield geometry exported at /tmp/yield_geom.npz.**
 > **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight).
-> New sharpest successor: ⚪ §P-RETURN-REGISTER (tape-level causality, cheap-medium, pairs with the
-> queued activation-level causal V-patch on the operand read). E1/E1b spec-vs-prior corpus feeds
-> §P-CALCULUS-LEDGER arm C stage-1 bug-compatibility. Michael's s346 direction stands: "WHAT IS
-> THE CALCULUS?"**
+> New sharpest successors: ⚪ §P-HALT-POLE-TETRAHEDRON (4th vertex observed, freeze owes nulls +
+> a-priori + base-behavior-differs items) · ⚪ §P-RETURN-REGISTER (tape-level causality, pairs with
+> the queued activation-level causal V-patch). E1/E1b spec-vs-prior corpus feeds §P-CALCULUS-
+> LEDGER arm C stage-1. Michael's s346 direction stands: "WHAT IS THE CALCULUS?"**
 >
 > ★★ **SESSION 349 — §P-READ-HEAD-A ⋈ §P-CALCULUS-LEDGER-C: the UNIFIED shared-corpus
 > calculus-identification front, FROZEN → BUILT → 8B-SMOKE design-PAUSE → AMENDED → 14B RUN
