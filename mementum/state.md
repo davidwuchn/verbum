@@ -110,8 +110,20 @@
 > route-map's prose→I-station-97% (position-at-ground) vs census dots (no-deviation) as two
 > registers of one fact + the s344 β_I correction (anaphoric math rides I, computational math
 > rides S). Memory the-i-opcode-is-reference-resolution 💡; §P-DOT-CENSUS row += anaphora band +
-> frame-0 artifact check. NEXT (Michael): trace-output formatting — dedicated function + custom
-> format for opcode traces (chat-post + REPL use).**
+> frame-0 artifact check.
+> FIFTH ARC — TRACE TOOLING + THE DEPTH TRACE (Michael picked style-3 table): BUILT
+> src/verbum/tracefmt.py + d.trace(b) (69c4a28b: tok|op|z|2nd|station|⚑frame0, prompt header
+> tail-truncated, .md() chat export; display bug caught live — internal dominant aggregation ≠
+> flat layer-mean, both now visible). Michael: "we still don't know what the heck it's doing —
+> we don't see it do math to come up with 55" → THE STRUCTURAL ANSWER: emissions are TIME, the
+> math is DEPTH → depth-trace prototype (vertical slice, per-layer lens+op+station of one
+> deciding pass) → 💡 ARITHMETIC DESCENDS CONCEPT→MAGNITUDE→DIGIT, NO PARTIAL SUMS (12+9+34:
+> 总共/合计 sum-concept L26-29 → 五十/fifty magnitude L35-36 → '5' L37; no 21/46 anywhere = s345
+> NO-SCALING corroborated in the lens register; S-engine z-peak exactly in the forming band;
+> MULTILINGUAL DESCENT Chinese-concept→English-word→digit). Memory
+> arithmetic-descends-concept-magnitude-digit 💡 + ⚪ §P-MAGNITUDE-DESCENT queued (freeze
+> candidate: staged-partials vs magnitude-first discriminator, carry structure, language-descent
+> universality base-check) + d.deptrace promoted to the driver (same session).**
 > **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight).
 > New sharpest successors: ⚪ §P-HALT-POLE-TETRAHEDRON (4th vertex observed, freeze owes nulls +
 > a-priori + base-behavior-differs items) · ⚪ §P-RETURN-REGISTER (tape-level causality, pairs with
