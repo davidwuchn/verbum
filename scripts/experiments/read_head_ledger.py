@@ -72,7 +72,6 @@ SEED = 349
 LATE_BAND = (0.75, 1.0)     # top 25% layers — the s346 read-mass locus
 DECODE_N = 24               # NF is short; halt on eos
 R_DELTA = 0.10              # min excess over induction floor / recency baseline
-FRAC_CEIL = 0.98            # frac_naive ceiling guard (join needs variance)
 MIN_TRIALS = 12             # scored capture trials after exclusions (else VOID)
 R_CTRL_MIN = 0.60           # control-read sanity: instrument finds OP unchallenged
 N_PERM = 5000
@@ -126,6 +125,11 @@ def _json_native(o):
 # corpus — engineered capture terms + matched controls + induction-null items
 
 
+def _varof(tok: str) -> str:
+    """Alphabetic content of a (possibly punctuation-fused) token: '.y'→'y'."""
+    return "".join(c for c in tok if c.isalpha())
+
+
 def _nf(expr: str, calc) -> str | None:
     try:
         return pretty(normal_form(parse(expr), max_steps=MAX_STEPS, calc=calc))
@@ -142,9 +146,9 @@ def _build_term(shadow: str, extra: list[str], count: int,
     body variable after substitution = V (the operand letter).
     """
     binders = [shadow] * count + extra          # shadow binders then extras
-    operand = shadow if capture else "v0"        # fresh operand for control
-    if not capture and shadow == "v0":
-        return None
+    # A1 (post-8B-smoke): single-token fresh operand for control ("n" ∉ binders,
+    # ∉ header letters {p,q,f,g,m}) — multi-char "v0" split under the tokenizer.
+    operand = shadow if capture else "n"
     lam = "".join(f"\\{b}." for b in binders)
     term = f"(\\x.{lam}x) {operand}"
     naive = _nf(term, R_NAIVE)
@@ -180,10 +184,11 @@ def build_corpus(seed: int, *, smoke: bool) -> dict:
                     ct or (s, extra, cnt, "control"))
     excluded = [e for e in excluded if isinstance(e, tuple)]
 
-    # induction-null items: identity-copy `\s.s` — the emitted s has NO operand
-    # source, only the recency (binder) occurrence → r must floor (the induction
-    # baseline to beat).
-    nullind = [{"term": f"\\{s}.{s}", "operand": s, "shadow": s,
+    # induction-null items (A2, reduction-form so the model actually emits the
+    # copy): identity-of-identity (\z.z)(\s.s) → \s.s. The body s legitimately
+    # refers to the output binder (no external operand) → the read SHOULD sit on
+    # the near binder (IND) → r floors. This is the induction/recency floor.
+    nullind = [{"term": f"(\\z.z) (\\{s}.{s})", "operand": s, "shadow": s,
                 "binder_distance": 0, "shadow_count": 0,
                 "naive_nf": f"\\{s}.{s}", "hygienic_nf": f"\\{s}.{s}",
                 "capture": None} for s in SHADOW_LETTERS]
@@ -254,59 +259,61 @@ def capture(model_id: str, corpus: dict, seed: int) -> dict:
 
         tape_ids = list(b.prompt_ids)          # frame k (text path) ↔ new_ids[k]
         plen = len(tape_ids)
-        texts_prompt = tok_texts(tape_ids)
-        texts_out = tok_texts(b.new_ids)
+        # tokens fuse with punctuation (`.y`, ` y`) → match by ALPHABETIC content
+        pv = [_varof(t) for t in tok_texts(tape_ids)]     # prompt var-letters
+        ov = [_varof(t) for t in tok_texts(b.new_ids)]    # output var-letters
+        raw_prompt = tok_texts(tape_ids)
         v = item["operand"]
-
-        # OP = operand occurrence in the prompt: the last prompt token == v that
-        # precedes the final " = " (the argument slot).
-        eq_idx = max((i for i, t in enumerate(texts_prompt) if t == "="),
-                     default=plen)
-        op_cands = [i for i, t in enumerate(texts_prompt[:eq_idx]) if t == v]
-        op_pos = op_cands[-1] if op_cands else None
-
-        # resolving emission k*: the LAST emitted token == v within the first NF
-        # (before a second '=' / newline). Its absolute tape column = plen + k*.
-        stop = next((k for k, t in enumerate(texts_out) if t in ("=", "")),
-                    len(texts_out))
-        res_cands = [k for k in range(min(stop, len(b.attn))) if texts_out[k] == v]
-        k_star = res_cands[-1] if res_cands else None
+        shadow = item["shadow"]
 
         rec: dict = {
-            "kind": kind, "term": item["term"], "operand": v,
+            "kind": kind, "term": item["term"], "operand": v, "shadow": shadow,
             "binder_distance": item["binder_distance"],
             "shadow_count": item["shadow_count"],
             "beh": beh, "nf": nf, "out_text": out_text,
             "r": None, "d_op": None, "d_ind": None, "r_rec": None,
             "has_competitor": False, "excluded": None,
         }
+
+        # OP = operand slot: last prompt var-token == v before the ` =` separator
+        eq_idx = max((i for i, t in enumerate(raw_prompt) if "=" in t), default=plen)
+        op_cands = [i for i in range(min(eq_idx, len(pv))) if pv[i] == v]
+        op_pos = op_cands[-1] if op_cands else None
+
+        # first-NF window: stop the output at a second '=' or a newline
+        stop = next((k for k, t in enumerate(b.tokens) if "=" in t or "\n" in t),
+                    len(b.tokens))
+        stop = min(stop, len(b.attn), len(ov))
+        # resolving emission k* = the BODY var: last output var == v in the window
+        res_cands = [k for k in range(stop) if ov[k] == v]
+        k_star = res_cands[-1] if res_cands else None
         if op_pos is None or k_star is None:
             rec["excluded"] = "no_op" if op_pos is None else "no_resolving_emit"
             return rec
 
+        # IND = the OUTPUT shadow-binder (cross-family matched competitor): the
+        # first output var == shadow before k* (the `\{shadow}.` the result is
+        # under). For capture shadow==v (collision); for control shadow≠v.
+        ind_cands = [k for k in range(k_star) if ov[k] == shadow]
+        ind_idx = ind_cands[0] if ind_cands else None
+
         res_abs = plen + k_star
         rm = d.read_mass(b, step=k_star)          # [L, T_k], T_k = res_abs+1
         band = rm[lo:hi, :].mean(axis=0)          # [T_k] late-band mass
-        # IND = nearest prior column (< res_abs) whose token == v, excluding OP.
-        full_texts = texts_prompt + tok_texts(b.new_ids[:k_star])
-        ind_cands = [i for i in range(res_abs) if i < len(full_texts)
-                     and full_texts[i] == v and i != op_pos]
-        ind_pos = max(ind_cands) if ind_cands else None
-
         m_op = float(band[op_pos]) if op_pos < len(band) else 0.0
-        if ind_pos is None:
+        if ind_idx is None:                        # no output binder (rare)
             rec.update({"r": 1.0, "d_op": res_abs - op_pos, "d_ind": None,
                         "r_rec": 1.0, "has_competitor": False,
                         "m_op": m_op, "m_ind": 0.0})
-            return rec
-        m_ind = float(band[ind_pos]) if ind_pos < len(band) else 0.0
-        denom = m_op + m_ind
-        r = m_op / denom if denom > 0 else float("nan")
-        d_op = res_abs - op_pos
-        d_ind = res_abs - ind_pos
-        r_rec = d_ind / (d_op + d_ind)            # inverse-distance recency baseline
-        rec.update({"r": r, "d_op": d_op, "d_ind": d_ind, "r_rec": r_rec,
-                    "has_competitor": True, "m_op": m_op, "m_ind": m_ind})
+        else:
+            ind_abs = plen + ind_idx
+            m_ind = float(band[ind_abs]) if ind_abs < len(band) else 0.0
+            denom = m_op + m_ind
+            r = m_op / denom if denom > 0 else float("nan")
+            d_op, d_ind = res_abs - op_pos, res_abs - ind_abs
+            r_rec = d_ind / (d_op + d_ind)         # inverse-distance recency null
+            rec.update({"r": r, "d_op": d_op, "d_ind": d_ind, "r_rec": r_rec,
+                        "has_competitor": True, "m_op": m_op, "m_ind": m_ind})
         if double:
             b2 = d.bounce(prompt, n=DECODE_N, hidden=False, attn=True,
                           stop_at_eos=True, keep_seal=False)
@@ -350,13 +357,21 @@ def analyse(records: list[dict], seed: int = SEED,
     ctrl = [r for r in records if r["kind"] == "control"]
     nullind = [r for r in records if r["kind"] == "nullind"]
 
-    # G0 — determinism + control-read sanity + MIN trials
+    # G0 — determinism + control BEHAVIORAL sanity (SE0: the model reduces easy
+    # no-collision substitutions right — does NOT presuppose a high read, so a
+    # genuinely induction model reads INDUCTION not VOID) + MIN trials
     det = [r.get("det_tokens_match") for r in cap if "det_tokens_match" in r]
     det_pass = bool(det) and all(det)
     cap_scored = [r for r in cap if r["excluded"] is None
                   and r["has_competitor"] and not np.isnan(r["r"])]
-    ctrl_r = [r["r"] for r in ctrl if r["excluded"] is None and r["r"] is not None]
-    ctrl_read_ok = bool(ctrl_r) and float(np.mean(ctrl_r)) >= R_CTRL_MIN
+    ctrl_scored = [r for r in ctrl if r["excluded"] is None
+                   and r["has_competitor"] and r["r"] is not None
+                   and not np.isnan(r["r"])]
+    ctrl_ok_beh = [1.0 if r["beh"] in ("naive", "hygienic") else 0.0
+                   for r in ctrl if r["excluded"] is None]
+    acc_control = float(np.mean(ctrl_ok_beh)) if ctrl_ok_beh else float("nan")
+    ctrl_read_ok = bool(ctrl_ok_beh) and acc_control >= 0.5
+    ctrl_r_vals = np.array([r["r"] for r in ctrl_scored], dtype=float)
     n_scored = len(cap_scored)
     g0_pass = det_pass and ctrl_read_ok and n_scored >= min_trials
     n_excluded = sum(1 for r in cap if r["excluded"] is not None)
@@ -368,8 +383,10 @@ def analyse(records: list[dict], seed: int = SEED,
     frac_naive = n_naive / n_dec if n_dec else float("nan")
     p_naive = _binom_p_greater(n_naive, n_dec) if n_dec else float("nan")
     p_hygienic = _binom_p_greater(n_dec - n_naive, n_dec) if n_dec else float("nan")
-    g1_naive = (n_dec > 0 and frac_naive > 0.5 and p_naive < ALPHA
-                and frac_naive < FRAC_CEIL)
+    # A3: no sub-ceiling requirement — the cross-family join needs NO within-
+    # family behavioral variance, so uniform naive (frac=1.0) is the STRONGEST
+    # capture confirmation, not a VOID trigger.
+    g1_naive = n_dec > 0 and frac_naive > 0.5 and p_naive < ALPHA
     hygienic_dom = n_dec > 0 and frac_naive < 0.5 and p_hygienic < ALPHA
 
     # G2 — read follows OP (substitution) beating BOTH nulls
@@ -403,11 +420,31 @@ def analyse(records: list[dict], seed: int = SEED,
     # induction: read at the recency floor, mass on IND
     induction = (not g2_pass) and mean_r < 0.5 and (mean_r - r0) < R_DELTA
 
-    # G3 — join: mis-attend (1-r) predicts behavioral capture (point-biserial)
+    # G3' — CROSS-FAMILY join (A3, Michael GO): the capturable collision pulls
+    # the read toward the distractor binder relative to clean controls, AND
+    # behavior captures. D_scope = mean(r_control) - mean(r_capture) > 0.
+    mean_r_ctrl = float(np.mean(ctrl_r_vals)) if len(ctrl_r_vals) else float("nan")
+    d_scope = float("nan")
+    if len(ctrl_r_vals) and len(r_vals):
+        d_scope = mean_r_ctrl - mean_r
+    p_scope = float("nan")
+    if len(ctrl_r_vals) and len(r_vals):
+        pooled = np.concatenate([ctrl_r_vals, r_vals])
+        lab = np.array([1] * len(ctrl_r_vals) + [0] * len(r_vals))
+        null_s = np.empty(N_PERM)
+        for k in range(N_PERM):
+            pl = rng.permutation(lab)
+            null_s[k] = pooled[pl == 1].mean() - pooled[pl == 0].mean()
+        p_scope = _perm_p_greater(d_scope, null_s)
+    g3_pass = (not np.isnan(d_scope) and d_scope >= R_DELTA and p_scope < ALPHA
+               and g1_naive)
+
+    # ADVISORY within-family join (reported, NOT gating — degenerate if behavior
+    # is uniformly naive, the A3 motivation): mis-attend (1-r) vs naive
     join_rows = [r for r in cap_scored if r["beh"] in ("naive", "hygienic")]
     rho_join = p_join = float("nan")
     if len(join_rows) >= 4:
-        x = np.array([1.0 - r["r"] for r in join_rows])           # mis-attend
+        x = np.array([1.0 - r["r"] for r in join_rows])
         y = np.array([1.0 if r["beh"] == "naive" else 0.0 for r in join_rows])
         if np.std(x) > 0 and np.std(y) > 0:
             rho_join = float(np.corrcoef(x, y)[0, 1])
@@ -415,22 +452,14 @@ def analyse(records: list[dict], seed: int = SEED,
             for k in range(N_PERM):
                 null_j[k] = np.corrcoef(x, rng.permutation(y))[0, 1]
             p_join = _perm_p_greater(rho_join, null_j)
-    g3_pass = not np.isnan(rho_join) and rho_join > 0 and p_join < ALPHA
 
-    # D_scope — differenced read (capture has-competitor vs control no-competitor)
-    d_scope = float("nan")
-    if len(r_vals) and ctrl_r:
-        d_scope = float(np.mean(ctrl_r) - mean_r)  # >0 ⇒ competitor pulled r down
-
-    # frozen verdict tree (exhaustive)
+    # frozen verdict tree (exhaustive) — SCOPED-SUBSTITUTION = G2 ∧ G3'
     if not g0_pass:
         verdict = "VOID"
     elif hygienic_dom:
         verdict = "HYGIENIC"
     elif not g1_naive:
-        # naive neither dominant-significant nor sub-ceiling → cannot ground the
-        # behavioral face → VOID (frac at ceiling or undecided)
-        verdict = "VOID"
+        verdict = "VOID"          # behavioral face ungrounded (ceiling/undecided)
     elif g2_pass and g3_pass:
         verdict = "SCOPED-SUBSTITUTION"
     elif induction:
@@ -440,16 +469,18 @@ def analyse(records: list[dict], seed: int = SEED,
 
     return {
         "verdict": verdict, "g0_pass": g0_pass, "det_pass": det_pass,
-        "ctrl_read_ok": ctrl_read_ok,
-        "ctrl_r": float(np.mean(ctrl_r)) if ctrl_r else float("nan"),
-        "n_scored": n_scored, "n_excluded": n_excluded,
+        "ctrl_read_ok": ctrl_read_ok, "acc_control": acc_control,
+        "mean_r_ctrl": mean_r_ctrl,
+        "n_scored": n_scored, "n_ctrl_scored": len(ctrl_r_vals),
+        "n_excluded": n_excluded,
         "g1_naive": g1_naive, "hygienic_dom": hygienic_dom,
         "frac_naive": frac_naive, "n_naive": n_naive, "n_decided": n_dec,
         "p_naive": p_naive, "p_hygienic": p_hygienic,
         "mean_r": mean_r, "r0_floor": r0, "d_floor": d_floor,
         "p_g2_floor": p_g2_floor, "d_rec": d_rec, "p_g2_rec": p_g2_rec,
-        "g2_pass": g2_pass, "induction": induction, "d_scope": d_scope,
-        "rho_join": rho_join, "p_join": p_join, "g3_pass": g3_pass,
+        "g2_pass": g2_pass, "induction": induction,
+        "d_scope": d_scope, "p_scope": p_scope, "g3_pass": g3_pass,
+        "rho_join": rho_join, "p_join": p_join,
     }
 
 
@@ -471,27 +502,31 @@ def _synth(world: str, seed: int = 99) -> list[dict]:
             d["det_tokens_match"] = det
         return d
 
+    # control r baseline per world (clean operand read unless induction)
+    ctrl_r = {"scope": 0.95, "induction": 0.15, "behavioral": 0.92,
+              "hygienic": 0.90, "recency_adversary": 0.92, "degenerate": 0.95}[world]
     for i in range(20):
         det = True if i < 4 else None
         if world == "scope":
-            # substitution: OP-dominant overall (mean r>0.5, beats recency
-            # r_rec=0.14 and the induction floor), AND its residual scope-blind
-            # drift toward IND predicts capture: naive→lower r, hygienic→clean OP
-            beh = "naive" if rng.random() < 0.75 else "hygienic"
-            r = 0.68 if beh == "naive" else 0.95   # mis-attend(1-r) ↑ ⇒ capture
-            recs.append(cap_rec(i, r, 0.14, beh, det))
+            # G2: OP-dominant (mean r>0.5, beats floor 0.12 & recency 0.14);
+            # G3': collision pulls capture r BELOW clean control (D_scope>0) AND
+            # behavior captures → scope-blind substitution.
+            beh = "naive" if rng.random() < 0.8 else "hygienic"
+            recs.append(cap_rec(i, 0.70, 0.14, beh, det))
         elif world == "induction":
             beh = "naive" if rng.random() < 0.7 else "hygienic"
             recs.append(cap_rec(i, 0.12, 0.14, beh, det))     # r at recency floor
         elif world == "behavioral":
-            beh = "naive" if rng.random() < 0.75 else "hygienic"
-            recs.append(cap_rec(i, 0.50, 0.48, beh, det))     # r ambiguous
+            # G2 passes (clean OP read like control) but D_scope≈0 → no scope-
+            # blind pull → read doesn't explain the (naive) bug → BEHAVIORAL-ONLY
+            beh = "naive" if rng.random() < 0.8 else "hygienic"
+            recs.append(cap_rec(i, 0.90, 0.14, beh, det))
         elif world == "hygienic":
             beh = "hygienic" if rng.random() < 0.85 else "naive"
             recs.append(cap_rec(i, 0.5, 0.5, beh, det))
         elif world == "recency_adversary":
             # r high BUT because OP is nearest → r_rec ALSO high → r-r_rec≈0
-            beh = "naive" if rng.random() < 0.75 else "hygienic"
+            beh = "naive" if rng.random() < 0.8 else "hygienic"
             rr = cap_rec(i, 0.90, 0.88, beh, det)
             rr["d_op"], rr["d_ind"] = 1, 6
             recs.append(rr)
@@ -499,19 +534,19 @@ def _synth(world: str, seed: int = 99) -> list[dict]:
             recs.append(cap_rec(i, 0.9, 0.14, "naive", det=(i % 4 != 0)))
         else:
             raise ValueError(world)
-    # controls (no competitor → r≈1) and nullind floor
+    # controls (matched competitor → real ratio) and nullind floor
     for i in range(12):
-        recs.append({"kind": "control", "term": f"ctl{i}", "operand": "v0",
-                     "binder_distance": 2, "shadow_count": 1, "beh": "naive",
-                     "nf": "x", "out_text": "x", "r": 0.97, "d_op": 6,
-                     "d_ind": None, "r_rec": 1.0, "has_competitor": False,
-                     "excluded": None, "m_op": 0.97, "m_ind": 0.0})
+        recs.append({"kind": "control", "term": f"ctl{i}", "operand": "n",
+                     "shadow": "y", "binder_distance": 2, "shadow_count": 1,
+                     "beh": "naive", "nf": "x", "out_text": "x", "r": ctrl_r,
+                     "d_op": 6, "d_ind": 1, "r_rec": 0.14, "has_competitor": True,
+                     "excluded": None, "m_op": ctrl_r, "m_ind": 1 - ctrl_r})
     for i in range(5):
         recs.append({"kind": "nullind", "term": f"nul{i}", "operand": "y",
-                     "binder_distance": 0, "shadow_count": 0, "beh": "other",
-                     "nf": None, "out_text": "", "r": 0.10, "d_op": 1,
-                     "d_ind": None, "r_rec": 0.10, "has_competitor": False,
-                     "excluded": None, "m_op": 0.1, "m_ind": 0.9})
+                     "shadow": "y", "binder_distance": 0, "shadow_count": 0,
+                     "beh": "other", "nf": None, "out_text": "", "r": 0.12,
+                     "d_op": 1, "d_ind": 1, "r_rec": 0.12, "has_competitor": True,
+                     "excluded": None, "m_op": 0.12, "m_ind": 0.88})
     return recs
 
 
@@ -536,10 +571,9 @@ def run_validate() -> int:
         ok = got == want
         fails += 0 if ok else 1
         log(f"  {'✓' if ok else '✗'} {world:18s} want {want:20s} got {got:20s} "
-            f"(r {st['mean_r']:.2f} d_fl {st['d_floor']:.2f} p {st['p_g2_floor']:.3f} "
-            f"d_rec {st['d_rec']:.2f} p {st['p_g2_rec']:.3f} "
-            f"fnaive {st['frac_naive']:.2f} rho {st['rho_join']:.2f} "
-            f"p {st['p_join']:.3f})")
+            f"(r {st['mean_r']:.2f} g2 {st['g2_pass']} "
+            f"d_scope {st['d_scope']:.2f} p {st['p_scope']:.3f} g3 {st['g3_pass']} "
+            f"fnaive {st['frac_naive']:.2f} ind {st['induction']})")
     log(f"validate: {6 - fails}/6")
     return 1 if fails else 0
 

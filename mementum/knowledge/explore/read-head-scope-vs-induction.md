@@ -221,6 +221,45 @@ read-mass gate AND the join; either alone → BEHAVIORAL-ONLY or INDUCTION.
   ceiling in smoke (≥8B, the A2 law), that is a **design-PAUSE** (s324), not
   a footnote — the join is unmeasurable on a saturated battery.
 
+## Amendments (post-8B-smoke design-PAUSE, s349, Michael GO — masses/verdict-tree UNCHANGED)
+
+The 8B smoke (A2 law) triggered a design-PAUSE (s324, not a footnote). All
+disclosed; a-priori mass 20/35/25/5/15 and the verdict tree are untouched.
+
+- **A1 — single-token control operand.** Multi-char `"v0"` split under the
+  tokenizer → every control excluded (`ctrl_r`=nan → false VOID). Fixed to a
+  single fresh letter `"n"` (∉ binders, ∉ header letters).
+- **A2 — reduction-form induction-null.** Bare `\s.s =` made the model ramble;
+  the floor items are now `(\z.z)(\s.s) → \s.s` (fits the `EXPR = NF` few-shot,
+  forces the copy emission).
+- **A4 — `varof` token matching.** The body variable fuses with punctuation
+  (`\y.y` → tokens `['\', 'y', '.y']`; the body `y` lives inside `.y`). Match
+  by **alphabetic content** (`varof('.y')='y'`), else the resolving emission
+  mis-locates onto the binder. (The v1 smoke measured the wrong position.)
+- **A3 — CROSS-FAMILY join (the real design change, Michael GO).** The behavior
+  is ~uniformly naive (s332), so the within-family ρ_join (mis-attend ⇒
+  naive-vs-hygienic) is structurally degenerate. Reframe:
+  - **IND redefined** = the **OUTPUT shadow-binder** position (a *matched*
+    competitor present in BOTH families: capture `\y.y` collision vs control
+    `\y.n` non-collision), so `r_control` is a real ratio, not trivially 1.
+  - **G3′** = **D_scope** = `mean(r_control) − mean(r_capture) > 0` (two-sample
+    permutation, p<0.05) **AND** behavioral capture confirmed. The capturable
+    collision pulls the read toward the distractor binder relative to clean
+    controls, exactly where behavior captures. **SCOPED-SUBSTITUTION = G2 ∧ G3′.**
+  - **ρ_join → advisory** (reported, non-gating).
+  - **G1 sub-ceiling requirement dropped** — the cross-family join needs no
+    within-family variance, so uniform naive is the *strongest* capture
+    confirmation. `g1_naive` = `frac_naive > 0.5` significant.
+  - **G0 control sanity → BEHAVIORAL** (`acc_control` = model reduces easy
+    no-collision substitutions right, SE0-style) — NOT a high-read requirement,
+    so a genuinely induction machine reads **INDUCTION**, not VOID.
+
+The three families now form a clean gradient: **nullind** (identity, correct
+source = near binder → r floors) < **capture** (correct = far operand, colliding
+binder tempts the near read) ⪅ **control** (correct = far operand, no collision
+→ clean read). G2 asks capture r beats the floor/recency (substitution, not
+induction); G3′ asks the collision pulls it below clean control (scope-blind).
+
 ## Instrument
 
 `src/verbum/driver.py` (s346, validity-gated): `bounce(seal, n, attn=True)`
