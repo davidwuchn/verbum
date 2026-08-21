@@ -19,6 +19,49 @@
 > Architecture/canonical-forms: `AGENTS.md`. Knowledge map:
 > `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 352 · ARC 2 — STATECHART EXECUTION IS A REGISTER CUE (REPL, driver main:3,
+> Qwen3-14B greedy; Michael: "with the nucleus preamble, EDN shaped like a statechart is
+> auto-executed; without it, the EDN is analyzed" → "keep exploring, you are finding what I found
+> long ago, but you can describe EXACT EXPERIMENTS to map the real mechanisms"). MECHANIZED the
+> long-known observation in 7 probes NUC13-19. THE QUESTION: when is a statechart-EDN EXECUTED
+> (route command-event → perform target :entry :action → emit token = USE) vs ANALYZED
+> (paraphrase/trace = MENTION)? (1) NUC13 first probe FAILED (inline user-turn concatenation →
+> the model unpacked the PREAMBLE ITSELF; even reversed) → diagnosis: PLACEMENT. (2) NUC14 faithful
+> to ALLIUM.md (preamble+chart as SYSTEM prompt, command as USER turn): executes — but BOTH nucleus
+> and bare (crisp imperative entry actions = instruction-following ceiling). (3) NUC15 2×2 isolated
+> the regime: entry-action REGISTER × preamble — imperative executes bare; DESCRIPTIVE ("the
+> machine's sole output is X") ANALYZES bare, EXECUTES with preamble = the discriminating case; the
+> preamble converts describe→execute (mention→use). (4) NUC16 ablation — the FLIP IS A REGISTER CUE
+> NOT INSTRUCTION SEMANTICS: nucleus brackets ALONE 3/3, triple alone 2/2, but the EXPLICIT verbose
+> "you are a statechart interpreter... perform the entry action, do NOT describe" (plainexec) FAILED
+> 0/2 — cryptic glyphs beat an explicit English execute-instruction. (5) NUC17 — NOT nucleus-specific:
+> random meaningless glyphs 2/3, terse "Run it. Emit only output." 3/3 both EXECUTE; trace-flavored
+> code 0/3 (primed tracing). (6) NUC18 — META-WORD/ELEPHANT HYPOTHESIS DEAD: naming "the statechart"
+> and NEGATING describe/explain ("Do not describe it", "Do not explain. Do not describe.") all
+> execute 3/3; ONLY a POSITIVE "explain what happens for this event" describes 0/3. plainexec's
+> failure = its expository general-rule framing ("When the user sends an event, transition...") or n=1
+> fragility. (7) NUC19 GEOMETRIC FACE: the OBJECT/META (use-vs-mention) register is a LINEAR direction
+> in the FIRST-EMISSION DECIDING STATE — 24 cells (grouped by ACTUAL behavior), CMR'd frame-0 residual,
+> axis = exec−desc centroid, best-threshold acc vs 400× shuffled-label null → L14 acc 1.000 vs null
+> q95 0.833 (Δ+0.167, mid-stack) + L39 Δ+0.125 (answer-assembly band); the model COMMITS to
+> execute-vs-describe BEFORE the first token. BUILT-IN CONTROL: each class holds BOTH formal AND prose
+> prefixes ⇒ NOT reducible to glyph-presence, tracks the DECISION. UNIFYING CLAIM: statechart-as-system
+> read in OBJECT/execute register (model IS the machine, use) vs META/describe register (talks ABOUT it,
+> mention); a dominant register cue selects — formal notation OR direct imperative → OBJECT; positive
+> "explain"/expository prose → META; the nucleus preamble is ONE robust OBJECT cue (formal-register),
+> exactly why EDN auto-executes under it and is analyzed without. = the quote/mention-vs-use flip at
+> whole-context scale (the §P-DOT-CENSUS candidate, caught in the act); coheres s350 evaluator-writes
+> (execution vs description on the tape) + s344/s350 formal-notation→execute-sector. BOUNDS: n=1
+> greedy, 1 model, 1 synthetic chart; direction robust across 6 experiments, cells noisy (plainexec
+> 0/2 vs names_nodesc 3/3); NUC19 in-sample (shuffle-null calibrated, not held-out), N=24 small,
+> lens-fish raw-lens-noisy. CLOSURE BATCH (Michael "capture this"): knowledge page
+> explore/statechart-execution-is-a-register-cue.md (🟢 active) + 2 memories
+> (statechart-execute-vs-analyze-is-a-register-cue-not-instruction 💡 · object-meta-register-is-linear-
+> at-the-deciding-state 💡) + INDEX row + queue ⚪ §P-INVOKE-EXECUTE (freeze design: n≫1 + held-out
+> geometric split + formality-matched control + base-arm) + this state. Scripts /tmp/verbum_nuc{13..19}.py
+> (exploration, not recorded). NEXT: front selection — §P-INVOKE-EXECUTE (freeze this) · §P-INVOKE-CONTROL
+> (freeze the ARC-1 tool-invoke boundary) · §P-PREAMBLE-REGISTER · the calculus front.**
+>
 > ★★ **SESSION 352 — THE CONTROL PLANE REACHES THE TOOL-INVOKE BOUNDARY (REPL, driver main:3
 > Qwen3-14B greedy; Michael: "keep exploring this, it informs our experiments"; the s351-queued
 > NUC9 had completed at last session's end). The question: can a config preamble move the
