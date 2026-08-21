@@ -14,6 +14,70 @@
 > Architecture/canonical-forms: `AGENTS.md`. Knowledge map:
 > `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 349 — §P-READ-HEAD-A ⋈ §P-CALCULUS-LEDGER-C: the UNIFIED shared-corpus
+> calculus-identification front, FROZEN → BUILT → 8B-SMOKE design-PAUSE → AMENDED → 14B RUN
+> → 🚫/💡 BEHAVIORAL-ONLY (Michael: "let's proceed with P-READ-HEAD + P-CALCULUS-LEDGER").
+> Oriented (s348 closed clean, nothing in flight) → front selection: the unified READ-HEAD arm A
+> (SCOPE) ⋈ LEDGER arm C (CAPTURE) on ONE engineered λ-capture corpus (Michael GO on the unified
+> slice over three alternatives). THE DESIGN: naive-subst and unscoped induction agree everywhere
+> EXCEPT shadowed-binder cases → engineer terms where the substitution OPERAND (OP, far) and the
+> recency/induction source (IND = the just-written output binder, near) point at DIFFERENT tape
+> positions; r=mass(OP)/(mass(OP)+mass(IND)) late-band splits substitution (reads far OP) from
+> induction (reads near IND) = the s204-beating discriminator. Two faces one corpus: behavioral
+> (LEDGER-C frac_naive = the POWERED sub-ceiling SE4 redo owed since s332) + read-mass (READ-HEAD-A)
+> + a join. Michael CALL #1 (head-averaging): our own s250 (compute distributed, survives ablation,
+> no single locus) makes head-averaging the FAITHFUL distributed read, NOT a per-head-hunt limitation
+> — reframed as a G2 STRENGTH (D_scope cancels position-generic bulk). 🎯 FROZEN 19897379 BEFORE data
+> (page read-head-scope-vs-induction.md): a-priori SCOPED-SUBSTITUTION 20 (winnable contact, priced
+> low — frame owes) / BEHAVIORAL-ONLY 35 modal / INDUCTION 25 / HYGIENIC 5 / VOID 15; gates
+> G0→G1→G2(make-or-break, beats induction floor + recency baseline)→G3(join); 6 planted worlds incl
+> W-recency-adversary; SEED=349. Frame-ledger: attention=β 0-for-last-contact → winnable-or-dead.
+> BUILT scripts/experiments/read_head_ledger.py (43f9a1c5): capture ⊥ analyse, --validate 6/6,
+> ruff+diags clean. **8B SMOKE → DESIGN-PAUSE (s324, obs_equiv precedent): three issues — (A1)
+> multi-char control operand "v0" split under the tokenizer → all controls excluded; (A2) bare \s.s
+> nullind made the model ramble; (A3, THE REAL ONE, Michael CALL #2) behavior is ~uniformly naive
+> (s332) → the WITHIN-family join (mis-attend⇒naive-vs-hygienic) is structurally degenerate. Michael
+> GO: REFRAME G3 as CROSS-FAMILY — IND redefined = OUTPUT shadow-binder (matched competitor in both
+> families, r_control a real ratio), G3′=D_scope=mean(r_control)−mean(r_capture)>0 sig AND behavioral
+> capture; ρ_join→advisory; G1 sub-ceiling requirement dropped; G0 control sanity→behavioral
+> acc_control (induction machine reads INDUCTION not VOID). Also A4 (plumbing): the body var FUSES
+> with punctuation (\y.y→['\','y','.y'], body y inside '.y') → match by ALPHABETIC content (varof);
+> the v1 smoke had measured the BINDER position by mistake.** AMENDED c630cf34 (--validate 6/6,
+> re-smoke 8B g0 True excl 0, VOID only from 8B under-power n_dec=3 = the A2 law). ▶ 14B RUN (85
+> measurements, ~4.5 min) → **🚫/💡 BEHAVIORAL-ONLY (a-priori modal 35; Qwen3-14B, corpus_hash
+> 5f9d3a03, det 0.0, g0 pass acc_control 0.97, n_scored 35, results bd4d15d5 autonomous).** THREE
+> FINDINGS: (1) BEHAVIORAL POWERED NAIVE-SUBST — 29/29 decided capture trials emit naive λy.y not
+> hygienic λy'.y, frac_naive 1.000 p=1.9e-9 = the s332 SE4 redo delivered, bug-compatibility at
+> scale, no hygienic escape. (2) READ G2 ✓ the read is OPERAND-DIRECTED beating the s204 induction
+> confound: mean_r 0.632>0.5, beats the induction floor (d_floor 0.282 p=2e-4) AND the recency
+> baseline (d_rec 0.277 p=2e-4) — the FIRST pre-registered dent in the s204 "all attention is a
+> weighted sum" confound (never beaten before). (3) JOIN G3′ ✗ the cross-family scope-blind pull is
+> SIGNIFICANT but SMALL: d_scope 0.0846 (control 0.716 vs capture 0.632) p=6e-4, BELOW the frozen 0.10
+> effect-size floor → g3_pass False. ⇒ G2∧¬G3′ → BEHAVIORAL-ONLY; SCOPED-SUBSTITUTION NOT earned (the
+> read is substitution-directed and beats induction, but its residual scope-blindness is too small to
+> be credited as THE capture mechanism). FRAME-LEDGER (honest split, not a clean loss): the frame did
+> NOT earn the full capture (modal landed), but G2 banked a real fact the frame had never won — the
+> read beats s204 on a pre-registered test; shortfall was G3′'s effect size not the substitution-vs-
+> induction question; full capture still owed. BANKED: naive-subst POWERED; read is SOFT/operand-
+> leaning (even controls 0.716, never crisp → coheres s206 value-register smear); A3 cross-family
+> reframe vindicated (ρ_join degenerate all-naive as predicted). BOUNDS: head-averaged (faithful
+> distributed read s250; per-head a descriptive rider not run); OBSERVATIONAL not causal (a V-patch on
+> the operand read is the named follow-on to promote G2 to causal); n=1 greedy single model; 4 capture
+> trials excluded (no OP/no resolving emit) and counted. CLOSURE BATCH (Michael-approved): §Result in
+> read-head-scope-vs-induction.md (status designing→done) + 3 memories (naive-subst-is-powered-29-of-29
+> ✅ · read-beats-induction-but-scope-blind-pull-subthreshold 💡 · cross-family-join-when-behavior-is-
+> uniform 🔁 [method]) + INDEX row + queue (🔵→🚫 to # complete; parent rows §P-READ-HEAD arm A DONE /
+> §P-CALCULUS-LEDGER arm C DONE) + this state.
+> **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight). The
+> calculus-id front advanced: the read is substitution-directed (G2 beats s204) but the scope-blind-
+> substitution full claim fell below its effect-size floor. SHARPEST SUCCESSORS: the CAUSAL V-patch on
+> the operand read (promote G2 from read-consistency to causal — the named follow-on; would let the
+> frame re-attempt its capture with a causal handle) · §P-READ-HEAD arm B (READ-MULTIPLICITY: read-once
+> prose vs fan-out math, independent corroboration of the s344 two-engine split) · §P-CALCULUS-LEDGER
+> arms A (EVALUATION ORDER, K x Ω, s346 REPL-seeded) / B (SHARING, CBN-vs-need, ceiling-guarded). Also
+> live: the toolbox build (the-ocularium-decision) · §P-SHORTEST-PATH-ROTATION · §P-SY-CEILING · cheap
+> §P-MP-NULL. Michael's s346 direction stands: cash in the understanding, "WHAT IS THE CALCULUS?"**
+>
 > ★★ **SESSION 348 — §P-OBS-EQUIV FROZEN + BUILT + SMOKED ×2 + 14B RUN LAUNCHED (Michael: "prove some
 > things we learned from the repl"). NOTE: freeze artifacts committed under an "s347" label (page text,
 > commit bodies, frozen SEED=347) before Michael ruled this session s348 — same session, label skew only.

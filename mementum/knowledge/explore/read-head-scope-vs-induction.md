@@ -1,6 +1,6 @@
 ---
 title: The read head — scoped substitution or induction copy? — §P-READ-HEAD-A ⋈ §P-CALCULUS-LEDGER-C
-status: designing
+status: done
 category: explore
 tags: [read-head, attention-as-beta-reduction, naive-subst, capture, induction-confound, scope, calculus-identification, repl-driver, frame-ledger]
 related:
