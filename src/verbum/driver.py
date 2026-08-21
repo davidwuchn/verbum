@@ -387,6 +387,15 @@ class Driver:
             raise ValueError("bounce captured no attention (attn=False)")
         return b.attn[step].astype(np.float32)
 
+    def trace(self, b: Bounce, z_thresh: float = 3.0):
+        """Style-3 multi-register trace table: op ⊕ station per emission.
+
+        print(d.trace(b)) for the table; d.trace(b).md() for chat export.
+        """
+        from verbum.tracefmt import build_trace
+
+        return build_trace(self, b, z_thresh)
+
     # -------------------------------------------------------------- opcodes
 
     def calibrate_opcodes(
