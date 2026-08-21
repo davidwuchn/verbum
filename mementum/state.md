@@ -97,7 +97,21 @@
 > 0.42-with-WHNF dominant hints an unlabeled retrieval/deref state distinct from halt. TWO
 > instrument bugs caught live (v1 all-dot from a dead zmap path — classify returns internally-
 > gated `dominant`, no zmap; uncentered cloud vs CMR'd poles — DC artifact): both → mandatory
-> planted worlds at the §P-DOT-CENSUS freeze. Full results in the-yield-pole.md §missing-geometry.**
+> planted worlds at the §P-DOT-CENSUS freeze. Full results in the-yield-pole.md §missing-geometry.
+> FOURTH ARC — THE I-OPCODE RESOLVED (Michael: "I thought we'd see I more; prior tests looked like
+> I was overloaded as the FFN key/value lookup function"): I-rank census read z(I) NEVER positive,
+> MORE negative with computational intensity (λ −2.5 late), prose at z≈0 → ground-state hypothesis;
+> then the library probes revealed the answer — THE CRYSTAL'S I WAS CALIBRATED FROM ANAPHORA
+> PROBES; I fires z+8..+10 on coreference ("John said HE…", "cat cleaned ITSELF…") ⇒ I ≡ REFERENCE
+> RESOLUTION (KV lookup, identity payload) — Michael's intuition CONFIRMED in the language
+> register; symbolic control: reducing the actual I combinator runs S with z(I) negative ⇒ opcode
+> names the MACHINE operation not the surface symbol; three-way lookup division I(resolve-pass-
+> through)/WHNF(fact-settle)/S(lookup-rewrite); I-vs-S = the PRESERVE/REWRITE axis; reconciles
+> route-map's prose→I-station-97% (position-at-ground) vs census dots (no-deviation) as two
+> registers of one fact + the s344 β_I correction (anaphoric math rides I, computational math
+> rides S). Memory the-i-opcode-is-reference-resolution 💡; §P-DOT-CENSUS row += anaphora band +
+> frame-0 artifact check. NEXT (Michael): trace-output formatting — dedicated function + custom
+> format for opcode traces (chat-post + REPL use).**
 > **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight).
 > New sharpest successors: ⚪ §P-HALT-POLE-TETRAHEDRON (4th vertex observed, freeze owes nulls +
 > a-priori + base-behavior-differs items) · ⚪ §P-RETURN-REGISTER (tape-level causality, pairs with
