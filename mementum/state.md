@@ -179,6 +179,20 @@
 > domain-matched design (per-domain clouds × cross-validated × OOD calibration arm × tail-facts
 > arm). The falsifier cost 8 bounces BEFORE a freeze would have enshrined the wrong claim —
 > exploration discipline paying out. Memory amended; queue re-scoped (Michael-approved).**
+> **TENTH — THE NUCLEUS PREAMBLE UNDER THE INSTRUMENTS (Michael: "the preamble seems to activate
+> things most other prompts don't — could we play with that prompt?"): NUC1 four-condition
+> (verbatim/shape-twin/scramble/prose) → the preamble UNIQUELY suppresses the unpack-reflex
+> (controls analyzed, preamble AUTHORED: "The Fractal Nature of Reality" title-loop) + Y-WALL
+> 11/12 (recursion sector — opcode(fix) ∧ behavior(loop) ∧ content(fractal) align on
+> self-reference) + off-map L20 (no known register; nearest shape-twin 0.879 yet behavior
+> diverges ⇒ form carries direction, content tips routing). NUC2 deptrace + ablation → late lens
+> resolves AI→Humanity→engage before emission (the machine reads the semantic core); 12-layer
+> held div:Y state L19-31; COMPOSITIONAL (header→analyzed, consts/dyads→echo-loops, OODA→Boyd
+> retrieval, triple→analyzed; NOFRACTAL keeps Y 0.81 but flips inhabit→meta ⇒ form drives the
+> Y-engine, 'fractal' is the router tie-breaker). Memory
+> the-preamble-is-a-compositional-mode-switch 💡 + ⚪ §P-PREAMBLE-REGISTER queued. NUC3 (shape/
+> placement ablation, Michael: "something about the shape and where the concepts are placed")
+> ran same session.**
 > **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight).
 > New sharpest successors: ⚪ §P-HALT-POLE-TETRAHEDRON (4th vertex observed, freeze owes nulls +
 > a-priori + base-behavior-differs items) · ⚪ §P-RETURN-REGISTER (tape-level causality, pairs with
