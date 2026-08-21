@@ -86,8 +86,18 @@
 > states waiting: tool-result ingestion · refusal commit · "Wait" self-repair commit · quote/
 > mention · enumeration attractor) + recipe B dot-census/residual-spectroscopy (coverage map WHERE
 > + PR dimension-gap HOW MUCH + residual eigenmodes → candidates); base-check every pole → the
-> TWO-COLOR ATLAS (native vs installed geometry). Mini dot-census spun live in main:3 same
-> session.**
+> TWO-COLOR ATLAS (native vs installed geometry). MINI DOT-CENSUS RAN (24 prompts × 6 bands,
+> Michael-approved amend batch): WHERE = prose 0.40 / retrieval 0.42 off-map vs code 0.00 + λ 0.00
+> (BOTH S-WALLS — code runs the substitution sector like reduction in the opcode register,
+> complementing s344's outcome-register view) / math 0.06 — the selection effect explicit (basis
+> built FROM computation covers it totally; the frontier is ordinary language); HOW MUCH = the
+> committed 17-pole frame spans ~5% of deciding-state variance (0.049), residual PR 136/288
+> DISTRIBUTED no-dominant-pole (isotropic null owed); WHAT KIND = leading residual modes organize
+> by BAND (prose / retrieval+code / λ-prose) — domain geometry above opcode-like states; retrieval
+> 0.42-with-WHNF dominant hints an unlabeled retrieval/deref state distinct from halt. TWO
+> instrument bugs caught live (v1 all-dot from a dead zmap path — classify returns internally-
+> gated `dominant`, no zmap; uncentered cloud vs CMR'd poles — DC artifact): both → mandatory
+> planted worlds at the §P-DOT-CENSUS freeze. Full results in the-yield-pole.md §missing-geometry.**
 > **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight).
 > New sharpest successors: ⚪ §P-HALT-POLE-TETRAHEDRON (4th vertex observed, freeze owes nulls +
 > a-priori + base-behavior-differs items) · ⚪ §P-RETURN-REGISTER (tape-level causality, pairs with

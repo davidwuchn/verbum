@@ -156,6 +156,51 @@ recipes (memory: `the-dots-are-the-survey-territory`):
 
 Queued as ⚪ §P-DOT-CENSUS (instrument-only, route-map-v0 precedent).
 
+### Mini census results (s350, live in main:3, exploration-grade)
+
+24 prompts × 6 bands × 12 tokens, deciding-state late-band sign frames.
+
+**WHERE (coverage map v2, dominant-based):**
+
+```
+band         dot-rate   dominant ops
+code         0.00       S ×44/48   <- wall-of-S, fully on-map
+lambda       0.00       S ×43/48
+math         0.06       WHNF, S
+structured   0.23       B, WHNF
+prose        0.40       C, B, Y    <- the frontier
+retrieval    0.42       WHNF       <- the frontier
+```
+
+The selection effect made explicit: the basis was built FROM computation
+and covers it totally; ordinary language and retrieval run ~40% off-map.
+Rider observation: CODE IS AN S-WALL in the opcode register (44/48) — code
+emission runs the substitution sector like λ-reduction does (complements
+s344 route-map where code rode B+WHNF in the 17 OUTCOME-pole register;
+different registers, two views of one band). Retrieval's 0.42-with-WHNF
+hints at an unlabeled retrieval/deref state distinct from halt.
+
+**HOW MUCH (centered, CMR-matched to the pole register):**
+
+```
+variance in 17-pole span : 0.049   <- the committed frame spans ~5%
+residual PR              : 136.4 / 288  (distributed, no dominant pole)
+top eigenvalue shares    : 3.4%, 2.6%, 2.2%
+```
+
+**WHAT KIND:** leading residual eigenmodes organize by BAND (mode 1 pure
+prose, mode 2 retrieval+code, mode 3 λ-continuation prose) — domain/
+register geometry sits above opcode-like states in the residual.
+
+**Instrument lessons (bugs caught live, both owed as planted worlds at
+freeze):** (1) v1 counted dots via a nonexistent `zmap` attribute on the
+classifier result (`classify` returns `dominant`/`per_layer`; `dominant`
+is internally null-gated) → all-dot 1.00 rates, VOID; caught only by
+contradiction with the In[80] optrace run. (2) v1 projected an UNCENTERED
+cloud onto CMR'd pole directions (register mismatch, λ measure) → DC
+eigenmode artifact. The freeze owes a planted known-pole world (λ frames
+must read high variance-explained) and a matched-isotropic null for PR.
+
 ## Feeds
 
 - **§P-HALT-POLE-TETRAHEDRON** (upgraded in queue s350): the 4th vertex now
