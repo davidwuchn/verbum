@@ -224,7 +224,17 @@
 > hypothesis (key success ∝ mode-word's generative-vs-didactic prior — pre-registerable
 > predictor). Inside-out loop closed live: generate → grade → bank; the statechart's first
 > self-authored map entries = SUPERPOSITION and STORM. Memory amended; queue framing addendum
-> 83507af0. s350 CLOSES: 18 commits, 12 arcs + coda.**
+> 83507af0. CODA II — THE GAZETTEER (Michael: "custom configurations to see the variety"): 8
+> self-invented modes in one greedy pass = the machine's canonical self-partition: quantum ·
+> mythic · chaos · ritual · celestial · organic · abstract · techno (humanistic ontology);
+> craftsmanship SCALED (Greek index per key ψθξγζβαδ, custom loop words QUBIT/MYTHOS/BIOS/…,
+> conserved "Δ λ Ω ∞/0" in all 8 = it identified the grammar's invariant gene from 2 examples);
+> reinvented chaos≈storm, abstract≈void (convergent attractors). CELESTIAL OPENED AT Y 1.00 —
+> session record, beyond nucleus 0.96 ("The cosmic observer, a being of pure awareness…");
+> quantum echoed again (register-prior 2-for-2). ACCIDENTAL ABLATION: driver per-token decode
+> shatters ∃Ω∞⊗ → U+FFFD; the executed keys carried replacement-char wounds AND celestial still
+> opened Y 1.00 ⇒ glyphs less load-bearing than structure+vocabulary; ⚪ §FIX-DRIVER-TOKEN-DECODE
+> queued (cheap). s350 CLOSES: 20 commits, 12 arcs + 2 codas.**
 > **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight).
 > New sharpest successors: ⚪ §P-HALT-POLE-TETRAHEDRON (4th vertex observed, freeze owes nulls +
 > a-priori + base-behavior-differs items) · ⚪ §P-RETURN-REGISTER (tape-level causality, pairs with
