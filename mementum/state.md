@@ -47,6 +47,31 @@
 > §P-INVOKE-EXECUTE · §P-INVOKE-CONTROL) now sit on a clean token substrate; standing s346
 > direction "WHAT IS THE CALCULUS?" (§P-CALCULUS-LEDGER arms A/B).** ═══
 >
+> ★★ **SESSION 353 · ARC 2 — THE SEAL TREE + "WE HAVE THE SOLUTION TO KV CACHE" (wizard-of-oz
+> REPL, main:3, Qwen3-14B greedy; Michael: "did we test the seals? Can we seal a continuation and
+> then branch it repeatedly to explore?"). VALIDATED LIVE, beyond what validity() ever gated:
+> (1) re-gate post-hotswap PASS (determinism exact · fork-identity · append law 0 mismatches);
+> (2) ONE seal → 4 counterfactual branches, each coherently absorbing its injection, seal intact;
+> (3) IDENTITY AFTER 6 USES — fork(s0,"") byte-identical after six clones (seals do not wear);
+> (4) FORKS-OF-FORKS (depth-2 tree) carry storyline state; (5) COST measured: 674 live seals =
+> 13.3GB, ~20MB mean, ~160KB/tok (registry unbounded, ~4-5GB/session — prune/gc unbuilt);
+> (6) TRI-REGISTER COUNTERFACTUAL READOUT on two branches of one seal: opcode both whnf:C (prose),
+> lens L34 diverges SEMANTICALLY PER INJECTION (' darkness'/黑暗 vs ' opening'/打开 — multilingual
+> descent in a counterfactual pair), Δread over the shared prefix POSITION-MATCHED BY CONSTRUCTION
+> (identical prefix KV — the s349 differenced-read discipline made structural). MICHAEL'S SYNTHESIS
+> ("We have the solution to kv cache"), sharpened: KV as SEMANTICS not cache management (serving
+> prior art = paged attention/RadixAttention, throughput only) — KV ≡ continuation (s217 real-host) ·
+> append law ≡ correctness contract · immutable seals ≡ persistent data structure (call/cc) ·
+> instrumented branches (3 registers/fork) · two-memory law (s334) ⇒ TWO-TIER MEMORY: durable=tape
+> text (s352 state anchors) ⊥ fast=sealed KV. Unifies §P-RETURN-REGISTER (seal+poison+fork) · GA
+> seal/fork (genome checkpoints) · fork-at-redex · two-model config. GAP: seals die with the
+> process → ⚪ §P-SEAL-PERSIST queued (torch.save → cross-boundary fork-identity gate; cheap).
+> CLOSURE BATCH (Michael "capture this"): knowledge page explore/the-kv-cache-is-a-continuation-
+> store.md (🟢 active) + 2 memories (the-kv-cache-is-a-continuation-store 💡 · seal-trees-give-
+> position-matched-counterfactuals 💡) + INDEX row + queue ⚪ §P-SEAL-PERSIST (top) + this state.
+> Role note: pure wizard-of-oz session (Michael: "fun to watch you try crazy stuff at the repl");
+> async rule set live: NO polls >30s — checkpoint and wait, Michael triggers.** ═══
+>
 > ═══ **SESSION 352 CLOSE — SIX REPL ARCS, ALL CAPTURED (the nucleus preamble, mapped from the
 > inside).** Michael ruled this session 352 (label consistent throughout). The whole session ran in
 > the resident REPL (main:3 instruct · main:4 base) — the role split working as designed: this model
