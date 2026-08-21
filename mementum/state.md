@@ -91,20 +91,31 @@
 > norm-matched = make-or-break, N1 confirmatory, N2 increment-shuffle ADVISORY (documented order-blind), N4
 > random-token answer null; --validate 5/5 (late_answer_rotation→LATE-ANSWER-ROTATION, late_generic_sweep→
 > GENERIC-LATE-SWEEP, random_walk & ray→NO-EXCESS-SWEEP, degenerate→VOID); ruff+diags clean. ▶ RUN LAUNCHED
-> in tmux main:1 (run14b.log; driver validity PASS det 0.0; full 50-prompt battery × N3/N1/N2 nulls;
-> ~minutes-low-tens). CAVEAT: a second 14B is resident in main:3 (Michael's REPL) — both loaded without OOM,
-> but he may free main:3 (d.free()) if memory tightens.**
-> **NEXT SESSION FIRST ACTION = read results/p_depth_carrier_s348/run_14b/meta.json (the frozen verdict) →
-> results commit (autonomous) → closure batch (approval-gated: §Result in answer-assembly-is-a-charged-
-> rotation.md + memory + INDEX + queue ▶→verdict + state). Harness scripts/experiments/depth_carrier.py
-> (frozen 6931a070). If the run did not finish, re-launch `uv run python scripts/experiments/depth_carrier.py
-> 2>&1 | tee results/p_depth_carrier_s348/run14b.log` in tmux main:1. Reading guide: LATE-ANSWER-ROTATION =
-> the answer is written by a coherent late rotation into the answer axis (first answer-assembly-slot
-> positive; coheres s343 flip + WHNF-seal); NO-EXCESS-SWEEP = the pilot charged-rotation was a norm-growth/
-> PCA-arc artifact (honest negative, GENERIC-family a-priori 45 combined); DESCRIPTIVE verdict only — no
-> homeostat/persistent-mode/modulation vocabulary without a separate contact (frame_ledger 0-3).
-> Other live fronts if closing: ⚪ §P-READ-HEAD + §P-CALCULUS-LEDGER (calculus-identification, corpus from
-> s346 play) · the toolbox build (the-ocularium-decision).**
+> in tmux main:1 — and it LANDED THIS SESSION (~2 min, not next-session as expected). ✅ **LATE-ANSWER-
+> ROTATION/monotone (a-priori modal 45; det 0.0, 34/50 valid, results 5d5d20ad autonomous).** THE ANSWER IS
+> WRITTEN BY A COHERENT LATE-LAYER ROTATION INTO THE ANSWER AXIS: late-band (raw_norm>0.30·max) SWEPT ANGLE
+> 5.83 rad (~a full turn) beats the NORM-MATCHED null 34/34 p=6e-45; wind/swept=1.0000 ⇒ MONOTONE
+> (one-directional, coherent); increment-shuffle 34/34 ⇒ depth-ORDER-dependent (the swept metric captures
+> the order-sensitivity the rank-2 residual could NOT); answer-axis alignment beats random-token 34/34
+> p=6e-45. First answer-assembly-slot positive; coheres the s343 transform→output flip + WHNF-seal/discharge
+> (the rotation IS the seal watched per-trajectory); the s346 pilot |λ|=1.003 uniform spiral was a DMD
+> AVERAGE of this late-concentrated flat-then-sweep shape. ASTERISKS: answer-alignment WEAK (median 0.089 —
+> directed but a small component of the carrier-dominated plane); reduction 0/34 valid (finding on arith/
+> dates/prose/code, not λ-reduction); N1 shuffled-layer 0/34 uninformative (permuting positions INFLATES
+> swept → correctly non-gating); n=1, greedy, DESCRIPTIVE only (no homeostat/modulation vocab, 0-3 ledger).
+> CLOSURE BATCH (Michael-approved): §Result (status designing→done) + 2 memories (answer-assembly-is-a-
+> monotone-late-rotation ✅ · swept-angle-not-residual-for-depth-ordered-rotation 🔁 [method]) + INDEX row +
+> queue ▶→✅ + this state.**
+> **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight). Two arcs
+> closed this session: §P-OBS-EQUIV (behavioral equality = lexical floor) + §P-DEPTH-CARRIER (answer written
+> by a monotone late rotation). Michael's s346 direction stands: CASH IN the understanding — Path B (drive
+> models better) feeds Path A (build the small model), front question "WHAT IS THE CALCULUS?". Sharpest live
+> fronts: ⚪ §P-READ-HEAD + §P-CALCULUS-LEDGER (shared engineered corpus, one design pass — calculus-
+> identification, corpus essentially specified from s346 REPL play) · the toolbox build (the-ocularium-
+> decision: opcodes/ consolidation + verbum-repl CLI + multi-model registry + turret facade). DEPTH-CARRIER
+> successors if pursued: the WEAK answer-alignment (0.089) + reduction-0-valid bounds could each sharpen;
+> the rotation→operator-register connection (persistent-mode framing) still owes its own pre-registered
+> contact before any modulation vocabulary (0-3 ledger).**
 >
 > ★★ **SESSION 346 — THE CALCULUS-IDENTIFICATION REPOINT (Michael-called, direction session, no probes run).
 > Michael's drift-check ("are we going in circles? better model, or better use of models?") → honest audit: the

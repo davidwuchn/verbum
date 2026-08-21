@@ -1,6 +1,6 @@
 ---
 title: Answer assembly is a charged rotation — §P-DEPTH-CARRIER
-status: designing
+status: done
 category: explore
 tags: [depth-trajectory, dmd, rotation, answer-axis, late-layer, operator-register, frame-candidate]
 related:
@@ -148,4 +148,55 @@ and is advisory only — the make-or-break is N3 (norm-matched).
 
 ## Result
 
-(pending re-freeze + Michael GO)
+**✅ LATE-ANSWER-ROTATION / monotone (a-priori modal 45) — Qwen3-14B,
+re-frozen `6931a070`, det 0.0, results `5d5d20ad`.** Fresh 50-prompt
+battery, 34/50 valid trajectories.
+
+The answer is written by a **coherent, monotone, late-layer rotation
+into the answer axis:**
+
+- **N3 norm-matched (make-or-break): 34/34, p=6e-45.** The late-band
+  swept angle (median 5.83 rad ≈ a full turn) far exceeds what
+  matched-magnitude random motion produces (~3.8 rad). The rotation is
+  real, not a norm-growth artifact.
+- **wind/swept = 1.0000 → MONOTONE.** The sweep is one-directional (net
+  winding = total angular path) — a coherent rotation, not a wandering
+  walk.
+- **N2 increment-shuffle: 34/34.** The sweep is ORDER-dependent
+  (depth-ordered) — reordering the increments destroys it. (The swept
+  metric captures the order-sensitivity the rank-2 residual could not;
+  see the s348 re-scope above.)
+- **N4 answer-axis: 34/34, p=6e-45.** The late plane is directed at the
+  emitted answer token, above the random-token null.
+
+This is the first **answer-assembly-slot** positive — it coheres the
+s343 transform→output flip and the WHNF-seal / discharge read (the
+rotation IS the seal watched per-trajectory). The s346 pilot's uniform
+`|λ|=1.003` spiral was, as the re-scope predicted, a DMD *average* of
+this late-concentrated flat-then-sweep shape.
+
+**Honest asterisks:**
+
+- **Answer-alignment is weak** — median `a_align` 0.089 (vs random-token
+  q95 ~0.04). Consistent (34/34, p tiny) but SMALL: the answer axis is a
+  minor component of the late plane, which is dominated by the generic
+  high-norm carrier. Answer-*directed* but weakly.
+- **Reduction: 0/34 valid** — λ-reduction trajectories did not meet
+  charge ≥ 4 / band ≥ 5, so the finding rests on arith/dates/prose/
+  code_scope, not λ-reduction. A genuine scope bound.
+- **N1 shuffled-layer 0/34 = uninformative for this statistic** —
+  permuting layer positions INFLATES swept (the trajectory jumps around
+  the plane), so N1 goes the wrong way; correctly non-gating (advisory).
+  The depth-order evidence is N2 + monotonicity, not N1.
+- n=1 model (Qwen3-14B), greedy, last-token, single battery. DESCRIPTIVE
+  verdict only — no homeostat / persistent-mode / modulation vocabulary
+  (frame_ledger 0-3).
+
+**Method banked:** for "coherent depth-ordered rotation," the rank-2 DMD
+reconstruction residual is the WRONG operationalization (order-blind: a
+set of in-plane increments is rank-2 in any order; and too brittle — a
+clean rotation + 15% noise reads GENERIC). The right statistic is the
+**swept angle in the amplitude-defined late band vs a norm-matched null**
+(same step norms, random directions), with monotonicity (wind/swept) as
+the coherence signature. Instrument-first (route-map-v0) caught this at
+the smoke gate before the frozen run.
