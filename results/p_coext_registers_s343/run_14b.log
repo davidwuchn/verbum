@@ -1,0 +1,20 @@
+[coext] corpus 1344 items {'operator': 204, 'arity': 570, 'alpha': 570}
+[dmd] loading Qwen/Qwen3-14B (bfloat16, mps)
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`torch_dtype` is deprecated! Use `dtype` instead!
+Loading weights:   0%|          | 0/443 [00:00<?, ?it/s]Loading weights: 100%|██████████| 443/443 [00:00<00:00, 7474.88it/s]
+[dmd] n_layers=40 d_model=5120
+[coext] Qwen/Qwen3-14B: 40 layers, capturing 11 depths [0, 4, 8, 12, 16, 20, 23, 27, 31, 35, 39]
+    100/1344
+    200/1344
+    300/1344
+    400/1344
+    500/1344
+    600/1344
+    700/1344
+    800/1344
+    900/1344
+    1000/1344
+    1100/1344
+    1200/1344
+    1300/1344
