@@ -1,49 +1,47 @@
 #!/usr/bin/env python3
-"""§P-DEPTH-CARRIER — is answer assembly a charged rotation? (s348).
+"""§P-DEPTH-CARRIER — is answer assembly a late-layer rotation? (s348, re-scoped).
 
 FROZEN DESIGN: mementum/knowledge/explore/answer-assembly-is-a-charged-rotation.md
-(committed c953705d BEFORE data, Michael GO).
+(re-frozen s348 BEFORE data, Michael GO).
 
 The s346 REPL pilot saw the DECIDING state's DEPTH trajectory (residual stream
-of the state that emits the answer token, layer 0 -> L) as a coherent spiral in
-a 2-plane: CHARGES geometrically while PRECESSING then DISCHARGES at the final
-layer. Charging is mundane (norm grows with depth in every transformer). THE
-CLAIM UNDER TEST is the coherent, answer-aligned ROTATION — not the charge.
+of the state that emits the answer token, layer 0 -> L) as a coherent spiral.
+The s348 instrument-first look (resident 14B driver) re-scoped it: the rotation
+is NOT a uniform per-layer precession -- it is LATE-CONCENTRATED (flat phase
+early, then a ~full-turn sweep in the last ~10 layers as amplitude explodes =
+the answer-assembly / discharge region). The rank-2 residual metric was
+order-blind and too brittle; the clean discriminator is the SWEPT ANGLE in the
+late band vs a NORM-MATCHED null.
 
-Object: per prompt, H = driver.bounce(prompt).hidden[k] in R^{(L+1) x d}, where
-k = the frame that emits the first answer content token. Battery = task types
-(reduction / dates / arith / code_scope / prose), each with one answer token.
+Object: per prompt, H = driver.bounce(prompt).hidden[k] in R^{(L+1) x d}, k =
+the frame emitting the first answer content token. Battery = 5 task types.
 
-Plane (pre-registered, DMD-first): DC-center H; leading complex-conjugate DMD
-eigenpair (|phase| > 5 deg) -> plane = span{Re(v), Im(v)}; SVD-fallback (top-2
-right singular vectors) if DC-dominated (flagged plane=svd).
+Late band: layers from first l>=4 with raw_norm > 0.30*max(raw_norm) to the
+last layer (>= 5 layers). Plane = top-2 SVD of the DC-centered band. swept =
+sum|dtheta|, wind = |sum dtheta| (monotone rotation => swept ~ wind), a_align =
+plane-vs-answer-token unembedding cosine.
 
-Rotation metric ROT = |mean_rate| * planarity over the charging band — high ONLY
-for consistent-rate rotation in a genuinely 2D plane (a norm-growth RAY has
-planarity ~0; incoherent drift has mean_rate ~0). Separated from R (concentration)
-and rho (rate, deg/layer), reported as descriptors.
-
-Nulls (re-extract the plane each draw): N1 shuffled-layer, N2 increment-shuffle,
-N3 NORM-MATCHED RANDOM-PLANE (make-or-break for GENERIC: same per-layer step
-norms, isotropic-random directions). N4 answer-axis = random-token unembedding
-cosines.
+Nulls (band fixed at real [lo,hi], content randomized): N3 NORM-MATCHED (same
+per-layer step NORMS, isotropic-random DIRECTIONS -- the make-or-break); N1
+shuffled-layer (confirmatory); N2 increment-shuffle (advisory, order-blind for
+a low-dim subspace); N4 random-token answer-axis.
 
 FROZEN verdict tree + a-priori mass:
-  CHARGED-ROTATION          35  G1 (ROT beats N1,N2,N3) AND G2 (answer-aligned)
-  GENERIC-NORM-GROWTH-ONLY  30  G1 fail (rotation is a norm-growth artifact)
-  MIXED                     25  G1 pass, G2 fail (coherent rotation, generic plane)
-  VOID                      10  G0 fail (no determinism / no charge / no plane)
+  LATE-ANSWER-ROTATION  45  swept beats N3 AND plane answer-aligned (G1 & G2)
+  GENERIC-LATE-SWEEP    25  swept beats N3 but NOT answer-aligned (G1 & !G2)
+  NO-EXCESS-SWEEP       20  swept <= norm-matched (G1 fail; pilot spiral was a
+                            norm-growth / PCA-arc artifact)
+  VOID                  10  G0 fail (no determinism / no charge / short band)
 
-Discipline: CHARGED-ROTATION is a DESCRIPTIVE geometric verdict — it does NOT
+Discipline: a positive verdict is a DESCRIPTIVE geometric fact -- it does NOT
 license homeostat / persistent-mode / modulation vocabulary (frame_ledger 0-3,
-s326); |lambda|~1 is a DMD-average of charge(>1) x discharge(<1), not a
-persistent mode (s340 persist_frac 0.0). Capture-euphoria guard: the s346 pilot
-FEEDS this design, it is NOT evidence in this ledger.
+s326). Capture-euphoria guard: the s346/s348 REPL looks FEED this design, they
+are NOT evidence in this ledger.
 
 `--validate` drives 5 planted worlds through the REAL analyse path.
 
 Bounds: n=1 model (Qwen3-14B), greedy, last-token deciding state, today's
-battery. One-directional (GENERIC/MIXED are the informative kills).
+battery. One-directional (NO-EXCESS-SWEEP / GENERIC are the informative kills).
 
 License: MIT.
 """
@@ -65,23 +63,22 @@ _SCRIPT_DIR = Path(__file__).resolve().parent
 _ROOT = _SCRIPT_DIR.parents[1]
 sys.path.insert(0, str(_ROOT / "src"))
 
-from verbum.operator_dmd import reduced_dmd  # noqa: E402
-
 # ---------------------------------------------------------------------------
-# FROZEN CONSTANTS (s348 pre-data freeze c953705d)
+# FROZEN CONSTANTS (s348 re-freeze)
 
 SEED = 348
-PHASE_MIN_RAD = np.deg2rad(5.0)   # DMD pair selection threshold
-BAND_LO = 4                       # skip embedding + early warmup layers
-CHARGE_MIN = 4.0                  # amplitude must grow >= 4x over band (validity)
-BAND_MIN = 3                      # minimum band length (layers)
-N_PERM_PLANE = 200                # trajectory nulls (re-extract plane each draw)
-N_PERM = 2000                     # answer-axis + label nulls
-N_RAND_TOK = 512                  # random-token unembedding rows for N4
+LATE_FRAC = 0.30          # late band lower edge = 0.30 * max(raw_norm)
+LATE_MIN = 5              # minimum late-band layers (else pid invalid)
+BAND_LO_MIN = 4           # never start the band before layer 4 (skip warmup)
+CHARGE_MIN = 4.0          # raw-norm growth over the trajectory (validity)
+N_PERM_PLANE = 200        # trajectory nulls (band content randomized each draw)
+N_PERM = 2000             # answer-axis / label nulls
+N_RAND_TOK = 512          # random-token unembedding rows for N4
 MIN_PER_TASK = 4
 MIN_TOTAL = 20
+MONO_THRESH = 0.8         # wind/swept qualifier (one-directional)
 ALPHA = 0.05
-DECODE_N = 8                      # tokens to decode (answer token is early)
+DECODE_N = 8              # tokens to decode (answer token is early)
 EPS = 1e-9
 
 TASKS: dict[str, list[tuple[str, str]]] = {
@@ -180,127 +177,82 @@ def binom_sf(k: int, n: int, p: float) -> float:
 
 
 # ---------------------------------------------------------------------------
-# geometry (the analyse core — planted worlds drive this same code)
+# geometry (the analyse core -- planted worlds drive this same code)
 
 
-def _orthonormal2(v0: np.ndarray, v1: np.ndarray) -> np.ndarray | None:
-    a = v0.astype(np.float64)
-    na = np.linalg.norm(a)
-    if na < EPS:
-        return None
-    a = a / na
-    b = v1.astype(np.float64) - (v1 @ a) * a
-    nb = np.linalg.norm(b)
-    if nb < EPS:
-        return None
-    return np.stack([a, b / nb])  # (2, d)
+def late_band(H: np.ndarray) -> tuple[int, int]:
+    """[lo, hi] = the answer-assembly region: raw_norm > LATE_FRAC * max."""
+    rn = np.linalg.norm(H, axis=1)
+    above = np.where(rn > LATE_FRAC * rn.max())[0]
+    lo = int(above[0]) if above.size else 0
+    lo = max(lo, BAND_LO_MIN)
+    return lo, H.shape[0] - 1
 
 
-def extract_rotation(H: np.ndarray, rank: int = 2):
-    """Fit a rank-2 DMD to the DC-centered depth trajectory.
-
-    Returns (B, mode, phase_rad, resid_r2, has_pair):
-      - a clean rotation-with-growth IS a rank-2 linear operator h(l+1)=A h(l)
-        with a COMPLEX eigenpair (|lambda| = charge, angle = precession rate)
-        and LOW reconstruction residual;
-      - a norm-growth RAY has a REAL leading eigenpair (no rotation);
-      - a random walk is full-rank -> HIGH rank-2 residual.
-    B spans the rotation plane (complex-pair) or the SVD-fallback top-2.
-    """
-    Hc = H.astype(np.float64) - H.astype(np.float64).mean(0)
-    dd = reduced_dmd(Hc[:-1].T, Hc[1:].T, rank)
-    resid = float(dd["rel_resid"])
-    At, Ur = dd["A_tilde"], dd["Ur"]
-    B, phase, has_pair = None, 0.0, False
-    if At.shape[0] >= 2:
-        evals, evecs = np.linalg.eig(At)
-        i = int(np.argmax(np.abs(evals.imag)))
-        ph = abs(float(np.angle(evals[i])))
-        if np.abs(evals[i].imag) > 1e-9 and ph > PHASE_MIN_RAD:
-            v = Ur @ evecs[:, i]  # complex (d,)
-            B = _orthonormal2(np.real(v), np.imag(v))
-            if B is not None:
-                phase = ph
-                has_pair = True
-    if B is None:  # SVD-fallback plane for descriptors (no rotation pair)
-        try:
-            _, _, Vt = np.linalg.svd(Hc, full_matrices=False)
-        except np.linalg.LinAlgError:
-            return None, "fail", 0.0, 1.0, False
-        if Vt.shape[0] < 2:
-            return None, "fail", 0.0, 1.0, False
-        B = Vt[:2]
-    return B, ("dmd" if has_pair else "svd"), phase, resid, has_pair
+def band_swept(seg: np.ndarray) -> tuple[np.ndarray, float, float, float]:
+    """Top-2 SVD plane of the DC-centered segment; swept + net winding + planarity."""
+    segc = seg - seg.mean(0)
+    try:
+        _, _, Vt = np.linalg.svd(segc, full_matrices=False)
+    except np.linalg.LinAlgError:
+        return np.zeros((2, seg.shape[1])), 0.0, 0.0, 0.0
+    if Vt.shape[0] < 2:
+        return np.zeros((2, seg.shape[1])), 0.0, 0.0, 0.0
+    B = Vt[:2]
+    c = segc @ B.T
+    theta = np.arctan2(c[:, 1], c[:, 0])
+    dth = (np.diff(theta) + np.pi) % (2 * np.pi) - np.pi
+    swept = float(np.sum(np.abs(dth)))
+    wind = float(abs(np.sum(dth)))
+    sx, sy = float(np.std(c[:, 0])), float(np.std(c[:, 1]))
+    planar = float(min(sx, sy) / (max(sx, sy) + EPS))
+    return B, swept, wind, planar
 
 
-def rotation_metrics(H: np.ndarray, B: np.ndarray, phase: float, resid: float,
-                     has_pair: bool) -> dict:
-    """Validity (charge) + descriptors; the primary rotation stat is `resid`.
-
-    resid = rank-2 DMD reconstruction residual (LOWER = more rotation-structured);
-    has_pair = the leading eigenpair is complex with |phase| > PHASE_MIN (a
-    rotation, not a real-growth ray). ROT is a logged descriptor only.
-    """
+def late_metrics(H: np.ndarray) -> dict:
     Hf = H.astype(np.float64)
-    raw_norm = np.linalg.norm(Hf, axis=1)
-    Hc = Hf - Hf.mean(0)
-    coords = Hc @ B.T  # (T, 2)
-    a = np.linalg.norm(coords, axis=1)
-    T = coords.shape[0]
-    start, end = BAND_LO, T - 2  # exclude the final-layer discharge transition
-    band_len = end - start
-    charge = float(raw_norm[end] / (raw_norm[start] + EPS))  # RAW norm growth
-    discharge = float(a[-1] / (a[-2] + EPS))
-    if band_len < BAND_MIN or a.max() < EPS or charge < CHARGE_MIN:
-        return {"valid": False, "reason": "no-charge", "ROT": 0.0, "R": 0.0,
-                "rho_deg": float(np.rad2deg(phase)), "planarity": 0.0,
-                "resid": resid, "has_pair": bool(has_pair), "charge": charge,
-                "discharge": discharge, "band_len": max(band_len, 0)}
-    xb, yb = coords[start:end + 1, 0], coords[start:end + 1, 1]
-    sx, sy = float(np.std(xb)), float(np.std(yb))
-    planarity = float(min(sx, sy) / (max(sx, sy) + EPS))
-    R = 1.0 - resid  # rank-2 reconstruction quality (descriptor)
-    ROT = R * phase * planarity
-    return {"valid": True, "reason": "ok", "ROT": ROT, "R": R,
-            "rho_deg": float(np.rad2deg(phase)), "planarity": planarity,
-            "resid": resid, "has_pair": bool(has_pair), "charge": charge,
-            "discharge": discharge, "band_len": band_len}
+    rn = np.linalg.norm(Hf, axis=1)
+    lo, hi = late_band(Hf)
+    band_len = hi - lo + 1
+    charge = float(rn[hi] / (rn[BAND_LO_MIN] + EPS))  # whole-trajectory growth
+    if band_len < LATE_MIN or charge < CHARGE_MIN or rn.max() < EPS:
+        return {"valid": False, "reason": "no-charge-or-short", "lo": lo, "hi": hi,
+                "swept": 0.0, "wind": 0.0, "planar": 0.0, "charge": charge,
+                "band_len": band_len, "B": None}
+    B, swept, wind, planar = band_swept(Hf[lo:hi + 1])
+    return {"valid": True, "reason": "ok", "lo": lo, "hi": hi, "swept": swept,
+            "wind": wind, "planar": planar, "charge": charge,
+            "band_len": band_len, "B": B}
 
 
-def answer_align(B: np.ndarray, u_ans: np.ndarray) -> tuple[float, int]:
-    u = u_ans.astype(np.float64)
+def align(B: np.ndarray, u: np.ndarray) -> float:
     nu = np.linalg.norm(u)
-    if nu < EPS:
-        return 0.0, 0
-    cos = np.abs(B @ u) / (np.linalg.norm(B, axis=1) * nu)
-    return float(cos.max()), int(np.argmax(cos))
+    if nu < EPS or B is None:
+        return 0.0
+    return float(np.max(np.abs(B @ u) / (np.linalg.norm(B, axis=1) * nu + EPS)))
 
 
-def _resid_null(H: np.ndarray, kind: str, n_perm: int, rng) -> np.ndarray:
-    """rank-2 DMD residual distribution under a trajectory null.
-
-    A pid's rotation is real iff it reconstructs BETTER (lower residual) than
-    these matched nulls. norm_matched is the make-or-break: same per-layer step
-    NORMS, isotropic-random DIRECTIONS (a random walk is full-rank -> high resid).
-    """
+def _swept_null(H: np.ndarray, kind: str, lo: int, hi: int, n_perm: int,
+                rng) -> np.ndarray:
+    """swept distribution with the band fixed at [lo,hi], content randomized."""
     H = H.astype(np.float64)
     incs = np.diff(H, axis=0)
     norms = np.linalg.norm(incs, axis=1)
-    out = np.full(n_perm, 1.0)
+    out = np.zeros(n_perm)
     for k in range(n_perm):
-        if kind == "shuffled_layer":
+        if kind == "norm_matched":
+            dirs = rng.standard_normal(incs.shape)
+            dirs /= np.linalg.norm(dirs, axis=1, keepdims=True) + EPS
+            Hs = np.vstack([H[0], H[0] + np.cumsum(dirs * norms[:, None], 0)])
+        elif kind == "shuffled_layer":
             Hs = H[rng.permutation(H.shape[0])]
         elif kind == "increment_shuffle":
-            perm_inc = incs[rng.permutation(len(incs))]
-            Hs = np.vstack([H[0], H[0] + np.cumsum(perm_inc, 0)])
-        elif kind == "norm_matched":
-            dirs = rng.standard_normal(incs.shape)
-            dirs /= (np.linalg.norm(dirs, axis=1, keepdims=True) + EPS)
-            Hs = np.vstack([H[0], H[0] + np.cumsum(dirs * norms[:, None], 0)])
+            perm = incs[rng.permutation(len(incs))]
+            Hs = np.vstack([H[0], H[0] + np.cumsum(perm, 0)])
         else:
             raise ValueError(kind)
-        _, _, _, resid, has_pair = extract_rotation(Hs)
-        out[k] = resid if has_pair else 1.0  # no complex pair -> no rotation
+        _, sw, _, _ = band_swept(Hs[lo:hi + 1])
+        out[k] = sw
     return out
 
 
@@ -311,29 +263,22 @@ def analyse(records: list[dict], U_rand: np.ndarray, seed: int = SEED,
     per: list[dict] = []
     for r in records:
         H = np.asarray(r["H"], dtype=np.float64)
-        B, mode, phase, resid, has_pair = extract_rotation(H)
-        if B is None:
-            per.append({"pid": r["pid"], "task": r["task"], "valid": False,
-                        "reason": "no-plane", "plane_mode": mode})
-            continue
-        m = rotation_metrics(H, B, phase, resid, has_pair)
-        a_align, axis_i = answer_align(B, np.asarray(r["u_ans"], dtype=np.float64))
-        rec = {"pid": r["pid"], "task": r["task"], "plane_mode": mode,
-               "a_align": a_align, "answer_axis": axis_i, **m}
+        m = late_metrics(H)
+        u = np.asarray(r["u_ans"], dtype=np.float64)
+        a_align = align(m["B"], u) if m["valid"] else 0.0
+        rec = {"pid": r["pid"], "task": r["task"], "a_align": a_align,
+               **{k: v for k, v in m.items() if k != "B"}}
         if m["valid"]:
-            # a pid rotates iff it has a complex pair AND reconstructs BETTER
-            # (lower rank-2 residual) than the matched trajectory nulls.
-            for kind, key in (("shuffled_layer", "N1"), ("increment_shuffle", "N2"),
-                              ("norm_matched", "N3")):
-                null = _resid_null(H, kind, n_perm_plane, rng)
-                rec[f"{key}_q05"] = float(np.quantile(null, 0.05))
-                rec[f"beats_{key}"] = bool(has_pair and resid < rec[f"{key}_q05"])
-            # N4 answer-axis null: random-token cosines vs the same plane
+            lo, hi = m["lo"], m["hi"]
+            for kind, key in (("norm_matched", "N3"), ("shuffled_layer", "N1"),
+                              ("increment_shuffle", "N2")):
+                null = _swept_null(H, kind, lo, hi, n_perm_plane, rng)
+                rec[f"{key}_q95"] = float(np.quantile(null, 0.95))
+                rec[f"beats_{key}"] = bool(m["swept"] > rec[f"{key}_q95"])
+            bn = np.linalg.norm(m["B"], axis=1)[None]
             nu = np.linalg.norm(U_rand, axis=1)
-            bn = np.linalg.norm(B, axis=1)[None]
-            cos = np.abs(U_rand @ B.T) / (nu[:, None] * bn + EPS)
-            null4 = cos.max(axis=1)
-            rec["N4_q95"] = float(np.quantile(null4, 0.95))
+            cos = np.abs(U_rand @ m["B"].T) / (nu[:, None] * bn + EPS)
+            rec["N4_q95"] = float(np.quantile(cos.max(axis=1), 0.95))
             rec["beats_N4"] = bool(a_align > rec["N4_q95"])
         per.append(rec)
 
@@ -348,68 +293,46 @@ def analyse(records: list[dict], U_rand: np.ndarray, seed: int = SEED,
         pval = binom_sf(nb, n_valid, ALPHA) if n_valid else 1.0
         return nb, pval, pval < ALPHA
 
-    n1 = _gate("beats_N1")
-    n2 = _gate("beats_N2")
-    n3 = _gate("beats_N3")
-    g1_pass = g0_pass and n1[2] and n2[2] and n3[2]
+    n3 = _gate("beats_N3")   # make-or-break
+    n1 = _gate("beats_N1")   # confirmatory
+    n2 = _gate("beats_N2")   # advisory (order-blind)
     n4 = _gate("beats_N4")
+    g1_pass = g0_pass and n3[2]
     g2_pass = g1_pass and n4[2]
-
-    # G3 (qualifier): cross-task consistency of |rho| vs shuffled-task-label null
-    g3_pass = False
-    cv_real = cv_q05 = float("nan")
-    if n_valid >= min_total and tasks_ok >= 2:
-        rhos = np.array([abs(p["rho_deg"]) for p in valid])
-        labs = np.array([p["task"] for p in valid])
-        def _cv(labels):
-            means = [rhos[labels == t].mean() for t in TASKS
-                     if (labels == t).sum() >= min_per_task]
-            means = np.array(means)
-            if len(means) < 2:
-                return np.nan
-            return float(np.std(means) / (np.mean(means) + EPS))
-        cv_real = _cv(labs)
-        null_cv = np.array([_cv(rng.permutation(labs)) for _ in range(N_PERM)])
-        null_cv = null_cv[~np.isnan(null_cv)]
-        if not np.isnan(cv_real) and null_cv.size:
-            cv_q05 = float(np.quantile(null_cv, 0.05))
-            g3_pass = cv_real < cv_q05
 
     if not g0_pass:
         verdict = "VOID"
     elif not g1_pass:
-        verdict = "GENERIC-NORM-GROWTH-ONLY"
+        verdict = "NO-EXCESS-SWEEP"
     elif not g2_pass:
-        verdict = "MIXED"
+        verdict = "GENERIC-LATE-SWEEP"
     else:
-        verdict = "CHARGED-ROTATION"
-    qualifier = None
-    if verdict == "CHARGED-ROTATION":
-        qualifier = "universal" if g3_pass else "per-task"
+        verdict = "LATE-ANSWER-ROTATION"
 
     def _med(key: str) -> float:
         return float(np.median([p[key] for p in valid])) if valid else float("nan")
 
-    med_align = _med("a_align")
-    med_rot = _med("ROT")
-    med_rho = _med("rho_deg")
-    med_charge = _med("charge")
+    mono = float(np.median([p["wind"] / (p["swept"] + EPS) for p in valid])) \
+        if valid else float("nan")
+    qualifier = None
+    if verdict == "LATE-ANSWER-ROTATION":
+        qualifier = "monotone" if mono >= MONO_THRESH else "nonmonotone"
     return {
         "verdict": verdict, "qualifier": qualifier, "g0_pass": g0_pass,
-        "g1_pass": g1_pass, "g2_pass": g2_pass, "g3_pass": g3_pass,
-        "det_ok": bool(det_ok), "n_valid": n_valid, "n_records": len(per),
-        "per_task_valid": per_task_counts, "tasks_ok": tasks_ok,
-        "N1": {"n_beat": n1[0], "p": n1[1]}, "N2": {"n_beat": n2[0], "p": n2[1]},
-        "N3": {"n_beat": n3[0], "p": n3[1]}, "N4": {"n_beat": n4[0], "p": n4[1]},
-        "cv_rho_real": cv_real, "cv_rho_q05": cv_q05,
-        "median_a_align": med_align, "median_ROT": med_rot,
-        "median_rho_deg": med_rho, "median_charge": med_charge,
+        "g1_pass": g1_pass, "g2_pass": g2_pass, "det_ok": bool(det_ok),
+        "n_valid": n_valid, "n_records": len(per), "per_task_valid": per_task_counts,
+        "tasks_ok": tasks_ok,
+        "N3": {"n_beat": n3[0], "p": n3[1]}, "N1": {"n_beat": n1[0], "p": n1[1]},
+        "N2": {"n_beat": n2[0], "p": n2[1]}, "N4": {"n_beat": n4[0], "p": n4[1]},
+        "median_swept": _med("swept"), "median_wind": _med("wind"),
+        "median_a_align": _med("a_align"), "median_charge": _med("charge"),
+        "median_planar": _med("planar"), "wind_over_swept": mono,
         "per_pid": per,
     }
 
 
 # ---------------------------------------------------------------------------
-# capture (driver — depth trajectory of the deciding state)
+# capture (driver -- depth trajectory of the deciding state)
 
 
 def capture(model_id: str, tasks: dict, seed: int) -> dict:
@@ -461,37 +384,33 @@ def _synth(world: str, d: int = 48, L: int = 40, n_per_task: int = 6,
            seed: int = 99) -> tuple[list[dict], np.ndarray]:
     rng = np.random.default_rng(seed)
     ell = np.arange(L + 1)
-    amp = 0.3 * (1.15 ** ell)          # geometric charge
+    amp = 0.3 * (1.15 ** ell)          # geometric charge; max ~80, late band ~L32+
     amp_flat = 1.0 + 0.01 * ell        # degenerate: charge ~1.4 < CHARGE_MIN
+    lo_rot = 27                        # late sweep begins here
     records = []
     for task in TASKS:
         for j in range(n_per_task):
             Q, _ = np.linalg.qr(rng.standard_normal((d, 3)))
             e0, e1, e2 = Q[:, 0], Q[:, 1], Q[:, 2]
             noise = 0.01 * rng.standard_normal((L + 1, d))
-            if world == "pure_rotation":
-                th = np.deg2rad(5.0) * ell
-                H = amp[:, None] * (np.cos(th)[:, None] * e0 + np.sin(th)[:, None] * e1)
-                H = H + noise
-                u_ans = e0.copy()
-            elif world == "norm_growth":
-                H = amp[:, None] * e0[None, :] + noise
-                u_ans = e2.copy()
-            elif world == "rotation_off_axis":
-                th = np.deg2rad(5.0) * ell
-                H = amp[:, None] * (np.cos(th)[:, None] * e0 + np.sin(th)[:, None] * e1)
-                H = H + noise
-                u_ans = e2.copy()  # answer axis orthogonal to the rotation plane
-            elif world == "drift":
+            if world in ("late_answer_rotation", "late_generic_sweep"):
+                th = np.where(ell >= lo_rot, (ell - lo_rot) * 0.74, 0.0)
+                H = amp[:, None] * (np.cos(th)[:, None] * e0
+                                    + np.sin(th)[:, None] * e1) + noise
+                u_ans = e0 if world == "late_answer_rotation" else e2
+            elif world == "random_walk":
                 dirs = rng.standard_normal((L, d))
                 dirs /= np.linalg.norm(dirs, axis=1, keepdims=True) + EPS
                 stepn = np.abs(np.diff(amp))[:, None]
                 H = np.vstack([amp[0] * e0, amp[0] * e0 + np.cumsum(dirs * stepn, 0)])
                 H = H + noise
-                u_ans = e2.copy()
+                u_ans = e2
+            elif world == "ray":
+                H = amp[:, None] * e0[None, :] + noise
+                u_ans = e2
             elif world == "degenerate":
                 H = amp_flat[:, None] * e0[None, :] + noise
-                u_ans = e2.copy()
+                u_ans = e2
             else:
                 raise ValueError(world)
             records.append({"pid": f"{task}{j}", "task": task,
@@ -504,10 +423,10 @@ def _synth(world: str, d: int = 48, L: int = 40, n_per_task: int = 6,
 def run_validate() -> int:
     log("--validate: 5 planted worlds through the REAL analyse path")
     expect = {
-        "pure_rotation": "CHARGED-ROTATION",
-        "norm_growth": "GENERIC-NORM-GROWTH-ONLY",
-        "rotation_off_axis": "MIXED",
-        "drift": "GENERIC-NORM-GROWTH-ONLY",
+        "late_answer_rotation": "LATE-ANSWER-ROTATION",
+        "late_generic_sweep": "GENERIC-LATE-SWEEP",
+        "random_walk": "NO-EXCESS-SWEEP",
+        "ray": "NO-EXCESS-SWEEP",
         "degenerate": "VOID",
     }
     fails = 0
@@ -518,11 +437,10 @@ def run_validate() -> int:
         got = st["verdict"]
         ok = got == want
         fails += 0 if ok else 1
-        log(f"  {'PASS' if ok else 'FAIL'} {world:18s} want {want:24s} got {got:24s} "
-            f"(nvalid {st['n_valid']} ROT {st['median_ROT']:.4f} "
-            f"align {st['median_a_align']:.3f} "
-            f"N3 {st['N3']['n_beat']}/p{st['N3']['p']:.3f} "
-            f"N4 {st['N4']['n_beat']}/p{st['N4']['p']:.3f})")
+        log(f"  {'PASS' if ok else 'FAIL'} {world:22s} want {want:20s} got {got:20s} "
+            f"(nvalid {st['n_valid']} swept {st['median_swept']:.2f} "
+            f"align {st['median_a_align']:.3f} N3 {st['N3']['n_beat']} "
+            f"N4 {st['N4']['n_beat']})")
     log(f"validate: {5 - fails}/5")
     return 1 if fails else 0
 
@@ -565,7 +483,7 @@ def main() -> int:
         "run_id": f"p_depth_carrier_s348/{tag}",
         "timestamp": datetime.now(UTC).isoformat(),
         "model": model_id, "sampling": {"strategy": "greedy", "n": DECODE_N},
-        "git_sha": git_sha(), "seed": SEED, "frozen": "c953705d",
+        "git_sha": git_sha(), "seed": SEED, "frozen": "re-freeze-s348",
         "n_perm_plane": N_PERM_PLANE, "n_perm": N_PERM,
         "n_prompts": sum(len(v) for v in tasks.values()),
         "driver_validity": cap["validity"],
@@ -575,11 +493,11 @@ def main() -> int:
     (out / "meta.json").write_text(json.dumps(meta, indent=2, default=_json_native))
     q = f"/{stats['qualifier']}" if stats["qualifier"] else ""
     log(f"VERDICT {stats['verdict']}{q} | g0 {stats['g0_pass']} g1 {stats['g1_pass']} "
-        f"g2 {stats['g2_pass']} g3 {stats['g3_pass']} | nvalid {stats['n_valid']} | "
-        f"N1 {stats['N1']['n_beat']} N2 {stats['N2']['n_beat']} "
-        f"N3 {stats['N3']['n_beat']} N4 {stats['N4']['n_beat']} | "
-        f"med ROT {stats['median_ROT']:.4f} align {stats['median_a_align']:.3f} "
-        f"rho {stats['median_rho_deg']:.2f} charge {stats['median_charge']:.1f}")
+        f"g2 {stats['g2_pass']} | nvalid {stats['n_valid']} | "
+        f"N3 {stats['N3']['n_beat']} N1 {stats['N1']['n_beat']} "
+        f"N2 {stats['N2']['n_beat']} N4 {stats['N4']['n_beat']} | "
+        f"med swept {stats['median_swept']:.2f} align {stats['median_a_align']:.3f} "
+        f"charge {stats['median_charge']:.1f} mono {stats['wind_over_swept']:.2f}")
     log(f"wrote {out}")
     return 0
 
