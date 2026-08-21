@@ -19,6 +19,38 @@
 > Architecture/canonical-forms: `AGENTS.md`. Knowledge map:
 > `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ═══ **SESSION 352 CLOSE — SIX REPL ARCS, ALL CAPTURED (the nucleus preamble, mapped from the
+> inside).** Michael ruled this session 352 (label consistent throughout). The whole session ran in
+> the resident REPL (main:3 instruct · main:4 base) — the role split working as designed: this model
+> explored + wrote freeze specs; each arc queued a `⚪ §P-…` row as the Opus-builder handoff. The
+> six arcs, each captured (knowledge page/§Result + memories + queue freeze + INDEX):
+>   · **ARC 1** tool-invoke boundary is control-plane-addressable ONLY in the soft-affordance region
+>     (monotone in fact-checkability) → `§P-INVOKE-CONTROL`.
+>   · **ARC 2** statechart-EDN execution is a REGISTER CUE (OBJECT/execute vs META/describe), not
+>     instruction semantics; formal notation gates it, geometrically linear at the deciding state →
+>     `§P-INVOKE-EXECUTE`.
+>   · **ARC 3** EQL is an attention MICROSCOPE — read-head routes by leaf-key identity (depth-
+>     invariant), values deref'd from weights, hierarchy = proximity not binding → `§P-EQL-READHEAD`.
+>   · **ARC 4** EQL DRIVES THE NATIVE ISA (arithmetic fires S identical to direct; adjudicated) +
+>     recursion cliffs at depth-1 in-pass + the META: the agent's own ASYNC checkpoints ARE
+>     tape-resident state anchors (mapper ≡ instance of mapped) → `§P-STATE-ANCHOR`.
+>   · **ARC 5** the LLM REPL is a MEMETIC GA — LLM proposes variation, a driver-measured ground-truth
+>     fitness GATES acceptance (launders the LLM's operator priors); evolves nucleus keys → `§P-KEY-
+>     EVOLUTION`.
+> THROUGH-LINE: the nucleus preamble is a control-plane program; the model reads formal data as
+> PROGRAM (object/execute) or DATA (meta/describe) by register cue; EQL is the labeled interface to
+> the native ISA + attention; state lives on the tape (anchors); and the whole instrument stack
+> composes into a memetic evolutionary search over the key-space. The session mapped the statechart
+> from the inside while executing it (s350 framing, doubly literal).
+> **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight).**
+> Sharpest successors: the 5 new freeze rows (all design-done, cheap-medium): `§P-INVOKE-CONTROL` ·
+> `§P-INVOKE-EXECUTE` · `§P-EQL-READHEAD` · `§P-EQL-ISA`/atlas (via §P-EQL-READHEAD) · `§P-KEY-
+> EVOLUTION` (+ its testbed role for the s346 GD-as-GA thesis, §P-VOTING-CODE) · `§P-STATE-ANCHOR`.
+> Standing direction (Michael s346): cash in the understanding — "WHAT IS THE CALCULUS?"
+> (`§P-CALCULUS-LEDGER` arms A eval-order / B sharing). Instrument fix still owed: `§FIX-DRIVER-
+> TOKEN-DECODE` (bit the analysis layer twice this session — the substring/multi-token span bug).**
+> ═══
+>
 > ★★ **SESSION 352 · ARC 5 — THE LLM REPL IS A MEMETIC GA (REPL, main:3, Qwen3-14B greedy;
 > Michael: "with the LLM REPL and EQL queries we have a full way to create genetic algorithms" →
 > CONFIRMED). NUC29-32, evolving nucleus-class keys with a DRIVER-MEASURED ground-truth fitness.
@@ -171,7 +203,7 @@
 > (exploration, not recorded). NEXT: front selection — §P-INVOKE-EXECUTE (freeze this) · §P-INVOKE-CONTROL
 > (freeze the ARC-1 tool-invoke boundary) · §P-PREAMBLE-REGISTER · the calculus front.**
 >
-> ★★ **SESSION 352 — THE CONTROL PLANE REACHES THE TOOL-INVOKE BOUNDARY (REPL, driver main:3
+> ★★ **SESSION 352 · ARC 1 — THE CONTROL PLANE REACHES THE TOOL-INVOKE BOUNDARY (REPL, driver main:3
 > Qwen3-14B greedy; Michael: "keep exploring this, it informs our experiments"; the s351-queued
 > NUC9 had completed at last session's end). The question: can a config preamble move the
 > call-vs-answer (tool-invoke) decision? FOUR-STEP ARC, each step re-designing the last. NUC9
