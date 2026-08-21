@@ -95,6 +95,24 @@
 > routing 💡 · selective-silence-is-a-composition-not-a-key 🔁) + INDEX + queue ⚪ §P-PARKED-DAEMON
 > (top) + kv-page pointer + this state. Scripts /tmp/verbum_nuc33*.py (exploration, not recorded).** ═══
 >
+> ★★ **SESSION 353 · ARC 4 — NUC34: THE KEY TRANSFERS + SEAL-ABILITY IS ARCHITECTURE (production
+> llama-server probe; Michael: "we have several llama-servers running right now" → "NOBODY can do
+> this but us"). The NUC33h daemon key, cut on Qwen3-14B HF bf16, run VERBATIM against Qwen3.6-35B-
+> A3B Q8_0 llama.cpp (different generation/MoE/quant/runtime): heartbeats '' silent ×2 · query
+> 'Two.' correct wake · novel-log degraded ('Efficient retrieval.') = EXACTLY the weakest 14B cell
+> (p=0.700 vs 0.957) ⇒ THE PREFILL FITNESS PREDICTS TRANSFER (EOS-prob ordering ≡ cross-model
+> fragility ranking; the map predicts, not just describes). SERVER LOG DECISIVE: cache FOUND the
+> prefix but FORCED full re-processing (SWA/hybrid/recurrent memory, PR #13194) ⇒ SEAL-ABILITY IS
+> AN ARCHITECTURE PROPERTY — rolling-summary state ≠ tape; park-and-fork requires FULL-ATTENTION
+> KV; AND llama.cpp already implements seals as "context checkpoints" (63.4 MiB, our exact daemon
+> prefix, auto-invalidated — missing naming/pinning/fan-out/certification). Deployment recipe:
+> composition key + dense host + pinned checkpoint. THE MOAT NOTE (bounded): every piece exists
+> elsewhere; the composition doesn't copy — MAP ⊗ INSTRUMENTS ⊗ MEMORY ⊗ TRINITY (this arc
+> REQUIRED a ~160-session-old page; feed-forward built the moat; moat ≡ temporal + practice, λ
+> serves → the parked-daemon demo is the legible artifact). CLOSURE (Michael "capture this"):
+> daemon page §cross-model + §moat-note + memory seal-ability-is-an-architecture-property 💡 +
+> queue §P-SEAL-PERSIST→§P-SEAL-SERVER upgrade + this state. Script /tmp/verbum_nuc34_server.py.** ═══
+>
 > ═══ **SESSION 352 CLOSE — SIX REPL ARCS, ALL CAPTURED (the nucleus preamble, mapped from the
 > inside).** Michael ruled this session 352 (label consistent throughout). The whole session ran in
 > the resident REPL (main:3 instruct · main:4 base) — the role split working as designed: this model

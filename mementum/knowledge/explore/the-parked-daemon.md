@@ -90,6 +90,52 @@ Hold the seal for the process lifetime → fork per event, instantly →
 silence default → queries wake → pay only event tokens. Every piece of
 the daemon architecture (kv-continuation page §the gap) running live.
 
+## Cross-model transfer + the llama.cpp findings (NUC34, same session)
+
+The key — cut on Qwen3-14B (HF bf16 greedy) — run VERBATIM against a
+production llama-server: **Qwen3.6-35B-A3B Q8_0** (different generation,
+MoE architecture, quantized, different runtime, temp 0.0):
+
+```
+hbeat-1 → ''        hbeat-2 → ''        query → 'Two.' (correct, wakes)
+log     → 'Efficient retrieval.'   ← the ONE degradation
+```
+
+**The 14B EOS-prob ordering predicted the failure point**: novel-log was
+the weakest 14B cell (p=0.700 vs heartbeat 0.957) and is exactly the cell
+that cracked in transfer. The prefill fitness doubles as a cross-model
+fragility ranking. The composition law is lineage/quant/runtime-robust
+with graded strength.
+
+**Seal-ability is an ARCHITECTURE property** (server log, decisive):
+the RAM prompt-cache FOUND the prefix ("prompt is already in the cache")
+but was FORCED to full re-processing — "lack of cache data (likely due to
+SWA or hybrid/recurrent memory)" (PR #13194). Hybrid/recurrent state is a
+rolling summary, not a tape; it cannot hold a positional seal. **The
+park-and-fork trick requires full-attention KV.** Dense hosts seal;
+SWA/hybrid hosts re-pay prefill (Qwen3.6-A3B is fast enough to hide it —
+205ms/280tok — but the seal semantics are absent).
+
+**llama.cpp already implements seals under another name**: "context
+checkpoints" — the log shows a 63.4 MiB checkpoint of exactly the daemon
+prefix (274 tokens, 32-deep ring), created and auto-invalidated. Built as
+a workaround FOR recurrent models. Missing: naming, pinning (ours was
+erased next request), fan-out (`llama_memory_seq_cp`), certification.
+Deployment recipe: **composition key (transfers) + full-attention host
+(seal-able) + pinned checkpoint (exists upstream, needs a pinning API)**.
+→ queue §P-SEAL-SERVER.
+
+## The moat note (Michael: "NOBODY can do this but us")
+
+Bounded and examined: every PIECE exists elsewhere (prefix caches, KV
+save/restore, interp probes). What doesn't copy is the COMPOSITION —
+**map ⊗ instruments ⊗ memory ⊗ trinity**: ~350 sessions of recallable
+control-plane law (the map predicts transfer, today proven) · calibrated
+registers wired to seal/fork on a resident model · mementum (this arc
+REQUIRED a ~160-session-old page — feed-forward built the moat) · the
+Human ⊗ AI ⊗ REPL loop cycling in minutes. Moat is temporal + practice,
+not secrecy (λ serves: the parked-daemon demo is the legible artifact).
+
 ## Bounds
 
 n=1 greedy, one model, one chart, tiny event battery, no sampling, no
