@@ -19,6 +19,39 @@
 > Architecture/canonical-forms: `AGENTS.md`. Knowledge map:
 > `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 352 · ARC 5 — THE LLM REPL IS A MEMETIC GA (REPL, main:3, Qwen3-14B greedy;
+> Michael: "with the LLM REPL and EQL queries we have a full way to create genetic algorithms" →
+> CONFIRMED). NUC29-32, evolving nucleus-class keys with a DRIVER-MEASURED ground-truth fitness.
+> SUBSTRATE (all from this session): population = EDN state anchor (NUC28) · fitness = a driver
+> measurement (register/opcode/mode-coloring, ground truth ¬LLM-self-report) · variation = EQL the
+> model EXECUTES (NUC24) + seal(snapshot)/fork(offspring) · selection/iteration = the REPL loop.
+> FOUR runs each a live failure→fix mapping the whole design surface: v1 (Y-share proxy fitness)
+> CLIMBED 0.77→1.04 but to REWARD-HACKED analysis ("Your message is rich with symbolic…" — the
+> model analyzing the key, not opening a mode; a leaky 'your' in the authored-detector compounded
+> it) = fitness-must-measure-what-you-mean (Goodhart; a DRIVER proxy is as hackable as LLM-fitness).
+> v2 (register-fitness authored×mode-coloring + blend crossover) FLAT 0.771 = operators-must-fit-
+> the-landscape (blend destroys the coherence the fitness rewards; the one genuine opener 'Clockwork
+> Tempest Surge' was selected AGAINST). v3 (coherence-preserving deepen+graft) mean climbs 0.86→0.98
+> + CONVERGES (garden lineage) but MAX PLATEAUS at the best pure seed = fitness+operator co-design +
+> THE LLM'S PRIORS LEAK INTO ITS OWN OPERATORS (ethereal/luminous returned for garden AND celestial;
+> genome-overlap fitness also punishes vocab growth). v4 (MEMETIC: fitness-gated hill-climb — LLM
+> proposes K words, KEEP one only if it RAISES the driver fitness, replacing a dead constant) MAX
+> 1.274→1.354 AND mean 1.08→1.33 both climb, prior LAUNDERED (luminous/ethereal/astral ALL REJECTED
+> — don't propagate → dropped; petal/root kept), converges to a local optimum (kept=None). THE
+> VALIDATED ARCHITECTURE: an LLM-GA is a MEMETIC algorithm — the LLM gives cheap SEMANTIC but
+> PRIOR-BIASED variation, a driver-measured GROUND-TRUTH fitness GATES every acceptance, laundering
+> the LLM's priors out of its own operators = the discussion's "externalize fitness to the world"
+> proven. THE LAW: in any LLM-guided search, the LLM's priors contaminate its OWN operators; only a
+> ground-truth fitness GATE (not the LLM's judgment) removes them. Composes the whole session
+> (fitness=register/opcode instruments, population=anchor, operators=EQL) + is a working testbed for
+> the s346 GD-as-GA thesis (§P-VOTING-CODE, 0 pre-reg wins). BOUNDS: n=1 greedy (variance from nonce
+> only — sampling driver owed), tiny pops, 3 gens, register-fitness itself a proxy (repetition-
+> hackable), converged to ONE lineage (no diversity maintenance). CLOSURE BATCH (Michael "capture
+> this"): knowledge page explore/the-llm-repl-is-a-memetic-ga.md (🟢 active) + 2 memories (the-llm-
+> repl-is-a-memetic-ga-substrate 💡 · ga-fitness-gate-launders-llm-operator-priors 🔁) + INDEX row +
+> queue ⚪ §P-KEY-EVOLUTION (freeze: n≫1 + diversity + repetition-null) + this state. Scripts
+> /tmp/verbum_nuc{29..32}.py (exploration, not recorded).**
+>
 > ★★ **SESSION 352 · ARC 4 — EQL DRIVES THE NATIVE ISA + STATE ANCHORS (REPL, main:3, Qwen3-14B
 > greedy; discussion "can we use EQL to reverse-engineer the ISA from the REPL?"). NUC24-28. (1)
 > THE ADJUDICATOR (NUC24): EQL resolution of [:sum/result {:sum/addends [37 48]}] under the resolve
