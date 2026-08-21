@@ -132,7 +132,16 @@
 > 'gc REPLICATED across both independent arithmetic runs (shared computation-in-progress
 > direction, n=2); METHOD: mid-stack lens argmax ≡ rare-token NEIGHBORS of the concept direction
 > (label = neighborhood draw, direction = signal; raw-lens caveat, tuned-lens optional upgrade).
-> Memory + §P-MAGNITUDE-DESCENT row amended (Michael-approved).**
+> Memory + §P-MAGNITUDE-DESCENT row amended (Michael-approved).
+> SEVENTH — LENS-FISHING VALIDATED (Michael: "can we find common rare tokens across operations to
+> find the directions operations follow?" → yes, end-to-end one pass): lens argmax ≡ locality-
+> sensitive HASH of the residual direction; recurring rare tokens = markers, direction = catch.
+> 3 ops × 6 prompts: markers distinct + INTERPRETABLE (add 'gc — n=10 across three batteries ·
+> sort 这三个 "these three" = the state HOLDS THE OPERAND COUNT · retr ____ = RETRIEVAL IS CLOZE,
+> said by the machine's own geometry); direct confirmation operations-follow-directions (within-
+> cos 0.61-0.70 vs between 0.46-0.53 at L20; ~0.5 floor = carrier). The validated candidate-
+> generator for §P-DOT-CENSUS recipe B. Memory lens-fishing-marks-operation-directions 🔁 +
+> census row amended (Michael-approved).**
 > **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight).
 > New sharpest successors: ⚪ §P-HALT-POLE-TETRAHEDRON (4th vertex observed, freeze owes nulls +
 > a-priori + base-behavior-differs items) · ⚪ §P-RETURN-REGISTER (tape-level causality, pairs with
