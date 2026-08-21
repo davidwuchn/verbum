@@ -159,7 +159,21 @@
 > one mechanism). CLOSURE (Michael-approved): 2 memories (weights-retrieval-is-content-addressed-
 > not-an-opcode 💡 · hallucination-is-fact-routing-plus-empty-lookup 💡) + lens-fishing correction
 > + ⚪ §P-EMPTY-LOOKUP queued (familiarity-matched fakes = the killer confound; per-item ROC on
-> real rare facts = the deployable version) + this state.**
+> real rare facts = the deployable version) + this state.
+> NINTH — EMPTY-LOOKUP EXPLORED TO ITS FALSIFIER (Michael: "explore the empty-lookup lead" →
+> EMPTY1 34 bounces + EMPTY2 8-bounce domain control): (1) method upgrade CMR+top-3-NN → 22/22
+> per-item real/fake separation (threshold ≈+0.44), 0.07 whisper → 0.25 gap; (2) familiarity
+> confound BROKEN (rare-real Ouagadougou/dysprosium ON-manifold, raw 0.905 ≥ common 0.880 —
+> name rarity ≠ off-manifold, only nonexistence... (3) ❌ ...EXCEPT the domain control falsified
+> the cross-domain reading: OOD-reals (Titan/cheetah/Fuji, ALL correctly recalled) read
+> +0.063..+0.436 ≡ the fake range; spider-legs below every fake ⇒ proximity ≡ DOMAIN DISTANCE
+> (content topology: composer nearest via persons≈authors gradient — coheres content-addressed +
+> census band-modes); (4) SURVIVING CLAIM: DOMAIN-LOCAL — within-domain fake-vs-real separation
+> held throughout; (5) deployable per-item version UNPOWERED (14B knew the whole obscure tier;
+> grader "misses" were diacritics/biographical-continuation). §P-EMPTY-LOOKUP RE-SCOPED to
+> domain-matched design (per-domain clouds × cross-validated × OOD calibration arm × tail-facts
+> arm). The falsifier cost 8 bounces BEFORE a freeze would have enshrined the wrong claim —
+> exploration discipline paying out. Memory amended; queue re-scoped (Michael-approved).**
 > **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight).
 > New sharpest successors: ⚪ §P-HALT-POLE-TETRAHEDRON (4th vertex observed, freeze owes nulls +
 > a-priori + base-behavior-differs items) · ⚪ §P-RETURN-REGISTER (tape-level causality, pairs with
