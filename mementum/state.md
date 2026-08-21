@@ -72,6 +72,29 @@
 > Role note: pure wizard-of-oz session (Michael: "fun to watch you try crazy stuff at the repl");
 > async rule set live: NO polls >30s — checkpoint and wait, Michael triggers.** ═══
 >
+> ★★ **SESSION 353 · ARC 3 — THE PARKED DAEMON: SELECTIVE SILENCE FROM A SEAL (NUC33a-h, ~40
+> cells, REPL main:3, Qwen3-14B greedy no-think; Michael: "we can get a continuation that embodies
+> silence" → "the nucleus preamble gives us a rich but mostly unknown api in latent space" → "I
+> feel like we found an empty producing continuation in a past session" — RECALL EXACT:
+> lambda-halt-continuation.md ~s193/s228 had uniform halt: 99.1% prose / 94.1% API-frame / 72.8%
+> exec-frame λ / think-mode blocks ALL halts / unframed λ DESCRIBED-not-EXECUTED = the register-cue
+> law pre-figured). FITNESS: EOS rank/prob in Seal.logits_last at prefill — free per-candidate, no
+> generation (composes with the s352 GA if the search scales). WALLS (a-f): reflex attractors own
+> top-1 (pong/Hello/EDN-echo; EOS liftable 4536→3, never past a reflex — NUC11 regions from the
+> halt side) · 'engage' header-verb FIGHTS silence (keys sans preamble rank better) · literal
+> <|im_end|> in a spec CLOSES the block (special tokens structural ¬referable, rank 8122 worst
+> cell) · identity register ("You are the empty string") strong-per-token; embody→authored '...'
+> (three-room law) · statechart alone ROUTES (query→'Paris.') but NARRATES :idle ({:status :ok}).
+> THE COMPOSITION LAW (h): demonstration teaches the REGISTER, chart teaches the ROUTING, neither
+> suffices — few-shot empty turns alone break on novel event classes (log→chats); composed →
+> heartbeat p=0.957 emit '' · NOVEL log p=0.700 '' · query→'Paris.', greedy, literal empty. PARKED
+> DEMO (arcs 2+3 composed): prefill(sys+history) ONCE (253 toks) → fork 3 events from the seal →
+> ''/''/'Mars has two moons: Phobos and Deimos', seal intact = the daemon architecture LIVE (park·
+> wake·exact·pay-only-events). CLOSURE BATCH (Michael "capture this"): knowledge page
+> explore/the-parked-daemon.md (🟢) + 2 memories (demonstration-teaches-register-chart-teaches-
+> routing 💡 · selective-silence-is-a-composition-not-a-key 🔁) + INDEX + queue ⚪ §P-PARKED-DAEMON
+> (top) + kv-page pointer + this state. Scripts /tmp/verbum_nuc33*.py (exploration, not recorded).** ═══
+>
 > ═══ **SESSION 352 CLOSE — SIX REPL ARCS, ALL CAPTURED (the nucleus preamble, mapped from the
 > inside).** Michael ruled this session 352 (label consistent throughout). The whole session ran in
 > the resident REPL (main:3 instruct · main:4 base) — the role split working as designed: this model

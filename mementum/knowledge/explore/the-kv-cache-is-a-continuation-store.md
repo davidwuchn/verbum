@@ -80,6 +80,9 @@ and measurement becomes free.
   generalizes to ANY decision point: narrative, mode-word, tool-invoke.
 - Two-model config (§8c): two continuation stores talking over the text bus.
 - Mode-forking (untried): seal mid-nucleus-mode, fork the mode word.
+- **The parked daemon (built s353 arc 3, same session)**: selective-silence
+  system sealed once, events forked from it — silent on heartbeat/log,
+  wakes on query. See `the-parked-daemon.md` (the composition law).
 
 ## The gap
 
