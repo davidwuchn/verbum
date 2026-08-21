@@ -19,6 +19,50 @@
 > Architecture/canonical-forms: `AGENTS.md`. Knowledge map:
 > `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 352 · ARC 3 — EQL IS AN ATTENTION MICROSCOPE (REPL, driver main:3, Qwen3-14B
+> greedy; Michael: "under the nucleus preamble, EQL-shaped queries return EDN outputs fulfilling
+> the query" → "it is a way to probe attention from the inside, and we can capture attention in
+> the repl to compare"). NUC20-23, extending ARC-2's OBJECT/META register to a second formal
+> surface AND turning it into a read-head probe with ground-truth labels. (1) NUC20 — EQL
+> fulfillment = the OBJECT register generalized: under an OBJECT cue the model RESOLVES the query
+> (improvises EDN matching the shape = the model AS A PATHOM RESOLVER/DATABASE = USE) vs DESCRIBES
+> it (MENTION); same use-vs-mention fork, not statechart-specific. Datum: bare [:person/name
+> :person/age :person/email] under the preamble → SELF-REFUSAL ("I am Qwen... I don't have personal
+> information such as name, age") — it tried to resolve :person and read the entity as ITSELF; a
+> "resolve to a plausible example entity" cue fixes it. (2) NUC21 — THE MICROSCOPE (Michael's
+> steer): capture per-emission head-averaged read-mass (b.attn, late band L24-40) onto query-slot
+> tokens. CLEAN KEY→SLOT DIAGONAL — emitting :book/title reads the 'title' slot (argmax), author→
+> author, etc., always correct; VALUE tokens go FLAT (emitting "The..." collapses read to baseline)
+> ⇒ READ THE SLOT TO EMIT THE OUTPUT KEY (route/copy), GENERATE THE VALUE FROM WEIGHTS (deref) =
+> the s350 keys-from-query/values-from-weights split VISIBLE. USE-vs-MENTION in read MAGNITUDE:
+> describe ~2× total key read + SUSTAINED (keeps slot in focus while glossing); fulfill reads
+> BRIEFLY then goes to weights. Output: [:book/title "The Fractal Geometry of Nature" :book/author
+> "Benoît B. Mandelbrot" :book/year 1982 :book/genre "Science"]. (3) NUC22 — NESTED JOINS
+> (Michael: "let's look for joins"): the diagonal is DEPTH-INVARIANT (nested inner keys still read
+> their exact slot); flagged inner keys as "path-aware" (read parent-join > other-join) BUT fixed a
+> live tokenization-align bug first (substring 'age'↔'engage', multi-token keys unfound → char-offset
+> full-literal spans; §FIX-DRIVER-TOKEN-DECODE in the analysis layer). (4) NUC23 — HARDEN WITH
+> NULL+SEEDS (Michael GO): 5 distinct queries, N=20 inner instances. OWN-SLOT ROUTING ROCK SOLID —
+> 0.0394 vs non-key baseline 0.0063, 20/20, p<1e-6 (key-specific, depth-invariant leaf-identity
+> routing). PATH-AWARENESS REFUTED AS BINDING — Δ(parent-other) directionally sig (18/20 p=2e-4)
+> AND branch-balanced (parent-is-first 9/10, parent-is-second 9/10, both p=0.011, NOT absolute
+> position) BUT parent-join read (0.0077) ≈ non-key baseline (0.0063, p=0.13, NOT key-specific) ⇒
+> the inner key reads the REGION around its parent (EQL puts it nearby), NOT the parent KEY. THE
+> NULL DID ITS JOB: NUC22's 4 PATH-AWARE flags were the proximity confound (parent always encloses
+> in EQL). SYNTHESIS: the resolver reconstructs the join tree from LEAF-KEY IDENTITY ROUTING +
+> autoregressive order + regional proximity — NO genuine hierarchical key-binding at this grain;
+> corroborates §P-READ-HEAD read-head-as-router from a cleaner labeled-slot angle than the s349
+> shadowed-binder corpus, coheres s350 keys-from-query/values-from-weights. BOUNDS: n=1 greedy (no
+> sampling driver), head-averaged, late-band, soft/sink-dominated read-mass; leaf-diagonal robust,
+> path-binding refuted. Freeze owes sink-correction + per-head + value-null + base-arm + a NON-EQL
+> structure to decouple proximity from parenthood (standing EQL structural limit). CLOSURE BATCH
+> (Michael "capture it"): knowledge page explore/eql-is-an-attention-microscope.md (🟢 active) + 2
+> memories (eql-fulfillment-is-the-object-register-generalized 💡 · eql-read-head-routes-by-leaf-
+> identity-not-path-binding 💡) + INDEX row + queue ⚪ §P-EQL-READHEAD (freeze: null+per-head+non-EQL
+> decouple, feeds §P-READ-HEAD) + this state. Scripts /tmp/verbum_nuc{20..23}.py (exploration, not
+> recorded). NEXT: front selection — §P-EQL-READHEAD · §P-INVOKE-EXECUTE · §P-INVOKE-CONTROL ·
+> §P-PREAMBLE-REGISTER · the calculus front (§P-CALCULUS-LEDGER, Michael's "WHAT IS THE CALCULUS?").**
+>
 > ★★ **SESSION 352 · ARC 2 — STATECHART EXECUTION IS A REGISTER CUE (REPL, driver main:3,
 > Qwen3-14B greedy; Michael: "with the nucleus preamble, EDN shaped like a statechart is
 > auto-executed; without it, the EDN is analyzed" → "keep exploring, you are finding what I found
