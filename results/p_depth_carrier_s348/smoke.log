@@ -1,0 +1,27 @@
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights: 100%|██████████| 399/399 [00:00<00:00, 22983.91it/s]
+driver: Qwen/Qwen3-8B on mps — 36 layers, d=4096, load 4s
+validity: PASS — {'determinism_ids': True, 'determinism_sign_dev': 0, 'fork_identity': True, 'seal_matches_fresh': True, 'append_law_mismatches': 0, 'ok': True}
+[depth-carrier] driver validity: {'determinism_ids': True, 'determinism_sign_dev': 0, 'fork_identity': True, 'seal_matches_fresh': True, 'append_law_mismatches': 0, 'ok': True}
+[depth-carrier] arith0: '7 + 5 = ' -> '1' [1s]
+[depth-carrier] arith1: '6 + 3 = ' -> '9' [2s]
+[depth-carrier] arith2: '9 + 8 = ' -> '1' [2s]
+[depth-carrier] arith3: '4 + 4 = ' -> '8' [3s]
+[depth-carrier] dates0: 'he day after Tuesday is ' -> ' Wednesday' [4s]
+[depth-carrier] dates1: ' in two days it will be ' -> '2' [5s]
+[depth-carrier] dates2: 'The day after Friday is ' -> ' Saturday' [6s]
+[depth-carrier] dates3: 'he day before Monday is ' -> ' Sunday' [7s]
+[depth-carrier] prose0: 'he capital of France is ' -> '1' [7s]
+[depth-carrier] prose1: 'The opposite of hot is ' -> ' A' [8s]
+[depth-carrier] prose2: 'e sky on a clear day is ' -> '1' [9s]
+[depth-carrier] prose3: 'The capital of Japan is ' -> '．' [10s]
+[depth-carrier] code_scope0: 'x = 42\nprint(x)\n' -> 'print' [10s]
+[depth-carrier] code_scope1: 'a = 7\nb = a\nprint(b)\n' -> 'a' [11s]
+[depth-carrier] code_scope2: 'n = 100\nprint(n)\n' -> 'for' [12s]
+[depth-carrier] code_scope3: 'y = 5\nprint(y)\n' -> 'print' [13s]
+[depth-carrier] reduction0: ' C f x y = f y x.\nI a = ' -> ' a' [14s]
+[depth-carrier] reduction1: ' f x y = f y x.\nK a b = ' -> ' a' [14s]
+[depth-carrier] reduction2: ' f x y = f y x.\nK p q = ' -> ' p' [15s]
+[depth-carrier] reduction3: ' x y = f y x.\nS K K a = ' -> '1' [16s]
+[depth-carrier] VERDICT GENERIC-NORM-GROWTH-ONLY | g0 True g1 False g2 False g3 False | nvalid 20 | N1 18 N2 0 N3 18 N4 20 | med ROT 0.0196 align 0.093 rho 9.80 charge 25.6
+[depth-carrier] wrote /Users/mwhitford/src/verbum/results/p_depth_carrier_s348/run_smoke

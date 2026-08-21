@@ -1,0 +1,20 @@
+{"pid": "arith0", "task": "arith", "prompt": "7 + 5 = ", "expected": "12", "answer_token": "1", "answer_token_id": 16, "generated": "12, 12 +", "correct": true}
+{"pid": "arith1", "task": "arith", "prompt": "6 + 3 = ", "expected": "9", "answer_token": "9", "answer_token_id": 24, "generated": "9, 9 + 3 =", "correct": true}
+{"pid": "arith2", "task": "arith", "prompt": "9 + 8 = ", "expected": "17", "answer_token": "1", "answer_token_id": 16, "generated": "17, 17 +", "correct": true}
+{"pid": "arith3", "task": "arith", "prompt": "4 + 4 = ", "expected": "8", "answer_token": "8", "answer_token_id": 23, "generated": "8, 8 + 4 =", "correct": true}
+{"pid": "dates0", "task": "dates", "prompt": "Monday, Tuesday, Wednesday. The day after Tuesday is ", "expected": "Wednesday", "answer_token": " Wednesday", "answer_token_id": 7920, "generated": "Wednesday. The day before Wednesday is Tuesday", "correct": true}
+{"pid": "dates1", "task": "dates", "prompt": "If today is Monday, in two days it will be ", "expected": "Wednesday", "answer_token": "2", "answer_token_id": 17, "generated": "2019-03-", "correct": false}
+{"pid": "dates2", "task": "dates", "prompt": "The day after Friday is ", "expected": "Saturday", "answer_token": " Saturday", "answer_token_id": 7728, "generated": "Saturday.  The day after Saturday is", "correct": true}
+{"pid": "dates3", "task": "dates", "prompt": "Sunday, Monday, Tuesday. The day before Monday is ", "expected": "Sunday", "answer_token": " Sunday", "answer_token_id": 7270, "generated": "Sunday. The day after Tuesday is Wednesday", "correct": true}
+{"pid": "prose0", "task": "prose", "prompt": "The capital of France is ", "expected": "Paris", "answer_token": "1", "answer_token_id": 16, "generated": "1. Paris 2. London", "correct": false}
+{"pid": "prose1", "task": "prose", "prompt": "The opposite of hot is ", "expected": "cold", "answer_token": " A", "answer_token_id": 362, "generated": "A. cold  B. warm", "correct": false}
+{"pid": "prose2", "task": "prose", "prompt": "The sky on a clear day is ", "expected": "blue", "answer_token": "1", "answer_token_id": 16, "generated": "1000 times brighter than the", "correct": false}
+{"pid": "prose3", "task": "prose", "prompt": "The capital of Japan is ", "expected": "Tokyo", "answer_token": "\uff0e", "answer_token_id": 58883, "generated": "\uff0e\nA. Tokyo\nB.", "correct": false}
+{"pid": "code_scope0", "task": "code_scope", "prompt": "x = 42\nprint(x)\n", "expected": "42", "answer_token": "print", "answer_token_id": 1350, "generated": "print(type(x))\nx = \"Hello", "correct": false}
+{"pid": "code_scope1", "task": "code_scope", "prompt": "a = 7\nb = a\nprint(b)\n", "expected": "7", "answer_token": "a", "answer_token_id": 64, "generated": "a = 10\nprint(b", "correct": false}
+{"pid": "code_scope2", "task": "code_scope", "prompt": "n = 100\nprint(n)\n", "expected": "100", "answer_token": "for", "answer_token_id": 1958, "generated": "for i in range(1, n", "correct": false}
+{"pid": "code_scope3", "task": "code_scope", "prompt": "y = 5\nprint(y)\n", "expected": "5", "answer_token": "print", "answer_token_id": 1350, "generated": "print(type(y))\n\nx = 5", "correct": false}
+{"pid": "reduction0", "task": "reduction", "prompt": "Rules: I x = x; K x y = x; S f g x = f x (g x); C f x y = f y x.\nI a = ", "expected": "a", "answer_token": " a", "answer_token_id": 264, "generated": "a\nK a b =  a", "correct": true}
+{"pid": "reduction1", "task": "reduction", "prompt": "Rules: I x = x; K x y = x; S f g x = f x (g x); C f x y = f y x.\nK a b = ", "expected": "a", "answer_token": " a", "answer_token_id": 264, "generated": "a\nS K K x = K", "correct": true}
+{"pid": "reduction2", "task": "reduction", "prompt": "Rules: I x = x; K x y = x; S f g x = f x (g x); C f x y = f y x.\nK p q = ", "expected": "p", "answer_token": " p", "answer_token_id": 281, "generated": "p\nK p q =  q", "correct": true}
+{"pid": "reduction3", "task": "reduction", "prompt": "Rules: I x = x; K x y = x; S f g x = f x (g x); C f x y = f y x.\nS K K a = ", "expected": "a", "answer_token": "1", "answer_token_id": 16, "generated": "1.0\nS K K b", "correct": false}
