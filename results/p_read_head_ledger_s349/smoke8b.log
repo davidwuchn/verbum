@@ -1,0 +1,17 @@
+[read-head-ledger] corpus: capture 8 | control 8 | nullind 3 | excluded 0
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/399 [00:00<?, ?it/s]Loading weights: 100%|██████████| 399/399 [00:00<00:00, 22077.03it/s]
+driver: Qwen/Qwen3-8B on mps — 36 layers, d=4096, load 3s
+validity: PASS — {'determinism_ids': True, 'determinism_sign_dev': 0, 'fork_identity': True, 'seal_matches_fresh': True, 'append_law_mismatches': 0, 'ok': True}
+[read-head-ledger] driver validity: {'determinism_ids': True, 'determinism_sign_dev': 0, 'fork_identity': True, 'seal_matches_fresh': True, 'append_law_mismatches': 0, 'ok': True}
+[read-head-ledger] capture 0 '(\\x.\\y.\\a.\\b.x) y' → naive r=0.26252682146693546 [5s]
+[read-head-ledger] capture 1 '(\\x.\\y.\\y.\\a.x) y' → other r=0.42101129553076505 [10s]
+[read-head-ledger] capture 2 '(\\x.\\y.\\y.\\a.\\b.x) y' → other r=0.4314465380558075 [15s]
+[read-head-ledger] capture 3 '(\\x.\\y.\\a.x) y' → other r=None [17s]
+[read-head-ledger] capture 4 '(\\x.\\y.\\y.x) y' → other r=0.3979775971553782 [19s]
+[read-head-ledger] capture 5 '(\\x.\\y.\\a.\\b.\\c.x) y' → naive r=0.2526767919269006 [22s]
+[read-head-ledger] capture 6 '(\\x.\\y.x) y' → naive r=0.3346912011637135 [24s]
+[read-head-ledger] capture 7 '(\\x.\\y.\\y.\\a.\\b.\\c.x) y' → other r=0.42963912768014256 [26s]
+[read-head-ledger] capture complete: 19 records [53s]
+[read-head-ledger] VERDICT VOID | g0 False frac_naive 1.000 (n 3) | mean_r 0.361 floor 0.000 d_rec -0.347 | rho_join nan p nan | n_scored 7 excl 1
+[read-head-ledger] wrote /Users/mwhitford/src/verbum/results/p_read_head_ledger_s349/run_smoke

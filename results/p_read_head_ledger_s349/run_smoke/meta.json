@@ -1,0 +1,51 @@
+{
+  "run_id": "p_read_head_ledger_s349/run_smoke",
+  "timestamp": "2026-08-21T12:33:53.102750+00:00",
+  "model": "Qwen/Qwen3-8B",
+  "sampling": {
+    "strategy": "greedy",
+    "n": 24
+  },
+  "git_sha": "43f9a1c5894ae7b547aa939a58d7a678c2029c59",
+  "corpus_hash": "ec34a569",
+  "seed": 349,
+  "n_perm": 5000,
+  "frozen": "19897379",
+  "corpus_excluded": [],
+  "driver_validity": {
+    "determinism_ids": true,
+    "determinism_sign_dev": 0,
+    "fork_identity": true,
+    "seal_matches_fresh": true,
+    "append_law_mismatches": 0,
+    "ok": true
+  },
+  "stats": {
+    "verdict": "VOID",
+    "g0_pass": false,
+    "det_pass": true,
+    "ctrl_read_ok": false,
+    "ctrl_r": NaN,
+    "n_scored": 7,
+    "n_excluded": 1,
+    "g1_naive": false,
+    "hygienic_dom": false,
+    "frac_naive": 1.0,
+    "n_naive": 3,
+    "n_decided": 3,
+    "p_naive": 0.125,
+    "p_hygienic": 1.0,
+    "mean_r": 0.361424196139949,
+    "r0_floor": 0.0,
+    "d_floor": 0.361424196139949,
+    "p_g2_floor": NaN,
+    "d_rec": -0.34730628906112443,
+    "p_g2_rec": 1.0,
+    "g2_pass": false,
+    "induction": false,
+    "d_scope": NaN,
+    "rho_join": NaN,
+    "p_join": NaN,
+    "g3_pass": false
+  }
+}
