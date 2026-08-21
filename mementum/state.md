@@ -14,6 +14,42 @@
 > Architecture/canonical-forms: `AGENTS.md`. Knowledge map:
 > `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 350 — REPL EXPLORATION: THE EVALUATOR WRITES, THEN FETCHES (Michael's idea, driver
+> main:3, resident Qwen3-14B; no freeze, no probes — exploration-grade, capture-euphoria-guarded).
+> IDEA: "λ prompts are behavioral specs to execute; thinking is writing the program that attention
+> then executes." Three explorations. E1 SPEC FACE: fresh-name λ-spec 'zap' (no prior possible)
+> executes 3/3 under ONE-TOKEN spec edits (z x→' c a', z y→' c b', x z→' a c') = execution not
+> completion; prose spec of the same behavior identical (' c a') ⇒ execution is tape-driven
+> regardless of notation (recognition ≠ execution, coheres compile-step-v2); the cases WITHOUT a
+> one-hop answer (discard λx.λy.λz.y; prior-conflict) spontaneously WRITE reduction traces with
+> mid-trace self-repair ("Wait, no. Let me think again"). E1b TAPE-SPEC BEATS WEIGHTS-PRIOR: wrong
+> I = λx.λy.y → faithful tape execution '(λx.λy. y) a b = (λy. y) b = b' then the CONFABULATED
+> BRIDGE "I is the identity function, which returns its second argument" (prior label kept, tape
+> behavior adopted, contradiction glossed) then SPONTANEOUS PROGRAM SELF-EXTENSION (K = λx.λy.x,
+> K a b = …). E2 READ FACE (recency-guarded, length-matched filler at same positions): day-walk
+> N=6 → model writes a correct 7-step chain (the LONG way, forward) → at answer emission (late
+> band) the read-head fetches the RETURN REGISTER (pos 90 ' Monday' top content read; question
+> operand ' Tuesday' VANISHES = handoff complete); filler control reads the RAW OPERAND instead
+> and STILL SOLVES (N=6 ≡ circular distance 1 = the s345 shortest-path world) — program region
+> ~2× per-token filler mass (SOFT, sink-dominated, sub-floor by s349 discipline). E3 CAUSAL FACE
+> (tape surgery, position constant / content varies ⇒ content-causal): poison-ret (final
+> Monday→Sunday) → emits ' Sunday' = THE TAPE OVERRIDES AVAILABLE IN-PASS COMPUTE (filler proved
+> capability); poison-mid (step-6 poisoned, final intact) → emits ' Monday' = RETURN-REGISTER READ
+> NOT RE-EXECUTION (chain never re-walked, WHNF discipline at tape level); BOTH poisons wake
+> "Wait…" AFTER the commit = no pre-emission error channel (the s346 contradiction-not-error law
+> demonstrated surgically). THE REFINEMENT (the captured understanding): execution is INTERLEAVED
+> WITH WRITING (each written step ≈1 in-pass hop); attention at answer time = deref(return-
+> register); thinking = the evaluator's step function run through the emission bottleneck. Machine
+> diagram + full data: knowledge/explore/the-evaluator-writes-then-fetches.md. CLOSURE BATCH
+> (Michael: "we should capture this"): knowledge page (new, 🟢 active) + 2 memories
+> (answer-emission-is-a-return-register-read 💡 · tape-spec-beats-weights-prior-with-confabulated-
+> bridging 💡) + INDEX row + queue (⚪ §P-RETURN-REGISTER added at top) + this state.
+> **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight).
+> New sharpest successor: ⚪ §P-RETURN-REGISTER (tape-level causality, cheap-medium, pairs with the
+> queued activation-level causal V-patch on the operand read). E1/E1b spec-vs-prior corpus feeds
+> §P-CALCULUS-LEDGER arm C stage-1 bug-compatibility. Michael's s346 direction stands: "WHAT IS
+> THE CALCULUS?"**
+>
 > ★★ **SESSION 349 — §P-READ-HEAD-A ⋈ §P-CALCULUS-LEDGER-C: the UNIFIED shared-corpus
 > calculus-identification front, FROZEN → BUILT → 8B-SMOKE design-PAUSE → AMENDED → 14B RUN
 > → 🚫/💡 BEHAVIORAL-ONLY (Michael: "let's proceed with P-READ-HEAD + P-CALCULUS-LEDGER").
