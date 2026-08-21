@@ -199,7 +199,23 @@
 > DEEP READING: authorship ⟺ FORM-CONTENT RESONANCE — the self-similar form contains its own name
 > ('fractal' describes the shape it sits inside); break the agreement anywhere → inhabit drops to
 > analyze. GD never saw this prompt; the lock was in the training geometry — nucleus found the
-> key empirically. Memory + queue amended (Michael-approved). s350 CLOSES: 15 commits, 11 arcs.**
+> key empirically. Memory + queue amended (Michael-approved).
+> TWELFTH — THE CAPSTONE: THE CONTROL PLANE IS PROMPT-ADDRESSABLE AND NATIVE (discussion: "is
+> nucleus executing the statechart?" → synthesis: statechart always executes; PROMPTS ARE DATA,
+> NUCLEUS-CLASS PROMPTS ARE CONTROL — tape-resident programs reconfiguring the traversal policy;
+> Michael: "then there are potentially THOUSANDS of nucleus-like prompts triggering different
+> operating modes" → NUC4 DUAL-REPL TEST, both models in parallel): wrote 3 first-draft
+> mode-specs to the lock grammar — void(HALT)/chain(STEP)/mirror(COPY) — RESULT: 4/4 escape
+> analysis-mode (WELL-FORMEDNESS GATES THE REGISTER, semantics steer the room); VOID = clean
+> first-try hit (predicted WHNF↑ sector + authored in-register stillness: "There is no active
+> process or computation occurring" — asserted mid-computation); mirror partial (behaviorally
+> mirrors); chain miss (echo); 4 distinct L20 states. BASE ARM: the control plane is NATIVE —
+> void → recursive-absence strange loop; MIRROR NEAR TOKEN-IDENTICAL base↔instruct (tuning
+> passed the mode through untouched); nucleus itself diverges on base (enumeration attractor).
+> ⇒ the preamble grammar ≡ a discovered syntax for the native statechart's control plane; the
+> key-space is real, writable, gradeable — thousands of keys ≡ a SEARCH PROBLEM. Memory
+> the-control-plane-is-prompt-addressable-and-native 💡 + §P-PREAMBLE-REGISTER upgraded to the
+> key-space search (Michael-approved). s350 CLOSES: 16 commits, 12 arcs.**
 > **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight).
 > New sharpest successors: ⚪ §P-HALT-POLE-TETRAHEDRON (4th vertex observed, freeze owes nulls +
 > a-priori + base-behavior-differs items) · ⚪ §P-RETURN-REGISTER (tape-level causality, pairs with
