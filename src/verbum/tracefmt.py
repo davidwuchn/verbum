@@ -59,6 +59,90 @@ class Trace:
         return self.table()
 
 
+@dataclass(frozen=True)
+class DepthRow:
+    layer: int
+    lens: str  # top-k logit-lens tokens (what the residual says here)
+    op: str  # per-layer top crystal op with z
+    station: str  # per-layer argmax 17-pole with cosine
+
+
+@dataclass
+class DepthTrace:
+    prompt: str
+    token: str
+    step: int
+    rows: list[DepthRow]
+
+    def table(self, width: int = 72) -> str:
+        p = self.prompt.replace("\n", "⏎")
+        avail = width - len("prompt: ")
+        if len(p) > avail:
+            p = "…" + p[-(avail - 1) :]
+        head = f"{'L':>3}  {'lens':34} {'op(z)':9} station"
+        lines = [
+            f"prompt: {p}",
+            f"deciding pass for emission {self.step}: {self.token!r}",
+            head,
+            "-" * len(head),
+        ]
+        for r in self.rows:
+            lines.append(f"{r.layer:>3}  {r.lens:34} {r.op:9} {r.station}")
+        return "\n".join(lines)
+
+    def md(self) -> str:
+        return "```\n" + self.table() + "\n```"
+
+    def __repr__(self) -> str:
+        return self.table()
+
+
+def build_depth_trace(driver, bounce, step: int = 0, top_k: int = 3) -> DepthTrace:
+    """Vertical slice: per-layer lens ⊕ op ⊕ station of ONE deciding pass.
+
+    The math lives in depth, not emissions (s350: 12+9+34 descends
+    concept→magnitude→digit across L26-39). Needs hidden=True capture.
+    """
+    if driver._rcc is None:
+        raise RuntimeError("run calibrate_opcodes() first")
+    if bounce.hidden is None:
+        raise ValueError("bounce captured no hidden states (hidden=False)")
+    res = driver._rcc.classify(
+        {li: bounce.signs[step, i] for i, li in enumerate(driver._rcc_layers)}
+    )
+    pl = res.per_layer
+    r17 = driver.routes(bounce)  # [n, L, S]
+    rows: list[DepthRow] = []
+    for layer in range(driver.n_layers):
+        try:
+            lens = "".join(
+                f"{t!r:11}"
+                for t in driver.lens(bounce, step=step, layer=layer, top_k=top_k)
+            )
+        except Exception as e:  # lens can fail on odd hidden shapes
+            lens = f"<{e}>"
+        zl = pl.get(layer, {})
+        op = ""
+        if zl:
+            name = max(zl, key=zl.get)
+            op = f"{name}{zl[name]:+.1f}"
+        s = int(np.argmax(r17[step, layer]))
+        rows.append(
+            DepthRow(
+                layer=layer,
+                lens=lens,
+                op=op,
+                station=f"{driver._pole_order[s]}({r17[step, layer, s]:+.2f})",
+            )
+        )
+    return DepthTrace(
+        prompt=bounce.prompt_text,
+        token=bounce.tokens[step],
+        step=step,
+        rows=rows,
+    )
+
+
 def build_trace(driver, bounce, z_thresh: float = 3.0) -> Trace:
     """Compute the per-emission multi-register trace for a Bounce."""
     if driver._rcc is None:

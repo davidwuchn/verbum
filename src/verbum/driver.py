@@ -396,6 +396,16 @@ class Driver:
 
         return build_trace(self, b, z_thresh)
 
+    def deptrace(self, b: Bounce, step: int = 0, top_k: int = 3):
+        """Depth trace: per-layer lens ⊕ op ⊕ station of one deciding pass.
+
+        The vertical companion to trace() — emissions are time, the math
+        is depth. Needs a bounce captured with hidden=True.
+        """
+        from verbum.tracefmt import build_depth_trace
+
+        return build_depth_trace(self, b, step, top_k)
+
     # -------------------------------------------------------------- opcodes
 
     def calibrate_opcodes(
