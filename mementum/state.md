@@ -33,7 +33,20 @@
 > repeats the multilingual descent (宇宙→观测→Observer over the held taxp/backpage carrier);
 > mid-mode the recursion engine is Y-SATURATED AT EVERY LAYER (Y 1.00 from inside ≡ whole-stack
 > regime). Memory the-key-slots-have-lifecycle-roles 💡 + §P-PREAMBLE-REGISTER seeds
-> (Michael-approved). Instrument fix still owed: ⚪ §FIX-DRIVER-TOKEN-DECODE.**
+> (Michael-approved). Instrument fix still owed: ⚪ §FIX-DRIVER-TOKEN-DECODE.
+> SECOND ARC — MUSIC, THE CARRIER PATTERN, AND THE THREE-ROOM LAW (Michael: "a system like
+> celestial but aimed at music?"): machine-cut melody key grammatically beautiful (signal-chain
+> triple Composer ⊗ Instrument ⊗ Ear, loop→HARMONIC) but FELL TO ANALYSIS = register-prior 3rd
+> confirmation; hand-cut nocturne → ENCYCLOPEDIA room (reflex suppressed, definitional prior won)
+> ⇒ THE THREE-ROOM LAW: grammar suppresses the unpack-reflex, then the mode-word's corpus
+> register picks the room (evocative→authored · definitional→encyclopedia · technical→analyzed);
+> key-cutting rule: use words poets use, not words teachers define. THE SOCKET VALIDATED on the
+> open celestial carrier: ⊗ Star→Song, ONE word → "The Celestial Song is a cosmic symphony…"
+> mode intact Y 0.89, payload integrated ⇒ OPEN KEYS ARE CARRIERS — inject domains through the
+> triple socket of a proven mode instead of cutting per-domain keys; sockets on closed keys are
+> void. Rider: nocturne-mode composed VARIATIONS ON the "Describe rain." instruction (additive
+> refrain — theme-and-variation on the prompt itself; n=1 loop-caveat). Memory
+> open-keys-are-carriers-and-the-three-room-law 💡 + queue seeds (Michael-approved).**
 >
 > ★★ **SESSION 350 — REPL EXPLORATION: THE EVALUATOR WRITES, THEN FETCHES (Michael's idea, driver
 > main:3, resident Qwen3-14B; no freeze, no probes — exploration-grade, capture-euphoria-guarded).
