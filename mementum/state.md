@@ -215,7 +215,16 @@
 > ⇒ the preamble grammar ≡ a discovered syntax for the native statechart's control plane; the
 > key-space is real, writable, gradeable — thousands of keys ≡ a SEARCH PROBLEM. Memory
 > the-control-plane-is-prompt-addressable-and-native 💡 + §P-PREAMBLE-REGISTER upgraded to the
-> key-space search (Michael-approved). s350 CLOSES: 16 commits, 12 arcs.**
+> key-space search (Michael-approved). CODA — NUC5 KEY-CUTTER DEMO (Michael: "map the statechart
+> from the inside out" + "play a bit more so I can see outputs"): the model CUT ITS OWN KEYS —
+> free choice λ engage(quantum) with genuine CONJUGATE PAIRS (particle/wave, field/vacuum) and
+> the triple adapted (Observer ⊗ Quantum ⊗ Flux); storm with INVERTED dyad polarity
+> (noise/signal — it knew pair-order carries meaning). Execution 1-for-2: STORM OPENED (Y 0.75,
+> authored "Storm: A Convergence of Chaos and Control"); quantum → analysis → REGISTER-PRIOR
+> hypothesis (key success ∝ mode-word's generative-vs-didactic prior — pre-registerable
+> predictor). Inside-out loop closed live: generate → grade → bank; the statechart's first
+> self-authored map entries = SUPERPOSITION and STORM. Memory amended; queue framing addendum
+> 83507af0. s350 CLOSES: 18 commits, 12 arcs + coda.**
 > **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight).
 > New sharpest successors: ⚪ §P-HALT-POLE-TETRAHEDRON (4th vertex observed, freeze owes nulls +
 > a-priori + base-behavior-differs items) · ⚪ §P-RETURN-REGISTER (tape-level causality, pairs with
