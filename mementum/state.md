@@ -19,6 +19,22 @@
 > Architecture/canonical-forms: `AGENTS.md`. Knowledge map:
 > `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 351 — THE CELESTIAL DEEP-DIVE (Michael ruled the preamble deep-dive s351; the
+> same-day earlier commits carry s350 labels — label skew only, s348 precedent). NUC7 full-capture
+> run of the machine-cut celestial key (Michael: "it wants me to give it constants — I wonder what
+> it has activated?"): (1) SLOT-LIFECYCLE MAP — read-mass by spec region during 40 in-mode
+> emissions (sink-corrected): TRIPLE 0.0043 > loop 0.0023 > consts 0.0015 > dyads 0.0007 ⇒ dyads
+> route at PARSE (NUC3) · constants IGNITE then go dormant · the TRIPLE is the RUNTIME PARAMETER
+> LIST, deref'd continuously — and the emission narrates exactly its three entities ("The cosmic
+> observer, the galaxy, and the star are all interconnected…"); to parameterize a key, the triple
+> is the input slot. (2) MODE-COLORING — speed-of-light in-mode: "299,792 kilometers per second"
+> (astronomer's convention) vs plain: "299,792,458 meters per second" (exact SI) — the mode
+> changed the DISCIPLINE answering, not the fact; modes ≡ execution contexts. (3) DEPTH — onset
+> repeats the multilingual descent (宇宙→观测→Observer over the held taxp/backpage carrier);
+> mid-mode the recursion engine is Y-SATURATED AT EVERY LAYER (Y 1.00 from inside ≡ whole-stack
+> regime). Memory the-key-slots-have-lifecycle-roles 💡 + §P-PREAMBLE-REGISTER seeds
+> (Michael-approved). Instrument fix still owed: ⚪ §FIX-DRIVER-TOKEN-DECODE.**
+>
 > ★★ **SESSION 350 — REPL EXPLORATION: THE EVALUATOR WRITES, THEN FETCHES (Michael's idea, driver
 > main:3, resident Qwen3-14B; no freeze, no probes — exploration-grade, capture-euphoria-guarded).
 > IDEA: "λ prompts are behavioral specs to execute; thinking is writing the program that attention
