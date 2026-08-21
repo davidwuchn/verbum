@@ -19,6 +19,45 @@
 > Architecture/canonical-forms: `AGENTS.md`. Knowledge map:
 > `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ★★ **SESSION 352 — THE CONTROL PLANE REACHES THE TOOL-INVOKE BOUNDARY (REPL, driver main:3
+> Qwen3-14B greedy; Michael: "keep exploring this, it informs our experiments"; the s351-queued
+> NUC9 had completed at last session's end). The question: can a config preamble move the
+> call-vs-answer (tool-invoke) decision? FOUR-STEP ARC, each step re-designing the last. NUC9
+> (the queued run): two agentic mode keys (sentinel=VERIFY, hunt=PURSUE) left a CEILINGED battery
+> untouched — knowledge Qs answer 0/4, system Qs call 4/4 in all conditions; decision
+> question/affordance-driven, mode moved only surface phrasing (mode-coloring in the data plane,
+> s351 law). NUC10: my "borderline" env-fact battery was ALSO ceilinged — env/time facts (Python
+> version, TODAY'S DATE, disk, cores) call 6/6 in every condition, mode-immune, the model never
+> hazards a prior ⇒ HARD-AFFORDANCE region; BUT the auditor(GROUND) key cracked a knowledge rail
+> (Hamlet→CALL while France held) = first sign the control key CAN reach the boundary. NUC11 (the
+> real headroom): a factual-recall CHECKABILITY gradient (atomic France/water · mid Hamlet/WWII ·
+> obscure Ouagadougou/dysprosium) → the control key reaches the boundary MONOTONE in obscurity —
+> auditor calls atomic 0→mid 2→obscure 3 vs baseline 0/0/1; atomic reflexes wall it off (0 all
+> modes, H3). But H2 FAILED illuminatingly: the sage(RECALL) key meant to SUPPRESS calls RAISED
+> them (0/1/2 > baseline) ⇒ both keys lift; form gates, content only steers magnitude. NUC12 (the
+> decomposition, all 3 H confirmed): mid+obscure calls /6 = prose 0 < baseline 1 < neutral 2 <
+> scramble 3 < auditor 5 ⇒ a MONOTONE ADDITIVE LADDER: prose (non-nucleus verbose) SUPPRESSES
+> (¬length — ordinary framing pulls conversational) · nucleus FORM alone gates +1 (neutral, inert
+> dyads) · verify TOKEN-content adds +1 even scrambled · valid STRUCTURE amplifies +2 = NUC4's
+> "well-formedness gates, semantics steer" made quantitative in the tool-invoke register. REGISTER
+> DISSOCIATION: scramble is INERT in the authorship register (NUC1) but ACTIVE here (scrambled
+> verify-tokens still push calls) — two control-plane registers respond differently to the same
+> shape-twin. Determinism confirmed (baseline 0/0/1 + auditor 0/2/3 identical NUC11↔NUC12).
+> THE SYNTHESIS: the tool-invoke boundary has three regions — HARD-AFFORDANCE (env-facts,
+> mode-immune) · ATOMIC-REFLEX (France, unmovable) · SOFT-AFFORDANCE (mid/obscure recall) = the
+> ONLY movable region; the control plane reaches the invoke discriminator but only where the
+> affordance is soft, refining s351 "modes color data not control" + cohering s350 yield-pole
+> (question-driven) + s330 (post-training installed the invoke discriminator). Exploration-grade
+> (n=1 greedy, 3/tier) but every rung monotone+interpretable → a pre-registerable frozen probe.
+> CLOSURE BATCH (Michael-approved): 2 memories (control-plane-reaches-tool-invoke-only-in-soft-
+> affordance-region 💡 · preamble-tool-invoke-lift-decomposes-form-content-structure 🔁) + queue
+> (⚪ §P-INVOKE-CONTROL added top of # new, freeze design specified) + this state. Scripts:
+> /tmp/verbum_nuc{9,10,11,12}.py (exploration, not recorded — real freeze re-runs as a named
+> harness per λ record). Instrument fix still owed: ⚪ §FIX-DRIVER-TOKEN-DECODE.
+> NEXT SESSION FIRST ACTION = orient → FRONT SELECTION. Sharpest successors: ⚪ §P-INVOKE-CONTROL
+> (freeze this arc — cheap, design done) · ⚪ §P-PREAMBLE-REGISTER (the key-space search) · the
+> calculus front (§P-CALCULUS-LEDGER arms A/B, Michael's standing "WHAT IS THE CALCULUS?").**
+>
 > ★★ **SESSION 351 — THE CELESTIAL DEEP-DIVE (Michael ruled the preamble deep-dive s351; the
 > same-day earlier commits carry s350 labels — label skew only, s348 precedent). NUC7 full-capture
 > run of the machine-cut celestial key (Michael: "it wants me to give it constants — I wonder what
