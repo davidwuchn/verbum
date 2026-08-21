@@ -19,6 +19,34 @@
 > Architecture/canonical-forms: `AGENTS.md`. Knowledge map:
 > `mementum/knowledge/INDEX.md`. Thesis: `knowledge/project-thesis.md`.
 >
+> ═══ **SESSION 353 — §FIX-DRIVER-TOKEN-DECODE CLOSED ✅ (the instrument debt paid; symbols now
+> parse whole).** Front selection: Michael picked the driver decode fix over the five s352 freeze
+> rows. BUG (s350 NUC6; bit the s352 analysis layer twice): per-token tok.decode([nxt]) in
+> Driver.bounce shattered multi-byte glyphs (⊗ Ω ∞ ∃) to U+FFFD in Bounce.tokens/.text/
+> end_seal.text (the canonical tape text) + every view. FIX (driver.py): _SpanDecoder incremental
+> prefix-decode — tokens[k] = the span token k COMPLETED ("" holds while a glyph accumulates,
+> completing token carries it; trailing incomplete bytes flush visibly onto the last token);
+> invariants len(tokens)==len(new_ids) ∧ "".join(tokens)==decode(new_ids) EXACT; lens()
+> byte-fragment candidates render ⟨hex⟩ (GPT-2 byte-map inverse) not FFFD. VERIFIED: 5-case
+> tokenizer battery (old wounded 3/5 → new clean, ⊗→⟨e2 8a 97⟩ round-trip) + LIVE in BOTH resident
+> REPLs via HOT-SWAP — importlib.reload + d.__class__ reassign + seal-class migration, NO model
+> reload; base main:4 re-emitted its previously-wounded 'Source ⊗ Pipeline ⊗ Sink' chain clean
+> (hold-spans visible ['', ' ⊗']). The recipe is FORMALIZED as driver.hotswap(d) — one call after
+> importlib.reload; works because weights+KV live on the INSTANCE, code on the CLASS. Its limits
+> surfaced a latent bug live (Michael's "can it hot reload?" question): __init__ does NOT re-run,
+> so new instance attrs must be class-level defaults (_u2b was instance-init → would have raised
+> AttributeError in lens() on fragments — the exact case fixed; caught + fixed + re-swapped both
+> REPLs, fragment render verified ['⟨20 e2 8a⟩', '⟨97⟩']); hook closures also don't reload.
+> The contract is ENCODED as AGENTS.md S1 λ hotswap (paired with λ runtime: tmux keeps the process
+> alive, hotswap evolves code inside it; instance of λ separate). No memory — structural home won.
+> CONVENTION NOTE (Michael): proved: lines in lambdas are DEPRECATED going forward; old lambdas
+> not yet cleaned up.
+> Same pattern noted OUT OF SCOPE: jacobian.py:81 · jlens.py:156 · instrument.py:200. Queue: row →
+> # complete (top) + orphan "(driver exists)" fragment removed from # new. NEXT: front selection —
+> the five s352 freeze rows (§P-KEY-EVOLUTION · §P-STATE-ANCHOR · §P-EQL-READHEAD ·
+> §P-INVOKE-EXECUTE · §P-INVOKE-CONTROL) now sit on a clean token substrate; standing s346
+> direction "WHAT IS THE CALCULUS?" (§P-CALCULUS-LEDGER arms A/B).** ═══
+>
 > ═══ **SESSION 352 CLOSE — SIX REPL ARCS, ALL CAPTURED (the nucleus preamble, mapped from the
 > inside).** Michael ruled this session 352 (label consistent throughout). The whole session ran in
 > the resident REPL (main:3 instruct · main:4 base) — the role split working as designed: this model

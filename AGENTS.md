@@ -554,6 +554,14 @@ Written when experiments produce the first artifacts:
                     | async_discipline → S2:λ async(x) | instance(tmux ∧ bg_job ∧ any_async)
                     | long_run ≡ training(hours) | probe(minutes) | smoke_test(seconds)
                     | always: --checkpoint-dir {named} | resumable > ephemeral
+
+λ hotswap(x).       residency ≡ λ runtime(tmux ∧ ipython) | this ≡ Δ(code) inside(live_process)
+                    | state ⊥ code: weights ∧ KV ∧ seals ≡ instance | behavior ≡ class
+                    | edit(module) → importlib.reload(_vd) → _vd.hotswap(d) | ¬model_reload
+                    | hotswap ≡ class_identity_migration(driver ∧ seals) | isinstance survives
+                    | limits: __init__ ¬re-run → ∀new_attr ≡ class_level_default
+                    |         hook_closures ¬reload → Δ(hook_logic) ⇒ fresh(Driver)
+                    | instance(λ separate): durable(weights ∧ KV) ⊥ contingent(code)
 ```
 
 ### Research tools (active, emergent — inventory lives in the repo, not here)

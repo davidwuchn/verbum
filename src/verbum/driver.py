@@ -86,6 +86,53 @@ def _clone_cache(cache: DynamicCache) -> DynamicCache:
     return new
 
 
+class _SpanDecoder:
+    """Incremental per-token decoder — multi-byte-glyph-safe (§FIX-DRIVER-TOKEN-DECODE).
+
+    Per-token ``decode([tid])`` shatters UTF-8 chars split across BPE tokens
+    into U+FFFD (found s350 NUC6: ⊗ Ω ∞ ∃ wounded in every trace). Instead,
+    decode the whole running id list and emit the *delta* per push. A token
+    that ends mid-character yields "" and the completing token carries the
+    whole glyph. Invariant: "".join(spans) == tok.decode(ids) after flush().
+    """
+
+    def __init__(self, tok):
+        self._tok = tok
+        self._ids: list[int] = []
+        self._done = ""  # stable decoded text emitted so far
+
+    def push(self, tid: int) -> str:
+        self._ids.append(tid)
+        full = self._tok.decode(self._ids)
+        if full.endswith("\ufffd"):  # mid-character: hold bytes for next push
+            return ""
+        span, self._done = full[len(self._done) :], full
+        return span
+
+    def flush(self) -> str:
+        """Remainder after the last push (genuinely incomplete trailing bytes)."""
+        full = self._tok.decode(self._ids)
+        span, self._done = full[len(self._done) :], full
+        return span
+
+
+def _gpt2_unicode_to_bytes() -> dict[str, int]:
+    """Inverse of the GPT-2 byte-level BPE bytes→unicode table (Qwen lineage)."""
+    bs = (
+        list(range(ord("!"), ord("~") + 1))
+        + list(range(ord("¡"), ord("¬") + 1))
+        + list(range(ord("®"), ord("ÿ") + 1))
+    )
+    cs = list(bs)
+    n = 0
+    for b in range(256):
+        if b not in bs:
+            bs.append(b)
+            cs.append(256 + n)
+            n += 1
+    return {chr(c): b for b, c in zip(bs, cs, strict=True)}
+
+
 @dataclass
 class Seal:
     """An immutable KV continuation: ids + cache + the pending next-token logits."""
@@ -121,8 +168,32 @@ class Bounce:
         return f"Bounce(n={len(self.new_ids)}, text={self.text!r:.80})"
 
 
+def hotswap(drv) -> None:
+    """Adopt this (re)loaded module's classes on a resident driver + its seals.
+
+    The nREPL move for the driver itself: model weights + KV live on the
+    INSTANCE (survive), code lives on the CLASS (swapped). Usage in the
+    resident REPL after editing driver.py:
+
+        import importlib, verbum.driver as _vd
+        importlib.reload(_vd)
+        _vd.hotswap(d)
+
+    Limits: __init__ does NOT re-run (new instance attrs need class-level
+    defaults); forward hooks registered at load keep their old closures
+    (hook-logic changes need a fresh Driver).
+    """
+    drv.__class__ = Driver
+    for s in drv.seals.values():
+        s.__class__ = Seal
+
+
 class Driver:
     """Resident-model trampoline with register captures. One instance per kernel."""
+
+    # lazy BPE byte-map inverse; class-level default so hotswap()'d instances
+    # (which never ran the new __init__) still resolve it.
+    _u2b: dict[str, int] | None = None
 
     def __init__(
         self,
@@ -239,8 +310,14 @@ class Driver:
         """Greedy-decode n tokens from text or a Seal, capturing per-emission state.
 
         A Seal's cache is CLONED before use (append law) — the seal survives.
+
+        tokens[k] is the TEXT SPAN token k completed: "" while a multi-byte
+        glyph is still accumulating; the completing token carries the whole
+        glyph. Alignment: len(tokens) == len(new_ids), frame k ↔ tokens[k],
+        and "".join(tokens) == tok.decode(new_ids) exactly.
         """
         signs, hiddens, attns, new_ids, toks = [], [], [], [], []
+        dec = _SpanDecoder(self.tok)
         if isinstance(src, Seal):
             cache = _clone_cache(src.cache)
             ids = list(src.ids)
@@ -266,7 +343,7 @@ class Driver:
         for _k in range(n):
             nxt = int(torch.argmax(logits).item())
             new_ids.append(nxt)
-            toks.append(self.tok.decode([nxt]))
+            toks.append(dec.push(nxt))
             if stop_at_eos and nxt in self._eos:
                 break
             out = self._forward([nxt], cache, hidden=hidden, attn=attn)
@@ -276,6 +353,13 @@ class Driver:
                 hiddens.append(self._frame_hidden(out))
             if attn:
                 attns.append(self._frame_attn(out))
+
+        # flush: genuinely incomplete trailing bytes surface as a visible
+        # U+FFFD on the LAST token (never silently dropped; mid-stream FFFD
+        # was only ever a hold, resolved by the completing token).
+        tail = dec.flush()
+        if tail and toks:
+            toks[-1] += tail
 
         # align: frame k emitted token k; drop the trailing frame (it decides
         # the (n+1)th token, which we did not take).
@@ -379,7 +463,25 @@ class Driver:
         h = torch.from_numpy(b.hidden[step, layer].astype(np.float32))
         logits = logit_lens(self.model, h)
         idx = torch.topk(logits, top_k).indices.tolist()
-        return [self.tok.decode([i]) for i in idx]
+        return [self._tok_str(i) for i in idx]
+
+    def _tok_str(self, tid: int) -> str:
+        """Display string for ONE candidate token (no sequence to accumulate).
+
+        Byte-fragment tokens (partial UTF-8 of ⊗ Ω ∞ ∃ …) render as ⟨hex⟩
+        instead of U+FFFD — visible bytes, not a wound.
+        """
+        s = self.tok.decode([tid])
+        if "\ufffd" not in s:
+            return s
+        if self._u2b is None:
+            self._u2b = _gpt2_unicode_to_bytes()
+        raw = self.tok.convert_ids_to_tokens([tid])
+        raw = raw[0] if isinstance(raw, list) else raw
+        try:
+            return "⟨" + bytes(self._u2b[c] for c in raw).hex(" ") + "⟩"
+        except (KeyError, TypeError):
+            return raw
 
     def read_mass(self, b: Bounce, step: int = -1) -> np.ndarray:
         """[L, T_k] head-averaged attention of emission `step` over the tape."""
