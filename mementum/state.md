@@ -73,15 +73,38 @@
 > contact 💡 · smoke-must-be-at-least-4b-for-the-calculus-to-form 💡 [the A2 candidate law]) + INDEX row +
 > queue (▶→🚫 to # complete) + this state. NOTE the memory set substituted the C1-pre-reg-win for the
 > earlier-listed C6-confirmation (the pre-reg contact is the stronger banked finding; C6 lives in §Result).**
-> **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight). The
-> semantic-equality / tape-residency arc is now REGISTER-COMPLETE + behavioral-complete — equality is a
-> lexical floor everywhere measured. Michael's s346 direction stands: the understanding phase should CASH
-> IN — Path B (drive models better) feeds Path A (build the small model), front question "WHAT IS THE
-> CALCULUS?". Sharpest live fronts: ⚪ §P-DEPTH-CARRIER (the s346 charged-rotation, first persistent-mode /
-> homeostat candidate, driver-ready, at queue top) · ⚪ §P-READ-HEAD + §P-CALCULUS-LEDGER (shared engineered
-> corpus, one design pass — the calculus-identification front, corpus essentially specified from s346 REPL
-> play) · the toolbox build (the-ocularium-decision, s346-approved: opcodes/ consolidation + verbum-repl CLI
-> + multi-model registry + turret facade).**
+> **§P-DEPTH-CARRIER SELECTED (Michael) → FROZEN → INSTRUMENT-FIRST RE-SCOPE → RE-FROZEN → ▶ 14B RUN IN
+> FLIGHT (tmux main:1). First freeze c953705d modeled a UNIFORM ~5°/layer precession tested by rank-2 DMD
+> residual; --validate 5/5 (3f3f2f93) BUT the 8B smoke + a resident-14B-driver look (main:3 REPL) FALSIFIED
+> that operationalization: (1) rank-2 residual is order-BLIND (increment-shuffle keeps in-plane increments
+> rank-2) and too brittle (a clean planted rotation + 15% noise reads GENERIC; real 14B resid 0.53-0.64);
+> (2) the rotation is NOT uniform — it is LATE-CONCENTRATED (unwrapped phase flat L0-27 then sweeps ~200°
+> in the last ~10 layers as amplitude explodes 63→1536 = the answer-assembly/discharge region; the pilot's
+> clean |λ|=1.003 was a DMD AVERAGE of this flat-then-sweep shape). DESIGN-PAUSE surfaced to Michael (s324;
+> the residual metric would give an uninterpretable GENERIC). Michael: RE-SCOPE + RE-FREEZE, run in main:1.
+> INSTRUMENT-FIRST (route-map-v0 precedent): the resident driver found a CLEAN discriminator (15/15 real 14B
+> trajectories) — SWEPT ANGLE in the late band (raw_norm>0.30·max) 5.7-6.2 rad vs NORM-MATCHED null q95
+> ~3.8 (swept==wind ⇒ MONOTONE/one-directional rotation), + late-plane answer-axis alignment 0.05-0.13 vs
+> random-token q95 ~0.04 (both 15/15; f2 low-dim-ness did NOT separate → dropped). RE-FROZEN 6931a070 BEFORE
+> the fresh-battery data: verdict tree VOID / NO-EXCESS-SWEEP (G1 fail = pilot spiral was norm-growth/PCA
+> artifact) / GENERIC-LATE-SWEEP (G1∧¬G2) / LATE-ANSWER-ROTATION (G1∧G2); a-priori 10/20/25/45; N3
+> norm-matched = make-or-break, N1 confirmatory, N2 increment-shuffle ADVISORY (documented order-blind), N4
+> random-token answer null; --validate 5/5 (late_answer_rotation→LATE-ANSWER-ROTATION, late_generic_sweep→
+> GENERIC-LATE-SWEEP, random_walk & ray→NO-EXCESS-SWEEP, degenerate→VOID); ruff+diags clean. ▶ RUN LAUNCHED
+> in tmux main:1 (run14b.log; driver validity PASS det 0.0; full 50-prompt battery × N3/N1/N2 nulls;
+> ~minutes-low-tens). CAVEAT: a second 14B is resident in main:3 (Michael's REPL) — both loaded without OOM,
+> but he may free main:3 (d.free()) if memory tightens.**
+> **NEXT SESSION FIRST ACTION = read results/p_depth_carrier_s348/run_14b/meta.json (the frozen verdict) →
+> results commit (autonomous) → closure batch (approval-gated: §Result in answer-assembly-is-a-charged-
+> rotation.md + memory + INDEX + queue ▶→verdict + state). Harness scripts/experiments/depth_carrier.py
+> (frozen 6931a070). If the run did not finish, re-launch `uv run python scripts/experiments/depth_carrier.py
+> 2>&1 | tee results/p_depth_carrier_s348/run14b.log` in tmux main:1. Reading guide: LATE-ANSWER-ROTATION =
+> the answer is written by a coherent late rotation into the answer axis (first answer-assembly-slot
+> positive; coheres s343 flip + WHNF-seal); NO-EXCESS-SWEEP = the pilot charged-rotation was a norm-growth/
+> PCA-arc artifact (honest negative, GENERIC-family a-priori 45 combined); DESCRIPTIVE verdict only — no
+> homeostat/persistent-mode/modulation vocabulary without a separate contact (frame_ledger 0-3).
+> Other live fronts if closing: ⚪ §P-READ-HEAD + §P-CALCULUS-LEDGER (calculus-identification, corpus from
+> s346 play) · the toolbox build (the-ocularium-decision).**
 >
 > ★★ **SESSION 346 — THE CALCULUS-IDENTIFICATION REPOINT (Michael-called, direction session, no probes run).
 > Michael's drift-check ("are we going in circles? better model, or better use of models?") → honest audit: the
