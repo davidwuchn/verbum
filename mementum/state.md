@@ -141,7 +141,25 @@
 > said by the machine's own geometry); direct confirmation operations-follow-directions (within-
 > cos 0.61-0.70 vs between 0.46-0.53 at L20; ~0.5 floor = carrier). The validated candidate-
 > generator for §P-DOT-CENSUS recipe B. Memory lens-fishing-marks-operation-directions 🔁 +
-> census row amended (Michael-approved).**
+> census row amended (Michael-approved).
+> EIGHTH — THE RETRIEVAL DIVE (Michael: "so we just found the retrieval machinery?" → guard held:
+> state ≠ machinery → "use the repl to explore this" → RETR1/RETR2 + kernel-only geometry, ~40
+> bounces): (1) FORMAT CORRECTION — the fished retr direction is CLOZE-FORMAT-bound (cloze 0.80 →
+> question 0.63 → mid-sent 0.60; question lands nearer SORT = instruction-response format);
+> lens-fishing memory amended (fished directions ⊃ format registers; census must vary format ⊥
+> operation). (2) WEIGHTS-RETRIEVAL IS CONTENT-ADDRESSED, NO OPCODE — fact states barely cohere
+> (L20 +0.04 over between; L12 BELOW between): the KV query IS the content; what coheres instead:
+> TAPE-COPY (+0.12, tape-deref HAS a direction, weights-deref doesn't — the two memories differ in
+> KIND) and the OPINION/no-answer register (+0.16, most coherent measured). (3) THE HALLUCINATION
+> MECHANISM — hedging machinery EXISTS (3/6 opinion dodges) but fake facts ROUTE PAST IT (6/6
+> confident inventions: "flumium is Fm", "the Dune of Sorrow"); geometry agrees (fakes nearer fact
+> cluster 0.606-0.615 than opinion 0.590) AND fakes sit ~0.06-0.07 OFF the real-fact manifold
+> (0.670 vs 0.606, REPLICATED) = candidate EMPTY-LOOKUP trace pre-emission while the output
+> confabulates ⇒ hallucination = fact-routing + empty lookup + no error channel (three s350 laws,
+> one mechanism). CLOSURE (Michael-approved): 2 memories (weights-retrieval-is-content-addressed-
+> not-an-opcode 💡 · hallucination-is-fact-routing-plus-empty-lookup 💡) + lens-fishing correction
+> + ⚪ §P-EMPTY-LOOKUP queued (familiarity-matched fakes = the killer confound; per-item ROC on
+> real rare facts = the deployable version) + this state.**
 > **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight).
 > New sharpest successors: ⚪ §P-HALT-POLE-TETRAHEDRON (4th vertex observed, freeze owes nulls +
 > a-priori + base-behavior-differs items) · ⚪ §P-RETURN-REGISTER (tape-level causality, pairs with
