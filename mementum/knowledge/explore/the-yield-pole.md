@@ -134,6 +134,28 @@ the decision-to-invoke installed by post-training.
 - 17-frame blindness is expected off-distribution behavior (frame built
   from λ-reduction probes); it measures the frame's coverage, not a failure.
 
+## Finding the rest of the missing geometry (s350 strategy, Michael-prompted)
+
+The `[·]` sub-threshold tokens are the survey territory, not noise. Two
+recipes (memory: `the-dots-are-the-survey-territory`):
+
+- **A. Top-down (proven here):** theory names a state → behavioral contrast
+  → same-context control → centroid → cohesion vs nulls → depth address →
+  base-check → labeled pole with native/installed tag. Waiting candidates:
+  tool-result ingestion, refusal commit, "Wait" self-repair commit,
+  quote/mention-vs-use, enumeration attractor.
+- **B. Bottom-up (dot census → residual spectroscopy):** banded corpus →
+  dot-rate coverage map (WHERE) → PR of deciding-state Gram vs variance
+  explained by labeled span (HOW MUCH, one number) → eigen-decompose the
+  residual (frame-free, FTO-clean) → top-loading tokens per mode → recipe A
+  labels the candidate. First hint from the optrace battery: prose dot-rate
+  ≫ math dot-rate — the missing geometry is concentrated in ordinary-
+  language operations, where the λ-born basis is thinnest.
+- Compounding: base-check every pole as it lands → the two-color atlas
+  (native vs installed), pole by pole.
+
+Queued as ⚪ §P-DOT-CENSUS (instrument-only, route-map-v0 precedent).
+
 ## Feeds
 
 - **§P-HALT-POLE-TETRAHEDRON** (upgraded in queue s350): the 4th vertex now

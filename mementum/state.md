@@ -75,6 +75,19 @@
 > format 💡) + INDEX row + queue (§P-HALT-POLE-TETRAHEDRON UPGRADED with observed data, restacked
 > top) + this state. INFRA NOTE: base-14B Driver now RESIDENT at main:4 (repl-base) — keep warm
 > for installed-vs-native checks; yield geometry exported at /tmp/yield_geom.npz.**
+> **THIRD (light) ARC — OPCODE TRACES FOR MICHAEL'S CHAT POST + THE MISSING-GEOMETRY STRATEGY:
+> optrace battery (5 prompts, main:3, calibrated classifier surviving from s346 in the long-lived
+> kernel) replicated the s346 triptych live: prose→KIBC/D · retrieval→WHNF · arithmetic→S/Y→WHNF
+> (391 ✓) · λ-reduction→S on 20/20 tokens · ENGINE SWITCH in one sentence (coins: 12+9+34 → 55[S]
+> ✓ then prose[C/K] then .[WHNF]) — demo-grade, no capture owed on the traces. Michael: "what does
+> [·] mean?" → sub-threshold = null-gated no-match, NOT no-computation → "how do we find the
+> missing geometry?" → THE STRATEGY captured (memory the-dots-are-the-survey-territory 🔁 + queue
+> ⚪ §P-DOT-CENSUS + yield-pole page §missing-geometry): recipe A top-down yield-recipe (predicted
+> states waiting: tool-result ingestion · refusal commit · "Wait" self-repair commit · quote/
+> mention · enumeration attractor) + recipe B dot-census/residual-spectroscopy (coverage map WHERE
+> + PR dimension-gap HOW MUCH + residual eigenmodes → candidates); base-check every pole → the
+> TWO-COLOR ATLAS (native vs installed geometry). Mini dot-census spun live in main:3 same
+> session.**
 > **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight).
 > New sharpest successors: ⚪ §P-HALT-POLE-TETRAHEDRON (4th vertex observed, freeze owes nulls +
 > a-priori + base-behavior-differs items) · ⚪ §P-RETURN-REGISTER (tape-level causality, pairs with
