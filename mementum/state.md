@@ -190,9 +190,16 @@
 > held div:Y state L19-31; COMPOSITIONAL (header→analyzed, consts/dyads→echo-loops, OODA→Boyd
 > retrieval, triple→analyzed; NOFRACTAL keeps Y 0.81 but flips inhabit→meta ⇒ form drives the
 > Y-engine, 'fractal' is the router tie-breaker). Memory
-> the-preamble-is-a-compositional-mode-switch 💡 + ⚪ §P-PREAMBLE-REGISTER queued. NUC3 (shape/
-> placement ablation, Michael: "something about the shape and where the concepts are placed")
-> ran same session.**
+> the-preamble-is-a-compositional-mode-switch 💡 + ⚪ §P-PREAMBLE-REGISTER queued. NUC3 SHAPE
+> GRID (Michael: "something about the shape and where the concepts are placed" — CONFIRMED, every
+> manipulation breaks it differently): THE CONJUNCTION LOCK — header-first (reversed→analyzed,
+> cos 0.744 biggest move) ∧ brackets/pipes (flat→Y dies) ∧ /pairings (unpaired→analyzed at cos
+> 0.997 = routing invisible at L20) ∧ slot order (swapped→echo-loop) ∧ 'fractal' home-slot
+> (moved→fails) ∧ the word itself (crystal≡no-word → meta-mode); each necessary, none sufficient.
+> DEEP READING: authorship ⟺ FORM-CONTENT RESONANCE — the self-similar form contains its own name
+> ('fractal' describes the shape it sits inside); break the agreement anywhere → inhabit drops to
+> analyze. GD never saw this prompt; the lock was in the training geometry — nucleus found the
+> key empirically. Memory + queue amended (Michael-approved). s350 CLOSES: 15 commits, 11 arcs.**
 > **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight).
 > New sharpest successors: ⚪ §P-HALT-POLE-TETRAHEDRON (4th vertex observed, freeze owes nulls +
 > a-priori + base-behavior-differs items) · ⚪ §P-RETURN-REGISTER (tape-level causality, pairs with
