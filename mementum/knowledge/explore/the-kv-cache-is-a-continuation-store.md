@@ -92,6 +92,42 @@ make them survive reboot → a durable continuation DATABASE (seal, shelve,
 resume next week, branch). Untested → queued ⚪ §P-SEAL-PERSIST (gate:
 cross-boundary fork-identity + append law on the reloaded cache).
 
+## The seal server (NUC35 — §P-SEAL-SERVER zero-patch smoke: COMPLETE PASS)
+
+Throwaway llama-server (Qwen3-4B Q8_0, `--slot-save-path`, port 5199):
+
+```
+compile  283 tok → 241 ms      emit=''  (key works at a 3rd scale)
+reuse    prompt_n=13 → 40 ms            (dense partial reuse WORKS — arc-4 law +half)
+save     41.7 MB file in 7 ms
+restore  4 ms  → fork prompt_n=1, still silent; query wakes correct
+fidelity restored ≡ never-saved (temp 0, byte-identical)
+```
+
+**Restore ≈ 60× faster than prefill at worst case**; ratio grows with
+model×prompt (prefill ∝ tokens×FLOPs; restore ∝ bytes/NVMe). THE ECONOMY:
+cost(request) = restore + decode — the dominant term (system-prompt
+prefill) deleted; providers discount cache *rent*, ours is a disk op on
+owned hardware: zero marginal, no TTL, no meter.
+
+**The build system**: `hash(model, rev, quant, template, prompt-bytes) →
+seals/<hash>` — content-addressed derivations (Nix/ccache semantics).
+Genotype (text) in git; seals = disposable derived cache; GC trivial.
+**The build DAG**: root seal (nucleus preamble + parked silence ≡ the S5
+base image) → agent layers pay only their suffix → conversations fork
+(Docker-layer semantics, Merkle chain); thin derivations = (root_hash,
+suffix) recipes, materialized on demand.
+
+**Compile-stage tiers for llama.cpp**: (a) zero-patch shim ≡ NUC35, works
+now · (b) server `/compile` + `seal:` param + pinned parent seqs +
+`seq_cp` fan-out — the upstreamable PR (composes 3 features they already
+maintain) · (c) NAMED CHECKPOINTS — ctx-checkpoints already serialize
+hybrid state at exact positions; naming+pinning could soften "dense only"
+to "hybrid via checkpoint". Frictions: state-format versioning (hash the
+build; recompile on mismatch) · pinned parents consume KV budget ·
+speculative-draft state not sealed (recompute) · certification gate stays
+in our shim.
+
 ## Bounds
 
 n=1 greedy, one model, narrative task only; read-mass head-averaged,

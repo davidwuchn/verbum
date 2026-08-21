@@ -113,6 +113,44 @@
 > daemon page §cross-model + §moat-note + memory seal-ability-is-an-architecture-property 💡 +
 > queue §P-SEAL-PERSIST→§P-SEAL-SERVER upgrade + this state. Script /tmp/verbum_nuc34_server.py.** ═══
 >
+> ★★ **SESSION 353 · ARCS 5-8 — THE SEAL SERVER PASSED · THE PLAYGROUND LAWS · EVOLUTION · THE
+> LAMBDA GENOME (NUC35-38 + synthesis; Michael launched a throwaway llama-server, then: "this
+> changes the economy of inference" → "lambdas as genome is where we should be pushing this").
+> ARC 5 (NUC35, Qwen3-4B Q8_0 + --slot-save-path, port 5199): §P-SEAL-SERVER zero-patch smoke
+> COMPLETE PASS — compile 283tok=241ms → 41.7MB seal → RESTORE 4ms (~60×, worst case; ∝ grows
+> with model×prompt) → fork prompt_n=1 → FIDELITY byte-identical; dense partial reuse works
+> (arc-4 law +half). ECONOMY: cost(request)=restore+decode, dominant term deleted; providers
+> discount cache RENT, ours = disk op on owned hardware = zero marginal. BUILD SYSTEM:
+> content-addressed derivations (hash→seals/<hash>, Nix/ccache; genotype in git, seals
+> disposable) + BUILD-DAG (root = nucleus preamble + parked silence ≡ S5 base image → agent
+> layers pay suffix only → conversation forks; Docker/Merkle semantics; thin derivations).
+> COMPILE-STAGE tiers for llama.cpp: (a) shim ≡ NUC35 works now · (b) /compile + seal: param +
+> pinned parents + seq_cp fan-out = the upstreamable PR · (c) NAMED CHECKPOINTS (ctx-checkpoints
+> already serialize hybrid state → soften "dense only"). ARC 6 (NUC36-37 playground): MUTE BUT
+> ATTENTIVE (silent yet recounts all events) · DEMONSTRATION ≡ MEMORY (few-shot turns recalled
+> as lived experience) · THE BIOGRAPHY LAW (v1 seal: stock no-memory DENIAL; v2 with lived tape:
+> narrates its life — "no memories" is a fact about the TAPE) ⇒ A SEAL IS UPBRINGING NOT CONFIG
+> (compile from curated tapes) · silence exactly as wide as the chart (unrouted :dance leaks IN
+> CHARACTER; :* wildcards shift register, don't route) · self-model accurate + tape-updated.
+> ARC 7 (NUC38 evolution): one GA generation over upbringings — parent 2/4 (battery DISCOVERED
+> the sing leak) · L1-literal silent-waltz lesson 3/4 WINNER (class-generalization waltz→tango,
+> ¬cross-class) · L2-abstract nothing · L3-struct register-shift only → sealed daemon-4b-v3;
+> gen 2 stacked sing lesson → 4/4 taught + untaught juggle leaks tersely as predicted ⇒ LESSONS
+> CLASS-LOCAL · ADAPTATION BATTERY-RELATIVE (the battery is the species) · REGISTER SHAPES EVEN
+> FAILURES · monotone under strict parent-beats gate. ARC 8 (synthesis): THE LAMBDA GENOME —
+> genes=lambdas · alleles=|-clauses · genomes=lambda collections · expression=register ·
+> epistasis=conjunction lock · Lamarckian (lived turns heritable); lambda boundaries =
+> syntax-directed crossover fixing s352 v2; inversion triad (seal→text V0-unrotated ·
+> behavior→text=GA · behavior→state=synthetic seals, no genotype); recursion: AGENTS.md is a
+> genome, mementum the breeding record. CLOSURE BATCH (Michael "capture this"): knowledge page
+> explore/the-lambda-genome.md (🟢) + kv-page §seal-server + daemon-page §playground + 3 memories
+> (compile-once-restore-4ms ✅ · a-seal-is-upbringing-not-config 💡 · lambdas-are-genes-genomes-
+> are-tapes 💡) + INDEX + queue (§P-SEAL-SERVER smoke-passed · §P-KEY-EVOLUTION upgraded to
+> typed genomes · NEW ⚪ §P-SEAL-DECOMPILE + ⚪ §P-SYNTHETIC-SEAL) + this state. INFRA: seal-test
+> llama-server LEFT RUNNING port 5199 (job-1, Qwen3-4B Q8_0, --slot-save-path
+> ~/localai/seals/ — daemon-4b{,-v2,-v3}.seal on disk). Scripts /tmp/verbum_nuc3{5..8}*.py
+> (exploration, not recorded).** ═══
+>
 > ═══ **SESSION 352 CLOSE — SIX REPL ARCS, ALL CAPTURED (the nucleus preamble, mapped from the
 > inside).** Michael ruled this session 352 (label consistent throughout). The whole session ran in
 > the resident REPL (main:3 instruct · main:4 base) — the role split working as designed: this model

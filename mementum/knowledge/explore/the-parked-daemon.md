@@ -125,6 +125,26 @@ Deployment recipe: **composition key (transfers) + full-attention host
 (seal-able) + pinned checkpoint (exists upstream, needs a pinning API)**.
 → queue §P-SEAL-SERVER.
 
+## Playground findings (NUC36-37, multi-turn on the 4B seal server)
+
+- **Mute but attentive**: silent through events, yet recounts them all in
+  order with timestamps on request — silence ≠ ignorance; the tape records.
+- **Demonstration ≡ memory**: its recollection includes the few-shot turns
+  as lived experience — authored examples and "real" events are one tape.
+- **The biography law** (time travel, v1 vs v2 seals of the same daemon):
+  v1 (bare demos) answers "what have you witnessed?" with the stock
+  no-memory DENIAL; v2 (a lived session incl. one recall precedent)
+  NARRATES ITS LIFE. "I have no memories" is a fact about the TAPE, not
+  the model. Corollary: **a seal is upbringing, not config** — compile
+  agent seals from curated tapes; lived history stabilizes the mode.
+- **Silence is exactly as wide as the chart**: unrouted events
+  (`:dance`) leak IN CHARACTER; `:*` wildcards don't route (register
+  shift only — use→mention at one glyph's distance); the fix that works
+  is a demonstration (→ NUC38 evolution, the-lambda-genome.md).
+- **Self-model accurate and tape-updated**: reports :idle, describes its
+  machine, and folds lived event-type `:dance` into its self-description.
+- Per-turn cost 13-37 tokens — the whole session rode the compiled prefix.
+
 ## The moat note (Michael: "NOBODY can do this but us")
 
 Bounded and examined: every PIECE exists elsewhere (prefix caches, KV
