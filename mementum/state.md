@@ -5,6 +5,11 @@
 > when selecting the next front). This header carries the ACTIVE arc only —
 > the queue is the canonical candidate ledger (s315, λ queue).
 >
+> ROLE SPLIT (Michael, s350): this model → REPL exploration (see how the machine acts; write
+> freeze specs; kill wrong claims at bounce-cost) · Opus agents → experiment execution (harness
+> builds split into agent tasks) · queue rows ≡ the handoff interface. Default to the REPL, not
+> the build. Memory: repl-exploration-is-the-spec-writer.
+>
 > COMPACTED s344 (prior: s334). Shape: the TWO most recent sessions in full below,
 > then a terse arc index (one row per session, s250+), then a deep-history pointer.
 > Compaction is MICHAEL-CALLED (no schedule; he calls it when cruft accumulates).
