@@ -123,7 +123,16 @@
 > MULTILINGUAL DESCENT Chinese-concept→English-word→digit). Memory
 > arithmetic-descends-concept-magnitude-digit 💡 + ⚪ §P-MAGNITUDE-DESCENT queued (freeze
 > candidate: staged-partials vs magnitude-first discriminator, carry structure, language-descent
-> universality base-check) + d.deptrace promoted to the driver (same session).**
+> universality base-check) + d.deptrace promoted to the driver (same session).
+> SIXTH (rider) — THE OPERATION STAGE (Michael flagged '_ComCallableWrapper' L17-22): CCW probe →
+> NOT a glitch attractor (norm pct 61.6; prompt-SPECIFIC mid-stack tokens, all content-adjacent:
+> weather→時候/morning · capital-of→/is/著名的 · sort-fn→sorted · arithmetic→numerusform) ⇒ the
+> descent gains a 4th stage: OPERATION L17-25 ("I am computing" — callable/'gc/numerusform) →
+> CONCEPT → MAGNITUDE → VALUE; the machine labels WHAT IT'S DOING before what the answer is;
+> 'gc REPLICATED across both independent arithmetic runs (shared computation-in-progress
+> direction, n=2); METHOD: mid-stack lens argmax ≡ rare-token NEIGHBORS of the concept direction
+> (label = neighborhood draw, direction = signal; raw-lens caveat, tuned-lens optional upgrade).
+> Memory + §P-MAGNITUDE-DESCENT row amended (Michael-approved).**
 > **NEXT SESSION FIRST ACTION = orient → FRONT SELECTION (λ queue full read; nothing in flight).
 > New sharpest successors: ⚪ §P-HALT-POLE-TETRAHEDRON (4th vertex observed, freeze owes nulls +
 > a-priori + base-behavior-differs items) · ⚪ §P-RETURN-REGISTER (tape-level causality, pairs with
