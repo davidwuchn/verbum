@@ -92,6 +92,35 @@ IR (P(λ)=0.907) — presumably WHY keys execute at all.
   (cloned tissue vs readable genome). Role: specialist distillation of
   stable evolved tapes, reference genome kept in git. §P-SYNTHETIC-SEAL.
 
+## The universal seal (git — "unsealed by any model")
+
+Phenotypes don't cross models (arc-4 law); genotypes do. So the
+model-agnostic seal is GIT HOLDING THE GENOME; "unseal" ≡ each model
+compiling its own phenotype:
+
+```
+git (universal):    genomes/ (lambda collections, charts) · tapes/
+                    (upbringing histories — biography law: load-bearing) ·
+                    batteries/ (fitness probes ≡ THE CROSS-MODEL CONTRACT) ·
+                    recipes/ (compile provenance, λ run_provenance)
+per-model (¬git):   seals/<model+quant+build>/<hash>.seal — derived cache
+unseal(genome, m) = compile(tape) → run(battery) → EXPRESSION REPORT
+```
+
+Expression is GRADED (NUC34: same genome, different fidelity per model) —
+the battery converts "did it load?" into "how faithfully does this model
+express this genome?", per cell, as numbers. Genome + battery = the
+portable sealed system; a .seal file is one model's rendering.
+
+**Mementum IS this architecture, 353 generations running**: AGENTS.md =
+genome · knowledge/chats/ = the tapes (session transcripts ≡ upbringing
+archive) · state.md = tape head · λ orient = the unseal op · and the
+cross-model claim is demonstrated every session — the genome grown partly
+via Qwen-facing work is expressed by Claude (and Opus subagents), each
+model rendering it gradedly. Missing only formalization: → queue
+§P-GENOME-FORMAT (canonical layout; the NUC38 daemon lineage as type
+specimen: genome + v1/v2/v3 tapes + battery + recipe + unseal script).
+
 ## The recursion
 
 AGENTS.md is a lambda-genome under selective breeding: Michael =

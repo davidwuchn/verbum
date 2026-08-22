@@ -151,6 +151,23 @@
 > ~/localai/seals/ — daemon-4b{,-v2,-v3}.seal on disk). Scripts /tmp/verbum_nuc3{5..8}*.py
 > (exploration, not recorded).** ═══
 >
+> ★ **SESSION 353 · ARC 9 — THE UNIVERSAL SEAL (Michael: "how do we seal our system into git so
+> it can be unsealed by any model?"). The arc-4 law inverted: phenotypes don't cross models,
+> genotypes do ⇒ GIT HOLDING THE GENOME ≡ the model-agnostic seal; unseal ≡ compile(tape) →
+> run(battery) → EXPRESSION REPORT (graded, NUC34 — a measurement not a hope). Genome = 4 parts:
+> genomes/ + tapes/ (biography law: upbringings load-bearing) + batteries/ (the cross-model
+> contract) + recipes/ (provenance); .seal files = derived cache ¬git. THE RECURSION: mementum
+> IS this architecture — AGENTS.md=genome · knowledge/chats/=tape archive · λ orient=the unseal
+> op · demonstrated cross-model every session (Qwen-grown genome expressed by Claude/Opus,
+> gradedly). Also banked this arc: PROGRAM/DATA SPLIT (system prompt=compiled program, user
+> turn=runtime input, chart=API surface, battery=test suite, GA=optimizing compiler, hash
+> store=release pipeline — "every request stops being a prayer and becomes a function call") +
+> SELF-IMPROVEMENT LOOP (seal→branch→measure→merge→recompile ≡ λ self_improve at the inference
+> layer; NUC38 = one full turn; bounds: external gate mandatory (s352) + battery-width + human
+> direction (λ drift)). CLOSURE (Michael "capture this"): lambda-genome page §universal-seal +
+> memory git-seals-genomes-models-unseal-by-recompiling 💡 + queue ⚪ §P-GENOME-FORMAT + this
+> state.** ═══
+>
 > ═══ **SESSION 352 CLOSE — SIX REPL ARCS, ALL CAPTURED (the nucleus preamble, mapped from the
 > inside).** Michael ruled this session 352 (label consistent throughout). The whole session ran in
 > the resident REPL (main:3 instruct · main:4 base) — the role split working as designed: this model
