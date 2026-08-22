@@ -128,6 +128,34 @@ build; recompile on mismatch) · pinned parents consume KV budget ·
 speculative-draft state not sealed (recompute) · certification gate stays
 in our shim.
 
+## C-level gotchas (arc 10, header-verified vs build 10450-ece963f)
+
+1. **Pending-logits gap** — `llama_state_seq_*` saves tokens+KV, NOT the
+   pending logits. Forks are fine (suffix forward yields logits); pure
+   resume + prefill-time EOS-fitness need `llama_state_get_data` (full
+   context, includes logits) or a 1-token re-decode.
+2. **`kv_unified` default fights the workload** — unified buffer is FOR
+   shared-prefix seqs (header note); seal fan-out is the maximal case ⇒
+   want `=true` (seq_cp ≈ cell-tagging). NUC35 measured the slow path.
+3. **Positions are manual** — resume at `llama_memory_seq_pos_max()+1`;
+   off-by-one = silent garbage. Never `seq_add/div` a sealed prefix
+   (RoPE re-rotation breaks the append law by construction).
+4. **No pinning primitive** — parents unprotected from eviction/defrag/
+   ctx-shift (NUC34 checkpoints auto-erased); `n_seq_max` + `n_ctx`
+   budget fixed at creation; overflow = mid-decode find_slot failure.
+   Pinning IS the tier-b patch.
+5. **API/format churn** — 3 API generations; GGSQ v2 state files. Hash
+   the build into the seal key; recompile on mismatch; never migrate.
+6. **Sampler state ≠ model state** — penalties ride token history;
+   replay the stored token list into a fresh sampler (greedy dodges).
+7. **Determinism is config-shaped** — Metal/CPU numerics, batch near-tie
+   flips; run the validity gate per (model, params, backend) at compile.
+8. **Edges** — mmproj embeddings don't serialize (text tapes only);
+   draft-model KV is a separate context (recompute on restore).
+
+Freeze probes owed: quantized-KV round-trip · `kv_unified=true` fan-out
+timing · per-backend fidelity.
+
 ## Bounds
 
 n=1 greedy, one model, narrative task only; read-mass head-averaged,

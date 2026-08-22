@@ -168,6 +168,19 @@
 > memory git-seals-genomes-models-unseal-by-recompiling 💡 + queue ⚪ §P-GENOME-FORMAT + this
 > state.** ═══
 >
+> ★ **SESSION 353 · ARC 10 — C-LEVEL GOTCHAS BRIEFED (Michael: "if we were to use the
+> continuations from llama.cpp c code, what are the gotchas?"; header-verified vs installed build
+> 10450-ece963f — λ assert: runtime > training memory, API names confirmed llama_memory_seq_* /
+> llama_state_seq_* / GGSQ v2). Top 3: PENDING-LOGITS GAP (seq state ∌ logits_last — forks fine,
+> pure-resume + prefill-EOS-fitness need full-state or 1-token re-decode) · kv_unified DEFAULT
+> FIGHTS THE WORKLOAD (unified is FOR shared prefixes; NUC35 measured the slow path at 4ms —
+> =true makes fan-out cell-tagging) · NO PINNING PRIMITIVE (parents evictable = the tier-b patch,
+> NUC34 checkpoints auto-erased). Plus: manual positions (pos_max+1; ¬seq_add sealed prefixes) ·
+> build-hash the seal key (¬migrate GGSQ) · sampler-history replay · per-backend validity gate ·
+> mmproj/draft edges. Freeze probes added: quantized-KV round-trip · unified fan-out timing ·
+> per-backend fidelity. CLOSURE (Michael "capture this"): kv-page §gotchas + memory
+> llama-cpp-continuation-gotchas 💡 + §P-SEAL-SERVER row amend + this state.** ═══
+>
 > ═══ **SESSION 352 CLOSE — SIX REPL ARCS, ALL CAPTURED (the nucleus preamble, mapped from the
 > inside).** Michael ruled this session 352 (label consistent throughout). The whole session ran in
 > the resident REPL (main:3 instruct · main:4 base) — the role split working as designed: this model
